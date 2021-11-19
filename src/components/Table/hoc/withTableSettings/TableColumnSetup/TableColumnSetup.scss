@@ -1,0 +1,64 @@
+@import '../../../../variables';
+
+$block: '.#{$ns}table-column-setup';
+
+#{$block} {
+    &__controls {
+        padding: 4px;
+    }
+
+    &__status {
+        margin-left: 5px;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__tick-wrap {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10px;
+        height: 10px;
+        visibility: hidden;
+
+        &_visible {
+            visibility: visible;
+        }
+    }
+
+    &__tick {
+        color: var(--yc-color-base-special);
+    }
+
+    &__lock-wrap {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--yc-color-text-hint);
+    }
+
+    &__title {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__items {
+        height: var(--yc-list-height);
+        overflow-x: auto;
+    }
+
+    &__item {
+        // Increasing specificity for overrides
+        &#{&} {
+            padding: 0 8px 0 32px;
+            cursor: pointer;
+            position: relative;
+
+            .yc-list__item-sort-icon {
+                cursor: move;
+            }
+        }
+    }
+}

@@ -1,0 +1,85 @@
+@mixin yc-colors-private-dark {
+    // Low level - https://figma.com/file/albZah2AMImAQDBhFMohdz
+
+    --yc-color-private-white-50: rgba(255, 255, 255, 0.05);
+    --yc-color-private-white-70: rgba(255, 255, 255, 0.07);
+    --yc-color-private-white-100: rgba(255, 255, 255, 0.1);
+    --yc-color-private-white-150: rgba(255, 255, 255, 0.15);
+    --yc-color-private-white-250: rgba(255, 255, 255, 0.25);
+    --yc-color-private-white-300: rgba(255, 255, 255, 0.3);
+    --yc-color-private-white-500: rgba(255, 255, 255, 0.5);
+    --yc-color-private-white-700: rgba(255, 255, 255, 0.7);
+    --yc-color-private-white-850: rgba(255, 255, 255, 0.85);
+
+    --yc-color-private-white-opaque-150: rgba(76, 75, 81, 0.95);
+
+    --yc-color-private-black-200: rgba(0, 0, 0, 0.2);
+    --yc-color-private-black-300: rgba(0, 0, 0, 0.3);
+    --yc-color-private-black-400: rgba(0, 0, 0, 0.4);
+    --yc-color-private-black-500: rgba(0, 0, 0, 0.5);
+    --yc-color-private-black-700: rgba(0, 0, 0, 0.7);
+    --yc-color-private-black-900: rgba(0, 0, 0, 0.9);
+
+    --yc-color-private-black-rock-850: rgba(45, 44, 51, 1);
+
+    --yc-color-private-white-20-solid: rgba(49, 48, 55, 1);
+    --yc-color-private-white-100-solid: rgba(66, 65, 71, 1);
+    --yc-color-private-white-150-solid: rgba(76, 76, 82, 1);
+    --yc-color-private-white-200-solid: rgba(87, 86, 92, 1);
+
+    --yc-color-private-blue-100: rgba(102, 179, 255, 0.15);
+    --yc-color-private-blue-150: rgba(102, 179, 255, 0.15);
+    --yc-color-private-blue-300: rgba(102, 179, 255, 0.5);
+    --yc-color-private-blue-450: rgba(102, 179, 255, 0.8);
+    --yc-color-private-blue-550: rgba(34, 132, 229, 1);
+    --yc-color-private-blue-700: rgba(61, 152, 242, 1);
+    --yc-color-private-blue-850: rgba(102, 179, 255, 1);
+
+    --yc-color-private-blue-450-solid: rgba(36, 114, 193, 1);
+
+    --yc-color-private-blue-150-solid: rgba(59, 78, 102, 1);
+    --yc-color-private-blue-300-solid: rgba(73, 111, 153, 1);
+
+    --yc-color-private-green-100: rgba(59, 201, 53, 0.12);
+    --yc-color-private-green-150: rgba(59, 201, 53, 0.16);
+    --yc-color-private-green-300: rgba(186, 255, 184, 0.6);
+    --yc-color-private-green-350: rgba(186, 255, 184, 0.68);
+    --yc-color-private-green-450: rgba(59, 201, 53, 0.58);
+    --yc-color-private-green-550: rgba(59, 201, 53, 0.75);
+
+    --yc-color-private-green-450-solid: rgba(53, 135, 52, 1);
+
+    --yc-color-private-yellow-100: rgba(255, 219, 77, 0.25);
+    --yc-color-private-yellow-150: rgba(255, 219, 77, 0.4);
+    --yc-color-private-yellow-450: rgba(255, 219, 77, 0.64);
+    --yc-color-private-yellow-550: rgba(255, 219, 77, 0.8);
+    --yc-color-private-yellow-700: rgba(224, 189, 52, 1);
+
+    --yc-color-private-red-100: rgba(191, 50, 48, 0.3);
+    --yc-color-private-red-150: rgba(191, 50, 48, 0.45);
+    --yc-color-private-red-300: rgba(255, 77, 73, 0.5);
+    --yc-color-private-red-450: rgba(208, 71, 69, 0.88);
+    --yc-color-private-red-550: rgba(208, 71, 69, 1);
+
+    --yc-color-private-red-450-solid: rgba(162, 49, 48, 1);
+
+    --yc-color-private-purple-550: rgba(166, 62, 178, 1);
+
+    --yc-color-private-cool-grey-100: rgba(95, 115, 133, 0.18);
+    --yc-color-private-cool-grey-150: rgba(107, 132, 153, 0.3);
+    --yc-color-private-cool-grey-300: rgba(95, 115, 133, 0.6);
+    --yc-color-private-cool-grey-450: rgba(95, 115, 133, 0.8);
+    --yc-color-private-cool-grey-550: rgba(95, 115, 133, 1);
+    --yc-color-private-cool-grey-700: rgba(142, 162, 180, 1);
+
+    --yc-color-private-cool-grey-450-solid: rgba(85, 101, 117, 1);
+
+    --yc-color-private-orange-50: rgba(204, 104, 16, 0.2);
+    --yc-color-private-orange-100: rgba(204, 104, 16, 0.3);
+    --yc-color-private-orange-150: rgba(204, 104, 16, 0.5);
+    --yc-color-private-orange-300: rgba(255, 160, 66, 0.5);
+    --yc-color-private-orange-450: rgba(204, 104, 16, 0.8);
+    --yc-color-private-orange-550: rgba(204, 104, 16, 1);
+
+    --yc-color-private-orange-450-solid: rgba(172, 92, 23, 1);
+}

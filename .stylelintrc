@@ -1,0 +1,6 @@
+{
+    "extends": ["@yandex-cloud/stylelint-config", "@yandex-cloud/stylelint-config/prettier"],
+    "rules": {
+        "declaration-colon-space-after": "always-single-line"
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "name": "@yandex-cloud/uikit",
+    "version": "1.0.0",
+    "description": "Yandex.Cloud UI components",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yandex-cloud/uikit"
+    },
+    "scripts": {
+        "start": "npm run storybook:start",
+        "storybook:start": "start-storybook -p 7007",
+        "storybook:build": "build-storybook -c .storybook -o storybook-static",
+        "lint:js": "eslint src --ext .js,.jsx,.ts,.tsx",
+        "lint:styles": "stylelint '{styles,src}/**/*.scss'",
+        "lint:prettier": "prettier --check --loglevel=error '**/*.{js,jsx,ts,tsx,scss}'",
+        "lint": "npm-run-all --parallel lint:*",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.10.2",
+        "bem-cn-lite": "^4.0.0",
+        "focus-trap": "^6.7.1",
+        "lodash": "^4.17.21",
+        "prop-types": "^15.7.2",
+        "react-copy-to-clipboard": "^5.0.4",
+        "react-popper": "^2.2.5",
+        "react-sortable-hoc": "^2.0.0",
+        "react-virtualized-auto-sizer": "^1.0.6",
+        "react-window": "^1.8.6",
+        "resize-observer-polyfill": "^1.5.1",
+        "utility-types": "^3.10.0"
+    },
+    "devDependencies": {
+        "@storybook/addon-essentials": "^6.4.4",
+        "@storybook/preset-scss": "^1.0.3",
+        "@storybook/react": "^6.4.4",
+        "@types/lodash": "^4.14.177",
+        "@types/react": "^16.14.21",
+        "@types/react-copy-to-clipboard": "^5.0.2",
+        "@types/react-dom": "^16.9.14",
+        "@types/react-router-dom": "^5.3.2",
+        "@yandex-cloud/eslint-config": "^1.0.0",
+        "@yandex-cloud/prettier-config": "^1.0.0",
+        "@yandex-cloud/stylelint-config": "^1.0.0",
+        "@yandex-cloud/tsconfig": "^1.0.0",
+        "css-loader": "^5.2.7",
+        "eslint": "^8.2.0",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.3.11",
+        "prettier": "2.4.1",
+        "react": "^16.14.0",
+        "react-docgen-typescript": "^2.1.1",
+        "react-dom": "^16.14.0",
+        "react-router-dom": "^5.3.0",
+        "sass": "^1.43.4",
+        "sass-loader": "^10.2.0",
+        "style-loader": "^2.0.0",
+        "stylelint": "^14.1.0",
+        "svg-sprite-loader": "^6.0.11",
+        "typescript": "^4.4.4",
+        "webpack": "^4.46.0"
+    },
+    "peerDependencies": {
+        "react": "^16.0.0",
+        "react-dom": "^16.0.0",
+        "react-router-dom": "^5.0.0"
+    }
+}

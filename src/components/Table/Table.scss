@@ -1,0 +1,159 @@
+@import '../../../styles/mixins';
+@import './variables';
+
+#{$block} {
+    overflow: auto;
+    position: relative;
+
+    &__scroll-container {
+        overflow: auto;
+        position: relative;
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &__horizontal-scroll-bar {
+        overflow-x: auto;
+        margin-top: -1px;
+
+        &-inner {
+            height: 1px;
+            position: relative;
+
+            // Safari 13 не отображает прозрачне элементы, даже если у низ есть высота, ширина и сролл-бар.
+            // Поэтому пришлось добавить почти прозрачный элемент 1x1 px
+            &::before {
+                content: '';
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                top: 0;
+                left: 0;
+                background-color: rgba(255, 255, 255, 0.01);
+            }
+        }
+
+        &_sticky-horizontal-scroll {
+            position: sticky;
+            z-index: 3;
+        }
+    }
+
+    &__table {
+        border-spacing: 0;
+        // fix border disappear in Firefox:
+        border-collapse: separate;
+    }
+
+    &__cell {
+        @include overflow-ellipsis();
+
+        box-sizing: content-box;
+        padding: 11px 10px;
+        border-bottom: 1px solid var(--yc-color-line-generic);
+
+        line-height: $tableLineHeight;
+        text-align: left;
+        overflow-wrap: break-word;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+
+        &_align_center {
+            text-align: center;
+        }
+
+        &_align_right {
+            text-align: right;
+        }
+
+        &_sticky_left,
+        &_sticky_right {
+            position: sticky;
+            z-index: 2;
+        }
+
+        &_sticky_left,
+        &_sticky_right {
+            background: var(--yc-color-base-background);
+        }
+
+        &_border_right {
+            border-right: 1px solid var(--yc-color-line-generic);
+        }
+
+        &_edge-padding {
+            &:first-child {
+                padding-left: 15px;
+            }
+
+            &:last-child {
+                padding-right: 15px;
+            }
+        }
+    }
+
+    &__row {
+        &_vertical-align_top {
+            vertical-align: top;
+        }
+
+        &_vertical-align_middle {
+            vertical-align: middle;
+        }
+    }
+
+    &__row_empty &__cell {
+        text-align: center;
+    }
+
+    &__body &__row:last-child &__cell {
+        border-bottom-color: transparent;
+    }
+
+    &__th-content {
+        font-weight: 500;
+        display: inline-block;
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
+
+    &__body &__row_interactive:hover {
+        background-color: var(--yc-color-base-simple-hover-solid);
+        cursor: pointer;
+
+        #{$block}__cell_sticky_left,
+        #{$block}__cell_sticky_right {
+            background: var(--yc-color-base-simple-hover-solid);
+        }
+    }
+
+    &__body &__row_disabled {
+        opacity: 0.3;
+    }
+
+    &_with-primary &__body &__cell {
+        color: var(--yc-color-text-secondary);
+
+        &_primary {
+            color: var(--yc-color-text-primary);
+        }
+    }
+
+    // принудительно выставляем overflow: visible, чтобы не ломать sticky scroll
+    // так как position: sticky приклеивается к ближайшему родителю с overflow
+    &_with-sticky-scroll {
+        overflow: visible;
+    }
+}

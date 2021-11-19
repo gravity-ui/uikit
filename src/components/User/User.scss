@@ -1,0 +1,33 @@
+@import '../../../styles/mixins';
+@import '../variables';
+
+$block: '.#{$ns}user';
+
+#{$block} {
+    display: flex;
+    align-items: center;
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+
+        font-size: var(--yc-text-body-font-size);
+        line-height: 16px;
+        flex: 1;
+        max-width: 165px;
+
+        #{$block}__name {
+            color: var(--yc-color-text-primary);
+            @include overflow-ellipsis();
+        }
+
+        #{$block}__description {
+            color: var(--yc-color-text-secondary);
+            @include overflow-ellipsis();
+        }
+    }
+
+    &__avatar + &__info {
+        margin-left: 12px;
+    }
+}

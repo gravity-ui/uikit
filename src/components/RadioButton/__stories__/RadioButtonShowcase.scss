@@ -1,0 +1,8 @@
+.radio-button-showcase {
+    &__grid {
+        display: inline-grid;
+        grid-template-columns: repeat(2, auto);
+        align-items: center;
+        gap: 10px;
+    }
+}

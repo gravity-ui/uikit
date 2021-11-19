@@ -1,0 +1,195 @@
+@import '../variables';
+
+$block: '.#{$ns}checkbox';
+
+#{$block} {
+    display: inline-flex;
+    font-family: var(--yc-font-family);
+    font-weight: normal;
+    color: var(--yc-color-text-primary);
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    &__indicator {
+        flex-shrink: 0;
+        display: inline-block;
+        position: relative;
+        cursor: inherit;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            background-color: transparent;
+            border: 1px solid var(--yc-color-line-generic-accent);
+            border-radius: 4px;
+            transition: background 0.1s linear;
+        }
+
+        &::after {
+            content: '\00a0';
+            visibility: hidden;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        pointer-events: none;
+        visibility: hidden;
+        color: transparent;
+        transform: translateY(-5px);
+        transition: color 0.1s, transform 0.2s;
+    }
+
+    &__control {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: inherit;
+    }
+
+    &__outline {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: none;
+        pointer-events: none;
+        border-radius: 4px;
+    }
+
+    &__control:focus + &__outline {
+        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+    }
+
+    &__control:focus:not(:focus-visible) + &__outline {
+        box-shadow: none;
+    }
+
+    &__text {
+        white-space: normal;
+    }
+
+    &_size {
+        &_m {
+            font-size: 13px;
+            line-height: 15px;
+
+            #{$block}__icon-svg_type_tick {
+                width: 8px;
+                height: 10px;
+            }
+
+            #{$block}__icon-svg_type_dash {
+                width: 12px;
+                height: 12px;
+            }
+
+            #{$block}__indicator {
+                width: 14px;
+                height: 14px;
+            }
+
+            #{$block}__text {
+                margin-left: 5px;
+            }
+        }
+
+        &_l {
+            font-size: 15px;
+            line-height: 18px;
+
+            #{$block}__icon-svg_type_tick {
+                width: 11px;
+                height: 9px;
+            }
+
+            #{$block}__icon-svg_type_dash {
+                width: 15px;
+                height: 15px;
+            }
+
+            #{$block}__indicator {
+                width: 17px;
+                height: 17px;
+            }
+
+            #{$block}__text {
+                margin-left: 7px;
+            }
+        }
+    }
+
+    &:hover {
+        #{$block}__indicator {
+            &::before {
+                border-color: var(--yc-color-line-generic-accent-hover);
+            }
+        }
+    }
+
+    &_checked,
+    &_indeterminate {
+        #{$block}__indicator {
+            &::before {
+                background-color: var(--yc-color-base-special);
+                border: transparent;
+            }
+        }
+
+        #{$block}__icon {
+            visibility: visible;
+            color: var(--yc-color-text-light-primary);
+            transform: translateX(0);
+        }
+    }
+
+    &_disabled {
+        cursor: default;
+        pointer-events: none;
+
+        #{$block}__text {
+            opacity: 0.6;
+        }
+
+        #{$block}__indicator {
+            &::before {
+                background-color: var(--yc-color-base-generic-accent-disabled);
+                border: transparent;
+            }
+        }
+
+        &#{$block}_checked,
+        &#{$block}_indeterminate {
+            #{$block}__indicator {
+                &::before {
+                    background-color: var(--yc-color-base-special);
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+}

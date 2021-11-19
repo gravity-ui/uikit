@@ -1,0 +1,270 @@
+@import '../variables';
+
+$block: '.#{$ns}text-input';
+
+#{$block} {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+
+    &__control {
+        box-sizing: border-box;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        font-weight: 400;
+        font-family: var(--yc-font-family);
+        color: var(--yc-color-text-primary);
+        background-color: transparent;
+
+        &::placeholder {
+            color: var(--yc-color-text-hint);
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &_type {
+            &_textarea {
+                resize: none;
+                // fix-bug(firefox): https://bugzilla.mozilla.org/show_bug.cgi?id=33654
+                overflow-x: hidden;
+
+                &:not(#{$block}__control_autosize) {
+                    height: auto;
+                }
+            }
+        }
+
+        &[type='number'] {
+            appearance: textfield;
+        }
+    }
+
+    &__error {
+        color: var(--yc-color-text-danger);
+        margin-top: 2px;
+        font-size: var(--yc-text-body-font-size);
+        line-height: var(--yc-text-body-line-height);
+    }
+
+    &__clear {
+        position: absolute;
+        display: none;
+        align-items: center;
+        top: 0;
+        right: 0;
+        height: 100%;
+        padding: 0 8px;
+        color: var(--yc-color-text-hint);
+        cursor: pointer;
+        border-radius: 0 3px;
+
+        &:hover {
+            color: var(--yc-color-text-primary);
+        }
+
+        &_visible {
+            display: flex;
+        }
+    }
+
+    &_size {
+        &_s {
+            #{$block}__control {
+                padding: 4px 8px;
+                height: 24px;
+                font-size: 13px;
+                line-height: 16px;
+            }
+
+            #{$block}__clear {
+                height: 24px;
+            }
+        }
+
+        &_m {
+            #{$block}__control {
+                padding: 5px 8px;
+                height: 28px;
+                font-size: 13px;
+                line-height: 16px;
+            }
+
+            #{$block}__clear {
+                height: 28px;
+            }
+        }
+
+        &_l {
+            #{$block}__control {
+                padding: 10px 13px;
+                height: 36px;
+                font-size: 13px;
+                line-height: 16px;
+            }
+
+            #{$block}__clear {
+                height: 36px;
+            }
+        }
+
+        &_xl {
+            #{$block}__control {
+                padding: 12px 13px;
+                height: 44px;
+                font-size: 15px;
+                line-height: 20px;
+            }
+
+            #{$block}__clear {
+                height: 44px;
+            }
+        }
+    }
+
+    &_view {
+        &_normal {
+            #{$block}__control {
+                border: 1px solid var(--yc-color-line-generic);
+
+                &:hover {
+                    border: 1px solid var(--yc-color-line-generic-hover);
+                }
+
+                &:focus {
+                    border: 1px solid var(--yc-color-line-generic-active);
+                }
+            }
+        }
+
+        &_clear {
+            #{$block}__control {
+                border: 1px solid transparent;
+                border-left: 0;
+                border-right: 0;
+                border-radius: 0;
+
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+    }
+
+    &_pin {
+        &_round-round {
+            #{$block}__control {
+                border-radius: 3px;
+            }
+        }
+
+        &_brick-brick {
+            #{$block}__control {
+                border-radius: 0;
+            }
+        }
+
+        &_clear-clear {
+            #{$block}__control {
+                border-radius: 0;
+                border-left: 0;
+                border-right: 0;
+            }
+        }
+
+        &_round-brick {
+            #{$block}__control {
+                border-radius: 3px 0 0 3px;
+            }
+        }
+
+        &_brick-round {
+            #{$block}__control {
+                border-radius: 0 3px 3px 0;
+            }
+        }
+
+        &_round-clear {
+            #{$block}__control {
+                border-radius: 3px 0 0 3px;
+                border-right: 0;
+            }
+        }
+
+        &_clear-round {
+            #{$block}__control {
+                border-radius: 0 3px 3px 0;
+                border-left: 0;
+            }
+        }
+
+        &_brick-clear {
+            #{$block}__control {
+                border-radius: 0;
+                border-right: 0;
+            }
+        }
+
+        &_clear-brick {
+            #{$block}__control {
+                border-radius: 0;
+                border-left: 0;
+            }
+        }
+    }
+
+    &_disabled {
+        #{$block}__control {
+            background-color: var(--yc-color-base-generic-accent-disabled);
+            color: var(--yc-color-text-hint);
+            border-color: transparent;
+
+            &:hover {
+                border-color: transparent;
+            }
+        }
+    }
+
+    &_has-clear {
+        #{$block}__control {
+            padding-right: 26px;
+        }
+    }
+
+    &_has-scrollbar {
+        #{$block}__clear {
+            right: var(--yc-scrollbar-width);
+        }
+    }
+
+    &_state {
+        &_error {
+            &#{$block}_view_normal {
+                #{$block}__control {
+                    border-color: var(--yc-color-line-danger);
+
+                    &:hover,
+                    &:focus {
+                        border-color: var(--yc-color-line-danger);
+                    }
+                }
+            }
+
+            &#{$block}_view_clear {
+                #{$block}__control {
+                    border-bottom: 1px solid var(--yc-color-line-danger);
+
+                    &:hover,
+                    &:focus {
+                        border-bottom: 1px solid var(--yc-color-line-danger);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+.showcase-item {
+    display: inline-block;
+    margin-right: 60px;
+    margin-bottom: 20px;
+    vertical-align: top;
+
+    &__title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+}

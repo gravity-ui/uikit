@@ -1,0 +1,27 @@
+@import '../../variables';
+
+#{$block} {
+    &__copy {
+        display: inline-flex;
+        align-items: center;
+
+        &-content {
+            margin-right: 5px;
+        }
+
+        &-button {
+            line-height: 0;
+            visibility: hidden;
+            color: var(--yc-color-text-secondary);
+            opacity: 0.5;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__cell:hover &__copy-button {
+        visibility: visible;
+    }
+}

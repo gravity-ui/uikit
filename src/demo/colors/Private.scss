@@ -1,0 +1,40 @@
+.color-table {
+    font-size: var(--yc-text-body2-font-size);
+    line-height: var(--yc-text-body2-line-height);
+
+    &__color-name {
+        width: 120px;
+        padding-right: 20px;
+        text-align: right;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__step-name {
+        text-align: center;
+        width: 40px;
+        padding-bottom: 10px;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__color {
+        width: 40px;
+        height: 40px;
+        &_active {
+            cursor: pointer;
+        }
+    }
+
+    border-collapse: collapse;
+}
+
+.yc-root_theme_light .color-table tr[data-color-name='white'] {
+    background: #5c5c5c;
+
+    .color-table__color-name {
+        color: #eee;
+    }
+}
+
+.yc-root_theme_dark .color-table td.color-table__color_active[data-color-name='black-rock'] {
+    border: 1px solid #888;
+}

@@ -1,0 +1,21 @@
+.showcase {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        font-size: var(--yc-text-display2-font-size);
+        line-height: var(--yc-text-display2-line-height);
+    }
+
+    &__description {
+        margin-top: 10px;
+        font-size: var(--yc-text-body3-font-size);
+        line-height: var(--yc-text-body3-line-height);
+    }
+
+    &__content {
+        flex-grow: 1;
+        margin-top: 20px;
+    }
+}

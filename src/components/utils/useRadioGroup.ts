@@ -1,0 +1,41 @@
+import React from 'react';
+
+import {ControlGroupProps} from '../types';
+import {useUniqId} from './useUniqId';
+
+export function useRadioGroup(props: ControlGroupProps) {
+    const {name, value, defaultValue, options = [], disabled, onUpdate, onChange} = props;
+
+    const controlId = useUniqId();
+    const [valueState, setValueState] = React.useState(
+        defaultValue ?? options[0]?.value?.toString(),
+    );
+    const isControlled = typeof value === 'string';
+    const currentValue = isControlled ? value : valueState;
+
+    const handleChange = React.useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (!isControlled) {
+                setValueState(event.target.value);
+            }
+            if (onChange) {
+                onChange(event);
+            }
+            if (onUpdate) {
+                onUpdate(event.target.value);
+            }
+        },
+        [isControlled, onUpdate, onChange],
+    );
+
+    const optionsProps = options.map((option) => ({
+        name: name || controlId,
+        value: String(option.value),
+        content: option.content,
+        checked: currentValue === String(option.value),
+        disabled: disabled || option.disabled,
+        onChange: handleChange,
+    }));
+
+    return {optionsProps};
+}

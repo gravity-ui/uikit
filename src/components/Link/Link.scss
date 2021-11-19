@@ -1,0 +1,42 @@
+@import '../variables';
+
+$block: '.#{$ns}link';
+
+#{$block} {
+    text-decoration: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    &:focus {
+        outline: 2px solid var(--yc-color-line-misc);
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: 0;
+    }
+
+    &_view_normal {
+        color: var(--yc-color-text-link);
+
+        &:hover {
+            color: var(--yc-color-text-link-hover);
+        }
+    }
+
+    &_view_primary {
+        color: var(--yc-color-text-primary);
+
+        &:hover {
+            color: var(--yc-color-text-link-hover);
+        }
+    }
+
+    &_view_secondary {
+        color: var(--yc-color-text-secondary);
+
+        &:hover {
+            color: var(--yc-color-text-link-hover);
+        }
+    }
+}

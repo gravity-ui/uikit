@@ -1,0 +1,56 @@
+@import '../variables';
+
+$block: '.#{$ns}spin';
+
+#{$block} {
+    display: inline-block;
+    backface-visibility: hidden;
+    animation: #{$ns}spin 1s linear infinite;
+
+    &__inner {
+        box-sizing: border-box;
+        height: 100%;
+        width: 50%;
+        margin-left: 50%;
+        border: 2px solid var(--yc-color-base-special);
+        border-left: none;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+
+    &_size {
+        &_xs {
+            width: 16px;
+            height: 16px;
+        }
+
+        &_s {
+            width: 24px;
+            height: 24px;
+        }
+
+        &_m {
+            width: 28px;
+            height: 28px;
+        }
+
+        &_l {
+            width: 32px;
+            height: 32px;
+        }
+
+        &_xl {
+            width: 36px;
+            height: 36px;
+        }
+    }
+}
+
+@keyframes #{$ns}spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

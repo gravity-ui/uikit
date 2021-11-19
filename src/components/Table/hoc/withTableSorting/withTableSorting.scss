@@ -1,0 +1,29 @@
+$block: '.yc-table';
+
+#{$block} {
+    &__sort {
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+        cursor: pointer;
+        user-select: none;
+
+        &-spacer {
+            width: 5px;
+        }
+
+        &-indicator {
+            color: var(--yc-color-text-hint);
+            opacity: 0;
+        }
+
+        &_active &-indicator {
+            color: var(--yc-color-text-primary);
+            opacity: 1;
+        }
+
+        &:hover &-indicator {
+            opacity: 1;
+        }
+    }
+}

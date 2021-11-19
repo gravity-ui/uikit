@@ -1,0 +1,15 @@
+{
+    "extends": "@yandex-cloud/tsconfig/tsconfig",
+    "compilerOptions": {
+        "outDir": "build",
+        "module": "esnext",
+        "jsx": "react",
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "isolatedModules": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ]
+}

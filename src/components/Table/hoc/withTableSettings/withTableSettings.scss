@@ -1,0 +1,17 @@
+@import '../../variables';
+
+$block: '.yc-table';
+
+#{$block} {
+    // чтобы высота кнопки не влияла на высоту строки
+    &__settings {
+        height: $tableLineHeight;
+        display: flex;
+        align-items: center;
+
+        &-button {
+            // stylelint-disable declaration-no-important
+            color: var(--yc-color-text-secondary) !important;
+        }
+    }
+}

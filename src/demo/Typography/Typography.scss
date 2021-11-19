@@ -1,0 +1,156 @@
+.typography-demo {
+    $block: &;
+
+    min-height: calc(100vh - 1px);
+    padding: 50px;
+
+    &__description {
+        margin-bottom: 25px;
+        font-size: var(--yc-text-body2-font-size);
+        line-height: var(--yc-text-body2-line-height);
+    }
+
+    &__header {
+        margin-bottom: 20px;
+        font-size: var(--yc-text-body-font-size);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: var(--yc-color-text-primary);
+    }
+
+    &__block + &__block {
+        margin-top: 80px;
+    }
+
+    &__block_type {
+        &_font-sizes {
+            #{$block}__item + #{$block}__item {
+                margin-top: 24px;
+            }
+        }
+
+        &_text-contrasts,
+        &_font-families {
+            font-size: var(--yc-text-body2-font-size);
+
+            #{$block}__item + #{$block}__item {
+                margin-top: 12px;
+            }
+        }
+    }
+
+    &__value {
+        display: inline;
+    }
+
+    &__caption {
+        display: inline-block;
+        width: 180px;
+        color: var(--yc-color-text-secondary);
+        font-size: var(--yc-text-body-font-size);
+        text-transform: uppercase;
+    }
+
+    &__item {
+        cursor: copy;
+    }
+
+    &__item_name {
+        // font-sizes
+        &_body #{$block}__value {
+            font-size: var(--yc-text-body-font-size);
+            line-height: var(--yc-text-body-line-height);
+        }
+
+        &_body2 #{$block}__value {
+            font-size: var(--yc-text-body2-font-size);
+            line-height: var(--yc-text-body2-line-height);
+        }
+
+        &_body3 #{$block}__value {
+            font-size: var(--yc-text-body3-font-size);
+            line-height: var(--yc-text-body3-line-height);
+        }
+
+        &_lead #{$block}__value {
+            font-size: var(--yc-text-lead-font-size);
+            line-height: var(--yc-text-lead-line-height);
+        }
+
+        &_header #{$block}__value {
+            font-size: var(--yc-text-header-font-size);
+            line-height: var(--yc-text-header-line-height);
+        }
+
+        &_title #{$block}__value {
+            font-size: var(--yc-text-title-font-size);
+            line-height: var(--yc-text-title-line-height);
+        }
+
+        &_display1 #{$block}__value {
+            font-size: var(--yc-text-display1-font-size);
+            line-height: var(--yc-text-display1-line-height);
+        }
+
+        &_display2 #{$block}__value {
+            font-size: var(--yc-text-display2-font-size);
+            line-height: var(--yc-text-display2-line-height);
+        }
+
+        &_display3 #{$block}__value {
+            font-size: var(--yc-text-display3-font-size);
+            line-height: var(--yc-text-display3-line-height);
+        }
+
+        &_code-3 #{$block}__value {
+            font-size: var(--yc-text-code-3-font-size);
+            line-height: var(--yc-text-code-3-line-height);
+            font-weight: var(--yc-text-code-font-weight);
+            font-family: var(--yc-text-code-font-family);
+        }
+
+        &_code-3-inline #{$block}__value {
+            font-size: var(--yc-text-code-3-inline-font-size);
+            line-height: var(--yc-text-code-3-inline-line-height);
+            font-weight: var(--yc-text-code-font-weight);
+            font-family: var(--yc-text-code-font-family);
+        }
+
+        &_code-2 #{$block}__value {
+            font-size: var(--yc-text-code-2-font-size);
+            line-height: var(--yc-text-code-2-line-height);
+            font-weight: var(--yc-text-code-font-weight);
+            font-family: var(--yc-text-code-font-family);
+        }
+
+        &_code-2-inline #{$block}__value {
+            font-size: var(--yc-text-code-2-inline-font-size);
+            line-height: var(--yc-text-code-2-inline-line-height);
+            font-weight: var(--yc-text-code-font-weight);
+            font-family: var(--yc-text-code-font-family);
+        }
+
+        &_code-1 #{$block}__value {
+            font-size: var(--yc-text-code-1-font-size);
+            line-height: var(--yc-text-code-1-line-height);
+            font-weight: var(--yc-text-code-font-weight);
+            font-family: var(--yc-text-code-font-family);
+        }
+
+        &_code-1-inline #{$block}__value {
+            font-size: var(--yc-text-code-1-inline-font-size);
+            line-height: var(--yc-text-code-1-inline-line-height);
+            font-weight: var(--yc-text-code-font-weight);
+            font-family: var(--yc-text-code-font-family);
+        }
+
+        // font-families
+        &_monospace #{$block}__value {
+            font-family: var(--yc-font-family-monospace);
+        }
+    }
+
+    &__item_deprecated {
+        text-decoration: line-through;
+    }
+}

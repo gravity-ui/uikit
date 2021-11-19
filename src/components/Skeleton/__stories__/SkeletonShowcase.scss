@@ -1,0 +1,58 @@
+.skeleton-showcase {
+    padding: 20px;
+    width: 300px;
+
+    &__card {
+        padding: 10px;
+        margin-bottom: 14px;
+        border-radius: 5px;
+        box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
+        background-color: var(--yc-color-base-float);
+        font-size: var(--yc-text-body2-font-size);
+        line-height: var(--yc-text-body2-line-height);
+        display: flex;
+    }
+
+    &__info {
+        margin-left: 10px;
+        margin-top: 2px;
+    }
+
+    &__meta {
+        margin-top: 4px;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__avatar {
+        min-width: 50%;
+
+        &_loader {
+            display: inline-flex;
+        }
+    }
+
+    &__loader {
+        &-info {
+            height: 1em;
+            width: 106px;
+
+            &_meta {
+                margin-top: 4px;
+            }
+        }
+
+        &-avatar {
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        &-person-name {
+            height: 1em;
+            width: 62px;
+            position: relative;
+            top: 6px;
+        }
+    }
+}

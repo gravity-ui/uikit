@@ -1,0 +1,216 @@
+@import '../variables';
+
+$block: '.#{$ns}label';
+$disabled: #{$block}_disabled;
+$transitionDuration: 0.3s;
+$transitionTimingFunction: ease-in-out;
+
+.yc-tooltip#{$block}_view_extra {
+    width: 100%;
+}
+
+#{$block} {
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition-property: opacity, color, background-color;
+    transition-duration: $transitionDuration;
+    transition-timing-function: $transitionTimingFunction;
+
+    &__text {
+        width: 100%;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &__icon {
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &_left {
+            left: 2px;
+        }
+
+        &_right {
+            right: 0;
+        }
+
+        &_cross {
+            cursor: pointer;
+            transition: color, background-color;
+            transition-duration: $transitionDuration;
+            transition-timing-function: $transitionTimingFunction;
+        }
+    }
+
+    &_size {
+        &_s {
+            height: 20px;
+
+            & #{$block}__text {
+                line-height: 20px;
+                margin: 0 8px;
+            }
+
+            & #{$block}__icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            &#{$block}_has-right-icon #{$block}__text {
+                margin-right: 22px;
+            }
+
+            &#{$block}_has-left-icon #{$block}__text {
+                margin-left: 24px;
+            }
+
+            &#{$block}_style {
+                &_default,
+                &_rounded {
+                    border-radius: 4px;
+
+                    & #{$block}__icon {
+                        &_cross {
+                            border-radius: 0 4px 4px 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        &_m {
+            height: 28px;
+
+            & #{$block}__text {
+                line-height: 28px;
+                margin: 0 12px;
+            }
+
+            & #{$block}__icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            &#{$block}_has-right-icon #{$block}__text {
+                margin-right: 32px;
+            }
+
+            &#{$block}_has-left-icon #{$block}__text {
+                margin-left: 32px;
+            }
+
+            &#{$block}_style {
+                &_default {
+                    border-radius: 4px;
+
+                    & #{$block}__icon {
+                        &_cross {
+                            border-radius: 0 4px 4px 0;
+                        }
+                    }
+                }
+
+                &_rounded {
+                    border-radius: 24px;
+
+                    & #{$block}__icon {
+                        &_cross {
+                            border-radius: 0 24px 24px 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &_disabled {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    &_is-interactive {
+        cursor: pointer;
+    }
+
+    &_type {
+        &_copy {
+            cursor: pointer;
+        }
+    }
+
+    &_theme {
+        &_normal {
+            color: var(--yc-color-text-misc);
+            background-color: var(--yc-color-base-misc);
+
+            // ховер на интерактивный (у которого есть тултип или onClick) элемент
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-misc-hover);
+            }
+
+            // hover на элемент с копированием
+            &:not(#{$disabled})#{$block}_type_copy:hover {
+                color: var(--yc-color-text-inverted-primary);
+                background-color: var(--yc-color-base-misc-heavy-hover);
+            }
+
+            // hover на крестик
+            &:not(#{$disabled}) #{$block}__icon_cross:hover {
+                color: var(--yc-color-text-inverted-primary);
+                background-color: var(--yc-color-base-misc-heavy-hover);
+            }
+        }
+
+        &_success {
+            color: var(--yc-color-text-positive);
+            background-color: var(--yc-color-base-positive);
+
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-positive-hover);
+            }
+        }
+
+        &_info {
+            color: var(--yc-color-text-info);
+            background-color: var(--yc-color-base-info);
+
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-info-hover);
+            }
+        }
+
+        &_warning {
+            color: var(--yc-color-text-warning-heavy);
+            background-color: var(--yc-color-base-warning);
+
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-warning-hover);
+            }
+        }
+
+        &_danger {
+            color: var(--yc-color-text-danger);
+            background-color: var(--yc-color-base-danger);
+
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-danger-hover);
+            }
+        }
+
+        &_unknown {
+            color: var(--yc-color-text-complementary);
+            background-color: var(--yc-color-base-generic);
+
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-generic-hover);
+            }
+        }
+    }
+}

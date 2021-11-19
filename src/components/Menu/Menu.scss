@@ -1,0 +1,202 @@
+@import '../variables';
+
+$block: '.#{$ns}menu';
+
+#{$block} {
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: var(--yc-color-text-primary);
+    background-color: var(--yc-color-base-float);
+    user-select: none;
+    outline: none;
+
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+    }
+
+    &__list-group-item + &__list-group-item,
+    &__list-item + &__list-group-item,
+    &__list-group-item + &__list-item {
+        border-top: 1px solid var(--yc-color-line-generic);
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: var(--yc-color-text-primary);
+        text-decoration: none;
+        outline: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        &-icon {
+            display: flex;
+        }
+
+        &-content {
+            flex-grow: 1;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: var(--yc-color-base-simple-hover);
+        }
+
+        &:focus:not(:focus-visible):not(:hover):not(&_active) {
+            background-color: transparent;
+        }
+
+        &_disabled {
+            color: var(--yc-color-text-secondary);
+            cursor: default;
+            pointer-events: none;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        &_active {
+            cursor: default;
+            background-color: var(--yc-color-base-selection);
+
+            &:hover,
+            &:focus {
+                background-color: var(--yc-color-base-selection);
+            }
+        }
+
+        &_theme_danger {
+            &:not(#{$block}__item_disabled) {
+                color: var(--yc-color-text-danger);
+            }
+        }
+    }
+
+    &__group-label {
+        color: var(--yc-color-text-complementary);
+    }
+
+    &__group-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &_size {
+        &_s {
+            font-size: 13px;
+            line-height: 24px;
+
+            &::before,
+            &::after {
+                height: 3px;
+            }
+
+            #{$block}__item,
+            #{$block}__group-label {
+                padding: 0 10px;
+            }
+
+            #{$block}__item-icon {
+                margin-right: 3px;
+            }
+
+            #{$block}__list-group-item + #{$block}__list-group-item,
+            #{$block}__list-item + #{$block}__list-group-item,
+            #{$block}__list-group-item + #{$block}__list-item {
+                margin-top: 3px;
+                padding-top: 3px;
+            }
+        }
+
+        &_m {
+            font-size: 13px;
+            line-height: 24px;
+
+            &::before,
+            &::after {
+                height: 4px;
+            }
+
+            #{$block}__item,
+            #{$block}__group-label {
+                padding: 0 13px;
+            }
+
+            #{$block}__item-icon {
+                margin-right: 4px;
+            }
+
+            #{$block}__list-group-item + #{$block}__list-group-item,
+            #{$block}__list-item + #{$block}__list-group-item,
+            #{$block}__list-group-item + #{$block}__list-item {
+                margin-top: 4px;
+                padding-top: 4px;
+            }
+        }
+
+        &_l {
+            font-size: 13px;
+            line-height: 28px;
+
+            &::before,
+            &::after {
+                height: 5px;
+            }
+
+            #{$block}__item,
+            #{$block}__group-label {
+                padding: 0 15px;
+            }
+
+            #{$block}__item-icon {
+                margin-right: 5px;
+            }
+
+            #{$block}__list-group-item + #{$block}__list-group-item,
+            #{$block}__list-item + #{$block}__list-group-item,
+            #{$block}__list-group-item + #{$block}__list-item {
+                margin-top: 5px;
+                padding-top: 5px;
+            }
+        }
+
+        &_xl {
+            font-size: 15px;
+            line-height: 36px;
+
+            &::before,
+            &::after {
+                height: 6px;
+            }
+
+            #{$block}__item,
+            #{$block}__group-label {
+                padding: 0 15px;
+            }
+
+            #{$block}__item-icon {
+                margin-right: 6px;
+            }
+
+            #{$block}__list-group-item:not(:first-child) {
+                margin-top: 6px;
+                padding-top: 6px;
+            }
+
+            #{$block}__list-group-item:not(:last-child) {
+                margin-bottom: 6px;
+                padding-bottom: 6px;
+            }
+        }
+    }
+}

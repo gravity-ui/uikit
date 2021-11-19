@@ -1,0 +1,11 @@
+$block: '.yc-sort-indicator';
+
+#{$block} {
+    &__caret {
+        padding: 1px 0;
+
+        & > svg {
+            display: block;
+        }
+    }
+}

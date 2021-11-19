@@ -1,0 +1,62 @@
+@mixin overflow-ellipsis($type: ellipsis) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: $type;
+}
+
+@mixin button-reset() {
+    margin: 0;
+    padding: 0;
+
+    font-size: inherit;
+    font-weight: 400;
+
+    color: inherit;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+@mixin expand-interactive-area($h: 4px, $v: $h) {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: -$v;
+        left: -$h;
+        right: -$h;
+        bottom: -$v;
+    }
+}
+
+@mixin max-height($height) {
+    max-height: $height;
+    overflow-y: auto;
+}
+
+@mixin max-text-width($width: 100%) {
+    @include overflow-ellipsis();
+
+    max-width: $width;
+}
+
+@mixin aspect-ratio($ratio) {
+    position: relative;
+
+    &::before {
+        display: block;
+        content: '';
+        width: 100%;
+        padding-top: $ratio * 100%;
+    }
+
+    > *:only-child {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}

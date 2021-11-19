@@ -1,0 +1,12 @@
+@import '../variables';
+
+$block: '.#{$ns}clipboard-button';
+
+#{$block} {
+    display: inline-block;
+    cursor: pointer;
+
+    &__icon {
+        vertical-align: top;
+    }
+}

@@ -1,0 +1,54 @@
+.text-input-showcase {
+    display: grid;
+    grid-template:
+        'text-input' auto
+        'text-area' auto / auto;
+
+    &__text-input-examples {
+        grid-area: text-input;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes states' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__text-area-examples {
+        grid-area: text-area;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes states' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__title {
+        grid-area: title;
+        margin: 0;
+    }
+
+    &__section-header {
+        text-align: center;
+        margin: 0 0 10px;
+    }
+
+    &__size-examples {
+        grid-area: sizes;
+    }
+
+    &__state-examples {
+        grid-area: states;
+    }
+
+    &__row {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__input:not(:last-child),
+    &__text-area:not(:last-child) {
+        margin-bottom: 20px;
+    }
+}

@@ -1,0 +1,3 @@
+{
+    "extends": "@yandex-cloud/eslint-config/client"
+}

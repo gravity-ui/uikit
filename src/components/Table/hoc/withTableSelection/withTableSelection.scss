@@ -1,0 +1,25 @@
+@import '../../variables';
+
+#{$block} {
+    &__selection-checkbox {
+        display: inline-block;
+    }
+
+    &__row_selected {
+        background: var(--yc-color-base-selection-solid);
+
+        #{$block}__cell_sticky_left,
+        #{$block}__cell_sticky_right {
+            background: var(--yc-color-base-selection-solid);
+        }
+
+        &#{$block}__row_interactive:hover {
+            background: var(--yc-color-base-selection-hover-solid);
+
+            #{$block}__cell_sticky_left,
+            #{$block}__cell_sticky_right {
+                background: var(--yc-color-base-selection-hover-solid);
+            }
+        }
+    }
+}

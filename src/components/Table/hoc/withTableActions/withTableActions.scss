@@ -1,0 +1,23 @@
+@import '../../../../../styles/mixins';
+@import '../../variables';
+
+#{$block} {
+    // чтобы высота кнопки не влияла на высоту строки
+    &__actions {
+        height: $tableLineHeight;
+        display: flex;
+        align-items: center;
+    }
+}
+
+$popupBlock: '#{$block}-action-popup';
+
+#{$popupBlock} {
+    &__menu {
+        @include max-height(200px);
+
+        &-item {
+            @include max-text-width(250px);
+        }
+    }
+}

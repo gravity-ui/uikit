@@ -5,10 +5,9 @@ import {List} from '../../../../List';
 import {Icon} from '../../../../Icon';
 import {Popup} from '../../../../Popup';
 import {Button} from '../../../../Button';
-
-import tickIcon from '../../../../../../assets/icons/tick.svg';
-import gearIcon from '../../../../../../assets/icons/gear.svg';
-import lockIcon from '../../../../../../assets/icons/lock.svg';
+import {GearIcon} from '../../../../icons/GearIcon';
+import {TickIcon} from './TickIcon';
+import {LockIcon} from './LockIcon';
 
 import './TableColumnSetup.scss';
 
@@ -135,11 +134,11 @@ export class TableColumnSetup extends React.Component {
             <div className={b('item-content')}>
                 {item.required ? (
                     <div className={b('lock-wrap', {visible: item.selected})}>
-                        <Icon data={lockIcon} />
+                        <Icon data={LockIcon} />
                     </div>
                 ) : (
                     <div className={b('tick-wrap', {visible: item.selected})}>
-                        <Icon data={tickIcon} className={b('tick')} width={10} height={10} />
+                        <Icon data={TickIcon} className={b('tick')} width={10} height={10} />
                     </div>
                 )}
                 <div className={b('title')}>{getItemTitle(item)}</div>
@@ -236,7 +235,7 @@ export class TableColumnSetup extends React.Component {
                 <div className={b('control')} ref={this.refControl} onClick={this.onControlClick}>
                     {switcher || (
                         <Button disabled={disabled}>
-                            <Icon data={gearIcon} />
+                            <Icon data={GearIcon} />
                             Columns
                             {this.renderStatus()}
                         </Button>

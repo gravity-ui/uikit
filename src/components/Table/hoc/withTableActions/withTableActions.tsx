@@ -5,7 +5,7 @@ import {Icon} from '../../../Icon';
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Menu, MenuItemProps} from '../../../Menu';
-import dotsIcon from '../../../../../assets/icons/dots.svg';
+import {DotsIcon} from '../../../icons/DotsIcon';
 import {TableDataItem, TableProps, TableColumnConfig} from '../../Table';
 import './withTableActions.scss';
 
@@ -114,7 +114,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                         disabled={disabled}
                         onClick={this.handleActionsButtonClick.bind(this, {item, index})}
                     >
-                        <Icon data={dotsIcon} />
+                        <Icon data={DotsIcon} />
                     </Button>
                 </div>
             );

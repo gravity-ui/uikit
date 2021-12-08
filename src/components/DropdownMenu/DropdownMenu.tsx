@@ -5,10 +5,10 @@ import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../Icon';
+import {DotsIcon} from '../icons/DotsIcon';
 import {DropdownMenuItemMixed, DropdownMenuItemAction, DropdownMenuItem} from './types';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
 
-import dotsIcon from '../../../assets/icons/dots.svg';
 import './DropdownMenu.scss';
 
 const b = block('dropdown-menu');
@@ -62,7 +62,7 @@ export class DropdownMenu<T> extends React.PureComponent<
     // eslint-disable-next-line react/sort-comp
     static defaultProps: DropdownMenuDefaultProps<unknown> = {
         items: [],
-        icon: <Icon data={dotsIcon} />,
+        icon: <Icon data={DotsIcon} />,
         onMenuToggle: noop,
         hideOnScroll: true,
     };

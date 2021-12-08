@@ -4,9 +4,9 @@ import _isString from 'lodash/isString';
 import _get from 'lodash/get';
 import block from 'bem-cn-lite';
 
-import gearIcon from '../../../../../assets/icons/gear.svg';
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
 import {Icon} from '../../../Icon';
+import {GearIcon} from '../../../icons/GearIcon';
 import {Button} from '../../../Button';
 import {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import {enhanceSystemColumn, actionsColumnId} from '../withTableActions/withTableActions';
@@ -157,7 +157,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                         items={prepareColumnSetupItems(actualItems)}
                                         switcher={
                                             <Button view="flat" className={b('settings-button')}>
-                                                <Icon data={gearIcon} size={20} />
+                                                <Icon data={GearIcon} size={20} />
                                             </Button>
                                         }
                                     />

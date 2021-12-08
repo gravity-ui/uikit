@@ -3,7 +3,7 @@ import {block} from '../utils/cn';
 import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {Icon} from '../Icon';
-import closeIcon from '../../../assets/icons/close.svg';
+import {CrossIcon} from '../icons/CrossIcon';
 import './Label.scss';
 
 const b = block('label');
@@ -70,12 +70,12 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     switch (size) {
         case 's':
             copyIconSize = 12;
-            closeIconSize = 20;
+            closeIconSize = 8;
             break;
         case 'm':
         default:
             copyIconSize = 16;
-            closeIconSize = 24;
+            closeIconSize = 10;
             break;
     }
 
@@ -104,7 +104,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                 cross: true,
             })}
         >
-            <Icon size={closeIconSize} data={closeIcon} />
+            <Icon size={closeIconSize} data={CrossIcon} />
         </div>
     );
 

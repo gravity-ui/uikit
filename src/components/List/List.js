@@ -4,11 +4,10 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
 import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import {block} from '../utils/cn';
-import {Icon} from '../Icon';
 import {TextInput} from '../TextInput';
 import {SimpleContainer} from './SimpleContainer';
+import {DragHandleIcon} from './DragHandleIcon';
 import {MobileContext} from '../mobile';
-import iconDrag from '../../../assets/icons/drag-handle.svg';
 
 import './List.scss';
 
@@ -48,7 +47,7 @@ export class ListItem extends React.Component {
         const {sortable} = this.props;
         return sortable ? (
             <div className={b('item-sort-icon')}>
-                <Icon data={iconDrag} />
+                <DragHandleIcon />
             </div>
         ) : null;
     }

@@ -3,9 +3,8 @@ import {block} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
-import {Icon} from '../Icon';
+import {CrossIcon} from '../icons/CrossIcon';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
-import closeIcon from '../../../assets/icons/close.svg';
 import './TextInput.scss';
 
 export type {TextInputProps, TextInputView, TextInputSize, TextInputPin};
@@ -153,7 +152,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     className={b('clear', {visible: isClearControlVisible})}
                     onClick={handleClear}
                 >
-                    <Icon data={closeIcon} />
+                    <CrossIcon />
                 </span>
             )}
         </span>

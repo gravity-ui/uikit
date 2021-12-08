@@ -1,11 +1,7 @@
 import React from 'react';
 import block from 'bem-cn-lite';
 
-// import {Icon} from '../../Icon';
 import type {DropdownMenuItem, DropdownMenuItemMixed} from '../types';
-
-// import iconTrash from '../../../../assets/icons/delete-file.svg';
-// import iconRename from '../../../../assets/icons/rename-file.svg';
 
 const b = block('yc-icon-menu-demo');
 

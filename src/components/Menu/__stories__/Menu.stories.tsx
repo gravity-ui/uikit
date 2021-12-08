@@ -2,7 +2,7 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Menu, MenuProps} from '../Menu';
 import {Icon} from '../../Icon';
-import gearIcon from '../../../../assets/icons/gear.svg';
+import {GearIcon} from '../../icons/GearIcon';
 
 export default {
     title: 'Components/Menu',
@@ -26,7 +26,7 @@ export const ItemActive: Story<MenuProps> = (args) => (
 
 export const ItemIcon: Story<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item icon={<Icon data={gearIcon} size={16} />}>Настройки</Menu.Item>
+        <Menu.Item icon={<Icon data={GearIcon} size={16} />}>Настройки</Menu.Item>
     </Menu>
 );
 

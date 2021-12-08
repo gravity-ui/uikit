@@ -4,8 +4,8 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../../Icon';
+import {GearIcon} from '../../icons/GearIcon';
 
-import lockIcon from '../../../../assets/icons/lock.svg';
 import './ButtonShowcase.scss';
 
 const b = block('button-showcase');
@@ -106,17 +106,17 @@ function renderViewGrid() {
                 }
 
                 if (icon === 'none') {
-                    props.children = [<Icon key="icon" data={lockIcon} size={18} />, 'Кнопка'];
+                    props.children = [<Icon key="icon" data={GearIcon} size={18} />, 'Кнопка'];
                 } else if (icon === 'right') {
-                    props.children = ['Кнопка', <Icon key="icon" data={lockIcon} size={18} />];
+                    props.children = ['Кнопка', <Icon key="icon" data={GearIcon} size={18} />];
                 } else if (icon === 'both') {
                     props.children = [
-                        <Icon key="icon-1" data={lockIcon} size={18} />,
+                        <Icon key="icon-1" data={GearIcon} size={18} />,
                         'Кнопка',
-                        <Icon key="icon-2" data={lockIcon} size={18} />,
+                        <Icon key="icon-2" data={GearIcon} size={18} />,
                     ];
                 } else if (icon === 'only') {
-                    props.children = <Icon key="icon" data={lockIcon} size={18} />;
+                    props.children = <Icon key="icon" data={GearIcon} size={18} />;
                 } else {
                     props.children = 'Кнопка';
                 }

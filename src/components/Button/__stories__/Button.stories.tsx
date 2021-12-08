@@ -2,8 +2,8 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Button, ButtonProps} from '../Button';
 import {Icon as IconComponent} from '../../Icon/Icon';
+import {GearIcon} from '../../icons/GearIcon';
 import {ButtonShowcase} from './ButtonShowcase';
-import cloudIcon from '../../../../assets/icons/cloud.svg';
 
 export default {
     title: 'Components/Button',
@@ -39,23 +39,23 @@ const IconTemplate: Story<ButtonProps> = (args) => (
         <Button {...args}>No icon</Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <IconComponent data={cloudIcon} size={14} />
+            <IconComponent data={GearIcon} size={18} />
             Left
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
             Right
-            <IconComponent data={cloudIcon} size={14} />
+            <IconComponent data={GearIcon} size={18} />
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <IconComponent data={cloudIcon} size={14} />
+            <IconComponent data={GearIcon} size={18} />
             Both
-            <IconComponent data={cloudIcon} size={14} />
+            <IconComponent data={GearIcon} size={18} />
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <IconComponent data={cloudIcon} size={14} />
+            <IconComponent data={GearIcon} size={18} />
         </Button>
     </>
 );

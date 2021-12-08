@@ -2,7 +2,7 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {DropdownMenu} from '../DropdownMenu';
 import {Icon} from '../../Icon';
-import gearIcon from '../../../../assets/icons/gear.svg';
+import {GearIcon} from '../../icons/GearIcon';
 import {options, optionsWithGroups, optionsAssorted} from './options';
 
 export default {
@@ -56,7 +56,7 @@ const CustomIconTemplate: Story = (args) => <DropdownMenu {...args} />;
 export const CustomIcon = CustomIconTemplate.bind({});
 CustomIcon.args = {
     items: options,
-    icon: <Icon data={gearIcon} />,
+    icon: <Icon data={GearIcon} />,
 };
 CustomIcon.storyName = 'Переопределённая иконка';
 

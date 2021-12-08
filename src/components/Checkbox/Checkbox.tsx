@@ -2,10 +2,8 @@ import React from 'react';
 import {block} from '../utils/cn';
 import {ControlProps, DOMProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
-import {Icon} from '../Icon';
-
-import tickIcon from '../../../assets/icons/checkbox-tick.svg';
-import dashIcon from '../../../assets/icons/checkbox-dash.svg';
+import {CheckboxTickIcon} from './CheckboxTickIcon';
+import {CheckboxDashIcon} from './CheckboxDashIcon';
 
 import './Checkbox.scss';
 
@@ -57,9 +55,9 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
             <span className={b('indicator')}>
                 <span className={b('icon')} aria-hidden>
                     {indeterminate ? (
-                        <Icon data={dashIcon} className={b('icon-svg', {type: 'dash'})} />
+                        <CheckboxDashIcon className={b('icon-svg', {type: 'dash'})} />
                     ) : (
-                        <Icon data={tickIcon} className={b('icon-svg', {type: 'tick'})} />
+                        <CheckboxTickIcon className={b('icon-svg', {type: 'tick'})} />
                     )}
                 </span>
                 <input {...inputProps} className={b('control')} />

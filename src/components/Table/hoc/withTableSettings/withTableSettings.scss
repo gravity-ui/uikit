@@ -1,6 +1,6 @@
 @import '../../variables';
 
-$block: '.yc-table';
+$block: '.#{$ns}table';
 
 #{$block} {
     // чтобы высота кнопки не влияла на высоту строки

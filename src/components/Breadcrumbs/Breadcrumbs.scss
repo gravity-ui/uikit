@@ -37,7 +37,7 @@ $block: '.#{$ns}breadcrumbs';
     }
 
     &__popup_staircase {
-        $menu: '.yc-menu';
+        $menu: '.#{$ns}menu';
         $staircaseLength: 10;
         #{$menu} {
             #{$menu}__list-item {

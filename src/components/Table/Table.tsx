@@ -90,7 +90,7 @@ interface TableDefaultProps {
     edgePadding: boolean;
 }
 
-const b = block('yc-table');
+const b = block('table');
 
 export class Table<I extends TableDataItem = Record<string, string>> extends React.Component<
     TableProps<I>,

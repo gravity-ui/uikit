@@ -1,4 +1,6 @@
-$block: '.yc-sort-indicator';
+@import '../../../variables';
+
+$block: '.#{$ns}sort-indicator';
 
 #{$block} {
     &__caret {

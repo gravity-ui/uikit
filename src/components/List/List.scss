@@ -62,7 +62,7 @@ $block: '.#{$ns}list';
         &_sort-handle-align_right {
             flex-direction: row-reverse;
 
-            .yc-list__item-sort-icon {
+            #{$block}__item-sort-icon {
                 margin-left: 10px;
                 margin-right: 0;
             }

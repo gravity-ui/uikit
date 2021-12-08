@@ -1,7 +1,7 @@
 import React from 'react';
 import _memoize from 'lodash/memoize';
-import block from 'bem-cn-lite';
 
+import {block} from '../../../utils/cn';
 import {Table, TableDataItem, TableProps, TableColumnConfig} from '../../Table';
 import {SortIndicator} from './SortIndicator/SortIndicator';
 
@@ -29,7 +29,7 @@ interface WithTableSortingState {
     sort: SortState;
 }
 
-const b = block('yc-table');
+const b = block('table');
 
 export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,

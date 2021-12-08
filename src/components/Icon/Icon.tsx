@@ -1,7 +1,7 @@
 import React from 'react';
-import block from 'bem-cn-lite';
 
 import {QAProps} from '../types';
+import {block} from '../utils/cn';
 import {
     isSpriteData,
     isSvgrData,
@@ -24,7 +24,7 @@ export interface IconProps extends QAProps {
     onClick?: (event: React.MouseEvent<SVGElement>) => void;
 }
 
-const b = block('yc-icon');
+const b = block('icon');
 
 export function Icon({
     data,

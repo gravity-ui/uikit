@@ -2,8 +2,8 @@ import React from 'react';
 import _last from 'lodash/last';
 import _isString from 'lodash/isString';
 import _get from 'lodash/get';
-import block from 'bem-cn-lite';
 
+import {block} from '../../../utils/cn';
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
 import {Icon} from '../../../Icon';
 import {GearIcon} from '../../../icons/GearIcon';
@@ -117,7 +117,7 @@ export interface WithTableSettingsProps {
     updateSettings: (data: TableSettingsData) => Promise<void>;
 }
 
-const b = block('yc-table');
+const b = block('table');
 
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,

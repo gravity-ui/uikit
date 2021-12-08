@@ -6,7 +6,7 @@ $block: '.#{$ns}tabs';
     --yc-tabs-space-between: 40px;
 }
 
-.yc-tabs {
+#{$block} {
     &_direction_horizontal {
         display: flex;
         align-items: flex-end;

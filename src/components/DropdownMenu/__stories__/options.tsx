@@ -1,9 +1,6 @@
 import React from 'react';
-import block from 'bem-cn-lite';
 
 import type {DropdownMenuItem, DropdownMenuItemMixed} from '../types';
-
-const b = block('yc-icon-menu-demo');
 
 export const options: DropdownMenuItem<unknown>[] = [
     {
@@ -106,7 +103,7 @@ export const optionsAssorted: DropdownMenuItem<unknown>[] = [
         action: () => console.log('==> вызван вошлебный экшен'),
         text: (
             <>
-                Я <span className={b('rainbow')}>волшебный</span> пункт с нодой
+                Я <span style={{color: 'deeppink'}}>волшебный</span> пункт с нодой
             </>
         ),
     },

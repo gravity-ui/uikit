@@ -56,7 +56,7 @@ $block: '.#{$ns}table-column-setup';
             cursor: pointer;
             position: relative;
 
-            .yc-list__item-sort-icon {
+            .#{$ns}list__item-sort-icon {
                 cursor: move;
             }
         }

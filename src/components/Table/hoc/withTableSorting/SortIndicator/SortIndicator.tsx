@@ -1,13 +1,13 @@
 import React from 'react';
-import block from 'bem-cn-lite';
 
+import {block} from '../../../../utils/cn';
 import './SortIndicator.scss';
 
 export interface SortIndicatorProps {
     order?: 'asc' | 'desc';
 }
 
-const b = block('yc-sort-indicator');
+const b = block('sort-indicator');
 
 export function SortIndicator({order = 'asc'}: SortIndicatorProps) {
     return (

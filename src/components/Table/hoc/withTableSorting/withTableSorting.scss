@@ -1,4 +1,6 @@
-$block: '.yc-table';
+@import '../../variables';
+
+$block: '.#{$ns}table';
 
 #{$block} {
     &__sort {

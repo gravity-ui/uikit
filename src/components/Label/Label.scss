@@ -5,10 +5,6 @@ $disabled: #{$block}_disabled;
 $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;
 
-.yc-tooltip#{$block}_view_extra {
-    width: 100%;
-}
-
 #{$block} {
     cursor: default;
     display: inline-flex;

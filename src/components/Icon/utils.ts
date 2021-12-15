@@ -1,3 +1,11 @@
+import {
+    SVGIconData,
+    SVGIconSpriteData,
+    SVGIconSvgrData,
+    SVGIconStringData,
+    SVGIconComponentData,
+} from './types';
+
 export function isSpriteData(data: SVGIconData): data is SVGIconSpriteData {
     return typeof data === 'object';
 }

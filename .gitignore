@@ -2,4 +2,6 @@
 
 node_modules
 
-storybook-static
+/storybook-static
+/build
+/styles/**/*.css

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {QAProps} from '../types';
+import {SVGIconData} from './types';
 import {block} from '../utils/cn';
 import {
     isSpriteData,

@@ -7,14 +7,27 @@
         "type": "git",
         "url": "https://github.com/yandex-cloud/uikit"
     },
+    "main": "build/cjs/index.js",
+    "module": "build/esm/index.js",
+    "types": "build/esm/index.d.ts",
+    "sideEffects": [
+        "*.css",
+        "*.scss"
+    ],
+    "files": [
+        "build",
+        "styles"
+    ],
     "scripts": {
+        "clean": "gulp clean",
+        "build": "gulp",
         "start": "npm run storybook:start",
         "storybook:start": "start-storybook -p 7007",
         "storybook:build": "build-storybook -c .storybook -o storybook-static",
-        "lint:js": "eslint src --ext .js,.jsx,.ts,.tsx",
+        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
         "lint:prettier": "prettier --check --loglevel=error '**/*.{js,jsx,ts,tsx,scss}'",
-        "lint": "npm-run-all --parallel lint:*",
+        "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
@@ -46,6 +59,11 @@
         "@yandex-cloud/tsconfig": "^1.0.0",
         "css-loader": "^5.2.7",
         "eslint": "^8.2.0",
+        "gulp": "^4.0.2",
+        "gulp-cli": "^2.3.0",
+        "gulp-dart-sass": "^1.0.2",
+        "gulp-replace": "^1.1.3",
+        "gulp-typescript": "^5.0.1",
         "npm-run-all": "^4.1.5",
         "postcss": "^8.3.11",
         "prettier": "2.4.1",
@@ -53,7 +71,8 @@
         "react-docgen-typescript": "^2.1.1",
         "react-dom": "^16.14.0",
         "react-router-dom": "^5.3.0",
-        "sass": "^1.43.4",
+        "rimraf": "^3.0.2",
+        "sass": "^1.44.0",
         "sass-loader": "^10.2.0",
         "style-loader": "^2.0.0",
         "stylelint": "^14.1.0",

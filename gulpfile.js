@@ -20,14 +20,19 @@ function compileTs(modules = false) {
         module: modules ? 'esnext' : 'commonjs',
     });
 
-    return src(['src/components/**/*.{ts,tsx}', '!src/components/**/__stories__/**/*.{ts,tsx}'])
+    return src([
+        'src/**/*.{ts,tsx}',
+        '!src/demo/**/*.{ts,tsx}',
+        '!src/stories/**/*.{ts,tsx}',
+        '!src/**/__stories__/**/*.{ts,tsx}',
+    ])
         .pipe(
             replace(/import '.+\.scss';/g, (match) =>
                 modules ? match.replace('.scss', '.css') : '',
             ),
         )
         .pipe(tsProject())
-        .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs', 'components')));
+        .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')));
 }
 
 task('compile-to-esm', () => {

@@ -5,6 +5,7 @@
         "module": "esnext",
         "jsx": "react",
         "baseUrl": ".",
+        "importHelpers": true
     },
     "include": [
         "src/**/*.ts",

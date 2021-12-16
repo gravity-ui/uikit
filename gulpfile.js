@@ -43,6 +43,17 @@ task('compile-to-cjs', () => {
     return compileTs();
 });
 
+task('copy-js', () => {
+    return src([
+        'src/**/*.{js,d.ts}',
+        '!src/demo/**/*.{js,d.ts}',
+        '!src/stories/**/*.{js,d.ts}',
+        '!src/**/__stories__/**/*.{js,d.ts}',
+    ])
+        .pipe(dest(path.resolve(BUILD_DIR, 'esm')))
+        .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
+});
+
 task('styles-global', () => {
     return src('styles/styles.scss').pipe(sass().on('error', sass.logError)).pipe(dest('styles'));
 });
@@ -58,7 +69,7 @@ task(
     'build',
     series([
         'clean',
-        parallel(['compile-to-esm', 'compile-to-cjs']),
+        parallel(['compile-to-esm', 'compile-to-cjs', 'copy-js']),
         parallel(['styles-global', 'styles-components']),
     ]),
 );

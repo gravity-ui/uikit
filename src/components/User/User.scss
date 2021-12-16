@@ -30,4 +30,12 @@ $block: '.#{$ns}user';
     &__avatar + &__info {
         margin-left: 12px;
     }
+
+    &_size {
+        &_xs {
+            #{$block}__avatar + #{$block}__info {
+                margin-left: 6px;
+            }
+        }
+    }
 }

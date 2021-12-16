@@ -131,13 +131,21 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
         settingsPopupWidth,
         ...restTableProps
     }) => {
-        const actualItems = getActualItems(columns, settings || []);
+        const actualItems = React.useMemo(
+            () => getActualItems(columns, settings || []),
+            [columns, settings],
+        );
 
         const onUpdateColumns = React.useCallback(
             (newItems) => {
                 updateSettings(prepareUpdateSettings(newItems));
             },
             [updateSettings],
+        );
+
+        const columnSetupItems = React.useMemo(
+            () => prepareColumnSetupItems(actualItems),
+            [actualItems],
         );
 
         return (
@@ -154,7 +162,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                         popupWidth={settingsPopupWidth}
                                         popupPlacement={['bottom-end', 'bottom', 'top-end', 'top']}
                                         onUpdate={onUpdateColumns}
-                                        items={prepareColumnSetupItems(actualItems)}
+                                        items={columnSetupItems}
                                         switcher={
                                             <Button view="flat" className={b('settings-button')}>
                                                 <Icon data={GearIcon} size={20} />

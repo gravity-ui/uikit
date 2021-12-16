@@ -7,7 +7,7 @@ export interface ThemeContextProps {
     setTheme: (newTheme: string) => void;
 }
 
-export const initialValue: ThemeContextProps = {
+const initialValue: ThemeContextProps = {
     theme: DEFAULT_THEME,
     setTheme: () => {},
 };

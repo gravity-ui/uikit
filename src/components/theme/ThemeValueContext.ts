@@ -4,7 +4,7 @@ export interface ThemeValueContextProps {
     themeValue: string;
 }
 
-export const initialValue: ThemeValueContextProps = {
+const initialValue: ThemeValueContextProps = {
     themeValue: '',
 };
 

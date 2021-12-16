@@ -1,0 +1,46 @@
+@import '../variables';
+
+$block: '.#{$ns}radio-group';
+
+#{$block} {
+    &_direction {
+        &_horizontal {
+            &#{$block}_size {
+                &_m {
+                    line-height: 20px;
+
+                    #{$block}__option:not(:last-child) {
+                        margin-right: 12px;
+                    }
+                }
+
+                &_l {
+                    line-height: 24px;
+
+                    #{$block}__option:not(:last-child) {
+                        margin-right: 15px;
+                    }
+                }
+            }
+        }
+
+        &_vertical {
+            display: flex;
+            flex-direction: column;
+
+            &#{$block}_size {
+                &_m {
+                    #{$block}__option:not(:last-child) {
+                        margin-bottom: 8px;
+                    }
+                }
+
+                &_l {
+                    #{$block}__option:not(:last-child) {
+                        margin-bottom: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

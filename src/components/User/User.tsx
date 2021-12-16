@@ -1,6 +1,6 @@
 import React from 'react';
 import {block} from '../utils/cn';
-import {UserAvatar} from '../UserAvatar';
+import {UserAvatar, UserAvatarSize} from '../UserAvatar';
 import './User.scss';
 
 const b = block('user');
@@ -9,17 +9,22 @@ export interface UserProps {
     name?: string;
     description?: string;
     imgUrl?: string;
+    size?: UserAvatarSize;
     className?: string;
 }
 
-export function User({name, description, imgUrl, className}: UserProps) {
+export function User({name, description, imgUrl, size = 'm', className}: UserProps) {
+    const compact = size === 'xs';
+
     return (
-        <div className={b(null, className)}>
-            {imgUrl && <UserAvatar imgUrl={imgUrl} size="m" className={b('avatar')} />}
+        <div className={b({size}, className)}>
+            {imgUrl && <UserAvatar imgUrl={imgUrl} size={size} className={b('avatar')} />}
             {(name || description) && (
                 <div className={b('info')}>
                     {name && <span className={b('name')}>{name}</span>}
-                    {description && <span className={b('description')}>{description}</span>}
+                    {!compact && description && (
+                        <span className={b('description')}>{description}</span>
+                    )}
                 </div>
             )}
         </div>

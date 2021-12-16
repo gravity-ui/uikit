@@ -50,7 +50,9 @@ task('copy-js', () => {
         '!src/stories/**/*.{js,d.ts}',
         '!src/**/__stories__/**/*.{js,d.ts}',
     ])
+        .pipe(replace(/import '.+\.scss';/g, (match) => match.replace('.scss', '.css')))
         .pipe(dest(path.resolve(BUILD_DIR, 'esm')))
+        .pipe(replace(/import '.+\.css';/g, ''))
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
 });
 

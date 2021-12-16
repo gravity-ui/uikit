@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.3](https://www.github.com/yandex-cloud/uikit/compare/v1.1.2...v1.1.3) (2021-12-16)
+
+
+### Bug Fixes
+
+* correctly copy js files to build ([54a63ba](https://www.github.com/yandex-cloud/uikit/commit/54a63bae8a9686fbe9229cdde06cdf79f7cd624b))
+* reexport ThemeValueContext ([b972b95](https://www.github.com/yandex-cloud/uikit/commit/b972b95b1b1dd0a4c392999588eab3c1ecc19da2))
+
 ### [1.1.2](https://www.github.com/yandex-cloud/uikit/compare/v1.1.1...v1.1.2) (2021-12-16)
 
 

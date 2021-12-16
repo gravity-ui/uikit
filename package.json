@@ -19,6 +19,7 @@
         "styles"
     ],
     "scripts": {
+        "test": "exit 0",
         "clean": "gulp clean",
         "build": "gulp",
         "start": "npm run storybook:start",

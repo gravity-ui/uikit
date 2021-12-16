@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.2](https://www.github.com/yandex-cloud/uikit/compare/v1.1.1...v1.1.2) (2021-12-16)
+
+
+### Bug Fixes
+
+* reexport List and Table from index ([6e5379f](https://www.github.com/yandex-cloud/uikit/commit/6e5379fe84a280087730719040c32c003b511f86))
+
 ### [1.1.1](https://www.github.com/yandex-cloud/uikit/compare/v1.1.0...v1.1.1) (2021-12-16)
 
 

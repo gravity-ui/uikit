@@ -17,6 +17,7 @@ export * from './Popup';
 export * from './Portal';
 export * from './Radio';
 export * from './RadioButton';
+export * from './RadioGroup';
 export * from './Skeleton';
 export * from './Spin';
 export * from './Switch';

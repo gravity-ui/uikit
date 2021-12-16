@@ -1,9 +1,14 @@
 import React from 'react';
+import block from 'bem-cn-lite';
 import {Meta, Story} from '@storybook/react';
-import {DropdownMenu} from '../DropdownMenu';
+import {DropdownMenu, DropdownMenuItem} from '../DropdownMenu';
+import {Label, LabelProps} from '../../Label';
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
 import {options, optionsWithGroups, optionsAssorted} from './options';
+import './DropdownMenu.stories.scss';
+
+const b = block('dropdown-menu-stories');
 
 export default {
     title: 'Components/DropdownMenu',
@@ -82,3 +87,66 @@ TextSwitcher.parameters = {
     },
 };
 TextSwitcher.storyName = 'Переопределённый свитчер';
+
+// ----------------------------------------
+const LabelSwitcherTemplate: Story<{statuses: {text: string; style: LabelProps['theme']}[]}> = (
+    args,
+) => {
+    const [status, setStatus] = React.useState<{text: string; style: LabelProps['theme']}>(
+        args.statuses[0],
+    );
+
+    const items = React.useMemo<DropdownMenuItem<unknown>[]>(() => {
+        return args.statuses.map((item) => ({
+            action: () => setStatus(item),
+            text: item.text,
+        }));
+    }, [args.statuses, setStatus]);
+
+    return (
+        <DropdownMenu
+            items={items}
+            switcher={
+                <Label theme={status.style} className={b('label-switcher-switcher')}>
+                    {status.text}
+                </Label>
+            }
+            popupClassName={b('label-switcher-menu')}
+        />
+    );
+};
+
+export const LabelSwitcher = LabelSwitcherTemplate.bind({});
+
+LabelSwitcher.args = {
+    statuses: [
+        {
+            text: 'Open',
+            style: 'normal',
+        },
+        {
+            text: 'In Work',
+            style: 'info',
+        },
+        {
+            text: 'Need info',
+            style: 'warning',
+        },
+        {
+            text: 'Success',
+            style: 'success',
+        },
+        {
+            text: 'Approval',
+            style: 'danger',
+        },
+    ],
+};
+
+LabelSwitcher.parameters = {
+    docs: {
+        description: {story: 'Свитчер в виде Label'},
+    },
+};
+
+LabelSwitcher.storyName = 'Компонент смены статуса';

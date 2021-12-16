@@ -1,0 +1,62 @@
+import React from 'react';
+
+import {block} from '../utils/cn';
+import {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
+import {Radio, RadioProps, RadioSize} from '../Radio';
+import {useRadioGroup} from '../utils/useRadioGroup';
+
+import './RadioGroup.scss';
+
+const b = block('radio-group');
+
+export type RadioGroupOption = ControlGroupOption;
+export type RadioGroupSize = RadioSize;
+export type RadioGroupDirection = 'vertical' | 'horizontal';
+
+export interface RadioGroupProps extends ControlGroupProps, DOMProps, QAProps {
+    size?: RadioGroupSize;
+    direction?: RadioGroupDirection;
+    children?:
+        | React.ReactElement<RadioProps, typeof Radio>
+        | React.ReactElement<RadioProps, typeof Radio>[];
+}
+
+interface RadioGroupComponent
+    extends React.ForwardRefExoticComponent<RadioGroupProps & React.RefAttributes<HTMLDivElement>> {
+    Option: typeof Radio;
+}
+
+export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(
+    props,
+    ref,
+) {
+    const {size = 'm', direction = 'horizontal', style, className, qa, children} = props;
+    let options = props.options;
+
+    if (!options) {
+        options = (
+            React.Children.toArray(children) as React.ReactElement<RadioProps, typeof Radio>[]
+        ).map(({props}) => ({
+            value: props.value,
+            content: props.content || props.children,
+            disabled: props.disabled,
+        }));
+    }
+
+    const {optionsProps} = useRadioGroup({...props, options});
+
+    return (
+        <div ref={ref} style={style} className={b({size, direction}, className)} data-qa={qa}>
+            {optionsProps.map((optionProps) => (
+                <Radio
+                    {...optionProps}
+                    key={optionProps.value}
+                    className={b('option')}
+                    size={size}
+                />
+            ))}
+        </div>
+    );
+}) as RadioGroupComponent;
+
+RadioGroup.Option = Radio;

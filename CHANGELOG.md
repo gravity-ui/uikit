@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/yandex-cloud/uikit/compare/v1.1.0...v1.1.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* reexport RadioGroup from index ([f45339a](https://www.github.com/yandex-cloud/uikit/commit/f45339ad06340a7f2b6105962fb572e72dd77562))
+
 ## [1.1.0](https://www.github.com/yandex-cloud/uikit/compare/v1.0.1...v1.1.0) (2021-12-16)
 
 

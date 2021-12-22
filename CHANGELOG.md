@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.4](https://www.github.com/yandex-cloud/uikit/compare/v1.1.3...v1.1.4) (2021-12-22)
+
+
+### Bug Fixes
+
+* compile js files via tsc aswell ([efa9914](https://www.github.com/yandex-cloud/uikit/commit/efa9914a544514d8c2ef85ab7dbfb0996802ce94))
+
 ### [1.1.3](https://www.github.com/yandex-cloud/uikit/compare/v1.1.2...v1.1.3) (2021-12-16)
 
 

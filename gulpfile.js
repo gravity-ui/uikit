@@ -21,10 +21,10 @@ function compileTs(modules = false) {
     });
 
     return src([
-        'src/**/*.{ts,tsx}',
-        '!src/demo/**/*.{ts,tsx}',
-        '!src/stories/**/*.{ts,tsx}',
-        '!src/**/__stories__/**/*.{ts,tsx}',
+        'src/**/*.{js,jsx,ts,tsx}',
+        '!src/demo/**/*.{js,jsx,ts,tsx}',
+        '!src/stories/**/*.{js,jsx,ts,tsx}',
+        '!src/**/__stories__/**/*.{js,jsx,ts,tsx}',
     ])
         .pipe(
             replace(/import '.+\.scss';/g, (match) =>
@@ -43,16 +43,14 @@ task('compile-to-cjs', () => {
     return compileTs();
 });
 
-task('copy-js', () => {
+task('copy-js-declarations', () => {
     return src([
-        'src/**/*.{js,d.ts}',
-        '!src/demo/**/*.{js,d.ts}',
-        '!src/stories/**/*.{js,d.ts}',
-        '!src/**/__stories__/**/*.{js,d.ts}',
+        'src/**/*.d.ts',
+        '!src/demo/**/*.d.ts',
+        '!src/stories/**/*.d.ts',
+        '!src/**/__stories__/**/*.d.ts',
     ])
-        .pipe(replace(/import '.+\.scss';/g, (match) => match.replace('.scss', '.css')))
         .pipe(dest(path.resolve(BUILD_DIR, 'esm')))
-        .pipe(replace(/import '.+\.css';/g, ''))
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
 });
 
@@ -71,7 +69,8 @@ task(
     'build',
     series([
         'clean',
-        parallel(['compile-to-esm', 'compile-to-cjs', 'copy-js']),
+        parallel(['compile-to-esm', 'compile-to-cjs']),
+        'copy-js-declarations',
         parallel(['styles-global', 'styles-components']),
     ]),
 );

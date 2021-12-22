@@ -1,6 +1,7 @@
 {
     "extends": "@yandex-cloud/tsconfig/tsconfig",
     "compilerOptions": {
+        "allowJs": true,
         "outDir": "build/esm",
         "module": "esnext",
         "jsx": "react",

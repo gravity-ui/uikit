@@ -6,7 +6,6 @@ $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;
 
 #{$block} {
-    pointer-events: none;
     display: inline-flex;
     align-items: center;
     position: relative;
@@ -132,7 +131,6 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &_is-interactive {
-        pointer-events: auto;
         cursor: pointer;
     }
 

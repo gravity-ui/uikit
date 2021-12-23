@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.5](https://www.github.com/yandex-cloud/uikit/compare/v1.1.4...v1.1.5) (2021-12-23)
+
+
+### Bug Fixes
+
+* export useLayer hook ([#23](https://www.github.com/yandex-cloud/uikit/issues/23)) ([10e3380](https://www.github.com/yandex-cloud/uikit/commit/10e3380db7a68c77337b63a4c7bd033d8283eefe))
+* root scss variable ([#22](https://www.github.com/yandex-cloud/uikit/issues/22)) ([dfb9131](https://www.github.com/yandex-cloud/uikit/commit/dfb91311dd387354421dba195313ba4e93a7556b))
+
 ### [1.1.4](https://www.github.com/yandex-cloud/uikit/compare/v1.1.3...v1.1.4) (2021-12-22)
 
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/yandex-cloud/uikit/compare/v1.1.4...v1.2.0) (2021-12-23)
+
+
+### Features
+
+* add interactive prop to Label ([#25](https://www.github.com/yandex-cloud/uikit/issues/25)) ([926d0c5](https://www.github.com/yandex-cloud/uikit/commit/926d0c5ca31dc8a3a33261d03fd0449fd7e2d2fe))
+
+
+### Bug Fixes
+
+* export useLayer hook ([#23](https://www.github.com/yandex-cloud/uikit/issues/23)) ([10e3380](https://www.github.com/yandex-cloud/uikit/commit/10e3380db7a68c77337b63a4c7bd033d8283eefe))
+* remove unnecessary pointer-events of Label ([#27](https://www.github.com/yandex-cloud/uikit/issues/27)) ([3e18385](https://www.github.com/yandex-cloud/uikit/commit/3e183854f1a440e146bc903ad37d7352f3245fa8))
+* root scss variable ([#22](https://www.github.com/yandex-cloud/uikit/issues/22)) ([dfb9131](https://www.github.com/yandex-cloud/uikit/commit/dfb91311dd387354421dba195313ba4e93a7556b))
+
 ### [1.1.4](https://www.github.com/yandex-cloud/uikit/compare/v1.1.3...v1.1.4) (2021-12-22)
 
 

@@ -25,6 +25,8 @@ interface LabelOwnProps {
     className?: string;
     /** Содержимое */
     children?: React.ReactNode;
+    /** Добавить ховер */
+    interactive?: boolean;
 }
 
 interface LabelDefaultProps {
@@ -52,6 +54,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         className,
         disabled,
         copyText,
+        interactive = false,
         onCopy,
         onClick,
     } = props;
@@ -62,7 +65,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
 
     // Обрабатываем onClick только у лейблов с типом default
     const hasOnClick = Boolean(onClick) && typeDefault;
-    const isInteractive = Boolean(hasOnClick);
+    const isInteractive = hasOnClick || interactive;
     const hasAction = typeClose || typeCopy;
     let copyIconSize: number;
     let closeIconSize: number;

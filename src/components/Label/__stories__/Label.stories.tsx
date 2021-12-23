@@ -1,6 +1,7 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Label, LabelProps} from '../Label';
+import {Link} from '../../Link';
 
 export default {
     title: 'Components/Label',
@@ -64,3 +65,38 @@ const StyleTemplate: Story<LabelProps> = (args) => {
 };
 
 export const Style = StyleTemplate.bind({});
+
+export const Interactions: Story<LabelProps> = () => (
+    <div style={{display: 'flex', flexFlow: 'column', gap: 10}}>
+        <div>
+            <Label>No interactions</Label>
+        </div>
+        <div>
+            <Label
+                onClick={() => {
+                    console.log('click');
+                }}
+            >
+                Clickable
+            </Label>
+        </div>
+        <div>
+            <Label type={'copy'} copyText={'copyText'}>
+                Copy
+            </Label>
+        </div>
+        <div>
+            <Label type={'close'}>Close</Label>
+        </div>
+        <div>
+            <Link href={'https://ya.ru'} target={'_blank'}>
+                <Label>Link</Label>
+            </Link>
+        </div>
+        <div>
+            <Link href={'https://ya.ru'} target={'_blank'}>
+                <Label interactive>Link interactive</Label>
+            </Link>
+        </div>
+    </div>
+);

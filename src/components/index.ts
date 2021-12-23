@@ -30,5 +30,7 @@ export * from './User';
 export * from './UserAvatar';
 
 export * from './utils/event-broker';
+export * from './utils/withEventBrokerDomHandlers';
+export * from './utils/useEventBroker';
 export * from './utils/useLayer';
 export * from './utils/useVirtualElementRef';

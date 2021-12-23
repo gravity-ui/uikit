@@ -1,3 +1,4 @@
+export * from './types';
 export * from './mobile';
 export * from './theme';
 

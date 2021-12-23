@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/yandex-cloud/uikit/compare/v1.2.0...v1.2.1) (2021-12-23)
+
+
+### Bug Fixes
+
+* reexport common types ([e1af8ed](https://www.github.com/yandex-cloud/uikit/commit/e1af8ed165aea90df8bb7b673edcfe6045b7707f))
+* reexport event-broker hooks ([b76fe70](https://www.github.com/yandex-cloud/uikit/commit/b76fe70a8b2227b4a00c2a35f2a0cd36b5e9f5a8))
+
 ## [1.2.0](https://www.github.com/yandex-cloud/uikit/compare/v1.1.4...v1.2.0) (2021-12-23)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/yandex-cloud/uikit/compare/v1.2.1...v1.3.0) (2021-12-24)
+
+
+### Features
+
+* migrate Table changes ([9fc7627](https://www.github.com/yandex-cloud/uikit/commit/9fc7627b9a41e0e42e541c04e603a9b0016b8592))
+
 ### [1.2.1](https://www.github.com/yandex-cloud/uikit/compare/v1.2.0...v1.2.1) (2021-12-23)
 
 

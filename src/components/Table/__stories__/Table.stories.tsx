@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Table, TableProps} from '../Table';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -34,6 +34,7 @@ EmptyDefault.args = {
     data: [],
 };
 
+// ---------------------------------
 const EmptyCustomTemplate: Story<TableProps<any>> = (args) => <Table {...args} />;
 export const EmptyCustom = EmptyCustomTemplate.bind({});
 EmptyCustom.args = {
@@ -41,10 +42,38 @@ EmptyCustom.args = {
     emptyMessage: 'No data at all ¯\\_(ツ)_/¯',
 };
 
+// ---------------------------------
 const OnRowClickTemplate: Story<TableProps<any>> = (args) => <Table {...args} />;
 export const OnRowClick = OnRowClickTemplate.bind({});
 OnRowClick.args = {
     onRowClick: (item) => alert(JSON.stringify(item)),
+};
+
+// ---------------------------------
+const oneColumn = _cloneDeep(columns);
+oneColumn[1].width = '100%';
+
+const twoColumns = _cloneDeep(columns);
+twoColumns[1].width = '50%';
+twoColumns[2].width = '50%';
+
+const threeColumns = _cloneDeep(columns);
+threeColumns[0].width = '33%';
+threeColumns[1].width = '33%';
+threeColumns[2].width = '33%';
+
+const AdaptiveTemplate: Story<TableProps<any>> = (args) => {
+    return (
+        <div>
+            <Table {...args} columns={oneColumn} />
+            <Table {...args} columns={twoColumns} />
+            <Table {...args} columns={threeColumns} />
+        </div>
+    );
+};
+export const Adaptive = AdaptiveTemplate.bind({});
+Adaptive.args = {
+    data: data.slice(0, 2),
 };
 
 // ---------------------------------
@@ -80,7 +109,7 @@ HOCWithTableCopy.args = {
 
 // ---------------------------------
 const WithTableSelectionTemplate: Story<TableProps<any>> = (args) => {
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
     return (
         <TableWithSelection
@@ -94,7 +123,7 @@ export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
 // ---------------------------------
 const WithTableSettingsTemplate: Story<TableProps<any>> = (args) => {
-    const [settings, setSettings] = useState<TableSettingsData>(
+    const [settings, setSettings] = React.useState<TableSettingsData>(
         columns.map((x) => ({id: x.id, isSelected: true})),
     );
 

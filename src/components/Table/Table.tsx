@@ -37,8 +37,8 @@ export interface TableColumnConfig<I> {
     sticky?: 'left' | 'right';
     /** Выделяет колонку среди остальных. */
     primary?: boolean;
-    /** Ширина колонки в px. Width в таблице может вести себя не так, как ожидаете (как min-width у block-элементов). Возможно, нужно будет использовать `table-layout: fixed;` */
-    width?: number;
+    /** Ширина колонки в px или строка в %. Width в таблице может вести себя не так, как ожидаете (как min-width у block-элементов). Возможно, нужно будет использовать `table-layout: fixed;` */
+    width?: number | string;
     /** Различные данные, настройки для HOC-ов. */
     meta?: Record<string, any>;
 }
@@ -441,6 +441,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         const {columnsWidth} = this.state;
         const column = columns[index];
         const style: React.CSSProperties = {};
+        if (typeof column.width === 'string') {
+            return {maxWidth: 0, width: column.width};
+        }
         if (typeof column.width !== 'undefined') {
             style.width = column.width;
         }

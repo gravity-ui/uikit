@@ -31,7 +31,8 @@ $block: '.#{$ns}text-input';
 
         &_type {
             &_textarea {
-                &:not([resize]), &[resize='none'] {
+                &:not([resize]),
+                &[resize='none'] {
                     resize: none;
                 }
                 // fix-bug(firefox): https://bugzilla.mozilla.org/show_bug.cgi?id=33654

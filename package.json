@@ -25,6 +25,7 @@
         "start": "npm run storybook:start",
         "storybook:start": "start-storybook -p 7007",
         "storybook:build": "build-storybook -c .storybook -o storybook-static",
+        "storybook": "npm run storybook:build",
         "lint:js": "eslint --ext .js,.jsx,.ts,.tsx",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
         "lint:prettier": "prettier --check --loglevel=error '**/*.{js,jsx,ts,tsx,scss}'",

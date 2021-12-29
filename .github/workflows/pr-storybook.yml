@@ -11,9 +11,9 @@ jobs:
     env:
       S3_ENDPOINT_URL: https://storage.yandexcloud.net
       S3_URI: ${{ format('s3://storybook-static/uikit/pulls/{0}/', github.event.pull_request.number) }}
-      PREVIEW_URL: ${{ format('https://preview.yandexcloud.dev/uikit/${0}/', github.event.pull_request.number) }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_STORAGE_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_STORAGE_SECRET_KEY }}
+      PREVIEW_URL: ${{ format('https://preview.yandexcloud.dev/uikit/{0}/', github.event.pull_request.number) }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
       AWS_DEFAULT_REGION: ru-central1
       AWS_EC2_METADATA_DISABLED: true
     steps:

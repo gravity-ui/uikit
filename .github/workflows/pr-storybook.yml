@@ -1,0 +1,48 @@
+name: PR Storybook
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+jobs:
+  publish:
+    name: Upload
+    runs-on: ubuntu-latest
+    env:
+      S3_ENDPOINT_URL: https://storage.yandexcloud.net
+      S3_URI: ${{ format('s3://storybook-static/uikit/pulls/{0}/', github.event.pull_request.number) }}
+      PREVIEW_URL: ${{ format('https://pr.yandexcloud.dev/uikit/${0}/', github.event.pull_request.number) }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_STORAGE_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_STORAGE_SECRET_KEY }}
+      AWS_DEFAULT_REGION: ru-central1
+      AWS_EC2_METADATA_DISABLED: true
+    steps:
+    - name: Checkout
+      if: ${{ github.event.pull_request.state == 'open' }}
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup Node
+      if: ${{ github.event.pull_request.state == 'open' }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+        cache: 'npm'
+    - name: Install Packages
+      if: ${{ github.event.pull_request.state == 'open' }}
+      run: npm ci
+    - name: Build Storybook
+      if: ${{ github.event.pull_request.state == 'open' }}
+      run: npm run storybook
+    - name: Delete Previous Static
+      run: aws s3 rm $S3_URI --endpoint-url=$S3_ENDPOINT_URL --recursive
+    - name: Upload New Static
+      if: ${{ github.event.pull_request.state == 'open' }}
+      run: aws s3 cp storybook-static $S3_URI --endpoint-url=$S3_ENDPOINT_URL --recursive
+    - name: Create Comment
+      if: ${{ github.event.action == 'opened' }}
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        token: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: ${{ join('[Preview](', env.PREVIEW_URL, ') is ready.') }}

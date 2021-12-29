@@ -14,15 +14,15 @@ const SizeTemplate: Story<LoaderProps> = (args: any) => {
     return (
         <>
             <Loader {...args} size="s">
-                xs
+                s
             </Loader>
             <span style={{margin: '16px'}} />
             <Loader {...args} size="m">
-                s
+                m
             </Loader>
             <span style={{margin: '16px'}} />
             <Loader {...args} size="l">
-                s
+                l
             </Loader>
         </>
     );

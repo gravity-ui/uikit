@@ -1,9 +1,9 @@
 import React from 'react';
-import block from 'bem-cn-lite';
+import {block} from '../utils/cn';
 
 import './Card.scss';
 
-const b = block('yc-card');
+const b = block('card');
 
 type SelectionCardView = 'outlined' | 'clear';
 type ContainerCardView = 'outlined' | 'filled' | 'raised';

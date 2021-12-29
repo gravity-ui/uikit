@@ -45,4 +45,4 @@ jobs:
       with:
         token: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}
         issue-number: ${{ github.event.pull_request.number }}
-        body: [Preview](${{ env.PREVIEW_URL }}) is ready.
+        body: '[Preview](${{ env.PREVIEW_URL }}) is ready.'

@@ -4,7 +4,7 @@ import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
 import {Card, CardView, CardTheme} from '../../../components/Card/Card';
 
-import './index.scss';
+import './CardShowcase.scss';
 
 const selectionCardView: CardView[] = ['outlined', 'clear'];
 const containerCardTheme: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
@@ -13,17 +13,19 @@ export function CardShowcase() {
     return (
         <div>
             {/* Selection card */}
-            <div className="panel">
-                <div className="panel__title">Selection</div>
-                <div className="panel__desc">Radio-cards. Use when only one element needed.</div>
-                <div className="panel__cards">
+            <div className="panel-showcase-stories">
+                <div className="panel-showcase-stories__title">Selection</div>
+                <div className="panel-showcase-stories__desc">
+                    Radio-cards. Use when only one element needed.
+                </div>
+                <div className="panel-showcase-stories__cards">
                     {selectionCardView.map((view) => {
                         return (
                             <div key={view}>
                                 <ReactCopyToClipboard text={getSelectionCard(view)}>
                                     <div>
                                         <Card
-                                            className="card"
+                                            className="card-showcase-stories"
                                             view={view}
                                             type="selection"
                                             onClick={() => {}}
@@ -32,7 +34,7 @@ export function CardShowcase() {
                                         </Card>
                                     </div>
                                 </ReactCopyToClipboard>
-                                <div className="card-desc">
+                                <div className="card-showcase-stories__desc">
                                     view {view}
                                     <br />
                                     (default)
@@ -43,85 +45,101 @@ export function CardShowcase() {
                     <div>
                         <ReactCopyToClipboard text={getSelectionCard('outlined')}>
                             <div>
-                                <Card className="card" type="selection" onClick={() => {}} selected>
+                                <Card
+                                    className="card-showcase-stories"
+                                    type="selection"
+                                    onClick={() => {}}
+                                    selected
+                                >
                                     {' '}
                                 </Card>
                             </div>
                         </ReactCopyToClipboard>
-                        <div className="card-desc">selected</div>
+                        <div className="card-showcase-stories__desc">selected</div>
                     </div>
                 </div>
             </div>
             {/* Conatiner card */}
-            <div className="panel">
-                <div className="panel__title">Container</div>
-                <div className="panel__desc">
+            <div className="panel-showcase-stories">
+                <div className="panel-showcase-stories__title">Container</div>
+                <div className="panel-showcase-stories__desc">
                     Cards for content grouping.
                     <br />
                     Can contain anything: tables, buttons, etc.
                 </div>
-                <div className="panel__head">Outlined view</div>
-                <div className="panel__cards">
+                <div className="panel-showcase-stories__head">Outlined view</div>
+                <div className="panel-showcase-stories__cards">
                     {containerCardTheme.map((theme) => {
                         return (
                             <div key={theme}>
                                 <ReactCopyToClipboard text={getContainerCard('outlined', theme)}>
                                     <div>
-                                        <Card className="card" view="outlined" theme={theme}>
+                                        <Card
+                                            className="card-showcase-stories"
+                                            view="outlined"
+                                            theme={theme}
+                                        >
                                             {' '}
                                         </Card>
                                     </div>
                                 </ReactCopyToClipboard>
-                                <div className="card-desc">theme {theme}</div>
+                                <div className="card-showcase-stories__desc">theme {theme}</div>
                             </div>
                         );
                     })}
                 </div>
-                <div className="panel__head">Filled view</div>
-                <div className="panel__cards">
+                <div className="panel-showcase-stories__head">Filled view</div>
+                <div className="panel-showcase-stories__cards">
                     {containerCardTheme.map((theme) => {
                         return (
                             <div key={theme}>
                                 <ReactCopyToClipboard text={getContainerCard('filled', theme)}>
                                     <div>
-                                        <Card className="card" view="filled" theme={theme}>
+                                        <Card
+                                            className="card-showcase-stories"
+                                            view="filled"
+                                            theme={theme}
+                                        >
                                             {' '}
                                         </Card>
                                     </div>
                                 </ReactCopyToClipboard>
-                                <div className="card-desc">theme {theme}</div>
+                                <div className="card-showcase-stories__desc">theme {theme}</div>
                             </div>
                         );
                     })}
                 </div>
-                <div className="panel__head">Raised view</div>
-                <div className="panel__cards">
+                <div className="panel-showcase-stories__head">Raised view</div>
+                <div className="panel-showcase-stories__cards">
                     <div>
                         <ReactCopyToClipboard text={getContainerRaisedCard()}>
                             <div>
-                                <Card className="card" view="raised">
+                                <Card className="card-showcase-stories" view="raised">
                                     {' '}
                                 </Card>
                             </div>
                         </ReactCopyToClipboard>
-                        <div className="card-desc">Legacy</div>
                     </div>
                 </div>
             </div>
             {/* Action card */}
-            <div className="panel">
-                <div className="panel__title">Action</div>
-                <div className="panel__desc">Action cards</div>
-                <div className="panel__cards">
+            <div className="panel-showcase-stories">
+                <div className="panel-showcase-stories__title">Action</div>
+                <div className="panel-showcase-stories__desc">Action cards</div>
+                <div className="panel-showcase-stories__cards">
                     <div>
                         <ReactCopyToClipboard text={getActionCard()}>
                             <div>
-                                <Card className="card" type="action" onClick={() => {}}>
+                                <Card
+                                    className="card-showcase-stories"
+                                    type="action"
+                                    onClick={() => {}}
+                                >
                                     {' '}
                                 </Card>
                             </div>
                         </ReactCopyToClipboard>
-                        <div className="card-desc">type action</div>
+                        <div className="card-showcase-stories__desc">type action</div>
                     </div>
                 </div>
             </div>

@@ -1,64 +1,7 @@
-.cards {
-    display: flex;
-}
-
-.card:not(:first-child) {
-    margin-left: 24px;
-}
-
-.card {
+.card-stories {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 120px;
     height: 120px;
-
-    &-desc {
-        text-align: center;
-        font-size: var(--yc-text-body-font-size);
-        line-height: var(--yc-text-body-line-height);
-        color: var(--yc-color-text-complementary);
-        margin-top: 3px;
-    }
-}
-
-.panel {
-    box-sizing: border-box;
-    position: relative;
-    width: 720px;
-    border: 1px solid var(--yc-color-line-generic);
-    border-radius: 6px;
-    padding: 15px 20px;
-
-    &__title {
-        font-size: var(--yc-text-header-font-size);
-        line-height: var(--yc-text-header-line-height);
-    }
-
-    &__head {
-        margin-top: 10px;
-        font-size: var(--yc-text-body3-font-size);
-        line-height: var(--yc-text-body3-line-height);
-    }
-
-    &__desc {
-        font-size: var(--yc-text-body2-font-size);
-        line-height: var(--yc-text-body2-line-height);
-        color: var(--yc-color-text-complementary);
-        margin-top: 3px;
-    }
-
-    &:not(:first-of-type) {
-        margin-top: 25px;
-    }
-
-    &__cards {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-
-        & > * {
-            margin-right: 20px;
-        }
-    }
 }

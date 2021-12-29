@@ -1,8 +1,15 @@
-.card {
+.card-showcase-stories:not(:first-child) {
+    margin-left: 24px;
+}
+
+.card-showcase-stories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 120px;
     height: 120px;
 
-    &-desc {
+    &__desc {
         text-align: center;
         font-size: var(--yc-text-body-font-size);
         line-height: var(--yc-text-body-line-height);
@@ -11,8 +18,7 @@
     }
 }
 
-.panel {
-    position: relative;
+.panel-showcase-stories {
     width: 720px;
     border: 1px solid var(--yc-color-line-generic);
     border-radius: 6px;
@@ -43,7 +49,6 @@
     &__cards {
         margin-top: 20px;
         display: flex;
-        align-items: center;
 
         & > * {
             margin-right: 20px;

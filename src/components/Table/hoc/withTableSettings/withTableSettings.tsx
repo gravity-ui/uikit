@@ -20,7 +20,7 @@ interface SortableItem {
     isSelected?: boolean;
     isProtected?: boolean;
 }
-interface TableColumnSetupItem {
+export interface TableColumnSetupItem {
     id: string;
     title: React.ReactNode;
     selected?: boolean;

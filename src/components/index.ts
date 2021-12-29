@@ -5,6 +5,7 @@ export * from './theme';
 export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';
+export * from './Card';
 export * from './ClipboardButton';
 export * from './ClipboardIcon';
 export * from './CopyToClipboard';

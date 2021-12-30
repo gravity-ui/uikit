@@ -40,4 +40,4 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}
         number: ${{ steps.pr.outputs.id }}
-        message: '[Preview](https://preview.yandexcloud.dev/uikit/${{ steps.pr.outputs.id }}/) is ready.'
+        message: '[Preview](https://storybook-static.website.yandexcloud.net/uikit/pulls/${{ steps.pr.outputs.id }}/) is ready.'

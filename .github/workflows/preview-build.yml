@@ -8,4 +8,4 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: yandex-cloud/ui-preview-build-action@master
+    - uses: yandex-cloud/ui-preview-build-action@main

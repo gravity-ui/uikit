@@ -14,7 +14,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-    - uses: yandex-cloud/ui-preview-deploy-action@master
+    - uses: yandex-cloud/ui-preview-deploy-action@main
       with:
         project: uikit
         github-token: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}

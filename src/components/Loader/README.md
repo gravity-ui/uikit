@@ -9,7 +9,7 @@ Component for rendering loading state (flashing bars)
 import React from 'react';
 import {Loader} from '@yandex-cloud/uikit';
 
-const Loader = (
+const loader = (
     <Loader size="l" />
 );
 ```

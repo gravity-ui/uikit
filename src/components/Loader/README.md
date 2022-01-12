@@ -3,11 +3,16 @@ Loader
 
 Component for rendering loading state (flashing bars)
 
-## Properties
-| Property     | Type       | Required | Default | Description |
-|:---          |:---        |:---:     |:---     |:---         |
-| size         | `String`   |          | 'm'     |Component size. Available values: `s`, `m`, `l` |
-| className    | `String`   |          |         |CSS class   |
+## Examples
+
+```tsx
+import React from 'react';
+import {Loader} from '@yandex-cloud/uikit';
+
+const Loader = (
+    <Loader size="l" />
+);
+```
 
 ## Typings
 
@@ -15,12 +20,16 @@ Component for rendering loading state (flashing bars)
 
 type LoaderSize = 's' | 'm' | 'l';
 
-```
+interface LoaderProps {
+    /**
+     * Loader size
+     * @default 'm'
+     */
+    size?: LoaderSize;
+    /**
+     * Custom CSS class
+     */
+    className?: string;
+}
 
-## Examples
-
-```tsx
-const Loader = (
-    <Loader size="l" />
-);
 ```

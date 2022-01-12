@@ -1,17 +1,17 @@
 @import '../variables';
 
-$block: '.#{$ns}label';
+$block: '.#{$ns}loader';
 
 $active-color: var(--yc-color-loader-active);
 $pulse-duration: 800ms;
 $pulse-delay: $pulse-duration * 0.25;
-$animation: yc-pulse ease $pulse-duration infinite;
+$animation: #{$ns}pulse ease $pulse-duration infinite;
 
 $base-height-s: 20px;
 $base-height-m: 28px;
 $base-height-l: 36px;
 
-@keyframes yc-pulse {
+@keyframes #{$ns}pulse {
     50% {
         opacity: 15%;
     }
@@ -27,9 +27,7 @@ $base-height-l: 36px;
     width: $height * 0.25;
 }
 
-.yc-loader {
-    $block: &;
-
+#{$block} {
     display: inline-flex;
     align-items: center;
 

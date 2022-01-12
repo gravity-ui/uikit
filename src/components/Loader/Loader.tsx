@@ -1,9 +1,9 @@
 import React from 'react';
-import block from 'bem-cn-lite';
+import {block} from '../utils/cn';
 
 import './Loader.scss';
 
-const b = block('yc-loader');
+const b = block('loader');
 
 export type LoaderSize = 's' | 'm' | 'l';
 

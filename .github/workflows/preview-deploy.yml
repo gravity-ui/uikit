@@ -7,37 +7,16 @@ on:
     - completed
 
 jobs:
-  upload_storybook:
-    name: Upload Storybook
+  deploy:
+    name: Deploy
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-    - name: Download Static Artifact
-      uses: dawidd6/action-download-artifact@v2
+    - uses: yandex-cloud/ui-preview-deploy-action@main
       with:
-        workflow: ${{ github.event.workflow_run.workflow_id }}
-        workflow_conclusion: success
-        name: static
-    - name: Download PR Artifact
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        workflow: ${{ github.event.workflow_run.workflow_id }}
-        name: pr
-    - name: Extract PR Number
-      id: pr
-      run: echo "::set-output name=id::$(<pr.txt)"
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
-        AWS_DEFAULT_REGION: ru-central1
-        AWS_EC2_METADATA_DISABLED: true
-      run: aws s3 cp . s3://storybook-static/uikit/pulls/${{ steps.pr.outputs.id }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
-    - name: Create Comment
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        GITHUB_TOKEN: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}
-        number: ${{ steps.pr.outputs.id }}
-        message: '[Preview](https://storybook-static.website.yandexcloud.net/uikit/pulls/${{ steps.pr.outputs.id }}/) is ready.'
+        project: uikit
+        github-token: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}
+        s3-key-id: ${{ secrets.STORYBOOK_S3_KEY_ID }}
+        s3-secret-key: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}

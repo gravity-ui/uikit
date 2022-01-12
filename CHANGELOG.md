@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.1](https://www.github.com/yandex-cloud/uikit/compare/v1.3.0...v1.3.1) (2022-01-12)
+
+
+### Bug Fixes
+
+* correctly show textarea resize control ([#33](https://www.github.com/yandex-cloud/uikit/issues/33)) ([bed5a23](https://www.github.com/yandex-cloud/uikit/commit/bed5a2364d71b2a3f635b98b14a39361e379fd09))
+
 ## [1.3.0](https://www.github.com/yandex-cloud/uikit/compare/v1.2.1...v1.3.0) (2021-12-24)
 
 

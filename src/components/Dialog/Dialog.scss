@@ -1,0 +1,41 @@
+@import '../variables';
+
+$block: '.#{$ns}dialog';
+
+#{$block} {
+    position: relative;
+
+    &_size {
+        &_s {
+            width: var(--yc-dialog-size-s);
+        }
+
+        &_m {
+            width: var(--yc-dialog-size-m);
+        }
+
+        &_l {
+            width: var(--yc-dialog-size-l);
+        }
+    }
+
+    &_has-close {
+        --yc-dialog-header-padding: var(--yc-dialog-header-padding-top)
+            calc(var(--yc-dialog-side-padding) + 28px) var(--yc-dialog-header-padding-bottom)
+            var(--yc-dialog-side-padding);
+    }
+}
+
+:root {
+    --yc-dialog-size-s: 480px;
+    --yc-dialog-size-m: 720px;
+    --yc-dialog-size-l: 900px;
+    --yc-dialog-side-padding: 32px;
+    --yc-dialog-header-padding-top: 20px;
+    --yc-dialog-header-padding-bottom: 10px;
+    --yc-dialog-header-padding: var(--yc-dialog-header-padding-top) var(--yc-dialog-side-padding)
+        var(--yc-dialog-header-padding-bottom) var(--yc-dialog-side-padding);
+    --yc-dialog-body-padding: 10px var(--yc-dialog-side-padding);
+    --yc-dialog-footer-padding: 28px var(--yc-dialog-side-padding);
+    --yc-dialog-divider-margin: 0 calc(-1 * var(--yc-dialog-side-padding));
+}

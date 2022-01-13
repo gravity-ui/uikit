@@ -1,0 +1,22 @@
+name: Preview Deploy
+
+on:
+  workflow_run:
+    workflows: ['Preview Build']
+    types:
+    - completed
+
+jobs:
+  deploy:
+    name: Deploy
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: yandex-cloud/ui-preview-deploy-action@main
+      with:
+        project: uikit
+        github-token: ${{ secrets.YC_UI_BOT_GITHUB_TOKEN }}
+        s3-key-id: ${{ secrets.STORYBOOK_S3_KEY_ID }}
+        s3-secret-key: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}

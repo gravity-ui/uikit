@@ -55,6 +55,7 @@
         "@types/react-copy-to-clipboard": "^5.0.2",
         "@types/react-dom": "^16.9.14",
         "@types/react-router-dom": "^5.3.2",
+        "@types/react-sortable-hoc": "^0.7.1",
         "@types/react-virtualized-auto-sizer": "^1.0.1",
         "@types/react-window": "^1.8.5",
         "@yandex-cloud/eslint-config": "^1.0.0",

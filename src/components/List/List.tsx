@@ -38,7 +38,11 @@ export const listDefaultProps: Partial<ListProps<ListItemData<unknown>>> = {
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
     static defaultProps: Partial<ListProps<ListItemData<unknown>>> = listDefaultProps;
 
-    static moveListElement(list: ListItemData<unknown>[], oldIndex: number, newIndex: number) {
+    static moveListElement<T = unknown>(
+        list: ListItemData<T>[],
+        oldIndex: number,
+        newIndex: number,
+    ) {
         if (oldIndex !== newIndex) {
             const [item] = list.splice(oldIndex, 1);
             list.splice(newIndex, 0, item);
@@ -47,7 +51,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return list;
     }
 
-    static findNextIndex(list: ListItemData<unknown>[], index: number, step: number) {
+    static findNextIndex<T = unknown>(list: ListItemData<T>[], index: number, step: number) {
         const dataLength = list.length;
         let currentIndex = (index + dataLength) % dataLength;
 
@@ -94,8 +98,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     <div
                         className={b({mobile}, className)}
                         tabIndex={-1}
-                        onFocus={this.onFocus}
-                        onBlur={this.onBlur}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                         onKeyDown={this.onKeyDown}
                     >
                         {this.renderFilter()}
@@ -124,7 +128,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     activateItem(index?: number, scrollTo = true) {
-        if (index && scrollTo) {
+        if (typeof index === 'number' && scrollTo) {
             this.scrollToIndex(index);
         }
 
@@ -170,140 +174,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     this.refFilter.current.focus();
                 }
             }
-        }
-    };
-
-    private getContainer() {
-        const ref = this.refContainer.current;
-        const wrappedInstance =
-            ref &&
-            'getWrappedInstance' in ref &&
-            typeof ref.getWrappedInstance === 'function' &&
-            ref.getWrappedInstance();
-
-        return this.props.sortable ? wrappedInstance : ref;
-    }
-
-    private filterItem = (filter: string) => (item: ListItemData<T>) => {
-        return String(item).includes(filter);
-    };
-
-    private getFilter() {
-        const {filter = this.state.filter} = this.props;
-        return filter;
-    }
-
-    private getItemsStyle() {
-        let {itemsHeight} = this.props;
-
-        if (typeof itemsHeight === 'function') {
-            itemsHeight = itemsHeight(this.state.items);
-        }
-
-        return itemsHeight ? {height: itemsHeight} : undefined;
-    }
-
-    private scrollToIndex = (index: number) => {
-        const container = this.getContainer();
-
-        if (container) {
-            container.scrollToItem(index);
-        }
-    };
-
-    private deactivate = () => {
-        if (this.props.deactivateOnLeave) {
-            this.setState({activeItem: undefined});
-        }
-    };
-
-    private handleKeyMove(event: React.KeyboardEvent, step: number, defaultItemIndex = 0) {
-        event.preventDefault();
-        const {activeItem = defaultItemIndex} = this.state;
-        this.activateItem(List.findNextIndex(this.state.items, activeItem + step, Math.sign(step)));
-    }
-
-    private onFocus = () => {
-        if (this.blurTimer) {
-            clearTimeout(this.blurTimer);
-            this.blurTimer = null;
-        }
-    };
-
-    private onBlur = () => {
-        if (!this.blurTimer) {
-            this.blurTimer = setTimeout(this.deactivate, 50);
-        }
-    };
-
-    private onUpdateFilterInternal = (value: string) => {
-        const {items, filterItem = this.filterItem, onFilterEnd} = this.props;
-        this.setState(
-            {
-                filter: value,
-                items: value ? items.filter(filterItem(value)) : items,
-            },
-            () => {
-                if (onFilterEnd) {
-                    onFilterEnd({items: this.state.items});
-                }
-            },
-        );
-    };
-
-    private onFilterUpdate = (value: string) => {
-        if (this.props.onFilterUpdate) {
-            this.props.onFilterUpdate(value);
-        } else {
-            this.onUpdateFilterInternal(value);
-        }
-    };
-
-    private onItemsRendered = ({
-        visibleStartIndex,
-        visibleStopIndex,
-    }: {
-        visibleStartIndex: number;
-        visibleStopIndex: number;
-    }) => {
-        this.setState({
-            pageSize: visibleStopIndex - visibleStartIndex,
-        });
-    };
-
-    private onItemMouseMove = (index: number) => {
-        if (!this.state.sorting) {
-            this.activateItem(index, false);
-        }
-    };
-
-    private onMouseLeave = () => {
-        this.deactivate();
-    };
-
-    private onSortStart = () => {
-        this.setState({sorting: true});
-    };
-
-    private onSortEnd = (params: ListSortParams) => {
-        if (this.props.onSortEnd) {
-            this.props.onSortEnd(params);
-        }
-
-        this.setState({
-            sorting: false,
-            activeItem: params.newIndex,
-        });
-    };
-
-    private getItemHeight = (index: number) => {
-        const {itemHeight, virtualized} = this.props;
-
-        if (typeof itemHeight === 'function') {
-            const {items} = this.state;
-            return itemHeight(items[index]);
-        } else {
-            return virtualized ? Number(itemHeight) || 28 : itemHeight;
         }
     };
 
@@ -422,4 +292,140 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             return this.renderSimpleContainer();
         }
     }
+
+    private getContainer() {
+        const ref = this.refContainer.current;
+        const wrappedInstance =
+            ref &&
+            'getWrappedInstance' in ref &&
+            typeof ref.getWrappedInstance === 'function' &&
+            ref.getWrappedInstance();
+
+        return this.props.sortable ? wrappedInstance : ref;
+    }
+
+    private filterItem = (filter: string) => (item: ListItemData<T>) => {
+        return String(item).includes(filter);
+    };
+
+    private getFilter() {
+        const {filter = this.state.filter} = this.props;
+        return filter;
+    }
+
+    private getItemsStyle() {
+        let {itemsHeight} = this.props;
+
+        if (typeof itemsHeight === 'function') {
+            itemsHeight = itemsHeight(this.state.items);
+        }
+
+        return itemsHeight ? {height: itemsHeight} : undefined;
+    }
+
+    private scrollToIndex = (index: number) => {
+        const container = this.getContainer();
+
+        if (container) {
+            container.scrollToItem(index);
+        }
+    };
+
+    private deactivate = () => {
+        if (this.props.deactivateOnLeave) {
+            this.setState({activeItem: undefined});
+        }
+    };
+
+    private handleKeyMove(event: React.KeyboardEvent, step: number, defaultItemIndex = 0) {
+        event.preventDefault();
+        const {activeItem = defaultItemIndex} = this.state;
+        this.activateItem(
+            List.findNextIndex<T>(this.state.items, activeItem + step, Math.sign(step)),
+        );
+    }
+
+    private handleFocus = () => {
+        if (this.blurTimer) {
+            clearTimeout(this.blurTimer);
+            this.blurTimer = null;
+        }
+    };
+
+    private handleBlur = () => {
+        if (!this.blurTimer) {
+            this.blurTimer = setTimeout(this.deactivate, 50);
+        }
+    };
+
+    private onUpdateFilterInternal = (value: string) => {
+        const {items, filterItem = this.filterItem, onFilterEnd} = this.props;
+        this.setState(
+            {
+                filter: value,
+                items: value ? items.filter(filterItem(value)) : items,
+            },
+            () => {
+                if (onFilterEnd) {
+                    onFilterEnd({items: this.state.items});
+                }
+            },
+        );
+    };
+
+    private onFilterUpdate = (value: string) => {
+        if (this.props.onFilterUpdate) {
+            this.props.onFilterUpdate(value);
+        } else {
+            this.onUpdateFilterInternal(value);
+        }
+    };
+
+    private onItemsRendered = ({
+        visibleStartIndex,
+        visibleStopIndex,
+    }: {
+        visibleStartIndex: number;
+        visibleStopIndex: number;
+    }) => {
+        this.setState({
+            pageSize: visibleStopIndex - visibleStartIndex,
+        });
+    };
+
+    private onItemMouseMove = (index: number) => {
+        if (!this.state.sorting) {
+            this.activateItem(index, false);
+        }
+    };
+
+    private onMouseLeave = () => {
+        this.deactivate();
+    };
+
+    private onSortStart = () => {
+        this.setState({sorting: true});
+    };
+
+    private onSortEnd = (params: ListSortParams) => {
+        if (this.props.onSortEnd) {
+            this.props.onSortEnd(params);
+        }
+
+        this.setState({
+            sorting: false,
+            activeItem: params.newIndex,
+        });
+    };
+
+    private getItemHeight = (index: number) => {
+        const {itemHeight, virtualized} = this.props;
+
+        if (typeof itemHeight === 'function') {
+            const {items} = this.state;
+            return itemHeight(items[index]);
+        } else {
+            return virtualized ? Number(itemHeight) || 28 : itemHeight;
+        }
+    };
 }

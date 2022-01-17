@@ -8,10 +8,8 @@ const b = block('card');
 type SelectionCardView = 'outlined' | 'clear';
 type ContainerCardView = 'outlined' | 'filled' | 'raised';
 
-type ContainerCardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
-
 export type CardType = 'selection' | 'action' | 'container';
-export type CardTheme = ContainerCardTheme;
+export type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
 export type CardView = SelectionCardView | ContainerCardView;
 
 export interface CardProps {
@@ -28,7 +26,7 @@ export interface CardProps {
     /** Available for type: 'container' and 'selection' */
     view?: CardView;
     /** Card's base color. Available for type: 'container' */
-    theme?: ContainerCardTheme;
+    theme?: CardTheme;
 }
 
 export const Card: React.FC<CardProps> = ({

@@ -9,7 +9,7 @@ Card is content container. It supports multiple types: `selection`, `action`, `c
 | children  | `ReactNode`                                         |    ✓     |               | Card's content                                                      |
 | type      | `CardType`                                          |          | `'container'` | Card's type affects on available properties                         |
 | view      | `SelectionCardView` \| `ContainerCardView`          |          | `'outlined'`  | Available for `type`: `'container'` and `'selection'`               |
-| theme     | `ContainerCardTheme`                                |          | `'normal'`    | Card's base color. Available for `type`: `'container'`              |
+| theme     | `CardTheme`                                         |          | `'normal'`    | Card's base color. Available for `type`: `'container'`              |
 | className | `String`                                            |          |               | CSS class                                                           |
 | onClick   | `(event: React.MouseEvent<HTMLDivElement>) => void` |          |               | Card click handler. Available for `type`: `'selection'`, `'action'` |
 | selected  | `Boolean`                                           |          |               | Selected card. Available for type: `'selection'`                    |
@@ -23,33 +23,23 @@ type CardType = 'selection' | 'action' | 'container';
 type SelectionCardView = 'outlined' | 'clear';
 type ContainerCardView = 'outlined' | 'filled' | 'raised';
 
-type ContainerCardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
+type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
 ```
 
 ### Examples
+
 ```ts
 const containerFilledCard = (
-    <Card
-      className="my-card"
-      view="filled"
-      theme="positive"
-    >
-      <div>Card's content</div>
-    </Card>
+  <Card className="my-card" view="filled" theme="positive">
+    <div>Card's content</div>
+  </Card>
 );
 ```
 
 ```ts
 const selectedCard = (
-    <Card
-      className="my-card"
-      type="selection"
-      view="clear"
-      onClick={() => {}}
-      selected
-      disabled
-    >
-      <div>Card's content</div>
-    </Card>
+  <Card className="my-card" type="selection" view="clear" onClick={() => {}} selected disabled>
+    <div>Card's content</div>
+  </Card>
 );
 ```

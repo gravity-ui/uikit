@@ -7,7 +7,7 @@ import {Card, CardView, CardTheme} from '../../../components/Card/Card';
 import './CardShowcase.scss';
 
 const selectionCardView: CardView[] = ['outlined', 'clear'];
-const containerCardTheme: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
+const cardTheme: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
 
 export function CardShowcase() {
     return (
@@ -69,7 +69,7 @@ export function CardShowcase() {
                 </div>
                 <div className="panel-showcase-stories__head">Outlined view</div>
                 <div className="panel-showcase-stories__cards">
-                    {containerCardTheme.map((theme) => {
+                    {cardTheme.map((theme) => {
                         return (
                             <div key={theme}>
                                 <ReactCopyToClipboard text={getContainerCard('outlined', theme)}>
@@ -90,7 +90,7 @@ export function CardShowcase() {
                 </div>
                 <div className="panel-showcase-stories__head">Filled view</div>
                 <div className="panel-showcase-stories__cards">
-                    {containerCardTheme.map((theme) => {
+                    {cardTheme.map((theme) => {
                         return (
                             <div key={theme}>
                                 <ReactCopyToClipboard text={getContainerCard('filled', theme)}>

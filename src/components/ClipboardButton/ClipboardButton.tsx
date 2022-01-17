@@ -26,7 +26,9 @@ export function ClipboardButton({
     return (
         <span className={b(null, className)} data-qa={qa}>
             <CopyToClipboard text={text} timeout={1000}>
-                {(status) => <ClipboardIcon status={status} size={size} className={b('icon')} />}
+                {/* Should invoke ClipboardIcon as a function, not as a Component
+                to work properly */}
+                {(status) => ClipboardIcon({size, status, className: b('icon')})}
             </CopyToClipboard>
         </span>
     );

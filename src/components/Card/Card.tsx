@@ -29,7 +29,7 @@ export interface CardProps {
     theme?: CardTheme;
 }
 
-export const Card: React.FC<CardProps> = ({
+export function Card({
     type = 'container',
     theme,
     view,
@@ -38,7 +38,7 @@ export const Card: React.FC<CardProps> = ({
     onClick,
     disabled,
     selected,
-}) => {
+}: CardProps) {
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
     const isTypeContainer = type === 'container';
@@ -70,4 +70,4 @@ export const Card: React.FC<CardProps> = ({
             {children}
         </div>
     );
-};
+}

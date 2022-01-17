@@ -11,7 +11,9 @@ export default {
 } as Meta;
 
 const DefaultTemplate: Story<CardProps> = (args: any) => (
-    <Card {...args} className="card-stories" />
+    <Card {...args} className="card-stories">
+        <div className="card-content-stories">card&lsquo;s content</div>
+    </Card>
 );
 export const Default = DefaultTemplate.bind({});
 

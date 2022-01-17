@@ -1,167 +1,157 @@
-/* eslint-disable quotes */
 import React from 'react';
-import ReactCopyToClipboard from 'react-copy-to-clipboard';
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 
 import {Card, CardView, CardTheme} from '../../../components/Card/Card';
 
 import './CardShowcase.scss';
 
-const selectionCardView: CardView[] = ['outlined', 'clear'];
-const cardTheme: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
+const containerViews: CardView[] = ['outlined', 'filled'];
+const themes: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
 
 export function CardShowcase() {
     return (
-        <div>
-            {/* Selection card */}
-            <div className="panel-showcase-stories">
-                <div className="panel-showcase-stories__title">Selection</div>
-                <div className="panel-showcase-stories__desc">
-                    Radio-cards. Use when only one element needed.
-                </div>
-                <div className="panel-showcase-stories__cards">
-                    {selectionCardView.map((view) => {
-                        return (
-                            <div key={view}>
-                                <ReactCopyToClipboard text={getSelectionCard(view)}>
-                                    <div>
-                                        <Card
-                                            className="card-showcase-stories"
-                                            view={view}
-                                            type="selection"
-                                            onClick={() => {}}
-                                        >
-                                            {' '}
-                                        </Card>
-                                    </div>
-                                </ReactCopyToClipboard>
-                                <div className="card-showcase-stories__desc">
-                                    view {view}
-                                    <br />
-                                    (default)
-                                </div>
-                            </div>
-                        );
-                    })}
-                    <div>
-                        <ReactCopyToClipboard text={getSelectionCard('outlined')}>
-                            <div>
-                                <Card
-                                    className="card-showcase-stories"
-                                    type="selection"
-                                    onClick={() => {}}
-                                    selected
-                                >
-                                    {' '}
-                                </Card>
-                            </div>
-                        </ReactCopyToClipboard>
-                        <div className="card-showcase-stories__desc">selected</div>
+        <Showcase title="Card" className="cards-showcase-stories">
+            <ShowcaseItem title="type">
+                <Card view="outlined" type="selection" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">selection</div>
+                </Card>
+                <Card
+                    view="outlined"
+                    type="action"
+                    className="card-showcase-stories"
+                    onClick={() => alert(':wave: hey')}
+                >
+                    <div className="card-content-showcase-stories">action with onClick</div>
+                </Card>
+                <Card view="outlined" type="container" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">container</div>
+                </Card>
+            </ShowcaseItem>
+            <ShowcaseItem title="view">
+                <Card view="outlined" type="selection" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: selection
+                        <br />
+                        view: outlined
                     </div>
-                </div>
-            </div>
-            {/* Conatiner card */}
-            <div className="panel-showcase-stories">
-                <div className="panel-showcase-stories__title">Container</div>
-                <div className="panel-showcase-stories__desc">
-                    Cards for content grouping.
-                    <br />
-                    Can contain anything: tables, buttons, etc.
-                </div>
-                <div className="panel-showcase-stories__head">Outlined view</div>
-                <div className="panel-showcase-stories__cards">
-                    {cardTheme.map((theme) => {
-                        return (
-                            <div key={theme}>
-                                <ReactCopyToClipboard text={getContainerCard('outlined', theme)}>
-                                    <div>
-                                        <Card
-                                            className="card-showcase-stories"
-                                            view="outlined"
-                                            theme={theme}
-                                        >
-                                            {' '}
-                                        </Card>
-                                    </div>
-                                </ReactCopyToClipboard>
-                                <div className="card-showcase-stories__desc">theme {theme}</div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="panel-showcase-stories__head">Filled view</div>
-                <div className="panel-showcase-stories__cards">
-                    {cardTheme.map((theme) => {
-                        return (
-                            <div key={theme}>
-                                <ReactCopyToClipboard text={getContainerCard('filled', theme)}>
-                                    <div>
-                                        <Card
-                                            className="card-showcase-stories"
-                                            view="filled"
-                                            theme={theme}
-                                        >
-                                            {' '}
-                                        </Card>
-                                    </div>
-                                </ReactCopyToClipboard>
-                                <div className="card-showcase-stories__desc">theme {theme}</div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="panel-showcase-stories__head">Raised view</div>
-                <div className="panel-showcase-stories__cards">
-                    <div>
-                        <ReactCopyToClipboard text={getContainerRaisedCard()}>
-                            <div>
-                                <Card className="card-showcase-stories" view="raised">
-                                    {' '}
-                                </Card>
-                            </div>
-                        </ReactCopyToClipboard>
+                </Card>
+                <Card view="clear" type="selection" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: selection
+                        <br />
+                        view: clear
                     </div>
-                </div>
-            </div>
-            {/* Action card */}
-            <div className="panel-showcase-stories">
-                <div className="panel-showcase-stories__title">Action</div>
-                <div className="panel-showcase-stories__desc">Action cards</div>
-                <div className="panel-showcase-stories__cards">
-                    <div>
-                        <ReactCopyToClipboard text={getActionCard()}>
-                            <div>
-                                <Card
-                                    className="card-showcase-stories"
-                                    type="action"
-                                    onClick={() => {}}
-                                >
-                                    {' '}
-                                </Card>
-                            </div>
-                        </ReactCopyToClipboard>
-                        <div className="card-showcase-stories__desc">type action</div>
+                </Card>
+                <Card view="outlined" type="container" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: container
+                        <br />
+                        view: outlined
                     </div>
-                </div>
-            </div>
-        </div>
+                </Card>
+                <Card view="filled" type="container" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: container
+                        <br />
+                        view: filled
+                    </div>
+                </Card>
+                <Card view="raised" type="container" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: container
+                        <br />
+                        view: raised
+                    </div>
+                </Card>
+            </ShowcaseItem>
+            <ShowcaseItem title="theme">
+                {containerViews.map((view) =>
+                    themes.map((theme) => (
+                        <Card
+                            key={theme}
+                            view={view}
+                            type="container"
+                            className="card-showcase-stories"
+                            theme={theme}
+                        >
+                            <div className="card-content-showcase-stories">
+                                type: container
+                                <br />
+                                view: {view}
+                                <br />
+                                theme: {theme}
+                            </div>
+                        </Card>
+                    )),
+                )}
+            </ShowcaseItem>
+            <ShowcaseItem title="selected">
+                <Card selected={true} type="selection" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: selection
+                        <br />
+                        selected: true
+                    </div>
+                </Card>
+                <Card selected={false} type="selection" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        type: selection
+                        <br />
+                        selected: false
+                    </div>
+                </Card>
+            </ShowcaseItem>
+            <ShowcaseItem title="disabled">
+                <Card
+                    disabled={true}
+                    type="selection"
+                    className="card-showcase-stories"
+                    onClick={() => alert(':wave: hey')}
+                >
+                    <div className="card-content-showcase-stories">
+                        type: selection
+                        <br />
+                        disabled: true
+                    </div>
+                </Card>
+                <Card
+                    disabled={false}
+                    type="selection"
+                    className="card-showcase-stories"
+                    onClick={() => alert(':wave: hey')}
+                >
+                    <div className="card-content-showcase-stories">
+                        type: selection
+                        <br />
+                        disabled: false
+                    </div>
+                </Card>
+                <Card
+                    disabled={true}
+                    type="action"
+                    className="card-showcase-stories"
+                    onClick={() => alert(':wave: hey')}
+                >
+                    <div className="card-content-showcase-stories">
+                        type: action
+                        <br />
+                        disabled: true
+                    </div>
+                </Card>
+                <Card
+                    disabled={false}
+                    type="action"
+                    className="card-showcase-stories"
+                    onClick={() => alert(':wave: hey')}
+                >
+                    <div className="card-content-showcase-stories">
+                        type: action
+                        <br />
+                        disabled: false
+                    </div>
+                </Card>
+            </ShowcaseItem>
+        </Showcase>
     );
-}
-
-function getSelectionCard(view: CardView) {
-    return (
-        `<Card\rtype="selection" view="${view}" onClick={() => {}}\r` +
-        `className="" selected={} disabled={}\r> </Card>`
-    );
-}
-
-function getContainerCard(view: CardView, theme: CardTheme) {
-    return `<Card\rtype="container" theme="${theme}" view="${view}" className=""\r> </Card>`;
-}
-
-function getContainerRaisedCard() {
-    return `<Card\rtype="container" view="raised" className=""\r> </Card>`;
-}
-
-function getActionCard() {
-    return `<Card\rtype="action" onClick={() => {}}\rclassName="" disabled={}\r> </Card>`;
 }

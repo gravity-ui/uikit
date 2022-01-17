@@ -148,31 +148,34 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             [actualItems],
         );
 
+        const enhancedColumns = React.useMemo(
+            () =>
+                enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
+                    // eslint-disable-next-line react/display-name
+                    systemColumn.name = () => (
+                        <div className={b('settings')}>
+                            <TableColumnSetup
+                                popupWidth={settingsPopupWidth}
+                                popupPlacement={['bottom-end', 'bottom', 'top-end', 'top']}
+                                onUpdate={onUpdateColumns}
+                                items={columnSetupItems}
+                                switcher={
+                                    <Button view="flat" className={b('settings-button')}>
+                                        <Icon data={GearIcon} size={20} />
+                                    </Button>
+                                }
+                            />
+                        </div>
+                    );
+                }),
+            [actualItems, columnSetupItems, columns, onUpdateColumns, settingsPopupWidth],
+        );
+
         return (
             <React.Fragment>
                 <TableComponent
                     {...(restTableProps as Omit<TableProps<I>, 'columns'> & E)}
-                    columns={enhanceSystemColumn(
-                        filterColumns(columns, actualItems),
-                        (systemColumn) => {
-                            // eslint-disable-next-line react/display-name
-                            systemColumn.name = () => (
-                                <div className={b('settings')}>
-                                    <TableColumnSetup
-                                        popupWidth={settingsPopupWidth}
-                                        popupPlacement={['bottom-end', 'bottom', 'top-end', 'top']}
-                                        onUpdate={onUpdateColumns}
-                                        items={columnSetupItems}
-                                        switcher={
-                                            <Button view="flat" className={b('settings-button')}>
-                                                <Icon data={GearIcon} size={20} />
-                                            </Button>
-                                        }
-                                    />
-                                </div>
-                            );
-                        },
-                    )}
+                    columns={enhancedColumns}
                 />
             </React.Fragment>
         );

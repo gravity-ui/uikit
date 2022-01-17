@@ -4,34 +4,8 @@ on:
   pull_request:
 
 jobs:
-  build_storybook:
-    name: Build Storybook
-    if: ${{ github.actor != 'yc-ui-bot' }}
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Setup Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-        cache: 'npm'
-    - name: Install Packages
-      run: npm ci
-    - name: Build Storybook
-      run: npm run build-storybook
-    - name: Create Static Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: static
-        path: ./storybook-static/
-        retention-days: 5
-    - name: Save PR Number
-      run: echo ${{ github.event.number }} > ./pr.txt
-    - name: Create PR Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: pr
-        path: ./pr.txt
+    - uses: yandex-cloud/ui-preview-build-action@main

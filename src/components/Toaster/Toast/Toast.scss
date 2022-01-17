@@ -1,0 +1,97 @@
+@import '../../variables';
+@import '../constants/constants.scss';
+
+$block: '.#{$ns}toast';
+
+#{$block} {
+    box-sizing: border-box;
+    position: absolute;
+    width: inherit;
+    margin-bottom: 10px;
+    padding: 10px 34px 10px 10px;
+    font-size: 13px;
+    border: 1px solid $borderColor;
+    border-radius: 3px;
+    box-shadow: 0 1ex 2ex -0.5ex $shadowColor;
+    background-color: $toastBackgroundColor;
+    overflow: hidden;
+
+    &_appearing {
+        opacity: 0;
+        height: 0;
+        margin-bottom: 0;
+        padding: 0;
+        border-width: 0;
+        transition: height 0.35s ease;
+    }
+
+    &__title,
+    &__action {
+        line-height: 24px;
+    }
+
+    &__title {
+        &_bold {
+            font-weight: 500;
+        }
+    }
+
+    &__action {
+        margin-right: 8px;
+        color: $linkColor;
+    }
+
+    &__icon {
+        &_title {
+            margin-right: 8px;
+        }
+    }
+
+    &_show-animation {
+        animation: set-indents 0.35s ease forwards, move-left 0.25s ease forwards 0.35s;
+    }
+
+    &_hide-animation {
+        animation: move-right 0.25s ease forwards, remove-height 0.35s ease forwards 0.25s;
+    }
+}
+
+@keyframes move-right {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+}
+
+@keyframes move-left {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes remove-height {
+    to {
+        height: 0;
+        margin-bottom: 0;
+        padding: 0;
+        border-width: 0;
+    }
+}
+
+@keyframes set-indents {
+    to {
+        margin-bottom: 10px;
+        padding: 10px 34px 10px 10px;
+        border-width: 1px;
+    }
+}

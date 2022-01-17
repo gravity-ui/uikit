@@ -1,10 +1,9 @@
+/* eslint new-cap: "off" */
+
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
-// react-sortable-hoc actually has exported members "sortableElement" and "sortableContainer"
-// https://github.com/clauderic/react-sortable-hoc/blob/master/src/index.js#L5
-// @ts-ignore
-import {sortableContainer, sortableElement} from 'react-sortable-hoc';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import {block} from '../utils/cn';
 import {MobileContext} from '../mobile';
 import {TextInput} from '../TextInput';
@@ -14,9 +13,10 @@ import type {ListProps, ListItemData, ListSortParams} from './types';
 import './List.scss';
 
 const b = block('list');
-const SortableListItem = sortableElement(ListItem);
-const SortableListContainer = sortableContainer(ListContainer, {withRef: true});
-const SortableSimpleContainer = sortableContainer(SimpleContainer);
+const DEFAULT_ITEM_HEIGHT = 28;
+const SortableListItem = SortableElement(ListItem);
+const SortableListContainer = SortableContainer(ListContainer, {withRef: true});
+const SortableSimpleContainer = SortableContainer(SimpleContainer);
 
 type ListState<T> = {
     items: ListProps<T>['items'];
@@ -72,7 +72,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     refFilter = React.createRef<HTMLInputElement | HTMLTextAreaElement>();
     refContainer = React.createRef<any>();
-    blurTimer: NodeJS.Timeout | null = null;
+    blurTimer: ReturnType<typeof setTimeout> | null = null;
 
     componentDidUpdate(prevProps: ListProps<T>) {
         if (this.props.items !== prevProps.items) {
@@ -135,6 +135,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         this.setState({activeItem: index});
     }
 
+    // FIXME: BREAKING CHANGE. Rename to "handleKeyDown"
     onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
         const {activeItem, pageSize} = this.state;
 
@@ -254,9 +255,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     private renderVirtualizedContainer() {
-        const {sortable, activeItemIndex} = this.props;
-        const {items, activeItem} = this.state;
-        const Container = sortable ? SortableListContainer : ListContainer;
+        const Container = this.props.sortable ? SortableListContainer : ListContainer;
 
         return (
             <AutoSizer>
@@ -266,10 +265,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         width={width}
                         height={height}
                         itemSize={this.getItemHeight}
-                        itemData={items}
-                        itemCount={items.length}
-                        activeItem={activeItem}
-                        activeItemIndex={activeItemIndex}
+                        itemData={this.state.items}
+                        itemCount={this.state.items.length}
+                        // this property used to rerender items in viewport
+                        // @ts-ignore
+                        activeItem={this.state.activeItem}
                         overscanCount={10}
                         helperClass={b('item', {sorting: true})}
                         distance={5}
@@ -425,7 +425,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             const {items} = this.state;
             return itemHeight(items[index]);
         } else {
-            return virtualized ? Number(itemHeight) || 28 : itemHeight;
+            const estimatedItemHeight = virtualized ? Number(itemHeight) : itemHeight;
+            return estimatedItemHeight || DEFAULT_ITEM_HEIGHT;
         }
     };
 }

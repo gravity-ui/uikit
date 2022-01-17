@@ -58,7 +58,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     disabled = false;
                 }
 
-                const id = Table.getRowId(this.props, item);
+                const id = Table.getRowId(this.props, item, index);
 
                 return selectedIds.includes(id);
             });
@@ -72,7 +72,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
 
         private renderBodyCell = (item: I, index: number) => {
             const {selectedIds} = this.props;
-            const id = Table.getRowId(this.props, item);
+            const id = Table.getRowId(this.props, item, index);
             const checked = selectedIds.includes(id);
 
             return this.renderCheckBox({
@@ -110,7 +110,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
 
         private handleAllCheckBoxChange = (selected: boolean) => {
             const {data, selectedIds, onSelectionChange} = this.props;
-            const dataIds = data.map((item) => Table.getRowId(this.props, item));
+            const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
             const notDisabledItemIds = dataIds.filter(
                 (_id, index) => !this.isDisabled(data[index], index),
             );
@@ -170,7 +170,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 return (item: I, index: number) => {
                     const {selectedIds} = this.props;
                     const classNames = getRowClassNames ? getRowClassNames(item, index) : [];
-                    const id = Table.getRowId(this.props, item);
+                    const id = Table.getRowId(this.props, item, index);
                     const selected = selectedIds.includes(id);
 
                     classNames.push(b('row', {selected}));

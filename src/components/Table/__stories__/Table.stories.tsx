@@ -123,14 +123,14 @@ export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
 // ---------------------------------
 const WithTableSettingsTemplate: Story<TableProps<any>> = (args) => {
-    const [settings, setSettings] = React.useState<TableSettingsData>(
+    const [settings, setSettings] = React.useState<TableSettingsData>(() =>
         columns.map((x) => ({id: x.id, isSelected: true})),
     );
 
-    const updateSettings = (updatedSettings: TableSettingsData) =>
-        new Promise<void>((resolve) => resolve()).then(() => {
-            setSettings(updatedSettings);
-        });
+    const updateSettings = React.useCallback(
+        async (updatedSettings: TableSettingsData) => setSettings(updatedSettings),
+        [],
+    );
 
     return <TableWithSettings {...args} settings={settings} updateSettings={updateSettings} />;
 };

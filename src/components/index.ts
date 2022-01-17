@@ -14,6 +14,7 @@ export * from './Icon';
 export * from './Label';
 export * from './Link';
 export * from './List';
+export * from './Loader';
 export * from './Menu';
 export * from './Modal';
 export * from './Popup';

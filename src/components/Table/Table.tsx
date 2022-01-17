@@ -18,8 +18,8 @@ interface TableState {
     // activeScrollElement нужен, чтобы listner на скролл таблицы не срабатывал, когда скроллится скролл-бар и наоборот
     // в противном случае таблица будет дергаться при прокрутке
     activeScrollElement: ActiveScrollElementType;
-    columnsWidth: (number | undefined)[];
-    columnHeaderRefs: React.RefObject<HTMLTableHeaderCellElement>[];
+    columnsStyles: React.CSSProperties[];
+    columnHeaderRefs: React.RefObject<HTMLTableCellElement>[];
 }
 
 export interface TableColumnConfig<I> {
@@ -101,9 +101,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     };
 
     // Static methods may be used by HOCs
-    static getRowId<I extends TableDataItem>(props: TableProps<I>, item: I) {
+    static getRowId<I extends TableDataItem>(props: TableProps<I>, item: I, rowIndex?: number) {
         const {data, getRowId} = props;
-        const index = data.indexOf(item);
+        const index = rowIndex ?? data.indexOf(item);
 
         if (typeof getRowId === 'function') {
             return getRowId(item, index);
@@ -177,7 +177,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
 
     state: TableState = {
         activeScrollElement: 'scrollContainer',
-        columnsWidth: Array.from(this.props.columns, () => undefined),
+        columnsStyles: Array.from(this.props.columns, () => ({})),
         columnHeaderRefs: Array.from(this.props.columns, () => React.createRef()),
     };
 
@@ -229,7 +229,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         }
 
         this.columnsResizeObserver = new ResizeObserver(() => {
-            this.updateColumnWidths();
+            this.updateColumnStyles();
         });
 
         if (this.tableRef.current) {
@@ -238,11 +238,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     componentDidUpdate(prevProps: TableProps<I>) {
-        if (this.props.columns === prevProps.columns) {
-            return;
+        if (this.props.columns !== prevProps.columns) {
+            this.updateColumnStyles();
         }
-
-        this.updateColumnWidths();
     }
 
     componentWillUnmount() {
@@ -309,6 +307,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
 
     private renderHead() {
         const {columns, edgePadding} = this.props;
+        const {columnsStyles} = this.state;
 
         return (
             <thead className={b('head')}>
@@ -321,7 +320,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                             <th
                                 key={id}
                                 ref={this.state.columnHeaderRefs[index]}
-                                style={this.getColumnStyles(index)}
+                                style={columnsStyles[index]}
                                 className={b('cell', {
                                     align,
                                     sticky,
@@ -359,13 +358,15 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     private renderRow = (item: I, rowIndex: number) => {
         const {columns, isRowDisabled, onRowClick, getRowClassNames, verticalAlign, edgePadding} =
             this.props;
+        const {columnsStyles} = this.state;
+
         const disabled = isRowDisabled ? isRowDisabled(item, rowIndex) : false;
         const interactive = Boolean(!disabled && onRowClick);
         const additionalClassNames = getRowClassNames ? getRowClassNames(item, rowIndex) : [];
 
         return (
             <tr
-                key={Table.getRowId(this.props, item)}
+                key={Table.getRowId(this.props, item, rowIndex)}
                 onClick={
                     !disabled && onRowClick ? onRowClick.bind(null, item, rowIndex) : undefined
                 }
@@ -382,7 +383,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     return (
                         <td
                             key={id}
-                            style={this.getColumnStyles(colIndex)}
+                            style={columnsStyles[colIndex]}
                             className={b('cell', {
                                 align,
                                 primary,
@@ -428,17 +429,23 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         );
     }
 
-    private updateColumnWidths() {
-        this.setState({
-            columnsWidth: this.state.columnHeaderRefs.map((ref) =>
+    private updateColumnStyles() {
+        this.setState((prevState) => {
+            const columnsWidth = prevState.columnHeaderRefs.map((ref) =>
                 ref.current === null ? undefined : ref.current.getBoundingClientRect().width,
-            ),
+            );
+
+            const columnsStyles = this.props.columns.map((_, index) =>
+                this.getColumnStyles(index, columnsWidth),
+            );
+
+            return {columnsStyles};
         });
     }
 
-    private getColumnStyles(index: number) {
+    private getColumnStyles(index: number, columnsWidth: (number | undefined)[]) {
         const {columns} = this.props;
-        const {columnsWidth} = this.state;
+
         const column = columns[index];
         const style: React.CSSProperties = {};
         if (typeof column.width === 'string') {

@@ -1,0 +1,100 @@
+@import '../variables';
+
+$block: '.#{$ns}loader';
+
+$active-color: var(--yc-color-loader-active);
+$pulse-duration: 800ms;
+$pulse-delay: $pulse-duration * 0.25;
+$animation: #{$ns}pulse ease $pulse-duration infinite;
+
+$base-height-s: 20px;
+$base-height-m: 28px;
+$base-height-l: 36px;
+
+@keyframes #{$ns}pulse {
+    50% {
+        opacity: 15%;
+    }
+}
+
+@mixin loaderSize($height) {
+    width: $height * 0.25;
+    height: $height;
+}
+
+@mixin loaderPseudoSize($height) {
+    height: calc(#{$height} / 1.5);
+    width: $height * 0.25;
+}
+
+#{$block} {
+    display: inline-flex;
+    align-items: center;
+
+    &__left,
+    &__center,
+    &__right {
+        background: $active-color;
+        animation: $animation;
+    }
+
+    &__left {
+        animation-delay: $pulse-delay;
+    }
+
+    &__center {
+        animation-delay: 2 * $pulse-delay;
+    }
+
+    &__right {
+        animation-delay: 3 * $pulse-delay;
+    }
+
+    &_size_s {
+        #{$block}__left {
+            @include loaderPseudoSize($base-height-s);
+        }
+
+        #{$block}__center {
+            @include loaderSize($base-height-s);
+            margin-left: $base-height-s * 0.25;
+        }
+
+        #{$block}__right {
+            @include loaderPseudoSize($base-height-s);
+            margin-left: $base-height-s * 0.25;
+        }
+    }
+
+    &_size_m {
+        #{$block}__left {
+            @include loaderPseudoSize($base-height-m);
+        }
+
+        #{$block}__center {
+            @include loaderSize($base-height-m);
+            margin-left: $base-height-m * 0.25;
+        }
+
+        #{$block}__right {
+            @include loaderPseudoSize($base-height-m);
+            margin-left: $base-height-m * 0.25;
+        }
+    }
+
+    &_size_l {
+        #{$block}__left {
+            @include loaderPseudoSize($base-height-l);
+        }
+
+        #{$block}__center {
+            @include loaderSize($base-height-l);
+            margin-left: $base-height-l * 0.25;
+        }
+
+        #{$block}__right {
+            @include loaderPseudoSize($base-height-l);
+            margin-left: $base-height-l * 0.25;
+        }
+    }
+}

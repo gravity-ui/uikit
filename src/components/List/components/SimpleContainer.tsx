@@ -1,6 +1,6 @@
 import React from 'react';
 import _range from 'lodash/range';
-import {ListItem} from './List';
+import {ListItem} from './ListItem';
 
 export interface SimpleContainerProps {
     itemCount: number;

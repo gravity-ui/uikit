@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.4.0](https://www.github.com/yandex-cloud/uikit/compare/v1.3.0...v1.4.0) (2022-01-18)
+
+
+### Features
+
+* add Loader component ([#37](https://www.github.com/yandex-cloud/uikit/issues/37)) ([7d02c80](https://www.github.com/yandex-cloud/uikit/commit/7d02c8081cea52d25235a3d26c101f35d3a25f1c))
+* migrate Card component ([#32](https://www.github.com/yandex-cloud/uikit/issues/32)) ([bd52a23](https://www.github.com/yandex-cloud/uikit/commit/bd52a232dbcf913d5101a45ce5bed01873a46a69))
+
+
+### Bug Fixes
+
+* **ClipboardButton:** correctly handle click event ([b170ac0](https://www.github.com/yandex-cloud/uikit/commit/b170ac02ed839ca658b9ef90f4533f04008e6176)), closes [#45](https://www.github.com/yandex-cloud/uikit/issues/45)
+* **ClipboardButton:** should work properly ([#47](https://www.github.com/yandex-cloud/uikit/issues/47)) ([5c00db3](https://www.github.com/yandex-cloud/uikit/commit/5c00db37f14af0a521e90f1265f3227d3737bb13))
+* correctly show textarea resize control ([#33](https://www.github.com/yandex-cloud/uikit/issues/33)) ([bed5a23](https://www.github.com/yandex-cloud/uikit/commit/bed5a2364d71b2a3f635b98b14a39361e379fd09))
+
+
+### Performance Improvements
+
+* small Table performance fixes ([#40](https://www.github.com/yandex-cloud/uikit/issues/40)) ([36bb4b4](https://www.github.com/yandex-cloud/uikit/commit/36bb4b4421d91954df82b298c32d89f539ea09cb))
+
 ## [1.3.0](https://www.github.com/yandex-cloud/uikit/compare/v1.2.1...v1.3.0) (2021-12-24)
 
 

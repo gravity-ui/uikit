@@ -24,7 +24,7 @@
         "build": "gulp",
         "start": "start-storybook -p 7007",
         "build-storybook": "build-storybook -c .storybook -o storybook-static",
-        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx",
+        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
         "lint:prettier": "prettier --check --loglevel=error '**/*.{js,jsx,ts,tsx,scss}'",
         "lint": "run-p lint:*",

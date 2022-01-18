@@ -24,10 +24,12 @@ export function ClipboardButton({
     qa,
 }: ClipboardButtonProps) {
     return (
-        <span className={b(null, className)} data-qa={qa}>
-            <CopyToClipboard text={text} timeout={1000}>
-                {(status) => <ClipboardIcon status={status} size={size} className={b('icon')} />}
-            </CopyToClipboard>
-        </span>
+        <CopyToClipboard text={text} timeout={1000}>
+            {(status) => (
+                <span className={b(null, className)} data-qa={qa}>
+                    <ClipboardIcon status={status} size={size} className={b('icon')} />
+                </span>
+            )}
+        </CopyToClipboard>
     );
 }

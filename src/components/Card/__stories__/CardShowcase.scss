@@ -1,0 +1,18 @@
+.cards-showcase-stories {
+    & .card-showcase-stories:not(:first-child) {
+        margin-top: 8px;
+    }
+}
+
+.card-showcase-stories {
+    width: 100px;
+    height: 100px;
+}
+
+.card-content-showcase-stories {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

@@ -8,9 +8,8 @@ import {Button} from '../../../../Button';
 import {GearIcon} from '../../../../icons/GearIcon';
 import {TickIcon} from './TickIcon';
 import {LockIcon} from './LockIcon';
-
 import {TableColumnSetupItem} from '../withTableSettings';
-import {PopperPlacement} from 'src/components/utils/usePopper';
+import {PopperPlacement} from '../../../../../components/utils/usePopper';
 
 import './TableColumnSetup.scss';
 
@@ -43,7 +42,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         popupWidth,
         popupPlacement,
         className,
-        items: propsitems,
+        items: propsItems,
         getItemTitle = (item: Item) => item.title,
         sortable = true,
         filterable = false,
@@ -70,26 +69,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const getConfigurableItems = (list: Item[]) => list.filter(({required}) => !required);
 
     React.useEffect(() => {
-        if (propsitems !== items) {
-            setItems(propsitems);
-            setRequiredItems(getRequiredItems(propsitems));
-            setCurrentItems(getConfigurableItems(propsitems));
+        if (propsItems !== items) {
+            setItems(propsItems);
+            setRequiredItems(getRequiredItems(propsItems));
+            setCurrentItems(getConfigurableItems(propsItems));
         }
-    }, [items, propsitems]);
-
-    const getListHeight = (list: Item[]) => {
-        const itemHeight = LIST_ITEM_HEIGHT;
-
-        return Math.min(5, list.length) * itemHeight + itemHeight / 2;
-    };
-
-    const getRequiredListHeight = (list: Item[]) => {
-        return list.length * LIST_ITEM_HEIGHT;
-    };
-
-    const onUpdate = (value: Item[]) => {
-        setCurrentItems(value);
-    };
+    }, [items, propsItems]);
 
     const setInitialState = () => {
         setFocused(false);
@@ -97,11 +82,27 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setCurrentItems(getConfigurableItems(items));
     };
 
-    const onClosePopup = () => {
-        setInitialState();
+    const getListHeight = (list: Item[]) => {
+        const itemHeight = LIST_ITEM_HEIGHT;
+
+        return Math.min(5, list.length) * itemHeight + itemHeight / 2;
     };
 
-    const onControlClick = () => {
+    const getRequiredListHeight = (list: Item[]) => list.length * LIST_ITEM_HEIGHT;
+
+    const getCountSelected = () => items.reduce((acc, cur) => (cur.selected ? acc + 1 : acc), 0);
+
+    const makeOnSortEnd =
+        (list: Item[]) =>
+        ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => {
+            setCurrentItems(List.moveListElement(list.slice(), oldIndex, newIndex));
+        };
+
+    const handleUpdate = (value: Item[]) => setCurrentItems(value);
+
+    const handleClosePopup = () => setInitialState();
+
+    const handleControlClick = () => {
         if (!disabled) {
             setFocused(!focused);
             setRequiredItems(getRequiredItems(items));
@@ -109,7 +110,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         }
     };
 
-    const onApplyClick = () => {
+    const handleApplyClick = () => {
         setInitialState();
 
         const newItems = requiredItems.concat(currentItems);
@@ -117,6 +118,13 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         if (items !== newItems) {
             props.onUpdate(newItems);
         }
+    };
+
+    const handleItemClick = (value: Item) => {
+        const newItems = currentItems.map((item) =>
+            item === value ? {...item, selected: !item.selected} : item,
+        );
+        handleUpdate(newItems);
     };
 
     const renderItem = (item: Item) => {
@@ -136,30 +144,13 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         );
     };
 
-    const onItemClick = (value: Item) => {
-        const newItems = currentItems.map((item) =>
-            item === value ? {...item, selected: !item.selected} : item,
-        );
-        onUpdate(newItems);
-    };
-
-    const makeOnSortEnd =
-        (list: Item[]) =>
-        ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => {
-            onUpdate(List.moveListElement(list.slice(), oldIndex, newIndex));
-        };
-
-    const getCountSelected = () => {
-        return items.reduce((acc, cur) => (cur.selected ? acc + 1 : acc), 0);
-    };
-
     const renderStatus = () => {
         if (!showStatus) {
             return null;
         }
 
         const selected = getCountSelected();
-        const all = propsitems.length;
+        const all = propsItems.length;
         const status = `${selected}/${all}`;
 
         return <span className={b('status')}>{status}</span>;
@@ -196,7 +187,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                 filterable={filterable}
                 sortHandleAlign={'right'}
                 onSortEnd={makeOnSortEnd(currentItems)}
-                onItemClick={onItemClick}
+                onItemClick={handleItemClick}
                 renderItem={renderItem}
                 itemsClassName={b('items')}
                 itemClassName={b('item')}
@@ -207,7 +198,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <div className={b(null, className)}>
-            <div className={b('control')} ref={refControl} onClick={onControlClick}>
+            <div className={b('control')} ref={refControl} onClick={handleControlClick}>
                 {switcher || (
                     <Button disabled={disabled}>
                         <Icon data={GearIcon} />
@@ -220,14 +211,14 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                 anchorRef={refControl}
                 placement={popupPlacement || ['bottom-start', 'bottom-end', 'top-start', 'top-end']}
                 open={focused}
-                onClose={onClosePopup}
+                onClose={handleClosePopup}
                 className={b('popup')}
                 style={{width: popupWidth}}
             >
                 {renderRequiredColumns()}
                 {renderConfigurableColumns()}
                 <div className={b('controls')}>
-                    <Button view="action" width="max" onClick={onApplyClick}>
+                    <Button view="action" width="max" onClick={handleApplyClick}>
                         Apply
                     </Button>
                 </div>

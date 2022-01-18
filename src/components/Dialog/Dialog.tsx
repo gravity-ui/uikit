@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {block} from '../utils/cn';
 
 import {Modal, ModalProps, ModalCloseReason} from '../Modal';
@@ -39,7 +39,7 @@ interface DialogDefaultProps {
 export type DialogProps = DialogOwnProps & Partial<DialogDefaultProps>;
 type DialogInnerProps = DialogOwnProps & DialogDefaultProps & QAProps;
 
-export class Dialog extends Component<DialogInnerProps> {
+export class Dialog extends React.Component<DialogInnerProps> {
     static defaultProps: DialogDefaultProps = {
         disableBodyScrollLock: false,
         disableEscapeKeyDown: false,
@@ -88,7 +88,7 @@ export class Dialog extends Component<DialogInnerProps> {
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>
                     {children}
-                    {hasCloseButton && <ButtonClose onClose={this.handleCloseButtonClick} />}
+                    {hasCloseButton && <ButtonClose handleClose={this.handleCloseButtonClick} />}
                 </div>
             </Modal>
         );

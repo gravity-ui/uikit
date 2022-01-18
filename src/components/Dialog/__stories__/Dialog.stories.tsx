@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Meta, Story} from '@storybook/react/types-6-0';
+import {ComponentStory, ComponentMeta} from '@storybook/react';
 import {Button} from '../../Button';
 import {Dialog} from '../Dialog';
 import {DialogShowcase} from './DialogShowcase';
@@ -7,9 +7,9 @@ import {DialogShowcase} from './DialogShowcase';
 export default {
     title: 'Components/Dialog',
     component: Dialog,
-} as Meta;
+} as ComponentMeta<typeof Dialog>;
 
-const DefaultTemplate: Story = (args: any) => {
+const DefaultTemplate: ComponentStory<typeof Dialog> = (args: any) => {
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -38,5 +38,5 @@ const DefaultTemplate: Story = (args: any) => {
 };
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <DialogShowcase />;
+const ShowcaseTemplate: ComponentStory<typeof Dialog> = () => <DialogShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

@@ -101,9 +101,9 @@ export class DialogShowcase extends React.Component {
 
     timeout: NodeJS.Timeout | undefined;
 
-    onClose = () => this.setState({open: false, showError: false});
+    handleClose = () => this.setState({open: false, showError: false});
 
-    onClickButtonApply = () => {
+    handleClickButtonApply = () => {
         if (this.timeout) {
             clearInterval(this.timeout);
         }
@@ -131,7 +131,7 @@ export class DialogShowcase extends React.Component {
                 </div>
                 <Dialog
                     open={this.state.open}
-                    onClose={this.onClose}
+                    onClose={this.handleClose}
                     className="my-custom-class-for-dialog"
                     hasCloseButton
                 >
@@ -161,8 +161,8 @@ export class DialogShowcase extends React.Component {
                     </Dialog.Body>
                     <Dialog.Footer
                         preset="default"
-                        onClickButtonCancel={this.onClose}
-                        onClickButtonApply={this.onClickButtonApply}
+                        onClickButtonCancel={this.handleClose}
+                        onClickButtonApply={this.handleClickButtonApply}
                         textButtonApply="attack"
                         propsButtonApply={{className: 'my-custom-apply-btn-class'}}
                         textButtonCancel="fend off attack"

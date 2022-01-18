@@ -35,7 +35,7 @@ interface DialogFooterDefaultProps {
 export type DialogFooterProps = DialogFooterOwnProps & Partial<DialogFooterDefaultProps>;
 type DialogFooterInnerProps = DialogFooterOwnProps & DialogFooterDefaultProps;
 
-const getButtonView = (preset: ButtonPreset): ButtonView => {
+function getButtonView(preset: ButtonPreset): ButtonView {
     switch (preset) {
         case 'default':
             return 'action';
@@ -46,7 +46,7 @@ const getButtonView = (preset: ButtonPreset): ButtonView => {
         default:
             return 'action';
     }
-};
+}
 
 export class DialogFooter extends React.Component<DialogFooterInnerProps> {
     static defaultProps: DialogFooterDefaultProps = {

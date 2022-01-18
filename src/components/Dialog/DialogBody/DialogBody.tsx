@@ -10,8 +10,8 @@ export interface DialogBodyProps {
     className?: string;
 }
 
-export const DialogBody = (props: DialogBodyProps) => {
+export function DialogBody(props: DialogBodyProps) {
     const {className} = props;
 
     return <div className={b(null, className)}>{props.children}</div>;
-};
+}

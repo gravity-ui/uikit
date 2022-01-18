@@ -11,8 +11,8 @@ export interface DialogHeaderProps {
     className?: string;
 }
 
-export const DialogHeader = (props: DialogHeaderProps) => {
-    const {caption, insertBefore, insertAfter, className} = props;
+export function DialogHeader(props: DialogHeaderProps) {
+    const {caption = '', insertBefore, insertAfter, className} = props;
 
     return (
         <div className={b(null, className)}>
@@ -21,8 +21,4 @@ export const DialogHeader = (props: DialogHeaderProps) => {
             {insertAfter}
         </div>
     );
-};
-
-DialogHeader.defaultProps = {
-    caption: '',
-};
+}

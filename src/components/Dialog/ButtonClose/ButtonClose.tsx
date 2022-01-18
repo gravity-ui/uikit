@@ -8,23 +8,23 @@ import './ButtonClose.scss';
 const b = block('dialog-btn-close');
 
 export interface ButtonCloseProps {
-    onClose: (
+    handleClose: (
         event: React.MouseEvent<HTMLElement, MouseEvent>,
         opts: {isOutsideClick: boolean},
     ) => void;
 }
 
-export const ButtonClose = ({onClose}: ButtonCloseProps) => {
+export function ButtonClose({handleClose}: ButtonCloseProps) {
     return (
         <div className={b()}>
             <Button
                 view="flat"
                 size="l"
                 className={b('btn')}
-                onClick={(event) => onClose(event, {isOutsideClick: false})}
+                onClick={(event) => handleClose(event, {isOutsideClick: false})}
             >
                 <Icon data={CrossIcon} size={12} />
             </Button>
         </div>
     );
-};
+}

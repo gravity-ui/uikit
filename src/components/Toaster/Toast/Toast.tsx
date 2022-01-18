@@ -1,4 +1,4 @@
-import React, {ReactNode, useMemo, useEffect, useRef, useState} from 'react';
+import React, {ReactNode, useMemo, useEffect, useRef, useState, useCallback} from 'react';
 import {block} from '../../utils/cn';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
@@ -103,7 +103,7 @@ export function Toast(props: ToastProps) {
         setStatus(ToastStatus.hiding);
     };
 
-    const animationEndHandler = useMemo(() => {
+    const getAnimationEndHandler = useCallback(() => {
         if (status === ToastStatus['showing-height']) {
             return onFadeInAnimationEnd;
         }
@@ -223,7 +223,6 @@ export function Toast(props: ToastProps) {
 
     const onFadeOutAnimationEnd = (e: {animationName: string}) => {
         const {removeCallback} = props;
-
         if (e.animationName === FADE_OUT_LAST_ANIMATION_NAME) {
             removeCallback();
         }
@@ -240,13 +239,12 @@ export function Toast(props: ToastProps) {
     };
 
     const {content, actions, title, className} = props;
-
     return (
         <div
             ref={ref}
             className={b(mods, className)}
             style={styles}
-            onAnimationEnd={animationEndHandler}
+            onAnimationEnd={getAnimationEndHandler()}
             onMouseOver={onMouseOver}
             onMouseLeave={onMouseLeave}
         >

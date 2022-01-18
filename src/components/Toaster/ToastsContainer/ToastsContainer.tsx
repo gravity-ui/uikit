@@ -8,13 +8,13 @@ interface ToastsContainerProps {
     removeCallback: (name: string) => void;
 }
 
-const renderToasts = (toasts: ToastGeneralProps[], removeCallback: (name: string) => void) => {
+function renderToasts(toasts: ToastGeneralProps[], removeCallback: (name: string) => void) {
     return toasts.map((toast) => {
         const {name} = toast;
 
         return <Toast key={name} {...toast} removeCallback={() => removeCallback(name)} />;
     });
-};
+}
 
 export const ToastsContainer = (props: ToastsContainerProps) => {
     const {toasts, removeCallback} = props;

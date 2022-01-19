@@ -88,7 +88,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>
                     {children}
-                    {hasCloseButton && <ButtonClose handleClose={this.handleCloseButtonClick} />}
+                    {hasCloseButton && <ButtonClose onClose={this.handleCloseButtonClick} />}
                 </div>
             </Modal>
         );

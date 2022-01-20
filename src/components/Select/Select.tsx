@@ -1,9 +1,27 @@
 import React from 'react';
-import {block} from '../utils/cn';
 import {SelectProps} from './types';
+import {Control} from './components';
 
-const b = block('select');
+export const Select = (props: SelectProps) => {
+    const {
+        label,
+        placeholder,
+        view = 'normal',
+        size = 'm',
+        pin = 'round-round',
+        controlWidth = 'auto',
+        value = [],
+    } = props;
 
-export const Select = (_props: SelectProps) => {
-    return <div className={b()}>Select component</div>;
+    return (
+        <Control
+            view={view}
+            size={size}
+            pin={pin}
+            width={controlWidth}
+            label={label}
+            placeholder={placeholder}
+            value={value}
+        />
+    );
 };

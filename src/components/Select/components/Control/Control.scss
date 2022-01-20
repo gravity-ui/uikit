@@ -1,0 +1,256 @@
+@import '../../../variables';
+
+$block: '.#{$ns}select-control';
+
+#{$block} {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    min-width: 34px;
+    border: 1px solid var(--yc-color-line-generic);
+    white-space: nowrap;
+    transition: transform 0.1s ease-out, border-color 0.1s linear, background-color 0.1s linear,
+        color 0.1s linear;
+    cursor: pointer;
+
+    &_view_clear {
+        border-color: transparent;
+    }
+
+    &_size_s {
+        height: 24px;
+        padding: 0 8px;
+
+        &#{$block}_pin_round-round {
+            border-radius: 4px;
+        }
+
+        &#{$block}_pin_brick-brick {
+            border-radius: 0;
+        }
+
+        &#{$block}_pin_clear-clear {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_round-brick {
+            border-radius: 4px 0 0 4px;
+        }
+
+        &#{$block}_pin_brick-round {
+            border-radius: 0 4px 4px 0;
+        }
+
+        &#{$block}_pin_round-clear {
+            border-radius: 4px 0 0 4px;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-round {
+            border-radius: 0 4px 4px 0;
+            border-left: 0;
+        }
+
+        &#{$block}_pin_brick-clear {
+            border-radius: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-brick {
+            border-radius: 0;
+            border-left: 0;
+        }
+    }
+
+    &_size_m {
+        height: 28px;
+        padding: 0 8px;
+
+        &#{$block}_pin_round-round {
+            border-radius: 4px;
+        }
+
+        &#{$block}_pin_brick-brick {
+            border-radius: 0;
+        }
+
+        &#{$block}_pin_clear-clear {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_round-brick {
+            border-radius: 4px 0 0 4px;
+        }
+
+        &#{$block}_pin_brick-round {
+            border-radius: 0 4px 4px 0;
+        }
+
+        &#{$block}_pin_round-clear {
+            border-radius: 4px 0 0 4px;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-round {
+            border-radius: 0 4px 4px 0;
+            border-left: 0;
+        }
+
+        &#{$block}_pin_brick-clear {
+            border-radius: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-brick {
+            border-radius: 0;
+            border-left: 0;
+        }
+    }
+
+    &_size_l {
+        height: 36px;
+        padding: 0 12px;
+
+        &#{$block}_pin_round-round {
+            border-radius: 6px;
+        }
+
+        &#{$block}_pin_brick-brick {
+            border-radius: 0;
+        }
+
+        &#{$block}_pin_clear-clear {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_round-brick {
+            border-radius: 6px 0 0 6px;
+        }
+
+        &#{$block}_pin_brick-round {
+            border-radius: 0 6px 6px 0;
+        }
+
+        &#{$block}_pin_round-clear {
+            border-radius: 6px 0 0 6px;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-round {
+            border-radius: 0 6px 6px 0;
+            border-left: 0;
+        }
+
+        &#{$block}_pin_brick-clear {
+            border-radius: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-brick {
+            border-radius: 0;
+            border-left: 0;
+        }
+    }
+
+    &_size_xl {
+        height: 44px;
+        padding: 0 12px;
+        font-size: 15px;
+
+        &#{$block}_pin_round-round {
+            border-radius: 8px;
+        }
+
+        &#{$block}_pin_brick-brick {
+            border-radius: 0;
+        }
+
+        &#{$block}_pin_clear-clear {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_round-brick {
+            border-radius: 8px 0 0 8px;
+        }
+
+        &#{$block}_pin_brick-round {
+            border-radius: 0 8px 8px 0;
+        }
+
+        &#{$block}_pin_round-clear {
+            border-radius: 8px 0 0 8px;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-round {
+            border-radius: 0 8px 8px 0;
+            border-left: 0;
+        }
+
+        &#{$block}_pin_brick-clear {
+            border-radius: 0;
+            border-right: 0;
+        }
+
+        &#{$block}_pin_clear-brick {
+            border-radius: 0;
+            border-left: 0;
+        }
+    }
+
+    &_width_auto {
+        max-width: 100%;
+    }
+
+    &_width_max {
+        width: 100%;
+    }
+
+    &:hover {
+        background-color: var(--yc-color-base-simple-hover);
+
+        &:not(#{$block}_view_clear) {
+            border-color: var(--yc-color-line-generic-hover);
+        }
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--yc-color-line-generic-active);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+
+    &__label {
+        margin-right: 2px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    &__placeholder {
+        margin-right: 8px;
+        color: var(--yc-color-text-hint);
+    }
+
+    &__value {
+        margin-right: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__chevron-icon {
+        flex: 0 0 16px;
+        margin-left: auto;
+        color: var(--yc-color-text-secondary);
+    }
+}

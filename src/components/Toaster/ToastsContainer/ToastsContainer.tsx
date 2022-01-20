@@ -16,8 +16,8 @@ function renderToasts(toasts: ToastGeneralProps[], removeCallback: (name: string
     });
 }
 
-export const ToastsContainer = (props: ToastsContainerProps) => {
+export function ToastsContainer(props: ToastsContainerProps) {
     const {toasts, removeCallback} = props;
 
     return <React.Fragment>{renderToasts(toasts, removeCallback)}</React.Fragment>;
-};
+}

@@ -54,6 +54,9 @@ $block: '.#{$ns}toast';
     &_hide-animation {
         animation: move-right 0.25s ease forwards, remove-height 0.35s ease forwards 0.25s;
     }
+    &_created {
+        position: relative;
+    }
 }
 
 @keyframes move-right {

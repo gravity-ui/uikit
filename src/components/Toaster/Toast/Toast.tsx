@@ -1,4 +1,4 @@
-import React, {ReactNode, useMemo, useEffect, useRef, useState, useCallback} from 'react';
+import React from 'react';
 import {block} from '../../utils/cn';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
@@ -35,7 +35,7 @@ export interface ToastGeneralProps {
     className?: string;
     timeout?: number;
     allowAutoHiding?: boolean;
-    content?: ReactNode;
+    content?: React.ReactNode;
     type?: ToastType;
     isClosable?: boolean;
     isOverride?: boolean;
@@ -50,170 +50,101 @@ interface ToastProps extends ToastGeneralProps, ToastInnerProps {}
 
 enum ToastStatus {
     creating = 'creating',
-    'showing-indents' = 'showing-indents',
-    'showing-height' = 'showing-height',
-    'hiding' = 'hiding',
-    'shown' = 'shown',
+    showingIndents = 'showing-indents',
+    showingHeight = 'showing-height',
+    hiding = 'hiding',
+    shown = 'shown',
 }
 
-type ToastStyles = {
-    height?: number;
-    position?: 'relative';
-};
+interface UseCloseOnTimeoutProps {
+    onClose: VoidFunction;
+    timeout?: number;
+}
 
-export function Toast(props: ToastProps) {
-    const [status, setStatus] = useState<ToastStatus>(ToastStatus.creating);
-    const [height, setHeight] = useState<number | undefined>(undefined);
-    const [timerId, setTimerId] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
+function useCloseOnTimeout({onClose, timeout}: UseCloseOnTimeoutProps) {
+    const timerId = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-    const {allowAutoHiding = true, isClosable = true, isOverride = false} = props;
-
-    const ref = useRef<HTMLDivElement>(null);
-
-    const timeout = useMemo(() => {
-        const {timeout} = props;
-
-        if (!allowAutoHiding) {
-            return undefined;
-        }
-
-        return timeout || DEFAULT_TIMEOUT;
-    }, [props.timeout, allowAutoHiding]);
-
-    useEffect(() => {
-        setTimer();
-        setHeight(getToastHeight());
-        setStatus(ToastStatus['showing-indents']);
-    }, []);
-
-    useEffect(() => {
-        if (isOverride) {
-            setHeight(getToastHeight());
-        }
-
-        if (status === ToastStatus['showing-indents']) {
-            // setTimeout is needed to animation properly work
-            setTimeout(() => {
-                setStatus(ToastStatus['showing-height']);
-            }, 0);
-        }
-    }, [isOverride, status]);
-
-    const remove = () => {
-        setStatus(ToastStatus.hiding);
-    };
-
-    const getAnimationEndHandler = useCallback(() => {
-        if (status === ToastStatus['showing-height']) {
-            return onFadeInAnimationEnd;
-        }
-
-        if (status === ToastStatus.hiding) {
-            return onFadeOutAnimationEnd;
-        }
-
-        return undefined;
-    }, [status]);
-
-    const getToastHeight = () => {
-        return ref.current?.offsetHeight;
-    };
-
-    const styles = useMemo(() => {
-        const styles: ToastStyles = {};
-
-        if (height && status !== ToastStatus['showing-indents'] && status !== ToastStatus.shown) {
-            styles.height = height;
-        }
-
-        if (status !== 'creating') {
-            styles.position = 'relative';
-        }
-
-        return styles;
-    }, [height, status]);
-
-    const mods = useMemo(() => {
-        return {
-            appearing:
-                status === ToastStatus['showing-indents'] ||
-                status === ToastStatus['showing-height'],
-            'show-animation': status === ToastStatus['showing-height'],
-            'hide-animation': status === ToastStatus.hiding,
-        };
-    }, [status]);
-
-    const getTitleIcon = () => {
-        const {type} = props;
-        const icon = type ? TITLE_ICONS[type] : null;
-
-        if (!icon) {
-            return null;
-        }
-
-        return <Icon data={icon} className={b('icon', {title: true})} />;
-    };
-
-    const getCloseButton = () => {
-        if (!isClosable) {
-            return null;
-        }
-
-        return (
-            <Button
-                view="flat-secondary"
-                size="s"
-                style={{position: 'absolute', top: 10, right: 10}}
-                onClick={remove}
-            >
-                <Icon data={CrossIcon} />
-            </Button>
-        );
-    };
-
-    const getActions = () => {
-        const {actions} = props;
-
-        if (!actions) {
-            return null;
-        }
-
-        return actions.map(({label, onClick, removeAfterClick = true}, index) => {
-            const onActionClick = () => {
-                onClick();
-                if (removeAfterClick) {
-                    remove();
-                }
-            };
-
-            return (
-                <Link key={`${label}__${index}`} className={b('action')} onClick={onActionClick}>
-                    {label}
-                </Link>
-            );
-        });
-    };
-
-    const setTimer = () => {
+    const setTimer = React.useCallback(() => {
         if (!timeout) {
             return;
         }
 
-        setTimerId(
-            setTimeout(async () => {
-                if (ref.current) {
-                    remove();
-                }
-            }, timeout),
-        );
+        timerId.current = setTimeout(async () => {
+            onClose();
+        }, timeout);
+    }, [timeout, onClose]);
+
+    const clearTimer = React.useCallback(() => {
+        if (timerId.current) {
+            clearTimeout(timerId.current);
+            timerId.current = undefined;
+        }
+    }, []);
+
+    React.useEffect(() => {
+        setTimer();
+        return () => {
+            clearTimer();
+        };
+    }, [setTimer, clearTimer]);
+
+    const onMouseOver = () => {
+        clearTimer();
     };
 
-    const clearTimer = () => {
-        if (timerId) {
-            clearTimeout(timerId);
-            setTimerId(undefined);
-        }
+    const onMouseLeave = () => {
+        setTimer();
     };
+
+    return {onMouseOver, onMouseLeave};
+}
+
+interface UseToastHeightProps {
+    isOverride: boolean;
+    status: ToastStatus;
+}
+
+function useToastHeight({isOverride, status}: UseToastHeightProps) {
+    const [height, setHeight] = React.useState<number | undefined>(undefined);
+
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    const getToastHeight = React.useCallback(() => {
+        return ref.current?.offsetHeight;
+    }, []);
+
+    React.useEffect(() => {
+        setHeight(getToastHeight());
+    }, [getToastHeight]);
+
+    React.useEffect(() => {
+        if (isOverride) {
+            setHeight(getToastHeight());
+        }
+    });
+
+    const style: React.CSSProperties = {};
+    if (height && status !== ToastStatus.showingIndents && status !== ToastStatus.shown) {
+        style.height = height;
+    }
+
+    return {style, ref};
+}
+
+interface UseToastStatusProps {
+    onRemove: VoidFunction;
+}
+
+function useToastStatus({onRemove}: UseToastStatusProps) {
+    const [status, setStatus] = React.useState<ToastStatus>(ToastStatus.creating);
+
+    React.useEffect(() => {
+        if (status === ToastStatus.creating) {
+            setStatus(ToastStatus.showingIndents);
+        } else if (status === ToastStatus.showingIndents) {
+            setStatus(ToastStatus.showingHeight);
+        }
+    }, [status]);
 
     const onFadeInAnimationEnd = (e: {animationName: string}) => {
         if (e.animationName === FADE_IN_LAST_ANIMATION_NAME) {
@@ -222,39 +153,111 @@ export function Toast(props: ToastProps) {
     };
 
     const onFadeOutAnimationEnd = (e: {animationName: string}) => {
-        const {removeCallback} = props;
         if (e.animationName === FADE_OUT_LAST_ANIMATION_NAME) {
-            removeCallback();
+            onRemove();
         }
     };
 
-    const onMouseOver = () => {
-        if (timerId) {
-            clearTimer();
-        }
+    let onAnimationEnd;
+    if (status === ToastStatus.showingHeight) {
+        onAnimationEnd = onFadeInAnimationEnd;
+    }
+    if (status === ToastStatus.hiding) {
+        onAnimationEnd = onFadeOutAnimationEnd;
+    }
+
+    const handleClose = React.useCallback(() => {
+        setStatus(ToastStatus.hiding);
+    }, []);
+
+    return {status, containerProps: {onAnimationEnd}, handleClose};
+}
+
+interface RenderActionsProps {
+    actions?: ToastAction[];
+    onClose: VoidFunction;
+}
+
+function renderActions({actions, onClose}: RenderActionsProps) {
+    if (!actions) {
+        return null;
+    }
+
+    return actions.map(({label, onClick, removeAfterClick = true}, index) => {
+        const onActionClick = () => {
+            onClick();
+            if (removeAfterClick) {
+                onClose();
+            }
+        };
+
+        return (
+            <Link key={`${label}__${index}`} className={b('action')} onClick={onActionClick}>
+                {label}
+            </Link>
+        );
+    });
+}
+
+interface RenderIconProps {
+    type?: ToastType;
+}
+
+function renderIcon({type}: RenderIconProps) {
+    const icon = type ? TITLE_ICONS[type] : null;
+
+    if (!icon) {
+        return null;
+    }
+
+    return <Icon data={icon} className={b('icon', {title: true})} />;
+}
+
+export function Toast(props: ToastProps) {
+    const {allowAutoHiding = true, isClosable = true, isOverride = false} = props;
+
+    const {
+        status,
+        containerProps: statusProps,
+        handleClose,
+    } = useToastStatus({onRemove: props.removeCallback});
+
+    const heightProps = useToastHeight({isOverride, status});
+
+    const timeout = allowAutoHiding ? props.timeout || DEFAULT_TIMEOUT : undefined;
+    const closeOnTimeoutProps = useCloseOnTimeout({onClose: handleClose, timeout});
+
+    const mods = {
+        appearing: status === ToastStatus.showingIndents || status === ToastStatus.showingHeight,
+        'show-animation': status === ToastStatus.showingHeight,
+        'hide-animation': status === ToastStatus.hiding,
+        created: status !== ToastStatus.creating,
     };
 
-    const onMouseLeave = () => {
-        setTimer();
-    };
-
-    const {content, actions, title, className} = props;
+    const {content, actions, title, className, type} = props;
     return (
         <div
-            ref={ref}
             className={b(mods, className)}
-            style={styles}
-            onAnimationEnd={getAnimationEndHandler()}
-            onMouseOver={onMouseOver}
-            onMouseLeave={onMouseLeave}
+            {...statusProps}
+            {...heightProps}
+            {...closeOnTimeoutProps}
         >
             <div className={b('title', {bold: Boolean(content || actions)})}>
-                {getTitleIcon()}
+                {renderIcon({type})}
                 {title}
             </div>
-            {getCloseButton()}
+            {isClosable && (
+                <Button
+                    view="flat-secondary"
+                    size="s"
+                    style={{position: 'absolute', top: 10, right: 10}}
+                    onClick={handleClose}
+                >
+                    <Icon data={CrossIcon} />
+                </Button>
+            )}
             {content}
-            {getActions()}
+            {renderActions({actions, onClose: handleClose})}
         </div>
     );
 }

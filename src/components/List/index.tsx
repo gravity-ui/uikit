@@ -4,6 +4,7 @@ import {ListProps} from './types';
 
 export * from './List';
 export * from './types';
+export * from './components/ListItem';
 
 export const ListWrapper: FC<ListProps<any>> = (props) => <List {...props} />;
 ListWrapper.defaultProps = listDefaultProps;

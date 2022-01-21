@@ -218,29 +218,26 @@ const text = [
 ];
 
 export const RenderPromo = () => (
-    <Showcase
-        title="Промо"
-        description="Экспериментальная палитра для задач, связанных с коммуникационным дизайном"
-    >
-        <ColorPanel title="Base" description="Большие подложки и блоки" colors={base} />
+    <Showcase title="Promo" description="Experimental palette.">
+        <ColorPanel title="Base" description="Large underlays and blocks." colors={base} />
         <ColorPanel
             title="Highlight"
-            description="Подсветка в тексте и подложки, не требующие хорошей заметности"
+            description="Highlight text or slightly fill background."
             colors={highlight}
         />
         <ColorPanel
             title="Accent"
-            description="Почти Base, но для более мелких объектов, кнопок и т.д., которым в темной теме потребуется более контрастный цвет, чем большим блокам. Пока только светлая тема"
+            description="Almost Base but for smaller objects. Only light theme."
             colors={accent}
         />
         <ColorPanel
             title="Accent Hover"
-            description="Ховер для Accent. Пока только светлая тема"
+            description="Hover for Accent. Only light theme."
             colors={accentHover}
         />
         <ColorPanel
             title="Text"
-            description="Тексты разных стилей. Пока только светлая тема"
+            description="Texts in different styles. Only light theme."
             colors={text}
         />
     </Showcase>

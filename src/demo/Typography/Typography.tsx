@@ -6,7 +6,7 @@ import './Typography.scss';
 
 const b = block('typography-demo');
 
-const sampleText = 'Еще один уровень вложенности';
+const sampleText = 'Yet another nesting level';
 const textSizes = [
     {name: 'display3'},
     {name: 'display2'},
@@ -29,17 +29,16 @@ const fontFamilies = ['sans', 'monospace'];
 export const Typography = () => (
     <div className={b()}>
         <div className={b('description')}>
-            При клике на строку копируются все нужные свойства, по возможности, используйте их все
-            вместе.
+            All properties will have been copied to clipboard by clicking on the text.
             <br />
-            Переменные code используются для больших кусков кода, а переменные с суффиксом inline —
-            для маленьких (вставки в тексте).
+            &apos;code&apos; variables is used for big chunks of code and variables with
+            &apos;inline&apos; suffix for small chunks
         </div>
 
         <div className={b('block', {type: 'font-sizes'})}>
             <div className={b('header')}>text styles</div>
             <div className={b('content')}>
-                {textSizes.map(({name, deprecated}) => {
+                {textSizes.map(({name}) => {
                     let styleText =
                         `font-size: var(--yc-text-${name}-font-size);\r` +
                         `line-height: var(--yc-text-${name}-line-height);`;
@@ -52,7 +51,7 @@ export const Typography = () => (
 
                     return (
                         <ReactCopyToClipboard key={name} text={styleText}>
-                            <div className={b('item', {name, deprecated})}>
+                            <div className={b('item', {name})}>
                                 <div className={b('caption')}>{name}</div>
                                 <div className={b('value')}>{sampleText}</div>
                             </div>
@@ -65,7 +64,7 @@ export const Typography = () => (
         <div className={b('block', {type: 'font-families'})}>
             <div className={b('header')}>font families</div>
             <div className={b('description')}>
-                Если возможно, используйте стили приведенные выше, они содержат все нужные свойства.
+                Use the styles above for any situation if possible.
             </div>
             <div className={b('content')}>
                 {fontFamilies.map((name) => {

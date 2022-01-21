@@ -1,5 +1,19 @@
 # Changelog
 
+### [1.4.2](https://www.github.com/yandex-cloud/uikit/compare/v1.4.1...v1.4.2) (2022-01-21)
+
+
+### Bug Fixes
+
+* allow not to set a fixed height for non-virtualized lists ([#54](https://www.github.com/yandex-cloud/uikit/issues/54)) ([df17e41](https://www.github.com/yandex-cloud/uikit/commit/df17e41348d0f065e14b4504187f80b064970a40))
+
+### [1.4.1](https://www.github.com/yandex-cloud/uikit/compare/v1.4.0...v1.4.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* should export ListItem ([#49](https://www.github.com/yandex-cloud/uikit/issues/49)) ([10a9550](https://www.github.com/yandex-cloud/uikit/commit/10a955019d72e3fe0e62d3bdea6a45c3a5d0b085))
+
 ## [1.4.0](https://www.github.com/yandex-cloud/uikit/compare/v1.3.0...v1.4.0) (2022-01-18)
 
 

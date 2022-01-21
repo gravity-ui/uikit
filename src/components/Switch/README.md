@@ -7,30 +7,25 @@ import React from 'react';
 import {Switch} from '@yandex-cloud/uikit';
 
 function App() {
-    const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
 
-    return (
-        <Switch
-            checked={checked}
-            onUpdate={setChecked}
-            content="switch"
-        />
-    );
+  return <Switch checked={checked} onUpdate={setChecked} content="switch" />;
 }
 ```
 
 ## Свойства
+
 Наследует свойства: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface SwitchProps extends ControlProps, DOMProps, QAProps {
-    /** Размер. */
-    size?: 'm' | 'l';
-    /** Содержимое подписи. */
-    content?: React.ReactNode;
-    /** Содержимое подписи. */
-    children?: React.ReactNode;
-    /** HTML-атрибут title. */
-    title?: string;
+  /** Размер. */
+  size?: 'm' | 'l';
+  /** Содержимое подписи. */
+  content?: React.ReactNode;
+  /** Содержимое подписи. */
+  children?: React.ReactNode;
+  /** HTML-атрибут title. */
+  title?: string;
 }
 ```

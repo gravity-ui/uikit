@@ -19,6 +19,7 @@
         "styles"
     ],
     "scripts": {
+        "prepare": "husky install",
         "test": "jest",
         "clean": "gulp clean",
         "build": "gulp",
@@ -26,7 +27,7 @@
         "build-storybook": "build-storybook -c .storybook -o storybook-static",
         "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
-        "lint:prettier": "prettier --check --loglevel=error '**/*.{js,jsx,ts,tsx,scss}'",
+        "lint:prettier": "prettier --check '**/*.md'",
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
         "prepublishOnly": "npm run build"
@@ -46,6 +47,8 @@
         "utility-types": "3.10.0"
     },
     "devDependencies": {
+        "@commitlint/cli": "^15.0.0",
+        "@commitlint/config-conventional": "^15.0.0",
         "@storybook/addon-essentials": "^6.4.18",
         "@storybook/preset-scss": "^1.0.3",
         "@storybook/react": "^6.4.18",
@@ -72,8 +75,10 @@
         "gulp-dart-sass": "^1.0.2",
         "gulp-replace": "^1.1.3",
         "gulp-typescript": "^5.0.1",
+        "husky": "^7.0.4",
         "jest": "^27.4.7",
         "jest-transform-css": "^3.0.0",
+        "nano-staged": "^0.6.0",
         "npm-run-all": "^4.1.5",
         "postcss": "^8.4.6",
         "prettier": "2.4.1",
@@ -94,5 +99,16 @@
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
         "react-router-dom": "^5.0.0"
+    },
+    "nano-staged": {
+        "*.{scss}": [
+            "stylelint --fix --quiet"
+        ],
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --fix --quiet"
+        ],
+        "*.md": [
+            "prettier --write"
+        ]
     }
 }

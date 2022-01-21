@@ -9,6 +9,7 @@ export * from './Card';
 export * from './ClipboardButton';
 export * from './ClipboardIcon';
 export * from './CopyToClipboard';
+export * from './Dialog';
 export * from './DropdownMenu';
 export * from './Icon';
 export * from './Label';

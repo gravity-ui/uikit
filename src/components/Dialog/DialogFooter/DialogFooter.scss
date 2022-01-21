@@ -1,0 +1,31 @@
+@import '../../variables';
+
+$block: '.#{$ns}dialog-footer';
+
+#{$block} {
+    padding: var(--yc-dialog-footer-padding);
+    display: flex;
+    align-items: center;
+
+    &__bts-wrapper {
+        display: flex;
+    }
+
+    &__children {
+        flex-grow: 1;
+        height: 100%;
+        align-items: center;
+        display: flex;
+    }
+
+    &__button {
+        min-width: 128px;
+        margin-left: 10px;
+        position: relative;
+    }
+
+    &__error {
+        padding: 10px;
+        color: var(--yc-color-text-danger);
+    }
+}

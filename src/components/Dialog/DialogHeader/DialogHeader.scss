@@ -1,0 +1,18 @@
+@import '../../variables';
+
+$block: '.#{$ns}dialog-header';
+
+#{$block} {
+    padding: var(--yc-dialog-header-padding);
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--yc-color-text-primary);
+
+    &__caption {
+        font-size: var(--yc-text-lead-font-size);
+        line-height: var(--yc-text-lead-line-height);
+        font-weight: 500;
+    }
+}

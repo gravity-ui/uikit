@@ -35,11 +35,11 @@ export const Control = (props: ControlProps) => {
     }
 
     return (
-        <div className={b(controlMods)} style={controlInlineStyles} tabIndex={1}>
+        <button className={b(controlMods)} style={controlInlineStyles}>
             {label && <span className={b('label')}>{label}</span>}
             {showPlaceholder && <span className={b('placeholder')}>{placeholder}</span>}
             {showValues && <span className={b('value')}>{value.join(', ')}</span>}
             <Icon className={b('chevron-icon')} data={Chevron} />
-        </div>
+        </button>
     );
 };

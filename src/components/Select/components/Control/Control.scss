@@ -1,16 +1,33 @@
 @import '../../../variables';
 
+@mixin button-text-color($color, $hoverColor: $color) {
+    &,
+    &:link,
+    &:visited,
+    &:active,
+    &:focus {
+        color: $color;
+    }
+
+    &:hover {
+        color: $hoverColor;
+    }
+}
+
 $block: '.#{$ns}select-control';
 
 #{$block} {
+    @include button-text-color(var(--yc-color-text-primary));
+
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     min-width: 34px;
     border: 1px solid var(--yc-color-line-generic);
+    background-color: transparent;
     white-space: nowrap;
-    transition: transform 0.1s ease-out, border-color 0.1s linear, background-color 0.1s linear,
-        color 0.1s linear;
+    transition: transform 0.1s ease-out, border-color 0.15s linear, background-color 0.15s linear,
+        color 0.15s linear;
     cursor: pointer;
 
     &_view_clear {

@@ -6,32 +6,32 @@ const lite = [
     {
         name: 'infographics-info-light',
         title: 'Info Light',
-        description: 'Инфо.',
+        description: 'Info.',
     },
     {
         name: 'infographics-positive-light',
         title: 'Positive Light',
-        description: 'Положительное.',
+        description: 'Positive.',
     },
     {
         name: 'infographics-warning-light',
         title: 'Warning Light',
-        description: 'Предупреждающее.',
+        description: 'Warning.',
     },
     {
         name: 'infographics-danger-light',
         title: 'Danger Light',
-        description: 'Опасное.',
+        description: 'Danger.',
     },
     {
         name: 'infographics-misc-light',
         title: 'Misc Light',
-        description: 'Когда другое не подходит.',
+        description: 'Uncategorized.',
     },
     {
         name: 'infographics-neutral-light',
         title: 'Neutral Light',
-        description: 'Незаполненное, пустое.',
+        description: 'Not filled, empty.',
     },
 ];
 
@@ -39,32 +39,32 @@ const medium = [
     {
         name: 'infographics-info-medium',
         title: 'Info Medium',
-        description: 'Инфо.',
+        description: 'Info.',
     },
     {
         name: 'infographics-positive-medium',
         title: 'Positive Medium',
-        description: 'Положительное.',
+        description: 'Positive.',
     },
     {
         name: 'infographics-warning-medium',
         title: 'Warning Medium',
-        description: 'Предупреждающее.',
+        description: 'Warning.',
     },
     {
         name: 'infographics-danger-medium',
         title: 'Danger Medium',
-        description: 'Опасное.',
+        description: 'Danger.',
     },
     {
         name: 'infographics-misc-medium',
         title: 'Misc Medium',
-        description: 'Когда другое не подходит.',
+        description: 'Uncategorized.',
     },
     {
         name: 'infographics-neutral-medium',
         title: 'Neutral Medium',
-        description: 'Незаполненное, пустое.',
+        description: 'Not filled, empty.',
     },
 ];
 
@@ -72,32 +72,32 @@ const heavy = [
     {
         name: 'infographics-info-heavy',
         title: 'Info Heavy',
-        description: 'Инфо.',
+        description: 'Info.',
     },
     {
         name: 'infographics-positive-heavy',
         title: 'Positive Heavy',
-        description: 'Положительное.',
+        description: 'Positive.',
     },
     {
         name: 'infographics-warning-heavy',
         title: 'Warning Heavy',
-        description: 'Предупреждающее.',
+        description: 'Warning.',
     },
     {
         name: 'infographics-danger-heavy',
         title: 'Danger Heavy',
-        description: 'Опасное.',
+        description: 'Danger.',
     },
     {
         name: 'infographics-misc-heavy',
         title: 'Misc Heavy',
-        description: 'Когда другое не подходит.',
+        description: 'Uncategorized.',
     },
     {
         name: 'infographics-neutral-heavy',
         title: 'Neutral Heavy',
-        description: 'Незаполненное, пустое.',
+        description: 'Not filled, empty.',
     },
 ];
 
@@ -105,7 +105,7 @@ const axis = [
     {
         name: 'infographics-axis',
         title: 'Axis',
-        descriotioni: 'Оси графиков',
+        description: 'Graph axis',
     },
 ];
 
@@ -113,35 +113,31 @@ const tooltip = [
     {
         name: 'infographics-tooltip-bg',
         title: 'Chart Tooltip BG',
-        description: 'Основной фон тултипов',
+        description: 'Main background for tooltips.',
     },
 ];
 
 export const RenderInfographic = () => (
-    <Showcase title="Инфографика" description="Графики, диаграммы, индикаторы">
+    <Showcase title="Infographic" description="Graphs, diagrams, indicators.">
+        <ColorPanel title="Light colors" description="Light contrast." colors={lite} />
         <ColorPanel
-            title="Ненасыщенные цвета"
-            description="Подходят для заливок, которым не нужен большой контраст"
-            colors={lite}
-        />
-        <ColorPanel
-            title="Умеренные цвета"
-            description="Для элементов, которым нужен умеренный контраст (например, барчарты)"
+            title="Medium colors"
+            description="Medium contrast. For example, bar charts."
             colors={medium}
         />
         <ColorPanel
-            title="Насыщенные цвета"
-            description="Для случаев, когда требуется максимальный контраст. Статусы, маленькие элементы, точки, отметки"
+            title="Heavy colors"
+            description="Heavy contrast. Statuses, small elements, dots, marks."
             colors={heavy}
         />
         <ColorPanel
-            title="Оси"
-            description="Оси и направляющие для графиков и диаграмм"
+            title="Axes"
+            description="Axes and guides for graphs and diagrams."
             colors={axis}
         />
         <ColorPanel
-            title="Тултипы"
-            description="Для сохранения контекста, тултип с легкой прозрачностью"
+            title="Tooltips"
+            description="Tooltip with tiny transparency."
             colors={tooltip}
             boxBorders={true}
         />

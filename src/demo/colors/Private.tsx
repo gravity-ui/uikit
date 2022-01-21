@@ -3,7 +3,7 @@ import ReactCopyToClipboard from 'react-copy-to-clipboard';
 import {Showcase} from '../Showcase';
 import './Private.scss';
 
-let steps = [];
+let steps: number[] = [];
 for (let i = 50; i <= 1000; i += 50) {
     steps.push(i);
 }
@@ -24,7 +24,7 @@ const light = {
     'cool-grey': [50, 100, 300, 450, 550, 800],
     'cool-grey-solid': [450],
     orange: [50, 100, 300, 450, 550],
-};
+} as Record<string, number[]>;
 
 const dark = {
     white: [50, 100, 150, 250, 300, 500, 700, 850],
@@ -44,9 +44,24 @@ const dark = {
     'cool-grey-solid': [450],
     orange: [50, 100, 150, 300, 450, 550],
     'orange-solid': [450],
-};
+} as Record<string, number[]>;
 
-const renderColorTable = (theme) => {
+interface RenderPrivateProps {
+    theme?: 'light' | 'dark';
+}
+
+export function RenderPrivate({theme = 'light'}: RenderPrivateProps) {
+    return (
+        <Showcase
+            title="Basic colors"
+            description="Private palette: colors are not for usage in services and components."
+        >
+            {renderColorTable(theme)}
+        </Showcase>
+    );
+}
+
+const renderColorTable = (theme: 'light' | 'dark') => {
     const colors = theme === 'dark' ? dark : light;
 
     const renderHeading = () => {
@@ -67,9 +82,10 @@ const renderColorTable = (theme) => {
         );
     };
 
-    const getClassName = (colorName, step) => `--yc-color-private-${colorName}-${step}`;
+    const getClassName = (colorName: string, step: number) =>
+        `--yc-color-private-${colorName}-${step}`;
 
-    const renderSteps = (colorName) => {
+    const renderSteps = (colorName: string) => {
         return steps.map((step) => {
             const varName = getClassName(colorName, step);
             const style = {background: `var(${varName})`};
@@ -101,12 +117,3 @@ const renderColorTable = (theme) => {
         </table>
     );
 };
-
-export const RenderPrivate = ({theme = 'light'}) => (
-    <Showcase
-        title="Базовые цвета"
-        description="Приватная палитра: эти цвета нельзя использовать напрямую в сервисах и компонентах"
-    >
-        {renderColorTable(theme)}
-    </Showcase>
-);

@@ -35,7 +35,12 @@ export const Control = (props: ControlProps) => {
     }
 
     return (
-        <button className={b(controlMods)} style={controlInlineStyles}>
+        <button
+            className={b(controlMods)}
+            style={controlInlineStyles}
+            role="combobox"
+            aria-haspopup="listbox"
+        >
             {label && <span className={b('label')}>{label}</span>}
             {showPlaceholder && <span className={b('placeholder')}>{placeholder}</span>}
             {showValues && <span className={b('value')}>{value.join(', ')}</span>}

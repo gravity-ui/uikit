@@ -264,12 +264,9 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         ref={this.refContainer}
                         width={width}
                         height={height}
-                        itemSize={this.getItemHeight as (index: number) => number}
+                        itemSize={this.getVirtualizedItemHeight}
                         itemData={this.state.items}
                         itemCount={this.state.items.length}
-                        // this property used to rerender items in viewport
-                        // @ts-ignore
-                        activeItem={this.state.activeItem}
                         overscanCount={10}
                         helperClass={b('item', {sorting: true})}
                         distance={5}
@@ -277,6 +274,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         onItemsRendered={this.onItemsRendered}
                         onSortStart={this.onSortStart}
                         onSortEnd={this.onSortEnd}
+                        // this property used to rerender items in viewport
+                        // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
+                        // @ts-expect-error
+                        activeItem={this.state.activeItem}
                     >
                         {this.renderItem}
                     </Container>
@@ -419,13 +420,16 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private getItemHeight = (index: number) => {
-        const {itemHeight, virtualized} = this.props;
+        const {itemHeight} = this.props;
 
         if (typeof itemHeight === 'function') {
             const {items} = this.state;
             return itemHeight(items[index]);
-        } else {
-            return virtualized ? Number(itemHeight) || DEFAULT_ITEM_HEIGHT : itemHeight;
         }
+        return itemHeight;
+    };
+
+    private getVirtualizedItemHeight = (index: number) => {
+        return this.getItemHeight(index) || DEFAULT_ITEM_HEIGHT;
     };
 }

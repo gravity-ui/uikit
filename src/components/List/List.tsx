@@ -264,7 +264,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         ref={this.refContainer}
                         width={width}
                         height={height}
-                        itemSize={this.getItemHeight}
+                        itemSize={this.getItemHeight as (index: number) => number}
                         itemData={this.state.items}
                         itemCount={this.state.items.length}
                         // this property used to rerender items in viewport
@@ -425,8 +425,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             const {items} = this.state;
             return itemHeight(items[index]);
         } else {
-            const estimatedItemHeight = virtualized ? Number(itemHeight) : itemHeight;
-            return estimatedItemHeight || DEFAULT_ITEM_HEIGHT;
+            return virtualized ? Number(itemHeight) || DEFAULT_ITEM_HEIGHT : itemHeight;
         }
     };
 }

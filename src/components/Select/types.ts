@@ -9,4 +9,5 @@ export type SelectProps = {
     label?: string;
     placeholder?: React.ReactNode;
     value?: string[];
+    disabled?: boolean;
 };

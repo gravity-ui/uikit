@@ -16,16 +16,18 @@ type ControlProps = {
     width?: SelectProps['controlWidth'];
     label?: string;
     placeholder?: SelectProps['placeholder'];
+    disabled?: boolean;
 };
 
 export const Control = (props: ControlProps) => {
-    const {view, size, pin, value, width, label, placeholder} = props;
+    const {view, size, pin, value, width, label, placeholder, disabled} = props;
     const showValues = Boolean(value.length);
     const showPlaceholder = Boolean(placeholder && !showValues);
     const controlMods: CnMods = {
         view,
         size,
         pin,
+        disabled,
         ...(typeof width === 'string' && {width}),
     };
     const controlInlineStyles: React.CSSProperties = {};
@@ -40,6 +42,7 @@ export const Control = (props: ControlProps) => {
             style={controlInlineStyles}
             role="combobox"
             aria-haspopup="listbox"
+            disabled={disabled}
         >
             {label && <span className={b('label')}>{label}</span>}
             {showPlaceholder && <span className={b('placeholder')}>{placeholder}</span>}

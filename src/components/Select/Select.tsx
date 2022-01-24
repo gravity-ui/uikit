@@ -6,6 +6,7 @@ export const Select = (props: SelectProps) => {
     const {
         label,
         placeholder,
+        disabled,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -22,6 +23,7 @@ export const Select = (props: SelectProps) => {
             label={label}
             placeholder={placeholder}
             value={value}
+            disabled={disabled}
         />
     );
 };

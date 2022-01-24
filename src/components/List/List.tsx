@@ -136,7 +136,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     // FIXME: BREAKING CHANGE. Rename to "handleKeyDown"
-    onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+    onKeyDown: React.KeyboardEventHandler<HTMLElement> = (event) => {
         const {activeItem, pageSize} = this.state;
 
         switch (event.key) {

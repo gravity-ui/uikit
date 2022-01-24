@@ -7,10 +7,10 @@ export default {
     component: ArrowToggle,
 } as Meta;
 
-const DefaultTemplate: Story<ArrowToggleProps> = (args: any) => <ArrowToggle {...args} />;
+const DefaultTemplate: Story<ArrowToggleProps> = (args) => <ArrowToggle {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const DirectionsTemplate: Story<ArrowToggleProps> = (args: any) => {
+const DirectionsTemplate: Story<ArrowToggleProps> = (args) => {
     return (
         <>
             <ArrowToggle {...args} direction="top" /> top
@@ -23,7 +23,7 @@ const DirectionsTemplate: Story<ArrowToggleProps> = (args: any) => {
 
 export const Directions = DirectionsTemplate.bind({});
 
-const SizesTemplate: Story<ArrowToggleProps> = (args: any) => {
+const SizesTemplate: Story<ArrowToggleProps> = (args) => {
     return (
         <>
             <ArrowToggle {...args} size={10} /> 10
@@ -38,7 +38,7 @@ const SizesTemplate: Story<ArrowToggleProps> = (args: any) => {
 
 export const Sizes = SizesTemplate.bind({});
 
-export const Interactive: Story<ArrowToggleProps> = (args: any) => {
+export const Interactive: Story<ArrowToggleProps> = (args) => {
     const [directionIndex, setDirectionIndex] = useState(0);
     const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
     const direction = directions[directionIndex % directions.length];

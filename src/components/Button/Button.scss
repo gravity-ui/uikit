@@ -30,7 +30,6 @@ $block: '.#{$ns}button';
     white-space: nowrap;
     text-decoration: none;
     background: transparent;
-    border-radius: 4px;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     transition: transform 0.1s ease-out, color 0.15s linear;
@@ -44,7 +43,6 @@ $block: '.#{$ns}button';
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 4px;
         transition: background-color 0.15s linear;
     }
 
@@ -56,7 +54,6 @@ $block: '.#{$ns}button';
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 4px;
     }
 
     &:focus::after {

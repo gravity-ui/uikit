@@ -1,14 +1,14 @@
 import React from 'react';
-import {ToastGeneralProps, Toast} from '../Toast/Toast';
+import {ToastProps, Toast} from '../Toast/Toast';
 
 import './ToastsContainer.scss';
 
 interface ToastsContainerProps {
-    toasts: ToastGeneralProps[];
+    toasts: ToastProps[];
     removeCallback: (name: string) => void;
 }
 
-function renderToasts(toasts: ToastGeneralProps[], removeCallback: (name: string) => void) {
+function renderToasts(toasts: ToastProps[], removeCallback: (name: string) => void) {
     return toasts.map((toast) => {
         const {name} = toast;
 

@@ -29,7 +29,7 @@ export interface ToastAction {
 
 export type ToastType = 'error' | 'success';
 
-export interface ToastGeneralProps {
+export interface ToastProps {
     name: string;
     title?: string;
     className?: string;
@@ -46,14 +46,14 @@ interface ToastInnerProps {
     removeCallback: VoidFunction;
 }
 
-interface ToastProps extends ToastGeneralProps, ToastInnerProps {}
+interface ToastUnitedProps extends ToastProps, ToastInnerProps {}
 
 enum ToastStatus {
-    creating = 'creating',
-    showingIndents = 'showing-indents',
-    showingHeight = 'showing-height',
-    hiding = 'hiding',
-    shown = 'shown',
+    Creating = 'creating',
+    ShowingIndents = 'showing-indents',
+    ShowingHeight = 'showing-height',
+    Hiding = 'hiding',
+    Shown = 'shown',
 }
 
 interface UseCloseOnTimeoutProps {
@@ -124,7 +124,7 @@ function useToastHeight({isOverride, status}: UseToastHeightProps) {
     });
 
     const style: React.CSSProperties = {};
-    if (height && status !== ToastStatus.showingIndents && status !== ToastStatus.shown) {
+    if (height && status !== ToastStatus.ShowingIndents && status !== ToastStatus.Shown) {
         style.height = height;
     }
 
@@ -136,19 +136,19 @@ interface UseToastStatusProps {
 }
 
 function useToastStatus({onRemove}: UseToastStatusProps) {
-    const [status, setStatus] = React.useState<ToastStatus>(ToastStatus.creating);
+    const [status, setStatus] = React.useState<ToastStatus>(ToastStatus.Creating);
 
     React.useEffect(() => {
-        if (status === ToastStatus.creating) {
-            setStatus(ToastStatus.showingIndents);
-        } else if (status === ToastStatus.showingIndents) {
-            setStatus(ToastStatus.showingHeight);
+        if (status === ToastStatus.Creating) {
+            setStatus(ToastStatus.ShowingIndents);
+        } else if (status === ToastStatus.ShowingIndents) {
+            setStatus(ToastStatus.ShowingHeight);
         }
     }, [status]);
 
     const onFadeInAnimationEnd = (e: {animationName: string}) => {
         if (e.animationName === FADE_IN_LAST_ANIMATION_NAME) {
-            setStatus(ToastStatus.shown);
+            setStatus(ToastStatus.Shown);
         }
     };
 
@@ -159,15 +159,15 @@ function useToastStatus({onRemove}: UseToastStatusProps) {
     };
 
     let onAnimationEnd;
-    if (status === ToastStatus.showingHeight) {
+    if (status === ToastStatus.ShowingHeight) {
         onAnimationEnd = onFadeInAnimationEnd;
     }
-    if (status === ToastStatus.hiding) {
+    if (status === ToastStatus.Hiding) {
         onAnimationEnd = onFadeOutAnimationEnd;
     }
 
     const handleClose = React.useCallback(() => {
-        setStatus(ToastStatus.hiding);
+        setStatus(ToastStatus.Hiding);
     }, []);
 
     return {status, containerProps: {onAnimationEnd}, handleClose};
@@ -213,7 +213,7 @@ function renderIcon({type}: RenderIconProps) {
     return <Icon data={icon} className={b('icon', {title: true})} />;
 }
 
-export function Toast(props: ToastProps) {
+export function Toast(props: ToastUnitedProps) {
     const {allowAutoHiding = true, isClosable = true, isOverride = false} = props;
 
     const {
@@ -228,10 +228,10 @@ export function Toast(props: ToastProps) {
     const closeOnTimeoutProps = useCloseOnTimeout({onClose: handleClose, timeout});
 
     const mods = {
-        appearing: status === ToastStatus.showingIndents || status === ToastStatus.showingHeight,
-        'show-animation': status === ToastStatus.showingHeight,
-        'hide-animation': status === ToastStatus.hiding,
-        created: status !== ToastStatus.creating,
+        appearing: status === ToastStatus.ShowingIndents || status === ToastStatus.ShowingHeight,
+        'show-animation': status === ToastStatus.ShowingHeight,
+        'hide-animation': status === ToastStatus.Hiding,
+        created: status !== ToastStatus.Creating,
     };
 
     const {content, actions, title, className, type} = props;

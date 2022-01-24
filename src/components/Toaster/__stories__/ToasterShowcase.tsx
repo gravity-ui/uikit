@@ -73,7 +73,7 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
         this.toaster.createToast({
             name,
             type: 'error',
-            title: 'Оплата не прошла проверку',
+            title: 'Payment verification failed',
             isClosable: showCloseIcon,
             timeout: setTimeout ? Number(timeout) : undefined,
             allowAutoHiding: allowAutoHiding,
@@ -93,7 +93,7 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
         this.toaster.createToast({
             name,
             type: 'success',
-            title: 'Оплата успешно произведена',
+            title: 'Payment is completed',
             isClosable: showCloseIcon,
             timeout: setTimeout ? Number(timeout) : undefined,
             allowAutoHiding: allowAutoHiding,
@@ -112,7 +112,7 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
 
         this.toaster.createToast({
             name,
-            title: 'Оплата скорее всего прошла',
+            title: 'Payment is most likely completed',
             isClosable: showCloseIcon,
             timeout: setTimeout ? Number(timeout) : undefined,
             allowAutoHiding: allowAutoHiding,
@@ -150,16 +150,16 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
                             lineHeight: '24px',
                         }}
                     >
-                        Следите за алертами в мобильном приложении Облака
+                        Keep track of alerts in Yandex Cloud mobile app
                     </div>
                     <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
-                        Попробуйте просматривать алерты в приложении.
+                        Try to view alerts in mobile app.
                     </div>
                     <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
-                        Вы можете настроить для них пуши, чтобы не пропустить срабатывание.
+                        You may set up push-notifications to prevent missing.
                     </div>
                     <div style={{marginTop: '16px', color: 'rgba(0, 0, 0, 0.3)'}}>
-                        Наведите камеру на QR-код
+                        Point the camera at the QR-code.
                     </div>
                 </div>
             </div>
@@ -182,7 +182,7 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
         const {lastToastName} = this.state;
 
         this.toaster.overrideToast(lastToastName, {
-            title: 'А тут вообще не про оплату',
+            title: 'Here is information not about payments at all...',
             actions: [
                 {
                     label: 'Action 1',

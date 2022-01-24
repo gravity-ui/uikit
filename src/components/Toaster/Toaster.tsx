@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {block} from '../utils/cn';
-import {ToastGeneralProps} from './Toast/Toast';
+import {ToastProps} from './Toast/Toast';
 import {ToastsContainer} from './ToastsContainer/ToastsContainer';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
@@ -13,13 +13,9 @@ declare global {
     }
 }
 
-export interface Toast extends ToastGeneralProps {
-    isOverride?: boolean;
-}
-
 export class Toaster {
     readonly _additionalClass!: string;
-    _toasts!: Toast[];
+    _toasts!: ToastProps[];
     _rootNode!: any;
 
     constructor({additionalClass = ''} = {}) {
@@ -38,7 +34,7 @@ export class Toaster {
         window[TOASTER_KEY] = this;
     }
 
-    createToast = async (toastOptions: ToastGeneralProps) => {
+    createToast = async (toastOptions: ToastProps) => {
         const {name} = toastOptions;
         const index = this._getToastIndex(name);
 
@@ -60,7 +56,7 @@ export class Toaster {
         this._removeToastFromDOM(name);
     };
 
-    overrideToast = (name: string, overrideOptions: Partial<ToastGeneralProps>) => {
+    overrideToast = (name: string, overrideOptions: Partial<ToastProps>) => {
         const index = this._getToastIndex(name);
 
         if (index === -1) {

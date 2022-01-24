@@ -1,28 +1,31 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 import './ColorPanel.scss';
 
-export class ColorPanel extends Component {
-    state = {
-        bg: 'normal',
-    };
+interface ColorInfo {
+    name: string;
+    title: string;
+    description: string;
+}
 
-    switchBackground() {
-        switch (this.state.bg) {
-            case 'normal':
-                this.setState({bg: 'special'});
-                break;
-            case 'special':
-                this.setState({bg: 'dark'});
-                break;
-            case 'dark':
-                this.setState({bg: 'normal'});
-                break;
-        }
+interface ColorPanelProps {
+    title: string;
+    description: string;
+    colors: ColorInfo[];
+    boxBorders?: boolean;
+}
+
+const BACKGROUND_LIST = ['normal', 'special', 'dark'];
+
+export function ColorPanel(props: ColorPanelProps) {
+    const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(0);
+
+    function rotateBackground() {
+        setCurrentBackgroundIndex((index) => (index + 1) % BACKGROUND_LIST.length);
     }
 
-    renderColors(colors) {
-        const boxBorders = this.props.boxBorders ? 'color-panel__card-box_bordered' : '';
+    function renderColors(colors: ColorInfo[]) {
+        const boxBorders = props.boxBorders ? 'color-panel__card-box_bordered' : '';
         return colors.map((color) => {
             const varName = `--yc-color-${color.name}`;
             return (
@@ -47,22 +50,14 @@ export class ColorPanel extends Component {
         });
     }
 
-    renderBgSwitcher() {
-        return (
-            <div className="color-panel__bg-switcher" onClick={() => this.switchBackground()}>
+    return (
+        <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
+            <div className="color-panel__bg-switcher" onClick={() => rotateBackground()}>
                 BG
             </div>
-        );
-    }
-
-    render() {
-        return (
-            <div className={`color-panel color-panel_bg_${this.state.bg}`}>
-                {this.renderBgSwitcher()}
-                <div className="color-panel__title">{this.props.title}</div>
-                <div className="color-panel__description">{this.props.description}</div>
-                <div className="color-panel__colors">{this.renderColors(this.props.colors)}</div>
-            </div>
-        );
-    }
+            <div className="color-panel__title">{props.title}</div>
+            <div className="color-panel__description">{props.description}</div>
+            <div className="color-panel__colors">{renderColors(props.colors)}</div>
+        </div>
+    );
 }

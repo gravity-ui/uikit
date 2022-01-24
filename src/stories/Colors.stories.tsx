@@ -15,7 +15,7 @@ export default {
 export const Texts: Story = () => <RenderTexts />;
 export const Backgrounds: Story = () => <RenderBackgrounds />;
 export const Lines: Story = () => <RenderLines />;
-export const Infographic: Story = () => <RenderInfographic />;
 export const Effects: Story = () => <RenderEffects />;
-export const Private: Story = () => <RenderPrivate />;
+export const Infographic: Story = () => <RenderInfographic />;
 export const Promo: Story = () => <RenderPromo />;
+export const Private: Story = (_, context) => <RenderPrivate theme={context.globals.theme} />;

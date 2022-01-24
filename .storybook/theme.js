@@ -7,7 +7,7 @@ export const CloudTheme = create({
     colorSecondary: 'rgba(2, 123, 243, 0.6)',
 
     // Typography
-    fontBase: '"YS Text", Arial, sans-serif',
+    fontBase: '"Helvetica Neue", Arial, Helvetica, sans-serif',
     fontCode:
         '"SF Mono", "Menlo", "Monaco", "Consolas", "Ubuntu Mono", "Liberation Mono", "DejaVu Sans Mono", "Courier New", "Courier", monospace',
 

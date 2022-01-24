@@ -11,7 +11,7 @@ export default {
     },
 } as Meta;
 
-const items = ['на', 'златом', 'крыльце', 'сидели', 'царь', 'царевич', 'король', 'королевич'];
+const items = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
 
 const DefaultTemplate: Story<ListProps<any>> = (args) => <List {...args} />;
 export const Default = DefaultTemplate.bind({});

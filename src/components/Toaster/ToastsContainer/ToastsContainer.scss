@@ -1,0 +1,15 @@
+@import '../../variables';
+@import '../constants/constants.scss';
+
+$block: '.#{$ns}toaster';
+
+#{$block} {
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    width: 312px;
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}

@@ -2,6 +2,7 @@ export * from './types';
 export * from './mobile';
 export * from './theme';
 
+export * from './ArrowToggle';
 export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';

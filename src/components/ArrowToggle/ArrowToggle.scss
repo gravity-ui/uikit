@@ -1,0 +1,27 @@
+@import '../variables';
+
+$block: '.#{$ns}arrow-toggle';
+
+#{$block} {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.1s ease-out;
+
+    &_direction {
+        &_bottom {
+            transform: rotate(0deg);
+        }
+
+        &_left {
+            transform: rotate(90deg);
+        }
+
+        &_top {
+            transform: rotate(180deg);
+        }
+
+        &_right {
+            transform: rotate(270deg);
+        }
+    }
+}

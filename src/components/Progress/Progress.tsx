@@ -1,26 +1,26 @@
 import React, {Component} from 'react';
 import {block} from '../utils/cn';
-import _ from 'lodash';
+import _sumBy from 'lodash/sumBy';
 
 import './Progress.scss';
 
 const b = block('progress');
 
-export type Theme = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'misc';
-export type View = 'normal' | 'thin' | 'thinnest';
-export type Value = number;
+export type ProgressTheme = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'misc';
+export type ProgressView = 'normal' | 'thin' | 'thinnest';
+export type ProgressValue = number;
 
 interface Stack {
-    value: Value;
+    value: ProgressValue;
     color?: string;
     title?: string;
-    theme?: Theme;
+    theme?: ProgressTheme;
     className?: string;
     content?: React.ReactNode;
 }
 
-export interface ColorStops {
-    theme: Theme;
+export interface ProgressColorStops {
+    theme: ProgressTheme;
     stop: number;
 }
 
@@ -33,24 +33,24 @@ interface ProgressDefaultProps {
     /** Text inside progress bar */
     text: string;
     /** Theme */
-    theme: Theme;
+    theme: ProgressTheme;
     /** View. Text of progress bar is displayed in `normal` view only. */
-    view: View;
+    view: ProgressView;
 }
 
 interface ProgressWithValue extends ProgressGeneralProps, Partial<ProgressDefaultProps> {
     /** Current progress value. Available range is from 0 to 100. If `stack` property is passed `value` is not required and behaves as maxValue. */
-    value: Value;
-    /** Theme breakpoints. [Details](#colorstops) */
-    colorStops?: ColorStops[];
+    value: ProgressValue;
+    /** ProgressTheme breakpoints. [Details](#colorstops) */
+    colorStops?: ProgressColorStops[];
     /** Alternative value of `colorStops`. Available range is from 0 to 100. */
-    colorStopsValue?: Value;
+    colorStopsValue?: ProgressValue;
 }
 
 interface ProgressWithStack extends ProgressGeneralProps, Partial<ProgressDefaultProps> {
     /** Configuration of composite progress bar. Not required if a `value` property is passed. [Details](#stack) */
     stack: Stack[];
-    value?: Value;
+    value?: ProgressValue;
     /** ClassName of stack element */
     stackClassName?: string;
 }
@@ -77,7 +77,7 @@ export class Progress extends Component<ProgressProps> {
     }
 
     static getValueFromStack(stack: Stack[]): number {
-        return _.sumBy(stack, (item: Stack) => item.value);
+        return _sumBy(stack, (item: Stack) => item.value);
     }
 
     static isProgressWithStack(props: ProgressProps): props is ProgressWithStack {
@@ -95,7 +95,7 @@ export class Progress extends Component<ProgressProps> {
         );
     }
 
-    private get theme(): Theme {
+    private getTheme(): ProgressTheme {
         if (Progress.isProgressWithStack(this.props)) {
             throw new Error('Unexpected behavior');
         }
@@ -103,10 +103,9 @@ export class Progress extends Component<ProgressProps> {
         const {theme, colorStops, colorStopsValue, value} = this.props;
 
         if (colorStops) {
-            const matchingColorStopItem: ColorStops | undefined = _.find(
-                colorStops,
-                (item: ColorStops, index: number) => {
-                    const currentValue: Value =
+            const matchingColorStopItem: ProgressColorStops | undefined = colorStops.find(
+                (item: ProgressColorStops, index: number) => {
+                    const currentValue: ProgressValue =
                         typeof colorStopsValue === 'number' ? colorStopsValue : value;
 
                     return Progress.isBetween(
@@ -117,10 +116,10 @@ export class Progress extends Component<ProgressProps> {
                 },
             );
 
-            return matchingColorStopItem ? matchingColorStopItem.theme : (theme as Theme);
+            return matchingColorStopItem ? matchingColorStopItem.theme : (theme as ProgressTheme);
         }
 
-        return theme as Theme;
+        return theme as ProgressTheme;
     }
 
     private renderContent() {
@@ -134,7 +133,7 @@ export class Progress extends Component<ProgressProps> {
     private renderItem(props: ProgressWithValue) {
         const {value} = props;
 
-        const className = b('item', {theme: this.theme});
+        const className = b('item', {theme: this.getTheme()});
         const offset = Progress.getOffset(value);
         const style = {transform: `translateX(${offset}%)`};
 
@@ -166,8 +165,7 @@ export class Progress extends Component<ProgressProps> {
         return (
             <div className={className} style={style}>
                 <div className={b('item')} style={itemStyle} />
-                {_.map(
-                    stack,
+                {stack.map(
                     (
                         {
                             value: itemValue,

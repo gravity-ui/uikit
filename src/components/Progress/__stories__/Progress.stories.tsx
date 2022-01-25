@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
 import {Meta, Story} from '@storybook/react';
-import {Progress, ProgressProps} from '../Progress';
+import {Progress, ProgressProps, ProgressTheme} from '../Progress';
 
 export default {
     title: 'Components/Progress',
     component: Progress,
 } as Meta;
 
-const Template: Story<ProgressProps> = (args: any) => <Progress {...args} {...args} />;
+const Template: Story<ProgressProps> = (args) => <Progress {...args} {...args} />;
 
 export const Default = Template.bind({value: 50});
 
-const ThemeTemplate: Story<ProgressProps> = (args: any) => {
+const ThemeTemplate: Story<ProgressProps> = (args) => {
     return (
         <>
             <Progress {...args} value={80} theme="default" text="default" />
@@ -31,7 +31,7 @@ const ThemeTemplate: Story<ProgressProps> = (args: any) => {
 
 export const Theme = ThemeTemplate.bind({});
 
-const StackTemplate: Story<ProgressProps> = (args: any) => {
+const StackTemplate: Story<ProgressProps> = (args) => {
     return (
         <>
             <Progress
@@ -71,7 +71,7 @@ const StackTemplate: Story<ProgressProps> = (args: any) => {
 
 export const Stack = StackTemplate.bind({});
 
-const ViewTemplate: Story<ProgressProps> = (args: any) => {
+const ViewTemplate: Story<ProgressProps> = (args) => {
     return (
         <>
             <Progress {...args} value={80} theme="success" view="normal" />
@@ -85,9 +85,9 @@ const ViewTemplate: Story<ProgressProps> = (args: any) => {
 
 export const View = ViewTemplate.bind({});
 
-const defaultState = {value: 40, theme: 'info'};
+const defaultState: {value: number; theme: ProgressTheme} = {value: 40, theme: 'info'};
 
-const AnimationTemplate: Story<ProgressProps> = (args: any) => {
+const AnimationTemplate: Story<ProgressProps> = (args) => {
     const [progressState, setProgressState] = React.useState(defaultState);
 
     useEffect(() => {
@@ -114,11 +114,7 @@ const AnimationTemplate: Story<ProgressProps> = (args: any) => {
         return () => window.clearTimeout(timerId);
     }, []);
 
-    return (
-        <>
-            <Progress {...args} {...progressState} text={`${progressState.value}/100`} />
-        </>
-    );
+    return <Progress {...args} {...progressState} text={`${progressState.value}/100`} />;
 };
 
 export const Animation = AnimationTemplate.bind({});

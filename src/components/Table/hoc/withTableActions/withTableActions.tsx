@@ -57,6 +57,7 @@ interface WithTableActionsState<I> {
 
 const b = block('table');
 const bPopup = block('table-action-popup');
+const BUTTON_CLASSNAME = b('actions-button');
 
 export function withTableActions<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
@@ -112,6 +113,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     <Button
                         view="flat-secondary"
                         disabled={disabled}
+                        className={BUTTON_CLASSNAME}
                         onClick={this.handleActionsButtonClick.bind(this, {item, index})}
                     >
                         <Icon data={DotsIcon} />
@@ -220,11 +222,10 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                 }
 
                 return (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => {
-                    const buttonClassName = b('actions-button');
                     if (
                         // @ts-ignore
                         event.nativeEvent.target.matches(
-                            `.${buttonClassName}, .${buttonClassName} *`,
+                            `.${BUTTON_CLASSNAME}, .${BUTTON_CLASSNAME} *`,
                         )
                     ) {
                         return;

@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.0](https://www.github.com/yandex-cloud/uikit/compare/v1.4.2...v1.5.0) (2022-01-25)
+
+
+### Features
+
+* migrate ArrowToggle component ([#61](https://www.github.com/yandex-cloud/uikit/issues/61)) ([558bb2c](https://www.github.com/yandex-cloud/uikit/commit/558bb2c171a910f31163ea257c94a079a42c6c9c))
+* migrate Dialog component ([#43](https://www.github.com/yandex-cloud/uikit/issues/43)) ([894cab3](https://www.github.com/yandex-cloud/uikit/commit/894cab3add422b1e6ab562cf87ec331b1dd88438))
+* migrate Toaster component ([#46](https://www.github.com/yandex-cloud/uikit/issues/46)) ([5ec2569](https://www.github.com/yandex-cloud/uikit/commit/5ec2569e6be4cff89deb14c01011f805e44454a0))
+
+
+### Bug Fixes
+
+* **List:** remove type cast for getItemHeight ([#59](https://www.github.com/yandex-cloud/uikit/issues/59)) ([a352b21](https://www.github.com/yandex-cloud/uikit/commit/a352b21c5f7245ec2fea6ad6c1cd08d167a123fc))
+* remove Yandex proprietary fonts ([#52](https://www.github.com/yandex-cloud/uikit/issues/52)) ([5017d43](https://www.github.com/yandex-cloud/uikit/commit/5017d4332ef464f31640ac8bf576c301c727b38d))
+* **Table:** actions button click triggers row action ([#62](https://www.github.com/yandex-cloud/uikit/issues/62)) ([00ba47d](https://www.github.com/yandex-cloud/uikit/commit/00ba47d4a232bb3d0318e07aff2da6a6b29b01b3))
+
 ### [1.4.2](https://www.github.com/yandex-cloud/uikit/compare/v1.4.1...v1.4.2) (2022-01-21)
 
 

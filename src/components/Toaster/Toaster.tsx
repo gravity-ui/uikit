@@ -9,17 +9,17 @@ const bToaster = block('toaster');
 
 declare global {
     interface Window {
-        [TOASTER_KEY]: any;
+        [TOASTER_KEY]: Toaster;
     }
 }
 
 export class Toaster {
-    readonly _additionalClass!: string;
     _toasts!: ToastProps[];
-    _rootNode!: any;
+    _rootNode!: HTMLDivElement;
+    private _additionalClass!: string;
 
     constructor({additionalClass = ''} = {}) {
-        if ((window as any)[TOASTER_KEY]) {
+        if (window[TOASTER_KEY]) {
             const me = window[TOASTER_KEY];
             me._additionalClass = additionalClass;
             me._rootNode.className = bToaster(null, me._additionalClass);

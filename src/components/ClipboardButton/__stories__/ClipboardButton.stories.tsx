@@ -7,5 +7,5 @@ export default {
     component: ClipboardButton,
 } as Meta;
 
-const DefaultTemplate: Story<ClipboardButtonProps> = (args: any) => <ClipboardButton {...args} />;
+const DefaultTemplate: Story<ClipboardButtonProps> = (args) => <ClipboardButton {...args} />;
 export const Default = DefaultTemplate.bind({});

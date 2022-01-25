@@ -10,6 +10,7 @@ import {
     TableWithCopy,
     TableWithSettings,
     TableWithSorting,
+    DataItem,
 } from './utils';
 import {TableAction, TableSettingsData} from '..';
 
@@ -20,22 +21,19 @@ export default {
         columns,
         data,
     },
-} as Meta;
+} as Meta<TableProps<DataItem>>;
 
-type Unpacked<T> = T extends (infer U)[] ? U : T;
-type DataItem = Unpacked<typeof data>;
-
-const DefaultTemplate: Story<TableProps<any>> = (args) => <Table {...args} />;
+const DefaultTemplate: Story<TableProps<DataItem>> = (args) => <Table {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const EmptyDefaultTemplate: Story<TableProps<any>> = (args) => <Table {...args} />;
+const EmptyDefaultTemplate: Story<TableProps<DataItem>> = (args) => <Table {...args} />;
 export const EmptyDefault = EmptyDefaultTemplate.bind({});
 EmptyDefault.args = {
     data: [],
 };
 
 // ---------------------------------
-const EmptyCustomTemplate: Story<TableProps<any>> = (args) => <Table {...args} />;
+const EmptyCustomTemplate: Story<TableProps<DataItem>> = (args) => <Table {...args} />;
 export const EmptyCustom = EmptyCustomTemplate.bind({});
 EmptyCustom.args = {
     data: [],
@@ -43,7 +41,7 @@ EmptyCustom.args = {
 };
 
 // ---------------------------------
-const OnRowClickTemplate: Story<TableProps<any>> = (args) => <Table {...args} />;
+const OnRowClickTemplate: Story<TableProps<DataItem>> = (args) => <Table {...args} />;
 export const OnRowClick = OnRowClickTemplate.bind({});
 OnRowClick.args = {
     onRowClick: (item) => alert(JSON.stringify(item)),
@@ -62,7 +60,7 @@ threeColumns[0].width = '33%';
 threeColumns[1].width = '33%';
 threeColumns[2].width = '33%';
 
-const AdaptiveTemplate: Story<TableProps<any>> = (args) => {
+const AdaptiveTemplate: Story<TableProps<DataItem>> = (args) => {
     return (
         <div>
             <Table {...args} columns={oneColumn} />
@@ -77,8 +75,8 @@ Adaptive.args = {
 };
 
 // ---------------------------------
-const WithTableActionsTemplate: Story<TableProps<any>> = (args) => {
-    const getRowActions = (item: any, index: number): TableAction<any>[] => [
+const WithTableActionsTemplate: Story<TableProps<DataItem>> = (args) => {
+    const getRowActions = (item: DataItem, index: number): TableAction<DataItem>[] => [
         {
             text: 'default',
             handler: () => alert(JSON.stringify(item)),
@@ -101,14 +99,14 @@ export const HOCWithTableActions = WithTableActionsTemplate.bind({});
 // ---------------------------------
 const columnsWithCopy = _cloneDeep(columns);
 columnsWithCopy[0].meta = {copy: true};
-const WithTableCopyTemplate: Story<TableProps<any>> = (args) => <TableWithCopy {...args} />;
+const WithTableCopyTemplate: Story<TableProps<DataItem>> = (args) => <TableWithCopy {...args} />;
 export const HOCWithTableCopy = WithTableCopyTemplate.bind({});
 HOCWithTableCopy.args = {
     columns: columnsWithCopy,
 };
 
 // ---------------------------------
-const WithTableSelectionTemplate: Story<TableProps<any>> = (args) => {
+const WithTableSelectionTemplate: Story<TableProps<DataItem>> = (args) => {
     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
     return (
@@ -122,7 +120,7 @@ const WithTableSelectionTemplate: Story<TableProps<any>> = (args) => {
 export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
 // ---------------------------------
-const WithTableSettingsTemplate: Story<TableProps<any>> = (args) => {
+const WithTableSettingsTemplate: Story<TableProps<DataItem>> = (args) => {
     const [settings, setSettings] = React.useState<TableSettingsData>(() =>
         columns.map((x) => ({id: x.id, isSelected: true})),
     );
@@ -144,7 +142,9 @@ columnsWithSorting[4].meta = {
     sort: (itemA: DataItem, itemB: DataItem) => Date.parse(itemA.date) - Date.parse(itemB.date),
     defaultSortOrder: 'desc',
 };
-const WithTableSortingTemplate: Story<TableProps<any>> = (args) => <TableWithSorting {...args} />;
+const WithTableSortingTemplate: Story<TableProps<DataItem>> = (args) => (
+    <TableWithSorting {...args} />
+);
 export const HOCWithTableSorting = WithTableSortingTemplate.bind({});
 HOCWithTableSorting.args = {
     columns: columnsWithSorting,

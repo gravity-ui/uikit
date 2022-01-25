@@ -171,7 +171,7 @@ function isIcon(component: React.ReactNode) {
     return type === Icon || (type as React.ComponentType).displayName === 'Icon';
 }
 
-function prepareChildren(children: any) {
+function prepareChildren(children: React.ReactNode) {
     const items = React.Children.toArray(children);
 
     if (items.length === 1) {

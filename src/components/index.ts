@@ -21,6 +21,7 @@ export * from './Menu';
 export * from './Modal';
 export * from './Popup';
 export * from './Portal';
+export * from './Progress';
 export * from './Radio';
 export * from './RadioButton';
 export * from './RadioGroup';

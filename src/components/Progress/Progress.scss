@@ -1,0 +1,126 @@
+@import '../variables';
+
+$block: '.#{$ns}progress';
+
+$progress-height: 20px;
+$progress-thin-height: 10px;
+$progress-thinnest-height: 4px;
+
+@mixin progress-text {
+    font-size: 12px;
+    color: var(--yc-color-text-light-primary);
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#{$block} {
+    position: relative;
+
+    height: $progress-height;
+    margin: 0 auto;
+    overflow: hidden;
+
+    border-radius: 3px;
+    background-color: var(--yc-color-base-generic);
+
+    text-align: center;
+    line-height: $progress-height;
+
+    &__text {
+        @include progress-text;
+
+        position: relative;
+
+        height: $progress-height;
+        margin-bottom: -$progress-height;
+    }
+
+    &__text-inner {
+        @include progress-text;
+
+        position: absolute;
+
+        width: 100%;
+        height: 100%;
+
+        transition: transform 0.6s ease;
+    }
+
+    &__item {
+        font-size: 12px;
+
+        position: relative;
+
+        float: left;
+
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        color: var(--yc-color-text-light-primary);
+        transition: transform 0.6s ease, width 0.6s ease, background-color 0.6s ease;
+
+        &_theme_default {
+            background-color: var(--yc-color-infographics-neutral-medium);
+        }
+
+        &_theme_success {
+            background-color: var(--yc-color-infographics-positive-medium);
+        }
+
+        &_theme_warning {
+            background-color: var(--yc-color-infographics-warning-medium);
+        }
+
+        &_theme_danger {
+            background-color: var(--yc-color-infographics-danger-medium);
+        }
+
+        &_theme_info {
+            background-color: var(--yc-color-infographics-info-medium);
+        }
+
+        &_theme_misc {
+            background-color: var(--yc-color-infographics-misc-medium);
+        }
+    }
+
+    &__stack {
+        position: relative;
+
+        width: 100%;
+        height: $progress-height;
+        margin: 0 auto;
+
+        line-height: $progress-height;
+
+        overflow: hidden;
+        color: var(--yc-color-text-light-primary);
+        transition: transform 0.6s ease;
+    }
+
+    &_view_thin {
+        height: $progress-thin-height;
+        line-height: $progress-thin-height;
+
+        #{$block}__stack {
+            height: $progress-thin-height;
+            line-height: $progress-thin-height;
+        }
+    }
+
+    &_view_thinnest {
+        height: $progress-thinnest-height;
+        line-height: $progress-thinnest-height;
+
+        #{$block}__stack {
+            height: $progress-thinnest-height;
+            line-height: $progress-thinnest-height;
+        }
+    }
+
+    &_view_thin &__text,
+    &_view_thinnest &__text {
+        display: none;
+    }
+}

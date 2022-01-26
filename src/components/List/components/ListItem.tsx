@@ -16,7 +16,7 @@ type ListItemProps<T> = {
     style?: React.CSSProperties;
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];
-    onMouseEnter?: (index: number) => void;
+    onMouseEnter?: (index?: number) => void;
 };
 
 const defaultRenderItem = <T extends unknown>(item: T) => String(item);
@@ -44,6 +44,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 style={style}
                 onClick={this.onClick}
                 onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
                 ref={this.ref}
             >
                 {this.renderSortIcon()}
@@ -71,4 +72,6 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private onClick = () => this.props.onClick?.(this.props.item, this.props.itemIndex);
 
     private onMouseEnter = () => this.props.onMouseEnter?.(this.props.itemIndex);
+
+    private onMouseLeave = () => this.props.onMouseEnter?.(undefined);
 }

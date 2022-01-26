@@ -2,9 +2,10 @@ import React from 'react';
 import {block} from '../../../utils/cn';
 import {Popup} from '../../../Popup';
 import {List} from '../../../List';
-import {Action} from '../../store';
+import {Dispatch} from '../../store';
 import {SelectProps, SelectOption, SelectOptgroup} from '../../types';
 import {
+    BORDER_WIDTH,
     FlattenOption,
     getFlattenOptions,
     getListboxItemHeight,
@@ -25,14 +26,14 @@ type ListForwardedRef<T> =
     | null;
 
 type ListboxProps<T = unknown> = {
-    dispatch: React.Dispatch<Action>;
+    dispatch: Dispatch;
     renderOption?: SelectProps['renderOption'];
     getOptionHeight?: SelectProps['getOptionHeight'];
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     options: (SelectOption<T> | SelectOptgroup<T>)[];
     controlRect?: DOMRect;
-    listboxWidth?: number;
+    popupWidth?: number;
     active?: boolean;
     multiple?: boolean;
     controlRef?: React.RefObject<HTMLButtonElement>;
@@ -46,7 +47,7 @@ const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwar
         size,
         options,
         value,
-        listboxWidth,
+        popupWidth,
         controlRect,
         active,
         multiple,
@@ -57,8 +58,8 @@ const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwar
     const popupVerticalOffset = getPopupVerticalOffset({listboxHeight, controlRect});
     const virtualizeEnabled = flattenOptions.length >= VIRTUALIZE_THRESHOLD;
     const inlinePopupStyles: React.CSSProperties = {
-        minWidth: controlRect?.width,
-        width: listboxWidth,
+        minWidth: controlRect?.width ? controlRect?.width - BORDER_WIDTH * 2 : undefined,
+        width: popupWidth,
     };
 
     const handleClose = () => {
@@ -75,12 +76,11 @@ const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwar
     const renderItem = React.useCallback(
         (option: FlattenOption<T>) => {
             if ('groupTitle' in option) {
-                return <GroupLabel size={size} label={option.label} />;
+                return <GroupLabel label={option.label} />;
             }
 
             return (
                 <OptionWrap
-                    size={size}
                     option={option}
                     value={value}
                     multiple={multiple}
@@ -88,16 +88,16 @@ const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwar
                 />
             );
         },
-        [renderOption, size, value, multiple],
+        [renderOption, value, multiple],
     );
 
     return (
         <Popup
-            className={b({multiple})}
+            className={b({size, multiple})}
             style={inlinePopupStyles}
             open={active}
             anchorRef={controlRef}
-            offset={[0, popupVerticalOffset]}
+            offset={[BORDER_WIDTH, popupVerticalOffset]}
             placement={['bottom-start', 'top-start']}
             onClose={handleClose}
         >

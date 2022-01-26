@@ -15,7 +15,7 @@
     }
 }
 
-$block: '.#{$ns}select-control';
+$block: '.#{$ns}select';
 
 #{$block} {
     @include button-reset();

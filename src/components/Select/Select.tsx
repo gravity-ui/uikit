@@ -13,7 +13,7 @@ export const Select = <T extends unknown>(props: SelectProps<T>) => {
         label,
         placeholder,
         disabled,
-        listboxWidth,
+        popupWidth,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -49,7 +49,7 @@ export const Select = <T extends unknown>(props: SelectProps<T>) => {
                 size={size}
                 value={value}
                 options={options}
-                listboxWidth={listboxWidth}
+                popupWidth={popupWidth}
                 controlRect={controlRect}
                 active={active}
                 multiple={multiple}

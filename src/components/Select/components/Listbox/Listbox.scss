@@ -13,11 +13,6 @@ $xl-height: '36px';
 $xl-hor-padding: '12px';
 
 #{$block} {
-    --yc-popup-border-width: 0;
-
-    overflow: hidden;
-    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
-
     &__container {
         display: flex;
         max-height: 90vh;
@@ -34,26 +29,23 @@ $xl-hor-padding: '12px';
         box-sizing: border-box;
         position: relative;
         width: 100%;
-        font-weight: 500;
-        white-space: nowrap;
-        text-overflow: ellipsis;
 
-        &_size_s {
+        #{$block}_size_s & {
             height: #{$s-height};
             padding: 8px #{$s-hor-padding} 4px #{$s-hor-padding};
         }
 
-        &_size_m {
+        #{$block}_size_m & {
             height: #{$m-height};
             padding: 8px #{$m-hor-padding} 4px #{$m-hor-padding};
         }
 
-        &_size_l {
+        #{$block}_size_l & {
             height: #{$l-height};
             padding: 10px #{$l-hor-padding} 6px #{$l-hor-padding};
         }
 
-        &_size_xl {
+        #{$block}_size_xl & {
             height: #{$xl-height};
             padding: 12px #{$xl-hor-padding} 8px #{$xl-hor-padding};
             font-size: 15px;
@@ -74,6 +66,13 @@ $xl-hor-padding: '12px';
         }
     }
 
+    &__group-label-content {
+        @include overflow-ellipsis();
+
+        width: 100%;
+        font-weight: 500;
+    }
+
     &__option {
         box-sizing: border-box;
         display: flex;
@@ -81,7 +80,7 @@ $xl-hor-padding: '12px';
         width: 100%;
         cursor: pointer;
 
-        &_size_s {
+        #{$block}_size_s & {
             padding: 0 #{$s-hor-padding};
 
             & #{$block}__option-default-label {
@@ -94,7 +93,7 @@ $xl-hor-padding: '12px';
             }
         }
 
-        &_size_m {
+        #{$block}_size_m & {
             padding: 0 #{$m-hor-padding};
 
             & #{$block}__option-default-label {
@@ -107,7 +106,7 @@ $xl-hor-padding: '12px';
             }
         }
 
-        &_size_l {
+        #{$block}_size_l & {
             padding: 0 #{$l-hor-padding};
 
             & #{$block}__option-default-label {
@@ -120,7 +119,7 @@ $xl-hor-padding: '12px';
             }
         }
 
-        &_size_xl {
+        #{$block}_size_xl & {
             padding: 0 #{$xl-hor-padding};
 
             & #{$block}__option-default-label {

@@ -4,16 +4,21 @@ import {CnMods, block} from '../../../utils/cn';
 import {List} from '../../../List';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
-import {Action} from '../../store';
+import {Dispatch} from '../../store';
 import {SelectProps} from '../../types';
 import {FlattenOption} from '../../utils';
 
 import './Control.scss';
 
-const b = block('select-control');
+const b = block('select');
 
-type ControlProps = {
-    dispatch: React.Dispatch<Action>;
+type ButtonForwardedRef =
+    | ((instance: HTMLButtonElement | null) => void)
+    | React.MutableRefObject<HTMLButtonElement | null>
+    | null;
+
+type ControlProps<T = unknown> = {
+    dispatch: Dispatch;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -24,10 +29,10 @@ type ControlProps = {
     placeholder?: SelectProps['placeholder'];
     active?: boolean;
     disabled?: boolean;
-    listboxRef?: React.RefObject<List<FlattenOption>>;
+    listboxRef?: React.RefObject<List<FlattenOption<T>>>;
 };
 
-export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
+const ControlInner = <T extends unknown>(props: ControlProps<T>, ref: ButtonForwardedRef) => {
     const {
         view,
         size,
@@ -106,6 +111,8 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props,
             <Icon className={b('chevron-icon')} data={Chevron} />
         </button>
     );
-});
+};
+
+export const Control = React.forwardRef(ControlInner);
 
 Control.displayName = 'Control';

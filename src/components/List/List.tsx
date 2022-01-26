@@ -401,7 +401,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         });
     };
 
-    private onItemMouseEnter = (index: number) => {
+    private onItemMouseEnter = (index?: number) => {
         if (!this.state.sorting) {
             this.activateItem(index, false);
         }

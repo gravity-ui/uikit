@@ -6,36 +6,30 @@ import {SelectProps, SelectOption} from '../../types';
 
 const b = block('select-listbox');
 
-type OptionDefaultLabelProps = {
-    label: string;
-    disabled?: boolean;
+type DefaultOptionProps<T> = {
+    option: SelectOption<T>;
 };
 
 type OptionWrapProps<T> = {
     renderOption?: SelectProps<T>['renderOption'];
-    size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     option: SelectOption<T>;
     multiple?: boolean;
 };
 
-const OptionDefaultLabel = ({label, disabled}: OptionDefaultLabelProps) => {
-    return <span className={b('option-default-label', {disabled})}>{label}</span>;
+const DefaultOption = <T extends unknown>({option}: DefaultOptionProps<T>) => {
+    const {content, children, disabled} = option;
+    return <span className={b('option-default-label', {disabled})}>{content || children}</span>;
 };
 
 export const OptionWrap = <T extends unknown>(props: OptionWrapProps<T>) => {
-    const {renderOption, size, value, option, multiple} = props;
-    const {label, disabled} = option;
+    const {renderOption, value, option, multiple} = props;
     const selected = value.indexOf(option.value) !== -1;
     const showTickIcon = selected && multiple;
-    const optionContent = renderOption ? (
-        renderOption(option)
-    ) : (
-        <OptionDefaultLabel label={label} disabled={disabled} />
-    );
+    const optionContent = renderOption ? renderOption(option) : <DefaultOption option={option} />;
 
     return (
-        <div className={b('option', {size, colored: selected && !multiple})}>
+        <div className={b('option', {colored: selected && !multiple})}>
             {optionContent}
             {showTickIcon && <Icon className={b('tick-icon')} data={Tick} />}
         </div>

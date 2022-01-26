@@ -1,15 +1,12 @@
 import {PopupPlacement} from '../../Popup';
 import {SelectProps, SelectOption, SelectOptgroup} from '../types';
 import {FlattenOption} from './types';
-
-const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, number> = {
-    s: 28,
-    m: 28,
-    l: 32,
-    xl: 36,
-};
-const GROUP_ITEM_MARGIN_TOP = 5;
-const CONTAINER_VERTICAL_MARGIN = 4;
+import {
+    BORDER_WIDTH,
+    CONTAINER_VERTICAL_MARGIN,
+    GROUP_ITEM_MARGIN_TOP,
+    SIZE_TO_ITEM_HEIGHT,
+} from './constants';
 
 export const getFlattenOptions = <T extends unknown>(
     options: (SelectOption<T> | SelectOptgroup<T>)[],
@@ -57,7 +54,7 @@ export const getPopupVerticalOffset = (args: {listboxHeight: number; controlRect
     const {listboxHeight, controlRect} = args;
 
     if (!controlRect) {
-        return 0;
+        return BORDER_WIDTH;
     }
 
     const vh = window.innerHeight / 100;
@@ -73,7 +70,7 @@ export const getPopupVerticalOffset = (args: {listboxHeight: number; controlRect
             ? window.innerHeight - controlRect.y - controlRect.height
             : controlRect.y;
 
-    let offset = 0;
+    let offset = BORDER_WIDTH;
 
     if (containerHeight > screenOffset) {
         offset = (containerHeight - screenOffset) * -1 - heigth5vh - CONTAINER_VERTICAL_MARGIN;

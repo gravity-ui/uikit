@@ -24,7 +24,7 @@ $xl-hor-padding: '12px';
         margin: 4px 0;
         overflow-y: auto;
 
-        // this selector used to increased specificity
+        // this selector used to increase specificity
         #{$popupBlock}#{$block} & {
             border-radius: 0;
         }

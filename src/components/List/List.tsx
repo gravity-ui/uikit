@@ -73,14 +73,9 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refFilter = React.createRef<HTMLInputElement | HTMLTextAreaElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
-    isMountedComponent = false;
-
-    componentDidMount() {
-        this.isMountedComponent = true;
-    }
 
     componentWillUnmount() {
-        this.isMountedComponent = false;
+        this.blurTimer = null;
     }
 
     componentDidUpdate(prevProps: ListProps<T>) {
@@ -342,7 +337,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private deactivate = () => {
-        if (!this.isMountedComponent) {
+        if (!this.blurTimer) {
             return;
         }
         if (this.props.deactivateOnLeave) {

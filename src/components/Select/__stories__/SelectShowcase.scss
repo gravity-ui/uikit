@@ -3,16 +3,11 @@
 $block: '.#{$ns}select-showcase';
 
 #{$block} {
-    &__container {
-        width: 50%;
-        padding: 10px 0;
-        border: 2px dashed green;
-    }
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
 
-    &__value-controls {
-        display: flex;
-        align-items: center;
-        column-gap: 10px;
-        margin-bottom: 5px;
+    &__select {
+        margin-bottom: 15px;
     }
 }

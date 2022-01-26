@@ -15,6 +15,7 @@ export const Default = DefaultTemplate.bind({});
 Default.args = {
     view: 'normal',
     size: 'm',
+    multiple: false,
     controlWidth: 'auto',
     label: '',
     placeholder: '',

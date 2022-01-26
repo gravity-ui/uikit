@@ -10,5 +10,5 @@ export default {
 const DefaultTemplate: Story<HelpTooltipProps> = (args) => <HelpTooltip {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
-    content: <>Some content</>,
+    content: 'Some content',
 };

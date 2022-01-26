@@ -11,7 +11,7 @@ HelpTooltip
 | autoclosable | `Boolean`  |          |        | `true`  | настройка автоматического закрытия тултипа если курсор outside |
 | delayClosing | `Number`   |          |        | `300`   | настройка задержки скрытия тултипа если курсор outside |
 | title        | `String`   |          |        |         | название в тултипе |
-| content      | `String`   |          |        |         | контент тултипа |
+| content      | `ReactNode`   |          |        |         | контент тултипа |
 | htmlContent  | `String`   |          |        |         | отрендерится html контент тултипа через dangerouslySetInnerHTML |
 | links        | `Array`    |          |        | []      | ссылки под контентом, может принимать  <br/> ```{ text: 'Link 1', href: 'https://yandex.ru'}``` или  <br/> ```{ text: 'Link 2', onClick: () => callbackOnLinkClick() }``` |
 | tooltipButton| `Object`   |          |        |         | отрендерится кнопка если передан следующий объект <br/> ```{ text: 'Button', onClick: () => callbackOnClick() }``` |
@@ -46,8 +46,6 @@ HelpTooltip
 
 Подсказка с нетекстовым контентом в тултипе:
 ```js
-    <HelpTooltip>
-        <Spin size="s" view="default" tone="default" progress/>
-    </HelpTooltip>
+    <HelpTooltip content={<Spin size="s" view="default" tone="default" progress/>} />
 ```
 

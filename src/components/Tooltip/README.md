@@ -19,7 +19,7 @@ Tooltip
 | delayClosing   | `Number`   |          |        | `300`   | Настройка задержки закрытия тултипа при включенном `autoclosable`. Рекомендуется использовать `behavior` |
 | title          | `String`   |          |        |         | название в тултипе |
 | content        | `ReactNode`|          |        |         | контент тултипа |
-| contentClassBane | `String` |          |        |         | класс для `content` |
+| contentClassName | `String` |          |        |         | класс для `content` |
 | htmlContent    | `String`   |          |        |         | отрендерится html контент тултипа через `dangerouslySetInnerHTML` |
 | links          | `Array`    |          |        | []      | ссылки под контентом, может принимать  <br/> ```{ text: 'Link 1', href: 'https://yandex.ru'}``` или  <br/> ```{ text: 'Link 2', onClick: () => callbackOnLinkClick() }``` |
 | tooltipActionButton | `Object` |       |        |         | отрендерится кнопка если передан следующий объект <br/> ```{ text: 'Button', onClick: () => callbackOnClick() }``` |

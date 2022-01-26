@@ -2,7 +2,15 @@ import {TableColumnConfig, Table} from '../Table';
 import {withTableSelection} from '..';
 import {withTableActions, withTableCopy, withTableSettings, withTableSorting} from '../hoc';
 
-export const data = [
+export interface DataItem {
+    name: string;
+    city?: string;
+    phone: string;
+    count: number;
+    date: string;
+}
+
+export const data: DataItem[] = [
     {
         name: 'Nomlanga Compton',
         city: 'Erli',
@@ -39,8 +47,6 @@ export const data = [
     },
 ];
 
-type DataItem = typeof data;
-
 export const columns: TableColumnConfig<DataItem>[] = [
     {
         id: 'name',
@@ -65,8 +71,8 @@ export const columns: TableColumnConfig<DataItem>[] = [
     },
 ];
 
-export const TableWithAction = withTableActions(Table);
-export const TableWithCopy = withTableCopy(Table);
-export const TableWithSelection = withTableSelection(Table);
-export const TableWithSettings = withTableSettings(Table);
-export const TableWithSorting = withTableSorting(Table);
+export const TableWithAction = withTableActions<DataItem>(Table);
+export const TableWithCopy = withTableCopy<DataItem>(Table);
+export const TableWithSelection = withTableSelection<DataItem>(Table);
+export const TableWithSettings = withTableSettings<DataItem>(Table);
+export const TableWithSorting = withTableSorting<DataItem>(Table);

@@ -45,7 +45,7 @@ export function useVirtualElementRef(
                 left,
                 width,
                 height,
-            } as any;
+            } as DOMRect;
         },
     });
 

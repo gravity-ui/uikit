@@ -68,7 +68,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     state: ListState<T> = {
         items: this.props.items,
         filter: '',
-        activeItem: this.props.activeItemIndex,
     };
 
     refFilter = React.createRef<HTMLInputElement | HTMLTextAreaElement>();
@@ -165,7 +164,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 this.handleKeyMove(event, -(activeItem || 0) - 1);
                 break;
             }
-            case 'Tab':
             case 'Enter': {
                 if (activeItem !== undefined && !isNaN(activeItem) && this.props.onItemClick) {
                     this.props.onItemClick(this.state.items[activeItem], activeItem, true);
@@ -185,7 +183,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         const {items, activeItem} = this.state;
         const item = items[index];
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
-        const active = index === activeItem;
+        const active = index === activeItem || index === this.props.activeItemIndex;
         const Item = sortable ? SortableListItem : ListItem;
 
         return (

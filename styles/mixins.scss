@@ -60,3 +60,79 @@
         bottom: 0;
     }
 }
+
+@function get-pin-selector($mod, $selector, $append: true) {
+    @if $append {
+        @return selector-append($mod, $selector);
+    } @else {
+        @return join($mod, $selector, $separator: space);
+    }
+}
+
+@mixin pin($block, $selectors, $radius, $append: true) {
+    @each $selector in $selectors {
+        &#{get-pin-selector(#{$block}_pin_round-round, $selector, $append)} {
+            border-radius: $radius;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_brick-brick, $selector, $append)} {
+            border-radius: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_clear-clear, $selector, $append)} {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_circle-circle, $selector, $append)} {
+            border-radius: 100px;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_round-brick, $selector, $append)} {
+            border-radius: $radius 0 0 $radius;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_brick-round, $selector, $append)} {
+            border-radius: 0 $radius $radius 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_round-clear, $selector, $append)} {
+            border-radius: $radius 0 0 $radius;
+            border-right: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_clear-round, $selector, $append)} {
+            border-radius: 0 $radius $radius 0;
+            border-left: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_brick-clear, $selector, $append)} {
+            border-radius: 0;
+            border-right: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_clear-brick, $selector, $append)} {
+            border-radius: 0;
+            border-left: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_circle-brick, $selector, $append)} {
+            border-radius: 100px 0 0 100px;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_brick-circle, $selector, $append)} {
+            border-radius: 0 100px 100px 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_circle-clear, $selector, $append)} {
+            border-radius: 100px 0 0 100px;
+            border-right: 0;
+        }
+
+        &#{get-pin-selector(#{$block}_pin_clear-circle, $selector, $append)} {
+            border-radius: 0 100px 100px 0;
+            border-left: 0;
+        }
+    }
+}

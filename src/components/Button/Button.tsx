@@ -74,7 +74,7 @@ const PureButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Butto
         {
             view = 'normal',
             size = 'm',
-            pin,
+            pin = 'round-round',
             selected = false,
             disabled = false,
             loading = false,

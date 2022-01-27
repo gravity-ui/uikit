@@ -1,4 +1,5 @@
 @import '../variables';
+@import '../../../styles/mixins';
 
 $block: '.#{$ns}text-input';
 
@@ -89,6 +90,8 @@ $block: '.#{$ns}text-input';
             #{$block}__clear {
                 height: 24px;
             }
+
+            --yc-text-input-border-radius: var(--yc-border-radius-s);
         }
 
         &_m {
@@ -102,6 +105,8 @@ $block: '.#{$ns}text-input';
             #{$block}__clear {
                 height: 28px;
             }
+
+            --yc-text-input-border-radius: var(--yc-border-radius-m);
         }
 
         &_l {
@@ -115,6 +120,8 @@ $block: '.#{$ns}text-input';
             #{$block}__clear {
                 height: 36px;
             }
+
+            --yc-text-input-border-radius: var(--yc-border-radius-l);
         }
 
         &_xl {
@@ -128,6 +135,8 @@ $block: '.#{$ns}text-input';
             #{$block}__clear {
                 height: 44px;
             }
+
+            --yc-text-input-border-radius: var(--yc-border-radius-xl);
         }
     }
 
@@ -159,67 +168,7 @@ $block: '.#{$ns}text-input';
         }
     }
 
-    &_pin {
-        &_round-round {
-            #{$block}__control {
-                border-radius: 3px;
-            }
-        }
-
-        &_brick-brick {
-            #{$block}__control {
-                border-radius: 0;
-            }
-        }
-
-        &_clear-clear {
-            #{$block}__control {
-                border-radius: 0;
-                border-left: 0;
-                border-right: 0;
-            }
-        }
-
-        &_round-brick {
-            #{$block}__control {
-                border-radius: 3px 0 0 3px;
-            }
-        }
-
-        &_brick-round {
-            #{$block}__control {
-                border-radius: 0 3px 3px 0;
-            }
-        }
-
-        &_round-clear {
-            #{$block}__control {
-                border-radius: 3px 0 0 3px;
-                border-right: 0;
-            }
-        }
-
-        &_clear-round {
-            #{$block}__control {
-                border-radius: 0 3px 3px 0;
-                border-left: 0;
-            }
-        }
-
-        &_brick-clear {
-            #{$block}__control {
-                border-radius: 0;
-                border-right: 0;
-            }
-        }
-
-        &_clear-brick {
-            #{$block}__control {
-                border-radius: 0;
-                border-left: 0;
-            }
-        }
-    }
+    @include pin($block, #{$block}__control, var(--yc-text-input-border-radius), $append: false);
 
     &_disabled {
         #{$block}__control {

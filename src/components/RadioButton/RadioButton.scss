@@ -1,4 +1,5 @@
 @import '../variables';
+@import '../../../styles/mixins';
 
 $block: '.#{$ns}radio-button';
 
@@ -8,9 +9,11 @@ $block: '.#{$ns}radio-button';
     flex-direction: row;
     font-family: var(--yc-font-family);
     font-weight: normal;
-    border-radius: 4px;
+    border-radius: var(--yc-radio-button-border-radius);
     background-color: var(--yc-color-base-generic);
     position: relative;
+
+    --yc-radio-button-inner-border-radius: calc(var(--yc-radio-button-border-radius) - 3px);
 
     &__plate {
         position: absolute;
@@ -27,7 +30,7 @@ $block: '.#{$ns}radio-button';
         flex: 1 1 auto;
         user-select: none;
         text-align: center;
-        border-radius: 2px;
+        border-radius: var(--yc-radio-button-inner-border-radius);
         cursor: pointer;
         transform: scale(1);
         transition: color 0.15s linear;
@@ -40,7 +43,7 @@ $block: '.#{$ns}radio-button';
             left: 3px;
             right: 3px;
             bottom: 3px;
-            border-radius: 2px;
+            border-radius: var(--yc-radio-button-inner-border-radius);
         }
 
         &-control {
@@ -99,7 +102,7 @@ $block: '.#{$ns}radio-button';
         left: 3px;
         right: 3px;
         bottom: 3px;
-        border-radius: 2px;
+        border-radius: var(--yc-radio-button-inner-border-radius);
     }
 
     &__option::before {
@@ -124,6 +127,8 @@ $block: '.#{$ns}radio-button';
                     margin: 0 10px;
                 }
             }
+
+            --yc-radio-button-border-radius: var(--yc-border-radius-s);
         }
 
         &_m {
@@ -136,6 +141,8 @@ $block: '.#{$ns}radio-button';
                     margin: 0 13px;
                 }
             }
+
+            --yc-radio-button-border-radius: var(--yc-border-radius-m);
         }
 
         &_l {
@@ -148,6 +155,8 @@ $block: '.#{$ns}radio-button';
                     margin: 0 18px;
                 }
             }
+
+            --yc-radio-button-border-radius: var(--yc-border-radius-l);
         }
 
         &_xl {
@@ -160,6 +169,8 @@ $block: '.#{$ns}radio-button';
                     margin: 0 25px;
                 }
             }
+
+            --yc-radio-button-border-radius: var(--yc-border-radius-xl);
         }
     }
 

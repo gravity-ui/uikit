@@ -5,13 +5,13 @@ import {List} from '../../../List';
 import {Dispatch} from '../../store';
 import {SelectProps, SelectOption, SelectOptgroup} from '../../types';
 import {
-    BORDER_WIDTH,
     FlattenOption,
     getFlattenOptions,
     getListboxItemHeight,
     getListboxHeight,
     getPopupVerticalOffset,
 } from '../../utils';
+import {BORDER_WIDTH} from '../../constants';
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
 

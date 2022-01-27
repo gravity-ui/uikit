@@ -1,6 +1,5 @@
-import {PopupPlacement} from '../../Popup';
-import {SelectProps, SelectOption, SelectOptgroup} from '../types';
-import {FlattenOption} from './types';
+import {PopupPlacement} from '../Popup';
+import {SelectProps, SelectOption, SelectOptgroup} from './types';
 import {
     BORDER_WIDTH,
     CONTAINER_VERTICAL_MARGIN,
@@ -8,9 +7,12 @@ import {
     SIZE_TO_ITEM_HEIGHT,
 } from './constants';
 
-export const getFlattenOptions = <T extends unknown>(
-    options: (SelectOption<T> | SelectOptgroup<T>)[],
-): FlattenOption<T>[] => {
+// "disable" property needs to deactivate group title item in List
+type GroupTitleItem = {label: string; groupTitle: true; disabled: true};
+
+export type FlattenOption = SelectOption | GroupTitleItem;
+
+export const getFlattenOptions = (options: (SelectOption | SelectOptgroup)[]): FlattenOption[] => {
     return options.reduce((acc, option) => {
         if ('options' in option) {
             acc.push({label: option.label, groupTitle: true, disabled: true});
@@ -23,10 +25,10 @@ export const getFlattenOptions = <T extends unknown>(
     }, [] as FlattenOption[]);
 };
 
-export const getListboxItemHeight = <T extends unknown>(args: {
-    getOptionHeight?: SelectProps<T>['getOptionHeight'];
-    size: NonNullable<SelectProps<T>['size']>;
-    option: FlattenOption<T>;
+export const getListboxItemHeight = (args: {
+    getOptionHeight?: SelectProps['getOptionHeight'];
+    size: NonNullable<SelectProps['size']>;
+    option: FlattenOption;
     index: number;
 }) => {
     const {getOptionHeight, size, option, index} = args;
@@ -39,10 +41,10 @@ export const getListboxItemHeight = <T extends unknown>(args: {
     return getOptionHeight ? getOptionHeight(option) : SIZE_TO_ITEM_HEIGHT[size];
 };
 
-export const getListboxHeight = <T extends unknown>(args: {
-    getOptionHeight?: SelectProps<T>['getOptionHeight'];
-    size: NonNullable<SelectProps<T>['size']>;
-    options: FlattenOption<T>[];
+export const getListboxHeight = (args: {
+    getOptionHeight?: SelectProps['getOptionHeight'];
+    size: NonNullable<SelectProps['size']>;
+    options: FlattenOption[];
 }) => {
     const {getOptionHeight, size, options} = args;
     return options.reduce((height, option, index) => {

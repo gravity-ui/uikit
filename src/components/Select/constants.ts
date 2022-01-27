@@ -1,4 +1,4 @@
-import {SelectProps} from '../types';
+import {SelectProps} from './types';
 
 export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, number> = {
     s: 28,

@@ -15,7 +15,7 @@
     }
 }
 
-$block: '.#{$ns}select-control';
+$block: '.#{$ns}select';
 
 #{$block} {
     @include button-reset();
@@ -24,6 +24,7 @@ $block: '.#{$ns}select-control';
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
+    width: fit-content;
     min-width: 34px;
     border: 1px solid var(--yc-color-line-generic);
     background-color: transparent;

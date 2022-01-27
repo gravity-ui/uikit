@@ -2,9 +2,9 @@ import React from 'react';
 import {TextInputView, TextInputSize, TextInputPin} from '../TextInput';
 import {ControlGroupProps, ControlGroupOption} from '../types';
 
-export type SelectProps<T = unknown> = Omit<ControlGroupProps, 'value' | 'options'> & {
-    renderOption?: (option: SelectOption<T>) => React.ReactNode;
-    getOptionHeight?: (option: SelectOption<T>) => number;
+export type SelectProps = Omit<ControlGroupProps, 'value' | 'options'> & {
+    renderOption?: (option: SelectOption) => React.ReactNode;
+    getOptionHeight?: (option: SelectOption) => number;
     view?: TextInputView;
     size?: TextInputSize;
     pin?: TextInputPin;
@@ -14,17 +14,16 @@ export type SelectProps<T = unknown> = Omit<ControlGroupProps, 'value' | 'option
     label?: string;
     placeholder?: React.ReactNode;
     value?: string[];
-    options?: (SelectOption<T> | SelectOptgroup<T>)[];
+    options?: (SelectOption | SelectOptgroup)[];
     multiple?: boolean;
 };
 
-export type SelectOption<T = unknown> = React.OptionHTMLAttributes<T> &
-    ControlGroupOption & {
-        value: string;
-        searchText?: string;
-    };
+export type SelectOption = ControlGroupOption & {
+    searchText?: string;
+    data?: any;
+};
 
-export type SelectOptgroup<T = unknown> = {
+export type SelectOptgroup = {
     label: string;
-    options: SelectOption<T>[];
+    options: SelectOption[];
 };

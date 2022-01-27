@@ -20,18 +20,13 @@ import './Listbox.scss';
 const b = block('select-listbox');
 const VIRTUALIZE_THRESHOLD = 50;
 
-type ListForwardedRef<T> =
-    | ((instance: List<FlattenOption<T>> | null) => void)
-    | React.MutableRefObject<List<FlattenOption<T>> | null>
-    | null;
-
-type ListboxProps<T = unknown> = {
+type ListboxProps = {
     dispatch: Dispatch;
     renderOption?: SelectProps['renderOption'];
     getOptionHeight?: SelectProps['getOptionHeight'];
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
-    options: (SelectOption<T> | SelectOptgroup<T>)[];
+    options: (SelectOption | SelectOptgroup)[];
     controlRect?: DOMRect;
     popupWidth?: number;
     active?: boolean;
@@ -39,7 +34,7 @@ type ListboxProps<T = unknown> = {
     controlRef?: React.RefObject<HTMLButtonElement>;
 };
 
-const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwardedRef<T>) => {
+export const Listbox = React.forwardRef<List<FlattenOption>, ListboxProps>((props, ref) => {
     const {
         dispatch,
         renderOption,
@@ -67,14 +62,14 @@ const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwar
     };
 
     const getItemHeight = React.useCallback(
-        (option: FlattenOption<T>, index: number) => {
+        (option: FlattenOption, index: number) => {
             return getListboxItemHeight({getOptionHeight, size, option, index});
         },
         [getOptionHeight, size],
     );
 
     const renderItem = React.useCallback(
-        (option: FlattenOption<T>) => {
+        (option: FlattenOption) => {
             if ('groupTitle' in option) {
                 return <GroupLabel label={option.label} />;
             }
@@ -115,8 +110,6 @@ const ListboxInner = <T extends unknown>(props: ListboxProps<T>, ref: ListForwar
             </div>
         </Popup>
     );
-};
-
-export const Listbox = React.forwardRef(ListboxInner);
+});
 
 Listbox.displayName = 'Listbox';

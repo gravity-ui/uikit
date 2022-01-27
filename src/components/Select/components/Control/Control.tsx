@@ -12,12 +12,7 @@ import './Control.scss';
 
 const b = block('select');
 
-type ButtonForwardedRef =
-    | ((instance: HTMLButtonElement | null) => void)
-    | React.MutableRefObject<HTMLButtonElement | null>
-    | null;
-
-type ControlProps<T = unknown> = {
+type ControlProps = {
     dispatch: Dispatch;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
@@ -29,10 +24,10 @@ type ControlProps<T = unknown> = {
     placeholder?: SelectProps['placeholder'];
     active?: boolean;
     disabled?: boolean;
-    listboxRef?: React.RefObject<List<FlattenOption<T>>>;
+    listboxRef?: React.RefObject<List<FlattenOption>>;
 };
 
-const ControlInner = <T extends unknown>(props: ControlProps<T>, ref: ButtonForwardedRef) => {
+export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
         view,
         size,
@@ -111,8 +106,6 @@ const ControlInner = <T extends unknown>(props: ControlProps<T>, ref: ButtonForw
             <Icon className={b('chevron-icon')} data={Chevron} />
         </button>
     );
-};
-
-export const Control = React.forwardRef(ControlInner);
+});
 
 Control.displayName = 'Control';

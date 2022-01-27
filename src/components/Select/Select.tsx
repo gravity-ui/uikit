@@ -5,7 +5,7 @@ import {SelectProps} from './types';
 import {FlattenOption} from './utils';
 import {Control, Listbox} from './components';
 
-export const Select = <T extends unknown>(props: SelectProps<T>) => {
+export const Select = (props: SelectProps) => {
     const {
         renderOption,
         getOptionHeight,
@@ -24,7 +24,7 @@ export const Select = <T extends unknown>(props: SelectProps<T>) => {
     } = props;
     const [{controlRect, active}, dispatch] = React.useReducer(reducer, initialState);
     const controlRef = React.useRef<HTMLButtonElement>(null);
-    const listboxRef = React.useRef<List<FlattenOption<T>>>(null);
+    const listboxRef = React.useRef<List<FlattenOption>>(null);
 
     return (
         <React.Fragment>

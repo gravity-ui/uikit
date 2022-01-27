@@ -41,10 +41,10 @@ const OPTIONS_1: (SelectOption | SelectOptgroup)[] = [
 ];
 const VALUE_1 = ['val2'];
 
-const OPTIONS_2: (SelectOption<{color: string}> | SelectOptgroup<{color: string}>)[] = [
-    {value: 'val1', content: 'Value 1', color: 'green'},
-    {value: 'val2', content: 'Value 2', color: 'red'},
-    {value: 'val3', content: 'Value 3', color: 'yellow'},
+const OPTIONS_2: SelectOption[] = [
+    {value: 'val1', content: 'Value 1', data: {color: 'green'}},
+    {value: 'val2', content: 'Value 2', data: {color: 'red'}},
+    {value: 'val3', content: 'Value 3', data: {color: 'yellow'}},
 ];
 const VALUE_2 = ['val2'];
 
@@ -55,9 +55,9 @@ const OPTIONS_4 = generateItems(100);
 const VALUE_4 = ['val10'];
 
 export const SelectShowcase = (props: SelectProps) => {
-    const renderOption2 = (option: SelectOption<{color: string}>) => {
+    const renderOption2 = (option: SelectOption) => {
         return (
-            <div style={{color: option.color, height: 22, lineHeight: '22px'}}>
+            <div style={{color: option.data?.color, height: 22, lineHeight: '22px'}}>
                 {option.content}
             </div>
         );

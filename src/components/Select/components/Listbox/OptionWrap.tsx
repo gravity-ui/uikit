@@ -6,23 +6,23 @@ import {SelectProps, SelectOption} from '../../types';
 
 const b = block('select-listbox');
 
-type DefaultOptionProps<T> = {
-    option: SelectOption<T>;
+type DefaultOptionProps = {
+    option: SelectOption;
 };
 
-type OptionWrapProps<T> = {
-    renderOption?: SelectProps<T>['renderOption'];
+type OptionWrapProps = {
+    renderOption?: SelectProps['renderOption'];
     value: NonNullable<SelectProps['value']>;
-    option: SelectOption<T>;
+    option: SelectOption;
     multiple?: boolean;
 };
 
-const DefaultOption = <T extends unknown>({option}: DefaultOptionProps<T>) => {
+const DefaultOption = ({option}: DefaultOptionProps) => {
     const {content, children, disabled} = option;
     return <span className={b('option-default-label', {disabled})}>{content || children}</span>;
 };
 
-export const OptionWrap = <T extends unknown>(props: OptionWrapProps<T>) => {
+export const OptionWrap = (props: OptionWrapProps) => {
     const {renderOption, value, option, multiple} = props;
     const selected = value.indexOf(option.value) !== -1;
     const showTickIcon = selected && multiple;

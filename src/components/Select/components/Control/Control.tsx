@@ -1,5 +1,6 @@
 import React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
+import {useForkRef} from '../../../utils/useForkRef';
 import {CnMods, block} from '../../../utils/cn';
 import {List} from '../../../List';
 import {Icon} from '../../../Icon';
@@ -42,6 +43,7 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props,
         listboxRef,
         dispatch,
     } = props;
+    const controlRef = React.useRef<HTMLButtonElement>(null);
     const showValues = Boolean(value.length);
     const showPlaceholder = Boolean(placeholder && !showValues);
     const controlMods: CnMods = {
@@ -58,9 +60,12 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props,
         controlInlineStyles.width = width;
     }
 
-    const getControlNode = React.useCallback(() => {
-        return (ref as React.RefObject<HTMLButtonElement>)?.current;
-    }, [ref]);
+    const handleControlRef = useForkRef(ref, controlRef);
+
+    const setControlRect = React.useCallback(() => {
+        const controlRect = controlRef.current?.getBoundingClientRect();
+        dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect}});
+    }, [dispatch]);
 
     const handleClick = () => {
         dispatch({type: 'SET_ACTIVE', payload: {active: !active}});
@@ -70,16 +75,12 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props,
         listboxRef?.current?.onKeyDown(e);
     };
 
-    const handleResize = React.useCallback(() => {
-        const controlRect = getControlNode()?.getBoundingClientRect();
-        dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect}});
-    }, [dispatch, getControlNode]);
-
     React.useLayoutEffect(() => {
-        const resizeObserver = new ResizeObserver(handleResize);
-        const element = getControlNode();
+        const resizeObserver = new ResizeObserver(() => setControlRect());
+        const element = controlRef.current;
 
         if (element) {
+            setControlRect();
             resizeObserver.observe(element);
         }
 
@@ -88,11 +89,11 @@ export const Control = React.forwardRef<HTMLButtonElement, ControlProps>((props,
                 resizeObserver.disconnect();
             }
         };
-    }, [getControlNode, handleResize]);
+    }, [setControlRect]);
 
     return (
         <button
-            ref={ref}
+            ref={handleControlRef}
             className={b(controlMods, className)}
             style={controlInlineStyles}
             aria-haspopup="listbox"

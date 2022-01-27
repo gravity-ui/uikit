@@ -1,11 +1,12 @@
 import React from 'react';
+import {useForkRef} from '../utils/useForkRef';
 import {List} from '../List';
 import {reducer, initialState} from './store';
 import {SelectProps} from './types';
 import {FlattenOption} from './utils';
 import {Control, Listbox} from './components';
 
-export const Select = (props: SelectProps) => {
+export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
     const {
         renderOption,
         getOptionHeight,
@@ -25,11 +26,12 @@ export const Select = (props: SelectProps) => {
     const [{controlRect, active}, dispatch] = React.useReducer(reducer, initialState);
     const controlRef = React.useRef<HTMLButtonElement>(null);
     const listboxRef = React.useRef<List<FlattenOption>>(null);
+    const handleControlRef = useForkRef(ref, controlRef);
 
     return (
         <React.Fragment>
             <Control
-                ref={controlRef}
+                ref={handleControlRef}
                 listboxRef={listboxRef}
                 className={className}
                 view={view}
@@ -59,4 +61,4 @@ export const Select = (props: SelectProps) => {
             />
         </React.Fragment>
     );
-};
+});

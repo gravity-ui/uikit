@@ -65,7 +65,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
 
         return {
             calculated: false,
-            rootItem: !firstDisplayedItemsCount ? undefined : props.items[0],
+            rootItem: firstDisplayedItemsCount ? props.items[0] : undefined,
             visibleItems: props.items.slice(firstDisplayedItemsCount),
             hiddenItems: [],
             allItems: props.items,

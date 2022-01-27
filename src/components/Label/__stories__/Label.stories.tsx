@@ -8,11 +8,11 @@ export default {
     component: Label,
 } as Meta;
 
-const Template: Story<LabelProps> = (args: any) => <Label {...args}>Default</Label>;
+const Template: Story<LabelProps> = (args) => <Label {...args}>Default</Label>;
 
 export const Default = Template.bind({});
 
-const ThemeTemplate: Story<LabelProps> = (args: any) => {
+const ThemeTemplate: Story<LabelProps> = (args) => {
     return (
         <>
             <Label {...args} theme="normal">
@@ -36,7 +36,7 @@ const ThemeTemplate: Story<LabelProps> = (args: any) => {
 
 export const Theme = ThemeTemplate.bind({});
 
-const SizeTemplate: Story<LabelProps> = (args: any) => {
+const SizeTemplate: Story<LabelProps> = (args) => {
     return (
         <>
             <Label {...args} size="s">

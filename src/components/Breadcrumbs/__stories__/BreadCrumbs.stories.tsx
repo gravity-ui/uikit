@@ -47,7 +47,7 @@ export default {
     },
 } as unknown as Meta;
 
-const DefaultTemplate: Story<BreadcrumbsProps> = (args: any) => <Breadcrumbs {...args} />;
+const DefaultTemplate: Story<BreadcrumbsProps> = (args) => <Breadcrumbs {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items,
@@ -55,7 +55,7 @@ Default.args = {
     lastDisplayedItemsCount: 1,
 };
 
-const ShowcaseTemplate: Story = (args: any) => <BreadcrumbsShowcase {...args} />;
+const ShowcaseTemplate: Story<BreadcrumbsProps> = (args) => <BreadcrumbsShowcase {...args} />;
 export const Showcase = ShowcaseTemplate.bind({});
 Showcase.args = {
     firstDisplayedItemsCount: 0,

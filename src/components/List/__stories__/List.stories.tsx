@@ -13,14 +13,14 @@ export default {
 
 const items = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
 
-const DefaultTemplate: Story<ListProps<any>> = (args) => <List {...args} />;
+const DefaultTemplate: Story<ListProps<string>> = (args) => <List {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items,
     itemsHeight: 150,
 };
 
-const SortableTemplate: Story<ListProps<any>> = (args) => <List {...args} />;
+const SortableTemplate: Story<ListProps<string>> = (args) => <List {...args} />;
 export const Sortable = SortableTemplate.bind({});
 Sortable.args = {
     items,
@@ -28,7 +28,7 @@ Sortable.args = {
     itemsHeight: 150,
 };
 
-const RenderItemTemplate: Story<ListProps<any>> = (args) => <List {...args} />;
+const RenderItemTemplate: Story<ListProps<string>> = (args) => <List {...args} />;
 export const RenderItem = RenderItemTemplate.bind({});
 RenderItem.args = {
     items,
@@ -36,5 +36,5 @@ RenderItem.args = {
     itemsHeight: 150,
 };
 
-const ShowcaseTemplate: Story<ListProps<any>> = () => <ListShowcase />;
+const ShowcaseTemplate: Story = () => <ListShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

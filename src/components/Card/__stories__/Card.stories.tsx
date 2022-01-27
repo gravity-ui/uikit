@@ -10,12 +10,12 @@ export default {
     component: Card,
 } as Meta;
 
-const DefaultTemplate: Story<CardProps> = (args: any) => (
+const DefaultTemplate: Story<CardProps> = (args) => (
     <Card {...args} className="card-stories">
         <div className="card-content-stories">card&lsquo;s content</div>
     </Card>
 );
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story<CardProps> = (args: any) => <CardShowcase {...args} />;
+const ShowcaseTemplate: Story<CardProps> = () => <CardShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

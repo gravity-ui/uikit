@@ -19,7 +19,7 @@
         "styles"
     ],
     "scripts": {
-        "test": "exit 0",
+        "test": "jest",
         "clean": "gulp clean",
         "build": "gulp",
         "start": "start-storybook -p 7007",
@@ -29,8 +29,7 @@
         "lint:prettier": "prettier --check --loglevel=error '**/*.{js,jsx,ts,tsx,scss}'",
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
-        "prepublishOnly": "npm run build",
-        "test:unit": "jest"
+        "prepublishOnly": "npm run build"
     },
     "dependencies": {
         "@popperjs/core": "^2.10.2",

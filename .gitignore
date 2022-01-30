@@ -5,3 +5,4 @@ node_modules
 /storybook-static
 /build
 /styles/**/*.css
+coverage

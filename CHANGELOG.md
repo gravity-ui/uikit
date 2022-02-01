@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://www.github.com/yandex-cloud/uikit/compare/v1.5.0...v1.6.0) (2022-01-27)
+
+
+### Features
+
+* border-radius tokens ([#65](https://www.github.com/yandex-cloud/uikit/issues/65)) ([d73c8ee](https://www.github.com/yandex-cloud/uikit/commit/d73c8eee31226cd6efcfe483e4fb66ec4b8824e8))
+* migrate Progress component ([#42](https://www.github.com/yandex-cloud/uikit/issues/42)) ([d0afc5e](https://www.github.com/yandex-cloud/uikit/commit/d0afc5ec229987d3f854be2f8570216644f1effc))
+* migrate Tooltip and HelpTooltip components ([#60](https://www.github.com/yandex-cloud/uikit/issues/60)) ([c3128c8](https://www.github.com/yandex-cloud/uikit/commit/c3128c83473eb1490e2b4713602f7c93ebdd06df))
+
+
+### Bug Fixes
+
+* **List:** clear timeout for delayed setState ([#67](https://www.github.com/yandex-cloud/uikit/issues/67))  ([217e72f](https://www.github.com/yandex-cloud/uikit/commit/217e72f6c5813eba7be97cb5984a460d56c13c0b))
+
 ## [1.5.0](https://www.github.com/yandex-cloud/uikit/compare/v1.4.2...v1.5.0) (2022-01-25)
 
 

@@ -1,4 +1,5 @@
 @import '../variables';
+@import '../../../styles/mixins';
 
 $block: '.#{$ns}button';
 
@@ -17,12 +18,11 @@ $block: '.#{$ns}button';
 }
 
 #{$block} {
+    @include button-reset();
     display: inline-block;
     position: relative;
     overflow: visible;
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     font-family: var(--yc-font-family);
     font-weight: normal;
     user-select: none;
@@ -30,12 +30,8 @@ $block: '.#{$ns}button';
     white-space: nowrap;
     text-decoration: none;
     background: transparent;
-    outline: none;
-    border: none;
-    border-radius: 4px;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    cursor: pointer;
     transition: transform 0.1s ease-out, color 0.15s linear;
     transform: scale(1);
 
@@ -47,7 +43,6 @@ $block: '.#{$ns}button';
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 4px;
         transition: background-color 0.15s linear;
     }
 
@@ -59,7 +54,6 @@ $block: '.#{$ns}button';
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 4px;
     }
 
     &:focus::after {
@@ -96,6 +90,8 @@ $block: '.#{$ns}button';
                     margin-right: 22px;
                 }
             }
+
+            --yc-button-border-radius: var(--yc-border-radius-s);
         }
 
         &_m {
@@ -118,6 +114,8 @@ $block: '.#{$ns}button';
                     margin-right: 25px;
                 }
             }
+
+            --yc-button-border-radius: var(--yc-border-radius-m);
         }
 
         &_l {
@@ -140,6 +138,8 @@ $block: '.#{$ns}button';
                     margin-right: 33px;
                 }
             }
+
+            --yc-button-border-radius: var(--yc-border-radius-l);
         }
 
         &_xl {
@@ -162,6 +162,8 @@ $block: '.#{$ns}button';
                     margin-right: 40px;
                 }
             }
+
+            --yc-button-border-radius: var(--yc-border-radius-xl);
         }
     }
 
@@ -395,110 +397,7 @@ $block: '.#{$ns}button';
         }
     }
 
-    &_pin {
-        &_round-round {
-            // default
-        }
-
-        &_brick-brick {
-            &::before,
-            &::after {
-                border-radius: 0;
-            }
-        }
-
-        &_clear-clear {
-            &::before,
-            &::after {
-                border-radius: 0;
-                border-left: 0;
-                border-right: 0;
-            }
-        }
-
-        &_circle-circle {
-            &::before,
-            &::after {
-                border-radius: 100px;
-            }
-        }
-
-        &_round-brick {
-            &::before,
-            &::after {
-                border-radius: 4px 0 0 4px;
-            }
-        }
-
-        &_brick-round {
-            &::before,
-            &::after {
-                border-radius: 0 4px 4px 0;
-            }
-        }
-
-        &_round-clear {
-            &::before,
-            &::after {
-                border-radius: 4px 0 0 4px;
-                border-right: 0;
-            }
-        }
-
-        &_clear-round {
-            &::before,
-            &::after {
-                border-radius: 0 4px 4px 0;
-                border-left: 0;
-            }
-        }
-
-        &_brick-clear {
-            &::before,
-            &::after {
-                border-radius: 0;
-                border-right: 0;
-            }
-        }
-
-        &_clear-brick {
-            &::before,
-            &::after {
-                border-radius: 0;
-                border-left: 0;
-            }
-        }
-
-        &_circle-brick {
-            &::before,
-            &::after {
-                border-radius: 100px 0 0 100px;
-            }
-        }
-
-        &_brick-circle {
-            &::before,
-            &::after {
-                border-radius: 0 100px 100px 0;
-            }
-        }
-
-        &_circle-clear {
-            &::before,
-            &::after {
-                border-radius: 100px 0 0 100px;
-                border-right: 0;
-            }
-        }
-
-        &_clear-circle {
-            &::before,
-            &::after {
-                border-radius: 0 100px 100px 0;
-                border-left: 0;
-            }
-        }
-    }
+    @include pin($block, ('::before', '::after'), var(--yc-button-border-radius));
 
     &__text {
         display: inline-block;

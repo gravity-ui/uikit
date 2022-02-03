@@ -1,4 +1,4 @@
-# @yandex-cloud/uikit
+# @yandex-cloud/uikit &middot; [![npm package](https://img.shields.io/npm/v/@yandex-cloud/uikit)](https://www.npmjs.com/package/@yandex-cloud/uikit) [![CI](https://img.shields.io/github/workflow/status/yandex-cloud/uikit/CI/main?label=CI&logo=github)](https://github.com/yandex-cloud/uikit/actions/workflows/ci.yml?query=branch:main)
 
 A set of React components for building rich web applications.
 

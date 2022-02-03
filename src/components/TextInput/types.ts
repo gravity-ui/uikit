@@ -1,8 +1,6 @@
 import React from 'react';
 import {DOMProps, QAProps} from '../types';
 
-export type TextInputEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
-
 export type TextInputView = 'normal' | 'clear';
 
 export type TextInputSize = 's' | 'm' | 'l' | 'xl';

@@ -1,10 +1,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {TextInputEvent} from './types';
-import {TextInput} from './TextInput';
-import {TextAreaControl} from './TextAreaControl/TextAreaControl';
-import {InputControl} from './InputControl/InputControl';
+import {TextInput} from '../TextInput';
+import {TextAreaControl} from '../TextAreaControl/TextAreaControl';
+import {InputControl} from '../InputControl/InputControl';
+
+type TextInputEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 describe('TextInput', () => {
     it('should render text area component when component receives multiline props', () => {
@@ -22,25 +23,25 @@ describe('TextInput', () => {
     it('should render error message in input when component receives error props', () => {
         const wrapper = shallow(<TextInput error="FAKE_ERROR" />);
 
-        expect(wrapper.find('[data-qa="yc-text-input__error"]').exists()).toBeTruthy();
+        expect(wrapper.find('.yc-text-input__error').exists()).toBeTruthy();
     });
 
     it("shouldn't render error message in input when component doesn't receive error props", () => {
         const wrapper = shallow(<TextInput />);
 
-        expect(wrapper.find('[data-qa="yc-text-input__error"]').exists()).toBeFalsy();
+        expect(wrapper.find('.yc-text-input__error').exists()).toBeFalsy();
     });
 
     it('should render clear button when component receives hasClear props', () => {
         const wrapper = shallow(<TextInput hasClear />);
 
-        expect(wrapper.find('[data-qa="yc-text-input__clear"]').exists()).toBeTruthy();
+        expect(wrapper.find('.yc-text-input__clear').exists()).toBeTruthy();
     });
 
     it("shouldn't render clear button when component doesn't receive hasClear props", () => {
         const wrapper = shallow(<TextInput />);
 
-        expect(wrapper.find('[data-qa="yc-text-input__clear"]').exists()).toBeFalsy();
+        expect(wrapper.find('.yc-text-input__clear').exists()).toBeFalsy();
     });
 
     it('should call onChange with event function when input changes value', () => {
@@ -75,7 +76,7 @@ describe('TextInput', () => {
             <TextInput controlRef={FAKE_CONTROL_REF} hasClear onChange={FAKE_ON_CHANGE_FN} />,
         );
         (wrapper.find(InputControl).props().controlRef as Function)(FAKE_CONTROL_REF.current);
-        wrapper.find('[data-qa="yc-text-input__clear"]').simulate('click', FAKE_EVENT);
+        wrapper.find('.yc-text-input__clear').simulate('click', FAKE_EVENT);
 
         expect(FAKE_ON_CHANGE_FN).toBeCalled();
     });
@@ -91,7 +92,7 @@ describe('TextInput', () => {
             <TextInput controlRef={FAKE_CONTROL_REF} hasClear onUpdate={FAKE_ON_UPDATE_FN} />,
         );
         (wrapper.find(InputControl).props().controlRef as Function)(FAKE_CONTROL_REF.current);
-        wrapper.find('[data-qa="yc-text-input__clear"]').simulate('click', FAKE_EVENT);
+        wrapper.find('.yc-text-input__clear').simulate('click', FAKE_EVENT);
 
         expect(FAKE_ON_UPDATE_FN).toBeCalledWith('');
     });

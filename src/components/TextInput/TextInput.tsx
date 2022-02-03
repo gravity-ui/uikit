@@ -5,20 +5,12 @@ import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
-import {
-    TextInputProps,
-    TextInputEvent,
-    TextInputView,
-    TextInputSize,
-    TextInputPin,
-    TextInputState,
-} from './types';
+import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
 import './TextInput.scss';
 
-export type {TextInputProps, TextInputEvent, TextInputView, TextInputSize, TextInputPin};
+export type {TextInputProps, TextInputView, TextInputSize, TextInputPin};
 
 const b = block('text-input');
-const innerQa = block('text-input');
 
 const getTextInputState = (
     args: Pick<TextInputProps, 'error'> = {},
@@ -155,14 +147,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 <InputControl {...props} {...commonProps} controlRef={handleRef} />
             )}
 
-            {isErrorMsgVisible && (
-                <div data-qa={innerQa('error')} className={b('error')}>
-                    {error}
-                </div>
-            )}
+            {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
             {hasClear && (
                 <span
-                    data-qa={innerQa('clear')}
                     className={b('clear', {visible: isClearControlVisible})}
                     onClick={handleClear}
                 >

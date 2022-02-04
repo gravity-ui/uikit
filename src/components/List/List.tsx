@@ -169,7 +169,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 break;
             }
             case 'Enter': {
-                if (activeItem && !isNaN(activeItem) && this.props.onItemClick) {
+                if (typeof activeItem === 'number' && this.props.onItemClick) {
                     this.props.onItemClick(this.state.items[activeItem], activeItem, true);
                 }
                 break;
@@ -203,7 +203,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 itemClassName={this.props.itemClassName}
                 active={active}
                 selected={index === this.props.selectedItemIndex}
-                onMouseMove={this.onItemMouseMove}
+                onActivate={this.onItemActivate}
                 onClick={this.props.onItemClick}
             />
         );
@@ -401,7 +401,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         });
     };
 
-    private onItemMouseMove = (index: number) => {
+    private onItemActivate = (index?: number) => {
         if (!this.state.sorting) {
             this.activateItem(index, false);
         }
@@ -431,7 +431,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
         if (typeof itemHeight === 'function') {
             const {items} = this.state;
-            return itemHeight(items[index]);
+            return itemHeight(items[index], index);
         }
         return itemHeight;
     };

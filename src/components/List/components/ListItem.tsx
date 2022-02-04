@@ -14,9 +14,9 @@ type ListItemProps<T> = {
     sortable?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
     style?: React.CSSProperties;
+    onActivate: (index?: number) => void;
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];
-    onMouseMove?: (index: number) => void;
 };
 
 const defaultRenderItem = <T extends unknown>(item: T) => String(item);
@@ -43,7 +43,8 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 )}
                 style={style}
                 onClick={this.onClick}
-                onMouseMove={this.onMouseMove}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
                 ref={this.ref}
             >
                 {this.renderSortIcon()}
@@ -70,5 +71,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
 
     private onClick = () => this.props.onClick?.(this.props.item, this.props.itemIndex);
 
-    private onMouseMove = () => this.props.onMouseMove?.(this.props.itemIndex);
+    private onMouseEnter = () => this.props.onActivate(this.props.itemIndex);
+
+    private onMouseLeave = () => this.props.onActivate(undefined);
 }

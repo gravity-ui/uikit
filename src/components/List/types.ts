@@ -18,7 +18,7 @@ export type ListProps<T = unknown> = {
     filter?: string;
     activeItemIndex?: number;
     selectedItemIndex?: number;
-    itemHeight?: number | ((item: ListItemData<T>) => number);
+    itemHeight?: number | ((item: ListItemData<T>, itemIndex: number) => number);
     itemsHeight?: number | ((items: T[]) => number);
     virtualized?: boolean;
     filterable?: boolean;

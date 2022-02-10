@@ -4,11 +4,11 @@ import {QAProps} from '../types';
 import {FakeButton} from './FakeButton';
 
 export interface ClipboardButtonProps extends QAProps {
-    /** Текст для копирования */
+    /** Text to copy */
     text: string;
-    /** Размер иконки в пикселях */
+    /** Icon size in pixels */
     size?: number;
-    /** CSS-класс элемента */
+    /** Element CSS class */
     className?: string;
 }
 

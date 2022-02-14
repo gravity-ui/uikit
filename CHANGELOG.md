@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://www.github.com/yandex-cloud/uikit/compare/v1.6.0...v1.7.0) (2022-02-04)
+
+
+### Features
+
+* add Select component ([#72](https://www.github.com/yandex-cloud/uikit/issues/72)) ([3b9246a](https://www.github.com/yandex-cloud/uikit/commit/3b9246a3178319f2fb2887fafbe7afdd3b23e9c1))
+
 ## [1.6.0](https://www.github.com/yandex-cloud/uikit/compare/v1.5.0...v1.6.0) (2022-01-27)
 
 

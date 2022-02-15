@@ -1,6 +1,6 @@
 import React, {MouseEventHandler} from 'react';
 import {block} from '../utils/cn';
-import {useButtonHandlers} from '../utils/useButtonHandlers';
+import {useActionHandlers} from '../utils/useActionHandlers';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboardStatus} from '../CopyToClipboard';
 import {ClipboardButtonProps} from './ClipboardButton';
@@ -22,7 +22,7 @@ export function FakeButton({
     size = DEFAULT_ICON_SIZE,
     onClick,
 }: FakeButtonProps) {
-    const {onKeyDown} = useButtonHandlers<HTMLSpanElement>(onClick);
+    const {onKeyDown} = useActionHandlers<HTMLSpanElement>(onClick);
 
     return (
         <span

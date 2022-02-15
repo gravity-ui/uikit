@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.7.1](https://www.github.com/yandex-cloud/uikit/compare/v1.7.0...v1.7.1) (2022-02-15)
+
+
+### Bug Fixes
+
+* restore `package-lock.json` ([#89](https://www.github.com/yandex-cloud/uikit/issues/89)) ([7add961](https://www.github.com/yandex-cloud/uikit/commit/7add961c67af1d51a8f4460bd7ff2bd37f809f34))
+
 ## [1.7.0](https://www.github.com/yandex-cloud/uikit/compare/v1.6.0...v1.7.0) (2022-02-04)
 
 

@@ -17,9 +17,7 @@ export interface ClipboardButtonProps extends QAProps {
 export function ClipboardButton({text, size, className, qa, onCopy}: ClipboardButtonProps) {
     return (
         <CopyToClipboard text={text} timeout={1000} onCopy={onCopy}>
-            {(status) => (
-                <FakeButton className={className} data-qa={qa} status={status} size={size} />
-            )}
+            {(status) => <FakeButton className={className} qa={qa} status={status} size={size} />}
         </CopyToClipboard>
     );
 }

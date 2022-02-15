@@ -10,16 +10,15 @@ const b = block('clipboard-button');
 
 const DEFAULT_ICON_SIZE = 24;
 
-interface FakeButtonProps extends Pick<ClipboardButtonProps, 'className' | 'size'> {
+interface FakeButtonProps extends Pick<ClipboardButtonProps, 'className' | 'size' | 'qa'> {
     status: CopyToClipboardStatus;
-    'data-qa': ClipboardButtonProps['qa'];
     onClick?: MouseEventHandler<HTMLSpanElement>;
 }
 
 export function FakeButton({
     status,
     className,
-    'data-qa': qa,
+    qa,
     size = DEFAULT_ICON_SIZE,
     onClick,
 }: FakeButtonProps) {

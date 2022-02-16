@@ -1,35 +1,23 @@
 import React from 'react';
-import {block} from '../utils/cn';
-import {CopyToClipboard} from '../CopyToClipboard';
-import {ClipboardIcon} from '../ClipboardIcon';
+import {CopyToClipboard, CopyToClipboardProps} from '../CopyToClipboard';
 import {QAProps} from '../types';
-import './ClipboardButton.scss';
+import {FakeButton} from './FakeButton';
 
 export interface ClipboardButtonProps extends QAProps {
-    /** Текст для копирования */
+    /** Text to copy */
     text: string;
-    /** Размер иконки в пикселях */
+    /** Icon size in pixels */
     size?: number;
-    /** CSS-класс элемента */
+    /** Element CSS class */
     className?: string;
+    /** Handler that would be invoked after success copy to clipboard */
+    onCopy?: CopyToClipboardProps['onCopy'];
 }
 
-const b = block('clipboard-button');
-const DEFAULT_ICON_SIZE = 24;
-
-export function ClipboardButton({
-    text,
-    size = DEFAULT_ICON_SIZE,
-    className,
-    qa,
-}: ClipboardButtonProps) {
+export function ClipboardButton({text, size, className, qa, onCopy}: ClipboardButtonProps) {
     return (
-        <CopyToClipboard text={text} timeout={1000}>
-            {(status) => (
-                <span className={b(null, className)} data-qa={qa}>
-                    <ClipboardIcon status={status} size={size} className={b('icon')} />
-                </span>
-            )}
+        <CopyToClipboard text={text} timeout={1000} onCopy={onCopy}>
+            {(status) => <FakeButton className={className} qa={qa} status={status} size={size} />}
         </CopyToClipboard>
     );
 }

@@ -6,7 +6,7 @@ module.exports = {
         '^.+\\.tsx?$': 'ts-jest',
     },
     coverageDirectory: './coverage',
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
     setupFiles: ['<rootDir>/src/setup-tests.ts'],
     moduleNameMapper: {
         '\\.(css|less|scss|sass)$': 'jest-transform-css',

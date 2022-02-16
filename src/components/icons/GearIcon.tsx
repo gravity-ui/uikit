@@ -1,4 +1,5 @@
 import React from 'react';
+import {svgA11yHidden} from '../utils/svgA11yHidden';
 
 export function GearIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -8,6 +9,7 @@ export function GearIcon(props: React.SVGProps<SVGSVGElement>) {
             width="24"
             height="24"
             fill="currentColor"
+            {...svgA11yHidden}
             {...props}
         >
             <path

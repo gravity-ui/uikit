@@ -1,6 +1,7 @@
 import React from 'react';
 import {block} from '../utils/cn';
 import {DOMProps, QAProps} from '../types';
+import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
 
 const b = block('menu');
 
@@ -20,7 +21,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     children?: React.ReactNode;
 }
 
-export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function MenuItem(
+const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function MenuItem(
     {
         icon,
         title,
@@ -82,4 +83,8 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function 
             {item}
         </li>
     );
+});
+
+export const MenuItem = withEventBrokerDomHandlers(PureMenuItem, ['onClick'], {
+    componentId: 'MenuItem',
 });

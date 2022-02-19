@@ -60,7 +60,7 @@ export const Tabs: React.FC<TabsProps> = ({
     };
 
     return (
-        <div className={b({direction}, className)} data-qa={qa}>
+        <div role="tablist" className={b({direction}, className)} data-qa={qa}>
             {items.map((item, index) => {
                 const tabItemNode = (
                     <TabsItem

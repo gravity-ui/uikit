@@ -43,7 +43,15 @@ export const TabsItem: React.FC<TabsItemProps> = ({
     }, [hint, title]);
 
     return (
-        <div className={b({active, disabled, direction})} title={htmlTitle} onClick={handleClick}>
+        <div
+            role="tab"
+            aria-selected={active === true}
+            aria-disabled={disabled === true}
+            tabIndex={active === true && disabled !== true ? 0 : -1}
+            className={b({active, disabled, direction})}
+            title={htmlTitle}
+            onClick={handleClick}
+        >
             <div className={b('title')}>{title || id}</div>
 
             {direction === TabsDirection.Vertical && meta && (

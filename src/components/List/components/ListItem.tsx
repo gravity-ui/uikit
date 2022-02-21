@@ -10,7 +10,7 @@ type ListItemProps<T> = {
     itemIndex: number;
     active: boolean;
     selected: boolean;
-    itemClassName?: string;
+    itemClassName?: string | ((item: ListItemData<T>) => string);
     sortable?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
     style?: React.CSSProperties;
@@ -39,7 +39,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                         inactive: item.disabled,
                         'sort-handle-align': sortHandleAlign,
                     },
-                    itemClassName,
+                    typeof itemClassName === 'function' ? itemClassName(item) : itemClassName,
                 )}
                 style={style}
                 onClick={this.onClick}

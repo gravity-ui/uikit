@@ -10,7 +10,7 @@ export type ListItemData<T> = T & {disabled?: boolean};
 export type ListProps<T = unknown> = {
     items: ListItemData<T>[];
     className?: string;
-    itemClassName?: string;
+    itemClassName?: string | ((item: ListItemData<T>) => string);
     itemsClassName?: string;
     filterClassName?: string;
     emptyPlaceholder?: string;

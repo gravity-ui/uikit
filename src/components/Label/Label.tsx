@@ -9,34 +9,36 @@ import './Label.scss';
 const b = block('label');
 
 interface LabelOwnProps {
-    /** Иконка лейбла (слева) */
+    /** Left icon */
     icon?: React.ReactNode;
-    /** Состояние disabled */
+    /** Disabled statement */
     disabled?: boolean;
-    /** Хендлер на нажатие крестика */
+    /** Handle on close button click */
     onClose?(event: React.MouseEvent<HTMLDivElement>): void;
-    /** Текст для копирования */
+    /** Text to be copied */
     copyText?: string;
-    /** Хендлер после события копирования */
+    /** Handler on copy button click */
     onCopy?(text: string, result: boolean): void;
-    /** Хендлер на клик на лейбл */
+    /** Handler on label click */
     onClick?(event: React.MouseEvent<HTMLDivElement>): void;
-    /** Дополнительный класс */
+    /** ClassName of label */
     className?: string;
-    /** Содержимое */
+    /** ClassName of label's text */
+    textClassName?: string;
+    /** Content */
     children?: React.ReactNode;
-    /** Добавить ховер */
+    /** Does label react on hover */
     interactive?: boolean;
 }
 
 interface LabelDefaultProps {
-    /** Цвет лейбла */
+    /** Theme of label */
     theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown';
-    /** Тип лейбла (обычный, с текстом для копирования или с крестиком) */
+    /** Type of label (regular, with copy of text or with close button) */
     type: 'default' | 'copy' | 'close';
-    /** Размер лейбла */
+    /** Size of label */
     size: 's' | 'm';
-    /** Стиль кнопки (с загруленными краями или обычная) */
+    /** Style of corners (regular or with rounded corners) */
     style: 'rounded' | 'default';
 }
 
@@ -52,6 +54,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         children,
         onClose,
         className,
+        textClassName,
         disabled,
         copyText,
         interactive = false,
@@ -63,7 +66,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const typeClose = type === 'close';
     const typeCopy = type === 'copy';
 
-    // Обрабатываем onClick только у лейблов с типом default
+    // handle onClick event only for labels with default theme
     const hasOnClick = Boolean(onClick) && typeDefault;
     const isInteractive = hasOnClick || interactive;
     const hasAction = typeClose || typeCopy;
@@ -84,7 +87,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
 
     const leftIcon = icon && <div className={b('icon', {left: true})}>{icon}</div>;
 
-    const content = <div className={b('text')}>{children}</div>;
+    const content = <div className={b('text', textClassName)}>{children}</div>;
 
     const renderCopyButton = (status?: CopyToClipboardStatus) => {
         return (
@@ -118,8 +121,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                 onClick={hasOnClick ? onClick : undefined}
                 className={b(
                     {
-                        // на данный момент лейблы с действиями могут быть только дефолтными
-                        theme: hasAction ? 'normal' : theme,
+                        theme,
                         size,
                         style,
                         type,

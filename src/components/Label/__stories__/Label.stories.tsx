@@ -66,13 +66,14 @@ const StyleTemplate: Story<LabelProps> = (args) => {
 
 export const Style = StyleTemplate.bind({});
 
-export const Interactions: Story<LabelProps> = () => (
+export const Interactions: Story<LabelProps> = (args) => (
     <div style={{display: 'flex', flexFlow: 'column', gap: 10}}>
         <div>
-            <Label>No interactions</Label>
+            <Label {...args}>No interactions</Label>
         </div>
         <div>
             <Label
+                {...args}
                 onClick={() => {
                     console.log('click');
                 }}
@@ -81,21 +82,25 @@ export const Interactions: Story<LabelProps> = () => (
             </Label>
         </div>
         <div>
-            <Label type={'copy'} copyText={'copyText'}>
+            <Label {...args} type={'copy'} copyText={'copyText'}>
                 Copy
             </Label>
         </div>
         <div>
-            <Label type={'close'}>Close</Label>
+            <Label {...args} type={'close'}>
+                Close
+            </Label>
         </div>
         <div>
             <Link href={'https://ya.ru'} target={'_blank'}>
-                <Label>Link</Label>
+                <Label {...args}>Link</Label>
             </Link>
         </div>
         <div>
             <Link href={'https://ya.ru'} target={'_blank'}>
-                <Label interactive>Link interactive</Label>
+                <Label {...args} interactive>
+                    Link interactive
+                </Label>
             </Link>
         </div>
     </div>

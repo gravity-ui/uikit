@@ -1,15 +1,16 @@
 ### PropTypes
 | Property  | Type                                                       | Required | Default    | Description |
 |:---       |:---                                                        |:---      |:---        |:---         |
-| theme     | `String`                                                   |          | `normal `  | Тема лейбла |
-| type      | `String`                                                   |          | `default`  | Тип лейбла (обычный, с текстом для копирования или с крестиком) |
-| size      | `String`                                                   |          | `xs`       | Размер лейбла |
-| style     | `String`                                                   |          | `default`  | Стиль кнопки (с загруленными краями или обычная) | |
-| tooltip   | `TooltipProps`                                             |          | `undefined` | Тултип лейбла |
-| icon      | `ReactNode`                                                |          | `undefined` | Иконка лейбла (слева) |
-| disabled  | `Boolean`                                                  |          | `undefined` | Состояние disabled |
-| onClose   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Хендлер на нажатие крестика |
-| copyText  | `String`                                                   |          | `undefined` | Текст для копирования |
-| onCopy    | `onCopy?(text: string, result: boolean): void;`            |          | `undefined` | Хендлер после события копирования |
-| onClick   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Хендлер на клик |
-| className | `String`                                                   |          | `undefined` | Дополнительный класс |
+| theme     | `String`                                                   |          | `normal `  | Theme of label |
+| type      | `String`                                                   |          | `default`  | Type of label (regular, with copy of text or with close button) |
+| size      | `String`                                                   |          | `xs`       | Size of label |
+| style     | `String`                                                   |          | `default`  | Style of corners (regular or with rounded corners) | |
+| tooltip   | `TooltipProps`                                             |          | `undefined` | Tooltip |
+| icon      | `ReactNode`                                                |          | `undefined` | Left icon |
+| disabled  | `Boolean`                                                  |          | `undefined` | disabled statement |
+| onClose   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Handler on close button click |
+| copyText  | `String`                                                   |          | `undefined` | Text to be copied |
+| onCopy    | `onCopy?(text: string, result: boolean): void;`            |          | `undefined` | Handler on copy button click |
+| onClick   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Handler on label click |
+| className | `String`                                                   |          | `undefined` | ClassName of label |
+| textClassName | `String`                                               |          | `undefined` | ClassName of label's text |

@@ -3,6 +3,7 @@ import React from 'react';
 import {QAProps} from '../types';
 import {SVGIconData} from './types';
 import {block} from '../utils/cn';
+import {a11yHiddenSvgProps} from '../utils/svg';
 import {
     isSpriteData,
     isSvgrData,
@@ -96,6 +97,7 @@ export function Icon({
         fill,
         stroke,
         'data-qa': qa,
+        ...a11yHiddenSvgProps,
     };
 
     if (isStringSvgData(data)) {

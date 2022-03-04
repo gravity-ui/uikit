@@ -1,4 +1,5 @@
 import React from 'react';
+import {a11yHiddenSvgProps} from '../utils/svg';
 
 export function AttentionToast(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -8,6 +9,7 @@ export function AttentionToast(props: React.SVGProps<SVGSVGElement>) {
             width="24"
             height="24"
             fill="none"
+            {...a11yHiddenSvgProps}
             {...props}
         >
             <path d="M0 0h24v24H0z" />

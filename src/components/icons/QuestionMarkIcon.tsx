@@ -1,4 +1,5 @@
 import React from 'react';
+import {a11yHiddenSvgProps} from '../utils/svg';
 
 export function QuestionMarkIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -8,6 +9,7 @@ export function QuestionMarkIcon(props: React.SVGProps<SVGSVGElement>) {
             width="16"
             height="16"
             fill="none"
+            {...a11yHiddenSvgProps}
             {...props}
         >
             <path

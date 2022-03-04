@@ -1,4 +1,5 @@
 import React from 'react';
+import {a11yHiddenSvgProps} from '../utils/svg';
 
 export function PreviewCloseIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -8,6 +9,7 @@ export function PreviewCloseIcon(props: React.SVGProps<SVGSVGElement>) {
             width="24"
             height="24"
             fill="currentColor"
+            {...a11yHiddenSvgProps}
             {...props}
         >
             <path

@@ -1,5 +1,5 @@
 import React from 'react';
-import {svgA11yHidden} from '../utils/svgA11yHidden';
+import {a11yHiddenSvgProps} from '../utils/svg';
 
 export function Tick(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -9,7 +9,7 @@ export function Tick(props: React.SVGProps<SVGSVGElement>) {
             width="16"
             height="16"
             fill="none"
-            {...svgA11yHidden}
+            {...a11yHiddenSvgProps}
             {...props}
         >
             <path

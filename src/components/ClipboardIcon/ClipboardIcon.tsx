@@ -1,6 +1,6 @@
 import React from 'react';
 import {block} from '../utils/cn';
-import {svgA11yHidden} from '../utils/svgA11yHidden';
+import {a11yHiddenSvgProps} from '../utils/svg';
 import {CopyToClipboardStatus} from '../CopyToClipboard';
 
 import './ClipboardIcon.scss';
@@ -35,7 +35,7 @@ export function ClipboardIcon({size, status, className}: ClipboardIconProps) {
             height={size}
             viewBox="0 0 24 24"
             className={b(null, className)}
-            {...svgA11yHidden}
+            {...a11yHiddenSvgProps}
         >
             <path
                 fill="currentColor"

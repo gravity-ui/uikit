@@ -1,5 +1,5 @@
 import React from 'react';
-import {svgA11yHidden} from '../../utils/svgA11yHidden';
+import {a11yHiddenSvgProps} from '../../utils/svg';
 
 export function DragHandleIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -9,7 +9,7 @@ export function DragHandleIcon(props: React.SVGProps<SVGSVGElement>) {
             width="6"
             height="10"
             fill="currentColor"
-            {...svgA11yHidden}
+            {...a11yHiddenSvgProps}
             {...props}
         >
             <path d="M0 0h2v2H0zm0 4h2v2H0zm0 4h2v2H0zm4-8h2v2H4zm0 4h2v2H4zm0 4h2v2H4z" />

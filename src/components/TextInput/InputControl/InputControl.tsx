@@ -34,7 +34,7 @@ export function InputControl(props: InputControlProps) {
         <input
             {...(controlProps as React.InputHTMLAttributes<HTMLInputElement>)}
             ref={controlRef as React.Ref<HTMLInputElement>}
-            className={b('control', {type: 'input'})}
+            className={b('control', {type: 'input'}, controlProps?.className)}
             type={type}
             name={name}
             id={id}

@@ -82,7 +82,7 @@ export function TextAreaControl(props: TextAreaControlProps) {
                 ...(controlProps as React.InputHTMLAttributes<HTMLTextAreaElement>)?.style,
                 height: rows ? 'auto' : undefined,
             }}
-            className={b('control', {type: 'textarea'})}
+            className={b('control', {type: 'textarea'}, controlProps?.className)}
             name={name}
             id={id}
             tabIndex={tabIndex}

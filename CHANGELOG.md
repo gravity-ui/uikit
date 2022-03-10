@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.8.0](https://www.github.com/yandex-cloud/uikit/compare/v1.7.0...v1.8.0) (2022-03-10)
+
+
+### Features
+
+* add eventBroker for Menu ([#90](https://www.github.com/yandex-cloud/uikit/issues/90)) ([8fbedce](https://www.github.com/yandex-cloud/uikit/commit/8fbedce66a56fb0b751b2cb7e1d99c470856b31d))
+* **ClipboardButton:** improve a11y ([#86](https://www.github.com/yandex-cloud/uikit/issues/86)) ([907cadc](https://www.github.com/yandex-cloud/uikit/commit/907cadcd2a6750ccfc38f8a2642f954b0b759851))
+* **Tabs:** improve a11y ([#94](https://www.github.com/yandex-cloud/uikit/issues/94)) ([da9f256](https://www.github.com/yandex-cloud/uikit/commit/da9f256ac9fa521fe616bfa2b1d013068db74a2a))
+
+
+### Bug Fixes
+
+* restore `package-lock.json` ([#89](https://www.github.com/yandex-cloud/uikit/issues/89)) ([7add961](https://www.github.com/yandex-cloud/uikit/commit/7add961c67af1d51a8f4460bd7ff2bd37f809f34))
+* **TextInput:** pass className to control ([#99](https://www.github.com/yandex-cloud/uikit/issues/99)) ([55fd5af](https://www.github.com/yandex-cloud/uikit/commit/55fd5af341d1d5cecb05efe89d619d48b73569b3))
+
 ## [1.7.0](https://www.github.com/yandex-cloud/uikit/compare/v1.6.0...v1.7.0) (2022-02-04)
 
 

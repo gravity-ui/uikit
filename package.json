@@ -32,18 +32,18 @@
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
-        "@popperjs/core": "^2.11.2",
-        "bem-cn-lite": "^4.0.0",
-        "focus-trap": "^6.7.2",
-        "lodash": "^4.17.21",
-        "react-copy-to-clipboard": "^5.0.4",
-        "react-popper": "^2.2.5",
-        "react-sortable-hoc": "^2.0.0",
-        "react-virtualized-auto-sizer": "^1.0.6",
-        "react-window": "^1.8.6",
-        "resize-observer-polyfill": "^1.5.1",
-        "tslib": "^2.3.1",
-        "utility-types": "^3.10.0"
+        "@popperjs/core": "2.11.2",
+        "bem-cn-lite": "4.0.0",
+        "focus-trap": "6.7.2",
+        "lodash": "4.17.21",
+        "react-copy-to-clipboard": "5.0.4",
+        "react-popper": "2.2.5",
+        "react-sortable-hoc": "2.0.0",
+        "react-virtualized-auto-sizer": "1.0.6",
+        "react-window": "1.8.6",
+        "resize-observer-polyfill": "1.5.1",
+        "tslib": "2.3.1",
+        "utility-types": "3.10.0"
     },
     "devDependencies": {
         "@storybook/addon-essentials": "^6.4.18",

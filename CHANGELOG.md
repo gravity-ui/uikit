@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.8.1](https://www.github.com/yandex-cloud/uikit/compare/v1.8.0...v1.8.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* freeze deps ([eca3184](https://www.github.com/yandex-cloud/uikit/commit/eca3184b29b2298c42a1a7b47358b517a5a0ab8f))
+
 ## [1.8.0](https://www.github.com/yandex-cloud/uikit/compare/v1.7.0...v1.8.0) (2022-03-10)
 
 

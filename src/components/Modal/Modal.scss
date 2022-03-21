@@ -36,7 +36,7 @@ $block: '.#{$ns}modal';
         margin: 20px;
         text-align: left;
         background-color: var(--yc-color-base-float);
-        border-radius: 5px;
+        border-radius: var(--yc-modal-border-radius);
     }
 
     &,
@@ -98,4 +98,8 @@ $block: '.#{$ns}modal';
     100% {
         transform: scale(1);
     }
+}
+
+:root {
+    --yc-modal-border-radius: 5px;
 }

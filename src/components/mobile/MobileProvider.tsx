@@ -1,49 +1,63 @@
 import React from 'react';
 import {MobileContext, MobileContextProps, History, Location} from './MobileContext';
 import {Platform} from './constants';
-import {useHistory, useLocation} from 'react-router-dom';
 
-interface MobileProviderExternalProps {}
-
-interface MobileProviderDefaultProps {
-    mobile: boolean;
-    platform: Platform;
-    useHistory: () => History;
-    useLocation: () => Location;
+function useHistoryMock(): History {
+    return {action: '', replace() {}, push() {}, goBack() {}};
 }
 
-interface MobileProviderState extends MobileContextProps {}
+function useLocationMock(): Location {
+    return {pathname: '', search: '', hash: ''};
+}
 
-export interface MobileProviderProps
-    extends MobileProviderExternalProps,
-        Partial<MobileProviderDefaultProps> {}
+export interface MobileProviderProps {
+    children?: React.ReactNode;
+    mobile?: boolean;
+    platform?: Platform;
+    // Support history v4 and v5
+    useHistory?: () => Omit<History, 'goBack'> & {back?: () => void; goBack?: () => void};
+    useLocation?: () => Location;
+}
 
-export class MobileProvider extends React.Component<
-    MobileProviderExternalProps & MobileProviderDefaultProps,
-    MobileProviderState
-> {
-    static defaultProps: MobileProviderDefaultProps = {
-        mobile: false,
-        platform: Platform.BROWSER,
-        useHistory,
-        useLocation,
-    };
+export function MobileProvider({
+    mobile = false,
+    platform = Platform.BROWSER,
+    useHistory = useHistoryMock,
+    useLocation = useLocationMock,
+    children,
+}: MobileProviderProps) {
+    const [mobileValue, setMobile] = React.useState(mobile);
+    const [platformValue, setPlatform] = React.useState(platform);
 
-    state: MobileProviderState = {
-        mobile: this.props.mobile,
-        platform: this.props.platform,
-        useHistory: this.props.useHistory,
-        useLocation: this.props.useLocation,
-        setMobile: (mobile: boolean, platform = Platform.BROWSER) =>
-            this.setState({mobile, platform}),
-        setPlatform: (platform: Platform) => this.setState({platform}),
-    };
+    const useHistoryFunction: MobileContextProps['useHistory'] = React.useCallback(
+        function useHistoryFunction() {
+            const {goBack, back, ...props} = useHistory();
+            let goBackFunction;
+            if (typeof goBack === 'function') {
+                goBackFunction = goBack;
+            } else if (typeof back === 'function') {
+                goBackFunction = back;
+            } else {
+                goBackFunction = () => {};
+            }
+            return {
+                ...props,
+                goBack: goBackFunction,
+            };
+        },
+        [useHistory],
+    );
 
-    render() {
-        return (
-            <MobileContext.Provider value={this.state}>
-                {this.props.children}
-            </MobileContext.Provider>
-        );
-    }
+    const state: MobileContextProps = React.useMemo(() => {
+        return {
+            mobile: mobileValue,
+            setMobile,
+            platform: platformValue,
+            setPlatform,
+            useLocation,
+            useHistory: useHistoryFunction,
+        };
+    }, [mobileValue, platformValue, useLocation, useHistoryFunction]);
+
+    return <MobileContext.Provider value={state}>{children}</MobileContext.Provider>;
 }

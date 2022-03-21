@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.8.2](https://www.github.com/yandex-cloud/uikit/compare/v1.8.1...v1.8.2) (2022-03-21)
+
+
+### Bug Fixes
+
+* change Readme title for Breadcrumbs ([#101](https://www.github.com/yandex-cloud/uikit/issues/101)) ([93a2130](https://www.github.com/yandex-cloud/uikit/commit/93a21302eee3b7500ec71d44160c90027cc39b83))
+
 ### [1.8.1](https://www.github.com/yandex-cloud/uikit/compare/v1.8.0...v1.8.1) (2022-03-18)
 
 

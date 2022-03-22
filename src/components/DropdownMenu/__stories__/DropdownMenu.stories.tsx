@@ -150,3 +150,19 @@ LabelSwitcher.parameters = {
 };
 
 LabelSwitcher.storyName = 'Компонент смены статуса';
+
+// ----------------------------------------
+const SizeTemplate: Story = (args) => <DropdownMenu {...args} />;
+export const Size = SizeTemplate.bind({});
+Size.args = {
+    items: options,
+    size: 'xl',
+};
+
+// ----------------------------------------
+const MenuSizeTemplate: Story = (args) => <DropdownMenu {...args} />;
+export const MenuSize = MenuSizeTemplate.bind({});
+MenuSize.args = {
+    items: options,
+    menuProps: {size: 'l'},
+};

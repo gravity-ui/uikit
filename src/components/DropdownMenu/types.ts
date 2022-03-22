@@ -13,3 +13,5 @@ export interface DropdownMenuItem<T> extends Omit<MenuItemProps, 'onClick' | 'ch
 }
 
 export type DropdownMenuItemMixed<T> = DropdownMenuItem<T> | Array<DropdownMenuItem<T>>;
+
+export type DropdownMenuSize = 's' | 'm' | 'l' | 'xl';

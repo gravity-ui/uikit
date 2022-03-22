@@ -1,9 +1,9 @@
 import React from 'react';
 import {block} from '../utils/cn';
 import {Popup, PopupPlacement} from '../Popup';
-import {Menu} from '../Menu';
+import {Menu, MenuProps} from '../Menu';
 
-import {DropdownMenuItem, DropdownMenuItemMixed} from './types';
+import {DropdownMenuItem, DropdownMenuItemMixed, DropdownMenuSize} from './types';
 
 const b = block('dropdown-menu');
 
@@ -45,12 +45,24 @@ interface DropdownMenuPopupProps<T> {
     onClose: () => void;
     popupClassName: string | undefined;
     placement?: PopupPlacement;
+    size?: DropdownMenuSize;
+    menuProps?: MenuProps;
     children?: React.ReactNode;
 }
 
 export class DropdownMenuPopup<T> extends React.PureComponent<DropdownMenuPopupProps<T>, never> {
     render() {
-        const {open, anchorRef, items, onClose, popupClassName, placement, children} = this.props;
+        const {
+            open,
+            anchorRef,
+            items,
+            onClose,
+            popupClassName,
+            placement,
+            size,
+            menuProps,
+            children,
+        } = this.props;
 
         return (
             <Popup
@@ -63,7 +75,7 @@ export class DropdownMenuPopup<T> extends React.PureComponent<DropdownMenuPopupP
                 {children ? (
                     children
                 ) : (
-                    <Menu className={b('menu')}>
+                    <Menu className={b('menu')} size={size} {...menuProps}>
                         {filterAndFlat(items).map(this.renderMenuItem)}
                     </Menu>
                 )}

@@ -14,5 +14,5 @@ npm install --save-dev @yandex-cloud/uikit
 import React from 'react';
 import {Button} from '@yandex-cloud/uikit';
 
-const SubmitButton = <Button view="action" size="l"/>;
+const SubmitButton = <Button view="action" size="l" />;
 ```

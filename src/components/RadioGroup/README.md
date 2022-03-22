@@ -12,23 +12,22 @@ function App({checked}) {
     {value: 'Value 2', content: 'Value 2'},
     {value: 'Value 3', content: 'Value 3'},
   ];
-  return (
-    <RadioGroup name="group" value={options[0].value} options={options} />
-  );
+  return <RadioGroup name="group" value={options[0].value} options={options} />;
 }
 ```
 
 ## Свойства
+
 Наследует свойства: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface RadioGroupOption {
-    /** Значение радиокнопки. */
-    value: string;
-    /** Подпись к радиокнопке. */
-    content?: React.ReactNode;
-    /** Признак неактивного состояния радиокнопки. */
-    disabled?: boolean;
+  /** Значение радиокнопки. */
+  value: string;
+  /** Подпись к радиокнопке. */
+  content?: React.ReactNode;
+  /** Признак неактивного состояния радиокнопки. */
+  disabled?: boolean;
 }
 
 interface RadioGroupProps extends DOMProps, QAProps {

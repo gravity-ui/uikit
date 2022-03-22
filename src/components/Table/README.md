@@ -1,103 +1,106 @@
 ## Table
+
 Таблица с поддержкой выбора строк, действий над строкой, и сортировкой.
 
 Дополнительная функциональность подключается через HOC:
+
 - [withTableActions](#withtableactions)
 - [withTableCopy](#withtablecopy)
 - [withTableSelection](#withtableselection)
 - [withTableSettings](#withtablesettings)
 - [withTableSorting](#withtablesorting)
 
-
 ### Props
+
 ```ts
 interface Props {
-    /**
-     * Данные.
-     */
-    data: any[];
-    /**
-     * Параметры колонок.
-     */
-    columns: TableColumnConfig[];
-     /**
-     * Выравнивание содержимого по вертикали.
-     */
-    verticalAlign?: 'top' | 'middle';
-    /**
-     * ID строки.
-     * Используется при выборе строк и сортировке. Если передать строку,
-     * то ID будет значение поля в данных строки с именем равным ID колонки.
-     */
-    getRowId?: string | ((item: any, index: number) => string);
-    /**
-     * CSS-классы строки.
-     */
-    getRowClassNames?: (item: any, index: number) => string[];
-    /**
-     * Условие для блокирования колонок.
-     */
-    isRowDisabled?: (item: any, index: number) => boolean;
-    /**
-     * Обработчик клика по строке.
-     */
-    onRowClick?: (item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
-    /**
-     * Сообщение при отсутствии данных.
-     *
-     * По умолчанию: "Нет данных"
-     */
-    emptyMessage?: string;
-    /**
-     * CSS-класс таблицы.
-     */
-    className?: string;
+  /**
+   * Данные.
+   */
+  data: any[];
+  /**
+   * Параметры колонок.
+   */
+  columns: TableColumnConfig[];
+  /**
+   * Выравнивание содержимого по вертикали.
+   */
+  verticalAlign?: 'top' | 'middle';
+  /**
+   * ID строки.
+   * Используется при выборе строк и сортировке. Если передать строку,
+   * то ID будет значение поля в данных строки с именем равным ID колонки.
+   */
+  getRowId?: string | ((item: any, index: number) => string);
+  /**
+   * CSS-классы строки.
+   */
+  getRowClassNames?: (item: any, index: number) => string[];
+  /**
+   * Условие для блокирования колонок.
+   */
+  isRowDisabled?: (item: any, index: number) => boolean;
+  /**
+   * Обработчик клика по строке.
+   */
+  onRowClick?: (item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
+  /**
+   * Сообщение при отсутствии данных.
+   *
+   * По умолчанию: "Нет данных"
+   */
+  emptyMessage?: string;
+  /**
+   * CSS-класс таблицы.
+   */
+  className?: string;
 }
 ```
 
 ### TableColumnConfig
+
 ```ts
 interface TableColumnConfig<I> {
-    /**
-     * ID колонки.
-     */
-    id: string;
-    /**
-     * Имя колонки (заголовок).
-     *
-     * По умолчанию: ID колонки
-     */
-    name?: string | (() => React.ReactNode);
-    /**
-     * Заглушка при отсутствии данных в ячейке.
-     *
-     * По умолчанию: — (&mdash;)
-     */
-    placeholder?: string | ((item: any, index: number) => React.ReactNode);
-    /**
-     * Содержимое ячейки.
-     * Если передать строку, то содержимое ячейки
-     * будет значением поля с именем равным этой строке.
-     *
-     * По умолчанию: Значение поля с именем равным ID колонки
-     */
-    template?: string | ((item: any, index: number) => React.ReactNode);
-    /**
-     * Выравнивание содержимого.
-     */
-    align?: 'left' | 'center' | 'right';
-    /**
-     * "Прилипание" колонки.
-     */
-    sticky?: 'left' | 'right';
-    /**
-     * Выделяет колонку среди остальных.
-     */
-    primary?: boolean;
-    /**
-     * Ширина колонки в px.
-     */
-    width?: number;
+  /**
+   * ID колонки.
+   */
+  id: string;
+  /**
+   * Имя колонки (заголовок).
+   *
+   * По умолчанию: ID колонки
+   */
+  name?: string | (() => React.ReactNode);
+  /**
+   * Заглушка при отсутствии данных в ячейке.
+   *
+   * По умолчанию: — (&mdash;)
+   */
+  placeholder?: string | ((item: any, index: number) => React.ReactNode);
+  /**
+   * Содержимое ячейки.
+   * Если передать строку, то содержимое ячейки
+   * будет значением поля с именем равным этой строке.
+   *
+   * По умолчанию: Значение поля с именем равным ID колонки
+   */
+  template?: string | ((item: any, index: number) => React.ReactNode);
+  /**
+   * Выравнивание содержимого.
+   */
+  align?: 'left' | 'center' | 'right';
+  /**
+   * "Прилипание" колонки.
+   */
+  sticky?: 'left' | 'right';
+  /**
+   * Выделяет колонку среди остальных.
+   */
+  primary?: boolean;
+  /**
+   * Ширина колонки в px.
+   */
+  width?: number;
   /**
    * Горизонтальный sticky scroll у таблицы.
    * Note: таблица не может быть одновременно с фиксированной высотой и со sticky scroll.
@@ -114,64 +117,67 @@ interface TableColumnConfig<I> {
    */
   stickyHorizontalScrollBreakpoint?: number;
   /**
-     * Различные данные, настройки для HOC-ов.
-     */
-    meta?: Record<string, any>;
+   * Различные данные, настройки для HOC-ов.
+   */
+  meta?: Record<string, any>;
 }
 ```
 
-
 ## withTableActions
+
 Добавляет к колонкам таблицы специальную колонку с действиями.
 
 ### Props
+
 ```ts
 interface Props {
-    /**
-     * Массив конфигов действий для каждой строки.
-     */
-    getRowActions: (item: any, index: number) => TableActionConfig[];
+  /**
+   * Массив конфигов действий для каждой строки.
+   */
+  getRowActions: (item: any, index: number) => TableActionConfig[];
 }
 ```
 
 ### TableActionConfig
+
 ```ts
 type TableActionConfig = TableAction | TableActionGroup;
 
 interface TableAction {
-    /**
-     * Текст.
-     */
-    text: string;
-    /**
-     * Обработчик клика.
-     */
-    handler: (item: any, index: number) => void;
-    /**
-     * Действие заблокировано.
-     */
-    disabled?: boolean;
-    /**
-     * Тема.
-     *
-     * По умолчанию: "normal"
-     */
-    theme?: 'normal' | 'danger';
+  /**
+   * Текст.
+   */
+  text: string;
+  /**
+   * Обработчик клика.
+   */
+  handler: (item: any, index: number) => void;
+  /**
+   * Действие заблокировано.
+   */
+  disabled?: boolean;
+  /**
+   * Тема.
+   *
+   * По умолчанию: "normal"
+   */
+  theme?: 'normal' | 'danger';
 }
 
 interface TableActionGroup {
-    /**
-     * Заголовок группы действий.
-     */
-    title: string;
-    /**
-     * Элементы группы действий.
-     */
-    items: TableActionConfig[];
+  /**
+   * Заголовок группы действий.
+   */
+  title: string;
+  /**
+   * Элементы группы действий.
+   */
+  items: TableActionConfig[];
 }
 ```
 
 ### Пример
+
 ```jsx
 import {Table, withTableActions} from '@yandex-cloud/uikit';
 
@@ -200,22 +206,24 @@ const table = (
 );
 ```
 
-
 ## withTableCopy
+
 Добавляет возможность копировать содержимое ячейки или произвольный текст.
 
 ### ColumnMeta
+
 ```ts
 interface ColumnMeta {
-    /**
-     * Текст для копирования.
-     * Если передать true, то будет скопировано содержимое ячейки.
-     */
-    copy: boolean | ((item: any, index: number) => string | number);
+  /**
+   * Текст для копирования.
+   * Если передать true, то будет скопировано содержимое ячейки.
+   */
+  copy: boolean | ((item: any, index: number) => string | number);
 }
 ```
 
 ### Пример
+
 ```jsx
 import {Table, withTableCopy} from '@yandex-cloud/uikit';
 
@@ -237,25 +245,27 @@ const table = (
 );
 ```
 
-
 ## withTableSelection
+
 Добавляет возможность выбирать строки в таблице.
 
 ### Props
+
 ```ts
 interface Props {
-    /**
-     * Выбранные строки.
-     */
-    selectedIds: string[];
-    /**
-     * Обработчик на изменение выбранных строк.
-     */
-    onSelectionChange: (ids: string[]) => void;
+  /**
+   * Выбранные строки.
+   */
+  selectedIds: string[];
+  /**
+   * Обработчик на изменение выбранных строк.
+   */
+  onSelectionChange: (ids: string[]) => void;
 }
 ```
 
 ### Пример
+
 ```jsx
 import {Table, withTableSelection} from '@yandex-cloud/uikit';
 
@@ -285,141 +295,146 @@ function SelectionTable() {
 }
 ```
 
-
 ## withTableSettings
+
 Добавляет функциональность по настройкам колонок таблицы.
 
 ### ColumnMeta
+
 ```ts
 interface ColumnMeta {
-    /**
-     * Выбрана ли колонка, если в настройках её нет.
-     *
-     * По умолчанию: true
-     */
-    selectedByDefault?: boolean;
-    /**
-     * Колонка всегда выбрана, изменять её видимость нельзя.
-     *
-     * По умолчанию: false
-     */
-    selectedAlways?: boolean;
+  /**
+   * Выбрана ли колонка, если в настройках её нет.
+   *
+   * По умолчанию: true
+   */
+  selectedByDefault?: boolean;
+  /**
+   * Колонка всегда выбрана, изменять её видимость нельзя.
+   *
+   * По умолчанию: false
+   */
+  selectedAlways?: boolean;
 }
 ```
 
 ### Props
+
 ```ts
 interface Props {
-    /**
-     * Ширина попапа компонента TableColumnSetup.
-     */
-    settingsPopupWidth?: string;
-    /**
-     * Текущие настройки.
-     */
-    settings: TableSettingsData;
-    /**
-     * Ручка обновления настроек.
-     */
-    updateSettings: (data: TableSettingsData) => Promise<void>;
+  /**
+   * Ширина попапа компонента TableColumnSetup.
+   */
+  settingsPopupWidth?: string;
+  /**
+   * Текущие настройки.
+   */
+  settings: TableSettingsData;
+  /**
+   * Ручка обновления настроек.
+   */
+  updateSettings: (data: TableSettingsData) => Promise<void>;
 }
 ```
 
 ### TableSettingsData
+
 ```ts
 type TableSettingsData = Array<{
-    id: string;
-    isSelected?: boolean;
+  id: string;
+  isSelected?: boolean;
 }>;
 ```
 
 ### Пример
+
 ```jsx
 import {Table, withTableSettings} from '@yandex-cloud/uikit';
 
 const MyTable = withTableSettings(Table);
 const data = [
-    {id: 1, text: 'Hello'},
-    {id: 2, text: 'World'},
+  {id: 1, text: 'Hello'},
+  {id: 2, text: 'World'},
 ];
-const columns = [
-    {id: 'id'},
-    {id: 'text'},
-];
+const columns = [{id: 'id'}, {id: 'text'}];
 
 function SelectionTable() {
-    const initialSettings = [
-        {id: 'id', isSelected: false},
-        {id: 'text', isSelected: true},
-    ]
-    const [settings, setSettings] = React.useState(initialSettings);
+  const initialSettings = [
+    {id: 'id', isSelected: false},
+    {id: 'text', isSelected: true},
+  ];
+  const [settings, setSettings] = React.useState(initialSettings);
 
-    return (
-        <MyTable
-            data={data}
-            columns={columns}
-            settings={settings}
-            updateSettings={(settings) => {
-                setSettings(settings)
-                return Promise.resolve();
-            }}
-        />
-    );
+  return (
+    <MyTable
+      data={data}
+      columns={columns}
+      settings={settings}
+      updateSettings={(settings) => {
+        setSettings(settings);
+        return Promise.resolve();
+      }}
+    />
+  );
 }
 ```
 
-
 ## withTableSorting
+
 Добавляет сортировку колонок.
 
 ### ColumnMeta
+
 ```ts
 interface ColumnMeta {
-    /**
-     * Какая сортировка будет в первую очередь.
-     *
-     * По умолчанию: "asc"
-     */
-    defaultSortOrder?: 'asc' | 'desc';
-    /**
-     * Функция сортировки.
-     * Должна возвращать значение для сортировки по возрастанию.
-     * Если передать true, сравнватся будут значения ячеек,
-     * а сортировка будет выполнена во возрастанию.
-     */
-    sort: boolean | ((itemA: any, itemB: any) => number);
+  /**
+   * Какая сортировка будет в первую очередь.
+   *
+   * По умолчанию: "asc"
+   */
+  defaultSortOrder?: 'asc' | 'desc';
+  /**
+   * Функция сортировки.
+   * Должна возвращать значение для сортировки по возрастанию.
+   * Если передать true, сравнватся будут значения ячеек,
+   * а сортировка будет выполнена во возрастанию.
+   */
+  sort: boolean | ((itemA: any, itemB: any) => number);
 }
 ```
 
 ### Props
+
 ```ts
 interface Props {
-    /**
-     * Начальное состояние сортировки для некотнроллируемого компонента.
-     */
-    defaultSortState?: TableSortState;
-    /**
-     * Состояние сортировки.
-     */
-    sortState?: TableSortState;
-    /**
-     * Обработчик изменения состояния сортировки.
-     */
-    onSortStateChange?: (sortState: TableSortState) => void;
+  /**
+   * Начальное состояние сортировки для некотнроллируемого компонента.
+   */
+  defaultSortState?: TableSortState;
+  /**
+   * Состояние сортировки.
+   */
+  sortState?: TableSortState;
+  /**
+   * Обработчик изменения состояния сортировки.
+   */
+  onSortStateChange?: (sortState: TableSortState) => void;
 }
 ```
 
 Если не передавать пропсы `sortState` и `onSortStateChange`, то состояние сортировки будет храниться в самом компоненте.
 
 ### TableSortState
+
 ```ts
 type TableSortState = Array<{
-    column: string;
-    order: 'asc' | 'desc';
+  column: string;
+  order: 'asc' | 'desc';
 }>;
 ```
 
 ### Пример
+
 ```jsx
 import {Table, withTableSorting} from '@yandex-cloud/uikit';
 

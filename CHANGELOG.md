@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://www.github.com/yandex-cloud/uikit/compare/v1.8.1...v1.9.0) (2022-03-22)
+
+
+### Features
+
+* add Modal border-radius css var ([#104](https://www.github.com/yandex-cloud/uikit/issues/104)) ([34c5794](https://www.github.com/yandex-cloud/uikit/commit/34c5794e52279267f3b069c1aef7ca98e4e0ded8))
+
+
+### Bug Fixes
+
+* change Readme title for Breadcrumbs ([#101](https://www.github.com/yandex-cloud/uikit/issues/101)) ([93a2130](https://www.github.com/yandex-cloud/uikit/commit/93a21302eee3b7500ec71d44160c90027cc39b83))
+
 ### [1.8.1](https://www.github.com/yandex-cloud/uikit/compare/v1.8.0...v1.8.1) (2022-03-18)
 
 

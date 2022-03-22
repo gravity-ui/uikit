@@ -46,7 +46,7 @@ interface DropdownMenuPopupProps<T> {
     popupClassName: string | undefined;
     placement?: PopupPlacement;
     size?: DropdownMenuSize;
-    defaultMenuProps?: MenuProps;
+    menuProps?: MenuProps;
     children?: React.ReactNode;
 }
 
@@ -60,7 +60,7 @@ export class DropdownMenuPopup<T> extends React.PureComponent<DropdownMenuPopupP
             popupClassName,
             placement,
             size,
-            defaultMenuProps,
+            menuProps,
             children,
         } = this.props;
 
@@ -75,7 +75,7 @@ export class DropdownMenuPopup<T> extends React.PureComponent<DropdownMenuPopupP
                 {children ? (
                     children
                 ) : (
-                    <Menu className={b('menu')} size={size} {...defaultMenuProps}>
+                    <Menu className={b('menu')} size={size} {...menuProps}>
                         {filterAndFlat(items).map(this.renderMenuItem)}
                     </Menu>
                 )}

@@ -36,7 +36,7 @@ interface DropdownMenuGeneralProps<T> {
     /** Invoked whenever the switcher was clicked (if DropdownMenu is not disabled) */
     onSwitcherClick?: (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     /** Allows to override some props for a default dropdown Menu */
-    defaultMenuProps?: MenuProps;
+    menuProps?: MenuProps;
 
     popupClassName?: string;
     popupPlacement?: PopupPlacement;
@@ -98,7 +98,7 @@ export class DropdownMenu<T> extends React.PureComponent<
             switcherWrapperClassName,
             popupPlacement,
             size,
-            defaultMenuProps,
+            menuProps,
             children,
         } = this.props;
 
@@ -122,7 +122,7 @@ export class DropdownMenu<T> extends React.PureComponent<
                     popupClassName={popupClassName}
                     placement={popupPlacement}
                     size={size}
-                    defaultMenuProps={defaultMenuProps}
+                    menuProps={menuProps}
                 >
                     {children}
                 </DropdownMenuPopup>

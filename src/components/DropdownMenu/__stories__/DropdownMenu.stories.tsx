@@ -164,5 +164,5 @@ const MenuSizeTemplate: Story = (args) => <DropdownMenu {...args} />;
 export const MenuSize = MenuSizeTemplate.bind({});
 MenuSize.args = {
     items: options,
-    defaultMenuProps: {size: 'l'},
+    menuProps: {size: 'l'},
 };

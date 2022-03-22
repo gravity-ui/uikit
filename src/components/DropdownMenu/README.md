@@ -12,8 +12,8 @@
 | switcher                                   |`JSX node`     |          |           | JSX-фрагмент для переопределения дефолтного `switcher`. |
 | switcherWrapperClassName                   |`string`       |          |           | Дополнительный className для родительского блока `switcher` |
 | defaultSwitcherProps                       |`ButtonProps`  |          |           | При использовании дефолтного `switcher` эта опция позволяет переопределить его свойства (кроме `disabled` и `className`) |
-| defaultMenuProps                           |`MenuProps`    |          |           | Allows to override the properties of the dropdown Menu |
 | defaultSwitcherClassName                   |`string`       |          |           | При использовании дефолтного `switcher` эта опция позволяет добавить к нему `className` |
+| menuProps                                  |`MenuProps`    |          |           | Allows to override the properties of the dropdown Menu |
 | onMenuToggle                               |`() => void`   |          |           | Функция, вызывающаяся каждый раз, когда происходит открытие/скрытие выпадающего меню. Может быть полезна для случая, когда в родительском компоненте необходимо как-то отслеживать состояние выпадающего меню (смотри исходный код демо страницы, компонент `ListExample`). |
 | onSwitcherClick                            |`(React.MouseEvent) => void`| |       | Функция, вызывающаяся при клике на `switcher` |
 | hideOnScroll                               |`Boolean`      |          |true       | Флаг, определяющий, должно ли выпадающее меню скрываться при скролле на родительских элементах. |

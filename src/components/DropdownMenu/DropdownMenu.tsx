@@ -6,8 +6,14 @@ import {PopupPlacement} from '../Popup';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {DotsIcon} from '../icons/DotsIcon';
-import {DropdownMenuItemMixed, DropdownMenuItemAction, DropdownMenuItem} from './types';
+import {
+    DropdownMenuItemMixed,
+    DropdownMenuItemAction,
+    DropdownMenuItem,
+    DropdownMenuSize,
+} from './types';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
+import {MenuProps} from '../Menu';
 
 import './DropdownMenu.scss';
 
@@ -29,6 +35,8 @@ interface DropdownMenuGeneralProps<T> {
     defaultSwitcherClassName?: string;
     /** Invoked whenever the switcher was clicked (if DropdownMenu is not disabled) */
     onSwitcherClick?: (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    /** Allows to override some props for a default dropdown Menu */
+    defaultMenuProps?: MenuProps;
 
     popupClassName?: string;
     popupPlacement?: PopupPlacement;
@@ -43,6 +51,8 @@ interface DropdownMenuDefaultProps<T> {
     icon: React.ReactNode;
     onMenuToggle: () => void;
     hideOnScroll: boolean;
+    /** Size used for switcher and menu */
+    size?: DropdownMenuSize;
 }
 interface DropdownMenuInnerProps<T>
     extends DropdownMenuGeneralProps<T>,
@@ -62,6 +72,7 @@ export class DropdownMenu<T> extends React.PureComponent<
     // eslint-disable-next-line react/sort-comp
     static defaultProps: DropdownMenuDefaultProps<unknown> = {
         items: [],
+        size: 'm',
         icon: <Icon data={DotsIcon} />,
         onMenuToggle: noop,
         hideOnScroll: true,
@@ -86,6 +97,8 @@ export class DropdownMenu<T> extends React.PureComponent<
             popupClassName,
             switcherWrapperClassName,
             popupPlacement,
+            size,
+            defaultMenuProps,
             children,
         } = this.props;
 
@@ -108,6 +121,8 @@ export class DropdownMenu<T> extends React.PureComponent<
                     onClose={this.handleClose}
                     popupClassName={popupClassName}
                     placement={popupPlacement}
+                    size={size}
+                    defaultMenuProps={defaultMenuProps}
                 >
                     {children}
                 </DropdownMenuPopup>
@@ -116,12 +131,12 @@ export class DropdownMenu<T> extends React.PureComponent<
     }
 
     private renderDefaultSwitcher() {
-        const {defaultSwitcherClassName, defaultSwitcherProps, icon} = this.props;
+        const {size, defaultSwitcherClassName, defaultSwitcherProps, icon} = this.props;
 
         return (
             <Button
                 view="flat"
-                size="s"
+                size={size}
                 {...defaultSwitcherProps}
                 className={b('switcher-button', defaultSwitcherClassName)}
                 disabled={this.props.disabled}

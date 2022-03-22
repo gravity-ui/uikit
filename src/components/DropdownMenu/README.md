@@ -7,10 +7,12 @@
 | [items](#items)                            |`DropdownMenuItem[]`|     |[]         | Элементы выпадающего меню. |
 | data                                       |`T`            |          |           | Произвольный контекст, связанный с выпадающим меню |
 | icon                                       |`JSX node`     |          |           | JSX-фрагмент (инстанс компонента `Icon`) для переопределения дефолтной иконки `switcher`. |
+| size                                       |`DropdownMenuSize`|       |           | Size used for switcher and menu|
 | disabled                                   |`Boolean`      |          |           | Неактивное состояние дефолтной кнопки открытия меню. Состояние, при котором кнопка отображается, но недоступна для действий пользователя.|
 | switcher                                   |`JSX node`     |          |           | JSX-фрагмент для переопределения дефолтного `switcher`. |
 | switcherWrapperClassName                   |`string`       |          |           | Дополнительный className для родительского блока `switcher` |
 | defaultSwitcherProps                       |`ButtonProps`  |          |           | При использовании дефолтного `switcher` эта опция позволяет переопределить его свойства (кроме `disabled` и `className`) |
+| defaultMenuProps                           |`MenuProps`    |          |           | Allows to override the properties of the dropdown Menu |
 | defaultSwitcherClassName                   |`string`       |          |           | При использовании дефолтного `switcher` эта опция позволяет добавить к нему `className` |
 | onMenuToggle                               |`() => void`   |          |           | Функция, вызывающаяся каждый раз, когда происходит открытие/скрытие выпадающего меню. Может быть полезна для случая, когда в родительском компоненте необходимо как-то отслеживать состояние выпадающего меню (смотри исходный код демо страницы, компонент `ListExample`). |
 | onSwitcherClick                            |`(React.MouseEvent) => void`| |       | Функция, вызывающаяся при клике на `switcher` |

@@ -24,11 +24,9 @@ $block: '.#{$ns}tooltip';
         cursor: default;
 
         &-title {
+            @include text-subheader-3();
             display: inline-flex;
             margin: 0 0 12px;
-            font-size: var(--yc-text-lead-font-size);
-            line-height: var(--yc-text-lead-line-height);
-            font-weight: 500;
         }
 
         &-buttons {
@@ -53,8 +51,7 @@ $block: '.#{$ns}tooltip';
         }
 
         &-content {
-            font-size: var(--yc-text-body-font-size);
-            line-height: var(--yc-text-body-line-height);
+            @include text-body-1();
 
             &_secondary {
                 opacity: 0.7;
@@ -70,9 +67,8 @@ $block: '.#{$ns}tooltip';
         }
 
         &-link {
+            @include text-body-1();
             display: inline-block;
-            font-size: var(--yc-text-body-font-size);
-            line-height: var(--yc-text-body-line-height);
         }
 
         &_theme {
@@ -137,13 +133,11 @@ $block: '.#{$ns}tooltip';
                 --yc-tooltip-padding: 24px;
 
                 #{$class}__tooltip-title {
-                    font-size: var(--yc-text-header-font-size);
-                    line-height: var(--yc-text-header-line-height);
+                    @include text-header-1();
                 }
 
                 #{$class}__tooltip-content {
-                    font-size: var(--yc-text-body2-font-size);
-                    line-height: var(--yc-text-body2-line-height);
+                    @include text-body-2();
                 }
             }
         }

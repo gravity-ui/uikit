@@ -1,3 +1,5 @@
+@import '../../../styles/mixins';
+
 .color-panel {
     position: relative;
     width: 700px;
@@ -40,13 +42,11 @@
     }
 
     &__title {
-        font-size: var(--yc-text-header-font-size);
-        line-height: var(--yc-text-header-line-height);
+        @include text-header-1();
     }
 
     &__description {
-        font-size: var(--yc-text-body2-font-size);
-        line-height: var(--yc-text-body2-line-height);
+        @include text-body-2();
         color: var(--yc-color-text-complementary);
         margin-top: 3px;
     }
@@ -90,23 +90,18 @@
         }
 
         &-title {
-            font-size: var(--yc-text-body3-font-size);
-            line-height: var(--yc-text-body3-line-height);
+            @include text-body-3();
         }
 
         &-var {
-            font-size: var(--yc-text-code-font-size);
-            line-height: var(--yc-text-code-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+            @include text-code-1();
             color: var(--yc-color-text-secondary);
             margin-left: 10px;
             cursor: pointer;
         }
 
         &-description {
-            font-size: var(--yc-text-body2-font-size);
-            line-height: var(--yc-text-body2-line-height);
+            @include text-body-2();
         }
     }
 }

@@ -1,3 +1,5 @@
+@import '../../../styles/mixins';
+
 .typography-demo {
     $block: &;
 
@@ -5,14 +7,13 @@
     padding: 50px;
 
     &__description {
+        @include text-body-2();
         margin-bottom: 25px;
-        font-size: var(--yc-text-body2-font-size);
-        line-height: var(--yc-text-body2-line-height);
     }
 
     &__header {
+        @include text-body-1();
         margin-bottom: 20px;
-        font-size: var(--yc-text-body-font-size);
         font-weight: bold;
         text-transform: uppercase;
         color: var(--yc-color-text-primary);
@@ -31,7 +32,7 @@
 
         &_text-contrasts,
         &_font-families {
-            font-size: var(--yc-text-body2-font-size);
+            @include text-body-2();
 
             #{$block}__item + #{$block}__item {
                 margin-top: 12px;
@@ -44,10 +45,10 @@
     }
 
     &__caption {
+        @include text-body-1();
         display: inline-block;
         width: 180px;
         color: var(--yc-color-text-secondary);
-        font-size: var(--yc-text-body-font-size);
         text-transform: uppercase;
     }
 
@@ -56,92 +57,89 @@
     }
 
     &__item_name {
-        // font-sizes
-        &_body #{$block}__value {
-            font-size: var(--yc-text-body-font-size);
-            line-height: var(--yc-text-body-line-height);
+        // variants
+        &_body-1 #{$block}__value {
+            @include text-body-1();
         }
 
-        &_body2 #{$block}__value {
-            font-size: var(--yc-text-body2-font-size);
-            line-height: var(--yc-text-body2-line-height);
+        &_body-2 #{$block}__value {
+            @include text-body-2();
         }
 
-        &_body3 #{$block}__value {
-            font-size: var(--yc-text-body3-font-size);
-            line-height: var(--yc-text-body3-line-height);
+        &_body-3 #{$block}__value {
+            @include text-body-3();
         }
 
-        &_lead #{$block}__value {
-            font-size: var(--yc-text-lead-font-size);
-            line-height: var(--yc-text-lead-line-height);
+        &_body-short #{$block}__value {
+            @include text-body-short();
         }
 
-        &_header #{$block}__value {
-            font-size: var(--yc-text-header-font-size);
-            line-height: var(--yc-text-header-line-height);
+        &_caption-1 #{$block}__value {
+            @include text-caption-1();
         }
 
-        &_title #{$block}__value {
-            font-size: var(--yc-text-title-font-size);
-            line-height: var(--yc-text-title-line-height);
+        &_caption-2 #{$block}__value {
+            @include text-caption-2();
         }
 
-        &_display1 #{$block}__value {
-            font-size: var(--yc-text-display1-font-size);
-            line-height: var(--yc-text-display1-line-height);
+        &_header-1 #{$block}__value {
+            @include text-header-1();
         }
 
-        &_display2 #{$block}__value {
-            font-size: var(--yc-text-display2-font-size);
-            line-height: var(--yc-text-display2-line-height);
+        &_header-2 #{$block}__value {
+            @include text-header-2();
         }
 
-        &_display3 #{$block}__value {
-            font-size: var(--yc-text-display3-font-size);
-            line-height: var(--yc-text-display3-line-height);
+        &_subheader-1 #{$block}__value {
+            @include text-subheader-1();
         }
 
-        &_code-3 #{$block}__value {
-            font-size: var(--yc-text-code-3-font-size);
-            line-height: var(--yc-text-code-3-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+        &_subheader-2 #{$block}__value {
+            @include text-subheader-2();
         }
 
-        &_code-3-inline #{$block}__value {
-            font-size: var(--yc-text-code-3-inline-font-size);
-            line-height: var(--yc-text-code-3-inline-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+        &_subheader-3 #{$block}__value {
+            @include text-subheader-3();
         }
 
-        &_code-2 #{$block}__value {
-            font-size: var(--yc-text-code-2-font-size);
-            line-height: var(--yc-text-code-2-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+        &_display-1 #{$block}__value {
+            @include text-display-1();
         }
 
-        &_code-2-inline #{$block}__value {
-            font-size: var(--yc-text-code-2-inline-font-size);
-            line-height: var(--yc-text-code-2-inline-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+        &_display-2 #{$block}__value {
+            @include text-display-2();
+        }
+
+        &_display-3 #{$block}__value {
+            @include text-display-3();
+        }
+
+        &_display-4 #{$block}__value {
+            @include text-display-4();
         }
 
         &_code-1 #{$block}__value {
-            font-size: var(--yc-text-code-1-font-size);
-            line-height: var(--yc-text-code-1-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+            @include text-code-1();
         }
 
-        &_code-1-inline #{$block}__value {
-            font-size: var(--yc-text-code-1-inline-font-size);
-            line-height: var(--yc-text-code-1-inline-line-height);
-            font-weight: var(--yc-text-code-font-weight);
-            font-family: var(--yc-text-code-font-family);
+        &_code-inline-1 #{$block}__value {
+            @include text-code-inline-1();
+        }
+
+        &_code-2 #{$block}__value {
+            @include text-code-2();
+        }
+
+        &_code-inline-2 #{$block}__value {
+            @include text-code-inline-2();
+        }
+
+        &_code-3 #{$block}__value {
+            @include text-code-3();
+        }
+
+        &_code-inline-3 #{$block}__value {
+            @include text-code-inline-3();
         }
 
         // font-families

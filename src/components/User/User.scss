@@ -8,11 +8,10 @@ $block: '.#{$ns}user';
     align-items: center;
 
     &__info {
+        @include text-body-short();
         display: flex;
         flex-direction: column;
 
-        font-size: var(--yc-text-body-font-size);
-        line-height: 16px;
         flex: 1;
         max-width: 165px;
 

@@ -1,6 +1,7 @@
+@import '../../../styles/mixins';
+
 .color-table {
-    font-size: var(--yc-text-body2-font-size);
-    line-height: var(--yc-text-body2-line-height);
+    @include text-body-2();
 
     &__color-name {
         width: 120px;

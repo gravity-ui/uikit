@@ -1,4 +1,5 @@
 @import '../../variables';
+@import '../../../../styles/mixins';
 
 .list-showcase {
     --yc-list-height: 200px;
@@ -7,16 +8,16 @@
     padding: 20px 20px 0;
 
     &__title {
+        @include text-header-2();
         width: 100%;
-        font-size: var(--yc-text-title-font-size);
         border-bottom: 1px solid var(--yc-color-line-generic);
     }
 
     &__subtitle {
+        @include text-body-3();
         width: 100%;
         margin-bottom: 5px;
         margin-left: var(--yc-list-margin);
-        font-size: var(--yc-text-lead-font-size);
         color: var(--yc-color-text-secondary);
     }
 

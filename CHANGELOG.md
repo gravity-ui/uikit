@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://www.github.com/yandex-cloud/uikit/compare/v1.9.0...v1.10.0) (2022-03-25)
+
+
+### Features
+
+* **Skeleton:** inline styles ([#116](https://www.github.com/yandex-cloud/uikit/issues/116)) ([bfbde83](https://www.github.com/yandex-cloud/uikit/commit/bfbde83d327a1ed9e1420a2ade9e4095e242c593))
+
 ## [1.9.0](https://www.github.com/yandex-cloud/uikit/compare/v1.8.1...v1.9.0) (2022-03-22)
 
 

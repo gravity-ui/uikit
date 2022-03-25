@@ -40,7 +40,7 @@ const persons = [
     {name: 'Al Coholic', info: 'Somewhere', info2: 'DevOps'},
 ];
 
-export function SkeletonShowcase() {
+function SkeletonListShowcase() {
     const [listVisible, setListVisible] = React.useState(false);
     return (
         <div className={b()}>
@@ -58,5 +58,17 @@ export function SkeletonShowcase() {
                 Toggle list
             </Button>
         </div>
+    );
+}
+
+export function SkeletonShowcase() {
+    return (
+        <>
+            <h1>Skeleton</h1>
+            <h2>List</h2>
+            <SkeletonListShowcase />
+            <h2>Styled with inline prop</h2>
+            <Skeleton style={{height: 100, width: 200}} />
+        </>
     );
 }

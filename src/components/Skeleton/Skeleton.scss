@@ -5,6 +5,7 @@ $block: '.#{$ns}skeleton';
 #{$block} {
     display: inline-block;
     position: relative;
+    z-index: 0;
     width: 100%;
     border-radius: 5px;
     overflow: hidden;

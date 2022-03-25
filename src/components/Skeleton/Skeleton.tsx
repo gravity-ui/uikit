@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import {block} from '../utils/cn';
 
 import './Skeleton.scss';
 
 const b = block('skeleton');
 
-export interface SkeletonProps {
-    className?: string;
-}
+export interface SkeletonProps
+    extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'style'> {}
 
-export function Skeleton({className}: SkeletonProps) {
-    return <div className={b(null, className)} />;
+export function Skeleton({className, style}: SkeletonProps) {
+    return <div className={b(null, className)} style={style} />;
 }

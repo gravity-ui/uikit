@@ -16,3 +16,11 @@ import {Button} from '@yandex-cloud/uikit';
 
 const SubmitButton = <Button view="action" size="l" />;
 ```
+
+## Development
+
+To start the dev storybook
+
+```shell
+npm run start
+```

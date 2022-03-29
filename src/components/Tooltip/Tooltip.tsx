@@ -384,7 +384,7 @@ export class Tooltip extends React.Component<
 
         return (
             <div className={b('tooltip-close')}>
-                <Button size="s" view="clear" onClick={this.onCloseClick}>
+                <Button size="s" view="flat-secondary" onClick={this.onCloseClick}>
                     <Icon data={PreviewCloseIcon} size={24} />
                 </Button>
             </div>

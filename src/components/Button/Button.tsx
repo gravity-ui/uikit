@@ -17,10 +17,9 @@ export type ButtonView =
     | 'flat-info' // Без фона, без рамки, info-текст
     | 'flat-danger' // Без фона, без рамки, danger-текст
     | 'flat-secondary' // Без фона, без рамки, secondary-текст
-    | 'clear' // Без фона, без рамки, серый текст
     | 'normal-contrast' // normal на контрастном фоне
     | 'outlined-contrast' // outlined на контрастном фоне
-    | 'flat-contrast'; // clear на контрастном фоне
+    | 'flat-contrast'; // flat на контрастном фоне
 
 export type ButtonSize = 's' | 'm' | 'l' | 'xl';
 

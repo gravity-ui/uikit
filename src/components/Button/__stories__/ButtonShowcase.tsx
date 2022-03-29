@@ -57,7 +57,6 @@ function renderViewGrid() {
         'flat-info',
         'flat-danger',
         'flat-secondary',
-        'clear',
         'normal-contrast',
         'outlined-contrast',
         'flat-contrast',

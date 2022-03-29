@@ -3,7 +3,6 @@ import _throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
-import {Button} from '../Button';
 import {Link} from '../Link';
 import {DropdownMenu} from '../DropdownMenu';
 
@@ -117,7 +116,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
             <div className={b({calculated: calculated ? 'yes' : 'no'}, className)}>
                 <div className={b('inner')} ref={this.container}>
                     {rootItem}
-                    {this.renderMoreButton()}
+                    {this.renderMoreItem()}
                     {this.renderVisibleItems()}
                 </div>
             </div>
@@ -225,7 +224,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
         });
     }
 
-    renderMoreButton() {
+    renderMoreItem() {
         const {popupStyle, popupPlacement} = this.props;
         const {hiddenItems} = this.state;
 
@@ -240,15 +239,13 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
                         })}
                         popupPlacement={popupPlacement}
                         switcher={
-                            <Button
-                                key="more"
-                                view="clear"
-                                size="s"
+                            <Link
+                                view="secondary"
                                 title="Show more"
-                                className={b('more-button')}
+                                className={b('item', {more: true})}
                             >
-                                <span>...</span>
-                            </Button>
+                                ...
+                            </Link>
                         }
                     />
                 </React.Fragment>

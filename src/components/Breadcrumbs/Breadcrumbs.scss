@@ -1,4 +1,5 @@
 @import '../variables';
+@import '../../../styles/mixins';
 
 $block: '.#{$ns}breadcrumbs';
 
@@ -21,6 +22,10 @@ $block: '.#{$ns}breadcrumbs';
 
         &_current {
             padding: 0 8px;
+        }
+
+        &_more {
+            vertical-align: top;
         }
     }
 

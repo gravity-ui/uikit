@@ -64,13 +64,13 @@ type ButtonView =
   | 'outlined-info'
   | 'outlined-danger'
   | 'raised'
-  | 'clear'
-  | 'clear-info'
-  | 'clear-danger'
-  | 'clear-muted'
+  | 'flat'
+  | 'flat-info'
+  | 'flat-danger'
+  | 'flat-secondary'
   | 'normal-contrast'
   | 'outlined-contrast'
-  | 'clear-contrast';
+  | 'flat-contrast';
 
 type ButtonSize = 's' | 'm' | 'l' | 'xl';
 

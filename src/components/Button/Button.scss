@@ -314,22 +314,6 @@ $block: '.#{$ns}button';
             );
         }
 
-        &_clear {
-            @include button-text-color(
-                var(--yc-color-text-secondary),
-                var(--yc-color-text-primary)
-            );
-
-            &::before {
-                background-color: transparent;
-            }
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: transparent;
-                --yc-button-loading-color-2: var(--yc-color-base-simple-hover);
-            }
-        }
-
         &_normal-contrast {
             @include button-text-color(var(--yc-color-text-dark-primary));
 
@@ -382,9 +366,34 @@ $block: '.#{$ns}button';
             }
         }
 
-        &_normal-contrast,
-        &_outlined-contrast,
+        &_flat,
+        &_flat-info,
+        &_flat-danger {
+            &#{$block}_disabled:not(#{$block}_loading),
+            &#{$block}_disabled:not(#{$block}_loading) {
+                color: var(--yc-color-text-hint);
+
+                &::before,
+                &:hover::before {
+                    background-color: transparent;
+                }
+            }
+        }
+
         &_flat-contrast {
+            &#{$block}_disabled:not(#{$block}_loading),
+            &#{$block}_disabled:not(#{$block}_loading) {
+                color: var(--yc-color-text-light-hint);
+
+                &::before,
+                &:hover::before {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        &_normal-contrast,
+        &_outlined-contrast {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
                 color: var(--yc-color-text-light-secondary);

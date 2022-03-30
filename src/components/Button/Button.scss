@@ -198,7 +198,7 @@ $block: '.#{$ns}button';
         }
 
         &_action {
-            @include button-text-color(var(--yc-color-brand-text-contrast));
+            @include button-text-color(var(--yc-my-color-brand-text-contrast));
 
             &::before {
                 background-color: var(--yc-color-base-special);

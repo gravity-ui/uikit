@@ -14,19 +14,20 @@
 @import './colors/promo/light';
 @import './colors/social';
 @import './colors/system';
-@import './colors/brand';
 @import './typography';
+@import './brand';
 
 .yc-root {
     @include yc-typography;
+    @include yc-brand;
     @include yc-colors-social;
 
-    --yc-scrollbar-width: 12px;
+    --yc-scrollbar-width: var(--yc-my-scrollbar-width);
 
-    --yc-border-radius-s: 5px;
-    --yc-border-radius-m: 6px;
-    --yc-border-radius-l: 8px;
-    --yc-border-radius-xl: 10px;
+    --yc-border-radius-s: var(--yc-my-border-radius-s);
+    --yc-border-radius-m: var(--yc-my-border-radius-m);
+    --yc-border-radius-l: var(--yc-my-border-radius-l);
+    --yc-border-radius-xl: var(--yc-my-border-radius-xl);
 
     &_theme_light {
         @include yc-colors-private-light;

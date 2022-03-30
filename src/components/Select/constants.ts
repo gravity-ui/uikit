@@ -1,4 +1,4 @@
-import {block} from '../../utils/cn';
+import {block} from '../utils/cn';
 import {SelectProps} from './types';
 
 export const LIST_CLASSNAME = block('select-popup')('list');

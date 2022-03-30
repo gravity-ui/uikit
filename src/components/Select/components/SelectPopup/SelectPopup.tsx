@@ -1,7 +1,7 @@
 import React from 'react';
-import {block} from '../../../../utils/cn';
-import {Popup} from '../../../../Popup';
-import {List} from '../../../../List';
+import {block} from '../../../utils/cn';
+import {Popup} from '../../../Popup';
+import {List} from '../../../List';
 import {SelectProps} from '../../types';
 import {
     FlattenOption,

@@ -4,7 +4,7 @@ import {Select, SelectProps} from '..';
 import {SelectShowcase} from './SelectShowcase';
 
 export default {
-    title: 'Unstable/Select',
+    title: 'Components/Select',
     component: Select,
 } as Meta;
 

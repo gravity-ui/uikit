@@ -1,7 +1,7 @@
 import React from 'react';
-import {useForkRef} from '../../utils/useForkRef';
-import {List} from '../../List';
-import {KeyCode} from '../../constants';
+import {useForkRef} from '../utils/useForkRef';
+import {List} from '../List';
+import {KeyCode} from '../constants';
 import {reducer, getInitialState} from './store';
 import {SelectProps, SelectOption} from './types';
 import {

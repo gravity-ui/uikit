@@ -1,6 +1,6 @@
 import React from 'react';
-import {TextInputView, TextInputSize, TextInputPin} from '../../TextInput';
-import {ControlGroupProps, ControlGroupOption} from '../../types';
+import {TextInputView, TextInputSize, TextInputPin} from '../TextInput';
+import {ControlGroupProps, ControlGroupOption} from '../types';
 import {Option, OptionGroup} from './tech-components';
 
 export type SelectProps = Pick<ControlGroupProps, 'name' | 'disabled'> & {

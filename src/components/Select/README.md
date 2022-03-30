@@ -26,15 +26,15 @@ You can check `ControlGroupOption` [here](https://github.com/yandex-cloud/uikit/
 
 ```typescript
 type SelectOption = ControlGroupOption & {
-    text?: string;
-    data?: any;
+  text?: string;
+  data?: any;
 };
 
 type SelectOptionGroup = {
-    label: string;
-    options?: SelectOption[];
-    children?:
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOption, typeof Option>[];
+  label: string;
+  options?: SelectOption[];
+  children?:
+    | React.ReactElement<SelectOption, typeof Option>
+    | React.ReactElement<SelectOption, typeof Option>[];
 };
 ```

@@ -1,8 +1,8 @@
 import React from 'react';
 import {range} from 'lodash';
-import {block} from '../../../utils/cn';
-import {ClipboardButton} from '../../../ClipboardButton';
-import {RadioButton, RadioButtonOption} from '../../../RadioButton';
+import {block} from '../../utils/cn';
+import {ClipboardButton} from '../../ClipboardButton';
+import {RadioButton, RadioButtonOption} from '../../RadioButton';
 import {Select, SelectProps, SelectOption} from '..';
 import {
     EXAMPLE_JSON_OPTIONS,

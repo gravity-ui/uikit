@@ -1,7 +1,7 @@
 import React from 'react';
-import {PopupPlacement} from '../../Popup';
-import {List, ListItemData} from '../../List';
-import {KeyCode} from '../../constants';
+import {PopupPlacement} from '../Popup';
+import {List, ListItemData} from '../List';
+import {KeyCode} from '../constants';
 import {SelectProps, SelectOption, SelectOptionGroup} from './types';
 import {Option, OptionGroup} from './tech-components';
 import {

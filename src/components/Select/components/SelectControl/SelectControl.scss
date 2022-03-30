@@ -1,5 +1,5 @@
-@import '../../../../../../styles/mixins';
-@import '../../../../variables';
+@import '../../../../../styles/mixins';
+@import '../../../variables';
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,

@@ -1,8 +1,8 @@
 import React from 'react';
-import {useForkRef} from '../../../../utils/useForkRef';
-import {CnMods, block} from '../../../../utils/cn';
-import {Icon} from '../../../../Icon';
-import {Chevron} from '../../../../icons/Chevron';
+import {useForkRef} from '../../../utils/useForkRef';
+import {CnMods, block} from '../../../utils/cn';
+import {Icon} from '../../../Icon';
+import {Chevron} from '../../../icons/Chevron';
 import {SelectProps} from '../../types';
 
 import './SelectControl.scss';

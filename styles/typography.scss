@@ -1,0 +1,80 @@
+@mixin yc-typography {
+    --yc-font-family-sans: 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
+    --yc-font-family-monospace: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
+        'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
+
+    --yc-text-body-font-family: var(--yc-font-family-sans);
+    --yc-text-code-font-family: var(--yc-font-family-monospace);
+
+    --yc-text-header-font-weight: 900;
+    --yc-text-subheader-font-weight: 900;
+    --yc-text-display-font-weight: 900;
+    --yc-text-code-font-weight: 400;
+
+    --yc-text-body-1-font-size: 13px;
+    --yc-text-body-1-line-height: 18px;
+
+    --yc-text-body-2-font-size: 15px;
+    --yc-text-body-2-line-height: 20px;
+
+    --yc-text-body-3-font-size: 17px;
+    --yc-text-body-3-line-height: 24px;
+
+    --yc-text-body-short-font-size: 13px;
+    --yc-text-body-short-line-height: 16px;
+
+    --yc-text-caption-1-font-size: 9px;
+    --yc-text-caption-1-line-height: 12px;
+
+    --yc-text-caption-2-font-size: 11px;
+    --yc-text-caption-2-line-height: 16px;
+
+    --yc-text-header-1-font-size: 20px;
+    --yc-text-header-1-line-height: 24px;
+
+    --yc-text-header-2-font-size: 24px;
+    --yc-text-header-2-line-height: 28px;
+
+    --yc-text-subheader-1-font-size: 13px;
+    --yc-text-subheader-1-line-height: 18px;
+
+    --yc-text-subheader-2-font-size: 15px;
+    --yc-text-subheader-2-line-height: 20px;
+
+    --yc-text-subheader-3-font-size: 17px;
+    --yc-text-subheader-3-line-height: 24px;
+
+    --yc-text-display-1-font-size: 28px;
+    --yc-text-display-1-line-height: 36px;
+
+    --yc-text-display-2-font-size: 32px;
+    --yc-text-display-2-line-height: 40px;
+
+    --yc-text-display-3-font-size: 40px;
+    --yc-text-display-3-line-height: 48px;
+
+    --yc-text-display-4-font-size: 48px;
+    --yc-text-display-4-line-height: 52px;
+
+    --yc-text-code-1-font-size: 12px;
+    --yc-text-code-1-line-height: 18px;
+
+    --yc-text-code-2-font-size: 14px;
+    --yc-text-code-2-line-height: 20px;
+
+    --yc-text-code-3-font-size: 16px;
+    --yc-text-code-3-line-height: 24px;
+
+    --yc-text-code-inline-1-font-size: 12px;
+    --yc-text-code-inline-1-line-height: 14px;
+
+    --yc-text-code-inline-2-font-size: 14px;
+    --yc-text-code-inline-2-line-height: 16px;
+
+    --yc-text-code-inline-3-font-size: 16px;
+    --yc-text-code-inline-3-line-height: 20px;
+
+    font-family: var(--yc-text-body-font-family);
+    font-size: var(--yc-text-body-1-font-size);
+    line-height: var(--yc-text-body-1-line-height);
+}

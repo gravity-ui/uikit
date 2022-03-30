@@ -2,7 +2,6 @@
 
 $block: '.#{$ns}loader';
 
-$active-color: var(--yc-color-loader-active);
 $pulse-duration: 800ms;
 $pulse-delay: $pulse-duration * 0.25;
 $animation: #{$ns}pulse ease $pulse-duration infinite;
@@ -34,7 +33,7 @@ $base-height-l: 36px;
     &__left,
     &__center,
     &__right {
-        background: $active-color;
+        background: var(--yc-color-base-special);
         animation: $animation;
     }
 

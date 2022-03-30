@@ -162,7 +162,7 @@ $block: '.#{$ns}checkbox';
 
         #{$block}__icon {
             visibility: visible;
-            color: var(--yc-color-text-light-primary);
+            color: var(--yc-my-color-brand-text-contrast);
             transform: translateX(0);
         }
     }

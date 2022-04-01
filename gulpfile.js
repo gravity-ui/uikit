@@ -54,6 +54,12 @@ task('copy-js-declarations', () => {
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
 });
 
+task('copy-i18n', () => {
+    return src(['src/**/i18n/*.json'])
+        .pipe(dest(path.resolve(BUILD_DIR, 'esm')))
+        .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
+});
+
 task('styles-global', () => {
     return src('styles/styles.scss').pipe(sass().on('error', sass.logError)).pipe(dest('styles'));
 });
@@ -71,6 +77,7 @@ task(
         'clean',
         parallel(['compile-to-esm', 'compile-to-cjs']),
         'copy-js-declarations',
+        'copy-i18n',
         parallel(['styles-global', 'styles-components']),
     ]),
 );

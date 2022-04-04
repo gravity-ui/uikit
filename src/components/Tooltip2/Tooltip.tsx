@@ -8,14 +8,14 @@ import {block} from '../utils/cn';
 import './Tooltip.scss';
 
 export interface TooltipProps {
-    text: React.ReactNode;
+    content: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
 }
 
 const b = block('tooltip');
 
-export const Tooltip = ({children, text, placement}: TooltipProps) => {
+export const Tooltip = ({children, content, placement}: TooltipProps) => {
     const [popupVisible, setPopupVisible] = useState(false);
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
@@ -70,7 +70,7 @@ export const Tooltip = ({children, text, placement}: TooltipProps) => {
                 disableOutsideClick
                 disableLayer
             >
-                <div className={b('text')}>{text}</div>
+                <div className={b('content')}>{content}</div>
             </Popup>
         );
     };

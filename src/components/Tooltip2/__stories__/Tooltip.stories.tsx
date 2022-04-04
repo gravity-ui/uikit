@@ -13,6 +13,6 @@ const DefaultTemplate: Story<TooltipProps> = (args) => <Tooltip {...args} />;
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
-    text: 'Hello world!',
+    content: 'Hello world!',
     children: <Button>Hover to see tooltip</Button>,
 };

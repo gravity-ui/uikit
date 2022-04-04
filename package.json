@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "@popperjs/core": "2.11.2",
-        "@yandex-cloud/i18n": "0.2.2",
+        "@yandex-cloud/i18n": "0.3.0",
         "bem-cn-lite": "4.0.0",
         "focus-trap": "6.7.2",
         "lodash": "4.17.21",

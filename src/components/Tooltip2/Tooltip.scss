@@ -1,0 +1,18 @@
+@use '../variables' as variables;
+
+$block: '.#{variables.$ns}tooltip';
+
+#{$block} {
+    // remove a white outline of the <Popup /> component
+    &::before {
+        display: none;
+    }
+
+    &__content {
+        padding: 6px 12px;
+
+        color: var(--yc-color-text-light-primary);
+        border-radius: 4px;
+        background-color: var(--yc-color-base-float-heavy);
+    }
+}

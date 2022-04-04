@@ -18,7 +18,7 @@ const b = block('table-column-setup');
 
 type Item = TableColumnSetupItem;
 
-interface TableColumnSetupProps {
+export interface TableColumnSetupProps {
     // for Button
     disabled?: boolean;
     switcher?: React.ReactElement | undefined;

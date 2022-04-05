@@ -1,25 +1,25 @@
 import React from 'react';
 
 import {block} from '../utils/cn';
-import {Tooltip, TooltipProps} from '../Tooltip';
+import {Popover, PopoverProps} from '../Popover';
 import {Icon} from '../Icon';
 import {QuestionMarkIcon} from '../icons/QuestionMarkIcon';
 
-import './HelpTooltip.scss';
+import './HelpPopover.scss';
 
-const b = block('help-tooltip');
+const b = block('help-popover');
 
 /**
  * @see {@link https://github.com/microsoft/TypeScript/issues/28339}
  */
 type DistributiveOmit<T, K extends keyof T> = T extends unknown ? Omit<T, K> : never;
 
-export type HelpTooltipProps = DistributiveOmit<TooltipProps, 'children'>;
+export type HelpPopoverProps = DistributiveOmit<PopoverProps, 'children'>;
 
-export function HelpTooltip(props: HelpTooltipProps) {
+export function HelpPopover(props: HelpPopoverProps) {
     return (
-        <Tooltip offset={{left: 4}} {...props} className={b(null, props.className)}>
+        <Popover offset={{left: 4}} {...props} className={b(null, props.className)}>
             <Icon data={QuestionMarkIcon} size={16} />
-        </Tooltip>
+        </Popover>
     );
 }

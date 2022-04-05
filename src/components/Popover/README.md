@@ -1,4 +1,4 @@
-## Tooltip
+## Popover
 
 Компонента блока с тултипом
 
@@ -35,7 +35,7 @@
 Тултип с отрендеренной html разметкой (для обычного текста лучше использовать `content`) и автоматическим закрытием когда курсор вне подсказки в течение `delayClosing`:
 
 ```jsx
-<Tooltip
+<Popover
   delayClosing={500}
   offset={{
     top: 2,
@@ -52,21 +52,22 @@
   ]}
   placement={['right', 'bottom']}
   title="Simple tooltip"
-  htmlContent="<b>Lorem ipsum</b> dolor sit <a href="
-  https:tooltipActionButton={{
-    //yandex.ru" target="_blank">amet</a>, at scelerisque suspendisse"
+  htmlContent={
+    '<b>Lorem ipsum</b> dolor sit <a href="https://yandex.ru" target="_blank">amet</a>, at scelerisque suspendisse'
+  }
+  tooltipActionButton={{
     text: 'Actions',
     onClick: () => console.log('just action happened'),
   }}
 >
   <div>click me</div>
-</Tooltip>
+</Popover>
 ```
 
 Подсказка с нетекстовым контентом в тултипе:
 
 ```js
-<Tooltip icon={{data: iconQuestionMark}} content={<Loader size="s" />}>
+<Popover icon={{data: iconQuestionMark}} content={<Loader size="s" />}>
   Tooltip
-</Tooltip>
+</Popover>
 ```

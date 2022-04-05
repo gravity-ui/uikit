@@ -3,21 +3,21 @@ import _ from 'lodash';
 
 import {block} from '../../utils/cn';
 import {Button} from '../../Button';
-import {Tooltip, TooltipProps, TooltipBehavior} from '../Tooltip';
+import {Popover, PopoverProps, PopoverBehavior} from '../Popover';
 import {Loader} from '../../Loader';
 
-import './TooltipShowcase.scss';
+import './PopoverShowcase.scss';
 
 const MockTitle = 'Lorem ipsum dolor sit amet, at scelerisque';
 const MockHtmlContent =
     '<b>Lorem ipsum</b> dolor sit <a href="https://yandex.ru" target="_blank">amet</a>, at scelerisque suspendisse';
 
-const b = block('tooltip-demo');
+const b = block('popover-demo');
 
-export function getTooltipProps() {
+export function getPopoverProps() {
     const autoclosable = true;
     const hoverEnabled = false;
-    const behavior = TooltipBehavior.DelayedClosing;
+    const behavior = PopoverBehavior.DelayedClosing;
     const titleEnabled = true;
     const linksEnabled = true;
     const actionButtonEnabled = true;
@@ -27,7 +27,7 @@ export function getTooltipProps() {
     const contentClassEnabled = true;
     const theme = 'info';
 
-    const props: TooltipProps = {
+    const props: PopoverProps = {
         autoclosable,
         title: titleEnabled ? MockTitle : undefined,
         tooltipActionButton: actionButtonEnabled
@@ -80,17 +80,17 @@ export function getTooltipProps() {
     return props;
 }
 
-export class TooltipShowcase extends React.Component {
+export class PopoverShowcase extends React.Component {
     state: {refTooltipVisible: boolean} = {
         refTooltipVisible: false,
     };
 
-    private tooltipRef = React.createRef<Tooltip>();
-    private tooltipAnchor = React.createRef<HTMLDivElement>();
+    private popoverRef = React.createRef<Popover>();
+    private popoverAnchor = React.createRef<HTMLDivElement>();
 
     toggleRefTooltip = () => {
         const {refTooltipVisible} = this.state;
-        const instance = _.get(this.tooltipRef, 'current');
+        const instance = _.get(this.popoverRef, 'current');
 
         if (instance) {
             if (refTooltipVisible) {
@@ -106,18 +106,18 @@ export class TooltipShowcase extends React.Component {
     };
 
     render() {
-        const props = {...getTooltipProps()};
+        const props = {...getPopoverProps()};
 
         return (
             <div className={b('content')}>
                 <div>
-                    <Tooltip {...props}>
+                    <Popover {...props}>
                         <div className={b('example-content')}>
                             <h3 className={b('example-content-text')}>
                                 Tooltip on {props.openOnHover ? 'hover' : 'click'}
                             </h3>
                         </div>
-                    </Tooltip>
+                    </Popover>
                 </div>
 
                 <div
@@ -134,7 +134,7 @@ export class TooltipShowcase extends React.Component {
                     style={{
                         marginTop: 20,
                     }}
-                    ref={this.tooltipAnchor}
+                    ref={this.popoverAnchor}
                 >
                     <div className={b('example-content')}>
                         <h2 className={b('example-content-title')}>
@@ -146,9 +146,9 @@ export class TooltipShowcase extends React.Component {
                     </div>
                 </div>
 
-                <Tooltip
-                    ref={this.tooltipRef}
-                    anchorRef={this.tooltipAnchor}
+                <Popover
+                    ref={this.popoverRef}
+                    anchorRef={this.popoverAnchor}
                     content={<Loader size="s" />}
                 />
             </div>

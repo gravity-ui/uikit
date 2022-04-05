@@ -34,6 +34,7 @@ export * from './Table';
 export * from './Tabs';
 export * from './TextInput';
 export * from './Toaster';
+export * from './Tooltip';
 export * from './User';
 export * from './UserAvatar';
 

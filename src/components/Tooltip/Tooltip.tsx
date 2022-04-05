@@ -8,14 +8,15 @@ import {block} from '../utils/cn';
 import './Tooltip.scss';
 
 export interface TooltipProps {
-    content: React.ReactNode;
+    content?: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
 }
 
 const b = block('tooltip');
+const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
 
-export const Tooltip = ({children, content, placement}: TooltipProps) => {
+export const Tooltip = ({children, content, placement = DEFAULT_PLACEMENT}: TooltipProps) => {
     const [popupVisible, setPopupVisible] = useState(false);
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
@@ -56,14 +57,10 @@ export const Tooltip = ({children, content, placement}: TooltipProps) => {
     }, [anchorElement]);
 
     const renderPopup = () => {
-        if (!popupVisible) {
-            return null;
-        }
-
         return (
             <Popup
                 className={b()}
-                open
+                open={popupVisible}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
                 disableEscapeKeyDown

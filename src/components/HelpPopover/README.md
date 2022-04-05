@@ -1,4 +1,4 @@
-## HelpTooltip
+## HelpPopover
 
 Компонента для отображения подсказки
 
@@ -23,7 +23,7 @@
 Подсказка с отрендеренной html разметкой (для обычного текста лучше использовать `content`) и автоматическим закрытием когда курсор вне подсказки в течение `delayClosing`:
 
 ```js
-<HelpTooltip
+<HelpPopover
   autoclosable
   delayClosing={500}
   offset={{
@@ -41,9 +41,10 @@
   ]}
   to={['right', 'bottom']}
   title="Simple tooltip"
-  htmlContent="<b>Lorem ipsum</b> dolor sit <a href="
-  https:tooltipButton={{
-    //yandex.ru" target="_blank">amet</a>, at scelerisque suspendisse"
+  htmlContent={
+    '<b>Lorem ipsum</b> dolor sit <a href="https://yandex.ru" target="_blank">amet</a>, at scelerisque suspendisse'
+  }
+  tooltipButton={{
     text: 'Actions',
     onClick: () => console.log('just action happened'),
   }}
@@ -53,5 +54,5 @@
 Подсказка с нетекстовым контентом в тултипе:
 
 ```js
-<HelpTooltip content={<Spin size="s" view="default" tone="default" progress />} />
+<HelpPopover content={<Spin size="s" view="default" tone="default" progress />} />
 ```

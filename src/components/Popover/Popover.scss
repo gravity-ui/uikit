@@ -1,7 +1,7 @@
 @import '../../../styles/mixins.scss';
 @import '../variables';
 
-$block: '.#{$ns}tooltip';
+$block: '.#{$ns}popover';
 
 #{$block} {
     cursor: pointer;
@@ -11,14 +11,14 @@ $block: '.#{$ns}tooltip';
     $class: &;
 
     &__tooltip {
-        --yc-tooltip-padding: 16px;
-        --yc-tooltip-close-margin: 8px;
-        --yc-tooltip-close-size: 24px;
+        --yc-popover-padding: 16px;
+        --yc-popover-close-margin: 8px;
+        --yc-popover-close-size: 24px;
 
         box-sizing: border-box;
         min-height: 40px;
         max-width: var(--yc-tooltip-max-width);
-        padding: var(--yc-tooltip-padding);
+        padding: var(--yc-popover-padding);
         display: flex;
         flex-direction: column;
         cursor: default;
@@ -46,8 +46,8 @@ $block: '.#{$ns}tooltip';
 
         &-close {
             position: absolute;
-            top: var(--yc-tooltip-close-margin);
-            right: var(--yc-tooltip-close-margin);
+            top: var(--yc-popover-close-margin);
+            right: var(--yc-popover-close-margin);
         }
 
         &-content {
@@ -130,7 +130,7 @@ $block: '.#{$ns}tooltip';
 
         &_size {
             &_l {
-                --yc-tooltip-padding: 24px;
+                --yc-popover-padding: 24px;
 
                 #{$class}__tooltip-title {
                     @include text-header-1();
@@ -146,8 +146,8 @@ $block: '.#{$ns}tooltip';
             #{$class}__tooltip-title,
             #{$class}__tooltip-content {
                 padding-right: calc(
-                    var(--yc-tooltip-close-margin) + var(--yc-tooltip-close-size) -
-                        var(--yc-tooltip-padding)
+                    var(--yc-popover-close-margin) + var(--yc-popover-close-size) -
+                        var(--yc-popover-padding)
                 );
             }
         }
@@ -155,5 +155,5 @@ $block: '.#{$ns}tooltip';
 }
 
 .yc-root {
-    --yc-tooltip-max-width: 300px;
+    --yc-popover-max-width: 300px;
 }

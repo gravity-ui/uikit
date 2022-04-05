@@ -1,6 +1,6 @@
 @import '../variables';
 
-$block: '.#{$ns}help-tooltip';
+$block: '.#{$ns}help-popover';
 
 #{$block} {
     position: relative;

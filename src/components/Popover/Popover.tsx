@@ -9,14 +9,14 @@ import {QAProps} from '../types';
 
 import {PreviewCloseIcon} from '../icons/PreviewCloseIcon';
 
-import './Tooltip.scss';
+import './Popover.scss';
 
-export interface TooltipButtonProps {
+export interface PopoverButtonProps {
     text: string;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export interface TooltipExternalProps {
+interface PopoverExternalProps {
     /** content over which the tooltip is shown */
     children?: React.ReactNode;
     /** tooltip's title */
@@ -29,9 +29,9 @@ export interface TooltipExternalProps {
     contentClassName?: string;
     /** the button will be rendered if the following object is passed <br/>
      * ```{ text: 'Button', onClick: () => callbackOnClick() }``` */
-    tooltipActionButton?: TooltipButtonProps;
+    tooltipActionButton?: PopoverButtonProps;
     /** the same as `tooltipActionButton` */
-    tooltipCancelButton?: TooltipButtonProps;
+    tooltipCancelButton?: PopoverButtonProps;
     /** tooltip's offset relative to the control */
     tooltipOffset?: [number, number];
     tooltipClassName?: string;
@@ -48,22 +48,22 @@ export interface TooltipExternalProps {
     onCloseClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export enum TooltipBehavior {
+export enum PopoverBehavior {
     Immediate = 'immediate',
     Delayed = 'delayed',
     DelayedClosing = 'delayedClosing',
 }
 
-export interface TooltipWithBehavior {
+interface PopoverWithBehavior {
     /** How the tooltip opens/closes when `openOnHover` is enabled (without
      * delay / with delay / delay only on close). Will not be applied if
      * `delayOpening` or `delayClosing` are passed. */
-    behavior: TooltipBehavior;
+    behavior: PopoverBehavior;
     delayOpening?: never;
     delayClosing?: never;
 }
 
-export type TooltipWithDelays = {
+type PopoverWithDelays = {
     behavior?: never;
     /** Tune how much tooltip's opening is delayed when `openOnHover` is enabled.
      * It is recommended to use `behavior` */
@@ -73,9 +73,9 @@ export type TooltipWithDelays = {
     delayClosing?: number;
 };
 
-export type TooltipBehaviorProps = TooltipWithBehavior | TooltipWithDelays;
+type PopoverBehaviorProps = PopoverWithBehavior | PopoverWithDelays;
 
-export interface TooltipDefaultProps {
+interface PopoverDefaultProps {
     /** Set the control's offset <br/> ```{ top: 0, left: 0 }``` */
     offset: {
         top?: number;
@@ -110,21 +110,21 @@ export interface TooltipDefaultProps {
     disabled: boolean;
 }
 
-export type TooltipProps = TooltipExternalProps &
-    TooltipBehaviorProps &
-    Partial<TooltipDefaultProps>;
+export type PopoverProps = PopoverExternalProps &
+    PopoverBehaviorProps &
+    Partial<PopoverDefaultProps>;
 
-interface TooltipState {
+interface PopoverState {
     open: boolean;
 }
 
-const b = block('tooltip');
+const b = block('popover');
 
-export class Tooltip extends React.Component<
-    TooltipExternalProps & TooltipBehaviorProps & TooltipDefaultProps & QAProps,
-    TooltipState
+export class Popover extends React.Component<
+    PopoverExternalProps & PopoverBehaviorProps & PopoverDefaultProps & QAProps,
+    PopoverState
 > {
-    static defaultProps: TooltipDefaultProps = {
+    static defaultProps: PopoverDefaultProps = {
         offset: {},
         links: [],
         placement: ['right', 'bottom'],
@@ -138,7 +138,7 @@ export class Tooltip extends React.Component<
         disabled: false,
     };
 
-    state: TooltipState = {
+    state: PopoverState = {
         open: this.props.initialOpen,
     };
 
@@ -147,12 +147,12 @@ export class Tooltip extends React.Component<
     private delayClosing: ReturnType<typeof setTimeout> | null = null;
     private closedManually = false;
     private delayByBehavior = {
-        [TooltipBehavior.Immediate]: [0, 0],
-        [TooltipBehavior.Delayed]: [300, 300],
-        [TooltipBehavior.DelayedClosing]: [0, 300],
+        [PopoverBehavior.Immediate]: [0, 0],
+        [PopoverBehavior.Delayed]: [300, 300],
+        [PopoverBehavior.DelayedClosing]: [0, 300],
     };
 
-    componentDidUpdate(prevProps: TooltipProps) {
+    componentDidUpdate(prevProps: PopoverProps) {
         if (prevProps.disabled !== this.props.disabled && this.props.disabled) {
             this.closeTooltip();
         }
@@ -209,7 +209,7 @@ export class Tooltip extends React.Component<
 
     private get delay() {
         const [defaultDelayOpening, defaultDelayClosing] =
-            this.delayByBehavior[this.props.behavior ?? TooltipBehavior.DelayedClosing];
+            this.delayByBehavior[this.props.behavior ?? PopoverBehavior.DelayedClosing];
         const {delayOpening = defaultDelayOpening, delayClosing = defaultDelayClosing} = this.props;
 
         return [delayOpening, delayClosing];
@@ -356,7 +356,7 @@ export class Tooltip extends React.Component<
         );
     }
 
-    private renderButton(buttonProps?: TooltipButtonProps, isAction = false) {
+    private renderButton(buttonProps?: PopoverButtonProps, isAction = false) {
         if (!buttonProps) {
             return null;
         }

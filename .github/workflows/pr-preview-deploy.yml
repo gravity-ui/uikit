@@ -1,8 +1,8 @@
-name: Preview Deploy
+name: PR Preview Deploy
 
 on:
   workflow_run:
-    workflows: ['Preview Build']
+    workflows: ['PR Preview Build']
     types:
     - completed
 

@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version: 14
     - name: Install Packages
       run: npm ci
       shell: bash
@@ -27,6 +27,6 @@ jobs:
       uses: yandex-cloud/ui-preview-upload-to-s3-action@main
       with:
         src-path: storybook-static
-        dest-path: /${{ inputs.project }}/main/
-        s3-key-id: ${{ inputs.s3-key-id }}
-        s3-secret-key: ${{ inputs.s3-secret-key }}
+        dest-path: /uikit/main/
+        s3-key-id: ${{ secrets.STORYBOOK_S3_KEY_ID }}
+        s3-secret-key: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}

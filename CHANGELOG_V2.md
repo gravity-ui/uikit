@@ -94,3 +94,7 @@ Some CSS variables are now available for overwrite. Every `-yc-my-*` variable ca
 ### New
 
 - New `Tooltip` component
+
+## Other
+
+- Removed `react-router-dom` dependency

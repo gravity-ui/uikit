@@ -1,7 +1,9 @@
-import {isValidElement, ReactNode, ComponentType} from 'react';
+import {isValidElement, ReactNode, ComponentType, ReactElement} from 'react';
 
 export function isOfType<P = {}>(Component: ComponentType<P>) {
-    return function isMatching(component: ReactNode): component is typeof Component {
+    return function isMatching(
+        component: ReactNode,
+    ): component is ReactElement<P, typeof Component> {
         if (!isValidElement(component)) {
             return false;
         }

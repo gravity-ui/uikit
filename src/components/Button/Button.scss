@@ -19,6 +19,8 @@ $block: '.#{$ns}button';
 
 #{$block} {
     --yc-button-height: 0;
+    --yc-button-background-color: transparent;
+    --yc-button-background-color-hover: transparent;
 
     @include button-reset();
     display: inline-block;
@@ -33,7 +35,7 @@ $block: '.#{$ns}button';
     text-align: center;
     white-space: nowrap;
     text-decoration: none;
-    background: transparent;
+    background: var(--yc-button-background-color);
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     transition: transform 0.1s ease-out, color 0.15s linear;
@@ -47,7 +49,12 @@ $block: '.#{$ns}button';
         left: 0;
         right: 0;
         bottom: 0;
+        background-color: var(--yc-button-background-color);
         transition: background-color 0.15s linear;
+    }
+
+    &:hover::before {
+        background-color: var(--yc-button-background-color-hover);
     }
 
     &::after {
@@ -173,15 +180,10 @@ $block: '.#{$ns}button';
 
     &_view {
         &_normal {
+            --yc-button-background-color: var(--yc-color-base-generic);
+            --yc-button-background-color-hover: var(--yc-color-base-generic-hover);
+
             @include button-text-color(var(--yc-color-text-primary));
-
-            &::before {
-                background-color: var(--yc-color-base-generic);
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-generic-hover);
-            }
 
             &#{$block}_loading {
                 --yc-button-loading-color-1: var(--yc-color-base-generic);
@@ -189,28 +191,18 @@ $block: '.#{$ns}button';
             }
 
             &#{$block}_selected {
+                --yc-button-background-color: var(--yc-color-base-selection);
+                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
+
                 @include button-text-color(var(--yc-color-text-special));
-
-                &::before {
-                    background-color: var(--yc-color-base-selection);
-                }
-
-                &:hover::before {
-                    background-color: var(--yc-color-base-selection-hover);
-                }
             }
         }
 
         &_action {
+            --yc-button-background-color: var(--yc-color-base-special);
+            --yc-button-background-color-hover: var(--yc-color-base-special-hover);
+
             @include button-text-color(var(--yc-my-color-brand-text-contrast));
-
-            &::before {
-                background-color: var(--yc-color-base-special);
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-special-hover);
-            }
 
             &#{$block}_loading {
                 --yc-button-loading-color-1: var(--yc-color-base-special);
@@ -221,13 +213,8 @@ $block: '.#{$ns}button';
         &_outlined,
         &_outlined-info,
         &_outlined-danger {
-            &::before {
-                background-color: transparent;
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-simple-hover);
-            }
+            --yc-button-background-color: transparent;
+            --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
 
             &#{$block}_loading {
                 --yc-button-loading-color-1: transparent;
@@ -260,15 +247,13 @@ $block: '.#{$ns}button';
         }
 
         &_raised {
+            --yc-button-background-color: var(--yc-color-base-float);
+            --yc-button-background-color-hover: var(--yc-color-base-float-hover);
+
             @include button-text-color(var(--yc-color-text-primary));
 
             &::before {
-                background-color: var(--yc-color-base-float);
                 box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-float-hover);
             }
 
             &:active::before {
@@ -285,13 +270,8 @@ $block: '.#{$ns}button';
         &_flat-info,
         &_flat-danger,
         &_flat-secondary {
-            &::before {
-                background-color: transparent;
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-simple-hover);
-            }
+            --yc-button-background-color: transparent;
+            --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
 
             &#{$block}_loading {
                 --yc-button-loading-color-1: transparent;
@@ -319,15 +299,10 @@ $block: '.#{$ns}button';
         }
 
         &_normal-contrast {
+            --yc-button-background-color: var(--yc-color-base-light);
+            --yc-button-background-color-hover: var(--yc-color-base-light-hover);
+
             @include button-text-color(var(--yc-color-text-dark-primary));
-
-            &::before {
-                background-color: var(--yc-color-base-light);
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-light-hover);
-            }
 
             &#{$block}_loading {
                 --yc-button-loading-color-1: var(--yc-color-base-light);
@@ -336,15 +311,13 @@ $block: '.#{$ns}button';
         }
 
         &_outlined-contrast {
+            --yc-button-background-color: transparent;
+            --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
+
             @include button-text-color(var(--yc-color-text-light-primary));
 
             &::before {
-                background-color: transparent;
                 border: 1px solid var(--yc-color-line-light);
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-light-simple-hover);
             }
 
             &#{$block}_loading {
@@ -354,15 +327,10 @@ $block: '.#{$ns}button';
         }
 
         &_flat-contrast {
+            --yc-button-background-color: transparent;
+            --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
+
             @include button-text-color(var(--yc-color-text-light-primary));
-
-            &::before {
-                background-color: transparent;
-            }
-
-            &:hover::before {
-                background-color: var(--yc-color-base-light-simple-hover);
-            }
 
             &#{$block}_loading {
                 --yc-button-loading-color-1: transparent;
@@ -375,24 +343,20 @@ $block: '.#{$ns}button';
         &_flat-danger {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
-                color: var(--yc-color-text-hint);
+                --yc-button-background-color: transparent;
+                --yc-button-background-color-hover: transparent;
 
-                &::before,
-                &:hover::before {
-                    background-color: transparent;
-                }
+                color: var(--yc-color-text-hint);
             }
         }
 
         &_flat-contrast {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
-                color: var(--yc-color-text-light-hint);
+                --yc-button-background-color: transparent;
+                --yc-button-background-color-hover: transparent;
 
-                &::before,
-                &:hover::before {
-                    background-color: transparent;
-                }
+                color: var(--yc-color-text-light-hint);
             }
         }
 
@@ -400,12 +364,10 @@ $block: '.#{$ns}button';
         &_outlined-contrast {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
-                color: var(--yc-color-text-light-secondary);
+                --yc-button-background-color: var(--yc-color-base-light-disabled);
+                --yc-button-background-color-hover: var(--yc-color-base-light-disabled);
 
-                &::before,
-                &:hover::before {
-                    background-color: var(--yc-color-base-light-disabled);
-                }
+                color: var(--yc-color-text-light-secondary);
             }
         }
     }
@@ -459,11 +421,13 @@ $block: '.#{$ns}button';
         pointer-events: none;
 
         &:not(#{$block}_loading) {
+            --yc-button-background-color: var(--yc-color-base-generic-accent-disabled);
+            --yc-button-background-color-hover: var(--yc-color-base-generic-accent-disabled);
+
             color: var(--yc-color-text-hint);
 
             &::before,
             &:hover::before {
-                background-color: var(--yc-color-base-generic-accent-disabled);
                 border: none;
             }
         }

@@ -18,11 +18,15 @@ $block: '.#{$ns}button';
 }
 
 #{$block} {
+    --yc-button-height: 0;
+
     @include button-reset();
     display: inline-block;
     position: relative;
     overflow: visible;
     box-sizing: border-box;
+    height: var(--yc-button-height);
+    line-height: var(--yc-button-height);
     font-family: var(--yc-text-body-font-family);
     font-weight: normal;
     user-select: none;
@@ -71,8 +75,8 @@ $block: '.#{$ns}button';
 
     &_size {
         &_s {
-            height: 24px;
-            line-height: 24px;
+            --yc-button-height: 24px;
+
             font-size: 13px;
 
             #{$block}__text {
@@ -80,7 +84,7 @@ $block: '.#{$ns}button';
             }
 
             #{$block}__icon {
-                width: 24px;
+                width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
                     margin-left: 22px;
@@ -95,8 +99,8 @@ $block: '.#{$ns}button';
         }
 
         &_m {
-            height: 28px;
-            line-height: 28px;
+            --yc-button-height: 28px;
+
             font-size: 13px;
 
             #{$block}__text {
@@ -104,7 +108,7 @@ $block: '.#{$ns}button';
             }
 
             #{$block}__icon {
-                width: 28px;
+                width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
                     margin-left: 25px;
@@ -119,8 +123,8 @@ $block: '.#{$ns}button';
         }
 
         &_l {
-            height: 36px;
-            line-height: 36px;
+            --yc-button-height: 36px;
+
             font-size: 13px;
 
             #{$block}__text {
@@ -128,7 +132,7 @@ $block: '.#{$ns}button';
             }
 
             #{$block}__icon {
-                width: 36px;
+                width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
                     margin-left: 33px;
@@ -143,8 +147,8 @@ $block: '.#{$ns}button';
         }
 
         &_xl {
-            height: 44px;
-            line-height: 44px;
+            --yc-button-height: 44px;
+
             font-size: 15px;
 
             #{$block}__text {
@@ -152,7 +156,7 @@ $block: '.#{$ns}button';
             }
 
             #{$block}__icon {
-                width: 44px;
+                width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
                     margin-left: 40px;

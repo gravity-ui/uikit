@@ -165,6 +165,7 @@ export const Button = withEventBrokerDomHandlers(PureButton, ['onClick'], {
 });
 
 const isIcon = isOfType(Icon);
+const isButtonIconComponent = isOfType(ButtonIcon);
 
 function prepareChildren(children: React.ReactNode) {
     const items = React.Children.toArray(children);
@@ -172,7 +173,9 @@ function prepareChildren(children: React.ReactNode) {
     if (items.length === 1) {
         const onlyItem = items[0];
 
-        if (isIcon(onlyItem)) {
+        if (isButtonIconComponent(onlyItem)) {
+            return onlyItem;
+        } else if (isIcon(onlyItem)) {
             return <ButtonIcon key="icon">{onlyItem}</ButtonIcon>;
         } else {
             return (
@@ -186,7 +189,9 @@ function prepareChildren(children: React.ReactNode) {
         const content = [];
 
         for (const item of items) {
-            if (isIcon(item)) {
+            if (isButtonIconComponent(item)) {
+                return item;
+            } else if (isIcon(item)) {
                 if (!leftIcon && content.length === 0) {
                     leftIcon = (
                         <ButtonIcon key="icon-left" side="start">

@@ -6,6 +6,7 @@ import './Button.scss';
 const b = block('button');
 
 type Props = PropsWithChildren<{
+    className?: string;
     side?: 'start' | 'end';
 }>;
 
@@ -14,12 +15,16 @@ const sidePropMap: Record<Required<Props>['side'], string> = {
     end: 'right',
 };
 
-export const ButtonIcon = ({side, children}: Props) => {
+export const ButtonIcon = ({side, className, children}: Props) => {
     return (
         <span
-            className={b('icon', {
-                side: side && sidePropMap[side],
-            })}
+            className={b(
+                'icon',
+                {
+                    side: side && sidePropMap[side],
+                },
+                className,
+            )}
         >
             <span className={b('icon-inner')}>{children}</span>
         </span>

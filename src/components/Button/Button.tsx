@@ -3,6 +3,7 @@ import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {Icon} from '../Icon';
 import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
+import {ButtonIcon} from './ButtonIcon';
 
 import './Button.scss';
 
@@ -177,11 +178,7 @@ function prepareChildren(children: React.ReactNode) {
         const onlyItem = items[0];
 
         if (isIcon(onlyItem)) {
-            return (
-                <span key="icon" className={b('icon')}>
-                    <span className={b('icon-inner')}>{onlyItem}</span>
-                </span>
-            );
+            return <ButtonIcon key="icon">{onlyItem}</ButtonIcon>;
         } else {
             return (
                 <span key="text" className={b('text')}>
@@ -197,15 +194,15 @@ function prepareChildren(children: React.ReactNode) {
             if (isIcon(item)) {
                 if (!leftIcon && content.length === 0) {
                     leftIcon = (
-                        <span key="icon-left" className={b('icon', {side: 'left'})}>
-                            <span className={b('icon-inner')}>{item}</span>
-                        </span>
+                        <ButtonIcon key="icon-left" side="start">
+                            {item}
+                        </ButtonIcon>
                     );
                 } else if (!rightIcon && content.length !== 0) {
                     rightIcon = (
-                        <span key="icon-right" className={b('icon', {side: 'right'})}>
-                            <span className={b('icon-inner')}>{item}</span>
-                        </span>
+                        <ButtonIcon key="icon-right" side="end">
+                            {item}
+                        </ButtonIcon>
                     );
                 }
             } else {

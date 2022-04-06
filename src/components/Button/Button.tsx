@@ -2,6 +2,7 @@ import React from 'react';
 import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {Icon} from '../Icon';
+import {isOfType} from '../utils/isOfType';
 import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
 import {ButtonIcon} from './ButtonIcon';
 
@@ -163,13 +164,7 @@ export const Button = withEventBrokerDomHandlers(PureButton, ['onClick'], {
     componentId: 'Button',
 });
 
-function isIcon(component: React.ReactNode) {
-    if (!React.isValidElement(component)) {
-        return false;
-    }
-    const {type} = component;
-    return type === Icon || (type as React.ComponentType).displayName === 'Icon';
-}
+const isIcon = isOfType(Icon);
 
 function prepareChildren(children: React.ReactNode) {
     const items = React.Children.toArray(children);

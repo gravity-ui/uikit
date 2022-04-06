@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {cloneElement} from 'react';
 import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {Icon} from '../Icon';
@@ -165,6 +165,7 @@ export const Button = withEventBrokerDomHandlers(PureButton, ['onClick'], {
 });
 
 const isIcon = isOfType(Icon);
+const isButtonIconComponent = isOfType(ButtonIcon);
 
 function prepareChildren(children: React.ReactNode) {
     const items = React.Children.toArray(children);
@@ -172,7 +173,9 @@ function prepareChildren(children: React.ReactNode) {
     if (items.length === 1) {
         const onlyItem = items[0];
 
-        if (isIcon(onlyItem)) {
+        if (isButtonIconComponent(onlyItem)) {
+            return onlyItem;
+        } else if (isIcon(onlyItem)) {
             return <ButtonIcon key="icon">{onlyItem}</ButtonIcon>;
         } else {
             return (
@@ -186,19 +189,38 @@ function prepareChildren(children: React.ReactNode) {
         const content = [];
 
         for (const item of items) {
-            if (isIcon(item)) {
+            const isIconElement = isIcon(item);
+            const isButtonIconElement = isButtonIconComponent(item);
+
+            if (isIconElement || isButtonIconElement) {
                 if (!leftIcon && content.length === 0) {
-                    leftIcon = (
-                        <ButtonIcon key="icon-left" side="start">
-                            {item}
-                        </ButtonIcon>
-                    );
+                    const key = 'icon-left';
+                    const side = 'start';
+                    if (isIconElement) {
+                        leftIcon = (
+                            <ButtonIcon key={key} side={side}>
+                                {item}
+                            </ButtonIcon>
+                        );
+                    } else {
+                        leftIcon = cloneElement(item, {
+                            side,
+                        });
+                    }
                 } else if (!rightIcon && content.length !== 0) {
-                    rightIcon = (
-                        <ButtonIcon key="icon-right" side="end">
-                            {item}
-                        </ButtonIcon>
-                    );
+                    const key = 'icon-right';
+                    const side = 'end';
+                    if (isIconElement) {
+                        rightIcon = (
+                            <ButtonIcon key={key} side={side}>
+                                {item}
+                            </ButtonIcon>
+                        );
+                    } else {
+                        rightIcon = cloneElement(item, {
+                            side,
+                        });
+                    }
                 }
             } else {
                 content.push(item);

@@ -63,6 +63,9 @@
 - CSS var removed: `--yc-color-base-selection-solid`
 - CSS var removed: `--yc-color-base-selection-hover-solid`
 - CSS var renamed: `--yc-tooltip-max-width` → `--yc-popover-max-width`
+- CSS var removed: `--yc-tabs-space-between`, use different sizes of Tabs
+- CSS var removed: `--yc-tab-item-horizontal-border-width`, use different sizes of Tabs
+- CSS var removed: `--yc-tab-item-horizontal-height`, use different sizes of Tabs
 
 ### New
 
@@ -94,6 +97,7 @@ Some CSS variables are now available for overwrite. Every `-yc-my-*` variable ca
 ### New
 
 - New `Tooltip` component
+- Tabs: icon, counter and label can be set on TabsItem
 
 ## Other
 

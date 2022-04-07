@@ -160,3 +160,13 @@ interface ButtonProps extends DOMProps, QAProps {
   component?: React.ElementType;
 }
 ```
+
+## CSS variables
+
+### `--yc-button-height`
+
+Variable to customize button height.
+
+### `--yc-button-background-color` and `--yc-button-background-color-hover`
+
+Color of button backgrounds in idle and hovered states.

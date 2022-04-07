@@ -169,4 +169,4 @@ Variable to customize button height.
 
 ### `--yc-button-background-color` and `--yc-button-background-color-hover`
 
-Color of button backgrounds in idle and hovered states.
+Color of button background in idle and hovered states.

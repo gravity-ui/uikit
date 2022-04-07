@@ -51,7 +51,7 @@ const button3 = (
   </Button>
 );
 
-// Wrap component as icon explicitly
+// Wrap component as button icon explicitly
 const button4 = (
   <Button>
     <Button.Icon>

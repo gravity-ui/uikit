@@ -1,8 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {block} from '../utils/cn';
 
-import './Button.scss';
-
 const b = block('button');
 
 type Props = PropsWithChildren<{

@@ -50,6 +50,16 @@ const button3 = (
     <Icon data={gearIcon} size={16} />
   </Button>
 );
+
+// Wrap component as icon explicitly
+const button4 = (
+  <Button>
+    <Button.Icon>
+      <Icon data={gearIcon} size={16} />
+    </Button.Icon>
+    Custom Icon component
+  </Button>
+);
 ```
 
 ## Props

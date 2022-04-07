@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
+import {Button} from '../Button';
+import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardProps} from '../CopyToClipboard';
 import {QAProps} from '../types';
-import {FakeButton} from './FakeButton';
+import {block} from '../utils/cn';
+
+import './ClipboardButton.scss';
 
 export interface ClipboardButtonProps extends QAProps {
     /** Text to copy */
@@ -14,10 +18,32 @@ export interface ClipboardButtonProps extends QAProps {
     onCopy?: CopyToClipboardProps['onCopy'];
 }
 
-export function ClipboardButton({text, size, className, qa, onCopy}: ClipboardButtonProps) {
+const b = block('clipboard-button');
+
+const DEFAULT_ICON_SIZE = 24;
+
+export function ClipboardButton({
+    text,
+    size = DEFAULT_ICON_SIZE,
+    className,
+    qa,
+    onCopy,
+}: ClipboardButtonProps) {
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    useEffect(() => {
+        buttonRef?.current?.style.setProperty('--yc-button-height', `${size}px`);
+    }, [size]);
+
     return (
         <CopyToClipboard text={text} timeout={1000} onCopy={onCopy}>
-            {(status) => <FakeButton className={className} qa={qa} status={status} size={size} />}
+            {(status) => (
+                <Button ref={buttonRef} view="flat" className={b(null, className)} qa={qa}>
+                    <Button.Icon>
+                        <ClipboardIcon status={status} size={size} className={b('icon')} />
+                    </Button.Icon>
+                </Button>
+            )}
         </CopyToClipboard>
     );
 }

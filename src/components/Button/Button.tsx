@@ -160,9 +160,11 @@ const PureButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Butto
 );
 
 PureButton.displayName = 'Button';
-export const Button = withEventBrokerDomHandlers(PureButton, ['onClick'], {
+const ButtonWithHandlers = withEventBrokerDomHandlers(PureButton, ['onClick'], {
     componentId: 'Button',
 });
+
+export const Button = Object.assign(ButtonWithHandlers, {Icon: ButtonIcon});
 
 const isIcon = isOfType(Icon);
 const isButtonIconComponent = isOfType(ButtonIcon);
@@ -176,7 +178,7 @@ function prepareChildren(children: React.ReactNode) {
         if (isButtonIconComponent(onlyItem)) {
             return onlyItem;
         } else if (isIcon(onlyItem)) {
-            return <ButtonIcon key="icon">{onlyItem}</ButtonIcon>;
+            return <Button.Icon key="icon">{onlyItem}</Button.Icon>;
         } else {
             return (
                 <span key="text" className={b('text')}>
@@ -198,9 +200,9 @@ function prepareChildren(children: React.ReactNode) {
                     const side = 'start';
                     if (isIconElement) {
                         leftIcon = (
-                            <ButtonIcon key={key} side={side}>
+                            <Button.Icon key={key} side={side}>
                                 {item}
-                            </ButtonIcon>
+                            </Button.Icon>
                         );
                     } else {
                         leftIcon = cloneElement(item, {
@@ -212,9 +214,9 @@ function prepareChildren(children: React.ReactNode) {
                     const side = 'end';
                     if (isIconElement) {
                         rightIcon = (
-                            <ButtonIcon key={key} side={side}>
+                            <Button.Icon key={key} side={side}>
                                 {item}
-                            </ButtonIcon>
+                            </Button.Icon>
                         );
                     } else {
                         rightIcon = cloneElement(item, {

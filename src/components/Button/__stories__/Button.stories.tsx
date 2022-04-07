@@ -3,7 +3,6 @@ import {Meta, Story} from '@storybook/react';
 import {Button, ButtonProps} from '../Button';
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {GearIcon} from '../../icons/GearIcon';
-import {ButtonIcon} from '../ButtonIcon';
 import {ButtonShowcase} from './ButtonShowcase';
 
 export default {
@@ -56,9 +55,9 @@ const IconTemplate: Story<ButtonProps> = (args) => (
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <ButtonIcon side="end">
+            <Button.Icon side="end">
                 <IconComponent data={GearIcon} size={18} />
-            </ButtonIcon>
+            </Button.Icon>
             Both (with Button.Icon)
             <IconComponent data={GearIcon} size={18} />
         </Button>
@@ -68,9 +67,9 @@ const IconTemplate: Story<ButtonProps> = (args) => (
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <ButtonIcon>
+            <Button.Icon>
                 <IconComponent data={GearIcon} size={18} />
-            </ButtonIcon>
+            </Button.Icon>
         </Button>
     </>
 );

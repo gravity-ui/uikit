@@ -5,7 +5,7 @@ A set of React components for building rich web applications.
 ## Install
 
 ```shell
-npm install --save-dev @yandex-cloud/uikit
+npm install --save-dev @yandex-cloud/uikit @yandex-cloud/i18n
 ```
 
 ## Usage

@@ -34,7 +34,6 @@
     },
     "dependencies": {
         "@popperjs/core": "2.11.2",
-        "@yandex-cloud/i18n": "0.3.0",
         "bem-cn-lite": "4.0.0",
         "focus-trap": "6.7.2",
         "lodash": "4.17.21",
@@ -63,6 +62,7 @@
         "@types/react-virtualized-auto-sizer": "^1.0.1",
         "@types/react-window": "^1.8.5",
         "@yandex-cloud/eslint-config": "^1.0.0",
+        "@yandex-cloud/i18n": "^0.4.0",
         "@yandex-cloud/prettier-config": "^1.0.0",
         "@yandex-cloud/stylelint-config": "^1.0.0",
         "@yandex-cloud/tsconfig": "^1.0.0",
@@ -95,6 +95,7 @@
         "webpack": "^4.46.0"
     },
     "peerDependencies": {
+        "@yandex-cloud/i18n": "^0.4.0",
         "react": "^16.0.0",
         "react-dom": "^16.0.0"
     },

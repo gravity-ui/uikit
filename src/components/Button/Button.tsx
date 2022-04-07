@@ -9,19 +9,19 @@ import {ButtonIcon} from './ButtonIcon';
 import './Button.scss';
 
 export type ButtonView =
-    | 'normal' // С серым фоном, без рамки
-    | 'action' // С брендовым фоном, без рамки
-    | 'outlined' // Без фона, с серой рамкой
-    | 'outlined-info' // Без фона, с info-рамкой
-    | 'outlined-danger' // Без фона, с danger-рамкой
-    | 'raised' // С белым фоном и с тенью
-    | 'flat' // Без фона, без рамки
-    | 'flat-info' // Без фона, без рамки, info-текст
-    | 'flat-danger' // Без фона, без рамки, danger-текст
-    | 'flat-secondary' // Без фона, без рамки, secondary-текст
-    | 'normal-contrast' // normal на контрастном фоне
-    | 'outlined-contrast' // outlined на контрастном фоне
-    | 'flat-contrast'; // flat на контрастном фоне
+    | 'normal' // Grey background, no border
+    | 'action' // Branded background, no border
+    | 'outlined' // No background, grey border
+    | 'outlined-info' // No background, with info-type border color
+    | 'outlined-danger' // No background, with danger-type border color
+    | 'raised' // With white background and shadow
+    | 'flat' // No background, no border
+    | 'flat-info' // No background, no border, info-type text color
+    | 'flat-danger' // No background, no border, danger-type text color
+    | 'flat-secondary' // No background, no border, secondary-type text color
+    | 'normal-contrast' // normal button appearance with contrast background
+    | 'outlined-contrast' // outlined button appearance with contrast background
+    | 'flat-contrast'; // flat button appearance with contrast background
 
 export type ButtonSize = 's' | 'm' | 'l' | 'xl';
 
@@ -42,7 +42,8 @@ export type ButtonPin =
     | 'clear-circle';
 
 export interface ButtonProps extends DOMProps, QAProps {
-    view?: ButtonView; // вид кнопки
+    /** Button appearance */
+    view?: ButtonView;
     size?: ButtonSize;
     pin?: ButtonPin;
     selected?: boolean;
@@ -65,7 +66,8 @@ export interface ButtonProps extends DOMProps, QAProps {
     onMouseLeave?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     onFocus?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     onBlur?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    children?: React.ReactNode; // содержимое, можно комбинировать текст с Icon, слева, справа, или только Icon
+    /** Button content. You can mix button text with `<Icon/>` component */
+    children?: React.ReactNode;
 }
 
 const b = block('button');

@@ -46,7 +46,7 @@ const button2 = (
 
 // Only icon
 const button3 = (
-  <Button aria-label="Do even better">
+  <Button extraProps={{'aria-label': 'Do even better'}}>
     <Icon data={gearIcon} size={16} />
   </Button>
 );

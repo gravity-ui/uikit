@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import {Button} from '../Button';
-import {ButtonIcon} from '../Button/ButtonIcon';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardProps} from '../CopyToClipboard';
 import {QAProps} from '../types';
@@ -40,9 +39,9 @@ export function ClipboardButton({
         <CopyToClipboard text={text} timeout={1000} onCopy={onCopy}>
             {(status) => (
                 <Button ref={buttonRef} view="flat" className={b(null, className)} qa={qa}>
-                    <ButtonIcon>
+                    <Button.Icon>
                         <ClipboardIcon status={status} size={size} className={b('icon')} />
-                    </ButtonIcon>
+                    </Button.Icon>
                 </Button>
             )}
         </CopyToClipboard>

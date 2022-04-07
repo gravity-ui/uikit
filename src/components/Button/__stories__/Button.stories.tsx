@@ -55,7 +55,7 @@ const IconTemplate: Story<ButtonProps> = (args) => (
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <Button.Icon side="end">
+            <Button.Icon side="right">
                 <IconComponent data={GearIcon} size={18} />
             </Button.Icon>
             Both (with Button.Icon)

@@ -5,13 +5,8 @@ const b = block('button');
 
 type Props = PropsWithChildren<{
     className?: string;
-    side?: 'start' | 'end';
+    side?: 'left' | 'right';
 }>;
-
-const sidePropMap: Record<Required<Props>['side'], string> = {
-    start: 'left',
-    end: 'right',
-};
 
 export const ButtonIcon = ({side, className, children}: Props) => {
     return (
@@ -19,7 +14,7 @@ export const ButtonIcon = ({side, className, children}: Props) => {
             className={b(
                 'icon',
                 {
-                    side: side && sidePropMap[side],
+                    side,
                 },
                 className,
             )}

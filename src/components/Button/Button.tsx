@@ -197,7 +197,7 @@ function prepareChildren(children: React.ReactNode) {
             if (isIconElement || isButtonIconElement) {
                 if (!leftIcon && content.length === 0) {
                     const key = 'icon-left';
-                    const side = 'start';
+                    const side = 'left';
                     if (isIconElement) {
                         leftIcon = (
                             <Button.Icon key={key} side={side}>
@@ -211,7 +211,7 @@ function prepareChildren(children: React.ReactNode) {
                     }
                 } else if (!rightIcon && content.length !== 0) {
                     const key = 'icon-right';
-                    const side = 'end';
+                    const side = 'right';
                     if (isIconElement) {
                         rightIcon = (
                             <Button.Icon key={key} side={side}>

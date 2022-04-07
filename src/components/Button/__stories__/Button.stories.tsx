@@ -55,7 +55,21 @@ const IconTemplate: Story<ButtonProps> = (args) => (
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
+            <Button.Icon side="right">
+                <IconComponent data={GearIcon} size={18} />
+            </Button.Icon>
+            Both (with Button.Icon)
             <IconComponent data={GearIcon} size={18} />
+        </Button>
+        <span style={{margin: '16px'}} />
+        <Button {...args}>
+            <IconComponent data={GearIcon} size={18} />
+        </Button>
+        <span style={{margin: '16px'}} />
+        <Button {...args}>
+            <Button.Icon>
+                <IconComponent data={GearIcon} size={18} />
+            </Button.Icon>
         </Button>
     </>
 );

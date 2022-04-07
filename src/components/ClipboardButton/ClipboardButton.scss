@@ -3,10 +3,6 @@
 $block: '.#{$ns}clipboard-button';
 
 #{$block} {
-    display: inline-block;
-    cursor: pointer;
-
-    &__icon {
-        vertical-align: top;
-    }
+    --yc-button-background-color: transparent;
+    --yc-button-background-color-hover: transparent;
 }

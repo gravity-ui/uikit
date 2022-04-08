@@ -1,4 +1,4 @@
-# UIKit v2 changelog
+# V2 Changelog
 
 ## Typography
 
@@ -60,8 +60,8 @@
 
 - CSS var removed: `--yc-color-loader-active`
 - CSS var removed: `--yc-color-loader-inactive`
-- CSS var removed: `--yc-color-base-selection-solid`
-- CSS var removed: `--yc-color-base-selection-hover-solid`
+- CSS var removed: `--yc-color-base-selection-solid`, use `--yc-color-base-selection`
+- CSS var removed: `--yc-color-base-selection-hover-solid`, use `--yc-color-base-selection-hover`
 - CSS var renamed: `--yc-tooltip-max-width` → `--yc-popover-max-width`
 - CSS var removed: `--yc-tabs-space-between`, use different sizes of Tabs
 - CSS var removed: `--yc-tab-item-horizontal-border-width`, use different sizes of Tabs

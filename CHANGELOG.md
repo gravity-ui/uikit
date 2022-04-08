@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/yandex-cloud/uikit/compare/v1.10.0...v2.0.0) (2022-04-08)
+
+
+### chore
+
+* fix release ([f4b5d11](https://www.github.com/yandex-cloud/uikit/commit/f4b5d1117432fb37803bfe8b7c19bbbe8e9c225a))
+
 ## [1.10.0](https://www.github.com/yandex-cloud/uikit/compare/v1.9.0...v1.10.0) (2022-03-25)
 
 

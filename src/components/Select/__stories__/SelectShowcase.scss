@@ -1,0 +1,35 @@
+@import '../../variables';
+
+$block: '.#{$ns}select-showcase';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+
+    & h3 {
+        margin: 5px 0;
+    }
+
+    & pre {
+        position: relative;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: var(--yc-color-base-float-hover);
+    }
+
+    &__example-item {
+        margin-bottom: 15px;
+    }
+
+    &__example-item-radio {
+        margin-left: 10px;
+    }
+
+    &__copy-button {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        z-index: 1;
+    }
+}

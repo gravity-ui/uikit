@@ -7,21 +7,28 @@ import './Typography.scss';
 const b = block('typography-demo');
 
 const sampleText = 'Yet another nesting level';
-const textSizes = [
-    {name: 'display3'},
-    {name: 'display2'},
-    {name: 'display1'},
-    {name: 'title'},
-    {name: 'header'},
-    {name: 'body3'},
-    {name: 'body2'},
-    {name: 'body'},
+const textVariants = [
+    {name: 'display-4'},
+    {name: 'display-3'},
+    {name: 'display-2'},
+    {name: 'display-1'},
+    {name: 'header-2'},
+    {name: 'header-1'},
+    {name: 'subheader-3'},
+    {name: 'subheader-2'},
+    {name: 'subheader-1'},
+    {name: 'body-3'},
+    {name: 'body-2'},
+    {name: 'body-1'},
+    {name: 'body-short'},
+    {name: 'caption-2'},
+    {name: 'caption-1'},
     {name: 'code-3'},
-    {name: 'code-3-inline'},
+    {name: 'code-inline-3'},
     {name: 'code-2'},
-    {name: 'code-2-inline'},
+    {name: 'code-inline-2'},
     {name: 'code-1'},
-    {name: 'code-1-inline'},
+    {name: 'code-inline-1'},
 ];
 
 const fontFamilies = ['sans', 'monospace'];
@@ -36,21 +43,13 @@ export const Typography = () => (
         </div>
 
         <div className={b('block', {type: 'font-sizes'})}>
-            <div className={b('header')}>text styles</div>
+            <div className={b('header')}>text variants</div>
             <div className={b('content')}>
-                {textSizes.map(({name}) => {
-                    let styleText =
-                        `font-size: var(--yc-text-${name}-font-size);\r` +
-                        `line-height: var(--yc-text-${name}-line-height);`;
-
-                    if (name.startsWith('code-')) {
-                        styleText +=
-                            '\rfont-weight: var(--yc-text-code-font-weight);\r' +
-                            'font-family: var(--yc-text-code-font-family);';
-                    }
+                {textVariants.map(({name}) => {
+                    const copyText = `@include text-${name}()`;
 
                     return (
-                        <ReactCopyToClipboard key={name} text={styleText}>
+                        <ReactCopyToClipboard key={name} text={copyText}>
                             <div className={b('item', {name})}>
                                 <div className={b('caption')}>{name}</div>
                                 <div className={b('value')}>{sampleText}</div>

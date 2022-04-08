@@ -1,0 +1,128 @@
+@import '../../../../../styles/mixins';
+@import '../../../variables';
+
+@mixin button-text-color($color, $hoverColor: $color) {
+    &,
+    &:link,
+    &:visited,
+    &:active,
+    &:focus {
+        color: $color;
+    }
+
+    &:hover {
+        color: $hoverColor;
+    }
+}
+
+$block: '.#{$ns}select';
+
+#{$block} {
+    @include button-reset();
+    @include button-text-color(var(--yc-color-text-primary));
+    @include pin($block, $block, var(--yc-select-border-radius));
+
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-width: 34px;
+    border: 1px solid var(--yc-color-line-generic);
+    background-color: transparent;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &_view_clear {
+        border-color: transparent;
+    }
+
+    &_size_s {
+        --yc-select-border-radius: var(--yc-border-radius-s);
+
+        height: 24px;
+        padding: 0 8px;
+    }
+
+    &_size_m {
+        --yc-select-border-radius: var(--yc-border-radius-m);
+
+        height: 28px;
+        padding: 0 8px;
+    }
+
+    &_size_l {
+        --yc-select-border-radius: var(--yc-border-radius-l);
+
+        height: 36px;
+        padding: 0 12px;
+    }
+
+    &_size_xl {
+        --yc-select-border-radius: var(--yc-border-radius-xl);
+
+        height: 44px;
+        padding: 0 12px;
+        font-size: 15px;
+    }
+
+    &_width_auto {
+        max-width: 100%;
+    }
+
+    &_width_max {
+        width: 100%;
+    }
+
+    &_disabled {
+        background-color: var(--yc-color-base-generic-accent-disabled);
+        color: var(--yc-color-text-hint);
+        border-color: transparent;
+        pointer-events: none;
+    }
+
+    &:hover {
+        background-color: var(--yc-color-base-simple-hover);
+
+        &:not(#{$block}_view_clear) {
+            border-color: var(--yc-color-line-generic-hover);
+        }
+    }
+
+    &:focus,
+    &_active {
+        outline: none;
+        border-color: var(--yc-color-line-generic-active);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+
+    &__label {
+        margin-right: 2px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    &__placeholder {
+        @include overflow-ellipsis();
+        margin-right: 8px;
+        color: var(--yc-color-text-hint);
+    }
+
+    &__option-text {
+        margin-right: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__chevron-icon {
+        flex: 0 0 16px;
+        margin-left: auto;
+        color: var(--yc-color-text-secondary);
+
+        #{$block}_disabled & {
+            color: var(--yc-color-text-hint);
+        }
+    }
+}

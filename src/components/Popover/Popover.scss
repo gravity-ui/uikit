@@ -1,0 +1,159 @@
+@import '../../../styles/mixins.scss';
+@import '../variables';
+
+$block: '.#{$ns}popover';
+
+#{$block} {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+
+    $class: &;
+
+    &__tooltip {
+        --yc-popover-padding: 16px;
+        --yc-popover-close-margin: 8px;
+        --yc-popover-close-size: 24px;
+
+        box-sizing: border-box;
+        min-height: 40px;
+        max-width: var(--yc-tooltip-max-width);
+        padding: var(--yc-popover-padding);
+        display: flex;
+        flex-direction: column;
+        cursor: default;
+
+        &-title {
+            @include text-subheader-3();
+            display: inline-flex;
+            margin: 0 0 12px;
+        }
+
+        &-buttons {
+            display: inline-flex;
+            width: 100%;
+            margin-top: 20px;
+            $buttonClass: #{$class}__tooltip-button;
+
+            #{$buttonClass}:not(:first-child) {
+                margin-left: 10px;
+            }
+        }
+
+        &-button {
+            flex: 1;
+        }
+
+        &-close {
+            position: absolute;
+            top: var(--yc-popover-close-margin);
+            right: var(--yc-popover-close-margin);
+        }
+
+        &-content {
+            @include text-body-1();
+
+            &_secondary {
+                opacity: 0.7;
+            }
+        }
+
+        &-links > * {
+            margin-top: 8px;
+
+            &:first-child {
+                margin-top: 12px;
+            }
+        }
+
+        &-link {
+            @include text-body-1();
+            display: inline-block;
+        }
+
+        &_theme {
+            &_info,
+            &_announcement {
+                // Increasing specificity for overrides
+                &#{&} {
+                    color: var(--yc-color-text-primary);
+                }
+
+                #{$class}__tooltip-content a:not(.yc-button) {
+                    text-decoration: none;
+                    color: var(--yc-color-text-link);
+
+                    &:hover {
+                        color: var(--yc-color-text-link-hover);
+                    }
+                }
+            }
+
+            &_announcement {
+                // Increasing specificity for overrides
+                &#{&} {
+                    --yc-popup-background-color: var(--yc-color-base-simple-hover-solid);
+                    --yc-popup-border-color: var(--yc-color-base-simple-hover-solid);
+                }
+
+                #{$class}__tooltip-buttons {
+                    width: auto;
+                }
+            }
+
+            &_special {
+                // Increasing specificity for overrides
+                &#{&} {
+                    --yc-popup-background-color: var(--yc-color-base-special);
+                    --yc-popup-border-color: var(--yc-color-base-special);
+                    color: var(--yc-color-text-light-primary);
+                }
+
+                #{$class}__tooltip-content a:not(.yc-button) {
+                    font-weight: bold;
+                    color: var(--yc-color-text-light-primary);
+
+                    &:hover {
+                        color: var(--yc-color-text-yandex-red);
+                    }
+                }
+
+                .yc-link {
+                    color: var(--yc-color-text-light-primary);
+
+                    &:hover {
+                        color: var(--yc-color-text-yandex-red);
+                    }
+                }
+            }
+        }
+
+        &_size {
+            &_l {
+                --yc-popover-padding: 24px;
+
+                #{$class}__tooltip-title {
+                    @include text-header-1();
+                }
+
+                #{$class}__tooltip-content {
+                    @include text-body-2();
+                }
+            }
+        }
+
+        &_with-close {
+            #{$class}__tooltip-title,
+            #{$class}__tooltip-content {
+                padding-right: calc(
+                    var(--yc-popover-close-margin) + var(--yc-popover-close-size) -
+                        var(--yc-popover-padding)
+                );
+            }
+        }
+    }
+}
+
+.yc-root {
+    --yc-popover-max-width: 300px;
+}

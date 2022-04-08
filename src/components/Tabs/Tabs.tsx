@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {block} from '../utils/cn';
 import {QAProps} from '../types';
-import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem/TabsItem';
+import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem';
 import './Tabs.scss';
 
 const b = block('tabs');
@@ -11,28 +11,36 @@ export enum TabsDirection {
     Vertical = 'vertical',
 }
 
+export type TabsSize = 'm' | 'l' | 'xl';
+
 export interface TabsItemProps
     extends Omit<TabsItemInternalProps, 'active' | 'direction' | 'onClick'> {}
 
 export interface TabsProps extends QAProps {
-    /** Направление табов */
+    /**
+     * Tabs direction
+     * @deprecated Vertical tabs are deprecated
+     */
     direction?: TabsDirection;
-    /** Id активного таба */
+    /** Tabs size */
+    size?: TabsSize;
+    /** Active tab ID */
     activeTab?: string;
-    /** Позволяет не указывать `activeTab`*/
+    /** By default if activeTab is not set, first tab will be active */
     allowNotSelected?: boolean;
-    /** Массив табов */
+    /** Tabs */
     items: TabsItemProps[];
-    /** Дополнительный класс */
+    /** Additional CSS-class */
     className?: string;
-    /** Хендлер на выбор таба */
+    /** Select tab handler */
     onSelectTab?(tabId: string): void;
-    /** Функция позволяет обернуть компонент `TabItem` в другой компонент или написать свой */
+    /** Allows to wrap `TabItem` into another component or render custom tab  */
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void;
 }
 
 export const Tabs: React.FC<TabsProps> = ({
     direction = TabsDirection.Horizontal,
+    size = 'm',
     activeTab,
     allowNotSelected = false,
     items = [],
@@ -60,11 +68,10 @@ export const Tabs: React.FC<TabsProps> = ({
     };
 
     return (
-        <div role="tablist" className={b({direction}, className)} data-qa={qa}>
+        <div role="tablist" className={b({direction, size}, className)} data-qa={qa}>
             {items.map((item, index) => {
                 const tabItemNode = (
                     <TabsItem
-                        direction={direction}
                         key={item.id}
                         {...item}
                         active={item.id === activeTabId}

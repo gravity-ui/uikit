@@ -1,0 +1,167 @@
+@import '../../../../../styles/mixins';
+@import '../../../variables';
+
+$block: '.#{$ns}select-popup';
+$popupBlock: '.#{$ns}popup';
+$s-height: '28px';
+$s-hor-padding: '8px';
+$m-height: '28px';
+$m-hor-padding: '8px';
+$l-height: '32px';
+$l-hor-padding: '12px';
+$xl-height: '36px';
+$xl-hor-padding: '12px';
+
+#{$block} {
+    &__container {
+        display: flex;
+        max-height: 90vh;
+        margin: 4px 0;
+        overflow: hidden auto;
+
+        // this selector used to increase specificity
+        #{$popupBlock}#{$block} & {
+            border-radius: 0;
+        }
+    }
+
+    &__group-label {
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+
+        #{$block}_size_s & {
+            height: #{$s-height};
+            padding: 8px #{$s-hor-padding} 4px #{$s-hor-padding};
+        }
+
+        #{$block}_size_m & {
+            height: #{$m-height};
+            padding: 8px #{$m-hor-padding} 4px #{$m-hor-padding};
+        }
+
+        #{$block}_size_l & {
+            height: #{$l-height};
+            padding: 10px #{$l-hor-padding} 6px #{$l-hor-padding};
+        }
+
+        #{$block}_size_xl & {
+            height: #{$xl-height};
+            padding: 12px #{$xl-hor-padding} 8px #{$xl-hor-padding};
+            font-size: 15px;
+        }
+
+        #{$block}__item:not(:first-child) & {
+            margin-top: 5px;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: -3px;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background-color: var(--yc-color-line-generic);
+            }
+        }
+    }
+
+    &__group-label-content {
+        @include overflow-ellipsis();
+
+        width: 100%;
+        font-weight: 500;
+    }
+
+    &__option {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+
+        #{$block}_size_s & {
+            padding: 0 #{$s-hor-padding};
+
+            & #{$block}__option-default-label {
+                height: #{$s-height};
+                line-height: #{$s-height};
+            }
+
+            & #{$block}__tick-icon {
+                padding-left: #{$s-hor-padding};
+            }
+        }
+
+        #{$block}_size_m & {
+            padding: 0 #{$m-hor-padding};
+
+            & #{$block}__option-default-label {
+                height: #{$m-height};
+                line-height: #{$m-height};
+            }
+
+            & #{$block}__tick-icon {
+                padding-left: #{$m-hor-padding};
+            }
+        }
+
+        #{$block}_size_l & {
+            padding: 0 #{$l-hor-padding};
+
+            & #{$block}__option-default-label {
+                height: #{$l-height};
+                line-height: #{$l-height};
+            }
+
+            & #{$block}__tick-icon {
+                padding-left: #{$l-hor-padding};
+            }
+        }
+
+        #{$block}_size_xl & {
+            padding: 0 #{$xl-hor-padding};
+
+            & #{$block}__option-default-label {
+                height: #{$xl-height};
+                line-height: #{$xl-height};
+                font-size: 15px;
+            }
+
+            & #{$block}__tick-icon {
+                padding-left: #{$xl-hor-padding};
+            }
+        }
+
+        &_colored {
+            background-color: var(--yc-color-base-selection);
+        }
+    }
+
+    &__option-default-label {
+        @include overflow-ellipsis();
+
+        &_disabled {
+            color: var(--yc-color-text-secondary);
+        }
+    }
+
+    &__tick-icon {
+        flex: 0 0 16px;
+        margin-left: auto;
+        visibility: hidden;
+        color: var(--yc-color-text-info);
+
+        &_shown {
+            visibility: visible;
+        }
+    }
+
+    &__quick-search {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        opacity: 0;
+    }
+}

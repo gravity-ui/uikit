@@ -6,7 +6,7 @@ $discMarginLSize: 6px;
 
 #{$block} {
     display: inline-flex;
-    font-family: var(--yc-font-family);
+    font-family: var(--yc-text-body-font-family);
     font-weight: normal;
     color: var(--yc-color-text-primary);
     user-select: none;
@@ -45,7 +45,7 @@ $discMarginLSize: 6px;
         position: absolute;
 
         border: none;
-        background-color: var(--yc-color-text-light-primary);
+        background-color: var(--yc-my-color-brand-text-contrast);
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.1);

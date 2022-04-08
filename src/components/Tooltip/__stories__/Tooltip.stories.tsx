@@ -1,20 +1,18 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react/types-6-0';
+import {Story} from '@storybook/react';
 import {Tooltip, TooltipProps} from '../Tooltip';
-import {TooltipShowcase} from './TooltipShowcase';
+import {Button} from '../../Button';
 
 export default {
     title: 'Components/Tooltip',
     component: Tooltip,
-} as Meta;
-
-const DefaultTemplate: Story<TooltipProps> = (args) => (
-    <Tooltip {...args}>Move the cursor here to show tooltip</Tooltip>
-);
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    content: <>Tooltip content</>,
 };
 
-const ShowcaseTemplate: Story = () => <TooltipShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+const DefaultTemplate: Story<TooltipProps> = (args) => <Tooltip {...args} />;
+
+export const Default = DefaultTemplate.bind({});
+
+Default.args = {
+    content: 'Hello world!',
+    children: <Button>Hover to see tooltip</Button>,
+};

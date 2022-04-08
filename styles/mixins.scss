@@ -136,3 +136,137 @@
         }
     }
 }
+
+// Typography
+
+@mixin text-body-1() {
+    font-size: var(--yc-text-body-1-font-size);
+    line-height: var(--yc-text-body-1-line-height);
+}
+
+@mixin text-body-2() {
+    font-size: var(--yc-text-body-2-font-size);
+    line-height: var(--yc-text-body-2-line-height);
+}
+
+@mixin text-body-3() {
+    font-size: var(--yc-text-body-3-font-size);
+    line-height: var(--yc-text-body-3-line-height);
+}
+
+@mixin text-body-short() {
+    font-size: var(--yc-text-body-short-font-size);
+    line-height: var(--yc-text-body-short-line-height);
+}
+
+@mixin text-caption-1() {
+    font-size: var(--yc-text-caption-1-font-size);
+    line-height: var(--yc-text-caption-1-line-height);
+}
+
+@mixin text-caption-2() {
+    font-size: var(--yc-text-caption-2-font-size);
+    line-height: var(--yc-text-caption-2-line-height);
+}
+
+@mixin text-header-1() {
+    font-size: var(--yc-text-header-1-font-size);
+    line-height: var(--yc-text-header-1-line-height);
+    font-weight: var(--yc-text-header-font-weight);
+}
+
+@mixin text-header-2() {
+    font-size: var(--yc-text-header-2-font-size);
+    line-height: var(--yc-text-header-2-line-height);
+    font-weight: var(--yc-text-header-font-weight);
+}
+
+@mixin text-subheader-1() {
+    font-size: var(--yc-text-subheader-1-font-size);
+    line-height: var(--yc-text-subheader-1-line-height);
+    font-weight: var(--yc-text-subheader-font-weight);
+}
+
+@mixin text-subheader-2() {
+    font-size: var(--yc-text-subheader-2-font-size);
+    line-height: var(--yc-text-subheader-2-line-height);
+    font-weight: var(--yc-text-subheader-font-weight);
+}
+
+@mixin text-subheader-3() {
+    font-size: var(--yc-text-subheader-3-font-size);
+    line-height: var(--yc-text-subheader-3-line-height);
+    font-weight: var(--yc-text-subheader-font-weight);
+}
+
+@mixin text-display-3() {
+    font-size: var(--yc-text-display-3-font-size);
+    line-height: var(--yc-text-display-3-line-height);
+    font-weight: var(--yc-text-display-font-weight);
+}
+
+@mixin text-display-1() {
+    font-size: var(--yc-text-display-1-font-size);
+    line-height: var(--yc-text-display-1-line-height);
+    font-weight: var(--yc-text-display-font-weight);
+}
+
+@mixin text-display-2() {
+    font-size: var(--yc-text-display-2-font-size);
+    line-height: var(--yc-text-display-2-line-height);
+    font-weight: var(--yc-text-display-font-weight);
+}
+
+@mixin text-display-3() {
+    font-size: var(--yc-text-display-3-font-size);
+    line-height: var(--yc-text-display-3-line-height);
+    font-weight: var(--yc-text-display-font-weight);
+}
+
+@mixin text-display-4() {
+    font-size: var(--yc-text-display-4-font-size);
+    line-height: var(--yc-text-display-4-line-height);
+    font-weight: var(--yc-text-display-font-weight);
+}
+
+@mixin text-code-1() {
+    font-family: var(--yc-text-code-font-family);
+    font-size: var(--yc-text-code-1-font-size);
+    line-height: var(--yc-text-code-1-line-height);
+    font-weight: var(--yc-text-code-font-weight);
+}
+
+@mixin text-code-2() {
+    font-family: var(--yc-text-code-font-family);
+    font-size: var(--yc-text-code-2-font-size);
+    line-height: var(--yc-text-code-2-line-height);
+    font-weight: var(--yc-text-code-font-weight);
+}
+
+@mixin text-code-3() {
+    font-family: var(--yc-text-code-font-family);
+    font-size: var(--yc-text-code-3-font-size);
+    line-height: var(--yc-text-code-3-line-height);
+    font-weight: var(--yc-text-code-font-weight);
+}
+
+@mixin text-code-inline-1() {
+    font-family: var(--yc-text-code-font-family);
+    font-size: var(--yc-text-code-inline-1-font-size);
+    line-height: var(--yc-text-code-inline-1-line-height);
+    font-weight: var(--yc-text-code-font-weight);
+}
+
+@mixin text-code-inline-2() {
+    font-family: var(--yc-text-code-font-family);
+    font-size: var(--yc-text-code-inline-2-font-size);
+    line-height: var(--yc-text-code-inline-2-line-height);
+    font-weight: var(--yc-text-code-inline-font-weight);
+}
+
+@mixin text-code-inline-3() {
+    font-family: var(--yc-text-code-font-family);
+    font-size: var(--yc-text-code-inline-3-font-size);
+    line-height: var(--yc-text-code-inline-3-line-height);
+    font-weight: var(--yc-text-code-font-weight);
+}

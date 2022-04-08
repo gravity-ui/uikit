@@ -1,15 +1,16 @@
+@import '../../../../styles/mixins';
+
 .skeleton-showcase {
     padding: 20px;
     width: 300px;
 
     &__card {
+        @include text-body-2();
         padding: 10px;
         margin-bottom: 14px;
         border-radius: 5px;
         box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
         background-color: var(--yc-color-base-float);
-        font-size: var(--yc-text-body2-font-size);
-        line-height: var(--yc-text-body2-line-height);
         display: flex;
     }
 

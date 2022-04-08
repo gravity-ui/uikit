@@ -1,6 +1,6 @@
 {
     "name": "@yandex-cloud/uikit",
-    "version": "1.10.0",
+    "version": "2.0.0-alpha.6",
     "description": "Yandex.Cloud UI components",
     "license": "MIT",
     "repository": {
@@ -59,10 +59,10 @@
         "@types/react": "^16.14.23",
         "@types/react-copy-to-clipboard": "^5.0.2",
         "@types/react-dom": "^16.9.14",
-        "@types/react-router-dom": "^5.3.3",
         "@types/react-virtualized-auto-sizer": "^1.0.1",
         "@types/react-window": "^1.8.5",
         "@yandex-cloud/eslint-config": "^1.0.0",
+        "@yandex-cloud/i18n": "^0.4.0",
         "@yandex-cloud/prettier-config": "^1.0.0",
         "@yandex-cloud/stylelint-config": "^1.0.0",
         "@yandex-cloud/tsconfig": "^1.0.0",
@@ -85,7 +85,6 @@
         "react": "^16.14.0",
         "react-docgen-typescript": "^2.1.1",
         "react-dom": "^16.14.0",
-        "react-router-dom": "^5.3.0",
         "rimraf": "^3.0.2",
         "sass": "^1.49.7",
         "sass-loader": "^10.2.1",
@@ -96,9 +95,9 @@
         "webpack": "^4.46.0"
     },
     "peerDependencies": {
+        "@yandex-cloud/i18n": "^0.4.0",
         "react": "^16.0.0",
-        "react-dom": "^16.0.0",
-        "react-router-dom": "^5.0.0"
+        "react-dom": "^16.0.0"
     },
     "nano-staged": {
         "*.{scss}": [

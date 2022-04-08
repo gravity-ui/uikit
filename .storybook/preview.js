@@ -5,7 +5,11 @@ import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
 import {CloudTheme} from './theme';
 import {withTheme} from './decorators/withTheme';
 import {withMobile} from './decorators/withMobile';
+import {withLang} from './decorators/withLang';
 import {ThemeProvider, MobileProvider} from '../src';
+import {I18N} from '../src/i18n';
+
+I18N.setDefaultLang(I18N.LANGS.en);
 
 const withContextProvider = (Story, context) => {
     const theme = context.globals.theme;
@@ -18,11 +22,8 @@ const withContextProvider = (Story, context) => {
 
     context.globals.background = theme;
 
-    // TODO: в будущем возможно появится вариант изменять динамически тему доки, нужно будет перейти на новый способ
-    // context.parameters.docs.theme = theme === 'light' ? CommonTheme.light : CommonTheme.dark;
-
     return (
-        <ThemeProvider>
+        <ThemeProvider theme={theme}>
             <MobileProvider>
                 <Story {...context} />
             </MobileProvider>
@@ -30,7 +31,7 @@ const withContextProvider = (Story, context) => {
     );
 };
 
-export const decorators = [withTheme, withMobile, withContextProvider];
+export const decorators = [withTheme, withMobile, withLang, withContextProvider];
 
 export const parameters = {
     docs: {
@@ -62,23 +63,23 @@ export const parameters = {
 export const globalTypes = {
     theme: {
         name: 'Theme',
-        description: 'Global theme for components',
         defaultValue: 'light',
         toolbar: {
+            icon: 'mirror',
             items: [
-                {value: 'light', icon: 'circle', title: 'Light'},
-                {value: 'dark', icon: 'circlehollow', title: 'Dark'},
+                {value: 'light', right: '☼', title: 'Light'},
+                {value: 'dark', right: '☾', title: 'Dark'},
             ],
         },
     },
     lang: {
         name: 'Language',
-        defaultValue: 'ru',
+        defaultValue: 'en',
         toolbar: {
             icon: 'globe',
             items: [
+                {value: 'en', right: '🇬🇧', title: 'En'},
                 {value: 'ru', right: '🇷🇺', title: 'Ru'},
-                {value: 'en', right: '🇺🇸', title: 'En'},
             ],
         },
     },

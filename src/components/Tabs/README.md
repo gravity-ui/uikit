@@ -1,34 +1,34 @@
 ## Tabs
 
-Табы
-
 ### TabsItem PropTypes
 
-| Property | Type                        | Required | Default | Description                     |
-| :------- | :-------------------------- | :------: | :------ | :------------------------------ |
-| id       | `String`                    |  `true`  |         | Id таба                         |
-| title    | `String`, `React.ReactNode` |  `true`  |         | Текст на в табе                 |
-| meta     | `String`                    |          |         | Серый текст под тестом в табе   |
-| hint     | `String`                    |          |         | Текст для html атрибута `title` |
-| disabled | `Boolean`                   |          |         | Состояние `disabled` у таба     |
+| Property | Type                        | Required | Default | Description                      |
+| :------- | :-------------------------- | :------: | :------ | :------------------------------- |
+| id       | `String`                    |  `true`  |         | Tab ID                           |
+| title    | `String`, `React.ReactNode` |  `true`  |         | Tab title                        |
+| meta     | `String`                    |          |         | Tab description                  |
+| hint     | `String`                    |          |         | HTML title attribute             |
+| icon     | `React.ReactNode`           |          |         | Icon displayed at the left       |
+| counter  | `React.ReactNode`           |          |         | Number displayed at the right    |
+| label    | `React.ReactNode`           |          |         | `<Label>` displayed at the right |
+| disabled | `Boolean`                   |          |         | Inactive state                   |
 
 ### Tabs PropTypes
 
-| Property         | Type                                                                      | Required | Default      | Description                                                                         |
-| :--------------- | :------------------------------------------------------------------------ | :------: | :----------- | :---------------------------------------------------------------------------------- |
-| direction        | `String`                                                                  |          | `horizontal` | Направление табов                                                                   |
-| activeTab        | `String`                                                                  |          |              | Id активного таба                                                                   |
-| allowNotSelected | `Boolean`                                                                 |          |              | Позволяет не указывать `activeTab`                                                  |
-| items            | `TabItemProps[]`                                                          |  `true`  | `[]`         | Массив табов                                                                        |
-| onSelectTab      | `onSelectTab?(tabId: string): void`                                       |  `true`  |              | Хендлер на выбор таба                                                               |
-| wrapTo           | `wrapTo?(item: TabItemProps, node: React.ReactNode, index: number): void` |          |              | Функция позволяет обернуть компонент `TabItem` в другой компонент или написать свой |
-| className        | `String`                                                                  |          |              | CSS-класс элемента                                                                  |
+| Property         | Type                                                                      | Required | Default      | Description                                                          |
+| :--------------- | :------------------------------------------------------------------------ | :------: | :----------- | :------------------------------------------------------------------- |
+| direction        | `String`                                                                  |          | `horizontal` | Tab direction (deprecated)                                           |
+| activeTab        | `String`                                                                  |          |              | Active tab ID                                                        |
+| allowNotSelected | `Boolean`                                                                 |          |              | Allows `activeTab` to be undefined                                   |
+| items            | `TabItemProps[]`                                                          |  `true`  | `[]`         | Tabs array                                                           |
+| onSelectTab      | `onSelectTab?(tabId: string): void`                                       |  `true`  |              | Select tab handler                                                   |
+| wrapTo           | `wrapTo?(item: TabItemProps, node: React.ReactNode, index: number): void` |          |              | Allows to wrap `TabItem` into another component or render custom tab |
+| className        | `String`                                                                  |          |              | CSS-class of element                                                 |
 
 ### Examples
 
 ```jsx harmony
 <Tabs
-  direction="vertical"
   items={[
     {
       id: 'firstTab',

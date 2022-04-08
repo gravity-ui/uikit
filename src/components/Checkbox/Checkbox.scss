@@ -4,7 +4,7 @@ $block: '.#{$ns}checkbox';
 
 #{$block} {
     display: inline-flex;
-    font-family: var(--yc-font-family);
+    font-family: var(--yc-text-body-font-family);
     font-weight: normal;
     color: var(--yc-color-text-primary);
     user-select: none;
@@ -162,7 +162,7 @@ $block: '.#{$ns}checkbox';
 
         #{$block}__icon {
             visibility: visible;
-            color: var(--yc-color-text-light-primary);
+            color: var(--yc-my-color-brand-text-contrast);
             transform: translateX(0);
         }
     }

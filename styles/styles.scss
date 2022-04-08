@@ -1,94 +1,37 @@
-@import './colors/private/dark.scss';
-@import './colors/private/light.scss';
-@import './colors/text/dark.scss';
-@import './colors/text/light.scss';
-@import './colors/base/dark.scss';
-@import './colors/base/light.scss';
-@import './colors/line/dark.scss';
-@import './colors/line/light.scss';
-@import './colors/infographics/dark.scss';
-@import './colors/infographics/light.scss';
-@import './colors/sfx/dark.scss';
-@import './colors/sfx/light.scss';
-@import './colors/promo/dark.scss';
-@import './colors/promo/light.scss';
-@import './colors/social.scss';
-@import './colors/system.scss';
+@import './colors/private/dark';
+@import './colors/private/light';
+@import './colors/text/dark';
+@import './colors/text/light';
+@import './colors/base/dark';
+@import './colors/base/light';
+@import './colors/line/dark';
+@import './colors/line/light';
+@import './colors/infographics/dark';
+@import './colors/infographics/light';
+@import './colors/sfx/dark';
+@import './colors/sfx/light';
+@import './colors/promo/dark';
+@import './colors/promo/light';
+@import './colors/social';
+@import './colors/system';
+@import './typography';
+@import './brand';
 
 .yc-root {
-    --yc-font-family: 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
-    --yc-font-family-monospace: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
-        'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
-    --yc-font-family-sans: var(--yc-font-family);
-
-    --yc-text-body-font-size: 13px;
-    --yc-text-body-line-height: 16px;
-
-    --yc-text-body2-font-size: 15px;
-    --yc-text-body2-line-height: 20px;
-
-    --yc-text-body3-font-size: 17px;
-    --yc-text-body3-line-height: 24px;
-
-    // deprecated
-    --yc-text-lead-font-size: 18px;
-    --yc-text-lead-line-height: 24px;
-
-    --yc-text-header-font-size: 20px;
-    --yc-text-header-line-height: 24px;
-
-    --yc-text-title-font-size: 24px;
-    --yc-text-title-line-height: 28px;
-
-    --yc-text-display1-font-size: 28px;
-    --yc-text-display1-line-height: 36px;
-
-    --yc-text-display2-font-size: 32px;
-    --yc-text-display2-line-height: 40px;
-
-    --yc-text-display3-font-size: 40px;
-    --yc-text-display3-line-height: 48px;
-
-    --yc-text-code-font-family: var(--yc-font-family-monospace);
-    --yc-text-code-font-weight: 400;
-
-    --yc-text-code-3-font-size: 16px;
-    --yc-text-code-3-line-height: 24px;
-
-    --yc-text-code-2-font-size: 14px;
-    --yc-text-code-2-line-height: 20px;
-
-    --yc-text-code-1-font-size: 12px;
-    --yc-text-code-1-line-height: 18px;
-
-    --yc-text-code-3-inline-font-size: 16px;
-    --yc-text-code-3-inline-line-height: 20px;
-
-    --yc-text-code-2-inline-font-size: 14px;
-    --yc-text-code-2-inline-line-height: 16px;
-
-    --yc-text-code-1-inline-font-size: 12px;
-    --yc-text-code-1-inline-line-height: 14px;
-
-    // deprecated
-    --yc-text-code-font-size: 13px;
-    --yc-text-code-line-height: 18px;
-
-    --yc-scrollbar-width: 12px;
-
-    --yc-border-radius-s: 5px;
-    --yc-border-radius-m: 6px;
-    --yc-border-radius-l: 8px;
-    --yc-border-radius-xl: 10px;
-
-    font-family: var(--yc-font-family);
-    font-size: var(--yc-text-body-font-size);
-    line-height: var(--yc-text-body-line-height);
-
+    @include yc-typography;
+    @include yc-brand;
     @include yc-colors-social;
+
+    --yc-scrollbar-width: var(--yc-my-scrollbar-width);
+
+    --yc-border-radius-s: var(--yc-my-border-radius-s);
+    --yc-border-radius-m: var(--yc-my-border-radius-m);
+    --yc-border-radius-l: var(--yc-my-border-radius-l);
+    --yc-border-radius-xl: var(--yc-my-border-radius-xl);
 
     &_theme_light {
         @include yc-colors-private-light;
+        @include yc-colors-brand-light;
         @include yc-colors-text-light;
         @include yc-colors-base-light;
         @include yc-colors-line-light;
@@ -103,6 +46,7 @@
 
     &_theme_dark {
         @include yc-colors-private-dark;
+        @include yc-colors-brand-dark;
         @include yc-colors-text-dark;
         @include yc-colors-base-dark;
         @include yc-colors-line-dark;

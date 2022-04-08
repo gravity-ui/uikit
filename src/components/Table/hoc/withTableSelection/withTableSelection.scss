@@ -6,19 +6,37 @@
     }
 
     &__row_selected {
-        background: var(--yc-color-base-selection-solid);
+        background: var(--yc-color-base-selection);
 
         #{$block}__cell_sticky_left,
         #{$block}__cell_sticky_right {
-            background: var(--yc-color-base-selection-solid);
+            background: linear-gradient(
+                    to right,
+                    var(--yc-color-base-selection),
+                    var(--yc-color-base-selection)
+                ),
+                linear-gradient(
+                    to right,
+                    var(--yc-color-base-background),
+                    var(--yc-color-base-background)
+                );
         }
 
         &#{$block}__row_interactive:hover {
-            background: var(--yc-color-base-selection-hover-solid);
+            background: var(--yc-color-base-selection-hover);
 
             #{$block}__cell_sticky_left,
             #{$block}__cell_sticky_right {
-                background: var(--yc-color-base-selection-hover-solid);
+                background: linear-gradient(
+                        to right,
+                        var(--yc-color-base-selection-hover),
+                        var(--yc-color-base-selection-hover)
+                    ),
+                    linear-gradient(
+                        to right,
+                        var(--yc-color-base-background),
+                        var(--yc-color-base-background)
+                    );
             }
         }
     }

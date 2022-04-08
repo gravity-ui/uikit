@@ -6,6 +6,7 @@
         "module": "esnext",
         "jsx": "react",
         "baseUrl": ".",
+        "resolveJsonModule": true,
         "importHelpers": true
     },
     "include": [

@@ -1,8 +1,8 @@
 # Button
 
-## Пример использования
+## Usage examples
 
-### Обычная кнопка
+### Plain button
 
 ```tsx
 import React from 'react';
@@ -11,7 +11,7 @@ import {Button} from '@yandex-cloud/uikit';
 const button = <Button>Кнопка</Button>;
 ```
 
-### Кнопка-ссылка
+### Link
 
 ```tsx
 import React from 'react';
@@ -20,7 +20,7 @@ import {Button} from '@yandex-cloud/uikit';
 const button = <Button href="/cart">Кнопка</Button>;
 ```
 
-### Кнопка с иконкой
+### With icon
 
 ```tsx
 import React from 'react';
@@ -28,33 +28,43 @@ import {Button, Icon} from '@yandex-cloud/uikit';
 
 import gearIcon from 'assets/icons/gear.svg';
 
-// Иконка слева
+// Icon on the left
 const button1 = (
   <Button>
     <Icon data={gearIcon} size={16} />
-    Кнопка
+    Do good
   </Button>
 );
 
-// Иконка справа
+// Icon on the right
 const button2 = (
   <Button>
-    Кнопка
+    Do more good
     <Icon data={gearIcon} size={16} />
   </Button>
 );
 
-// Только иконка
+// Only icon
 const button3 = (
-  <Button>
+  <Button extraProps={{'aria-label': 'Do even better'}}>
     <Icon data={gearIcon} size={16} />
+  </Button>
+);
+
+// Wrap component as button icon explicitly
+const button4 = (
+  <Button>
+    <Button.Icon>
+      <Icon data={gearIcon} size={16} />
+    </Button.Icon>
+    Custom Icon component
   </Button>
 );
 ```
 
-## Свойства
+## Props
 
-Наследует свойства: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherits props from: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 type ButtonView =
@@ -64,13 +74,13 @@ type ButtonView =
   | 'outlined-info'
   | 'outlined-danger'
   | 'raised'
-  | 'clear'
-  | 'clear-info'
-  | 'clear-danger'
-  | 'clear-muted'
+  | 'flat'
+  | 'flat-info'
+  | 'flat-danger'
+  | 'flat-secondary'
   | 'normal-contrast'
   | 'outlined-contrast'
-  | 'clear-contrast';
+  | 'flat-contrast';
 
 type ButtonSize = 's' | 'm' | 'l' | 'xl';
 
@@ -92,61 +102,61 @@ type ButtonPin =
 
 interface ButtonProps extends DOMProps, QAProps {
   /**
-   * Вид кнопки.
+   * Button appearance
    * @default 'normal'
    */
   view?: ButtonView;
   /**
-   * Размер кнопки.
+   * Button size
    * @default 'm'
    */
   size?: ButtonSize;
   /**
-   * Закругление краев.
+   * Corners radius
    */
   pin?: ButtonPin;
-  /** Выбранное состояние. */
+  /** Selection state */
   selected?: boolean;
-  /** Неактивное состояние. */
+  /** Disabled state */
   disabled?: boolean;
-  /** Состояние загрузки. */
+  /** Pending state */
   loading?: boolean;
-  /** Ширина кнопки. */
+  /** Button width */
   width?: 'auto' | 'max';
-  /** Всплывающая подсказка. */
+  /** Tooltip */
   title?: string;
-  /** HTML-атрибут id. */
-  id?: number;
-  /** HTML-атрибут tabIndex. */
+  /** HTML `id` attribute */
+  id?: string;
+  /** HTML `tabindex` attribute */
   tabIndex?: number;
-  /** Содержимое. Можно комбинировать текст с Icon, слева, справа, или только Icon. */
+  /** Button content. You can mix button text with `<Icon/>` component */
   children?: React.ReactNode;
   /**
-   * Тип кнопки.
+   * HTML button `type` attribute
    * @default 'button'
    */
   type?: 'button' | 'submit' | 'reset';
-  /** HTML-атрибут href для ссылки. */
+  /** HTML `href` attribute */
   href: string;
-  /** HTML-атрибут target для ссылки. */
+  /** HTML `target` attribute. */
   target?: string;
-  /** HTML-атрибут rel для ссылки. */
+  /** HTML `rel` attribute */
   rel?: string;
-  /** Обработчик события click. */
+  /** Click handler */
   onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-  /** Обработчик события mouseenter. */
+  /** mouseenter event handler */
   onMouseEnter?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-  /** Обработчик события mouseleave. */
+  /** mouseleave event handler */
   onMouseLeave?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-  /** Обработчик события focus. */
+  /** focus event handler */
   onFocus?: (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-  /** Обработчик события blur. */
+  /** blur event handler */
   onBlur?: (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-  /** Дополнительные свойства для контрола. */
+  /** Additional control props */
   extraProps?:
     | React.ButtonHTMLAttributes<HTMLButtonElement>
     | React.AnchorHTMLAttributes<HTMLAnchorElement>;
-  /** Базовый компонент кнопки. */
+  /** Prop to override element type */
   component?: React.ElementType;
 }
 ```

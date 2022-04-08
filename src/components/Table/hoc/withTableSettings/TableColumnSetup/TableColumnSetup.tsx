@@ -10,6 +10,7 @@ import {TickIcon} from './TickIcon';
 import {LockIcon} from './LockIcon';
 import {TableColumnSetupItem} from '../withTableSettings';
 import {PopperPlacement} from '../../../../../components/utils/usePopper';
+import i18n from './i18n';
 
 import './TableColumnSetup.scss';
 
@@ -17,7 +18,7 @@ const b = block('table-column-setup');
 
 type Item = TableColumnSetupItem;
 
-interface TableColumnSetupProps {
+export interface TableColumnSetupProps {
     // for Button
     disabled?: boolean;
     switcher?: React.ReactElement | undefined;
@@ -202,7 +203,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                 {switcher || (
                     <Button disabled={disabled}>
                         <Icon data={GearIcon} />
-                        Columns
+                        {i18n('button_switcher')}
                         {renderStatus()}
                     </Button>
                 )}
@@ -219,7 +220,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                 {renderConfigurableColumns()}
                 <div className={b('controls')}>
                     <Button view="action" width="max" onClick={handleApplyClick}>
-                        Apply
+                        {i18n('button_apply')}
                     </Button>
                 </div>
             </Popup>

@@ -16,8 +16,6 @@ const b = block('stories');
 export interface StoriesProps {
     open: boolean;
     stories: Story[];
-    width?: number;
-    height?: number;
     onClose?: (
         event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>,
         reason: ModalCloseReason | 'closeButtonClick',
@@ -30,8 +28,6 @@ export interface StoriesProps {
 export const Stories: React.FC<StoriesProps> = ({
     open,
     onClose,
-    width,
-    height,
     stories,
     onPreviousClick,
     onNextClick,
@@ -88,7 +84,7 @@ export const Stories: React.FC<StoriesProps> = ({
     return (
         <Modal open={visible} onClose={handleClose} className={b('modal')}>
             <div className={b()}>
-                <div className={b('container')} style={containerStyle({width, height})}>
+                <div className={b('container')} style={styles.container}>
                     {currentStory && (
                         <React.Fragment>
                             <div className={b('left-pane')}>
@@ -154,19 +150,6 @@ export const Stories: React.FC<StoriesProps> = ({
         </Modal>
     );
 };
-
-interface ContainerSize {
-    width?: number;
-    height?: number;
-}
-
-function containerStyle(size: ContainerSize): React.CSSProperties {
-    const {width, height} = styles.container;
-    return {
-        width: typeof size.width === 'undefined' ? width : size.width,
-        height: typeof size.height === 'undefined' ? height : size.height,
-    };
-}
 
 const styles = {
     container: {

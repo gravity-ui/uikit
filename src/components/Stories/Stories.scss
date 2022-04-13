@@ -48,8 +48,8 @@ $block: '.#{$ns}stories';
     }
 
     &__counter {
-        font-size: 15px;
-        line-height: 20px;
+        font-size: var(--yc-text-body-2-font-size);
+        line-height: var(--yc-text-body-2-line-height);
         color: var(--yc-color-text-secondary);
     }
 
@@ -62,14 +62,14 @@ $block: '.#{$ns}stories';
     }
 
     &__text-header {
-        font-size: 32px;
-        line-height: 40px;
+        font-size: var(--yc-text-display-2-font-size);
+        line-height: var(--yc-text-display-2-line-height);
         color: var(--yc-color-text-primary);
     }
 
     &__text-content {
-        font-size: 15px;
-        line-height: 20px;
+        font-size: var(--yc-text-body-2-font-size);
+        line-height: var(--yc-text-body-2-line-height);
         color: var(--yc-color-text-complementary);
 
         #{$class}__text-header + & {

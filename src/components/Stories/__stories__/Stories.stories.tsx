@@ -67,8 +67,6 @@ const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps) => {
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     open: false,
-    width: 960,
-    height: 480,
     stories,
     onPreviousClick: (index) => {
         console.log('goto previous with index=%d', index);

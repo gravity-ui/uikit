@@ -66,10 +66,9 @@ const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps, context) => {
     );
 };
 export const Default = DefaultTemplate.bind({});
+Default.parameters = {controls: {exclude: ['lang']}};
 Default.args = {
     open: false,
-    width: 960,
-    height: 480,
     stories,
     onPreviousClick: (index) => {
         console.log('goto previous with index=%d', index);

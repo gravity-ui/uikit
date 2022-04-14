@@ -13,12 +13,32 @@ export interface QAProps {
 export interface ControlProps
     extends Pick<
         InputHTMLAttributes<HTMLInputElement>,
-        'name' | 'value' | 'id' | 'checked' | 'onChange' | 'onFocus' | 'onBlur' | 'disabled'
+        | 'name'
+        | 'value'
+        | 'id'
+        | 'checked'
+        | 'onChange'
+        | 'onFocus'
+        | 'onBlur'
+        | 'disabled'
+        | 'defaultChecked'
     > {
-    defaultChecked?: boolean;
     indeterminate?: boolean;
     onUpdate?: (checked: boolean) => void;
-    controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
+    controlProps?: Omit<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        | 'name'
+        | 'value'
+        | 'id'
+        | 'onFocus'
+        | 'onBlur'
+        | 'disabled'
+        | 'type'
+        | 'onChange'
+        | 'defaultChecked'
+        | 'checked'
+        | 'aria-checked'
+    >;
     controlRef?: React.Ref<HTMLInputElement>;
 }
 

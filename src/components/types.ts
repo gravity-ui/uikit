@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes} from 'react';
+import React from 'react';
 
 export interface DOMProps {
     style?: React.CSSProperties;
@@ -12,7 +12,7 @@ export interface QAProps {
 // Checkbox, Radio and Switch
 export interface ControlProps
     extends Pick<
-        InputHTMLAttributes<HTMLInputElement>,
+        React.InputHTMLAttributes<HTMLInputElement>,
         | 'name'
         | 'value'
         | 'id'

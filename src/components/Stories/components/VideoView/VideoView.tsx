@@ -9,19 +9,18 @@ const b = block('stories-video-view');
 
 export interface VideoViewProps {
     media: StoryMedia;
-    className?: string;
 }
 
-export const VideoView: React.FC<VideoViewProps> = ({media, className}) => {
+export function VideoView({media}: VideoViewProps) {
     return (
         <video
-            className={b(null, className)}
+            className={b(null)}
             src={media.url}
             controls={false}
             playsInline
-            muted={true}
+            muted
             autoPlay
             webkit-playsinline="true"
         />
     );
-};
+}

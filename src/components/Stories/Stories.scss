@@ -10,7 +10,6 @@ $block: '.#{$ns}stories';
 }
 
 #{$block} {
-    $class: &;
     background-color: var(--yc-color-base-background);
     border-radius: 20px;
     max-width: 1280px;
@@ -21,7 +20,7 @@ $block: '.#{$ns}stories';
     height: 100%;
 
     &__modal {
-        .yc-modal__content {
+        div[aria-modal='true'] {
             border-radius: 20px;
         }
     }
@@ -40,7 +39,7 @@ $block: '.#{$ns}stories';
         display: flex;
         justify-content: center;
         background-color: var(--yc-color-base-selection);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 20px var(--yc-color-sfx-shadow);
         border-radius: 20px;
         position: relative;
 
@@ -50,13 +49,16 @@ $block: '.#{$ns}stories';
 
     &__left-pane {
         width: 40%;
-        margin: 8px;
+        margin-left: 8px;
+        margin-top: 8px;
+        margin-bottom: 8px;
         background-color: var(--yc-color-base-background);
         border-radius: 17px;
         padding: 32px;
         display: flex;
         flex-direction: column;
         align-items: stretch;
+        box-sizing: border-box;
     }
 
     &__right-pane {
@@ -64,6 +66,7 @@ $block: '.#{$ns}stories';
         padding: 8px;
         display: flex;
         align-items: center;
+        box-sizing: border-box;
     }
 
     &__counter {
@@ -92,7 +95,7 @@ $block: '.#{$ns}stories';
         line-height: var(--yc-text-body2-line-height);
         color: var(--yc-color-text-complementary);
 
-        #{$class}__text-header + & {
+        #{$block}__text-header + & {
             margin-top: 16px;
         }
     }
@@ -112,5 +115,8 @@ $block: '.#{$ns}stories';
 
     &__media-block {
         position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
     }
 }

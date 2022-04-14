@@ -26,7 +26,7 @@ export interface StoriesProps {
     onNextClick?: (storyIndex: number) => void;
 }
 
-export const Stories: React.FC<StoriesProps> = ({
+export function Stories({
     open,
     onClose,
     stories,
@@ -34,7 +34,7 @@ export const Stories: React.FC<StoriesProps> = ({
     onNextClick,
     startStoryIndex,
     lang = Lang.En,
-}) => {
+}: StoriesProps) {
     const startIndex = React.useMemo(() => {
         if (
             typeof startStoryIndex === 'undefined' ||
@@ -88,7 +88,7 @@ export const Stories: React.FC<StoriesProps> = ({
                                     <div className={b('counter')}>
                                         {i18n(lang, 'label_counter', {
                                             current: currentStoryIndex + 1,
-                                            all: stories.length,
+                                            total: stories.length,
                                         })}
                                     </div>
                                     <div className={b('text-block')}>
@@ -149,4 +149,4 @@ export const Stories: React.FC<StoriesProps> = ({
             </div>
         </Modal>
     );
-};
+}

@@ -7,11 +7,11 @@ export interface MediaRendererProps {
     media: StoryMedia;
 }
 
-export const MediaRenderer: React.FC<MediaRendererProps> = ({media}) => {
+export function MediaRenderer({media}: MediaRendererProps) {
     return (
-        <div>
+        <React.Fragment>
             {(media.type || 'image') === 'image' && <ImageView media={media} />}
             {media.type === 'video' && <VideoView media={media} />}
-        </div>
+        </React.Fragment>
     );
-};
+}

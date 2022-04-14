@@ -1,12 +1,13 @@
 export interface StoryMedia {
-    type?: 'image' | 'video'; // default 'image',
+    /** default 'image' */
+    type?: 'image' | 'video';
     url: string;
 }
 
 export interface Story {
-    title?: string; // заголовок
-    description?: string; // основной текст
-    url?: string; // ссылка "Подробнее"
-    // медиаконтент
+    title?: string;
+    description?: string;
+    /** Url for link "more" */
+    url?: string;
     media?: StoryMedia;
 }

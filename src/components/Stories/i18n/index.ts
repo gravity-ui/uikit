@@ -14,8 +14,7 @@ export default function i18n(lang: Lang, key: string, obj?: Record<string, any>)
 
     if (obj) {
         return value.replace(REGEX_TOKEN, (m, token) => {
-            const tokenUpper = token;
-            const replaceValue = obj[tokenUpper];
+            const replaceValue = obj[token];
 
             return replaceValue || m;
         });

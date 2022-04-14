@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {InputHTMLAttributes} from 'react';
 
 export interface DOMProps {
     style?: React.CSSProperties;
@@ -10,18 +10,14 @@ export interface QAProps {
 }
 
 // Checkbox, Radio and Switch
-export interface ControlProps {
-    name?: string;
-    value?: string;
-    id?: string;
-    checked?: boolean;
+export interface ControlProps
+    extends Pick<
+        InputHTMLAttributes<HTMLInputElement>,
+        'name' | 'value' | 'id' | 'checked' | 'onChange' | 'onFocus' | 'onBlur' | 'disabled'
+    > {
     defaultChecked?: boolean;
     indeterminate?: boolean;
     onUpdate?: (checked: boolean) => void;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    disabled?: boolean;
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     controlRef?: React.Ref<HTMLInputElement>;
 }

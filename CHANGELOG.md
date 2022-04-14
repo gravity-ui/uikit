@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.0.1](https://www.github.com/yandex-cloud/uikit/compare/v2.0.0...v2.0.1) (2022-04-14)
+
+
+### Bug Fixes
+
+* checked components types ([#129](https://www.github.com/yandex-cloud/uikit/issues/129)) ([ba65eb4](https://www.github.com/yandex-cloud/uikit/commit/ba65eb4cac14d38f7babb5057bd3ab12c5bcbe33))
+
 ## [2.0.0](https://www.github.com/yandex-cloud/uikit/compare/v1.10.0...v2.0.0) (2022-04-08)
 
 

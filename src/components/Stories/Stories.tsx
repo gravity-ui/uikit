@@ -59,6 +59,15 @@ export function Stories({
         [onClose],
     );
 
+    const handleButtonClose = React.useCallback<
+        (event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>) => void
+    >(
+        (event) => {
+            handleClose(event, 'closeButtonClick');
+        },
+        [handleClose],
+    );
+
     const handleGotoPrevious = React.useCallback(() => {
         if (currentStoryIndex > 0) {
             const newIndex = currentStoryIndex - 1;
@@ -115,11 +124,7 @@ export function Stories({
                                             </Button>
                                         )}
                                         {(isFirstStory || isLastStory) && (
-                                            <Button
-                                                onClick={(event) =>
-                                                    handleClose(event, 'closeButtonClick')
-                                                }
-                                            >
+                                            <Button onClick={handleButtonClose}>
                                                 {i18n('label_close')}
                                             </Button>
                                         )}
@@ -131,9 +136,7 @@ export function Stories({
                                     </div>
                                 </div>
                                 <div className={b('right-pane')}>
-                                    <ButtonClose
-                                        onClose={(event) => handleClose(event, 'closeButtonClick')}
-                                    />
+                                    <ButtonClose onClose={handleButtonClose} />
                                     {currentStory.media && (
                                         <div className={b('media-block')}>
                                             <MediaRenderer media={currentStory.media} />

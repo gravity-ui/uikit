@@ -12,5 +12,5 @@ export interface ImageViewProps {
 }
 
 export function ImageView({media}: ImageViewProps) {
-    return <img className={b(null)} src={media.url} alt="" />;
+    return <img className={b()} src={media.url} alt="" />;
 }

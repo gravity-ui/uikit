@@ -8,10 +8,9 @@ export interface MediaRendererProps {
 }
 
 export function MediaRenderer({media}: MediaRendererProps) {
-    return (
-        <React.Fragment>
-            {(media.type || 'image') === 'image' && <ImageView media={media} />}
-            {media.type === 'video' && <VideoView media={media} />}
-        </React.Fragment>
+    return (media.type || 'image') === 'image' ? (
+        <ImageView media={media} />
+    ) : (
+        <VideoView media={media} />
     );
 }

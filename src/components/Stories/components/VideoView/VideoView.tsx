@@ -14,7 +14,7 @@ export interface VideoViewProps {
 export function VideoView({media}: VideoViewProps) {
     return (
         <video
-            className={b(null)}
+            className={b()}
             src={media.url}
             controls={false}
             playsInline

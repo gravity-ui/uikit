@@ -1,37 +1,40 @@
 @import '../variables';
 
 $block: '.#{$ns}stories';
-
-@mixin story-content {
-    width: auto;
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
-}
+$borderRadius: 20px;
+$maxWidth: 1280px;
+$maxHeight: 640px;
+$minWidth: 800px;
+$minHeight: 480px;
+$leftPaneBorderRadius: 17px;
+$leftPanePadding: 32px;
+$rightPanePadding: 8px;
+$smallMargin: 8px;
+$textBlockMargin: 16px;
 
 #{$block} {
     background-color: var(--yc-color-base-background);
-    border-radius: 20px;
-    max-width: 1280px;
-    max-height: 640px;
-    min-width: 800px;
-    min-height: 480px;
+    border-radius: $borderRadius;
+    max-width: $maxWidth;
+    max-height: $maxHeight;
+    min-width: $minWidth;
+    min-height: $minHeight;
     width: 100%;
     height: 100%;
 
     &__modal {
-        div[aria-modal='true'] {
-            border-radius: 20px;
-        }
+        --yc-modal-border-radius: #{$borderRadius};
     }
 
     &__wrap {
-        height: calc(100vh - 48px);
-        width: calc(100vw - 40px);
+        height: calc(100vh - 2 * var(--yc-modal-margin));
+        width: calc(100vw - 2 * var(--yc-modal-margin));
         display: flex;
-        border-radius: 20px;
-        max-width: 1280px;
-        max-height: 640px;
+        border-radius: $borderRadius;
+        max-width: $maxWidth;
+        max-height: $maxHeight;
+        min-width: $minWidth;
+        min-height: $minHeight;
         background-color: var(--yc-color-base-selection);
     }
 
@@ -40,7 +43,7 @@ $block: '.#{$ns}stories';
         justify-content: center;
         background-color: var(--yc-color-base-selection);
         box-shadow: 0 8px 20px var(--yc-color-sfx-shadow);
-        border-radius: 20px;
+        border-radius: $borderRadius;
         position: relative;
 
         width: 100%;
@@ -49,12 +52,12 @@ $block: '.#{$ns}stories';
 
     &__left-pane {
         width: 40%;
-        margin-left: 8px;
-        margin-top: 8px;
-        margin-bottom: 8px;
+        margin-left: $smallMargin;
+        margin-top: $smallMargin;
+        margin-bottom: $smallMargin;
         background-color: var(--yc-color-base-background);
-        border-radius: 17px;
-        padding: 32px;
+        border-radius: $leftPaneBorderRadius;
+        padding: $leftPanePadding;
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -63,15 +66,15 @@ $block: '.#{$ns}stories';
 
     &__right-pane {
         width: 60%;
-        padding: 8px;
+        padding: $rightPanePadding;
         display: flex;
         align-items: center;
         box-sizing: border-box;
     }
 
     &__counter {
-        font-size: var(--yc-text-body2-font-size);
-        line-height: var(--yc-text-body2-line-height);
+        font-size: var(--yc-text-body-2-font-size);
+        line-height: var(--yc-text-body-2-line-height);
         color: var(--yc-color-text-secondary);
     }
 
@@ -81,27 +84,27 @@ $block: '.#{$ns}stories';
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
-        margin-bottom: 8px;
+        margin-bottom: $smallMargin;
     }
 
     &__text-header {
-        font-size: var(--yc-text-display2-font-size);
-        line-height: var(--yc-text-display2-line-height);
+        font-size: var(--yc-text-display-2-font-size);
+        line-height: var(--yc-text-display-2-line-height);
         color: var(--yc-color-text-primary);
     }
 
     &__text-content {
-        font-size: var(--yc-text-body2-font-size);
-        line-height: var(--yc-text-body2-line-height);
+        font-size: var(--yc-text-body-2-font-size);
+        line-height: var(--yc-text-body-2-line-height);
         color: var(--yc-color-text-complementary);
 
         #{$block}__text-header + & {
-            margin-top: 16px;
+            margin-top: $textBlockMargin;
         }
     }
 
     &__story-link-block {
-        margin-top: 16px;
+        margin-top: $textBlockMargin;
     }
 
     &__controls-block {
@@ -109,7 +112,7 @@ $block: '.#{$ns}stories';
         justify-content: space-between;
 
         button {
-            width: calc(50% - 8px);
+            width: calc(50% - #{$smallMargin});
         }
     }
 

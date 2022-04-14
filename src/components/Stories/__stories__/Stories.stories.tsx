@@ -12,27 +12,30 @@ export default {
 
 const stories: MyStory[] = [
     {
-        title: 'Новая навигация',
+        title: 'New navigation',
         description:
-            'Сверху в панели находится сервисная навигация для каждого сервиса. ' +
-            'Снизу - общие элементы навигации: компонент для переключения между ' +
-            'аккаунтами и организациями, настройки, центр помощи, поиск, уведомления, избранное.',
-        url: 'https://ya.ru',
+            'At the top of the panel is the service navigation for each service. ' +
+            'Below are common navigation elements: a component for switching between accounts ' +
+            'and organizations, settings, help center, search, notifications, favorites.',
+        url: 'https://yandex.eu',
         media: {
-            url: 'https://storage.yandexcloud.net/uikit-storybook-assets/story-picture-1.png',
+            url: 'https://storage.yandexcloud.net/uikit-storybook-assets/story-picture-2.png',
         },
     },
     {
-        title: 'Новая навигация (2)',
-        description: 'Еще немного про новую навигацию',
+        title: 'New navigation (2)',
+        description: 'A little more about the new navigation',
         media: {
             url: 'https://storage.yandexcloud.net/uikit-storybook-assets/sample_960x400_ocean_with_audio.mp4',
             type: 'video',
         },
     },
     {
-        title: 'Новая навигация (3)',
-        description: 'Переключайтесь на новую навигацию прямо сейчас',
+        title: 'New navigation (3)',
+        description: 'Switch to the new navigation right now',
+        media: {
+            url: 'https://storage.yandexcloud.net/uikit-storybook-assets/story-picture-4.png',
+        },
     },
 ];
 

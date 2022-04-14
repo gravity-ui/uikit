@@ -3,5 +3,5 @@
     "label_next": "Next",
     "label_close": "Close",
     "label_more": "More",
-    "label_counter": "{{current}} of {{all}}"
+    "label_counter": "{{current}} of {{total}}"
 }

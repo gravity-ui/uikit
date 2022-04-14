@@ -10,41 +10,63 @@ $block: '.#{$ns}stories';
 }
 
 #{$block} {
-    $class: &;
     background-color: var(--yc-color-base-background);
     border-radius: 20px;
+    max-width: 1280px;
+    max-height: 640px;
+    min-width: 800px;
+    min-height: 480px;
+    width: 100%;
+    height: 100%;
 
     &__modal {
-        .yc-modal__cell,
-        .yc-modal__content {
-            background-color: rgba(0, 0, 0, 0);
+        div[aria-modal='true'] {
+            border-radius: 20px;
         }
+    }
+
+    &__wrap {
+        height: calc(100vh - 48px);
+        width: calc(100vw - 40px);
+        display: flex;
+        border-radius: 20px;
+        max-width: 1280px;
+        max-height: 640px;
+        background-color: var(--yc-color-base-selection);
     }
 
     &__container {
         display: flex;
-        align-items: center;
         justify-content: center;
         background-color: var(--yc-color-base-selection);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 20px var(--yc-color-sfx-shadow);
         border-radius: 20px;
         position: relative;
+
+        width: 100%;
+        height: 100%;
     }
 
     &__left-pane {
         width: 40%;
-        height: calc(100% - 80px);
-        margin: 8px;
+        margin-left: 8px;
+        margin-top: 8px;
+        margin-bottom: 8px;
         background-color: var(--yc-color-base-background);
         border-radius: 17px;
         padding: 32px;
         display: flex;
         flex-direction: column;
+        align-items: stretch;
+        box-sizing: border-box;
     }
 
     &__right-pane {
         width: 60%;
-        padding-right: 8px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
     }
 
     &__counter {
@@ -59,6 +81,7 @@ $block: '.#{$ns}stories';
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
+        margin-bottom: 8px;
     }
 
     &__text-header {
@@ -72,7 +95,7 @@ $block: '.#{$ns}stories';
         line-height: var(--yc-text-body-2-line-height);
         color: var(--yc-color-text-complementary);
 
-        #{$class}__text-header + & {
+        #{$block}__text-header + & {
             margin-top: 16px;
         }
     }
@@ -92,5 +115,8 @@ $block: '.#{$ns}stories';
 
     &__media-block {
         position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
     }
 }

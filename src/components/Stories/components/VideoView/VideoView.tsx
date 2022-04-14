@@ -9,25 +9,18 @@ const b = block('stories-video-view');
 
 export interface VideoViewProps {
     media: StoryMedia;
-    className?: string;
-    onLoad?: () => void;
 }
 
-export const VideoView: React.FC<VideoViewProps> = ({media, className, onLoad}) => {
-    const handleLoad = React.useCallback(() => {
-        onLoad?.();
-    }, [onLoad]);
-
+export function VideoView({media}: VideoViewProps) {
     return (
         <video
-            className={b(null, className)}
+            className={b(null)}
             src={media.url}
             controls={false}
             playsInline
-            muted={true}
+            muted
             autoPlay
             webkit-playsinline="true"
-            onLoadedData={handleLoad}
         />
     );
-};
+}

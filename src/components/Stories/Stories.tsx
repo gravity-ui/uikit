@@ -21,7 +21,7 @@ export interface StoriesProps {
         event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>,
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
-    startStoryIndex?: number;
+    initialStoryIndex?: number;
     onPreviousClick?: (storyIndex: number) => void;
     onNextClick?: (storyIndex: number) => void;
 }
@@ -32,21 +32,19 @@ export function Stories({
     stories,
     onPreviousClick,
     onNextClick,
-    startStoryIndex,
+    initialStoryIndex,
     lang = Lang.En,
 }: StoriesProps) {
-    const startIndex = React.useMemo(() => {
-        if (
-            typeof startStoryIndex === 'undefined' ||
-            startStoryIndex < 0 ||
-            startStoryIndex >= stories.length
-        ) {
-            return 0;
-        }
+    let initialIndex = 0;
+    if (
+        typeof initialStoryIndex !== 'undefined' &&
+        initialStoryIndex >= 0 &&
+        initialStoryIndex < stories.length
+    ) {
+        initialIndex = initialStoryIndex;
+    }
 
-        return startStoryIndex;
-    }, [startStoryIndex, stories]);
-    const [currentStoryIndex, setCurrentStoryIndex] = React.useState(startIndex);
+    const [currentStoryIndex, setCurrentStoryIndex] = React.useState(initialIndex);
 
     const currentStory = stories[currentStoryIndex];
     const isFirstStory = currentStoryIndex === 0;
@@ -87,9 +85,9 @@ export function Stories({
     }, [currentStoryIndex, stories, onNextClick]);
 
     return (
-        <Modal open={open} onClose={handleClose} className={b('modal')}>
-            <div className={b('wrap')}>
-                <div className={b()}>
+        <Modal open={open} onClose={handleClose} className={b()}>
+            <div className={b('wrap-outer')}>
+                <div className={b('wrap-inner')}>
                     <div className={b('container')}>
                         {currentStory && (
                             <React.Fragment>

@@ -6,7 +6,7 @@ import {Button} from '../Button';
 import {ButtonClose} from '../Dialog/ButtonClose/ButtonClose';
 import {Link} from '../Link';
 import {MediaRenderer} from './components';
-import {Story} from './types';
+import {StoriesItem} from './types';
 import i18n from './i18n';
 
 import './Stories.scss';
@@ -15,7 +15,7 @@ const b = block('stories');
 
 export interface StoriesProps {
     open: boolean;
-    stories: Story[];
+    items: StoriesItem[];
     onClose?: (
         event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>,
         reason: ModalCloseReason | 'closeButtonClick',
@@ -28,7 +28,7 @@ export interface StoriesProps {
 export function Stories({
     open,
     onClose,
-    stories,
+    items,
     onPreviousClick,
     onNextClick,
     initialStoryIndex,
@@ -37,16 +37,16 @@ export function Stories({
     if (
         typeof initialStoryIndex !== 'undefined' &&
         initialStoryIndex >= 0 &&
-        initialStoryIndex < stories.length
+        initialStoryIndex < items.length
     ) {
         initialIndex = initialStoryIndex;
     }
 
     const [currentStoryIndex, setCurrentStoryIndex] = React.useState(initialIndex);
 
-    const currentStory = stories[currentStoryIndex];
+    const currentStory = items[currentStoryIndex];
     const isFirstStory = currentStoryIndex === 0;
-    const isLastStory = currentStoryIndex === stories.length - 1;
+    const isLastStory = currentStoryIndex === items.length - 1;
     const hasNextStory = !isLastStory;
     const hasPreviousStory = !isFirstStory;
 
@@ -75,12 +75,12 @@ export function Stories({
     }, [currentStoryIndex, onPreviousClick]);
 
     const handleGotoNext = React.useCallback(() => {
-        if (currentStoryIndex < stories.length - 1) {
+        if (currentStoryIndex < items.length - 1) {
             const newIndex = currentStoryIndex + 1;
             setCurrentStoryIndex(newIndex);
             onNextClick?.(newIndex);
         }
-    }, [currentStoryIndex, stories, onNextClick]);
+    }, [currentStoryIndex, items, onNextClick]);
 
     return (
         <Modal open={open} onClose={handleClose} className={b()}>
@@ -93,7 +93,7 @@ export function Stories({
                                     <div className={b('counter')}>
                                         {i18n('label_counter', {
                                             current: currentStoryIndex + 1,
-                                            total: stories.length,
+                                            total: items.length,
                                         })}
                                     </div>
                                     <div className={b('text-block')}>

@@ -1,18 +1,18 @@
 import React from 'react';
 
 import {block} from '../../../utils/cn';
-import {StoryMedia} from '../../types';
+import {StoriesItemMedia} from '../../types';
 
 import './VideoView.scss';
 
 const b = block('stories-video-view');
 
 export interface VideoViewProps {
-    media: StoryMedia;
+    media: StoriesItemMedia;
 }
 
 export function VideoView({media}: VideoViewProps) {
-    return (
+    return media.type === 'video' ? (
         <video
             className={b()}
             src={media.url}
@@ -21,6 +21,7 @@ export function VideoView({media}: VideoViewProps) {
             muted
             autoPlay
             webkit-playsinline="true"
+            poster={media.posterUrl}
         />
-    );
+    ) : null;
 }

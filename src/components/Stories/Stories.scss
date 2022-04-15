@@ -1,4 +1,5 @@
 @import '../variables';
+@import '../../../styles/mixins';
 
 $block: '.#{$ns}stories';
 $borderRadius: 20px;
@@ -77,8 +78,7 @@ $textBlockMargin: 16px;
     }
 
     &__counter {
-        font-size: var(--yc-text-body-2-font-size);
-        line-height: var(--yc-text-body-2-line-height);
+        @include text-body-2();
         color: var(--yc-color-text-secondary);
     }
 
@@ -92,14 +92,12 @@ $textBlockMargin: 16px;
     }
 
     &__text-header {
-        font-size: var(--yc-text-display-2-font-size);
-        line-height: var(--yc-text-display-2-line-height);
+        @include text-display-2();
         color: var(--yc-color-text-primary);
     }
 
     &__text-content {
-        font-size: var(--yc-text-body-2-font-size);
-        line-height: var(--yc-text-body-2-line-height);
+        @include text-body-2();
         color: var(--yc-color-text-complementary);
 
         #{$block}__text-header + & {

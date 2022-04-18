@@ -1,6 +1,6 @@
 import React from 'react';
 import {block} from '../../utils/cn';
-import {eventBroker} from 'src/components/utils/event-broker';
+import {eventBroker} from '../../utils/event-broker';
 import {DragHandleIcon} from './DragHandleIcon';
 import type {ListProps, ListItemData, ListSortHandleAlign} from '../types';
 

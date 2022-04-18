@@ -4,30 +4,31 @@ Component for displaying stories. It looks like a carousel in a modal with given
 
 ### PropTypes
 
-| Property        | Type       | Required | Default | Description                              |
-| :-------------- | :--------- | :------- | :------ | :--------------------------------------- |
-| open            | `Boolean`  | ✓        |         | Visibility flag                          |
-| stories         | `Story[]`  | ✓        |         | List of stories to display               |
-| startStoryIndex | `Number`   |          | 0       | Index of the first story to be displayed |
-| onClose         | `Function` |          |         | Action on close                          |
-| onPreviousClick | `Function` |          |         | Action when switching to previous story  |
-| onNextClick     | `Function` |          |         | Action when switching to next story      |
+| Property          | Type            | Required | Default | Description                              |
+| :---------------- | :-------------- | :------- | :------ | :--------------------------------------- |
+| open              | `Boolean`       | ✓        |         | Visibility flag                          |
+| items             | `StoriesItem[]` | ✓        |         | List of stories to display               |
+| initialStoryIndex | `Number`        |          | 0       | Index of the first story to be displayed |
+| onClose           | `Function`      |          |         | Action on close                          |
+| onPreviousClick   | `Function`      |          |         | Action when switching to previous story  |
+| onNextClick       | `Function`      |          |         | Action when switching to next story      |
 
-### Story object
+### StoriesItem object
 
-| Field       | Type         | Required | Default | Description                      |
-| ----------- | ------------ | -------- | ------- | -------------------------------- |
-| title       | `String`     |          |         | Title                            |
-| description | `String`     |          |         | Main text                        |
-| url         | `String`     |          |         | Link to display more information |
-| media       | `StoryMedia` |          |         | Media content                    |
+| Field       | Type               | Required | Default | Description                      |
+| ----------- | ------------------ | -------- | ------- | -------------------------------- |
+| title       | `String`           |          |         | Title                            |
+| description | `String`           |          |         | Main text                        |
+| url         | `String`           |          |         | Link to display more information |
+| media       | `StoriesItemMedia` |          |         | Media content                    |
 
-### StoryMedia object
+### StoriesItemMedia object
 
-| Field | Type     | Required | Default | Description                       |
-| ----- | -------- | -------- | ------- | --------------------------------- |
-| type  | `String` |          | image   | Content type (`image` or `video`) |
-| url   | `String` | ✓        |         | File link                         |
+| Field     | Type     | Required | Default | Description                       |
+| --------- | -------- | -------- | ------- | --------------------------------- |
+| type      | `String` |          | image   | Content type (`image` or `video`) |
+| url       | `String` | ✓        |         | File link                         |
+| posterUrl | `String` |          |         | Poster URL (only used for video)  |
 
 #### Usage example
 
@@ -39,7 +40,7 @@ Component for displaying stories. It looks like a carousel in a modal with given
       title: 'Story title',
       description: 'Story text',
       media: {
-        url: 'https://storage.yandexcloud.net/uikit-storybook-assets/story-picture-1.png',
+        url: 'https://storage.yandexcloud.net/uikit-storybook-assets/story-picture-2.png',
       },
     },
   ]}

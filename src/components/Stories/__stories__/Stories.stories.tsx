@@ -3,14 +3,14 @@ import {Meta, Story} from '@storybook/react/types-6-0';
 
 import {Button} from '../../Button';
 import {Stories, StoriesProps} from '../Stories';
-import {Story as MyStory} from '../types';
+import {StoriesItem} from '../types';
 
 export default {
     title: 'Components/Stories',
     component: Stories,
 } as Meta;
 
-const stories: MyStory[] = [
+const items: StoriesItem[] = [
     {
         title: 'New navigation',
         description:
@@ -39,7 +39,7 @@ const stories: MyStory[] = [
     },
 ];
 
-const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps, context) => {
+const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps) => {
     const [visible, setVisible] = React.useState(props.open);
 
     React.useEffect(() => {
@@ -59,7 +59,6 @@ const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps, context) => {
             </div>
             <Stories
                 {...props}
-                lang={context.globals.lang}
                 open={visible}
                 onClose={() => {
                     setVisible(false);
@@ -69,14 +68,11 @@ const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps, context) => {
     );
 };
 export const Default = DefaultTemplate.bind({});
-Default.parameters = {controls: {exclude: ['lang']}};
 Default.args = {
     open: false,
-    stories,
-    onPreviousClick: (index) => {
-        console.log('goto previous with index=%d', index);
-    },
-    onNextClick: (index) => {
-        console.log('goto next with index=%d', index);
-    },
+    items,
+};
+Default.argTypes = {
+    onPreviousClick: {action: 'onPreviousClick'},
+    onNextClick: {action: 'onNextClick'},
 };

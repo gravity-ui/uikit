@@ -28,6 +28,7 @@ export * from './RadioButton';
 export * from './RadioGroup';
 export * from './Skeleton';
 export * from './Spin';
+export * from './Stories';
 export * from './Switch';
 export * from './Table';
 export * from './Tabs';

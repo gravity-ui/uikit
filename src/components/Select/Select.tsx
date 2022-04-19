@@ -29,6 +29,7 @@ type SelectComponent = React.ForwardRefExoticComponent<
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
     const {
         onUpdate,
+        onOpenChange,
         renderOption,
         getOptionHeight,
         name,
@@ -56,9 +57,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const flattenOptions = getFlattenOptions(options);
     const optionsText = getOptionsText(flattenOptions, value);
 
-    const setActive = React.useCallback((nextActive: boolean) => {
-        dispatch({type: 'SET_ACTIVE', payload: {active: nextActive}});
-    }, []);
+    const setActive = React.useCallback(
+        (nextActive: boolean) => {
+            onOpenChange?.({open: nextActive});
+            dispatch({type: 'SET_ACTIVE', payload: {active: nextActive}});
+        },
+        [onOpenChange],
+    );
 
     const handleSingleOptionClick = React.useCallback(
         (option: SelectOption) => {
@@ -71,9 +76,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 }
             }
 
-            dispatch({type: 'SET_ACTIVE', payload: {active: false}});
+            setActive(false);
         },
-        [onUpdate, value, uncontrolled],
+        [onUpdate, setActive, value, uncontrolled],
     );
 
     const handleMultipleOptionClick = React.useCallback(

@@ -5,6 +5,7 @@ import {Option, OptionGroup} from './tech-components';
 
 export type SelectProps = Pick<ControlGroupProps, 'name' | 'disabled'> & {
     onUpdate?: (value: string[]) => void;
+    onOpenChange?: (args: {open: boolean}) => void;
     renderOption?: (option: SelectOption) => React.ReactNode;
     getOptionHeight?: (option: SelectOption) => number;
     view?: TextInputView;

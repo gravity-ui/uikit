@@ -30,6 +30,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const {
         onUpdate,
         onOpenChange,
+        renderControl,
         renderOption,
         getOptionHeight,
         name,
@@ -48,7 +49,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     } = props;
     const [{innerValue, controlRect, active, quickSearch, quickSearchTimer}, dispatch] =
         React.useReducer(reducer, getInitialState({defaultValue}));
-    const controlRef = React.useRef<HTMLButtonElement>(null);
+    const controlRef = React.useRef<HTMLElement>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
     const uncontrolled = !propsValue;
@@ -116,7 +117,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleSingleOptionClick, handleMultipleOptionClick, multiple, quickSearch],
     );
 
-    const handleControlKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const handleControlKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
         // prevent dialog closing in case of item selection by Enter/Spacebar keydown
         if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && active) {
             e.preventDefault();
@@ -227,6 +228,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disabled={disabled}
                 setActive={setActive}
                 onKeyDown={handleControlKeyDown}
+                renderControl={renderControl}
             />
             <SelectPopup
                 ref={listRef}

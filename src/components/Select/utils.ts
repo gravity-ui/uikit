@@ -184,6 +184,10 @@ export const getNextQuickSearch = (keyCode: string, quickSearch: string) => {
     return nextQuickSearch;
 };
 
+function getEscapedRegExp(string: string) {
+    return new RegExp(string.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'i');
+}
+
 export const findItemIndexByQuickSearch = (
     quickSearch: string,
     items?: ListItemData<FlattenOption>[],
@@ -203,7 +207,7 @@ export const findItemIndexByQuickSearch = (
 
         const optionText = getOptionText(item);
 
-        return new RegExp(quickSearch, 'i').test(optionText);
+        return getEscapedRegExp(quickSearch).test(optionText);
     });
 };
 

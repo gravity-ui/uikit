@@ -23,8 +23,9 @@ type ListItemProps<T> = {
 const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
 export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
+    private static publishEvent = eventBroker.withEventPublisher('List');
+
     ref = React.createRef<HTMLDivElement>();
-    _publishEvent = eventBroker.withEventPublisher('button');
 
     render() {
         const {item, style, sortable, sortHandleAlign, itemClassName, selected, active} =
@@ -72,7 +73,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     }
 
     private onClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-        this._publishEvent({
+        ListItem.publishEvent({
             domEvent: event,
             eventId: 'click',
         });

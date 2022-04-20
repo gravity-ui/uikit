@@ -44,7 +44,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         disabled,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
-    const handleControlRef = useForkRef(ref, controlRef);
+    const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(optionsText.length);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const mods: CnMods = {
@@ -64,16 +64,11 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const handleClick = React.useCallback(() => setActive(!active), [setActive, active]);
 
     if (renderControl) {
-        return (
-            <div
-                ref={handleControlRef as React.Ref<HTMLDivElement>}
-                className={className}
-                onClick={disabled ? undefined : handleClick}
-                onKeyDown={disabled ? undefined : onKeyDown}
-            >
-                {renderControl()}
-            </div>
-        );
+        return renderControl({
+            onKeyDown,
+            onClick: handleClick,
+            ref: handleControlRef,
+        });
     }
 
     return (

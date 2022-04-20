@@ -60,7 +60,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     const setActive = React.useCallback(
         (nextActive: boolean) => {
-            onOpenChange?.({open: nextActive});
+            onOpenChange?.(nextActive);
             dispatch({type: 'SET_ACTIVE', payload: {active: nextActive}});
         },
         [onOpenChange],

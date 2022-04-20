@@ -184,9 +184,9 @@ export const getNextQuickSearch = (keyCode: string, quickSearch: string) => {
     return nextQuickSearch;
 };
 
-function getEscapedRegExp(string: string) {
+const getEscapedRegExp = (string: string) => {
     return new RegExp(string.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'i');
-}
+};
 
 export const findItemIndexByQuickSearch = (
     quickSearch: string,

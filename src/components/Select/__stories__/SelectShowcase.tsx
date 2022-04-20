@@ -150,8 +150,19 @@ export const SelectShowcase = (props: SelectProps) => {
                 selectProps={{
                     ...props,
                     className: b('user-control'),
-                    renderControl: () => {
-                        return <Button view="action">User control</Button>;
+                    renderControl: ({onClick, onKeyDown, ref}) => {
+                        return (
+                            <Button
+                                ref={ref}
+                                view="action"
+                                onClick={onClick}
+                                extraProps={{
+                                    onKeyDown,
+                                }}
+                            >
+                                User control
+                            </Button>
+                        );
                     },
                 }}
             >

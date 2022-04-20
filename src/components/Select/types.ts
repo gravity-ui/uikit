@@ -5,9 +5,13 @@ import {Option, OptionGroup} from './tech-components';
 
 export type SelectProps = Pick<ControlGroupProps, 'name' | 'disabled'> & {
     onUpdate?: (value: string[]) => void;
-    onOpenChange?: (args: {open: boolean}) => void;
-    renderControl?: () => React.ReactNode;
-    renderOption?: (option: SelectOption) => React.ReactNode;
+    onOpenChange?: (open: boolean) => void;
+    renderControl?: (props: {
+        onClick: (e: React.MouseEvent<HTMLElement>) => void;
+        onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+        ref: React.Ref<HTMLElement>;
+    }) => React.ReactElement;
+    renderOption?: (option: SelectOption) => React.ReactElement;
     getOptionHeight?: (option: SelectOption) => number;
     view?: TextInputView;
     size?: TextInputSize;

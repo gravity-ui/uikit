@@ -120,9 +120,20 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
 
 <Select
     value={value}
-    renderControl: () => {
-        return <Button view="action">User control</Button>;
-    },
+    renderControl={({onClick, onKeyDown, ref}) => {
+        return (
+            <Button
+                ref={ref}
+                view="action"
+                onClick={onClick}
+                extraProps={{
+                    onKeyDown,
+                }}
+            >
+                User control
+            </Button>
+        );
+    }},
     onUpdate={(nextValue) => setValue1(nextValue)}
 >
     <Select.Option value="val1" content="Value1" />

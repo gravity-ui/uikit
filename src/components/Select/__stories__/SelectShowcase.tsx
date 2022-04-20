@@ -3,13 +3,15 @@ import {range} from 'lodash';
 import {block} from '../../utils/cn';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton, RadioButtonOption} from '../../RadioButton';
+import {Button} from '../../Button';
 import {Select, SelectProps, SelectOption} from '..';
 import {
     EXAMPLE_JSON_OPTIONS,
     EXAMPLE_CHILDREN_OPTIONS,
     EXAMPLE_GROUP_JSON_OPTIONS,
     EXAMPLE_GROUP_CHILDREN_OPTIONS,
-    EXAMPLE_CUSTOM_OPTIONS,
+    EXAMPLE_USER_OPTIONS,
+    EXAMPLE_USER_CONTROL,
 } from './constants';
 
 import './SelectShowcase.scss';
@@ -121,8 +123,8 @@ export const SelectShowcase = (props: SelectProps) => {
                 </Select.OptionGroup>
             </ExampleItem>
             <ExampleItem
-                title="Select with custom options"
-                code={[EXAMPLE_CUSTOM_OPTIONS]}
+                title="Select with user options"
+                code={[EXAMPLE_USER_OPTIONS]}
                 selectProps={{
                     ...props,
                     renderOption: (option) => {
@@ -141,6 +143,33 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val2" content="Value2" data={{color: 'red'}} />
                 <Select.Option value="val3" content="Value3" data={{color: 'pink'}} />
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
+            </ExampleItem>
+            <ExampleItem
+                title="Select with user control"
+                code={[EXAMPLE_USER_CONTROL]}
+                selectProps={{
+                    ...props,
+                    className: b('user-control'),
+                    renderControl: ({onClick, onKeyDown, ref}) => {
+                        return (
+                            <Button
+                                ref={ref}
+                                view="action"
+                                onClick={onClick}
+                                extraProps={{
+                                    onKeyDown,
+                                }}
+                            >
+                                User control
+                            </Button>
+                        );
+                    },
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="\" />
+                <Select.Option value="val4" content="Value4" />
             </ExampleItem>
             <ExampleItem
                 title="Select with virtualized list"

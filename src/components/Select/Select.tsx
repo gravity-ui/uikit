@@ -29,6 +29,8 @@ type SelectComponent = React.ForwardRefExoticComponent<
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
     const {
         onUpdate,
+        onOpenChange,
+        renderControl,
         renderOption,
         getOptionHeight,
         name,
@@ -47,7 +49,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     } = props;
     const [{innerValue, controlRect, active, quickSearch, quickSearchTimer}, dispatch] =
         React.useReducer(reducer, getInitialState({defaultValue}));
-    const controlRef = React.useRef<HTMLButtonElement>(null);
+    const controlRef = React.useRef<HTMLElement>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
     const uncontrolled = !propsValue;
@@ -56,9 +58,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const flattenOptions = getFlattenOptions(options);
     const optionsText = getOptionsText(flattenOptions, value);
 
-    const setActive = React.useCallback((nextActive: boolean) => {
-        dispatch({type: 'SET_ACTIVE', payload: {active: nextActive}});
-    }, []);
+    const setActive = React.useCallback(
+        (nextActive: boolean) => {
+            onOpenChange?.(nextActive);
+            dispatch({type: 'SET_ACTIVE', payload: {active: nextActive}});
+        },
+        [onOpenChange],
+    );
 
     const handleSingleOptionClick = React.useCallback(
         (option: SelectOption) => {
@@ -71,9 +77,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 }
             }
 
-            dispatch({type: 'SET_ACTIVE', payload: {active: false}});
+            setActive(false);
         },
-        [onUpdate, value, uncontrolled],
+        [onUpdate, setActive, value, uncontrolled],
     );
 
     const handleMultipleOptionClick = React.useCallback(
@@ -111,7 +117,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleSingleOptionClick, handleMultipleOptionClick, multiple, quickSearch],
     );
 
-    const handleControlKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const handleControlKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
         // prevent dialog closing in case of item selection by Enter/Spacebar keydown
         if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && active) {
             e.preventDefault();
@@ -222,6 +228,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disabled={disabled}
                 setActive={setActive}
                 onKeyDown={handleControlKeyDown}
+                renderControl={renderControl}
             />
             <SelectPopup
                 ref={listRef}

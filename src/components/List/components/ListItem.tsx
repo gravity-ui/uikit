@@ -1,5 +1,6 @@
 import React from 'react';
 import {block} from '../../utils/cn';
+import {eventBroker} from '../../utils/event-broker';
 import {DragHandleIcon} from './DragHandleIcon';
 import type {ListProps, ListItemData, ListSortHandleAlign} from '../types';
 
@@ -22,6 +23,8 @@ type ListItemProps<T> = {
 const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
 export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
+    private static publishEvent = eventBroker.withEventPublisher('List');
+
     ref = React.createRef<HTMLDivElement>();
 
     render() {
@@ -69,7 +72,13 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         return <div className={b('item-content')}>{renderItem(item, active, itemIndex)}</div>;
     }
 
-    private onClick = () => this.props.onClick?.(this.props.item, this.props.itemIndex);
+    private onClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+        ListItem.publishEvent({
+            domEvent: event,
+            eventId: 'click',
+        });
+        this.props.onClick?.(this.props.item, this.props.itemIndex);
+    };
 
     private onMouseEnter = () => this.props.onActivate(this.props.itemIndex);
 

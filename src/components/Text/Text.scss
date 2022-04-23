@@ -1,0 +1,73 @@
+@import '../variables';
+@import '../../../styles/mixins';
+
+$block: '.#{$ns}text';
+
+#{$block} {
+    &_type_display1 {
+        @include text-display-1();
+    }
+    &_type_display2 {
+        @include text-display-2();
+    }
+    &_type_display3 {
+        @include text-display-3();
+    }
+    &_type_display4 {
+        @include text-display-4();
+    }
+    &_type_code1 {
+        @include text-code-1();
+    }
+    &_type_code2 {
+        @include text-code-2();
+    }
+    &_type_code3 {
+        @include text-code-3();
+    }
+    &_type_codeInline1 {
+        @include text-code-inline-1();
+    }
+    &_type_codeInline2 {
+        @include text-code-inline-2();
+    }
+    &_type_codeInline3 {
+        @include text-code-inline-3();
+    }
+    &_type_body1 {
+        @include text-body-1();
+    }
+    &_type_body2 {
+        @include text-body-2();
+    }
+    &_type_body3 {
+        @include text-body-3();
+    }
+    &_type_bodyShort {
+        @include text-body-short();
+    }
+    &_type_caption1 {
+        @include text-caption-1();
+    }
+    &_type_caption2 {
+        @include text-caption-2();
+    }
+    &_type_header1 {
+        @include text-header-1();
+    }
+    &_type_header2 {
+        @include text-header-2();
+    }
+    &_type_subheader1 {
+        @include text-subheader-1();
+    }
+    &_type_subheader2 {
+        @include text-subheader-2();
+    }
+    &_type_subheader3 {
+        @include text-subheader-3();
+    }
+    &_ellipsis {
+        @include overflow-ellipsis();
+    }
+}

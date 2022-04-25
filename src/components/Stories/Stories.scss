@@ -9,7 +9,7 @@ $minWidth: 800px;
 $minHeight: 480px;
 $leftPaneBorderRadius: 17px;
 $leftPanePadding: 32px;
-$rightPanePadding: 8px;
+$rightPanePadding: 68px;
 $smallMargin: 8px;
 $textBlockMargin: 16px;
 
@@ -45,7 +45,6 @@ $textBlockMargin: 16px;
 
     &__container {
         display: flex;
-        justify-content: center;
         background-color: var(--yc-color-base-selection);
         box-shadow: 0 8px 20px var(--yc-color-sfx-shadow);
         border-radius: $borderRadius;
@@ -56,7 +55,8 @@ $textBlockMargin: 16px;
     }
 
     &__left-pane {
-        width: 40%;
+        width: 464px;
+        flex-shrink: 0;
         margin-left: $smallMargin;
         margin-top: $smallMargin;
         margin-bottom: $smallMargin;
@@ -70,7 +70,6 @@ $textBlockMargin: 16px;
     }
 
     &__right-pane {
-        width: 60%;
         padding: $rightPanePadding;
         display: flex;
         align-items: center;

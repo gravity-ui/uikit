@@ -119,17 +119,21 @@ export function Stories({
                                     </div>
                                     <div className={b('controls-block')}>
                                         {hasPreviousStory && (
-                                            <Button onClick={handleGotoPrevious} view="outlined">
+                                            <Button
+                                                onClick={handleGotoPrevious}
+                                                view="outlined"
+                                                size="l"
+                                            >
                                                 {i18n(lang, 'label_back')}
                                             </Button>
                                         )}
                                         {(isFirstStory || isLastStory) && (
-                                            <Button onClick={handleButtonClose}>
+                                            <Button onClick={handleButtonClose} size="l">
                                                 {i18n(lang, 'label_close')}
                                             </Button>
                                         )}
                                         {hasNextStory && (
-                                            <Button onClick={handleGotoNext} view="action">
+                                            <Button onClick={handleGotoNext} view="action" size="l">
                                                 {i18n(lang, 'label_next')}
                                             </Button>
                                         )}

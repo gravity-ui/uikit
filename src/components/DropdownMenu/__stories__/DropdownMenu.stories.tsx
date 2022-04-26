@@ -38,7 +38,7 @@ export const WithGroups = WithGroupsTemplate.bind({});
 WithGroups.args = {
     items: optionsWithGroups,
 };
-WithGroups.storyName = 'Опции с группами';
+WithGroups.storyName = 'Options with groups';
 
 // ----------------------------------------
 const AssortedTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -46,7 +46,7 @@ export const Assorted = AssortedTemplate.bind({});
 Assorted.args = {
     items: optionsAssorted,
 };
-Assorted.storyName = 'Разные опции для пунктов';
+Assorted.storyName = 'Different Options for each action';
 
 // ----------------------------------------
 const DisabledTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -63,7 +63,7 @@ CustomIcon.args = {
     items: options,
     icon: <Icon data={GearIcon} />,
 };
-CustomIcon.storyName = 'Переопределённая иконка';
+CustomIcon.storyName = 'Non-standard icon';
 
 // ----------------------------------------
 const SwitcherThemeTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -72,21 +72,21 @@ SwitcherTheme.args = {
     items: options,
     defaultSwitcherProps: {theme: 'action'},
 };
-SwitcherTheme.storyName = 'Тема иконки';
+SwitcherTheme.storyName = 'Icon Theme';
 
 // ----------------------------------------
 const TextSwitcherTemplate: Story = (args) => <DropdownMenu {...args} />;
 export const TextSwitcher = TextSwitcherTemplate.bind({});
 TextSwitcher.args = {
     items: options,
-    switcher: <div style={{cursor: 'pointer', fontWeight: 'bold'}}>&nbsp;Иван Иванов&nbsp;</div>,
+    switcher: <div style={{cursor: 'pointer', fontWeight: 'bold'}}>&nbsp;John Doe&nbsp;</div>,
 };
 TextSwitcher.parameters = {
     docs: {
-        description: {story: 'Свитчер не обязательно должен быть иконкой'},
+        description: {story: "Switcher doesn't have to be an icon"},
     },
 };
-TextSwitcher.storyName = 'Переопределённый свитчер';
+TextSwitcher.storyName = 'Overwritten switcher';
 
 // ----------------------------------------
 const LabelSwitcherTemplate: Story<{statuses: {text: string; style: LabelProps['theme']}[]}> = (
@@ -145,11 +145,11 @@ LabelSwitcher.args = {
 
 LabelSwitcher.parameters = {
     docs: {
-        description: {story: 'Свитчер в виде Label'},
+        description: {story: 'Label-style switcher'},
     },
 };
 
-LabelSwitcher.storyName = 'Компонент смены статуса';
+LabelSwitcher.storyName = 'Status switch component';
 
 // ----------------------------------------
 const SizeTemplate: Story = (args) => <DropdownMenu {...args} />;

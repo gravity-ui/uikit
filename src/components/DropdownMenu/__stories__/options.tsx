@@ -4,37 +4,37 @@ import type {DropdownMenuItem, DropdownMenuItemMixed} from '../types';
 
 export const options: DropdownMenuItem<unknown>[] = [
     {
-        action: () => console.log('==> вызван экшен "Удалить"'),
-        text: 'Удалить',
+        action: () => console.log('==> action "Delete" called'),
+        text: 'Delete',
         theme: 'danger',
     },
     {
-        action: () => console.log('==> вызван экшен "Переименовать"'),
-        text: 'Переименовать',
+        action: () => console.log('==> action "Rename" called'),
+        text: 'Rename',
     },
 ];
 
 export const userOptions: DropdownMenuItem<unknown>[] = [
     {
-        action: () => console.log('==> вызван экшен "Позвонить"'),
-        text: 'Позвонить',
+        action: () => console.log('==> action "Call" called'),
+        text: 'Call',
     },
     {
-        action: () => console.log('==> вызван экшен "Отправить email"'),
-        text: 'Отправить email',
+        action: () => console.log('==> action "Send email" called'),
+        text: 'Send email',
     },
 ];
 
 // export const optionsWithIcons: DropdownMenuItem<unknown>[] = [
 //     {
-//         action: () => console.log('==> вызван экшен "Удалить"'),
-//         text: 'Удалить',
+//         action: () => console.log('==> action "Delete" called'),
+//         text: 'Delete',
 //         icon: <Icon data={iconTrash} />,
 //         theme: 'danger',
 //     },
 //     {
-//         action: () => console.log('==> вызван экшен "Переименовать"'),
-//         text: 'Переименовать',
+//         action: () => console.log('==> action "Rename" called'),
+//         text: 'Rename',
 //         icon: <Icon data={iconRename} />,
 //     },
 // ];
@@ -42,68 +42,68 @@ export const userOptions: DropdownMenuItem<unknown>[] = [
 export const optionsWithGroups: DropdownMenuItemMixed<unknown>[] = [
     [
         {
-            action: () => console.log('==> вызван экшен "Удалить"'),
-            text: 'Удалить',
+            action: () => console.log('==> action "Delete" called'),
+            text: 'Delete',
             theme: 'danger',
         },
         {
-            action: () => console.log('==> вызван экшен "Переименовать"'),
-            text: 'Переименовать',
+            action: () => console.log('==> action "Rename" called'),
+            text: 'Rename',
         },
     ],
     {
-        action: () => console.log('==> вызван экшен "Позвонить"'),
-        text: 'Позвонить',
+        action: () => console.log('==> action "Call" called'),
+        text: 'Call',
     },
     {
-        action: () => console.log('==> вызван экшен "Отправить email"'),
-        text: 'Отправить email',
+        action: () => console.log('==> action "Send email" called'),
+        text: 'Send email',
     },
     [
         {
-            action: () => console.log('==> вызван экшен "Принять звонок"'),
-            text: 'Принять звонок',
+            action: () => console.log('==> action "Accept call" called'),
+            text: 'Accept call',
         },
         {
-            action: () => console.log('==> вызван экшен "Принять email"'),
-            text: 'Принять email',
+            action: () => console.log('==> action "Accept email" called'),
+            text: 'Accept email',
         },
     ],
     [
         {
-            action: () => console.log('==> вызван экшен "Отклонить звонок"'),
-            text: 'Отклонить звонок',
+            action: () => console.log('==> action "Decline call" called'),
+            text: 'Decline call',
         },
         {
-            action: () => console.log('==> вызван экшен "Отклонить email"'),
-            text: 'Отклонить email',
+            action: () => console.log('==> action "Decline email" called'),
+            text: 'Decline email',
         },
     ],
 ];
 
 export const optionsAssorted: DropdownMenuItem<unknown>[] = [
     {
-        action: () => console.log('==> вызван обычный экшен'),
-        text: 'Я обычный пункт',
+        action: () => console.log('==> normal item action called'),
+        text: 'I am an item',
     },
     {
-        action: () => console.log('==> вызван недоступный экшен -_-'),
-        text: 'Я недоступный пункт',
+        action: () => console.log('==> disabled item action called -_-'),
+        text: 'I am disabled item',
         disabled: true,
     },
     {
-        action: () => console.log('==> вызван экшен-ссылка'),
-        text: 'Я пункт-ссылка',
-        title: '(открываюсь в новой вкладке)',
-        href: 'https://yachan.dev.yandex.net/bbs',
+        action: () => console.log('==> link action called'),
+        text: 'I am a link item',
+        title: '(I open in new folder)',
+        href: 'https://cloud.yandex.com',
         target: '_blank',
         rel: 'noopener noreferrer',
     },
     {
-        action: () => console.log('==> вызван вошлебный экшен'),
+        action: () => console.log('==> magic action called'),
         text: (
             <>
-                Я <span style={{color: 'deeppink'}}>волшебный</span> пункт с нодой
+                I am <span style={{color: 'deeppink'}}>magic</span> item with React.Node
             </>
         ),
     },

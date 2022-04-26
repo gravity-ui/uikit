@@ -72,8 +72,8 @@ $textBlockMargin: 16px;
     &__right-pane {
         padding: $rightPanePadding;
         display: flex;
+        flex-grow: 1;
         align-items: center;
-        box-sizing: border-box;
     }
 
     &__counter {

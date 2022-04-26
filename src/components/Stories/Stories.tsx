@@ -24,6 +24,7 @@ export interface StoriesProps {
     initialStoryIndex?: number;
     onPreviousClick?: (storyIndex: number) => void;
     onNextClick?: (storyIndex: number) => void;
+    disableOutsideClick?: boolean;
 }
 
 export function Stories({
@@ -33,6 +34,7 @@ export function Stories({
     onPreviousClick,
     onNextClick,
     initialStoryIndex,
+    disableOutsideClick = true,
     lang = Lang.En,
 }: StoriesProps) {
     let initialIndex = 0;
@@ -85,7 +87,12 @@ export function Stories({
     }, [currentStoryIndex, items, onNextClick]);
 
     return (
-        <Modal open={open} onClose={handleClose} className={b()}>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            className={b()}
+            disableOutsideClick={disableOutsideClick}
+        >
             <div className={b('wrap-outer')}>
                 <div className={b('wrap-inner')}>
                     <div className={b('container')}>

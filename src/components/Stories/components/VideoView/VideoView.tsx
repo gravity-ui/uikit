@@ -20,6 +20,7 @@ export function VideoView({media}: VideoViewProps) {
             playsInline
             muted
             autoPlay
+            loop
             webkit-playsinline="true"
             poster={media.posterUrl}
         />

@@ -4,4 +4,22 @@
         border: 2px solid #1a8dff;
         border-radius: 4px;
     }
+
+    &__icon {
+        &_info {
+            color: var(--yc-color-infographics-info-heavy);
+        }
+
+        &_success {
+            color: var(--yc-color-infographics-positive-heavy);
+        }
+
+        &_warning {
+            color: var(--yc-color-infographics-warning-heavy);
+        }
+
+        &_error {
+            color: var(--yc-color-infographics-danger-heavy);
+        }
+    }
 }

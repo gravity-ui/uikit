@@ -1,10 +1,11 @@
 import React from 'react';
 import {block} from '../../utils/cn';
+import {Alarm, Info, Success} from '../../icons';
+import {useMobile} from '../../mobile';
+import {Toaster, ToastProps} from '..';
 import {Icon} from '../../Icon';
-import {Toaster} from '..';
 import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
-import {SuccessToast} from '../../icons/SuccessToast';
 
 import './ToasterShowcase.scss';
 
@@ -23,6 +24,10 @@ const ACTIONS = [
     },
 ];
 
+interface ToasterDemoProps {
+    mobile: boolean;
+}
+
 interface ToasterDemoState {
     createSameName: boolean;
     showCloseIcon: boolean;
@@ -33,182 +38,36 @@ interface ToasterDemoState {
     setActions: boolean;
     lastToastName: string;
 }
-interface ToasterDemoProps {}
 
-export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
-    toaster: Toaster;
-    constructor(props: ToasterDemoProps) {
-        super(props);
+class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
+    toaster = new Toaster({mobile: this.props.mobile});
 
-        this.toaster = new Toaster();
+    state: ToasterDemoState = {
+        createSameName: false,
+        showCloseIcon: true,
+        setTimeout: false,
+        timeout: 3000,
+        allowAutoHiding: true,
+        setContent: false,
+        setActions: false,
+        lastToastName: '',
+    };
 
-        this.state = {
-            createSameName: false,
-            showCloseIcon: true,
-            setTimeout: false,
-            timeout: 3000,
-            allowAutoHiding: true,
-            setContent: false,
-            setActions: false,
-            lastToastName: '',
-        };
-    }
-
-    getToastName(type: string) {
-        const {createSameName} = this.state;
-
-        if (createSameName) {
-            return type;
+    componentDidUpdate(prevProps: ToasterDemoProps) {
+        if (prevProps.mobile !== this.props.mobile) {
+            this.toaster = new Toaster({mobile: this.props.mobile});
         }
-
-        return `${type}${Math.floor(Math.random() * 100000)}`;
     }
-
-    createErrorToast = () => {
-        const {showCloseIcon, setTimeout, timeout, allowAutoHiding, setContent, setActions} =
-            this.state;
-
-        const name = this.getToastName('error');
-
-        this.toaster.createToast({
-            name,
-            type: 'error',
-            title: 'Payment verification failed',
-            isClosable: showCloseIcon,
-            timeout: setTimeout ? Number(timeout) : undefined,
-            allowAutoHiding: allowAutoHiding,
-            actions: setActions ? ACTIONS : undefined,
-            content: setContent ? CONTENT : null,
-        });
-
-        this.setState({lastToastName: name});
-    };
-
-    createSuccessToast = () => {
-        const {showCloseIcon, setTimeout, timeout, allowAutoHiding, setContent, setActions} =
-            this.state;
-
-        const name = this.getToastName('success');
-
-        this.toaster.createToast({
-            name,
-            type: 'success',
-            title: 'Payment is completed',
-            isClosable: showCloseIcon,
-            timeout: setTimeout ? Number(timeout) : undefined,
-            allowAutoHiding: allowAutoHiding,
-            actions: setActions ? ACTIONS : undefined,
-            content: setContent ? CONTENT : null,
-        });
-
-        this.setState({lastToastName: name});
-    };
-
-    createDefaultToast = () => {
-        const {showCloseIcon, setTimeout, timeout, allowAutoHiding, setContent, setActions} =
-            this.state;
-
-        const name = this.getToastName('default');
-
-        this.toaster.createToast({
-            name,
-            title: 'Payment is most likely completed',
-            isClosable: showCloseIcon,
-            timeout: setTimeout ? Number(timeout) : undefined,
-            allowAutoHiding: allowAutoHiding,
-            actions: setActions ? ACTIONS : undefined,
-            content: setContent ? CONTENT : null,
-        });
-
-        this.setState({lastToastName: name});
-    };
-
-    createCustomToast = () => {
-        const {showCloseIcon, setTimeout, timeout, allowAutoHiding, setActions} = this.state;
-
-        const name = this.getToastName('default');
-
-        const content = (
-            <div style={{display: 'flex'}}>
-                <div style={{maxWidth: '86px', maxHeight: '86px', marginRight: '16px'}}>
-                    <Icon size={86} data={SuccessToast} />
-                </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        minWidth: '320px',
-                    }}
-                >
-                    <div
-                        style={{
-                            maxWidth: '280px',
-                            marginBottom: '8px',
-                            fontWeight: 500,
-                            fontSize: '17px',
-                            lineHeight: '24px',
-                        }}
-                    >
-                        Keep track of alerts in Yandex Cloud mobile app
-                    </div>
-                    <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
-                        Try to view alerts in mobile app.
-                    </div>
-                    <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
-                        You may set up push-notifications to prevent missing.
-                    </div>
-                    <div style={{marginTop: '16px', color: 'rgba(0, 0, 0, 0.3)'}}>
-                        Point the camera at the QR-code.
-                    </div>
-                </div>
-            </div>
-        );
-
-        this.toaster.createToast({
-            name,
-            isClosable: showCloseIcon,
-            timeout: setTimeout ? Number(timeout) : undefined,
-            allowAutoHiding: allowAutoHiding,
-            actions: setActions ? ACTIONS : undefined,
-            content: content,
-            className: b('mobile-promotion'),
-        });
-
-        this.setState({lastToastName: name});
-    };
-
-    overrideLastToast = () => {
-        const {lastToastName} = this.state;
-
-        this.toaster.overrideToast(lastToastName, {
-            title: 'Here is information not about payments at all...',
-            actions: [
-                {
-                    label: 'Action 1',
-                    onClick: () => console.log('from actions 1'),
-                },
-            ],
-            content: (
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, neque.</p>
-            ),
-        });
-    };
-
-    removeAllToasts = () => {
-        this.toaster._toasts = [];
-        this.toaster._render();
-    };
 
     render() {
         const {
+            lastToastName,
             createSameName,
             showCloseIcon,
             setTimeout,
             allowAutoHiding,
             setContent,
             setActions,
-            lastToastName,
         } = this.state;
 
         const btnStyle = {marginLeft: 20};
@@ -274,26 +133,42 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
             />
         );
 
-        const errorToastBtn = (
-            <Button size="l" onClick={this.createErrorToast} style={btnStyle}>
-                Create error toast
-            </Button>
-        );
-
-        const successToastBtn = (
-            <Button size="l" onClick={this.createSuccessToast} style={btnStyle}>
-                Create success toast
-            </Button>
-        );
-
         const defaultToastBtn = (
-            <Button size="l" onClick={this.createDefaultToast} style={btnStyle}>
+            <Button view="outlined" size="l" onClick={this.createDefaultToast} style={btnStyle}>
                 Create default toast
             </Button>
         );
 
+        const infoToastBtn = (
+            <Button view="outlined" size="l" onClick={this.createInfoToast} style={btnStyle}>
+                <Icon className={b('icon', {info: true})} data={Info} />
+                Create info toast
+            </Button>
+        );
+
+        const successToastBtn = (
+            <Button view="outlined" size="l" onClick={this.createSuccessToast} style={btnStyle}>
+                <Icon className={b('icon', {success: true})} data={Success} />
+                Create success toast
+            </Button>
+        );
+
+        const warningToastBtn = (
+            <Button view="outlined" size="l" onClick={this.createWarningToast} style={btnStyle}>
+                <Icon className={b('icon', {warning: true})} data={Alarm} />
+                Create warning toast
+            </Button>
+        );
+
+        const errorToastBtn = (
+            <Button view="outlined" size="l" onClick={this.createErrorToast} style={btnStyle}>
+                <Icon className={b('icon', {error: true})} data={Alarm} />
+                Create error toast
+            </Button>
+        );
+
         const customToastBtn = (
-            <Button size="l" onClick={this.createCustomToast} style={btnStyle}>
+            <Button view="outlined" size="l" onClick={this.createCustomToast} style={btnStyle}>
                 Create custom toast
             </Button>
         );
@@ -310,7 +185,7 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
         );
 
         const clearBtn = (
-            <Button view="outlined" size="l" onClick={this.removeAllToasts} style={btnStyle}>
+            <Button view="outlined-danger" size="l" onClick={this.removeAllToasts} style={btnStyle}>
                 Remove all toasts
             </Button>
         );
@@ -325,13 +200,192 @@ export class ToasterDemo extends React.PureComponent<ToasterDemoProps, ToasterDe
                     <p>{contentCheckbox}</p>
                     <p>{actionsCheckbox}</p>
                 </div>
-                <p>{errorToastBtn}</p>
-                <p>{successToastBtn}</p>
                 <p>{defaultToastBtn}</p>
+                <p>{infoToastBtn}</p>
+                <p>{successToastBtn}</p>
+                <p>{warningToastBtn}</p>
+                <p>{errorToastBtn}</p>
                 <p>{customToastBtn}</p>
                 <p>{overrideToastBtn}</p>
                 <p>{clearBtn}</p>
             </div>
         );
     }
+
+    private getToastName(type: string) {
+        const {createSameName} = this.state;
+
+        if (createSameName) {
+            return type;
+        }
+
+        return `${type}${Math.floor(Math.random() * 100000)}`;
+    }
+
+    private getToastProps(extra: {
+        name: string;
+        title?: string;
+        type?: ToastProps['type'];
+        className?: string;
+        content?: React.ReactNode;
+    }): ToastProps {
+        const {showCloseIcon, setTimeout, timeout, allowAutoHiding, setContent, setActions} =
+            this.state;
+
+        let content: React.ReactNode = null;
+
+        if (extra.content) {
+            content = extra.content;
+        } else if (setContent) {
+            content = CONTENT;
+        }
+
+        return {
+            content,
+            name: this.getToastName(extra.name),
+            className: extra.className,
+            title: extra.title,
+            type: extra.type,
+            isClosable: showCloseIcon,
+            timeout: setTimeout ? Number(timeout) : undefined,
+            allowAutoHiding: allowAutoHiding,
+            actions: setActions ? ACTIONS : undefined,
+        };
+    }
+
+    private createDefaultToast = () => {
+        const toastProps = this.getToastProps({
+            name: 'default',
+            title: 'Default toast',
+        });
+
+        this.toaster.createToast(toastProps);
+
+        this.setState({lastToastName: toastProps.name});
+    };
+
+    private createInfoToast = () => {
+        const toastProps = this.getToastProps({
+            name: 'info',
+            type: 'info',
+            title: 'Info toast',
+        });
+
+        this.toaster.createToast(toastProps);
+
+        this.setState({lastToastName: toastProps.name});
+    };
+
+    private createSuccessToast = () => {
+        const toastProps = this.getToastProps({
+            name: 'success',
+            type: 'success',
+            title: 'Success toast',
+        });
+
+        this.toaster.createToast(toastProps);
+
+        this.setState({lastToastName: toastProps.name});
+    };
+
+    private createWarningToast = () => {
+        const toastProps = this.getToastProps({
+            name: 'warning',
+            type: 'warning',
+            title: 'Warning toast',
+        });
+
+        this.toaster.createToast(toastProps);
+
+        this.setState({lastToastName: toastProps.name});
+    };
+
+    private createErrorToast = () => {
+        const toastProps = this.getToastProps({
+            name: 'error',
+            type: 'error',
+            title: 'Error toast',
+        });
+
+        this.toaster.createToast(toastProps);
+
+        this.setState({lastToastName: toastProps.name});
+    };
+
+    private createCustomToast = () => {
+        const content = (
+            <div style={{display: 'flex'}}>
+                <div style={{maxWidth: '86px', maxHeight: '86px', marginRight: '16px'}}>
+                    <Icon size={86} data={Success} />
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        minWidth: '320px',
+                    }}
+                >
+                    <div
+                        style={{
+                            maxWidth: '280px',
+                            marginBottom: '8px',
+                            fontWeight: 500,
+                            fontSize: '17px',
+                            lineHeight: '24px',
+                        }}
+                    >
+                        Keep track of alerts in Yandex Cloud mobile app
+                    </div>
+                    <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
+                        Try to view alerts in mobile app.
+                    </div>
+                    <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
+                        You may set up push-notifications to prevent missing.
+                    </div>
+                    <div style={{marginTop: '16px', color: 'rgba(0, 0, 0, 0.3)'}}>
+                        Point the camera at the QR-code.
+                    </div>
+                </div>
+            </div>
+        );
+
+        const toastProps = this.getToastProps({
+            content,
+            name: 'custom',
+            className: b('mobile-promotion'),
+        });
+
+        this.toaster.createToast(toastProps);
+
+        this.setState({lastToastName: toastProps.name});
+    };
+
+    private overrideLastToast = () => {
+        const {lastToastName} = this.state;
+
+        this.toaster.overrideToast(lastToastName, {
+            title: 'Here is information not about payments at all...',
+            actions: [
+                {
+                    label: 'Action 1',
+                    onClick: () => console.log('from actions 1'),
+                },
+            ],
+            content: (
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, neque.</p>
+            ),
+        });
+    };
+
+    private removeAllToasts = () => {
+        this.toaster._toasts = [];
+        this.toaster._render();
+        this.setState({lastToastName: ''});
+    };
 }
+
+export const ToasterDemo = () => {
+    const [mobile] = useMobile();
+    return <Demo mobile={mobile} />;
+};

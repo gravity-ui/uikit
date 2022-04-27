@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {get} from 'lodash';
 import {block} from '../utils/cn';
-import {ToastProps} from './Toast/Toast';
-import {ToastsContainer} from './ToastsContainer/ToastsContainer';
+import type {ToasterArgs, ToastProps} from './types';
+import {ToastList} from './ToastList/ToastList';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
 const bToaster = block('toaster');
@@ -14,19 +15,28 @@ declare global {
 }
 
 export class Toaster {
-    _toasts!: ToastProps[];
+    // FIXME: BREAKING CHANGE. Rename to "rootNode" and convert to private
     _rootNode!: HTMLDivElement;
-    private _additionalClass!: string;
+    // FIXME: BREAKING CHANGE. Rename to "toasts" and convert to private
+    _toasts: ToastProps[] = [];
+    private className = '';
+    private mobile = false;
 
-    constructor({additionalClass = ''} = {}) {
-        if (window[TOASTER_KEY]) {
+    constructor(args?: ToasterArgs) {
+        const additionalClass = get(args, ['additionalClass'], '');
+        const className = get(args, ['className'], '');
+        const mobile = get(args, ['mobile'], false);
+
+        if (window[TOASTER_KEY] instanceof Toaster) {
             const me = window[TOASTER_KEY];
-            me._additionalClass = additionalClass;
-            me._rootNode.className = bToaster(null, me._additionalClass);
+            me.className = className || additionalClass;
+            me.mobile = mobile;
+            me.setRootNodeClassName();
             return me;
         }
 
-        this._additionalClass = additionalClass;
+        this.className = additionalClass;
+        this.mobile = mobile;
         this._toasts = [];
         this._createRootNode();
         this._render();
@@ -72,27 +82,43 @@ export class Toaster {
         this._render();
     };
 
+    // FIXME: BREAKING CHANGE. Rename to "removeToastFromDOM" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _removeToastFromDOM(name: string) {
         const index = this._getToastIndex(name);
         this._toasts.splice(index, 1);
         this._render();
     }
 
+    // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _getToastIndex = (name: string) => {
         return this._toasts.findIndex((toast) => toast.name === name);
     };
 
+    // FIXME: BREAKING CHANGE. Rename to "createRootNode" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _createRootNode() {
         this._rootNode = document.createElement('div');
-        this._rootNode.className = bToaster(null, this._additionalClass);
+        this.setRootNodeClassName();
         document.body.appendChild(this._rootNode);
     }
 
+    // FIXME: BREAKING CHANGE. Rename to "render" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _render() {
         ReactDOM.render(
-            <ToastsContainer toasts={this._toasts} removeCallback={this.removeToast} />,
+            <ToastList
+                toasts={this._toasts}
+                mobile={this.mobile}
+                removeCallback={this.removeToast}
+            />,
             this._rootNode,
             () => Promise.resolve(),
         );
+    }
+
+    private setRootNodeClassName() {
+        this._rootNode.className = bToaster({mobile: this.mobile}, this.className);
     }
 }

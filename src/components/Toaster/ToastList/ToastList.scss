@@ -1,5 +1,4 @@
 @import '../../variables';
-@import '../constants/constants.scss';
 
 $block: '.#{$ns}toaster';
 
@@ -12,4 +11,10 @@ $block: '.#{$ns}toaster';
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
+    &_mobile {
+        left: 50%;
+        transform: translate(-50%);
+        width: calc(100% - 20px);
+    }
 }

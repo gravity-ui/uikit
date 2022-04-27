@@ -11,7 +11,11 @@ const DefaultText: Story<TextProps> = (args) => <Text {...args} />;
 
 export const Default = DefaultText.bind({});
 
-const EllipsisDefault = DefaultText.bind({});
+Default.args = {
+    children: 'some text',
+};
+
+const EllipsisDefault: Story<TextProps> = (args) => <Text {...args} />;
 
 export const Ellipsis = EllipsisDefault.bind({});
 

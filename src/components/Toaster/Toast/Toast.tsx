@@ -1,10 +1,9 @@
 import React from 'react';
 import {block} from '../../utils/cn';
-import {Icon} from '../../Icon';
+import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../Link';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
-import type {UIKitIcon} from '../../icons';
 import type {ToastType, ToastAction, ToastProps} from '../types';
 
 import './Toast.scss';
@@ -14,7 +13,7 @@ const FADE_IN_LAST_ANIMATION_NAME = 'move-left';
 const FADE_OUT_LAST_ANIMATION_NAME = 'remove-height';
 const DEFAULT_TIMEOUT = 5000;
 const CROSS_ICON_SIZE = 12;
-const TITLE_ICONS: Record<ToastType, UIKitIcon> = {
+const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
     info: Info,
     success: Success,
     warning: Alarm,

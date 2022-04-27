@@ -18,10 +18,10 @@ On initialization it is possible to pass className, that will be assigned to dom
 
 #### Constructor arguments
 
-| Parameter       | Type      | Default     | Description                                         |
-| :-------------- | :-------- | :---------- | :-------------------------------------------------- |
-| additionalClass | `string`  | `undefined` | Custom class name to add to the component container |
-| mobile          | `boolean` | `false`     | Configuration that manages mobile/desktop views     |
+| Parameter | Type      | Default     | Description                                         |
+| :-------- | :-------- | :---------- | :-------------------------------------------------- |
+| className | `string`  | `undefined` | Custom class name to add to the component container |
+| mobile    | `boolean` | `false`     | Configuration that manages mobile/desktop views     |
 
 #### Methods
 

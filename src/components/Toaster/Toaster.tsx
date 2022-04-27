@@ -19,22 +19,23 @@ export class Toaster {
     _rootNode!: HTMLDivElement;
     // FIXME: BREAKING CHANGE. Rename to "toasts" and convert to private
     _toasts: ToastProps[] = [];
-    private additionalClass = '';
+    private className = '';
     private mobile = false;
 
     constructor(args?: ToasterArgs) {
         const additionalClass = get(args, ['additionalClass'], '');
+        const className = get(args, ['className'], '');
         const mobile = get(args, ['mobile'], false);
 
         if (window[TOASTER_KEY] instanceof Toaster) {
             const me = window[TOASTER_KEY];
-            me.additionalClass = additionalClass;
+            me.className = className || additionalClass;
             me.mobile = mobile;
             me.setRootNodeClassName();
             return me;
         }
 
-        this.additionalClass = additionalClass;
+        this.className = additionalClass;
         this.mobile = mobile;
         this._toasts = [];
         this._createRootNode();
@@ -82,6 +83,7 @@ export class Toaster {
     };
 
     // FIXME: BREAKING CHANGE. Rename to "removeToastFromDOM" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _removeToastFromDOM(name: string) {
         const index = this._getToastIndex(name);
         this._toasts.splice(index, 1);
@@ -89,11 +91,13 @@ export class Toaster {
     }
 
     // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _getToastIndex = (name: string) => {
         return this._toasts.findIndex((toast) => toast.name === name);
     };
 
     // FIXME: BREAKING CHANGE. Rename to "createRootNode" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _createRootNode() {
         this._rootNode = document.createElement('div');
         this.setRootNodeClassName();
@@ -101,6 +105,7 @@ export class Toaster {
     }
 
     // FIXME: BREAKING CHANGE. Rename to "render" and convert to private
+    /** @deprecated  Will be renamed and converted to private method in te next major */
     _render() {
         ReactDOM.render(
             <ToastList
@@ -114,6 +119,6 @@ export class Toaster {
     }
 
     private setRootNodeClassName() {
-        this._rootNode.className = bToaster({mobile: this.mobile}, this.additionalClass);
+        this._rootNode.className = bToaster({mobile: this.mobile}, this.className);
     }
 }

@@ -8,5 +8,3 @@ export * from './Info';
 export * from './PreviewCloseIcon';
 export * from './QuestionMarkIcon';
 export * from './Success';
-
-export type UIKitIcon = (props: React.SVGProps<SVGSVGElement>) => JSX.Element;

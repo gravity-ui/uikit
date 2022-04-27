@@ -30,19 +30,21 @@ $block: '.#{$ns}toast';
     }
 
     &_show-animation {
-        animation: set-indents 0.35s ease forwards, move-left 0.25s ease forwards 0.35s;
+        animation: toast-set-indents 0.35s ease forwards, toast-move-left 0.25s ease forwards 0.35s;
     }
 
     &_show-animation#{&}_mobile {
-        animation: set-indents 0.35s ease forwards, move-top 0.25s ease forwards 0.35s;
+        animation: toast-set-indents 0.35s ease forwards, toast-move-top 0.25s ease forwards 0.35s;
     }
 
     &_hide-animation {
-        animation: move-right 0.25s ease forwards, remove-height 0.35s ease forwards 0.25s;
+        animation: toast-move-right 0.25s ease forwards,
+            toast-remove-height 0.35s ease forwards 0.25s;
     }
 
     &_hide-animation#{&}_mobile {
-        animation: move-bottom 0.25s ease forwards, remove-height 0.35s ease forwards 0.25s;
+        animation: toast-move-bottom 0.25s ease forwards,
+            toast-remove-height 0.35s ease forwards 0.25s;
     }
 
     &_created {
@@ -135,7 +137,7 @@ $block: '.#{$ns}toast';
     }
 }
 
-@keyframes move-right {
+@keyframes toast-move-right {
     from {
         transform: translateX(0);
     }
@@ -146,7 +148,7 @@ $block: '.#{$ns}toast';
     }
 }
 
-@keyframes move-left {
+@keyframes toast-move-left {
     from {
         opacity: 0;
         transform: translateX(10px);
@@ -158,7 +160,7 @@ $block: '.#{$ns}toast';
     }
 }
 
-@keyframes move-top {
+@keyframes toast-move-top {
     from {
         opacity: 0;
         transform: translateY(10px);
@@ -170,7 +172,7 @@ $block: '.#{$ns}toast';
     }
 }
 
-@keyframes move-bottom {
+@keyframes toast-move-bottom {
     from {
         transform: translateX(0);
     }
@@ -181,7 +183,7 @@ $block: '.#{$ns}toast';
     }
 }
 
-@keyframes remove-height {
+@keyframes toast-remove-height {
     to {
         height: 0;
         margin-bottom: 0;
@@ -189,7 +191,7 @@ $block: '.#{$ns}toast';
     }
 }
 
-@keyframes set-indents {
+@keyframes toast-set-indents {
     to {
         margin-bottom: 10px;
         padding: 18px;

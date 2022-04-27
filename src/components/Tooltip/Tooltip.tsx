@@ -71,19 +71,12 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
     const anchorHovered = useAnchorHovered(anchor);
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
     useEffect(() => {
-        if (anchorHovered && !tooltipVisible) {
-            const timeout = setTimeout(showTooltip, openDelay);
-            return () => {
-                clearTimeout(timeout);
-            };
-        }
-        if (!anchorHovered && tooltipVisible) {
-            const timeout = setTimeout(hideTooltip, closeDelay);
-            return () => {
-                clearTimeout(timeout);
-            };
-        }
-        return;
+        let timeout: ReturnType<typeof setTimeout>;
+        if (anchorHovered && !tooltipVisible) timeout = setTimeout(showTooltip, openDelay);
+        if (!anchorHovered && tooltipVisible) timeout = setTimeout(hideTooltip, closeDelay);
+        return () => {
+            clearTimeout(timeout);
+        };
     }, [anchorHovered]);
     return tooltipVisible;
 }

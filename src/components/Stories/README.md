@@ -4,14 +4,15 @@ Component for displaying stories. It looks like a carousel in a modal with given
 
 ### PropTypes
 
-| Property          | Type            | Required | Default | Description                              |
-| :---------------- | :-------------- | :------- | :------ | :--------------------------------------- |
-| open              | `Boolean`       | ✓        |         | Visibility flag                          |
-| items             | `StoriesItem[]` | ✓        |         | List of stories to display               |
-| initialStoryIndex | `Number`        |          | 0       | Index of the first story to be displayed |
-| onClose           | `Function`      |          |         | Action on close                          |
-| onPreviousClick   | `Function`      |          |         | Action when switching to previous story  |
-| onNextClick       | `Function`      |          |         | Action when switching to next story      |
+| Property            | Type            | Required | Default | Description                                      |
+| :------------------ | :-------------- | :------- | :------ | :----------------------------------------------- |
+| open                | `Boolean`       | ✓        |         | Visibility flag                                  |
+| items               | `StoriesItem[]` | ✓        |         | List of stories to display                       |
+| initialStoryIndex   | `Number`        |          | 0       | Index of the first story to be displayed         |
+| onClose             | `Function`      |          |         | Action on close                                  |
+| onPreviousClick     | `Function`      |          |         | Action when switching to previous story          |
+| onNextClick         | `Function`      |          |         | Action when switching to next story              |
+| disableOutsideClick | `Boolean`       |          | true    | If `true`, do not close stories on click outside |
 
 ### StoriesItem object
 

@@ -1,5 +1,13 @@
 # Changelog
 
+### [2.1.1](https://www.github.com/yandex-cloud/uikit/compare/v2.1.0...v2.1.1) (2022-04-29)
+
+
+### Bug Fixes
+
+* **Select:** fix readme ([#152](https://www.github.com/yandex-cloud/uikit/issues/152)) ([78b7194](https://www.github.com/yandex-cloud/uikit/commit/78b7194abcbf5e3100d5041e8b96744c384d6257))
+* **Tabs:** add white-space property ([#155](https://www.github.com/yandex-cloud/uikit/issues/155)) ([5a07d9b](https://www.github.com/yandex-cloud/uikit/commit/5a07d9b288ae1d74b38edb2ddd131782fb8dce56))
+
 ## [2.1.0](https://www.github.com/yandex-cloud/uikit/compare/v2.0.0...v2.1.0) (2022-04-27)
 
 

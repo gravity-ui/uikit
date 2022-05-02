@@ -90,7 +90,7 @@ export interface TextProps extends TextBase, ColorTextBase {
      */
     as?: keyof Pick<
         JSX.IntrinsicElements,
-        'span' | 'div' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'pre' | 'code'
+        'span' | 'a' | 'div' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'pre' | 'code'
     >;
     style?: React.CSSProperties;
     className?: string;
@@ -99,7 +99,7 @@ export interface TextProps extends TextBase, ColorTextBase {
     /**
      * Use this for locators in your tests
      */
-    testId?: string;
+    qa?: string;
 }
 
 /**
@@ -129,22 +129,20 @@ export interface TextProps extends TextBase, ColorTextBase {
  * ```
  */
 export const Text: React.FC<TextProps> = ({
-    as = 'span',
+    as: Tag = 'span',
     children,
     content,
     type,
     className,
     ellipsis,
     color,
-    testId,
+    qa,
     ...rest
 }) => {
-    const Tag = ellipsis ? 'div' : as;
-
     return (
         <Tag
             className={text({type, ellipsis}, color ? colorText({color}, className) : className)}
-            data-testid={testId}
+            data-qa={qa}
             {...rest}
         >
             {content || children}

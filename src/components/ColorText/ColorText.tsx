@@ -6,7 +6,6 @@ const b = block('color-text');
 
 export interface ColorTextBase {
     color?:
-        | 'inherit'
         | 'primary'
         | 'complementary'
         | 'secondary'

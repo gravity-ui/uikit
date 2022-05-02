@@ -1,10 +1,8 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables' as variables;
 
-$block: '.#{$ns}color-text';
+$block: '.#{variables.$ns}color-text';
 
 $textColorMap: (
-    'inherit' inherit,
     'primary' var(--yc-color-text-primary),
     'complementary' var(--yc-color-text-complementary),
     'secondary' var(--yc-color-text-secondary),

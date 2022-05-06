@@ -17,7 +17,7 @@ $block: '.#{$ns}popover';
 
         box-sizing: border-box;
         min-height: 40px;
-        max-width: var(--yc-tooltip-max-width);
+        max-width: var(--yc-popover-max-width);
         padding: var(--yc-popover-padding);
         display: flex;
         flex-direction: column;

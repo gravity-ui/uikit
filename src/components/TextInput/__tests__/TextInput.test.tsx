@@ -1,111 +1,106 @@
 import React from 'react';
-import {shallow} from 'enzyme';
-
+import userEvent from '@testing-library/user-event';
+import {render, screen, fireEvent} from '@testing-library/react';
 import {TextInput} from '../TextInput';
-import {TextAreaControl} from '../TextAreaControl/TextAreaControl';
-import {InputControl} from '../InputControl/InputControl';
-
-type TextInputEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 describe('TextInput', () => {
-    it('should render text area component when component receives multiline props', () => {
-        const wrapper = shallow(<TextInput multiline />);
+    test('render input by default', () => {
+        render(<TextInput />);
+        const input = screen.getByRole('textbox');
 
-        expect(wrapper.find(TextAreaControl).exists()).toBeTruthy();
+        expect(input).toBeVisible();
+        expect(input.tagName.toLowerCase()).toBe('input');
     });
 
-    it("shouldn render text input component when component doesn't receive multiline props", () => {
-        const wrapper = shallow(<TextInput />);
+    test('render textarea with multiline prop', () => {
+        render(<TextInput multiline />);
+        const input = screen.getByRole('textbox');
 
-        expect(wrapper.find(InputControl).exists()).toBeTruthy();
+        expect(input).toBeVisible();
+        expect(input.tagName.toLowerCase()).toBe('textarea');
     });
 
-    it('should render error message in input when component receives error props', () => {
-        const wrapper = shallow(<TextInput error="FAKE_ERROR" />);
+    test('render error message with error prop', () => {
+        const {container} = render(<TextInput error="Some Error" />);
 
-        expect(wrapper.find('.yc-text-input__error').exists()).toBeTruthy();
+        expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
+        expect(screen.getByText('Some Error')).toBeVisible();
     });
 
-    it("shouldn't render error message in input when component doesn't receive error props", () => {
-        const wrapper = shallow(<TextInput />);
+    test('do not show error without error prop', () => {
+        const {container} = render(<TextInput />);
 
-        expect(wrapper.find('.yc-text-input__error').exists()).toBeFalsy();
+        expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
     });
 
-    it('should render clear button when component receives hasClear props', () => {
-        const wrapper = shallow(<TextInput hasClear />);
+    test('render clear button with hasClear prop', () => {
+        const {container} = render(<TextInput hasClear />);
 
-        expect(wrapper.find('.yc-text-input__clear').exists()).toBeTruthy();
+        expect(container.querySelector('.yc-text-input__clear')).toBeInTheDocument();
     });
 
-    it("shouldn't render clear button when component doesn't receive hasClear props", () => {
-        const wrapper = shallow(<TextInput />);
+    test('do not render clear button without hasClear prop', () => {
+        const {container} = render(<TextInput />);
 
-        expect(wrapper.find('.yc-text-input__clear').exists()).toBeFalsy();
+        expect(container.querySelector('.yc-text-input__clear')).not.toBeInTheDocument();
     });
 
-    it('should call onChange with event function when input changes value', () => {
-        const FAKE_ON_CHANGE_FN = jest.fn();
-        const FAKE_EVENT = {target: {}} as TextInputEvent;
+    test('call onChange when input changes value', () => {
+        const onChangeFn = jest.fn();
 
-        const wrapper = shallow(<TextInput onChange={FAKE_ON_CHANGE_FN} />);
-        wrapper.find(InputControl).props().onChange?.(FAKE_EVENT);
+        render(<TextInput onChange={onChangeFn} />);
+        fireEvent.change(screen.getByRole('textbox'), {target: {value: '1'}});
 
-        expect(FAKE_ON_CHANGE_FN).toBeCalledWith({...FAKE_EVENT});
+        expect(onChangeFn).toBeCalled();
     });
 
-    it('should call onUpdate with "FAKE_VALUE" function when input changes value', () => {
-        const FAKE_VALUE = 'FAKE_VALUE';
-        const FAKE_ON_UPDATE_FN = jest.fn();
-        const FAKE_EVENT = {target: {value: FAKE_VALUE}} as TextInputEvent;
+    test('call onUpdate with certain value when input changes value', () => {
+        const onUpdateFn = jest.fn();
+        const value = 'some';
 
-        const wrapper = shallow(<TextInput onUpdate={FAKE_ON_UPDATE_FN} />);
-        wrapper.find(InputControl).props().onChange?.(FAKE_EVENT);
+        render(<TextInput onUpdate={onUpdateFn} />);
+        fireEvent.change(screen.getByRole('textbox'), {target: {value}});
 
-        expect(FAKE_ON_UPDATE_FN).toBeCalledWith(FAKE_VALUE);
+        expect(onUpdateFn).toBeCalledWith(value);
     });
 
-    it('should call onChange function when it clickes to clean button and component receives hasClear', () => {
-        const FAKE_ON_CHANGE_FN = jest.fn();
-        const FAKE_EVENT = {target: {}} as TextInputEvent;
-        const FAKE_CONTROL_REF = {
-            current: {focus: jest.fn(), value: ''} as any as HTMLInputElement,
-        };
+    test('call onChange when click to clean button', async () => {
+        const onChangeFn = jest.fn();
+        const user = userEvent.setup();
+        const {container} = render(<TextInput hasClear onChange={onChangeFn} />);
+        const clear = container.querySelector('.yc-text-input__clear');
 
-        const wrapper = shallow(
-            <TextInput controlRef={FAKE_CONTROL_REF} hasClear onChange={FAKE_ON_CHANGE_FN} />,
-        );
-        (wrapper.find(InputControl).props().controlRef as Function)(FAKE_CONTROL_REF.current);
-        wrapper.find('.yc-text-input__clear').simulate('click', FAKE_EVENT);
+        if (clear) {
+            await user.click(clear);
+        }
 
-        expect(FAKE_ON_CHANGE_FN).toBeCalled();
+        expect(onChangeFn).toBeCalled();
     });
 
-    it('should call onUpdate with "FAKE_VALUE" function when it clickes to clean button and component receives hasClear', () => {
-        const FAKE_ON_UPDATE_FN = jest.fn();
-        const FAKE_EVENT = {target: {}} as TextInputEvent;
-        const FAKE_CONTROL_REF = {
-            current: {focus: jest.fn(), value: ''} as any as HTMLInputElement,
-        };
+    test('call onUpdate with emply value when click to clean button', async () => {
+        const onUpdateFn = jest.fn();
+        const user = userEvent.setup();
+        const {container} = render(<TextInput hasClear onUpdate={onUpdateFn} />);
+        const clear = container.querySelector('.yc-text-input__clear');
 
-        const wrapper = shallow(
-            <TextInput controlRef={FAKE_CONTROL_REF} hasClear onUpdate={FAKE_ON_UPDATE_FN} />,
-        );
-        (wrapper.find(InputControl).props().controlRef as Function)(FAKE_CONTROL_REF.current);
-        wrapper.find('.yc-text-input__clear').simulate('click', FAKE_EVENT);
+        if (clear) {
+            await user.click(clear);
+        }
 
-        expect(FAKE_ON_UPDATE_FN).toBeCalledWith('');
+        expect(onUpdateFn).toBeCalledWith('');
     });
 
-    it('should pass autoComplete = on to InputControl component when component recieves autoComplete props = true', () => {
-        const wrapper = shallow(<TextInput autoComplete />);
+    test('render autocomplete=on attribute with autoComplete prop', () => {
+        render(<TextInput autoComplete />);
+        const input = screen.getByRole('textbox');
 
-        expect(wrapper.find(InputControl).props().autoComplete).toBe('on');
+        expect(input.getAttribute('autocomplete')).toBe('on');
     });
 
-    it('should pass autoComplete = off to InputControl component when component recieves autoComplete props = false', () => {
-        const wrapper = shallow(<TextInput autoComplete={false} />);
+    test('render autocomplete=off attribute with autoComplete=false prop', () => {
+        render(<TextInput autoComplete={false} />);
+        const input = screen.getByRole('textbox');
 
-        expect(wrapper.find(InputControl).props().autoComplete).toBe('off');
+        expect(input.getAttribute('autocomplete')).toBe('off');
     });
 });

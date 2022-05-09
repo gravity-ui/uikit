@@ -1,25 +1,33 @@
-import {mount} from 'enzyme';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
+import {render, screen} from '@testing-library/react';
 import {ClipboardButton} from '../ClipboardButton';
 
-[
-    {name: 'click', data: {}},
-    // Seems like this events is not properly handled by enzyme, while is actually works in browser
-    // {name: 'keydown', data: {key: ' '}},
-    // {name: 'keydown', data: {key: 'Enter'}},
-].forEach(({name, data = {}}) => {
-    const event = name;
-    // if (data.key) {
-    //     event = `${event} (key: "${data.key}")`;
-    // }
-
-    it(`should copy text on ${event}`, function () {
+describe('ClipboardButton', () => {
+    test('copy text on click', async () => {
+        const onCopy = jest.fn();
+        const user = userEvent.setup();
         const documentExecCommand = document.execCommand;
         document.execCommand = jest.fn().mockReturnValue(true);
-        const onCopy = jest.fn();
-        const wrapper = mount(<ClipboardButton text="Text to copy" onCopy={onCopy} />);
 
-        wrapper.find('button').simulate(name, data);
+        render(<ClipboardButton text="Text to copy" onCopy={onCopy} />);
+        await user.click(screen.getByRole('button'));
+
+        expect(onCopy).toHaveBeenCalledWith('Text to copy', true);
+
+        document.execCommand = documentExecCommand;
+    });
+
+    test.each(['[Enter]', ' '])('copy text on "%s" key', async (key) => {
+        const onCopy = jest.fn();
+        const user = userEvent.setup();
+        const documentExecCommand = document.execCommand;
+        document.execCommand = jest.fn().mockReturnValue(true);
+
+        render(<ClipboardButton text="Text to copy" onCopy={onCopy} />);
+        const button = screen.getByRole('button');
+        button.focus();
+        await user.keyboard(key);
 
         expect(onCopy).toHaveBeenCalledWith('Text to copy', true);
 

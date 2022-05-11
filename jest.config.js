@@ -7,7 +7,7 @@ module.exports = {
     },
     coverageDirectory: './coverage',
     testEnvironment: 'jsdom',
-    setupFiles: ['<rootDir>/src/setup-tests.ts'],
+    setupFilesAfterEnv: ['<rootDir>/src/setup-tests.ts'],
     moduleNameMapper: {
         '\\.(css|less|scss|sass)$': 'jest-transform-css',
     },

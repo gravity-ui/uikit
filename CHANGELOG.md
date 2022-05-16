@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.2.0](https://github.com/yandex-cloud/uikit/compare/v2.1.1...v2.2.0) (2022-05-16)
+
+
+### Features
+
+* **tests:** replace enzyme with react testing library ([#157](https://github.com/yandex-cloud/uikit/issues/157)) ([403b303](https://github.com/yandex-cloud/uikit/commit/403b3037320f494c5447a0149c533092d5dfd819))
+
+
+### Bug Fixes
+
+* **Popover:** fix max-width css variable ([#156](https://github.com/yandex-cloud/uikit/issues/156)) ([7859c95](https://github.com/yandex-cloud/uikit/commit/7859c95ffe5076e204d04d3a9ecdb3eb21025401))
+* **Toaster:** fix toasts bg color ([#158](https://github.com/yandex-cloud/uikit/issues/158)) ([76023b7](https://github.com/yandex-cloud/uikit/commit/76023b76bfe617bf35583184e808511ca8871c37))
+
 ### [2.1.1](https://www.github.com/yandex-cloud/uikit/compare/v2.1.0...v2.1.1) (2022-04-29)
 
 

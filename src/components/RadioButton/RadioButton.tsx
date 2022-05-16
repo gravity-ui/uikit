@@ -2,10 +2,7 @@ import React, {useRef, useCallback} from 'react';
 
 import {block} from '../utils/cn';
 import {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
-import {
-    RadioButtonOption as Option,
-    RadioButtonOptionProps as OptionProps,
-} from './RadioButtonOption';
+import {RadioButtonOption as Option} from './RadioButtonOption';
 import {useRadioGroup} from '../utils/useRadioGroup';
 
 import './RadioButton.scss';
@@ -18,16 +15,14 @@ export type RadioButtonSize = 's' | 'm' | 'l' | 'xl';
 export interface RadioButtonProps extends ControlGroupProps, DOMProps, QAProps {
     size?: RadioButtonSize;
     width?: 'auto' | 'max';
-    children?:
-        | React.ReactElement<OptionProps, typeof Option>
-        | React.ReactElement<OptionProps, typeof Option>[];
+    children?: React.ReactElement<ControlGroupOption> | React.ReactElement<ControlGroupOption>[];
 }
 
 interface RadioButtonComponent
     extends React.ForwardRefExoticComponent<
         RadioButtonProps & React.RefAttributes<HTMLDivElement>
     > {
-    Option: typeof Option;
+    Option: React.ComponentType<ControlGroupOption>;
 }
 
 export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(function RadioButton(
@@ -39,7 +34,7 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
 
     if (!options) {
         options = (
-            React.Children.toArray(children) as React.ReactElement<OptionProps, typeof Option>[]
+            React.Children.toArray(children) as React.ReactElement<ControlGroupOption>[]
         ).map(({props}) => ({
             value: props.value,
             content: props.content || props.children,

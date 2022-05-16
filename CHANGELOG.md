@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.2.1](https://github.com/yandex-cloud/uikit/compare/v2.2.0...v2.2.1) (2022-05-16)
+
+
+### Bug Fixes
+
+* **RadioButton:** fixed types ([#160](https://github.com/yandex-cloud/uikit/issues/160)) ([c5bd67a](https://github.com/yandex-cloud/uikit/commit/c5bd67a31fa1d1f5e46664b097548acb39c5b55f))
+
 ## [2.2.0](https://github.com/yandex-cloud/uikit/compare/v2.1.1...v2.2.0) (2022-05-16)
 
 

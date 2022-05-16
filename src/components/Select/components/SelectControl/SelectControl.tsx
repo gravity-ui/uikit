@@ -11,7 +11,8 @@ const b = block('select');
 
 type ControlProps = {
     setActive: (nextActive: boolean) => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
+    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+    renderControl?: SelectProps['renderControl'];
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -25,10 +26,11 @@ type ControlProps = {
     disabled?: boolean;
 };
 
-export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
+export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {
         setActive,
         onKeyDown,
+        renderControl,
         view,
         size,
         pin,
@@ -41,8 +43,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         active,
         disabled,
     } = props;
-    const controlRef = React.useRef<HTMLButtonElement>(null);
-    const handleControlRef = useForkRef(ref, controlRef);
+    const controlRef = React.useRef<HTMLElement>(null);
+    const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(optionsText.length);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const mods: CnMods = {
@@ -59,11 +61,19 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         inlineStyles.width = width;
     }
 
-    const handleClick = () => setActive(!active);
+    const handleClick = React.useCallback(() => setActive(!active), [setActive, active]);
+
+    if (renderControl) {
+        return renderControl({
+            onKeyDown,
+            onClick: handleClick,
+            ref: handleControlRef,
+        });
+    }
 
     return (
         <button
-            ref={handleControlRef}
+            ref={handleControlRef as React.Ref<HTMLButtonElement>}
             name={name}
             className={b(mods, className)}
             style={inlineStyles}

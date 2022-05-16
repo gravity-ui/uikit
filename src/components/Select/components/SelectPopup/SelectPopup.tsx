@@ -31,7 +31,7 @@ type SelectPopupProps = {
     popupWidth?: number;
     active?: boolean;
     multiple?: boolean;
-    controlRef?: React.RefObject<HTMLButtonElement>;
+    controlRef?: React.RefObject<HTMLElement>;
 };
 
 export const SelectPopup = React.forwardRef<List<FlattenOption>, SelectPopupProps>((props, ref) => {

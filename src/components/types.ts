@@ -10,19 +10,35 @@ export interface QAProps {
 }
 
 // Checkbox, Radio and Switch
-export interface ControlProps {
-    name?: string;
-    value?: string;
-    id?: string;
-    checked?: boolean;
-    defaultChecked?: boolean;
+export interface ControlProps
+    extends Pick<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        | 'name'
+        | 'value'
+        | 'id'
+        | 'checked'
+        | 'onChange'
+        | 'onFocus'
+        | 'onBlur'
+        | 'disabled'
+        | 'defaultChecked'
+    > {
     indeterminate?: boolean;
     onUpdate?: (checked: boolean) => void;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    disabled?: boolean;
-    controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
+    controlProps?: Omit<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        | 'name'
+        | 'value'
+        | 'id'
+        | 'onFocus'
+        | 'onBlur'
+        | 'disabled'
+        | 'type'
+        | 'onChange'
+        | 'defaultChecked'
+        | 'checked'
+        | 'aria-checked'
+    >;
     controlRef?: React.Ref<HTMLInputElement>;
 }
 

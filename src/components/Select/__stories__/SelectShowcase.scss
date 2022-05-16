@@ -32,4 +32,8 @@ $block: '.#{$ns}select-showcase';
         right: 6px;
         z-index: 1;
     }
+
+    &__user-control {
+        display: inline-flex;
+    }
 }

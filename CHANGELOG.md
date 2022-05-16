@@ -1,5 +1,48 @@
 # Changelog
 
+## [2.2.0](https://github.com/yandex-cloud/uikit/compare/v2.1.1...v2.2.0) (2022-05-16)
+
+
+### Features
+
+* **tests:** replace enzyme with react testing library ([#157](https://github.com/yandex-cloud/uikit/issues/157)) ([403b303](https://github.com/yandex-cloud/uikit/commit/403b3037320f494c5447a0149c533092d5dfd819))
+
+
+### Bug Fixes
+
+* **Popover:** fix max-width css variable ([#156](https://github.com/yandex-cloud/uikit/issues/156)) ([7859c95](https://github.com/yandex-cloud/uikit/commit/7859c95ffe5076e204d04d3a9ecdb3eb21025401))
+* **Toaster:** fix toasts bg color ([#158](https://github.com/yandex-cloud/uikit/issues/158)) ([76023b7](https://github.com/yandex-cloud/uikit/commit/76023b76bfe617bf35583184e808511ca8871c37))
+
+### [2.1.1](https://www.github.com/yandex-cloud/uikit/compare/v2.1.0...v2.1.1) (2022-04-29)
+
+
+### Bug Fixes
+
+* **Select:** fix readme ([#152](https://www.github.com/yandex-cloud/uikit/issues/152)) ([78b7194](https://www.github.com/yandex-cloud/uikit/commit/78b7194abcbf5e3100d5041e8b96744c384d6257))
+* **Tabs:** add white-space property ([#155](https://www.github.com/yandex-cloud/uikit/issues/155)) ([5a07d9b](https://www.github.com/yandex-cloud/uikit/commit/5a07d9b288ae1d74b38edb2ddd131782fb8dce56))
+
+## [2.1.0](https://www.github.com/yandex-cloud/uikit/compare/v2.0.0...v2.1.0) (2022-04-27)
+
+
+### Features
+
+* add Stories component ([#127](https://www.github.com/yandex-cloud/uikit/issues/127)) ([74e45ba](https://www.github.com/yandex-cloud/uikit/commit/74e45ba2c55705973bd348e6eaeb1291eb3cb570))
+* **List:** add eventBroker for List ([#132](https://www.github.com/yandex-cloud/uikit/issues/132)) ([40e64b1](https://www.github.com/yandex-cloud/uikit/commit/40e64b17b6ece539631779416f4c1f46941ecd1d))
+* **Select:** improvements ([#136](https://www.github.com/yandex-cloud/uikit/issues/136)) ([46affd3](https://www.github.com/yandex-cloud/uikit/commit/46affd339528d2f5f48047324736fc6c25282f0c))
+* **Stories:** add props "disableOutsideClick" ([#151](https://www.github.com/yandex-cloud/uikit/issues/151)) ([358d0d9](https://www.github.com/yandex-cloud/uikit/commit/358d0d9d3a6bb1a3fd4d4d7d247a565ca7558253))
+* **Toaster:** refresh design ([#144](https://www.github.com/yandex-cloud/uikit/issues/144)) ([b5996ef](https://www.github.com/yandex-cloud/uikit/commit/b5996ef84545deed055cfbc5b1bf6e5f5cf080c8))
+* **Tooltip:** add delay before opening/closing ([#140](https://www.github.com/yandex-cloud/uikit/issues/140)) ([b3da68c](https://www.github.com/yandex-cloud/uikit/commit/b3da68cf09a95845c6bf323fc8f8f5120aa2fb5d))
+* translated DropdownMenu stories ([#138](https://www.github.com/yandex-cloud/uikit/issues/138)) ([5b1d083](https://www.github.com/yandex-cloud/uikit/commit/5b1d083a09e3e272346eeac8645bdfa7e0445383))
+
+
+### Bug Fixes
+
+* checked components types ([#129](https://www.github.com/yandex-cloud/uikit/issues/129)) ([ba65eb4](https://www.github.com/yandex-cloud/uikit/commit/ba65eb4cac14d38f7babb5057bd3ab12c5bcbe33))
+* **Dialog:** fix README ([#139](https://www.github.com/yandex-cloud/uikit/issues/139)) ([99c584a](https://www.github.com/yandex-cloud/uikit/commit/99c584a8532cd0760bac201ec846329e65055b42))
+* **Stories:** add video looping ([#149](https://www.github.com/yandex-cloud/uikit/issues/149)) ([be7cb8c](https://www.github.com/yandex-cloud/uikit/commit/be7cb8c752ad668246cc6354898860749f7bd62e))
+* **Stories:** fix right pane style ([#147](https://www.github.com/yandex-cloud/uikit/issues/147)) ([ad23e37](https://www.github.com/yandex-cloud/uikit/commit/ad23e377c04845238ad36ef21bcac0b8321eec80))
+* **Stories:** fixed styles according to the design ([#143](https://www.github.com/yandex-cloud/uikit/issues/143)) ([0cb5691](https://www.github.com/yandex-cloud/uikit/commit/0cb56917c205434bfa8af85a745b5515f9ebab47))
+
 ## [2.0.0](https://www.github.com/yandex-cloud/uikit/compare/v1.10.0...v2.0.0) (2022-04-08)
 
 

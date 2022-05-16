@@ -33,7 +33,7 @@ $block: '.#{$ns}modal';
 
     &__content {
         display: inline-block;
-        margin: 20px;
+        margin: var(--yc-modal-margin);
         text-align: left;
         background-color: var(--yc-color-base-float);
         border-radius: var(--yc-modal-border-radius);
@@ -102,4 +102,5 @@ $block: '.#{$ns}modal';
 
 :root {
     --yc-modal-border-radius: 5px;
+    --yc-modal-margin: 20px;
 }

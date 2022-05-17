@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.2.2](https://github.com/yandex-cloud/uikit/compare/v2.2.1...v2.2.2) (2022-05-17)
+
+
+### Bug Fixes
+
+* **Toaster:** increase css specificity of close button mixin ([#163](https://github.com/yandex-cloud/uikit/issues/163)) ([17b4637](https://github.com/yandex-cloud/uikit/commit/17b4637c5791f7b88ca53466a193bc84e3e14ef9))
+
 ### [2.2.1](https://github.com/yandex-cloud/uikit/compare/v2.2.0...v2.2.1) (2022-05-16)
 
 

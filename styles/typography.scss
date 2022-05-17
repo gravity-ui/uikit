@@ -10,6 +10,9 @@
     --yc-text-subheader-font-weight: 900;
     --yc-text-display-font-weight: 900;
     --yc-text-code-font-weight: 400;
+    --yc-text-body-font-weight: 400;
+    --yc-text-caption-font-weight: 400;
+    --yc-text-accent-font-weight: 900;
 
     --yc-text-body-1-font-size: 13px;
     --yc-text-body-1-line-height: 18px;
@@ -77,4 +80,5 @@
     font-family: var(--yc-text-body-font-family);
     font-size: var(--yc-text-body-1-font-size);
     line-height: var(--yc-text-body-1-line-height);
+    font-weight: var(--yc-text-body-font-weight);
 }

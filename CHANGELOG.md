@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/yandex-cloud/uikit/compare/v2.2.2...v2.3.0) (2022-05-18)
+
+
+### Features
+
+* new typography variables and mixins ([#165](https://github.com/yandex-cloud/uikit/issues/165)) ([c86012f](https://github.com/yandex-cloud/uikit/commit/c86012f097d2665ab3bb0386df4c6450d7e75514))
+
 ### [2.2.2](https://github.com/yandex-cloud/uikit/compare/v2.2.1...v2.2.2) (2022-05-17)
 
 

@@ -142,31 +142,37 @@
 @mixin text-body-1() {
     font-size: var(--yc-text-body-1-font-size);
     line-height: var(--yc-text-body-1-line-height);
+    font-weight: var(--yc-text-body-font-weight);
 }
 
 @mixin text-body-2() {
     font-size: var(--yc-text-body-2-font-size);
     line-height: var(--yc-text-body-2-line-height);
+    font-weight: var(--yc-text-body-font-weight);
 }
 
 @mixin text-body-3() {
     font-size: var(--yc-text-body-3-font-size);
     line-height: var(--yc-text-body-3-line-height);
+    font-weight: var(--yc-text-body-font-weight);
 }
 
 @mixin text-body-short() {
     font-size: var(--yc-text-body-short-font-size);
     line-height: var(--yc-text-body-short-line-height);
+    font-weight: var(--yc-text-body-font-weight);
 }
 
 @mixin text-caption-1() {
     font-size: var(--yc-text-caption-1-font-size);
     line-height: var(--yc-text-caption-1-line-height);
+    font-weight: var(--yc-text-caption-font-weight);
 }
 
 @mixin text-caption-2() {
     font-size: var(--yc-text-caption-2-font-size);
     line-height: var(--yc-text-caption-2-line-height);
+    font-weight: var(--yc-text-caption-font-weight);
 }
 
 @mixin text-header-1() {
@@ -269,4 +275,8 @@
     font-size: var(--yc-text-code-inline-3-font-size);
     line-height: var(--yc-text-code-inline-3-line-height);
     font-weight: var(--yc-text-code-font-weight);
+}
+
+@mixin text-accent() {
+    font-weight: var(--yc-text-accent-font-weight);
 }

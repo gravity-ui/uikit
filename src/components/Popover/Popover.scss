@@ -110,7 +110,7 @@ $block: '.#{$ns}popover';
                 }
 
                 #{$class}__tooltip-content a:not(.yc-button) {
-                    font-weight: bold;
+                    @include text-accent;
                     color: var(--yc-color-text-light-primary);
 
                     &:hover {

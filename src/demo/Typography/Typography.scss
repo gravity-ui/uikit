@@ -12,9 +12,8 @@
     }
 
     &__header {
-        @include text-body-1();
+        @include text-subheader-1();
         margin-bottom: 20px;
-        font-weight: bold;
         text-transform: uppercase;
         color: var(--yc-color-text-primary);
     }

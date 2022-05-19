@@ -55,7 +55,7 @@
     }
 
     &__group {
-        font-weight: 500;
+        @include text-accent;
         color: var(--yc-color-text-secondary);
     }
 

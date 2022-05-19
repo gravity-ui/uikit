@@ -122,7 +122,7 @@
     }
 
     &__th-content {
-        font-weight: 500;
+        @include text-accent;
         display: inline-block;
         &::first-letter {
             text-transform: uppercase;

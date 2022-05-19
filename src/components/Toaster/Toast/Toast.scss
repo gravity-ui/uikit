@@ -1,4 +1,5 @@
 @import '../../variables';
+@import '../../../../styles/mixins';
 
 $block: '.#{$ns}toast';
 
@@ -111,15 +112,14 @@ $block: '.#{$ns}toast';
         }
     }
 
+    &__title {
+        @include text-subheader-2;
+        padding-right: 28px;
+    }
+
     &__title,
     &__action {
         line-height: 24px;
-    }
-
-    &__title {
-        padding-right: 28px;
-        font-size: 15px;
-        font-weight: 500;
     }
 
     #{$iconClass} {

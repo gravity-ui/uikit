@@ -68,9 +68,9 @@ $xl-hor-padding: '12px';
 
     &__group-label-content {
         @include overflow-ellipsis();
+        @include text-accent;
 
         width: 100%;
-        font-weight: 500;
     }
 
     &__option {

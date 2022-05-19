@@ -99,8 +99,8 @@ $block: '.#{$ns}select';
     }
 
     &__label {
+        @include text-accent;
         margin-right: 2px;
-        font-weight: 500;
         white-space: nowrap;
     }
 

@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.1](https://github.com/yandex-cloud/uikit/compare/v2.3.0...v2.3.1) (2022-05-19)
+
+
+### Bug Fixes
+
+* replace font-weight usages with mixin ([#167](https://github.com/yandex-cloud/uikit/issues/167)) ([b38318f](https://github.com/yandex-cloud/uikit/commit/b38318ff10c86387253fa917e8cb83aeab45802c))
+
 ## [2.3.0](https://github.com/yandex-cloud/uikit/compare/v2.2.2...v2.3.0) (2022-05-18)
 
 

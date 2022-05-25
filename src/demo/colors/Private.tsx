@@ -82,8 +82,13 @@ const renderColorTable = (theme: 'light' | 'dark') => {
         );
     };
 
-    const getClassName = (colorName: string, step: number) =>
-        `--yc-color-private-${colorName}-${step}`;
+    const getClassName = (colorName: string, step: number) => {
+        if (colorName.includes('solid')) {
+            return `--yc-color-private-${colorName.replace('-solid', '')}-${step}-solid`;
+        } else {
+            return `--yc-color-private-${colorName}-${step}`;
+        }
+    };
 
     const renderSteps = (colorName: string) => {
         return steps.map((step) => {

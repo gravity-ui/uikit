@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/yandex-cloud/uikit/compare/v2.3.1...v2.4.0) (2022-05-25)
+
+
+### Features
+
+* update blue color ([#170](https://github.com/yandex-cloud/uikit/issues/170)) ([2991b26](https://github.com/yandex-cloud/uikit/commit/2991b26637c2c19f672bdd46412add19cd570e8a))
+
 ### [2.3.1](https://github.com/yandex-cloud/uikit/compare/v2.3.0...v2.3.1) (2022-05-19)
 
 

@@ -231,10 +231,8 @@ export function Toast(props: ToastUnitedProps) {
             {...closeOnTimeoutProps}
         >
             <div className={b('container')}>
-                <div className={b('title')}>
-                    {renderIcon({type})}
-                    {title}
-                </div>
+                {renderIcon({type})}
+                <div className={b('title')}>{title}</div>
                 {isClosable && (
                     <Button view="flat-secondary" className={b('btn-close')} onClick={handleClose}>
                         <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />

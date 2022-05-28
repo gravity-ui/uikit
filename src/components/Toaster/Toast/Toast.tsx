@@ -162,20 +162,28 @@ function renderActions({actions, onClose}: RenderActionsProps) {
         return null;
     }
 
-    return actions.map(({label, onClick, removeAfterClick = true}, index) => {
-        const onActionClick = () => {
-            onClick();
-            if (removeAfterClick) {
-                onClose();
-            }
-        };
+    return (
+        <div className={b('actions')}>
+            {actions.map(({label, onClick, removeAfterClick = true}, index) => {
+                const onActionClick = () => {
+                    onClick();
+                    if (removeAfterClick) {
+                        onClose();
+                    }
+                };
 
-        return (
-            <Link key={`${label}__${index}`} className={b('action')} onClick={onActionClick}>
-                {label}
-            </Link>
-        );
-    });
+                return (
+                    <Link
+                        key={`${label}__${index}`}
+                        className={b('action')}
+                        onClick={onActionClick}
+                    >
+                        {label}
+                    </Link>
+                );
+            })}
+        </div>
+    );
 }
 
 interface RenderIconProps {
@@ -238,7 +246,7 @@ export function Toast(props: ToastUnitedProps) {
                         <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />
                     </Button>
                 )}
-                {content}
+                {Boolean(content) && <div className={b('content')}>{content}</div>}
                 {renderActions({actions, onClose: handleClose})}
             </div>
         </div>

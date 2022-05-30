@@ -11,7 +11,7 @@ import './ToasterShowcase.scss';
 
 const b = block('toaster-story');
 
-const CONTENT = <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, atque!</p>;
+const CONTENT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, atque!';
 
 const ACTIONS = [
     {

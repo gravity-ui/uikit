@@ -11,7 +11,7 @@ $block: '.#{$ns}toast';
     position: absolute;
     width: inherit;
     margin-bottom: 10px;
-    padding: 18px;
+    padding: 16px 16px 16px 48px;
     font-size: 13px;
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--yc-color-sfx-shadow);
@@ -34,8 +34,18 @@ $block: '.#{$ns}toast';
         animation: toast-set-indents 0.35s ease forwards, toast-move-left 0.25s ease forwards 0.35s;
     }
 
+    &_show-animation#{&}_default {
+        animation: toast-set-symmetrical-indents 0.35s ease forwards,
+            toast-move-left 0.25s ease forwards 0.35s;
+    }
+
     &_show-animation#{&}_mobile {
         animation: toast-set-indents 0.35s ease forwards, toast-move-top 0.25s ease forwards 0.35s;
+    }
+
+    &_show-animation#{&}_mobile#{&}_default {
+        animation: toast-set-symmetrical-indents 0.35s ease forwards,
+            toast-move-top 0.25s ease forwards 0.35s;
     }
 
     &_hide-animation {
@@ -53,6 +63,7 @@ $block: '.#{$ns}toast';
     }
 
     &_default {
+        padding: 16px;
         background-color: var(--yc-color-base-float);
     }
 
@@ -97,6 +108,8 @@ $block: '.#{$ns}toast';
     }
 
     #{$containerClass} {
+        display: grid;
+        row-gap: 8px;
         width: 100%;
         height: 100%;
 
@@ -123,7 +136,9 @@ $block: '.#{$ns}toast';
     }
 
     #{$iconClass} {
-        margin-right: 6px;
+        position: absolute;
+        top: 16px;
+        left: 16px;
     }
 
     &__action {
@@ -133,8 +148,8 @@ $block: '.#{$ns}toast';
 
     & &__btn-close {
         position: absolute;
-        top: 16px;
-        right: 16px;
+        top: 14px;
+        right: 14px;
     }
 }
 
@@ -192,9 +207,17 @@ $block: '.#{$ns}toast';
     }
 }
 
+// with extra space for icon placement
 @keyframes toast-set-indents {
     to {
         margin-bottom: 10px;
-        padding: 18px;
+        padding: 16px 16px 16px 48px;
+    }
+}
+
+@keyframes toast-set-symmetrical-indents {
+    to {
+        margin-bottom: 10px;
+        padding: 16px;
     }
 }

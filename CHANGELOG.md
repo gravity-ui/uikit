@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.4.2](https://github.com/yandex-cloud/uikit/compare/v2.4.1...v2.4.2) (2022-05-30)
+
+
+### Bug Fixes
+
+* **Toaster:** fix toast paddings ([#172](https://github.com/yandex-cloud/uikit/issues/172)) ([a762a01](https://github.com/yandex-cloud/uikit/commit/a762a0199aa63f1ad17dd14938f172059fdd89b7))
+
 ### [2.4.1](https://github.com/yandex-cloud/uikit/compare/v2.4.0...v2.4.1) (2022-05-27)
 
 

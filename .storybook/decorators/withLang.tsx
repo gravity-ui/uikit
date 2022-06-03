@@ -1,8 +1,8 @@
 import React from 'react';
-import {Story as StoryType, StoryContext} from '@storybook/react';
-import {Lang, configure} from '../../src/components/utils/configure';
+import type {DecoratorFn} from '@storybook/react';
+import {Lang, configure} from '../../src';
 
-export function withLang(Story: StoryType, context: StoryContext) {
+export const withLang: DecoratorFn = (Story, context) => {
     const lang = context.globals.lang;
 
     configure({
@@ -10,4 +10,4 @@ export function withLang(Story: StoryType, context: StoryContext) {
     });
 
     return <Story key={lang} {...context} />;
-}
+};

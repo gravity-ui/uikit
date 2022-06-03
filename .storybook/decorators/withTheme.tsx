@@ -1,12 +1,11 @@
 import React from 'react';
-import {Story as StoryType, StoryContext} from '@storybook/react';
-import {useTheme} from '../../src/components/theme';
+import type {DecoratorFn} from '@storybook/react';
+import {useTheme} from '../../src';
 
-export function withTheme(Story: StoryType, context: StoryContext) {
+export const withTheme: DecoratorFn = (Story, context) => {
     const themeValue = context.globals.theme;
-    const [theme, setTheme] = useTheme(); // eslint-disable-line react-hooks/rules-of-hooks
+    const [theme, setTheme] = useTheme();
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     React.useEffect(() => {
         if (theme !== themeValue) {
             setTheme(themeValue);
@@ -14,4 +13,4 @@ export function withTheme(Story: StoryType, context: StoryContext) {
     }, [theme, themeValue, setTheme]);
 
     return <Story {...context} />;
-}
+};

@@ -2,30 +2,21 @@ import '../styles/styles.scss';
 
 import React from 'react';
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
+import type {DecoratorFn} from '@storybook/react';
 import {CloudTheme} from './theme';
 import {withTheme} from './decorators/withTheme';
 import {withMobile} from './decorators/withMobile';
 import {withLang} from './decorators/withLang';
-import {ThemeProvider, MobileProvider} from '../src';
-import {configure} from '../src/components/utils/configure';
+import {ThemeProvider, MobileProvider, configure, Lang} from '../src';
+import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
 
 configure({
-    lang: 'en',
+    lang: Lang.En,
 });
 
-const withContextProvider = (Story, context) => {
-    const theme = context.globals.theme;
-
-    // dark theme for documentation hack
-    context.parameters.backgrounds.default = theme;
-    context.globals.backgrounds = {
-        value: theme === 'light' ? 'white' : 'black',
-    };
-
-    context.globals.background = theme;
-
+const withContextProvider: DecoratorFn = (Story, context) => {
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider>
             <MobileProvider>
                 <Story {...context} />
             </MobileProvider>
@@ -38,6 +29,7 @@ export const decorators = [withTheme, withMobile, withLang, withContextProvider]
 export const parameters = {
     docs: {
         theme: CloudTheme,
+        container: DocsDecorator,
     },
     // FIXME: Disabled due to performance reasons. See https://github.com/storybookjs/storybook/issues/5551
     // actions: {
@@ -47,16 +39,9 @@ export const parameters = {
     viewport: {
         viewports: MINIMAL_VIEWPORTS,
     },
-    backgrounds: {
-        default: 'light',
-        values: [
-            {name: 'light', value: 'white'},
-            {name: 'dark', value: 'rgba(45, 44, 51, 1)'},
-        ],
-    },
     options: {
         storySort: {
-            order: ['Theme', 'Components'],
+            order: ['Theme', 'Components', ['Basic']],
             method: 'alphabetical',
         },
     },

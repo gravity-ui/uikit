@@ -8,6 +8,10 @@ $block: '.#{$ns}popover';
     display: inline-block;
     position: relative;
 
+    &_disabled {
+        cursor: default;
+    }
+
     $class: &;
 
     &__tooltip {

@@ -36,6 +36,7 @@ const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function Men
         theme,
         extraProps,
         children,
+        qa,
     },
     ref,
 ) {
@@ -45,6 +46,7 @@ const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function Men
         style,
         tabIndex: disabled ? -1 : 0,
         className: b('item', {disabled, active, theme}, className),
+        qa,
     };
     const content = [
         icon && (

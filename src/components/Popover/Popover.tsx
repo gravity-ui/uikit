@@ -164,7 +164,7 @@ export class Popover extends React.Component<
     }
 
     render() {
-        const {openOnHover, className, children, offset, anchorRef, qa} = this.props;
+        const {openOnHover, className, children, offset, anchorRef, disabled, qa} = this.props;
 
         if (anchorRef) {
             return this.renderTooltip();
@@ -173,7 +173,7 @@ export class Popover extends React.Component<
         return (
             <div
                 ref={this.controlRef}
-                className={b(null, className)}
+                className={b({disabled}, className)}
                 onMouseEnter={openOnHover ? this.onMouseEnter : undefined}
                 onMouseLeave={openOnHover ? this.onMouseLeave : undefined}
                 style={{

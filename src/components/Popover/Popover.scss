@@ -4,9 +4,12 @@
 $block: '.#{$ns}popover';
 
 #{$block} {
-    cursor: pointer;
     display: inline-block;
     position: relative;
+
+    &:not(&_disabled) {
+        cursor: pointer;
+    }
 
     $class: &;
 

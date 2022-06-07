@@ -7,14 +7,16 @@ import {withTheme} from './decorators/withTheme';
 import {withMobile} from './decorators/withMobile';
 import {withLang} from './decorators/withLang';
 import {ThemeProvider, MobileProvider} from '../src';
-import {I18N} from '../src/i18n';
+import {configure} from '../src/components/utils/configure';
 
-I18N.setDefaultLang(I18N.LANGS.en);
+configure({
+    lang: 'en',
+});
 
 const withContextProvider = (Story, context) => {
     const theme = context.globals.theme;
 
-    // хак для установки темы в доке
+    // dark theme for documentation hack
     context.parameters.backgrounds.default = theme;
     context.globals.backgrounds = {
         value: theme === 'light' ? 'white' : 'black',

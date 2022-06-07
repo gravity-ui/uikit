@@ -17,6 +17,10 @@ import {Button} from '@yandex-cloud/uikit';
 const SubmitButton = <Button view="action" size="l" />;
 ```
 
+## I18N
+
+Some components contain prepared text. For changing language use `configure` function.
+
 ## Development
 
 To start the dev storybook

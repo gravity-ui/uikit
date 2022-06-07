@@ -1,11 +1,13 @@
 import React from 'react';
 import {Story as StoryType, StoryContext} from '@storybook/react';
-import {I18N} from '@yandex-cloud/i18n';
+import {Lang, configure} from '../../src/components/utils/configure';
 
 export function withLang(Story: StoryType, context: StoryContext) {
     const lang = context.globals.lang;
 
-    I18N.setDefaultLang(lang);
+    configure({
+        lang: lang as Lang,
+    });
 
     return <Story key={lang} {...context} />;
 }

@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/yandex-cloud/uikit/compare/v2.4.2...v2.5.0) (2022-06-07)
+
+
+### Features
+
+* **I18N:** add configure function for manage internal variables like language ([#186](https://github.com/yandex-cloud/uikit/issues/186)) ([bc3ee55](https://github.com/yandex-cloud/uikit/commit/bc3ee55ca5a5fe5413d9d7b44b8f212514975d79))
+
+
+### Bug Fixes
+
+* default cursor on disabled popover ([#182](https://github.com/yandex-cloud/uikit/issues/182)) ([2f3f19c](https://github.com/yandex-cloud/uikit/commit/2f3f19ce4b4665128e1f3888bac8c7545a7fba09))
+* menu item qa prop ([#181](https://github.com/yandex-cloud/uikit/issues/181)) ([22a88ae](https://github.com/yandex-cloud/uikit/commit/22a88ae7db22b97eefc291042280bc0c148ed1e5))
+
 ### [2.4.2](https://github.com/yandex-cloud/uikit/compare/v2.4.1...v2.4.2) (2022-05-30)
 
 

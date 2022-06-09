@@ -26,6 +26,8 @@ interface DialogOwnProps {
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 }
 
 interface DialogDefaultProps {
@@ -69,6 +71,8 @@ export class Dialog extends React.Component<DialogInnerProps> {
             onEnterKeyDown,
             onOutsideClick,
             onClose,
+            'aria-label': ariaLabel,
+            'aria-labelledby': ariaLabelledBy,
             qa,
         } = this.props;
 
@@ -84,6 +88,8 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 onOutsideClick={onOutsideClick}
                 onClose={onClose}
                 className={b('modal', modalClassName)}
+                aria-label={ariaLabel}
+                aria-labelledby={ariaLabelledBy}
                 qa={qa}
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>

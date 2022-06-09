@@ -150,6 +150,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
             {hasClear && (
                 <span
+                    role="button"
                     className={b('clear', {visible: isClearControlVisible})}
                     onClick={handleClear}
                 >

@@ -70,6 +70,7 @@
         "@yandex-cloud/tsconfig": "^1.0.0",
         "css-loader": "^5.2.7",
         "eslint": "^8.8.0",
+        "eslint-plugin-testing-library": "^5.5.1",
         "gulp": "^4.0.2",
         "gulp-cli": "^2.3.0",
         "gulp-dart-sass": "^1.0.2",

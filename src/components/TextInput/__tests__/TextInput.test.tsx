@@ -23,6 +23,7 @@ describe('TextInput', () => {
     test('render error message with error prop', () => {
         const {container} = render(<TextInput error="Some Error" />);
 
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
         expect(screen.getByText('Some Error')).toBeVisible();
     });
@@ -30,19 +31,20 @@ describe('TextInput', () => {
     test('do not show error without error prop', () => {
         const {container} = render(<TextInput />);
 
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
     });
 
     test('render clear button with hasClear prop', () => {
-        const {container} = render(<TextInput hasClear />);
+        render(<TextInput hasClear />);
 
-        expect(container.querySelector('.yc-text-input__clear')).toBeInTheDocument();
+        expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
     test('do not render clear button without hasClear prop', () => {
-        const {container} = render(<TextInput />);
+        render(<TextInput />);
 
-        expect(container.querySelector('.yc-text-input__clear')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });
 
     test('call onChange when input changes value', () => {
@@ -67,8 +69,8 @@ describe('TextInput', () => {
     test('call onChange when click to clean button', async () => {
         const onChangeFn = jest.fn();
         const user = userEvent.setup();
-        const {container} = render(<TextInput hasClear onChange={onChangeFn} />);
-        const clear = container.querySelector('.yc-text-input__clear');
+        render(<TextInput hasClear onChange={onChangeFn} />);
+        const clear = screen.getByRole('button');
 
         if (clear) {
             await user.click(clear);
@@ -80,8 +82,8 @@ describe('TextInput', () => {
     test('call onUpdate with emply value when click to clean button', async () => {
         const onUpdateFn = jest.fn();
         const user = userEvent.setup();
-        const {container} = render(<TextInput hasClear onUpdate={onUpdateFn} />);
-        const clear = container.querySelector('.yc-text-input__clear');
+        render(<TextInput hasClear onUpdate={onUpdateFn} />);
+        const clear = screen.getByRole('button');
 
         if (clear) {
             await user.click(clear);

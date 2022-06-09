@@ -17,6 +17,15 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     disableBodyScrollLock?: boolean;
     // disableFocusTrap?: boolean;
     children?: React.ReactNode;
+    /**
+     * Id of visible `<Modal/>` caption element
+     */
+    'aria-labelledby'?: string;
+    /**
+     * A11y text
+     * Prefer `aria-labelledby` in case caption is visible to user
+     */
+    'aria-label'?: string;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -37,6 +46,8 @@ export function Modal({
     children,
     style,
     className,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-label': ariaLabel,
     qa,
 }: ModalProps) {
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -96,6 +107,8 @@ export function Modal({
                             tabIndex={-1}
                             role="dialog"
                             aria-modal={open}
+                            aria-label={ariaLabel}
+                            aria-labelledby={ariaLabelledBy}
                             className={b('content')}
                         >
                             {children}

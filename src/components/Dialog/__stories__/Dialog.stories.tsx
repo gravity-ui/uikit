@@ -10,6 +10,7 @@ export default {
 } as Meta<DialogProps>;
 
 const DefaultTemplate: Story<DialogProps> = (args) => {
+    const dialogTitleId = 'app-confirmation-dialog-title';
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -23,8 +24,9 @@ const DefaultTemplate: Story<DialogProps> = (args) => {
                 onEnterKeyDown={() => {
                     alert('onEnterKeyDown');
                 }}
+                aria-labelledby={dialogTitleId}
             >
-                <Dialog.Header caption="Caption" />
+                <Dialog.Header caption="Caption" id={dialogTitleId} />
                 <Dialog.Body>Dialog.Body</Dialog.Body>
                 <Dialog.Footer
                     onClickButtonCancel={() => setOpen(false)}

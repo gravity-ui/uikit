@@ -23,6 +23,7 @@ describe('TextInput', () => {
     test('render error message with error prop', () => {
         const {container} = render(<TextInput error="Some Error" />);
 
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
         expect(screen.getByText('Some Error')).toBeVisible();
     });
@@ -30,18 +31,21 @@ describe('TextInput', () => {
     test('do not show error without error prop', () => {
         const {container} = render(<TextInput />);
 
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
     });
 
     test('render clear button with hasClear prop', () => {
         const {container} = render(<TextInput hasClear />);
 
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__clear')).toBeInTheDocument();
     });
 
     test('do not render clear button without hasClear prop', () => {
         const {container} = render(<TextInput />);
 
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__clear')).not.toBeInTheDocument();
     });
 
@@ -68,6 +72,7 @@ describe('TextInput', () => {
         const onChangeFn = jest.fn();
         const user = userEvent.setup();
         const {container} = render(<TextInput hasClear onChange={onChangeFn} />);
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         const clear = container.querySelector('.yc-text-input__clear');
 
         if (clear) {
@@ -81,6 +86,7 @@ describe('TextInput', () => {
         const onUpdateFn = jest.fn();
         const user = userEvent.setup();
         const {container} = render(<TextInput hasClear onUpdate={onUpdateFn} />);
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         const clear = container.querySelector('.yc-text-input__clear');
 
         if (clear) {

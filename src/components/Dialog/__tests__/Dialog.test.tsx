@@ -10,5 +10,5 @@ test('should label dialog with header text', () => {
         </Dialog>,
     );
 
-    expect(screen.queryByRole('dialog', {name: 'Confirm action'})).toBeInTheDocument();
+    expect(screen.getByRole('dialog', {name: 'Confirm action'})).toBeInTheDocument();
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
-import {Text, TextProps} from '../Text';
+import {Text, TextProps, text, colorText} from '../.';
 
 export default {
     title: 'Components/Text',
@@ -12,8 +12,15 @@ const DefaultText: Story<TextProps> = (args) => <Text {...args} />;
 export const Default = DefaultText.bind({});
 
 Default.args = {
-    children: 'some text',
+    typography: 'display-1',
+    children: 'display-1 text',
 };
+
+export const UsingTextUtilities = () => (
+    <div className={text({typography: 'body-2'}, colorText({color: 'secondary'}))}>
+        some custom or existing element with text utilities
+    </div>
+);
 
 const EllipsisDefault: Story<TextProps> = (args) => <Text {...args} />;
 
@@ -25,6 +32,6 @@ Ellipsis.args = {
     style: {
         width: 200,
     },
-    content:
+    children:
         'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam! Debitis eos unde, blanditiis ipsam adipisci, soluta incidunt architecto quidem, repellat commodi tempore! Enim assumenda nam esse laudantium sequi quaerat maiores, voluptatum quibusdam temporibus nulla perspiciatis! Corrupti error aliquid iure asperiores voluptate. Nisi temporibus nesciunt quasi animi, accusamus officia debitis voluptatum ratione ullam delectus, adipisci, repellendus vitae in amet sit magni iste impedit? Exercitationem rerum impedit sed earum iusto modi et officia aspernatur quibusdam? Fugit.',
 };

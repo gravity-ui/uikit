@@ -9,7 +9,6 @@ export * from './Checkbox';
 export * from './Card';
 export * from './ClipboardButton';
 export * from './ClipboardIcon';
-export * from './ColorText';
 export * from './CopyToClipboard';
 export * from './Dialog';
 export * from './DropdownMenu';

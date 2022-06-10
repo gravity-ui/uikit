@@ -1,1 +1,0 @@
-export {colorText} from './ColorText';

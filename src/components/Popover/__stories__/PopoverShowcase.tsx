@@ -17,7 +17,7 @@ const b = block('popover-demo');
 export function getPopoverProps() {
     const autoclosable = true;
     const hoverEnabled = false;
-    const behavior = PopoverBehavior.DelayedClosing;
+    const behavior = PopoverBehavior.Delayed;
     const titleEnabled = true;
     const linksEnabled = true;
     const actionButtonEnabled = true;

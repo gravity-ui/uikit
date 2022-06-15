@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/yandex-cloud/uikit/compare/v2.5.0...v2.6.0) (2022-06-15)
+
+
+### Features
+
+* **Popover:** use "Delayed" as default behaviour ([#193](https://github.com/yandex-cloud/uikit/issues/193)) ([f9ade6f](https://github.com/yandex-cloud/uikit/commit/f9ade6faa0b176791244331eb96fd080d4ca742d))
+
 ## [2.5.0](https://github.com/yandex-cloud/uikit/compare/v2.4.2...v2.5.0) (2022-06-07)
 
 

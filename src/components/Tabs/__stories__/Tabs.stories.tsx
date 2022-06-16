@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Meta, Story} from '@storybook/react';
-import {Tabs, TabsProps} from '../Tabs';
+import {Tabs, TabsItemProps, TabsProps} from '../Tabs';
 import {GearIcon} from '../../icons/GearIcon';
 
 export default {
@@ -83,5 +83,12 @@ Default.argTypes = {
         name: 'Labels',
         type: 'boolean',
         default: false,
+    },
+};
+
+export const WithWrapTo = Template.bind({});
+WithWrapTo.args = {
+    wrapTo(_item: TabsItemProps, node: React.ReactNode) {
+        return <a href="#">{node}</a>;
     },
 };

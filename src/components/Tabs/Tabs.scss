@@ -62,10 +62,6 @@ $block: '.#{$ns}tabs';
             user-select: none;
             outline: none;
 
-            &:not(:last-child) {
-                margin-right: var(--yc-tabs-gap);
-            }
-
             &-meta {
                 display: none;
             }
@@ -119,6 +115,10 @@ $block: '.#{$ns}tabs';
                     color: var(--yc-color-text-hint);
                 }
             }
+        }
+
+        > :not(:last-child) {
+            margin-right: var(--yc-tabs-gap);
         }
     }
 

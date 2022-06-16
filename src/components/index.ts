@@ -34,6 +34,7 @@ export * from './Stories';
 export * from './Switch';
 export * from './Table';
 export * from './Tabs';
+export * from './Text';
 export * from './TextInput';
 export * from './Toaster';
 export * from './Tooltip';

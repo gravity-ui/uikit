@@ -1,0 +1,40 @@
+@use '../../variables' as variables;
+
+$block: '.#{variables.$ns}color-text';
+
+$textColorMap: (
+    'primary' var(--yc-color-text-primary),
+    'complementary' var(--yc-color-text-complementary),
+    'secondary' var(--yc-color-text-secondary),
+    'hint' var(--yc-color-text-hint),
+    'info' var(--yc-color-text-info),
+    'positive' var(--yc-color-text-positive),
+    'warning-medium' var(--yc-color-text-warning-medium),
+    'warning-heavy' var(--yc-color-text-warning-heavy),
+    'danger' var(--yc-color-text-danger),
+    'utility' var(--yc-color-text-utility),
+    'misc' var(--yc-color-text-misc),
+    'special' var(--yc-color-text-special),
+    'link' var(--yc-color-text-link),
+    'link-hover' var(--yc-color-text-link-hover),
+    'yandex-red' var(--yc-color-text-yandex-red),
+    'dark-primary' var(--yc-color-text-dark-primary),
+    'dark-complementary' var(--yc-color-text-dark-complementary),
+    'dark-secondary' var(--yc-color-text-dark-secondary),
+    'light-primary' var(--yc-color-text-light-primary),
+    'light-complementary' var(--yc-color-text-light-complementary),
+    'light-secondary' var(--yc-color-text-light-secondary),
+    'light-hint' var(--yc-color-text-light-hint),
+    'inverted-primary' var(--yc-color-text-inverted-primary),
+    'inverted-complementary' var(--yc-color-text-inverted-complementary),
+    'inverted-secondary' var(--yc-color-text-inverted-secondary),
+    'inverted-hint' var(--yc-color-text-inverted-hint)
+);
+
+#{$block} {
+    @each $mod, $value in $textColorMap {
+        &_color_#{$mod} {
+            color: $value;
+        }
+    }
+}

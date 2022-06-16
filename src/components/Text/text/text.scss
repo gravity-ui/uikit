@@ -1,0 +1,73 @@
+@use '../../variables' as variables;
+@use '../../../../styles/mixins' as mixins;
+
+$block: '.#{variables.$ns}text';
+
+#{$block} {
+    &_variant_display-1 {
+        @include mixins.text-display-1();
+    }
+    &_variant_display-2 {
+        @include mixins.text-display-2();
+    }
+    &_variant_display-3 {
+        @include mixins.text-display-3();
+    }
+    &_variant_display-4 {
+        @include mixins.text-display-4();
+    }
+    &_variant_code-1 {
+        @include mixins.text-code-1();
+    }
+    &_variant_code-2 {
+        @include mixins.text-code-2();
+    }
+    &_variant_code-3 {
+        @include mixins.text-code-3();
+    }
+    &_variant_code-inline-1 {
+        @include mixins.text-code-inline-1();
+    }
+    &_variant_code-inline-2 {
+        @include mixins.text-code-inline-2();
+    }
+    &_variant_code-inline-3 {
+        @include mixins.text-code-inline-3();
+    }
+    &_variant_body-1 {
+        @include mixins.text-body-1();
+    }
+    &_variant_body-2 {
+        @include mixins.text-body-2();
+    }
+    &_variant_body-3 {
+        @include mixins.text-body-3();
+    }
+    &_variant_body-short {
+        @include mixins.text-body-short();
+    }
+    &_variant_caption-1 {
+        @include mixins.text-caption-1();
+    }
+    &_variant_caption-2 {
+        @include mixins.text-caption-2();
+    }
+    &_variant_header-1 {
+        @include mixins.text-header-1();
+    }
+    &_variant_header-2 {
+        @include mixins.text-header-2();
+    }
+    &_variant_subheader-1 {
+        @include mixins.text-subheader-1();
+    }
+    &_variant_subheader-2 {
+        @include mixins.text-subheader-2();
+    }
+    &_variant_subheader-3 {
+        @include mixins.text-subheader-3();
+    }
+    &_ellipsis {
+        @include mixins.overflow-ellipsis();
+    }
+}

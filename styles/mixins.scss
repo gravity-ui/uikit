@@ -205,12 +205,6 @@
     font-weight: var(--yc-text-subheader-font-weight);
 }
 
-@mixin text-display-3() {
-    font-size: var(--yc-text-display-3-font-size);
-    line-height: var(--yc-text-display-3-line-height);
-    font-weight: var(--yc-text-display-font-weight);
-}
-
 @mixin text-display-1() {
     font-size: var(--yc-text-display-1-font-size);
     line-height: var(--yc-text-display-1-line-height);

@@ -26,6 +26,7 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
      * Prefer `aria-labelledby` in case caption is visible to user
      */
     'aria-label'?: string;
+    container?: HTMLElement;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -48,6 +49,7 @@ export function Modal({
     className,
     'aria-labelledby': ariaLabelledBy,
     'aria-label': ariaLabel,
+    container,
     qa,
 }: ModalProps) {
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -92,7 +94,7 @@ export function Modal({
     }
 
     return (
-        <Portal>
+        <Portal container={container}>
             <div
                 data-inited={hasBeenOpen.current ? '' : undefined}
                 onAnimationEnd={handleAnimationEnd}

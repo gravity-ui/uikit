@@ -28,6 +28,7 @@ interface DialogOwnProps {
     size?: 's' | 'm' | 'l';
     'aria-label'?: string;
     'aria-labelledby'?: string;
+    container?: HTMLElement;
 }
 
 interface DialogDefaultProps {
@@ -57,6 +58,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
 
     render() {
         const {
+            container,
             children,
             open,
             disableBodyScrollLock,
@@ -90,6 +92,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 className={b('modal', modalClassName)}
                 aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}
+                container={container}
                 qa={qa}
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>

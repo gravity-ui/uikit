@@ -4,7 +4,7 @@ import './text.scss';
 
 const b = block('text');
 
-export const TYPOGRAPHY_VARIANTS = [
+export const TEXT_VARIANTS = [
     'display-4',
     'display-3',
     'display-2',
@@ -28,9 +28,10 @@ export const TYPOGRAPHY_VARIANTS = [
     'code-inline-1',
 ] as const;
 
-export interface TextBase {
+export interface TextBaseProps {
     /**
      * Storybook: https://preview.yandexcloud.dev/uikit/?path=/story/typography--common
+     * **Note:**: below are the default variants that can be overridden in the project
      *
      * - body:
      *      - 1: font-size: 13px; line-height: 18px; (**Default variant**)
@@ -60,7 +61,7 @@ export interface TextBase {
      *      - inline-2: font-size: 14px; line-height: 16px; font-weight: 400; font-family: var(--yc-font-family-monospace);
      *      - inline-3: font-size: 16px; line-height: 20px; font-weight: 400; font-family: var(--yc-font-family-monospace);
      */
-    typography?: typeof TYPOGRAPHY_VARIANTS[number];
+    variant?: typeof TEXT_VARIANTS[number];
 
     /**
      * hidden overflow content will be displayed with ellipsis `…`
@@ -80,8 +81,8 @@ export interface TextBase {
  * ---
  * ```jsx
  * // "text text_display1 some-class"
- * text({typography: 'display-1'}, 'some-class')`
+ * text({variant: 'display-1'}, 'some-class')`
  *```
  */
-export const text = ({typography = 'body-1', ellipsis}: TextBase, className?: string) =>
-    b({typography, ellipsis}, className);
+export const text = ({variant = 'body-1', ellipsis}: TextBaseProps, className?: string) =>
+    b({variant, ellipsis}, className);

@@ -1,8 +1,8 @@
 import React from 'react';
-import {text, TextBase} from './text/text';
-import {colorText, ColorTextBase} from './colorText/colorText';
+import {text, TextBaseProps} from './text/text';
+import {colorText, ColorTextBaseProps} from './colorText/colorText';
 
-export interface TextProps extends TextBase, ColorTextBase {
+export interface TextProps extends TextBaseProps, ColorTextBaseProps {
     /**
      * Ability to override default html tag
      */
@@ -24,7 +24,7 @@ export interface TextProps extends TextBase, ColorTextBase {
  * ```jsx
  * import {Text} from '@yandex-cloud/uikit';
  *
- * <Text typography="body-1" color="inherit" elipsis>some test</Text>
+ * <Text variant="body-1" color="inherit" elipsis>some test</Text>
  * ```
  *
  * You can also use a more flexible way of setting the style. "Uikit" alse provide `text` uility function.
@@ -32,8 +32,8 @@ export interface TextProps extends TextBase, ColorTextBase {
  *```jsx
  * import {text} from '@yandex-cloud/uikit';
  *
- * // textStyles = 'text text_typography_display-1 some-class-name'
- * const textStyles = text({typography: 'display-1'}, 'some-class-name'));
+ * // textStyles = 'text text_variant_display-1 some-class-name'
+ * const textStyles = text({variant: 'display-1'}, 'some-class-name'));
  *
  * <span className={textStyles}>some text</span>
  * ```
@@ -41,7 +41,7 @@ export interface TextProps extends TextBase, ColorTextBase {
 export const Text: React.FC<TextProps> = ({
     as: Tag = 'span',
     children,
-    typography,
+    variant,
     className,
     ellipsis,
     color,
@@ -49,10 +49,7 @@ export const Text: React.FC<TextProps> = ({
 }) => {
     return (
         <Tag
-            className={text(
-                {typography, ellipsis},
-                color ? colorText({color}, className) : className,
-            )}
+            className={text({variant, ellipsis}, color ? colorText({color}, className) : className)}
             {...rest}
         >
             {children}

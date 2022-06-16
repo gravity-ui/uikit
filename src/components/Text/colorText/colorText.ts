@@ -33,7 +33,7 @@ export const TEXT_COLORS = [
     'inverted-hint',
 ] as const;
 
-export interface ColorTextBase {
+export interface ColorTextBaseProps {
     color?: typeof TEXT_COLORS[number];
 }
 
@@ -48,4 +48,4 @@ export interface ColorTextBase {
  * colorText({color: 'inherit'}, 'some-class')
  * ```
  */
-export const colorText = ({color}: ColorTextBase, className?: string) => b({color}, className);
+export const colorText = ({color}: ColorTextBaseProps, className?: string) => b({color}, className);

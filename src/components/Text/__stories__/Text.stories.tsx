@@ -12,12 +12,12 @@ const DefaultText: Story<TextProps> = (args) => <Text {...args} />;
 export const Default = DefaultText.bind({});
 
 Default.args = {
-    typography: 'display-1',
+    variant: 'display-1',
     children: 'display-1 text',
 };
 
 export const UsingTextUtilities = () => (
-    <div className={text({typography: 'body-2'}, colorText({color: 'secondary'}))}>
+    <div className={text({variant: 'body-2'}, colorText({color: 'secondary'}))}>
         some custom or existing element with text utilities
     </div>
 );

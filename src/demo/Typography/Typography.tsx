@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 import block from 'bem-cn-lite';
-import {Text, TYPOGRAPHY_VARIANTS} from '../../components/Text';
+import {Text, TEXT_VARIANTS} from '../../components/Text';
 
 import './Typography.scss';
 
@@ -23,15 +23,15 @@ export const Typography = () => (
         <div className={b('block', {type: 'font-sizes'})}>
             <div className={b('header')}>text variants</div>
             <div className={b('content')}>
-                {TYPOGRAPHY_VARIANTS.map((typography) => {
-                    const copyText = `@include text-${typography}()`;
+                {TEXT_VARIANTS.map((variant) => {
+                    const copyText = `@include text-${variant}()`;
 
                     return (
-                        <ReactCopyToClipboard key={typography} text={copyText}>
-                            <div className={b('item', {typography})}>
-                                <div className={b('caption')}>{typography}</div>
+                        <ReactCopyToClipboard key={variant} text={copyText}>
+                            <div className={b('item', {variant})}>
+                                <div className={b('caption')}>{variant}</div>
 
-                                <Text typography={typography}>{sampleText}</Text>
+                                <Text variant={variant}>{sampleText}</Text>
                             </div>
                         </ReactCopyToClipboard>
                     );

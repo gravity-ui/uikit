@@ -65,14 +65,16 @@ export const TabsItem: React.FC<TabsItemProps> = ({
             onClick={handleClick}
             onKeyDown={handleKeyDown}
         >
-            {icon && <div className={b('item-icon')}>{icon}</div>}
-            <div className={b('item-title')}>{title || id}</div>
-            {typeof counter === 'number' && <div className={b('item-counter')}>{counter}</div>}
-            {label && (
-                <Label className={b('item-label')} theme={label.theme}>
-                    {label.content}
-                </Label>
-            )}
+            <div className={b('item-content')}>
+                {icon && <div className={b('item-icon')}>{icon}</div>}
+                <div className={b('item-title')}>{title || id}</div>
+                {typeof counter === 'number' && <div className={b('item-counter')}>{counter}</div>}
+                {label && (
+                    <Label className={b('item-label')} theme={label.theme}>
+                        {label.content}
+                    </Label>
+                )}
+            </div>
             {meta && <div className={b('item-meta')}>{meta}</div>}
         </div>
     );

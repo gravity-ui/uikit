@@ -271,6 +271,11 @@ const floats = [
         title: 'Float Accent Hover',
         description: 'Hover for Float Accent.',
     },
+    {
+        name: 'base-modal',
+        title: 'Modal',
+        description: 'Floating components with a veil.',
+    },
 ];
 
 export const RenderBackgrounds = () => (

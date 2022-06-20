@@ -65,6 +65,12 @@ $block: '.#{$ns}popover';
             margin-top: 8px;
 
             &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        &-content + &-links > * {
+            &:first-child {
                 margin-top: 12px;
             }
         }

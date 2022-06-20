@@ -23,6 +23,7 @@ Dialog component
 | hasCloseButton        | `Boolean`                                                                                      |          | `True`  | Cross icon in top right corner of dialog presence                                   |
 | aria-labelledby       | `String`                                                                                       |          |         | Id of <Dialog/> caption. Use `id` props of `<Dialog.Header/>` to set id for caption |
 | aria-label            | `String`                                                                                       |          |         | Dialog label for a11y. Prefer `aria-labelledby` if caption is visible to user       |
+| container             | `HTMLElement`                                                                                  |          |         | Container element for the dialog box                                                |
 | qa                    | `String`                                                                                       |          |         | Data-qa attribute value of modal box, in which dialog is disposed                   |
 
 ### Examples

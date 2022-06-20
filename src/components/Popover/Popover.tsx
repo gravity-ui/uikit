@@ -209,7 +209,7 @@ export class Popover extends React.Component<
 
     private get delay() {
         const [defaultDelayOpening, defaultDelayClosing] =
-            this.delayByBehavior[this.props.behavior ?? PopoverBehavior.DelayedClosing];
+            this.delayByBehavior[this.props.behavior ?? PopoverBehavior.Delayed];
         const {delayOpening = defaultDelayOpening, delayClosing = defaultDelayClosing} = this.props;
 
         return [delayOpening, delayClosing];

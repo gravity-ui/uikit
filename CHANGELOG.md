@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.7.0](https://github.com/yandex-cloud/uikit/compare/v2.6.0...v2.7.0) (2022-06-20)
+
+
+### Features
+
+* allow use layers for Dialog/Modal/Popup with different root ([#120](https://github.com/yandex-cloud/uikit/issues/120)) ([b2782e6](https://github.com/yandex-cloud/uikit/commit/b2782e60a533680b64a0c832cf628c6c40273247))
+* **Modal:** color updates ([#195](https://github.com/yandex-cloud/uikit/issues/195)) ([be004a6](https://github.com/yandex-cloud/uikit/commit/be004a6e482b9d0d8d58be72638864dc1fe648ed))
+* **Text:** a new component for working with typography ([#141](https://github.com/yandex-cloud/uikit/issues/141)) ([7837ee8](https://github.com/yandex-cloud/uikit/commit/7837ee868bcfe8caa06808f47d22f502701e188e))
+
+
+### Bug Fixes
+
+* **List:** fix getContainer for sortable container ([#190](https://github.com/yandex-cloud/uikit/issues/190)) ([efb9257](https://github.com/yandex-cloud/uikit/commit/efb92578ad10a62d35a49961c42c2b6ebc4f0d35))
+* **Popover:** should be no empty space above links block if no other content provided ([#191](https://github.com/yandex-cloud/uikit/issues/191)) ([8432fc1](https://github.com/yandex-cloud/uikit/commit/8432fc1bca482033ea303a44d3c9eac5bc86e096))
+* **Tabs:** fix styles for vertical tabs ([#177](https://github.com/yandex-cloud/uikit/issues/177)) ([27b809f](https://github.com/yandex-cloud/uikit/commit/27b809f4423277617e81946e10f5745a3d7a26e3))
+* **Tabs:** return missing spacing when `wrapTo` used ([#198](https://github.com/yandex-cloud/uikit/issues/198)) ([48ef89d](https://github.com/yandex-cloud/uikit/commit/48ef89d984ac7d4b21b6defb87ba8da82827a46a))
+
 ## [2.6.0](https://github.com/yandex-cloud/uikit/compare/v2.5.0...v2.6.0) (2022-06-15)
 
 

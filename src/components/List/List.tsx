@@ -16,7 +16,7 @@ const b = block('list');
 const DEFAULT_ITEM_HEIGHT = 28;
 const SortableListItem = SortableElement(ListItem);
 const SortableListContainer = SortableContainer(ListContainer, {withRef: true});
-const SortableSimpleContainer = SortableContainer(SimpleContainer);
+const SortableSimpleContainer = SortableContainer(SimpleContainer, {withRef: true});
 
 type ListState<T> = {
     items: ListProps<T>['items'];

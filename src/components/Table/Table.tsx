@@ -314,7 +314,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             <thead className={b('head')}>
                 <tr className={b('row')}>
                     {columns.map((column, index) => {
-                        const {id, align, sticky} = column;
+                        const {id, align, primary, sticky} = column;
                         const content = Table.getHeadCellContent(column);
 
                         return (
@@ -324,6 +324,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                                 style={columnsStyles[index]}
                                 className={b('cell', {
                                     align,
+                                    primary,
                                     sticky,
                                     ['edge-padding']: edgePadding,
                                 })}

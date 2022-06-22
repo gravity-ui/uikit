@@ -28,6 +28,8 @@ export interface TableColumnConfig<I> {
     id: string;
     /** Имя колонки (заголовок). По умолчанию: ID колонки */
     name?: string | (() => React.ReactNode);
+    /** Класс, который будет добавлен всем ячейкам в этой колонке */
+    className?: string;
     /** Заглушка при отсутствии данных в ячейке. По умолчанию: — (&mdash;) */
     placeholder?: string | ((item: I, index: number) => React.ReactNode);
     /** Содержимое ячейки. Если передать строку, то содержимое ячейки будет значением поля с именем равным этой строке. По умолчанию: Значение поля с именем равным ID колонки */
@@ -314,7 +316,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             <thead className={b('head')}>
                 <tr className={b('row')}>
                     {columns.map((column, index) => {
-                        const {id, align, primary, sticky} = column;
+                        const {id, align, primary, sticky, className} = column;
                         const content = Table.getHeadCellContent(column);
 
                         return (
@@ -322,12 +324,16 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                                 key={id}
                                 ref={this.state.columnHeaderRefs[index]}
                                 style={columnsStyles[index]}
-                                className={b('cell', {
-                                    align,
-                                    primary,
-                                    sticky,
-                                    ['edge-padding']: edgePadding,
-                                })}
+                                className={b(
+                                    'cell',
+                                    {
+                                        align,
+                                        primary,
+                                        sticky,
+                                        ['edge-padding']: edgePadding,
+                                    },
+                                    className,
+                                )}
                             >
                                 {content}
                             </th>
@@ -379,19 +385,23 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 )}
             >
                 {columns.map((column, colIndex) => {
-                    const {id, align, primary, sticky} = column;
+                    const {id, align, primary, className, sticky} = column;
                     const content = Table.getBodyCellContent(column, item, rowIndex);
 
                     return (
                         <td
                             key={id}
                             style={columnsStyles[colIndex]}
-                            className={b('cell', {
-                                align,
-                                primary,
-                                sticky,
-                                ['edge-padding']: edgePadding,
-                            })}
+                            className={b(
+                                'cell',
+                                {
+                                    align,
+                                    primary,
+                                    sticky,
+                                    ['edge-padding']: edgePadding,
+                                },
+                                className,
+                            )}
                         >
                             {content}
                         </td>

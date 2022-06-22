@@ -68,7 +68,7 @@ export class ThemeProvider extends React.Component<
 
         if (prevProps.theme !== this.props.theme) {
             const themeValue = this.getThemeValue(this.props.theme);
-            this.setState({themeValue});
+            this.setState({theme: this.props.theme, themeValue});
             this.updateBodyClassName(themeValue);
         }
     }

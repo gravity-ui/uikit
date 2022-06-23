@@ -118,6 +118,12 @@ export class ToasterSingleton {
         );
     }
 
+    destroy() {
+        this._toasts = [];
+        ReactDOM.unmountComponentAtNode(this._rootNode);
+        document.body.removeChild(this._rootNode);
+    }
+
     private setRootNodeClassName() {
         this._rootNode.className = bToaster({mobile: this.mobile}, this.className);
     }

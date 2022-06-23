@@ -4,6 +4,7 @@ import {get} from 'lodash';
 import {block} from '../utils/cn';
 import type {ToasterArgs, ToastProps} from './types';
 import {ToastList} from './ToastList/ToastList';
+import {getToastIndex} from './utilities/getToastIndex';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
 const bToaster = block('toaster');
@@ -93,7 +94,7 @@ export class ToasterSingleton {
     // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _getToastIndex = (name: string) => {
-        return this._toasts.findIndex((toast) => toast.name === name);
+        return getToastIndex(this._toasts, name);
     };
 
     // FIXME: BREAKING CHANGE. Rename to "createRootNode" and convert to private

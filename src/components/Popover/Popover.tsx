@@ -151,9 +151,18 @@ export class Popover extends React.Component<
         [PopoverBehavior.Delayed]: [300, 300],
         [PopoverBehavior.DelayedClosing]: [0, 300],
     };
+    private shouldBeOpen = false;
 
     componentDidUpdate(prevProps: PopoverProps) {
         if (prevProps.disabled !== this.props.disabled && this.props.disabled) {
+            this.closeTooltip();
+        }
+
+        if (
+            prevProps.autoclosable !== this.props.autoclosable &&
+            this.props.autoclosable === true &&
+            this.shouldBeOpen === false
+        ) {
             this.closeTooltip();
         }
     }
@@ -200,6 +209,7 @@ export class Popover extends React.Component<
 
     private setTooltipOpen(open: boolean) {
         this.setState({open});
+        this.shouldBeOpen = open;
 
         const {onOpenChange} = this.props;
         if (onOpenChange) {
@@ -425,6 +435,8 @@ export class Popover extends React.Component<
 
         if (!open && !disabled && !this.closedManually) {
             this.delayOpening = setTimeout(this.openTooltipDelayed, delayOpening);
+        } else {
+            this.shouldBeOpen = true;
         }
     };
 
@@ -435,6 +447,8 @@ export class Popover extends React.Component<
         if (autoclosable && !this.closedManually && !this.delayClosing) {
             this.unsetOpeningTimeout();
             this.delayClosing = setTimeout(this.closeTooltipDelayed, delayClosing);
+        } else {
+            this.shouldBeOpen = false;
         }
 
         this.closedManually = false;

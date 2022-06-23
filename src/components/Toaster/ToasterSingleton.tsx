@@ -10,11 +10,11 @@ const bToaster = block('toaster');
 
 declare global {
     interface Window {
-        [TOASTER_KEY]: Toaster;
+        [TOASTER_KEY]: ToasterSingleton;
     }
 }
 
-export class Toaster {
+export class ToasterSingleton {
     // FIXME: BREAKING CHANGE. Rename to "rootNode" and convert to private
     _rootNode!: HTMLDivElement;
     // FIXME: BREAKING CHANGE. Rename to "toasts" and convert to private
@@ -27,7 +27,7 @@ export class Toaster {
         const className = get(args, ['className'], '');
         const mobile = get(args, ['mobile'], false);
 
-        if (window[TOASTER_KEY] instanceof Toaster) {
+        if (window[TOASTER_KEY] instanceof ToasterSingleton) {
             const me = window[TOASTER_KEY];
             me.className = className || additionalClass;
             me.mobile = mobile;

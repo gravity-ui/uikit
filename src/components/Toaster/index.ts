@@ -1,8 +1,8 @@
-import {Toaster} from './Toaster';
+import {ToasterSingleton} from './ToasterSingleton';
 import {Toast} from './Toast/Toast';
 
 // in SSR case
-const toaster = typeof window === 'object' ? new Toaster() : null;
+const toaster = typeof window === 'object' ? new ToasterSingleton() : null;
 
 export * from './types';
-export {Toaster, Toast, toaster};
+export {ToasterSingleton as Toaster, Toast, toaster};

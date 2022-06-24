@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {get} from 'lodash';
 import {block} from '../utils/cn';
-import type {ToasterArgs, ToastProps} from './types';
-import {ToastList} from './ToastList/ToastList';
+import type {ToasterArgs, ToasterRef, ToastProps} from './types';
 import {getToastIndex} from './utilities/getToastIndex';
+import {ToasterProvider} from './ToasterProvider';
+import {ToasterComponent} from './ToasterComponent/ToasterComponent';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
 const bToaster = block('toaster');
@@ -22,6 +23,7 @@ export class ToasterSingleton {
     _toasts: ToastProps[] = [];
     private className = '';
     private mobile = false;
+    private ref: null | ToasterRef = null;
 
     constructor(args?: ToasterArgs) {
         const additionalClass = get(args, ['additionalClass'], '');
@@ -46,49 +48,22 @@ export class ToasterSingleton {
     }
 
     createToast = async (toastOptions: ToastProps) => {
-        const {name} = toastOptions;
-        const index = this._getToastIndex(name);
-
-        if (index !== -1) {
-            await this.removeToast(name);
-        }
-
-        this._toasts.push(toastOptions);
-        this._render();
+        this.ref?.add(toastOptions);
     };
 
     removeToast = (name: string) => {
-        const index = this._getToastIndex(name);
-
-        if (index === -1) {
-            return;
-        }
-
         this._removeToastFromDOM(name);
     };
 
     overrideToast = (name: string, overrideOptions: Partial<ToastProps>) => {
-        const index = this._getToastIndex(name);
-
-        if (index === -1) {
-            return;
-        }
-
-        this._toasts[index] = {
-            ...this._toasts[index],
-            ...overrideOptions,
-            isOverride: true,
-        };
-
-        this._render();
+        this.ref?.update(name, overrideOptions);
     };
 
     // FIXME: BREAKING CHANGE. Rename to "removeToastFromDOM" and convert to private
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _removeToastFromDOM(name: string) {
-        const index = this._getToastIndex(name);
-        this._toasts.splice(index, 1);
-        this._render();
+        // For backward compatibility
+        this.ref?.remove(name);
     }
 
     // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private
@@ -109,11 +84,13 @@ export class ToasterSingleton {
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _render() {
         ReactDOM.render(
-            <ToastList
-                toasts={this._toasts}
-                mobile={this.mobile}
-                removeCallback={this.removeToast}
-            />,
+            <ToasterProvider
+                ref={(api) => {
+                    this.ref = api;
+                }}
+            >
+                <ToasterComponent hasPortal={false} mobile={this.mobile} />
+            </ToasterProvider>,
             this._rootNode,
             () => Promise.resolve(),
         );

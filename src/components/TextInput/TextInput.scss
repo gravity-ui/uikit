@@ -63,7 +63,7 @@ $block: '.#{$ns}text-input';
         top: 0;
         right: 0;
         height: 100%;
-        padding: 0 8px;
+        padding: 0;
         color: var(--yc-color-text-hint);
         cursor: pointer;
         border-radius: 0 3px;
@@ -79,60 +79,96 @@ $block: '.#{$ns}text-input';
 
     &_size {
         &_s {
-            #{$block}__control {
-                padding: 4px 8px;
+            #{$block}__control,
+            #{$block}__clear {
+                padding-left: 8px;
+                padding-right: 8px;
                 height: 24px;
+            }
+
+            #{$block}__control {
+                padding-top: 4px;
+                padding-bottom: 4px;
                 font-size: 13px;
                 line-height: 16px;
             }
 
-            #{$block}__clear {
-                height: 24px;
+            &#{$block}_has-clear {
+                #{$block}__control {
+                    padding-right: 26px;
+                }
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-s);
         }
 
         &_m {
-            #{$block}__control {
-                padding: 5px 8px;
+            #{$block}__control,
+            #{$block}__clear {
+                padding-left: 8px;
+                padding-right: 8px;
                 height: 28px;
+            }
+
+            #{$block}__control {
+                padding-top: 5px;
+                padding-bottom: 5px;
                 font-size: 13px;
                 line-height: 16px;
             }
 
-            #{$block}__clear {
-                height: 28px;
+            &#{$block}_has-clear {
+                #{$block}__control {
+                    padding-right: 26px;
+                }
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-m);
         }
 
         &_l {
-            #{$block}__control {
-                padding: 10px 13px;
+            #{$block}__control,
+            #{$block}__clear {
+                padding-left: 13px;
+                padding-right: 13px;
                 height: 36px;
+            }
+
+            #{$block}__control {
+                padding-top: 10px;
+                padding-bottom: 10px;
                 font-size: 13px;
                 line-height: 16px;
             }
 
-            #{$block}__clear {
-                height: 36px;
+            &#{$block}_has-clear {
+                #{$block}__control {
+                    padding-right: 36px;
+                }
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-l);
         }
 
         &_xl {
-            #{$block}__control {
-                padding: 12px 13px;
+            #{$block}__control,
+            #{$block}__clear {
+                padding-left: 13px;
+                padding-right: 13px;
                 height: 44px;
+            }
+
+            #{$block}__control {
+                padding-top: 12px;
+                padding-bottom: 12px;
                 font-size: 15px;
                 line-height: 20px;
             }
 
-            #{$block}__clear {
-                height: 44px;
+            &#{$block}_has-clear {
+                #{$block}__control {
+                    padding-right: 36px;
+                }
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-xl);
@@ -178,12 +214,6 @@ $block: '.#{$ns}text-input';
             &:hover {
                 border-color: transparent;
             }
-        }
-    }
-
-    &_has-clear {
-        #{$block}__control {
-            padding-right: 26px;
         }
     }
 

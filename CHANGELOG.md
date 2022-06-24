@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.8.0](https://github.com/yandex-cloud/uikit/compare/v2.7.0...v2.8.0) (2022-06-24)
+
+
+### Features
+
+* popover applies actual visibility on autoclosable true ([#206](https://github.com/yandex-cloud/uikit/issues/206)) ([151273b](https://github.com/yandex-cloud/uikit/commit/151273be77fbf89e008f9542698068f968635a1d))
+* **Table:** add ability to set className of all cells in a column ([#205](https://github.com/yandex-cloud/uikit/issues/205)) ([b5e6608](https://github.com/yandex-cloud/uikit/commit/b5e66088e1b384ee16b7700bf03cf331f3b5236a))
+
+
+### Bug Fixes
+
+* **Tabs:** center tab content for horizontal tabs ([#210](https://github.com/yandex-cloud/uikit/issues/210)) ([af73379](https://github.com/yandex-cloud/uikit/commit/af733792eda359196dec309bbf178f800a8efc1f))
+* **textinput:** set paddings for clear cross depending on size ([#208](https://github.com/yandex-cloud/uikit/issues/208)) ([0428ca2](https://github.com/yandex-cloud/uikit/commit/0428ca22d2c601f2b52040268d9d6b07bb52f3e1))
+* ThemeProvider theme updating ([#202](https://github.com/yandex-cloud/uikit/issues/202)) ([4b0962d](https://github.com/yandex-cloud/uikit/commit/4b0962decd51afaef0c9d21e8821c14a93b08b46))
+
 ## [2.7.0](https://github.com/yandex-cloud/uikit/compare/v2.6.0...v2.7.0) (2022-06-20)
 
 

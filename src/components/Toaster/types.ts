@@ -26,3 +26,9 @@ export type ToastProps = {
     isOverride?: boolean;
     actions?: ToastAction[];
 };
+
+export interface ToasterRef {
+    add(toast: ToastProps): void;
+    remove(toastName: ToastProps['name']): void;
+    update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
+}

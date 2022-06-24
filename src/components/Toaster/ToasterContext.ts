@@ -1,12 +1,9 @@
 import {createContext} from 'react';
-import {ToastProps} from './types';
+import {ToasterRef, ToastProps} from './types';
 
-interface ToasterContextValue {
-    add(toast: ToastProps): void;
-    remove(toastName: ToastProps['name']): void;
-    update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
+type ToasterContextValue = ToasterRef & {
     list: ToastProps[];
-}
+};
 
 export const ToasterContext = createContext<ToasterContextValue>({
     add() {},

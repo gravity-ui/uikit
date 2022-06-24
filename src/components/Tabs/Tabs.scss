@@ -80,6 +80,8 @@ $block: '.#{$ns}tabs';
         overflow: hidden;
 
         #{$block}__item {
+            display: flex;
+            align-items: center;
             box-sizing: border-box;
             height: var(--yc-tabs-height);
             border-bottom: var(--yc-tabs-border-width) solid transparent;

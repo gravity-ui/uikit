@@ -50,7 +50,7 @@ export const ToasterProvider = memo(
                     const index = getToastIndex(toasts, toastName);
 
                     return [
-                        ...toasts.slice(0, index + 1),
+                        ...toasts.slice(0, index),
                         {
                             ...toasts[index],
                             ...override,

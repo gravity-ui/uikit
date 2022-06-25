@@ -1,8 +1,8 @@
-## Toaster
+# Toaster
 
 Component for adjustable notifications.
 
-#### Usage
+## Usage
 
 ```js
 import {Toaster} from '@yandex-cloud/uikit';
@@ -16,14 +16,14 @@ import {toaster} from '@yandex-cloud/uikit';
 Toaster is **Singleton**, so when initialized in different parts of the application, the same instance will be returned.
 On initialization it is possible to pass className, that will be assigned to dom-element which is wrapping all toasts.
 
-#### Constructor arguments
+## Constructor arguments
 
 | Parameter | Type      | Default     | Description                                         |
 | :-------- | :-------- | :---------- | :-------------------------------------------------- |
 | className | `string`  | `undefined` | Custom class name to add to the component container |
 | mobile    | `boolean` | `false`     | Configuration that manages mobile/desktop views     |
 
-#### Methods
+## Methods
 
 | Method name                          | Params             | Description                                                                                                                             |
 | :----------------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,7 +31,7 @@ On initialization it is possible to pass className, that will be assigned to dom
 | removeToast(name)                    | `string`           | Delete existing notification manually                                                                                                   |
 | overrideToast(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
 
-#### More about `createToast`
+## More about `createToast`
 
 Accepts argument `toastOptions` with ongoing notification details:
 

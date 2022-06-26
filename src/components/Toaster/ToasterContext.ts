@@ -3,6 +3,7 @@ import {ToasterRef, ToastProps} from './types';
 
 type ToasterContextValue = ToasterRef & {
     list: ToastProps[];
+    isInitialized: boolean;
 };
 
 export const ToasterContext = createContext<ToasterContextValue>({
@@ -10,5 +11,6 @@ export const ToasterContext = createContext<ToasterContextValue>({
     remove() {},
     update() {},
     list: [],
+    isInitialized: false,
 });
 ToasterContext.displayName = 'ToasterContext';

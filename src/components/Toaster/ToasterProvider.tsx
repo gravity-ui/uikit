@@ -69,6 +69,7 @@ export const ToasterProvider = memo(
                 remove,
                 update,
                 list: toasts,
+                isInitialized: true,
             };
         }, [add, remove, toasts, update]);
 

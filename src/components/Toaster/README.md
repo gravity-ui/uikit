@@ -40,6 +40,24 @@ export function FoobarComponent() {
 Hook returns methods `add`, `update` and `remove`, their signatures is equal to
 `createToast`, `overrideToast` and `removeToast` of singleton (see below).
 
+## Usage as HOC
+
+For class components you can use `withToaster` HOC. This will inject `toaster`
+prop to component.
+
+```jsx
+import {Component} from 'react';
+import {withToaster} from '@yandex-cloud/uikit';
+
+class FoobarComponent extends Component {
+  render() {
+    this.props.toaster.add({});
+  }
+}
+
+const FoobarWithToaster = withToaster()(FoobarComponent);
+```
+
 ## Usage as singleton
 
 ```js

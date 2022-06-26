@@ -10,10 +10,15 @@ type Props = PropsWithChildren<{
 const b = block('toaster');
 
 export function ToasterPortal({children, className, mobile}: Props) {
-    const el = useRef(document.createElement('div'));
+    const el = useRef(typeof document !== 'undefined' ? document.createElement('div') : undefined);
 
     useEffect(() => {
         const container = el.current;
+
+        if (!container) {
+            return;
+        }
+
         document.body.appendChild(container);
 
         return () => {
@@ -22,6 +27,10 @@ export function ToasterPortal({children, className, mobile}: Props) {
     }, []);
 
     useEffect(() => {
+        if (!el.current) {
+            return;
+        }
+
         el.current.className = b({mobile}, className);
     }, [className, mobile]);
 

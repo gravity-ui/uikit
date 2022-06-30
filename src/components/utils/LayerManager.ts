@@ -89,12 +89,14 @@ class LayerManager {
     private isOutsideClick(layer: LayerConfig, event: MouseEvent) {
         const contentElements = layer.contentRefs || [];
         const {target} = event;
+        const composedPath = typeof event.composedPath === 'function' ? event.composedPath() : [];
 
         if (contentElements.length > 0) {
             const isClickOnContentElements = contentElements.some(
                 (el) =>
                     el?.current?.contains?.(target as Element) ||
-                    el?.current?.contains?.(this.mouseDownTarget),
+                    el?.current?.contains?.(this.mouseDownTarget) ||
+                    composedPath.includes(el?.current as EventTarget),
             );
 
             return !isClickOnContentElements;

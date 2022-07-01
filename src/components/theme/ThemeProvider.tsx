@@ -4,6 +4,7 @@ import {block} from '../utils/cn';
 import {ThemeContext, ThemeContextProps} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
+import {getDarkMediaMatch} from './getDarkMediaMatch';
 
 const b = block('root');
 
@@ -21,7 +22,6 @@ interface ThemeProviderState extends ThemeContextProps {
     themeValue: string;
 }
 
-const getDarkMediaMatch = () => window.matchMedia('(prefers-color-scheme: dark)');
 function getSystemTheme() {
     if (typeof window === 'object') {
         return getDarkMediaMatch().matches ? 'dark' : 'light';

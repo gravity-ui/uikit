@@ -13,3 +13,4 @@ const initialValue: ThemeContextProps = {
 };
 
 export const ThemeContext = React.createContext(initialValue);
+ThemeContext.displayName = 'ThemeContext';

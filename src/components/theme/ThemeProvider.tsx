@@ -5,7 +5,7 @@ import {ThemeContext, ThemeContextProps} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
 import {getDarkMediaMatch} from './getDarkMediaMatch';
-import {getSystemTheme} from './getSystemTheme';
+import {getThemeValue} from './getThemeValue';
 
 const b = block('root');
 
@@ -35,7 +35,7 @@ export class ThemeProvider extends React.Component<
 
     state: ThemeProviderState = {
         theme: this.props.theme,
-        themeValue: this.getThemeValue(this.props.theme),
+        themeValue: getThemeValue(this.props.theme),
         setTheme: (theme: string) => {
             this.setState({theme});
         },
@@ -57,13 +57,13 @@ export class ThemeProvider extends React.Component<
 
     componentDidUpdate(prevProps: ThemeProviderProps, prevState: ThemeProviderState) {
         if (prevState.theme !== this.state.theme) {
-            const themeValue = this.getThemeValue(this.state.theme);
+            const themeValue = getThemeValue(this.state.theme);
             this.setState({themeValue});
             this.updateBodyClassName(themeValue);
         }
 
         if (prevProps.theme !== this.props.theme) {
-            const themeValue = this.getThemeValue(this.props.theme);
+            const themeValue = getThemeValue(this.props.theme);
             this.setState({theme: this.props.theme, themeValue});
             this.updateBodyClassName(themeValue);
         }
@@ -83,10 +83,6 @@ export class ThemeProvider extends React.Component<
                 </ThemeValueContext.Provider>
             </ThemeContext.Provider>
         );
-    }
-
-    private getThemeValue(themeSetting: string) {
-        return themeSetting === 'system' ? getSystemTheme() : themeSetting;
     }
 
     private updateBodyClassName(theme: string) {

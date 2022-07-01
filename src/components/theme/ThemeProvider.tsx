@@ -13,6 +13,8 @@ interface ThemeProviderDefaultProps {
     theme: string;
 }
 
+type Props = PropsWithChildren<ThemeProviderExternalProps & ThemeProviderDefaultProps>;
+
 export interface ThemeProviderProps
     extends ThemeProviderExternalProps,
         Partial<ThemeProviderDefaultProps> {}
@@ -21,16 +23,7 @@ interface ThemeProviderState extends ThemeContextProps {
     themeValue: string;
 }
 
-export class ThemeProvider extends React.Component<
-    ThemeProviderExternalProps & ThemeProviderDefaultProps & PropsWithChildren<{}>,
-    ThemeProviderState
-> {
-    static defaultProps: ThemeProviderDefaultProps = {
-        theme: DEFAULT_THEME,
-    };
-
-    mediaListener?: (event: MediaQueryListEvent) => void;
-
+export class ThemeProvider extends React.Component<Props, ThemeProviderState> {
     state: ThemeProviderState = {
         theme: this.props.theme,
         themeValue: getThemeValue(this.props.theme),

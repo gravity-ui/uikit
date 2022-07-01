@@ -1,11 +1,11 @@
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, useEffect, useMemo, useState} from 'react';
 
-import {ThemeContext, ThemeContextProps} from './ThemeContext';
+import {ThemeContext} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
-import {getDarkMediaMatch} from './getDarkMediaMatch';
 import {getThemeValue} from './getThemeValue';
 import {updateBodyClassName} from './updateBodyClassName';
+import {useSystemTheme} from './useSystemTheme';
 
 interface ThemeProviderExternalProps {}
 
@@ -15,64 +15,37 @@ interface ThemeProviderDefaultProps {
 
 type Props = PropsWithChildren<ThemeProviderExternalProps & ThemeProviderDefaultProps>;
 
-export interface ThemeProviderProps
-    extends ThemeProviderExternalProps,
-        Partial<ThemeProviderDefaultProps> {}
+export function ThemeProvider({theme = DEFAULT_THEME, children}: Props) {
+    const [_theme, _setTheme] = useState(theme);
+    useEffect(() => {
+        _setTheme(theme);
+    }, [theme]);
 
-interface ThemeProviderState extends ThemeContextProps {
-    themeValue: string;
-}
+    const [themeValue, setThemeValue] = useState(getThemeValue(_theme));
+    useEffect(() => {
+        setThemeValue(getThemeValue(_theme));
+    }, [_theme]);
+    useEffect(() => {
+        updateBodyClassName(themeValue);
+    }, [themeValue]);
 
-export class ThemeProvider extends React.Component<Props, ThemeProviderState> {
-    state: ThemeProviderState = {
-        theme: this.props.theme,
-        themeValue: getThemeValue(this.props.theme),
-        setTheme: (theme: string) => {
-            this.setState({theme});
-        },
-    };
+    const systemTheme = useSystemTheme();
+    useEffect(() => {
+        setThemeValue(systemTheme);
+    }, [systemTheme]);
 
-    componentDidMount() {
-        if (typeof window === 'object') {
-            this.mediaListener = (event) => {
-                if (this.state.theme === 'system') {
-                    const themeValue = event.matches ? 'dark' : 'light';
-                    this.setState({themeValue}, () => updateBodyClassName(themeValue));
-                }
-            };
-            getDarkMediaMatch().addListener(this.mediaListener);
-        }
+    const contextValue = useMemo(
+        () => ({
+            theme: _theme,
+            themeValue,
+            setTheme: _setTheme,
+        }),
+        [_theme, themeValue],
+    );
 
-        updateBodyClassName(this.state.themeValue);
-    }
-
-    componentDidUpdate(prevProps: ThemeProviderProps, prevState: ThemeProviderState) {
-        if (prevState.theme !== this.state.theme) {
-            const themeValue = getThemeValue(this.state.theme);
-            this.setState({themeValue});
-            updateBodyClassName(themeValue);
-        }
-
-        if (prevProps.theme !== this.props.theme) {
-            const themeValue = getThemeValue(this.props.theme);
-            this.setState({theme: this.props.theme, themeValue});
-            updateBodyClassName(themeValue);
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.mediaListener) {
-            getDarkMediaMatch().removeListener(this.mediaListener);
-        }
-    }
-
-    render() {
-        return (
-            <ThemeContext.Provider value={this.state}>
-                <ThemeValueContext.Provider value={{themeValue: this.state.themeValue}}>
-                    {this.props.children}
-                </ThemeValueContext.Provider>
-            </ThemeContext.Provider>
-        );
-    }
+    return (
+        <ThemeContext.Provider value={contextValue}>
+            <ThemeValueContext.Provider value={{themeValue}}>{children}</ThemeValueContext.Provider>
+        </ThemeContext.Provider>
+    );
 }

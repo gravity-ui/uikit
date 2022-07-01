@@ -7,75 +7,52 @@ export enum CopyToClipboardStatus {
     Error = 'error',
 }
 
-interface CopyToClipboardGeneralProps {
+export interface CopyToClipboardProps {
     children: (status: CopyToClipboardStatus) => React.ReactElement;
     text: string;
+    timeout?: number;
     onCopy?: (text: string, result: boolean) => void;
 }
 
-interface CopyToClipboardDefaultProps {
-    timeout: number;
-}
+export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyToClipboardProps) {
+    const resolvedText = React.useMemo(() => String(text), [text]);
+    const [status, setStatus] = React.useState(CopyToClipboard.INITIAL_STATUS);
+    const content = React.useMemo(() => children(status), [children, status]);
+    const timerIdRef = React.useRef<number>();
+    const handleCopy = React.useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
+        (copyText, result) => {
+            setStatus(result ? CopyToClipboardStatus.Success : CopyToClipboardStatus.Error);
 
-interface CopyToClipboardInnerProps
-    extends CopyToClipboardGeneralProps,
-        CopyToClipboardDefaultProps {}
+            if (timerIdRef.current) {
+                clearTimeout(timerIdRef.current);
+            }
+            timerIdRef.current = window.setTimeout(() => {
+                setStatus(CopyToClipboard.INITIAL_STATUS);
+                timerIdRef.current = undefined;
+            }, timeout);
 
-export interface CopyToClipboardProps
-    extends CopyToClipboardGeneralProps,
-        Partial<CopyToClipboardDefaultProps> {}
+            onCopy?.(copyText, result);
+        },
+        [onCopy, timeout],
+    );
 
-interface CopyToClipboardState {
-    status: CopyToClipboardStatus;
-}
-
-export class CopyToClipboard extends React.Component<
-    CopyToClipboardInnerProps,
-    CopyToClipboardState
-> {
-    static INITIAL_STATUS = CopyToClipboardStatus.Pending;
-
-    state: CopyToClipboardState = {
-        status: CopyToClipboard.INITIAL_STATUS,
-    };
-
-    private timerId?: number;
-
-    render() {
-        const {children, text} = this.props;
-        const {status} = this.state;
-        const content = children(status);
-
-        if (!React.isValidElement(content)) {
-            throw new Error('Content must be a valid react element');
-        }
-
-        return (
-            <ReactCopyToClipboard text={String(text)} onCopy={this.handleCopy}>
-                {content}
-            </ReactCopyToClipboard>
-        );
+    if (!React.isValidElement(content)) {
+        throw new Error('Content must be a valid React element');
     }
 
-    componentWillUnmount() {
-        clearTimeout(this.timerId);
-    }
+    React.useEffect(() => {
+        return () => {
+            if (timerIdRef.current) {
+                clearTimeout(timerIdRef.current);
+            }
+        };
+    }, []);
 
-    private handleCopy = (text: string, result: boolean) => {
-        const {timeout, onCopy} = this.props;
-
-        this.setState({
-            status: result ? CopyToClipboardStatus.Success : CopyToClipboardStatus.Error,
-        });
-
-        clearTimeout(this.timerId);
-        this.timerId = window.setTimeout(() => {
-            this.setState({status: CopyToClipboard.INITIAL_STATUS});
-            this.timerId = undefined;
-        }, timeout);
-
-        if (onCopy) {
-            onCopy(text, result);
-        }
-    };
+    return (
+        <ReactCopyToClipboard text={resolvedText} onCopy={handleCopy}>
+            {content}
+        </ReactCopyToClipboard>
+    );
 }
+
+CopyToClipboard.INITIAL_STATUS = CopyToClipboardStatus.Pending;

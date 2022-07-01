@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {getDarkMediaMatch} from './getDarkMediaMatch';
 
-export function useSystemTheme(): 'light' | 'dark' {
-    const [theme, setTheme] = useState<'light' | 'dark'>('light');
+export function useSystemTheme(): 'light' | 'dark' | null {
+    const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
 
     useEffect(() => {
         function onChange(event: MediaQueryListEvent) {

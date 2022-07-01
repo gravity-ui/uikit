@@ -31,6 +31,10 @@ export function ThemeProvider({theme = DEFAULT_THEME, children}: Props) {
 
     const systemTheme = useSystemTheme();
     useEffect(() => {
+        if (!systemTheme) {
+            return;
+        }
+
         setThemeValue(systemTheme);
     }, [systemTheme]);
 

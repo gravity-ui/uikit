@@ -1,8 +1,11 @@
 import React, {PropsWithChildren} from 'react';
 
+import {block} from '../utils/cn';
 import {ThemeContext, ThemeContextProps} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
+
+const b = block('root');
 
 interface ThemeProviderExternalProps {}
 
@@ -96,11 +99,11 @@ export class ThemeProvider extends React.Component<
     private updateBodyClassName(theme: string) {
         const bodyEl = document.body;
 
-        if (!bodyEl.classList.contains('yc-root')) {
-            bodyEl.classList.add('yc-root');
+        if (!bodyEl.classList.contains(b())) {
+            bodyEl.classList.add(b());
         }
 
-        bodyEl.classList.toggle('yc-root_theme_light', theme === 'light');
-        bodyEl.classList.toggle('yc-root_theme_dark', theme === 'dark');
+        bodyEl.classList.toggle(b({theme: 'light'}), theme === 'light');
+        bodyEl.classList.toggle(b({theme: 'dark'}), theme === 'dark');
     }
 }

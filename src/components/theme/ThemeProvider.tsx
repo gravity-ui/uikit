@@ -13,9 +13,12 @@ interface ThemeProviderDefaultProps {
     theme: string;
 }
 
-type Props = PropsWithChildren<ThemeProviderExternalProps & ThemeProviderDefaultProps>;
+export interface ThemeProviderProps
+    extends ThemeProviderExternalProps,
+        Partial<ThemeProviderDefaultProps>,
+        PropsWithChildren<{}> {}
 
-export function ThemeProvider({theme = DEFAULT_THEME, children}: Props) {
+export function ThemeProvider({theme = DEFAULT_THEME, children}: ThemeProviderProps) {
     const [_theme, _setTheme] = useState(theme);
     useEffect(() => {
         _setTheme(theme);

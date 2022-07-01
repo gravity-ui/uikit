@@ -5,6 +5,7 @@ import {ThemeContext, ThemeContextProps} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
 import {getDarkMediaMatch} from './getDarkMediaMatch';
+import {getSystemTheme} from './getSystemTheme';
 
 const b = block('root');
 
@@ -20,14 +21,6 @@ export interface ThemeProviderProps
 
 interface ThemeProviderState extends ThemeContextProps {
     themeValue: string;
-}
-
-function getSystemTheme() {
-    if (typeof window === 'object') {
-        return getDarkMediaMatch().matches ? 'dark' : 'light';
-    } else {
-        return 'light';
-    }
 }
 
 export class ThemeProvider extends React.Component<

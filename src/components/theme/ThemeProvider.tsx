@@ -53,3 +53,5 @@ export function ThemeProvider({theme = DEFAULT_THEME, children}: Props) {
         </ThemeContext.Provider>
     );
 }
+
+ThemeProvider.displayName = 'ThemeProvider';

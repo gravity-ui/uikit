@@ -1,13 +1,11 @@
 import React, {PropsWithChildren} from 'react';
 
-import {block} from '../utils/cn';
 import {ThemeContext, ThemeContextProps} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
 import {getDarkMediaMatch} from './getDarkMediaMatch';
 import {getThemeValue} from './getThemeValue';
-
-const b = block('root');
+import {updateBodyClassName} from './updateBodyClassName';
 
 interface ThemeProviderExternalProps {}
 
@@ -46,26 +44,26 @@ export class ThemeProvider extends React.Component<
             this.mediaListener = (event) => {
                 if (this.state.theme === 'system') {
                     const themeValue = event.matches ? 'dark' : 'light';
-                    this.setState({themeValue}, () => this.updateBodyClassName(themeValue));
+                    this.setState({themeValue}, () => updateBodyClassName(themeValue));
                 }
             };
             getDarkMediaMatch().addListener(this.mediaListener);
         }
 
-        this.updateBodyClassName(this.state.themeValue);
+        updateBodyClassName(this.state.themeValue);
     }
 
     componentDidUpdate(prevProps: ThemeProviderProps, prevState: ThemeProviderState) {
         if (prevState.theme !== this.state.theme) {
             const themeValue = getThemeValue(this.state.theme);
             this.setState({themeValue});
-            this.updateBodyClassName(themeValue);
+            updateBodyClassName(themeValue);
         }
 
         if (prevProps.theme !== this.props.theme) {
             const themeValue = getThemeValue(this.props.theme);
             this.setState({theme: this.props.theme, themeValue});
-            this.updateBodyClassName(themeValue);
+            updateBodyClassName(themeValue);
         }
     }
 
@@ -83,16 +81,5 @@ export class ThemeProvider extends React.Component<
                 </ThemeValueContext.Provider>
             </ThemeContext.Provider>
         );
-    }
-
-    private updateBodyClassName(theme: string) {
-        const bodyEl = document.body;
-
-        if (!bodyEl.classList.contains(b())) {
-            bodyEl.classList.add(b());
-        }
-
-        bodyEl.classList.toggle(b({theme: 'light'}), theme === 'light');
-        bodyEl.classList.toggle(b({theme: 'dark'}), theme === 'dark');
     }
 }

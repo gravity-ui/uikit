@@ -15,25 +15,15 @@ export interface CopyToClipboardProps {
 }
 
 export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyToClipboardProps) {
-    const resolvedText = React.useMemo(() => String(text), [text]);
     const [status, setStatus] = React.useState(CopyToClipboard.INITIAL_STATUS);
     const content = React.useMemo(() => children(status), [children, status]);
     const timerIdRef = React.useRef<number>();
     const handleCopy = React.useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
         (copyText, result) => {
             setStatus(result ? CopyToClipboardStatus.Success : CopyToClipboardStatus.Error);
-
-            if (timerIdRef.current) {
-                clearTimeout(timerIdRef.current);
-            }
-            timerIdRef.current = window.setTimeout(() => {
-                setStatus(CopyToClipboard.INITIAL_STATUS);
-                timerIdRef.current = undefined;
-            }, timeout);
-
             onCopy?.(copyText, result);
         },
-        [onCopy, timeout],
+        [onCopy],
     );
 
     if (!React.isValidElement(content)) {
@@ -41,18 +31,23 @@ export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyTo
     }
 
     React.useEffect(() => {
+        if (status === CopyToClipboard.INITIAL_STATUS) {
+            return;
+        }
+        timerIdRef.current = window.setTimeout(() => {
+            setStatus(CopyToClipboard.INITIAL_STATUS);
+        }, timeout);
         return () => {
-            if (timerIdRef.current) {
-                clearTimeout(timerIdRef.current);
-            }
+            window.clearTimeout(timerIdRef.current);
         };
-    }, []);
+    }, [status]);
 
     return (
-        <ReactCopyToClipboard text={resolvedText} onCopy={handleCopy}>
+        <ReactCopyToClipboard text={String(text)} onCopy={handleCopy}>
             {content}
         </ReactCopyToClipboard>
     );
 }
 
+CopyToClipboard.displayName = 'CopyToClipboard';
 CopyToClipboard.INITIAL_STATUS = CopyToClipboardStatus.Pending;

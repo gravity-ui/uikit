@@ -57,8 +57,11 @@ export const ToasterProvider = React.memo(
         const toasterContext = React.useMemo(() => {
             return {
                 add,
+                createToast: add,
                 remove,
+                removeToast: remove,
                 update,
+                overrideToast: update,
                 list: toasts,
                 isInitialized: true,
             };
@@ -66,8 +69,11 @@ export const ToasterProvider = React.memo(
 
         React.useImperativeHandle(ref, () => ({
             add,
+            createToast: add,
             remove,
+            removeToast: remove,
             update,
+            overrideToast: update,
         }));
 
         return <ToasterContext.Provider value={toasterContext}>{children}</ToasterContext.Provider>;

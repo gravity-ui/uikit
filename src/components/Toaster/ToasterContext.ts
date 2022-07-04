@@ -8,8 +8,11 @@ type ToasterContextValue = ToasterRef & {
 
 export const ToasterContext = React.createContext<ToasterContextValue>({
     add() {},
+    createToast() {},
     remove() {},
+    removeToast() {},
     update() {},
+    overrideToast() {},
     list: [],
     isInitialized: false,
 });

@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {ToasterContext} from './ToasterContext';
-import {ToasterRef, ToastProps} from './types';
+import {InternalToastProps, ToasterRef, ToastProps} from './types';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
 import {getToastIndex} from './utilities/getToastIndex';
@@ -9,7 +9,7 @@ type Props = PropsWithChildren<{}>;
 
 export const ToasterProvider = React.memo(
     React.forwardRef<ToasterRef, Props>(function ToasterProvider({children}: Props, ref) {
-        const [toasts, setToasts] = React.useState<ToastProps[]>([]);
+        const [toasts, setToasts] = React.useState<InternalToastProps[]>([]);
 
         const add = React.useCallback((toast: ToastProps) => {
             const {name} = toast;
@@ -21,7 +21,7 @@ export const ToasterProvider = React.memo(
                     nextToasts = removeToast(toasts, name);
                 }
 
-                return [...nextToasts, toast];
+                return [...nextToasts, {...toast, addedAt: Date.now()}];
             });
         }, []);
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import {ToasterRef, ToastProps} from './types';
+import {InternalToastProps, ToasterRef} from './types';
 
 type ToasterContextValue = ToasterRef & {
-    list: ToastProps[];
+    list: InternalToastProps[];
     isInitialized: boolean;
 };
 

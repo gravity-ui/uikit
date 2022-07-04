@@ -27,6 +27,10 @@ export type ToastProps = {
     actions?: ToastAction[];
 };
 
+export type InternalToastProps = ToastProps & {
+    addedAt?: number;
+};
+
 export interface ToasterRef {
     add(toast: ToastProps): void;
     /** @deprecated Use `add` instead */

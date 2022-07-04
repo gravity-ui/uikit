@@ -19,15 +19,15 @@ export interface ThemeProviderProps
         PropsWithChildren<{}> {}
 
 export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: ThemeProviderProps) {
-    const [_theme, _setTheme] = useState(themeProp);
+    const [theme, setTheme] = useState(themeProp);
     useEffect(() => {
-        _setTheme(themeProp);
+        setTheme(themeProp);
     }, [themeProp]);
 
-    const [themeValue, setThemeValue] = useState(getThemeValue(_theme));
+    const [themeValue, setThemeValue] = useState(getThemeValue(theme));
     useEffect(() => {
-        setThemeValue(getThemeValue(_theme));
-    }, [_theme]);
+        setThemeValue(getThemeValue(theme));
+    }, [theme]);
     useEffect(() => {
         updateBodyClassName(themeValue);
     }, [themeValue]);
@@ -43,11 +43,11 @@ export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: Them
 
     const contextValue = useMemo(
         () => ({
-            theme: _theme,
+            theme,
             themeValue,
-            setTheme: _setTheme,
+            setTheme,
         }),
-        [_theme, themeValue],
+        [theme, themeValue],
     );
 
     return (

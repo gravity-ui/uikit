@@ -18,11 +18,11 @@ export interface ThemeProviderProps
         Partial<ThemeProviderDefaultProps>,
         PropsWithChildren<{}> {}
 
-export function ThemeProvider({theme = DEFAULT_THEME, children}: ThemeProviderProps) {
-    const [_theme, _setTheme] = useState(theme);
+export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: ThemeProviderProps) {
+    const [_theme, _setTheme] = useState(themeProp);
     useEffect(() => {
-        _setTheme(theme);
-    }, [theme]);
+        _setTheme(themeProp);
+    }, [themeProp]);
 
     const [themeValue, setThemeValue] = useState(getThemeValue(_theme));
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, {PropsWithChildren, useEffect, useRef} from 'react';
+import React, {PropsWithChildren} from 'react';
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 
@@ -10,9 +10,11 @@ type Props = PropsWithChildren<{
 const b = block('toaster');
 
 export function ToasterPortal({children, className, mobile}: Props) {
-    const el = useRef(typeof document !== 'undefined' ? document.createElement('div') : undefined);
+    const el = React.useRef(
+        typeof document !== 'undefined' ? document.createElement('div') : undefined,
+    );
 
-    useEffect(() => {
+    React.useEffect(() => {
         const container = el.current;
 
         if (!container) {
@@ -26,7 +28,7 @@ export function ToasterPortal({children, className, mobile}: Props) {
         };
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!el.current) {
             return;
         }

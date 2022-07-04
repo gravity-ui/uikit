@@ -1,12 +1,4 @@
-import React, {
-    forwardRef,
-    memo,
-    PropsWithChildren,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from 'react';
+import React, {PropsWithChildren} from 'react';
 import {ToasterContext} from './ToasterContext';
 import {ToasterRef, ToastProps} from './types';
 import {hasToast} from './utilities/hasToast';
@@ -16,11 +8,11 @@ import {getToastIndex} from './utilities/getToastIndex';
 
 type Props = PropsWithChildren<{}>;
 
-export const ToasterProvider = memo(
-    forwardRef<ToasterRef, Props>(function ToasterProvider({children}: Props, ref) {
-        const [toasts, setToasts] = useState<ToastProps[]>([]);
+export const ToasterProvider = React.memo(
+    React.forwardRef<ToasterRef, Props>(function ToasterProvider({children}: Props, ref) {
+        const [toasts, setToasts] = React.useState<ToastProps[]>([]);
 
-        const add = useCallback((toast: ToastProps) => {
+        const add = React.useCallback((toast: ToastProps) => {
             const {name} = toast;
 
             setToasts((toasts) => {
@@ -34,13 +26,13 @@ export const ToasterProvider = memo(
             });
         }, []);
 
-        const remove = useCallback((toastName: ToastProps['name']) => {
+        const remove = React.useCallback((toastName: ToastProps['name']) => {
             setToasts((toasts) => {
                 return removeToast(toasts, toastName);
             });
         }, []);
 
-        const update = useCallback(
+        const update = React.useCallback(
             (toastName: ToastProps['name'], override: Partial<ToastProps>) => {
                 setToasts((toasts) => {
                     if (!hasToast(toasts, toastName)) {
@@ -63,7 +55,7 @@ export const ToasterProvider = memo(
             [],
         );
 
-        const toasterContext = useMemo(() => {
+        const toasterContext = React.useMemo(() => {
             return {
                 add,
                 remove,
@@ -73,7 +65,7 @@ export const ToasterProvider = memo(
             };
         }, [add, remove, toasts, update]);
 
-        useEffect(() => {
+        React.useEffect(() => {
             setRef(ref, {
                 add,
                 remove,

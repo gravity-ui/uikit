@@ -1,10 +1,10 @@
-import {useContext, useMemo} from 'react';
+import React from 'react';
 import {ToasterContext} from '../ToasterContext';
 
 export function useToaster() {
-    const {add, remove, update} = useContext(ToasterContext);
+    const {add, remove, update} = React.useContext(ToasterContext);
 
-    return useMemo(
+    return React.useMemo(
         () => ({
             add,
             remove,

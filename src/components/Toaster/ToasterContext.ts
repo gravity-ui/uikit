@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import React from 'react';
 import {ToasterRef, ToastProps} from './types';
 
 type ToasterContextValue = ToasterRef & {
@@ -6,7 +6,7 @@ type ToasterContextValue = ToasterRef & {
     isInitialized: boolean;
 };
 
-export const ToasterContext = createContext<ToasterContextValue>({
+export const ToasterContext = React.createContext<ToasterContextValue>({
     add() {},
     remove() {},
     update() {},

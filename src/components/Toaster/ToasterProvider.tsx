@@ -3,7 +3,6 @@ import {ToasterContext} from './ToasterContext';
 import {ToasterRef, ToastProps} from './types';
 import {hasToast} from './utilities/hasToast';
 import {removeToast} from './utilities/removeToast';
-import {setRef} from '../utils/setRef';
 import {getToastIndex} from './utilities/getToastIndex';
 
 type Props = PropsWithChildren<{}>;
@@ -65,13 +64,11 @@ export const ToasterProvider = React.memo(
             };
         }, [add, remove, toasts, update]);
 
-        React.useEffect(() => {
-            setRef(ref, {
-                add,
-                remove,
-                update,
-            });
-        }, [add, ref, remove, update]);
+        React.useImperativeHandle(ref, () => ({
+            add,
+            remove,
+            update,
+        }));
 
         return <ToasterContext.Provider value={toasterContext}>{children}</ToasterContext.Provider>;
     }),

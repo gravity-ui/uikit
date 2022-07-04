@@ -23,7 +23,7 @@ export class ToasterSingleton {
     _toasts: ToastProps[] = [];
     private className = '';
     private mobile = false;
-    private ref: null | ToasterRef = null;
+    private componentAPI: null | ToasterRef = null;
 
     constructor(args?: ToasterArgs) {
         const additionalClass = get(args, ['additionalClass'], '');
@@ -48,15 +48,15 @@ export class ToasterSingleton {
     }
 
     add = (options: ToastProps) => {
-        this.ref?.add(options);
+        this.componentAPI?.add(options);
     };
 
     remove = (name: string) => {
-        this.ref?.remove(name);
+        this.componentAPI?.remove(name);
     };
 
     update = (name: string, overrideOptions: Partial<ToastProps>) => {
-        this.ref?.update(name, overrideOptions);
+        this.componentAPI?.update(name, overrideOptions);
     };
 
     /**
@@ -110,7 +110,7 @@ export class ToasterSingleton {
         ReactDOM.render(
             <ToasterProvider
                 ref={(api) => {
-                    this.ref = api;
+                    this.componentAPI = api;
                 }}
             >
                 <ToasterComponent hasPortal={false} mobile={this.mobile} />

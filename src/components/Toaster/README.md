@@ -37,7 +37,7 @@ export function FoobarComponent() {
 }
 ```
 
-Hook returns methods `add`, `update` and `remove`, their signatures is equal to
+Hook returns methods `add`, `update`, `remove` and `removeAll`, their signatures is equal to
 `createToast`, `overrideToast` and `removeToast` of singleton (see below).
 
 ## Usage as HOC

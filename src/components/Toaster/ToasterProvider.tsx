@@ -31,6 +31,10 @@ export const ToasterProvider = React.memo(
             });
         }, []);
 
+        const removeAll = React.useCallback(() => {
+            setToasts(() => []);
+        }, []);
+
         const update = React.useCallback(
             (toastName: ToastProps['name'], override: Partial<ToastProps>) => {
                 setToasts((toasts) => {
@@ -60,18 +64,20 @@ export const ToasterProvider = React.memo(
                 createToast: add,
                 remove,
                 removeToast: remove,
+                removeAll,
                 update,
                 overrideToast: update,
                 list: toasts,
                 isInitialized: true,
             };
-        }, [add, remove, toasts, update]);
+        }, [add, remove, removeAll, toasts, update]);
 
         React.useImperativeHandle(ref, () => ({
             add,
             createToast: add,
             remove,
             removeToast: remove,
+            removeAll: removeAll,
             update,
             overrideToast: update,
         }));

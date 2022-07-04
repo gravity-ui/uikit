@@ -11,6 +11,7 @@ export const ToasterContext = React.createContext<ToasterContextValue>({
     createToast() {},
     remove() {},
     removeToast() {},
+    removeAll() {},
     update() {},
     overrideToast() {},
     list: [],

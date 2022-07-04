@@ -34,6 +34,7 @@ export interface ToasterRef {
     remove(toastName: ToastProps['name']): void;
     /** @deprecated Use `remove` instead */
     removeToast(toastName: ToastProps['name']): void;
+    removeAll(): void;
     update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
     /** @deprecated Use `update` instead */
     overrideToast(toastName: ToastProps['name'], override: Partial<ToastProps>): void;

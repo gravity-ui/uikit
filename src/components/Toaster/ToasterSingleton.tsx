@@ -55,6 +55,10 @@ export class ToasterSingleton {
         this.componentAPI?.remove(name);
     };
 
+    removeAll = () => {
+        this.componentAPI?.removeAll();
+    };
+
     update = (name: string, overrideOptions: Partial<ToastProps>) => {
         this.componentAPI?.update(name, overrideOptions);
     };

@@ -29,9 +29,12 @@ export type ToastProps = {
 
 export interface ToasterRef {
     add(toast: ToastProps): void;
+    /** @deprecated Use `add` instead */
     createToast(toast: ToastProps): void;
     remove(toastName: ToastProps['name']): void;
+    /** @deprecated Use `remove` instead */
     removeToast(toastName: ToastProps['name']): void;
     update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
+    /** @deprecated Use `update` instead */
     overrideToast(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
 }

@@ -47,23 +47,47 @@ export class ToasterSingleton {
         window[TOASTER_KEY] = this;
     }
 
-    createToast = async (toastOptions: ToastProps) => {
-        this.ref?.add(toastOptions);
+    add = (options: ToastProps) => {
+        this.ref?.add(options);
     };
 
-    removeToast = (name: string) => {
-        this._removeToastFromDOM(name);
+    remove = (name: string) => {
+        this.ref?.remove(name);
     };
 
-    overrideToast = (name: string, overrideOptions: Partial<ToastProps>) => {
+    update = (name: string, overrideOptions: Partial<ToastProps>) => {
         this.ref?.update(name, overrideOptions);
+    };
+
+    /**
+     * @deprecated Use `toaster.add` instead
+     * @param toastOptions
+     */
+    createToast = async (toastOptions: ToastProps) => {
+        this.add(toastOptions);
+    };
+
+    /**
+     * @deprecated Use `toaster.remove` instead
+     * @param {string} name
+     */
+    removeToast = (name: string) => {
+        this.remove(name);
+    };
+
+    /**
+     * @deprecated Use `toaster.update` instead
+     * @param name
+     * @param overrideOptions
+     */
+    overrideToast = (name: string, overrideOptions: Partial<ToastProps>) => {
+        this.update(name, overrideOptions);
     };
 
     // FIXME: BREAKING CHANGE. Rename to "removeToastFromDOM" and convert to private
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _removeToastFromDOM(name: string) {
-        // For backward compatibility
-        this.ref?.remove(name);
+        this.remove(name);
     }
 
     // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private

@@ -1,16 +1,17 @@
 import React, {PropsWithChildren, useEffect, useMemo, useState} from 'react';
 
-import {ThemeContext} from './ThemeContext';
-import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_THEME} from './constants';
 import {getThemeValue} from './getThemeValue';
+import {ThemeContext} from './ThemeContext';
+import {ThemeValueContext} from './ThemeValueContext';
+import type {Theme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
 
 interface ThemeProviderExternalProps {}
 
 interface ThemeProviderDefaultProps {
-    theme: string;
+    theme: Theme;
 }
 
 export interface ThemeProviderProps
@@ -19,7 +20,7 @@ export interface ThemeProviderProps
         PropsWithChildren<{}> {}
 
 export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: ThemeProviderProps) {
-    const [theme, setTheme] = useState(themeProp);
+    const [theme, setTheme] = useState<Theme>(themeProp);
     useEffect(() => {
         setTheme(themeProp);
     }, [themeProp]);
@@ -34,12 +35,12 @@ export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: Them
 
     const systemTheme = useSystemTheme();
     useEffect(() => {
-        if (!systemTheme) {
+        if (!systemTheme || theme !== 'system') {
             return;
         }
 
         setThemeValue(systemTheme);
-    }, [systemTheme]);
+    }, [systemTheme, theme]);
 
     const contextValue = useMemo(
         () => ({

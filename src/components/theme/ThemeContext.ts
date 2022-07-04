@@ -1,10 +1,11 @@
 import React from 'react';
 
 import {DEFAULT_THEME} from './constants';
+import {Theme} from './types';
 
 export interface ThemeContextProps {
     theme: string;
-    setTheme: (newTheme: string) => void;
+    setTheme: (newTheme: Theme) => void;
 }
 
 const initialValue: ThemeContextProps = {

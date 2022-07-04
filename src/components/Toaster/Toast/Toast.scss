@@ -3,6 +3,10 @@
 
 $block: '.#{$ns}toast';
 
+@function get-trailing-keyframe($keyframe, $duration) {
+    @return $keyframe 0s forwards $duration;
+}
+
 #{$block} {
     $containerClass: #{&}__container;
     $iconClass: #{&}__icon;
@@ -32,12 +36,21 @@ $block: '.#{$ns}toast';
     }
 
     &_show-animation {
-        animation: toast-set-indents 0.35s ease forwards, toast-move-left 0.25s ease forwards 0.35s;
+        $indents-duration: 0.35s;
+        $move-duration: 0.25s;
+
+        animation: toast-set-indents $indents-duration ease forwards,
+            toast-move-left $move-duration ease forwards 0.35s,
+            get-trailing-keyframe(toast-display-end, $indents-duration + $move-duration);
     }
 
     &_show-animation#{&}_default {
-        animation: toast-set-symmetrical-indents 0.35s ease forwards,
-            toast-move-left 0.25s ease forwards 0.35s;
+        $indents-duration: 0.35s;
+        $move-duration: 0.25s;
+
+        animation: toast-set-symmetrical-indents $indents-duration ease forwards,
+            toast-move-left $move-duration ease forwards 0.35s,
+            get-trailing-keyframe(toast-display-end, $indents-duration + $move-duration);
     }
 
     &_show-animation#{&}_mobile {
@@ -50,13 +63,21 @@ $block: '.#{$ns}toast';
     }
 
     &_hide-animation {
-        animation: toast-move-right 0.25s ease forwards,
-            toast-remove-height 0.35s ease forwards 0.25s;
+        $move-duration: 0.25s;
+        $remove-duration: 0.35s;
+
+        animation: toast-move-right $move-duration ease forwards,
+            toast-remove-height $remove-duration ease forwards 0.25s,
+            get-trailing-keyframe(toast-hide-end, $move-duration + $remove-duration);
     }
 
     &_hide-animation#{&}_mobile {
+        $move-duration: 0.25s;
+        $remove-duration: 0.35s;
+
         animation: toast-move-bottom 0.25s ease forwards,
-            toast-remove-height 0.35s ease forwards 0.25s;
+            toast-remove-height 0.35s ease forwards 0.25s,
+            get-trailing-keyframe(toast-hide-end, $move-duration + $remove-duration);
     }
 
     &_created {
@@ -177,6 +198,9 @@ $block: '.#{$ns}toast';
     }
 }
 
+@keyframes toast-display-end {
+}
+
 @keyframes toast-move-top {
     from {
         opacity: 0;
@@ -206,6 +230,9 @@ $block: '.#{$ns}toast';
         margin-bottom: 0;
         padding: 0;
     }
+}
+
+@keyframes toast-hide-end {
 }
 
 // with extra space for icon placement

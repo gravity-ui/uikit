@@ -65,10 +65,9 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                 remove,
                 removeAll,
                 update,
-                list: toasts,
                 isInitialized: true,
             };
-        }, [add, remove, removeAll, toasts, update]);
+        }, [add, remove, removeAll, update]);
 
         React.useImperativeHandle(ref, () => ({
             add,

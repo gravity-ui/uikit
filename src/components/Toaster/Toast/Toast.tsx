@@ -9,8 +9,8 @@ import type {ToastType, ToastAction, ToastProps} from '../types';
 import './Toast.scss';
 
 const b = block('toast');
-const FADE_IN_LAST_ANIMATION_NAME = 'move-left';
-const FADE_OUT_LAST_ANIMATION_NAME = 'remove-height';
+const FADE_IN_LAST_ANIMATION_NAME = 'toast-display-end';
+const FADE_OUT_LAST_ANIMATION_NAME = 'toast-hide-end';
 const DEFAULT_TIMEOUT = 5000;
 const CROSS_ICON_SIZE = 12;
 const TITLE_ICONS: Record<ToastType, IconProps['data']> = {

@@ -65,7 +65,6 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                 remove,
                 removeAll,
                 update,
-                isInitialized: true,
             };
         }, [add, remove, removeAll, update]);
 

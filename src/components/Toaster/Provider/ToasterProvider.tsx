@@ -8,8 +8,8 @@ import {ToastsContext} from './ToastsContext';
 
 type Props = PropsWithChildren<{}>;
 
-export const ToasterProvider = React.memo(
-    React.forwardRef<ToasterPublicMethods, Props>(function ToasterProvider({children}: Props, ref) {
+export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
+    function ToasterProvider({children}: Props, ref) {
         const [toasts, setToasts] = React.useState<InternalToastProps[]>([]);
 
         const add = React.useCallback((toast: ToastProps) => {
@@ -88,7 +88,7 @@ export const ToasterProvider = React.memo(
                 <ToastsContext.Provider value={toasts}>{children}</ToastsContext.Provider>
             </ToasterContext.Provider>
         );
-    }),
+    },
 );
 
 ToasterProvider.displayName = 'ToasterProvider';

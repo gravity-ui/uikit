@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ContextType} from 'react';
 import {Subtract} from 'utility-types';
 
 import {ThemeContext, ThemeContextProps} from './ThemeContext';
@@ -13,6 +13,7 @@ export function withTheme<T extends WithThemeProps>(
     return class WithThemeComponent extends React.Component<Subtract<T, WithThemeProps>> {
         static displayName = `withTheme(${componentName})`;
         static contextType = ThemeContext;
+        context!: ContextType<typeof ThemeContext>;
 
         render() {
             return (

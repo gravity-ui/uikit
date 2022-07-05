@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ContextType} from 'react';
 import {Subtract} from 'utility-types';
 
 import {ThemeValueContext, ThemeValueContextProps} from './ThemeValueContext';
@@ -13,6 +13,7 @@ export function withThemeValue<T extends WithThemeValueProps>(
     return class WithThemeValueComponent extends React.Component<Subtract<T, WithThemeValueProps>> {
         static displayName = `withThemeValue(${componentName})`;
         static contextType = ThemeValueContext;
+        context!: ContextType<typeof ThemeValueContext>;
 
         render() {
             return <WrappedComponent {...(this.props as T)} themeValue={this.context.themeValue} />;

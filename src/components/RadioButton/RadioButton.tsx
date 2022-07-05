@@ -1,4 +1,4 @@
-import React, {useRef, useCallback} from 'react';
+import React, {useRef, useCallback, TransitionEventHandler, Ref} from 'react';
 
 import {block} from '../utils/cn';
 import {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
@@ -45,38 +45,44 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
     const plateRef = useRef<HTMLDivElement>(null);
     const optionRef = useRef<HTMLLabelElement>();
 
-    const handleCheckedOptionMount = useCallback((checkedOptionNode) => {
-        if (!checkedOptionNode) {
-            return;
-        }
+    const handleCheckedOptionMount: Ref<HTMLLabelElement> = useCallback(
+        (checkedOptionNode: HTMLLabelElement | null) => {
+            if (!checkedOptionNode) {
+                return;
+            }
 
-        const plateNode = plateRef.current;
+            const plateNode = plateRef.current;
 
-        if (!plateNode) {
-            return;
-        }
+            if (!plateNode) {
+                return;
+            }
 
-        const uncheckedOptionNode = optionRef.current;
+            const uncheckedOptionNode = optionRef.current;
 
-        if (uncheckedOptionNode && uncheckedOptionNode !== checkedOptionNode) {
-            const setPlateStyle = (node: HTMLElement) => {
-                plateNode.style.left = `${node.offsetLeft}px`;
-                plateNode.style.width = `${node.offsetWidth}px`;
-            };
+            if (uncheckedOptionNode && uncheckedOptionNode !== checkedOptionNode) {
+                const setPlateStyle = (node: HTMLElement) => {
+                    plateNode.style.left = `${node.offsetLeft}px`;
+                    plateNode.style.width = `${node.offsetWidth}px`;
+                };
 
-            setPlateStyle(uncheckedOptionNode);
+                setPlateStyle(uncheckedOptionNode);
 
-            plateNode.hidden = false;
+                plateNode.hidden = false;
 
-            setPlateStyle(checkedOptionNode);
-        }
+                setPlateStyle(checkedOptionNode);
+            }
 
-        optionRef.current = checkedOptionNode;
-    }, []);
+            optionRef.current = checkedOptionNode;
+        },
+        [],
+    );
 
-    const handlePlateTransitionEnd = useCallback((event) => {
-        event.currentTarget.hidden = true;
-    }, []);
+    const handlePlateTransitionEnd: TransitionEventHandler<HTMLDivElement> = useCallback(
+        (event) => {
+            event.currentTarget.hidden = true;
+        },
+        [],
+    );
 
     const {optionsProps} = useRadioGroup({...props, options});
 

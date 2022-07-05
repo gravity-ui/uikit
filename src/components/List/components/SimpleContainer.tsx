@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 import _range from 'lodash/range';
 import {ListItem} from './ListItem';
 
-export interface SimpleContainerProps {
+export type SimpleContainerProps = PropsWithChildren<{
     itemCount: number;
-}
+}>;
 
 export type SimpleContainerState = Record<number, React.RefObject<ListItem>>;
 

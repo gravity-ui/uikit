@@ -27,7 +27,7 @@ Some components contain prepared text. For changing language use `configure` fun
 import {configure} from '@yandex-cloud/uikit';
 
 configure({
-  lang: 'en'
+  lang: 'en',
 });
 ```
 

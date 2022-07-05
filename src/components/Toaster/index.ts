@@ -11,4 +11,4 @@ export {ToasterSingleton as Toaster, Toast, toaster, removeToaster};
 export {useToaster} from './hooks/useToaster';
 export {withToaster} from './withToaster';
 export {ToasterComponent} from './ToasterComponent/ToasterComponent';
-export {ToasterProvider} from './ToasterProvider';
+export {ToasterProvider} from './Provider/ToasterProvider';

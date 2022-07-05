@@ -4,7 +4,7 @@ import {get} from 'lodash';
 import {block} from '../utils/cn';
 import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
 import {getToastIndex} from './utilities/getToastIndex';
-import {ToasterProvider} from './ToasterProvider';
+import {ToasterProvider} from './Provider/ToasterProvider';
 import {ToasterComponent} from './ToasterComponent/ToasterComponent';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');

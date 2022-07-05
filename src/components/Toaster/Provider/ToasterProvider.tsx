@@ -1,9 +1,9 @@
 import React, {PropsWithChildren} from 'react';
 import {ToasterContext} from './ToasterContext';
-import {InternalToastProps, ToasterPublicMethods, ToastProps} from './types';
-import {hasToast} from './utilities/hasToast';
-import {removeToast} from './utilities/removeToast';
-import {getToastIndex} from './utilities/getToastIndex';
+import {InternalToastProps, ToasterPublicMethods, ToastProps} from '../types';
+import {hasToast} from '../utilities/hasToast';
+import {removeToast} from '../utilities/removeToast';
+import {getToastIndex} from '../utilities/getToastIndex';
 
 type Props = PropsWithChildren<{}>;
 

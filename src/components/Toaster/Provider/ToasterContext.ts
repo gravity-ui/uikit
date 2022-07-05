@@ -1,5 +1,5 @@
 import React from 'react';
-import {InternalToastProps, ToasterContextMethods} from './types';
+import {InternalToastProps, ToasterContextMethods} from '../types';
 
 type ToasterContextValue = ToasterContextMethods & {
     list: InternalToastProps[];

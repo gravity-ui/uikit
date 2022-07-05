@@ -1,7 +1,7 @@
 import React from 'react';
 import {useMobile} from '../../mobile';
 import {ToastList} from '../ToastList/ToastList';
-import {ToasterContext} from '../ToasterContext';
+import {ToasterContext} from '../Provider/ToasterContext';
 import {ToasterPortal} from './ToasterPortal';
 
 interface Props {

@@ -2,7 +2,7 @@ import {act, render, screen, waitForElementToBeRemoved} from '@testing-library/r
 import React, {useEffect} from 'react';
 import {useToaster} from '../hooks/useToaster';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
-import {ToasterProvider} from '../ToasterProvider';
+import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterPublicMethods, ToastProps} from '../types';
 
 function Toast(props: ToastProps & {onMount: (api: ToasterPublicMethods) => void}) {

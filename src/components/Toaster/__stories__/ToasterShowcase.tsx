@@ -1,8 +1,7 @@
 import React from 'react';
 import {block} from '../../utils/cn';
 import {Alarm, Info, Success} from '../../icons';
-import {useMobile} from '../../mobile';
-import {Toaster, ToastProps} from '..';
+import {ToasterComponent, ToastProps, useToaster} from '..';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
@@ -24,10 +23,6 @@ const ACTIONS = [
     },
 ];
 
-interface ToasterDemoProps {
-    mobile: boolean;
-}
-
 interface ToasterDemoState {
     createSameName: boolean;
     showCloseIcon: boolean;
@@ -39,10 +34,21 @@ interface ToasterDemoState {
     lastToastName: string;
 }
 
-class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
-    toaster = new Toaster({mobile: this.props.mobile});
-
-    state: ToasterDemoState = {
+export const ToasterDemo = () => {
+    const toaster = useToaster();
+    const [
+        {
+            lastToastName,
+            createSameName,
+            showCloseIcon,
+            setTimeout,
+            timeout,
+            allowAutoHiding,
+            setContent,
+            setActions,
+        },
+        setState,
+    ] = React.useState<ToasterDemoState>({
         createSameName: false,
         showCloseIcon: true,
         setTimeout: false,
@@ -51,170 +57,9 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
         setContent: false,
         setActions: false,
         lastToastName: '',
-    };
+    });
 
-    componentDidUpdate(prevProps: ToasterDemoProps) {
-        if (prevProps.mobile !== this.props.mobile) {
-            this.toaster = new Toaster({mobile: this.props.mobile});
-        }
-    }
-
-    render() {
-        const {
-            lastToastName,
-            createSameName,
-            showCloseIcon,
-            setTimeout,
-            allowAutoHiding,
-            setContent,
-            setActions,
-        } = this.state;
-
-        const btnStyle = {marginLeft: 20};
-        const timeoutContainerStyle = {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: 250,
-        };
-        const checkboxesContainerStyle = {margin: 20};
-
-        const namesCheckbox = (
-            <Checkbox
-                size="l"
-                onUpdate={() => this.setState({createSameName: !createSameName})}
-                checked={createSameName}
-                content="Same names"
-            />
-        );
-
-        const closeIconCheckbox = (
-            <Checkbox
-                size="l"
-                onUpdate={() => this.setState({showCloseIcon: !showCloseIcon})}
-                checked={showCloseIcon}
-                content="Show close icon"
-            />
-        );
-
-        const timeoutCheckbox = (
-            <Checkbox
-                size="l"
-                onUpdate={() => this.setState({setTimeout: !setTimeout})}
-                checked={setTimeout}
-                content="Set custom timeout"
-            />
-        );
-
-        const autoHidingCheckbox = (
-            <Checkbox
-                size="l"
-                onUpdate={() => this.setState({allowAutoHiding: !allowAutoHiding})}
-                checked={allowAutoHiding}
-                content="Allow auto hiding"
-            />
-        );
-
-        const contentCheckbox = (
-            <Checkbox
-                size="l"
-                onUpdate={() => this.setState({setContent: !setContent})}
-                checked={setContent}
-                content="Add content"
-            />
-        );
-
-        const actionsCheckbox = (
-            <Checkbox
-                size="l"
-                onUpdate={() => this.setState({setActions: !setActions})}
-                checked={setActions}
-                content="Add action"
-            />
-        );
-
-        const defaultToastBtn = (
-            <Button view="outlined" size="l" onClick={this.createDefaultToast} style={btnStyle}>
-                Create default toast
-            </Button>
-        );
-
-        const infoToastBtn = (
-            <Button view="outlined" size="l" onClick={this.createInfoToast} style={btnStyle}>
-                <Icon className={b('icon', {info: true})} data={Info} />
-                Create info toast
-            </Button>
-        );
-
-        const successToastBtn = (
-            <Button view="outlined" size="l" onClick={this.createSuccessToast} style={btnStyle}>
-                <Icon className={b('icon', {success: true})} data={Success} />
-                Create success toast
-            </Button>
-        );
-
-        const warningToastBtn = (
-            <Button view="outlined" size="l" onClick={this.createWarningToast} style={btnStyle}>
-                <Icon className={b('icon', {warning: true})} data={Alarm} />
-                Create warning toast
-            </Button>
-        );
-
-        const errorToastBtn = (
-            <Button view="outlined" size="l" onClick={this.createErrorToast} style={btnStyle}>
-                <Icon className={b('icon', {error: true})} data={Alarm} />
-                Create error toast
-            </Button>
-        );
-
-        const customToastBtn = (
-            <Button view="outlined" size="l" onClick={this.createCustomToast} style={btnStyle}>
-                Create custom toast
-            </Button>
-        );
-
-        const overrideToastBtn = (
-            <Button
-                size="l"
-                onClick={this.overrideLastToast}
-                disabled={!lastToastName}
-                style={btnStyle}
-            >
-                Override last toast
-            </Button>
-        );
-
-        const clearBtn = (
-            <Button view="outlined-danger" size="l" onClick={this.removeAllToasts} style={btnStyle}>
-                Remove all toasts
-            </Button>
-        );
-
-        return (
-            <div>
-                <div style={checkboxesContainerStyle}>
-                    <p>{namesCheckbox}</p>
-                    <p>{closeIconCheckbox}</p>
-                    <p style={timeoutContainerStyle}>{timeoutCheckbox}</p>
-                    <p>{autoHidingCheckbox}</p>
-                    <p>{contentCheckbox}</p>
-                    <p>{actionsCheckbox}</p>
-                </div>
-                <p>{defaultToastBtn}</p>
-                <p>{infoToastBtn}</p>
-                <p>{successToastBtn}</p>
-                <p>{warningToastBtn}</p>
-                <p>{errorToastBtn}</p>
-                <p>{customToastBtn}</p>
-                <p>{overrideToastBtn}</p>
-                <p>{clearBtn}</p>
-            </div>
-        );
-    }
-
-    private getToastName(type: string) {
-        const {createSameName} = this.state;
-
+    function getToastName(type: string) {
         if (createSameName) {
             return type;
         }
@@ -222,16 +67,13 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
         return `${type}${Math.floor(Math.random() * 100000)}`;
     }
 
-    private getToastProps(extra: {
+    function getToastProps(extra: {
         name: string;
         title?: string;
         type?: ToastProps['type'];
         className?: string;
         content?: React.ReactNode;
     }): ToastProps {
-        const {showCloseIcon, setTimeout, timeout, allowAutoHiding, setContent, setActions} =
-            this.state;
-
         let content: React.ReactNode = null;
 
         if (extra.content) {
@@ -242,7 +84,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
 
         return {
             content,
-            name: this.getToastName(extra.name),
+            name: getToastName(extra.name),
             className: extra.className,
             title: extra.title,
             type: extra.type,
@@ -253,66 +95,66 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
         };
     }
 
-    private createDefaultToast = () => {
-        const toastProps = this.getToastProps({
+    const createDefaultToast = () => {
+        const toastProps = getToastProps({
             name: 'default',
             title: 'Default toast',
         });
 
-        this.toaster.add(toastProps);
+        toaster.add(toastProps);
 
-        this.setState({lastToastName: toastProps.name});
+        setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    private createInfoToast = () => {
-        const toastProps = this.getToastProps({
+    const createInfoToast = () => {
+        const toastProps = getToastProps({
             name: 'info',
             type: 'info',
             title: 'Info toast',
         });
 
-        this.toaster.add(toastProps);
+        toaster.add(toastProps);
 
-        this.setState({lastToastName: toastProps.name});
+        setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    private createSuccessToast = () => {
-        const toastProps = this.getToastProps({
+    const createSuccessToast = () => {
+        const toastProps = getToastProps({
             name: 'success',
             type: 'success',
             title: 'Success toast',
         });
 
-        this.toaster.add(toastProps);
+        toaster.add(toastProps);
 
-        this.setState({lastToastName: toastProps.name});
+        setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    private createWarningToast = () => {
-        const toastProps = this.getToastProps({
+    const createWarningToast = () => {
+        const toastProps = getToastProps({
             name: 'warning',
             type: 'warning',
             title: 'Warning toast',
         });
 
-        this.toaster.add(toastProps);
+        toaster.add(toastProps);
 
-        this.setState({lastToastName: toastProps.name});
+        setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    private createErrorToast = () => {
-        const toastProps = this.getToastProps({
+    const createErrorToast = () => {
+        const toastProps = getToastProps({
             name: 'error',
             type: 'error',
             title: 'Error toast',
         });
 
-        this.toaster.add(toastProps);
+        toaster.add(toastProps);
 
-        this.setState({lastToastName: toastProps.name});
+        setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    private createCustomToast = () => {
+    const createCustomToast = () => {
         const content = (
             <div style={{display: 'flex'}}>
                 <div style={{maxWidth: '86px', maxHeight: '86px', marginRight: '16px'}}>
@@ -350,21 +192,19 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             </div>
         );
 
-        const toastProps = this.getToastProps({
+        const toastProps = getToastProps({
             content,
             name: 'custom',
             className: b('mobile-promotion'),
         });
 
-        this.toaster.add(toastProps);
+        toaster.add(toastProps);
 
-        this.setState({lastToastName: toastProps.name});
+        setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    private overrideLastToast = () => {
-        const {lastToastName} = this.state;
-
-        this.toaster.update(lastToastName, {
+    const overrideLastToast = () => {
+        toaster.update(lastToastName, {
             title: 'Here is information not about payments at all...',
             actions: [
                 {
@@ -378,13 +218,146 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
         });
     };
 
-    private removeAllToasts = () => {
-        this.toaster.removeAll();
-        this.setState({lastToastName: ''});
+    const removeAllToasts = () => {
+        toaster.removeAll();
+        setState((state) => ({...state, lastToastName: ''}));
     };
-}
 
-export const ToasterDemo = () => {
-    const [mobile] = useMobile();
-    return <Demo mobile={mobile} />;
+    const btnStyle = {marginLeft: 20};
+    const timeoutContainerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: 250,
+    };
+    const checkboxesContainerStyle = {margin: 20};
+
+    const namesCheckbox = (
+        <Checkbox
+            size="l"
+            onUpdate={() => setState((state) => ({...state, createSameName: !createSameName}))}
+            checked={createSameName}
+            content="Same names"
+        />
+    );
+
+    const closeIconCheckbox = (
+        <Checkbox
+            size="l"
+            onUpdate={() => setState((state) => ({...state, showCloseIcon: !showCloseIcon}))}
+            checked={showCloseIcon}
+            content="Show close icon"
+        />
+    );
+
+    const timeoutCheckbox = (
+        <Checkbox
+            size="l"
+            onUpdate={() => setState((state) => ({...state, setTimeout: !setTimeout}))}
+            checked={setTimeout}
+            content="Set custom timeout"
+        />
+    );
+
+    const autoHidingCheckbox = (
+        <Checkbox
+            size="l"
+            onUpdate={() => setState((state) => ({...state, allowAutoHiding: !allowAutoHiding}))}
+            checked={allowAutoHiding}
+            content="Allow auto hiding"
+        />
+    );
+
+    const contentCheckbox = (
+        <Checkbox
+            size="l"
+            onUpdate={() => setState((state) => ({...state, setContent: !setContent}))}
+            checked={setContent}
+            content="Add content"
+        />
+    );
+
+    const actionsCheckbox = (
+        <Checkbox
+            size="l"
+            onUpdate={() => setState((state) => ({...state, setActions: !setActions}))}
+            checked={setActions}
+            content="Add action"
+        />
+    );
+
+    const defaultToastBtn = (
+        <Button view="outlined" size="l" onClick={createDefaultToast} style={btnStyle}>
+            Create default toast
+        </Button>
+    );
+
+    const infoToastBtn = (
+        <Button view="outlined" size="l" onClick={createInfoToast} style={btnStyle}>
+            <Icon className={b('icon', {info: true})} data={Info} />
+            Create info toast
+        </Button>
+    );
+
+    const successToastBtn = (
+        <Button view="outlined" size="l" onClick={createSuccessToast} style={btnStyle}>
+            <Icon className={b('icon', {success: true})} data={Success} />
+            Create success toast
+        </Button>
+    );
+
+    const warningToastBtn = (
+        <Button view="outlined" size="l" onClick={createWarningToast} style={btnStyle}>
+            <Icon className={b('icon', {warning: true})} data={Alarm} />
+            Create warning toast
+        </Button>
+    );
+
+    const errorToastBtn = (
+        <Button view="outlined" size="l" onClick={createErrorToast} style={btnStyle}>
+            <Icon className={b('icon', {error: true})} data={Alarm} />
+            Create error toast
+        </Button>
+    );
+
+    const customToastBtn = (
+        <Button view="outlined" size="l" onClick={createCustomToast} style={btnStyle}>
+            Create custom toast
+        </Button>
+    );
+
+    const overrideToastBtn = (
+        <Button size="l" onClick={overrideLastToast} disabled={!lastToastName} style={btnStyle}>
+            Override last toast
+        </Button>
+    );
+
+    const clearBtn = (
+        <Button view="outlined-danger" size="l" onClick={removeAllToasts} style={btnStyle}>
+            Remove all toasts
+        </Button>
+    );
+
+    return (
+        <>
+            <div style={checkboxesContainerStyle}>
+                <p>{namesCheckbox}</p>
+                <p>{closeIconCheckbox}</p>
+                <p style={timeoutContainerStyle}>{timeoutCheckbox}</p>
+                <p>{autoHidingCheckbox}</p>
+                <p>{contentCheckbox}</p>
+                <p>{actionsCheckbox}</p>
+            </div>
+            <p>{defaultToastBtn}</p>
+            <p>{infoToastBtn}</p>
+            <p>{successToastBtn}</p>
+            <p>{warningToastBtn}</p>
+            <p>{errorToastBtn}</p>
+            <p>{customToastBtn}</p>
+            <p>{overrideToastBtn}</p>
+            <p>{clearBtn}</p>
+
+            <ToasterComponent />
+        </>
+    );
 };

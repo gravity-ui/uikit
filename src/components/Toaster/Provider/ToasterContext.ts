@@ -1,8 +1,7 @@
 import React from 'react';
-import {InternalToastProps, ToasterContextMethods} from '../types';
+import {ToasterContextMethods} from '../types';
 
 type ToasterContextValue = ToasterContextMethods & {
-    list: InternalToastProps[];
     isInitialized: boolean;
 };
 
@@ -11,7 +10,6 @@ export const ToasterContext = React.createContext<ToasterContextValue>({
     remove() {},
     removeAll() {},
     update() {},
-    list: [],
     isInitialized: false,
 });
 ToasterContext.displayName = 'ToasterContext';

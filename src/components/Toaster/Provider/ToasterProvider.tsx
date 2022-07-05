@@ -4,6 +4,7 @@ import {InternalToastProps, ToasterPublicMethods, ToastProps} from '../types';
 import {hasToast} from '../utilities/hasToast';
 import {removeToast} from '../utilities/removeToast';
 import {getToastIndex} from '../utilities/getToastIndex';
+import {ToastsContext} from './ToastsContext';
 
 type Props = PropsWithChildren<{}>;
 
@@ -82,7 +83,11 @@ export const ToasterProvider = React.memo(
             overrideToast: update,
         }));
 
-        return <ToasterContext.Provider value={toasterContext}>{children}</ToasterContext.Provider>;
+        return (
+            <ToasterContext.Provider value={toasterContext}>
+                <ToastsContext.Provider value={toasts}>{children}</ToastsContext.Provider>
+            </ToasterContext.Provider>
+        );
     }),
 );
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {useMobile} from '../../mobile';
+import {ToastsContext} from '../Provider/ToastsContext';
 import {ToastList} from '../ToastList/ToastList';
 import {ToasterContext} from '../Provider/ToasterContext';
 import {ToasterPortal} from './ToasterPortal';
@@ -12,7 +13,8 @@ interface Props {
 
 export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
     const [defaultMobile] = useMobile();
-    const {list, remove} = React.useContext(ToasterContext);
+    const {remove} = React.useContext(ToasterContext);
+    const list = React.useContext(ToastsContext);
 
     const toaster = (
         <ToastList toasts={list} removeCallback={remove} mobile={mobile ?? defaultMobile} />

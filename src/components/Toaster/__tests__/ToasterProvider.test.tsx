@@ -1,9 +1,9 @@
 import {act, render, screen, waitForElementToBeRemoved} from '@testing-library/react';
 import React, {useEffect} from 'react';
-import {useToaster} from './hooks/useToaster';
-import {ToasterComponent} from './ToasterComponent/ToasterComponent';
-import {ToasterProvider} from './ToasterProvider';
-import {ToasterRef, ToastProps} from './types';
+import {useToaster} from '../hooks/useToaster';
+import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
+import {ToasterProvider} from '../ToasterProvider';
+import {ToasterRef, ToastProps} from '../types';
 
 function Toast(props: ToastProps & {onMount: (api: ToasterRef) => void}) {
     const toaster = useToaster();

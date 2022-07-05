@@ -62,12 +62,9 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
         const toasterContext = React.useMemo(() => {
             return {
                 add,
-                createToast: add,
                 remove,
-                removeToast: remove,
                 removeAll,
                 update,
-                overrideToast: update,
                 list: toasts,
                 isInitialized: true,
             };

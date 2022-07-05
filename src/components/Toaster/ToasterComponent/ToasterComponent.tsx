@@ -1,8 +1,8 @@
 import React from 'react';
 import {useMobile} from '../../mobile';
+import {useToaster} from '../hooks/useToaster';
 import {ToastsContext} from '../Provider/ToastsContext';
 import {ToastList} from '../ToastList/ToastList';
-import {ToasterContext} from '../Provider/ToasterContext';
 import {ToasterPortal} from './ToasterPortal';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
     const [defaultMobile] = useMobile();
-    const {remove} = React.useContext(ToasterContext);
+    const {remove} = useToaster();
     const list = React.useContext(ToastsContext);
 
     const toaster = (

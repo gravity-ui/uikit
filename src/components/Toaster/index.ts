@@ -1,8 +1,14 @@
-import {Toaster} from './Toaster';
+import {ToasterSingleton} from './ToasterSingleton';
 import {Toast} from './Toast/Toast';
 
 // in SSR case
-const toaster = typeof window === 'object' ? new Toaster() : null;
+const toaster = typeof window === 'object' ? new ToasterSingleton() : null;
+const removeToaster = () => toaster?.destroy();
 
 export * from './types';
-export {Toaster, Toast, toaster};
+export {ToasterSingleton as Toaster, Toast, toaster, removeToaster};
+
+export {useToaster} from './hooks/useToaster';
+export {withToaster} from './withToaster';
+export {ToasterComponent} from './ToasterComponent/ToasterComponent';
+export {ToasterProvider} from './Provider/ToasterProvider';

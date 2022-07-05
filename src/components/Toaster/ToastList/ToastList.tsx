@@ -1,12 +1,12 @@
 import React from 'react';
-import {ToastProps} from '../types';
+import {InternalToastProps} from '../types';
 import {Toast} from '../Toast/Toast';
 
 import './ToastList.scss';
 
 type ToastListProps = {
     removeCallback: (name: string) => void;
-    toasts: ToastProps[];
+    toasts: InternalToastProps[];
     mobile?: boolean;
 };
 
@@ -18,7 +18,7 @@ export function ToastList(props: ToastListProps) {
             {toasts.map((toast) => (
                 <Toast
                     {...toast}
-                    key={toast.name}
+                    key={`${toast.name}_${toast.addedAt}`}
                     mobile={mobile}
                     removeCallback={() => removeCallback(toast.name)}
                 />

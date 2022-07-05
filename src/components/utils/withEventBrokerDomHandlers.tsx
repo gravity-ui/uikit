@@ -1,5 +1,6 @@
 import React, {SyntheticEvent} from 'react';
 import {eventBroker, EventBrokerData} from './event-broker';
+import {getComponentName} from './getComponentName';
 
 type SupportedEvents = 'onClick';
 
@@ -10,7 +11,7 @@ export function withEventBrokerDomHandlers<
     eventTypes: Array<SupportedEvents>,
     eventBrokerData: Omit<EventBrokerData, 'eventId'>,
 ) {
-    const componentName = Component.displayName || Component.name || 'Component';
+    const componentName = getComponentName(Component);
     const displayName = `withEventBroker(${componentName})`;
 
     const LoggedComponent = React.forwardRef<HTMLElement, T>((props: T, ref) => {

@@ -1,8 +1,64 @@
-## Toaster
+# Toaster
 
 Component for adjustable notifications.
 
-#### Usage
+## Usage with context
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {ToasterComponent, ToasterProvider} from '@yandex-cloud/uikit';
+
+ReactDOM.render(
+  <ToasterProvider>
+    <App />
+    <ToasterComponent className="optional additional classes" />
+  </ToasterProvider>,
+  document.getElementById('root'),
+);
+```
+
+Then in your app components you can show toasts with `useToaster` hook.
+
+```jsx
+import {useToaster} from '@yandex-cloud/uikit';
+import {useEffect} from 'react';
+
+export function FoobarComponent() {
+  const {add} = useToaster();
+
+  useEffect(() => {
+    add({
+      title: 'Toaster is here',
+    });
+  }, []);
+
+  return null;
+}
+```
+
+Hook returns methods `add`, `update`, `remove` and `removeAll`, their signatures is equal to
+`createToast`, `overrideToast` and `removeToast` of singleton (see below).
+
+## Usage as HOC
+
+For class components you can use `withToaster` HOC. This will inject `toaster`
+prop to component.
+
+```jsx
+import {Component} from 'react';
+import {withToaster} from '@yandex-cloud/uikit';
+
+class FoobarComponent extends Component {
+  render() {
+    this.props.toaster.add({});
+  }
+}
+
+const FoobarWithToaster = withToaster()(FoobarComponent);
+```
+
+## Usage as singleton
 
 ```js
 import {Toaster} from '@yandex-cloud/uikit';
@@ -13,17 +69,17 @@ const toaster = new Toaster();
 import {toaster} from '@yandex-cloud/uikit';
 ```
 
-Toaster is **Singleton**, so when initialized in different parts of the application, the same instance will be returned.
+Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.
 On initialization it is possible to pass className, that will be assigned to dom-element which is wrapping all toasts.
 
-#### Constructor arguments
+## Constructor arguments
 
 | Parameter | Type      | Default     | Description                                         |
 | :-------- | :-------- | :---------- | :-------------------------------------------------- |
 | className | `string`  | `undefined` | Custom class name to add to the component container |
 | mobile    | `boolean` | `false`     | Configuration that manages mobile/desktop views     |
 
-#### Methods
+## Methods
 
 | Method name                          | Params             | Description                                                                                                                             |
 | :----------------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,7 +87,7 @@ On initialization it is possible to pass className, that will be assigned to dom
 | removeToast(name)                    | `string`           | Delete existing notification manually                                                                                                   |
 | overrideToast(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
 
-#### More about `createToast`
+## More about `createToast`
 
 Accepts argument `toastOptions` with ongoing notification details:
 

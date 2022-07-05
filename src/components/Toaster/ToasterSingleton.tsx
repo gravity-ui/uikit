@@ -2,32 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {get} from 'lodash';
 import {block} from '../utils/cn';
-import type {ToasterArgs, ToastProps} from './types';
-import {ToastList} from './ToastList/ToastList';
+import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
+import {getToastIndex} from './utilities/getToastIndex';
+import {ToasterProvider} from './Provider/ToasterProvider';
+import {ToasterComponent} from './ToasterComponent/ToasterComponent';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
 const bToaster = block('toaster');
 
 declare global {
     interface Window {
-        [TOASTER_KEY]: Toaster;
+        [TOASTER_KEY]: ToasterSingleton;
     }
 }
 
-export class Toaster {
+export class ToasterSingleton {
     // FIXME: BREAKING CHANGE. Rename to "rootNode" and convert to private
     _rootNode!: HTMLDivElement;
     // FIXME: BREAKING CHANGE. Rename to "toasts" and convert to private
     _toasts: ToastProps[] = [];
     private className = '';
     private mobile = false;
+    private componentAPI: null | ToasterPublicMethods = null;
 
     constructor(args?: ToasterArgs) {
         const additionalClass = get(args, ['additionalClass'], '');
         const className = get(args, ['className'], '');
         const mobile = get(args, ['mobile'], false);
 
-        if (window[TOASTER_KEY] instanceof Toaster) {
+        if (window[TOASTER_KEY] instanceof ToasterSingleton) {
             const me = window[TOASTER_KEY];
             me.className = className || additionalClass;
             me.mobile = mobile;
@@ -44,56 +47,57 @@ export class Toaster {
         window[TOASTER_KEY] = this;
     }
 
+    add = (options: ToastProps) => {
+        this.componentAPI?.add(options);
+    };
+
+    remove = (name: string) => {
+        this.componentAPI?.remove(name);
+    };
+
+    removeAll = () => {
+        this.componentAPI?.removeAll();
+    };
+
+    update = (name: string, overrideOptions: Partial<ToastProps>) => {
+        this.componentAPI?.update(name, overrideOptions);
+    };
+
+    /**
+     * @deprecated Use `toaster.add` instead
+     * @param toastOptions
+     */
     createToast = async (toastOptions: ToastProps) => {
-        const {name} = toastOptions;
-        const index = this._getToastIndex(name);
-
-        if (index !== -1) {
-            await this.removeToast(name);
-        }
-
-        this._toasts.push(toastOptions);
-        this._render();
+        this.add(toastOptions);
     };
 
+    /**
+     * @deprecated Use `toaster.remove` instead
+     * @param {string} name
+     */
     removeToast = (name: string) => {
-        const index = this._getToastIndex(name);
-
-        if (index === -1) {
-            return;
-        }
-
-        this._removeToastFromDOM(name);
+        this.remove(name);
     };
 
+    /**
+     * @deprecated Use `toaster.update` instead
+     * @param name
+     * @param overrideOptions
+     */
     overrideToast = (name: string, overrideOptions: Partial<ToastProps>) => {
-        const index = this._getToastIndex(name);
-
-        if (index === -1) {
-            return;
-        }
-
-        this._toasts[index] = {
-            ...this._toasts[index],
-            ...overrideOptions,
-            isOverride: true,
-        };
-
-        this._render();
+        this.update(name, overrideOptions);
     };
 
     // FIXME: BREAKING CHANGE. Rename to "removeToastFromDOM" and convert to private
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _removeToastFromDOM(name: string) {
-        const index = this._getToastIndex(name);
-        this._toasts.splice(index, 1);
-        this._render();
+        this.remove(name);
     }
 
     // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _getToastIndex = (name: string) => {
-        return this._toasts.findIndex((toast) => toast.name === name);
+        return getToastIndex(this._toasts, name);
     };
 
     // FIXME: BREAKING CHANGE. Rename to "createRootNode" and convert to private
@@ -108,14 +112,22 @@ export class Toaster {
     /** @deprecated  Will be renamed and converted to private method in te next major */
     _render() {
         ReactDOM.render(
-            <ToastList
-                toasts={this._toasts}
-                mobile={this.mobile}
-                removeCallback={this.removeToast}
-            />,
+            <ToasterProvider
+                ref={(api) => {
+                    this.componentAPI = api;
+                }}
+            >
+                <ToasterComponent hasPortal={false} mobile={this.mobile} />
+            </ToasterProvider>,
             this._rootNode,
             () => Promise.resolve(),
         );
+    }
+
+    destroy() {
+        this._toasts = [];
+        ReactDOM.unmountComponentAtNode(this._rootNode);
+        document.body.removeChild(this._rootNode);
     }
 
     private setRootNodeClassName() {

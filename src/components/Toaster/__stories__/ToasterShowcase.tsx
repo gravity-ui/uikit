@@ -379,8 +379,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
     };
 
     private removeAllToasts = () => {
-        this.toaster._toasts = [];
-        this.toaster._render();
+        this.toaster.removeAll();
         this.setState({lastToastName: ''});
     };
 }

@@ -31,15 +31,18 @@ export type InternalToastProps = ToastProps & {
     addedAt?: number;
 };
 
-export interface ToasterRef {
+export interface ToasterContextMethods {
     add(toast: ToastProps): void;
-    /** @deprecated Use `add` instead */
-    createToast(toast: ToastProps): void;
     remove(toastName: ToastProps['name']): void;
-    /** @deprecated Use `remove` instead */
-    removeToast(toastName: ToastProps['name']): void;
     removeAll(): void;
     update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
+}
+
+export interface ToasterPublicMethods extends ToasterContextMethods {
+    /** @deprecated Use `add` instead */
+    createToast(toast: ToastProps): void;
+    /** @deprecated Use `remove` instead */
+    removeToast(toastName: ToastProps['name']): void;
     /** @deprecated Use `update` instead */
     overrideToast(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import {ToasterContext} from '../ToasterContext';
-import {ToasterRef} from '../types';
+import {ToasterPublicMethods} from '../types';
 
-export function useToaster(): ToasterRef {
+export function useToaster(): ToasterPublicMethods {
     const {add, remove, removeAll, update} = React.useContext(ToasterContext);
 
     return React.useMemo(

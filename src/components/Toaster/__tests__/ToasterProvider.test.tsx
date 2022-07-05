@@ -3,9 +3,9 @@ import React, {useEffect} from 'react';
 import {useToaster} from '../hooks/useToaster';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {ToasterProvider} from '../ToasterProvider';
-import {ToasterRef, ToastProps} from '../types';
+import {ToasterPublicMethods, ToastProps} from '../types';
 
-function Toast(props: ToastProps & {onMount: (api: ToasterRef) => void}) {
+function Toast(props: ToastProps & {onMount: (api: ToasterPublicMethods) => void}) {
     const toaster = useToaster();
 
     useEffect(() => {
@@ -20,7 +20,7 @@ function Toast(props: ToastProps & {onMount: (api: ToasterRef) => void}) {
 }
 
 it('should override already added toast', async function () {
-    let providerAPI: undefined | null | ToasterRef;
+    let providerAPI: undefined | null | ToasterPublicMethods;
 
     render(
         <ToasterProvider>

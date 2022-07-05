@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {get} from 'lodash';
 import {block} from '../utils/cn';
-import type {ToasterArgs, ToasterRef, ToastProps} from './types';
+import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
 import {getToastIndex} from './utilities/getToastIndex';
 import {ToasterProvider} from './ToasterProvider';
 import {ToasterComponent} from './ToasterComponent/ToasterComponent';
@@ -23,7 +23,7 @@ export class ToasterSingleton {
     _toasts: ToastProps[] = [];
     private className = '';
     private mobile = false;
-    private componentAPI: null | ToasterRef = null;
+    private componentAPI: null | ToasterPublicMethods = null;
 
     constructor(args?: ToasterArgs) {
         const additionalClass = get(args, ['additionalClass'], '');

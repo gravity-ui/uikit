@@ -21,6 +21,16 @@ const SubmitButton = <Button view="action" size="l" />;
 
 Some components contain prepared text. For changing language use `configure` function.
 
+**index.js**
+
+```js
+import {configure} from '@yandex-cloud/uikit';
+
+configure({
+  lang: 'en',
+});
+```
+
 ## Development
 
 To start the dev storybook

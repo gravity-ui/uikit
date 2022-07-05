@@ -259,7 +259,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             title: 'Default toast',
         });
 
-        this.toaster.createToast(toastProps);
+        this.toaster.add(toastProps);
 
         this.setState({lastToastName: toastProps.name});
     };
@@ -271,7 +271,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             title: 'Info toast',
         });
 
-        this.toaster.createToast(toastProps);
+        this.toaster.add(toastProps);
 
         this.setState({lastToastName: toastProps.name});
     };
@@ -283,7 +283,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             title: 'Success toast',
         });
 
-        this.toaster.createToast(toastProps);
+        this.toaster.add(toastProps);
 
         this.setState({lastToastName: toastProps.name});
     };
@@ -295,7 +295,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             title: 'Warning toast',
         });
 
-        this.toaster.createToast(toastProps);
+        this.toaster.add(toastProps);
 
         this.setState({lastToastName: toastProps.name});
     };
@@ -307,7 +307,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             title: 'Error toast',
         });
 
-        this.toaster.createToast(toastProps);
+        this.toaster.add(toastProps);
 
         this.setState({lastToastName: toastProps.name});
     };
@@ -356,7 +356,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
             className: b('mobile-promotion'),
         });
 
-        this.toaster.createToast(toastProps);
+        this.toaster.add(toastProps);
 
         this.setState({lastToastName: toastProps.name});
     };
@@ -364,7 +364,7 @@ class Demo extends React.PureComponent<ToasterDemoProps, ToasterDemoState> {
     private overrideLastToast = () => {
         const {lastToastName} = this.state;
 
-        this.toaster.overrideToast(lastToastName, {
+        this.toaster.update(lastToastName, {
             title: 'Here is information not about payments at all...',
             actions: [
                 {

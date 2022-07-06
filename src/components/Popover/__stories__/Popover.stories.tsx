@@ -13,7 +13,7 @@ const DefaultTemplate: Story<PopoverProps> = (args) => (
 );
 export const Default = DefaultTemplate.bind({});
 Default.args = {
-    content: <>Popover content</>,
+    content: 'Popover content',
 };
 
 const ShowcaseTemplate: Story = () => <PopoverShowcase />;

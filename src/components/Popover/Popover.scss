@@ -55,6 +55,7 @@ $block: '.#{$ns}popover';
 
         &-content {
             @include text-body-1();
+            overflow-wrap: break-word;
 
             &_secondary {
                 opacity: 0.7;

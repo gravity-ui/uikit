@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 
 import {ThemeContext, ThemeContextProps} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
@@ -28,7 +28,7 @@ function getSystemTheme() {
 }
 
 export class ThemeProvider extends React.Component<
-    ThemeProviderExternalProps & ThemeProviderDefaultProps,
+    ThemeProviderExternalProps & ThemeProviderDefaultProps & PropsWithChildren<{}>,
     ThemeProviderState
 > {
     static defaultProps: ThemeProviderDefaultProps = {

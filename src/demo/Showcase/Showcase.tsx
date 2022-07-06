@@ -1,12 +1,12 @@
-import React, {FC, ReactNode} from 'react';
+import React, {FC, PropsWithChildren, ReactNode} from 'react';
 import block from 'bem-cn-lite';
 import './Showcase.scss';
 
-interface Props {
+type Props = PropsWithChildren<{
     title: string;
     description?: ReactNode;
     className?: string;
-}
+}>;
 
 const b = block('showcase');
 

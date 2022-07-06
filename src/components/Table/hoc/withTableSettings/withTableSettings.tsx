@@ -137,7 +137,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
         );
 
         const onUpdateColumns = React.useCallback(
-            (newItems) => {
+            (newItems: TableColumnSetupItem[]) => {
                 updateSettings(prepareUpdateSettings(newItems));
             },
             [updateSettings],

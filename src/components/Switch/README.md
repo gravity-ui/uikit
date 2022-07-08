@@ -1,6 +1,6 @@
 # Switch
 
-## Пример использования
+## Example
 
 ```tsx
 import React from 'react';
@@ -13,19 +13,19 @@ function App() {
 }
 ```
 
-## Свойства
+## Props
 
-Наследует свойства: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherits props: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface SwitchProps extends ControlProps, DOMProps, QAProps {
-  /** Размер. */
+  /** Size */
   size?: 'm' | 'l';
-  /** Содержимое подписи. */
+  /** Label content */
   content?: React.ReactNode;
-  /** Содержимое подписи. */
+  /** Label content */
   children?: React.ReactNode;
-  /** HTML-атрибут title. */
+  /** HTML title */
   title?: string;
 }
 ```

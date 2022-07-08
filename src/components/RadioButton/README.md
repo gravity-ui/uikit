@@ -1,6 +1,6 @@
 # RadioButton
 
-## Пример использования
+## Example
 
 ```tsx
 import React from 'react';
@@ -16,42 +16,42 @@ function App({checked}) {
 }
 ```
 
-## Свойства
+## Props
 
-Наследует свойства: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherits props: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface RadioButtonOption {
-  /** Значение опции в RadioButton. */
+  /** Option value of RadioButton. */
   value: string;
-  /** Подпись опции в RadioButton. */
+  /** Option label of RadioButton. */
   content?: React.ReactNode;
-  /** Признак неактивного состояния опции в RadioButton. */
+  /** Disabled state of RadioButton. */
   disabled?: boolean;
 }
 
 interface RadioButtonProps extends DOMProps, QAProps {
-  /** Имя RadioButton. */
+  /** RadioButton name */
   name?: string;
-  /** Значение. */
+  /** Value */
   value?: string;
-  /** Начальное значение в неконтролируемом компоненте. */
+  /** Default value for uncontrolled component */
   defaultValue?: string;
-  /** Обработчик изменения значения. */
+  /** Value change handler */
   onUpdate?: (value: string) => void;
-  /** Обработчик события change. */
+  /** Change event handler */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   /**
-   * Признак неактивного состояния.
+   * Disabled state
    * @default false
    */
   disabled?: boolean;
   /**
-   * Опции, из которых формируется RadioButton.
+   * List of RadioButton to render
    */
   options: RadioButtonOption[];
   /**
-   * Размер RadioButton.
+   * RadioButton size
    * @default 'm'
    */
   size?: 's' | 'm' | 'l' | 'xl';

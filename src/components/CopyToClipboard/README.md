@@ -1,15 +1,15 @@
 ## CopyToClipboard
 
-Компонент для копирования текста в буфер обмена
+Low-level component to copy text to clipboard.
 
 ### PropTypes
 
 | Property | Type       | Required | Default | Description                                                                                       |
 | :------- | :--------- | :------: | :------ | :------------------------------------------------------------------------------------------------ |
-| children | `Function` |    ✓     |         | Рендерер кнопки копирования. `(status: CopyToClipboardStatus) => React.ReactElement`              |
-| text     | `String`   |          |         | Текст для копирования                                                                             |
-| timeout  | `Number`   |          | `500`   | Время в мс после которого, состояние будет сброшено в начальное (`CopyToClipboardStatus.Pending`) |
-| onCopy   | `Function` |          |         | Колбек, который вызывается при копировании. `(text: string, result: boolean) => void`             |
+| children | `Function` |    ✓     |         | Copy control render function `(status: CopyToClipboardStatus) => React.ReactElement`              |
+| text     | `String`   |          |         | Text to copy                                                                                      |
+| timeout  | `Number`   |          | `500`   | Time in ms to restore initial state (`CopyToClipboardStatus.Pending`)                             |
+| onCopy   | `Function` |          |         | Callback after copy `(text: string, result: boolean) => void`                                     |
 
 ### Examples
 

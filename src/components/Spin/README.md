@@ -1,6 +1,6 @@
 # Spin
 
-## Пример использования
+## Example
 
 ```tsx
 import React from 'react';
@@ -11,14 +11,14 @@ function App() {
 }
 ```
 
-## Свойства
+## Props
 
-Наследует свойства: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherits props: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface SpinProps extends DOMProps, QAProps {
   /**
-   * Размер.
+   * Size
    * @default 'm'
    */
   size?: 'xs' | 's' | 'm' | 'l' | 'xl';

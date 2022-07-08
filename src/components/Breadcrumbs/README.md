@@ -1,19 +1,19 @@
 ## Breadcrumbs
 
-Компонент для хлебных крошек. Умеет прятать крошки которые не помещаются для показа.
+Breadcrumbs component. Can collapse breadcrumbs that cause overflow.
 
 ### PropTypes
 
-| Property                 | Type       | Required | Default | Description                                                                                                                 |
-| :----------------------- | :--------- | :------: | :------ | :-------------------------------------------------------------------------------------------------------------------------- |
-| items                    | `Array`    |    ✓     |         | Массив хлебных крошек `BreadcrumbsItem[]`                                                                                   |
-| className                | `String`   |          |         | CSS-класс элемента                                                                                                          |
-| renderRootContent        | `Function` |          | `500`   | Кастомный рендер для первого элемента `(item: BreadcrumbsItem, isCurrent: boolean) => React.ReactNode;`)                    |
-| renderItemContent        | `Function` |          |         | Кастомный рендер для N+1 элемента `(item: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode;` |
-| renderItemDivider        | `Function` |          |         | Кастомный рендер, для разделителя крошек `() => React.ReactNode;`                                                           |
-| lastDisplayedItemsCount  | `Enum`     |    ✓     | `1`     | Количество элементов отображаемых справа от схлопывания-многоточия: `LastDisplayedItemsCount`                               |
-| firstDisplayedItemsCount | `Enum`     |    ✓     | `0`     | Количество элементов отображаемых слева от схлопывания-многоточия: `FirstDisplayedItemsCount`                               |
-| popupStyle               | `String`   |          |         | Стиль отображения элементов в попапе `staircase`                                                                            |
+| Property                 | Type       | Required | Default | Description                                                                                                                  |
+| :----------------------- | :--------- | :------: | :------ | :--------------------------------------------------------------------------------------------------------------------------- |
+| items                    | `Array`    |    ✓     |         | Breadcrumb items array `BreadcrumbsItem[]`                                                                                   |
+| className                | `String`   |          |         | CSS class name of root element                                                                                               |
+| renderRootContent        | `Function` |          | `500`   | Custom render function of first item `(item: BreadcrumbsItem, isCurrent: boolean) => React.ReactNode;`)                      |
+| renderItemContent        | `Function` |          |         | Custom render function of N+1 item `(item: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode;` |
+| renderItemDivider        | `Function` |          |         | Custom render function of items separator `() => React.ReactNode;`                                                           |
+| lastDisplayedItemsCount  | `Enum`     |    ✓     | `1`     | Number of items to display after items collapse control: `LastDisplayedItemsCount`                                           |
+| firstDisplayedItemsCount | `Enum`     |    ✓     | `0`     | Number of items to display before items collapse control: `FirstDisplayedItemsCount`                                         |
+| popupStyle               | `String`   |          |         | Style of collapsed items popup `staircase`                                                                                   |
 
 ### Examples
 

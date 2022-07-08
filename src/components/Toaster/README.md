@@ -37,8 +37,7 @@ export function FoobarComponent() {
 }
 ```
 
-Hook returns methods `add`, `update`, `remove` and `removeAll`, their signatures is equal to
-`createToast`, `overrideToast` and `removeToast` of singleton (see below).
+Hook returns methods `add`, `update`, `remove` and `removeAll` (see below).
 
 ## Usage as HOC
 
@@ -81,13 +80,13 @@ On initialization it is possible to pass className, that will be assigned to dom
 
 ## Methods
 
-| Method name                          | Params             | Description                                                                                                                             |
-| :----------------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| createToast(toastOptions)            | `Object`           | Create new notification                                                                                                                 |
-| removeToast(name)                    | `string`           | Delete existing notification manually                                                                                                   |
-| overrideToast(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
+| Method name                   | Params             | Description                                                                                                                             |
+| :---------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| add(toastOptions)             | `Object`           | Create new notification                                                                                                                 |
+| remove(name)                  | `string`           | Delete existing notification manually                                                                                                   |
+| update(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
 
-## More about `createToast`
+## More about `add`
 
 Accepts argument `toastOptions` with ongoing notification details:
 

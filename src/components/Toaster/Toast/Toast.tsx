@@ -1,11 +1,10 @@
 import React from 'react';
 import {block} from '../../utils/cn';
+import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../Link';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
-import {useTimeout} from '../../utils/useTimeout';
-import {useHover} from '../../utils/useHover';
 import type {ToastAction, ToastProps, ToastType} from '../types';
 
 import './Toast.scss';
@@ -35,19 +34,6 @@ enum ToastStatus {
     ShowingHeight = 'showing-height',
     Hiding = 'hiding',
     Shown = 'shown',
-}
-
-interface UseCloseOnTimeoutProps {
-    onClose: VoidFunction;
-    timeout?: number;
-}
-
-function useCloseOnTimeout({onClose, timeout}: UseCloseOnTimeoutProps) {
-    const [onMouseOver, onMouseLeave, isHovering] = useHover();
-
-    useTimeout(onClose, isHovering ? null : timeout);
-
-    return {onMouseOver, onMouseLeave};
 }
 
 interface UseToastHeightProps {
@@ -203,7 +189,7 @@ export function Toast(props: ToastUnitedProps) {
     const heightProps = useToastHeight({isOverride, status});
 
     const timeout = allowAutoHiding ? props.timeout || DEFAULT_TIMEOUT : undefined;
-    const closeOnTimeoutProps = useCloseOnTimeout({onClose: handleClose, timeout});
+    const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});
 
     const mods = {
         mobile,

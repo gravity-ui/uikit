@@ -105,7 +105,10 @@ function useToastHeight({isOverride, status}: UseToastHeightProps) {
     }, [status]);
 
     React.useEffect(() => {
-        const height = typeof heightRef.current === 'number' ? heightRef.current : getHeight(ref);
+        const height =
+            typeof heightRef.current === 'number' && !isOverride
+                ? heightRef.current
+                : getHeight(ref);
 
         setHeight(height);
     }, [isOverride]);

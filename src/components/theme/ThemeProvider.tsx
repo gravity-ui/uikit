@@ -26,21 +26,19 @@ export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: Them
     }, [themeProp]);
 
     const [themeValue, setThemeValue] = useState(getThemeValue(theme));
-    useEffect(() => {
-        setThemeValue(getThemeValue(theme));
-    }, [theme]);
-    useEffect(() => {
-        updateBodyClassName(themeValue);
-    }, [themeValue]);
-
     const systemTheme = useSystemTheme();
     useEffect(() => {
-        if (!systemTheme || theme !== 'system') {
+        if (systemTheme && theme === 'system') {
+            setThemeValue(systemTheme);
+
             return;
         }
 
-        setThemeValue(systemTheme);
+        setThemeValue(getThemeValue(theme));
     }, [systemTheme, theme]);
+    useEffect(() => {
+        updateBodyClassName(themeValue);
+    }, [themeValue]);
 
     const contextValue = useMemo(
         () => ({

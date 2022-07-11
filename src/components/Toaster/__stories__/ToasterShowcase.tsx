@@ -36,11 +36,14 @@ interface Props {
     setActions: boolean;
 }
 
-export const ToasterDemo = (props: Props) => {
-    console.log(props);
-    const {createSameName, showCloseIcon, setTimeout, allowAutoHiding, setContent, setActions} =
-        props;
-
+export const ToasterDemo = ({
+    createSameName,
+    showCloseIcon,
+    setTimeout,
+    allowAutoHiding,
+    setContent,
+    setActions,
+}: Props) => {
     const toaster = useToaster();
     const [{lastToastName, timeout}, setState] = React.useState<ToasterDemoState>({
         timeout: 3000,

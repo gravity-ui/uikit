@@ -4,7 +4,6 @@ import {Alarm, Info, Success} from '../../icons';
 import {ToasterComponent, ToastProps, useToaster} from '..';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
-import {Checkbox} from '../../Checkbox';
 
 import './ToasterShowcase.scss';
 
@@ -24,38 +23,27 @@ const ACTIONS = [
 ];
 
 interface ToasterDemoState {
-    createSameName: boolean;
-    showCloseIcon: boolean;
-    setTimeout: boolean;
     timeout: number;
-    allowAutoHiding: boolean;
-    setContent: boolean;
-    setActions: boolean;
     lastToastName: string;
 }
 
-export const ToasterDemo = () => {
+interface Props {
+    createSameName: boolean;
+    showCloseIcon: boolean;
+    setTimeout: boolean;
+    allowAutoHiding: boolean;
+    setContent: boolean;
+    setActions: boolean;
+}
+
+export const ToasterDemo = (props: Props) => {
+    console.log(props);
+    const {createSameName, showCloseIcon, setTimeout, allowAutoHiding, setContent, setActions} =
+        props;
+
     const toaster = useToaster();
-    const [
-        {
-            lastToastName,
-            createSameName,
-            showCloseIcon,
-            setTimeout,
-            timeout,
-            allowAutoHiding,
-            setContent,
-            setActions,
-        },
-        setState,
-    ] = React.useState<ToasterDemoState>({
-        createSameName: false,
-        showCloseIcon: true,
-        setTimeout: false,
+    const [{lastToastName, timeout}, setState] = React.useState<ToasterDemoState>({
         timeout: 3000,
-        allowAutoHiding: true,
-        setContent: false,
-        setActions: false,
         lastToastName: '',
     });
 
@@ -224,67 +212,6 @@ export const ToasterDemo = () => {
     };
 
     const btnStyle = {marginLeft: 20};
-    const timeoutContainerStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: 250,
-    };
-    const checkboxesContainerStyle = {margin: 20};
-
-    const namesCheckbox = (
-        <Checkbox
-            size="l"
-            onUpdate={() => setState((state) => ({...state, createSameName: !createSameName}))}
-            checked={createSameName}
-            content="Same names"
-        />
-    );
-
-    const closeIconCheckbox = (
-        <Checkbox
-            size="l"
-            onUpdate={() => setState((state) => ({...state, showCloseIcon: !showCloseIcon}))}
-            checked={showCloseIcon}
-            content="Show close icon"
-        />
-    );
-
-    const timeoutCheckbox = (
-        <Checkbox
-            size="l"
-            onUpdate={() => setState((state) => ({...state, setTimeout: !setTimeout}))}
-            checked={setTimeout}
-            content="Set custom timeout"
-        />
-    );
-
-    const autoHidingCheckbox = (
-        <Checkbox
-            size="l"
-            onUpdate={() => setState((state) => ({...state, allowAutoHiding: !allowAutoHiding}))}
-            checked={allowAutoHiding}
-            content="Allow auto hiding"
-        />
-    );
-
-    const contentCheckbox = (
-        <Checkbox
-            size="l"
-            onUpdate={() => setState((state) => ({...state, setContent: !setContent}))}
-            checked={setContent}
-            content="Add content"
-        />
-    );
-
-    const actionsCheckbox = (
-        <Checkbox
-            size="l"
-            onUpdate={() => setState((state) => ({...state, setActions: !setActions}))}
-            checked={setActions}
-            content="Add action"
-        />
-    );
 
     const defaultToastBtn = (
         <Button view="outlined" size="l" onClick={createDefaultToast} style={btnStyle}>
@@ -340,14 +267,6 @@ export const ToasterDemo = () => {
 
     return (
         <>
-            <div style={checkboxesContainerStyle}>
-                <p>{namesCheckbox}</p>
-                <p>{closeIconCheckbox}</p>
-                <p style={timeoutContainerStyle}>{timeoutCheckbox}</p>
-                <p>{autoHidingCheckbox}</p>
-                <p>{contentCheckbox}</p>
-                <p>{actionsCheckbox}</p>
-            </div>
             <p>{defaultToastBtn}</p>
             <p>{infoToastBtn}</p>
             <p>{successToastBtn}</p>

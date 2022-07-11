@@ -209,7 +209,7 @@ export function Toast(props: ToastUnitedProps) {
         >
             <div className={b('container')}>
                 {renderIcon({type})}
-                <div className={b('title')}>{title}</div>
+                <h3 className={b('title')}>{title}</h3>
                 {isClosable && (
                     <Button view="flat-secondary" className={b('btn-close')} onClick={handleClose}>
                         <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />

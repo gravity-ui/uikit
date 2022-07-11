@@ -154,6 +154,7 @@ $block: '.#{$ns}toast';
 
     &__title {
         @include text-subheader-2;
+        margin: 0;
         padding-right: 28px;
     }
 

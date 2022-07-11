@@ -23,7 +23,6 @@ const ACTIONS = [
 ];
 
 interface ToasterDemoState {
-    timeout: number;
     lastToastName: string;
 }
 
@@ -36,6 +35,8 @@ interface Props {
     setActions: boolean;
 }
 
+const customTimeout = 3000;
+
 export const ToasterDemo = ({
     createSameName,
     showCloseIcon,
@@ -45,8 +46,7 @@ export const ToasterDemo = ({
     setActions,
 }: Props) => {
     const toaster = useToaster();
-    const [{lastToastName, timeout}, setState] = React.useState<ToasterDemoState>({
-        timeout: 3000,
+    const [{lastToastName}, setState] = React.useState<ToasterDemoState>({
         lastToastName: '',
     });
 
@@ -80,7 +80,7 @@ export const ToasterDemo = ({
             title: extra.title,
             type: extra.type,
             isClosable: showCloseIcon,
-            timeout: setTimeout ? Number(timeout) : undefined,
+            timeout: setTimeout ? Number(customTimeout) : undefined,
             allowAutoHiding: allowAutoHiding,
             actions: setActions ? ACTIONS : undefined,
         };

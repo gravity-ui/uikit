@@ -13,11 +13,13 @@ $block: '.#{$ns}toast';
     $containerClass: #{&}__container;
     $iconClass: #{&}__icon;
 
+    --yc-toaster-padding: 16px 16px 16px 48px;
+
     box-sizing: border-box;
     position: absolute;
     width: inherit;
     margin-bottom: 10px;
-    padding: 16px 16px 16px 48px;
+    padding: var(--yc-toaster-padding);
     font-size: 13px;
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--yc-color-sfx-shadow);
@@ -87,7 +89,8 @@ $block: '.#{$ns}toast';
     }
 
     &_default {
-        padding: 16px;
+        --yc-toaster-padding: 16px;
+
         background-color: var(--yc-color-base-float);
     }
 
@@ -241,7 +244,7 @@ $block: '.#{$ns}toast';
 @keyframes toast-set-indents {
     to {
         margin-bottom: 10px;
-        padding: 16px 16px 16px 48px;
+        padding: var(--yc-toaster-padding);
     }
 }
 

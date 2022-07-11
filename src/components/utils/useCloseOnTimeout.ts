@@ -1,7 +1,7 @@
 import {useHover} from './useHover';
 import {useTimeout} from './useTimeout';
 
-export interface UseCloseOnTimeoutProps {
+interface UseCloseOnTimeoutProps {
     onClose: VoidFunction;
     timeout?: number;
 }

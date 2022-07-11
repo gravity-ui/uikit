@@ -268,6 +268,8 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const component = React.useMemo(() => <ToasterComponent />, []);
+
     return (
         <>
             <p>{defaultToastBtn}</p>
@@ -279,7 +281,7 @@ export const ToasterDemo = ({
             <p>{overrideToastBtn}</p>
             <p>{clearBtn}</p>
 
-            <ToasterComponent />
+            {component}
         </>
     );
 };

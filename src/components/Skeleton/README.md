@@ -1,9 +1,9 @@
 ## Skeleton
 
-Компонент для иллюзии быстрой загрузки страниц.
+Component for illusion of fast loading.
 
 ### PropTypes
 
-| Property  | Type     | Required | Default | Description                                                  |
-| :-------- | :------- | :------- | :------ | :----------------------------------------------------------- |
-| className | `String` |          |         | Кастомный класс, используется для задания размеров скелетона |
+| Property  | Type     | Required | Default | Description                                 |
+| :-------- | :------- | :------- | :------ | :------------------------------------------ |
+| className | `String` |          |         | Class name to customize size component size |

@@ -1,15 +1,13 @@
 ## User
 
-Компонент для отображения аватарки пользователя и краткой информации о нем.
+Display user avatar and his brief info.
 
 ### PropTypes
 
-| Property    | Type             | Required | Default | Description                                                                                                                        |
-| :---------- | :--------------- | :------- | :------ | :--------------------------------------------------------------------------------------------------------------------------------- |
-| user        | `UserData`       | ✔        |         | Данные пользователя                                                                                                                |
-| className   | `string`         |          |         | Класс элемента                                                                                                                     |
-| internal    | `boolean`        |          |         | Признак внутреннего пользователя. Используется для получения ссылки на изображение аватара.                                        |
-| name        | `string`         |          |         | Имя пользователя                                                                                                                   |
-| description | `string`         |          |         | Описание                                                                                                                           |
-| onClick     | `Function`       |          |         | Функция обработки нажатия на элемент                                                                                               |
-| size        | `UserAvatarSize` |          | 'm'     | Размер компонента. Возможные значения: `xs`, `s`, `m`, `l`, `xl`. При минимальном значении размера, скрывается строка с описанием. |
+| Property    | Type             | Required | Default | Description                                                                                                     |
+| :---------- | :--------------- | :------- | :------ | :-------------------------------------------------------------------------------------------------------------- |
+| imgUrl      | `string`         |          |         | Url of user avatar                                                                                              |
+| className   | `string`         |          |         | Root element class name                                                                                         |
+| name        | `string`         |          |         | User name (first line of info)                                                                                  |
+| description | `string`         |          |         | User additional data (second line of info)                                                                      |
+| size        | `UserAvatarSize` |          | 'm'     | Component size. Supported values is: `xs`, `s`, `m`, `l`, `xl`. With a smallest size user info is not rendered. |

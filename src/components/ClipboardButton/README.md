@@ -1,14 +1,14 @@
 ## ClipboardButton
 
-Кнопка для копирования текста в буфер обмена со стандартным значком и анимированной реакцией.
+Button to copy text to clipboard with button and animated icon.
 
 ### PropTypes
 
-| Property  | Type     | Required | Default | Description           |
-| :-------- | :------- | :------: | :------ | :-------------------- |
-| text      | `String` |          |         | Текст для копирования |
-| size      | `Number` |          |         | Размер значка         |
-| className | `String` |          |         | CSS-класс элемента    |
+| Property  | Type     | Required | Default | Description    |
+| :-------- | :------- | :------: | :------ | :------------- |
+| text      | `String` |          |         | Text to copy   |
+| size      | `Number` |          |         | Icon size      |
+| className | `String` |          |         | CSS class name |
 
 ### Examples
 

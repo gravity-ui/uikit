@@ -1,6 +1,6 @@
 # Radio
 
-## Пример использования
+## Example
 
 ```tsx
 import React from 'react';
@@ -18,21 +18,21 @@ function App({checked}) {
 }
 ```
 
-## Свойства
+## Props
 
-Наследует свойства: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherit props: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface RadioProps extends ControlProps<boolean>, DOMProps, QAProps {
-  /** Значение радиокнопки. */
+  /** Control value */
   value: string;
-  /** Размер. */
+  /** Size */
   size?: 'm' | 'l';
-  /** Содержимое подписи. */
+  /** Label content */
   content?: React.ReactNode;
-  /** Содержимое подписи. */
+  /** Label content */
   children?: React.ReactNode;
-  /** HTML-атрибут title. */
+  /** HTML title */
   title?: string;
 }
 ```

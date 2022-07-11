@@ -1,16 +1,16 @@
 ### PropTypes
 
-| Property  | Type                                                       | Required | Default     | Description                                                     |
-| :-------- | :--------------------------------------------------------- | :------- | :---------- | :-------------------------------------------------------------- | --- |
-| theme     | `String`                                                   |          | `normal `   | Тема лейбла                                                     |
-| type      | `String`                                                   |          | `default`   | Тип лейбла (обычный, с текстом для копирования или с крестиком) |
-| size      | `String`                                                   |          | `xs`        | Размер лейбла                                                   |
-| style     | `String`                                                   |          | `default`   | Стиль кнопки (с загруленными краями или обычная)                |     |
-| tooltip   | `TooltipProps`                                             |          | `undefined` | Тултип лейбла                                                   |
-| icon      | `ReactNode`                                                |          | `undefined` | Иконка лейбла (слева)                                           |
-| disabled  | `Boolean`                                                  |          | `undefined` | Состояние disabled                                              |
-| onClose   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Хендлер на нажатие крестика                                     |
-| copyText  | `String`                                                   |          | `undefined` | Текст для копирования                                           |
-| onCopy    | `onCopy?(text: string, result: boolean): void;`            |          | `undefined` | Хендлер после события копирования                               |
-| onClick   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Хендлер на клик                                                 |
-| className | `String`                                                   |          | `undefined` | Дополнительный класс                                            |
+| Property  | Type                                                       | Required | Default     | Description                                              |
+| :-------- | :--------------------------------------------------------- | :------- | :---------- | :------------------------------------------------------- |
+| theme     | `String`                                                   |          | `normal `   | Label appearance                                         |
+| type      | `String`                                                   |          | `default`   | Label type (plain, with text to copy or with cross icon) |
+| size      | `String`                                                   |          | `xs`        | Label size                                               |
+| style     | `String`                                                   |          | `default`   | Button style (default or rounded corners)                |
+| tooltip   | `TooltipProps`                                             |          | `undefined` | Tooltip                                                  |
+| icon      | `ReactNode`                                                |          | `undefined` | Icon at the left                                         |
+| disabled  | `Boolean`                                                  |          | `undefined` | disabled state                                           |
+| onClose   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Button with cross handler                                |
+| copyText  | `String`                                                   |          | `undefined` | Text to copy                                             |
+| onCopy    | `onCopy?(text: string, result: boolean): void;`            |          | `undefined` | Callback after copy                                      |
+| onClick   | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Handler for element click                                |
+| className | `String`                                                   |          | `undefined` | Class name                                               |

@@ -3,7 +3,7 @@ export {Toast} from './Toast/Toast';
 
 export * from './types';
 
-export {toaster, removeToaster} from '../../toaster-singleton';
+export {toaster} from '../../toaster-singleton';
 
 export {useToaster} from './hooks/useToaster';
 export {withToaster} from './withToaster';

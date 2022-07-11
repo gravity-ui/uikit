@@ -6,6 +6,12 @@ interface UseCloseOnTimeoutProps {
     timeout?: number;
 }
 
+/**
+ * Invokes callback after given amount of time unless mouse is on the element
+ *
+ * @param onClose
+ * @param timeout
+ */
 export function useCloseOnTimeout<T = Element>({onClose, timeout}: UseCloseOnTimeoutProps) {
     const [onMouseOver, onMouseLeave, isHovering] = useHover<T>();
 

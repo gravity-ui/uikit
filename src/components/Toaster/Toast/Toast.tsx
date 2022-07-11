@@ -4,7 +4,9 @@ import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../Link';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
-import type {ToastType, ToastAction, ToastProps} from '../types';
+import {useTimeout} from '../../utils/useTimeout';
+import {useHover} from '../../utils/useHover';
+import type {ToastAction, ToastProps, ToastType} from '../types';
 
 import './Toast.scss';
 
@@ -41,39 +43,9 @@ interface UseCloseOnTimeoutProps {
 }
 
 function useCloseOnTimeout({onClose, timeout}: UseCloseOnTimeoutProps) {
-    const timerId = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const [onMouseOver, onMouseLeave, isHovering] = useHover();
 
-    const setTimer = React.useCallback(() => {
-        if (!timeout) {
-            return;
-        }
-
-        timerId.current = setTimeout(async () => {
-            onClose();
-        }, timeout);
-    }, [timeout, onClose]);
-
-    const clearTimer = React.useCallback(() => {
-        if (timerId.current) {
-            clearTimeout(timerId.current);
-            timerId.current = undefined;
-        }
-    }, []);
-
-    React.useEffect(() => {
-        setTimer();
-        return () => {
-            clearTimer();
-        };
-    }, [setTimer, clearTimer]);
-
-    const onMouseOver = () => {
-        clearTimer();
-    };
-
-    const onMouseLeave = () => {
-        setTimer();
-    };
+    useTimeout(onClose, isHovering ? null : timeout);
 
     return {onMouseOver, onMouseLeave};
 }

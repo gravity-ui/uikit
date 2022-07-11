@@ -65,7 +65,7 @@ const toaster = new Toaster();
 ```
 
 ```js
-import {toaster} from '@yandex-cloud/uikit';
+import {toaster} from '@yandex-cloud/uikit/toaster-singleton';
 ```
 
 Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.

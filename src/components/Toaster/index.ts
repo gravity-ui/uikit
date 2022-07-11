@@ -1,12 +1,9 @@
-import {ToasterSingleton} from './ToasterSingleton';
-import {Toast} from './Toast/Toast';
-
-// in SSR case
-const toaster = typeof window === 'object' ? new ToasterSingleton() : null;
-const removeToaster = () => toaster?.destroy();
+export {ToasterSingleton as Toaster} from './ToasterSingleton';
+export {Toast} from './Toast/Toast';
 
 export * from './types';
-export {ToasterSingleton as Toaster, Toast, toaster, removeToaster};
+
+export {toaster} from '../../toaster-singleton';
 
 export {useToaster} from './hooks/useToaster';
 export {withToaster} from './withToaster';

@@ -25,13 +25,8 @@ export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: Them
         setTheme(themeProp);
     }, [themeProp]);
 
-    const [themeValue, setThemeValue] = useState(getThemeValue(theme));
     const systemTheme = useSystemTheme();
-    useEffect(() => {
-        if (systemTheme && theme === 'system') {
-            setThemeValue(systemTheme);
-
-            return;
+    const themeValue = theme === 'system' ? systemTheme : theme;
         }
 
         setThemeValue(getThemeValue(theme));

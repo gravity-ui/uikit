@@ -83,24 +83,35 @@ interface UseToastHeightProps {
     status: ToastStatus;
 }
 
+function getHeight(ref: React.RefObject<HTMLDivElement>) {
+    return ref.current?.offsetHeight;
+}
+
 function useToastHeight({isOverride, status}: UseToastHeightProps) {
     const [height, setHeight] = React.useState<number | undefined>(undefined);
 
     const ref = React.useRef<HTMLDivElement>(null);
 
-    const getToastHeight = React.useCallback(() => {
-        return ref.current?.offsetHeight;
-    }, []);
-
+    const heightRef = React.useRef<number>();
     React.useEffect(() => {
-        setHeight(getToastHeight());
-    }, [getToastHeight]);
-
-    React.useEffect(() => {
-        if (isOverride) {
-            setHeight(getToastHeight());
+        // ATTENTION: getting `offsetHeight` is important for correct transaction of `height`
+        // HOW THIS WORKS:
+        // On the step of changing state to `ShowingIndent` we set class with height `transition`
+        // We need now to apply this styles, to achieve this we're calling `offsetHeight`, to force repaint
+        // Now we call changing state to `ShowingHeight` and changing height now happen with transition
+        if (status === ToastStatus.ShowingIndents) {
+            heightRef.current = getHeight(ref);
         }
-    });
+    }, [status]);
+
+    React.useEffect(() => {
+        const height =
+            typeof heightRef.current === 'number' && !isOverride
+                ? heightRef.current
+                : getHeight(ref);
+
+        setHeight(height);
+    }, [isOverride]);
 
     const style: React.CSSProperties = {};
     if (height && status !== ToastStatus.ShowingIndents && status !== ToastStatus.Shown) {

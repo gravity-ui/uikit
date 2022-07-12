@@ -1,7 +1,6 @@
 import React, {PropsWithChildren, useEffect, useMemo, useState} from 'react';
 
 import {DEFAULT_THEME} from './constants';
-import {getThemeValue} from './getThemeValue';
 import {ThemeContext} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import type {Theme} from './types';
@@ -27,10 +26,6 @@ export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: Them
 
     const systemTheme = useSystemTheme();
     const themeValue = theme === 'system' ? systemTheme : theme;
-        }
-
-        setThemeValue(getThemeValue(theme));
-    }, [systemTheme, theme]);
     useEffect(() => {
         updateBodyClassName(themeValue);
     }, [themeValue]);

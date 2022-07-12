@@ -3,8 +3,8 @@ import {block} from '../utils/cn';
 const b = block('root');
 
 const rootClassName = b();
-const [, lightModifier] = b({theme: 'light'}).split(/\s/);
-const [, darkModifier] = b({theme: 'dark'}).split(/\s/);
+const [, lightModifier] = b({theme: 'light'}).split(/\s+/);
+const [, darkModifier] = b({theme: 'dark'}).split(/\s+/);
 
 export function updateBodyClassName(theme: string) {
     const bodyEl = document.body;

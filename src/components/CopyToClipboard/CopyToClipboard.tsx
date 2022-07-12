@@ -17,7 +17,6 @@ export interface CopyToClipboardProps {
 export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyToClipboardProps) {
     const [status, setStatus] = React.useState(CopyToClipboard.INITIAL_STATUS);
     const content = React.useMemo(() => children(status), [children, status]);
-    const timerIdRef = React.useRef<number>();
     const handleCopy = React.useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
         (copyText, result) => {
             setStatus(result ? CopyToClipboardStatus.Success : CopyToClipboardStatus.Error);
@@ -34,11 +33,11 @@ export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyTo
         if (status === CopyToClipboard.INITIAL_STATUS) {
             return;
         }
-        timerIdRef.current = window.setTimeout(() => {
+        const timer = window.setTimeout(() => {
             setStatus(CopyToClipboard.INITIAL_STATUS);
         }, timeout);
         return () => {
-            window.clearTimeout(timerIdRef.current);
+            window.clearTimeout(timer);
         };
     }, [status]);
 

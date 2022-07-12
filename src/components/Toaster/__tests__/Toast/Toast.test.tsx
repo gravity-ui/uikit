@@ -11,9 +11,15 @@ function fireAnimationEndEvent(el: Node | Window, animationName: string) {
     fireEvent(el, ev);
 }
 
+const timeout = 1000;
 function setup(removeCallback: VoidFunction) {
     render(
-        <Toast name="foobar" removeCallback={removeCallback} title="Test Toast" timeout={1000} />,
+        <Toast
+            name="foobar"
+            removeCallback={removeCallback}
+            title="Test Toast"
+            timeout={timeout}
+        />,
     );
 }
 
@@ -32,6 +38,13 @@ function getToast() {
     return toast;
 }
 
+function tick(el: Node | Window, ms: number) {
+    act(() => {
+        jest.advanceTimersByTime(ms);
+    });
+    fireAnimationEndEvent(el, 'toast-hide-end');
+}
+
 beforeEach(() => jest.useFakeTimers());
 afterEach(() => jest.useRealTimers());
 
@@ -41,14 +54,14 @@ test('should hide toast after timeout', async () => {
     setup(removeCallback);
     const toast = getToast();
 
-    expect(toast).toBeInTheDocument();
+    expect(removeCallback).not.toHaveBeenCalled();
 
-    jest.advanceTimersByTime(500);
+    tick(toast, timeout / 2);
 
-    expect(toast).toBeInTheDocument();
+    expect(removeCallback).not.toHaveBeenCalled();
 
     act(() => {
-        jest.advanceTimersByTime(500);
+        jest.advanceTimersByTime(timeout / 2);
     });
 
     expect(removeCallback).not.toHaveBeenCalled();
@@ -66,10 +79,7 @@ test('should preserve toast on hover', () => {
 
     fireEvent.mouseOver(toast);
 
-    act(() => {
-        jest.advanceTimersByTime(2000);
-    });
-    fireAnimationEndEvent(toast, 'toast-hide-end');
+    tick(toast, timeout * 2);
 
     expect(removeCallback).not.toHaveBeenCalled();
 
@@ -78,17 +88,11 @@ test('should preserve toast on hover', () => {
 
     expect(removeCallback).not.toHaveBeenCalled();
 
-    act(() => {
-        jest.advanceTimersByTime(500);
-    });
-    fireAnimationEndEvent(toast, 'toast-hide-end');
+    tick(toast, timeout / 2);
 
     expect(removeCallback).not.toHaveBeenCalled();
 
-    act(() => {
-        jest.advanceTimersByTime(500);
-    });
-    fireAnimationEndEvent(toast, 'toast-hide-end');
+    tick(toast, timeout / 2);
 
     expect(removeCallback).toHaveBeenCalled();
 });

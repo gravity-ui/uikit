@@ -25,10 +25,6 @@ export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyTo
         [onCopy],
     );
 
-    if (!React.isValidElement(content)) {
-        throw new Error('Content must be a valid React element');
-    }
-
     React.useEffect(() => {
         if (status === CopyToClipboard.INITIAL_STATUS) {
             return;
@@ -40,6 +36,10 @@ export function CopyToClipboard({children, text, timeout = 1000, onCopy}: CopyTo
             window.clearTimeout(timer);
         };
     }, [status]);
+
+    if (!React.isValidElement(content)) {
+        throw new Error('Content must be a valid React element');
+    }
 
     return (
         <ReactCopyToClipboard text={String(text)} onCopy={handleCopy}>

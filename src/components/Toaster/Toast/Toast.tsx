@@ -94,13 +94,13 @@ function useToastStatus({onRemove}: UseToastStatusProps) {
         }
     }, [status]);
 
-    const onFadeInAnimationEnd = (e: {animationName: string}) => {
+    const onFadeInAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (e) => {
         if (e.animationName === FADE_IN_LAST_ANIMATION_NAME) {
             setStatus(ToastStatus.Shown);
         }
     };
 
-    const onFadeOutAnimationEnd = (e: {animationName: string}) => {
+    const onFadeOutAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (e) => {
         if (e.animationName === FADE_OUT_LAST_ANIMATION_NAME) {
             onRemove();
         }

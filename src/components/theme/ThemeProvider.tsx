@@ -39,9 +39,13 @@ export function ThemeProvider({theme: themeProp = DEFAULT_THEME, children}: Them
         [theme, themeValue],
     );
 
+    const themeValueContext = useMemo(() => ({themeValue}), [themeValue]);
+
     return (
         <ThemeContext.Provider value={contextValue}>
-            <ThemeValueContext.Provider value={{themeValue}}>{children}</ThemeValueContext.Provider>
+            <ThemeValueContext.Provider value={themeValueContext}>
+                {children}
+            </ThemeValueContext.Provider>
         </ThemeContext.Provider>
     );
 }

@@ -6,12 +6,12 @@ export function useHover<T = Element>(): [
     boolean,
 ] {
     const [isHovering, setIsHovering] = React.useState(false);
-    const onMouseOver: React.MouseEventHandler<T> = React.useCallback(() => {
+    const onMouseEnter: React.MouseEventHandler<T> = React.useCallback(() => {
         setIsHovering(true);
     }, []);
     const onMouseLeave: React.MouseEventHandler<T> = React.useCallback(() => {
         setIsHovering(false);
     }, []);
 
-    return [onMouseOver, onMouseLeave, isHovering];
+    return [onMouseEnter, onMouseLeave, isHovering];
 }

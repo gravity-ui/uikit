@@ -5,8 +5,9 @@ $block: '.#{$ns}toast';
 
 // Function to get animation that will trigger action in `onAnimationEnd` event handler
 // It always should be at the end of animations list
-@function get-trailing-keyframe($keyframe, $duration) {
-    @return $keyframe 0s forwards $duration;
+@function get-trailing-keyframe($keyframe, $delay) {
+    // Short animation duration to make sure that onAnimationEnd would be triggered
+    @return $keyframe 0.0001s forwards $delay;
 }
 
 #{$block} {
@@ -154,6 +155,7 @@ $block: '.#{$ns}toast';
 
     &__title {
         @include text-subheader-2;
+        margin: 0;
         padding-right: 28px;
     }
 

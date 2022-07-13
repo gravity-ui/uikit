@@ -1,10 +1,11 @@
 import React from 'react';
 import {block} from '../../utils/cn';
+import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../Link';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
-import type {ToastType, ToastAction, ToastProps} from '../types';
+import type {ToastAction, ToastProps, ToastType} from '../types';
 
 import './Toast.scss';
 
@@ -33,49 +34,6 @@ enum ToastStatus {
     ShowingHeight = 'showing-height',
     Hiding = 'hiding',
     Shown = 'shown',
-}
-
-interface UseCloseOnTimeoutProps {
-    onClose: VoidFunction;
-    timeout?: number;
-}
-
-function useCloseOnTimeout({onClose, timeout}: UseCloseOnTimeoutProps) {
-    const timerId = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-    const setTimer = React.useCallback(() => {
-        if (!timeout) {
-            return;
-        }
-
-        timerId.current = setTimeout(async () => {
-            onClose();
-        }, timeout);
-    }, [timeout, onClose]);
-
-    const clearTimer = React.useCallback(() => {
-        if (timerId.current) {
-            clearTimeout(timerId.current);
-            timerId.current = undefined;
-        }
-    }, []);
-
-    React.useEffect(() => {
-        setTimer();
-        return () => {
-            clearTimer();
-        };
-    }, [setTimer, clearTimer]);
-
-    const onMouseOver = () => {
-        clearTimer();
-    };
-
-    const onMouseLeave = () => {
-        setTimer();
-    };
-
-    return {onMouseOver, onMouseLeave};
 }
 
 interface UseToastHeightProps {
@@ -136,13 +94,13 @@ function useToastStatus({onRemove}: UseToastStatusProps) {
         }
     }, [status]);
 
-    const onFadeInAnimationEnd = (e: {animationName: string}) => {
+    const onFadeInAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (e) => {
         if (e.animationName === FADE_IN_LAST_ANIMATION_NAME) {
             setStatus(ToastStatus.Shown);
         }
     };
 
-    const onFadeOutAnimationEnd = (e: {animationName: string}) => {
+    const onFadeOutAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (e) => {
         if (e.animationName === FADE_OUT_LAST_ANIMATION_NAME) {
             onRemove();
         }
@@ -231,7 +189,7 @@ export function Toast(props: ToastUnitedProps) {
     const heightProps = useToastHeight({isOverride, status});
 
     const timeout = allowAutoHiding ? props.timeout || DEFAULT_TIMEOUT : undefined;
-    const closeOnTimeoutProps = useCloseOnTimeout({onClose: handleClose, timeout});
+    const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});
 
     const mods = {
         mobile,
@@ -251,7 +209,7 @@ export function Toast(props: ToastUnitedProps) {
         >
             <div className={b('container')}>
                 {renderIcon({type})}
-                <div className={b('title')}>{title}</div>
+                <h3 className={b('title')}>{title}</h3>
                 {isClosable && (
                     <Button view="flat-secondary" className={b('btn-close')} onClick={handleClose}>
                         <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />

@@ -9,3 +9,4 @@ const initialValue: ThemeValueContextProps = {
 };
 
 export const ThemeValueContext = React.createContext(initialValue);
+ThemeValueContext.displayName = 'ThemeValueContext';

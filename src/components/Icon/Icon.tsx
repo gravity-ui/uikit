@@ -23,6 +23,7 @@ export interface IconProps extends QAProps {
     fill?: string;
     stroke?: string;
     className?: string;
+    /** @deprecated Wrap `<Icon/>` to element with correct role (like button) and add handler here */
     onClick?: (event: React.MouseEvent<SVGElement>) => void;
 }
 

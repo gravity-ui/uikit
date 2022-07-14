@@ -1,74 +1,72 @@
 ## DropdownMenu
 
-Выпадающее меню показываемое по клику на свитчер-элемент (по дефолту стандартная иконка-троеточие, может быть
-переопределён);
+Dropdown menu with adjustable toggle (button with horizontal ellipsis by default).
 
 ### PropTypes
 
 | Property                 | Type                         | Required | Default | Description                                                                                                                                                                                                                                                                 |
 | :----------------------- | :--------------------------- | :------: | :------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [items](#items)          | `DropdownMenuItem[]`         |          | []      | Элементы выпадающего меню.                                                                                                                                                                                                                                                  |
-| data                     | `T`                          |          |         | Произвольный контекст, связанный с выпадающим меню                                                                                                                                                                                                                          |
-| icon                     | `JSX node`                   |          |         | JSX-фрагмент (инстанс компонента `Icon`) для переопределения дефолтной иконки `switcher`.                                                                                                                                                                                   |
+| [items](#items)          | `DropdownMenuItem[]`         |          | []      | Menu items                                                                                                                                                                                                                                                  |
+| data                     | `T`                          |          |         | Menu context                                                                                                                                                                                                                          |
+| icon                     | `JSX node`                   |          |         | `<Icon/>` component that overrides default icon of `switcher`. |
 | size                     | `DropdownMenuSize`           |          |         | Size used for switcher and menu                                                                                                                                                                                                                                             |
-| disabled                 | `Boolean`                    |          |         | Неактивное состояние дефолтной кнопки открытия меню. Состояние, при котором кнопка отображается, но недоступна для действий пользователя.                                                                                                                                   |
-| switcher                 | `JSX node`                   |          |         | JSX-фрагмент для переопределения дефолтного `switcher`.                                                                                                                                                                                                                     |
-| switcherWrapperClassName | `string`                     |          |         | Дополнительный className для родительского блока `switcher`                                                                                                                                                                                                                 |
-| defaultSwitcherProps     | `ButtonProps`                |          |         | При использовании дефолтного `switcher` эта опция позволяет переопределить его свойства (кроме `disabled` и `className`)                                                                                                                                                    |
-| defaultSwitcherClassName | `string`                     |          |         | При использовании дефолтного `switcher` эта опция позволяет добавить к нему `className`                                                                                                                                                                                     |
+| disabled                 | `Boolean`                    |          |         | `switcher` disabled state.                                                                                                                                   |
+| switcher                 | `JSX node`                   |          |         | `switcher` component.                                                                                                                                                                                                                     |
+| switcherWrapperClassName | `string`                     |          |         | Default className for parent of the `switcher`                                                                                                                                                                                                                 |
+| defaultSwitcherProps     | `ButtonProps`                |          |         | `switcher` props, when default component used (except `disabled` и `className`)                                                                                                                                                    |
+| defaultSwitcherClassName | `string`                     |          |         | Class name for default `switcher`                                                                                                                                                                                     |
 | menuProps                | `MenuProps`                  |          |         | Allows to override the properties of the dropdown Menu                                                                                                                                                                                                                      |
-| onMenuToggle             | `() => void`                 |          |         | Функция, вызывающаяся каждый раз, когда происходит открытие/скрытие выпадающего меню. Может быть полезна для случая, когда в родительском компоненте необходимо как-то отслеживать состояние выпадающего меню (смотри исходный код демо страницы, компонент `ListExample`). |
-| onSwitcherClick          | `(React.MouseEvent) => void` |          |         | Функция, вызывающаяся при клике на `switcher`                                                                                                                                                                                                                               |
-| hideOnScroll             | `Boolean`                    |          | true    | Флаг, определяющий, должно ли выпадающее меню скрываться при скролле на родительских элементах.                                                                                                                                                                             |
-| popupPlacement           | `PopupPlacement`             |          |         | Направления, в которых может открываться меню.                                                                                                                                                                                                                              |
-| popupClassName           | `String`                     |          |         | Класс, который будет добавлен к попапу меню.                                                                                                                                                                                                                                |
-| children                 | `JSX node`                   |          |         | Позволяет внутри попапа заменить стандартное меню на произвольную ноду                                                                                                                                                                                                      |
+| onMenuToggle             | `() => void`                 |          |         | Handler called when menu open or close. |
+| onSwitcherClick          | `(React.MouseEvent) => void` |          |         | Handler for click on `switcher`                                                                                                                                                                                                                               |
+| hideOnScroll             | `Boolean`                    |          | true    | Hide menu on scroll on parent elements                                                                                                                                                                             |
+| popupPlacement           | `PopupPlacement`             |          |         | Allowed menu open placement                                                                                                                                                                                                                              |
+| popupClassName           | `String`                     |          |         | Menu class name                                                                                                                                                                                                                                |
+| children                 | `JSX node`                   |          |         | Menu component override                                                                                                                                                                                                      |
 
 ### Items
 
-Элементами массива могут быть отдельные объекты `DropdownMenuItem`, либо группы(массивы) таких объекстов. Группы
-визуально выделяются горизонтальными разделителями. Свойства типа `DropdownMenuItem`:
+Array of `DropdownMenuItem` objects or array of arrays for groups. Groups are divided with horizontal separators. `DropdownMenuItem` props:
 
 | Property   | Type                            | Required | Default | Description                                                                                                                       |
 | :--------- | :------------------------------ | :------: | :------ | :-------------------------------------------------------------------------------------------------------------------------------- |
-| text       | `JSX node`                      |   yes    |         | Текст пункта меню                                                                                                                 |
-| action     | `(React.MouseEvent, T) => void` |   yes    |         | Функция, которая будет вызвана при клике на соответствующий пункт меню. Принимает событие клика и заданный пропом `data` контекст |
-| icon       | `JSX node`                      |          |         | Иконка, которая будет отображаться слева от соответствующего пункта меню                                                          |
-| hidden     | `boolean`                       |          |         | Скрывает соответствующий пункт меню, если значение свойства `true`                                                                |
-| disabled   | `boolean`                       |          |         | Позволяет отрисовать пункт меню как отключенный                                                                                   |
-| href       | `string`                        |          |         | Превращает пункт меню в ссылку и разблокирует следующее свойство                                                                  |
-| target     | `string`                        |          |         | Атрибут `target` для ссылки                                                                                                       |
-| rel        | `string`                        |          |         | Атрибут `rel` для ссылки                                                                                                          |
-| extraProps | `object`                        |          |         | Позволяет установить дополнительные атрибуты на корневой `div`/`a` пункта меню                                                    |
-| title      | `string`                        |          |         | Позволяет задать атрибут `title` у корневого тега                                                                                 |
-| className  | `string`                        |          |         | Дополнительный класс для пункта меню                                                                                              |
+| text       | `JSX node`                      |   yes    |         | Menu item text                                                                                                                 |
+| action     | `(React.MouseEvent, T) => void` |   yes    |         | Click handler for menu item. Recieves event and `data` of `DropdownMenu` |
+| icon       | `JSX node`                      |          |         | Menu item icon                                                           |
+| hidden     | `boolean`                       |          |         | Hide menu item                                                                |
+| disabled   | `boolean`                       |          |         | Disabled state                                                                                   |
+| href       | `string`                        |          |         | Render menu item as `<a>`                                                                  |
+| target     | `string`                        |          |         | `target` attribute of `<a>`                                                                                                       |
+| rel        | `string`                        |          |         | `rel` attribute of `<a>`                                                                                                          |
+| extraProps | `object`                        |          |         | Additional props for menu item                                                    |
+| title      | `string`                        |          |         | HTML `title`                                                                                 |
+| className  | `string`                        |          |         | Class name                                                                                              |
 
-Пример:
+Example:
 
 ```jsx harmony
 <DropdownMenu
   items={[
     {
-      action: () => console.log('==> вызван экшен "Открыть"'),
-      text: 'Открыть',
+      action: () => console.log('==> calls "Open"'),
+      text: 'Open',
       icon: <Icon data={iconOpen} />,
     },
     [
       {
-        action: () => console.log('==> вызван экшен "Удалить"'),
-        text: 'Удалить',
+        action: () => console.log('==> calls "Remove"'),
+        text: 'Remove',
         icon: <Icon data={iconTrash} />,
       },
       {
-        action: () => console.log('==> вызван экшен "Переименовать"'),
-        text: 'Переименовать',
+        action: () => console.log('==> calls "Rename"'),
+        text: 'Rename',
         icon: <Icon data={iconRename} />,
         hidden: true,
       },
     ],
     {
-      action: () => console.log('==> вызван экшен "Свойства"'),
-      text: 'Свойства',
+      action: () => console.log('==> calls "Properties"'),
+      text: 'Properties',
       icon: <Icon data={iconProperties} />,
     },
   ]}

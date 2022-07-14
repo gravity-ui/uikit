@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 @import '../../../styles/mixins';
 
@@ -19,7 +20,7 @@ $block: '.#{$ns}radio-button';
         position: absolute;
         top: 0;
         bottom: 0;
-        transition: left 0.2s, width 0.2s;
+        transition: left animation.get-timing(0.2s), width animation.get-timing(0.2s);
 
         &[hidden] {
             display: none;
@@ -33,7 +34,7 @@ $block: '.#{$ns}radio-button';
         border-radius: var(--yc-radio-button-inner-border-radius);
         cursor: pointer;
         transform: scale(1);
-        transition: color 0.15s linear;
+        transition: color animation.get-timing(0.15s) linear;
 
         &-outline {
             content: '';

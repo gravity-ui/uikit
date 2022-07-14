@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}skeleton';
@@ -20,7 +21,7 @@ $block: '.#{$ns}skeleton';
         left: 0;
 
         background-image: linear-gradient(90deg, transparent, var(--yc-color-base-generic));
-        animation: #{$ns}skeleton 1.2s ease-out infinite;
+        animation: #{$ns}skeleton animation.get-timing(1.2s) ease-out infinite;
         content: '';
     }
 }

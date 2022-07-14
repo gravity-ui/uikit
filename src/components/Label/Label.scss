@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}label';
@@ -10,7 +11,7 @@ $transitionTimingFunction: ease-in-out;
     align-items: center;
     position: relative;
     transition-property: opacity, color, background-color;
-    transition-duration: $transitionDuration;
+    transition-duration: animation.get-timing($transitionDuration);
     transition-timing-function: $transitionTimingFunction;
 
     &__text {
@@ -39,7 +40,7 @@ $transitionTimingFunction: ease-in-out;
         &_cross {
             cursor: pointer;
             transition: color, background-color;
-            transition-duration: $transitionDuration;
+            transition-duration: animation.get-timing($transitionDuration);
             transition-timing-function: $transitionTimingFunction;
         }
     }

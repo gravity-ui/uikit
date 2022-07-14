@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}spin';
@@ -5,7 +6,7 @@ $block: '.#{$ns}spin';
 #{$block} {
     display: inline-block;
     backface-visibility: hidden;
-    animation: #{$ns}spin 1s linear infinite;
+    animation: #{$ns}spin animation.get-timing(1s) linear infinite;
 
     &__inner {
         box-sizing: border-box;

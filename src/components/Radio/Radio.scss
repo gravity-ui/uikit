@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}radio';
@@ -31,7 +32,7 @@ $discMarginLSize: 6px;
             background-color: transparent;
             border: 1px solid var(--yc-color-line-generic-accent);
             border-radius: 50%;
-            transition: background 0.1s linear;
+            transition: background animation.get-timing(0.1s) linear;
         }
 
         &::after {
@@ -49,7 +50,7 @@ $discMarginLSize: 6px;
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.1);
-        transition: opacity 0.1s, transform 0.2s;
+        transition: opacity animation.get-timing(0.1s), transform animation.get-timing(0.2s);
     }
 
     &__control {

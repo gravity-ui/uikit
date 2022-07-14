@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}popup';
@@ -19,7 +20,7 @@ $transition-distance: 10px;
     top: 0;
     left: 0;
     z-index: 1000;
-    animation-duration: 0.1s;
+    animation-duration: animation.get-timing(0.1s);
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
     border-radius: 4px;

@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}checkbox';
@@ -29,7 +30,7 @@ $block: '.#{$ns}checkbox';
             background-color: transparent;
             border: 1px solid var(--yc-color-line-generic-accent);
             border-radius: 4px;
-            transition: background 0.1s linear;
+            transition: background animation.get-timing(0.1s) linear;
         }
 
         &::after {
@@ -52,7 +53,7 @@ $block: '.#{$ns}checkbox';
         visibility: hidden;
         color: transparent;
         transform: translateY(-5px);
-        transition: color 0.1s, transform 0.2s;
+        transition: color animation.get-timing(0.1s), transform animation.get-timing(0.2s);
     }
 
     &__control {

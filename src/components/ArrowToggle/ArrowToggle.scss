@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}arrow-toggle';
@@ -5,7 +6,7 @@ $block: '.#{$ns}arrow-toggle';
 #{$block} {
     display: inline-block;
     vertical-align: middle;
-    transition: transform 0.1s ease-out;
+    transition: transform animation.get-timing(0.1s) ease-out;
 
     &_direction {
         &_bottom {

@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}switch';
@@ -32,7 +33,7 @@ $block: '.#{$ns}switch';
             bottom: 0;
 
             background-color: var(--yc-color-base-generic-medium);
-            transition: background 0.1s linear;
+            transition: background animation.get-timing(0.1s) linear;
         }
 
         &::after {
@@ -46,7 +47,7 @@ $block: '.#{$ns}switch';
         content: '';
         border-radius: 50%;
         background-color: var(--yc-color-base-background);
-        transition: transform 0.15s ease-out;
+        transition: transform animation.get-timing(0.15s) ease-out;
     }
 
     &__outline {

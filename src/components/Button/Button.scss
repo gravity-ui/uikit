@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 @import '../../../styles/mixins';
 
@@ -38,7 +39,8 @@ $block: '.#{$ns}button';
     background: transparent;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    transition: transform 0.1s ease-out, color 0.15s linear;
+    transition: transform animation.get-timing(0.1s) ease-out,
+        color animation.get-timing(0.15s) linear;
     transform: scale(1);
 
     &::before {
@@ -50,7 +52,7 @@ $block: '.#{$ns}button';
         right: 0;
         bottom: 0;
         background-color: var(--yc-button-background-color);
-        transition: background-color 0.15s linear;
+        transition: background-color animation.get-timing(0.15s) linear;
     }
 
     &:hover::before {
@@ -447,7 +449,7 @@ $block: '.#{$ns}button';
         );
         background-size: 34px;
         background-clip: padding-box;
-        animation: #{$ns}button-loading 0.5s linear infinite;
+        animation: #{$ns}button-loading animation.get-timing(0.5s) linear infinite;
     }
 
     &_width_auto {

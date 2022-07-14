@@ -1,10 +1,11 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}clipboard-icon';
 
 #{$block} {
     &__state {
-        animation: #{$ns}clipboard-icon-state-dash 1s;
+        animation: #{$ns}clipboard-icon-state-dash animation.get-timing(1s);
     }
 }
 

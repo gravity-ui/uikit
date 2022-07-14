@@ -1,3 +1,4 @@
+@use '../../../../styles/lib/animation';
 @import '../../variables';
 @import '../../../../styles/mixins';
 
@@ -7,7 +8,7 @@ $block: '.#{$ns}toast';
 // It always should be at the end of animations list
 @function get-trailing-keyframe($keyframe, $delay) {
     // Short animation duration to make sure that onAnimationEnd would be triggered
-    @return $keyframe 0.0001s forwards $delay;
+    @return $keyframe 0.0001s forwards animation.get-timing($delay);
 }
 
 #{$block} {
@@ -37,15 +38,16 @@ $block: '.#{$ns}toast';
         height: 0;
         margin-bottom: 0;
         padding: 0;
-        transition: height 0.35s ease;
+        transition: height animation.get-timing(0.35s) ease;
     }
 
     &_show-animation {
         $indents-duration: 0.35s;
         $move-duration: 0.25s;
 
-        animation: toast-set-indents $indents-duration ease forwards,
-            toast-move-left $move-duration ease forwards $indents-duration,
+        animation: toast-set-indents animation.get-timing($indents-duration) ease forwards,
+            toast-move-left animation.get-timing($move-duration) ease forwards
+                animation.get-timing($indents-duration),
             get-trailing-keyframe(toast-display-end, $indents-duration + $move-duration);
     }
 
@@ -53,26 +55,30 @@ $block: '.#{$ns}toast';
         $indents-duration: 0.35s;
         $move-duration: 0.25s;
 
-        animation: toast-set-symmetrical-indents $indents-duration ease forwards,
-            toast-move-left $move-duration ease forwards $indents-duration,
+        animation: toast-set-symmetrical-indents animation.get-timing($indents-duration) ease
+                forwards,
+            toast-move-left animation.get-timing($move-duration) ease forwards
+                animation.get-timing($indents-duration),
             get-trailing-keyframe(toast-display-end, $indents-duration + $move-duration);
     }
 
     &_show-animation#{&}_mobile {
-        animation: toast-set-indents 0.35s ease forwards, toast-move-top 0.25s ease forwards 0.35s;
+        animation: toast-set-indents animation.get-timing(0.35s) ease forwards,
+            toast-move-top animation.get-timing(0.25s) ease forwards animation.get-timing(0.35s);
     }
 
     &_show-animation#{&}_mobile#{&}_default {
-        animation: toast-set-symmetrical-indents 0.35s ease forwards,
-            toast-move-top 0.25s ease forwards 0.35s;
+        animation: toast-set-symmetrical-indents animation.get-timing(0.35s) ease forwards,
+            toast-move-top animation.get-timing(0.25s) ease forwards animation.get-timing(0.35s);
     }
 
     &_hide-animation {
         $move-duration: 0.25s;
         $remove-duration: 0.35s;
 
-        animation: toast-move-right $move-duration ease forwards,
-            toast-remove-height $remove-duration ease forwards $move-duration,
+        animation: toast-move-right animation.get-timing($move-duration) ease forwards,
+            toast-remove-height animation.get-timing($remove-duration) ease forwards
+                animation.get-timing($move-duration),
             get-trailing-keyframe(toast-hide-end, $move-duration + $remove-duration);
     }
 
@@ -80,8 +86,9 @@ $block: '.#{$ns}toast';
         $move-duration: 0.25s;
         $remove-duration: 0.35s;
 
-        animation: toast-move-bottom $move-duration ease forwards,
-            toast-remove-height $remove-duration ease forwards $move-duration,
+        animation: toast-move-bottom animation.get-timing($move-duration) ease forwards,
+            toast-remove-height animation.get-timing($remove-duration) ease forwards
+                animation.get-timing($move-duration),
             get-trailing-keyframe(toast-hide-end, $move-duration + $remove-duration);
     }
 

@@ -22,6 +22,8 @@
     @include yc-brand;
     @include yc-colors-social;
 
+    --yc-animation-multiply: 1;
+
     --yc-scrollbar-width: var(--yc-my-scrollbar-width);
 
     --yc-border-radius-s: var(--yc-my-border-radius-s);

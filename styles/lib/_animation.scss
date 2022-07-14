@@ -1,0 +1,4 @@
+// Helper function to globally control animation timings
+@function get-timing($s) {
+    @return calc($s * var(--yc-animation-multiply, 1));
+}

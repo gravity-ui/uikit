@@ -78,7 +78,27 @@ export const parameters = {
     },
 };
 
-const animationSpeed = [0.1, 0.2, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+const animationSpeed = [
+    0.1, 0.2, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2,
+    // Special value to make speed so fast that it could not be recognized
+    10000,
+];
+
+/**
+ * @param {number} speed
+ * @returns {string}
+ */
+function getAnimationSpeedTitle(speed) {
+    if (speed === 1) {
+        return 'normal';
+    }
+
+    if (speed === 10000) {
+        return 'disabled';
+    }
+
+    return `x${speed}`;
+}
 
 export const globalTypes = {
     theme: {
@@ -121,7 +141,7 @@ export const globalTypes = {
             icon: 'watch',
             items: animationSpeed.map((speed) => ({
                 value: speed,
-                title: speed === 1 ? 'normal' : `x${speed}`,
+                title: getAnimationSpeedTitle(speed),
             })),
         },
     },

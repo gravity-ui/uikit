@@ -1,3 +1,4 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}modal';
@@ -41,7 +42,7 @@ $block: '.#{$ns}modal';
 
     &,
     &__content {
-        animation-duration: 200ms;
+        animation-duration: animation.get-timing(200ms);
         animation-timing-function: ease-out;
         outline: none;
     }
@@ -57,11 +58,11 @@ $block: '.#{$ns}modal';
 
         &#{$block}_open {
             animation-name: #{$ns}modal-open;
-            animation-duration: 150ms;
+            animation-duration: animation.get-timing(150ms);
         }
         &#{$block}_open #{$block}__content {
             animation-name: #{$ns}modal-content-open;
-            animation-duration: 150ms;
+            animation-duration: animation.get-timing(150ms);
         }
     }
 }

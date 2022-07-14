@@ -1,10 +1,11 @@
+@use '../../../styles/lib/animation';
 @import '../variables';
 
 $block: '.#{$ns}loader';
 
 $pulse-duration: 800ms;
 $pulse-delay: $pulse-duration * 0.25;
-$animation: #{$ns}pulse ease $pulse-duration infinite;
+$animation: #{$ns}pulse ease animation.get-timing($pulse-duration) infinite;
 
 $base-height-s: 20px;
 $base-height-m: 28px;

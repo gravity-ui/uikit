@@ -33,5 +33,5 @@ const breadcrumbs = [
   },
 ];
 
-return <Breadcrumbs items={items} />;
+return <Breadcrumbs items={items} lastDisplayedItemsCount={LastDisplayedItemsCount.One} firstDisplayedItemsCount={FirstDisplayedItemsCount.One} />;
 ```

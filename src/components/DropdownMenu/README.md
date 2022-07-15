@@ -4,24 +4,24 @@ Dropdown menu with adjustable toggle (button with horizontal ellipsis by default
 
 ### PropTypes
 
-| Property                 | Type                         | Required | Default | Description                                                                     |
-| :----------------------- | :--------------------------- | :------: | :------ | :------------------------------------------------------------------------------ |
-| [items](#items)          | `DropdownMenuItem[]`         |          | []      | Menu items                                                                      |
-| data                     | `T`                          |          |         | Menu context                                                                    |
-| icon                     | `JSX node`                   |          |         | `<Icon/>` component that overrides default icon of `switcher`.                  |
-| size                     | `DropdownMenuSize`           |          |         | Size used for switcher and menu                                                 |
-| disabled                 | `Boolean`                    |          |         | `switcher` disabled state.                                                      |
-| switcher                 | `JSX node`                   |          |         | `switcher` component.                                                           |
-| switcherWrapperClassName | `string`                     |          |         | Default className for parent of the `switcher`                                  |
-| defaultSwitcherProps     | `ButtonProps`                |          |         | `switcher` props, when default component used (except `disabled` и `className`) |
-| defaultSwitcherClassName | `string`                     |          |         | Class name for default `switcher`                                               |
-| menuProps                | `MenuProps`                  |          |         | Allows to override the properties of the dropdown Menu                          |
-| onMenuToggle             | `() => void`                 |          |         | Handler called when menu open or close.                                         |
-| onSwitcherClick          | `(React.MouseEvent) => void` |          |         | Handler for click on `switcher`                                                 |
-| hideOnScroll             | `Boolean`                    |          | true    | Hide menu on scroll on parent elements                                          |
-| popupPlacement           | `PopupPlacement`             |          |         | Allowed menu open placement                                                     |
-| popupClassName           | `String`                     |          |         | Menu class name                                                                 |
-| children                 | `JSX node`                   |          |         | Menu component override                                                         |
+| Property                 | Type                         | Required | Default | Description                                                                       |
+| :----------------------- | :--------------------------- | :------: | :------ | :-------------------------------------------------------------------------------- |
+| [items](#items)          | `DropdownMenuItem[]`         |          | []      | Menu items                                                                        |
+| data                     | `T`                          |          |         | Menu context                                                                      |
+| icon                     | `JSX node`                   |          |         | `<Icon/>` component that overrides default icon of `switcher`.                    |
+| size                     | `DropdownMenuSize`           |          |         | Size used for switcher and menu                                                   |
+| disabled                 | `Boolean`                    |          |         | `switcher` disabled state.                                                        |
+| switcher                 | `JSX node`                   |          |         | `switcher` component.                                                             |
+| switcherWrapperClassName | `string`                     |          |         | Default className for parent of the `switcher`                                    |
+| defaultSwitcherProps     | `ButtonProps`                |          |         | `switcher` props, when default component used (except `disabled` and `className`) |
+| defaultSwitcherClassName | `string`                     |          |         | Class name for default `switcher`                                                 |
+| menuProps                | `MenuProps`                  |          |         | Allows to override the properties of the dropdown Menu                            |
+| onMenuToggle             | `() => void`                 |          |         | Handler called when menu open or close.                                           |
+| onSwitcherClick          | `(React.MouseEvent) => void` |          |         | Handler for click on `switcher`                                                   |
+| hideOnScroll             | `Boolean`                    |          | true    | Hide menu on scroll on parent elements                                            |
+| popupPlacement           | `PopupPlacement`             |          |         | Allowed menu open placement                                                       |
+| popupClassName           | `String`                     |          |         | Menu class name                                                                   |
+| children                 | `JSX node`                   |          |         | Menu component override                                                           |
 
 ### Items
 

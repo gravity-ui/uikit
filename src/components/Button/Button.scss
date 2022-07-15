@@ -57,6 +57,14 @@ $block: '.#{$ns}button';
         background-color: var(--yc-button-background-color-hover);
     }
 
+    &:focus::before {
+        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+    }
+
+    &:focus:not(:focus-visible)::before {
+        box-shadow: none;
+    }
+
     &::after {
         content: '';
         position: absolute;
@@ -65,19 +73,17 @@ $block: '.#{$ns}button';
         left: 0;
         right: 0;
         bottom: 0;
-    }
-
-    &:focus::after {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
-    }
-
-    &:focus:not(:focus-visible)::after {
-        box-shadow: none;
+        transform: scale(1);
+        transition: none;
     }
 
     &:active {
         transition: none;
         transform: scale(0.96);
+    }
+
+    &:active::after {
+        transform: scale(1.042);
     }
 
     &_size {

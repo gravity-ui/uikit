@@ -133,7 +133,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
                 {...data}
                 isCurrent={isCurrent}
                 isPrevCurrent={isPrevCurrent}
-                renderItemContent={renderItemContent}
+                renderItem={renderItemContent}
             />
         );
     }
@@ -153,26 +153,14 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
             return null;
         }
 
-        if (renderRootContent) {
-            return isCurrent ? (
-                <div title={rootItem.text} className={b('item', {current: true})}>
-                    {renderRootContent(rootItem, isCurrent)}
-                </div>
-            ) : (
-                <Link
-                    key={rootItem.text}
-                    view="secondary"
-                    href={rootItem.href}
-                    title={rootItem.text}
-                    onClick={rootItem.action}
-                    className={b('item')}
-                >
-                    {renderRootContent(rootItem, isCurrent)}
-                </Link>
-            );
-        }
-
-        return this.renderItem(rootItem, isCurrent, false);
+        return (
+            <Item
+                {...rootItem}
+                isCurrent={isCurrent}
+                isPrevCurrent={false}
+                renderItem={renderRootContent}
+            />
+        );
     }
 
     renderVisibleItems() {

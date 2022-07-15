@@ -9,7 +9,8 @@ module.exports = {
     coverageDirectory: './coverage',
     collectCoverageFrom: [
         'src/**/*.{ts,tsx,js,jsx}',
-        '!**/__stories__/**',
+        '!src/demo/**/*',
+        '!**/__stories__/**/*',
         '!**/*/*.stories.{ts,tsx}',
     ],
     testEnvironment: 'jsdom',

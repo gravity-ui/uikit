@@ -5,6 +5,7 @@ import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
 import {Link} from '../Link';
 import {DropdownMenu} from '../DropdownMenu';
+import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
 
 import './Breadcrumbs.scss';
 
@@ -126,44 +127,13 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     renderItem(data: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) {
         const {renderItemContent} = this.props;
 
-        if (isPrevCurrent) {
-            return (
-                <Link
-                    key={data.text}
-                    view="secondary"
-                    href={data.href}
-                    title={data.text}
-                    onClick={data.action}
-                    className={b('item', {'prev-current': true})}
-                >
-                    {renderItemContent
-                        ? renderItemContent(data, isCurrent, isPrevCurrent)
-                        : data.text}
-                </Link>
-            );
-        }
-
-        if (isCurrent) {
-            return (
-                <div title={data.text} className={b('item', {current: true})}>
-                    {renderItemContent
-                        ? renderItemContent(data, isCurrent, isPrevCurrent)
-                        : data.text}
-                </div>
-            );
-        }
-
         return (
-            <Link
-                key={data.text}
-                view="secondary"
-                href={data.href}
-                title={data.text}
-                onClick={data.action}
-                className={b('item')}
-            >
-                {renderItemContent ? renderItemContent(data, isCurrent, isPrevCurrent) : data.text}
-            </Link>
+            <Item
+                {...data}
+                isCurrent={isCurrent}
+                isPrevCurrent={isPrevCurrent}
+                renderItemContent={renderItemContent}
+            />
         );
     }
 

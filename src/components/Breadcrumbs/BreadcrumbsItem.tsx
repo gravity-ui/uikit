@@ -1,4 +1,3 @@
-import {memo} from 'react';
 import * as React from 'react';
 import {Link} from '../Link';
 import {block} from '../utils/cn';
@@ -12,7 +11,7 @@ interface Props extends IBreadcrumbsItem {
 
 const b = block('breadcrumbs');
 
-export const BreadcrumbsItem = memo(function BreadcrumbsItem({
+export const BreadcrumbsItem = React.memo(function BreadcrumbsItem({
     isCurrent,
     isPrevCurrent,
     text,

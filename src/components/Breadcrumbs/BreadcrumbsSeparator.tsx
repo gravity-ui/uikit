@@ -9,9 +9,9 @@ const b = block('breadcrumbs');
 
 export const BreadcrumbsSeparator = memo(function BreadcrumbsSeparator({renderItemDivider}: Props) {
     return renderItemDivider ? (
-        <div className={b('divider')}>{renderItemDivider()}</div>
+        <div aria-hidden={true} className={b('divider')}>{renderItemDivider()}</div>
     ) : (
-        <span className={b('divider')}>/</span>
+        <span aria-hidden={true} className={b('divider')}>/</span>
     );
 });
 

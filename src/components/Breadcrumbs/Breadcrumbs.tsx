@@ -144,7 +144,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     }
 
     renderRootItem() {
-        const {renderRootContent} = this.props;
+        const {renderRootContent, renderItemContent} = this.props;
         const {rootItem, visibleItems} = this.state;
         const isCurrent = visibleItems.length === 0;
 
@@ -157,7 +157,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
                 {...rootItem}
                 isCurrent={isCurrent}
                 isPrevCurrent={false}
-                renderItem={renderRootContent}
+                renderItem={renderRootContent || renderItemContent}
             />
         );
     }

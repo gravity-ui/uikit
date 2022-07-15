@@ -4,6 +4,7 @@ import {Link} from '../Link';
 import {block} from '../utils/cn';
 import {BreadcrumbsProps} from './Breadcrumbs';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
+import i18n from './i18n';
 
 interface Props
     extends Pick<
@@ -14,7 +15,7 @@ interface Props
 const b = block('breadcrumbs');
 
 const switcher = (
-    <Link view="secondary" title="Show more" className={b('item', {more: true})}>
+    <Link view="secondary" title={i18n('label_more')} className={b('item', {more: true})}>
         ...
     </Link>
 );

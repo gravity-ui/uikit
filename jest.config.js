@@ -3,8 +3,9 @@ module.exports = {
     moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
     rootDir: '.',
     transform: {
-        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.[jt]sx?$': 'ts-jest',
     },
+    transformIgnorePatterns: ['node_modules/(?!(@yandex-cloud)/)'],
     coverageDirectory: './coverage',
     collectCoverageFrom: [
         'src/**/*.{ts,tsx,js,jsx}',

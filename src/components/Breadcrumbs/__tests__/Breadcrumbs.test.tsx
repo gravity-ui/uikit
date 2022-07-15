@@ -78,3 +78,16 @@ test('should render links', () => {
     expect(screen.queryByRole('link', {name: 'Street'})).not.toBeInTheDocument();
     expect(screen.getByText('Street')).toBeInTheDocument();
 });
+
+test('should allow to override separator', () => {
+    render(
+        <Breadcrumbs
+            items={items}
+            lastDisplayedItemsCount={1}
+            firstDisplayedItemsCount={0}
+            renderItemDivider={() => '•'}
+        />,
+    );
+
+    expect(screen.getAllByText('•')).toHaveLength(items.length);
+});

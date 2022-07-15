@@ -6,6 +6,7 @@ import {PopupPlacement} from '../Popup';
 import {Link} from '../Link';
 import {DropdownMenu} from '../DropdownMenu';
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
+import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 
 import './Breadcrumbs.scss';
 
@@ -140,11 +141,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     renderItemDivider() {
         const {renderItemDivider} = this.props;
 
-        return renderItemDivider ? (
-            <div className={b('divider')}>{renderItemDivider()}</div>
-        ) : (
-            <span className={b('divider')}>/</span>
-        );
+        return <BreadcrumbsSeparator renderItemDivider={renderItemDivider} />;
     }
 
     renderRootItem() {

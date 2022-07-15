@@ -3,10 +3,9 @@ import _throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
-import {Link} from '../Link';
-import {DropdownMenu} from '../DropdownMenu';
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
+import {BreadcrumbsMore} from './BreadcrumbsMore';
 
 import './Breadcrumbs.scss';
 
@@ -183,31 +182,13 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
         const {popupStyle, popupPlacement} = this.props;
         const {hiddenItems} = this.state;
 
-        if (hiddenItems.length > 0) {
-            return (
-                <React.Fragment>
-                    {this.renderItemDivider()}
-                    <DropdownMenu
-                        items={hiddenItems}
-                        popupClassName={b('popup', {
-                            staircase: popupStyle === 'staircase',
-                        })}
-                        popupPlacement={popupPlacement}
-                        switcher={
-                            <Link
-                                view="secondary"
-                                title="Show more"
-                                className={b('item', {more: true})}
-                            >
-                                ...
-                            </Link>
-                        }
-                    />
-                </React.Fragment>
-            );
-        }
-
-        return null;
+        return (
+            <BreadcrumbsMore
+                items={hiddenItems}
+                popupPlacement={popupPlacement}
+                popupStyle={popupStyle}
+            />
+        );
     }
 
     private recalculate() {

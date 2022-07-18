@@ -3,8 +3,9 @@ import _throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
-import {Link} from '../Link';
-import {DropdownMenu} from '../DropdownMenu';
+import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
+import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
+import {BreadcrumbsMore} from './BreadcrumbsMore';
 
 import './Breadcrumbs.scss';
 
@@ -126,59 +127,24 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     renderItem(data: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) {
         const {renderItemContent} = this.props;
 
-        if (isPrevCurrent) {
-            return (
-                <Link
-                    key={data.text}
-                    view="secondary"
-                    href={data.href}
-                    title={data.text}
-                    onClick={data.action}
-                    className={b('item', {'prev-current': true})}
-                >
-                    {renderItemContent
-                        ? renderItemContent(data, isCurrent, isPrevCurrent)
-                        : data.text}
-                </Link>
-            );
-        }
-
-        if (isCurrent) {
-            return (
-                <div title={data.text} className={b('item', {current: true})}>
-                    {renderItemContent
-                        ? renderItemContent(data, isCurrent, isPrevCurrent)
-                        : data.text}
-                </div>
-            );
-        }
-
         return (
-            <Link
-                key={data.text}
-                view="secondary"
-                href={data.href}
-                title={data.text}
-                onClick={data.action}
-                className={b('item')}
-            >
-                {renderItemContent ? renderItemContent(data, isCurrent, isPrevCurrent) : data.text}
-            </Link>
+            <Item
+                {...data}
+                isCurrent={isCurrent}
+                isPrevCurrent={isPrevCurrent}
+                renderItem={renderItemContent}
+            />
         );
     }
 
     renderItemDivider() {
         const {renderItemDivider} = this.props;
 
-        return renderItemDivider ? (
-            <div className={b('divider')}>{renderItemDivider()}</div>
-        ) : (
-            <span className={b('divider')}>/</span>
-        );
+        return <BreadcrumbsSeparator renderItemDivider={renderItemDivider} />;
     }
 
     renderRootItem() {
-        const {renderRootContent} = this.props;
+        const {renderRootContent, renderItemContent} = this.props;
         const {rootItem, visibleItems} = this.state;
         const isCurrent = visibleItems.length === 0;
 
@@ -186,26 +152,14 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
             return null;
         }
 
-        if (renderRootContent) {
-            return isCurrent ? (
-                <div title={rootItem.text} className={b('item', {current: true})}>
-                    {renderRootContent(rootItem, isCurrent)}
-                </div>
-            ) : (
-                <Link
-                    key={rootItem.text}
-                    view="secondary"
-                    href={rootItem.href}
-                    title={rootItem.text}
-                    onClick={rootItem.action}
-                    className={b('item')}
-                >
-                    {renderRootContent(rootItem, isCurrent)}
-                </Link>
-            );
-        }
-
-        return this.renderItem(rootItem, isCurrent, false);
+        return (
+            <Item
+                {...rootItem}
+                isCurrent={isCurrent}
+                isPrevCurrent={false}
+                renderItem={renderRootContent || renderItemContent}
+            />
+        );
     }
 
     renderVisibleItems() {
@@ -228,31 +182,13 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
         const {popupStyle, popupPlacement} = this.props;
         const {hiddenItems} = this.state;
 
-        if (hiddenItems.length > 0) {
-            return (
-                <React.Fragment>
-                    {this.renderItemDivider()}
-                    <DropdownMenu
-                        items={hiddenItems}
-                        popupClassName={b('popup', {
-                            staircase: popupStyle === 'staircase',
-                        })}
-                        popupPlacement={popupPlacement}
-                        switcher={
-                            <Link
-                                view="secondary"
-                                title="Show more"
-                                className={b('item', {more: true})}
-                            >
-                                ...
-                            </Link>
-                        }
-                    />
-                </React.Fragment>
-            );
-        }
-
-        return null;
+        return (
+            <BreadcrumbsMore
+                items={hiddenItems}
+                popupPlacement={popupPlacement}
+                popupStyle={popupStyle}
+            />
+        );
     }
 
     private recalculate() {

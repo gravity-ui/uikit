@@ -39,9 +39,11 @@ describe('Checkbox', () => {
     test('render with indeterminate icon', () => {
         render(<Checkbox indeterminate={true} qa={qaId} />);
         const component = screen.getByTestId(qaId);
+        const checkbox = screen.getByRole('checkbox');
 
         // eslint-disable-next-line testing-library/no-node-access
-        expect(component.querySelector('svg path')?.getAttribute('d')).toEqual('M4 7h9v3H4z');
+        expect(component.querySelector('svg path')?.getAttribute('d')).toBe('M4 7h9v3H4z');
+        expect(checkbox).toBePartiallyChecked();
     });
 
     test('set given title to label', () => {
@@ -57,7 +59,7 @@ describe('Checkbox', () => {
         const content = 'Some content';
 
         render(<Checkbox content={content} />);
-        const text = screen.getByText(content);
+        const text = screen.getByLabelText(content);
 
         expect(text).toBeVisible();
     });
@@ -70,7 +72,7 @@ describe('Checkbox', () => {
                 <span>{childrenText}</span>
             </Checkbox>,
         );
-        const text = screen.getByText(childrenText);
+        const text = screen.getByLabelText(childrenText);
 
         expect(text).toBeVisible();
     });
@@ -133,7 +135,7 @@ describe('Checkbox', () => {
         render(<Checkbox ref={ref} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(ref.current).toEqual(component);
+        expect(ref.current).toBe(component);
     });
 
     test('toggle checked attribute on click', async () => {
@@ -142,7 +144,7 @@ describe('Checkbox', () => {
 
         render(<Checkbox content={text} />);
         const checkbox = screen.getByRole('checkbox');
-        const caption = screen.getByText(text);
+        const caption = screen.getByLabelText(text);
 
         await user.click(caption);
         expect(checkbox).toBeChecked();

@@ -1,4 +1,5 @@
 import React from 'react';
+import {ButtonView} from '../Button';
 
 export type ToasterArgs = {
     // FIXME: BREAKING CHANGE. Remove in the next major
@@ -13,6 +14,7 @@ export type ToastType = 'info' | 'success' | 'warning' | 'error';
 export type ToastAction = {
     onClick: VoidFunction;
     label: string;
+    view?: ButtonView;
     removeAfterClick?: boolean;
 };
 

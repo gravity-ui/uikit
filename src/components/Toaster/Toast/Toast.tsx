@@ -132,7 +132,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
 
     return (
         <div className={b('actions')}>
-            {actions.map(({label, onClick, removeAfterClick = true}, index) => {
+            {actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
                 const onActionClick = () => {
                     onClick();
                     if (removeAfterClick) {
@@ -146,7 +146,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                         className={b('action')}
                         onClick={onActionClick}
                         type="button"
-                        view="outlined"
+                        view={view}
                     >
                         {label}
                     </Button>

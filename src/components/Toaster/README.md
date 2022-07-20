@@ -104,8 +104,9 @@ Accepts argument `toastOptions` with ongoing notification details:
 
 Every `action` is an object with following parameters:
 
-| Parameter        | Type         | Required | Default | Description                                            |
-| :--------------- | :----------- | :------- | :------ | :----------------------------------------------------- |
-| label            | `string`     | yes      |         | Action text description                                |
-| onClick          | `() => void` | yes      |         | On action click handler                                |
-| removeAfterClick | `boolean`    |          | `true`  | If notification should be closed after click on action |
+| Parameter        | Type                                      | Required | Default    | Description                                                 |
+| :--------------- | :---------------------------------------- | :------- | :--------- | :---------------------------------------------------------- |
+| label            | `string`                                  | yes      |            | Action text description                                     |
+| onClick          | `() => void`                              | yes      |            | On action click handler                                     |
+| view             | [`ButtonView`](../Button/README.md#props) |          | `outlined` | Appearance of the action, same to `view` of the `<Button/>` |
+| removeAfterClick | `boolean`                                 |          | `true`     | If notification should be closed after click on action      |

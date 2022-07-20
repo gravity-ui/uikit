@@ -56,7 +56,7 @@ describe('Checkbox', () => {
         const content = 'Some content';
 
         render(<Checkbox content={content} />);
-        const text = screen.getByLabelText(content);
+        const text = screen.getByText(content);
 
         expect(text).toBeVisible();
     });
@@ -69,7 +69,7 @@ describe('Checkbox', () => {
                 <span>{childrenText}</span>
             </Checkbox>,
         );
-        const text = screen.getByLabelText(childrenText);
+        const text = screen.getByText(childrenText);
 
         expect(text).toBeVisible();
     });
@@ -141,7 +141,7 @@ describe('Checkbox', () => {
 
         render(<Checkbox content={text} />);
         const checkbox = screen.getByRole('checkbox');
-        const caption = screen.getByLabelText(text);
+        const caption = screen.getByText(text);
 
         await user.click(caption);
         expect(checkbox).toBeChecked();

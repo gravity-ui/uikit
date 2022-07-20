@@ -26,6 +26,10 @@ jobs:
       run: npm run lint
     - name: Typecheck
       run: npm run typecheck
+    - name: Typecheck (React 18)
+      run: |
+        npm i --no-save @types/react@18 @types/react-dom@18
+        npm run typecheck
 
   tests:
     name: Tests

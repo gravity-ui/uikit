@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type ToasterArgs = {
     // FIXME: BREAKING CHANGE. Remove in the next major
     /** @deprecated  Will be deleted in te next major. Use className instead */

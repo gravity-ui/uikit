@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.9.0](https://github.com/yandex-cloud/uikit/compare/v2.8.0...v2.9.0) (2022-07-20)
+
+
+### Features
+
+* **Icon:** deprecate `onClick` ([#240](https://github.com/yandex-cloud/uikit/issues/240)) ([6936469](https://github.com/yandex-cloud/uikit/commit/6936469eab408896c6e4c783f71d29c877659026))
+* **Select:** add `type=button` for `<SelectControl/>` ([#227](https://github.com/yandex-cloud/uikit/issues/227)) ([47e0aeb](https://github.com/yandex-cloud/uikit/commit/47e0aeb3892787be5378569f21620a7cf411915a))
+* **Toaster:** move logic to React context ([#211](https://github.com/yandex-cloud/uikit/issues/211)) ([346cb95](https://github.com/yandex-cloud/uikit/commit/346cb95a3e6a5ae5cb941af42c5595d31ed3afc3))
+* **Toaster:** replace `<Link/>` in actions with `<Button/>` ([#254](https://github.com/yandex-cloud/uikit/issues/254)) ([f603711](https://github.com/yandex-cloud/uikit/commit/f6037112e7fb47ed7c85b7639f15169f1e0fd314))
+
+
+### Bug Fixes
+
+* correct target detection for shadow-dom ([#213](https://github.com/yandex-cloud/uikit/issues/213)) ([9a285be](https://github.com/yandex-cloud/uikit/commit/9a285be9599a8bacba9892b754e81e2d27768a2f))
+* **Popover:** add overflow-wrap ([#226](https://github.com/yandex-cloud/uikit/issues/226)) ([3bb01de](https://github.com/yandex-cloud/uikit/commit/3bb01de0ca18f81096cbfbbdafd152e6781cf6b4))
+* **Toast:** padding animation ([#234](https://github.com/yandex-cloud/uikit/issues/234)) ([8f9a750](https://github.com/yandex-cloud/uikit/commit/8f9a750eee5d65dc975132ac2b4dec6097cac756))
+* **Toast:** remove on close ([#218](https://github.com/yandex-cloud/uikit/issues/218)) ([fad37d8](https://github.com/yandex-cloud/uikit/commit/fad37d8e0790eb45c8dcc7ff681972475f9fd1e4))
+* **Toast:** return `height` transition ([#235](https://github.com/yandex-cloud/uikit/issues/235)) ([8887881](https://github.com/yandex-cloud/uikit/commit/8887881c068c6c169febd10aaa70a2fdc7fb49f8))
+
 ## [2.8.0](https://github.com/yandex-cloud/uikit/compare/v2.7.0...v2.8.0) (2022-06-24)
 
 

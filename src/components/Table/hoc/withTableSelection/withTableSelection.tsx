@@ -5,6 +5,7 @@ import _difference from 'lodash/difference';
 import _memoize from 'lodash/memoize';
 import _get from 'lodash/get';
 import {block} from '../../../utils/cn';
+import {getComponentName} from '../../../utils/getComponentName';
 import {Checkbox} from '../../../Checkbox';
 import {Table, TableDataItem, TableProps, TableColumnConfig} from '../../Table';
 import './withTableSelection.scss';
@@ -22,7 +23,7 @@ export interface WithTableSelectionProps<I> {
 export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableSelectionProps<I> & E> {
-    const componentName = TableComponent.displayName || TableComponent.name || 'Component';
+    const componentName = getComponentName(TableComponent);
     const displayName = `withTableSelection(${componentName})`;
 
     return class extends React.Component<TableProps<I> & WithTableSelectionProps<I> & E> {

@@ -3,7 +3,7 @@ import {block} from '../../utils/cn';
 import {Alarm, Info, Success} from '../../icons';
 import {ToasterComponent, ToastProps, useToaster} from '..';
 import {Icon} from '../../Icon';
-import {Button} from '../../Button';
+import {Button, ButtonView} from '../../Button';
 
 import './ToasterShowcase.scss';
 
@@ -33,6 +33,8 @@ interface Props {
     allowAutoHiding: boolean;
     setContent: boolean;
     setActions: boolean;
+    action1View: ButtonView;
+    action2View: ButtonView;
 }
 
 const customTimeout = 3000;
@@ -44,6 +46,8 @@ export const ToasterDemo = ({
     allowAutoHiding,
     setContent,
     setActions,
+    action1View,
+    action2View,
 }: Props) => {
     const toaster = useToaster();
     const [{lastToastName}, setState] = React.useState<ToasterDemoState>({
@@ -82,7 +86,12 @@ export const ToasterDemo = ({
             isClosable: showCloseIcon,
             timeout: setTimeout ? Number(customTimeout) : undefined,
             allowAutoHiding: allowAutoHiding,
-            actions: setActions ? ACTIONS : undefined,
+            actions: setActions
+                ? ACTIONS.map((action, index) => ({
+                      ...action,
+                      view: index === 0 ? action1View : action2View,
+                  }))
+                : undefined,
         };
     }
 

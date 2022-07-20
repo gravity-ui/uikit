@@ -1,8 +1,35 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {ButtonView} from '../../Button';
 import {Toast} from '../Toast/Toast';
 import {ToasterDemo} from './ToasterShowcase';
 import {ToasterProvider} from '../Provider/ToasterProvider';
+
+const views: ButtonView[] = [
+    'normal',
+    'action',
+    'outlined',
+    'outlined-info',
+    'outlined-danger',
+    'raised',
+    'flat',
+    'flat-info',
+    'flat-danger',
+    'flat-secondary',
+    'normal-contrast',
+    'outlined-contrast',
+    'flat-contrast',
+];
+
+function viewSelect(name: string) {
+    return {
+        name,
+        control: 'select',
+        defaultValue: 'outlined',
+        options: views,
+        if: {arg: 'setActions'},
+    };
+}
 
 const disabledControl = {
     table: {
@@ -39,6 +66,8 @@ export default {
         allowAutoHiding: booleanControl('Allow auto hiding', true),
         setContent: booleanControl('Add content'),
         setActions: booleanControl('Add action'),
+        action1View: viewSelect('Action 1 view'),
+        action2View: viewSelect('Action 2 view'),
     },
     decorators: [
         function withToasters(Story) {

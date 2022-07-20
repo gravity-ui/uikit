@@ -1,6 +1,7 @@
 import React from 'react';
 import _memoize from 'lodash/memoize';
 import {block} from '../../../utils/cn';
+import {getComponentName} from '../../../utils/getComponentName';
 import {ClipboardButton} from '../../../ClipboardButton';
 import {Table, TableDataItem, TableProps, TableColumnConfig} from '../../Table';
 
@@ -13,7 +14,7 @@ const b = block('table');
 export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & E & WithTableCopyProps> {
-    const componentName = TableComponent.displayName || TableComponent.name || 'Component';
+    const componentName = getComponentName(TableComponent);
     const displayName = `withTableCopy(${componentName})`;
 
     return class extends React.Component<TableProps<I> & E & WithTableCopyProps> {

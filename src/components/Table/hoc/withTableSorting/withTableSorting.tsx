@@ -2,6 +2,7 @@ import React from 'react';
 import _memoize from 'lodash/memoize';
 
 import {block} from '../../../utils/cn';
+import {getComponentName} from '../../../utils/getComponentName';
 import {Table, TableDataItem, TableProps, TableColumnConfig} from '../../Table';
 import {SortIndicator} from './SortIndicator/SortIndicator';
 
@@ -34,7 +35,7 @@ const b = block('table');
 export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableSortingProps & E> {
-    const componentName = TableComponent.displayName || TableComponent.name || 'Component';
+    const componentName = getComponentName(TableComponent);
     const displayName = `withTableSorting(${componentName})`;
 
     function defaultCompareFunction(itemA: I, itemB: I, columnId: string) {

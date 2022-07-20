@@ -1,6 +1,7 @@
 import React from 'react';
 import _memoize from 'lodash/memoize';
 import {block} from '../../../utils/cn';
+import {getComponentName} from '../../../utils/getComponentName';
 import {Icon} from '../../../Icon';
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
@@ -62,7 +63,7 @@ const BUTTON_CLASSNAME = b('actions-button');
 export function withTableActions<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableActionsProps<I> & E> {
-    const componentName = TableComponent.displayName || TableComponent.name || 'Component';
+    const componentName = getComponentName(TableComponent);
     const displayName = `withTableActions(${componentName})`;
 
     return class extends React.Component<

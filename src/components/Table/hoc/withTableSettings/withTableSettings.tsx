@@ -4,6 +4,7 @@ import _isString from 'lodash/isString';
 import _get from 'lodash/get';
 
 import {block} from '../../../utils/cn';
+import {getComponentName} from '../../../utils/getComponentName';
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
 import {Icon} from '../../../Icon';
 import {GearIcon} from '../../../icons/GearIcon';
@@ -122,7 +123,7 @@ const b = block('table');
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
     TableComponent: React.ComponentType<TableProps<I> & E>,
 ): React.ComponentType<TableProps<I> & WithTableSettingsProps & E> {
-    const componentName = TableComponent.displayName || TableComponent.name || 'Component';
+    const componentName = getComponentName(TableComponent);
 
     const TableWithSettings: React.FC<TableProps<I> & WithTableSettingsProps & E> = ({
         updateSettings,

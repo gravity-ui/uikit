@@ -3,7 +3,6 @@ import {block} from '../../utils/cn';
 import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
-import {Link} from '../../Link';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
 import type {ToastAction, ToastProps, ToastType} from '../types';
 
@@ -142,13 +141,15 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                 };
 
                 return (
-                    <Link
+                    <Button
                         key={`${label}__${index}`}
                         className={b('action')}
                         onClick={onActionClick}
+                        type="button"
+                        view="outlined"
                     >
                         {label}
-                    </Link>
+                    </Button>
                 );
             })}
         </div>

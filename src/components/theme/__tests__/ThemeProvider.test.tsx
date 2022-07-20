@@ -1,13 +1,13 @@
 import {render, screen} from '@testing-library/react';
-import React, {useContext} from 'react';
+import React from 'react';
 import {mockMatchMedia} from '../../../../test-utils/mocks/mockMatchMedia';
-import {ThemeContext} from '../ThemeContext';
 import {ThemeProvider} from '../ThemeProvider';
-import {ThemeValueContext} from '../ThemeValueContext';
+import {useTheme} from '../useTheme';
+import {useThemeValue} from '../useThemeValue';
 
 function ThemeDisplay() {
-    const {theme} = useContext(ThemeContext);
-    const {themeValue} = useContext(ThemeValueContext);
+    const [theme] = useTheme();
+    const themeValue = useThemeValue();
 
     return (
         <>

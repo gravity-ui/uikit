@@ -36,13 +36,10 @@ describe('Checkbox', () => {
         expect(checkbox).not.toBeDisabled();
     });
 
-    test('render with indeterminate icon', () => {
-        render(<Checkbox indeterminate={true} qa={qaId} />);
-        const component = screen.getByTestId(qaId);
+    test('render with indeterminate', () => {
+        render(<Checkbox indeterminate={true} />);
         const checkbox = screen.getByRole('checkbox');
 
-        // eslint-disable-next-line testing-library/no-node-access
-        expect(component.querySelector('svg path')?.getAttribute('d')).toBe('M4 7h9v3H4z');
         expect(checkbox).toBePartiallyChecked();
     });
 

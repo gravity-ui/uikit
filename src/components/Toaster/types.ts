@@ -1,3 +1,6 @@
+import React from 'react';
+import {ButtonView} from '../Button';
+
 export type ToasterArgs = {
     // FIXME: BREAKING CHANGE. Remove in the next major
     /** @deprecated  Will be deleted in te next major. Use className instead */
@@ -11,6 +14,7 @@ export type ToastType = 'info' | 'success' | 'warning' | 'error';
 export type ToastAction = {
     onClick: VoidFunction;
     label: string;
+    view?: ButtonView;
     removeAfterClick?: boolean;
 };
 

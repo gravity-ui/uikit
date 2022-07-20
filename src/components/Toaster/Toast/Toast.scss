@@ -159,8 +159,7 @@ $block: '.#{$ns}toast';
         padding-right: 28px;
     }
 
-    &__title,
-    &__action {
+    &__title {
         line-height: 24px;
     }
 
@@ -172,7 +171,6 @@ $block: '.#{$ns}toast';
 
     &__action {
         margin-right: 8px;
-        color: var(--yc-color-text-link);
     }
 
     & &__btn-close {

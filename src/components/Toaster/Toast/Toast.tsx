@@ -3,7 +3,6 @@ import {block} from '../../utils/cn';
 import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
-import {Link} from '../../Link';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
 import type {ToastAction, ToastProps, ToastType} from '../types';
 
@@ -133,7 +132,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
 
     return (
         <div className={b('actions')}>
-            {actions.map(({label, onClick, removeAfterClick = true}, index) => {
+            {actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
                 const onActionClick = () => {
                     onClick();
                     if (removeAfterClick) {
@@ -142,13 +141,15 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                 };
 
                 return (
-                    <Link
+                    <Button
                         key={`${label}__${index}`}
                         className={b('action')}
                         onClick={onActionClick}
+                        type="button"
+                        view={view}
                     >
                         {label}
-                    </Link>
+                    </Button>
                 );
             })}
         </div>

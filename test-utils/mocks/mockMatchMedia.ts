@@ -1,7 +1,7 @@
 import {act} from '@testing-library/react';
 
 export function mockMatchMedia(matches = false) {
-    const ogMatchMedia = window.matchMedia;
+    const initialMatchMedia = window.matchMedia;
     const addEventListener = jest.fn().mockName('matchMedia#addEventListener');
     const removeEventListener = jest.fn().mockName('matchMedia#removeEventListener');
     let currentMatches = matches;
@@ -27,7 +27,7 @@ export function mockMatchMedia(matches = false) {
         },
 
         uninstall() {
-            window.matchMedia = ogMatchMedia;
+            window.matchMedia = initialMatchMedia;
         },
     };
 }

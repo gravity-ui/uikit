@@ -56,6 +56,8 @@ test('should keep selected theme when system theme changes', async () => {
         </ThemeProvider>,
     );
 
+    screen.getByText('Theme: light, theme value: light');
+
     mock.changeMedia(true);
 
     const el = await screen.findByText('Theme: light, theme value: light');

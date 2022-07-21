@@ -39,4 +39,20 @@ $block: '.#{$ns}link';
             color: var(--yc-color-text-link-hover);
         }
     }
+
+    &_view_normal-visitable {
+        color: var(--yc-color-text-link);
+
+        &:visited {
+            color: var(--yc-color-text-link-visited);
+        }
+
+        &:hover {
+            color: var(--yc-color-text-link-hover);
+        }
+
+        &:visited:hover {
+            color: var(--yc-color-text-link-visited-hover);
+        }
+    }
 }

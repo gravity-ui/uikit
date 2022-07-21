@@ -75,6 +75,16 @@ const specials = [
         description: 'Hover for Link.',
     },
     {
+        name: 'text-link-visited',
+        title: 'Link Visited',
+        description: 'Visited Link.',
+    },
+    {
+        name: 'text-link-visited-hover',
+        title: 'Link Visited Hover',
+        description: 'Hover for Visited Link.',
+    },
+    {
         name: 'text-yandex-red',
         title: 'Yandex Red',
         description: "Username's first letter.",

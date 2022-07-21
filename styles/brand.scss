@@ -16,6 +16,8 @@
     --yc-my-color-brand-link: var(--yc-my-color-brand-normal);
     --yc-my-color-brand-link-hover: var(--yc-color-private-blue-800);
     --yc-my-color-brand-text-contrast: var(--yc-color-text-light-primary);
+    --yc-my-color-brand-link-visited: var(--yc-color-private-purple-550);
+    --yc-my-color-brand-link-visited-hover: var(--yc-color-private-purple-800);
 }
 
 @mixin yc-colors-brand-dark {
@@ -27,4 +29,6 @@
     --yc-my-color-brand-link: var(--yc-color-private-blue-700);
     --yc-my-color-brand-link-hover: var(--yc-color-private-blue-850);
     --yc-my-color-brand-text-contrast: var(--yc-color-text-light-primary);
+    --yc-my-color-brand-link-visited: var(--yc-color-private-purple-700);
+    --yc-my-color-brand-link-visited-hover: var(--yc-color-private-purple-850);
 }

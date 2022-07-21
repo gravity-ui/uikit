@@ -19,6 +19,8 @@ export const TEXT_COLORS = [
     'special',
     'link',
     'link-hover',
+    'link-visited',
+    'link-visited-hover',
     'yandex-red',
     'dark-primary',
     'dark-complementary',

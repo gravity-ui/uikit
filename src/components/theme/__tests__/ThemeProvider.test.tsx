@@ -29,7 +29,7 @@ test('should set "system" theme by default', () => {
         </ThemeProvider>,
     );
 
-    expect(screen.getByText('Theme: system, theme value: light')).toBeInTheDocument();
+    screen.getByText('Theme: system, theme value: light');
 });
 
 test('should change theme value on system theme change', async () => {

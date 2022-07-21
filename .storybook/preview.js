@@ -78,11 +78,7 @@ export const parameters = {
     },
 };
 
-const animationSpeed = [
-    0.1, 0.2, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2,
-    // Special value to make speed so fast that it could not be recognized
-    10000,
-];
+const animationSpeed = [0.1, 0.2, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, Infinity];
 
 /**
  * @param {number} speed
@@ -93,7 +89,7 @@ function getAnimationSpeedTitle(speed) {
         return 'normal';
     }
 
-    if (speed === 10000) {
+    if (speed === Infinity) {
         return 'disabled';
     }
 

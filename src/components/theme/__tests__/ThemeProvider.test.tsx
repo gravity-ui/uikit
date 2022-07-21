@@ -16,9 +16,13 @@ function ThemeDisplay() {
     );
 }
 
-test('should set "system" theme by default', () => {
-    const mock = mockMatchMedia();
+let mock: ReturnType<typeof mockMatchMedia>;
+beforeEach(() => {
+    mock = mockMatchMedia();
+});
+afterEach(() => mock.uninstall());
 
+test('should set "system" theme by default', () => {
     render(
         <ThemeProvider>
             <ThemeDisplay />
@@ -26,13 +30,9 @@ test('should set "system" theme by default', () => {
     );
 
     expect(screen.getByText('Theme: system, theme value: light')).toBeInTheDocument();
-
-    mock.uninstall();
 });
 
 test('should change theme value on system theme change', async () => {
-    const mock = mockMatchMedia();
-
     render(
         <ThemeProvider>
             <ThemeDisplay />
@@ -43,13 +43,9 @@ test('should change theme value on system theme change', async () => {
 
     const el = await screen.findByText('Theme: system, theme value: dark');
     expect(el).toBeInTheDocument();
-
-    mock.uninstall();
 });
 
 test('should keep selected theme when system theme changes', async () => {
-    const mock = mockMatchMedia();
-
     render(
         <ThemeProvider theme="light">
             <ThemeDisplay />
@@ -62,6 +58,4 @@ test('should keep selected theme when system theme changes', async () => {
 
     const el = await screen.findByText('Theme: light, theme value: light');
     expect(el).toBeInTheDocument();
-
-    mock.uninstall();
 });

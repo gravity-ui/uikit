@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.0](https://github.com/yandex-cloud/uikit/compare/v2.9.0...v2.10.0) (2022-07-21)
+
+
+### Features
+
+* **Link:** add color scheme for a visited link ([#243](https://github.com/yandex-cloud/uikit/issues/243)) ([857e434](https://github.com/yandex-cloud/uikit/commit/857e434b4cd619992a900156ebcfd39d5668a187))
+
 ## [2.9.0](https://github.com/yandex-cloud/uikit/compare/v2.8.0...v2.9.0) (2022-07-20)
 
 

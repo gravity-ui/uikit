@@ -194,7 +194,9 @@ $block: '.#{$ns}button';
                 --yc-button-background-color: var(--yc-color-base-selection);
                 --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
 
-                @include button-text-color(var(--yc-color-text-special));
+                @include button-text-color(
+                    var(--yc-my-color-brand-text, var(--yc-color-text-special))
+                );
             }
         }
 

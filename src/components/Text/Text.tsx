@@ -45,11 +45,15 @@ export const Text: React.FC<TextProps> = ({
     className,
     ellipsis,
     color,
+    weight,
     ...rest
 }) => {
     return (
         <Tag
-            className={text({variant, ellipsis}, color ? colorText({color}, className) : className)}
+            className={text(
+                {variant, ellipsis, weight},
+                color ? colorText({color}, className) : className,
+            )}
             {...rest}
         >
             {children}

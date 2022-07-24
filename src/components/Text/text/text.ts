@@ -28,6 +28,15 @@ export const TEXT_VARIANTS = [
     'code-inline-1',
 ] as const;
 
+const TEXT_FONT_WEIGHT_VARIANTS = [
+    'bold',
+    'normal',
+    'lighter',
+    'bolder',
+    'inherit',
+    'unset',
+] as const;
+
 export interface TextBaseProps {
     /**
      * Storybook: https://preview.yandexcloud.dev/uikit/?path=/story/typography--common
@@ -62,7 +71,10 @@ export interface TextBaseProps {
      *      - inline-3: font-size: 16px; line-height: 20px; font-weight: 400; font-family: var(--yc-font-family-monospace);
      */
     variant?: typeof TEXT_VARIANTS[number];
-
+    /**
+     * Ability to override "font-weight" css property
+     */
+    weight?: typeof TEXT_FONT_WEIGHT_VARIANTS[number];
     /**
      * hidden overflow content will be displayed with ellipsis `…`
      *
@@ -84,5 +96,5 @@ export interface TextBaseProps {
  * text({variant: 'display-1'}, 'some-class')`
  *```
  */
-export const text = ({variant = 'body-1', ellipsis}: TextBaseProps, className?: string) =>
-    b({variant, ellipsis}, className);
+export const text = ({variant = 'body-1', weight, ellipsis}: TextBaseProps, className?: string) =>
+    b({variant, ellipsis, weight}, className);

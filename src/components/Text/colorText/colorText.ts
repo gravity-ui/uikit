@@ -12,7 +12,7 @@ export const TEXT_COLORS = [
     'info',
     'positive',
     'warning-medium',
-    'warningheavy',
+    'warning-heavy',
     'danger',
     'utility',
     'misc',

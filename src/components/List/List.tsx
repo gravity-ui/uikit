@@ -74,10 +74,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
 
-    componentWillUnmount() {
-        this.blurTimer = null;
-    }
-
     componentDidUpdate(prevProps: ListProps<T>) {
         if (this.props.items !== prevProps.items) {
             const filter = this.getFilter();
@@ -93,6 +89,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         if (this.props.activeItemIndex !== prevProps.activeItemIndex) {
             this.activateItem(this.props.activeItemIndex);
         }
+    }
+
+    componentWillUnmount() {
+        this.blurTimer = null;
     }
 
     render() {

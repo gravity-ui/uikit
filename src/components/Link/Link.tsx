@@ -57,9 +57,7 @@ const PureLink = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, LinkProps
     };
 
     if (typeof href === 'string') {
-        if (target === '_blank' && !rel) {
-            rel = 'noopener noreferrer';
-        }
+        const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
         return (
             <a
@@ -68,7 +66,7 @@ const PureLink = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, LinkProps
                 ref={ref as React.Ref<HTMLAnchorElement>}
                 href={href}
                 target={target}
-                rel={rel}
+                rel={relProp}
             />
         );
     } else {

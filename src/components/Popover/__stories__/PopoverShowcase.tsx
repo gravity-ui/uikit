@@ -88,23 +88,6 @@ export class PopoverShowcase extends React.Component {
     private popoverRef = React.createRef<Popover>();
     private popoverAnchor = React.createRef<HTMLDivElement>();
 
-    toggleRefTooltip = () => {
-        const {refTooltipVisible} = this.state;
-        const instance = _.get(this.popoverRef, 'current');
-
-        if (instance) {
-            if (refTooltipVisible) {
-                this.setState({refTooltipVisible: false}, () => {
-                    instance.closeTooltip();
-                });
-            } else {
-                this.setState({refTooltipVisible: true}, () => {
-                    instance.openTooltip();
-                });
-            }
-        }
-    };
-
     render() {
         const props = {...getPopoverProps()};
 
@@ -154,4 +137,21 @@ export class PopoverShowcase extends React.Component {
             </div>
         );
     }
+
+    toggleRefTooltip = () => {
+        const {refTooltipVisible} = this.state;
+        const instance = _.get(this.popoverRef, 'current');
+
+        if (instance) {
+            if (refTooltipVisible) {
+                this.setState({refTooltipVisible: false}, () => {
+                    instance.closeTooltip();
+                });
+            } else {
+                this.setState({refTooltipVisible: true}, () => {
+                    instance.openTooltip();
+                });
+            }
+        }
+    };
 }

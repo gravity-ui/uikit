@@ -101,18 +101,6 @@ export class DialogShowcase extends React.Component {
 
     timeout: NodeJS.Timeout | undefined;
 
-    handleClose = () => this.setState({open: false, showError: false});
-
-    handleClickButtonApply = () => {
-        if (this.timeout) {
-            clearInterval(this.timeout);
-        }
-        this.setState({progress: true, showError: false});
-        this.timeout = setTimeout(() => {
-            this.setState({progress: false, showError: true});
-        }, 2000);
-    };
-
     render() {
         return (
             <div
@@ -181,4 +169,16 @@ export class DialogShowcase extends React.Component {
             </div>
         );
     }
+
+    handleClose = () => this.setState({open: false, showError: false});
+
+    handleClickButtonApply = () => {
+        if (this.timeout) {
+            clearInterval(this.timeout);
+        }
+        this.setState({progress: true, showError: false});
+        this.timeout = setTimeout(() => {
+            this.setState({progress: false, showError: true});
+        }, 2000);
+    };
 }

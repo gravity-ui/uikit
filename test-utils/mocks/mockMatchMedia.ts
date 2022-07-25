@@ -1,4 +1,5 @@
 import {act} from '@testing-library/react';
+import {forEachMockWhereArgs} from './forEachMockWhereArgs';
 
 export function mockMatchMedia() {
     const initialMatchMedia = window.matchMedia;
@@ -30,6 +31,9 @@ export function mockMatchMedia() {
         .mockName('matchMedia');
     window.matchMedia = matchMediaMock;
 
+    const forEachQuery = (mediaQueryString: string) =>
+        forEachMockWhereArgs(matchMediaMock, mediaQueryString);
+
     return {
         mockMatches(mediaQueryString: string, nextMatches: boolean) {
             currentMatches[mediaQueryString] = nextMatches;
@@ -38,25 +42,17 @@ export function mockMatchMedia() {
         changeMedia(mediaQueryString: string, nextMatches: boolean) {
             this.mockMatches(mediaQueryString, nextMatches);
 
-            matchMediaMock.mock.calls.forEach(([mediaQuery]) => {
-                matchMediaMock.mock.results.forEach((result) => {
-                    if (result.type !== 'return' || result.value.media !== mediaQuery) {
+            forEachQuery(mediaQueryString)(({addEventListener}) => {
+                addEventListener.mock.calls.forEach(([, handler]) => {
+                    if (typeof handler !== 'function') {
                         return;
                     }
 
-                    const {addEventListener} = result.value;
-
-                    addEventListener.mock.calls.forEach(([, handler]) => {
-                        if (typeof handler !== 'function') {
-                            return;
-                        }
-
-                        act(() => {
-                            handler({
-                                matches: currentMatches[mediaQueryString],
-                                media: mediaQueryString,
-                            } as MediaQueryListEvent);
-                        });
+                    act(() => {
+                        handler({
+                            matches: currentMatches[mediaQueryString],
+                            media: mediaQueryString,
+                        } as MediaQueryListEvent);
                     });
                 });
             });

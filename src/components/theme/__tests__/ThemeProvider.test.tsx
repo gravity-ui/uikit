@@ -39,7 +39,7 @@ test('should change theme value on system theme change', async () => {
         </ThemeProvider>,
     );
 
-    mock.changeMedia(true);
+    mock.changeMedia('(prefers-color-scheme: dark)', true);
 
     const el = await screen.findByText('Theme: system, theme value: dark');
     expect(el).toBeInTheDocument();
@@ -54,7 +54,7 @@ test('should keep selected theme when system theme changes', async () => {
 
     screen.getByText('Theme: light, theme value: light');
 
-    mock.changeMedia(true);
+    mock.changeMedia('(prefers-color-scheme: dark)', true);
 
     const el = await screen.findByText('Theme: light, theme value: light');
     expect(el).toBeInTheDocument();

@@ -106,6 +106,12 @@ export const TextInputShowcase: React.FC = () => {
                         hasClear
                         rows={4}
                     />
+                    <TextInput
+                        {...textAreaProps}
+                        placeholder="resize vertical"
+                        controlProps={{style: {resize: 'vertical'}}}
+                        rows={4}
+                    />
                 </div>
             </div>
         </div>

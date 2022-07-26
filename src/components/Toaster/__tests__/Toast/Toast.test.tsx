@@ -1,7 +1,8 @@
-import {act, fireEvent, render, screen} from '@testing-library/react';
+import {act, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 import {fireAnimationEndEvent} from '../fireAnimationEndEvent';
 import {Toast} from '../../Toast/Toast';
+import {getToast} from '../getToast';
 
 const timeout = 1000;
 function setup(removeCallback: VoidFunction) {
@@ -13,21 +14,6 @@ function setup(removeCallback: VoidFunction) {
             timeout={timeout}
         />,
     );
-}
-
-function getToast() {
-    const toastHeading = screen.getByRole('heading', {name: 'Test Toast'});
-    // TODO Improve toast a11y to correctly select it
-    // eslint-disable-next-line testing-library/no-node-access
-    const toast = toastHeading.parentNode?.parentNode;
-
-    if (!toast) {
-        throw new Error('Toast expected to be in document.');
-    }
-
-    fireAnimationEndEvent(toast, 'toast-display-end');
-
-    return toast;
 }
 
 function tick(el: Node | Window, ms: number) {

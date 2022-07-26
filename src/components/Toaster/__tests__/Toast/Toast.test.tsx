@@ -1,15 +1,7 @@
-import {act, createEvent, fireEvent, render, screen} from '@testing-library/react';
+import {act, fireEvent, render, screen} from '@testing-library/react';
 import React from 'react';
+import {fireAnimationEndEvent} from '../fireAnimationEndEvent';
 import {Toast} from '../../Toast/Toast';
-
-function fireAnimationEndEvent(el: Node | Window, animationName: string) {
-    const ev = createEvent.animationEnd(el, {animationName});
-    Object.assign(ev, {
-        animationName,
-    });
-
-    fireEvent(el, ev);
-}
 
 const timeout = 1000;
 function setup(removeCallback: VoidFunction) {

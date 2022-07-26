@@ -1,0 +1,54 @@
+@import '../../../variables';
+@import '../../../../../styles/mixins';
+
+$block: '.#{$ns}changelog-dialog-item';
+$metaWidth: 110px;
+
+#{$block} {
+    display: flex;
+
+    &__meta {
+        width: $metaWidth;
+    }
+
+    &__date {
+        line-height: 24px;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__label-new {
+        margin-top: 4px;
+    }
+
+    &__content {
+        flex: 1;
+        margin-left: 14px;
+    }
+
+    &__title {
+        font-size: 17px;
+        line-height: 24px;
+        font-weight: 500;
+    }
+
+    &__image {
+        margin-top: 12px;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    &__description {
+        margin-top: 12px;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 400;
+    }
+
+    &__story-button {
+        margin-top: 16px;
+    }
+
+    &__story-button-text {
+        margin-right: 4px;
+    }
+}

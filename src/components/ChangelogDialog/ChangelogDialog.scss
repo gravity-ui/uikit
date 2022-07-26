@@ -1,0 +1,34 @@
+@import '../variables';
+@import '../../../styles/mixins';
+
+$block: '.#{$ns}changelog-dialog';
+$width: 720px;
+$maxItemsHeight: 640px;
+
+#{$block} {
+    width: $width;
+
+    &__docks-link-icon {
+        margin-left: 4px;
+        vertical-align: middle;
+    }
+
+    &__items-container {
+        max-height: $maxItemsHeight;
+        overflow-y: auto;
+        margin-bottom: 20px;
+
+        #{$block}__item:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__item {
+        margin-bottom: 32px;
+    }
+
+    &__empty-placeholder {
+        color: var(--yc-color-text-secondary);
+        text-align: center;
+    }
+}

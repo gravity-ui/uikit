@@ -4,9 +4,9 @@ import {useToaster} from '../hooks/useToaster';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterPublicMethods} from '../types';
-import {getToast} from './getToast';
-import {tick} from './tick';
-import {fireAnimationEndEvent} from './fireAnimationEndEvent';
+import {getToast} from '../__mocks__/getToast';
+import {tick} from '../__mocks__/tick';
+import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
 
 function ToastAPI({onMount}: {onMount: (api: ToasterPublicMethods) => void}) {
     const toaster = useToaster();

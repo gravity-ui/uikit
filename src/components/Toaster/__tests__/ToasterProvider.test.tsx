@@ -161,34 +161,63 @@ it('should preserve toast on hover', function () {
     expect(toast).not.toBeInTheDocument();
 });
 
-it('should update toast', function () {
-    const providerAPI = setup();
+describe('api.update', () => {
+    it('should update toast', function () {
+        const providerAPI = setup();
 
-    act(() => {
-        providerAPI.add({
-            ...toastProps,
-            timeout: toastTimeout,
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                timeout: toastTimeout,
+            });
         });
+
+        const toast = getToast();
+
+        expect(screen.queryByText('Test Content of the toast')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', {name: 'Toast Button'})).not.toBeInTheDocument();
+
+        act(() => {
+            providerAPI.update(toastProps.name, {
+                content: 'Test Content of the toast',
+                actions: [
+                    {
+                        label: 'Toast Button',
+                        onClick() {},
+                    },
+                ],
+            });
+        });
+
+        expect(screen.getByText('Test Content of the toast')).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: 'Toast Button'})).toBeInTheDocument();
+        expect(toast).toBeInTheDocument();
     });
 
-    const toast = getToast();
+    it('should bypass update of unexisted toasts', function () {
+        const providerAPI = setup();
 
-    expect(screen.queryByText('Test Content of the toast')).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', {name: 'Toast Button'})).not.toBeInTheDocument();
-
-    act(() => {
-        providerAPI.update(toastProps.name, {
-            content: 'Test Content of the toast',
-            actions: [
-                {
-                    label: 'Toast Button',
-                    onClick() {},
-                },
-            ],
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                timeout: toastTimeout,
+            });
         });
-    });
 
-    expect(screen.getByText('Test Content of the toast')).toBeInTheDocument();
-    expect(screen.getByRole('button', {name: 'Toast Button'})).toBeInTheDocument();
-    expect(toast).toBeInTheDocument();
+        const toast = getToast();
+
+        act(() => {
+            providerAPI.update(`unexisted ${toastProps.name}`, {
+                content: 'Test Content of the toast',
+                actions: [
+                    {
+                        label: 'Toast Button',
+                        onClick() {},
+                    },
+                ],
+            });
+        });
+
+        expect(toast).toBeInTheDocument();
+    });
 });

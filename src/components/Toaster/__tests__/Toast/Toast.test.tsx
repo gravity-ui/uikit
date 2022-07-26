@@ -3,6 +3,7 @@ import React from 'react';
 import {fireAnimationEndEvent} from '../fireAnimationEndEvent';
 import {Toast} from '../../Toast/Toast';
 import {getToast} from '../getToast';
+import {tick} from '../tick';
 
 const timeout = 1000;
 function setup(removeCallback: VoidFunction) {
@@ -14,13 +15,6 @@ function setup(removeCallback: VoidFunction) {
             timeout={timeout}
         />,
     );
-}
-
-function tick(el: Node | Window, ms: number) {
-    act(() => {
-        jest.advanceTimersByTime(ms);
-    });
-    fireAnimationEndEvent(el, 'toast-hide-end');
 }
 
 beforeEach(() => jest.useFakeTimers());

@@ -1,4 +1,4 @@
-import {act, render, screen} from '@testing-library/react';
+import {act, fireEvent, render, screen} from '@testing-library/react';
 import React, {useEffect} from 'react';
 import {useToaster} from '../hooks/useToaster';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -99,5 +99,42 @@ it('should remove toast after timeout', function () {
 
     fireAnimationEndEvent(toast, 'toast-hide-end');
 
+    expect(toast).not.toBeInTheDocument();
+});
+
+it('should preserve toast on hover', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            timeout: toastTimeout,
+        });
+    });
+
+    const toast = getToast();
+
+    fireEvent.mouseOver(toast);
+
+    // Pretend that timeout long gone
+    tick(toast, toastTimeout * 2);
+
+    // But toast was not removed because we hover it
+    expect(toast).toBeInTheDocument();
+
+    fireEvent.mouseLeave(toast);
+    tick(toast, 0);
+
+    // After "unhovering" toast remain intact
+    expect(toast).toBeInTheDocument();
+
+    tick(toast, toastTimeout / 2);
+
+    // After some time toast is still here, because timeout is not gone yet
+    expect(toast).toBeInTheDocument();
+
+    tick(toast, toastTimeout / 2);
+
+    // Time is over, toast should be removed
     expect(toast).not.toBeInTheDocument();
 });

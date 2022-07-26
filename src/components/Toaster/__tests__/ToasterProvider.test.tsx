@@ -74,6 +74,28 @@ it('should override already added toast', async function () {
     expect(toast).toBeInTheDocument();
 });
 
+it('should remove toast via API', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            timeout: toastTimeout,
+        });
+    });
+
+    const toast = getToast();
+    expect(toast).toBeInTheDocument();
+
+    act(() => {
+        providerAPI.remove(toastProps.name);
+    });
+    tick(toast, 0);
+
+    // Immediately removed
+    expect(toast).not.toBeInTheDocument();
+});
+
 it('should remove toast after timeout', function () {
     const providerAPI = setup();
 

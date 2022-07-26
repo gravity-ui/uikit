@@ -48,30 +48,32 @@ const toastProps = {
 beforeEach(() => jest.useFakeTimers());
 afterEach(() => jest.useRealTimers());
 
-// We test that after adding toast the next add will remove
-// previous toast from DOM and add it again
-it('should override already added toast', async function () {
-    const providerAPI = setup();
+describe('api.add', () => {
+    // We test that after adding toast the next add will remove
+    // previous toast from DOM and add it again
+    it('should override already added toast', async function () {
+        const providerAPI = setup();
 
-    act(() => {
-        providerAPI.add(toastProps);
+        act(() => {
+            providerAPI.add(toastProps);
+        });
+
+        let toast = getToast();
+
+        expect(toast).toBeInTheDocument();
+
+        jest.advanceTimersByTime(1);
+
+        act(() => {
+            providerAPI.add(toastProps);
+        });
+
+        expect(toast).not.toBeInTheDocument();
+
+        toast = await screen.findByText('Test Toast');
+
+        expect(toast).toBeInTheDocument();
     });
-
-    let toast = getToast();
-
-    expect(toast).toBeInTheDocument();
-
-    jest.advanceTimersByTime(1);
-
-    act(() => {
-        providerAPI.add(toastProps);
-    });
-
-    expect(toast).not.toBeInTheDocument();
-
-    toast = await screen.findByText('Test Toast');
-
-    expect(toast).toBeInTheDocument();
 });
 
 describe('api.remove', () => {

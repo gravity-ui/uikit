@@ -160,3 +160,35 @@ it('should preserve toast on hover', function () {
     // Time is over, toast should be removed
     expect(toast).not.toBeInTheDocument();
 });
+
+it('should update toast', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            timeout: toastTimeout,
+        });
+    });
+
+    const toast = getToast();
+
+    expect(screen.queryByText('Test Content of the toast')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', {name: 'Toast Button'})).not.toBeInTheDocument();
+
+    act(() => {
+        providerAPI.update(toastProps.name, {
+            content: 'Test Content of the toast',
+            actions: [
+                {
+                    label: 'Toast Button',
+                    onClick() {},
+                },
+            ],
+        });
+    });
+
+    expect(screen.getByText('Test Content of the toast')).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: 'Toast Button'})).toBeInTheDocument();
+    expect(toast).toBeInTheDocument();
+});

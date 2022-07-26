@@ -225,3 +225,28 @@ describe('api.update', () => {
         expect(toast).toBeInTheDocument();
     });
 });
+
+describe('api.removeAll', () => {
+    it('should remove all toasts', function () {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add(toastProps);
+            providerAPI.add({
+                ...toastProps,
+                name: `${toastProps.name}2`,
+                title: `${toastProps.title}2`,
+            });
+        });
+
+        expect(screen.getByRole('heading', {name: 'Test Toast'})).toBeInTheDocument();
+        expect(screen.getByRole('heading', {name: 'Test Toast2'})).toBeInTheDocument();
+
+        act(() => {
+            providerAPI.removeAll();
+        });
+
+        expect(screen.queryByRole('heading', {name: 'Test Toast'})).not.toBeInTheDocument();
+        expect(screen.queryByRole('heading', {name: 'Test Toast2'})).not.toBeInTheDocument();
+    });
+});

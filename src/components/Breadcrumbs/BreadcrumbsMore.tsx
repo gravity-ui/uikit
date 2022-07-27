@@ -14,11 +14,13 @@ interface Props
 
 const b = block('breadcrumbs');
 
-const switcher = (
-    <Link view="secondary" title={i18n('label_more')} className={b('item', {more: true})}>
-        ...
-    </Link>
-);
+function Switcher() {
+    return (
+        <Link view="secondary" title={i18n('label_more')} className={b('item', {more: true})}>
+            ...
+        </Link>
+    );
+}
 
 export function BreadcrumbsMore({popupStyle, popupPlacement, items, renderItemDivider}: Props) {
     if (items.length === 0) {
@@ -34,7 +36,7 @@ export function BreadcrumbsMore({popupStyle, popupPlacement, items, renderItemDi
                     staircase: popupStyle === 'staircase',
                 })}
                 popupPlacement={popupPlacement}
-                switcher={switcher}
+                switcher={<Switcher />}
             />
         </React.Fragment>
     );

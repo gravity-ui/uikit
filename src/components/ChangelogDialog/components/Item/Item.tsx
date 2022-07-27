@@ -21,7 +21,7 @@ export interface ItemProps {
 
 export function Item({className, data, onStoryClick}: ItemProps) {
     return (
-        <div className={b(null, className)}>
+        <article className={b(null, className)}>
             <div className={b('meta')}>
                 <div className={b('date')}>{data.date}</div>
                 {data.isNew ? (
@@ -31,9 +31,7 @@ export function Item({className, data, onStoryClick}: ItemProps) {
                 ) : null}
             </div>
             <div className={b('content')}>
-                <div className={b('title')}>
-                    {data.title ?? `${i18n('label_version')}: ${data.version}`}
-                </div>
+                <h3 className={b('title')}>{data.title}</h3>
                 {data.image && data.image.src && data.image.ratio ? (
                     <Picture className={b('image')} src={data.image.src} ratio={data.image.ratio} />
                 ) : null}
@@ -55,6 +53,6 @@ export function Item({className, data, onStoryClick}: ItemProps) {
                     </Button>
                 ) : null}
             </div>
-        </div>
+        </article>
     );
 }

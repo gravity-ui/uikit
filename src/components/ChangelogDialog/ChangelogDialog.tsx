@@ -16,7 +16,7 @@ const b = block('changelog-dialog');
 export interface ChangelogDialogProps {
     open: boolean;
     title?: string;
-    docsLink?: string;
+    fullListLink?: string;
     items: ChangelogItem[];
     disableBodyScrollLock?: boolean;
     disableOutsideClick?: boolean;
@@ -27,7 +27,7 @@ export interface ChangelogDialogProps {
 export function ChangelogDialog({
     open,
     title = i18n('title'),
-    docsLink,
+    fullListLink,
     items,
     disableBodyScrollLock = true,
     disableOutsideClick,
@@ -50,11 +50,11 @@ export function ChangelogDialog({
             disableOutsideClick={disableOutsideClick}
         >
             <Dialog.Header caption={title} />
-            {docsLink ? (
+            {fullListLink ? (
                 <Dialog.Body>
-                    <Link href={docsLink} target="_blank">
-                        <span>{i18n('link_docs')}</span>
-                        <span className={b('docks-link-icon')}>
+                    <Link href={fullListLink} target="_blank">
+                        <span>{i18n('link_full_list')}</span>
+                        <span className={b('full-list-link-icon')}>
                             <Icon data={ExternalLinkIcon} size={14} />
                         </span>
                     </Link>
@@ -63,9 +63,9 @@ export function ChangelogDialog({
             <div className={b('items-container')}>
                 <Dialog.Body>
                     {items.length > 0 ? (
-                        items.map((item) => (
+                        items.map((item, index) => (
                             <Item
-                                key={item.version}
+                                key={index}
                                 className={b('item')}
                                 data={item}
                                 onStoryClick={onStoryClick}

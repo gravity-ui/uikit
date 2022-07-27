@@ -19,16 +19,19 @@ export function Picture({className, src, ratio}: PictureProps) {
     const [loadingState, setLoadingState] = React.useState<LoadingState>('loading');
 
     React.useEffect(() => {
-        setLoadingState('loading');
+        // in SSR case
+        if (typeof window === 'object') {
+            setLoadingState('loading');
 
-        const img = new Image();
-        img.onload = () => {
-            setLoadingState('loaded');
-        };
-        img.onerror = img.onabort = () => {
-            setLoadingState('error');
-        };
-        img.src = src;
+            const img = new Image();
+            img.onload = () => {
+                setLoadingState('loaded');
+            };
+            img.onerror = img.onabort = () => {
+                setLoadingState('error');
+            };
+            img.src = src;
+        }
     }, [src]);
 
     if (loadingState === 'error') {

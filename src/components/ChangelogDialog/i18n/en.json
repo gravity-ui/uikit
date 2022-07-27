@@ -1,7 +1,6 @@
 {
   "title": "Changelog",
-  "link_docs": "Open changelog in documentation",
-  "label_version": "Version",
+  "link_full_list": "View full changelog",
   "label_new": "New",
   "button_view_story": "View story",
   "label_empty": "No data"

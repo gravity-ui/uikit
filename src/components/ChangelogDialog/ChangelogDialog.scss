@@ -1,14 +1,13 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables';
 
-$block: '.#{$ns}changelog-dialog';
+$block: '.#{variables.$ns}changelog-dialog';
 $width: 720px;
 $maxItemsHeight: 640px;
 
 #{$block} {
     width: $width;
 
-    &__docks-link-icon {
+    &__full-list-link-icon {
         margin-left: 4px;
         vertical-align: middle;
     }

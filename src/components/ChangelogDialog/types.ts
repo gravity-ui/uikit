@@ -6,8 +6,7 @@ interface ImageData {
 export interface ChangelogItem {
     date: string;
     isNew?: boolean;
-    version: string;
-    title?: string;
+    title: string;
     image?: ImageData;
     description: string;
     storyId?: string;

@@ -1,7 +1,6 @@
-@import '../../../variables';
-@import '../../../../../styles/mixins';
+@use '../../../variables';
 
-$block: '.#{$ns}changelog-dialog-item';
+$block: '.#{variables.$ns}changelog-dialog-item';
 $metaWidth: 110px;
 
 #{$block} {
@@ -26,6 +25,7 @@ $metaWidth: 110px;
     }
 
     &__title {
+        margin: 0;
         font-size: 17px;
         line-height: 24px;
         font-weight: 500;

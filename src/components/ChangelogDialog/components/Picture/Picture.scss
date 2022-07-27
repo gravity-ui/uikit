@@ -1,7 +1,6 @@
-@import '../../../variables';
-@import '../../../../../styles/mixins';
+@use '../../../variables';
 
-$block: '.#{$ns}changelog-dialog-picture';
+$block: '.#{variables.$ns}changelog-dialog-picture';
 
 #{$block} {
     position: relative;

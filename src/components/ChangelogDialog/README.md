@@ -8,7 +8,7 @@ Component for displaying the changelog. It looks like a list of versions in a mo
 | :-------------------- | :---------------- | :------- | :---------- | :-------------------------------------------------------------- |
 | open                  | `Boolean`         | ✓        |             | Visibility flag                                                 |
 | title                 | `String`          |          | `Changelog` | Dialog title                                                    |
-| docsLink              | `String`          |          |             | Link to documentation with full changelog                       |
+| fullListLink          | `String`          |          |             | Link to documentation with full changelog                       |
 | items                 | `ChangelogItem[]` | ✓        |             | List of versions to display                                     |
 | disableBodyScrollLock | `Boolean`         |          | true        | If `true`, window scrolling is disabled when the dialog is open |
 | disableOutsideClick   | `Boolean`         |          |             | If `true`, do not close dialog on click outside                 |
@@ -21,8 +21,7 @@ Component for displaying the changelog. It looks like a list of versions in a mo
 | ----------- | ----------- | -------- | ------- | --------------------------- |
 | date        | `String`    | ✓        |         | Version release date        |
 | isNew       | `Boolean`   |          |         | If `true`, show "New" label |
-| version     | `String`    | ✓        |         | Version number              |
-| title       | `String`    |          |         | Version title               |
+| title       | `String`    | ✓        |         | Version title               |
 | image       | `ImageData` |          |         | Version image info          |
 | description | `String`    | ✓        |         | Version description         |
 | storyId     | `String`    |          |         | Version related story       |
@@ -47,10 +46,9 @@ Component for displaying the changelog. It looks like a list of versions in a mo
     {
       date: '03 Jul 2022',
       isNew: true,
-      version: '2.0.0',
       title: 'New navigation',
       image: {
-        src: 'https://jing.yandex-team.ru/files/msitnikov1/pic1%402x.png',
+        src: 'https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-1.png',
         ratio: 240 / 516,
       },
       description:
@@ -59,8 +57,7 @@ Component for displaying the changelog. It looks like a list of versions in a mo
     },
     {
       date: '15 Jun 2022',
-      version: '1.3.1',
-      title: 'Some fixes',
+      title: 'Minor fixes',
       description:
         'At the top of the panel is the service navigation for each service. Below are common navigation elements: a component for switching between accounts and organizations, settings, help center, search, notifications, favorites.',
     },

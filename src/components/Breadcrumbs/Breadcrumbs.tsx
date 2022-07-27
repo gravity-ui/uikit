@@ -179,7 +179,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     }
 
     renderMoreItem() {
-        const {popupStyle, popupPlacement} = this.props;
+        const {popupStyle, popupPlacement, renderItemDivider} = this.props;
         const {hiddenItems} = this.state;
 
         return (
@@ -187,6 +187,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
                 items={hiddenItems}
                 popupPlacement={popupPlacement}
                 popupStyle={popupStyle}
+                renderItemDivider={renderItemDivider}
             />
         );
     }

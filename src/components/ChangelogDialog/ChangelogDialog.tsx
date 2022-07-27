@@ -46,7 +46,7 @@ export function ChangelogDialog({
             disableOutsideClick={disableOutsideClick}
             aria-labelledby={dialogCaptionId}
         >
-            <Dialog.Header caption={title} />
+            <Dialog.Header caption={title} id={dialogCaptionId} />
             {fullListLink ? (
                 <Dialog.Body key="full-list-link">
                     <Link href={fullListLink} target="_blank">

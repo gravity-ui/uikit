@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.1](https://github.com/yandex-cloud/uikit/compare/v2.10.0...v2.10.1) (2022-07-27)
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** i18n must be used inside component ([#271](https://github.com/yandex-cloud/uikit/issues/271)) ([ec479a2](https://github.com/yandex-cloud/uikit/commit/ec479a2862493d0aaff7b6783ba0f85436f03582))
+* **Breadcrumbs:** render custom divider before more button ([#272](https://github.com/yandex-cloud/uikit/issues/272)) ([353d13e](https://github.com/yandex-cloud/uikit/commit/353d13e4b4e0b0993c7405dbdcf2f8c7f6b04ffc))
+
 ## [2.10.0](https://github.com/yandex-cloud/uikit/compare/v2.9.0...v2.10.0) (2022-07-21)
 
 

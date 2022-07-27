@@ -10,3 +10,4 @@ export * from './PlayIcon';
 export * from './PreviewCloseIcon';
 export * from './QuestionMarkIcon';
 export * from './Success';
+export * from './stores';

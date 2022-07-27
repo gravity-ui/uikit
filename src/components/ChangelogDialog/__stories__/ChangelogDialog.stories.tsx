@@ -17,6 +17,7 @@ const items: ChangelogItem[] = [
         title: 'New navigation',
         image: {
             src: 'https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-1.png',
+            alt: 'New navigation',
             ratio: 240 / 516,
         },
         description:

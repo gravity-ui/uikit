@@ -9,29 +9,35 @@ const b = block('changelog-dialog-picture');
 
 type LoadingState = 'loading' | 'loaded' | 'error';
 
+const SHOW_LOADER_TIMEOUT = 150;
+
 export interface PictureProps {
     className?: string;
     src: string;
-    ratio: number;
+    alt?: string;
+    ratio?: number;
 }
 
-export function Picture({className, src, ratio}: PictureProps) {
+export function Picture({className, src, alt, ratio}: PictureProps) {
     const [loadingState, setLoadingState] = React.useState<LoadingState>('loading');
+    const [isVisibleLoader, setIsVisibleLoader] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        // in SSR case
-        if (typeof window === 'object') {
-            setLoadingState('loading');
+        setLoadingState('loading');
+        setIsVisibleLoader(false);
 
-            const img = new Image();
-            img.onload = () => {
-                setLoadingState('loaded');
-            };
-            img.onerror = img.onabort = () => {
-                setLoadingState('error');
-            };
-            img.src = src;
-        }
+        const img = new Image();
+        img.onload = () => {
+            setLoadingState('loaded');
+        };
+        img.onerror = img.onabort = () => {
+            setLoadingState('error');
+        };
+        img.src = src;
+
+        setTimeout(() => {
+            setIsVisibleLoader(true);
+        }, SHOW_LOADER_TIMEOUT);
     }, [src]);
 
     if (loadingState === 'error') {
@@ -39,16 +45,29 @@ export function Picture({className, src, ratio}: PictureProps) {
     }
 
     return (
-        <div className={b(null, className)} style={{paddingBottom: `${ratio * 100}%`}}>
-            {loadingState === 'loading' ? (
-                <div className={b('loader')}>
-                    <Loader size="s" />
+        <div className={b(null, className)}>
+            {ratio ? (
+                <div
+                    className={b('placeholder')}
+                    style={loadingState === 'loading' ? {paddingBottom: `${ratio * 100}%`} : {}}
+                >
+                    {isVisibleLoader && loadingState === 'loading' ? (
+                        <div className={b('loader')}>
+                            <Loader size="s" />
+                        </div>
+                    ) : null}
+
+                    <img
+                        className={b('image-with-ratio', {
+                            visible: loadingState === 'loaded',
+                        })}
+                        src={src}
+                        alt={alt}
+                    />
                 </div>
-            ) : null}
-            <div
-                className={b('image', {visible: loadingState === 'loaded'})}
-                style={{backgroundImage: `url(${src})`}}
-            />
+            ) : (
+                <img className={b('image')} src={src} alt={alt} />
+            )}
         </div>
     );
 }

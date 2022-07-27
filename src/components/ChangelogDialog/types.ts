@@ -1,6 +1,7 @@
 interface ImageData {
     src: string;
-    ratio: number;
+    alt?: string;
+    ratio?: number;
 }
 
 export interface ChangelogItem {

@@ -1,4 +1,5 @@
 @use '../../../variables';
+@use '../../../../../styles/mixins';
 
 $block: '.#{variables.$ns}changelog-dialog-item';
 $metaWidth: 110px;
@@ -11,7 +12,7 @@ $metaWidth: 110px;
     }
 
     &__date {
-        line-height: 24px;
+        line-height: var(--yc-text-body-3-line-height);
         color: var(--yc-color-text-secondary);
     }
 
@@ -26,9 +27,7 @@ $metaWidth: 110px;
 
     &__title {
         margin: 0;
-        font-size: 17px;
-        line-height: 24px;
-        font-weight: 500;
+        @include mixins.text-body-3();
     }
 
     &__image {
@@ -39,16 +38,10 @@ $metaWidth: 110px;
 
     &__description {
         margin-top: 12px;
-        font-size: 13px;
-        line-height: 18px;
-        font-weight: 400;
+        @include mixins.text-body-1();
     }
 
     &__story-button {
         margin-top: 16px;
-    }
-
-    &__story-button-text {
-        margin-right: 4px;
     }
 }

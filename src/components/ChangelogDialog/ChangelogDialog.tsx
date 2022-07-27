@@ -5,6 +5,7 @@ import {Dialog, DialogProps} from '../Dialog';
 import {Link} from '../Link';
 import {Icon} from '../Icon';
 import {ExternalLinkIcon} from '../icons/ExternalLinkIcon';
+import {useUniqId} from '../utils/useUniqId';
 import {ChangelogItem, OnStoryClick} from './types';
 import {Item} from './components/Item/Item';
 import i18n from './i18n';
@@ -20,7 +21,7 @@ export interface ChangelogDialogProps {
     items: ChangelogItem[];
     disableBodyScrollLock?: boolean;
     disableOutsideClick?: boolean;
-    onClose?: DialogProps['onClose'];
+    onClose: DialogProps['onClose'];
     onStoryClick?: OnStoryClick;
 }
 
@@ -34,24 +35,20 @@ export function ChangelogDialog({
     onClose,
     onStoryClick,
 }: ChangelogDialogProps) {
-    const handleClose = React.useCallback<NonNullable<ChangelogDialogProps['onClose']>>(
-        (event, reason) => {
-            onClose?.(event, reason);
-        },
-        [onClose],
-    );
+    const dialogCaptionId = `changelog-dialog-title-${useUniqId()}`;
 
     return (
         <Dialog
             className={b()}
             open={open}
-            onClose={handleClose}
+            onClose={onClose}
             disableBodyScrollLock={disableBodyScrollLock}
             disableOutsideClick={disableOutsideClick}
+            aria-labelledby={dialogCaptionId}
         >
             <Dialog.Header caption={title} />
             {fullListLink ? (
-                <Dialog.Body>
+                <Dialog.Body key="full-list-link">
                     <Link href={fullListLink} target="_blank">
                         <span>{i18n('link_full_list')}</span>
                         <span className={b('full-list-link-icon')}>
@@ -60,22 +57,20 @@ export function ChangelogDialog({
                     </Link>
                 </Dialog.Body>
             ) : null}
-            <div className={b('items-container')}>
-                <Dialog.Body>
-                    {items.length > 0 ? (
-                        items.map((item, index) => (
-                            <Item
-                                key={index}
-                                className={b('item')}
-                                data={item}
-                                onStoryClick={onStoryClick}
-                            />
-                        ))
-                    ) : (
-                        <div className={b('empty-placeholder')}>{i18n('label_empty')}</div>
-                    )}
-                </Dialog.Body>
-            </div>
+            <Dialog.Body key="items" className={b('items-container')}>
+                {items.length > 0 ? (
+                    items.map((item, index) => (
+                        <Item
+                            key={index}
+                            className={b('item')}
+                            data={item}
+                            onStoryClick={onStoryClick}
+                        />
+                    ))
+                ) : (
+                    <div className={b('empty-placeholder')}>{i18n('label_empty')}</div>
+                )}
+            </Dialog.Body>
         </Dialog>
     );
 }

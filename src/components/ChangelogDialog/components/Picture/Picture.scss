@@ -3,7 +3,9 @@
 $block: '.#{variables.$ns}changelog-dialog-picture';
 
 #{$block} {
-    position: relative;
+    &__placeholder {
+        position: relative;
+    }
 
     &__loader {
         position: absolute;
@@ -13,19 +15,21 @@ $block: '.#{variables.$ns}changelog-dialog-picture';
         z-index: 1;
     }
 
-    &__image {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 2;
+    &__image-with-ratio {
+        display: block;
+        width: 100%;
+        height: 0px;
         opacity: 0;
-        background-size: cover;
         transition: opacity 0.15s linear;
 
         &_visible {
+            height: auto;
             opacity: 1;
         }
+    }
+
+    &__image {
+        display: block;
+        width: 100%;
     }
 }

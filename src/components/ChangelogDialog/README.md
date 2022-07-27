@@ -12,7 +12,7 @@ Component for displaying the changelog. It looks like a list of versions in a mo
 | items                 | `ChangelogItem[]` | ✓        |             | List of versions to display                                     |
 | disableBodyScrollLock | `Boolean`         |          | true        | If `true`, window scrolling is disabled when the dialog is open |
 | disableOutsideClick   | `Boolean`         |          |             | If `true`, do not close dialog on click outside                 |
-| onClose               | `Function`        |          |             | Action on close                                                 |
+| onClose               | `Function`        | ✓        |             | Action on close                                                 |
 | onStoryClick          | `OnStoryClick`    |          |             | Action on click to "View story"                                 |
 
 ### ChangelogItem object
@@ -28,10 +28,11 @@ Component for displaying the changelog. It looks like a list of versions in a mo
 
 ### ImageData object
 
-| Field | Type     | Required | Default | Description                           |
-| ----- | -------- | -------- | ------- | ------------------------------------- |
-| src   | `String` | ✓        |         | Image link                            |
-| ratio | `Number` | ✓        |         | Image aspect ratio = [height / width] |
+| Field | Type     | Required | Default | Description                                                                  |
+| ----- | -------- | -------- | ------- | ---------------------------------------------------------------------------- |
+| src   | `String` | ✓        |         | Image link                                                                   |
+| alt   | `String` |          |         | Image alt text                                                               |
+| ratio | `Number` |          |         | Image aspect ratio = [height / width]. Used to draw placeholder with loader. |
 
 ### OnStoryClick function
 
@@ -49,6 +50,7 @@ Component for displaying the changelog. It looks like a list of versions in a mo
       title: 'New navigation',
       image: {
         src: 'https://storage.yandexcloud.net/uikit-storybook-assets/changelog-dialog-picture-1.png',
+        alt: 'New navigation'
         ratio: 240 / 516,
       },
       description:

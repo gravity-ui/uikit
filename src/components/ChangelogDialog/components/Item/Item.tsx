@@ -32,8 +32,13 @@ export function Item({className, data, onStoryClick}: ItemProps) {
             </div>
             <div className={b('content')}>
                 <h3 className={b('title')}>{data.title}</h3>
-                {data.image && data.image.src && data.image.ratio ? (
-                    <Picture className={b('image')} src={data.image.src} ratio={data.image.ratio} />
+                {data.image && data.image.src ? (
+                    <Picture
+                        className={b('image')}
+                        src={data.image.src}
+                        ratio={data.image.ratio}
+                        alt={data.image.alt}
+                    />
                 ) : null}
                 {data.description ? (
                     <div className={b('description')}>{data.description}</div>
@@ -48,7 +53,7 @@ export function Item({className, data, onStoryClick}: ItemProps) {
                             }
                         }}
                     >
-                        <span className={b('story-button-text')}>{i18n('button_view_story')}</span>
+                        {i18n('button_view_story')}
                         <Icon data={PlayIcon} size={14} />
                     </Button>
                 ) : null}

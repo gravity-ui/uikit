@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.2](https://github.com/yandex-cloud/uikit/compare/v2.10.1...v2.10.2) (2022-07-28)
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** revert data pass to `<Breadcrumbs.Item/>` ([#276](https://github.com/yandex-cloud/uikit/issues/276)) ([5b4bc4b](https://github.com/yandex-cloud/uikit/commit/5b4bc4bacad64e266919c36171f537f95ed5158e))
+
 ## [2.10.1](https://github.com/yandex-cloud/uikit/compare/v2.10.0...v2.10.1) (2022-07-27)
 
 

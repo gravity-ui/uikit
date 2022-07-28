@@ -12,5 +12,4 @@ export * from './QuestionMarkIcon';
 export * from './Success';
 export * from './Link';
 export * from './Share';
-export * from './stores';
 export * from './social';

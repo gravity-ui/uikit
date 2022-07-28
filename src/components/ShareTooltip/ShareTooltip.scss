@@ -1,0 +1,35 @@
+@import '../../../styles/mixins.scss';
+@import '../variables.scss';
+
+$block: '.#{$ns}share-tooltip';
+
+#{$block} {
+    position: relative;
+
+    &__tooltip {
+        max-width: none;
+        padding: 8px;
+    }
+
+    &__container {
+        display: flex;
+        flex-wrap: nowrap;
+
+        cursor: pointer;
+        color: var(--yc-color-text-secondary);
+
+        &:hover {
+            color: var(--yc-color-text-primary);
+        }
+    }
+
+    &__icon-container {
+        display: flex;
+        align-items: center;
+    }
+    &__title {
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+    }
+}

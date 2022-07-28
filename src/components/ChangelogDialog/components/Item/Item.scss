@@ -38,7 +38,6 @@ $metaWidth: 110px;
 
     &__description {
         margin-top: 12px;
-        @include mixins.text-body-1();
     }
 
     &__story-button {

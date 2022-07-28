@@ -15,15 +15,11 @@ export interface BreadcrumbsItem {
     href?: string;
 }
 
-export interface BreadcrumbsProps {
-    items: BreadcrumbsItem[];
+export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> {
+    items: T[];
     className?: string;
-    renderRootContent?: (item: BreadcrumbsItem, isCurrent: boolean) => React.ReactNode;
-    renderItemContent?: (
-        item: BreadcrumbsItem,
-        isCurrent: boolean,
-        isPrevCurrent: boolean,
-    ) => React.ReactNode;
+    renderRootContent?: (item: T, isCurrent: boolean) => React.ReactNode;
+    renderItemContent?: (item: T, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode;
     renderItemDivider?: () => React.ReactNode;
     lastDisplayedItemsCount: LastDisplayedItemsCount;
     firstDisplayedItemsCount: FirstDisplayedItemsCount;
@@ -31,12 +27,12 @@ export interface BreadcrumbsProps {
     popupPlacement?: PopupPlacement;
 }
 
-interface BreadcrumbsState {
+interface BreadcrumbsState<T extends BreadcrumbsItem> {
     calculated: boolean;
-    rootItem: BreadcrumbsItem | undefined;
-    visibleItems: BreadcrumbsItem[];
-    hiddenItems: BreadcrumbsItem[];
-    allItems: BreadcrumbsItem[];
+    rootItem: T | undefined;
+    visibleItems: T[];
+    hiddenItems: T[];
+    allItems: T[];
 }
 
 const RESIZE_THROTTLE = 200;
@@ -55,12 +51,15 @@ export enum FirstDisplayedItemsCount {
     One = 1,
 }
 
-export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsState> {
+export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends React.Component<
+    BreadcrumbsProps<T>,
+    BreadcrumbsState<T>
+> {
     static defaultProps = {
         popupPlacement: DEFAULT_POPUP_PLACEMENT,
     };
 
-    static prepareInitialState(props: BreadcrumbsProps) {
+    static prepareInitialState<T extends BreadcrumbsItem>(props: BreadcrumbsProps<T>) {
         const {firstDisplayedItemsCount} = props;
 
         return {
@@ -72,7 +71,10 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
         };
     }
 
-    static getDerivedStateFromProps(props: BreadcrumbsProps, state: BreadcrumbsState) {
+    static getDerivedStateFromProps<T extends BreadcrumbsItem>(
+        props: BreadcrumbsProps<T>,
+        state: BreadcrumbsState<T>,
+    ) {
         if (state.allItems !== props.items) {
             return Breadcrumbs.prepareInitialState(props);
         }
@@ -83,7 +85,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     private container: React.RefObject<HTMLDivElement>;
     private resizeObserver: ResizeObserver;
 
-    constructor(props: BreadcrumbsProps) {
+    constructor(props: BreadcrumbsProps<T>) {
         super(props);
 
         this.handleResize = _throttle(this.handleResize, RESIZE_THROTTLE);
@@ -97,7 +99,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
         this.resizeObserver.observe(this.container.current as Element);
     }
 
-    componentDidUpdate(prevProps: BreadcrumbsProps) {
+    componentDidUpdate(prevProps: BreadcrumbsProps<T>) {
         if (prevProps.items !== this.state.allItems) {
             this.recalculate();
         }
@@ -124,7 +126,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
         );
     }
 
-    renderItem(data: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) {
+    renderItem(data: T, isCurrent: boolean, isPrevCurrent: boolean) {
         const {renderItemContent} = this.props;
 
         return (

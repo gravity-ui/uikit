@@ -129,7 +129,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
 
         return (
             <Item
-                {...data}
+                data={data}
                 isCurrent={isCurrent}
                 isPrevCurrent={isPrevCurrent}
                 renderItem={renderItemContent}
@@ -154,7 +154,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
 
         return (
             <Item
-                {...rootItem}
+                data={rootItem}
                 isCurrent={isCurrent}
                 isPrevCurrent={false}
                 renderItem={renderRootContent || renderItemContent}

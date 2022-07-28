@@ -1,38 +1,38 @@
 ## Popover
 
-Компонента блока с тултипом
+Popover component.
 
 ### PropTypes
 
 Наследует свойства [`QAProps`](../types.ts).
 
-| Property            | Type               | Required | Values            | Default             | Description                                                                                                                                                                                |
-| :------------------ | :----------------- | :------- | :---------------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| children            | `ReactNode`        |          |                   |                     | контент на котором будет показываться тултип                                                                                                                                               |
-| theme               | `String`           |          | `info`, `special` | `info`              | тема тултипа                                                                                                                                                                               |
-| placement           | `Array`            |          |                   | [`right`, `bottom`] | направления открытия тултипа                                                                                                                                                               |
-| hasArrow            | `Boolean`          |          |                   | `true`              | настройка наличия хвостика у тултипа                                                                                                                                                       |
-| openOnHover         | `Boolean`          |          |                   | `true`              | настройка открытия тултипа по ховеру                                                                                                                                                       |
-| autoclosable        | `Boolean`          |          |                   | `true`              | настройка автоматического закрытия тултипа, если курсор outside                                                                                                                            |
-| behavior            | `TooltipBehavior`  |          |                   | `DelayedClosing`    | Поведение открытия/закрытия тултипа при включенном `openOnHover` (без задержки, с задержкой, с задержкой только закрытия). Не применяется при переданных `delayOpening` или `delayClosing` |
-| delayOpening        | `Number`           |          |                   | `0`                 | Настройка задержки открытия тултипа при включенном `openOnHover`. Рекомендуется использовать `behavior`                                                                                    |
-| delayClosing        | `Number`           |          |                   | `300`               | Настройка задержки закрытия тултипа при включенном `autoclosable`. Рекомендуется использовать `behavior`                                                                                   |
-| title               | `String`           |          |                   |                     | название в тултипе                                                                                                                                                                         |
-| content             | `ReactNode`        |          |                   |                     | контент тултипа                                                                                                                                                                            |
-| contentClassName    | `String`           |          |                   |                     | класс для `content`                                                                                                                                                                        |
-| htmlContent         | `String`           |          |                   |                     | отрендерится html контент тултипа через `dangerouslySetInnerHTML`                                                                                                                          |
-| links               | `Array`            |          |                   | []                  | ссылки под контентом, может принимать <br/> `{ text: 'Link 1', href: 'https://yandex.ru'}` или <br/> `{ text: 'Link 2', onClick: () => callbackOnLinkClick() }`                            |
-| tooltipActionButton | `Object`           |          |                   |                     | отрендерится кнопка если передан следующий объект <br/> `{ text: 'Button', onClick: () => callbackOnClick() }`                                                                             |
-| tooltipOffset       | `[Number, Number]` |          |                   |                     | смещение тултипа относительно контрола                                                                                                                                                     |
-| onClick             | `Function`         |          |                   |                     | если указана, будет вызвана при клике на anchor. Если функция вернет `true`, после этого будет открыт tooltip. Если `false` - тултип не откроется.                                         |
-| className           | `String`           |          |                   |                     | имя css класса для контрола                                                                                                                                                                |
-| offset              | `Object`           |          |                   |                     | задать смещение контрола <br/> `{ top: 0, left: 0 }`                                                                                                                                       |
-| anchorRef           | `React.RefObject`  |          |                   |                     | Позволяет использовать кастомный анкор. Отключает `openByHover` и `onClick` у компоненты                                                                                                   |
-| onOpenChange        | `Function`         |          |                   |                     | Может быть полезным для отложенной генерации содержимого тултипа                                                                                                                           |
+| Property            | Type               | Required | Values            | Default             | Description                                                                                                                                                               |
+| :------------------ | :----------------- | :------- | :---------------- | :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| children            | `ReactNode`        |          |                   |                     | Component that will trigger popover display                                                                                                                               |
+| theme               | `String`           |          | `info`, `special` | `info`              | Popover appearance                                                                                                                                                        |
+| placement           | `Array`            |          |                   | [`right`, `bottom`] | Popover placement relative to `children`                                                                                                                                  |
+| hasArrow            | `Boolean`          |          |                   | `true`              | Display popover arrow                                                                                                                                                     |
+| openOnHover         | `Boolean`          |          |                   | `true`              | Open popover on hover over `children`                                                                                                                                     |
+| autoclosable        | `Boolean`          |          |                   | `true`              | Close popover when pointer moves out of component                                                                                                                         |
+| behavior            | `TooltipBehavior`  |          |                   | `DelayedClosing`    | Defines timings for open/close popover when `openOnHover` enabled (without delay, with delay, with delay before close). Ignored when `delayOpening` or `delayClosing` set |
+| delayOpening        | `Number`           |          |                   | `0`                 | Customize delay before popover open, ignored without `openOnHover`. It is recommended to use `behavior` instead                                                           |
+| delayClosing        | `Number`           |          |                   | `300`               | Customize delay before popover close, ignored without `autoclosable`. It is recommended to use `behavior` instead                                                         |
+| title               | `String`           |          |                   |                     | Popover title                                                                                                                                                             |
+| content             | `ReactNode`        |          |                   |                     | Popover content                                                                                                                                                           |
+| contentClassName    | `String`           |          |                   |                     | Class name for popover `content`                                                                                                                                          |
+| htmlContent         | `String`           |          |                   |                     | Render raw HTML via `dangerouslySetInnerHTML`                                                                                                                             |
+| links               | `Array`            |          |                   | []                  | Links above content, could be <br/> `{ text: 'Link 1', href: 'https://example.com'}` or <br/> `{ text: 'Link 2', onClick: () => onLinkClick() }`                          |
+| tooltipActionButton | `Object`           |          |                   |                     | Render button when value is <br/> `{ text: 'Button', onClick: () => onClick() }`                                                                                          |
+| tooltipOffset       | `[Number, Number]` |          |                   |                     | Popover offset relative to `children`                                                                                                                                     |
+| onClick             | `Function`         |          |                   |                     | Handler for popover `anchor`. Returned boolean value controls popover open state.                                                                                         |
+| className           | `String`           |          |                   |                     | Control class name                                                                                                                                                        |
+| offset              | `Object`           |          |                   |                     | Control offset <br/> `{ top: 0, left: 0 }`                                                                                                                                |
+| anchorRef           | `React.RefObject`  |          |                   |                     | Ref to custom anchor for popover. Disables `openByHover` and `onClick`                                                                                                    |
+| onOpenChange        | `Function`         |          |                   |                     | Could be helpful for deffered popover content render                                                                                                                      |
 
 ### Examples
 
-Тултип с отрендеренной html разметкой (для обычного текста лучше использовать `content`) и автоматическим закрытием когда курсор вне подсказки в течение `delayClosing`:
+Component with rendered raw html (use `content` for plain text) and close on mouse leave after timeout set by `delayClosing`:
 
 ```jsx
 <Popover
@@ -43,7 +43,7 @@
   links={[
     {
       text: 'Lorem ipsum href',
-      href: 'https://yandex.ru',
+      href: 'https://example.com',
     },
     {
       text: 'Lorem ipsum onClick',
@@ -53,7 +53,7 @@
   placement={['right', 'bottom']}
   title="Simple tooltip"
   htmlContent={
-    '<b>Lorem ipsum</b> dolor sit <a href="https://yandex.ru" target="_blank">amet</a>, at scelerisque suspendisse'
+    '<b>Lorem ipsum</b> dolor sit <a href="https://example.com" target="_blank">amet</a>, at scelerisque suspendisse'
   }
   tooltipActionButton={{
     text: 'Actions',
@@ -64,7 +64,7 @@
 </Popover>
 ```
 
-Подсказка с нетекстовым контентом в тултипе:
+Popover with JSX component as content:
 
 ```js
 <Popover icon={{data: iconQuestionMark}} content={<Loader size="s" />}>

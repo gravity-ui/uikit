@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.3](https://github.com/yandex-cloud/uikit/compare/v2.10.2...v2.10.3) (2022-07-28)
+
+
+### Bug Fixes
+
+* **Button:** add contrast for selected state in dark theme ([#262](https://github.com/yandex-cloud/uikit/issues/262)) ([cbb86ac](https://github.com/yandex-cloud/uikit/commit/cbb86acdfe06bc54f39832d9243ebfd4b1b177d1))
+
 ## [2.10.2](https://github.com/yandex-cloud/uikit/compare/v2.10.1...v2.10.2) (2022-07-28)
 
 

@@ -13,7 +13,7 @@ const b = block('share-tooltip-demo');
 
 export function ShareTooltipDemo() {
     const url =
-        'https://cloud-guide.yandex-team.ru/?selectedKind=Components&selectedStory=ShareTooltip';
+        'https://preview.yandexcloud.dev/uikit/?path=/story/components-sharetooltip--default';
     const title = 'Check out this new awesome sharing component';
     const text = 'Content sharing is not supported in all social networks';
     const socialNets = [

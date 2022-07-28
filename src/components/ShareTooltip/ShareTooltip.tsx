@@ -1,6 +1,6 @@
 import React from 'react';
-import block from 'bem-cn-lite';
 
+import {block} from '../utils/cn';
 import {LayoutDirections} from './constants';
 import {ShareList, ShareListProps, ShareListDefaultProps} from './ShareList/ShareList';
 import {PopupPlacement} from '../Popup';

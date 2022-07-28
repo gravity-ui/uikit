@@ -1,7 +1,7 @@
 import React from 'react';
-import block from 'bem-cn-lite';
 import {stringify} from 'query-string';
 
+import {block} from '../../utils/cn';
 import {SocialShareData} from '../models';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
@@ -24,6 +24,8 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
     render() {
         const {type, direction, icon = icons[type], className} = this.props;
         const url = this.getShareLink(type);
+        const typeModifier = type.toLowerCase();
+
         if (direction === 'column') {
             return (
                 <Button
@@ -34,14 +36,14 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
                     width="max"
                     className={b(null, className)}
                 >
-                    <Icon data={icon} size={16} className={b('icon', {type})} />
+                    <Icon data={icon} size={16} className={b('icon', {type: typeModifier})} />
                     <span className={b(null, className)}>{SocialNetwork[type]}</span>
                 </Button>
             );
         }
         return (
             <Button view="flat" size="l" href={url} target="_blank" className={b(null, className)}>
-                <Icon data={icon} size={24} className={b('icon', {type})} />
+                <Icon data={icon} size={24} className={b('icon', {type: typeModifier})} />
             </Button>
         );
     }

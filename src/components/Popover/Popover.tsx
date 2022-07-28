@@ -275,7 +275,7 @@ export class Popover extends React.Component<
                         theme,
                         size,
                         ['with-close']: hasClose,
-                        force_link_appearance: forceLinksAppearance,
+                        force_links_appearance: forceLinksAppearance,
                     },
                     tooltipClassName,
                 )}

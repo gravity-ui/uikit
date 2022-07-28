@@ -92,7 +92,7 @@ $block: '.#{$ns}popover';
                 }
 
                 #{$class}__tooltip-content a:not(.yc-button) {
-                    @at-root #{$tooltip_block}_force_link_appearance#{&} {
+                    @at-root #{$tooltip_block}_force_links_appearance#{&} {
                         text-decoration: none;
                         color: var(--yc-color-text-link);
 

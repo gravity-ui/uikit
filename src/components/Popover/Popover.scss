@@ -14,6 +14,8 @@ $block: '.#{$ns}popover';
     $class: &;
 
     &__tooltip {
+        $tooltip_block: &;
+
         --yc-popover-padding: 16px;
         --yc-popover-close-margin: 8px;
         --yc-popover-close-size: 24px;
@@ -90,11 +92,13 @@ $block: '.#{$ns}popover';
                 }
 
                 #{$class}__tooltip-content a:not(.yc-button) {
-                    text-decoration: none;
-                    color: var(--yc-color-text-link);
+                    @at-root #{$tooltip_block}_force_link_appearance#{&} {
+                        text-decoration: none;
+                        color: var(--yc-color-text-link);
 
-                    &:hover {
-                        color: var(--yc-color-text-link-hover);
+                        &:hover {
+                            color: var(--yc-color-text-link-hover);
+                        }
                     }
                 }
             }

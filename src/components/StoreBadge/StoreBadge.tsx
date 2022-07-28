@@ -1,12 +1,9 @@
 import React from 'react';
-import {block} from '../utils/cn';
 
-import {AppStoreRu} from '../icons/stores/AppStoreRu';
-import {AppStoreEn} from '../icons/stores/AppStoreEn';
-import {GooglePlayRu} from '../icons/stores/GooglePlayRu';
-import {GooglePlayEn} from '../icons/stores/GooglePlayEn';
+import {block} from '../utils/cn';
 import {Platform} from '../mobile/constants';
-import {Icon} from '../Icon/Icon';
+
+import './StoreBadge.scss';
 
 const b = block('store-badge');
 
@@ -19,29 +16,12 @@ export interface StoreBadgeProps {
     lang?: BadgeLang;
     className?: string;
     onClick?: () => void;
-    // alt?: string;
+    alt?: string;
 }
 
-const badgeData: Record<BadgePlatform, Record<BadgeLang, unknown>> = {
-    [Platform.IOS]: {
-        ru: AppStoreRu,
-        en: AppStoreEn,
-    },
-    [Platform.ANDROID]: {
-        ru: GooglePlayRu,
-        en: GooglePlayEn,
-    },
-};
-
-export function StoreBadge({platform, lang = 'ru', className, onClick, url}: StoreBadgeProps) {
-    const iconData = badgeData?.[platform][lang] as string;
-
-    if (!iconData) {
-        return null;
-    }
-
+export function StoreBadge({platform, lang = 'ru', className, onClick, url, alt}: StoreBadgeProps) {
     if (!url) {
-        return <Icon className={b(null, className)} data={iconData} onClick={onClick} />;
+        return <img className={b({platform, lang}, className)} onClick={onClick} alt={alt} />;
     }
 
     return (
@@ -52,7 +32,7 @@ export function StoreBadge({platform, lang = 'ru', className, onClick, url}: Sto
             target="_blank"
             rel="noopener noreferrer"
         >
-            <Icon data={iconData} />
+            <img className={b('image', {platform, lang})} alt={alt} />
         </a>
     );
 }

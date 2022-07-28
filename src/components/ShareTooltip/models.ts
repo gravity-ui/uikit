@@ -1,4 +1,4 @@
 export interface SocialShareData extends ShareData {
-    /** ссылка, которой надо поделиться */
+    /** sharing link */
     url: string;
 }

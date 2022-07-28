@@ -8,10 +8,10 @@ export default {
     component: ShareTooltip,
     argTypes: {
         title: {
-            description: 'заголовок к ссылке',
+            description: 'Link title',
         },
         text: {
-            description: 'текст к ссылке',
+            description: 'link text',
         },
     },
     args: {...shareTooltipDefaultProps},

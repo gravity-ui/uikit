@@ -16,16 +16,16 @@ import './ShareList.scss';
 const b = block('share-list');
 
 export interface ShareListDefaultProps {
-    /** список социальных сетей */
+    /** social networks list */
     socialNets: SocialNetwork[];
-    /** настройка отображения кнопки копирования ссылки */
+    /** should show copy button */
     withCopyLink: boolean;
 }
 
 export interface ShareListProps extends SocialShareData, Partial<ShareListDefaultProps> {
-    /** css класс для контрола */
+    /** control css class */
     className?: string;
-    /** направление расположения элементов */
+    /** elements location direction */
     direction?: LayoutDirections;
 }
 

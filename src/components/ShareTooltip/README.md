@@ -1,35 +1,35 @@
 ## ShareTooltip
 
-Компонента для шеринга
+Sharing component
 
 ### PropTypes
 
-| Property         | Type                   | Required | Default          | Description                                                                                                                                                                                                     |
-| :--------------- | :--------------------- | :------- | :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| url              | `String`               | ✔        |                  | ссылка, которой надо поделиться                                                                                                                                                                                 |
-| title            | `String`               |          |                  | заголовок к ссылке                                                                                                                                                                                              |
-| text             | `String`               |          |                  | текст к ссылке                                                                                                                                                                                                  |
-| socialNets       | `Array<SocialNetwork>` |          | `[]`             | список социальных сетей                                                                                                                                                                                         |
-| withCopyLink     | `Boolean`              |          | `true`           | настройка отображения кнопки копирования ссылки                                                                                                                                                                 |
-| useWebShareApi   | `Boolean`              |          | `false`          | настройка использования [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share). Если включить - по клику будет отображаться дефолтный диалог шарилки (если поддерживается браузером) |
-| placement        | `Array`                |          | `['bottom-end']` | направления открытия тултипа                                                                                                                                                                                    |
-| openByHover      | `Boolean`              |          | `true`           | настройка открытия тултипа по ховеру                                                                                                                                                                            |
-| autoclosable     | `Boolean`              |          | `true`           | настройка автоматического закрытия тултипа если курсор outside                                                                                                                                                  |
-| closeDelay       | `Number`               |          | `300`            | настройка задержки скрытия тултипа если курсор outside                                                                                                                                                          |
-| iconSize         | `Number`               |          |                  | размер иконки-контрола                                                                                                                                                                                          |
-| iconClass        | `String`               |          |                  | миксин для иконки-контрола                                                                                                                                                                                      |
-| tooltipClassName | `String`               |          |                  | миксин для тултипа                                                                                                                                                                                              |
-| className        | `String`               |          |                  | css класс для контрола                                                                                                                                                                                          |
+| Property         | Type                   | Required | Default          | Description                                                                                                                                                                |
+| :--------------- | :--------------------- | :------- | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| url              | `String`               | ✔        |                  | share link                                                                                                                                                                 |
+| title            | `String`               |          |                  | link title                                                                                                                                                                 |
+| text             | `String`               |          |                  | link text                                                                                                                                                                  |
+| socialNets       | `Array<SocialNetwork>` |          | `[]`             | social networks list                                                                                                                                                       |
+| withCopyLink     | `Boolean`              |          | `true`           | display copy button                                                                                                                                                        |
+| useWebShareApi   | `Boolean`              |          | `false`          | [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share) usage setting. If turned on default share dialog will be shown (if bbrowser supports it) |
+| placement        | `Array`                |          | `['bottom-end']` | tooltip openening direction                                                                                                                                                |
+| openByHover      | `Boolean`              |          | `true`           | should open tooltip with hover                                                                                                                                             |
+| autoclosable     | `Boolean`              |          | `true`           | should close tooltip when cursor is outside                                                                                                                                |
+| closeDelay       | `Number`               |          | `300`            | delay before tooltip will be hidden when cursor is otside                                                                                                                  |
+| iconSize         | `Number`               |          |                  | icon-control size                                                                                                                                                          |
+| iconClass        | `String`               |          |                  | icon-control mixin                                                                                                                                                         |
+| tooltipClassName | `String`               |          |                  | tooltip mixin                                                                                                                                                              |
+| className        | `String`               |          |                  | css class for control                                                                                                                                                      |
 
 ### Examples
 
-Только кнопка корпирования:
+Copy button only:
 
 ```js
 <ShareTooltip url={url} title={title} text={text} />
 ```
 
-Только социальные сети:
+Social networks only:
 
 ```js
 <ShareTooltip
@@ -46,7 +46,7 @@
 />
 ```
 
-Социальные сети и кнопка копирования:
+Social networks and copy button:
 
 ```js
 <ShareTooltip
@@ -62,7 +62,7 @@
 />
 ```
 
-Web Share API (соц-сети можно указать на случай, если API не поддерживается):
+Web Share API setting (social networks can be specified for non supported api case):
 
 ```js
 <ShareTooltip url={url} title={title} text={text} useWebShareApi={true} />

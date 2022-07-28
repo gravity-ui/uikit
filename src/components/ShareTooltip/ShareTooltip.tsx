@@ -14,34 +14,34 @@ import './ShareTooltip.scss';
 const b = block('share-tooltip');
 
 export interface ShareTooltipDefaultProps extends ShareListDefaultProps {
-    /** настройка использования [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share). Если включить - по клику будет отображаться дефолтный диалог шарилки (если поддерживается браузером) */
+    /** Web Share API setting (social networks can be specified for non supported api case) */
     useWebShareApi: boolean;
-    /** направления открытия тултипа */
+    /** tooltip opening direction */
     placement: PopupPlacement;
-    /** настройка открытия тултипа по ховеру */
+    /** should open tooltip with hover */
     openByHover: boolean;
-    /** настройка автоматического закрытия тултипа если курсор outside */
+    /** should close tooltip when cursor is outside */
     autoclosable: boolean;
-    /** настройка задержки скрытия тултипа если курсор outside */
+    /** delay before tooltip will be hidden when cursor is otside */
     closeDelay: number;
-    /** размер иконки-контрола */
+    /** control-icon size */
     iconSize: number;
-    /** направление расположения элементов */
+    /** elements location direction */
     direction: LayoutDirections;
 }
 
 export interface ShareTooltipProps extends ShareListProps, Partial<ShareTooltipDefaultProps> {
-    /** миксин для иконки-контрола */
+    /** icon control mixin */
     iconClass?: string;
-    /** миксин для тултипа */
+    /** tooltip mixin */
     tooltipClassName?: string;
-    /** миксин для sitcher'a */
+    /** sitcher mixin */
     switcherClassName?: string;
-    /** кастомная иконка */
+    /** custom icon */
     customIcon?: SVGIconData;
-    /** заголовок рядом с иконкой */
+    /** icon title */
     buttonTitle?: string | React.ReactNode;
-    /** функция регистрации достигнутых целей */
+    /** metrika traking registration handler */
     handleMetrika?: () => void;
 }
 

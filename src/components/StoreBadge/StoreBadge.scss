@@ -1,6 +1,6 @@
-@import '../variables.scss';
+@use '../variables.scss' as variables;
 
-$block: '.#{$ns}store-badge';
+$block: '.#{variables.$ns}store-badge';
 
 #{$block} {
     height: 40px;

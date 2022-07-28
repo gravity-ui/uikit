@@ -1,6 +1,6 @@
-@import '../../variables.scss';
+@use '../../variables.scss' as variables;
 
-$block: '.#{$ns}social-share-link';
+$block: '.#{variables.$ns}social-share-link';
 
 #{$block} {
     display: flex;

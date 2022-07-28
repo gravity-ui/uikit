@@ -1,7 +1,6 @@
-@import '../../../styles/mixins.scss';
-@import '../variables.scss';
+@use '../variables.scss' as variables;
 
-$block: '.#{$ns}share-tooltip';
+$block: '.#{variables.$ns}share-tooltip';
 
 #{$block} {
     position: relative;

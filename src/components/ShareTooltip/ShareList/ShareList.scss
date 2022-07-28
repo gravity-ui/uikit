@@ -1,6 +1,6 @@
-@import '../../variables.scss';
+@use '../../variables.scss' as variables;
 
-$block: '.#{$ns}share-list';
+$block: '.#{variables.$ns}share-list';
 
 #{$block} {
     display: flex;

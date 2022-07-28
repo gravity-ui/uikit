@@ -18,7 +18,7 @@ export interface PictureProps {
     ratio?: number;
 }
 
-export function Picture({className, src, alt, ratio}: PictureProps) {
+export function Picture({className, src, alt = '', ratio}: PictureProps) {
     const [loadingState, setLoadingState] = React.useState<LoadingState>('loading');
     const [isVisibleLoader, setIsVisibleLoader] = React.useState<boolean>(false);
 

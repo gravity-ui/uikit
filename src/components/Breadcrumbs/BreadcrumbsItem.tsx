@@ -3,7 +3,8 @@ import {Link} from '../Link';
 import {block} from '../utils/cn';
 import type {BreadcrumbsItem as IBreadcrumbsItem, BreadcrumbsProps} from './Breadcrumbs';
 
-interface Props extends IBreadcrumbsItem {
+interface Props {
+    data: IBreadcrumbsItem;
     isCurrent: boolean;
     isPrevCurrent: boolean;
     renderItem?: BreadcrumbsProps['renderItemContent'] | BreadcrumbsProps['renderRootContent'];
@@ -12,18 +13,12 @@ interface Props extends IBreadcrumbsItem {
 const b = block('breadcrumbs');
 
 export const BreadcrumbsItem = React.memo(function BreadcrumbsItem({
+    data,
     isCurrent,
     isPrevCurrent,
-    text,
-    action,
-    href,
     renderItem,
 }: Props) {
-    const data: IBreadcrumbsItem = {
-        text,
-        href,
-        action,
-    };
+    const {text, href, action} = data;
 
     if (isPrevCurrent || !isCurrent) {
         return (

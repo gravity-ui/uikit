@@ -35,9 +35,13 @@ export function Picture({className, src, alt = '', ratio}: PictureProps) {
         };
         img.src = src;
 
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             setIsVisibleLoader(true);
         }, SHOW_LOADER_TIMEOUT);
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
     }, [src]);
 
     if (loadingState === 'error') {

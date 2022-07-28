@@ -27,7 +27,7 @@ $metaWidth: 110px;
 
     &__title {
         margin: 0;
-        @include mixins.text-body-3();
+        @include mixins.text-subheader-3();
     }
 
     &__image {

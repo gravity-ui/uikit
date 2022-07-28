@@ -2,7 +2,7 @@
 
 $block: '.#{variables.$ns}changelog-dialog';
 $width: 720px;
-$maxItemsHeight: 640px;
+$maxItemsHeight: 70vh;
 
 #{$block} {
     width: $width;

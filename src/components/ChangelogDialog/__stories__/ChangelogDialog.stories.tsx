@@ -102,4 +102,7 @@ Default.args = {
     open: false,
     items,
     fullListLink: 'https://github.com/yandex-cloud/uikit',
+    onStoryClick: (storyId) => {
+        console.log(storyId);
+    },
 };

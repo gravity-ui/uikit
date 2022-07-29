@@ -102,7 +102,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
                 width="max"
             >
                 <Icon data={Link} size={16} />
-                <span className={b('copy-label')}>{label}</span>
+                <span>{label}</span>
             </Button>
         );
     }

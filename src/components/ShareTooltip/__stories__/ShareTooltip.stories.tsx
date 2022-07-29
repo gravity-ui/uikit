@@ -1,6 +1,6 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {ShareTooltip, ShareTooltipProps, shareTooltipDefaultProps} from '../ShareTooltip';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+import {ShareTooltip, shareTooltipDefaultProps} from '../ShareTooltip';
 import {ShareTooltipDemo} from '../../../demo/ShareTooltip';
 
 export default {
@@ -15,10 +15,12 @@ export default {
         },
     },
     args: {...shareTooltipDefaultProps},
-} as Meta;
+} as ComponentMeta<typeof ShareTooltip>;
 
-const DefaultTemplate: Story<ShareTooltipProps> = (args) => <ShareTooltip {...args} />;
+const DefaultTemplate: ComponentStory<typeof ShareTooltip> = (args) => <ShareTooltip {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <ShareTooltipDemo />;
+const ShowcaseTemplate: ComponentStory<typeof ShareTooltip & typeof ShareTooltipDemo> = () => (
+    <ShareTooltipDemo />
+);
 export const Showcase = ShowcaseTemplate.bind({});

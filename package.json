@@ -38,7 +38,6 @@
         "bem-cn-lite": "4.0.0",
         "focus-trap": "6.7.2",
         "lodash": "4.17.21",
-        "query-string": "^7.1.1",
         "react-copy-to-clipboard": "5.0.4",
         "react-popper": "2.2.5",
         "react-sortable-hoc": "2.0.0",

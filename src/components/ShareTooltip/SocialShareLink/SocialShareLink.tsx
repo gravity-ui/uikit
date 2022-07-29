@@ -1,5 +1,4 @@
 import React from 'react';
-import {stringify} from 'query-string';
 
 import {block} from '../../utils/cn';
 import {SocialShareData} from '../models';
@@ -54,15 +53,34 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
         // https://github.com/bradvin/social-share-urls
         switch (type) {
             case SocialNetwork.Telegram:
-                return `https://t.me/share/url?${stringify({url, text: title})}`;
+                return this.getShareUrlWithParams('https://t.me/share/url', {url, text: title});
             case SocialNetwork.Facebook:
-                return `https://facebook.com/sharer.php?${stringify({u: url})}`;
+                return this.getShareUrlWithParams('https://facebook.com/sharer.php', {u: url});
             case SocialNetwork.Twitter:
-                return `https://twitter.com/intent/tweet?${stringify({url, text: title})}`;
+                return this.getShareUrlWithParams('https://twitter.com/intent/tweet', {
+                    url,
+                    text: title,
+                });
             case SocialNetwork.VK:
-                return `https://vk.com/share.php?${stringify({url, title, comment: text})}`;
+                return this.getShareUrlWithParams('https://vk.com/share.php', {
+                    url,
+                    title,
+                    comment: text,
+                });
             default:
                 throw new Error(`Unknown share type: ${type}`);
         }
+    }
+
+    private getShareUrlWithParams(url: string, params: Record<string, string | undefined> = {}) {
+        const result = new URL(url);
+
+        Object.entries(params).forEach(([name, value]) => {
+            if (value) {
+                result.searchParams.set(name, value);
+            }
+        });
+
+        return result.toString();
     }
 }

@@ -10,9 +10,9 @@ export default {
     component: ChangelogDialog,
     argTypes: {
         onStoryClick: {
-            action: 'onStoryClick'
-        }
-    }
+            action: 'onStoryClick',
+        },
+    },
 } as Meta;
 
 const items: ChangelogItem[] = [

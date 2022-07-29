@@ -108,6 +108,8 @@ interface PopoverDefaultProps {
     initialOpen: boolean;
     /** Whether the tooltip should render disabled */
     disabled: boolean;
+    /** Force styles for links */
+    forceLinksAppearance: boolean;
 }
 
 export type PopoverProps = PopoverExternalProps &
@@ -136,6 +138,7 @@ export class Popover extends React.Component<
         hasClose: false,
         initialOpen: false,
         disabled: false,
+        forceLinksAppearance: true,
     };
 
     state: PopoverState = {
@@ -260,12 +263,22 @@ export class Popover extends React.Component<
             size,
             anchorRef,
             hasClose,
+            forceLinksAppearance,
         } = this.props;
 
         return (
             <Popup
                 anchorRef={anchorRef || this.controlRef}
-                className={b('tooltip', {theme, size, ['with-close']: hasClose}, tooltipClassName)}
+                className={b(
+                    'tooltip',
+                    {
+                        theme,
+                        size,
+                        ['with-close']: hasClose,
+                        'force-links-appearance': forceLinksAppearance,
+                    },
+                    tooltipClassName,
+                )}
                 open={open}
                 placement={placement}
                 hasArrow={hasArrow}

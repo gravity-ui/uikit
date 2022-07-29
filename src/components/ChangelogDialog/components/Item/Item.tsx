@@ -43,12 +43,12 @@ export function Item({className, data, onStoryClick}: ItemProps) {
                 {data.description ? (
                     <div className={b('description')}>{data.description}</div>
                 ) : null}
-                {data.storyId ? (
+                {data.storyId && onStoryClick ? (
                     <Button
                         className={b('story-button')}
                         view="outlined-info"
                         onClick={() => {
-                            if (data.storyId && onStoryClick) {
+                            if (data.storyId) {
                                 onStoryClick(data.storyId);
                             }
                         }}

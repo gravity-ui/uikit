@@ -7,9 +7,9 @@ import {SocialShareLink} from '../SocialShareLink/SocialShareLink';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../icons';
+import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
 
 import i18n from '../i18n';
-import {copyToClipboard} from '../../utils/copy-to-clipboard';
 
 import './ShareList.scss';
 
@@ -47,7 +47,6 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         copied: false,
     };
 
-    private timeoutId: number | null = null;
     private copyLink: HTMLButtonElement | null = null;
 
     componentDidMount() {
@@ -91,34 +90,25 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
     private renderCopyLink() {
         const {copied} = this.state;
         const label = copied ? i18n('label_copy-link-copied') : i18n('label_copy-link');
+
         return (
-            <Button
-                ref={this.copyLinkRef}
-                className={b('copy-link')}
-                view="flat-secondary"
-                size="l"
-                onClick={this.handleCopyClick}
-                disabled={copied}
-                width="max"
-            >
-                <Icon data={Link} size={16} />
-                <span>{label}</span>
-            </Button>
+            <CopyToClipboard text={this.props.url} timeout={1500}>
+                {(status) => (
+                    <Button
+                        ref={this.copyLinkRef}
+                        className={b('copy-link')}
+                        view="flat-secondary"
+                        size="l"
+                        disabled={status === CopyToClipboardStatus.Success}
+                        width="max"
+                    >
+                        <Icon data={Link} size={16} />
+                        <span>{label}</span>
+                    </Button>
+                )}
+            </CopyToClipboard>
         );
     }
-
-    private handleCopyClick = async () => {
-        await copyToClipboard(this.props.url);
-
-        if (this.timeoutId) {
-            window.clearTimeout(this.timeoutId);
-            this.timeoutId = null;
-        }
-
-        this.setState({copied: true}, () => {
-            this.timeoutId = window.setTimeout(() => this.setState({copied: false}), 1500);
-        });
-    };
 
     private copyLinkRef = (element: unknown) => {
         this.copyLink = element as HTMLButtonElement;

@@ -41,6 +41,10 @@ export class CopyToClipboard extends React.Component<
 
     private timerId?: number;
 
+    componentWillUnmount() {
+        clearTimeout(this.timerId);
+    }
+
     render() {
         const {children, text} = this.props;
         const {status} = this.state;
@@ -55,10 +59,6 @@ export class CopyToClipboard extends React.Component<
                 {content}
             </ReactCopyToClipboard>
         );
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.timerId);
     }
 
     private handleCopy = (text: string, result: boolean) => {

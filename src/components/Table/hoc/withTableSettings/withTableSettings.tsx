@@ -55,7 +55,7 @@ export function filterColumns<I>(
     return filteredColumns as TableColumnConfig<I>[];
 }
 
-export function getColumnStringTitle(column: TableColumnConfig<any>) {
+export function getColumnStringTitle<Data>(column: TableColumnConfig<Data>) {
     if (_isString(column.name)) {
         return column.name;
     }
@@ -85,13 +85,13 @@ export function getActualItems<I>(
         .filter(({id}) => columns.some((column) => id === column.id))
         .concat(newColumnSettings)
         .map(({id, isSelected}) => {
-            const column = columns.find((column) => column.id === id);
-            const isProtected = Boolean(column?.meta?.selectedAlways);
+            const foundColumn = columns.find((column) => column.id === id);
+            const isProtected = Boolean(foundColumn?.meta?.selectedAlways);
             return {
                 id,
                 isSelected: isProtected ? true : isSelected,
                 isProtected,
-                title: column ? getColumnStringTitle(column) : id,
+                title: foundColumn ? getColumnStringTitle(foundColumn) : id,
             };
         });
 }
@@ -115,7 +115,7 @@ function prepareUpdateSettings(items: TableColumnSetupItem[]): TableSettingsData
 export interface WithTableSettingsProps {
     settingsPopupWidth?: string;
     settings: TableSettingsData;
-    updateSettings: (data: TableSettingsData) => Promise<void>;
+    updateSettings: (data: TableSettingsData) => void;
 }
 
 const b = block('table');

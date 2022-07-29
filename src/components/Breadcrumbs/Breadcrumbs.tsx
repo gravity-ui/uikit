@@ -129,7 +129,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
 
         return (
             <Item
-                {...data}
+                data={data}
                 isCurrent={isCurrent}
                 isPrevCurrent={isPrevCurrent}
                 renderItem={renderItemContent}
@@ -154,7 +154,7 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
 
         return (
             <Item
-                {...rootItem}
+                data={rootItem}
                 isCurrent={isCurrent}
                 isPrevCurrent={false}
                 renderItem={renderRootContent || renderItemContent}
@@ -179,15 +179,21 @@ export class Breadcrumbs extends React.Component<BreadcrumbsProps, BreadcrumbsSt
     }
 
     renderMoreItem() {
-        const {popupStyle, popupPlacement} = this.props;
         const {hiddenItems} = this.state;
+        if (hiddenItems.length === 0) {
+            return null;
+        }
 
+        const {popupStyle, popupPlacement, renderItemDivider} = this.props;
         return (
-            <BreadcrumbsMore
-                items={hiddenItems}
-                popupPlacement={popupPlacement}
-                popupStyle={popupStyle}
-            />
+            <React.Fragment>
+                <BreadcrumbsSeparator renderItemDivider={renderItemDivider} />
+                <BreadcrumbsMore
+                    items={hiddenItems}
+                    popupPlacement={popupPlacement}
+                    popupStyle={popupStyle}
+                />
+            </React.Fragment>
         );
     }
 

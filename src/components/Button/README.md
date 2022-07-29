@@ -8,7 +8,7 @@
 import React from 'react';
 import {Button} from '@yandex-cloud/uikit';
 
-const button = <Button>Кнопка</Button>;
+const button = <Button>Action</Button>;
 ```
 
 ### Link
@@ -17,7 +17,7 @@ const button = <Button>Кнопка</Button>;
 import React from 'react';
 import {Button} from '@yandex-cloud/uikit';
 
-const button = <Button href="/cart">Кнопка</Button>;
+const button = <Button href="/cart">Cart</Button>;
 ```
 
 ### With icon

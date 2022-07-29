@@ -3,14 +3,9 @@ import {DropdownMenu} from '../DropdownMenu';
 import {Link} from '../Link';
 import {block} from '../utils/cn';
 import {BreadcrumbsProps} from './Breadcrumbs';
-import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 import i18n from './i18n';
 
-interface Props
-    extends Pick<
-        BreadcrumbsProps,
-        'popupPlacement' | 'popupStyle' | 'items' | 'renderItemDivider'
-    > {}
+interface Props extends Pick<BreadcrumbsProps, 'popupPlacement' | 'popupStyle' | 'items'> {}
 
 const b = block('breadcrumbs');
 
@@ -22,23 +17,16 @@ function Switcher() {
     );
 }
 
-export function BreadcrumbsMore({popupStyle, popupPlacement, items, renderItemDivider}: Props) {
-    if (items.length === 0) {
-        return null;
-    }
-
+export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
     return (
-        <React.Fragment>
-            <BreadcrumbsSeparator renderItemDivider={renderItemDivider} />
-            <DropdownMenu
-                items={items}
-                popupClassName={b('popup', {
-                    staircase: popupStyle === 'staircase',
-                })}
-                popupPlacement={popupPlacement}
-                switcher={<Switcher />}
-            />
-        </React.Fragment>
+        <DropdownMenu
+            items={items}
+            popupClassName={b('popup', {
+                staircase: popupStyle === 'staircase',
+            })}
+            popupPlacement={popupPlacement}
+            switcher={<Switcher />}
+        />
     );
 }
 

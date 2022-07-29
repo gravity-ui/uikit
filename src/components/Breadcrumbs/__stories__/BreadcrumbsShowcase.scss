@@ -4,4 +4,12 @@
         flex-direction: column;
         padding: 20px;
     }
+
+    &__container {
+        border: 1px dashed var(--yc-color-line-generic);
+
+        & + & {
+            margin-top: 10px;
+        }
+    }
 }

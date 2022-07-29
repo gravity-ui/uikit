@@ -19,7 +19,7 @@ export interface StoreBadgeProps {
     alt?: string;
 }
 
-export function StoreBadge({platform, lang = 'ru', className, onClick, url, alt}: StoreBadgeProps) {
+export function StoreBadge({platform, lang = 'en', className, onClick, url, alt}: StoreBadgeProps) {
     if (!url) {
         return <img className={b({platform, lang}, className)} onClick={onClick} alt={alt} />;
     }

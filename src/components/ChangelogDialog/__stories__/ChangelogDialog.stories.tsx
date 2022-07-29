@@ -8,6 +8,11 @@ import {ChangelogItem} from '../types';
 export default {
     title: 'Components/ChangelogDialog',
     component: ChangelogDialog,
+    argTypes: {
+        onStoryClick: {
+            action: 'onStoryClick'
+        }
+    }
 } as Meta;
 
 const items: ChangelogItem[] = [

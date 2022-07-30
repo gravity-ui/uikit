@@ -24,8 +24,9 @@ export interface SocialShareLinkProps extends SocialShareData {
 export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
     render() {
         const {type, shareLink, direction, className, label} = this.props;
+        const icon = this.props.icon || (type && icons[type]);
         const url = shareLink ?? (type && this.getShareLink(type));
-        const icon = type && icons[type];
+
         const typeModifier = type?.toLowerCase();
 
         if (!url) {

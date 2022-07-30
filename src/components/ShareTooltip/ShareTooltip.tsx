@@ -83,6 +83,7 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
             direction,
             customIcon,
             buttonTitle,
+            children,
         } = this.props;
 
         const content = (
@@ -93,7 +94,9 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
                 socialNets={socialNets}
                 withCopyLink={withCopyLink}
                 direction={direction}
-            />
+            >
+                {children}
+            </ShareList>
         );
 
         return (

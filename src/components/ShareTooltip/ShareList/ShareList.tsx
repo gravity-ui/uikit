@@ -8,13 +8,14 @@ import {Icon} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../icons';
 import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
+import {isOfType} from '../../utils/isOfType';
 
 import i18n from '../i18n';
 
 import './ShareList.scss';
 
 const b = block('share-list');
-
+const isSocialShareLinkComponent = isOfType(SocialShareLink);
 export interface ShareListDefaultProps {
     /** social networks list */
     socialNets: SocialNetwork[];
@@ -42,6 +43,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         socialNets: [],
         withCopyLink: false,
     };
+    static Item: typeof SocialShareLink;
 
     state: ShareListState = {
         copied: false,
@@ -56,12 +58,16 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
     }
 
     render() {
-        const {socialNets, withCopyLink, className, direction} = this.props;
+        const {socialNets, withCopyLink, className, direction, children} = this.props;
         const hasNets = Array.isArray(socialNets) && socialNets.length > 0;
+        const extensions = React.Children.toArray(children).filter((child) =>
+            isSocialShareLinkComponent(child),
+        );
 
         return (
             <div className={b({layout: direction}, className)}>
                 {hasNets && this.renderSocialShareLinks()}
+                {Boolean(extensions?.length) && extensions}
                 {hasNets && withCopyLink && <div className={b('separator')} />}
                 {withCopyLink && this.renderCopyLink()}
             </div>

@@ -13,19 +13,28 @@ import './SocialShareLink.scss';
 const b = block('social-share-link');
 
 export interface SocialShareLinkProps extends SocialShareData {
-    type: SocialNetwork;
+    type?: SocialNetwork;
     icon?: SVGIconData;
+    label?: string;
     className?: string;
     direction?: LayoutDirections;
+    shareLink?: string;
 }
 
 export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
     render() {
-        const {type, direction, icon = icons[type], className} = this.props;
-        const url = this.getShareLink(type);
-        const typeModifier = type.toLowerCase();
+        const {type, shareLink, direction, className, label} = this.props;
+        const url = shareLink ?? (type && this.getShareLink(type));
+        const icon = type && icons[type];
+        const typeModifier = type?.toLowerCase();
+
+        if (!url) {
+            return null;
+        }
 
         if (direction === 'column') {
+            const title = label || (type && SocialNetwork[type]);
+
             return (
                 <Button
                     view="flat"
@@ -35,14 +44,16 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
                     width="max"
                     className={b(null, className)}
                 >
-                    <Icon data={icon} size={16} className={b('icon', {type: typeModifier})} />
-                    <span className={b(null, className)}>{SocialNetwork[type]}</span>
+                    {icon && (
+                        <Icon data={icon} size={16} className={b('icon', {type: typeModifier})} />
+                    )}
+                    {title && <span className={b(null, className)}>{title}</span>}
                 </Button>
             );
         }
         return (
             <Button view="flat" size="l" href={url} target="_blank" className={b(null, className)}>
-                <Icon data={icon} size={24} className={b('icon', {type: typeModifier})} />
+                {icon && <Icon data={icon} size={24} className={b('icon', {type: typeModifier})} />}
             </Button>
         );
     }

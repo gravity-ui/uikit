@@ -6,6 +6,9 @@ import {ShareTooltip, SocialNetwork, SocialShareLink} from '../../components/Sha
 
 import {Cloud, ShareArrowUp} from './icons';
 import {LayoutDirections} from '../../components/ShareTooltip/constants';
+import {ShareList} from '../../components/ShareTooltip/index';
+import {LinkedIn} from './icons/LinkedIn';
+import {SocialShareData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';
 
@@ -49,6 +52,25 @@ export function ShareTooltipDemo() {
                     socialNets={socialNets}
                     withCopyLink={false}
                 />
+            </div>
+
+            <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
+                <span style={{marginRight: 8}}>Custom Social</span>
+                <ShareTooltip
+                    url={url}
+                    title={title}
+                    text={text}
+                    socialNets={socialNets}
+                    withCopyLink={false}
+                    openByHover={false}
+                >
+                    <ShareList.Item
+                        icon={LinkedIn}
+                        url="https://www-linkedin.com/"
+                        label="LinkedIn"
+                        getShareLink={(params: SocialShareData) => params.url}
+                    />
+                </ShareTooltip>
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>

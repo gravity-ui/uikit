@@ -28,6 +28,10 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
     className?: string;
     /** elements location direction */
     direction?: LayoutDirections;
+    /** you can extend available social nets with custom ones using ShareListProps.Item */
+    children?:
+        | React.ReactElement<SocialShareLink, typeof SocialShareLink>
+        | React.ReactElement<SocialShareLink, typeof SocialShareLink>[];
 }
 
 type ShareListInnerProps = Omit<ShareListProps, keyof ShareListDefaultProps> &
@@ -43,7 +47,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         socialNets: [],
         withCopyLink: false,
     };
-    static Item: typeof SocialShareLink;
+    static Item = SocialShareLink;
 
     state: ShareListState = {
         copied: false,

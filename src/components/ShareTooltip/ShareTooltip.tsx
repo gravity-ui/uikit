@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../utils/cn';
-import {LayoutDirections} from './constants';
+import {LayoutDirection} from './constants';
 import {ShareList, ShareListProps, ShareListDefaultProps} from './ShareList/ShareList';
 import {PopupPlacement} from '../Popup';
 import {SVGIconData} from '../Icon/types';
@@ -13,7 +13,7 @@ import './ShareTooltip.scss';
 
 const b = block('share-tooltip');
 
-export interface ShareTooltipDefaultProps extends ShareListDefaultProps {
+interface ShareTooltipDefaultProps extends ShareListDefaultProps {
     /** Web Share API setting (social networks can be specified for non supported api case) */
     useWebShareApi: boolean;
     /** tooltip opening direction */
@@ -27,7 +27,7 @@ export interface ShareTooltipDefaultProps extends ShareListDefaultProps {
     /** control-icon size */
     iconSize: number;
     /** elements location direction */
-    direction: LayoutDirections;
+    direction: LayoutDirection;
 }
 
 export interface ShareTooltipProps extends ShareListProps, Partial<ShareTooltipDefaultProps> {
@@ -57,7 +57,7 @@ export const shareTooltipDefaultProps: ShareTooltipDefaultProps = {
     openByHover: true,
     autoclosable: true,
     closeDelay: 300,
-    direction: LayoutDirections.row,
+    direction: LayoutDirection.Row,
 };
 
 export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {

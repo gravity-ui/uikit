@@ -4,9 +4,10 @@ import {block} from '../../utils/cn';
 import {SocialShareData} from '../models';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {LayoutDirections, SocialNetwork} from '../constants';
+import {LayoutDirection, SocialNetwork} from '../constants';
 import {SVGIconData} from '../../Icon/types';
 import * as icons from '../../icons/social';
+import i18n from '../i18n';
 
 import './SocialShareLink.scss';
 
@@ -17,7 +18,7 @@ export interface SocialShareLinkProps extends SocialShareData {
     icon?: SVGIconData;
     label?: string;
     className?: string;
-    direction?: LayoutDirections;
+    direction?: LayoutDirection;
 
     getShareLink?: (params: SocialShareData) => string;
 }
@@ -34,7 +35,7 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
         }
 
         if (direction === 'column') {
-            const title = label || (type && SocialNetwork[type]);
+            const name = label || (type && SocialNetwork[type]);
 
             return (
                 <Button
@@ -44,11 +45,12 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
                     target="_blank"
                     width="max"
                     className={b(null, className)}
+                    extraProps={{'aria-label': i18n('label_share', {name})}}
                 >
                     {icon && (
                         <Icon data={icon} size={16} className={b('icon', {type: typeModifier})} />
                     )}
-                    {title && <span className={b(null, className)}>{title}</span>}
+                    {name && <span className={b(null, className)}>{name}</span>}
                 </Button>
             );
         }
@@ -80,7 +82,9 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
                     comment: text,
                 });
             default:
-                throw new Error(`Unknown share type: ${type}`);
+                console.error(`Unknown share type: ${type}`);
+
+                return null;
         }
     }
 

@@ -4,11 +4,11 @@ Component for app stores badges: AppStore и Google Play.
 
 ### PropTypes
 
-| Property  | Type            | Required | Default | Description          |
-| :-------- | :-------------- | :------- | :------ | :------------------- |
-| platform  | `BadgePlatform` | true     |         | Platform платформы   |
-| lang      | `Lang`          | true     |         | Language локализации |
-| url       | `String`        |          |         | Url ссылки           |
-| className | `String`        |          |         | Class элемента       |
-| onClick   | `Function`      |          |         | Click handler        |
-| alt       | `String`        |          |         | Hover hint text      |
+| Property  | Type                 | Required | Default | Description     |
+| :-------- | :------------------- | :------- | :------ | :-------------- |
+| platform  | `StoreBadgePlatform` | true     |         | Platform        |
+| lang      | `Lang`               | true     |         | Language        |
+| url       | `String`             |          |         | Elemen link url |
+| className | `String`             |          |         | Element class   |
+| onClick   | `Function`           |          |         | Click handler   |
+| alt       | `String`             |          |         | Hover hint text |

@@ -2,7 +2,7 @@ import React from 'react';
 import {block} from '../../utils/cn';
 
 import {SocialShareData} from '../models';
-import {LayoutDirections, SocialNetwork} from '../constants';
+import {LayoutDirection, SocialNetwork} from '../constants';
 import {SocialShareLink} from '../SocialShareLink/SocialShareLink';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
@@ -27,7 +27,7 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
     /** control css class */
     className?: string;
     /** elements location direction */
-    direction?: LayoutDirections;
+    direction?: LayoutDirection;
     /** you can extend available social nets with custom ones using ShareListProps.Item */
     children?:
         | React.ReactElement<SocialShareLink, typeof SocialShareLink>
@@ -42,7 +42,6 @@ interface ShareListState {
 }
 
 export class ShareList extends React.PureComponent<ShareListInnerProps, ShareListState> {
-    // eslint-disable-next-line react/sort-comp
     static defaultProps: ShareListDefaultProps = {
         socialNets: [],
         withCopyLink: false,
@@ -113,7 +112,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
                         width="max"
                     >
                         <Icon data={Link} size={16} />
-                        <span>{label}</span>
+                        {label}
                     </Button>
                 )}
             </CopyToClipboard>

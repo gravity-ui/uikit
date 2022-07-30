@@ -1,13 +1,11 @@
 import React from 'react';
 
-import {block} from '../../components/utils/cn';
+import {block} from '../../../utils/cn';
 
-import {ShareTooltip, SocialNetwork, SocialShareLink} from '../../components/ShareTooltip';
+import {ShareTooltip, SocialNetwork, SocialShareLink, ShareList} from '../../../ShareTooltip';
 
-import {Cloud, ShareArrowUp} from './icons';
-import {LayoutDirection} from '../../components/ShareTooltip/constants';
-import {ShareList} from '../../components/ShareTooltip/index';
-import {LinkedIn} from './icons/LinkedIn';
+import {LayoutDirection} from '../../constants';
+import {LinkedIn, Cloud, ShareArrowUp} from './icons';
 import {SocialShareData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';

@@ -4,22 +4,29 @@ import {block} from '../utils/cn';
 import {Platform} from '../mobile/constants';
 
 import './StoreBadge.scss';
+import {Lang} from '../index';
 
 const b = block('store-badge');
 
-export type BadgeLang = 'ru' | 'en';
-export type BadgePlatform = Platform.ANDROID | Platform.IOS;
+export type StoreBadgePlatform = Platform.ANDROID | Platform.IOS;
 
 export interface StoreBadgeProps {
-    platform: BadgePlatform;
+    platform: StoreBadgePlatform;
     url?: string;
-    lang?: BadgeLang;
+    lang?: Lang;
     className?: string;
     onClick?: () => void;
     alt?: string;
 }
 
-export function StoreBadge({platform, lang = 'en', className, onClick, url, alt}: StoreBadgeProps) {
+export function StoreBadge({
+    platform,
+    lang = Lang.En,
+    className,
+    onClick,
+    url,
+    alt,
+}: StoreBadgeProps) {
     if (!url) {
         return <img className={b({platform, lang}, className)} onClick={onClick} alt={alt} />;
     }

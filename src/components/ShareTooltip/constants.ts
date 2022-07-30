@@ -5,7 +5,7 @@ export enum SocialNetwork {
     VK = 'VK',
 }
 
-export enum LayoutDirections {
-    row = 'row',
-    column = 'column',
+export enum LayoutDirection {
+    Row = 'row',
+    Column = 'column',
 }

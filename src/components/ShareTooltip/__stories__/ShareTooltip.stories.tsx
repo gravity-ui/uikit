@@ -1,7 +1,7 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {ShareTooltip, shareTooltipDefaultProps} from '../ShareTooltip';
-import {ShareTooltipDemo} from '../../../demo/ShareTooltip';
+import {ShareTooltipDemo} from './Showcase';
 
 export default {
     title: 'Components/ShareTooltip',

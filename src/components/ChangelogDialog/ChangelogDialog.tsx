@@ -6,7 +6,7 @@ import {Link} from '../Link';
 import {Icon} from '../Icon';
 import {ExternalLinkIcon} from '../icons/ExternalLinkIcon';
 import {useUniqId} from '../utils/useUniqId';
-import {ChangelogItem, OnStoryClick} from './types';
+import {ChangelogItem, ChangelogStoryClickHandler} from './types';
 import {Item} from './components/Item/Item';
 import i18n from './i18n';
 
@@ -22,7 +22,7 @@ export interface ChangelogDialogProps {
     disableBodyScrollLock?: boolean;
     disableOutsideClick?: boolean;
     onClose: DialogProps['onClose'];
-    onStoryClick?: OnStoryClick;
+    onStoryClick?: ChangelogStoryClickHandler;
 }
 
 export function ChangelogDialog({

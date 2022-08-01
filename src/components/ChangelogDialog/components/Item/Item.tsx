@@ -6,7 +6,7 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {PlayIcon} from '../../../icons/PlayIcon';
 import {Picture} from '../Picture/Picture';
-import {ChangelogItem, OnStoryClick} from '../../types';
+import {ChangelogItem, ChangelogStoryClickHandler} from '../../types';
 import i18n from '../../i18n';
 
 import './Item.scss';
@@ -16,7 +16,7 @@ const b = block('changelog-dialog-item');
 export interface ItemProps {
     className?: string;
     data: ChangelogItem;
-    onStoryClick?: OnStoryClick;
+    onStoryClick?: ChangelogStoryClickHandler;
 }
 
 export function Item({className, data, onStoryClick}: ItemProps) {

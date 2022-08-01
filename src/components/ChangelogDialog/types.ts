@@ -13,4 +13,4 @@ export interface ChangelogItem {
     storyId?: string;
 }
 
-export type OnStoryClick = (storyId: string) => void;
+export type ChangelogStoryClickHandler = (storyId: string) => void;

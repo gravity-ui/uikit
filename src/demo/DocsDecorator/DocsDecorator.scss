@@ -1,0 +1,95 @@
+@import '../../../styles/mixins';
+
+$offset-xs: 4px;
+$offset-s: 8px;
+$offset-m: 16px;
+$offset-l: 40px;
+
+$root: '.docs-decorator';
+
+#{$root}#{$root}#{$root}#{$root}#{$root} {
+    .sbdocs-p,
+    .sbdocs-li,
+    .sbdocs-a {
+        @include text-body-2;
+    }
+
+    .sbdocs-wrapper {
+        padding: 0 $offset-l;
+    }
+
+    .sbdocs-content {
+        max-width: 800px;
+    }
+
+    .sbdocs-p,
+    .sbdocs-ul,
+    .sbdocs-ol {
+        margin: $offset-xs 0;
+
+        & + .sbdocs-p,
+        & + .sbdocs-ul,
+        & + .sbdocs-ol {
+            margin-top: $offset-s;
+        }
+    }
+
+    .sbdocs-li + .sbdocs-li {
+        margin-top: $offset-xs;
+    }
+
+    .sbdocs-ul,
+    .sbdocs-ol {
+        padding-left: $offset-m;
+    }
+
+    .sbdocs-h1 {
+        @include text-display-3;
+    }
+
+    .sbdocs-h2 {
+        @include text-display-1;
+        border: 0;
+        padding: 0;
+    }
+
+    .sbdocs-h3 {
+        @include text-header-2;
+    }
+
+    .sbdocs-h1,
+    .sbdocs-h2,
+    .sbdocs-h3 {
+        margin-top: $offset-l;
+        margin-bottom: $offset-m;
+    }
+
+    .sbdocs-a {
+        text-decoration: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        cursor: pointer;
+
+        color: var(--yc-color-text-link);
+
+        &:hover {
+            color: var(--yc-color-text-link-hover);
+        }
+    }
+
+    .sbdocs-p code {
+        @include text-code-inline-2;
+        line-height: 1;
+        padding: 1px 4px;
+        background: var(--yc-color-base-misc);
+        color: var(--yc-color-text-misc);
+    }
+
+    .docblock-source {
+        margin: $offset-m 0;
+    }
+
+    .docs-example {
+        margin: $offset-m 0;
+    }
+}

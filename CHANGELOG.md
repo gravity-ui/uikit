@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.11.0](https://github.com/yandex-cloud/uikit/compare/v2.10.3...v2.11.0) (2022-08-01)
+
+
+### Features
+
+* add ChangelogDialog component ([#267](https://github.com/yandex-cloud/uikit/issues/267)) ([4c51c2d](https://github.com/yandex-cloud/uikit/commit/4c51c2da9bbd8773342931b48d56ebc7acd5b63d))
+* **Popover:** add prop to disable link styles ([#280](https://github.com/yandex-cloud/uikit/issues/280)) ([9ebb795](https://github.com/yandex-cloud/uikit/commit/9ebb7952088efce21e51e27465e02d922481f64c))
+
+
+### Bug Fixes
+
+* **Button:** do not reduce clickable area on click ([#247](https://github.com/yandex-cloud/uikit/issues/247)) ([8214da4](https://github.com/yandex-cloud/uikit/commit/8214da419de91f4263ea7400ad19820dc96bfc62))
+* **Text:** fixed warning-heavy textColor variant ([#264](https://github.com/yandex-cloud/uikit/issues/264)) ([fb7efdc](https://github.com/yandex-cloud/uikit/commit/fb7efdc8dde66c334b8eb4addfe5c7165df48fde))
+* **withTableSettings:** updateSettings can be a not async function ([#256](https://github.com/yandex-cloud/uikit/issues/256)) ([918a87b](https://github.com/yandex-cloud/uikit/commit/918a87be93b0cf8a72d4887c1c6ffa936d5142e6))
+
 ## [2.10.3](https://github.com/yandex-cloud/uikit/compare/v2.10.2...v2.10.3) (2022-07-28)
 
 

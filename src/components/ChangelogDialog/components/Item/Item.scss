@@ -1,0 +1,46 @@
+@use '../../../variables';
+@use '../../../../../styles/mixins';
+
+$block: '.#{variables.$ns}changelog-dialog-item';
+$metaWidth: 110px;
+
+#{$block} {
+    display: flex;
+
+    &__meta {
+        width: $metaWidth;
+    }
+
+    &__date {
+        line-height: var(--yc-text-subheader-3-line-height);
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__label-new {
+        margin-top: 4px;
+    }
+
+    &__content {
+        flex: 1;
+        margin-left: 14px;
+    }
+
+    &__title {
+        margin: 0;
+        @include mixins.text-subheader-3();
+    }
+
+    &__image {
+        margin-top: 12px;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    &__description {
+        margin-top: 12px;
+    }
+
+    &__story-button {
+        margin-top: 16px;
+    }
+}

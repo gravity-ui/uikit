@@ -29,14 +29,13 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
         const icon = this.props.icon || (type && icons[type]);
         const url = getShareLink?.(rest) ?? (type && this.getShareLink(type));
         const typeModifier = type?.toLowerCase();
+        const name = label || (type && SocialNetwork[type]);
 
         if (!url) {
             return null;
         }
 
         if (direction === 'column') {
-            const name = label || (type && SocialNetwork[type]);
-
             return (
                 <Button
                     view="flat"
@@ -55,7 +54,14 @@ export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
             );
         }
         return (
-            <Button view="flat" size="l" href={url} target="_blank" className={b(null, className)}>
+            <Button
+                view="flat"
+                size="l"
+                href={url}
+                target="_blank"
+                className={b(null, className)}
+                extraProps={{'aria-label': i18n('label_share', {name})}}
+            >
                 {icon && <Icon data={icon} size={24} className={b('icon', {type: typeModifier})} />}
             </Button>
         );

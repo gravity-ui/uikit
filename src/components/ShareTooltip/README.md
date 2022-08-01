@@ -62,6 +62,30 @@ Social networks and copy button:
 />
 ```
 
+With custom social network:
+
+```js
+<ShareTooltip
+  url={url}
+  title={title}
+  text={text}
+  withCopyLink={false}
+  socialNets={[
+    SocialNetwork.Telegram,
+    SocialNetwork.Facebook,
+    SocialNetwork.Twitter,
+    SocialNetwork.VK,
+  ]}
+>
+  <ShareList.Item
+    icon={LinkedIn}
+    url="https://www-linkedin.com/"
+    label="LinkedIn"
+    getShareLink={(params: SocialShareData) => params.url}
+  />
+</ShareTooltip>
+```
+
 Web Share API setting (social networks can be specified for non supported api case):
 
 ```js

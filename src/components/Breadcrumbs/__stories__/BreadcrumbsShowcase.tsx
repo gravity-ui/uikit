@@ -51,26 +51,14 @@ class BreadcrumbsWrapper extends React.Component<BreadcrumbsWrapperProps> {
     }
 }
 
-const sizes1 = [100, 250, 300];
-
-const sizes2 = [150, 200, 250, 300];
+const sizes = [100, 150, 200, 250, 300];
 
 interface BreadcrumbsShowcaseProps extends Omit<BreadcrumbsProps, 'items'> {}
 
 export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
-    const defaultBreadcrumbsList = sizes1.map((size) => (
+    const defaultBreadcrumbsList = sizes.map((size) => (
         <div
-            style={{
-                width: size,
-            }}
-            key={size}
-        >
-            <BreadcrumbsWrapper {...props} items={breadcrumbsItems} />
-        </div>
-    ));
-
-    const breadcrumbsWith2LastItems = sizes2.map((size) => (
-        <div
+            className={b('container')}
             style={{
                 width: size,
             }}
@@ -83,15 +71,16 @@ export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
     return (
         <div className={b()}>
             <div className={b('item')}>
-                <p>По умолчанию: до схлопывания элементов нет, после схлопывания один элемент.</p>
+                <p>Different sizes of container</p>
                 {defaultBreadcrumbsList}
             </div>
             <div className={b('item')}>
-                <p>
-                    Кастомизация: до схлопывания один элемент, после схлопывания два элемента,
-                    элементы в попапе идут лесенкой.
-                </p>
-                {breadcrumbsWith2LastItems}
+                <p>Custom divider</p>
+                <Breadcrumbs
+                    {...props}
+                    renderItemDivider={() => '>'}
+                    items={breadcrumbsItems.map(({text}) => ({text, action: () => {}}))}
+                />
             </div>
         </div>
     );

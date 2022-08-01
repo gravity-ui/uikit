@@ -5,3 +5,4 @@ export * from './useTheme';
 export * from './useThemeValue';
 export * from './withTheme';
 export * from './withThemeValue';
+export {Theme} from './types';

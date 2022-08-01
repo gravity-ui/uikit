@@ -13,7 +13,7 @@ function App() {
 }
 ```
 
-## Свойства
+## Props
 
 Inherits props: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 

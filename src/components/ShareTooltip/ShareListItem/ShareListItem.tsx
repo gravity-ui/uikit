@@ -9,11 +9,11 @@ import {SVGIconData} from '../../Icon/types';
 import * as icons from '../../icons/social';
 import i18n from '../i18n';
 
-import './SocialShareLink.scss';
+import './ShareListItem.scss';
 
-const b = block('social-share-link');
+const b = block('share-list-item');
 
-export interface SocialShareLinkProps extends SocialShareData {
+export interface ShareListItemProps extends SocialShareData {
     type?: SocialNetwork;
     icon?: SVGIconData;
     label?: string;
@@ -23,7 +23,7 @@ export interface SocialShareLinkProps extends SocialShareData {
     getShareLink?: (params: SocialShareData) => string;
 }
 
-export class SocialShareLink extends React.PureComponent<SocialShareLinkProps> {
+export class ShareListItem extends React.PureComponent<ShareListItemProps> {
     render() {
         const {type, direction, className, label, getShareLink, ...rest} = this.props;
         const icon = this.props.icon || (type && icons[type]);

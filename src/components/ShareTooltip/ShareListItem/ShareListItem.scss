@@ -1,6 +1,6 @@
 @use '../../variables.scss' as variables;
 
-$block: '.#{variables.$ns}social-share-link';
+$block: '.#{variables.$ns}share-list-item';
 
 #{$block} {
     display: flex;

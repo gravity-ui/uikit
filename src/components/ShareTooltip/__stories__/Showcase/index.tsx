@@ -2,7 +2,7 @@ import React from 'react';
 
 import {block} from '../../../utils/cn';
 
-import {ShareTooltip, SocialNetwork, SocialShareLink, ShareList} from '../../../ShareTooltip';
+import {ShareTooltip, SocialNetwork, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
 import {LinkedIn, Cloud, ShareArrowUp} from './icons';
@@ -154,7 +154,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom share link</span>
-                <SocialShareLink type={SocialNetwork.Telegram} url={url} icon={Cloud} />
+                <ShareList.Item type={SocialNetwork.Telegram} url={url} icon={Cloud} />
             </div>
         </div>
     );

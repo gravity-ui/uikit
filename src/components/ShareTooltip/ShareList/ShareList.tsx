@@ -3,7 +3,7 @@ import {block} from '../../utils/cn';
 
 import {SocialShareData} from '../models';
 import {LayoutDirection, SocialNetwork} from '../constants';
-import {SocialShareLink} from '../SocialShareLink/SocialShareLink';
+import {ShareListItem} from '../ShareListItem/ShareListItem';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../icons';
@@ -15,7 +15,7 @@ import i18n from '../i18n';
 import './ShareList.scss';
 
 const b = block('share-list');
-const isSocialShareLinkComponent = isOfType(SocialShareLink);
+const isShareListItemComponent = isOfType(ShareListItem);
 export interface ShareListDefaultProps {
     /** social networks list */
     socialNets: SocialNetwork[];
@@ -30,8 +30,8 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
     direction?: LayoutDirection;
     /** you can extend available social nets with custom ones using ShareListProps.Item */
     children?:
-        | React.ReactElement<SocialShareLink, typeof SocialShareLink>
-        | React.ReactElement<SocialShareLink, typeof SocialShareLink>[];
+        | React.ReactElement<ShareListItem, typeof ShareListItem>
+        | React.ReactElement<ShareListItem, typeof ShareListItem>[];
 }
 
 type ShareListInnerProps = Omit<ShareListProps, keyof ShareListDefaultProps> &
@@ -46,7 +46,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         socialNets: [],
         withCopyLink: false,
     };
-    static Item = SocialShareLink;
+    static Item = ShareListItem;
 
     state: ShareListState = {
         copied: false,
@@ -64,7 +64,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         const {socialNets, withCopyLink, className, direction, children} = this.props;
         const hasNets = Array.isArray(socialNets) && socialNets.length > 0;
         const extensions = React.Children.toArray(children).filter((child) =>
-            isSocialShareLinkComponent(child),
+            isShareListItemComponent(child),
         );
 
         return (
@@ -82,7 +82,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         return (
             <div className={b('social')}>
                 {socialNets.map((type) => (
-                    <SocialShareLink
+                    <ShareListItem
                         key={type}
                         type={type}
                         url={url}

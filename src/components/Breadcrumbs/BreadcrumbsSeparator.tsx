@@ -6,18 +6,12 @@ type Props = Pick<BreadcrumbsProps, 'renderItemDivider'>;
 
 const b = block('breadcrumbs');
 
-export const BreadcrumbsSeparator = React.memo(function BreadcrumbsSeparator({
-    renderItemDivider,
-}: Props) {
-    return renderItemDivider ? (
+export function BreadcrumbsSeparator({renderItemDivider}: Props) {
+    return (
         <div aria-hidden={true} className={b('divider')}>
-            {renderItemDivider()}
+            {renderItemDivider ? renderItemDivider() : '/'}
         </div>
-    ) : (
-        <span aria-hidden={true} className={b('divider')}>
-            /
-        </span>
     );
-});
+}
 
 BreadcrumbsSeparator.displayName = 'Breadcrumbs.Separator';

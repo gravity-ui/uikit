@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.10.3](https://github.com/yandex-cloud/uikit/compare/v2.10.2...v2.10.3) (2022-07-28)
+
+
+### Bug Fixes
+
+* **Button:** add contrast for selected state in dark theme ([#262](https://github.com/yandex-cloud/uikit/issues/262)) ([cbb86ac](https://github.com/yandex-cloud/uikit/commit/cbb86acdfe06bc54f39832d9243ebfd4b1b177d1))
+
+## [2.10.2](https://github.com/yandex-cloud/uikit/compare/v2.10.1...v2.10.2) (2022-07-28)
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** revert data pass to `<Breadcrumbs.Item/>` ([#276](https://github.com/yandex-cloud/uikit/issues/276)) ([5b4bc4b](https://github.com/yandex-cloud/uikit/commit/5b4bc4bacad64e266919c36171f537f95ed5158e))
+
+## [2.10.1](https://github.com/yandex-cloud/uikit/compare/v2.10.0...v2.10.1) (2022-07-27)
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** i18n must be used inside component ([#271](https://github.com/yandex-cloud/uikit/issues/271)) ([ec479a2](https://github.com/yandex-cloud/uikit/commit/ec479a2862493d0aaff7b6783ba0f85436f03582))
+* **Breadcrumbs:** render custom divider before more button ([#272](https://github.com/yandex-cloud/uikit/issues/272)) ([353d13e](https://github.com/yandex-cloud/uikit/commit/353d13e4b4e0b0993c7405dbdcf2f8c7f6b04ffc))
+
 ## [2.10.0](https://github.com/yandex-cloud/uikit/compare/v2.9.0...v2.10.0) (2022-07-21)
 
 

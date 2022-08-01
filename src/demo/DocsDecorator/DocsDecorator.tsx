@@ -13,6 +13,7 @@ const b = block('docs-decorator');
 export function DocsDecorator({children, context}: DocsDecoratorProps) {
     return (
         <div className={b()}>
+            {/* @ts-ignore */}
             <DocsContainer context={context}>
                 <ThemeProvider theme="light">
                     <MobileProvider mobile={false}>{children}</MobileProvider>

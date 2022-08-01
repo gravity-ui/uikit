@@ -1,3 +1,6 @@
 export {ShareSocialNetwork} from './constants';
-export * from './ShareList/ShareList';
-export * from './ShareTooltip';
+export {ShareList} from './ShareList/ShareList';
+export {ShareTooltip} from './ShareTooltip';
+
+export type {ShareListProps} from './ShareList/ShareList';
+export type {ShareTooltipProps} from './ShareTooltip';

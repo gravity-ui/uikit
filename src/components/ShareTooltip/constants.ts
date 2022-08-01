@@ -1,4 +1,4 @@
-export enum SocialNetwork {
+export enum ShareSocialNetwork {
     Telegram = 'Telegram',
     Facebook = 'Facebook',
     Twitter = 'Twitter',

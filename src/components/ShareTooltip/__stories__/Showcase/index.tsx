@@ -2,7 +2,7 @@ import React from 'react';
 
 import {block} from '../../../utils/cn';
 
-import {ShareTooltip, SocialNetwork, ShareList} from '../../../ShareTooltip';
+import {ShareTooltip, ShareSocialNetwork, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
 import {LinkedIn, Cloud, ShareArrowUp} from './icons';
@@ -18,10 +18,10 @@ export function ShareTooltipDemo() {
     const title = 'Check out this new awesome sharing component';
     const text = 'Content sharing is not supported in all social networks';
     const socialNets = [
-        SocialNetwork.Telegram,
-        SocialNetwork.Facebook,
-        SocialNetwork.Twitter,
-        SocialNetwork.VK,
+        ShareSocialNetwork.Telegram,
+        ShareSocialNetwork.Facebook,
+        ShareSocialNetwork.Twitter,
+        ShareSocialNetwork.VK,
     ];
 
     const ShareTitle = <div>Поделиться</div>;
@@ -154,7 +154,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom share link</span>
-                <ShareList.Item type={SocialNetwork.Telegram} url={url} icon={Cloud} />
+                <ShareList.Item type={ShareSocialNetwork.Telegram} url={url} icon={Cloud} />
             </div>
         </div>
     );

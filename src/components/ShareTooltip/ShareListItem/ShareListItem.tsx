@@ -4,7 +4,7 @@ import {block} from '../../utils/cn';
 import {SocialShareData} from '../models';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {LayoutDirection, SocialNetwork} from '../constants';
+import {LayoutDirection, ShareSocialNetwork} from '../constants';
 import {SVGIconData} from '../../Icon/types';
 import * as icons from '../../icons/social';
 import i18n from '../i18n';
@@ -14,7 +14,7 @@ import './ShareListItem.scss';
 const b = block('share-list-item');
 
 export interface ShareListItemProps extends SocialShareData {
-    type?: SocialNetwork;
+    type?: ShareSocialNetwork;
     icon?: SVGIconData;
     label?: string;
     className?: string;
@@ -29,7 +29,7 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
         const icon = this.props.icon || (type && icons[type]);
         const url = getShareLink?.(rest) ?? (type && this.getShareLink(type));
         const typeModifier = type?.toLowerCase();
-        const name = label || (type && SocialNetwork[type]);
+        const name = label || (type && ShareSocialNetwork[type]);
 
         if (!url) {
             return null;
@@ -67,21 +67,21 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
         );
     }
 
-    private getShareLink(type: SocialNetwork) {
+    private getShareLink(type: ShareSocialNetwork) {
         const {url, title, text} = this.props;
 
         // https://github.com/bradvin/social-share-urls
         switch (type) {
-            case SocialNetwork.Telegram:
+            case ShareSocialNetwork.Telegram:
                 return this.getShareUrlWithParams('https://t.me/share/url', {url, text: title});
-            case SocialNetwork.Facebook:
+            case ShareSocialNetwork.Facebook:
                 return this.getShareUrlWithParams('https://facebook.com/sharer.php', {u: url});
-            case SocialNetwork.Twitter:
+            case ShareSocialNetwork.Twitter:
                 return this.getShareUrlWithParams('https://twitter.com/intent/tweet', {
                     url,
                     text: title,
                 });
-            case SocialNetwork.VK:
+            case ShareSocialNetwork.VK:
                 return this.getShareUrlWithParams('https://vk.com/share.php', {
                     url,
                     title,

@@ -2,7 +2,7 @@ import React from 'react';
 import {block} from '../../utils/cn';
 
 import {SocialShareData} from '../models';
-import {LayoutDirection, SocialNetwork} from '../constants';
+import {LayoutDirection, ShareSocialNetwork} from '../constants';
 import {ShareListItem} from '../ShareListItem/ShareListItem';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
@@ -18,7 +18,7 @@ const b = block('share-list');
 const isShareListItemComponent = isOfType(ShareListItem);
 export interface ShareListDefaultProps {
     /** social networks list */
-    socialNets: SocialNetwork[];
+    socialNets: ShareSocialNetwork[];
     /** should show copy button */
     withCopyLink: boolean;
 }

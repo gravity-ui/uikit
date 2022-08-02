@@ -1,0 +1,42 @@
+@use '../../variables.scss' as variables;
+
+$block: '.#{variables.$ns}share-list-item';
+
+#{$block} {
+    display: flex;
+    align-items: center;
+
+    &__icon_type {
+        &_telegram {
+            color: var(--yc-color-telegram);
+        }
+
+        &_facebook {
+            color: var(--yc-color-facebook);
+        }
+
+        &_twitter {
+            color: var(--yc-color-twitter);
+        }
+
+        &_vk {
+            color: var(--yc-color-vk);
+        }
+    }
+
+    &__link-container {
+        display: flex;
+    }
+
+    &__link-icon {
+        display: flex;
+        align-items: center;
+    }
+
+    &__link-title {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        margin-left: 10px;
+    }
+}

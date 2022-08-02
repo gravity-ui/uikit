@@ -1,0 +1,13 @@
+@use '../../../variables.scss';
+
+$block: '.#{variables.$ns}share-tooltip-demo';
+
+#{$block} {
+    &__custom-switcher {
+        color: #ff0000;
+    }
+
+    &__custom-switcher:hover {
+        color: #00ff00;
+    }
+}

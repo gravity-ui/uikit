@@ -1,0 +1,72 @@
+@use '../../variables.scss' as variables;
+
+$block: '.#{variables.$ns}share-list';
+
+#{$block} {
+    display: flex;
+    align-items: center;
+
+    &_layout {
+        &_row {
+            flex-direction: row;
+
+            #{$block}__separator {
+                align-self: stretch;
+                margin: 8px -2px;
+
+                @media (min-width: 639px) {
+                    width: 1px;
+                    margin: -2px 8px;
+                }
+            }
+
+            #{$block}__social {
+                flex-direction: row;
+            }
+
+            #{$block}__link + #{$block}__link {
+                margin-left: 4px;
+            }
+        }
+        &_column {
+            flex-direction: column;
+
+            #{$block}__separator {
+                justify-self: stretch;
+                height: 1px;
+                width: 100%;
+                margin: 8px -2px;
+            }
+
+            #{$block}__social {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    }
+
+    &__social {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    &__separator {
+        background: var(--yc-color-line-generic);
+    }
+
+    @media (max-width: 639px) {
+        flex-direction: column;
+        align-items: stretch;
+        min-width: 175px;
+
+        &__social {
+            justify-content: space-evenly;
+        }
+
+        &__separator {
+            width: calc(100% + 4px);
+            height: 1px;
+            margin: 8px -2px;
+        }
+    }
+}

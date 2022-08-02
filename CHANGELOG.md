@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.0](https://github.com/yandex-cloud/uikit/compare/v2.11.0...v2.12.0) (2022-08-02)
+
+
+### Features
+
+* add `ShareTooltip` and `StoreBadge` components ([#275](https://github.com/yandex-cloud/uikit/issues/275)) ([8c38211](https://github.com/yandex-cloud/uikit/commit/8c38211503ca6c761982641288e9039f6dc07804))
+
 ## [2.11.0](https://github.com/yandex-cloud/uikit/compare/v2.10.3...v2.11.0) (2022-08-01)
 
 

@@ -15,7 +15,7 @@ function App() {
 
 ## Props
 
-Inherits props: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherits props: [`ControlProps`](../types.ts#L13), [`DOMProps`](../types.ts#L3), [`QAProps`](../types.ts#L8).
 
 ```ts
 interface SwitchProps extends ControlProps, DOMProps, QAProps {

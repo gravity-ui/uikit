@@ -27,6 +27,7 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
      */
     'aria-label'?: string;
     container?: HTMLElement;
+    contentClassName?: string;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -47,6 +48,7 @@ export function Modal({
     children,
     style,
     className,
+    contentClassName,
     'aria-labelledby': ariaLabelledBy,
     'aria-label': ariaLabel,
     container,
@@ -111,7 +113,7 @@ export function Modal({
                             aria-modal={open}
                             aria-label={ariaLabel}
                             aria-labelledby={ariaLabelledBy}
-                            className={b('content')}
+                            className={b('content', contentClassName)}
                         >
                             {children}
                         </div>

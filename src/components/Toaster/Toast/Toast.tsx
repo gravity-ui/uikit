@@ -5,6 +5,7 @@ import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
 import type {ToastAction, ToastProps, ToastType} from '../types';
+import i18n from '../i18n';
 
 import './Toast.scss';
 
@@ -212,7 +213,12 @@ export function Toast(props: ToastUnitedProps) {
                 {renderIcon({type})}
                 <h3 className={b('title')}>{title}</h3>
                 {isClosable && (
-                    <Button view="flat-secondary" className={b('btn-close')} onClick={handleClose}>
+                    <Button
+                        view="flat-secondary"
+                        className={b('btn-close')}
+                        onClick={handleClose}
+                        extraProps={{'aria-label': i18n('label_close-button')}}
+                    >
                         <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />
                     </Button>
                 )}

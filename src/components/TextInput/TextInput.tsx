@@ -3,6 +3,7 @@ import {block} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
+import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
@@ -149,13 +150,13 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
             {hasClear && (
-                <span
-                    role="button"
+                <Button
+                    size={size}
                     className={b('clear', {visible: isClearControlVisible})}
                     onClick={handleClear}
                 >
-                    <Icon data={CrossIcon} />
-                </span>
+                    <Icon data={CrossIcon} size={10} />
+                </Button>
             )}
         </span>
     );

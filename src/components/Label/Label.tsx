@@ -18,6 +18,8 @@ interface LabelOwnProps {
     onClose?(event: React.MouseEvent<HTMLButtonElement>): void;
     /** Text to copy */
     copyText?: string;
+    /* `aria-label` of button with cross */
+    closeButtonLabel?: string;
     /** Handler for copy event */
     onCopy?(text: string, result: boolean): void;
     /** Handler for click on label itself */
@@ -55,6 +57,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         className,
         disabled,
         copyText,
+        closeButtonLabel,
         interactive = false,
         onCopy,
         onClick,
@@ -105,6 +108,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
             onClick={onClose}
             pin={'brick-round'}
             size={size}
+            extraProps={{'aria-label': closeButtonLabel}}
             className={b('icon', {
                 right: true,
                 cross: true,

@@ -7,6 +7,8 @@ import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
+import i18n from './i18n';
+
 import './TextInput.scss';
 
 export type {TextInputProps, TextInputView, TextInputSize, TextInputPin};
@@ -154,6 +156,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     size={size}
                     className={b('clear', {visible: isClearControlVisible})}
                     onClick={handleClear}
+                    extraProps={{'aria-label': i18n('label_clear-button')}}
                 >
                     <Icon data={CrossIcon} size={10} />
                 </Button>

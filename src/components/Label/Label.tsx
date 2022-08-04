@@ -4,6 +4,7 @@ import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
+import {Button} from '../Button';
 import './Label.scss';
 
 const b = block('label');
@@ -14,7 +15,7 @@ interface LabelOwnProps {
     /** Состояние disabled */
     disabled?: boolean;
     /** Хендлер на нажатие крестика */
-    onClose?(event: React.MouseEvent<HTMLDivElement>): void;
+    onClose?(event: React.MouseEvent<HTMLButtonElement>): void;
     /** Текст для копирования */
     copyText?: string;
     /** Хендлер после события копирования */
@@ -100,15 +101,17 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     };
 
     const closeButton = typeClose && (
-        <div
+        <Button
             onClick={onClose}
+            pin={'brick-round'}
+            size={size}
             className={b('icon', {
                 right: true,
                 cross: true,
             })}
         >
             <Icon size={closeIconSize} data={CrossIcon} />
-        </div>
+        </Button>
     );
 
     const renderLabel = (status?: CopyToClipboardStatus) => {

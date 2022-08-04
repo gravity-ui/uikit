@@ -108,7 +108,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
             onClick={onClose}
             pin={'brick-round'}
             size={size}
-            extraProps={{'aria-label': closeButtonLabel}}
+            extraProps={{'aria-label': closeButtonLabel || undefined}}
             className={b('icon', {
                 right: true,
                 cross: true,

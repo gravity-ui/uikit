@@ -1,4 +1,6 @@
-### PropTypes
+# Label
+
+## PropTypes
 
 | Property         | Type                                                       | Required | Default     | Description                                              |
 | :--------------- | :--------------------------------------------------------- | :------- | :---------- | :------------------------------------------------------- |
@@ -15,3 +17,11 @@
 | onCopy           | `onCopy?(text: string, result: boolean): void;`            |          | `undefined` | Callback after copy                                      |
 | onClick          | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Handler for element click                                |
 | className        | `String`                                                   |          | `undefined` | Class name                                               |
+
+## Example
+
+```tsx
+<Label type="close" closeButtonLabel='Remove tag "Foobar"' onClose={removeTag}>
+  Foobar
+</Label>
+```

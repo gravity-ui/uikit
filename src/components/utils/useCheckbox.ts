@@ -2,6 +2,7 @@ import React from 'react';
 
 import {ControlProps} from '../types';
 import {useForkRef} from './useForkRef';
+import {eventBroker} from './event-broker';
 
 export function useCheckbox({
     name,
@@ -34,6 +35,15 @@ export function useCheckbox({
     }, [indeterminate]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        eventBroker.publish({
+            componentId: 'Checkbox',
+            eventId: 'click',
+            domEvent: event,
+            meta: {
+                checked: event.target.checked,
+            },
+        });
+
         if (!isControlled) {
             setCheckedState(event.target.checked);
         }

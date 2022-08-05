@@ -3,6 +3,7 @@ import React from 'react';
 import {ControlProps} from '../types';
 import {useUniqId} from './useUniqId';
 import {useForkRef} from './useForkRef';
+import {eventBroker} from './event-broker';
 
 export function useRadio({
     name,
@@ -27,6 +28,12 @@ export function useRadio({
     const handleRef = useForkRef(controlRef, innerControlRef);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        eventBroker.publish({
+            componentId: 'Radio',
+            eventId: 'click',
+            domEvent: event,
+        });
+
         if (!isControlled) {
             setCheckedState(event.target.checked);
         }

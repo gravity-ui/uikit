@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}checkbox';
+$block: '.#{uikit.$ns}checkbox';
 
 #{$block} {
     display: inline-flex;

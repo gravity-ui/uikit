@@ -1,16 +1,16 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}loader';
+$block: '.#{uikit.$ns}loader';
 
 $pulse-duration: 800ms;
 $pulse-delay: $pulse-duration * 0.25;
-$animation: #{$ns}pulse ease $pulse-duration infinite;
+$animation: #{uikit.$ns}pulse ease $pulse-duration infinite;
 
 $base-height-s: 20px;
 $base-height-m: 28px;
 $base-height-l: 36px;
 
-@keyframes #{$ns}pulse {
+@keyframes #{uikit.$ns}pulse {
     50% {
         opacity: 15%;
     }

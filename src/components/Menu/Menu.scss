@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}menu';
+$block: '.#{uikit.$ns}menu';
 
 #{$block} {
     box-sizing: border-box;

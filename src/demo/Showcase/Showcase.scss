@@ -1,4 +1,4 @@
-@import '../../../styles/mixins';
+@use '../../../styles/mixins';
 
 .showcase {
     padding: 50px;
@@ -6,11 +6,11 @@
     flex-direction: column;
 
     &__title {
-        @include text-display-2();
+        @include mixins.text-display-2();
     }
 
     &__description {
-        @include text-body-3();
+        @include mixins.text-body-3();
         margin-top: 10px;
     }
 

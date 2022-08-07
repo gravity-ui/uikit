@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables' as uikit;
 
-$block: '.#{$ns}popover-demo';
+$block: '.#{uikit.$ns}popover-demo';
 
 #{$block} {
     height: 100%;

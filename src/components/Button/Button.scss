@@ -1,7 +1,7 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables' as uikit;
+@use '../../../styles/mixins';
 
-$block: '.#{$ns}button';
+$block: '.#{uikit.$ns}button';
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,
@@ -22,7 +22,7 @@ $block: '.#{$ns}button';
     --yc-button-background-color: transparent;
     --yc-button-background-color-hover: transparent;
 
-    @include button-reset();
+    @include mixins.button-reset();
     display: inline-block;
     position: relative;
     overflow: visible;
@@ -380,7 +380,7 @@ $block: '.#{$ns}button';
         }
     }
 
-    @include pin($block, ('::before', '::after'), var(--yc-button-border-radius));
+    @include mixins.pin($block, ('::before', '::after'), var(--yc-button-border-radius));
 
     &__text {
         display: inline-block;
@@ -455,7 +455,7 @@ $block: '.#{$ns}button';
         );
         background-size: 34px;
         background-clip: padding-box;
-        animation: #{$ns}button-loading 0.5s linear infinite;
+        animation: #{uikit.$ns}button-loading 0.5s linear infinite;
     }
 
     &_width_auto {
@@ -476,7 +476,7 @@ $block: '.#{$ns}button';
     }
 }
 
-@keyframes #{$ns}button-loading {
+@keyframes #{uikit.$ns}button-loading {
     from {
         background-position: -12px 0;
     }

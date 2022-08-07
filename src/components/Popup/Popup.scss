@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}popup';
+$block: '.#{uikit.$ns}popup';
 
 $arrow-size: 18px;
 $arrow-offset: 9px;
@@ -58,37 +58,37 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='bottom'][data-inited] {
-        animation-name: #{$ns}popup-bottom;
+        animation-name: #{uikit.$ns}popup-bottom;
     }
 
     &[data-popper-placement*='top'][data-inited] {
-        animation-name: #{$ns}popup-top;
+        animation-name: #{uikit.$ns}popup-top;
     }
 
     &[data-popper-placement*='left'][data-inited] {
-        animation-name: #{$ns}popup-left;
+        animation-name: #{uikit.$ns}popup-left;
     }
 
     &[data-popper-placement*='right'][data-inited] {
-        animation-name: #{$ns}popup-right;
+        animation-name: #{uikit.$ns}popup-right;
     }
 
     // open state
 
     &_open[data-popper-placement*='bottom'][data-inited] {
-        animation-name: #{$ns}popup-bottom-open;
+        animation-name: #{uikit.$ns}popup-bottom-open;
     }
 
     &_open[data-popper-placement*='top'][data-inited] {
-        animation-name: #{$ns}popup-top-open;
+        animation-name: #{uikit.$ns}popup-top-open;
     }
 
     &_open[data-popper-placement*='left'][data-inited] {
-        animation-name: #{$ns}popup-left-open;
+        animation-name: #{uikit.$ns}popup-left-open;
     }
 
     &_open[data-popper-placement*='right'][data-inited] {
-        animation-name: #{$ns}popup-right-open;
+        animation-name: #{uikit.$ns}popup-right-open;
     }
 
     // arrow
@@ -149,7 +149,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-bottom {
+    @keyframes #{uikit.$ns}popup-bottom {
         0% {
             visibility: visible;
             opacity: 1;
@@ -165,7 +165,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-bottom-open {
+    @keyframes #{uikit.$ns}popup-bottom-open {
         0% {
             opacity: 0;
             transform: translateY($transition-distance);
@@ -176,7 +176,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-top {
+    @keyframes #{uikit.$ns}popup-top {
         0% {
             visibility: visible;
             opacity: 1;
@@ -192,7 +192,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-top-open {
+    @keyframes #{uikit.$ns}popup-top-open {
         0% {
             opacity: 0;
             transform: translateY(-$transition-distance);
@@ -203,7 +203,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-left {
+    @keyframes #{uikit.$ns}popup-left {
         0% {
             visibility: visible;
 
@@ -220,7 +220,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-left-open {
+    @keyframes #{uikit.$ns}popup-left-open {
         0% {
             opacity: 0;
             transform: translateX(-$transition-distance);
@@ -231,7 +231,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-right {
+    @keyframes #{uikit.$ns}popup-right {
         0% {
             visibility: visible;
 
@@ -248,7 +248,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-right-open {
+    @keyframes #{uikit.$ns}popup-right-open {
         0% {
             opacity: 0;
             transform: translateX($transition-distance);

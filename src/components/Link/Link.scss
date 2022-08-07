@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}link';
+$block: '.#{uikit.$ns}link';
 
 #{$block} {
     text-decoration: none;

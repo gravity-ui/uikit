@@ -1,7 +1,7 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables' as uikit;
+@use '../../../styles/mixins';
 
-$block: '.#{$ns}text-input';
+$block: '.#{uikit.$ns}text-input';
 
 #{$block} {
     box-sizing: border-box;
@@ -51,7 +51,7 @@ $block: '.#{$ns}text-input';
     }
 
     &__error {
-        @include text-body-1();
+        @include mixins.text-body-1();
         color: var(--yc-color-text-danger);
         margin-top: 2px;
     }
@@ -172,7 +172,12 @@ $block: '.#{$ns}text-input';
         }
     }
 
-    @include pin($block, #{$block}__control, var(--yc-text-input-border-radius), $append: false);
+    @include mixins.pin(
+        $block,
+        #{$block}__control,
+        var(--yc-text-input-border-radius),
+        $append: false
+    );
 
     &_disabled {
         #{$block}__control {

@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables' as uikit;
 
-$block: '.#{$ns}toaster';
+$block: '.#{uikit.$ns}toaster';
 
 #{$block} {
     position: fixed;

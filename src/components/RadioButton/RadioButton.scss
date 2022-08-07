@@ -1,7 +1,6 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}radio-button';
+$block: '.#{uikit.$ns}radio-button';
 
 #{$block} {
     box-sizing: border-box;

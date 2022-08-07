@@ -1,5 +1,5 @@
-@import '../../../../../styles/mixins';
-@import '../../../variables';
+@use '../../../../../styles/mixins';
+@use '../../../variables' as uikit;
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,
@@ -15,12 +15,12 @@
     }
 }
 
-$block: '.#{$ns}select';
+$block: '.#{uikit.$ns}select';
 
 #{$block} {
-    @include button-reset();
+    @include mixins.button-reset();
     @include button-text-color(var(--yc-color-text-primary));
-    @include pin($block, $block, var(--yc-select-border-radius));
+    @include mixins.pin($block, $block, var(--yc-select-border-radius));
 
     box-sizing: border-box;
     display: inline-flex;
@@ -99,13 +99,13 @@ $block: '.#{$ns}select';
     }
 
     &__label {
-        @include text-accent;
+        @include mixins.text-accent;
         margin-right: 2px;
         white-space: nowrap;
     }
 
     &__placeholder {
-        @include overflow-ellipsis();
+        @include mixins.overflow-ellipsis();
         margin-right: 8px;
         color: var(--yc-color-text-hint);
     }

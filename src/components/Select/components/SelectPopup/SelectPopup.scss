@@ -1,8 +1,8 @@
-@import '../../../../../styles/mixins';
-@import '../../../variables';
+@use '../../../../../styles/mixins';
+@use '../../../variables' as uikit;
 
-$block: '.#{$ns}select-popup';
-$popupBlock: '.#{$ns}popup';
+$block: '.#{uikit.$ns}select-popup';
+$popupBlock: '.#{uikit.$ns}popup';
 $s-height: '28px';
 $s-hor-padding: '8px';
 $m-height: '28px';
@@ -67,8 +67,8 @@ $xl-hor-padding: '12px';
     }
 
     &__group-label-content {
-        @include overflow-ellipsis();
-        @include text-accent;
+        @include mixins.overflow-ellipsis();
+        @include mixins.text-accent;
 
         width: 100%;
     }
@@ -140,7 +140,7 @@ $xl-hor-padding: '12px';
     }
 
     &__option-default-label {
-        @include overflow-ellipsis();
+        @include mixins.overflow-ellipsis();
 
         &_disabled {
             color: var(--yc-color-text-secondary);

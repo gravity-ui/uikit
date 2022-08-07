@@ -1,7 +1,6 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}breadcrumbs';
+$block: '.#{uikit.$ns}breadcrumbs';
 
 #{$block} {
     &__inner {
@@ -42,7 +41,7 @@ $block: '.#{$ns}breadcrumbs';
     }
 
     &__popup_staircase {
-        $menu: '.#{$ns}menu';
+        $menu: '.#{uikit.$ns}menu';
         $staircaseLength: 10;
         #{$menu} {
             #{$menu}__list-item {

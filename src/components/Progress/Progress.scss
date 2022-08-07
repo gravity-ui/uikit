@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}progress';
+$block: '.#{uikit.$ns}progress';
 
 $progress-height: 20px;
 $progress-thin-height: 10px;

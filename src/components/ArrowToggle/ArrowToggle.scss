@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}arrow-toggle';
+$block: '.#{uikit.$ns}arrow-toggle';
 
 #{$block} {
     display: inline-block;

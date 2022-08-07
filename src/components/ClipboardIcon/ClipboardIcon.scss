@@ -1,14 +1,14 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}clipboard-icon';
+$block: '.#{uikit.$ns}clipboard-icon';
 
 #{$block} {
     &__state {
-        animation: #{$ns}clipboard-icon-state-dash 1s;
+        animation: #{uikit.$ns}clipboard-icon-state-dash 1s;
     }
 }
 
-@keyframes #{$ns}clipboard-icon-state-dash {
+@keyframes #{uikit.$ns}clipboard-icon-state-dash {
     0% {
         stroke-dasharray: 0 15;
     }

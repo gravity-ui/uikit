@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}dropdown-menu';
+$block: '.#{uikit.$ns}dropdown-menu';
 
 #{$block} {
     &__switcher-wrapper {

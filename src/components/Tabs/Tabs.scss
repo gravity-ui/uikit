@@ -1,12 +1,12 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables' as uikit;
+@use '../../../styles/mixins';
 
-#{$root} {
+#{uikit.$root} {
     --yc-tab-item-vertical-padding: 6px 20px;
     --yc-tab-item-vertical-height: 18px;
 }
 
-$block: '.#{$ns}tabs';
+$block: '.#{uikit.$ns}tabs';
 
 #{$block} {
     &_size {
@@ -17,7 +17,7 @@ $block: '.#{$ns}tabs';
 
             #{$block}__item-title,
             #{$block}__item-counter {
-                @include text-body-1();
+                @include mixins.text-body-1();
             }
         }
 
@@ -28,7 +28,7 @@ $block: '.#{$ns}tabs';
 
             #{$block}__item-title,
             #{$block}__item-counter {
-                @include text-body-2();
+                @include mixins.text-body-2();
             }
         }
 
@@ -39,7 +39,7 @@ $block: '.#{$ns}tabs';
 
             #{$block}__item-title,
             #{$block}__item-counter {
-                @include text-subheader-3();
+                @include mixins.text-subheader-3();
             }
         }
     }

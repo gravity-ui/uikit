@@ -1,11 +1,11 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}spin';
+$block: '.#{uikit.$ns}spin';
 
 #{$block} {
     display: inline-block;
     backface-visibility: hidden;
-    animation: #{$ns}spin 1s linear infinite;
+    animation: #{uikit.$ns}spin 1s linear infinite;
 
     &__inner {
         box-sizing: border-box;
@@ -46,7 +46,7 @@ $block: '.#{$ns}spin';
     }
 }
 
-@keyframes #{$ns}spin {
+@keyframes #{uikit.$ns}spin {
     from {
         transform: rotate(0deg);
     }

@@ -1,7 +1,7 @@
-@import '../../../styles/mixins';
-@import './variables';
+@use '../../../styles/mixins';
+@use './variables' as table;
 
-#{$block} {
+#{table.$block} {
     overflow: auto;
     position: relative;
 
@@ -51,13 +51,13 @@
     }
 
     &__cell {
-        @include overflow-ellipsis();
+        @include mixins.overflow-ellipsis();
 
         box-sizing: content-box;
         padding: 11px 10px;
         border-bottom: 1px solid var(--yc-color-line-generic);
 
-        line-height: $tableLineHeight;
+        line-height: table.$tableLineHeight;
         text-align: left;
         overflow-wrap: break-word;
 
@@ -122,7 +122,7 @@
     }
 
     &__th-content {
-        @include text-accent;
+        @include mixins.text-accent;
         display: inline-block;
         &::first-letter {
             text-transform: uppercase;
@@ -133,8 +133,8 @@
         background-color: var(--yc-color-base-simple-hover-solid);
         cursor: pointer;
 
-        #{$block}__cell_sticky_left,
-        #{$block}__cell_sticky_right {
+        #{table.$block}__cell_sticky_left,
+        #{table.$block}__cell_sticky_right {
             background: var(--yc-color-base-simple-hover-solid);
         }
     }

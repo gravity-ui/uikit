@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}table';
+$block: '.#{uikit.$ns}table';
 $tableLineHeight: 18px;

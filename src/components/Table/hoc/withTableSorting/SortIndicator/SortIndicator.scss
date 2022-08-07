@@ -1,6 +1,6 @@
-@import '../../../variables';
+@use '../../../../variables' as uikit;
 
-$block: '.#{$ns}sort-indicator';
+$block: '.#{uikit.$ns}sort-indicator';
 
 #{$block} {
     &__caret {

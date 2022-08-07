@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables' as uikit;
 
-$block: '.#{$ns}dialog-footer';
+$block: '.#{uikit.$ns}dialog-footer';
 
 #{$block} {
     padding: var(--yc-dialog-footer-padding);

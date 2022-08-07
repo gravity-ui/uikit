@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables' as uikit;
 
-$block: '.#{$ns}dialog-body';
+$block: '.#{uikit.$ns}dialog-body';
 
 #{$block} {
     padding: var(--yc-dialog-body-padding);

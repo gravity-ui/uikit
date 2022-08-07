@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables' as uikit;
 
-$block: '.#{$ns}radio-group';
+$block: '.#{uikit.$ns}radio-group';
 
 #{$block} {
     &_direction {

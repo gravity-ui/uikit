@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.13.0](https://github.com/yandex-cloud/uikit/compare/v2.12.0...v2.13.0) (2022-08-08)
+
+
+### Features
+
+* **Label:** add `closeButtonLabel` prop ([#292](https://github.com/yandex-cloud/uikit/issues/292)) ([5b6499d](https://github.com/yandex-cloud/uikit/commit/5b6499d6aa7d9916b3ae4e07d88586628a70c5b6))
+* **Modal:** add contentClassName prop to the Modal component ([#289](https://github.com/yandex-cloud/uikit/issues/289)) ([79caad6](https://github.com/yandex-cloud/uikit/commit/79caad659a08a3c35be9bddebc65251a1ec84ae1))
+
 ## [2.12.0](https://github.com/yandex-cloud/uikit/compare/v2.11.0...v2.12.0) (2022-08-02)
 
 

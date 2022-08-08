@@ -1,211 +1,171 @@
-import React from 'react';
-import noop from 'lodash/noop';
-
+import React, {ReactNode, MouseEventHandler, useState, useRef, useCallback, useEffect} from 'react';
 import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {DotsIcon} from '../icons/DotsIcon';
 import {
+    DropdownMenuSize,
+    DropdownMenuItem,
     DropdownMenuItemMixed,
     DropdownMenuItemAction,
-    DropdownMenuItem,
-    DropdownMenuSize,
 } from './types';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {MenuProps} from '../Menu';
-
 import './DropdownMenu.scss';
 
 const b = block('dropdown-menu');
 
-interface DropdownMenuGeneralProps<T> {
+export type DropdownMenuProps<T> = {
     /**
-     * Some context for this dropdown menu, it will be passed to any action called from this menu.
-     * Useful when rendering lists with context menus.
+     * Array of items.
+     * Nested arrays of items represent visually separated groups.
+     */
+    items?: (DropdownMenuItem<T> | DropdownMenuItem<T>[])[];
+    /**
+     * Switcher icon.
+     */
+    icon?: ReactNode;
+    onMenuToggle?: () => void;
+    hideOnScroll?: boolean;
+    /**
+     * Applied for the switcher and the menu.
+     */
+    size?: DropdownMenuSize;
+    /**
+     * A payload passed to the actions called from the menu.
+     * (Can be useful for context menus.)
      */
     data?: T;
-    /** If true, disables switcher button and prevents menu from being opened */
+    /**
+     * Setting this prop to `true` disables the switcher button
+     * and prevents the menu from being opened.
+     */
     disabled?: boolean;
-    /** Custom switcher */
-    switcher?: React.ReactNode;
+    /**
+     * Menu toggle control.
+     */
+    switcher?: ReactNode;
     switcherWrapperClassName?: string;
-    /** Allows to override some props for a default switcher Button */
+    /**
+     * Overrides the default switcher button props.
+     */
     defaultSwitcherProps?: ButtonProps;
     defaultSwitcherClassName?: string;
-    /** Invoked whenever the switcher was clicked (if DropdownMenu is not disabled) */
-    onSwitcherClick?: (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-    /** Allows to override some props for a default dropdown Menu */
+    onSwitcherClick?: MouseEventHandler<HTMLElement>;
+    /**
+     * Overrides the default dropdown menu popup props.
+     */
     menuProps?: MenuProps;
-
     popupClassName?: string;
     popupPlacement?: PopupPlacement;
+    /**
+     * Custom content inside the menu popup.
+     */
+    children?: ReactNode;
+};
 
-    /** Allows to render custom menu inside the popup block */
-    children?: React.ReactNode;
-}
-interface DropdownMenuDefaultProps<T> {
-    /** Array of items or arrays of items (the latter allows to define item groups) */
-    items: DropdownMenuItemMixed<T>[];
-    /** Custom icon for switcher */
-    icon: React.ReactNode;
-    onMenuToggle: () => void;
-    hideOnScroll: boolean;
-    /** Size used for switcher and menu */
-    size?: DropdownMenuSize;
-}
-interface DropdownMenuInnerProps<T>
-    extends DropdownMenuGeneralProps<T>,
-        DropdownMenuDefaultProps<T> {}
-export interface DropdownMenuProps<T>
-    extends DropdownMenuGeneralProps<T>,
-        Partial<DropdownMenuDefaultProps<T>> {}
+export const DropdownMenu = <T,>({
+    items = [],
+    size = 'm',
+    icon = <Icon data={DotsIcon} />,
+    onMenuToggle,
+    hideOnScroll = true,
+    data,
+    disabled,
+    switcher,
+    switcherWrapperClassName,
+    defaultSwitcherProps,
+    defaultSwitcherClassName,
+    onSwitcherClick,
+    menuProps,
+    popupClassName,
+    popupPlacement,
+    children,
+}: DropdownMenuProps<T>) => {
+    const [isPopupShown, setPopupShown] = useState(false);
+    const anchorRef = useRef<HTMLDivElement | null>(null);
 
-interface DropdownMenuState {
-    popupIsShowed: boolean;
-}
-
-export class DropdownMenu<T> extends React.PureComponent<
-    DropdownMenuInnerProps<T>,
-    DropdownMenuState
-> {
-    // eslint-disable-next-line react/sort-comp
-    static defaultProps: DropdownMenuDefaultProps<unknown> = {
-        items: [],
-        size: 'm',
-        icon: <Icon data={DotsIcon} />,
-        onMenuToggle: noop,
-        hideOnScroll: true,
-    };
-
-    state: Readonly<DropdownMenuState> = {
-        popupIsShowed: false,
-    };
-
-    private anchorRef = React.createRef<HTMLDivElement>();
-
-    componentWillUnmount() {
-        if (this.props.hideOnScroll) {
-            document.removeEventListener('scroll', this.onScroll, true);
-        }
-    }
-
-    render() {
-        const {
-            items,
-            switcher,
-            popupClassName,
-            switcherWrapperClassName,
-            popupPlacement,
-            size,
-            menuProps,
-            children,
-        } = this.props;
-
-        const switcherButton = switcher || this.renderDefaultSwitcher();
-
-        return (
-            <React.Fragment>
-                <div
-                    ref={this.anchorRef}
-                    className={b('switcher-wrapper', switcherWrapperClassName)}
-                    onClick={this.onSwitcherClick}
-                >
-                    {switcherButton}
-                </div>
-                <DropdownMenuPopup
-                    open={this.state.popupIsShowed}
-                    anchorRef={this.anchorRef}
-                    items={items}
-                    onMenuItemClick={this.onMenuItemClick}
-                    onClose={this.handleClose}
-                    popupClassName={popupClassName}
-                    placement={popupPlacement}
-                    size={size}
-                    menuProps={menuProps}
-                >
-                    {children}
-                </DropdownMenuPopup>
-            </React.Fragment>
-        );
-    }
-
-    private renderDefaultSwitcher() {
-        const {size, defaultSwitcherClassName, defaultSwitcherProps, icon} = this.props;
-
-        return (
-            <Button
-                view="flat"
-                size={size}
-                {...defaultSwitcherProps}
-                className={b('switcher-button', defaultSwitcherClassName)}
-                disabled={this.props.disabled}
-            >
-                {icon}
-            </Button>
-        );
-    }
-
-    private onMenuItemClick = (
-        event: React.MouseEvent<HTMLElement, MouseEvent>,
-        action: DropdownMenuItemAction<T>,
-    ) => {
-        action(event, this.props.data);
-        this.props.onMenuToggle();
-        this.hidePopup();
-    };
-
-    private onSwitcherClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (this.props.disabled) {
+    const handleSwitcherClick: MouseEventHandler<HTMLDivElement> = (event) => {
+        if (disabled) {
             return;
         }
 
-        this.props.onMenuToggle();
-
-        if (this.props.onSwitcherClick) {
-            this.props.onSwitcherClick(e);
-        }
-
-        if (this.state.popupIsShowed) {
-            this.hidePopup();
-        } else {
-            this.showPopup();
-        }
+        onMenuToggle?.();
+        onSwitcherClick?.(event);
+        setPopupShown((value) => !value);
     };
 
-    private onScroll = (event: Event) => {
-        let element: null | (Node & ParentNode) = this.anchorRef.current;
+    const handleMenuItemClick = useCallback(
+        (event: React.MouseEvent<HTMLElement, MouseEvent>, action: DropdownMenuItemAction<T>) => {
+            action(event, data);
+            onMenuToggle?.();
+            setPopupShown(false);
+        },
+        [data, onMenuToggle],
+    );
 
-        while (element && element !== event.target) {
-            element = element.parentNode;
+    const handleClose = useCallback(() => {
+        setPopupShown(false);
+        onMenuToggle?.();
+    }, [onMenuToggle]);
+
+    const handleScroll = useCallback(
+        (event: Event) => {
+            if ((event.target as Node).contains(anchorRef.current)) {
+                onMenuToggle?.();
+                setPopupShown(false);
+            }
+        },
+        [onMenuToggle],
+    );
+
+    useEffect(() => {
+        if (!isPopupShown || !hideOnScroll) {
+            return;
         }
 
-        if (element === event.target) {
-            this.props.onMenuToggle();
-            this.hidePopup();
-        }
-    };
+        document.addEventListener('scroll', handleScroll, true);
 
-    private showPopup() {
-        this.setState({popupIsShowed: true});
+        return () => {
+            document.removeEventListener('scroll', handleScroll, true);
+        };
+    }, [isPopupShown, hideOnScroll, handleScroll]);
 
-        if (this.props.hideOnScroll) {
-            document.addEventListener('scroll', this.onScroll, true);
-        }
-    }
+    return (
+        <>
+            <div
+                ref={anchorRef}
+                className={b('switcher-wrapper', switcherWrapperClassName)}
+                onClick={handleSwitcherClick}
+            >
+                {switcher || (
+                    <Button
+                        view="flat"
+                        size={size}
+                        {...defaultSwitcherProps}
+                        className={b('switcher-button', defaultSwitcherClassName)}
+                        disabled={disabled}
+                    >
+                        {icon}
+                    </Button>
+                )}
+            </div>
+            <DropdownMenuPopup
+                popupClassName={popupClassName}
+                items={items}
+                open={isPopupShown}
+                size={size}
+                placement={popupPlacement}
+                menuProps={menuProps}
+                anchorRef={anchorRef}
+                onMenuItemClick={handleMenuItemClick}
+                onClose={handleClose}
+            >
+                {children}
+            </DropdownMenuPopup>
+        </>
+    );
+};
 
-    private hidePopup() {
-        this.setState({popupIsShowed: false});
-
-        if (this.props.hideOnScroll) {
-            document.removeEventListener('scroll', this.onScroll, true);
-        }
-    }
-
-    private handleClose = () => {
-        this.hidePopup();
-        this.props.onMenuToggle();
-    };
-}
-
-export type {DropdownMenuItemMixed, DropdownMenuItemAction, DropdownMenuItem};
+export type {DropdownMenuItem, DropdownMenuItemMixed, DropdownMenuItemAction};

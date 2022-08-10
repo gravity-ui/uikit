@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.13.1](https://github.com/yandex-cloud/uikit/compare/v2.13.0...v2.13.1) (2022-08-10)
+
+
+### Bug Fixes
+
+* **StoreBadge:** content image for StoreBadge with url ([#299](https://github.com/yandex-cloud/uikit/issues/299)) ([194fa66](https://github.com/yandex-cloud/uikit/commit/194fa6695db08d6d399da3b900eeef6dbaa3da67))
+
 ## [2.13.0](https://github.com/yandex-cloud/uikit/compare/v2.12.0...v2.13.0) (2022-08-08)
 
 

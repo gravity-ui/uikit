@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}card';
+$block: '.#{variables.$ns}card';
 
 #{$block} {
     background-color: transparent;

@@ -1,6 +1,6 @@
-@use '../../../variables' as uikit;
+@use '../../../variables';
 
-$block: '.#{uikit.$ns}stories-video-view';
+$block: '.#{variables.$ns}stories-video-view';
 
 #{$block} {
     width: auto;

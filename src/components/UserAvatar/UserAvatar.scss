@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}user-avatar';
+$block: '.#{variables.$ns}user-avatar';
 
 #{$block} {
     box-sizing: border-box;

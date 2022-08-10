@@ -1,7 +1,7 @@
-@use '../variables' as uikit;
+@use '../variables';
 @use '../../../styles/mixins';
 
-$block: '.#{uikit.$ns}button';
+$block: '.#{variables.$ns}button';
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,
@@ -455,7 +455,7 @@ $block: '.#{uikit.$ns}button';
         );
         background-size: 34px;
         background-clip: padding-box;
-        animation: #{uikit.$ns}button-loading 0.5s linear infinite;
+        animation: #{variables.$ns}button-loading 0.5s linear infinite;
     }
 
     &_width_auto {
@@ -476,7 +476,7 @@ $block: '.#{uikit.$ns}button';
     }
 }
 
-@keyframes #{uikit.$ns}button-loading {
+@keyframes #{variables.$ns}button-loading {
     from {
         background-position: -12px 0;
     }

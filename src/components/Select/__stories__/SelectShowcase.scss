@@ -1,6 +1,6 @@
-@use '../../variables' as uikit;
+@use '../../variables';
 
-$block: '.#{uikit.$ns}select-showcase';
+$block: '.#{variables.$ns}select-showcase';
 
 #{$block} {
     display: flex;

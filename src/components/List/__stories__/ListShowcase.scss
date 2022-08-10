@@ -1,4 +1,4 @@
-@use '../../variables' as uikit;
+@use '../../variables';
 @use '../../../../styles/mixins';
 
 .list-showcase {
@@ -60,7 +60,7 @@
     }
 
     &__select {
-        $button: '.#{uikit.$ns}button';
+        $button: '.#{variables.$ns}button';
         box-sizing: border-box;
         display: flex;
         align-items: center;

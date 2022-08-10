@@ -1,5 +1,5 @@
 @use '../../../../../styles/mixins';
-@use '../../../variables' as uikit;
+@use '../../../variables';
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,
@@ -15,7 +15,7 @@
     }
 }
 
-$block: '.#{uikit.$ns}select';
+$block: '.#{variables.$ns}select';
 
 #{$block} {
     @include mixins.button-reset();

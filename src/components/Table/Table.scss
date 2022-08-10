@@ -1,7 +1,7 @@
 @use '../../../styles/mixins';
-@use './variables' as table;
+@use './variables';
 
-#{table.$block} {
+#{variables.$block} {
     overflow: auto;
     position: relative;
 
@@ -57,7 +57,7 @@
         padding: 11px 10px;
         border-bottom: 1px solid var(--yc-color-line-generic);
 
-        line-height: table.$tableLineHeight;
+        line-height: variables.$tableLineHeight;
         text-align: left;
         overflow-wrap: break-word;
 
@@ -133,8 +133,8 @@
         background-color: var(--yc-color-base-simple-hover-solid);
         cursor: pointer;
 
-        #{table.$block}__cell_sticky_left,
-        #{table.$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_left,
+        #{variables.$block}__cell_sticky_right {
             background: var(--yc-color-base-simple-hover-solid);
         }
     }

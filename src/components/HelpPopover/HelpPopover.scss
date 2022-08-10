@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}help-popover';
+$block: '.#{variables.$ns}help-popover';
 
 #{$block} {
     position: relative;

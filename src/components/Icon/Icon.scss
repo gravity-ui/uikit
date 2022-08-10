@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}icon';
+$block: '.#{variables.$ns}icon';
 
 #{$block} {
     color: inherit;

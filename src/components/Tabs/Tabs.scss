@@ -1,12 +1,12 @@
-@use '../variables' as uikit;
+@use '../variables';
 @use '../../../styles/mixins';
 
-#{uikit.$root} {
+#{variables.$root} {
     --yc-tab-item-vertical-padding: 6px 20px;
     --yc-tab-item-vertical-height: 18px;
 }
 
-$block: '.#{uikit.$ns}tabs';
+$block: '.#{variables.$ns}tabs';
 
 #{$block} {
     &_size {

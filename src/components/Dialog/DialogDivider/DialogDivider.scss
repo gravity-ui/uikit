@@ -1,6 +1,6 @@
-@use '../../variables' as uikit;
+@use '../../variables';
 
-$block: '.#{uikit.$ns}dialog-divider';
+$block: '.#{variables.$ns}dialog-divider';
 
 #{$block} {
     border-top: 1px solid var(--yc-color-line-generic);

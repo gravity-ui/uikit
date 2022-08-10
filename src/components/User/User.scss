@@ -1,7 +1,7 @@
 @use '../../../styles/mixins';
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}user';
+$block: '.#{variables.$ns}user';
 
 #{$block} {
     display: flex;

@@ -1,6 +1,6 @@
-@use '../../variables' as uikit;
+@use '../../variables';
 
-$block: '.#{uikit.$ns}dialog-btn-close';
+$block: '.#{variables.$ns}dialog-btn-close';
 
 #{$block} {
     position: absolute;

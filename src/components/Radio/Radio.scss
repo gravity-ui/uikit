@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}radio';
+$block: '.#{variables.$ns}radio';
 $discMarginMSize: 5px;
 $discMarginLSize: 6px;
 

@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}skeleton';
+$block: '.#{variables.$ns}skeleton';
 
 #{$block} {
     display: inline-block;
@@ -20,12 +20,12 @@ $block: '.#{uikit.$ns}skeleton';
         left: 0;
 
         background-image: linear-gradient(90deg, transparent, var(--yc-color-base-generic));
-        animation: #{uikit.$ns}skeleton 1.2s ease-out infinite;
+        animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
     }
 }
 
-@keyframes #{uikit.$ns}skeleton {
+@keyframes #{variables.$ns}skeleton {
     0% {
         transform: translateX(-100%);
     }

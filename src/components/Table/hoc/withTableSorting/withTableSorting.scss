@@ -1,6 +1,6 @@
-@use '../../../variables' as uikit;
+@use '../../../variables';
 
-$block: '.#{uikit.$ns}table';
+$block: '.#{variables.$ns}table';
 
 #{$block} {
     &__sort {

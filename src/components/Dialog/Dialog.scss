@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}dialog';
+$block: '.#{variables.$ns}dialog';
 
 #{$block} {
     position: relative;

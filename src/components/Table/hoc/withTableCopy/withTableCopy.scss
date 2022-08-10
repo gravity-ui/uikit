@@ -1,6 +1,6 @@
-@use '../../variables' as table;
+@use '../../variables';
 
-#{table.$block} {
+#{variables.$block} {
     &__copy {
         display: inline-flex;
         align-items: center;

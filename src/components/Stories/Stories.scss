@@ -1,7 +1,7 @@
-@use '../variables' as uikit;
+@use '../variables';
 @use '../../../styles/mixins';
 
-$block: '.#{uikit.$ns}stories';
+$block: '.#{variables.$ns}stories';
 $borderRadius: 20px;
 $maxWidth: 1280px;
 $maxHeight: 640px;

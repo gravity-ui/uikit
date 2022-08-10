@@ -1,7 +1,7 @@
-@use '../../variables' as uikit;
+@use '../../variables';
 @use '../../../../styles/mixins';
 
-$block: '.#{uikit.$ns}toast';
+$block: '.#{variables.$ns}toast';
 
 // Function to get animation that will trigger action in `onAnimationEnd` event handler
 // It always should be at the end of animations list

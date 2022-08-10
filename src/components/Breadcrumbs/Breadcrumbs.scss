@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}breadcrumbs';
+$block: '.#{variables.$ns}breadcrumbs';
 
 #{$block} {
     &__inner {
@@ -41,7 +41,7 @@ $block: '.#{uikit.$ns}breadcrumbs';
     }
 
     &__popup_staircase {
-        $menu: '.#{uikit.$ns}menu';
+        $menu: '.#{variables.$ns}menu';
         $staircaseLength: 10;
         #{$menu} {
             #{$menu}__list-item {

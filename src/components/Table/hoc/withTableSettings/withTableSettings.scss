@@ -1,9 +1,9 @@
-@use '../../variables' as table;
+@use '../../variables';
 
-#{table.$block} {
+#{variables.$block} {
     // чтобы высота кнопки не влияла на высоту строки
     &__settings {
-        height: table.$tableLineHeight;
+        height: variables.$tableLineHeight;
         display: flex;
         align-items: center;
 

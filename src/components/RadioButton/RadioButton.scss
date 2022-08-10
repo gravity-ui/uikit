@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}radio-button';
+$block: '.#{variables.$ns}radio-button';
 
 #{$block} {
     box-sizing: border-box;

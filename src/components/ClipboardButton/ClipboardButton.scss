@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}clipboard-button';
+$block: '.#{variables.$ns}clipboard-button';
 
 #{$block} {
     --yc-button-background-color: transparent;

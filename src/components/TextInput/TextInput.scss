@@ -1,7 +1,7 @@
-@use '../variables' as uikit;
+@use '../variables';
 @use '../../../styles/mixins';
 
-$block: '.#{uikit.$ns}text-input';
+$block: '.#{variables.$ns}text-input';
 
 #{$block} {
     box-sizing: border-box;

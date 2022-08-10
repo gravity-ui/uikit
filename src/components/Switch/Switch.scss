@@ -1,6 +1,6 @@
-@use '../variables' as uikit;
+@use '../variables';
 
-$block: '.#{uikit.$ns}switch';
+$block: '.#{variables.$ns}switch';
 
 #{$block} {
     position: relative;

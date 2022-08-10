@@ -1,6 +1,6 @@
-@use '../../../../variables' as uikit;
+@use '../../../../variables';
 
-$block: '.#{uikit.$ns}table-column-setup';
+$block: '.#{variables.$ns}table-column-setup';
 
 #{$block} {
     &__controls {
@@ -56,7 +56,7 @@ $block: '.#{uikit.$ns}table-column-setup';
             cursor: pointer;
             position: relative;
 
-            .#{uikit.$ns}list__item-sort-icon {
+            .#{variables.$ns}list__item-sort-icon {
                 cursor: move;
             }
         }

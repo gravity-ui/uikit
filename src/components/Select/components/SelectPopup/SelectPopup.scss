@@ -1,8 +1,8 @@
 @use '../../../../../styles/mixins';
-@use '../../../variables' as uikit;
+@use '../../../variables';
 
-$block: '.#{uikit.$ns}select-popup';
-$popupBlock: '.#{uikit.$ns}popup';
+$block: '.#{variables.$ns}select-popup';
+$popupBlock: '.#{variables.$ns}popup';
 $s-height: '28px';
 $s-hor-padding: '8px';
 $m-height: '28px';

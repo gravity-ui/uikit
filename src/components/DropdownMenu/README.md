@@ -1,73 +1,73 @@
-## DropdownMenu
+# DropdownMenu
 
-Dropdown menu with adjustable toggle (button with horizontal ellipsis by default).
+A dropdown menu with a customizable toggle. By default, the toggle is an ellipsis button (**⋯**).
 
-### PropTypes
+## Props
 
-| Property                 | Type                         | Required | Default | Description                                                                       |
-| :----------------------- | :--------------------------- | :------: | :------ | :-------------------------------------------------------------------------------- |
-| [items](#items)          | `DropdownMenuItem[]`         |          | []      | Menu items                                                                        |
-| data                     | `T`                          |          |         | Menu context                                                                      |
-| icon                     | `JSX node`                   |          |         | `<Icon/>` component that overrides default icon of `switcher`.                    |
-| size                     | `DropdownMenuSize`           |          |         | Size used for switcher and menu                                                   |
-| disabled                 | `Boolean`                    |          |         | `switcher` disabled state.                                                        |
-| switcher                 | `JSX node`                   |          |         | `switcher` component.                                                             |
-| switcherWrapperClassName | `string`                     |          |         | Default className for parent of the `switcher`                                    |
-| defaultSwitcherProps     | `ButtonProps`                |          |         | `switcher` props, when default component used (except `disabled` and `className`) |
-| defaultSwitcherClassName | `string`                     |          |         | Class name for default `switcher`                                                 |
-| menuProps                | `MenuProps`                  |          |         | Allows to override the properties of the dropdown Menu                            |
-| onMenuToggle             | `() => void`                 |          |         | Handler called when menu open or close.                                           |
-| onSwitcherClick          | `(React.MouseEvent) => void` |          |         | Handler for click on `switcher`                                                   |
-| hideOnScroll             | `Boolean`                    |          | true    | Hide menu on scroll on parent elements                                            |
-| popupPlacement           | `PopupPlacement`             |          |         | Allowed menu open placement                                                       |
-| popupClassName           | `String`                     |          |         | Menu class name                                                                   |
-| children                 | `JSX node`                   |          |         | Menu component override                                                           |
+| Name                       | Type                                         | Required | Default value | Description                                                                                         |
+| :------------------------- | :------------------------------------------- | :------: | :------------ | :-------------------------------------------------------------------------------------------------- |
+| `items`                    | `(DropdownMenuItem \| DropdownMenuItem[])[]` |          | `[]`          | Array of items. Nested arrays of items represent visually separated groups.                         |
+| `data`                     | `any`                                        |          |               | A payload passed to the actions called from the menu. (Can be useful for context menus.)            |
+| `icon`                     | `ReactNode`                                  |          | Ellipsis icon | An icon of the default `switcher`.                                                                  |
+| `size`                     | `'s' \| 'm' \| 'l' \| 'xl'`                  |          | `'m'`         | Applied for the default `switcher` and the menu.                                                    |
+| `disabled`                 | `boolean`                                    |          |               | Setting this prop to `true` disables the `switcher` button and prevents the menu from being opened. |
+| `switcher`                 | `ReactNode`                                  |          |               | A menu toggle control.                                                                              |
+| `switcherWrapperClassName` | `string`                                     |          |               | A value for the `className` prop of the `switcher`'s parent component.                              |
+| `defaultSwitcherProps`     | `ButtonProps`                                |          |               | Default `switcher` props.                                                                           |
+| `defaultSwitcherClassName` | `string`                                     |          |               | A value for the `className` prop of the default `switcher`.                                         |
+| `menuProps`                | `MenuProps`                                  |          |               | Overrides the default dropdown menu popup props.                                                    |
+| `onMenuToggle`             | `() => void`                                 |          |               | Called when the menu is opened or closed.                                                           |
+| `onSwitcherClick`          | `React.MouseEventHandler<HTMLElement>`       |          |               | Called when `switcher` is clicked.                                                                  |
+| `hideOnScroll`             | `boolean`                                    |          | `true`        | Specifies whether to hide the menu when a parent element is scrolled.                               |
+| `popupPlacement`           | `PopupPlacement`                             |          |               | Allowed positions of the menu popup.                                                                |
+| `popupClassName`           | `string`                                     |          |               | A value of the `className` prop of the menu popup.                                                  |
+| `children`                 | `ReactNode`                                  |          |               | Custom content inside the menu popup.                                                               |
 
-### Items
+### DropdownMenuItem
 
-Array of `DropdownMenuItem` objects or array of arrays for groups. Groups are divided with horizontal separators. `DropdownMenuItem` props:
+This type describes an individual dropdown menu item.
 
-| Property   | Type                            | Required | Default | Description                                                              |
-| :--------- | :------------------------------ | :------: | :------ | :----------------------------------------------------------------------- |
-| text       | `JSX node`                      |   yes    |         | Menu item text                                                           |
-| action     | `(React.MouseEvent, T) => void` |   yes    |         | Click handler for menu item. Recieves event and `data` of `DropdownMenu` |
-| icon       | `JSX node`                      |          |         | Menu item icon                                                           |
-| hidden     | `boolean`                       |          |         | Hide menu item                                                           |
-| disabled   | `boolean`                       |          |         | Disabled state                                                           |
-| href       | `string`                        |          |         | Render menu item as `<a>`                                                |
-| target     | `string`                        |          |         | `target` attribute of `<a>`                                              |
-| rel        | `string`                        |          |         | `rel` attribute of `<a>`                                                 |
-| extraProps | `object`                        |          |         | Additional props for menu item                                           |
-| title      | `string`                        |          |         | HTML `title`                                                             |
-| className  | `string`                        |          |         | Class name                                                               |
+| Name         | Type                                           | Required | Default | Description                                                                                                           |
+| :----------- | :--------------------------------------------- | :------: | :------ | :-------------------------------------------------------------------------------------------------------------------- |
+| `text`       | `ReactNode`                                    |   yes    |         | Menu item content.                                                                                                    |
+| `action`     | `(event: React.MouseEvent, data: any) => void` |   yes    |         | A menu item click handler. Recieves the parameters (both `event` and `data`) from the parent dropdown menu component. |
+| `icon`       | `ReactNode`                                    |          |         | A menu item icon.                                                                                                     |
+| `hidden`     | `boolean`                                      |          |         |                                                                                                                       |
+| `disabled`   | `boolean`                                      |          |         |                                                                                                                       |
+| `href`       | `string`                                       |          |         | A menu item with this prop becomes a link to the specified location.                                                  |
+| `target`     | `string`                                       |          |         | Same as the `target` attribute of the `<a>` tag.                                                                      |
+| `rel`        | `string`                                       |          |         | Same as the `rel` attribute of the `<a>` tag.                                                                         |
+| `extraProps` | `object`                                       |          |         | Additional menu item props.                                                                                           |
+| `title`      | `string`                                       |          |         | A tooltip text.                                                                                                       |
+| `className`  | `string`                                       |          |         |                                                                                                                       |
 
-Example:
+## Example
 
 ```jsx harmony
 <DropdownMenu
   items={[
     {
-      action: () => console.log('==> calls "Open"'),
+      action: () => console.log('Open'),
       text: 'Open',
-      icon: <Icon data={iconOpen} />,
+      icon: <Icon data={openIcon} />,
     },
     [
       {
-        action: () => console.log('==> calls "Remove"'),
+        action: () => console.log('Remove'),
         text: 'Remove',
-        icon: <Icon data={iconTrash} />,
+        icon: <Icon data={trashIcon} />,
       },
       {
-        action: () => console.log('==> calls "Rename"'),
+        action: () => console.log('Rename'),
         text: 'Rename',
-        icon: <Icon data={iconRename} />,
+        icon: <Icon data={renameIcon} />,
         hidden: true,
       },
     ],
     {
-      action: () => console.log('==> calls "Properties"'),
+      action: () => console.log('Properties'),
       text: 'Properties',
-      icon: <Icon data={iconProperties} />,
+      icon: <Icon data={propertiesIcon} />,
     },
   ]}
 />

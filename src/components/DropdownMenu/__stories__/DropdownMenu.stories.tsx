@@ -13,9 +13,7 @@ const b = block('dropdown-menu-stories');
 export default {
     title: 'Components/DropdownMenu',
     component: DropdownMenu,
-    args: {
-        ...DropdownMenu.defaultProps, // без этого компонент в defaultProps отображается как строка
-    },
+    args: {},
 } as Meta;
 
 const DefaultTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -30,7 +28,7 @@ Default.args = {
 // WithIcons.args = {
 //     items: optionsWithIcons,
 // };
-// WithIcons.storyName = 'Опции с иконками';
+// WithIcons.storyName = 'Options with icons';
 
 // ----------------------------------------
 const WithGroupsTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -46,7 +44,7 @@ export const Assorted = AssortedTemplate.bind({});
 Assorted.args = {
     items: optionsAssorted,
 };
-Assorted.storyName = 'Different Options for each action';
+Assorted.storyName = 'Different options for each action';
 
 // ----------------------------------------
 const DisabledTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -72,7 +70,7 @@ SwitcherTheme.args = {
     items: options,
     defaultSwitcherProps: {theme: 'action'},
 };
-SwitcherTheme.storyName = 'Icon Theme';
+SwitcherTheme.storyName = 'Icon theme';
 
 // ----------------------------------------
 const TextSwitcherTemplate: Story = (args) => <DropdownMenu {...args} />;
@@ -125,11 +123,11 @@ LabelSwitcher.args = {
             style: 'normal',
         },
         {
-            text: 'In Work',
+            text: 'In progress',
             style: 'info',
         },
         {
-            text: 'Need info',
+            text: 'Needs info',
             style: 'warning',
         },
         {

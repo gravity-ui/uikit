@@ -19,7 +19,7 @@ export type HelpPopoverProps = DistributiveOmit<PopoverProps, 'children'> & QAPr
 
 export function HelpPopover(props: HelpPopoverProps) {
     return (
-        <Popover offset={{left: 4}} {...props} className={b(null, props.className)}>
+        <Popover {...props} className={b(null, props.className)}>
             <Icon data={QuestionMarkIcon} size={16} />
         </Popover>
     );

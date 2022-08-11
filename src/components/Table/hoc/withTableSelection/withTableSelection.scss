@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-#{$block} {
+#{variables.$block} {
     &__selection-checkbox {
         display: inline-block;
     }
@@ -8,8 +8,8 @@
     &__row_selected {
         background: var(--yc-color-base-selection);
 
-        #{$block}__cell_sticky_left,
-        #{$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_left,
+        #{variables.$block}__cell_sticky_right {
             background: linear-gradient(
                     to right,
                     var(--yc-color-base-selection),
@@ -22,11 +22,11 @@
                 );
         }
 
-        &#{$block}__row_interactive:hover {
+        &#{variables.$block}__row_interactive:hover {
             background: var(--yc-color-base-selection-hover);
 
-            #{$block}__cell_sticky_left,
-            #{$block}__cell_sticky_right {
+            #{variables.$block}__cell_sticky_left,
+            #{variables.$block}__cell_sticky_right {
                 background: linear-gradient(
                         to right,
                         var(--yc-color-base-selection-hover),

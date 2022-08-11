@@ -1,11 +1,11 @@
-@import '../../../../styles/mixins';
+@use '../../../../styles/mixins';
 
 .skeleton-showcase {
     padding: 20px;
     width: 300px;
 
     &__card {
-        @include text-body-2();
+        @include mixins.text-body-2();
         padding: 10px;
         margin-bottom: 14px;
         border-radius: 5px;

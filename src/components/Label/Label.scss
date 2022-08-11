@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}label';
+$block: '.#{variables.$ns}label';
 $disabled: #{$block}_disabled;
 $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;

@@ -1,6 +1,6 @@
-@import '../../../../variables';
+@use '../../../../variables';
 
-$block: '.#{$ns}table-column-setup';
+$block: '.#{variables.$ns}table-column-setup';
 
 #{$block} {
     &__controls {
@@ -56,7 +56,7 @@ $block: '.#{$ns}table-column-setup';
             cursor: pointer;
             position: relative;
 
-            .#{$ns}list__item-sort-icon {
+            .#{variables.$ns}list__item-sort-icon {
                 cursor: move;
             }
         }

@@ -1,7 +1,7 @@
-@import '../../../styles/mixins';
+@use '../../../styles/mixins';
 
 .color-table {
-    @include text-body-2();
+    @include mixins.text-body-2();
 
     &__color-name {
         width: 120px;

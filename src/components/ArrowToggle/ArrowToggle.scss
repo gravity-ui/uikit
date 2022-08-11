@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}arrow-toggle';
+$block: '.#{variables.$ns}arrow-toggle';
 
 #{$block} {
     display: inline-block;

@@ -56,7 +56,8 @@ $block: '.#{$ns}text-input';
         margin-top: 2px;
     }
 
-    &__clear {
+    /* increase css specificity to rewrite Button styles */
+    &__clear[class] {
         --yc-button-background-color: transparent;
         --yc-button-background-color-hover: transparent;
 
@@ -69,7 +70,7 @@ $block: '.#{$ns}text-input';
             color: var(--yc-color-text-primary);
         }
 
-        &:not(&_visible) {
+        &:not(#{$block}__clear_visible) {
             display: none;
         }
     }

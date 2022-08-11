@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.13.2](https://github.com/yandex-cloud/uikit/compare/v2.13.1...v2.13.2) (2022-08-11)
+
+
+### Bug Fixes
+
+* **TextInput:** increase css specificity to rewrite Button styles ([#301](https://github.com/yandex-cloud/uikit/issues/301)) ([def1da0](https://github.com/yandex-cloud/uikit/commit/def1da0717911b89d63062cb4005f446a18886f8))
+
 ## [2.13.1](https://github.com/yandex-cloud/uikit/compare/v2.13.0...v2.13.1) (2022-08-10)
 
 

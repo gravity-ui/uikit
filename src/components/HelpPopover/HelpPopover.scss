@@ -1,7 +1,0 @@
-@use '../variables';
-
-$block: '.#{variables.$ns}help-popover';
-
-#{$block} {
-    position: relative;
-}

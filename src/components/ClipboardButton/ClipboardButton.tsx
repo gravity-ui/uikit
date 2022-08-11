@@ -1,34 +1,34 @@
 import React, {useEffect, useRef} from 'react';
 import {Button} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
-import {CopyToClipboard, CopyToClipboardProps} from '../CopyToClipboard';
+import {CopyToClipboard, CopyToClipboardBaseProps} from '../CopyToClipboard';
 import {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './ClipboardButton.scss';
 
-export interface ClipboardButtonProps extends QAProps {
-    /** Text to copy */
-    text: string;
+export interface ClipboardButtonProps extends CopyToClipboardBaseProps, QAProps {
     /** Icon size in pixels */
     size?: number;
     /** Element CSS class */
     className?: string;
-    /** Handler that would be invoked after success copy to clipboard */
-    onCopy?: CopyToClipboardProps['onCopy'];
+    /** Time to restore initial state, ms */
+    timeout?: number;
 }
 
 const b = block('clipboard-button');
 
 const DEFAULT_ICON_SIZE = 24;
+const DEFAULT_TIMEOUT = 1000;
 
-export function ClipboardButton({
+export const ClipboardButton: React.FC<ClipboardButtonProps> = ({
     text,
     size = DEFAULT_ICON_SIZE,
     className,
     qa,
     onCopy,
-}: ClipboardButtonProps) {
+    timeout = DEFAULT_TIMEOUT,
+}) => {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export function ClipboardButton({
     }, [size]);
 
     return (
-        <CopyToClipboard text={text} timeout={1000} onCopy={onCopy}>
+        <CopyToClipboard text={text} timeout={timeout} onCopy={onCopy}>
             {(status) => (
                 <Button ref={buttonRef} view="flat" className={b(null, className)} qa={qa}>
                     <Button.Icon>
@@ -46,4 +46,4 @@ export function ClipboardButton({
             )}
         </CopyToClipboard>
     );
-}
+};

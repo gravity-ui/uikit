@@ -11,11 +11,11 @@
 | tooltip          | `TooltipProps`                                             |          | `undefined` | Tooltip                                                  |
 | icon             | `ReactNode`                                                |          | `undefined` | Icon at the left                                         |
 | disabled         | `Boolean`                                                  |          | `undefined` | disabled state                                           |
-| onClose          | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Button with cross handler                                |
+| onClose          | `onClose?(event: React.MouseEvent<HTMLButtonElement>): void;` |          | `undefined` | Button with cross handler                                |
 | copyText         | `String`                                                   |          | `undefined` | Text to copy                                             |
 | closeButtonLabel | `String`                                                   |          | `undefined` | Text of `aria-label` of button with cross                |
 | onCopy           | `onCopy?(text: string, result: boolean): void;`            |          | `undefined` | Callback after copy                                      |
-| onClick          | `onClose?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Handler for element click                                |
+| onClick          | `onClick?(event: React.MouseEvent<HTMLDivElement>): void;` |          | `undefined` | Handler for element click                                |
 | className        | `String`                                                   |          | `undefined` | Class name                                               |
 
 ## Example

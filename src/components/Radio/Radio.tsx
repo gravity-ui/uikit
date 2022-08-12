@@ -37,10 +37,10 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
             )}
             data-qa={qa}
         >
-            <span className={b('indicator')} aria-hidden>
-                <span className={b('disc')} />
+            <span className={b('indicator')}>
+                <span className={b('disc')} aria-hidden />
                 <input {...inputProps} className={b('control')} />
-                <span className={b('outline')} />
+                <span className={b('outline')} aria-hidden />
             </span>
             {text && <span className={b('text')}>{text}</span>}
         </label>

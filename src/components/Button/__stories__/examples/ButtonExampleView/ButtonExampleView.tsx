@@ -199,7 +199,7 @@ ButtonExampleViewFlatSecondary.code = `
 
 export function ButtonExampleViewSpecial() {
     return (
-        <DocsExample gap="m" space="m" background="rgba(82, 130, 255, 1)" rounded>
+        <DocsExample gap="m" space="m" background="var(--yc-color-infographics-info-heavy)" rounded>
             <Button view="normal-contrast" size="l">
                 Normal
             </Button>
@@ -220,7 +220,7 @@ ButtonExampleViewSpecial.code = `
 
 export function ButtonExampleState() {
     return (
-        <DocsExample gap="l" space="l" background="rgba(246, 247, 249, 1)" rounded>
+        <DocsExample gap="l" space="l" rounded>
             <Button size="l">Default</Button>
             <Button size="l" disabled>
                 Disabled
@@ -237,7 +237,7 @@ export function ButtonExampleState() {
 
 export function ButtonExampleSize() {
     return (
-        <DocsExample gap="l" space="l" background="rgba(246, 247, 249, 1)" rounded>
+        <DocsExample gap="l" space="l" rounded>
             <Button size="s">S-size</Button>
             <Button size="m">M-size</Button>
             <Button size="l">L-size</Button>

@@ -1,5 +1,6 @@
-import {Source, Props} from '@storybook/addon-docs';
+import {Source, ArgsTable} from '@storybook/addon-docs';
 import {DocsSource} from '../../../demo/DocsSource/DocsSource';
+import {Button} from '../Button';
 import {
     ButtonExampleViewAction,
     ButtonExampleViewNormal,
@@ -15,6 +16,7 @@ import {
     ButtonExampleState,
     ButtonExampleSize,
 } from './examples/ButtonExampleView/ButtonExampleView';
+
 
 # Button
 
@@ -156,4 +158,4 @@ L – Basic actions performed in a page's header, modal windows, or pop-ups.
 XL – Used on promo and landing pages.
 
 ## Properties
-<Props/>
+<ArgsTable of={Button}/>

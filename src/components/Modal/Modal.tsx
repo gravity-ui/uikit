@@ -4,7 +4,6 @@ import {block} from '../utils/cn';
 import {DOMProps, QAProps} from '../types';
 import {Portal} from '../Portal';
 import {useBodyScrollLock} from '../utils/useBodyScrollLock';
-// import {useFocusTrap} from '../utils//useFocusTrap';
 import {useLayer, LayerExtendableProps, LayerCloseReason} from '../utils/useLayer';
 import {usePreviousValue} from '../utils/usePreviousValue';
 import {useForceUpdate} from '../utils/useForceUpdate';
@@ -38,7 +37,6 @@ export function Modal({
     open = false,
     keepMounted = false,
     disableBodyScrollLock = false,
-    // disableFocusTrap = false,
     disableEscapeKeyDown,
     disableOutsideClick,
     onEscapeKeyDown,
@@ -53,6 +51,9 @@ export function Modal({
     'aria-label': ariaLabel,
     container,
     qa,
+    enableFocusTrap,
+    focusTrapOptions,
+    focusTrapRef,
 }: ModalProps) {
     const contentRef = React.useRef<HTMLDivElement>(null);
     const hasBeenOpen = React.useRef(false);
@@ -76,10 +77,7 @@ export function Modal({
     }
 
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition.current)});
-    // useFocusTrap({
-    //     enabled: !disableFocusTrap && (open || inTransition.current),
-    //     rootRef: contentRef,
-    // });
+
     useLayer({
         open,
         disableEscapeKeyDown,
@@ -89,6 +87,10 @@ export function Modal({
         onOutsideClick,
         onClose,
         contentRefs: [contentRef],
+        enableFocusTrap,
+        focusTrapContainersRefs: [contentRef],
+        focusTrapOptions,
+        focusTrapRef,
     });
 
     if (!keepMounted && !open && !inTransition.current) {

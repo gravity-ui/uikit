@@ -19,6 +19,10 @@ export function useLayer({
     onClose,
     contentRefs,
     enabled = true,
+    enableFocusTrap,
+    focusTrapContainersRefs,
+    focusTrapOptions,
+    focusTrapRef,
 }: LayerProps) {
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
@@ -28,6 +32,9 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
+        enableFocusTrap,
+        focusTrapContainersRefs,
+        focusTrapOptions,
     });
 
     React.useEffect(() => {
@@ -40,6 +47,9 @@ export function useLayer({
             onClose,
             contentRefs,
             enabled,
+            enableFocusTrap,
+            focusTrapContainersRefs,
+            focusTrapOptions,
         });
     }, [
         disableEscapeKeyDown,
@@ -50,18 +60,29 @@ export function useLayer({
         onClose,
         contentRefs,
         enabled,
+        enableFocusTrap,
+        focusTrapContainersRefs,
+        focusTrapOptions,
     ]);
 
     React.useEffect(() => {
         if (open && enabled) {
             const layerConfig = layerConfigRef.current;
-            layerManager.add(layerConfig);
+            const addResult = layerManager.add(layerConfig);
+
+            if (focusTrapRef && addResult.focusTrap) {
+                focusTrapRef.current = addResult.focusTrap;
+            }
 
             return () => {
                 layerManager.remove(layerConfig);
+
+                if (focusTrapRef) {
+                    focusTrapRef.current = null;
+                }
             };
         }
 
         return undefined;
-    }, [open, enabled]);
+    }, [open, enabled, focusTrapRef]);
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import type {VirtualElement} from '@popperjs/core';
+import {createFocusTrap, FocusTrap, Options as FocusTrapOptions} from 'focus-trap';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 
@@ -10,6 +11,9 @@ export interface LayerExtendableProps {
     onEnterKeyDown?: (event: KeyboardEvent) => void;
     onOutsideClick?: (event: MouseEvent) => void;
     onClose?: (event: MouseEvent | KeyboardEvent, reason: LayerCloseReason) => void;
+    enableFocusTrap?: boolean;
+    focusTrapOptions?: FocusTrapOptions;
+    focusTrapRef?: React.MutableRefObject<FocusTrap | null>;
 }
 
 export type ContentElement =
@@ -18,23 +22,39 @@ export type ContentElement =
 
 export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
+    focusTrapContainersRefs?: React.RefObject<HTMLElement>[];
+}
+
+export interface AddResult {
+    focusTrap?: FocusTrap;
+}
+
+function isNonNullable<T>(value: T): value is NonNullable<T> {
+    return value !== null && value !== undefined;
 }
 
 class LayerManager {
     private stack: LayerConfig[] = [];
     private mouseDownTarget: HTMLElement | null = null;
+    private focusTraps = new WeakMap<LayerConfig, FocusTrap>();
 
-    add(config: LayerConfig) {
+    add(config: LayerConfig): AddResult {
         this.stack.push(config);
+        const focusTrap = this.setFocusTrap(config) ?? undefined;
 
         if (this.stack.length === 1) {
             this.addListeners();
         }
+
+        return {
+            focusTrap,
+        };
     }
 
     remove(config: LayerConfig) {
         const index = this.stack.indexOf(config);
         this.stack.splice(index, 1);
+        this.removeFocusTrap(config);
 
         if (this.stack.length === 0) {
             this.removeListeners();
@@ -103,6 +123,84 @@ class LayerManager {
         }
 
         return false;
+    }
+
+    private getTopConfigWithFocusTrap(): LayerConfig | null {
+        let result = null;
+
+        for (let i = this.stack.length - 1; i >= 0; i--) {
+            const config = this.stack[i];
+            if (this.focusTraps.has(config)) {
+                result = config;
+            }
+        }
+
+        return result;
+    }
+
+    private getTopFocusTrap(): FocusTrap | null {
+        const topConfig = this.getTopConfigWithFocusTrap();
+        if (!topConfig) {
+            return null;
+        }
+
+        return this.focusTraps.get(topConfig) ?? null;
+    }
+
+    private setFocusTrap(config: LayerConfig): FocusTrap | null {
+        if (
+            !config.enableFocusTrap ||
+            !config.focusTrapContainersRefs ||
+            config.focusTrapContainersRefs.length === 0
+        ) {
+            return null;
+        }
+
+        const topTrap = this.getTopFocusTrap();
+        const currentTrap = this.focusTraps.get(config);
+
+        if (topTrap && topTrap !== currentTrap) {
+            topTrap.pause();
+        }
+
+        if (currentTrap) {
+            currentTrap.unpause();
+            return currentTrap;
+        }
+
+        const elements = config.focusTrapContainersRefs
+            .map((ref) => ref?.current)
+            .filter(isNonNullable);
+
+        const trap = createFocusTrap(elements, {
+            returnFocusOnDeactivate: true,
+            escapeDeactivates: false,
+            ...(config.focusTrapOptions ?? {}),
+        });
+        trap.activate();
+        this.focusTraps.set(config, trap);
+
+        return trap;
+    }
+
+    private removeFocusTrap(config: LayerConfig) {
+        const currentTrap = this.focusTraps.get(config);
+        let currentTrapActive = false;
+
+        if (currentTrap) {
+            currentTrapActive = currentTrap.active && !currentTrap.paused;
+            currentTrap.deactivate();
+            this.focusTraps.delete(config);
+        }
+
+        if (!currentTrapActive) {
+            return;
+        }
+
+        const topLayerWithFocusTrap = this.getTopConfigWithFocusTrap();
+        if (topLayerWithFocusTrap) {
+            this.setFocusTrap(topLayerWithFocusTrap);
+        }
     }
 }
 

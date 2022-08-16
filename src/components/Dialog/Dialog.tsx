@@ -29,6 +29,9 @@ interface DialogOwnProps {
     'aria-label'?: string;
     'aria-labelledby'?: string;
     container?: HTMLElement;
+    enableFocusTrap?: ModalProps['enableFocusTrap'];
+    focusTrapOptions?: ModalProps['focusTrapOptions'];
+    focusTrapRef?: ModalProps['focusTrapRef'];
 }
 
 interface DialogDefaultProps {
@@ -76,6 +79,9 @@ export class Dialog extends React.Component<DialogInnerProps> {
             'aria-label': ariaLabel,
             'aria-labelledby': ariaLabelledBy,
             qa,
+            enableFocusTrap,
+            focusTrapOptions,
+            focusTrapRef,
         } = this.props;
 
         return (
@@ -94,6 +100,9 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 aria-labelledby={ariaLabelledBy}
                 container={container}
                 qa={qa}
+                enableFocusTrap={enableFocusTrap}
+                focusTrapOptions={focusTrapOptions}
+                focusTrapRef={focusTrapRef}
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>
                     {children}

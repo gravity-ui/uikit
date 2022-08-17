@@ -1,7 +1,7 @@
 @use '../variables';
 
 $block: '.#{variables.$ns}changelog-dialog';
-$width: 720px;
+$width: 732px;
 $maxItemsHeight: 70vh;
 
 #{$block} {

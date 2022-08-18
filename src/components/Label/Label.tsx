@@ -1,6 +1,7 @@
 import React from 'react';
 import {block} from '../utils/cn';
-import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
+import {CopyToClipboard} from '../CopyToClipboard';
+import {CopyToClipboardStatus} from '../CopyToClipboard/types';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';

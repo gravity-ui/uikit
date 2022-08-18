@@ -1,7 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import {Button} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
-import {CopyToClipboard, CopyToClipboardBaseProps} from '../CopyToClipboard';
+import {CopyToClipboard} from '../CopyToClipboard';
+import {CopyToClipboardBaseProps} from '../CopyToClipboard/types';
 import {QAProps} from '../types';
 import {block} from '../utils/cn';
 

@@ -7,7 +7,8 @@ import {ShareListItem} from '../ShareListItem/ShareListItem';
 import {Icon} from '../../Icon';
 import {Button} from '../../Button';
 import {Link} from '../../icons';
-import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
+import {CopyToClipboard} from '../../CopyToClipboard';
+import {CopyToClipboardStatus} from '../../CopyToClipboard/types';
 import {isOfType} from '../../utils/isOfType';
 
 import i18n from '../i18n';

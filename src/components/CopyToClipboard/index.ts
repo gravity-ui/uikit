@@ -1,2 +1,4 @@
+import * as types from './types';
+
 export * from './CopyToClipboard';
-export * from './types';
+export type CopyToClipboardStatus = types.CopyToClipboardStatus;

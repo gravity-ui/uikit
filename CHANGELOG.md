@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.13.3](https://github.com/yandex-cloud/uikit/compare/v2.13.2...v2.13.3) (2022-08-18)
+
+
+### Bug Fixes
+
+* **Select:** calculate tick size from content ([#313](https://github.com/yandex-cloud/uikit/issues/313)) ([f40144e](https://github.com/yandex-cloud/uikit/commit/f40144ea9cfb87e3960ccb37f26ca2a80776e3f6))
+
 ## [2.13.2](https://github.com/yandex-cloud/uikit/compare/v2.13.1...v2.13.2) (2022-08-11)
 
 

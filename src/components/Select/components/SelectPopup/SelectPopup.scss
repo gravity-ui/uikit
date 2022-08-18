@@ -148,6 +148,7 @@ $xl-hor-padding: '12px';
     }
 
     &__tick-icon {
+        box-sizing: content-box;
         flex: 0 0 16px;
         margin-left: auto;
         visibility: hidden;

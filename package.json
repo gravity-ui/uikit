@@ -97,7 +97,7 @@
         "webpack": "^4.46.0"
     },
     "peerDependencies": {
-        "@yandex-cloud/i18n": "^0.4.0 || ^0.5.0 || ^0.6.0",
+        "@yandex-cloud/i18n": "^0.4.0",
         "react": "^16.0.0 || ^17.0.0",
         "react-dom": "^16.0.0 || ^17.0.0"
     },

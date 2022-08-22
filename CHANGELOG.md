@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.13.4](https://github.com/yandex-cloud/uikit/compare/v2.13.3...v2.13.4) (2022-08-22)
+
+
+### Bug Fixes
+
+* **ChangelogModal:** fix sizes and margins ([#310](https://github.com/yandex-cloud/uikit/issues/310)) ([d6e0cae](https://github.com/yandex-cloud/uikit/commit/d6e0cae0d69183c8a421c5ace7e9de130d6377f6))
+
 ## [2.13.3](https://github.com/yandex-cloud/uikit/compare/v2.13.2...v2.13.3) (2022-08-18)
 
 

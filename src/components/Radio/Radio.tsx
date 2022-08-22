@@ -37,7 +37,7 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
             )}
             data-qa={qa}
         >
-            <span className={b('indicator')} aria-hidden>
+            <span className={b('indicator')}>
                 <span className={b('disc')} />
                 <input {...inputProps} className={b('control')} />
                 <span className={b('outline')} />

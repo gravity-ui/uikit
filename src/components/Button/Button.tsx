@@ -3,7 +3,7 @@ import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {Icon} from '../Icon';
 import {isOfType} from '../utils/isOfType';
-import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
+import {eventBroker} from '../utils/event-broker';
 import {ButtonIcon} from './ButtonIcon';
 
 import './Button.scss';
@@ -72,7 +72,7 @@ export interface ButtonProps extends DOMProps, QAProps {
 
 const b = block('button');
 
-const PureButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+const ButtonWithHandlers = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     function Button(
         {
             view = 'normal',
@@ -103,10 +103,26 @@ const PureButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Butto
         },
         ref,
     ) {
+        const handleClick = React.useCallback(
+            (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+                eventBroker.publish({
+                    componentId: 'Button',
+                    eventId: 'click',
+                    domEvent: event,
+                    meta: {
+                        content: event.currentTarget.textContent,
+                        view,
+                    },
+                });
+                onClick?.(event);
+            },
+            [view, onClick],
+        );
+
         const commonProps = {
             title,
             tabIndex,
-            onClick,
+            onClick: handleClick,
             onMouseEnter,
             onMouseLeave,
             onFocus,
@@ -161,10 +177,7 @@ const PureButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Butto
     },
 );
 
-PureButton.displayName = 'Button';
-const ButtonWithHandlers = withEventBrokerDomHandlers(PureButton, ['onClick'], {
-    componentId: 'Button',
-});
+ButtonWithHandlers.displayName = 'Button';
 
 export const Button = Object.assign(ButtonWithHandlers, {Icon: ButtonIcon});
 

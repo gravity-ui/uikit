@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-#{$block} {
+#{variables.$block} {
     &__copy {
         display: inline-flex;
         align-items: center;

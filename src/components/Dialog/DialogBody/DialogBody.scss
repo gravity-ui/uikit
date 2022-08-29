@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}dialog-body';
+$block: '.#{variables.$ns}dialog-body';
 
 #{$block} {
     padding: var(--yc-dialog-body-padding);

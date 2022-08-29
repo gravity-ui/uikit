@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}switch';
+$block: '.#{variables.$ns}switch';
 
 #{$block} {
     position: relative;

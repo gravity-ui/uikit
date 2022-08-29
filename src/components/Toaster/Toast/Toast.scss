@@ -1,7 +1,7 @@
-@import '../../variables';
-@import '../../../../styles/mixins';
+@use '../../variables';
+@use '../../../../styles/mixins';
 
-$block: '.#{$ns}toast';
+$block: '.#{variables.$ns}toast';
 
 // Function to get animation that will trigger action in `onAnimationEnd` event handler
 // It always should be at the end of animations list
@@ -154,7 +154,7 @@ $block: '.#{$ns}toast';
     }
 
     &__title {
-        @include text-subheader-2;
+        @include mixins.text-subheader-2;
         margin: 0;
         padding-right: 28px;
     }

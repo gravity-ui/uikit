@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}modal';
+$block: '.#{variables.$ns}modal';
 
 #{$block} {
     display: none;
@@ -53,20 +53,20 @@ $block: '.#{$ns}modal';
 
     &[data-inited] {
         display: block;
-        animation-name: #{$ns}modal;
+        animation-name: #{variables.$ns}modal;
 
         &#{$block}_open {
-            animation-name: #{$ns}modal-open;
+            animation-name: #{variables.$ns}modal-open;
             animation-duration: 150ms;
         }
         &#{$block}_open #{$block}__content {
-            animation-name: #{$ns}modal-content-open;
+            animation-name: #{variables.$ns}modal-content-open;
             animation-duration: 150ms;
         }
     }
 }
 
-@keyframes #{$ns}modal {
+@keyframes #{variables.$ns}modal {
     0% {
         visibility: visible;
         margin: 0;
@@ -82,7 +82,7 @@ $block: '.#{$ns}modal';
     }
 }
 
-@keyframes #{$ns}modal-open {
+@keyframes #{variables.$ns}modal-open {
     0% {
         opacity: 0;
     }
@@ -91,7 +91,7 @@ $block: '.#{$ns}modal';
     }
 }
 
-@keyframes #{$ns}modal-content-open {
+@keyframes #{variables.$ns}modal-content-open {
     0% {
         transform: scale(0.75);
     }

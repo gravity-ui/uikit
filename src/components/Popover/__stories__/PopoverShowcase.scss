@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}popover-demo';
+$block: '.#{variables.$ns}popover-demo';
 
 #{$block} {
     height: 100%;

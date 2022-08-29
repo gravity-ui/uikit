@@ -1,4 +1,4 @@
-@import '../../../styles/mixins';
+@use '../../../styles/mixins';
 
 @function transparent-color($desired-color, $background-color: #fff) {
     $r1: red($background-color);
@@ -49,7 +49,7 @@
         }
 
         &-header {
-            @include text-display-1();
+            @include mixins.text-display-1();
             margin-bottom: 20px;
         }
     }
@@ -68,7 +68,7 @@
         }
 
         &-title {
-            @include text-body-3();
+            @include mixins.text-body-3();
             grid-column: span 4;
         }
 
@@ -87,7 +87,7 @@
         gap: 40px;
 
         &-title {
-            @include text-body-3();
+            @include mixins.text-body-3();
         }
 
         &-content {

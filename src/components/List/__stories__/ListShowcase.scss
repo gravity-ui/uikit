@@ -1,5 +1,5 @@
-@import '../../variables';
-@import '../../../../styles/mixins';
+@use '../../variables';
+@use '../../../../styles/mixins';
 
 .list-showcase {
     --yc-list-height: 200px;
@@ -8,13 +8,13 @@
     padding: 20px 20px 0;
 
     &__title {
-        @include text-header-2();
+        @include mixins.text-header-2();
         width: 100%;
         border-bottom: 1px solid var(--yc-color-line-generic);
     }
 
     &__subtitle {
-        @include text-body-3();
+        @include mixins.text-body-3();
         width: 100%;
         margin-bottom: 5px;
         margin-left: var(--yc-list-margin);
@@ -55,12 +55,12 @@
     }
 
     &__group {
-        @include text-accent;
+        @include mixins.text-accent;
         color: var(--yc-color-text-secondary);
     }
 
     &__select {
-        $button: '.#{$ns}button';
+        $button: '.#{variables.$ns}button';
         box-sizing: border-box;
         display: flex;
         align-items: center;

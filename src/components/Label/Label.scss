@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}label';
+$block: '.#{variables.$ns}label';
 $disabled: #{$block}_disabled;
 $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;
@@ -73,7 +73,8 @@ $transitionTimingFunction: ease-in-out;
 
                     & #{$block}__icon {
                         &_cross {
-                            border-radius: 0 4px 4px 0;
+                            --yc-button-height: 20px;
+                            --yc-button-border-radius: 4px;
                         }
                     }
                 }
@@ -107,7 +108,8 @@ $transitionTimingFunction: ease-in-out;
 
                     & #{$block}__icon {
                         &_cross {
-                            border-radius: 0 4px 4px 0;
+                            --yc-button-height: 28px;
+                            --yc-button-border-radius: 4px;
                         }
                     }
                 }
@@ -117,7 +119,8 @@ $transitionTimingFunction: ease-in-out;
 
                     & #{$block}__icon {
                         &_cross {
-                            border-radius: 0 24px 24px 0;
+                            --yc-button-height: 28px;
+                            --yc-button-border-radius: 24px;
                         }
                     }
                 }
@@ -157,9 +160,15 @@ $transitionTimingFunction: ease-in-out;
             }
 
             // hover на крестик
-            &:not(#{$disabled}) #{$block}__icon_cross:hover {
-                color: var(--yc-color-text-inverted-primary);
-                background-color: var(--yc-color-base-misc-heavy-hover);
+            &:not(#{$disabled}) #{$block}__icon_cross {
+                --yc-button-background-color: transparent;
+                --yc-button-background-color-hover: var(--yc-color-base-misc-heavy-hover);
+
+                color: inherit;
+
+                &:hover {
+                    color: var(--yc-color-text-inverted-primary);
+                }
             }
         }
 

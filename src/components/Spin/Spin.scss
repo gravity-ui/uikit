@@ -1,11 +1,11 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}spin';
+$block: '.#{variables.$ns}spin';
 
 #{$block} {
     display: inline-block;
     backface-visibility: hidden;
-    animation: #{$ns}spin 1s linear infinite;
+    animation: #{variables.$ns}spin 1s linear infinite;
 
     &__inner {
         box-sizing: border-box;
@@ -46,7 +46,7 @@ $block: '.#{$ns}spin';
     }
 }
 
-@keyframes #{$ns}spin {
+@keyframes #{variables.$ns}spin {
     from {
         transform: rotate(0deg);
     }

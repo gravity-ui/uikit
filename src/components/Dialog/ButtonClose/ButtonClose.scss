@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}dialog-btn-close';
+$block: '.#{variables.$ns}dialog-btn-close';
 
 #{$block} {
     position: absolute;

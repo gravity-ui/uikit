@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../../variables';
 
-$block: '.#{$ns}table';
+$block: '.#{variables.$ns}table';
 
 #{$block} {
     &__sort {

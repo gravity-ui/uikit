@@ -2,7 +2,7 @@
 @use '../../../../../styles/mixins';
 
 $block: '.#{variables.$ns}changelog-dialog-item';
-$metaWidth: 110px;
+$metaWidth: 124px;
 
 #{$block} {
     display: flex;
@@ -22,7 +22,7 @@ $metaWidth: 110px;
 
     &__content {
         flex: 1;
-        margin-left: 14px;
+        margin-left: 16px;
     }
 
     &__title {

@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}user-avatar';
+$block: '.#{variables.$ns}user-avatar';
 
 #{$block} {
     box-sizing: border-box;

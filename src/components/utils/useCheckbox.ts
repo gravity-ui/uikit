@@ -35,15 +35,6 @@ export function useCheckbox({
     }, [indeterminate]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        eventBroker.publish({
-            componentId: 'Checkbox',
-            eventId: 'click',
-            domEvent: event,
-            meta: {
-                checked: event.target.checked,
-            },
-        });
-
         if (!isControlled) {
             setCheckedState(event.target.checked);
         }
@@ -57,6 +48,21 @@ export function useCheckbox({
         }
     };
 
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLInputElement> & {target: {checked?: boolean}}) => {
+            eventBroker.publish({
+                componentId: 'Checkbox',
+                eventId: 'click',
+                domEvent: event,
+                meta: {
+                    checked: event.target.checked,
+                },
+            });
+            controlProps?.onClick?.(event);
+        },
+        [controlProps?.onClick],
+    );
+
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> &
         React.RefAttributes<HTMLInputElement> = {
         ...controlProps,
@@ -68,6 +74,7 @@ export function useCheckbox({
         disabled,
         type: 'checkbox',
         onChange: handleChange,
+        onClick: handleClick,
         defaultChecked: defaultChecked,
         checked: inputChecked,
         'aria-checked': inputAriaChecked,

@@ -47,6 +47,18 @@ export function useRadio({
         }
     };
 
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLInputElement>) => {
+            eventBroker.publish({
+                componentId: 'Radio',
+                eventId: 'click',
+                domEvent: event,
+            });
+            controlProps?.onClick?.(event);
+        },
+        [controlProps?.onClick],
+    );
+
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> &
         React.RefAttributes<HTMLInputElement> = {
         ...controlProps,
@@ -58,6 +70,7 @@ export function useRadio({
         disabled,
         type: 'radio',
         onChange: handleChange,
+        onClick: handleClick,
         checked,
         defaultChecked: defaultChecked,
         'aria-checked': isChecked,

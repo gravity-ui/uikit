@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.13.4](https://github.com/yandex-cloud/uikit/compare/v2.13.3...v2.13.4) (2022-08-22)
+
+
+### Bug Fixes
+
+* **ChangelogModal:** fix sizes and margins ([#310](https://github.com/yandex-cloud/uikit/issues/310)) ([d6e0cae](https://github.com/yandex-cloud/uikit/commit/d6e0cae0d69183c8a421c5ace7e9de130d6377f6))
+
+## [2.13.3](https://github.com/yandex-cloud/uikit/compare/v2.13.2...v2.13.3) (2022-08-18)
+
+
+### Bug Fixes
+
+* **Select:** calculate tick size from content ([#313](https://github.com/yandex-cloud/uikit/issues/313)) ([f40144e](https://github.com/yandex-cloud/uikit/commit/f40144ea9cfb87e3960ccb37f26ca2a80776e3f6))
+
+## [2.13.2](https://github.com/yandex-cloud/uikit/compare/v2.13.1...v2.13.2) (2022-08-11)
+
+
+### Bug Fixes
+
+* **TextInput:** increase css specificity to rewrite Button styles ([#301](https://github.com/yandex-cloud/uikit/issues/301)) ([def1da0](https://github.com/yandex-cloud/uikit/commit/def1da0717911b89d63062cb4005f446a18886f8))
+
+## [2.13.1](https://github.com/yandex-cloud/uikit/compare/v2.13.0...v2.13.1) (2022-08-10)
+
+
+### Bug Fixes
+
+* **StoreBadge:** content image for StoreBadge with url ([#299](https://github.com/yandex-cloud/uikit/issues/299)) ([194fa66](https://github.com/yandex-cloud/uikit/commit/194fa6695db08d6d399da3b900eeef6dbaa3da67))
+
+## [2.13.0](https://github.com/yandex-cloud/uikit/compare/v2.12.0...v2.13.0) (2022-08-08)
+
+
+### Features
+
+* **Label:** add `closeButtonLabel` prop ([#292](https://github.com/yandex-cloud/uikit/issues/292)) ([5b6499d](https://github.com/yandex-cloud/uikit/commit/5b6499d6aa7d9916b3ae4e07d88586628a70c5b6))
+* **Modal:** add contentClassName prop to the Modal component ([#289](https://github.com/yandex-cloud/uikit/issues/289)) ([79caad6](https://github.com/yandex-cloud/uikit/commit/79caad659a08a3c35be9bddebc65251a1ec84ae1))
+
 ## [2.12.0](https://github.com/yandex-cloud/uikit/compare/v2.11.0...v2.12.0) (2022-08-02)
 
 

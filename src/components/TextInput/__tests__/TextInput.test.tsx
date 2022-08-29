@@ -38,13 +38,13 @@ describe('TextInput', () => {
     test('render clear button with hasClear prop', () => {
         render(<TextInput hasClear />);
 
-        expect(screen.getByRole('button')).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: 'Clear input value'})).toBeInTheDocument();
     });
 
     test('do not render clear button without hasClear prop', () => {
         render(<TextInput />);
 
-        expect(screen.queryByRole('button')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', {name: 'Clear input value'})).not.toBeInTheDocument();
     });
 
     test('call onChange when input changes value', () => {
@@ -70,7 +70,7 @@ describe('TextInput', () => {
         const onChangeFn = jest.fn();
         const user = userEvent.setup();
         render(<TextInput hasClear onChange={onChangeFn} />);
-        const clear = screen.getByRole('button');
+        const clear = screen.getByRole('button', {name: 'Clear input value'});
 
         if (clear) {
             await user.click(clear);
@@ -83,7 +83,7 @@ describe('TextInput', () => {
         const onUpdateFn = jest.fn();
         const user = userEvent.setup();
         render(<TextInput hasClear onUpdate={onUpdateFn} />);
-        const clear = screen.getByRole('button');
+        const clear = screen.getByRole('button', {name: 'Clear input value'});
 
         if (clear) {
             await user.click(clear);

@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}dialog-divider';
+$block: '.#{variables.$ns}dialog-divider';
 
 #{$block} {
     border-top: 1px solid var(--yc-color-line-generic);

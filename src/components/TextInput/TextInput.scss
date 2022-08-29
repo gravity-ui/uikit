@@ -1,7 +1,7 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables';
+@use '../../../styles/mixins';
 
-$block: '.#{$ns}text-input';
+$block: '.#{variables.$ns}text-input';
 
 #{$block} {
     box-sizing: border-box;
@@ -51,44 +51,35 @@ $block: '.#{$ns}text-input';
     }
 
     &__error {
-        @include text-body-1();
+        @include mixins.text-body-1();
         color: var(--yc-color-text-danger);
         margin-top: 2px;
     }
 
-    &__clear {
+    /* increase css specificity to rewrite Button styles */
+    &__clear[class] {
+        --yc-button-background-color: transparent;
+        --yc-button-background-color-hover: transparent;
+
         position: absolute;
-        display: none;
-        align-items: center;
         top: 0;
         right: 0;
-        height: 100%;
-        padding: 0;
         color: var(--yc-color-text-hint);
-        cursor: pointer;
-        border-radius: 0 3px;
 
         &:hover {
             color: var(--yc-color-text-primary);
         }
 
-        &_visible {
-            display: flex;
+        &:not(#{$block}__clear_visible) {
+            display: none;
         }
     }
 
     &_size {
         &_s {
-            #{$block}__control,
-            #{$block}__clear {
-                padding-left: 8px;
-                padding-right: 8px;
-                height: 24px;
-            }
-
             #{$block}__control {
-                padding-top: 4px;
-                padding-bottom: 4px;
+                height: 24px;
+                padding: 4px 8px;
                 font-size: 13px;
                 line-height: 16px;
             }
@@ -103,16 +94,9 @@ $block: '.#{$ns}text-input';
         }
 
         &_m {
-            #{$block}__control,
-            #{$block}__clear {
-                padding-left: 8px;
-                padding-right: 8px;
-                height: 28px;
-            }
-
             #{$block}__control {
-                padding-top: 5px;
-                padding-bottom: 5px;
+                height: 28px;
+                padding: 5px 8px;
                 font-size: 13px;
                 line-height: 16px;
             }
@@ -127,16 +111,9 @@ $block: '.#{$ns}text-input';
         }
 
         &_l {
-            #{$block}__control,
-            #{$block}__clear {
-                padding-left: 13px;
-                padding-right: 13px;
-                height: 36px;
-            }
-
             #{$block}__control {
-                padding-top: 10px;
-                padding-bottom: 10px;
+                height: 36px;
+                padding: 10px 13px;
                 font-size: 13px;
                 line-height: 16px;
             }
@@ -151,16 +128,9 @@ $block: '.#{$ns}text-input';
         }
 
         &_xl {
-            #{$block}__control,
-            #{$block}__clear {
-                padding-left: 13px;
-                padding-right: 13px;
-                height: 44px;
-            }
-
             #{$block}__control {
-                padding-top: 12px;
-                padding-bottom: 12px;
+                height: 44px;
+                padding: 12px 13px;
                 font-size: 15px;
                 line-height: 20px;
             }
@@ -203,7 +173,12 @@ $block: '.#{$ns}text-input';
         }
     }
 
-    @include pin($block, #{$block}__control, var(--yc-text-input-border-radius), $append: false);
+    @include mixins.pin(
+        $block,
+        #{$block}__control,
+        var(--yc-text-input-border-radius),
+        $append: false
+    );
 
     &_disabled {
         #{$block}__control {

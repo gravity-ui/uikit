@@ -4,39 +4,42 @@ import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
+import {Button} from '../Button';
 import './Label.scss';
 
 const b = block('label');
 
 interface LabelOwnProps {
-    /** Иконка лейбла (слева) */
+    /** Label icon (at left) */
     icon?: React.ReactNode;
-    /** Состояние disabled */
+    /** Disabled state */
     disabled?: boolean;
-    /** Хендлер на нажатие крестика */
-    onClose?(event: React.MouseEvent<HTMLDivElement>): void;
-    /** Текст для копирования */
+    /** Handler for click on button with cross */
+    onClose?(event: React.MouseEvent<HTMLButtonElement>): void;
+    /** Text to copy */
     copyText?: string;
-    /** Хендлер после события копирования */
+    /* `aria-label` of button with cross */
+    closeButtonLabel?: string;
+    /** Handler for copy event */
     onCopy?(text: string, result: boolean): void;
-    /** Хендлер на клик на лейбл */
+    /** Handler for click on label itself */
     onClick?(event: React.MouseEvent<HTMLDivElement>): void;
-    /** Дополнительный класс */
+    /** Class name */
     className?: string;
-    /** Содержимое */
+    /** Content */
     children?: React.ReactNode;
-    /** Добавить ховер */
+    /** Display hover */
     interactive?: boolean;
 }
 
 interface LabelDefaultProps {
-    /** Цвет лейбла */
+    /** Label color */
     theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown';
-    /** Тип лейбла (обычный, с текстом для копирования или с крестиком) */
+    /** Label type (plain, with copy text button or button with cross) */
     type: 'default' | 'copy' | 'close';
-    /** Размер лейбла */
+    /** Label size */
     size: 's' | 'm';
-    /** Стиль кнопки (с загруленными краями или обычная) */
+    /** Label appearance (with round corners or plain) */
     style: 'rounded' | 'default';
 }
 
@@ -54,6 +57,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         className,
         disabled,
         copyText,
+        closeButtonLabel,
         interactive = false,
         onCopy,
         onClick,
@@ -63,7 +67,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const typeClose = type === 'close';
     const typeCopy = type === 'copy';
 
-    // Обрабатываем onClick только у лейблов с типом default
+    // Handle click for `default` type labels
     const hasOnClick = Boolean(onClick) && typeDefault;
     const isInteractive = hasOnClick || interactive;
     const hasAction = typeClose || typeCopy;
@@ -100,15 +104,18 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     };
 
     const closeButton = typeClose && (
-        <div
+        <Button
             onClick={onClose}
+            pin={'brick-round'}
+            size={size}
+            extraProps={{'aria-label': closeButtonLabel || undefined}}
             className={b('icon', {
                 right: true,
                 cross: true,
             })}
         >
             <Icon size={closeIconSize} data={CrossIcon} />
-        </div>
+        </Button>
     );
 
     const renderLabel = (status?: CopyToClipboardStatus) => {
@@ -118,7 +125,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                 onClick={hasOnClick ? onClick : undefined}
                 className={b(
                     {
-                        // на данный момент лейблы с действиями могут быть только дефолтными
+                        // only default labels could have actions
                         theme: hasAction ? 'normal' : theme,
                         size,
                         style,

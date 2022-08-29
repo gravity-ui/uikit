@@ -1,7 +1,6 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables';
 
-$block: '.#{$ns}radio-button';
+$block: '.#{variables.$ns}radio-button';
 
 #{$block} {
     box-sizing: border-box;

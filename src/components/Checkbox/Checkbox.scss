@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}checkbox';
+$block: '.#{variables.$ns}checkbox';
 
 #{$block} {
     display: inline-flex;

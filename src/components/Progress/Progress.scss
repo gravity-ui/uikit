@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}progress';
+$block: '.#{variables.$ns}progress';
 
 $progress-height: 20px;
 $progress-thin-height: 10px;

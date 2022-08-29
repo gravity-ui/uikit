@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}card';
+$block: '.#{variables.$ns}card';
 
 #{$block} {
     background-color: transparent;

@@ -1,6 +1,6 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}select-showcase';
+$block: '.#{variables.$ns}select-showcase';
 
 #{$block} {
     display: flex;

@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}skeleton';
+$block: '.#{variables.$ns}skeleton';
 
 #{$block} {
     display: inline-block;
@@ -20,12 +20,12 @@ $block: '.#{$ns}skeleton';
         left: 0;
 
         background-image: linear-gradient(90deg, transparent, var(--yc-color-base-generic));
-        animation: #{$ns}skeleton 1.2s ease-out infinite;
+        animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
     }
 }
 
-@keyframes #{$ns}skeleton {
+@keyframes #{variables.$ns}skeleton {
     0% {
         transform: translateX(-100%);
     }

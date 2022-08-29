@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}menu';
+$block: '.#{variables.$ns}menu';
 
 #{$block} {
     box-sizing: border-box;

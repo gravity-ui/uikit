@@ -3,6 +3,7 @@ import React from 'react';
 import {ControlProps} from '../types';
 import {useUniqId} from './useUniqId';
 import {useForkRef} from './useForkRef';
+import {eventBroker} from './event-broker';
 
 export function useRadio({
     name,
@@ -27,6 +28,12 @@ export function useRadio({
     const handleRef = useForkRef(controlRef, innerControlRef);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        eventBroker.publish({
+            componentId: 'Radio',
+            eventId: 'click',
+            domEvent: event,
+        });
+
         if (!isControlled) {
             setCheckedState(event.target.checked);
         }
@@ -40,6 +47,18 @@ export function useRadio({
         }
     };
 
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLInputElement>) => {
+            eventBroker.publish({
+                componentId: 'Radio',
+                eventId: 'click',
+                domEvent: event,
+            });
+            controlProps?.onClick?.(event);
+        },
+        [controlProps?.onClick],
+    );
+
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> &
         React.RefAttributes<HTMLInputElement> = {
         ...controlProps,
@@ -51,6 +70,7 @@ export function useRadio({
         disabled,
         type: 'radio',
         onChange: handleChange,
+        onClick: handleClick,
         checked,
         defaultChecked: defaultChecked,
         'aria-checked': isChecked,

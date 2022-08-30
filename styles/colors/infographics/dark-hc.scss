@@ -1,0 +1,26 @@
+@mixin yc-colors-infographics-dark-hc {
+    --yc-color-infographics-info-light: var(--yc-color-private-blue-150);
+    --yc-color-infographics-positive-light: var(--yc-color-private-green-150);
+    --yc-color-infographics-warning-light: var(--yc-color-private-orange-150);
+    --yc-color-infographics-danger-light: var(--yc-color-private-red-150);
+    --yc-color-infographics-misc-light: var(--yc-color-private-cool-grey-150);
+    --yc-color-infographics-neutral-light: var(--yc-color-private-white-150);
+
+    --yc-color-infographics-info-medium: var(--yc-color-private-blue-300);
+    --yc-color-infographics-positive-medium: var(--yc-color-private-green-300);
+    --yc-color-infographics-warning-medium: var(--yc-color-private-orange-300);
+    --yc-color-infographics-danger-medium: var(--yc-color-private-red-300);
+    --yc-color-infographics-misc-medium: var(--yc-color-private-cool-grey-300);
+    --yc-color-infographics-neutral-medium: var(--yc-color-private-white-150);
+
+    --yc-color-infographics-info-heavy: var(--yc-color-private-blue-550);
+    --yc-color-infographics-positive-heavy: var(--yc-color-private-green-550);
+    --yc-color-infographics-warning-heavy: var(--yc-color-private-yellow-550);
+    --yc-color-infographics-danger-heavy: var(--yc-color-private-red-550);
+    --yc-color-infographics-misc-heavy: var(--yc-color-private-cool-grey-550);
+    --yc-color-infographics-neutral-heavy: var(--yc-color-private-white-300);
+
+    --yc-color-infographics-axis: var(--yc-color-private-white-150-solid);
+
+    --yc-color-infographics-tooltip-bg: var(--yc-color-private-white-opaque-150);
+}

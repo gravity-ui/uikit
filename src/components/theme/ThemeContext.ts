@@ -4,7 +4,7 @@ import {DEFAULT_THEME} from './constants';
 import {Theme} from './types';
 
 export interface ThemeContextProps {
-    theme: string;
+    theme: Theme;
     setTheme: (newTheme: Theme) => void;
 }
 

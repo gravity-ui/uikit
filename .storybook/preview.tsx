@@ -56,6 +56,8 @@ export const globalTypes = {
             items: [
                 {value: 'light', right: '☼', title: 'Light'},
                 {value: 'dark', right: '☾', title: 'Dark'},
+                {value: 'light-hc', right: '☼', title: 'High Contrast Light (beta)'},
+                {value: 'dark-hc', right: '☼', title: 'High Contrast Dark (beta)'},
             ],
         },
     },

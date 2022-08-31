@@ -92,7 +92,7 @@ const alwaysLight = [
 ];
 
 export const RenderLines = () => (
-    <Showcase title="Lines" description="Обводки, разделители, рамки">
+    <Showcase title="Lines" description="Strokes, dividers, borders">
         <ColorPanel
             title="General lines"
             description="General blocks. Active and selected elements."

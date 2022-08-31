@@ -11,30 +11,30 @@ export default {
 
 export const Default: Story<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>Первый</Menu.Item>
-        <Menu.Item>Второй</Menu.Item>
+        <Menu.Item>First</Menu.Item>
+        <Menu.Item>Second</Menu.Item>
     </Menu>
 );
 
 export const ItemActive: Story<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item active>Первый</Menu.Item>
-        <Menu.Item>Второй</Menu.Item>
-        <Menu.Item>Третий</Menu.Item>
+        <Menu.Item active>First</Menu.Item>
+        <Menu.Item>Second</Menu.Item>
+        <Menu.Item>Third</Menu.Item>
     </Menu>
 );
 
 export const ItemIcon: Story<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item icon={<Icon data={GearIcon} size={16} />}>Настройки</Menu.Item>
+        <Menu.Item icon={<Icon data={GearIcon} size={16} />}>Settings</Menu.Item>
     </Menu>
 );
 
 export const ItemDisabled: Story<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>Первый</Menu.Item>
-        <Menu.Item disabled>Второй (недоступен)</Menu.Item>
-        <Menu.Item>Третий</Menu.Item>
+        <Menu.Item>First</Menu.Item>
+        <Menu.Item disabled>Second (unavailable)</Menu.Item>
+        <Menu.Item>Third</Menu.Item>
     </Menu>
 );
 
@@ -64,20 +64,20 @@ export const ItemLink: Story<MenuProps> = (args) => (
 
 export const Group: Story<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>Первый</Menu.Item>
-        <Menu.Group label="Группа Один">
-            <Menu.Item>Раз</Menu.Item>
-            <Menu.Item>Два</Menu.Item>
+        <Menu.Item>First</Menu.Item>
+        <Menu.Group label="Group One">
+            <Menu.Item>One</Menu.Item>
+            <Menu.Item>Two</Menu.Item>
         </Menu.Group>
-        <Menu.Group label="Группа Два">
-            <Menu.Item>Раз</Menu.Item>
-            <Menu.Item>Два</Menu.Item>
+        <Menu.Group label="Group Two">
+            <Menu.Item>One</Menu.Item>
+            <Menu.Item>Two</Menu.Item>
         </Menu.Group>
-        <Menu.Item>По середине</Menu.Item>
-        <Menu.Group label="Группа Три">
-            <Menu.Item>Раз</Menu.Item>
-            <Menu.Item>Два</Menu.Item>
+        <Menu.Item>Middle</Menu.Item>
+        <Menu.Group label="Group Three">
+            <Menu.Item>One</Menu.Item>
+            <Menu.Item>Two</Menu.Item>
         </Menu.Group>
-        <Menu.Item>Последний</Menu.Item>
+        <Menu.Item>Last</Menu.Item>
     </Menu>
 );

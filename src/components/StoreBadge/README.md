@@ -1,6 +1,6 @@
 ## StoreBadge
 
-Component for app stores badges: AppStore и Google Play.
+Component for app stores badges: App Store and Google Play.
 
 ### PropTypes
 

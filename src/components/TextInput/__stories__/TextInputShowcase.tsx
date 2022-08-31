@@ -30,7 +30,7 @@ export const TextInputShowcase: React.FC = () => {
                 <h2 className={b('title')}>TextInput</h2>
 
                 <div className={'size-examples'}>
-                    <h3 className={b('section-header')}>Размеры:</h3>
+                    <h3 className={b('section-header')}>Sizes:</h3>
 
                     <TextInput {...textInputProps} size="s" placeholder="s" />
                     <TextInput {...textInputProps} placeholder="m" />
@@ -39,7 +39,7 @@ export const TextInputShowcase: React.FC = () => {
                 </div>
 
                 <div className={b('state-examples')}>
-                    <h3 className={b('section-header')}>Состояния:</h3>
+                    <h3 className={b('section-header')}>States:</h3>
 
                     <div className={b('row')}>
                         <TextInput
@@ -67,7 +67,7 @@ export const TextInputShowcase: React.FC = () => {
                 <h2 className={b('title')}>TextInput (multiline)</h2>
 
                 <div className={b('size-examples')}>
-                    <h3 className={b('section-header')}>Размеры:</h3>
+                    <h3 className={b('section-header')}>Sizes:</h3>
 
                     <TextInput {...textAreaProps} placeholder="dynamic height" />
                     <TextInput
@@ -85,7 +85,7 @@ export const TextInputShowcase: React.FC = () => {
                 </div>
 
                 <div className={b('state-examples')}>
-                    <h3 className={b('section-header')}>Состояния:</h3>
+                    <h3 className={b('section-header')}>States:</h3>
 
                     <TextInput {...textAreaProps} placeholder="dynamic height & clear" hasClear />
                     <div className={b('row')}>

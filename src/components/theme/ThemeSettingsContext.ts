@@ -7,10 +7,12 @@ export type ThemeSettings = {
     systemDarkTheme: RealTheme;
 };
 
-export type ThemeSettingsContextProps = {
-    themeSettings: ThemeSettings;
-    setThemeSettings: (themeSettings: ThemeSettings) => void;
-};
+export type ThemeSettingsContextProps =
+    | {
+          themeSettings: ThemeSettings;
+          setThemeSettings: (themeSettings: ThemeSettings) => void;
+      }
+    | undefined;
 
-export const ThemeSettingsContext = React.createContext(undefined);
+export const ThemeSettingsContext = React.createContext<ThemeSettingsContextProps>(undefined);
 ThemeSettingsContext.displayName = 'ThemeSettingsContext';

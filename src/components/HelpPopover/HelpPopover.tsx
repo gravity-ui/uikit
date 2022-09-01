@@ -4,6 +4,7 @@ import {block} from '../utils/cn';
 import {Popover, PopoverProps} from '../Popover';
 import {Icon} from '../Icon';
 import {QuestionMarkIcon} from '../icons/QuestionMarkIcon';
+import {QAProps} from '../types';
 
 import './HelpPopover.scss';
 
@@ -14,7 +15,7 @@ const b = block('help-popover');
  */
 type DistributiveOmit<T, K extends keyof T> = T extends unknown ? Omit<T, K> : never;
 
-export type HelpPopoverProps = DistributiveOmit<PopoverProps, 'children'>;
+export type HelpPopoverProps = DistributiveOmit<PopoverProps, 'children'> & QAProps;
 
 export function HelpPopover(props: HelpPopoverProps) {
     return (

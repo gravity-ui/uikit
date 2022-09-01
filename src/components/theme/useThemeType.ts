@@ -1,9 +1,8 @@
-import React from 'react';
-import {ThemeValueContext} from './ThemeValueContext';
 import {ThemeType} from './types';
 import {getThemeType} from './getThemeType';
+import {useThemeValue} from './useThemeValue';
 
 export function useThemeType(): ThemeType {
-    const {themeValue} = React.useContext(ThemeValueContext);
+    const themeValue = useThemeValue();
     return getThemeType(themeValue);
 }

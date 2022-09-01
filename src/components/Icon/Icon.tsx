@@ -40,9 +40,12 @@ export function Icon({
     stroke = 'none',
     qa,
 }: IconProps) {
-    // Компонент был реализован для 2 разных лоадеров - svg-react-loader и svg-sprite-loader,
-    // возвращающих разные вещи (готовый компонент или объект описание)
-    // UPD: также поддержаны @svgr/webpack лоадер и вставка raw svg, переданного в виде строки
+    // This component supports four different ways to load and use icons:
+    // - svg-react-loader
+    // - svg-sprite-loader
+    // - @svgr/webpack
+    // - string with raw svg
+
     let w, h;
 
     if (size) {
@@ -58,9 +61,10 @@ export function Icon({
         h = height;
     }
 
-    // Распаршиваем viewBox, чтобы получить width и height, если они не были указаны
-    // в случае svg-react-loader зашитые аттрибуты svg лежат в defaultProps компоненты
-    // в случае @svgr/webpack аттрибуты svg можно получить из react-элемента, сделав вызов svgr-компонента без пропсов
+    // Parsing viewBox to get width and height in case they were not specified
+    // For svg-react-loader svg attributes are available in component defaultProps
+    // In case with @svgr/webpack svg attributes can be fetched from the react element
+    // after calling svgr-component without any propses
     let viewBox: string | undefined;
 
     if (isSpriteData(data)) {
@@ -115,12 +119,10 @@ export function Icon({
         );
     }
 
+    // SVG wrapping is needed for compability with sprite-loader
+    // So we removing width and height for internal component so only external one is specifying them
+
     const IconComponent = data;
-    // внешний svg нужен, чтобы аттрибуты указанные в файле не перезаписывались указанными, сохраняя обратную
-    // совместимость с sprite-loader
-    // у всех иконок должен быть назначен viewBox, из которого устанавливается дефолтные width и height, либо
-    // они прилетают из пропсов
-    // чтобы внешние пропсы могли переопределять внутренние - внутренние затираются
     if (IconComponent.defaultProps) {
         IconComponent.defaultProps.width = IconComponent.defaultProps.height = undefined;
     }

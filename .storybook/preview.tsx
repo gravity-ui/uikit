@@ -35,7 +35,7 @@ export const parameters = {
     // actions: {
     //     argTypesRegex: '^on.*',
     // },
-    jsx: {showFunctions: true}, // Для того, чтобы функции отображались в сорцах
+    jsx: {showFunctions: true}, // To show functions in sources
     viewport: {
         viewports: MINIMAL_VIEWPORTS,
     },

@@ -25,8 +25,7 @@
             height: 1px;
             position: relative;
 
-            // Safari 13 не отображает прозрачне элементы, даже если у низ есть высота, ширина и сролл-бар.
-            // Поэтому пришлось добавить почти прозрачный элемент 1x1 px
+            // Safari 13 does not support transparent elements
             &::before {
                 content: '';
                 position: absolute;
@@ -151,8 +150,8 @@
         }
     }
 
-    // принудительно выставляем overflow: visible, чтобы не ломать sticky scroll
-    // так как position: sticky приклеивается к ближайшему родителю с overflow
+    // forcing overflow:visible so we are not breaking sticky scroll
+    // (because sticky scroll relates to closest parent with overflow)
     &_with-sticky-scroll {
         overflow: visible;
     }

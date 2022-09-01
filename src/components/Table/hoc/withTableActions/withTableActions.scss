@@ -2,7 +2,7 @@
 @use '../../variables';
 
 #{variables.$block} {
-    // чтобы высота кнопки не влияла на высоту строки
+    // button height should not affect line height
     &__actions {
         height: variables.$tableLineHeight;
         display: flex;

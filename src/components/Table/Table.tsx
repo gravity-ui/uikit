@@ -16,8 +16,8 @@ export interface TableDataItem {
 type ActiveScrollElementType = 'scrollBar' | 'scrollContainer';
 
 interface TableState {
-    // activeScrollElement нужен, чтобы listner на скролл таблицы не срабатывал, когда скроллится скролл-бар и наоборот
-    // в противном случае таблица будет дергаться при прокрутке
+    // activeScrollElement is required so listener on table scroll won't fire when scrollbar will appear (and vice-versa)
+    // without that page will wobble on scrolling
     activeScrollElement: ActiveScrollElementType;
     columnsStyles: React.CSSProperties[];
     columnHeaderRefs: React.RefObject<HTMLTableCellElement>[];

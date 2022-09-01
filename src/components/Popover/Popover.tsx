@@ -37,7 +37,7 @@ interface PopoverExternalProps {
     tooltipClassName?: string;
     /** css className for the control */
     className?: string;
-    /** Allows to use custom anchor and disables `openByHover` и `onClick` for the component */
+    /** Allows to use custom anchor and disables `openByHover` and `onClick` for the component */
     anchorRef?: React.RefObject<HTMLElement>;
     /** If specified, will be called when the anchor is clicked. If function
      * returns `true', the tooltip is opened. If it returns `false', the tooltip won't be opened. */

@@ -1,15 +1,12 @@
 import {block} from '../utils/cn';
-import {THEMES} from './constants';
 import {RealTheme} from './types';
 
 const b = block('root');
-
 const rootClassName = b();
 
-const themeModifiers = THEMES.map((theme) => {
-    const [, modifier] = b({theme}).split(/\s+/);
-    return [theme, modifier];
-});
+function modifier(className: string) {
+    return className.split(/\s+/)[1];
+}
 
 export function updateBodyClassName(newTheme: RealTheme) {
     const bodyEl = document.body;
@@ -18,7 +15,10 @@ export function updateBodyClassName(newTheme: RealTheme) {
         bodyEl.classList.add(rootClassName);
     }
 
-    themeModifiers.forEach(([theme, modifier]) => {
-        bodyEl.classList.toggle(modifier, theme === newTheme);
+    [...bodyEl.classList].forEach((cls) => {
+        if (cls.startsWith(modifier(b({theme: true})))) {
+            bodyEl.classList.remove(cls);
+        }
     });
+    bodyEl.classList.add(modifier(b({theme: newTheme})));
 }

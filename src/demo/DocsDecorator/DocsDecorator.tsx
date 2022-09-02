@@ -3,7 +3,7 @@ import block from 'bem-cn-lite';
 import {DocsContainer, DocsContainerProps} from '@storybook/addon-docs';
 import {themes} from '../../../.storybook/theme';
 
-import {ThemeProvider, MobileProvider} from '../..';
+import {ThemeProvider, MobileProvider, getThemeType} from '../..';
 
 import './DocsDecorator.scss';
 
@@ -13,7 +13,7 @@ const b = block('docs-decorator');
 
 export function DocsDecorator({children, context}: DocsDecoratorProps) {
     const storyContext = context.getStoryContext(context.storyById(context.id));
-    const theme = storyContext.globals.theme as 'dark' | 'light';
+    const theme = storyContext.globals.theme;
     return (
         <div className={b()}>
             {/* @ts-ignore */}
@@ -28,7 +28,7 @@ export function DocsDecorator({children, context}: DocsDecoratorProps) {
                                 ...story?.parameters,
                                 docs: {
                                     ...story?.parameters?.docs,
-                                    theme: themes[theme],
+                                    theme: themes[getThemeType(theme)],
                                 },
                             },
                         };

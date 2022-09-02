@@ -1,8 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import {addons, types} from '@storybook/addons';
 import {useGlobals} from '@storybook/api';
 import {FORCE_RE_RENDER} from '@storybook/core-events';
 import {themes} from '../theme';
+import {getThemeType} from '../../src/components/theme/getThemeType';
 
 const ADDON_ID = 'yc-theme-addon';
 const TOOL_ID = `${ADDON_ID}tool`;
@@ -20,7 +21,7 @@ addons.register(ADDON_ID, (api) => {
 function Tool({api}) {
     const [{theme}] = useGlobals();
     React.useEffect(() => {
-        api.setOptions({theme: themes[theme as 'dark' |  'light']});
+        api.setOptions({theme: themes[getThemeType(theme)]});
         addons.getChannel().emit(FORCE_RE_RENDER);
     }, [theme]);
     return null;

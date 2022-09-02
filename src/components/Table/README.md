@@ -1,8 +1,8 @@
 ## Table
 
-Таблица с поддержкой выбора строк, действий над строкой, и сортировкой.
+A table that allows selecting and sorting rows and performing actions on a row.
 
-Дополнительная функциональность подключается через HOC:
+Additional functionality is enabled via HOCs:
 
 - [withTableActions](#withtableactions)
 - [withTableCopy](#withtablecopy)
@@ -15,43 +15,43 @@
 ```ts
 interface Props {
   /**
-   * Данные.
+   * Data.
    */
   data: any[];
   /**
-   * Параметры колонок.
+   * Column parameters.
    */
   columns: TableColumnConfig[];
   /**
-   * Выравнивание содержимого по вертикали.
+   * Vertical alignment of contents.
    */
   verticalAlign?: 'top' | 'middle';
   /**
-   * ID строки.
-   * Используется при выборе строк и сортировке. Если передать строку,
-   * то ID будет значение поля в данных строки с именем равным ID колонки.
+   * Row ID.
+   * Used when selecting and sorting rows. If you pass a row,
+   * its ID will be the value of the field in the row data named the same as the column ID
    */
   getRowId?: string | ((item: any, index: number) => string);
   /**
-   * CSS-классы строки.
+   * Row CSS classes.
    */
   getRowClassNames?: (item: any, index: number) => string[];
   /**
-   * Условие для блокирования колонок.
+   * Condition for disabling columns.
    */
   isRowDisabled?: (item: any, index: number) => boolean;
   /**
-   * Обработчик клика по строке.
+   * Row click handler.
    */
   onRowClick?: (item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
   /**
-   * Сообщение при отсутствии данных.
+   * Message returned if data is missing.
    *
-   * По умолчанию: "Нет данных"
+   * By default: "No data"
    */
   emptyMessage?: string;
   /**
-   * CSS-класс таблицы.
+   * Table CSS class.
    */
   className?: string;
 }
@@ -62,62 +62,62 @@ interface Props {
 ```ts
 interface TableColumnConfig<I> {
   /**
-   * ID колонки.
+   * Column ID.
    */
   id: string;
   /**
-   * Имя колонки (заголовок).
+   * Column name (header).
    *
-   * По умолчанию: ID колонки
+   * By default: column ID
    */
   name?: string | (() => React.ReactNode);
   /**
-   * Заглушка при отсутствии данных в ячейке.
+   * Stub in the event there is no data in a cell.
    *
-   * По умолчанию: — (&mdash;)
+   * By default: — (&mdash;)
    */
   placeholder?: string | ((item: any, index: number) => React.ReactNode);
   /**
-   * Содержимое ячейки.
-   * Если передать строку, то содержимое ячейки
-   * будет значением поля с именем равным этой строке.
+   * Cell contents.
+   * If you pass a row, the cell contents
+   * will be the value of the field named the same as this row.
    *
-   * По умолчанию: Значение поля с именем равным ID колонки
+   * By default: The value of the field with the name equal to the column ID
    */
   template?: string | ((item: any, index: number) => React.ReactNode);
   /**
-   * Выравнивание содержимого.
+   * Content alignment.
    */
   align?: 'left' | 'center' | 'right';
   /**
-   * "Прилипание" колонки.
+   * Sticky column.
    */
   sticky?: 'left' | 'right';
   /**
-   * Выделяет колонку среди остальных.
+   * Distinguishes a column among other.
    */
   primary?: boolean;
   /**
-   * Ширина колонки в px.
+   * Column width in px.
    */
   width?: number;
   /**
-   * Горизонтальный sticky scroll у таблицы.
-   * Note: таблица не может быть одновременно с фиксированной высотой и со sticky scroll.
-   * Sticky scroll не будет работать, если у таблицы будет overflow.
+   * Horizontal sticky scroll in a table.
+   * Note: A table can't have a fixed height and sticky scroll at the same time.
+   * A sticky scroll won't work if a table has an overflow.
    *
-   * По умолчанию: false
+   * By default: false
    */
   stickyHorizontalScroll?: boolean;
   /**
-   * Порог, который должен пересечь родительский блок, чтобы скролл "приклеился".
-   * Полезно, например, в консоли, когда плашка от groupActions закрывает скролл.
+   * Threshold that the parent block should pass to make a scroll sticky.
+   * Helpful, for example, in the console when the groupActions bar closes the scroll.
    *
-   * По умолчанию: 0
+   * By default: 0
    */
   stickyHorizontalScrollBreakpoint?: number;
   /**
-   * Различные данные, настройки для HOC-ов.
+   * Various data, HOC settings.
    */
   meta?: Record<string, any>;
 }
@@ -125,14 +125,14 @@ interface TableColumnConfig<I> {
 
 ## withTableActions
 
-Добавляет к колонкам таблицы специальную колонку с действиями.
+Adds a special column with actions to table columns.
 
 ### Props
 
 ```ts
 interface Props {
   /**
-   * Массив конфигов действий для каждой строки.
+   * Array of action configs for each row.
    */
   getRowActions: (item: any, index: number) => TableActionConfig[];
 }
@@ -145,38 +145,38 @@ type TableActionConfig = TableAction | TableActionGroup;
 
 interface TableAction {
   /**
-   * Текст.
+   * Text.
    */
   text: string;
   /**
-   * Обработчик клика.
+   * Click handler.
    */
   handler: (item: any, index: number) => void;
   /**
-   * Действие заблокировано.
+   * Action disabled.
    */
   disabled?: boolean;
   /**
-   * Тема.
+   * Theme.
    *
-   * По умолчанию: "normal"
+   * By default: "normal"
    */
   theme?: 'normal' | 'danger';
 }
 
 interface TableActionGroup {
   /**
-   * Заголовок группы действий.
+   * Action group header.
    */
   title: string;
   /**
-   * Элементы группы действий.
+   * Action group items.
    */
   items: TableActionConfig[];
 }
 ```
 
-### Пример
+### Example
 
 ```jsx
 import {Table, withTableActions} from '@yandex-cloud/uikit';
@@ -192,8 +192,14 @@ const columns = [
 ];
 const getRowActions = () => {
     return [
-        {text: 'Print', handler: () => {}},
-        {text: 'Remove', handler: () => {}, theme: 'danger'},
+        {
+            text: 'Print', handler: () => {
+            }
+        },
+        {
+            text: 'Remove', handler: () => {
+            }, theme: 'danger'
+        },
     ];
 }
 
@@ -208,21 +214,21 @@ const table = (
 
 ## withTableCopy
 
-Добавляет возможность копировать содержимое ячейки или произвольный текст.
+Allows copying the contents of a cell or any text.
 
 ### ColumnMeta
 
 ```ts
 interface ColumnMeta {
   /**
-   * Текст для копирования.
-   * Если передать true, то будет скопировано содержимое ячейки.
+   * Text to copy.
+   * If true is passed, cell contents are copied.
    */
   copy: boolean | ((item: any, index: number) => string | number);
 }
 ```
 
-### Пример
+### Example
 
 ```jsx
 import {Table, withTableCopy} from '@yandex-cloud/uikit';
@@ -247,24 +253,24 @@ const table = (
 
 ## withTableSelection
 
-Добавляет возможность выбирать строки в таблице.
+Enables selecting table rows.
 
 ### Props
 
 ```ts
 interface Props {
   /**
-   * Выбранные строки.
+   * Rows selected.
    */
   selectedIds: string[];
   /**
-   * Обработчик на изменение выбранных строк.
+   * Selected row change handler.
    */
   onSelectionChange: (ids: string[]) => void;
 }
 ```
 
-### Пример
+### Example
 
 ```jsx
 import {Table, withTableSelection} from '@yandex-cloud/uikit';
@@ -291,28 +297,28 @@ function SelectionTable() {
             selectedIds={selectedIds}
             onSelectionChange={setSelectedIds}
         />
-   );
+    );
 }
 ```
 
 ## withTableSettings
 
-Добавляет функциональность по настройкам колонок таблицы.
+Enables functionality for table column settings.
 
 ### ColumnMeta
 
 ```ts
 interface ColumnMeta {
   /**
-   * Выбрана ли колонка, если в настройках её нет.
+   * Specifies whether a column is selected if it's missing in the settings.
    *
-   * По умолчанию: true
+   * By default: true
    */
   selectedByDefault?: boolean;
   /**
-   * Колонка всегда выбрана, изменять её видимость нельзя.
+   * The column is always selected, you can't change its visibility.
    *
-   * По умолчанию: false
+   * By default: false
    */
   selectedAlways?: boolean;
 }
@@ -323,15 +329,15 @@ interface ColumnMeta {
 ```ts
 interface Props {
   /**
-   * Ширина попапа компонента TableColumnSetup.
+   * TableColumnSetup pop-up width.
    */
   settingsPopupWidth?: string;
   /**
-   * Текущие настройки.
+   * Current settings.
    */
   settings: TableSettingsData;
   /**
-   * Ручка обновления настроек.
+   * Settings update handle.
    */
   updateSettings: (data: TableSettingsData) => Promise<void>;
 }
@@ -346,7 +352,7 @@ type TableSettingsData = Array<{
 }>;
 ```
 
-### Пример
+### Example
 
 ```jsx
 import {Table, withTableSettings} from '@yandex-cloud/uikit';
@@ -381,23 +387,23 @@ function SelectionTable() {
 
 ## withTableSorting
 
-Добавляет сортировку колонок.
+Enables column sorting.
 
 ### ColumnMeta
 
 ```ts
 interface ColumnMeta {
   /**
-   * Какая сортировка будет в первую очередь.
+   * Sets the primary sorting order.
    *
-   * По умолчанию: "asc"
+   * By default: "asc"
    */
   defaultSortOrder?: 'asc' | 'desc';
   /**
-   * Функция сортировки.
-   * Должна возвращать значение для сортировки по возрастанию.
-   * Если передать true, сравнватся будут значения ячеек,
-   * а сортировка будет выполнена во возрастанию.
+   * Sorting function.
+   * It should return a value for sorting in ascending order.
+   * If true is passed, cell values are compared
+   * and sorting is done in ascending order.
    */
   sort: boolean | ((itemA: any, itemB: any) => number);
 }
@@ -408,21 +414,21 @@ interface ColumnMeta {
 ```ts
 interface Props {
   /**
-   * Начальное состояние сортировки для некотнроллируемого компонента.
+   * Default sorting state for an uncontrolled component.
    */
   defaultSortState?: TableSortState;
   /**
-   * Состояние сортировки.
+   * Sorting state.
    */
   sortState?: TableSortState;
   /**
-   * Обработчик изменения состояния сортировки.
+   * Sorting state change handler.
    */
   onSortStateChange?: (sortState: TableSortState) => void;
 }
 ```
 
-Если не передавать пропсы `sortState` и `onSortStateChange`, то состояние сортировки будет храниться в самом компоненте.
+If the `sortState` and `onSortStateChange` props are not passed, the sorting state is stored in the component itself.
 
 ### TableSortState
 
@@ -433,7 +439,7 @@ type TableSortState = Array<{
 }>;
 ```
 
-### Пример
+### Example
 
 ```jsx
 import {Table, withTableSorting} from '@yandex-cloud/uikit';

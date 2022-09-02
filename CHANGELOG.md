@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.14.0](https://github.com/yandex-cloud/uikit/compare/v2.13.4...v2.14.0) (2022-09-01)
+
+
+### Features
+
+* added event broker to form components ([#294](https://github.com/yandex-cloud/uikit/issues/294)) ([c71d4ce](https://github.com/yandex-cloud/uikit/commit/c71d4ce20c188924a70e1988ae8b40883fc07b3d))
+* high-contrast themes ([#316](https://github.com/yandex-cloud/uikit/issues/316)) ([cfaf211](https://github.com/yandex-cloud/uikit/commit/cfaf211c44aa4763e36008b0ba9c9abbdec982df))
+
 ## [2.13.4](https://github.com/yandex-cloud/uikit/compare/v2.13.3...v2.13.4) (2022-08-22)
 
 

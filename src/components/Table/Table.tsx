@@ -24,68 +24,67 @@ interface TableState {
 }
 
 export interface TableColumnConfig<I> {
-    /** ID колонки */
+    /** Column ID */
     id: string;
-    /** Имя колонки (заголовок). По умолчанию: ID колонки */
+    /** Column name (header). By default: column ID */
     name?: string | (() => React.ReactNode);
-    /** Класс, который будет добавлен всем ячейкам в этой колонке */
+    /** CSS-class that will be added to all cells in the column. */
     className?: string;
-    /** Заглушка при отсутствии данных в ячейке. По умолчанию: — (&mdash;) */
+    /** Stub in the event there is no data in a cell. By default: — (&mdash;) */
     placeholder?: string | ((item: I, index: number) => React.ReactNode);
-    /** Содержимое ячейки. Если передать строку, то содержимое ячейки будет значением поля с именем равным этой строке. По умолчанию: Значение поля с именем равным ID колонки */
+    /** Cell contents. If you pass a row, the cell contents will be the value of the field named the same as this row. By default: The value of the field with the name equal to the column ID */
     template?: string | ((item: I, index: number) => React.ReactNode);
-    /** Выравнивание содержимого. */
+    /** Content alignment. */
     align?: 'left' | 'center' | 'right';
-    /** "Прилипание" колонки. */
+    /** Sticky column. */
     sticky?: 'left' | 'right';
-    /** Выделяет колонку среди остальных. */
+    /** Distinguishes a column among other. */
     primary?: boolean;
-    /** Ширина колонки в px или строка в %. Width в таблице может вести себя не так, как ожидаете (как min-width у block-элементов). Возможно, нужно будет использовать `table-layout: fixed;` */
+    /** Column width in px or in %. Width can behave unexpectedly (it's more like min-width in block-elements). Sometimes you want to use `table-layout: fixed` */
     width?: number | string;
-    /** Различные данные, настройки для HOC-ов. */
+    /** Various data, HOC settings. */
     meta?: Record<string, any>;
 }
 
-// TODO: Заменить @default в описании пропсов на defaultProps, чтобы сторибук мог автоматом подхватить.
+// TODO: Replace @default in props description with defaultProps in order to work with Storybook.
 export interface TableProps<I> {
-    /** Данные */
+    /** Data */
     data: I[];
-    /** Параметры колонок */
+    /** Column parameters */
     columns: TableColumnConfig<I>[];
-    /** Выравнивание содержимого по вертикали  */
+    /** Vertical alignment of contents  */
     verticalAlign?: 'top' | 'middle';
     /**
-     * Горизонтальный sticky scroll у таблицы.
-     * Note: таблица не может быть одновременно с фиксированной высотой и со sticky scroll.
-     * Sticky scroll не будет работать, если у таблицы будет overflow.
+     * Horizontal sticky scroll.
+     * Note: table cannot be with fixed height and with sticky scroll at the same time.
+     * Sticky scroll wont work if table has overflow.
      *
      * @default false
      */
     stickyHorizontalScroll?: boolean;
     /**
-     * Порог, который должен пересечь родительский блок, чтобы скролл "приклеился".
-     * Полезно, например, в консоли, когда плашка от groupActions закрывает скролл.
+     * Threshold when sticky scroll is enabled.
      *
-     * @default 0
+     *  @default 0
      */
     stickyHorizontalScrollBreakpoint?: number;
     /**
-     * ID строки.
-     * Используется при выборе строк и сортировке. Если передать строку,
-     * то ID будет значение поля в данных строки с именем равным ID колонки.
+     * Row ID.
+     * Used when selecting and sorting rows. If you pass a row,
+     * its ID will be the value of the field in the row data named the same as the column ID.
      */
     getRowId?: string | ((item: I, index: number) => string);
-    /** CSS-классы строки */
+    /** Row CSS classes. */
     getRowClassNames?: (item: I, index: number) => string[];
-    /** Условие для блокирования колонок */
+    /** Condition for disabling columns. */
     isRowDisabled?: (item: I, index: number) => boolean;
-    /** Обработчик клика по строке. С его добавлением появляется ховер на строке и `cursor: pointer` */
+    /** Row click handler. When passed row's hover is visible. */
     onRowClick?: (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
-    /** Сообщение при отсутствии данных во всей таблице. По умолчанию: "Нет данных" */
+    /** Message returned if data is missing. By default: "No data". */
     emptyMessage?: string;
-    /** CSS-класс таблицы. */
+    /** Table CSS-class. */
     className?: string;
-    /** boolean флаг добавляет горизонтальные отступы для крайних ячееек */
+    /** Adds horizontal padding for edge cells. */
     edgePadding?: boolean;
 }
 
@@ -197,7 +196,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             this.tableResizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
                 const {contentRect} = entries[0];
 
-                // синхронизируем ширину скролл-бара с шириной таблицы
+                // Sync scrollbar width with table width
                 this.horizontalScrollBarInnerRef.current?.style.setProperty(
                     'width',
                     `${contentRect.width}px`,

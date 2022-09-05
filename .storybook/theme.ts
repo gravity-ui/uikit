@@ -1,6 +1,6 @@
 import {create} from '@storybook/theming';
 
-export const CloudTheme = create({
+export const CloudThemeLight = create({
     base: 'light',
 
     colorPrimary: '#027bf3',
@@ -30,3 +30,12 @@ export const CloudTheme = create({
     brandTitle: `<div style="font-size: 18px; color: #027bf3; font-weight: 600; margin-top: -6px; margin-bottom: 2px;">UIKit</div>
                 <div style="font-size: 14px;color: #7d7d7d;font-weight: 400;">Yandex.Cloud Components</div>`,
 });
+
+export const CloudThemeDark = create({
+    base: 'dark',
+})
+
+export const themes = {
+    light: CloudThemeLight,
+    dark: CloudThemeDark,
+};

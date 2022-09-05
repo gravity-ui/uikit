@@ -1,6 +1,6 @@
 {
     "name": "@yandex-cloud/uikit",
-    "version": "2.13.4",
+    "version": "2.14.0",
     "description": "Yandex.Cloud UI components",
     "license": "MIT",
     "repository": {
@@ -24,8 +24,8 @@
         "test:coverage": "jest --coverage",
         "clean": "gulp clean",
         "build": "gulp",
-        "start": "TS_NODE_PROJECT=.storybook/tsconfig.json start-storybook -p 7007",
-        "build-storybook": "TS_NODE_PROJECT=.storybook/tsconfig.json build-storybook -c .storybook -o storybook-static",
+        "start": "cross-env TS_NODE_PROJECT=.storybook/tsconfig.json start-storybook -p 7007",
+        "build-storybook": "cross-env TS_NODE_PROJECT=.storybook/tsconfig.json build-storybook -c .storybook -o storybook-static",
         "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
         "lint:prettier": "prettier --check '**/*.md'",
@@ -68,6 +68,7 @@
         "@yandex-cloud/prettier-config": "^1.0.0",
         "@yandex-cloud/stylelint-config": "^1.0.0",
         "@yandex-cloud/tsconfig": "^1.0.0",
+        "cross-env": "7.0.3",
         "css-loader": "^5.2.7",
         "eslint": "^8.8.0",
         "eslint-plugin-testing-library": "^5.5.1",

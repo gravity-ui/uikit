@@ -35,7 +35,7 @@ export const parameters = {
     // actions: {
     //     argTypesRegex: '^on.*',
     // },
-    jsx: {showFunctions: true}, // Для того, чтобы функции отображались в сорцах
+    jsx: {showFunctions: true}, // To show functions in sources
     viewport: {
         viewports: MINIMAL_VIEWPORTS,
     },
@@ -56,6 +56,8 @@ export const globalTypes = {
             items: [
                 {value: 'light', right: '☼', title: 'Light'},
                 {value: 'dark', right: '☾', title: 'Dark'},
+                {value: 'light-hc', right: '☼', title: 'High Contrast Light (beta)'},
+                {value: 'dark-hc', right: '☾', title: 'High Contrast Dark (beta)'},
             ],
         },
     },

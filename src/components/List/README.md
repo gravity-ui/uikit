@@ -1,72 +1,72 @@
 ## List
 
-Универсальный список.
+Universal list.
 
-Позволяет фильтровать элементы; сортировать элементы; рендерить элементы разной высоты; выделять их с клавиатуры.
+Lets you filter and sort items, render items of different height, and select them using the keyboard.
 
 ### PropTypes
 
-| Property          | Type              | Required | Default | Description                                                                                                                                                                                                |
-| :---------------- | :---------------- | :------: | :------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [items](#items)   | `Array`           |   yes    | []      | Список элементов.                                                                                                                                                                                          |
-| itemHeight        | `Number/Function` |          | 28      | Высота элемента в `px` (или функция, возвращающая значение высоты для элемента). `(item: any) => number`                                                                                                   |
-| itemsHeight       | `Number/Function` |          |         | Высота списка элементов (или функция, возвращающая значение высоты для списка). Может быть полезно, чтобы задавать высоту списка динамически. `(items: []) => number`                                      |
-| renderItem        | `Function`        |          |         | Функция рендера, получающая на вход элемент и возвращающая React-ноду. `(item: any, isItemActive: bool, itemIndex: number) => React.ReactNode`                                                             |
-| filterItem        | `Function`        |          |         | Функция фильтрации, которая принимает введенную строку в инпут поиска/фильтрации, и возвращает функцию, которая получает на вход элемент и возвращает boolean `(filter: string) => (item: any) => boolean` |
-| filterable        | `Boolean`         |          | true    | Флаг, включающий поле фильтра.                                                                                                                                                                             |
-| filterPlaceholder | `String`          |          |         | Placeholder для поля фильтра.                                                                                                                                                                              |
-| filter            | `String`          |          |         | Значение фильтра (при использовании внешней сортировки).                                                                                                                                                   |
-| filterClassName   | `String`          |          |         | Класс для стилизации инпута фильтра                                                                                                                                                                        |
-| onChangeFilter    | `Function`        |          |         | Обработчик изменения фильтра (при использовании внешней сортировки). `(filter: string) => void`                                                                                                            |
-| onFilterEnd       | `Function`        |          |         | Функция, которая вызывается после отрабатывания внутренней фильтрации. `({items}: {items: T[]}) => void`                                                                                                   |
-| emptyPlaceholder  | `String`          |          |         | Placeholder для пустого списка.                                                                                                                                                                            |
-| sortable          | `Boolean`         |          |         | Флаг, включающий сортировку списка.                                                                                                                                                                        |
-| sortHandleAlign   | `left` `right`    |          |         | Выравнивание индикатора сортировки (слева или справа).                                                                                                                                                     |
-| onSortEnd         | `Function`        |          |         | Обработчик события сортировки. `({oldIndex: number, newIndex: number}) => void`                                                                                                                            |
-| virtualized       | `Boolean`         |          | true    | Флаг, включающий виртуализацию. При выключенном флаге будут отрисованы все элементы разом.                                                                                                                 |
-| onItemClick       | `Function`        |          |         | Обработчик клика по элементу. `(item: any, index: number, fromKeyboard?: bool) => void`                                                                                                                    |
-| deactivateOnLeave | `Boolean`         |          | true    | При выставленном флаге выделение элемента пропадает при уходе курсора с элемента или потере списком фокуса, при снятом - последний выделенный элемент остается выделенным всегда.                          |
-| activeItemIndex   | `Number`          |          |         | При заданном значении элемент с этим индексом рендерится как активный ~~пока проклятие не будет снято~~.                                                                                                   |
-| selectedItemIndex | `Number`          |          |         | При заданном значении элемент с этим индексом рендерится как выбранный (цвет фона из `--yc-color-selection`).                                                                                              |
-| itemClassName     | `String`          |          |         | Кастомное имя класса которое будет добавлено к контейнеру элемента                                                                                                                                         |
-| itemsClassName    | `String`          |          |         | Кастомное имя класса которое будет добавлено к списку элементов                                                                                                                                            |
+| Property          | Type              | Required | Default | Description                                                                                                                                                                                            |
+| :---------------- | :---------------- | :------: | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [items](#items)   | `Array`           |   yes    | []      | List of items.                                                                                                                                                                                         |
+| itemHeight        | `Number/Function` |          | 28      | Item height in `px` (or a function that returns the height value for an item). `(item: any) => number`                                                                                                 |
+| itemsHeight       | `Number/Function` |          |         | Item list height (or a function that returns the height value for a list). It can be helpful when setting the list height dynamically. `(items: []) => number`                                         |
+| renderItem        | `Function`        |          |         | Render function with an item received as an input and a React node returned. `(item: any, isItemActive: bool, itemIndex: number) => React.ReactNode`                                                   |
+| filterItem        | `Function`        |          |         | Filtering function that receives a specified string as a search/filter input and returns a function that receives an item as an input and outputs boolean `(filter: string) => (item: any) => boolean` |
+| filterable        | `Boolean`         |          | true    | Flag that enables a filter field.                                                                                                                                                                      |
+| filterPlaceholder | `String`          |          |         | Placeholder for a filter field.                                                                                                                                                                        |
+| filter            | `String`          |          |         | Filter value (if external sorting is used).                                                                                                                                                            |
+| filterClassName   | `String`          |          |         | Class for filter input styles                                                                                                                                                                          |
+| onChangeFilter    | `Function`        |          |         | Filter change handler (if external sorting is used). `(filter: string) => void`                                                                                                                        |
+| onFilterEnd       | `Function`        |          |         | Function invoked after internal filtering is completed. `({items}: {items: T[]}) => void`                                                                                                              |
+| emptyPlaceholder  | `String`          |          |         | Placeholder for an empty list.                                                                                                                                                                         |
+| sortable          | `Boolean`         |          |         | Flag that enables list sorting.                                                                                                                                                                        |
+| sortHandleAlign   | `left` `right`    |          |         | Sorting indicator alignment (left or right).                                                                                                                                                           |
+| onSortEnd         | `Function`        |          |         | Sorting event handler. `({oldIndex: number, newIndex: number}) => void`                                                                                                                                |
+| virtualized       | `Boolean`         |          | true    | Flag that enables virtualization. If not active, all items are rendered at once.                                                                                                                       |
+| onItemClick       | `Function`        |          |         | Item click handler. `(item: any, index: number, fromKeyboard?: bool) => void`                                                                                                                          |
+| deactivateOnLeave | `Boolean`         |          | true    | If the flag is set, an item's selection is deactivated once the cursor leaves the item or the list loses its focus. If not set, the last selected item will always be selected.                        |
+| activeItemIndex   | `Number`          |          |         | If a value is set, an item with this index is rendered as active ~~until the curse is lifted~~.                                                                                                        |
+| selectedItemIndex | `Number`          |          |         | If a value is set, an item with this index is rendered as selected (the background color is from `--yc-color-selection`).                                                                              |
+| itemClassName     | `String`          |          |         | Custom class name to be added to an item container                                                                                                                                                     |
+| itemsClassName    | `String`          |          |         | Custom class name to be added to an item list                                                                                                                                                          |
 
-### Виртуализация
+### Virtualization
 
-Чтобы виртуализация работала, нужно выполнить одно из двух условий:
+To enable virtualization, make sure one of the following two conditions is met:
 
-1. Задать значение переменной `--yc-list-height`. В этом случае список будет фиксированной высоты, заданной в переменной.
-2. Задать контейнеру-родителю списка, стиль `display: flex`. В этом случае список будет подстраиваться под ширину контейнера.
+1. The `--yc-list-height` variable value is set. In this case, the list height will be fixed and equal to the value specified in this variable.
+2. Set the `display: flex` style for the list parent container. In this case, the list will adapt to the container width.
 
 ### Items
 
-Элемент может быть скаляром или произвольным объектом (но обязательно быть `truly`).
-Во втором случае необходимо указать функции фильтрации и рендеринга.
-Рендер по умолчанию просто отдает элемент как текст.
+An item can be a scalar or an arbitrary value (anyway, it must be `truly`).
+If the latter, be sure to specify filtering and rendering functions.
+The default render just passes an item as text.
 
-Специальное поле `item.disabled` делает элемент неактивным.
+The special `item.disabled` field disables an item.
 
-Кастомизация рендера и высоты открывает широкое поле для творчества.
-Например, код ниже позволяет эмулировать группы:
+Render and height customization provides plenty of room for experimenting.
+For example, the code below lets you emulate groups:
 
 ```jsx harmony
 <List
   items={[
     {
-      title: 'на',
+      title: 'one',
       group: true,
       disabled: true,
     },
     {
-      title: 'златом',
+      title: 'two',
     },
     {
-      title: 'царь',
+      title: 'three',
       group: true,
       disabled: true,
     },
     {
-      title: 'царевич',
+      title: 'four',
     },
   ]}
   onItemClick={(value) => console.log(value)}
@@ -89,10 +89,10 @@
 />
 ```
 
-### Внешнее управление
+### External management
 
-Иногда хочется поуправлять активностью элементов с клавиатуры, но фокус при этом сохранять на внешнем элементе.
-В этом поможет проброс события `onKeyDown` в список:
+Sometimes you may want to manage the activity of items from the keyboard by maintaining the focus on an external item.
+The `onKeyDown` event forwarding to a list may help you here:
 
 ```jsx harmony
 <TextInput
@@ -100,7 +100,7 @@
     tone="default"
     theme="normal"
     size="s"
-    text="Привет!"
+    text="Hello!"
     onKeyDown={(...props) => this.firstListRef.current.onKeyDown(...props)}
 />
 <List
@@ -109,4 +109,4 @@
 />
 ```
 
-Подобным же образом можно пробросить `onFocus` и `onBlur`, если нужно повторить поведение с потерей активного элемента.
+Likewise, you can forward `onFocus` and `onBlur` if you need to repeat the behavior when an active item is lost.

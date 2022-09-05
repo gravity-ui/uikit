@@ -37,7 +37,7 @@ interface PopoverExternalProps {
     tooltipClassName?: string;
     /** css className for the control */
     className?: string;
-    /** Allows to use custom anchor and disables `openByHover` и `onClick` for the component */
+    /** Allows to use custom anchor and disables `openByHover` and `onClick` for the component */
     anchorRef?: React.RefObject<HTMLElement>;
     /** If specified, will be called when the anchor is clicked. If function
      * returns `true', the tooltip is opened. If it returns `false', the tooltip won't be opened. */
@@ -264,6 +264,7 @@ export class Popover extends React.Component<
             anchorRef,
             hasClose,
             forceLinksAppearance,
+            qa,
         } = this.props;
 
         return (
@@ -284,6 +285,7 @@ export class Popover extends React.Component<
                 hasArrow={hasArrow}
                 offset={tooltipOffset}
                 onClose={anchorRef ? undefined : this.closeTooltip}
+                qa={qa ? `${qa}-tooltip` : ''}
             >
                 <React.Fragment>
                     {this.renderTitle()}
@@ -407,7 +409,14 @@ export class Popover extends React.Component<
 
         return (
             <div className={b('tooltip-close')}>
-                <Button size="s" view="flat-secondary" onClick={this.onCloseClick}>
+                <Button
+                    size="s"
+                    view="flat-secondary"
+                    onClick={this.onCloseClick}
+                    extraProps={{
+                        'aria-label': 'Close',
+                    }}
+                >
                     <Icon data={PreviewCloseIcon} size={24} />
                 </Button>
             </div>

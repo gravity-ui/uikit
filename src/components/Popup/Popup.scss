@@ -10,7 +10,7 @@ $arrow-circle-height: 30px;
 $transition-distance: 10px;
 
 #{$block} {
-    // Может быть переопределено, см. Tooltip
+    // Can be overridden, see Tooltip
     --yc-popup-background-color: var(--yc-color-base-float);
     --yc-popup-border-color: var(--yc-color-line-solid);
     --yc-popup-border-width: 1px;
@@ -41,7 +41,7 @@ $transition-distance: 10px;
         box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color);
     }
 
-    // Скругление краев у контента
+    // Corners rounding for content
     & > :first-child:not(&__arrow),
     & > &__arrow + * {
         border-top-left-radius: inherit;

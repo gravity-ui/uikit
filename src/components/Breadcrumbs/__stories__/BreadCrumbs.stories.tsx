@@ -30,7 +30,7 @@ const items = [
 export default {
     title: 'Components/Breadcrumbs',
     component: Breadcrumbs,
-    // TODO: разобраться, почему в данном случае не может распарсить enum
+    // TODO: debug why it can't parse enum
     argTypes: {
         firstDisplayedItemsCount: {
             control: {

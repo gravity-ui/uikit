@@ -1,11 +1,12 @@
 import React from 'react';
+import {RealTheme} from './types';
 
 export interface ThemeValueContextProps {
-    themeValue: string;
+    themeValue: RealTheme;
 }
 
 const initialValue: ThemeValueContextProps = {
-    themeValue: '',
+    themeValue: 'light',
 };
 
 export const ThemeValueContext = React.createContext(initialValue);

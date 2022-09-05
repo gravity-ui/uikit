@@ -72,110 +72,108 @@ export interface ButtonProps extends DOMProps, QAProps {
 
 const b = block('button');
 
-const ButtonWithHandlers = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-    function Button(
-        {
-            view = 'normal',
-            size = 'm',
-            pin = 'round-round',
-            selected = false,
-            disabled = false,
-            loading = false,
-            width,
-            title,
-            tabIndex,
-            type = 'button',
-            component,
+const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function Button(
+    {
+        view = 'normal',
+        size = 'm',
+        pin = 'round-round',
+        selected = false,
+        disabled = false,
+        loading = false,
+        width,
+        title,
+        tabIndex,
+        type = 'button',
+        component,
+        href,
+        target,
+        rel,
+        extraProps,
+        onClick,
+        onMouseEnter,
+        onMouseLeave,
+        onFocus,
+        onBlur,
+        children,
+        id,
+        style,
+        className,
+        qa,
+    },
+    ref,
+) {
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+            eventBroker.publish({
+                componentId: 'Button',
+                eventId: 'click',
+                domEvent: event,
+                meta: {
+                    content: event.currentTarget.textContent,
+                    view,
+                },
+            });
+            onClick?.(event);
+        },
+        [view, onClick],
+    );
+
+    const commonProps = {
+        title,
+        tabIndex,
+        onClick: handleClick,
+        onMouseEnter,
+        onMouseLeave,
+        onFocus,
+        onBlur,
+        id,
+        style,
+        className: b(
+            {
+                view,
+                size,
+                pin,
+                selected,
+                disabled: disabled || loading,
+                loading,
+                width,
+            },
+            className,
+        ),
+        'data-qa': qa,
+    };
+
+    if (typeof href === 'string' || component) {
+        const linkProps = {
             href,
             target,
-            rel,
-            extraProps,
-            onClick,
-            onMouseEnter,
-            onMouseLeave,
-            onFocus,
-            onBlur,
-            children,
-            id,
-            style,
-            className,
-            qa,
-        },
-        ref,
-    ) {
-        const handleClick = React.useCallback(
-            (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-                eventBroker.publish({
-                    componentId: 'Button',
-                    eventId: 'click',
-                    domEvent: event,
-                    meta: {
-                        content: event.currentTarget.textContent,
-                        view,
-                    },
-                });
-                onClick?.(event);
-            },
-            [view, onClick],
-        );
-
-        const commonProps = {
-            title,
-            tabIndex,
-            onClick: handleClick,
-            onMouseEnter,
-            onMouseLeave,
-            onFocus,
-            onBlur,
-            id,
-            style,
-            className: b(
-                {
-                    view,
-                    size,
-                    pin,
-                    selected,
-                    disabled: disabled || loading,
-                    loading,
-                    width,
-                },
-                className,
-            ),
-            'data-qa': qa,
+            rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
         };
-
-        if (typeof href === 'string' || component) {
-            const linkProps = {
-                href,
-                target,
-                rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
-            };
-            return React.createElement(
-                component || 'a',
-                {
-                    ...extraProps,
-                    ...commonProps,
-                    ...(component ? {} : linkProps),
-                    ref: ref as React.Ref<HTMLAnchorElement>,
-                    'aria-disabled': disabled || loading,
-                },
-                prepareChildren(children),
-            );
-        } else {
-            return (
-                <button
-                    {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-                    {...commonProps}
-                    ref={ref as React.Ref<HTMLButtonElement>}
-                    type={type}
-                    disabled={disabled || loading}
-                >
-                    {prepareChildren(children)}
-                </button>
-            );
-        }
-    },
-);
+        return React.createElement(
+            component || 'a',
+            {
+                ...extraProps,
+                ...commonProps,
+                ...(component ? {} : linkProps),
+                ref: ref as React.Ref<HTMLAnchorElement>,
+                'aria-disabled': disabled || loading,
+            },
+            prepareChildren(children),
+        );
+    } else {
+        return (
+            <button
+                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+                {...commonProps}
+                ref={ref as React.Ref<HTMLButtonElement>}
+                type={type}
+                disabled={disabled || loading}
+            >
+                {prepareChildren(children)}
+            </button>
+        );
+    }
+});
 
 ButtonWithHandlers.displayName = 'Button';
 

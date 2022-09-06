@@ -18,9 +18,9 @@ export function DocsExample({
     children,
     distribute = 'start',
     gap = 'm',
-    space,
-    rounded,
-    background,
+    space = 'm',
+    rounded = true,
+    background = 'var(--yc-color-base-background)',
 }: DocsExampleProps) {
     return (
         <div style={{background}} className={b({distribute, gap, space, rounded})}>

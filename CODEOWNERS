@@ -27,6 +27,7 @@
 /src/components/Text @IsaevAlexandr
 #/src/components/TextInput @dustyo-O
 /src/components/Toaster @korvin89
+/src/components/Link @LakeVostok
 # Allow everyone to publish releases
 /package.json
 /package-lock.json

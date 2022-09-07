@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.15.0](https://github.com/yandex-cloud/uikit/compare/v2.14.0...v2.15.0) (2022-09-07)
+
+
+### Features
+
+* **Button:** added content and view to eventBroker meta ([#319](https://github.com/yandex-cloud/uikit/issues/319)) ([19a3463](https://github.com/yandex-cloud/uikit/commit/19a3463571229b513bb841d2aea48913cdb55451))
+
+
+### Bug Fixes
+
+* relax RealTheme type for compatibility ([#329](https://github.com/yandex-cloud/uikit/issues/329)) ([a716448](https://github.com/yandex-cloud/uikit/commit/a71644803ffe551bb393202fdb26e3a08544d2ed))
+
 ## [2.14.0](https://github.com/yandex-cloud/uikit/compare/v2.13.4...v2.14.0) (2022-09-01)
 
 

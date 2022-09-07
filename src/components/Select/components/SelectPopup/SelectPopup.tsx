@@ -11,6 +11,7 @@ type SelectPopupProps = {
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     className?: string;
+    enableFocusTrap?: boolean;
 };
 
 export const SelectPopup = ({
@@ -32,6 +33,8 @@ export const SelectPopup = ({
         placement={['bottom-start', 'top-start']}
         open={open}
         onClose={handleClose}
+        restoreFocus
+        restoreFocusRef={controlRef}
     >
         {children}
     </Popup>

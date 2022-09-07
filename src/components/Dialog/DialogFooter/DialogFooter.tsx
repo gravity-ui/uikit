@@ -127,6 +127,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
                         open={showError}
                         anchorRef={this.errorTooltipRef}
                         placement={['bottom', 'top']}
+                        disableLayer
                         hasArrow
                     >
                         <div className={b('error')}>{errorText}</div>

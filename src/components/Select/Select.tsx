@@ -24,6 +24,7 @@ import {
 import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
 import {Option, OptionGroup} from './tech-components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD} from './constants';
+import {useOnFocusOutside} from '../utils/useOnFocusOutside';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -190,8 +191,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onOpenChange?.(open);
     }, [open, filterable, onOpenChange]);
 
+    const {onFocus} = useOnFocusOutside(handleClose, open);
+
     return (
-        <React.Fragment>
+        <div style={{display: 'inline-block'}} onFocus={onFocus}>
             <SelectControl
                 ref={handleControlRef}
                 className={className}
@@ -216,6 +219,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 width={popupWidth}
                 minWidth={popupMinWidth}
                 verticalOffset={popupVerticalOffset}
+                enableFocusTrap={filterable}
                 open={open}
                 handleClose={handleClose}
             >
@@ -248,7 +252,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
                 )}
             </SelectPopup>
-        </React.Fragment>
+        </div>
     );
 }) as SelectComponent;
 

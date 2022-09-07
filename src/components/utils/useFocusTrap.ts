@@ -1,39 +1,58 @@
-import React from 'react';
+import * as React from 'react';
 import {createFocusTrap, FocusTrap} from 'focus-trap';
 
-export interface FocusTrapProps {
-    enabled: boolean;
-    rootRef: React.RefObject<HTMLElement>;
+import {useRestoreFocus} from './useRestoreFocus';
+
+interface UseFocusTrapProps {
+    enabled?: boolean;
+    disableRestoreFocus?: boolean;
+    restoreFocusRef?: React.RefObject<HTMLElement>;
+    disableAutoFocus?: boolean;
+    autoFocusRef?: React.RefObject<HTMLElement>;
 }
 
-export function useFocusTrap({enabled, rootRef}: FocusTrapProps) {
-    const trap = React.useRef<FocusTrap>();
+export function useFocusTrap({
+    enabled = true,
+    disableRestoreFocus,
+    restoreFocusRef,
+    disableAutoFocus = false,
+    autoFocusRef,
+}: UseFocusTrapProps = {}) {
+    const containerProps = useRestoreFocus({
+        enabled: enabled && !disableRestoreFocus,
+        restoreFocusRef,
+        focusTrapped: true,
+    });
 
+    const initialFocusRef = React.useRef<HTMLElement | undefined | false>(
+        disableAutoFocus ? false : autoFocusRef?.current ?? undefined,
+    );
     React.useEffect(() => {
-        if (enabled) {
-            if (rootRef.current) {
-                if (!rootRef.current.getAttribute('tabIndex')) {
-                    throw new Error(
-                        'Root element must be focusable. Add tabIndex="-1" attribute to the root.',
-                    );
-                }
+        initialFocusRef.current = disableAutoFocus ? false : autoFocusRef?.current ?? undefined;
+    });
 
-                trap.current = createFocusTrap(rootRef.current, {
+    const trapRef = React.useRef<FocusTrap>();
+
+    const setFocusTrap = React.useCallback(
+        (node: HTMLElement | null) => {
+            if (node && enabled) {
+                trapRef.current = createFocusTrap(node, {
+                    // @ts-expect-error () => undefined is the same as undefined here
+                    initialFocus: () => initialFocusRef.current,
+                    fallbackFocus: () => node,
+                    returnFocusOnDeactivate: false,
                     escapeDeactivates: false,
+                    clickOutsideDeactivates: false,
                     allowOutsideClick: true,
-                    initialFocus: rootRef.current,
-                    fallbackFocus: rootRef.current,
                 });
-                trap.current.activate();
+                trapRef.current.activate();
+            } else {
+                trapRef.current?.deactivate();
+                trapRef.current = undefined;
             }
+        },
+        [enabled],
+    );
 
-            return () => {
-                if (trap.current) {
-                    trap.current.deactivate();
-                }
-            };
-        }
-
-        return undefined;
-    }, [enabled]);
+    return [setFocusTrap, containerProps] as const;
 }

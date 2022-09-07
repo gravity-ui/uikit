@@ -6,7 +6,9 @@ import {getCSSTransitionClassNames} from '../utils/transition';
 import {DOMProps, QAProps} from '../types';
 import {Portal} from '../Portal';
 import {useBodyScrollLock} from '../utils/useBodyScrollLock';
-// import {useFocusTrap} from '../utils//useFocusTrap';
+import {useFocusTrap} from '../utils/useFocusTrap';
+import {useRestoreFocus} from '../utils/useRestoreFocus';
+import {useForkRef} from '../utils/useForkRef';
 import {useLayer, LayerExtendableProps, LayerCloseReason} from '../utils/useLayer';
 
 import './Modal.scss';
@@ -15,7 +17,10 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     open?: boolean;
     keepMounted?: boolean;
     disableBodyScrollLock?: boolean;
-    // disableFocusTrap?: boolean;
+    disableFocusTrap?: boolean;
+    disableAutoFocus?: boolean;
+    autoFocusRef?: React.RefObject<HTMLElement>;
+    restoreFocusRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     /**
      * Id of visible `<Modal/>` caption element
@@ -38,9 +43,12 @@ export function Modal({
     open = false,
     keepMounted = false,
     disableBodyScrollLock = false,
-    // disableFocusTrap = false,
     disableEscapeKeyDown,
     disableOutsideClick,
+    disableFocusTrap,
+    disableAutoFocus,
+    autoFocusRef,
+    restoreFocusRef,
     onEscapeKeyDown,
     onEnterKeyDown,
     onOutsideClick,
@@ -59,10 +67,18 @@ export function Modal({
     const [inTransition, setInTransition] = React.useState(false);
 
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
-    // useFocusTrap({
-    //     enabled: !disableFocusTrap && (open || inTransition.current),
-    //     rootRef: contentRef,
-    // });
+    const [setFocusTrap] = useFocusTrap({
+        enabled: !disableFocusTrap && open && !inTransition,
+        disableRestoreFocus: true,
+        disableAutoFocus,
+        autoFocusRef,
+    });
+    const containerProps = useRestoreFocus({
+        enabled: open || inTransition,
+        restoreFocusRef,
+        focusTrapped: true,
+    });
+
     useLayer({
         open,
         disableEscapeKeyDown,
@@ -74,6 +90,7 @@ export function Modal({
         contentRefs: [contentRef],
     });
 
+    const _contentRef = useForkRef<HTMLDivElement>(contentRef, setFocusTrap);
     return (
         <Portal container={container}>
             <CSSTransition
@@ -95,13 +112,14 @@ export function Modal({
                     <div className={b('table')}>
                         <div className={b('cell')}>
                             <div
-                                ref={contentRef}
+                                ref={_contentRef}
                                 tabIndex={-1}
                                 role="dialog"
                                 aria-modal={open}
                                 aria-label={ariaLabel}
                                 aria-labelledby={ariaLabelledBy}
                                 className={b('content', contentClassName)}
+                                {...containerProps}
                             >
                                 {children}
                             </div>

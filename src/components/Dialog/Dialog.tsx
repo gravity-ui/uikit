@@ -29,6 +29,10 @@ interface DialogOwnProps {
     'aria-label'?: string;
     'aria-labelledby'?: string;
     container?: HTMLElement;
+    disableFocusTrap?: boolean;
+    disableAutoFocus?: boolean;
+    autoFocusRef?: React.RefObject<HTMLElement>;
+    restoreFocusRef?: React.RefObject<HTMLElement>;
 }
 
 interface DialogDefaultProps {
@@ -64,6 +68,10 @@ export class Dialog extends React.Component<DialogInnerProps> {
             disableBodyScrollLock,
             disableEscapeKeyDown,
             disableOutsideClick,
+            disableFocusTrap,
+            disableAutoFocus,
+            autoFocusRef,
+            restoreFocusRef,
             keepMounted,
             size,
             className,
@@ -84,6 +92,10 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 disableBodyScrollLock={disableBodyScrollLock}
                 disableEscapeKeyDown={disableEscapeKeyDown}
                 disableOutsideClick={disableOutsideClick}
+                disableFocusTrap={disableFocusTrap}
+                disableAutoFocus={disableAutoFocus}
+                autoFocusRef={autoFocusRef}
+                restoreFocusRef={restoreFocusRef}
                 keepMounted={keepMounted}
                 onEscapeKeyDown={onEscapeKeyDown}
                 onEnterKeyDown={onEnterKeyDown}

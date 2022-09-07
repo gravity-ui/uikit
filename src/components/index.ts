@@ -59,3 +59,6 @@ export * from './utils/PortalProvider';
 export * from './utils/usePortalContainer';
 export * from './utils/useSelect';
 export * from './utils/useListNavigation';
+export * from './utils/useForkRef';
+export * from './utils/setRef';
+export {useOnFocusOutside} from './utils/useOnFocusOutside';

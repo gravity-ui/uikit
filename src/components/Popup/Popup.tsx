@@ -15,6 +15,7 @@ import {
     PopperProps,
 } from '../utils/usePopper';
 import {useForkRef} from '../utils/useForkRef';
+import {useRestoreFocus} from '../utils/useRestoreFocus';
 import {PopupArrow} from './PopupArrow';
 
 import './Popup.scss';
@@ -27,14 +28,16 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     children?: React.ReactNode;
     keepMounted?: boolean;
     hasArrow?: boolean;
-    disableEscapeKeyDown?: boolean;
     disableLayer?: boolean;
     offset?: PopperOffset;
     modifiers?: PopperModifiers;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+    enablePortal?: boolean;
     container?: HTMLElement;
+    restoreFocus?: boolean;
+    restoreFocusRef?: React.RefObject<HTMLElement>;
 }
 
 const b = block('popup');
@@ -61,9 +64,12 @@ export function Popup({
     onClick,
     onMouseEnter,
     onMouseLeave,
+    enablePortal,
     container,
     strategy,
     qa,
+    restoreFocus,
+    restoreFocusRef,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -84,18 +90,24 @@ export function Popup({
         // Take arrow size into offset account
         offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
         strategy,
+        altBoundary: !enablePortal,
         modifiers: [
             // Properly display arrow within rounded container
             {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
             // Prevent border hiding
-            {name: 'preventOverflow', options: {padding: 1}},
+            {name: 'preventOverflow', options: {padding: 1, altBoundary: !enablePortal}},
             ...modifiers,
         ],
     });
     const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef);
 
+    const containerProps = useRestoreFocus({
+        enabled: Boolean(restoreFocus && open),
+        restoreFocusRef,
+    });
+
     return (
-        <Portal container={container}>
+        <Portal container={container} disablePortal={!enablePortal}>
             <CSSTransition
                 nodeRef={containerRef}
                 in={open}
@@ -111,13 +123,13 @@ export function Popup({
                     ref={handleRef}
                     style={styles.popper}
                     {...attributes.popper}
+                    {...containerProps}
                     className={bWrapper({open})}
                 >
                     <div
                         onClick={onClick}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
-                        tabIndex={-1}
                         className={b({open}, className)}
                         style={style}
                         data-qa={qa}

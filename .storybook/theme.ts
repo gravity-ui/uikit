@@ -26,7 +26,7 @@ export const CloudThemeLight = create({
     inputTextColor: 'black',
     inputBorderRadius: 4,
 
-    brandUrl: 'https://github.com/gravity-ui/base',
+    brandUrl: 'https://github.com/gravity-ui/uikit',
     brandTitle: `<div style="font-size: 18px; color: #027bf3; font-weight: 600; margin-top: -6px; margin-bottom: 2px;">Gravity UI</div>
                 <div style="font-size: 14px;color: #7d7d7d;font-weight: 400;">Base Components</div>`,
 });

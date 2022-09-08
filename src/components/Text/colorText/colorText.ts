@@ -41,7 +41,7 @@ export interface ColorTextBaseProps {
 
 /**
  * Utility to generate text colors classes.
- * Storybook: https://preview.yandexcloud.dev/gravity-ui-base/?path=/story/colors--texts
+ * Storybook: https://preview.yandexcloud.dev/uikit/?path=/story/colors--texts
  *
  * ---
  * For example:

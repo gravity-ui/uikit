@@ -22,7 +22,7 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
  * Provides a convenient API for working with mixins of typography and text colors. Just point at the prop in you favorite code editor and read the accompanying documentation via `jsdoc` on where to apply this or that font or color.
  *
  * ```jsx
- * import {Text} from '@gravity-ui/base';
+ * import {Text} from '@gravity-ui/uikit';
  *
  * <Text variant="body-1" color="inherit" elipsis>some test</Text>
  * ```
@@ -30,7 +30,7 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
  * You can also use a more flexible way of setting the style. "Gravity UI" also provide `text` utility function.
  *
  *```jsx
- * import {text} from '@gravity-ui/base';
+ * import {text} from '@gravity-ui/uikit';
  *
  * // textStyles = 'text text_variant_display-1 some-class-name'
  * const textStyles = text({variant: 'display-1'}, 'some-class-name'));

@@ -7,7 +7,7 @@ Component for adjustable notifications.
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {ToasterComponent, ToasterProvider} from '@gravity-ui/base';
+import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
 
 ReactDOM.render(
   <ToasterProvider>
@@ -21,7 +21,7 @@ ReactDOM.render(
 Then in your app components you can show toasts with `useToaster` hook.
 
 ```jsx
-import {useToaster} from '@gravity-ui/base';
+import {useToaster} from '@gravity-ui/uikit';
 import {useEffect} from 'react';
 
 export function FoobarComponent() {
@@ -46,7 +46,7 @@ prop to component.
 
 ```jsx
 import {Component} from 'react';
-import {withToaster} from '@gravity-ui/base';
+import {withToaster} from '@gravity-ui/uikit';
 
 class FoobarComponent extends Component {
   render() {
@@ -60,12 +60,12 @@ const FoobarWithToaster = withToaster()(FoobarComponent);
 ## Usage as singleton
 
 ```js
-import {Toaster} from '@gravity-ui/base';
+import {Toaster} from '@gravity-ui/uikit';
 const toaster = new Toaster();
 ```
 
 ```js
-import {toaster} from '@gravity-ui/base/toaster-singleton';
+import {toaster} from '@gravity-ui/uikit/toaster-singleton';
 ```
 
 Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.

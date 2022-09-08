@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: gravity-ui/preview-deploy-action@v1
       with:
-        project: gravity-ui-base
+        project: uikit
         github-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
         s3-key-id: ${{ secrets.STORYBOOK_S3_KEY_ID }}
         s3-secret-key: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}

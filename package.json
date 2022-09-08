@@ -1,11 +1,11 @@
 {
-    "name": "@gravity-ui/base",
+    "name": "@gravity-ui/uikit",
     "version": "2.15.0",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/gravity-ui/base"
+        "url": "https://github.com/gravity-ui/uikit"
     },
     "main": "build/cjs/index.js",
     "module": "build/esm/index.js",

@@ -30,7 +30,7 @@ export const TEXT_VARIANTS = [
 
 export interface TextBaseProps {
     /**
-     * Storybook: https://preview.yandexcloud.dev/gravity-ui-base/?path=/story/typography--common
+     * Storybook: https://preview.yandexcloud.dev/uikit/?path=/story/typography--common
      * **Note:**: below are the default variants that can be overridden in the project
      *
      * - body:

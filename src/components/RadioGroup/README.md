@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {RadioGroup} from '@gravity-ui/base';
+import {RadioGroup} from '@gravity-ui/uikit';
 
 function App({checked}) {
   const options: RadioGroupOption[] = [

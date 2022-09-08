@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {Radio} from '@gravity-ui/base';
+import {Radio} from '@gravity-ui/uikit';
 
 function App({checked}) {
   return (

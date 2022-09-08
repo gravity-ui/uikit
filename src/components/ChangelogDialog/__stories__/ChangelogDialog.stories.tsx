@@ -106,7 +106,7 @@ export const Default = DefaultTemplate.bind({});
 Default.args = {
     open: false,
     items,
-    fullListLink: 'https://github.com/yandex-cloud/uikit',
+    fullListLink: 'https://github.com/gravity-ui/uikit',
     onStoryClick: (storyId) => {
         console.log(storyId);
     },

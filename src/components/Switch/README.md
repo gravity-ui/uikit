@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {Switch} from '@yandex-cloud/uikit';
+import {Switch} from '@gravity-ui/uikit';
 
 function App() {
   const [checked, setChecked] = React.useState(false);

@@ -5,7 +5,7 @@ module.exports = {
     transform: {
         '^.+\\.[jt]sx?$': 'ts-jest',
     },
-    transformIgnorePatterns: ['node_modules/(?!(@yandex-cloud)/)'],
+    transformIgnorePatterns: ['node_modules/(?!(@gravity-ui)/)'],
     coverageDirectory: './coverage',
     collectCoverageFrom: [
         'src/**/*.{ts,tsx,js,jsx}',

@@ -6,7 +6,7 @@
 
 ```tsx
 import React from 'react';
-import {Button} from '@yandex-cloud/uikit';
+import {Button} from '@gravity-ui/uikit';
 
 const button = <Button>Action</Button>;
 ```
@@ -15,7 +15,7 @@ const button = <Button>Action</Button>;
 
 ```tsx
 import React from 'react';
-import {Button} from '@yandex-cloud/uikit';
+import {Button} from '@gravity-ui/uikit';
 
 const button = <Button href="/cart">Cart</Button>;
 ```
@@ -24,7 +24,7 @@ const button = <Button href="/cart">Cart</Button>;
 
 ```tsx
 import React from 'react';
-import {Button, Icon} from '@yandex-cloud/uikit';
+import {Button, Icon} from '@gravity-ui/uikit';
 
 import gearIcon from 'assets/icons/gear.svg';
 

@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {Checkbox} from '@yandex-cloud/uikit';
+import {Checkbox} from '@gravity-ui/base';
 
 function App() {
   const [checked, setChecked] = React.useState(false);

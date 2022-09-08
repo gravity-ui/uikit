@@ -5,7 +5,7 @@ A simple text popup tip.
 ## Usage
 
 ```tsx
-import {Tooltip} from '@yandex-cloud/uikit';
+import {Tooltip} from '@gravity-ui/base';
 
 <Tooltip content="Hello world!">
   <div>Hover me too see tooltip</div>

@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {RadioButton, RadioButtonOption} from '@yandex-cloud/uikit';
+import {RadioButton, RadioButtonOption} from '@gravity-ui/base';
 
 function App({checked}) {
   const options: RadioButtonOption[] = [

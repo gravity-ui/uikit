@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {Spin} from '@yandex-cloud/uikit';
+import {Spin} from '@gravity-ui/base';
 
 function App() {
   return <Spin size="l" />;

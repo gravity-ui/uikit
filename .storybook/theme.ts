@@ -26,14 +26,14 @@ export const CloudThemeLight = create({
     inputTextColor: 'black',
     inputBorderRadius: 4,
 
-    brandUrl: 'https://github.com/yandex-cloud/uikit',
-    brandTitle: `<div style="font-size: 18px; color: #027bf3; font-weight: 600; margin-top: -6px; margin-bottom: 2px;">UIKit</div>
-                <div style="font-size: 14px;color: #7d7d7d;font-weight: 400;">Yandex.Cloud Components</div>`,
+    brandUrl: 'https://github.com/gravity-ui/base',
+    brandTitle: `<div style="font-size: 18px; color: #027bf3; font-weight: 600; margin-top: -6px; margin-bottom: 2px;">Gravity UI</div>
+                <div style="font-size: 14px;color: #7d7d7d;font-weight: 400;">Base Components</div>`,
 });
 
 export const CloudThemeDark = create({
     base: 'dark',
-})
+});
 
 export const themes = {
     light: CloudThemeLight,

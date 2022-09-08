@@ -179,7 +179,7 @@ interface TableActionGroup {
 ### Example
 
 ```jsx
-import {Table, withTableActions} from '@yandex-cloud/uikit';
+import {Table, withTableActions} from '@gravity-ui/base';
 
 const MyTable = withTableActions(Table);
 const data = [
@@ -231,7 +231,7 @@ interface ColumnMeta {
 ### Example
 
 ```jsx
-import {Table, withTableCopy} from '@yandex-cloud/uikit';
+import {Table, withTableCopy} from '@gravity-ui/base';
 
 const MyTable = withTableCopy(Table);
 const data = [
@@ -273,7 +273,7 @@ interface Props {
 ### Example
 
 ```jsx
-import {Table, withTableSelection} from '@yandex-cloud/uikit';
+import {Table, withTableSelection} from '@gravity-ui/base';
 
 const MyTable = withTableSelection(Table);
 const data = [
@@ -355,7 +355,7 @@ type TableSettingsData = Array<{
 ### Example
 
 ```jsx
-import {Table, withTableSettings} from '@yandex-cloud/uikit';
+import {Table, withTableSettings} from '@gravity-ui/base';
 
 const MyTable = withTableSettings(Table);
 const data = [
@@ -442,7 +442,7 @@ type TableSortState = Array<{
 ### Example
 
 ```jsx
-import {Table, withTableSorting} from '@yandex-cloud/uikit';
+import {Table, withTableSorting} from '@gravity-ui/base';
 
 const MyTable = withTableSorting(Table);
 const data = [

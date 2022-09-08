@@ -4,7 +4,7 @@
 
 ```tsx
 import React from 'react';
-import {TextInput} from '@yandex-cloud/uikit';
+import {TextInput} from '@gravity-ui/base';
 
 function App({checked}) {
   const [value, setValue] = React.useState('');

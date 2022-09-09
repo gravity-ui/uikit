@@ -1,5 +1,52 @@
 # Changelog
 
+## [3.0.1](https://github.com/gravity-ui/uikit/compare/v3.0.0...v3.0.1) (2022-09-09)
+
+
+### Bug Fixes
+
+* build errors ([#334](https://github.com/gravity-ui/uikit/issues/334)) ([9de0727](https://github.com/gravity-ui/uikit/commit/9de0727c228f58f877ca0a0a7bc6f76e9d2027e2))
+
+## [3.0.0](https://github.com/gravity-ui/uikit/compare/v2.15.0...v3.0.0) (2022-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* transfer package from yandex-cloud (#331)
+* updated i18n, and remove it from peer deps
+
+#### Setting language in uikit
+
+**v2**
+```js
+import {I18N} from '@yandex-cloud/i18n';
+
+I18N.setDefaultLang('en');
+```
+
+**v3**
+```js
+import {configure} from '@gravity-ui/uikit';
+
+configure({lang: 'en'});
+```
+
+### Features
+
+* transfer package from yandex-cloud ([#331](https://github.com/gravity-ui/uikit/issues/331)) ([2df769d](https://github.com/gravity-ui/uikit/commit/2df769df109e882e8d0e8c25810c6c1bfcc16b2c))
+
+## [2.15.0](https://github.com/yandex-cloud/uikit/compare/v2.14.0...v2.15.0) (2022-09-07)
+
+
+### Features
+
+* **Button:** added content and view to eventBroker meta ([#319](https://github.com/yandex-cloud/uikit/issues/319)) ([19a3463](https://github.com/yandex-cloud/uikit/commit/19a3463571229b513bb841d2aea48913cdb55451))
+
+
+### Bug Fixes
+
+* relax RealTheme type for compatibility ([#329](https://github.com/yandex-cloud/uikit/issues/329)) ([a716448](https://github.com/yandex-cloud/uikit/commit/a71644803ffe551bb393202fdb26e3a08544d2ed))
+
 ## [2.14.0](https://github.com/yandex-cloud/uikit/compare/v2.13.4...v2.14.0) (2022-09-01)
 
 

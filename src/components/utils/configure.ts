@@ -4,16 +4,18 @@ export enum Lang {
 }
 
 interface Config {
-    lang?: Lang;
+    lang: Lang;
 }
 
 type Subscriber = (config: Config) => void;
 
 let subs: Subscriber[] = [];
 
-const config: Config = {};
+const config: Config = {
+    lang: Lang.En,
+};
 
-export const configure = (newConfig: Config) => {
+export const configure = (newConfig: Partial<Config>) => {
     Object.assign(config, newConfig);
     subs.forEach((sub) => {
         sub(config);

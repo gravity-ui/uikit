@@ -23,8 +23,10 @@ jobs:
     - name: Build Storybook
       run: npx build-storybook
       shell: bash
+      env:
+        TS_NODE_PROJECT: .storybook/tsconfig.json
     - name: Upload to S3
-      uses: yandex-cloud/ui-preview-upload-to-s3-action@main
+      uses: gravity-ui/preview-upload-to-s3-action@v1
       with:
         src-path: storybook-static
         dest-path: /uikit/main/

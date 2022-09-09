@@ -30,6 +30,9 @@ const ThemeTemplate: Story<LabelProps> = (args) => {
             <Label {...args} theme="unknown">
                 unknown
             </Label>
+            <Label {...args} theme="success">
+                success
+            </Label>
         </>
     );
 };
@@ -40,10 +43,10 @@ const SizeTemplate: Story<LabelProps> = (args) => {
     return (
         <>
             <Label {...args} size="s">
-                xs
+                s
             </Label>
             <Label {...args} size="m">
-                s
+                m
             </Label>
         </>
     );

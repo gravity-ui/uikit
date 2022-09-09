@@ -12,7 +12,7 @@
 
 **v2**
 ```js
-import {I18N} from '@yandex-cloud/';
+import {I18N} from '@yandex-cloud/i18n';
 
 I18N.setDefaultLang('en');
 ```

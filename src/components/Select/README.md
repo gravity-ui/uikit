@@ -24,7 +24,7 @@
 
 #### Options
 
-You can check `ControlGroupOption` [here](https://github.com/gravity-ui/uikit/blob/main/src/components/types.ts#L29)
+You can check `ControlGroupOption` [here](https://github.com/gravity-ui/uikit/blob/ba65eb4cac14d38f7babb5057bd3ab12c5bcbe33/src/components/types.ts#L45)
 
 ```typescript
 type SelectOption = ControlGroupOption & {

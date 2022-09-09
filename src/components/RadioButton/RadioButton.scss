@@ -71,6 +71,12 @@ $block: '.#{variables.$ns}radio-button';
             display: inline-block;
             white-space: nowrap;
             color: var(--yc-color-text-complementary);
+
+            &_icon {
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
         }
 
         &:hover,

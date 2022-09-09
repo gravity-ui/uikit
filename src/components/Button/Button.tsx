@@ -1,10 +1,10 @@
 import React, {cloneElement} from 'react';
 import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {Icon} from '../Icon';
 import {isOfType} from '../utils/isOfType';
 import {eventBroker} from '../utils/event-broker';
 import {ButtonIcon} from './ButtonIcon';
+import {isIcon} from '../utils/common';
 
 import './Button.scss';
 
@@ -179,7 +179,6 @@ ButtonWithHandlers.displayName = 'Button';
 
 export const Button = Object.assign(ButtonWithHandlers, {Icon: ButtonIcon});
 
-const isIcon = isOfType(Icon);
 const isButtonIconComponent = isOfType(ButtonIcon);
 
 function prepareChildren(children: React.ReactNode) {

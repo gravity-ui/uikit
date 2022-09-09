@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/gravity-ui/uikit/compare/v3.0.0...v3.0.1) (2022-09-09)
+
+
+### Bug Fixes
+
+* build errors ([#334](https://github.com/gravity-ui/uikit/issues/334)) ([9de0727](https://github.com/gravity-ui/uikit/commit/9de0727c228f58f877ca0a0a7bc6f76e9d2027e2))
+
 ## [3.0.0](https://github.com/gravity-ui/uikit/compare/v2.15.0...v3.0.0) (2022-09-08)
 
 

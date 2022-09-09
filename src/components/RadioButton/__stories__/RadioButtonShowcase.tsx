@@ -3,6 +3,8 @@ import block from 'bem-cn-lite';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {RadioButton, RadioButtonOption} from '../RadioButton';
+import {Icon} from '../../Icon';
+import {GearIcon} from '../../icons';
 
 import './RadioButtonShowcase.scss';
 
@@ -13,6 +15,7 @@ export function RadioButtonShowcase() {
         {value: 'Value 1', content: 'Value 1'},
         {value: 'Value 2', content: 'Value 2'},
         {value: 'Value 3', content: 'Value 3', disabled: true},
+        {value: 'Value 4', content: <Icon data={GearIcon} />},
     ];
     return (
         <Showcase title="RadioButton" className={b()}>

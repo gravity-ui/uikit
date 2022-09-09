@@ -27,7 +27,15 @@ export const RadioButtonOption = React.forwardRef<HTMLLabelElement, RadioButtonO
             >
                 <input {...inputProps} className={b('option-control')} />
                 <span className={b('option-outline')} />
-                {text && <span className={b('option-text')}>{text}</span>}
+                {text && (
+                    <span className={b('option-text')}>
+                        {typeof text === 'string' ? (
+                            text
+                        ) : (
+                            <span className={b('option-aligner')}>{text}</span>
+                        )}
+                    </span>
+                )}
             </label>
         );
     },

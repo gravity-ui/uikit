@@ -1,5 +1,33 @@
 # Changelog
 
+## [3.0.0](https://github.com/gravity-ui/uikit/compare/v2.15.0...v3.0.0) (2022-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* transfer package from yandex-cloud (#331)
+* updated i18n, and remove it from peer deps
+
+#### Setting language in uikit
+
+**v2**
+```js
+import {I18N} from '@yandex-cloud/i18n';
+
+I18N.setDefaultLang('en');
+```
+
+**v3**
+```js
+import {configure} from '@gravity-ui/uikit';
+
+configure({lang: 'en'});
+```
+
+### Features
+
+* transfer package from yandex-cloud ([#331](https://github.com/gravity-ui/uikit/issues/331)) ([2df769d](https://github.com/gravity-ui/uikit/commit/2df769df109e882e8d0e8c25810c6c1bfcc16b2c))
+
 ## [2.15.0](https://github.com/yandex-cloud/uikit/compare/v2.14.0...v2.15.0) (2022-09-07)
 
 

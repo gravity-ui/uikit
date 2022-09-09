@@ -6,6 +6,23 @@
 ### ⚠ BREAKING CHANGES
 
 * transfer package from yandex-cloud (#331)
+* updated i18n, and remove it from peer deps
+
+#### Setting language in uikit
+
+**v2**
+```js
+import {I18N} from '@yandex-cloud/';
+
+I18N.setDefaultLang('en');
+```
+
+**v3**
+```js
+import {configure} from '@gravity-ui/uikit';
+
+configure({lang: 'en'});
+```
 
 ### Features
 

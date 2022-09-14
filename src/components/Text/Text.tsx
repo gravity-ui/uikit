@@ -10,6 +10,11 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
     style?: React.CSSProperties;
     className?: string;
     children?: React.ReactNode;
+
+    /**
+     * Property to set `title` attribute of html tag
+     */
+    titleAttribute?: string;
 }
 
 /**
@@ -51,6 +56,7 @@ export const Text: React.FC<TextProps> = ({
         <Tag
             className={text({variant, ellipsis}, color ? colorText({color}, className) : className)}
             {...rest}
+            title={rest.titleAttribute}
         >
             {children}
         </Tag>

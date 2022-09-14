@@ -453,7 +453,7 @@ $block: '.#{variables.$ns}button';
             var(--yc-button-loading-color-2) 4px,
             var(--yc-button-loading-color-2) 8px
         );
-        background-size: 34px;
+        background-size: 150%;
         background-clip: padding-box;
         animation: #{variables.$ns}button-loading 0.5s linear infinite;
     }

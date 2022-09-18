@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {QAProps} from '../types';
 import {block} from '../utils/cn';
 import _sumBy from 'lodash/sumBy';
 
@@ -10,7 +11,7 @@ export type ProgressTheme = 'default' | 'success' | 'warning' | 'danger' | 'info
 export type ProgressView = 'normal' | 'thin' | 'thinnest';
 export type ProgressValue = number;
 
-interface Stack {
+export interface Stack {
     value: ProgressValue;
     color?: string;
     title?: string;
@@ -24,7 +25,7 @@ export interface ProgressColorStops {
     stop: number;
 }
 
-interface ProgressGeneralProps {
+interface ProgressGeneralProps extends QAProps {
     /** ClassName of element */
     className?: string;
 }
@@ -85,10 +86,10 @@ export class Progress extends Component<ProgressProps> {
     }
 
     render() {
-        const {view, className} = this.props;
+        const {view, className, qa} = this.props;
 
         return (
-            <div className={b({view}, className)}>
+            <div className={b({view}, className)} data-qa={qa}>
                 {this.renderText()}
                 {this.renderContent()}
             </div>
@@ -139,7 +140,7 @@ export class Progress extends Component<ProgressProps> {
 
         if (Progress.isFiniteNumber(value)) {
             return (
-                <div className={className} style={style}>
+                <div className={className} style={style} role={'progress-container'}>
                     {this.renderInnerText(offset)}
                 </div>
             );
@@ -163,8 +164,7 @@ export class Progress extends Component<ProgressProps> {
         let itemStyle: Partial<ItemStyle> = {width: `${-offset}%`};
 
         return (
-            <div className={className} style={style}>
-                <div className={b('item')} style={itemStyle} />
+            <div className={className} style={style} role={'progress-container'}>
                 {stack.map(
                     (
                         {
@@ -226,6 +226,10 @@ export class Progress extends Component<ProgressProps> {
         const {text} = this.props;
         const className = b('text');
 
-        return <div className={className}>{text}</div>;
+        return (
+            <div className={className} role={'text'}>
+                {text}
+            </div>
+        );
     }
 }

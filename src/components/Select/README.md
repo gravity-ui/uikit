@@ -17,6 +17,7 @@
 | placeholder                     | `string`                                | `-`             | Placeholder text                                                                                           |
 | value                           | `string[]`                              | `-`             | Values that represent selected options                                                                     |
 | defaultValue                    | `string[]`                              | `-`             | Default values that represent selected options in case of using uncontrolled state                         |
+| qa                              | `string`                                | `-`             | Test id attribute (`data-qa`)                                                                              |
 | multiple                        | `boolean`                               | `false`         | Indicates that multiple options can be selected in the list                                                |
 | disabled                        | `boolean`                               | `false`         | Indicates that the user cannot interact with the control                                                   |
 

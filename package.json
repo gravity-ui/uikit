@@ -22,6 +22,7 @@
         "prepare": "husky install",
         "test": "jest",
         "test:coverage": "jest --coverage",
+        "test:watch": "jest --watchAll",
         "clean": "gulp clean",
         "build": "gulp",
         "start": "cross-env TS_NODE_PROJECT=.storybook/tsconfig.json start-storybook -p 7007",

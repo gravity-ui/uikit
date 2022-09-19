@@ -22,14 +22,14 @@ const b = block('clipboard-button');
 const DEFAULT_ICON_SIZE = 24;
 const DEFAULT_TIMEOUT = 1000;
 
-export const ClipboardButton: React.FC<ClipboardButtonProps> = ({
+export function ClipboardButton({
     text,
     size = DEFAULT_ICON_SIZE,
     className,
     qa,
     onCopy,
     timeout = DEFAULT_TIMEOUT,
-}) => {
+}: ClipboardButtonProps) {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     useEffect(() => {
@@ -47,4 +47,4 @@ export const ClipboardButton: React.FC<ClipboardButtonProps> = ({
             )}
         </CopyToClipboard>
     );
-};
+}

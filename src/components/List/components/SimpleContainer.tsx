@@ -46,7 +46,7 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
         if (listItem && typeof listItem.getRef === 'function') {
             const ref = listItem.getRef();
             if (ref.current) {
-                ref.current.scrollIntoView({
+                ref.current.scrollIntoView?.({
                     block: 'nearest',
                 });
             }

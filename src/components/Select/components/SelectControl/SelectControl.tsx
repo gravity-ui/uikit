@@ -20,6 +20,7 @@ type ControlProps = {
     width?: SelectProps['width'];
     name?: string;
     className?: string;
+    qa?: string;
     label?: string;
     placeholder?: SelectProps['placeholder'];
     active?: boolean;
@@ -37,6 +38,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         optionsText,
         width,
         className,
+        qa,
         name,
         label,
         placeholder,
@@ -82,6 +84,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
             onClick={handleClick}
             onKeyDown={onKeyDown}
             type="button"
+            data-qa={qa}
         >
             {label && <span className={b('label')}>{label}</span>}
             {showPlaceholder && <span className={b('placeholder')}>{placeholder}</span>}

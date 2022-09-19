@@ -1,6 +1,7 @@
 import React from 'react';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
+import {ListQa} from '../constants';
 import {DragHandleIcon} from './DragHandleIcon';
 import type {ListProps, ListItemData, ListSortHandleAlign} from '../types';
 
@@ -33,6 +34,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
 
         return (
             <div
+                data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
                     'item',
                     {

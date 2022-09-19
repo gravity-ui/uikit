@@ -35,6 +35,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         getOptionHeight,
         name,
         className,
+        qa,
         value: propsValue,
         defaultValue,
         label,
@@ -216,6 +217,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <SelectControl
                 ref={handleControlRef}
                 className={className}
+                qa={qa}
                 name={name}
                 view={view}
                 size={size}

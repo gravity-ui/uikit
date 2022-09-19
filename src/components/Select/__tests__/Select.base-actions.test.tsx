@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {render} from '@testing-library/react';
 import {ListQa} from '../../List';
-import {Select, SelectOption, SelectOptionGroup, SelectQa} from '../';
+import {Select, SelectOption, SelectOptionGroup, SelectQa} from '..';
 
 const TEST_QA = 'select-test-qa';
 const DEFAULT_OPTIONS: SelectOption[] = [
@@ -11,8 +11,8 @@ const DEFAULT_OPTIONS: SelectOption[] = [
     {value: 'ruby', content: 'Ruby'},
 ];
 const GROUPED_OPTIONS: SelectOptionGroup[] = [
-    {label: 'Group 1', options: [...DEFAULT_OPTIONS.slice(0, 2)]},
-    {label: 'Group 2', options: [...DEFAULT_OPTIONS.slice(2)]},
+    {label: 'Group 1', options: DEFAULT_OPTIONS.slice(0, 2)},
+    {label: 'Group 2', options: DEFAULT_OPTIONS.slice(2)},
 ];
 
 describe('Select base actions', () => {

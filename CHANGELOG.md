@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.2](https://github.com/gravity-ui/uikit/compare/v3.0.1...v3.0.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* loose i18n typings ([#345](https://github.com/gravity-ui/uikit/issues/345)) ([5612aee](https://github.com/gravity-ui/uikit/commit/5612aee42ab81d4f0d83157e47cd8bc2cb050453))
+* **RadioButton:** fix option icon styles ([#339](https://github.com/gravity-ui/uikit/issues/339)) ([ea9e31f](https://github.com/gravity-ui/uikit/commit/ea9e31f39f4ed71bebd708e948f80e034d08e821))
+* use background-size as percent value for loading button for safari ([#342](https://github.com/gravity-ui/uikit/issues/342)) ([c0ec61b](https://github.com/gravity-ui/uikit/commit/c0ec61bc98fed17e365fedc981d7ea6efe413319))
+
 ## [3.0.1](https://github.com/gravity-ui/uikit/compare/v3.0.0...v3.0.1) (2022-09-09)
 
 

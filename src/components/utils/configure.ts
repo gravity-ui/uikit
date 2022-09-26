@@ -4,7 +4,7 @@ export enum Lang {
 }
 
 interface Config {
-    lang: Lang;
+    lang: `${Lang}`;
 }
 
 type Subscriber = (config: Config) => void;

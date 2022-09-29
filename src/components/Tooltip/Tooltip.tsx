@@ -1,10 +1,9 @@
 import React, {Children, cloneElement, useCallback, useEffect, useState} from 'react';
-import isFunction from 'lodash/isFunction';
-import isObject from 'lodash/isObject';
 
 import {Popup, PopupPlacement} from '../Popup';
 import {useBoolean} from '../utils/useBoolean';
 import {block} from '../utils/cn';
+import {setRef} from '../utils/setRef';
 
 import './Tooltip.scss';
 
@@ -33,12 +32,7 @@ export const Tooltip = (props: TooltipProps) => {
     const elementRef = useCallback(
         (node: HTMLElement | null) => {
             setAnchorElement(node);
-
-            if (isFunction(node)) {
-                childRef(node);
-            } else if (isObject()) {
-                childRef.current = node;
-            }
+            setRef(childRef, node);
         },
         [childRef],
     );

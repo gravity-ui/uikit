@@ -8,6 +8,7 @@ import {setRef} from '../utils/setRef';
 import './Tooltip.scss';
 
 export interface TooltipProps extends TooltipDelayProps {
+    disabled?: boolean;
     content?: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
@@ -22,7 +23,7 @@ const b = block('tooltip');
 const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
 
 export const Tooltip = (props: TooltipProps) => {
-    const {children, content, placement = DEFAULT_PLACEMENT} = props;
+    const {children, content, disabled, placement = DEFAULT_PLACEMENT} = props;
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
     const tooltipVisible = useTooltipVisible(anchorElement, props);
 
@@ -41,7 +42,7 @@ export const Tooltip = (props: TooltipProps) => {
         return (
             <Popup
                 className={b()}
-                open={tooltipVisible}
+                open={tooltipVisible && !disabled}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
                 disableEscapeKeyDown

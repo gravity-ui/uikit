@@ -31,7 +31,6 @@ interface DialogOwnProps {
     container?: HTMLElement;
     enableFocusTrap?: ModalProps['enableFocusTrap'];
     focusTrapOptions?: ModalProps['focusTrapOptions'];
-    focusTrapRef?: ModalProps['focusTrapRef'];
 }
 
 interface DialogDefaultProps {
@@ -81,7 +80,6 @@ export class Dialog extends React.Component<DialogInnerProps> {
             qa,
             enableFocusTrap,
             focusTrapOptions,
-            focusTrapRef,
         } = this.props;
 
         return (
@@ -102,7 +100,6 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 qa={qa}
                 enableFocusTrap={enableFocusTrap}
                 focusTrapOptions={focusTrapOptions}
-                focusTrapRef={focusTrapRef}
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>
                     {children}

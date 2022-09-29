@@ -53,7 +53,6 @@ export function Modal({
     qa,
     enableFocusTrap,
     focusTrapOptions,
-    focusTrapRef,
 }: ModalProps) {
     const contentRef = React.useRef<HTMLDivElement>(null);
     const hasBeenOpen = React.useRef(false);
@@ -90,7 +89,6 @@ export function Modal({
         enableFocusTrap,
         focusTrapContainersRefs: [contentRef],
         focusTrapOptions,
-        focusTrapRef,
     });
 
     if (!keepMounted && !open && !inTransition.current) {

@@ -13,7 +13,6 @@ export interface LayerExtendableProps {
     onClose?: (event: MouseEvent | KeyboardEvent, reason: LayerCloseReason) => void;
     enableFocusTrap?: boolean;
     focusTrapOptions?: FocusTrapOptions;
-    focusTrapRef?: React.MutableRefObject<FocusTrap | null>;
 }
 
 export type ContentElement =
@@ -125,28 +124,6 @@ class LayerManager {
         return false;
     }
 
-    private getTopConfigWithFocusTrap(): LayerConfig | null {
-        let result = null;
-
-        for (let i = this.stack.length - 1; i >= 0; i--) {
-            const config = this.stack[i];
-            if (this.focusTraps.has(config)) {
-                result = config;
-            }
-        }
-
-        return result;
-    }
-
-    private getTopFocusTrap(): FocusTrap | null {
-        const topConfig = this.getTopConfigWithFocusTrap();
-        if (!topConfig) {
-            return null;
-        }
-
-        return this.focusTraps.get(topConfig) ?? null;
-    }
-
     private setFocusTrap(config: LayerConfig): FocusTrap | null {
         if (
             !config.enableFocusTrap ||
@@ -156,18 +133,6 @@ class LayerManager {
             return null;
         }
 
-        const topTrap = this.getTopFocusTrap();
-        const currentTrap = this.focusTraps.get(config);
-
-        if (topTrap && topTrap !== currentTrap) {
-            topTrap.pause();
-        }
-
-        if (currentTrap) {
-            currentTrap.unpause();
-            return currentTrap;
-        }
-
         const elements = config.focusTrapContainersRefs
             .map((ref) => ref?.current)
             .filter(isNonNullable);
@@ -175,6 +140,7 @@ class LayerManager {
         const trap = createFocusTrap(elements, {
             returnFocusOnDeactivate: true,
             escapeDeactivates: false,
+            allowOutsideClick: true,
             ...(config.focusTrapOptions ?? {}),
         });
         trap.activate();
@@ -185,21 +151,10 @@ class LayerManager {
 
     private removeFocusTrap(config: LayerConfig) {
         const currentTrap = this.focusTraps.get(config);
-        let currentTrapActive = false;
 
         if (currentTrap) {
-            currentTrapActive = currentTrap.active && !currentTrap.paused;
             currentTrap.deactivate();
             this.focusTraps.delete(config);
-        }
-
-        if (!currentTrapActive) {
-            return;
-        }
-
-        const topLayerWithFocusTrap = this.getTopConfigWithFocusTrap();
-        if (topLayerWithFocusTrap) {
-            this.setFocusTrap(topLayerWithFocusTrap);
         }
     }
 }

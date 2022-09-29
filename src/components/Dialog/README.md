@@ -26,7 +26,6 @@ Dialog component
 | container             | `HTMLElement`                                                                                  |          |         | Container element for the dialog box                                                                                                     |
 | enableFocusTrap       | `Boolean`                                                                                      |          |         | Enables focus capture for the dialog component. In this case, using the npm package focus-trap. https://www.npmjs.com/package/focus-trap |
 | focusTrapOptions      | `FocusTrapOptions`                                                                             |          |         | Options for focus-trap package. https://github.com/focus-trap/focus-trap#createoptions                                                   |
-| focusTrapRef          | `MutableRefObject<FocusTrap>`                                                                  |          |         | Reference for focus-trap object. Filled inside component if focus trapping is enabled                                                    |
 | qa                    | `String`                                                                                       |          |         | Data-qa attribute value of modal box, in which dialog is disposed                                                                        |
 
 ### Examples

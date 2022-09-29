@@ -22,7 +22,6 @@ export function useLayer({
     enableFocusTrap,
     focusTrapContainersRefs,
     focusTrapOptions,
-    focusTrapRef,
 }: LayerProps) {
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
@@ -68,21 +67,13 @@ export function useLayer({
     React.useEffect(() => {
         if (open && enabled) {
             const layerConfig = layerConfigRef.current;
-            const addResult = layerManager.add(layerConfig);
-
-            if (focusTrapRef && addResult.focusTrap) {
-                focusTrapRef.current = addResult.focusTrap;
-            }
+            layerManager.add(layerConfig);
 
             return () => {
                 layerManager.remove(layerConfig);
-
-                if (focusTrapRef) {
-                    focusTrapRef.current = null;
-                }
             };
         }
 
         return undefined;
-    }, [open, enabled, focusTrapRef]);
+    }, [open, enabled]);
 }

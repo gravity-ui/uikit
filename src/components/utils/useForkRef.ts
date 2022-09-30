@@ -1,15 +1,6 @@
 import React from 'react';
 
-function setRef<T>(
-    ref: React.MutableRefObject<T | null> | React.RefCallback<T | null> | null | undefined,
-    value: T | null,
-) {
-    if (typeof ref === 'function') {
-        ref(value);
-    } else if (ref) {
-        ref.current = value;
-    }
-}
+import {setRef} from './setRef';
 
 export function useForkRef<T>(
     refA: React.Ref<T> | null | undefined,

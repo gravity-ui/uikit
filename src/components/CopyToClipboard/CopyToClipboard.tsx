@@ -14,6 +14,10 @@ interface CopyToClipboardInnerProps
     extends CopyToClipboardGeneralProps,
         CopyToClipboardDefaultProps {}
 
+export interface CopyToClipboardProps
+    extends CopyToClipboardGeneralProps,
+        Partial<CopyToClipboardDefaultProps> {}
+
 interface CopyToClipboardState {
     status: CopyToClipboardStatus;
 }

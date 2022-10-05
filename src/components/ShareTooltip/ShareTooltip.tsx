@@ -43,6 +43,12 @@ export interface ShareTooltipProps extends ShareListProps, Partial<ShareTooltipD
     buttonTitle?: string | React.ReactNode;
     /** metrika traking registration handler */
     handleMetrika?: () => void;
+    /** custom icon for copy link button */
+    customCopyIcon?: SVGIconData;
+    /** custom action for copy link button */
+    customCopyAction?: ({url}: {url: string}) => void;
+    /** copy button title */
+    buttonCopyTitle?: string | React.ReactNode;
 }
 
 type ShareTooltipInnerProps = Omit<ShareTooltipProps, keyof ShareTooltipDefaultProps> &
@@ -83,6 +89,9 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
             direction,
             customIcon,
             buttonTitle,
+            customCopyIcon,
+            customCopyAction,
+            buttonCopyTitle,
             children,
         } = this.props;
 
@@ -94,6 +103,9 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
                 socialNets={socialNets}
                 withCopyLink={withCopyLink}
                 direction={direction}
+                customCopyIcon={customCopyIcon}
+                customCopyAction={customCopyAction}
+                buttonCopyTitle={buttonCopyTitle}
             >
                 {children}
             </ShareList>

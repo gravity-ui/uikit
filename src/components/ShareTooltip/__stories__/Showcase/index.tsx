@@ -156,6 +156,22 @@ export function ShareTooltipDemo() {
                 <span style={{marginRight: 8}}>Custom share link</span>
                 <ShareList.Item type={ShareSocialNetwork.Telegram} url={url} icon={Cloud} />
             </div>
+
+            <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
+                <span style={{marginRight: 8}}>Custom copy button icon, title, and action</span>
+                <ShareTooltip
+                    url={url}
+                    title={title}
+                    text={text}
+                    socialNets={socialNets}
+                    openByHover={false}
+                    customCopyIcon={Cloud}
+                    customCopyAction={({url: link}) => {
+                        alert(link);
+                    }}
+                    buttonCopyTitle={ShareTitle}
+                />
+            </div>
         </div>
     );
 }

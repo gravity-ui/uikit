@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}label';
+$block: '.#{variables.$ns}label';
 $disabled: #{$block}_disabled;
 $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;
@@ -148,18 +148,18 @@ $transitionTimingFunction: ease-in-out;
             color: var(--yc-color-text-misc);
             background-color: var(--yc-color-base-misc);
 
-            // ховер на интерактивный (у которого есть тултип или onClick) элемент
+            // hover on interactive element (with onClick or tooltip)
             &:not(#{$disabled})#{$block}_is-interactive:hover {
                 background-color: var(--yc-color-base-misc-hover);
             }
 
-            // hover на элемент с копированием
+            // hover on element with a copy function
             &:not(#{$disabled})#{$block}_type_copy:hover {
                 color: var(--yc-color-text-inverted-primary);
                 background-color: var(--yc-color-base-misc-heavy-hover);
             }
 
-            // hover на крестик
+            // hover on cross
             &:not(#{$disabled}) #{$block}__icon_cross {
                 --yc-button-background-color: transparent;
                 --yc-button-background-color-hover: var(--yc-color-base-misc-heavy-hover);

@@ -10,7 +10,7 @@ import {
     getPopupMinWidth,
     getPopupVerticalOffset,
 } from '../../utils';
-import {BORDER_WIDTH, LIST_CLASSNAME} from '../../constants';
+import {BORDER_WIDTH, LIST_CLASSNAME, SelectQa} from '../../constants';
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
 
@@ -90,6 +90,7 @@ export const SelectPopup = React.forwardRef<List<FlattenOption>, SelectPopupProp
 
     return (
         <Popup
+            qa={SelectQa.POPUP}
             className={b({size, multiple})}
             style={inlineStyles}
             open={active}

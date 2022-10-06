@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}link';
+$block: '.#{variables.$ns}link';
 
 #{$block} {
     text-decoration: none;

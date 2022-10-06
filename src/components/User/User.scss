@@ -1,14 +1,14 @@
-@import '../../../styles/mixins';
-@import '../variables';
+@use '../../../styles/mixins';
+@use '../variables';
 
-$block: '.#{$ns}user';
+$block: '.#{variables.$ns}user';
 
 #{$block} {
     display: flex;
     align-items: center;
 
     &__info {
-        @include text-body-short();
+        @include mixins.text-body-short();
         display: flex;
         flex-direction: column;
 
@@ -17,12 +17,12 @@ $block: '.#{$ns}user';
 
         #{$block}__name {
             color: var(--yc-color-text-primary);
-            @include overflow-ellipsis();
+            @include mixins.overflow-ellipsis();
         }
 
         #{$block}__description {
             color: var(--yc-color-text-secondary);
-            @include overflow-ellipsis();
+            @include mixins.overflow-ellipsis();
         }
     }
 

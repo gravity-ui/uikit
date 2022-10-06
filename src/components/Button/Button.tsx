@@ -1,10 +1,10 @@
 import React, {cloneElement} from 'react';
 import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {Icon} from '../Icon';
 import {isOfType} from '../utils/isOfType';
-import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
+import {eventBroker} from '../utils/event-broker';
 import {ButtonIcon} from './ButtonIcon';
+import {isIcon} from '../utils/common';
 
 import './Button.scss';
 
@@ -72,103 +72,113 @@ export interface ButtonProps extends DOMProps, QAProps {
 
 const b = block('button');
 
-const PureButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-    function Button(
-        {
-            view = 'normal',
-            size = 'm',
-            pin = 'round-round',
-            selected = false,
-            disabled = false,
-            loading = false,
-            width,
-            title,
-            tabIndex,
-            type = 'button',
-            component,
+const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function Button(
+    {
+        view = 'normal',
+        size = 'm',
+        pin = 'round-round',
+        selected = false,
+        disabled = false,
+        loading = false,
+        width,
+        title,
+        tabIndex,
+        type = 'button',
+        component,
+        href,
+        target,
+        rel,
+        extraProps,
+        onClick,
+        onMouseEnter,
+        onMouseLeave,
+        onFocus,
+        onBlur,
+        children,
+        id,
+        style,
+        className,
+        qa,
+    },
+    ref,
+) {
+    const handleClick = React.useCallback(
+        (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+            eventBroker.publish({
+                componentId: 'Button',
+                eventId: 'click',
+                domEvent: event,
+                meta: {
+                    content: event.currentTarget.textContent,
+                    view,
+                },
+            });
+            onClick?.(event);
+        },
+        [view, onClick],
+    );
+
+    const commonProps = {
+        title,
+        tabIndex,
+        onClick: handleClick,
+        onMouseEnter,
+        onMouseLeave,
+        onFocus,
+        onBlur,
+        id,
+        style,
+        className: b(
+            {
+                view,
+                size,
+                pin,
+                selected,
+                disabled: disabled || loading,
+                loading,
+                width,
+            },
+            className,
+        ),
+        'data-qa': qa,
+    };
+
+    if (typeof href === 'string' || component) {
+        const linkProps = {
             href,
             target,
-            rel,
-            extraProps,
-            onClick,
-            onMouseEnter,
-            onMouseLeave,
-            onFocus,
-            onBlur,
-            children,
-            id,
-            style,
-            className,
-            qa,
-        },
-        ref,
-    ) {
-        const commonProps = {
-            title,
-            tabIndex,
-            onClick,
-            onMouseEnter,
-            onMouseLeave,
-            onFocus,
-            onBlur,
-            id,
-            style,
-            className: b(
-                {
-                    view,
-                    size,
-                    pin,
-                    selected,
-                    disabled: disabled || loading,
-                    loading,
-                    width,
-                },
-                className,
-            ),
-            'data-qa': qa,
+            rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
         };
-
-        if (typeof href === 'string' || component) {
-            const linkProps = {
-                href,
-                target,
-                rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
-            };
-            return React.createElement(
-                component || 'a',
-                {
-                    ...extraProps,
-                    ...commonProps,
-                    ...(component ? {} : linkProps),
-                    ref: ref as React.Ref<HTMLAnchorElement>,
-                    'aria-disabled': disabled || loading,
-                },
-                prepareChildren(children),
-            );
-        } else {
-            return (
-                <button
-                    {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-                    {...commonProps}
-                    ref={ref as React.Ref<HTMLButtonElement>}
-                    type={type}
-                    disabled={disabled || loading}
-                >
-                    {prepareChildren(children)}
-                </button>
-            );
-        }
-    },
-);
-
-PureButton.displayName = 'Button';
-const ButtonWithHandlers = withEventBrokerDomHandlers(PureButton, ['onClick'], {
-    componentId: 'Button',
+        return React.createElement(
+            component || 'a',
+            {
+                ...extraProps,
+                ...commonProps,
+                ...(component ? {} : linkProps),
+                ref: ref as React.Ref<HTMLAnchorElement>,
+                'aria-disabled': disabled || loading,
+            },
+            prepareChildren(children),
+        );
+    } else {
+        return (
+            <button
+                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+                {...commonProps}
+                ref={ref as React.Ref<HTMLButtonElement>}
+                type={type}
+                disabled={disabled || loading}
+            >
+                {prepareChildren(children)}
+            </button>
+        );
+    }
 });
+
+ButtonWithHandlers.displayName = 'Button';
 
 export const Button = Object.assign(ButtonWithHandlers, {Icon: ButtonIcon});
 
-const isIcon = isOfType(Icon);
 const isButtonIconComponent = isOfType(ButtonIcon);
 
 function prepareChildren(children: React.ReactNode) {

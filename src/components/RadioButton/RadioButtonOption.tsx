@@ -1,6 +1,7 @@
 import React from 'react';
 import {block} from '../utils/cn';
 import {ControlProps} from '../types';
+import {isIcon} from '../utils/common';
 import {useRadio} from '../utils/useRadio';
 
 const b = block('radio-button');
@@ -15,7 +16,8 @@ export const RadioButtonOption = React.forwardRef<HTMLLabelElement, RadioButtonO
     function RadioButtonOption(props, ref) {
         const {disabled = false, content, children} = props;
         const {checked, inputProps} = useRadio(props);
-        const text = content || children;
+        const inner = content || children;
+        const icon = isIcon(inner);
 
         return (
             <label
@@ -27,7 +29,7 @@ export const RadioButtonOption = React.forwardRef<HTMLLabelElement, RadioButtonO
             >
                 <input {...inputProps} className={b('option-control')} />
                 <span className={b('option-outline')} />
-                {text && <span className={b('option-text')}>{text}</span>}
+                {inner && <span className={b('option-text', {icon})}>{inner}</span>}
             </label>
         );
     },

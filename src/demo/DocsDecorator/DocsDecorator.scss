@@ -1,4 +1,4 @@
-@import '../../../styles/mixins';
+@use '../../../styles/mixins';
 
 $offset-xs: 4px;
 $offset-s: 8px;
@@ -11,7 +11,7 @@ $root: '.docs-decorator';
     .sbdocs-p,
     .sbdocs-li,
     .sbdocs-a {
-        @include text-body-2;
+        @include mixins.text-body-2;
     }
 
     .sbdocs-wrapper {
@@ -44,17 +44,17 @@ $root: '.docs-decorator';
     }
 
     .sbdocs-h1 {
-        @include text-display-3;
+        @include mixins.text-display-3;
     }
 
     .sbdocs-h2 {
-        @include text-display-1;
+        @include mixins.text-display-1;
         border: 0;
         padding: 0;
     }
 
     .sbdocs-h3 {
-        @include text-header-2;
+        @include mixins.text-header-2;
     }
 
     .sbdocs-h1,
@@ -78,7 +78,7 @@ $root: '.docs-decorator';
     }
 
     .sbdocs-p code {
-        @include text-code-inline-2;
+        @include mixins.text-code-inline-2;
         line-height: 1;
         padding: 1px 4px;
         background: var(--yc-color-base-misc);

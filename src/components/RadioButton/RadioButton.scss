@@ -1,7 +1,6 @@
-@import '../variables';
-@import '../../../styles/mixins';
+@use '../variables';
 
-$block: '.#{$ns}radio-button';
+$block: '.#{variables.$ns}radio-button';
 
 #{$block} {
     box-sizing: border-box;
@@ -72,6 +71,12 @@ $block: '.#{$ns}radio-button';
             display: inline-block;
             white-space: nowrap;
             color: var(--yc-color-text-complementary);
+
+            &_icon {
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
         }
 
         &:hover,

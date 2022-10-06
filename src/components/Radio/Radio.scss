@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}radio';
+$block: '.#{variables.$ns}radio';
 $discMarginMSize: 5px;
 $discMarginLSize: 6px;
 

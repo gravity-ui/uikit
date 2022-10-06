@@ -1,7 +1,7 @@
-@import '../../../styles/mixins';
-@import './variables';
+@use '../../../styles/mixins';
+@use './variables';
 
-#{$block} {
+#{variables.$block} {
     overflow: auto;
     position: relative;
 
@@ -25,8 +25,7 @@
             height: 1px;
             position: relative;
 
-            // Safari 13 не отображает прозрачне элементы, даже если у низ есть высота, ширина и сролл-бар.
-            // Поэтому пришлось добавить почти прозрачный элемент 1x1 px
+            // Safari 13 does not support transparent elements
             &::before {
                 content: '';
                 position: absolute;
@@ -51,13 +50,13 @@
     }
 
     &__cell {
-        @include overflow-ellipsis();
+        @include mixins.overflow-ellipsis();
 
         box-sizing: content-box;
         padding: 11px 10px;
         border-bottom: 1px solid var(--yc-color-line-generic);
 
-        line-height: $tableLineHeight;
+        line-height: variables.$tableLineHeight;
         text-align: left;
         overflow-wrap: break-word;
 
@@ -122,7 +121,7 @@
     }
 
     &__th-content {
-        @include text-accent;
+        @include mixins.text-accent;
         display: inline-block;
         &::first-letter {
             text-transform: uppercase;
@@ -133,8 +132,8 @@
         background-color: var(--yc-color-base-simple-hover-solid);
         cursor: pointer;
 
-        #{$block}__cell_sticky_left,
-        #{$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_left,
+        #{variables.$block}__cell_sticky_right {
             background: var(--yc-color-base-simple-hover-solid);
         }
     }
@@ -151,8 +150,8 @@
         }
     }
 
-    // принудительно выставляем overflow: visible, чтобы не ломать sticky scroll
-    // так как position: sticky приклеивается к ближайшему родителю с overflow
+    // forcing overflow:visible so we are not breaking sticky scroll
+    // (because sticky scroll relates to closest parent with overflow)
     &_with-sticky-scroll {
         overflow: visible;
     }

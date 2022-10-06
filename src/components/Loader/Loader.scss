@@ -1,16 +1,16 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}loader';
+$block: '.#{variables.$ns}loader';
 
 $pulse-duration: 800ms;
 $pulse-delay: $pulse-duration * 0.25;
-$animation: #{$ns}pulse ease $pulse-duration infinite;
+$animation: #{variables.$ns}pulse ease $pulse-duration infinite;
 
 $base-height-s: 20px;
 $base-height-m: 28px;
 $base-height-l: 36px;
 
-@keyframes #{$ns}pulse {
+@keyframes #{variables.$ns}pulse {
     50% {
         opacity: 15%;
     }

@@ -1,10 +1,10 @@
 # RadioGroup
 
-## Пример использования
+## Examples
 
 ```tsx
 import React from 'react';
-import {RadioGroup} from '@yandex-cloud/uikit';
+import {RadioGroup} from '@gravity-ui/uikit';
 
 function App({checked}) {
   const options: RadioGroupOption[] = [
@@ -16,44 +16,43 @@ function App({checked}) {
 }
 ```
 
-## Свойства
+## Props
 
-Наследует свойства: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+Inherits props: [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
 
 ```ts
 interface RadioGroupOption {
-  /** Значение радиокнопки. */
+  /** Value of the button. */
   value: string;
-  /** Подпись к радиокнопке. */
+  /** Text. */
   content?: React.ReactNode;
-  /** Признак неактивного состояния радиокнопки. */
+  /** Disalbed state. */
   disabled?: boolean;
 }
 
 interface RadioGroupProps extends DOMProps, QAProps {
-  /** Имя радиогруппы. */
+  /** Name of the radio group. */
   name?: string;
-  /** Значение. */
+  /** Value. */
   value?: string;
-  /** Начальное значение в неконтролируемом компоненте. */
+  /** Initial value when component is uncontrolled. */
   defaultValue?: string;
-  /** Обработчик изменения значения. */
+  /** Value update handler. */
   onUpdate?: (value: string) => void;
-  /** Обработчик события change. */
+  /** DOM change event handler. */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   /**
-   * Признак неактивного состояния.
+   * Disabled sstate.
    * @default false
    */
   disabled?: boolean;
   /**
-   * Опции, формирующие радиокнопки в группе.
-   * Если не заданы, компонент сформирует опции
-   * исходя из дочерних компонентов Radio.
+   * Options for radio group.
+   * If not set, component will get them from Radio children.
    */
   options?: RadioGroupOption[];
   /**
-   * Размер радиокнопок.
+   * Size of radio buttons.
    * @default 'm'
    */
   size?: 'm' | 'l';

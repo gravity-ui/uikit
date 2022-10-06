@@ -1,14 +1,14 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}clipboard-icon';
+$block: '.#{variables.$ns}clipboard-icon';
 
 #{$block} {
     &__state {
-        animation: #{$ns}clipboard-icon-state-dash 1s;
+        animation: #{variables.$ns}clipboard-icon-state-dash 1s;
     }
 }
 
-@keyframes #{$ns}clipboard-icon-state-dash {
+@keyframes #{variables.$ns}clipboard-icon-state-dash {
     0% {
         stroke-dasharray: 0 15;
     }

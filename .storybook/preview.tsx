@@ -3,8 +3,7 @@ import '../styles/styles.scss';
 import React from 'react';
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
 import type {DecoratorFn} from '@storybook/react';
-import {CloudTheme} from './theme';
-import {withTheme} from './decorators/withTheme';
+import {themes} from './theme';
 import {withMobile} from './decorators/withMobile';
 import {withLang} from './decorators/withLang';
 import {ThemeProvider, MobileProvider, configure, Lang} from '../src';
@@ -16,7 +15,7 @@ configure({
 
 const withContextProvider: DecoratorFn = (Story, context) => {
     return (
-        <ThemeProvider>
+        <ThemeProvider theme={context.globals.theme}>
             <MobileProvider>
                 <Story {...context} />
             </MobileProvider>
@@ -24,18 +23,18 @@ const withContextProvider: DecoratorFn = (Story, context) => {
     );
 };
 
-export const decorators = [withTheme, withMobile, withLang, withContextProvider];
+export const decorators = [withMobile, withLang, withContextProvider];
 
 export const parameters = {
     docs: {
-        theme: CloudTheme,
+        theme: themes.light,
         container: DocsDecorator,
     },
     // FIXME: Disabled due to performance reasons. See https://github.com/storybookjs/storybook/issues/5551
     // actions: {
     //     argTypesRegex: '^on.*',
     // },
-    jsx: {showFunctions: true}, // Для того, чтобы функции отображались в сорцах
+    jsx: {showFunctions: true}, // To show functions in sources
     viewport: {
         viewports: MINIMAL_VIEWPORTS,
     },
@@ -56,6 +55,8 @@ export const globalTypes = {
             items: [
                 {value: 'light', right: '☼', title: 'Light'},
                 {value: 'dark', right: '☾', title: 'Dark'},
+                {value: 'light-hc', right: '☼', title: 'High Contrast Light (beta)'},
+                {value: 'dark-hc', right: '☾', title: 'High Contrast Dark (beta)'},
             ],
         },
     },

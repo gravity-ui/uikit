@@ -6,11 +6,11 @@ export type DropdownMenuItemAction<T> = (
     data?: T,
 ) => void;
 
-export interface DropdownMenuItem<T> extends Omit<MenuItemProps, 'onClick' | 'children'> {
+export type DropdownMenuItem<T = unknown> = Omit<MenuItemProps, 'onClick' | 'children'> & {
     text: React.ReactNode;
     action: DropdownMenuItemAction<T>;
     hidden?: boolean;
-}
+};
 
 export type DropdownMenuItemMixed<T> = DropdownMenuItem<T> | Array<DropdownMenuItem<T>>;
 

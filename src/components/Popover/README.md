@@ -1,39 +1,85 @@
 ## Popover
 
-Popover component.
+Block with pop-up content
 
 ### PropTypes
 
-Наследует свойства [`QAProps`](../types.ts).
+Extends [`QAProps`](../types.ts).
 
-| Property             | Type               | Required | Values            | Default             | Description                                                                                                                                                               |
-| :------------------- | :----------------- | :------- | :---------------- | :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| children             | `ReactNode`        |          |                   |                     | Component that will trigger popover display                                                                                                                               |
-| theme                | `String`           |          | `info`, `special` | `info`              | Popover appearance                                                                                                                                                        |
-| placement            | `Array`            |          |                   | [`right`, `bottom`] | Popover placement relative to `children`                                                                                                                                  |
-| hasArrow             | `Boolean`          |          |                   | `true`              | Display popover arrow                                                                                                                                                     |
-| forceLinksAppearance | `Boolean`          |          |                   | `true`              | Force styles for `<a>`                                                                                                                                                    |
-| openOnHover          | `Boolean`          |          |                   | `true`              | Open popover on hover over `children`                                                                                                                                     |
-| autoclosable         | `Boolean`          |          |                   | `true`              | Close popover when pointer moves out of component                                                                                                                         |
-| behavior             | `TooltipBehavior`  |          |                   | `DelayedClosing`    | Defines timings for open/close popover when `openOnHover` enabled (without delay, with delay, with delay before close). Ignored when `delayOpening` or `delayClosing` set |
-| delayOpening         | `Number`           |          |                   | `0`                 | Customize delay before popover open, ignored without `openOnHover`. It is recommended to use `behavior` instead                                                           |
-| delayClosing         | `Number`           |          |                   | `300`               | Customize delay before popover close, ignored without `autoclosable`. It is recommended to use `behavior` instead                                                         |
-| title                | `String`           |          |                   |                     | Popover title                                                                                                                                                             |
-| content              | `ReactNode`        |          |                   |                     | Popover content                                                                                                                                                           |
-| contentClassName     | `String`           |          |                   |                     | Class name for popover `content`                                                                                                                                          |
-| htmlContent          | `String`           |          |                   |                     | Render raw HTML via `dangerouslySetInnerHTML`                                                                                                                             |
-| links                | `Array`            |          |                   | []                  | Links above content, could be <br/> `{ text: 'Link 1', href: 'https://example.com'}` or <br/> `{ text: 'Link 2', onClick: () => onLinkClick() }`                          |
-| tooltipActionButton  | `Object`           |          |                   |                     | Render button when value is <br/> `{ text: 'Button', onClick: () => onClick() }`                                                                                          |
-| tooltipOffset        | `[Number, Number]` |          |                   |                     | Popover offset relative to `children`                                                                                                                                     |
-| onClick              | `Function`         |          |                   |                     | Handler for popover `anchor`. Returned boolean value controls popover open state.                                                                                         |
-| className            | `String`           |          |                   |                     | Control class name                                                                                                                                                        |
-| offset               | `Object`           |          |                   |                     | Control offset <br/> `{ top: 0, left: 0 }`                                                                                                                                |
-| anchorRef            | `React.RefObject`  |          |                   |                     | Ref to custom anchor for popover. Disables `openByHover` and `onClick`                                                                                                    |
-| onOpenChange         | `Function`         |          |                   |                     | Could be helpful for deffered popover content render                                                                                                                      |
+| Property             | Type               | Required | Values                                   | Default             | Description                                                                                                                                                                    |
+| :------------------- | :----------------- | :------- | :--------------------------------------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| initialOpen          | `boolean`          |          |                                          | false               | Whether the tooltip initially opened                                                                                                                                           |
+| disabled             | `boolean`          |          |                                          | false               | Disables open state changes                                                                                                                                                    |
+| autoclosable         | `Boolean`          |          |                                          | `true`              | Whether tooltip should automatically close when the cursor is outside                                                                                                          |
+| openOnHover          | `Boolean`          |          |                                          | `true`              | Whether tooltip should open on hover                                                                                                                                           |
+| offset               | `Object`           |          |                                          |                     | Control's offset <br/> `{ top: 0, left: 0 }`                                                                                                                                   |
+| placement            | `Array`            |          |                                          | [`right`, `bottom`] | Tooltip's placement                                                                                                                                                            |
+| hasArrow             | `Boolean`          |          |                                          | `true`              | Whether tooltip has a tail                                                                                                                                                     |
+| hasClose             | `Boolean`          |          |                                          | `false`             | Whether tooltip has a close button                                                                                                                                             |
+| theme                | `String`           |          | `info`, `special`, `announcement`        | `info`              | Tooltip's theme                                                                                                                                                                |
+| size                 | `String`           |          | `s`, `l`                                 | `s`                 | Tooltip's theme                                                                                                                                                                |
+| behavior             | `TooltipBehavior`  |          | `Immediate`, `Delayed`, `DelayedClosing` | `DelayedClosing`    | Tooltip open/close behaviour when `openOnHover` (without a delay, with delay, with delay only when closing). Won't be applied if `delayOpening` or `delayClosing` are provided |
+| delayOpening         | `Number`           |          |                                          | `0`                 | Tooltip's opening delay if `openOnHover`. We recommend to use `behavior`                                                                                                       |
+| delayClosing         | `Number`           |          |                                          | `300`               | Tooltip's closing delay if `autoclosable`. We recommend to use `behavior`                                                                                                      |
+| anchorRef            | `React.RefObject`  |          |                                          |                     | Custom anchor. Disables `openByHover` and `onClick`.                                                                                                                           |
+| children             | `ReactNode`        |          |                                          |                     | Content, over which tooltip is rendered                                                                                                                                        |
+| title                | `String`           |          |                                          |                     | Tooltip's title                                                                                                                                                                |
+| content              | `ReactNode`        |          |                                          |                     | Tooltip's content                                                                                                                                                              |
+| htmlContent          | `String`           |          |                                          |                     | Tooltip's html content (`dangerouslySetInnerHTML` will be used for rendering)                                                                                                  |
+| contentClassName     | `String`           |          |                                          |                     | Tooltip's content css class                                                                                                                                                    |
+| links                | `Array`            |          |                                          | []                  | Links under the content <br/> `{ text: 'Link 1', href: 'https://yandex.ru'}` or <br/> `{ text: 'Link 2', onClick: () => callbackOnLinkClick() }`                               |
+| forceLinksAppearance | `boolean`          |          |                                          | true                | Force styles for links                                                                                                                                                         |
+| tooltipActionButton  | `Object`           |          |                                          |                     | Action button properties (the button won't be rendered without it) <br/> `{ text: 'Button', onClick: () => callbackOnClick() }`                                                |
+| tooltipCancelButton  | `Object`           |          |                                          |                     | Cancel button properties (the button won't be rendered without it) <br/> `{ text: 'Button', onClick: () => callbackOnClick() }`                                                |
+| tooltipOffset        | `[Number, Number]` |          |                                          |                     | Tooltip's offset related to the control                                                                                                                                        |
+| tooltipClassName     | `String`           |          |                                          |                     | Tooltip's css class                                                                                                                                                            |
+| className            | `String`           |          |                                          |                     | Control's css class                                                                                                                                                            |
+| onClick              | `Function`         |          |                                          |                     | Anchor click callback. If the function returns `true', the tooltip will be open, otherwise it won't be opened.                                                                 |
+| onOpenChange         | `Function`         |          |                                          |                     | Open state change callback. Can be useful for delayed tooltip's content rendering.                                                                                             |
+| onCloseClick         | `Function`         |          |                                          |                     | Close button click handler                                                                                                                                                     |
+
+### Instance properties
+
+| Property     | Type       | Description        |
+| :----------- | :--------- | :----------------- |
+| openTooltip  | `Function` | Opens the tooltip  |
+| closeTooltip | `Function` | Closes the tooltip |
+
+Usage:
+
+```jsx
+const popoverRef = useRef<PopoverInstanceProps>();
+
+const open = () => {
+    popoverRef.current?.openTooltip();
+}
+
+const close = () => {
+    popoverRef.current?.closeTooltip();
+}
+
+<>
+    <Popover content="Tooltip" ref={popoverRef} />
+    <button onClick={open}>Open a tooltip</button>
+    <button onClick={close}>Close a tooltip</button>
+</>
+```
 
 ### Examples
 
-Component with rendered raw html (use `content` for plain text) and close on mouse leave after timeout set by `delayClosing`:
+Simple tooltip
+
+```js
+<Popover content="Tooltip">Open a tooltip</Popover>
+```
+
+Tooltip with jsx content:
+
+```js
+<Popover content={<Loader size="s" />}>Open a tooltip</Popover>
+```
+
+Tooltip with html content, links, action button and automatic closing when cursor is outside for `delayClosing`:
 
 ```jsx
 <Popover
@@ -43,32 +89,26 @@ Component with rendered raw html (use `content` for plain text) and close on mou
   }}
   links={[
     {
-      text: 'Lorem ipsum href',
-      href: 'https://example.com',
+      text: 'Link with a href',
+      href: 'https://yandex.ru',
     },
     {
-      text: 'Lorem ipsum onClick',
-      onClick: () => alert('Lorem ipsum onClick'),
+      text: 'Link with an onClick handler',
+      onClick: () => alert('The link is clicked'),
     },
   ]}
   placement={['right', 'bottom']}
   title="Simple tooltip"
   htmlContent={
-    '<b>Lorem ipsum</b> dolor sit <a href="https://example.com" target="_blank">amet</a>, at scelerisque suspendisse'
+    'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>'
   }
   tooltipActionButton={{
-    text: 'Actions',
-    onClick: () => console.log('just action happened'),
+    text: 'Action',
+    onClick: () => console.log('Action button was clicked'),
   }}
 >
-  <div>click me</div>
+  <div>Click me</div>
 </Popover>
 ```
 
-Popover with JSX component as content:
-
-```js
-<Popover icon={{data: iconQuestionMark}} content={<Loader size="s" />}>
-  Tooltip
-</Popover>
-```
+| Note, that it's better to use `content` for simple text

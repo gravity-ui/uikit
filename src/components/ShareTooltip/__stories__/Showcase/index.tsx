@@ -24,7 +24,7 @@ export function ShareTooltipDemo() {
         ShareSocialNetwork.VK,
     ];
 
-    const ShareTitle = <div>Поделиться</div>;
+    const ShareTitle = <div>Share</div>;
 
     return (
         <div

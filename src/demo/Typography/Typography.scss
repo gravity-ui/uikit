@@ -1,4 +1,4 @@
-@import '../../../styles/mixins';
+@use '../../../styles/mixins';
 
 .typography-demo {
     $block: &;
@@ -7,12 +7,12 @@
     padding: 50px;
 
     &__description {
-        @include text-body-2();
+        @include mixins.text-body-2();
         margin-bottom: 25px;
     }
 
     &__header {
-        @include text-subheader-1();
+        @include mixins.text-subheader-1();
         margin-bottom: 20px;
         text-transform: uppercase;
         color: var(--yc-color-text-primary);
@@ -31,7 +31,7 @@
 
         &_text-contrasts,
         &_font-families {
-            @include text-body-2();
+            @include mixins.text-body-2();
 
             #{$block}__item + #{$block}__item {
                 margin-top: 12px;
@@ -44,7 +44,7 @@
     }
 
     &__caption {
-        @include text-body-1();
+        @include mixins.text-body-1();
         display: inline-block;
         width: 180px;
         color: var(--yc-color-text-secondary);

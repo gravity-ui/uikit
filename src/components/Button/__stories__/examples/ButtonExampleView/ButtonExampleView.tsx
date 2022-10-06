@@ -7,7 +7,7 @@ import {DocsExample} from '../../../../../demo/DocsExample/DocsExample';
 
 export function ButtonExampleViewAction() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="action" size="l">
                 Create
             </Button>
@@ -36,7 +36,7 @@ ButtonExampleViewAction.code = `
 
 export function ButtonExampleViewNormal() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="normal" size="l">
                 Add
             </Button>
@@ -65,7 +65,7 @@ ButtonExampleViewNormal.code = `
 
 export function ButtonExampleViewOutlined() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="outlined" size="l">
                 Cancel
             </Button>
@@ -94,7 +94,7 @@ ButtonExampleViewOutlined.code = `
 
 export function ButtonExampleViewFlat() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="flat" size="l">
                 Expand
             </Button>
@@ -114,7 +114,7 @@ ButtonExampleViewFlat.code = `
 
 export function ButtonExampleViewRaised() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="raised" size="l">
                 Create
             </Button>
@@ -134,7 +134,7 @@ ButtonExampleViewRaised.code = `
 
 export function ButtonExampleViewOutlinedInfo() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="outlined-info" size="l">
                 Go
             </Button>
@@ -147,7 +147,7 @@ ButtonExampleViewOutlinedInfo.code = `
 
 export function ButtonExampleViewFlatInfo() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="flat-info" size="l">
                 Go
             </Button>
@@ -160,7 +160,7 @@ ButtonExampleViewFlatInfo.code = `
 
 export function ButtonExampleViewOutlinedDanger() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="outlined-danger" size="l">
                 Stop
             </Button>
@@ -173,7 +173,7 @@ ButtonExampleViewOutlinedDanger.code = `
 
 export function ButtonExampleViewFlatDanger() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="flat-danger" size="l">
                 Delete
             </Button>
@@ -186,7 +186,7 @@ ButtonExampleViewFlatDanger.code = `
 
 export function ButtonExampleViewFlatSecondary() {
     return (
-        <DocsExample gap="m">
+        <DocsExample>
             <Button view="flat-secondary" size="l">
                 Cancel
             </Button>
@@ -199,7 +199,7 @@ ButtonExampleViewFlatSecondary.code = `
 
 export function ButtonExampleViewSpecial() {
     return (
-        <DocsExample gap="m" space="m" background="rgba(82, 130, 255, 1)" rounded>
+        <DocsExample background="var(--yc-color-infographics-info-heavy)">
             <Button view="normal-contrast" size="l">
                 Normal
             </Button>
@@ -220,7 +220,7 @@ ButtonExampleViewSpecial.code = `
 
 export function ButtonExampleState() {
     return (
-        <DocsExample gap="l" space="l" background="rgba(246, 247, 249, 1)" rounded>
+        <DocsExample gap="l" space="l">
             <Button size="l">Default</Button>
             <Button size="l" disabled>
                 Disabled
@@ -237,7 +237,7 @@ export function ButtonExampleState() {
 
 export function ButtonExampleSize() {
     return (
-        <DocsExample gap="l" space="l" background="rgba(246, 247, 249, 1)" rounded>
+        <DocsExample gap="l" space="l">
             <Button size="s">S-size</Button>
             <Button size="m">M-size</Button>
             <Button size="l">L-size</Button>

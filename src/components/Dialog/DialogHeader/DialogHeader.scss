@@ -1,7 +1,7 @@
-@import '../../variables';
-@import '../../../../styles/mixins';
+@use '../../variables';
+@use '../../../../styles/mixins';
 
-$block: '.#{$ns}dialog-header';
+$block: '.#{variables.$ns}dialog-header';
 
 #{$block} {
     padding: var(--yc-dialog-header-padding);
@@ -12,6 +12,6 @@ $block: '.#{$ns}dialog-header';
     color: var(--yc-color-text-primary);
 
     &__caption {
-        @include text-subheader-3();
+        @include mixins.text-subheader-3();
     }
 }

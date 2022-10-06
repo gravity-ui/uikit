@@ -1,7 +1,7 @@
-@import '../../../styles/mixins.scss';
-@import '../variables';
+@use '../../../styles/mixins.scss';
+@use '../variables';
 
-$block: '.#{$ns}popover';
+$block: '.#{variables.$ns}popover';
 
 #{$block} {
     display: inline-block;
@@ -29,7 +29,7 @@ $block: '.#{$ns}popover';
         cursor: default;
 
         &-title {
-            @include text-subheader-3();
+            @include mixins.text-subheader-3();
             display: inline-flex;
             margin: 0 0 12px;
         }
@@ -56,7 +56,7 @@ $block: '.#{$ns}popover';
         }
 
         &-content {
-            @include text-body-1();
+            @include mixins.text-body-1();
             overflow-wrap: break-word;
 
             &_secondary {
@@ -79,7 +79,7 @@ $block: '.#{$ns}popover';
         }
 
         &-link {
-            @include text-body-1();
+            @include mixins.text-body-1();
             display: inline-block;
         }
 
@@ -124,7 +124,7 @@ $block: '.#{$ns}popover';
                 }
 
                 #{$class}__tooltip-content a:not(.yc-button) {
-                    @include text-accent;
+                    @include mixins.text-accent;
                     color: var(--yc-color-text-light-primary);
 
                     &:hover {
@@ -147,11 +147,11 @@ $block: '.#{$ns}popover';
                 --yc-popover-padding: 24px;
 
                 #{$class}__tooltip-title {
-                    @include text-header-1();
+                    @include mixins.text-header-1();
                 }
 
                 #{$class}__tooltip-content {
-                    @include text-body-2();
+                    @include mixins.text-body-2();
                 }
             }
         }

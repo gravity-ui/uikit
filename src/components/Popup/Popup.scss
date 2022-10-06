@@ -1,6 +1,6 @@
-@import '../variables';
+@use '../variables';
 
-$block: '.#{$ns}popup';
+$block: '.#{variables.$ns}popup';
 
 $arrow-size: 18px;
 $arrow-offset: 9px;
@@ -10,7 +10,7 @@ $arrow-circle-height: 30px;
 $transition-distance: 10px;
 
 #{$block} {
-    // Может быть переопределено, см. Tooltip
+    // Can be overridden, see Tooltip
     --yc-popup-background-color: var(--yc-color-base-float);
     --yc-popup-border-color: var(--yc-color-line-solid);
     --yc-popup-border-width: 1px;
@@ -41,7 +41,7 @@ $transition-distance: 10px;
         box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color);
     }
 
-    // Скругление краев у контента
+    // Corners rounding for content
     & > :first-child:not(&__arrow),
     & > &__arrow + * {
         border-top-left-radius: inherit;
@@ -58,37 +58,37 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='bottom'][data-inited] {
-        animation-name: #{$ns}popup-bottom;
+        animation-name: #{variables.$ns}popup-bottom;
     }
 
     &[data-popper-placement*='top'][data-inited] {
-        animation-name: #{$ns}popup-top;
+        animation-name: #{variables.$ns}popup-top;
     }
 
     &[data-popper-placement*='left'][data-inited] {
-        animation-name: #{$ns}popup-left;
+        animation-name: #{variables.$ns}popup-left;
     }
 
     &[data-popper-placement*='right'][data-inited] {
-        animation-name: #{$ns}popup-right;
+        animation-name: #{variables.$ns}popup-right;
     }
 
     // open state
 
     &_open[data-popper-placement*='bottom'][data-inited] {
-        animation-name: #{$ns}popup-bottom-open;
+        animation-name: #{variables.$ns}popup-bottom-open;
     }
 
     &_open[data-popper-placement*='top'][data-inited] {
-        animation-name: #{$ns}popup-top-open;
+        animation-name: #{variables.$ns}popup-top-open;
     }
 
     &_open[data-popper-placement*='left'][data-inited] {
-        animation-name: #{$ns}popup-left-open;
+        animation-name: #{variables.$ns}popup-left-open;
     }
 
     &_open[data-popper-placement*='right'][data-inited] {
-        animation-name: #{$ns}popup-right-open;
+        animation-name: #{variables.$ns}popup-right-open;
     }
 
     // arrow
@@ -149,7 +149,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-bottom {
+    @keyframes #{variables.$ns}popup-bottom {
         0% {
             visibility: visible;
             opacity: 1;
@@ -165,7 +165,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-bottom-open {
+    @keyframes #{variables.$ns}popup-bottom-open {
         0% {
             opacity: 0;
             transform: translateY($transition-distance);
@@ -176,7 +176,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-top {
+    @keyframes #{variables.$ns}popup-top {
         0% {
             visibility: visible;
             opacity: 1;
@@ -192,7 +192,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-top-open {
+    @keyframes #{variables.$ns}popup-top-open {
         0% {
             opacity: 0;
             transform: translateY(-$transition-distance);
@@ -203,7 +203,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-left {
+    @keyframes #{variables.$ns}popup-left {
         0% {
             visibility: visible;
 
@@ -220,7 +220,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-left-open {
+    @keyframes #{variables.$ns}popup-left-open {
         0% {
             opacity: 0;
             transform: translateX(-$transition-distance);
@@ -231,7 +231,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-right {
+    @keyframes #{variables.$ns}popup-right {
         0% {
             visibility: visible;
 
@@ -248,7 +248,7 @@ $transition-distance: 10px;
         }
     }
 
-    @keyframes #{$ns}popup-right-open {
+    @keyframes #{variables.$ns}popup-right-open {
         0% {
             opacity: 0;
             transform: translateX($transition-distance);

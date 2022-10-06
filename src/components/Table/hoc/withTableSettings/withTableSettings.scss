@@ -1,11 +1,9 @@
-@import '../../variables';
+@use '../../variables';
 
-$block: '.#{$ns}table';
-
-#{$block} {
-    // чтобы высота кнопки не влияла на высоту строки
+#{variables.$block} {
+    // button height should not affect line height
     &__settings {
-        height: $tableLineHeight;
+        height: variables.$tableLineHeight;
         display: flex;
         align-items: center;
 

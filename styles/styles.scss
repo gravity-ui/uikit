@@ -1,17 +1,31 @@
-@import './colors/private/dark';
 @import './colors/private/light';
-@import './colors/text/dark';
+@import './colors/private/dark';
+@import './colors/private/light-hc';
+@import './colors/private/dark-hc';
 @import './colors/text/light';
-@import './colors/base/dark';
+@import './colors/text/dark';
+@import './colors/text/light-hc';
+@import './colors/text/dark-hc';
 @import './colors/base/light';
-@import './colors/line/dark';
+@import './colors/base/dark';
+@import './colors/base/light-hc';
+@import './colors/base/dark-hc';
 @import './colors/line/light';
-@import './colors/infographics/dark';
+@import './colors/line/dark';
+@import './colors/line/light-hc';
+@import './colors/line/dark-hc';
 @import './colors/infographics/light';
-@import './colors/sfx/dark';
+@import './colors/infographics/dark';
+@import './colors/infographics/light-hc';
+@import './colors/infographics/dark-hc';
 @import './colors/sfx/light';
-@import './colors/promo/dark';
+@import './colors/sfx/dark';
+@import './colors/sfx/light-hc';
+@import './colors/sfx/dark-hc';
 @import './colors/promo/light';
+@import './colors/promo/dark';
+@import './colors/promo/light-hc';
+@import './colors/promo/dark-hc';
 @import './colors/social';
 @import './colors/system';
 @import './typography';
@@ -54,6 +68,36 @@
         @include yc-colors-sfx-dark;
         @include yc-colors-promo-dark;
         @include yc-colors-system-dark;
+
+        background: var(--yc-color-base-background);
+        color: var(--yc-color-text-primary);
+    }
+
+    &_theme_light-hc {
+        @include yc-colors-private-light-hc;
+        @include yc-colors-brand-light-hc;
+        @include yc-colors-text-light-hc;
+        @include yc-colors-base-light-hc;
+        @include yc-colors-line-light-hc;
+        @include yc-colors-infographics-light-hc;
+        @include yc-colors-sfx-light-hc;
+        @include yc-colors-promo-light-hc;
+        @include yc-colors-system-light-hc;
+
+        background: var(--yc-color-base-background);
+        color: var(--yc-color-text-primary);
+    }
+
+    &_theme_dark-hc {
+        @include yc-colors-private-dark-hc;
+        @include yc-colors-brand-dark-hc;
+        @include yc-colors-text-dark-hc;
+        @include yc-colors-base-dark-hc;
+        @include yc-colors-line-dark-hc;
+        @include yc-colors-infographics-dark-hc;
+        @include yc-colors-sfx-dark-hc;
+        @include yc-colors-promo-dark-hc;
+        @include yc-colors-system-dark-hc;
 
         background: var(--yc-color-base-background);
         color: var(--yc-color-text-primary);

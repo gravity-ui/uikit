@@ -1,0 +1,35 @@
+@mixin yc-colors-text-light-hc {
+    --yc-color-text-primary: var(--yc-color-private-black-1000);
+    --yc-color-text-complementary: var(--yc-color-private-black-850);
+    --yc-color-text-secondary: var(--yc-color-private-black-700);
+    --yc-color-text-hint: var(--yc-color-private-black-500);
+
+    --yc-color-text-info: var(--yc-color-private-blue-650-solid);
+    --yc-color-text-positive: var(--yc-color-private-green-600-solid);
+    --yc-color-text-warning-medium: var(--yc-color-private-yellow-700-solid);
+    --yc-color-text-warning-heavy: var(--yc-color-private-yellow-800-solid);
+    --yc-color-text-danger: var(--yc-color-private-red-500);
+    --yc-color-text-utility: var(--yc-color-private-purple-550);
+    --yc-color-text-misc: var(--yc-color-private-cool-grey-800-solid);
+    --yc-color-text-special: var(--yc-my-color-brand-normal);
+    --yc-color-text-link: var(--yc-my-color-brand-link);
+    --yc-color-text-link-hover: var(--yc-my-color-brand-link-hover);
+    --yc-color-text-link-visited: var(--yc-my-color-brand-link-visited);
+    --yc-color-text-link-visited-hover: var(--yc-my-color-brand-link-visited-hover);
+
+    --yc-color-text-yandex-red: var(--yc-color-private-red-550);
+
+    --yc-color-text-dark-primary: var(--yc-color-private-black-1000);
+    --yc-color-text-dark-complementary: var(--yc-color-private-black-800);
+    --yc-color-text-dark-secondary: var(--yc-color-private-black-600);
+
+    --yc-color-text-light-primary: var(--yc-color-private-white-1000);
+    --yc-color-text-light-complementary: var(--yc-color-private-white-850);
+    --yc-color-text-light-secondary: var(--yc-color-private-white-700);
+    --yc-color-text-light-hint: var(--yc-color-private-white-500);
+
+    --yc-color-text-inverted-primary: var(--yc-color-private-white-1000);
+    --yc-color-text-inverted-complementary: var(--yc-color-private-white-850);
+    --yc-color-text-inverted-secondary: var(--yc-color-private-white-700);
+    --yc-color-text-inverted-hint: var(--yc-color-private-white-500);
+}

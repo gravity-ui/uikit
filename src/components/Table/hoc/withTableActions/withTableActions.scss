@@ -1,23 +1,23 @@
-@import '../../../../../styles/mixins';
-@import '../../variables';
+@use '../../../../../styles/mixins';
+@use '../../variables';
 
-#{$block} {
-    // чтобы высота кнопки не влияла на высоту строки
+#{variables.$block} {
+    // button height should not affect line height
     &__actions {
-        height: $tableLineHeight;
+        height: variables.$tableLineHeight;
         display: flex;
         align-items: center;
     }
 }
 
-$popupBlock: '#{$block}-action-popup';
+$popupBlock: '#{variables.$block}-action-popup';
 
 #{$popupBlock} {
     &__menu {
-        @include max-height(200px);
+        @include mixins.max-height(200px);
 
         &-item {
-            @include max-text-width(250px);
+            @include mixins.max-text-width(250px);
         }
     }
 }

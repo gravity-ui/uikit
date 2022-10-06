@@ -105,19 +105,19 @@ function renderViewGrid() {
                 }
 
                 if (icon === 'none') {
-                    props.children = [<Icon key="icon" data={GearIcon} size={18} />, 'Кнопка'];
+                    props.children = [<Icon key="icon" data={GearIcon} size={18} />, 'Button'];
                 } else if (icon === 'right') {
-                    props.children = ['Кнопка', <Icon key="icon" data={GearIcon} size={18} />];
+                    props.children = ['Button', <Icon key="icon" data={GearIcon} size={18} />];
                 } else if (icon === 'both') {
                     props.children = [
                         <Icon key="icon-1" data={GearIcon} size={18} />,
-                        'Кнопка',
+                        'Button',
                         <Icon key="icon-2" data={GearIcon} size={18} />,
                     ];
                 } else if (icon === 'only') {
                     props.children = <Icon key="icon" data={GearIcon} size={18} />;
                 } else {
-                    props.children = 'Кнопка';
+                    props.children = 'Button';
                 }
 
                 let content: React.ReactElement | null = <Button {...props} />;

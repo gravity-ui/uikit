@@ -1,6 +1,10 @@
 ## CopyToClipboard
 
-Low-level component to copy text to clipboard.
+A wrapper component witch takes given text to be copy-pasted <br/>
+and then updates its contents with a render function passed as children props.
+
+The component bounces back to initial state after given timeout <br/>
+which might be useful when you want to animate the copy process.
 
 ### PropTypes
 
@@ -8,7 +12,7 @@ Low-level component to copy text to clipboard.
 | :------- | :--------- | :------: | :------ | :----------------------------------------------------------------------------------- |
 | children | `Function` |    ✓     |         | Copy control render function `(status: CopyToClipboardStatus) => React.ReactElement` |
 | text     | `String`   |          |         | Text to copy                                                                         |
-| timeout  | `Number`   |          | `500`   | Time in ms to restore initial state (`CopyToClipboardStatus.Pending`)                |
+| timeout  | `Number`   |          | `1000`  | Time in ms to restore initial state (`CopyToClipboardStatus.Pending`)                |
 | onCopy   | `Function` |          |         | Callback after copy `(text: string, result: boolean) => void`                        |
 
 ### Examples

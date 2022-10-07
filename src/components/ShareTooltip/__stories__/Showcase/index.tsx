@@ -165,11 +165,13 @@ export function ShareTooltipDemo() {
                     text={text}
                     socialNets={socialNets}
                     openByHover={false}
-                    customCopyIcon={Cloud}
-                    customCopyAction={({url: link}) => {
-                        alert(link);
+                    customCopy={{
+                        title: ShareTitle,
+                        icon: Cloud,
+                        onCopy: ({url: link}) => {
+                            alert(link);
+                        },
                     }}
-                    buttonCopyTitle={ShareTitle}
                 />
             </div>
         </div>

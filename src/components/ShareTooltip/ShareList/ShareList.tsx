@@ -29,12 +29,15 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
     className?: string;
     /** elements location direction */
     direction?: LayoutDirection;
-    /** custom icon for copy link button */
-    customCopyIcon?: SVGIconData;
-    /** custom action for copy link button */
-    customCopyAction?: (args: {url: string}) => void;
-    /** copy button title */
-    buttonCopyTitle?: string | React.ReactNode;
+    /** custom definition for copy link button */
+    customCopy?: {
+        /** copy link button title */
+        title?: string | React.ReactNode;
+        /** copy link button icon */
+        icon?: SVGIconData;
+        /** copy link button override default action */
+        onCopy?: ({url}: {url: string}) => void;
+    };
     /** you can extend available social nets with custom ones using ShareListProps.Item */
     children?:
         | React.ReactElement<ShareListItem, typeof ShareListItem>
@@ -104,31 +107,34 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
     }
 
     private renderCopyLink() {
-        const {url, customCopyIcon, buttonCopyTitle, customCopyAction} = this.props;
+        const {url, customCopy} = this.props;
         const {copied} = this.state;
 
         const label =
-            buttonCopyTitle || (copied ? i18n('label_copy-link-copied') : i18n('label_copy-link'));
+            customCopy?.title ||
+            (copied ? i18n('label_copy-link-copied') : i18n('label_copy-link'));
+
         const buttonProps = {
             ref: this.copyLinkRef,
             className: b('copy-link'),
             view: 'flat-secondary' as ButtonView,
             size: 'l' as ButtonSize,
             width: 'max' as ButtonWidth,
+            children: [<Icon key="copy" data={customCopy?.icon || Link} size={16} />, label],
         };
 
-        return customCopyAction ? (
-            <Button {...buttonProps} onClick={() => customCopyAction({url})}>
-                <Icon data={customCopyIcon || Link} size={16} />
-                {label}
-            </Button>
+        return customCopy?.onCopy ? (
+            <Button
+                {...buttonProps}
+                onClick={() => customCopy?.onCopy && customCopy?.onCopy({url})}
+            ></Button>
         ) : (
             <CopyToClipboard text={this.props.url} timeout={1500}>
                 {(status) => (
-                    <Button {...buttonProps} disabled={status === CopyToClipboardStatus.Success}>
-                        <Icon data={customCopyIcon || Link} size={16} />
-                        {label}
-                    </Button>
+                    <Button
+                        {...buttonProps}
+                        disabled={status === CopyToClipboardStatus.Success}
+                    ></Button>
                 )}
             </CopyToClipboard>
         );

@@ -3,6 +3,8 @@ import {Meta, Story} from '@storybook/react';
 import {Label, LabelProps} from '../Label';
 import {Link} from '../../Link';
 
+import './Label.stories.scss';
+
 export default {
     title: 'Components/Label',
     component: Label,
@@ -14,23 +16,26 @@ export const Default = Template.bind({});
 
 const ThemeTemplate: Story<LabelProps> = (args) => {
     return (
-        <>
+        <div className="label-stories">
             <Label {...args} theme="normal">
                 normal
             </Label>
             <Label {...args} theme="info">
                 info
             </Label>
-            <Label {...args} theme="danger">
-                danger
+            <Label {...args} theme="success">
+                info
             </Label>
             <Label {...args} theme="warning">
                 warning
             </Label>
+            <Label {...args} theme="danger">
+                danger
+            </Label>
             <Label {...args} theme="unknown">
                 unknown
             </Label>
-        </>
+        </div>
     );
 };
 
@@ -38,14 +43,14 @@ export const Theme = ThemeTemplate.bind({});
 
 const SizeTemplate: Story<LabelProps> = (args) => {
     return (
-        <>
+        <div className="label-stories">
             <Label {...args} size="s">
                 xs
             </Label>
             <Label {...args} size="m">
                 s
             </Label>
-        </>
+        </div>
     );
 };
 
@@ -53,14 +58,14 @@ export const Size = SizeTemplate.bind({});
 
 const StyleTemplate: Story<LabelProps> = (args) => {
     return (
-        <>
+        <div className="label-stories">
             <Label {...args} style="default">
                 default
             </Label>
             <Label {...args} style="rounded">
                 rounded
             </Label>
-        </>
+        </div>
     );
 };
 

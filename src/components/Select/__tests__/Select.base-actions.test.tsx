@@ -3,12 +3,19 @@ import userEvent from '@testing-library/user-event';
 import {render} from '@testing-library/react';
 import {ListQa} from '../../List';
 import {Select, SelectOption, SelectOptionGroup, SelectQa} from '..';
+import {QUICK_SEARCH_TIMEOUT} from '../constants';
+import {generateOptions, timeout} from './utils';
 
 const TEST_QA = 'select-test-qa';
-const DEFAULT_OPTIONS: SelectOption[] = [
-    {value: 'js', content: 'Java Script'},
-    {value: 'python', content: 'Python'},
-    {value: 'ruby', content: 'Ruby'},
+const DEFAULT_OPTIONS = generateOptions([
+    ['js', 'Java Script'],
+    ['python', 'Python'],
+    ['ruby', 'Ruby'],
+]);
+const QUICK_SEARCH_OPTIONS = generateOptions(40);
+const GROUPED_QUICK_SEARCH_OPTIONS: SelectOptionGroup[] = [
+    {label: 'Group 1', options: generateOptions(40).slice(0, 20)},
+    {label: 'Group 2', options: generateOptions(40).slice(20)},
 ];
 const GROUPED_OPTIONS: SelectOptionGroup[] = [
     {label: 'Group 1', options: DEFAULT_OPTIONS.slice(0, 2)},
@@ -47,7 +54,7 @@ describe('Select base actions', () => {
         getByTestId(SelectQa.POPUP);
     });
 
-    test('navigate in flat list by ArrowDown', async () => {
+    test('navigate by ArrowDown [flat list]', async () => {
         const {getByTestId} = setup();
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
@@ -64,7 +71,7 @@ describe('Select base actions', () => {
         }
     });
 
-    test('navigate in flat list by ArrowUp', async () => {
+    test('navigate by ArrowUp [flat list]', async () => {
         const {getByTestId} = setup();
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
@@ -82,7 +89,7 @@ describe('Select base actions', () => {
         }
     });
 
-    test('navigate in grouped list by ArrowDown', async () => {
+    test('navigate by ArrowDown [grouped list]', async () => {
         const {getByTestId} = setup({options: GROUPED_OPTIONS});
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
@@ -107,7 +114,7 @@ describe('Select base actions', () => {
         }
     });
 
-    test('navigate in grouped list by ArrowUp', async () => {
+    test('navigate by ArrowUp [grouped list]', async () => {
         const {getByTestId} = setup({options: GROUPED_OPTIONS});
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
@@ -131,5 +138,77 @@ describe('Select base actions', () => {
             expect(selectedItem.textContent).toBe(content);
             await user.keyboard('[ArrowUp]');
         }
+    });
+
+    test('find elements by "quick search" [flat list]', async () => {
+        const {getByTestId} = setup({options: QUICK_SEARCH_OPTIONS});
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        await user.keyboard('3');
+        let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 3');
+
+        await user.keyboard('5');
+        selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 35');
+
+        await user.keyboard('[Backspace]');
+        selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 3');
+    });
+
+    test('find elements by "quick search" [grouped list]', async () => {
+        const {getByTestId} = setup({options: GROUPED_QUICK_SEARCH_OPTIONS});
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        await user.keyboard('3');
+        let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 3');
+
+        await user.keyboard('5');
+        selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 35');
+
+        await user.keyboard('[Backspace]');
+        selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 3');
+    });
+
+    test('find elements by "quick search" with delay [flat list]', async () => {
+        const {getByTestId} = setup({options: QUICK_SEARCH_OPTIONS});
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        await user.keyboard('3');
+        let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 3');
+
+        await timeout(QUICK_SEARCH_TIMEOUT);
+
+        await user.keyboard('5');
+        selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 5');
+    });
+
+    test('find elements by "quick search" with delay [grouped list]', async () => {
+        const {getByTestId} = setup({options: GROUPED_QUICK_SEARCH_OPTIONS});
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+
+        await user.keyboard('3');
+        let selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 3');
+
+        await timeout(QUICK_SEARCH_TIMEOUT);
+
+        await user.keyboard('5');
+        selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        expect(selectedItem.textContent).toBe('Value 5');
     });
 });

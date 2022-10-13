@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.1](https://github.com/gravity-ui/uikit/compare/v3.1.0...v3.1.1) (2022-10-13)
+
+
+### Bug Fixes
+
+* Add missing --yc-color-base-modal for light-hc ([#352](https://github.com/gravity-ui/uikit/issues/352)) ([db14312](https://github.com/gravity-ui/uikit/commit/db14312ec1cca190cf353e166a5efd0439fee64e))
+* update hc colors for generic-accent-disabled ([#355](https://github.com/gravity-ui/uikit/issues/355)) ([2760749](https://github.com/gravity-ui/uikit/commit/2760749640e0068db81f7b97f2e71a22f5da9ec6))
+
 ## [3.1.0](https://github.com/gravity-ui/uikit/compare/v3.0.2...v3.1.0) (2022-10-03)
 
 

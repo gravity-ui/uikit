@@ -1,14 +1,14 @@
 import React, {Children, cloneElement, useCallback, useEffect, useState} from 'react';
-import isFunction from 'lodash/isFunction';
-import isObject from 'lodash/isObject';
 
 import {Popup, PopupPlacement} from '../Popup';
 import {useBoolean} from '../utils/useBoolean';
 import {block} from '../utils/cn';
+import {setRef} from '../utils/setRef';
 
 import './Tooltip.scss';
 
 export interface TooltipProps extends TooltipDelayProps {
+    disabled?: boolean;
     content?: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
@@ -23,7 +23,7 @@ const b = block('tooltip');
 const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
 
 export const Tooltip = (props: TooltipProps) => {
-    const {children, content, placement = DEFAULT_PLACEMENT} = props;
+    const {children, content, disabled, placement = DEFAULT_PLACEMENT} = props;
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
     const tooltipVisible = useTooltipVisible(anchorElement, props);
 
@@ -33,12 +33,7 @@ export const Tooltip = (props: TooltipProps) => {
     const elementRef = useCallback(
         (node: HTMLElement | null) => {
             setAnchorElement(node);
-
-            if (isFunction(node)) {
-                childRef(node);
-            } else if (isObject()) {
-                childRef.current = node;
-            }
+            setRef(childRef, node);
         },
         [childRef],
     );
@@ -47,7 +42,7 @@ export const Tooltip = (props: TooltipProps) => {
         return (
             <Popup
                 className={b()}
-                open={tooltipVisible}
+                open={tooltipVisible && !disabled}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
                 disableEscapeKeyDown

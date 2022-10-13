@@ -10,27 +10,32 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
     style?: React.CSSProperties;
     className?: string;
     children?: React.ReactNode;
+
+    /**
+     * Property to set `title` attribute of html tag
+     */
+    titleAttribute?: string;
 }
 
 /**
  * A component for working with typography.
  *
- * Storybook: https://preview.yandexcloud.dev/uikit/?path=/docs/components-text--default
+ * Storybook: https://preview.yandexcloud.dev/gravity-ui-bae/?path=/docs/components-text--default
  *
  * **Hint:** Hover on props in your editor to read jsdoc
  *
  * Provides a convenient API for working with mixins of typography and text colors. Just point at the prop in you favorite code editor and read the accompanying documentation via `jsdoc` on where to apply this or that font or color.
  *
  * ```jsx
- * import {Text} from '@yandex-cloud/uikit';
+ * import {Text} from '@gravity-ui/uikit';
  *
  * <Text variant="body-1" color="inherit" elipsis>some test</Text>
  * ```
  *
- * You can also use a more flexible way of setting the style. "Uikit" alse provide `text` uility function.
+ * You can also use a more flexible way of setting the style. "Gravity UI" also provide `text` utility function.
  *
  *```jsx
- * import {text} from '@yandex-cloud/uikit';
+ * import {text} from '@gravity-ui/uikit';
  *
  * // textStyles = 'text text_variant_display-1 some-class-name'
  * const textStyles = text({variant: 'display-1'}, 'some-class-name'));
@@ -51,6 +56,7 @@ export const Text: React.FC<TextProps> = ({
         <Tag
             className={text({variant, ellipsis}, color ? colorText({color}, className) : className)}
             {...rest}
+            title={rest.titleAttribute}
         >
             {children}
         </Tag>

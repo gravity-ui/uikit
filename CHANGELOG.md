@@ -1,5 +1,73 @@
 # Changelog
 
+## [3.1.0](https://github.com/gravity-ui/uikit/compare/v3.0.2...v3.1.0) (2022-10-03)
+
+
+### Features
+
+* **Tooltip:** add ability to disable display of the tooltip ([#348](https://github.com/gravity-ui/uikit/issues/348)) ([5d32afe](https://github.com/gravity-ui/uikit/commit/5d32afee7fa9b6f2c7640934e2759509c711d1c4))
+
+
+### Bug Fixes
+
+* **Tooltip:** correctly set ref ([#347](https://github.com/gravity-ui/uikit/issues/347)) ([a4de6f5](https://github.com/gravity-ui/uikit/commit/a4de6f59c21aa7e0ad62b54c91a0cf44f86f156f))
+
+## [3.0.2](https://github.com/gravity-ui/uikit/compare/v3.0.1...v3.0.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* loose i18n typings ([#345](https://github.com/gravity-ui/uikit/issues/345)) ([5612aee](https://github.com/gravity-ui/uikit/commit/5612aee42ab81d4f0d83157e47cd8bc2cb050453))
+* **RadioButton:** fix option icon styles ([#339](https://github.com/gravity-ui/uikit/issues/339)) ([ea9e31f](https://github.com/gravity-ui/uikit/commit/ea9e31f39f4ed71bebd708e948f80e034d08e821))
+* use background-size as percent value for loading button for safari ([#342](https://github.com/gravity-ui/uikit/issues/342)) ([c0ec61b](https://github.com/gravity-ui/uikit/commit/c0ec61bc98fed17e365fedc981d7ea6efe413319))
+
+## [3.0.1](https://github.com/gravity-ui/uikit/compare/v3.0.0...v3.0.1) (2022-09-09)
+
+
+### Bug Fixes
+
+* build errors ([#334](https://github.com/gravity-ui/uikit/issues/334)) ([9de0727](https://github.com/gravity-ui/uikit/commit/9de0727c228f58f877ca0a0a7bc6f76e9d2027e2))
+
+## [3.0.0](https://github.com/gravity-ui/uikit/compare/v2.15.0...v3.0.0) (2022-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* transfer package from yandex-cloud (#331)
+* updated i18n, and remove it from peer deps
+
+#### Setting language in uikit
+
+**v2**
+```js
+import {I18N} from '@yandex-cloud/i18n';
+
+I18N.setDefaultLang('en');
+```
+
+**v3**
+```js
+import {configure} from '@gravity-ui/uikit';
+
+configure({lang: 'en'});
+```
+
+### Features
+
+* transfer package from yandex-cloud ([#331](https://github.com/gravity-ui/uikit/issues/331)) ([2df769d](https://github.com/gravity-ui/uikit/commit/2df769df109e882e8d0e8c25810c6c1bfcc16b2c))
+
+## [2.15.0](https://github.com/yandex-cloud/uikit/compare/v2.14.0...v2.15.0) (2022-09-07)
+
+
+### Features
+
+* **Button:** added content and view to eventBroker meta ([#319](https://github.com/yandex-cloud/uikit/issues/319)) ([19a3463](https://github.com/yandex-cloud/uikit/commit/19a3463571229b513bb841d2aea48913cdb55451))
+
+
+### Bug Fixes
+
+* relax RealTheme type for compatibility ([#329](https://github.com/yandex-cloud/uikit/issues/329)) ([a716448](https://github.com/yandex-cloud/uikit/commit/a71644803ffe551bb393202fdb26e3a08544d2ed))
+
 ## [2.14.0](https://github.com/yandex-cloud/uikit/compare/v2.13.4...v2.14.0) (2022-09-01)
 
 

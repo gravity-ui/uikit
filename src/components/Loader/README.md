@@ -6,7 +6,7 @@ Component for rendering loading state (flashing bars)
 
 ```tsx
 import React from 'react';
-import {Loader} from '@yandex-cloud/uikit';
+import {Loader} from '@gravity-ui/uikit';
 
 const loader = <Loader size="l" />;
 ```

@@ -1,16 +1,9 @@
 import React from 'react';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
+import {CopyToClipboardBaseProps, CopyToClipboardContent, CopyToClipboardStatus} from './types';
 
-export enum CopyToClipboardStatus {
-    Pending = 'pending',
-    Success = 'success',
-    Error = 'error',
-}
-
-interface CopyToClipboardGeneralProps {
-    children: (status: CopyToClipboardStatus) => React.ReactElement;
-    text: string;
-    onCopy?: (text: string, result: boolean) => void;
+interface CopyToClipboardGeneralProps extends CopyToClipboardBaseProps {
+    children: CopyToClipboardContent;
 }
 
 interface CopyToClipboardDefaultProps {
@@ -74,8 +67,6 @@ export class CopyToClipboard extends React.Component<
             this.timerId = undefined;
         }, timeout);
 
-        if (onCopy) {
-            onCopy(text, result);
-        }
+        onCopy?.(text, result);
     };
 }

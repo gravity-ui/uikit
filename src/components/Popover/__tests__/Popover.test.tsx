@@ -2,8 +2,9 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 
 import {setupTimersMock} from '../../../tests/utils/setupTimersMock';
+import {delayByBehavior, PopoverBehavior} from '../config';
 import {Popover} from '../Popover';
-import type {PopoverProps} from '../';
+import type {PopoverProps} from '../types';
 
 setupTimersMock();
 
@@ -11,12 +12,19 @@ const defaultTooltipContent = 'Tooltip';
 const defaultTriggerText = 'Trigger';
 
 const renderPopover = (props?: Partial<PopoverProps>) => (
-    <Popover content={defaultTooltipContent} qa="popover" openOnHover={false} {...props}>
+    <Popover
+        content={defaultTooltipContent}
+        behavior={PopoverBehavior.Delayed}
+        qa="popover"
+        openOnHover={false}
+        {...props}
+    >
         {defaultTriggerText}
     </Popover>
 );
 
-const waitForTooltipOpenedStateChange = () => jest.advanceTimersByTime(300);
+const waitForTooltipOpenedStateChange = (shouldOpen?: boolean) =>
+    jest.advanceTimersByTime(delayByBehavior[PopoverBehavior.Delayed][shouldOpen ? 0 : 1]);
 
 const checkIfPopoverOpened = () => {
     const popover = screen.queryByTestId('popover-tooltip');
@@ -45,24 +53,21 @@ test('Renders with opened tooltip if initialOpen', () => {
 });
 
 test('Can be opened/closed on hover/unhover', async () => {
-    const onOpenChange = jest.fn();
-
     render(
         renderPopover({
             openOnHover: true,
             autoclosable: true,
-            onOpenChange,
         }),
     );
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    waitForTooltipOpenedStateChange();
+    waitForTooltipOpenedStateChange(true);
 
     checkIfPopoverOpened();
 
     fireEvent.mouseLeave(popoverTrigger);
-    waitForTooltipOpenedStateChange();
+    waitForTooltipOpenedStateChange(false);
 
     checkIfPopoverClosed();
 });
@@ -77,12 +82,12 @@ test("Doesn't close if the cursor is on the tooltip", () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    waitForTooltipOpenedStateChange();
+    waitForTooltipOpenedStateChange(true);
 
     const tooltip = screen.getByText(defaultTooltipContent);
     fireEvent.mouseLeave(popoverTrigger);
     fireEvent.mouseEnter(tooltip);
-    waitForTooltipOpenedStateChange();
+    waitForTooltipOpenedStateChange(false);
 
     checkIfPopoverOpened();
 });
@@ -97,20 +102,18 @@ test("Doesn't close on unhover if not autoclosable", () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    waitForTooltipOpenedStateChange();
+    waitForTooltipOpenedStateChange(true);
     fireEvent.mouseLeave(popoverTrigger);
-    waitForTooltipOpenedStateChange();
+    waitForTooltipOpenedStateChange(false);
 
     checkIfPopoverOpened();
 });
 
 test('Can be opened/closed on click', () => {
-    const onOpenChange = jest.fn();
     render(
         renderPopover({
             openOnHover: false,
             autoclosable: false,
-            onOpenChange,
         }),
     );
 
@@ -154,12 +157,9 @@ test("Can't be opened if disabled", () => {
 });
 
 test('Can be closed on click', () => {
-    const onOpenChange = jest.fn();
-
     render(
         renderPopover({
             hasClose: true,
-            onOpenChange,
         }),
     );
 

@@ -1,32 +1,29 @@
-import {act, render, screen, waitForElementToBeRemoved} from '@testing-library/react';
+import {act, fireEvent, render, screen} from '@testing-library/react';
 import React, {useEffect} from 'react';
 import {useToaster} from '../hooks/useToaster';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {ToasterProvider} from '../Provider/ToasterProvider';
-import {ToasterPublicMethods, ToastProps} from '../types';
+import {ToasterPublicMethods} from '../types';
+import {getToast} from '../__mocks__/getToast';
+import {tick} from '../__mocks__/tick';
+import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
 
-function Toast(props: ToastProps & {onMount: (api: ToasterPublicMethods) => void}) {
+function ToastAPI({onMount}: {onMount: (api: ToasterPublicMethods) => void}) {
     const toaster = useToaster();
 
     useEffect(() => {
-        toaster.add(props);
-    }, [props, toaster]);
-
-    useEffect(() => {
-        props.onMount(toaster);
+        onMount(toaster);
     }, []);
 
     return null;
 }
 
-it('should override already added toast', async function () {
-    let providerAPI: undefined | null | ToasterPublicMethods;
+function setup() {
+    let providerAPI: undefined | ToasterPublicMethods;
 
     render(
         <ToasterProvider>
-            <Toast
-                name="test"
-                title="Test Toast"
+            <ToastAPI
                 onMount={(api) => {
                     providerAPI = api;
                 }}
@@ -35,23 +32,221 @@ it('should override already added toast', async function () {
         </ToasterProvider>,
     );
 
-    let toast = await screen.findByText('Test Toast');
+    if (!providerAPI) {
+        throw new Error('Failed to setup test');
+    }
 
-    expect(toast).toBeInTheDocument();
+    return providerAPI;
+}
 
-    // eslint-disable-next-line testing-library/no-unnecessary-act
-    await act(async () => {
-        providerAPI?.add({
-            name: 'test',
-            title: 'Test Toast',
+const toastTimeout = 1000;
+const toastProps = {
+    name: 'test',
+    title: 'Test Toast',
+};
+
+beforeEach(() => jest.useFakeTimers());
+afterEach(() => jest.useRealTimers());
+
+describe('api.add', () => {
+    // We test that after adding toast the next add will remove
+    // previous toast from DOM and add it again
+    it('should override already added toast', async function () {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add(toastProps);
         });
 
-        await waitForElementToBeRemoved(toast);
+        let toast = getToast();
+
+        expect(toast).toBeInTheDocument();
+
+        jest.advanceTimersByTime(1);
+
+        act(() => {
+            providerAPI.add(toastProps);
+        });
 
         expect(toast).not.toBeInTheDocument();
+
+        toast = await screen.findByText('Test Toast');
+
+        expect(toast).toBeInTheDocument();
+    });
+});
+
+describe('api.remove', () => {
+    it('should remove toast', function () {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                timeout: toastTimeout,
+            });
+        });
+
+        const toast = getToast();
+        expect(toast).toBeInTheDocument();
+
+        act(() => {
+            providerAPI.remove(toastProps.name);
+        });
+        tick(toast, 0);
+
+        // Immediately removed
+        expect(toast).not.toBeInTheDocument();
+    });
+});
+
+it('should remove toast after timeout', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            timeout: toastTimeout,
+        });
     });
 
-    toast = await screen.findByText('Test Toast');
+    const toast = getToast();
+    expect(toast).toBeInTheDocument();
+
+    tick(toast, toastTimeout / 2);
 
     expect(toast).toBeInTheDocument();
+
+    act(() => {
+        jest.advanceTimersByTime(toastTimeout / 2);
+    });
+
+    expect(toast).toBeInTheDocument();
+
+    fireAnimationEndEvent(toast, 'toast-hide-end');
+
+    expect(toast).not.toBeInTheDocument();
+});
+
+it('should preserve toast on hover', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            timeout: toastTimeout,
+        });
+    });
+
+    const toast = getToast();
+
+    fireEvent.mouseOver(toast);
+
+    // Pretend that timeout long gone
+    tick(toast, toastTimeout * 2);
+
+    // But toast was not removed because we hover it
+    expect(toast).toBeInTheDocument();
+
+    fireEvent.mouseLeave(toast);
+    tick(toast, 0);
+
+    // After "unhovering" toast remain intact
+    expect(toast).toBeInTheDocument();
+
+    tick(toast, toastTimeout / 2);
+
+    // After some time toast is still here, because timeout is not gone yet
+    expect(toast).toBeInTheDocument();
+
+    tick(toast, toastTimeout / 2);
+
+    // Time is over, toast should be removed
+    expect(toast).not.toBeInTheDocument();
+});
+
+describe('api.update', () => {
+    it('should update toast', function () {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                timeout: toastTimeout,
+            });
+        });
+
+        const toast = getToast();
+
+        expect(screen.queryByText('Test Content of the toast')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', {name: 'Toast Button'})).not.toBeInTheDocument();
+
+        act(() => {
+            providerAPI.update(toastProps.name, {
+                content: 'Test Content of the toast',
+                actions: [
+                    {
+                        label: 'Toast Button',
+                        onClick() {},
+                    },
+                ],
+            });
+        });
+
+        expect(screen.getByText('Test Content of the toast')).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: 'Toast Button'})).toBeInTheDocument();
+        expect(toast).toBeInTheDocument();
+    });
+
+    it('should bypass update of unexisted toasts', function () {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                timeout: toastTimeout,
+            });
+        });
+
+        const toast = getToast();
+
+        act(() => {
+            providerAPI.update(`unexisted ${toastProps.name}`, {
+                content: 'Test Content of the toast',
+                actions: [
+                    {
+                        label: 'Toast Button',
+                        onClick() {},
+                    },
+                ],
+            });
+        });
+
+        expect(toast).toBeInTheDocument();
+    });
+});
+
+describe('api.removeAll', () => {
+    it('should remove all toasts', function () {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add(toastProps);
+            providerAPI.add({
+                ...toastProps,
+                name: `${toastProps.name}2`,
+                title: `${toastProps.title}2`,
+            });
+        });
+
+        expect(screen.getByRole('heading', {name: 'Test Toast'})).toBeInTheDocument();
+        expect(screen.getByRole('heading', {name: 'Test Toast2'})).toBeInTheDocument();
+
+        act(() => {
+            providerAPI.removeAll();
+        });
+
+        expect(screen.queryByRole('heading', {name: 'Test Toast'})).not.toBeInTheDocument();
+        expect(screen.queryByRole('heading', {name: 'Test Toast2'})).not.toBeInTheDocument();
+    });
 });

@@ -1,36 +1,37 @@
 import React from 'react';
 import {TextInputView, TextInputSize, TextInputPin} from '../TextInput';
-import {ControlGroupProps, ControlGroupOption} from '../types';
+import {ControlGroupProps, ControlGroupOption, QAProps} from '../types';
 import {Option, OptionGroup} from './tech-components';
 
-export type SelectProps = Pick<ControlGroupProps, 'name' | 'disabled'> & {
-    onUpdate?: (value: string[]) => void;
-    onOpenChange?: (open: boolean) => void;
-    renderControl?: (props: {
-        onClick: (e: React.MouseEvent<HTMLElement>) => void;
-        onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-        ref: React.Ref<HTMLElement>;
-    }) => React.ReactElement;
-    renderOption?: (option: SelectOption) => React.ReactElement;
-    getOptionHeight?: (option: SelectOption) => number;
-    view?: TextInputView;
-    size?: TextInputSize;
-    pin?: TextInputPin;
-    width?: 'auto' | 'max' | number;
-    popupWidth?: number;
-    className?: string;
-    label?: string;
-    placeholder?: React.ReactNode;
-    value?: string[];
-    defaultValue?: string[];
-    options?: (SelectOption | SelectOptionGroup)[];
-    multiple?: boolean;
-    children?:
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOption, typeof Option>[]
-        | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
-        | React.ReactElement<SelectOptionGroup, typeof OptionGroup>[];
-};
+export type SelectProps = QAProps &
+    Pick<ControlGroupProps, 'name' | 'disabled'> & {
+        onUpdate?: (value: string[]) => void;
+        onOpenChange?: (open: boolean) => void;
+        renderControl?: (props: {
+            onClick: (e: React.MouseEvent<HTMLElement>) => void;
+            onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+            ref: React.Ref<HTMLElement>;
+        }) => React.ReactElement;
+        renderOption?: (option: SelectOption) => React.ReactElement;
+        getOptionHeight?: (option: SelectOption) => number;
+        view?: TextInputView;
+        size?: TextInputSize;
+        pin?: TextInputPin;
+        width?: 'auto' | 'max' | number;
+        popupWidth?: number;
+        className?: string;
+        label?: string;
+        placeholder?: React.ReactNode;
+        value?: string[];
+        defaultValue?: string[];
+        options?: (SelectOption | SelectOptionGroup)[];
+        multiple?: boolean;
+        children?:
+            | React.ReactElement<SelectOption, typeof Option>
+            | React.ReactElement<SelectOption, typeof Option>[]
+            | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
+            | React.ReactElement<SelectOptionGroup, typeof OptionGroup>[];
+    };
 
 export type SelectOption = ControlGroupOption & {
     text?: string;

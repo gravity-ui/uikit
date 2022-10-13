@@ -24,7 +24,7 @@ const ThemeTemplate: Story<LabelProps> = (args) => {
                 info
             </Label>
             <Label {...args} theme="success">
-                info
+                success
             </Label>
             <Label {...args} theme="warning">
                 warning

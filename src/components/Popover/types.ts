@@ -1,4 +1,5 @@
 import React from 'react';
+import popper from '@popperjs/core';
 import {PopupPlacement} from '../Popup';
 import {ButtonsProps} from './components/Buttons/Buttons';
 import {ContentProps} from './components/Content/Content';
@@ -17,9 +18,11 @@ export type PopoverButtonProps = {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
+export type VirtualElement = popper.VirtualElement;
+
 export type PopoverExternalProps = {
     /** Allows to use custom anchor and disables `openByHover` and `onClick` for the component */
-    anchorRef?: React.RefObject<HTMLElement>;
+    anchorRef?: React.RefObject<HTMLElement | VirtualElement>;
     /** Tooltip's trigger content over which the tooltip is shown */
     children?: TriggerProps['children'];
     /** Tooltip's title */

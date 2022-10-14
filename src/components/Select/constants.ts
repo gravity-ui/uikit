@@ -18,6 +18,8 @@ export const BORDER_WIDTH = 1;
 
 export const POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE = 100;
 
+export const QUICK_SEARCH_TIMEOUT = 2000;
+
 export const SelectQa = {
     POPUP: 'select-popup',
 };

@@ -17,7 +17,7 @@ import {
 } from './utils';
 import {SelectControl, SelectPopup} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {LIST_CLASSNAME} from './constants';
+import {LIST_CLASSNAME, QUICK_SEARCH_TIMEOUT} from './constants';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -138,7 +138,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if (nextQuickSearch) {
                 const nextTimer = window.setTimeout(() => {
                     dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-                }, 2000);
+                }, QUICK_SEARCH_TIMEOUT);
                 dispatch({type: 'SET_QUICK_SEARCH_TIMER', payload: {quickSearchTimer: nextTimer}});
             }
         },
@@ -210,6 +210,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         if (!active && typeof quickSearchTimer === 'number') {
             clearTimeout(quickSearchTimer);
         }
+
+        return () => clearTimeout(quickSearchTimer);
     }, [active, quickSearchTimer]);
 
     return (

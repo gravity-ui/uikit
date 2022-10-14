@@ -1,3 +1,4 @@
+import {act} from '@testing-library/react';
 import {range} from 'lodash';
 import {SelectOption} from '..';
 
@@ -13,7 +14,11 @@ export const generateOptions = (args: number | [string, string][]): SelectOption
 };
 
 export const timeout = (ms: number) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
+    // https://testing-library.com/docs/react-testing-library/api/#act
+    // https://reactjs.org/docs/test-utils.html#act
+    return act(async () => {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
     });
 };

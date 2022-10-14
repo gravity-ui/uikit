@@ -210,6 +210,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         if (!active && typeof quickSearchTimer === 'number') {
             clearTimeout(quickSearchTimer);
         }
+
+        return () => clearTimeout(quickSearchTimer);
     }, [active, quickSearchTimer]);
 
     return (

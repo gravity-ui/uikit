@@ -169,9 +169,8 @@ export function ShareTooltipDemo() {
                     openByHover={false}
                     copyTitle={ShareTitle}
                     copyIcon={Cloud}
-                    renderCopy={({url: link, title: label, icon, className}) => (
+                    renderCopy={({url: link, title: label, icon}) => (
                         <Button
-                            className={className}
                             view="flat-secondary"
                             size="l"
                             width="max"

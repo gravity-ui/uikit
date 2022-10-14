@@ -52,12 +52,10 @@ export interface ShareTooltipProps extends ShareListProps, Partial<ShareTooltipD
         url,
         title,
         icon,
-        className,
     }: {
         url: string | undefined;
         title: string | React.ReactNode;
         icon: SVGIconData;
-        className: string | undefined;
     }) => React.ReactNode;
 }
 

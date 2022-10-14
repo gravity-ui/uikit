@@ -38,12 +38,10 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
         url,
         title,
         icon,
-        className,
     }: {
         url: string | undefined;
         title: string | React.ReactNode;
         icon: SVGIconData;
-        className: string | undefined;
     }) => React.ReactNode;
     /** you can extend available social nets with custom ones using ShareListProps.Item */
     children?:
@@ -120,24 +118,31 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         const label =
             copyTitle || (copied ? i18n('label_copy-link-copied') : i18n('label_copy-link'));
 
-        return renderCopy ? (
-            renderCopy({url, title: label, icon: copyIcon || Link, className: b('copy-link')})
-        ) : (
-            <CopyToClipboard text={this.props.url} timeout={1500}>
-                {(status) => (
-                    <Button
-                        ref={this.copyLinkRef}
-                        className={b('copy-link')}
-                        view="flat-secondary"
-                        size="l"
-                        disabled={status === CopyToClipboardStatus.Success}
-                        width="max"
-                    >
-                        <Icon data={copyIcon || Link} size={16} />
-                        {label}
-                    </Button>
+        return (
+            <div className={b('copy-link')}>
+                {renderCopy ? (
+                    renderCopy({
+                        url,
+                        title: label,
+                        icon: copyIcon || Link,
+                    })
+                ) : (
+                    <CopyToClipboard text={this.props.url} timeout={1500}>
+                        {(status) => (
+                            <Button
+                                ref={this.copyLinkRef}
+                                view="flat-secondary"
+                                size="l"
+                                disabled={status === CopyToClipboardStatus.Success}
+                                width="max"
+                            >
+                                <Icon data={copyIcon || Link} size={16} />
+                                {label}
+                            </Button>
+                        )}
+                    </CopyToClipboard>
                 )}
-            </CopyToClipboard>
+            </div>
         );
     }
 

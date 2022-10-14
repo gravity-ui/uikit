@@ -50,6 +50,7 @@
 
 * transfer package from yandex-cloud (#331)
 * updated i18n, and remove it from peer deps
+* **Popover:** refactored to functional component, use `PopoverInstanceProps` type as ref type for public methods
 
 #### Setting language in uikit
 

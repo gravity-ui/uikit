@@ -210,10 +210,10 @@ $transitionTimingFunction: ease-in-out;
 
         &_unknown {
             color: var(--yc-color-text-complementary);
-            background-color: var(--yc-color-base-generic);
+            background-color: var(--yc-color-base-neutral);
 
             &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-generic-hover);
+                background-color: var(--yc-color-base-neutral-hover);
             }
         }
     }

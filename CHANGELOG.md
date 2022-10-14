@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/gravity-ui/uikit/compare/v3.1.1...v3.1.2) (2022-10-14)
+
+
+### Bug Fixes
+
+* update hc colors for labels, buttons and brand-text ([#356](https://github.com/gravity-ui/uikit/issues/356)) ([8d6d596](https://github.com/gravity-ui/uikit/commit/8d6d596e8b3de4ee6d5153c2e358968733eaaa68))
+
 ## [3.1.1](https://github.com/gravity-ui/uikit/compare/v3.1.0...v3.1.1) (2022-10-13)
 
 

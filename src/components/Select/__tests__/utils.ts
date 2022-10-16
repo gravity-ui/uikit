@@ -1,5 +1,5 @@
 import {act} from '@testing-library/react';
-import {range} from 'lodash';
+import range from 'lodash/range';
 import {SelectOption} from '..';
 
 export const generateOptions = (args: number | [string, string][]): SelectOption[] => {

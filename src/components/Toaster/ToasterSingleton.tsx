@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {get} from 'lodash';
+import get from 'lodash/get';
 import {block} from '../utils/cn';
 import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
 import {getToastIndex} from './utilities/getToastIndex';

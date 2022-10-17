@@ -134,9 +134,9 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
                 {(status) => (
                     <Button
                         ref={this.copyLinkRef}
+                        className={b('copy-link')}
                         view="flat-secondary"
                         size="l"
-                        className={b('copy-link')}
                         disabled={status === CopyToClipboardStatus.Success}
                         width="max"
                     >

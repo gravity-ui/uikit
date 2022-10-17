@@ -42,7 +42,7 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
         url: string | undefined;
         title: string | React.ReactNode;
         icon: SVGIconData;
-    }) => React.ReactNode;
+    }) => React.ReactElement;
     /** you can extend available social nets with custom ones using ShareListProps.Item */
     children?:
         | React.ReactElement<ShareListItem, typeof ShareListItem>
@@ -118,35 +118,41 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         const label =
             copyTitle || (copied ? i18n('label_copy-link-copied') : i18n('label_copy-link'));
 
-        return (
-            <div className={b('copy-link')}>
-                {renderCopy ? (
-                    renderCopy({
-                        url,
-                        title: label,
-                        icon: copyIcon || Link,
-                    })
-                ) : (
-                    <CopyToClipboard text={this.props.url} timeout={1500}>
-                        {(status) => (
-                            <Button
-                                ref={this.copyLinkRef}
-                                view="flat-secondary"
-                                size="l"
-                                disabled={status === CopyToClipboardStatus.Success}
-                                width="max"
-                            >
-                                <Icon data={copyIcon || Link} size={16} />
-                                {label}
-                            </Button>
-                        )}
-                    </CopyToClipboard>
+        return renderCopy ? (
+            this.withClassName(
+                renderCopy({
+                    url,
+                    title: label,
+                    icon: copyIcon || Link,
+                }),
+                b('copy-link'),
+            )
+        ) : (
+            <CopyToClipboard text={this.props.url} timeout={1500}>
+                {(status) => (
+                    <Button
+                        ref={this.copyLinkRef}
+                        view="flat-secondary"
+                        size="l"
+                        className={b('copy-link')}
+                        disabled={status === CopyToClipboardStatus.Success}
+                        width="max"
+                    >
+                        <Icon data={copyIcon || Link} size={16} />
+                        {label}
+                    </Button>
                 )}
-            </div>
+            </CopyToClipboard>
         );
     }
 
     private copyLinkRef = (element: unknown) => {
         this.copyLink = element as HTMLButtonElement;
+    };
+
+    private withClassName = (element: React.ReactElement, className: string) => {
+        return React.cloneElement(element, {
+            className,
+        });
     };
 }

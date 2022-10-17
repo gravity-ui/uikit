@@ -119,13 +119,15 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
             copyTitle || (copied ? i18n('label_copy-link-copied') : i18n('label_copy-link'));
 
         return renderCopy ? (
-            this.withClassName(
+            React.cloneElement(
                 renderCopy({
                     url,
                     title: label,
                     icon: copyIcon || Link,
                 }),
-                b('copy-link'),
+                {
+                    className: b('copy-link'),
+                },
             )
         ) : (
             <CopyToClipboard text={this.props.url} timeout={1500}>
@@ -148,11 +150,5 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
 
     private copyLinkRef = (element: unknown) => {
         this.copyLink = element as HTMLButtonElement;
-    };
-
-    private withClassName = (element: React.ReactElement, className: string) => {
-        return React.cloneElement(element, {
-            className,
-        });
     };
 }

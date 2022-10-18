@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.15.1](https://github.com/yandex-cloud/uikit/compare/v2.15.0...v2.15.1) (2022-10-18)
+
+### Bug Fixes
+
+* backported two sets of fixes from v3: #355 & #356 (#361)
+
+
 ## [2.15.0](https://github.com/yandex-cloud/uikit/compare/v2.14.0...v2.15.0) (2022-09-07)
 
 

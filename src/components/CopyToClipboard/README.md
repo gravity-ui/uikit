@@ -11,8 +11,8 @@ which might be useful when you want to animate the copy process.
 | Property | Type       | Required | Default | Description                                                                          |
 | :------- | :--------- | :------: | :------ | :----------------------------------------------------------------------------------- |
 | children | `Function` |    ✓     |         | Copy control render function `(status: CopyToClipboardStatus) => React.ReactElement` |
-| text     | `String`   |          |         | Text to copy                                                                         |
-| timeout  | `Number`   |          | `1000`  | Time in ms to restore initial state (`CopyToClipboardStatus.Pending`)                |
+| text     | `String`   |    ✓     |         | Text to copy                                                                         |
+| timeout  | `Number`   |    ✓     |         | Time in ms to restore initial state (`CopyToClipboardStatus.Pending`)                |
 | onCopy   | `Function` |          |         | Callback after copy `(text: string, result: boolean) => void`                        |
 
 ### Examples

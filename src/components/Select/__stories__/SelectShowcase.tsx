@@ -1,5 +1,5 @@
 import React from 'react';
-import {range} from 'lodash';
+import range from 'lodash/range';
 import {block} from '../../utils/cn';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton, RadioButtonOption} from '../../RadioButton';

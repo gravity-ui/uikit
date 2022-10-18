@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.3](https://github.com/gravity-ui/uikit/compare/v3.1.2...v3.1.3) (2022-10-18)
+
+
+### Bug Fixes
+
+* **Select:** prevent page scrolling after first click ([#364](https://github.com/gravity-ui/uikit/issues/364)) ([3320a7e](https://github.com/gravity-ui/uikit/commit/3320a7e0bff6559272158f7e52907ba44ed90e01))
+* use directly import from lodash ([#359](https://github.com/gravity-ui/uikit/issues/359)) ([490cf20](https://github.com/gravity-ui/uikit/commit/490cf20f5339199882a2fd462d6b362a3092a4e9))
+
 ## [3.1.2](https://github.com/gravity-ui/uikit/compare/v3.1.1...v3.1.2) (2022-10-14)
 
 

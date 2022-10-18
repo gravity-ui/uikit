@@ -225,5 +225,5 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption>>) => 
 export const activateFirstClickableItem = (listRef: React.RefObject<List<FlattenOption>>) => {
     const items = getListItems(listRef);
     const isGroupTitleFirstItem = items[0] && 'label' in items[0];
-    listRef?.current?.activateItem(isGroupTitleFirstItem ? 1 : 0);
+    listRef?.current?.activateItem(isGroupTitleFirstItem ? 1 : 0, false);
 };

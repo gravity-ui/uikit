@@ -1,4 +1,4 @@
-import {Props} from '@storybook/addon-docs';
+import {ArgsTable} from '@storybook/addon-docs';
 import {DocsSource} from '../../../demo/DocsSource/DocsSource';
 import {
     LinkExampleViewNormal,
@@ -7,6 +7,7 @@ import {
     LinkExampleHref,
     LinkExampleUsage,
 } from './examples/LinkExampleView/LinkExampleView';
+import {Link} from '../Link';
 
 # Link
 
@@ -61,3 +62,6 @@ Like primary links, they are used when it is natively clear to the user that an 
 Сan be used as an independent text element, or as part of the text
 <DocsSource language="tsx" code={LinkExampleUsage.code}/>
 <LinkExampleUsage/>
+
+## Properties
+<ArgsTable of={Link}/>

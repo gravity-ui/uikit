@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/gravity-ui/uikit/compare/v3.1.3...v3.2.0) (2022-10-19)
+
+
+### Features
+
+* added React.forwardRef for Card ([#363](https://github.com/gravity-ui/uikit/issues/363)) ([9c22988](https://github.com/gravity-ui/uikit/commit/9c22988df4f212921f9c2cc57f88f692385a4b41))
+
 ## [3.1.3](https://github.com/gravity-ui/uikit/compare/v3.1.2...v3.1.3) (2022-10-18)
 
 

@@ -29,16 +29,17 @@ export interface CardProps {
     theme?: CardTheme;
 }
 
-export function Card({
-    type = 'container',
-    theme,
-    view,
-    children,
-    className,
-    onClick,
-    disabled,
-    selected,
-}: CardProps) {
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
+    const {
+        type = 'container',
+        theme,
+        view,
+        children,
+        className,
+        onClick,
+        disabled,
+        selected,
+    } = props;
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
     const isTypeContainer = type === 'container';
@@ -47,13 +48,14 @@ export function Card({
     const hasAction = isTypeAction || isTypeSelection;
     const isClickable = hasAction && Boolean(onClick) && !(disabled || selected);
 
-    /* Theme only with type 'conatiner' */
+    /* Theme only with type 'container' */
     const defaultTheme = isTypeContainer ? 'normal' : undefined;
-    /* View only with type 'conatiner' and 'selection' */
+    /* View only with type 'container' and 'selection' */
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
     return (
         <div
+            ref={ref}
             className={b(
                 {
                     theme: theme || defaultTheme,
@@ -70,4 +72,4 @@ export function Card({
             {children}
         </div>
     );
-}
+});

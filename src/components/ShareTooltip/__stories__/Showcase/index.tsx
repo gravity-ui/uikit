@@ -2,6 +2,8 @@ import React from 'react';
 
 import {block} from '../../../utils/cn';
 
+import {Icon} from '../../../Icon';
+import {Button} from '../../../Button';
 import {ShareTooltip, ShareSocialNetwork, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
@@ -155,6 +157,30 @@ export function ShareTooltipDemo() {
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom share link</span>
                 <ShareList.Item type={ShareSocialNetwork.Telegram} url={url} icon={Cloud} />
+            </div>
+
+            <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
+                <span style={{marginRight: 8}}>Custom copy button render</span>
+                <ShareTooltip
+                    url={url}
+                    title={title}
+                    text={text}
+                    socialNets={socialNets}
+                    openByHover={false}
+                    copyTitle={ShareTitle}
+                    copyIcon={Cloud}
+                    renderCopy={({url: link, title: label, icon}) => (
+                        <Button
+                            view="flat-secondary"
+                            size="l"
+                            width="max"
+                            onClick={() => alert(link)}
+                        >
+                            <Icon data={icon} size={16} />
+                            {label}
+                        </Button>
+                    )}
+                />
             </div>
         </div>
     );

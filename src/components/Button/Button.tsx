@@ -41,6 +41,8 @@ export type ButtonPin =
     | 'circle-clear'
     | 'clear-circle';
 
+export type ButtonWidth = 'auto' | 'max';
+
 export interface ButtonProps extends DOMProps, QAProps {
     /** Button appearance */
     view?: ButtonView;
@@ -49,7 +51,7 @@ export interface ButtonProps extends DOMProps, QAProps {
     selected?: boolean;
     disabled?: boolean;
     loading?: boolean;
-    width?: 'auto' | 'max';
+    width?: ButtonWidth;
     title?: string;
     tabIndex?: number;
     id?: string;

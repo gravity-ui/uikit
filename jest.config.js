@@ -19,4 +19,5 @@ module.exports = {
     moduleNameMapper: {
         '\\.(css|less|scss|sass)$': 'jest-transform-css',
     },
+    testMatch: ['**/*.test.[jt]s?(x)'],
 };

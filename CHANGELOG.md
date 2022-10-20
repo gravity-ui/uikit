@@ -1,5 +1,47 @@
 # Changelog
 
+## [3.2.0](https://github.com/gravity-ui/uikit/compare/v3.1.3...v3.2.0) (2022-10-19)
+
+
+### Features
+
+* added React.forwardRef for Card ([#363](https://github.com/gravity-ui/uikit/issues/363)) ([9c22988](https://github.com/gravity-ui/uikit/commit/9c22988df4f212921f9c2cc57f88f692385a4b41))
+
+## [3.1.3](https://github.com/gravity-ui/uikit/compare/v3.1.2...v3.1.3) (2022-10-18)
+
+
+### Bug Fixes
+
+* **Select:** prevent page scrolling after first click ([#364](https://github.com/gravity-ui/uikit/issues/364)) ([3320a7e](https://github.com/gravity-ui/uikit/commit/3320a7e0bff6559272158f7e52907ba44ed90e01))
+* use directly import from lodash ([#359](https://github.com/gravity-ui/uikit/issues/359)) ([490cf20](https://github.com/gravity-ui/uikit/commit/490cf20f5339199882a2fd462d6b362a3092a4e9))
+
+## [3.1.2](https://github.com/gravity-ui/uikit/compare/v3.1.1...v3.1.2) (2022-10-14)
+
+
+### Bug Fixes
+
+* update hc colors for labels, buttons and brand-text ([#356](https://github.com/gravity-ui/uikit/issues/356)) ([8d6d596](https://github.com/gravity-ui/uikit/commit/8d6d596e8b3de4ee6d5153c2e358968733eaaa68))
+
+## [3.1.1](https://github.com/gravity-ui/uikit/compare/v3.1.0...v3.1.1) (2022-10-13)
+
+
+### Bug Fixes
+
+* Add missing --yc-color-base-modal for light-hc ([#352](https://github.com/gravity-ui/uikit/issues/352)) ([db14312](https://github.com/gravity-ui/uikit/commit/db14312ec1cca190cf353e166a5efd0439fee64e))
+* update hc colors for generic-accent-disabled ([#355](https://github.com/gravity-ui/uikit/issues/355)) ([2760749](https://github.com/gravity-ui/uikit/commit/2760749640e0068db81f7b97f2e71a22f5da9ec6))
+
+## [3.1.0](https://github.com/gravity-ui/uikit/compare/v3.0.2...v3.1.0) (2022-10-03)
+
+
+### Features
+
+* **Tooltip:** add ability to disable display of the tooltip ([#348](https://github.com/gravity-ui/uikit/issues/348)) ([5d32afe](https://github.com/gravity-ui/uikit/commit/5d32afee7fa9b6f2c7640934e2759509c711d1c4))
+
+
+### Bug Fixes
+
+* **Tooltip:** correctly set ref ([#347](https://github.com/gravity-ui/uikit/issues/347)) ([a4de6f5](https://github.com/gravity-ui/uikit/commit/a4de6f59c21aa7e0ad62b54c91a0cf44f86f156f))
+
 ## [3.0.2](https://github.com/gravity-ui/uikit/compare/v3.0.1...v3.0.2) (2022-09-26)
 
 
@@ -23,6 +65,7 @@
 
 * transfer package from yandex-cloud (#331)
 * updated i18n, and remove it from peer deps
+* **Popover:** refactored to functional component, use `PopoverInstanceProps` type as ref type for public methods
 
 #### Setting language in uikit
 

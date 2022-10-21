@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/gravity-ui/uikit/compare/v3.2.0...v3.3.0) (2022-10-20)
+
+
+### Features
+
+* share tooltip component copy button customization ([#350](https://github.com/gravity-ui/uikit/issues/350)) ([3d608b2](https://github.com/gravity-ui/uikit/commit/3d608b2813bf7cc4402c2fe6db0ee0c07e9b575a))
+
 ## [3.2.0](https://github.com/gravity-ui/uikit/compare/v3.1.3...v3.2.0) (2022-10-19)
 
 

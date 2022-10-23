@@ -3,6 +3,8 @@ import {SelectProps} from './types';
 
 export const LIST_CLASSNAME = block('select-popup')('list');
 
+export const selectBlock = block('select');
+
 export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, number> = {
     s: 28,
     m: 28,

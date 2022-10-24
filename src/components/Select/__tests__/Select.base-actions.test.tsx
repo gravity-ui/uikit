@@ -1,35 +1,19 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import {render} from '@testing-library/react';
 import {ListQa} from '../../List';
-import {Select, SelectOption, SelectOptionGroup, SelectQa} from '..';
+import {SelectQa} from '..';
 import {QUICK_SEARCH_TIMEOUT} from '../constants';
-import {generateOptions, timeout} from './utils';
-
-const TEST_QA = 'select-test-qa';
-const DEFAULT_OPTIONS = generateOptions([
-    ['js', 'JavaScript'],
-    ['python', 'Python'],
-    ['ruby', 'Ruby'],
-]);
-const QUICK_SEARCH_OPTIONS = generateOptions(40);
-const GROUPED_QUICK_SEARCH_OPTIONS: SelectOptionGroup[] = [
-    {label: 'Group 1', options: generateOptions(40).slice(0, 20)},
-    {label: 'Group 2', options: generateOptions(40).slice(20)},
-];
-const GROUPED_OPTIONS: SelectOptionGroup[] = [
-    {label: 'Group 1', options: DEFAULT_OPTIONS.slice(0, 2)},
-    {label: 'Group 2', options: DEFAULT_OPTIONS.slice(2)},
-];
+import {
+    TEST_QA,
+    DEFAULT_OPTIONS,
+    QUICK_SEARCH_OPTIONS,
+    GROUPED_OPTIONS,
+    GROUPED_QUICK_SEARCH_OPTIONS,
+    setup,
+    timeout,
+} from './utils';
 
 describe('Select base actions', () => {
-    const setup = ({
-        options = DEFAULT_OPTIONS,
-    }: {options?: (SelectOption | SelectOptionGroup)[]} = {}) => {
-        const utils = render(<Select qa={TEST_QA} options={options} />);
-        return utils;
-    };
-
     describe('open popup by', () => {
         test('click', async () => {
             const {getByTestId} = setup();

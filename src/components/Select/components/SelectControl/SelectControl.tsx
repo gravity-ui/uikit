@@ -1,13 +1,12 @@
 import React from 'react';
 import {useForkRef} from '../../../utils/useForkRef';
-import {CnMods, block} from '../../../utils/cn';
+import type {CnMods} from '../../../utils/cn';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
-import {SelectProps} from '../../types';
+import type {SelectProps} from '../../types';
+import {selectBlock} from '../../constants';
 
 import './SelectControl.scss';
-
-const b = block('select');
 
 type ControlProps = {
     setActive: (nextActive: boolean) => void;
@@ -77,7 +76,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         <button
             ref={handleControlRef as React.Ref<HTMLButtonElement>}
             name={name}
-            className={b(mods, className)}
+            className={selectBlock(mods, className)}
             style={inlineStyles}
             aria-haspopup="listbox"
             disabled={disabled}
@@ -86,10 +85,12 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
             type="button"
             data-qa={qa}
         >
-            {label && <span className={b('label')}>{label}</span>}
-            {showPlaceholder && <span className={b('placeholder')}>{placeholder}</span>}
-            {showOptionsText && <span className={b('option-text')}>{optionsText.join(', ')}</span>}
-            <Icon className={b('chevron-icon')} data={Chevron} />
+            {label && <span className={selectBlock('label')}>{label}</span>}
+            {showPlaceholder && <span className={selectBlock('placeholder')}>{placeholder}</span>}
+            {showOptionsText && (
+                <span className={selectBlock('option-text')}>{optionsText.join(', ')}</span>
+            )}
+            <Icon className={selectBlock('chevron-icon')} data={Chevron} />
         </button>
     );
 });

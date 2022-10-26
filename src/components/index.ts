@@ -51,3 +51,4 @@ export * from './utils/useVirtualElementRef';
 export {Lang, configure} from './utils/configure';
 export * from './utils/PortalProvider';
 export * from './utils/usePortalContainer';
+export * from './utils/useSelect';

@@ -89,7 +89,7 @@ $block: '.#{variables.$ns}select';
     }
 
     &:focus,
-    &_active {
+    &_open {
         outline: none;
         border-color: var(--yc-color-line-generic-active);
     }

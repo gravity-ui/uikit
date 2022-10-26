@@ -1,26 +1,9 @@
-import {SelectProps} from '../types';
-import {State, Action} from './types';
+import type {State, Action} from './types';
 
-export const getInitialState = (args: {defaultValue: SelectProps['defaultValue']}): State => {
-    const {defaultValue = []} = args;
-
-    return {
-        active: false,
-        innerValue: defaultValue,
-        quickSearch: '',
-    };
-};
+export const getInitialState = (): State => ({quickSearch: ''});
 
 export const reducer = (state: State, action: Action) => {
     switch (action.type) {
-        case 'SET_ACTIVE': {
-            const {active} = action.payload;
-            return {...state, active};
-        }
-        case 'SET_INNER_VALUE': {
-            const {innerValue} = action.payload;
-            return {...state, innerValue};
-        }
         case 'SET_QUICK_SEARCH': {
             const {quickSearch} = action.payload;
             return {...state, quickSearch};

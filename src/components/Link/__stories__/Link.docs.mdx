@@ -1,0 +1,67 @@
+import {ArgsTable} from '@storybook/addon-docs';
+import {DocsSource} from '../../../demo/DocsSource/DocsSource';
+import {
+    LinkExampleViewNormal,
+    LinkExampleViewPrimary,
+    LinkExampleViewSecondary,
+    LinkExampleHref,
+    LinkExampleUsage,
+} from './examples/LinkExampleView/LinkExampleView';
+import {Link} from '../Link';
+
+# Link
+
+```ts
+import {Link} from '@gravity-ui/uikit';
+```
+
+[Description](#description)
+
+[Appearance](#appearance)
+
+- [Normal](#normal)
+- [Primary](#primary)
+- [Secondary](#secondary)
+
+[Href](#href)
+
+[Usage](#usage)
+
+## Description
+Link - is a part of the text, that, when clicked, takes the user to another part of the page, another page inside the service, or to a page of another external service.
+
+The main difference from the [Buttons](/docs/components-button) is the navigation function. Links more often lead to other pages or open new browser tabs.
+
+## Appearance
+There can be three types: `normal`(the usual blue), `primary`(black), `secondary`(gray). it is controlled by the view property.
+
+### Normal
+The most familiar and well-established pattern of use for users. It is used to visually highlight an element inside a text, table, and as part of navigation. It is used to navigate to pages inside the service and to external sources, including documentation. Also, they are used on error pages and zero states.
+
+<DocsSource language="tsx" code={LinkExampleViewNormal.code}/>
+<LinkExampleViewNormal/>
+
+### Primary
+They are used when it is natively clear to the user that it is possible to interact with an element, but visually using blue links will overload the interface and disrupt the balance of accents on the page.
+
+<DocsSource language="tsx" code={LinkExampleViewPrimary.code}/>
+<LinkExampleViewPrimary/>
+
+### Secondary
+Like primary links, they are used when it is natively clear to the user that an element can be interacted with, and the need to navigate through them is secondary and affects a small number of scenarios. The main task is not to argue with the accents on the page. It is more often used in bread crumbs or when displaying secondary attributes.
+
+<DocsSource language="tsx" code={LinkExampleViewSecondary.code}/>
+<LinkExampleViewSecondary/>
+
+## Href
+`href` property is optional. If it is absent, then Link wil act like Button.
+<DocsSource language="tsx" code={LinkExampleHref.code}/>
+<LinkExampleHref/>
+
+## Usage
+Сan be used as an independent text element, or as part of the text
+<DocsSource language="tsx" code={LinkExampleUsage.code}/>
+<LinkExampleUsage/>
+
+## Properties
+<ArgsTable of={Link}/>

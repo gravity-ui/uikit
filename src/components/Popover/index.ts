@@ -1,3 +1,3 @@
 export * from './Popover';
-export {PopoverButtonProps, PopoverProps, PopoverInstanceProps, VirtualElement} from './types';
+export {PopoverButtonProps, PopoverProps, PopoverInstanceProps} from './types';
 export {PopoverBehavior} from './config';

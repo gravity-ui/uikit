@@ -13,7 +13,6 @@ import {Trigger} from './components/Trigger/Trigger';
 import {useOpen} from './hooks/useOpen';
 import {cnPopover} from './Popover.classname';
 import type {PopoverInstanceProps, PopoverProps} from './types';
-import {PopperProps} from '../utils/usePopper';
 import {PopoverBehavior} from './config';
 import './Popover.scss';
 
@@ -50,7 +49,7 @@ export const Popover = forwardRef(function (
         anchorRef,
         strategy,
         qa,
-    }: Omit<PopperProps, 'offset' | 'modifiers'> & PopoverProps & QAProps,
+    }: PopoverProps & QAProps,
     ref: ForwardedRef<PopoverInstanceProps | undefined>,
 ) {
     const controlRef = useRef<HTMLDivElement>(null);

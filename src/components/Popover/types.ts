@@ -4,7 +4,7 @@ import {ContentProps} from './components/Content/Content';
 import {LinksProps} from './components/Links/Links';
 import {TriggerProps} from './components/Trigger/Trigger';
 import {PopoverBehavior} from './config';
-import {PopperAnchorRef} from '../utils/usePopper';
+import {PopperAnchorRef, PopperProps} from '../utils/usePopper';
 
 export type PopoverButtonProps = {
     /**
@@ -107,7 +107,8 @@ export type PopoverDefaultProps = {
     size: 's' | 'l';
 };
 
-export type PopoverProps = PopoverExternalProps &
+export type PopoverProps = Omit<PopperProps, 'offset' | 'modifiers'> &
+    PopoverExternalProps &
     PopoverBehaviorProps &
     Partial<PopoverDefaultProps>;
 

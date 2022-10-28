@@ -1,10 +1,10 @@
 import React from 'react';
-import {PopupPlacement} from '../Popup';
 import {ButtonsProps} from './components/Buttons/Buttons';
 import {ContentProps} from './components/Content/Content';
 import {LinksProps} from './components/Links/Links';
 import {TriggerProps} from './components/Trigger/Trigger';
 import {PopoverBehavior} from './config';
+import {PopperAnchorRef} from '../utils/usePopper';
 
 export type PopoverButtonProps = {
     /**
@@ -18,8 +18,6 @@ export type PopoverButtonProps = {
 };
 
 export type PopoverExternalProps = {
-    /** Allows to use custom anchor and disables `openByHover` and `onClick` for the component */
-    anchorRef?: React.RefObject<HTMLElement>;
     /** Tooltip's trigger content over which the tooltip is shown */
     children?: TriggerProps['children'];
     /** Tooltip's title */
@@ -81,6 +79,7 @@ export type PopoverBehaviorProps = {
 };
 
 export type PopoverTheme = 'info' | 'special' | 'announcement';
+export type PopoverAnchorRef = PopperAnchorRef;
 
 export type PopoverDefaultProps = {
     /** Whether the tooltip initially opened */
@@ -96,8 +95,6 @@ export type PopoverDefaultProps = {
         top?: number;
         left?: number;
     };
-    /** Tooltip's placement */
-    placement: PopupPlacement;
     /** Whether the tooltip has a tail */
     hasArrow: boolean;
     /** Whether the tooltip has a close button */

@@ -107,7 +107,7 @@ export type PopoverDefaultProps = {
     size: 's' | 'l';
 };
 
-export type PopoverProps = Omit<PopperProps, 'offset' | 'modifiers'> &
+export type PopoverProps = Pick<PopperProps, 'anchorRef' | 'strategy' | 'placement'> &
     PopoverExternalProps &
     PopoverBehaviorProps &
     Partial<PopoverDefaultProps>;

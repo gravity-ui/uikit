@@ -3,8 +3,8 @@ import {ButtonsProps} from './components/Buttons/Buttons';
 import {ContentProps} from './components/Content/Content';
 import {LinksProps} from './components/Links/Links';
 import {TriggerProps} from './components/Trigger/Trigger';
+import {PopupProps, PopupAnchorRef} from '../Popup';
 import {PopoverBehavior} from './config';
-import {PopperAnchorRef, PopperProps} from '../utils/usePopper';
 
 export type PopoverButtonProps = {
     /**
@@ -79,7 +79,7 @@ export type PopoverBehaviorProps = {
 };
 
 export type PopoverTheme = 'info' | 'special' | 'announcement';
-export type PopoverAnchorRef = PopperAnchorRef;
+export type PopoverAnchorRef = PopupAnchorRef;
 
 export type PopoverDefaultProps = {
     /** Whether the tooltip initially opened */
@@ -107,7 +107,7 @@ export type PopoverDefaultProps = {
     size: 's' | 'l';
 };
 
-export type PopoverProps = Pick<PopperProps, 'anchorRef' | 'strategy' | 'placement'> &
+export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement'> &
     PopoverExternalProps &
     PopoverBehaviorProps &
     Partial<PopoverDefaultProps>;

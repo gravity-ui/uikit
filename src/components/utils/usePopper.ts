@@ -5,9 +5,10 @@ import popper from '@popperjs/core';
 export type PopperPlacement = popper.Placement | popper.Placement[];
 export type PopperOffset = [number, number];
 export type PopperModifiers = Modifier<unknown, Record<string, unknown>>[];
+export type PopperAnchorRef = React.RefObject<Element | popper.VirtualElement>;
 
 export interface PopperProps {
-    anchorRef?: React.RefObject<Element | popper.VirtualElement>;
+    anchorRef?: PopperAnchorRef;
     placement?: PopperPlacement;
     offset?: [number, number];
     modifiers?: PopperModifiers;

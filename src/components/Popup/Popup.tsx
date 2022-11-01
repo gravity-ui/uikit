@@ -6,10 +6,11 @@ import {Portal} from '../Portal';
 import {useLayer, LayerExtendableProps} from '../utils/useLayer';
 import {
     usePopper,
-    PopperProps,
+    PopperAnchorRef,
+    PopperModifiers,
     PopperOffset,
     PopperPlacement,
-    PopperModifiers,
+    PopperProps,
 } from '../utils/usePopper';
 import {PopupArrow} from './PopupArrow';
 import {usePreviousValue} from '../utils/usePreviousValue';
@@ -19,6 +20,7 @@ import {useForkRef} from '../utils/useForkRef';
 import './Popup.scss';
 
 export type PopupPlacement = PopperPlacement;
+export type PopupAnchorRef = PopperAnchorRef;
 
 export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
     open?: boolean;

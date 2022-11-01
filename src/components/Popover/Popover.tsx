@@ -47,6 +47,7 @@ export const Popover = forwardRef(function (
         onCloseClick,
         onClick,
         anchorRef,
+        strategy,
         qa,
     }: PopoverProps & QAProps,
     ref: ForwardedRef<PopoverInstanceProps | undefined>,
@@ -93,6 +94,7 @@ export const Popover = forwardRef(function (
 
     const tooltip = (
         <Popup
+            strategy={strategy}
             anchorRef={anchorRef || controlRef}
             className={cnPopover(
                 'tooltip',

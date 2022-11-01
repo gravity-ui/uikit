@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/gravity-ui/uikit/compare/v3.3.0...v3.4.0) (2022-11-01)
+
+
+### Features
+
+* **Popover:** updated anchorRef prop, added strategy prop to Popover ([#372](https://github.com/gravity-ui/uikit/issues/372)) ([22021c9](https://github.com/gravity-ui/uikit/commit/22021c9cfbcd88f0162e31378ea09c4bc34b1161))
+
 ## [3.3.0](https://github.com/gravity-ui/uikit/compare/v3.2.0...v3.3.0) (2022-10-20)
 
 

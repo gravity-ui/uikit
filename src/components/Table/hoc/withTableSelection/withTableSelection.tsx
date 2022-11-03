@@ -28,6 +28,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
 
     return class extends React.Component<TableProps<I> & WithTableSelectionProps<I> & E> {
         static displayName = displayName;
+        private lastCheckedIndex: number | undefined;
 
         render() {
             const {
@@ -68,7 +69,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 checked = false;
             }
 
-            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxChange});
+            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxUpdate});
         };
 
         private renderBodyCell = (item: I, index: number) => {
@@ -79,7 +80,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             return this.renderCheckBox({
                 disabled: this.isDisabled(item, index),
                 checked,
-                handler: this.handleCheckBoxChange.bind(this, id),
+                handler: this.handleCheckBoxUpdate.bind(this, id, index),
             });
         };
 
@@ -97,19 +98,46 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     size="l"
                     checked={checked}
                     disabled={disabled}
-                    onUpdate={handler}
+                    onChange={handler}
                     className={b('selection-checkbox')}
                 />
             );
         }
 
-        private handleCheckBoxChange = (id: string, selected: boolean) => {
-            const {selectedIds, onSelectionChange} = this.props;
+        private handleCheckBoxUpdate = (
+            id: string,
+            index: number,
+            event: React.ChangeEvent<HTMLInputElement>,
+        ) => {
+            const {checked} = event.target;
+            // @ts-ignore shiftKey is defined for click events
+            const isShiftPressed = event.nativeEvent.shiftKey;
+            const {data, selectedIds, onSelectionChange} = this.props;
 
-            onSelectionChange(selected ? [...selectedIds, id] : _without(selectedIds, id));
+            if (
+                isShiftPressed &&
+                this.lastCheckedIndex !== undefined &&
+                this.lastCheckedIndex >= 0
+            ) {
+                const begin = Math.min(this.lastCheckedIndex, index);
+                const end = Math.max(this.lastCheckedIndex, index);
+
+                const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
+                const diffIds = dataIds.slice(begin, end + 1);
+
+                this.lastCheckedIndex = index;
+
+                return onSelectionChange(
+                    checked ? _union(selectedIds, diffIds) : _without(selectedIds, ...diffIds),
+                );
+            }
+
+            this.lastCheckedIndex = index;
+            onSelectionChange(checked ? [...selectedIds, id] : _without(selectedIds, id));
         };
 
-        private handleAllCheckBoxChange = (selected: boolean) => {
+        private handleAllCheckBoxUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const {checked} = event.target;
             const {data, selectedIds, onSelectionChange} = this.props;
             const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
             const notDisabledItemIds = dataIds.filter(
@@ -117,7 +145,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             );
 
             onSelectionChange(
-                selected
+                checked
                     ? _union(selectedIds, notDisabledItemIds)
                     : _difference(selectedIds, dataIds),
             );

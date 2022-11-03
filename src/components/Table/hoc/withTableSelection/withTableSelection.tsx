@@ -126,7 +126,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 const end = Math.max(this.lastCheckedIndex, index);
 
                 const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
-                const diffIds = dataIds.filter((_id, index) => index >= begin && index <= end);
+                const diffIds = dataIds.slice(begin, end + 1);
 
                 this.lastCheckedIndex = index;
 

@@ -70,7 +70,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 checked = false;
             }
 
-            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxChange});
+            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxUpdate});
         };
 
         private renderBodyCell = (item: I, index: number) => {
@@ -81,7 +81,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             return this.renderCheckBox({
                 disabled: this.isDisabled(item, index),
                 checked,
-                handler: this.handleCheckBoxChange.bind(this, id, index),
+                handler: this.handleCheckBoxUpdate.bind(this, id, index),
             });
         };
 
@@ -105,7 +105,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             );
         }
 
-        private handleCheckBoxChange = (
+        private handleCheckBoxUpdate = (
             id: string,
             index: number,
             event: React.ChangeEvent<HTMLInputElement>,
@@ -139,7 +139,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             onSelectionChange(checked ? [...selectedIds, id] : _without(selectedIds, id));
         };
 
-        private handleAllCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        private handleAllCheckBoxUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
             const {checked} = event.target;
             const {data, selectedIds, onSelectionChange} = this.props;
             const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));

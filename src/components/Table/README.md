@@ -267,6 +267,7 @@ interface Props {
    * Selected row change handler.
    */
   onSelectionChange: (ids: string[]) => void;
+  disableRangeSelectionWithShift?: boolean;
 }
 ```
 

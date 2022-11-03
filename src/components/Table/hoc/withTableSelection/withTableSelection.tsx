@@ -18,7 +18,6 @@ export interface WithTableSelectionProps<I> {
     onSelectionChange: (ids: string[]) => void;
     selectedIds: string[];
     isRowSelectionDisabled?: (item: I, index: number) => boolean;
-    disableRangeSelectionWithShift?: boolean;
 }
 
 export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
@@ -113,11 +112,9 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             const {checked} = event.target;
             // @ts-ignore shiftKey is defined for click events
             const isShiftPressed = event.nativeEvent.shiftKey;
-            const {data, selectedIds, onSelectionChange, disableRangeSelectionWithShift} =
-                this.props;
+            const {data, selectedIds, onSelectionChange} = this.props;
 
             if (
-                !disableRangeSelectionWithShift &&
                 isShiftPressed &&
                 this.lastCheckedIndex !== undefined &&
                 this.lastCheckedIndex >= 0

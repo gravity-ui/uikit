@@ -5,6 +5,7 @@ import _isNumber from 'lodash/isNumber';
 import ResizeObserver from 'resize-observer-polyfill';
 import {block} from '../utils/cn';
 import i18n from './i18n';
+import {QAProps} from '../types';
 import './Table.scss';
 
 const DASH = '\u2014';
@@ -47,7 +48,7 @@ export interface TableColumnConfig<I> {
 }
 
 // TODO: Replace @default in props description with defaultProps in order to work with Storybook.
-export interface TableProps<I> {
+export interface TableProps<I> extends QAProps {
     /** Data */
     data: I[];
     /** Column parameters */
@@ -292,7 +293,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     render() {
-        const {columns, stickyHorizontalScroll, className} = this.props;
+        const {columns, stickyHorizontalScroll, className, qa} = this.props;
         const withPrimary = columns.some(({primary}) => primary);
 
         return (
@@ -304,6 +305,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     },
                     className,
                 )}
+                data-qa={qa}
             >
                 {stickyHorizontalScroll ? (
                     <React.Fragment>
@@ -461,6 +463,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     'sticky-horizontal-scroll': stickyHorizontalScroll,
                 })}
                 style={{bottom: `${stickyHorizontalScrollBreakpoint}px`}}
+                data-qa="sticky-horizontal-scroll-breakpoint-qa"
             >
                 <div
                     ref={this.horizontalScrollBarInnerRef}

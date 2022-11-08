@@ -20,7 +20,7 @@ const b = block('select-popup');
 const VIRTUALIZE_THRESHOLD = 50;
 
 type SelectPopupProps = {
-    setOpen: (nextActive: boolean) => void;
+    handleClose: () => void;
     onOptionClick: (option: FlattenOption) => void;
     renderOption?: SelectProps['renderOption'];
     getOptionHeight?: SelectProps['getOptionHeight'];
@@ -37,7 +37,7 @@ type SelectPopupProps = {
 export const SelectPopup = React.forwardRef<List<FlattenOption>, SelectPopupProps>((props, ref) => {
     const {
         onOptionClick,
-        setOpen,
+        handleClose,
         renderOption,
         getOptionHeight,
         size,
@@ -60,8 +60,6 @@ export const SelectPopup = React.forwardRef<List<FlattenOption>, SelectPopupProp
         minWidth: getPopupMinWidth(virtualizeEnabled, controlRect),
         width: popupWidth,
     };
-
-    const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
     const getItemHeight = React.useCallback(
         (option: FlattenOption, index: number) => {

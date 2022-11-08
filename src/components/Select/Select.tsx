@@ -56,7 +56,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const controlRef = React.useRef<HTMLElement>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const {value, open, setOpen, handleOptionSelection} = useSelect({
+    const {value, open, setOpen, handleSelection} = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
@@ -66,19 +66,21 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const flattenOptions = getFlattenOptions(options);
     const optionsText = getOptionsText(flattenOptions, value);
 
+    const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
+
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
             if (!option || 'label' in option) {
                 return;
             }
 
-            handleOptionSelection(option);
+            handleSelection(option);
 
             if (quickSearch) {
                 dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
             }
         },
-        [handleOptionSelection, quickSearch],
+        [handleSelection, quickSearch],
     );
 
     const handleControlKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -203,7 +205,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 controlRect={controlRect}
                 open={open}
                 multiple={multiple}
-                setOpen={setOpen}
+                handleClose={handleClose}
                 onOptionClick={handleOptionClick}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}

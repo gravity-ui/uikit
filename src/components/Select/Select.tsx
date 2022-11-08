@@ -1,9 +1,10 @@
 import React from 'react';
 import {useForkRef} from '../utils/useForkRef';
+import {useSelect} from '../utils/useSelect';
 import {List} from '../List';
 import {KeyCode} from '../constants';
 import {reducer, getInitialState} from './store';
-import {SelectProps, SelectOption} from './types';
+import {SelectProps} from './types';
 import {
     FlattenOption,
     getOptionsFromChildren,
@@ -48,56 +49,24 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple = false,
         disabled = false,
     } = props;
-    const [{innerValue, controlRect, active, quickSearch, quickSearchTimer}, dispatch] =
-        React.useReducer(reducer, getInitialState({defaultValue}));
+    const [{controlRect, quickSearch, quickSearchTimer}, dispatch] = React.useReducer(
+        reducer,
+        getInitialState(),
+    );
     const controlRef = React.useRef<HTMLElement>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const uncontrolled = !propsValue;
-    const value = propsValue || innerValue;
+    const {value, open, setOpen, handleSelection} = useSelect({
+        onUpdate,
+        value: propsValue,
+        defaultValue,
+        multiple,
+    });
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
     const optionsText = getOptionsText(flattenOptions, value);
 
-    const setActive = React.useCallback(
-        (nextActive: boolean) => {
-            onOpenChange?.(nextActive);
-            dispatch({type: 'SET_ACTIVE', payload: {active: nextActive}});
-        },
-        [onOpenChange],
-    );
-
-    const handleSingleOptionClick = React.useCallback(
-        (option: SelectOption) => {
-            if (!value.includes(option.value)) {
-                const nextValue = [option.value];
-                onUpdate?.(nextValue);
-
-                if (uncontrolled) {
-                    dispatch({type: 'SET_INNER_VALUE', payload: {innerValue: nextValue}});
-                }
-            }
-
-            setActive(false);
-        },
-        [onUpdate, setActive, value, uncontrolled],
-    );
-
-    const handleMultipleOptionClick = React.useCallback(
-        (option: SelectOption) => {
-            const alreadySelected = value.includes(option.value);
-            const nextValue = alreadySelected
-                ? value.filter((iteratedVal) => iteratedVal !== option.value)
-                : [...value, option.value];
-
-            onUpdate?.(nextValue);
-
-            if (uncontrolled) {
-                dispatch({type: 'SET_INNER_VALUE', payload: {innerValue: nextValue}});
-            }
-        },
-        [onUpdate, value, uncontrolled],
-    );
+    const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
@@ -105,22 +74,18 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 return;
             }
 
-            if (multiple) {
-                handleMultipleOptionClick(option);
-            } else {
-                handleSingleOptionClick(option);
-            }
+            handleSelection(option);
 
             if (quickSearch) {
                 dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
             }
         },
-        [handleSingleOptionClick, handleMultipleOptionClick, multiple, quickSearch],
+        [handleSelection, quickSearch],
     );
 
     const handleControlKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
         // prevent dialog closing in case of item selection by Enter/Spacebar keydown
-        if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && active) {
+        if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
             e.preventDefault();
 
             if (e.key === KeyCode.SPACEBAR) {
@@ -169,32 +134,28 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     );
 
     React.useEffect(() => {
-        if (active) {
+        if (open) {
             activateFirstClickableItem(listRef);
             const nextControlRect = controlRef.current?.getBoundingClientRect();
             dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect: nextControlRect}});
         }
-    }, [active]);
+
+        onOpenChange?.(open);
+    }, [open, onOpenChange]);
 
     React.useEffect(() => {
-        if (active) {
+        if (open) {
             document.addEventListener('keydown', handleQuickSearch);
         } else {
             dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
         }
 
         return () => {
-            if (active) {
+            if (open) {
                 document.removeEventListener('keydown', handleQuickSearch);
             }
         };
-    }, [handleQuickSearch, active]);
-
-    React.useEffect(() => {
-        if (defaultValue) {
-            dispatch({type: 'SET_INNER_VALUE', payload: {innerValue: defaultValue}});
-        }
-    }, [defaultValue]);
+    }, [handleQuickSearch, open]);
 
     React.useEffect(() => {
         if (quickSearch) {
@@ -207,12 +168,12 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     }, [quickSearch]);
 
     React.useEffect(() => {
-        if (!active && typeof quickSearchTimer === 'number') {
+        if (!open && typeof quickSearchTimer === 'number') {
             clearTimeout(quickSearchTimer);
         }
 
         return () => clearTimeout(quickSearchTimer);
-    }, [active, quickSearchTimer]);
+    }, [open, quickSearchTimer]);
 
     return (
         <React.Fragment>
@@ -228,9 +189,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 label={label}
                 placeholder={placeholder}
                 optionsText={optionsText}
-                active={active}
+                open={open}
                 disabled={disabled}
-                setActive={setActive}
+                setOpen={setOpen}
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
             />
@@ -242,9 +203,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 flattenOptions={flattenOptions}
                 popupWidth={popupWidth}
                 controlRect={controlRect}
-                active={active}
+                open={open}
                 multiple={multiple}
-                setActive={setActive}
+                handleClose={handleClose}
                 onOptionClick={handleOptionClick}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}

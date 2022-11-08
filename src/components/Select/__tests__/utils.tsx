@@ -9,7 +9,7 @@ export const OptionsListType = {
     GROUPED: 'grouped',
 } as const;
 export const TEST_QA = 'select-test-qa';
-export const SELECT_CONTROL_ACTIVE_CLASS = selectBlock({active: true});
+export const SELECT_CONTROL_OPEN_CLASS = selectBlock({open: true});
 export const DEFAULT_OPTIONS = generateOptions([
     ['js', 'JavaScript'],
     ['python', 'Python'],

@@ -9,7 +9,7 @@ import {selectBlock} from '../../constants';
 import './SelectControl.scss';
 
 type ControlProps = {
-    setActive: (nextActive: boolean) => void;
+    setOpen: (nextOpen: boolean) => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderControl?: SelectProps['renderControl'];
     view: NonNullable<SelectProps['view']>;
@@ -22,13 +22,13 @@ type ControlProps = {
     qa?: string;
     label?: string;
     placeholder?: SelectProps['placeholder'];
-    active?: boolean;
+    open?: boolean;
     disabled?: boolean;
 };
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {
-        setActive,
+        setOpen,
         onKeyDown,
         renderControl,
         view,
@@ -41,7 +41,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         name,
         label,
         placeholder,
-        active,
+        open,
         disabled,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
@@ -53,7 +53,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         size,
         pin,
         disabled,
-        active,
+        open,
         ...(typeof width === 'string' && {width}),
     };
     const inlineStyles: React.CSSProperties = {};
@@ -62,7 +62,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         inlineStyles.width = width;
     }
 
-    const handleClick = React.useCallback(() => setActive(!active), [setActive, active]);
+    const handleClick = React.useCallback(() => setOpen(!open), [setOpen, open]);
 
     if (renderControl) {
         return renderControl({

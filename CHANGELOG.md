@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.5.0](https://github.com/gravity-ui/uikit/compare/v3.4.0...v3.5.0) (2022-11-09)
+
+
+### Features
+
+* **Select:** move selection logic to useSelect ([#370](https://github.com/gravity-ui/uikit/issues/370)) ([dcf97a4](https://github.com/gravity-ui/uikit/commit/dcf97a42b2d16feba05383fdf9d8c1d50a2a85ab))
+* **Table:** add possibility to range select with shift key pressed ([#374](https://github.com/gravity-ui/uikit/issues/374)) ([d76407f](https://github.com/gravity-ui/uikit/commit/d76407f57ecefd0fca09da60ccec51b9ad73b39c))
+
+
+### Bug Fixes
+
+* **Button:** correctly show focused state for raised button ([#377](https://github.com/gravity-ui/uikit/issues/377)) ([dbcfa97](https://github.com/gravity-ui/uikit/commit/dbcfa97cf379b4783b040555a9fddb5f43a64ea0))
+
 ## [3.4.0](https://github.com/gravity-ui/uikit/compare/v3.3.0...v3.4.0) (2022-11-01)
 
 

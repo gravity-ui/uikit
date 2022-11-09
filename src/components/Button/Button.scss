@@ -264,7 +264,19 @@ $block: '.#{variables.$ns}button';
                 box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
             }
 
+            &:focus:not(:focus-visible)::before {
+                box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
+            }
+
             &:active::before {
+                box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
+            }
+
+            &:active:focus::before {
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+            }
+
+            &:active:focus:not(:focus-visible)::before {
                 box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
             }
 

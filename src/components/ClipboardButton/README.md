@@ -12,6 +12,7 @@ A component that puts all together: **CopyToClipboard** and **ClipboardIcon**.<b
 | timeout   | `Number`   |          | 1000    | Time before state bounces back to its normal <br/>after the button is clicked |
 | className | `String`   |          |         | CSS class name                                                                |
 | onCopy    | `Function` |          |         | Callback after copy <br/>`(text: string, result: boolean) => void`            |
+| options   | `Options`  |          |         | [copy-to-clipboard](https://github.com/sudodoki/copy-to-clipboard) options    |
 
 ### Examples
 

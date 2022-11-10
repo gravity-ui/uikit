@@ -39,7 +39,7 @@ export class CopyToClipboard extends React.Component<
     }
 
     render() {
-        const {children, text} = this.props;
+        const {children, text, options} = this.props;
         const {status} = this.state;
         const content = children(status);
 
@@ -48,7 +48,7 @@ export class CopyToClipboard extends React.Component<
         }
 
         return (
-            <ReactCopyToClipboard text={String(text)} onCopy={this.handleCopy}>
+            <ReactCopyToClipboard text={String(text)} onCopy={this.handleCopy} options={options}>
                 {content}
             </ReactCopyToClipboard>
         );

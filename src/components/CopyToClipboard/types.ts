@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
 export enum CopyToClipboardStatus {
     Pending = 'pending',
@@ -16,4 +17,7 @@ export interface CopyToClipboardBaseProps {
 
     /** Handler that would be invoked after copy to clipboard */
     onCopy?: OnCopyHandler;
+
+    /** copy-to-clipboard options */
+    options?: ReactCopyToClipboard.Options;
 }

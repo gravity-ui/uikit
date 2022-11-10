@@ -29,6 +29,7 @@ export function ClipboardButton({
     qa,
     onCopy,
     timeout = DEFAULT_TIMEOUT,
+    options,
 }: ClipboardButtonProps) {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -37,7 +38,7 @@ export function ClipboardButton({
     }, [size]);
 
     return (
-        <CopyToClipboard text={text} timeout={timeout} onCopy={onCopy}>
+        <CopyToClipboard text={text} timeout={timeout} onCopy={onCopy} options={options}>
             {(status) => (
                 <Button ref={buttonRef} view="flat" className={b(null, className)} qa={qa}>
                     <Button.Icon>

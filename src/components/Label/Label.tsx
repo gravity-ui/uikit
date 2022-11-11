@@ -34,7 +34,7 @@ interface LabelOwnProps {
 
 interface LabelDefaultProps {
     /** Label color */
-    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown';
+    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown' | 'plain';
     /** Label type (plain, with copy text button or button with cross) */
     type: 'default' | 'copy' | 'close';
     /** Label size */
@@ -63,12 +63,10 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         onClick,
     } = props;
 
-    const typeDefault = type === 'default';
     const typeClose = type === 'close';
     const typeCopy = type === 'copy';
 
-    // Handle click for `default` type labels
-    const hasOnClick = Boolean(onClick) && typeDefault;
+    const hasOnClick = Boolean(onClick);
     const isInteractive = hasOnClick || interactive;
     const hasAction = typeClose || typeCopy;
     let copyIconSize: number;
@@ -103,9 +101,16 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         );
     };
 
+    const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        /* preventing event from bubbling */
+        event.stopPropagation();
+
+        if (onClose) onClose(event);
+    };
+
     const closeButton = typeClose && (
         <Button
-            onClick={onClose}
+            onClick={onClose ? handleCloseClick : undefined}
             pin={'brick-round'}
             size={size}
             extraProps={{'aria-label': closeButtonLabel || undefined}}
@@ -118,6 +123,11 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         </Button>
     );
 
+    let labelTheme = theme;
+    if (hasAction && theme !== 'plain') {
+        labelTheme = 'normal'; // override theme for label with action
+    }
+
     const renderLabel = (status?: CopyToClipboardStatus) => {
         return (
             <div
@@ -126,7 +136,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                 className={b(
                     {
                         // only default labels could have actions
-                        theme: hasAction ? 'normal' : theme,
+                        theme: labelTheme,
                         size,
                         style,
                         type,

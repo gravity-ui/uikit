@@ -216,5 +216,33 @@ $transitionTimingFunction: ease-in-out;
                 background-color: var(--yc-color-base-neutral-hover);
             }
         }
+
+        &_plain {
+            color: var(--yc-color-text-complementary);
+            background-color: var(--yc-color-base-generic);
+
+            // hover on interactive element (with onClick or tooltip)
+            &:not(#{$disabled})#{$block}_is-interactive:hover {
+                background-color: var(--yc-color-base-generic-hover);
+            }
+
+            // hover on element with a copy function
+            &:not(#{$disabled})#{$block}_type_copy:hover {
+                color: var(--yc-color-text-inverted-primary);
+                background-color: var(--yc-color-text-secondary);
+            }
+
+            // hover on cross
+            &:not(#{$disabled}) #{$block}__icon_cross {
+                --yc-button-background-color: transparent;
+                --yc-button-background-color-hover: var(--yc-color-text-secondary);
+
+                color: inherit;
+
+                &:hover {
+                    color: var(--yc-color-text-inverted-primary);
+                }
+            }
+        }
     }
 }

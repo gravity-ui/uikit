@@ -95,12 +95,12 @@ $transitionTimingFunction: ease-in-out;
             &#{$block}_style {
                 &_default,
                 &_rounded {
-                    border-radius: 4px;
+                    border-radius: var(--yc-border-radius-s);
 
                     & #{$block}__icon {
                         &_interactive {
                             --yc-button-height: 20px;
-                            --yc-button-border-radius: 4px;
+                            --yc-button-border-radius: var(--yc-border-radius-s);
                         }
                     }
                 }
@@ -130,12 +130,12 @@ $transitionTimingFunction: ease-in-out;
 
             &#{$block}_style {
                 &_default {
-                    border-radius: 4px;
+                    border-radius: var(--yc-border-radius-m);
 
                     & #{$block}__icon {
                         &_interactive {
                             --yc-button-height: 28px;
-                            --yc-button-border-radius: 4px;
+                            --yc-button-border-radius: var(--yc-border-radius-m);
                         }
                     }
                 }

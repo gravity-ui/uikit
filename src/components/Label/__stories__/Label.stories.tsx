@@ -2,17 +2,41 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Label, LabelProps} from '../Label';
 import {Link} from '../../Link';
+import {Icon as IconComponent} from '../../Icon';
+import {Tick as TickIcon} from '../../icons/Tick';
+import {GearIcon} from '../../icons/GearIcon';
 
 import './Label.stories.scss';
+
+const icons = {
+    '-': undefined,
+    TickIcon: <IconComponent size={12} data={TickIcon} />,
+    GearIcon: <IconComponent size={12} data={GearIcon} />,
+};
 
 export default {
     title: 'Components/Label',
     component: Label,
+    argTypes: {
+        icon: {
+            control: {type: 'select'},
+            mapping: icons,
+            options: Object.keys(icons),
+        },
+        children: {
+            control: {type: 'text'},
+            defaultValue: '',
+        },
+    },
 } as Meta;
 
-const Template: Story<LabelProps> = (args) => <Label {...args}>Default</Label>;
+const Template: Story<LabelProps> = (args) => <Label {...args} />;
 
 export const Default = Template.bind({});
+
+Default.args = {
+    children: 'Default',
+};
 
 const ThemeTemplate: Story<LabelProps> = (args) => {
     return (
@@ -45,10 +69,10 @@ const SizeTemplate: Story<LabelProps> = (args) => {
     return (
         <div className="label-stories">
             <Label {...args} size="s">
-                xs
+                s
             </Label>
             <Label {...args} size="m">
-                s
+                m
             </Label>
         </div>
     );
@@ -71,13 +95,24 @@ const StyleTemplate: Story<LabelProps> = (args) => {
 
 export const Style = StyleTemplate.bind({});
 
-export const Interactions: Story<LabelProps> = () => (
+const IconTemplate: Story<LabelProps> = (args) => {
+    return <Label {...args} />;
+};
+
+export const Icon = IconTemplate.bind({});
+
+Icon.args = {
+    icon: 'TickIcon',
+};
+
+export const Interactions: Story<LabelProps> = (args) => (
     <div style={{display: 'flex', flexFlow: 'column', gap: 10}}>
         <div>
-            <Label>No interactions</Label>
+            <Label {...args}>No interactions</Label>
         </div>
         <div>
             <Label
+                {...args}
                 onClick={() => {
                     console.log('click');
                 }}
@@ -86,21 +121,31 @@ export const Interactions: Story<LabelProps> = () => (
             </Label>
         </div>
         <div>
-            <Label type={'copy'} copyText={'copyText'}>
+            <Label {...args} type={'copy'} copyText={'copyText'}>
                 Copy
             </Label>
         </div>
         <div>
-            <Label type={'close'}>Close</Label>
+            <Label
+                {...args}
+                type={'close'}
+                onClose={() => {
+                    console.log('close');
+                }}
+            >
+                Close
+            </Label>
         </div>
         <div>
             <Link href={'https://ya.ru'} target={'_blank'}>
-                <Label>Link</Label>
+                <Label {...args}>Link</Label>
             </Link>
         </div>
         <div>
             <Link href={'https://ya.ru'} target={'_blank'}>
-                <Label interactive>Link interactive</Label>
+                <Label {...args} interactive>
+                    Link interactive
+                </Label>
             </Link>
         </div>
     </div>

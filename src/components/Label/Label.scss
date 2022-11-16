@@ -22,22 +22,29 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &__icon {
-        position: absolute;
-        top: 0;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        &_left {
+        &_side_left,
+        &_side_right {
+            position: absolute;
+            top: 0;
+        }
+
+        &_side_left {
             left: 2px;
         }
 
-        &_right {
+        &_side_right {
             right: 0;
         }
 
-        &_cross {
+        &_interactive {
+            --yc-button-background-color: transparent;
+
             cursor: pointer;
+            color: inherit;
             transition: color, background-color;
             transition-duration: $transitionDuration;
             transition-timing-function: $transitionTimingFunction;
@@ -72,7 +79,7 @@ $transitionTimingFunction: ease-in-out;
                     border-radius: 4px;
 
                     & #{$block}__icon {
-                        &_cross {
+                        &_interactive {
                             --yc-button-height: 20px;
                             --yc-button-border-radius: 4px;
                         }
@@ -107,7 +114,7 @@ $transitionTimingFunction: ease-in-out;
                     border-radius: 4px;
 
                     & #{$block}__icon {
-                        &_cross {
+                        &_interactive {
                             --yc-button-height: 28px;
                             --yc-button-border-radius: 4px;
                         }
@@ -118,7 +125,7 @@ $transitionTimingFunction: ease-in-out;
                     border-radius: 24px;
 
                     & #{$block}__icon {
-                        &_cross {
+                        &_interactive {
                             --yc-button-height: 28px;
                             --yc-button-border-radius: 24px;
                         }
@@ -137,34 +144,19 @@ $transitionTimingFunction: ease-in-out;
         cursor: pointer;
     }
 
-    &_type {
-        &_copy {
-            cursor: pointer;
-        }
-    }
-
     &_theme {
         &_normal {
             color: var(--yc-color-text-misc);
             background-color: var(--yc-color-base-misc);
 
-            // hover on interactive element (with onClick or tooltip)
+            // hover on interactive label
             &:not(#{$disabled})#{$block}_is-interactive:hover {
                 background-color: var(--yc-color-base-misc-hover);
             }
 
-            // hover on element with a copy function
-            &:not(#{$disabled})#{$block}_type_copy:hover {
-                color: var(--yc-color-text-inverted-primary);
-                background-color: var(--yc-color-base-misc-heavy-hover);
-            }
-
-            // hover on cross
-            &:not(#{$disabled}) #{$block}__icon_cross {
-                --yc-button-background-color: transparent;
+            // hover on interactive button
+            &:not(#{$disabled}) #{$block}__icon_interactive {
                 --yc-button-background-color-hover: var(--yc-color-base-misc-heavy-hover);
-
-                color: inherit;
 
                 &:hover {
                     color: var(--yc-color-text-inverted-primary);

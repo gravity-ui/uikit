@@ -84,7 +84,6 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const typeClose = type === 'close' && hasContent;
     const typeCopy = type === 'copy' && hasContent;
 
-    // Handle click for `default` type labels
     const hasOnClick = Boolean(onClick) && typeDefault;
     const hasCopy = Boolean(typeCopy && copyText);
     const isInteractive = hasOnClick || hasCopy || interactive;
@@ -132,8 +131,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                 onClick={hasOnClick ? onClick : undefined}
                 className={b(
                     {
-                        // only default labels could have actions
-                        theme: actionButton ? 'normal' : theme,
+                        theme,
                         size,
                         style,
                         type,

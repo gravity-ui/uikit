@@ -5,6 +5,25 @@ $disabled: #{$block}_disabled;
 $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;
 
+@mixin themeState($bgColor, $bgHoverColor, $textColor) {
+    color: #{$textColor};
+    background-color: #{$bgColor};
+
+    // hover on interactive label
+    &:not(#{$disabled})#{$block}_is-interactive:hover {
+        background-color: #{$bgHoverColor};
+    }
+
+    // hover on action button
+    &:not(#{$disabled}) #{$block}__icon_interactive {
+        --yc-button-background-color-hover: #{$bgHoverColor};
+
+        &:hover {
+            color: #{$textColor};
+        }
+    }
+}
+
 #{$block} {
     display: inline-flex;
     align-items: center;
@@ -146,67 +165,51 @@ $transitionTimingFunction: ease-in-out;
 
     &_theme {
         &_normal {
-            color: var(--yc-color-text-misc);
-            background-color: var(--yc-color-base-misc);
-
-            // hover on interactive label
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-misc-hover);
-            }
-
-            // hover on interactive button
-            &:not(#{$disabled}) #{$block}__icon_interactive {
-                --yc-button-background-color-hover: var(--yc-color-base-misc-heavy-hover);
-
-                &:hover {
-                    color: var(--yc-color-text-inverted-primary);
-                }
-            }
+            @include themeState(
+                var(--yc-color-base-misc),
+                var(--yc-color-base-misc-hover),
+                var(--yc-color-text-misc)
+            );
         }
 
         &_success {
-            color: var(--yc-color-text-positive);
-            background-color: var(--yc-color-base-positive);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-positive-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-positive),
+                var(--yc-color-base-positive-hover),
+                var(--yc-color-text-positive)
+            );
         }
 
         &_info {
-            color: var(--yc-color-text-info);
-            background-color: var(--yc-color-base-info);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-info-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-info),
+                var(--yc-color-base-info-hover),
+                var(--yc-color-text-info)
+            );
         }
 
         &_warning {
-            color: var(--yc-color-text-warning-heavy);
-            background-color: var(--yc-color-base-warning);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-warning-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-warning),
+                var(--yc-color-base-warning-hover),
+                var(--yc-color-text-warning-heavy)
+            );
         }
 
         &_danger {
-            color: var(--yc-color-text-danger);
-            background-color: var(--yc-color-base-danger);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-danger-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-danger),
+                var(--yc-color-base-danger-hover),
+                var(--yc-color-text-danger)
+            );
         }
 
         &_unknown {
-            color: var(--yc-color-text-complementary);
-            background-color: var(--yc-color-base-neutral);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-neutral-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-neutral),
+                var(--yc-color-base-neutral-hover),
+                var(--yc-color-text-complementary)
+            );
         }
     }
 }

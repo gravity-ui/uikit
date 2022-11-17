@@ -1,7 +1,8 @@
 @use '../../../../styles/mixins';
 
 .skeleton-showcase {
-    padding: 20px;
+    display: inline-block;
+    margin-right: 40px;
     width: 300px;
 
     &__card {
@@ -15,8 +16,8 @@
     }
 
     &__info {
-        margin-left: 10px;
-        margin-top: 2px;
+        padding-left: 10px;
+        padding-top: 2px;
     }
 
     &__meta {
@@ -35,10 +36,12 @@
     &__loader {
         &-info {
             height: 1em;
+            margin-top: 4px;
+            margin-bottom: 1px;
             width: 106px;
 
             &_meta {
-                margin-top: 4px;
+                margin-top: 9px;
             }
         }
 

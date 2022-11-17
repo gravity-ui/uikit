@@ -3,7 +3,7 @@
 $block: '.#{variables.$ns}skeleton';
 
 #{$block} {
-    display: inline-block;
+    display: block;
     position: relative;
     z-index: 0;
     width: 100%;
@@ -14,12 +14,18 @@ $block: '.#{variables.$ns}skeleton';
 
     &::after {
         position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        top: var(--cover-top, 0);
+        left: var(--cover-left, 0);
+        width: var(--cover-width, 100%);
+        height: var(--cover-height, 100%);
 
-        background-image: linear-gradient(90deg, transparent, var(--yc-color-base-generic));
+        pointer-events: none;
+        background-image: linear-gradient(
+            90deg,
+            transparent,
+            var(--yc-color-base-generic) 75%,
+            transparent
+        );
         animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
     }

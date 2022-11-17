@@ -55,10 +55,6 @@ $block: '.#{variables.$ns}list';
             background: var(--yc-color-base-selection);
         }
 
-        &_inactive {
-            pointer-events: none;
-        }
-
         &_sort-handle-align_right {
             flex-direction: row-reverse;
 

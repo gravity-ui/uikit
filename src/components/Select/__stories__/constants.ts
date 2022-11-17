@@ -142,3 +142,25 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
     <Select.Option value="val4" content="Value4" />
 </Select>
 `;
+
+export const EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM = `import {Tooltip} from '@gravity-ui/uikit';
+
+const [value, setValue] = React.useState<string[]>([]);
+
+<Select
+  value={value}
+  renderOption={(option) => {
+    return option.disabled ? (
+        <Tooltip content="Tooltip">
+            <span style={{color: option.disabled ? 'gray' : 'inherit'}}>
+                Hover here
+            </span>
+        </Tooltip>
+    ) : (
+        <span>{option.content}</span>
+    )}
+  }>
+    <Select.Option value="1" content="1" />
+    <Select.Option value="2" content="2" disabled />
+</Select>
+`;

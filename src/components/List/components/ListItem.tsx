@@ -47,7 +47,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                     itemClassName,
                 )}
                 style={style}
-                onClick={this.onClick}
+                onClick={item.disabled ? undefined : this.onClick}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 ref={this.ref}
@@ -82,7 +82,8 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         this.props.onClick?.(this.props.item, this.props.itemIndex);
     };
 
-    private onMouseEnter = () => this.props.onActivate(this.props.itemIndex);
+    private onMouseEnter = () =>
+        !this.props.item.disabled && this.props.onActivate(this.props.itemIndex);
 
     private onMouseLeave = () => this.props.onActivate(undefined);
 }

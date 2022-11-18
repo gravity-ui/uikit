@@ -5,6 +5,25 @@ $disabled: #{$block}_disabled;
 $transitionDuration: 0.3s;
 $transitionTimingFunction: ease-in-out;
 
+@mixin themeState($bgColor, $bgHoverColor, $textColor) {
+    color: #{$textColor};
+    background-color: #{$bgColor};
+
+    // hover on interactive label
+    &:not(#{$disabled})#{$block}_is-interactive:hover {
+        background-color: #{$bgHoverColor};
+    }
+
+    // hover on action button
+    &:not(#{$disabled}) #{$block}__icon_interactive {
+        --yc-button-background-color-hover: #{$bgHoverColor};
+
+        &:hover {
+            color: #{$textColor};
+        }
+    }
+}
+
 #{$block} {
     display: inline-flex;
     align-items: center;
@@ -22,22 +41,29 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &__icon {
-        position: absolute;
-        top: 0;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        &_left {
+        &_side_left,
+        &_side_right {
+            position: absolute;
+            top: 0;
+        }
+
+        &_side_left {
             left: 2px;
         }
 
-        &_right {
+        &_side_right {
             right: 0;
         }
 
-        &_cross {
+        &_interactive {
+            --yc-button-background-color: transparent;
+
             cursor: pointer;
+            color: inherit;
             transition: color, background-color;
             transition-duration: $transitionDuration;
             transition-timing-function: $transitionTimingFunction;
@@ -72,7 +98,7 @@ $transitionTimingFunction: ease-in-out;
                     border-radius: var(--yc-border-radius-s);
 
                     & #{$block}__icon {
-                        &_cross {
+                        &_interactive {
                             --yc-button-height: 20px;
                             --yc-button-border-radius: var(--yc-border-radius-s);
                         }
@@ -107,7 +133,7 @@ $transitionTimingFunction: ease-in-out;
                     border-radius: var(--yc-border-radius-m);
 
                     & #{$block}__icon {
-                        &_cross {
+                        &_interactive {
                             --yc-button-height: 28px;
                             --yc-button-border-radius: var(--yc-border-radius-m);
                         }
@@ -118,7 +144,7 @@ $transitionTimingFunction: ease-in-out;
                     border-radius: 24px;
 
                     & #{$block}__icon {
-                        &_cross {
+                        &_interactive {
                             --yc-button-height: 28px;
                             --yc-button-border-radius: 24px;
                         }
@@ -137,84 +163,53 @@ $transitionTimingFunction: ease-in-out;
         cursor: pointer;
     }
 
-    &_type {
-        &_copy {
-            cursor: pointer;
-        }
-    }
-
     &_theme {
         &_normal {
-            color: var(--yc-color-text-misc);
-            background-color: var(--yc-color-base-misc);
-
-            // hover on interactive element (with onClick or tooltip)
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-misc-hover);
-            }
-
-            // hover on element with a copy function
-            &:not(#{$disabled})#{$block}_type_copy:hover {
-                color: var(--yc-color-text-inverted-primary);
-                background-color: var(--yc-color-base-misc-heavy-hover);
-            }
-
-            // hover on cross
-            &:not(#{$disabled}) #{$block}__icon_cross {
-                --yc-button-background-color: transparent;
-                --yc-button-background-color-hover: var(--yc-color-base-misc-heavy-hover);
-
-                color: inherit;
-
-                &:hover {
-                    color: var(--yc-color-text-inverted-primary);
-                }
-            }
+            @include themeState(
+                var(--yc-color-base-misc),
+                var(--yc-color-base-misc-hover),
+                var(--yc-color-text-misc)
+            );
         }
 
         &_success {
-            color: var(--yc-color-text-positive);
-            background-color: var(--yc-color-base-positive);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-positive-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-positive),
+                var(--yc-color-base-positive-hover),
+                var(--yc-color-text-positive)
+            );
         }
 
         &_info {
-            color: var(--yc-color-text-info);
-            background-color: var(--yc-color-base-info);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-info-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-info),
+                var(--yc-color-base-info-hover),
+                var(--yc-color-text-info)
+            );
         }
 
         &_warning {
-            color: var(--yc-color-text-warning-heavy);
-            background-color: var(--yc-color-base-warning);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-warning-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-warning),
+                var(--yc-color-base-warning-hover),
+                var(--yc-color-text-warning-heavy)
+            );
         }
 
         &_danger {
-            color: var(--yc-color-text-danger);
-            background-color: var(--yc-color-base-danger);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-danger-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-danger),
+                var(--yc-color-base-danger-hover),
+                var(--yc-color-text-danger)
+            );
         }
 
         &_unknown {
-            color: var(--yc-color-text-complementary);
-            background-color: var(--yc-color-base-neutral);
-
-            &:not(#{$disabled})#{$block}_is-interactive:hover {
-                background-color: var(--yc-color-base-neutral-hover);
-            }
+            @include themeState(
+                var(--yc-color-base-neutral),
+                var(--yc-color-base-neutral-hover),
+                var(--yc-color-text-complementary)
+            );
         }
 
         &_plain {

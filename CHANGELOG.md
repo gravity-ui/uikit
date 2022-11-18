@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.6.0](https://github.com/gravity-ui/uikit/compare/v3.5.0...v3.6.0) (2022-11-18)
+
+
+### Features
+
+* **CopyToClipboard:** add options ([#378](https://github.com/gravity-ui/uikit/issues/378)) ([80c5329](https://github.com/gravity-ui/uikit/commit/80c5329eb59ea7a7cce486a814bcf51ade9ecdb2))
+* **Label:** support action button in all themes ([#381](https://github.com/gravity-ui/uikit/issues/381)) ([7bdcce9](https://github.com/gravity-ui/uikit/commit/7bdcce9465526ca8150fa090a4e1a0f33376a329))
+* **List:** remove pointer-events from disabled items ([#382](https://github.com/gravity-ui/uikit/issues/382)) ([c6367cf](https://github.com/gravity-ui/uikit/commit/c6367cfd64de46decfaef98d50539c9331a60108))
+
+
+### Bug Fixes
+
+* **Label:** change hover style for label with copy, fix label with single icon ([#351](https://github.com/gravity-ui/uikit/issues/351)) ([786e706](https://github.com/gravity-ui/uikit/commit/786e706e15e1de8661c182f45d97b0783869789d))
+
 ## [3.5.0](https://github.com/gravity-ui/uikit/compare/v3.4.0...v3.5.0) (2022-11-09)
 
 

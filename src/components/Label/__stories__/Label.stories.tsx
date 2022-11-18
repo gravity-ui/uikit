@@ -59,6 +59,9 @@ const ThemeTemplate: Story<LabelProps> = (args) => {
             <Label {...args} theme="unknown">
                 unknown
             </Label>
+            <Label {...args} theme="plain">
+                plain
+            </Label>
         </div>
     );
 };
@@ -68,6 +71,9 @@ export const Theme = ThemeTemplate.bind({});
 const SizeTemplate: Story<LabelProps> = (args) => {
     return (
         <div className="label-stories">
+            <Label {...args} size="xs">
+                xs
+            </Label>
             <Label {...args} size="s">
                 s
             </Label>
@@ -147,6 +153,22 @@ export const Interactions: Story<LabelProps> = (args) => (
                     Link interactive
                 </Label>
             </Link>
+        </div>
+        <div>
+            <Label
+                {...args}
+                type={'close'}
+                theme={'plain'}
+                size="xs"
+                onClick={() => {
+                    console.log('click');
+                }}
+                onClose={() => {
+                    console.log('close');
+                }}
+            >
+                Click and Close Plain
+            </Label>
         </div>
     </div>
 );

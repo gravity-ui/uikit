@@ -73,4 +73,8 @@ $block: '.#{variables.$ns}share-list';
             margin: 8px -2px;
         }
     }
+
+    &__socials-container {
+        display: flex;
+    }
 }

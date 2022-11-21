@@ -7,7 +7,7 @@ import {Button} from '../../../Button';
 import {ShareTooltip, ShareSocialNetwork, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
-import {LinkedIn, Cloud, ShareArrowUp} from './icons';
+import {Mail, Cloud, ShareArrowUp} from './icons';
 import {SocialShareData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';
@@ -24,6 +24,7 @@ export function ShareTooltipDemo() {
         ShareSocialNetwork.Facebook,
         ShareSocialNetwork.Twitter,
         ShareSocialNetwork.VK,
+        ShareSocialNetwork.LinkedIn,
     ];
 
     const ShareTitle = <div>Share</div>;
@@ -65,9 +66,28 @@ export function ShareTooltipDemo() {
                     openByHover={false}
                 >
                     <ShareList.Item
-                        icon={LinkedIn}
-                        url="https://www-linkedin.com/"
-                        label="LinkedIn"
+                        icon={Mail}
+                        url="mailto:example@example.com"
+                        label="Mail"
+                        getShareLink={(params: SocialShareData) => params.url}
+                    />
+                </ShareTooltip>
+            </div>
+
+            <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
+                <span style={{marginRight: 8}}>Custom Social and Copy Link</span>
+                <ShareTooltip
+                    url={url}
+                    title={title}
+                    text={text}
+                    socialNets={socialNets}
+                    withCopyLink={true}
+                    openByHover={false}
+                >
+                    <ShareList.Item
+                        icon={Mail}
+                        url="mailto:example@example.com"
+                        label="Mail"
                         getShareLink={(params: SocialShareData) => params.url}
                     />
                 </ShareTooltip>

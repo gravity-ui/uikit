@@ -87,6 +87,13 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
                     title,
                     comment: text,
                 });
+            case ShareSocialNetwork.LinkedIn:
+                return this.getShareUrlWithParams(
+                    'https://www.linkedin.com/sharing/share-offsite/',
+                    {
+                        url,
+                    },
+                );
             default:
                 console.error(`Unknown share type: ${type}`);
 

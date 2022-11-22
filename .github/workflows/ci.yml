@@ -47,5 +47,5 @@ jobs:
     - name: Install Packages
       run: npm ci
     - name: Unit Tests
-      run: npm run test
+      run: npm run test:coverage
 

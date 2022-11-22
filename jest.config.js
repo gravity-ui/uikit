@@ -13,6 +13,14 @@ module.exports = {
         '!**/__stories__/**/*',
         '!**/*/*.stories.{ts,tsx}',
     ],
+    coverageThreshold: {
+        global: {
+            branches: 45,
+            functions: 45,
+            lines: 65,
+            statements: 65,
+        },
+    },
     testEnvironment: 'jsdom',
     setupFiles: ['<rootDir>/test-utils/setup-tests.ts'],
     setupFilesAfterEnv: ['<rootDir>/test-utils/setup-tests-after.ts'],

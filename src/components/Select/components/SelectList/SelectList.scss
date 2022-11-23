@@ -1,7 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-$block: '.#{variables.$ns}select-popup';
+$block: '.#{variables.$ns}select-list';
 $popupBlock: '.#{variables.$ns}popup';
 $s-height: '28px';
 $s-hor-padding: '8px';
@@ -13,16 +13,14 @@ $xl-height: '36px';
 $xl-hor-padding: '12px';
 
 #{$block} {
-    &__container {
-        display: flex;
-        max-height: 90vh;
-        margin: 4px 0;
-        overflow: hidden auto;
+    display: flex;
+    max-height: 90vh;
+    margin: 4px 0;
+    overflow: hidden auto;
 
-        // this selector used to increase specificity
-        #{$popupBlock}#{$block} & {
-            border-radius: 0;
-        }
+    // used to increase specificity
+    #{$popupBlock} &:first-child {
+        border-radius: 0;
     }
 
     &__group-label {
@@ -157,13 +155,5 @@ $xl-hor-padding: '12px';
         &_shown {
             visibility: visible;
         }
-    }
-
-    &__quick-search {
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        opacity: 0;
     }
 }

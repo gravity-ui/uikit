@@ -59,8 +59,8 @@ export const getPopupHeight = (args: {
     }, 0);
 };
 
-export const getPopupVerticalOffset = (args: {popupHeight: number; controlRect?: DOMRect}) => {
-    const {popupHeight, controlRect} = args;
+export const getPopupVerticalOffset = (args: {height: number; controlRect?: DOMRect}) => {
+    const {height, controlRect} = args;
 
     if (!controlRect) {
         return BORDER_WIDTH;
@@ -69,7 +69,7 @@ export const getPopupVerticalOffset = (args: {popupHeight: number; controlRect?:
     const vh = window.innerHeight / 100;
     const heigth5vh = vh * 5;
     const heigth90vh = vh * 90;
-    const containerHeight = heigth90vh < popupHeight ? heigth90vh : popupHeight;
+    const containerHeight = heigth90vh < height ? heigth90vh : height;
     const popupPlacement: PopupPlacement =
         controlRect.y + controlRect.height / 2 < window.innerHeight / 2
             ? 'bottom-start'
@@ -157,10 +157,10 @@ export const getOptionsFromChildren = (children: SelectProps['children']) => {
     }, [] as (SelectOption | SelectOptionGroup)[]);
 };
 
-export const getPopupMinWidth = (virtualizeEnabled: boolean, controlRect?: DOMRect) => {
+export const getPopupMinWidth = (virtualized?: boolean, controlRect?: DOMRect) => {
     const controlWidth = controlRect?.width;
 
-    if (virtualizeEnabled && controlWidth) {
+    if (virtualized && controlWidth) {
         return controlWidth > POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE
             ? controlWidth
             : POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE;

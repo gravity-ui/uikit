@@ -4,7 +4,7 @@ import {Icon} from '../../../Icon';
 import {Tick} from '../../../icons/Tick';
 import {SelectProps, SelectOption} from '../../types';
 
-const b = block('select-popup');
+const b = block('select-list');
 
 type DefaultOptionProps = {
     option: SelectOption;

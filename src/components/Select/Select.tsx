@@ -13,12 +13,15 @@ import {
     getListItems,
     getActiveItem,
     getNextQuickSearch,
+    getPopupHeight,
+    getPopupMinWidth,
+    getPopupVerticalOffset,
     findItemIndexByQuickSearch,
     activateFirstClickableItem,
 } from './utils';
-import {SelectControl, SelectPopup} from './components';
+import {SelectControl, SelectPopup, SelectList} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {LIST_CLASSNAME, QUICK_SEARCH_TIMEOUT} from './constants';
+import {LIST_CLASSNAME, QUICK_SEARCH_TIMEOUT, VIRTUALIZE_THRESHOLD} from './constants';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -65,6 +68,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
     const optionsText = getOptionsText(flattenOptions, value);
+    const virtualized = flattenOptions.length >= VIRTUALIZE_THRESHOLD;
+    const popupHeight = getPopupHeight({
+        options: flattenOptions,
+        getOptionHeight,
+        size,
+    });
+    const popupMinWidth = getPopupMinWidth(virtualized, controlRect);
+    const popupVerticalOffset = getPopupVerticalOffset({height: popupHeight, controlRect});
 
     const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
@@ -196,20 +207,26 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderControl={renderControl}
             />
             <SelectPopup
-                ref={listRef}
                 controlRef={controlRef}
-                size={size}
-                value={value}
-                flattenOptions={flattenOptions}
-                popupWidth={popupWidth}
-                controlRect={controlRect}
+                width={popupWidth}
+                minWidth={popupMinWidth}
+                verticalOffset={popupVerticalOffset}
                 open={open}
-                multiple={multiple}
                 handleClose={handleClose}
-                onOptionClick={handleOptionClick}
-                renderOption={renderOption}
-                getOptionHeight={getOptionHeight}
-            />
+            >
+                <SelectList
+                    ref={listRef}
+                    size={size}
+                    value={value}
+                    flattenOptions={flattenOptions}
+                    height={popupHeight}
+                    multiple={multiple}
+                    virtualized={virtualized}
+                    onOptionClick={handleOptionClick}
+                    renderOption={renderOption}
+                    getOptionHeight={getOptionHeight}
+                />
+            </SelectPopup>
         </React.Fragment>
     );
 }) as SelectComponent;

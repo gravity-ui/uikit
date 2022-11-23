@@ -4,7 +4,8 @@ import {useSelect} from '../utils/useSelect';
 import {List} from '../List';
 import {KeyCode} from '../constants';
 import {reducer, getInitialState} from './store';
-import {SelectProps} from './types';
+import type {SelectProps} from './types';
+import {useQuickSearch} from './hooks';
 import {
     FlattenOption,
     getOptionsFromChildren,
@@ -12,7 +13,6 @@ import {
     getOptionsText,
     getListItems,
     getActiveItem,
-    getNextQuickSearch,
     getPopupHeight,
     getPopupMinWidth,
     getPopupVerticalOffset,
@@ -21,7 +21,7 @@ import {
 } from './utils';
 import {SelectControl, SelectPopup, SelectList} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {LIST_CLASSNAME, QUICK_SEARCH_TIMEOUT, VIRTUALIZE_THRESHOLD} from './constants';
+import {VIRTUALIZE_THRESHOLD} from './constants';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -52,10 +52,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple = false,
         disabled = false,
     } = props;
-    const [{controlRect, quickSearch, quickSearchTimer}, dispatch] = React.useReducer(
-        reducer,
-        getInitialState(),
-    );
+    const [{controlRect}, dispatch] = React.useReducer(reducer, getInitialState());
     const controlRef = React.useRef<HTMLElement>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
@@ -86,13 +83,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             }
 
             handleSelection(option);
-
-            if (quickSearch) {
-                dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-            }
         },
-        [handleSelection, quickSearch],
+        [handleSelection],
     );
+
+    const handleActiveItemSelection = React.useCallback(() => {
+        handleOptionClick(getActiveItem(listRef));
+    }, [handleOptionClick]);
 
     const handleControlKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
         // prevent dialog closing in case of item selection by Enter/Spacebar keydown
@@ -100,49 +97,28 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             e.preventDefault();
 
             if (e.key === KeyCode.SPACEBAR) {
-                handleOptionClick(getActiveItem(listRef));
+                handleActiveItemSelection();
             }
         }
 
         listRef?.current?.onKeyDown(e);
     };
 
-    const handleQuickSearchTimer = React.useCallback(
-        (nextQuickSearch: string) => {
-            clearTimeout(quickSearchTimer);
+    const handleQuickSearchChange = React.useCallback((search: string) => {
+        if (search) {
+            const itemIndex = findItemIndexByQuickSearch(search, getListItems(listRef));
 
-            if (nextQuickSearch) {
-                const nextTimer = window.setTimeout(() => {
-                    dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-                }, QUICK_SEARCH_TIMEOUT);
-                dispatch({type: 'SET_QUICK_SEARCH_TIMER', payload: {quickSearchTimer: nextTimer}});
+            if (typeof itemIndex === 'number' && itemIndex !== -1) {
+                listRef?.current?.activateItem(itemIndex, true);
             }
-        },
-        [quickSearchTimer],
-    );
+        }
+    }, []);
 
-    const handleQuickSearch = React.useCallback(
-        (e: KeyboardEvent) => {
-            e.stopPropagation();
-
-            if (
-                e.key === KeyCode.SPACEBAR &&
-                document.activeElement?.classList.contains(LIST_CLASSNAME)
-            ) {
-                handleOptionClick(getActiveItem(listRef));
-
-                return;
-            }
-
-            const nextQuickSearch = getNextQuickSearch(e.key, quickSearch);
-
-            if (quickSearch !== nextQuickSearch) {
-                handleQuickSearchTimer(nextQuickSearch);
-                dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: nextQuickSearch}});
-            }
-        },
-        [handleQuickSearchTimer, handleOptionClick, quickSearch],
-    );
+    useQuickSearch({
+        onActiveItemSelect: handleActiveItemSelection,
+        onSearchChange: handleQuickSearchChange,
+        open,
+    });
 
     React.useEffect(() => {
         if (open) {
@@ -153,38 +129,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
         onOpenChange?.(open);
     }, [open, onOpenChange]);
-
-    React.useEffect(() => {
-        if (open) {
-            document.addEventListener('keydown', handleQuickSearch);
-        } else {
-            dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-        }
-
-        return () => {
-            if (open) {
-                document.removeEventListener('keydown', handleQuickSearch);
-            }
-        };
-    }, [handleQuickSearch, open]);
-
-    React.useEffect(() => {
-        if (quickSearch) {
-            const itemIndex = findItemIndexByQuickSearch(quickSearch, getListItems(listRef));
-
-            if (typeof itemIndex === 'number' && itemIndex !== -1) {
-                listRef?.current?.activateItem(itemIndex, true);
-            }
-        }
-    }, [quickSearch]);
-
-    React.useEffect(() => {
-        if (!open && typeof quickSearchTimer === 'number') {
-            clearTimeout(quickSearchTimer);
-        }
-
-        return () => clearTimeout(quickSearchTimer);
-    }, [open, quickSearchTimer]);
 
     return (
         <React.Fragment>

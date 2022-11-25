@@ -24,6 +24,7 @@ Showcase.args = {
     view: 'normal',
     size: 'm',
     multiple: false,
+    filterable: false,
     disabled: false,
     placeholder: 'Values',
     label: '',

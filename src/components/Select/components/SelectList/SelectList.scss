@@ -14,12 +14,11 @@ $xl-hor-padding: '12px';
 
 #{$block} {
     display: flex;
-    max-height: 90vh;
     margin: 4px 0;
     overflow: hidden auto;
 
-    // used to increase specificity
-    #{$popupBlock} &:first-child {
+    #{$popupBlock} &:first-child,
+    #{$popupBlock} &:last-child {
         border-radius: 0;
     }
 

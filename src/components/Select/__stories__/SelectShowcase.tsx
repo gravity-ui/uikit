@@ -5,6 +5,7 @@ import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton, RadioButtonOption} from '../../RadioButton';
 import {Tooltip} from '../../Tooltip';
 import {Button} from '../../Button';
+import {TextInput} from '../../TextInput';
 import {Select, SelectProps, SelectOption} from '..';
 import {
     EXAMPLE_JSON_OPTIONS,
@@ -14,6 +15,7 @@ import {
     EXAMPLE_USER_OPTIONS,
     EXAMPLE_USER_CONTROL,
     EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
+    EXAMPLE_CUSTOM_FILTER_SECTION,
 } from './constants';
 
 import './SelectShowcase.scss';
@@ -93,6 +95,23 @@ const ExampleItem = (props: {
                     );
                 })
             )}
+        </div>
+    );
+};
+
+const renderFilter: SelectProps['renderFilter'] = (props) => {
+    const {value, ref, onChange, onKeyDown} = props;
+
+    return (
+        <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
+            <TextInput
+                controlRef={ref}
+                controlProps={{size: 1}}
+                value={value}
+                onUpdate={onChange}
+                onKeyDown={onKeyDown}
+            />
+            <Button>Do smth</Button>
         </div>
     );
 };
@@ -199,7 +218,20 @@ export const SelectShowcase = (props: SelectProps) => {
                 }}
             >
                 <Select.Option value="1" content="1" />
-                <Select.Option value="2" content="2" disabled />
+                <Select.Option value="2" content="2" text={'Hover here'} disabled />
+            </ExampleItem>
+            <ExampleItem
+                title="Select with custom filter section"
+                code={[EXAMPLE_CUSTOM_FILTER_SECTION]}
+                selectProps={{
+                    ...props,
+                    renderFilter,
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
             </ExampleItem>
         </div>
     );

@@ -1,20 +1,16 @@
 import type {State, Action} from './types';
 
-export const getInitialState = (): State => ({quickSearch: ''});
+export const initialState: State = {filter: ''};
 
-export const reducer = (state: State, action: Action) => {
+export const reducer = (state: State = initialState, action: Action) => {
     switch (action.type) {
-        case 'SET_QUICK_SEARCH': {
-            const {quickSearch} = action.payload;
-            return {...state, quickSearch};
-        }
-        case 'SET_QUICK_SEARCH_TIMER': {
-            const {quickSearchTimer} = action.payload;
-            return {...state, quickSearchTimer};
-        }
         case 'SET_CONTROL_RECT': {
             const {controlRect} = action.payload;
             return {...state, controlRect};
+        }
+        case 'SET_FILTER': {
+            const {filter} = action.payload;
+            return {...state, filter};
         }
         default: {
             return state;

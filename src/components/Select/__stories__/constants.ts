@@ -164,3 +164,39 @@ const [value, setValue] = React.useState<string[]>([]);
     <Select.Option value="2" content="2" disabled />
 </Select>
 `;
+
+export const EXAMPLE_CUSTOM_FILTER_SECTION = `import {Button} from '@gravity-ui/uikit';
+import {TextInput} from '@gravity-ui/uikit;
+
+const [value, setValue] = React.useState<string[]>([]);
+
+const renderFilter: SelectProps['renderFilter'] = (props) => {
+    const {value, ref, onChange, onKeyDown} = props;
+
+    return (
+        <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
+            <TextInput
+                controlRef={ref}
+                controlProps={{size: 1}}
+                value={value}
+                onUpdate={onChange}
+                onKeyDown={onKeyDown}
+            />
+            <Button>Do smth</Button>
+        </div>
+    );
+};
+
+<Select
+    value={value}
+    placeholder="Values",
+    onUpdate={(nextValue) => setValue1(nextValue)}
+    renderFilter={renderFilter}
+>
+    <Select.Option value="val1" content="Value1" />
+    <Select.Option value="val2" content="Value2" />
+    <Select.Option value="val3" content="Value3" />
+    <Select.Option value="val4" content="Value4" />
+</Select>
+
+`;

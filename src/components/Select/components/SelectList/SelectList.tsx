@@ -3,7 +3,6 @@ import {block} from '../../../utils/cn';
 import {List} from '../../../List';
 import {SelectProps} from '../../types';
 import {FlattenOption, getPopupItemHeight} from '../../utils';
-import {LIST_CLASSNAME} from '../../constants';
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
 
@@ -18,7 +17,8 @@ type SelectListProps = {
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     flattenOptions: FlattenOption[];
-    height?: number;
+    listHeight: number;
+    filterHeight: number;
     multiple?: boolean;
     virtualized?: boolean;
 };
@@ -31,7 +31,8 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         size,
         flattenOptions,
         value,
-        height,
+        listHeight,
+        filterHeight,
         multiple,
         virtualized,
     } = props;
@@ -62,13 +63,12 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     );
 
     return (
-        <div className={b({size})}>
+        <div className={b({size})} style={{maxHeight: `calc(90vh - ${filterHeight}px)`}}>
             <List
                 ref={ref}
-                className={LIST_CLASSNAME}
                 itemClassName={b('item')}
                 itemHeight={getItemHeight}
-                itemsHeight={virtualized ? height : undefined}
+                itemsHeight={virtualized ? listHeight : undefined}
                 items={flattenOptions}
                 filterable={false}
                 virtualized={virtualized}

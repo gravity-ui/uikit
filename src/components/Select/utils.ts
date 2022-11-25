@@ -48,7 +48,7 @@ export const getPopupItemHeight = (args: {
     return getOptionHeight ? getOptionHeight(option) : SIZE_TO_ITEM_HEIGHT[size];
 };
 
-export const getPopupHeight = (args: {
+export const getListHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
     size: NonNullable<SelectProps['size']>;
     options: FlattenOption[];
@@ -226,4 +226,48 @@ export const activateFirstClickableItem = (listRef: React.RefObject<List<Flatten
     const items = getListItems(listRef);
     const isGroupTitleFirstItem = items[0] && 'label' in items[0];
     listRef?.current?.activateItem(isGroupTitleFirstItem ? 1 : 0, false);
+};
+
+const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
+    const lowerOptionText = getOptionText(option).toLocaleLowerCase();
+    const lowerFilter = filter.toLocaleLowerCase();
+
+    return Boolean(lowerOptionText.match(lowerFilter));
+};
+
+const isGroupTitle = (option?: FlattenOption): option is GroupTitleItem => {
+    return Boolean(option && 'label' in option);
+};
+
+export const getFilteredFlattenOptions = (args: {
+    options: FlattenOption[];
+    filter: string;
+    filterOption?: SelectProps['filterOption'];
+}) => {
+    const {options, filter, filterOption} = args;
+    const filteredOptions = options.filter((option) => {
+        if (isGroupTitle(option)) {
+            return true;
+        }
+
+        return filterOption
+            ? filterOption(option, filter)
+            : isOptionMatchedByFilter(option, filter);
+    });
+
+    return filteredOptions.reduce((acc, option, index) => {
+        const groupTitle = isGroupTitle(option);
+        const previousGroupTitle = isGroupTitle(acc[index - 1]);
+        const isLastOption = index === filteredOptions.length - 1;
+
+        if (groupTitle && previousGroupTitle) {
+            acc.pop();
+        }
+
+        if (!groupTitle || (groupTitle && !isLastOption)) {
+            acc.push(option);
+        }
+
+        return acc;
+    }, [] as FlattenOption[]);
 };

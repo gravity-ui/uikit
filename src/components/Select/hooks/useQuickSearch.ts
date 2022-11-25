@@ -1,16 +1,15 @@
 import React from 'react';
-import {KeyCode} from '../../constants';
 import {getNextQuickSearch} from '../utils';
-import {LIST_CLASSNAME, QUICK_SEARCH_TIMEOUT} from '../constants';
+import {QUICK_SEARCH_TIMEOUT} from '../constants';
 
 type UseQuickSearchProps = {
-    onActiveItemSelect: () => void;
-    onSearchChange: (search: string) => void;
-    open: boolean;
+    onChange: (search: string) => void;
+    open?: boolean;
+    disabled?: boolean;
 };
 
 export const useQuickSearch = (props: UseQuickSearchProps) => {
-    const {onActiveItemSelect, onSearchChange, open} = props;
+    const {onChange, open, disabled} = props;
     const [search, setSearch] = React.useState('');
     const [timer, setTimer] = React.useState<number | undefined>();
 
@@ -30,15 +29,6 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
         (e: KeyboardEvent) => {
             e.stopPropagation();
 
-            if (
-                e.key === KeyCode.SPACEBAR &&
-                document.activeElement?.classList.contains(LIST_CLASSNAME)
-            ) {
-                onActiveItemSelect();
-
-                return;
-            }
-
             const nextSearch = getNextQuickSearch(e.key, search);
 
             if (search !== nextSearch) {
@@ -46,22 +36,22 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
                 setSearch(nextSearch);
             }
         },
-        [onActiveItemSelect, handleTimer, search],
+        [handleTimer, search],
     );
 
     React.useEffect(() => {
-        if (open) {
+        if (open && !disabled) {
             document.addEventListener('keydown', handleSearch);
-        } else {
+        } else if (!open && !disabled) {
             setSearch('');
         }
 
         return () => {
-            if (open) {
+            if (open && !disabled) {
                 document.removeEventListener('keydown', handleSearch);
             }
         };
-    }, [handleSearch, open]);
+    }, [handleSearch, open, disabled]);
 
     React.useEffect(() => {
         if (!open) {
@@ -72,6 +62,6 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
     }, [open, timer]);
 
     React.useEffect(() => {
-        onSearchChange(search);
-    }, [onSearchChange, search]);
+        onChange(search);
+    }, [onChange, search]);
 };

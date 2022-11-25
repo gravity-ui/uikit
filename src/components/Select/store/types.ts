@@ -1,18 +1,13 @@
 import React from 'react';
 
 export type State = {
-    quickSearch: string;
-    quickSearchTimer?: number;
+    filter: string;
     controlRect?: DOMRect;
 };
 
-type SetQuickSearch = {type: 'SET_QUICK_SEARCH'; payload: {quickSearch: string}};
-type SetQuickSearchTimer = {
-    type: 'SET_QUICK_SEARCH_TIMER';
-    payload: {quickSearchTimer?: number};
-};
 type SetControlRect = {type: 'SET_CONTROL_RECT'; payload: {controlRect?: DOMRect}};
+type SetFilter = {type: 'SET_FILTER'; payload: {filter: string}};
 
-export type Action = SetQuickSearch | SetQuickSearchTimer | SetControlRect;
+export type Action = SetControlRect | SetFilter;
 
 export type Dispatch = React.Dispatch<Action>;

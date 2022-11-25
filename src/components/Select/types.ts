@@ -7,13 +7,21 @@ export type SelectProps = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> & {
         onUpdate?: (value: string[]) => void;
         onOpenChange?: (open: boolean) => void;
+        onFilterChange?: (filter: string) => void;
         renderControl?: (props: {
             onClick: (e: React.MouseEvent<HTMLElement>) => void;
             onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
             ref: React.Ref<HTMLElement>;
         }) => React.ReactElement;
+        renderFilter?: (props: {
+            onChange: (filter: string) => void;
+            onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+            value: string;
+            ref: React.Ref<HTMLInputElement>;
+        }) => React.ReactElement;
         renderOption?: (option: SelectOption) => React.ReactElement;
         getOptionHeight?: (option: SelectOption) => number;
+        filterOption?: (option: SelectOption, filter: string) => boolean;
         view?: TextInputView;
         size?: TextInputSize;
         pin?: TextInputPin;
@@ -22,10 +30,12 @@ export type SelectProps = QAProps &
         className?: string;
         label?: string;
         placeholder?: React.ReactNode;
+        filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
         options?: (SelectOption | SelectOptionGroup)[];
         multiple?: boolean;
+        filterable?: boolean;
         children?:
             | React.ReactElement<SelectOption, typeof Option>
             | React.ReactElement<SelectOption, typeof Option>[]

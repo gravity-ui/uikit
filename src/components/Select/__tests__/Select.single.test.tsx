@@ -9,7 +9,10 @@ import {
     setup,
 } from './utils';
 
-afterEach(cleanup);
+afterEach(() => {
+    cleanup();
+    jest.clearAllMocks();
+});
 
 const onUpdate = jest.fn();
 const onOpenChange = jest.fn();
@@ -55,6 +58,24 @@ describe('Select single mode actions', () => {
             await user.keyboard(`[${key}]`);
             expect(onUpdate).toHaveBeenCalledWith([selectedOption.value]);
             expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+        });
+    });
+
+    describe('ignore disabled element selection by clicking in', () => {
+        test('flat list', async () => {
+            const searchText = 'Disabled option';
+            const options = [{content: searchText, value: '1', disabled: true}];
+            const {getByTestId, getByText} = setup({options, onUpdate, onOpenChange});
+            const user = userEvent.setup();
+            const selectControl = getByTestId(TEST_QA);
+            // open select popup
+            await user.click(selectControl);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            const option = getByText(searchText);
+            // select option
+            await user.click(option);
+            expect(onUpdate).not.toBeCalled();
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
         });
     });
 });

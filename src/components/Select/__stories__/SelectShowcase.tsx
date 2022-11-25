@@ -3,6 +3,7 @@ import range from 'lodash/range';
 import {block} from '../../utils/cn';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton, RadioButtonOption} from '../../RadioButton';
+import {Tooltip} from '../../Tooltip';
 import {Button} from '../../Button';
 import {Select, SelectProps, SelectOption} from '..';
 import {
@@ -12,6 +13,7 @@ import {
     EXAMPLE_GROUP_CHILDREN_OPTIONS,
     EXAMPLE_USER_OPTIONS,
     EXAMPLE_USER_CONTROL,
+    EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
 } from './constants';
 
 import './SelectShowcase.scss';
@@ -178,6 +180,27 @@ export const SelectShowcase = (props: SelectProps) => {
                     options: generateItems(1000),
                 }}
             />
+            <ExampleItem
+                title="Select with custom renderer & tooltip at disabled item"
+                code={[EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM]}
+                selectProps={{
+                    ...props,
+                    renderOption: (option) => {
+                        return option.disabled ? (
+                            <Tooltip content="Tooltip">
+                                <span style={{color: option.disabled ? 'gray' : 'inherit'}}>
+                                    Hover here
+                                </span>
+                            </Tooltip>
+                        ) : (
+                            <span>{option.content}</span>
+                        );
+                    },
+                }}
+            >
+                <Select.Option value="1" content="1" />
+                <Select.Option value="2" content="2" disabled />
+            </ExampleItem>
         </div>
     );
 };

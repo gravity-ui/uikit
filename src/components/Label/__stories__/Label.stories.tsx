@@ -59,9 +59,6 @@ const ThemeTemplate: Story<LabelProps> = (args) => {
             <Label {...args} theme="unknown">
                 unknown
             </Label>
-            <Label {...args} theme="plain">
-                plain
-            </Label>
         </div>
     );
 };

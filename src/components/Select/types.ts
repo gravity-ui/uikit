@@ -30,6 +30,7 @@ export type SelectProps = QAProps &
         className?: string;
         label?: string;
         placeholder?: React.ReactNode;
+        emptyPlaceholder?: React.ReactNode;
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];

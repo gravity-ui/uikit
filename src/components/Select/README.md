@@ -18,6 +18,7 @@
 | className                       | `string`                                | `-`             | Control className                                                                                          |
 | label                           | `string`                                | `-`             | Control label                                                                                              |
 | placeholder                     | `string`                                | `-`             | Placeholder text                                                                                           |
+| emptyPlaceholder                | `string`                                | `-`             | Placeholder node for an empty options list                                                                 |
 | filterPlaceholder               | `string`                                | `-`             | Default filter input placeholder text                                                                      |
 | value                           | `string[]`                              | `-`             | Values that represent selected options                                                                     |
 | defaultValue                    | `string[]`                              | `-`             | Default values that represent selected options in case of using uncontrolled state                         |

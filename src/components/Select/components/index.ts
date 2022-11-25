@@ -1,3 +1,4 @@
+export {EmptyPlaceholder} from './EmptyPlaceholder/EmptyPlaceholder';
 export * from './SelectControl/SelectControl';
 export {SelectFilter} from './SelectFilter/SelectFilter';
 export {SelectList} from './SelectList/SelectList';

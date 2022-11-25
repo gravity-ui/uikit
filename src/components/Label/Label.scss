@@ -95,12 +95,12 @@ $transitionTimingFunction: ease-in-out;
             &#{$block}_style {
                 &_default,
                 &_rounded {
-                    border-radius: var(--yc-border-radius-s);
+                    border-radius: var(--yc-border-radius-xs);
 
                     & #{$block}__icon {
                         &_interactive {
                             --yc-button-height: 20px;
-                            --yc-button-border-radius: var(--yc-border-radius-s);
+                            --yc-button-border-radius: var(--yc-border-radius-xs);
                         }
                     }
                 }
@@ -246,24 +246,6 @@ $transitionTimingFunction: ease-in-out;
                 var(--yc-color-base-neutral-hover),
                 var(--yc-color-text-complementary)
             );
-        }
-
-        &_plain {
-            @include themeState(
-                var(--yc-color-base-generic),
-                var(--yc-color-base-generic-hover),
-                var(--yc-color-text-complementary)
-            );
-
-            // hover on action button
-            &:not(#{$disabled}) #{$block}__icon_interactive {
-                --yc-button-background-color: transparent;
-                --yc-button-background-color-hover: var(--yc-color-text-secondary);
-
-                &:hover {
-                    color: var(--yc-color-text-inverted-primary);
-                }
-            }
         }
     }
 }

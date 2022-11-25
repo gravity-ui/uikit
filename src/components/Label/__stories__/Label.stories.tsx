@@ -158,7 +158,7 @@ export const Interactions: Story<LabelProps> = (args) => (
             <Label
                 {...args}
                 type={'close'}
-                theme={'plain'}
+                theme={'unknown'}
                 size="xs"
                 onClick={() => {
                     console.log('click');
@@ -167,7 +167,7 @@ export const Interactions: Story<LabelProps> = (args) => (
                     console.log('close');
                 }}
             >
-                Click and Close Plain
+                Click and Close
             </Label>
         </div>
     </div>

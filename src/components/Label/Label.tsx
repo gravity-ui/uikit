@@ -98,8 +98,10 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const content = hasContent && <div className={b('text')}>{children}</div>;
 
     const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        /* preventing event from bubbling */
-        event.stopPropagation();
+        if (hasOnClick) {
+            /* preventing event from bubbling */
+            event.stopPropagation();
+        }
 
         if (onClose) onClose(event);
     };

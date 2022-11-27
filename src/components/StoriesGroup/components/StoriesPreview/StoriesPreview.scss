@@ -1,0 +1,26 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}stories-group-preview';
+
+#{$block} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    margin-bottom: 16px;
+
+    &__stories-preview-item {
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+
+        background-color: var(--yc-color-base-background);
+        opacity: 0.4;
+
+        &:hover,
+        &_active {
+            opacity: 1;
+        }
+    }
+}

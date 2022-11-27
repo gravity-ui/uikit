@@ -105,7 +105,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 filterRef.current?.focus();
 
                 if (typeof activeItemIndex === 'number') {
+                    // prevent item deactivation in case of multiple selection
                     // https://github.com/gravity-ui/uikit/blob/main/src/components/List/List.tsx#L369
+                    // Will fixed after https://github.com/gravity-ui/uikit/issues/385
                     setTimeout(() => {
                         listRef?.current?.activateItem(activeItemIndex, true);
                     }, 50);
@@ -120,7 +122,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const handleControlKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLElement>) => {
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
-            if ([KeyCode.ENTER].includes(e.key) && open) {
+            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
                 e.preventDefault();
 
                 if (e.key === KeyCode.SPACEBAR) {

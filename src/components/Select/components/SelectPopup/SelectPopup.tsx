@@ -9,9 +9,10 @@ type SelectPopupProps = {
     minWidth?: number;
     open?: boolean;
     controlRef?: React.RefObject<HTMLElement>;
+    children?: React.ReactNode;
 };
 
-export const SelectPopup: React.FC<SelectPopupProps> = (props) => {
+export const SelectPopup = (props: SelectPopupProps) => {
     const {handleClose, verticalOffset, width, minWidth, open, controlRef, children} = props;
 
     return (

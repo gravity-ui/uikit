@@ -87,7 +87,7 @@ export const StoriesGroup = ({
     }, [groups, onItemSelect]);
 
     const onGroupSelect = React.useCallback(
-        (newGroupIndex) => {
+        (newGroupIndex: number) => {
             setCurrentStoryIndex([newGroupIndex, 0]);
             onItemSelect?.([newGroupIndex, 0], true);
         },

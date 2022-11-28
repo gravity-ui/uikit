@@ -37,16 +37,16 @@ export const StoriesLayout = (props: StoriesLayoutProps) => {
         <div className={b('wrap-outer')}>
             <div className={b('wrap-inner')}>
                 <div className={b('container')}>
-                    {currentStory && (
-                        <React.Fragment>
-                            <div className={b('left-pane')}>
-                                <div className={b('counter')}>
-                                    {i18n('label_counter', {
-                                        current: props.storyIndex + 1,
-                                        total: props.items.length,
-                                    })}
-                                </div>
-                                <div className={b('text-block')}>
+                    <div className={b('left-pane')}>
+                        <div className={b('counter')}>
+                            {i18n('label_counter', {
+                                current: props.storyIndex + 1,
+                                total: props.items.length,
+                            })}
+                        </div>
+                        <div className={b('text-block')}>
+                            {currentStory && (
+                                <React.Fragment>
                                     {currentStory.title ?? (
                                         <div className={b('text-header')}>{currentStory.title}</div>
                                     )}
@@ -62,43 +62,35 @@ export const StoriesLayout = (props: StoriesLayoutProps) => {
                                             </Link>
                                         </div>
                                     )}
-                                </div>
-                                <div className={b('controls-block')}>
-                                    {IndexType.Start !== props.indexType && (
-                                        <Button
-                                            onClick={props.handleGotoPrevious}
-                                            view="outlined"
-                                            size="l"
-                                        >
-                                            {i18n('label_back')}
-                                        </Button>
-                                    )}
-                                    {IndexType.End !== props.indexType && (
-                                        <Button
-                                            onClick={props.handleGotoNext}
-                                            view="action"
-                                            size="l"
-                                        >
-                                            {i18n('label_next')}
-                                        </Button>
-                                    )}
-                                    {IndexType.InProccess !== props.indexType && (
-                                        <Button onClick={props.handleButtonClose} size="l">
-                                            {i18n('label_close')}
-                                        </Button>
-                                    )}
-                                </div>
+                                </React.Fragment>
+                            )}
+                        </div>
+                        <div className={b('controls-block')}>
+                            {IndexType.Start !== props.indexType && (
+                                <Button onClick={props.handleGotoPrevious} view="outlined" size="l">
+                                    {i18n('label_back')}
+                                </Button>
+                            )}
+                            {IndexType.InProccess !== props.indexType && (
+                                <Button onClick={props.handleButtonClose} size="l">
+                                    {i18n('label_close')}
+                                </Button>
+                            )}
+                            {IndexType.End !== props.indexType && (
+                                <Button onClick={props.handleGotoNext} view="action" size="l">
+                                    {i18n('label_next')}
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                    <div className={b('right-pane')}>
+                        <ButtonClose onClose={props.handleButtonClose} />
+                        {currentStory?.media && (
+                            <div className={b('media-block')}>
+                                <MediaRenderer media={currentStory.media} />
                             </div>
-                            <div className={b('right-pane')}>
-                                <ButtonClose onClose={props.handleButtonClose} />
-                                {currentStory.media && (
-                                    <div className={b('media-block')}>
-                                        <MediaRenderer media={currentStory.media} />
-                                    </div>
-                                )}
-                            </div>
-                        </React.Fragment>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

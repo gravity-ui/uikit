@@ -10,6 +10,8 @@ $block: '.#{variables.$ns}stories-group-preview';
     margin-bottom: 16px;
 
     &__stories-preview-item {
+        cursor: pointer;
+
         overflow: hidden;
         width: 40px;
         height: 40px;

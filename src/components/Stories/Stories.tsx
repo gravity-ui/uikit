@@ -30,20 +30,10 @@ export function Stories({
     items,
     onPreviousClick,
     onNextClick,
-    initialStoryIndex,
+    initialStoryIndex = 0,
     disableOutsideClick = true,
 }: StoriesProps) {
-    const [storyIndex, setStoryIndex] = React.useState(() => {
-        if (
-            typeof initialStoryIndex !== 'undefined' &&
-            initialStoryIndex >= 0 &&
-            initialStoryIndex < items.length
-        ) {
-            return initialStoryIndex;
-        }
-
-        return 0;
-    });
+    const [storyIndex, setStoryIndex] = React.useState(initialStoryIndex);
 
     const handleClose = React.useCallback<NonNullable<StoriesProps['onClose']>>(
         (event, reason) => {
@@ -86,8 +76,9 @@ export function Stories({
     }, [items, onNextClick]);
 
     const indexType =
+        (items[storyIndex] === undefined && IndexType.Invalid) ||
         (storyIndex === 0 && IndexType.Start) ||
-        (storyIndex >= items.length - 1 && IndexType.End) ||
+        (storyIndex === items.length - 1 && IndexType.End) ||
         IndexType.InProccess;
 
     return (

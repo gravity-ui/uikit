@@ -77,6 +77,7 @@ const DefaultTemplate: Story<StoriesGroupProps> = (props: StoriesGroupProps) => 
 };
 export const Default = DefaultTemplate.bind({});
 Default.args = {
+    initialStoryIndex: [0, 0],
     open: false,
     groups,
 };

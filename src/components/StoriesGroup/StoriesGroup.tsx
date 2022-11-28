@@ -30,12 +30,10 @@ export const StoriesGroup = ({
     groups,
     onItemSelect,
     disableOutsideClick,
-    initialStoryIndex,
+    initialStoryIndex = [0, 0],
     onClose,
 }: StoriesGroupProps) => {
-    const [[groupIndex, itemIndex], setCurrentStoryIndex] = React.useState(
-        initialStoryIndex || [0, 0],
-    );
+    const [[groupIndex, itemIndex], setCurrentStoryIndex] = React.useState(initialStoryIndex);
 
     const handleClose = React.useCallback<NonNullable<StoriesGroupProps['onClose']>>(
         (event, reason) => {
@@ -95,11 +93,13 @@ export const StoriesGroup = ({
     );
 
     const currentGroup = groups[groupIndex];
-    const currentItems = currentGroup ? currentGroup.items : [];
+    const currentItems = currentGroup?.items || [];
 
     const indexType =
+        ((currentGroup === undefined || currentItems[itemIndex] === undefined) &&
+            IndexType.Invalid) ||
         (groupIndex === 0 && itemIndex === 0 && IndexType.Start) ||
-        (groupIndex === groups.length - 1 &&
+        (groupIndex >= groups.length - 1 &&
             itemIndex >= currentItems.length - 1 &&
             IndexType.End) ||
         IndexType.InProccess;

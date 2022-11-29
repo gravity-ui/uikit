@@ -48,15 +48,15 @@ export const StoriesLayout = (props: StoriesLayoutProps) => {
                         <div className={b('text-block')}>
                             {currentStory && (
                                 <React.Fragment>
-                                    {currentStory.title ?? (
+                                    {currentStory.title && (
                                         <div className={b('text-header')}>{currentStory.title}</div>
                                     )}
-                                    {currentStory.description ?? (
+                                    {currentStory.description && (
                                         <div className={b('text-content')}>
                                             {currentStory.description}
                                         </div>
                                     )}
-                                    {currentStory.url ?? (
+                                    {currentStory.url && (
                                         <div className={b('story-link-block')}>
                                             <Link href={currentStory.url} target={'_blank'}>
                                                 {i18n('label_more')}

@@ -82,14 +82,14 @@ const StoriesPreviewWithSlider = ({
                     )}
                 </div>
             )}
-
-            <StoriesPreviewList
-                groupIndex={groupIndex}
-                groups={groups.slice(offset, offset + 12)}
-                onGroupSelect={onGroupSelect}
-                offset={offset}
-            />
-
+            <div className={b('slider-previe-list-wrapper')}>
+                <StoriesPreviewList
+                    groupIndex={groupIndex}
+                    groups={groups.slice(offset, offset + 12)}
+                    onGroupSelect={onGroupSelect}
+                    offset={offset}
+                />
+            </div>
             {groups.length > 12 && (
                 <div className={b('slider-button-wrapper')}>
                     {offset < groups.length - 12 && (

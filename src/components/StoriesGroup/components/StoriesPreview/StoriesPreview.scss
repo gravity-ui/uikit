@@ -4,13 +4,18 @@ $block: '.#{variables.$ns}stories-group-preview';
 
 #{$block} {
     user-select: none;
+    margin-bottom: 16px;
 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
 
-    margin-bottom: 16px;
+    &__slider-previe-list-wrapper {
+        width: 568px; // widht of 12 preview items
+        display: flex;
+        gap: 8px;
+    }
 
     &__stories-preview-item {
         box-sizing: border-box;

@@ -18,7 +18,12 @@ $block: '.#{variables.$ns}stories-group-preview';
     }
 
     &__stories-preview-item {
+        position: relative;
         box-sizing: border-box;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         cursor: pointer;
 
@@ -28,11 +33,23 @@ $block: '.#{variables.$ns}stories-group-preview';
         border-radius: 8px;
 
         background-color: var(--yc-color-base-background);
-        opacity: 0.4;
 
-        &:hover,
-        &_active {
-            opacity: 1;
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            background-color: var(--yc-color-sfx-shadow);
+            width: 40px;
+            height: 40px;
+        }
+
+        &_active,
+        &:hover {
+            &::after {
+                display: none;
+            }
         }
 
         &_active {

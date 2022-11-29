@@ -3,13 +3,18 @@
 $block: '.#{variables.$ns}stories-group-preview';
 
 #{$block} {
+    user-select: none;
+
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 8px;
 
     margin-bottom: 16px;
 
     &__stories-preview-item {
+        box-sizing: border-box;
+
         cursor: pointer;
 
         overflow: hidden;
@@ -23,6 +28,19 @@ $block: '.#{variables.$ns}stories-group-preview';
         &:hover,
         &_active {
             opacity: 1;
+            border: 2px solid var(--yc-color-line-selection-active);
         }
+    }
+
+    &__Icon_left {
+        transform: rotate(90deg);
+    }
+    &__Icon_right {
+        transform: rotate(-90deg);
+    }
+
+    &__slider-button-wrapper {
+        width: 28px;
+        height: 28px;
     }
 }

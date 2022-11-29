@@ -8,7 +8,6 @@ import {block} from '../utils/cn';
 import './StoriesGroup.scss';
 
 const b = block('stories-group');
-const modalContentCn = b('modal-content');
 
 export interface StoriesGroupProps {
     open: boolean;
@@ -109,7 +108,7 @@ export const StoriesGroup = ({
             open={open}
             onClose={handleClose}
             disableOutsideClick={disableOutsideClick}
-            contentClassName={modalContentCn}
+            contentClassName={b('modal-content')}
         >
             <StoriesPreview groups={groups} groupIndex={groupIndex} onGroupSelect={onGroupSelect} />
             <StoriesLayout

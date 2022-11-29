@@ -9,7 +9,6 @@ import {block} from '../utils/cn';
 import './Stories.scss';
 
 const b = block('stories');
-const modalContentCn = b('modal-content');
 
 export interface StoriesProps {
     open: boolean;
@@ -86,7 +85,7 @@ export function Stories({
             open={open}
             onClose={handleClose}
             disableOutsideClick={disableOutsideClick}
-            contentClassName={modalContentCn}
+            contentClassName={b('modal-content')}
         >
             <StoriesLayout
                 items={items}

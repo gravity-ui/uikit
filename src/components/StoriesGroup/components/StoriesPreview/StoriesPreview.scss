@@ -28,6 +28,9 @@ $block: '.#{variables.$ns}stories-group-preview';
         &:hover,
         &_active {
             opacity: 1;
+        }
+
+        &_active {
             border: 2px solid var(--yc-color-line-selection-active);
         }
     }

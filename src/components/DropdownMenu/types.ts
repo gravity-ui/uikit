@@ -6,11 +6,20 @@ export type DropdownMenuItemAction<T> = (
     data?: T,
 ) => void;
 
-export type DropdownMenuItem<T = unknown> = Omit<MenuItemProps, 'onClick' | 'children'> & {
-    text: React.ReactNode;
-    action: DropdownMenuItemAction<T>;
-    hidden?: boolean;
-};
+type DropdownMenuItemRequiredProps<T> =
+    | {
+          text: React.ReactNode;
+          action: DropdownMenuItemAction<T>;
+      }
+    | {
+          text: React.ReactNode;
+          href: string;
+      };
+
+export type DropdownMenuItem<T = unknown> = Omit<MenuItemProps, 'onClick' | 'children'> &
+    DropdownMenuItemRequiredProps<T> & {
+        hidden?: boolean;
+    };
 
 export type DropdownMenuItemMixed<T> = DropdownMenuItem<T> | Array<DropdownMenuItem<T>>;
 

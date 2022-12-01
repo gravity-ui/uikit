@@ -84,8 +84,10 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
 
         return (
             <div className={b({layout: direction}, className)}>
-                {hasNets && this.renderSocialShareLinks()}
-                {Boolean(extensions?.length) && extensions}
+                <div className={b('socials-container')}>
+                    {hasNets && this.renderSocialShareLinks()}
+                    {Boolean(extensions?.length) && extensions}
+                </div>
                 {hasNets && withCopyLink && <div className={b('separator')} />}
                 {withCopyLink && this.renderCopyLink()}
             </div>

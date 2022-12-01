@@ -3,6 +3,7 @@ export enum ShareSocialNetwork {
     Facebook = 'Facebook',
     Twitter = 'Twitter',
     VK = 'VK',
+    LinkedIn = 'LinkedIn',
 }
 
 export enum LayoutDirection {

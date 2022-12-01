@@ -1,7 +1,7 @@
 import React from 'react';
 import {block} from '../../../utils/cn';
 
-const b = block('select-popup');
+const b = block('select-list');
 
 type GroupLabelProps = {
     label: string;

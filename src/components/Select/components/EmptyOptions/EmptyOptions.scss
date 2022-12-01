@@ -1,0 +1,12 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}select-empty-placeholder';
+
+#{$block} {
+    margin: 4px;
+    color: var(--yc-color-text-hint);
+
+    &_empty {
+        margin-top: 0;
+    }
+}

@@ -3,8 +3,10 @@ import {useForkRef} from '../utils/useForkRef';
 import {useSelect} from '../utils/useSelect';
 import {List} from '../List';
 import {KeyCode} from '../constants';
-import {reducer, getInitialState} from './store';
-import {SelectProps} from './types';
+import {reducer, initialState} from './store';
+import type {SelectProps} from './types';
+import type {SelectFilterRef} from './types-misc';
+import {useQuickSearch} from './hooks';
 import {
     FlattenOption,
     getOptionsFromChildren,
@@ -12,13 +14,16 @@ import {
     getOptionsText,
     getListItems,
     getActiveItem,
-    getNextQuickSearch,
+    getListHeight,
+    getPopupMinWidth,
+    getPopupVerticalOffset,
+    getFilteredFlattenOptions,
     findItemIndexByQuickSearch,
     activateFirstClickableItem,
 } from './utils';
-import {SelectControl, SelectPopup} from './components';
+import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {LIST_CLASSNAME, QUICK_SEARCH_TIMEOUT} from './constants';
+import {VIRTUALIZE_THRESHOLD} from './constants';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -31,9 +36,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const {
         onUpdate,
         onOpenChange,
+        onFilterChange,
         renderControl,
+        renderFilter,
         renderOption,
+        renderEmptyOptions,
         getOptionHeight,
+        filterOption,
         name,
         className,
         qa,
@@ -41,6 +50,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         defaultValue,
         label,
         placeholder,
+        filterPlaceholder,
         width,
         popupWidth,
         view = 'normal',
@@ -48,12 +58,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         pin = 'round-round',
         multiple = false,
         disabled = false,
+        filterable = false,
     } = props;
-    const [{controlRect, quickSearch, quickSearchTimer}, dispatch] = React.useReducer(
-        reducer,
-        getInitialState(),
-    );
+    const [{controlRect, filter}, dispatch] = React.useReducer(reducer, initialState);
     const controlRef = React.useRef<HTMLElement>(null);
+    const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
     const {value, open, setOpen, handleSelection} = useSelect({
@@ -64,7 +73,25 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
+    const filteredFlattenOptions =
+        filterable && filter
+            ? getFilteredFlattenOptions({
+                  options: flattenOptions,
+                  filter,
+                  filterOption,
+              })
+            : flattenOptions;
     const optionsText = getOptionsText(flattenOptions, value);
+    const virtualized = filteredFlattenOptions.length >= VIRTUALIZE_THRESHOLD;
+    const listHeight = getListHeight({
+        options: filteredFlattenOptions,
+        getOptionHeight,
+        size,
+    });
+    const filterHeight = filterRef.current?.getHeight() || 0;
+    const popupHeight = listHeight + filterHeight;
+    const popupMinWidth = getPopupMinWidth(virtualized, controlRect);
+    const popupVerticalOffset = getPopupVerticalOffset({height: popupHeight, controlRect});
 
     const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
@@ -74,106 +101,85 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 return;
             }
 
+            if (multiple) {
+                const activeItemIndex = listRef?.current?.getActiveItem();
+                filterRef.current?.focus();
+
+                if (typeof activeItemIndex === 'number') {
+                    // prevent item deactivation in case of multiple selection
+                    // https://github.com/gravity-ui/uikit/blob/main/src/components/List/List.tsx#L369
+                    // Will fixed after https://github.com/gravity-ui/uikit/issues/385
+                    setTimeout(() => {
+                        listRef?.current?.activateItem(activeItemIndex, true);
+                    }, 50);
+                }
+            }
+
             handleSelection(option);
-
-            if (quickSearch) {
-                dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-            }
         },
-        [handleSelection, quickSearch],
+        [handleSelection, multiple],
     );
 
-    const handleControlKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-        // prevent dialog closing in case of item selection by Enter/Spacebar keydown
-        if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
-            e.preventDefault();
+    const handleControlKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLElement>) => {
+            // prevent dialog closing in case of item selection by Enter/Spacebar keydown
+            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
+                e.preventDefault();
 
-            if (e.key === KeyCode.SPACEBAR) {
-                handleOptionClick(getActiveItem(listRef));
+                if (e.key === KeyCode.SPACEBAR) {
+                    handleOptionClick(getActiveItem(listRef));
+                }
             }
-        }
 
+            listRef?.current?.onKeyDown(e);
+        },
+        [handleOptionClick, open],
+    );
+
+    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         listRef?.current?.onKeyDown(e);
-    };
+    }, []);
 
-    const handleQuickSearchTimer = React.useCallback(
-        (nextQuickSearch: string) => {
-            clearTimeout(quickSearchTimer);
-
-            if (nextQuickSearch) {
-                const nextTimer = window.setTimeout(() => {
-                    dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-                }, QUICK_SEARCH_TIMEOUT);
-                dispatch({type: 'SET_QUICK_SEARCH_TIMER', payload: {quickSearchTimer: nextTimer}});
-            }
+    const handleFilterChange = React.useCallback(
+        (nextFilter: string) => {
+            onFilterChange?.(nextFilter);
+            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
         },
-        [quickSearchTimer],
+        [onFilterChange],
     );
 
-    const handleQuickSearch = React.useCallback(
-        (e: KeyboardEvent) => {
-            e.stopPropagation();
-
-            if (
-                e.key === KeyCode.SPACEBAR &&
-                document.activeElement?.classList.contains(LIST_CLASSNAME)
-            ) {
-                handleOptionClick(getActiveItem(listRef));
-
-                return;
-            }
-
-            const nextQuickSearch = getNextQuickSearch(e.key, quickSearch);
-
-            if (quickSearch !== nextQuickSearch) {
-                handleQuickSearchTimer(nextQuickSearch);
-                dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: nextQuickSearch}});
-            }
-        },
-        [handleQuickSearchTimer, handleOptionClick, quickSearch],
-    );
-
-    React.useEffect(() => {
-        if (open) {
-            activateFirstClickableItem(listRef);
-            const nextControlRect = controlRef.current?.getBoundingClientRect();
-            dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect: nextControlRect}});
-        }
-
-        onOpenChange?.(open);
-    }, [open, onOpenChange]);
-
-    React.useEffect(() => {
-        if (open) {
-            document.addEventListener('keydown', handleQuickSearch);
-        } else {
-            dispatch({type: 'SET_QUICK_SEARCH', payload: {quickSearch: ''}});
-        }
-
-        return () => {
-            if (open) {
-                document.removeEventListener('keydown', handleQuickSearch);
-            }
-        };
-    }, [handleQuickSearch, open]);
-
-    React.useEffect(() => {
-        if (quickSearch) {
-            const itemIndex = findItemIndexByQuickSearch(quickSearch, getListItems(listRef));
+    const handleQuickSearchChange = React.useCallback((search: string) => {
+        if (search) {
+            const itemIndex = findItemIndexByQuickSearch(search, getListItems(listRef));
 
             if (typeof itemIndex === 'number' && itemIndex !== -1) {
                 listRef?.current?.activateItem(itemIndex, true);
             }
         }
-    }, [quickSearch]);
+    }, []);
+
+    useQuickSearch({
+        onChange: handleQuickSearchChange,
+        open,
+        disabled: filterable,
+    });
 
     React.useEffect(() => {
-        if (!open && typeof quickSearchTimer === 'number') {
-            clearTimeout(quickSearchTimer);
+        if (open) {
+            activateFirstClickableItem(listRef);
+            const nextControlRect = controlRef.current?.getBoundingClientRect();
+
+            if (filterable) {
+                filterRef.current?.focus();
+            }
+
+            dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect: nextControlRect}});
+        } else {
+            dispatch({type: 'SET_FILTER', payload: {filter: ''}});
         }
 
-        return () => clearTimeout(quickSearchTimer);
-    }, [open, quickSearchTimer]);
+        onOpenChange?.(open);
+    }, [open, filterable, onOpenChange]);
 
     return (
         <React.Fragment>
@@ -196,20 +202,42 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderControl={renderControl}
             />
             <SelectPopup
-                ref={listRef}
                 controlRef={controlRef}
-                size={size}
-                value={value}
-                flattenOptions={flattenOptions}
-                popupWidth={popupWidth}
-                controlRect={controlRect}
+                width={popupWidth}
+                minWidth={popupMinWidth}
+                verticalOffset={popupVerticalOffset}
                 open={open}
-                multiple={multiple}
                 handleClose={handleClose}
-                onOptionClick={handleOptionClick}
-                renderOption={renderOption}
-                getOptionHeight={getOptionHeight}
-            />
+            >
+                {filterable && (
+                    <SelectFilter
+                        ref={filterRef}
+                        size={size}
+                        value={filter}
+                        placeholder={filterPlaceholder}
+                        onChange={handleFilterChange}
+                        onKeyDown={handleFilterKeyDown}
+                        renderFilter={renderFilter}
+                    />
+                )}
+                {filteredFlattenOptions.length ? (
+                    <SelectList
+                        ref={listRef}
+                        size={size}
+                        value={value}
+                        flattenOptions={filteredFlattenOptions}
+                        listHeight={listHeight}
+                        filterHeight={filterHeight}
+                        multiple={multiple}
+                        virtualized={virtualized}
+                        onOptionClick={handleOptionClick}
+                        renderOption={renderOption}
+                        getOptionHeight={getOptionHeight}
+                    />
+                ) : (
+                    <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
+                )}
+            </SelectPopup>
         </React.Fragment>
     );
 }) as SelectComponent;

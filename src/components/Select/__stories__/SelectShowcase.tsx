@@ -5,6 +5,7 @@ import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton, RadioButtonOption} from '../../RadioButton';
 import {Tooltip} from '../../Tooltip';
 import {Button} from '../../Button';
+import {TextInput} from '../../TextInput';
 import {Select, SelectProps, SelectOption} from '..';
 import {
     EXAMPLE_JSON_OPTIONS,
@@ -14,6 +15,7 @@ import {
     EXAMPLE_USER_OPTIONS,
     EXAMPLE_USER_CONTROL,
     EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
+    EXAMPLE_CUSTOM_FILTER_SECTION,
 } from './constants';
 
 import './SelectShowcase.scss';
@@ -29,6 +31,10 @@ const generateItems = (count: number): SelectOption[] => {
         value: `val${i + 1}`,
         content: `Value ${i + 1}`,
     }));
+};
+
+const getEscapedString = (str: string) => {
+    return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
 const radioButtonOptions: RadioButtonOption[] = [
@@ -98,6 +104,48 @@ const ExampleItem = (props: {
 };
 
 export const SelectShowcase = (props: SelectProps) => {
+    const [matchCase, setMatchCase] = React.useState(false);
+    const [matchWholeWord, setMatchWholeWord] = React.useState(false);
+
+    const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyDown}) => {
+        return (
+            <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
+                <TextInput
+                    controlRef={ref}
+                    controlProps={{size: 1}}
+                    value={value}
+                    onUpdate={onChange}
+                    onKeyDown={onKeyDown}
+                />
+                <div style={{display: 'flex', columnGap: 2}}>
+                    <Button selected={matchCase} onClick={() => setMatchCase(!matchCase)}>
+                        Ab
+                    </Button>
+                    <Button
+                        selected={matchWholeWord}
+                        onClick={() => setMatchWholeWord(!matchWholeWord)}
+                    >
+                        <span style={{textDecoration: 'underline'}}>ab</span>
+                    </Button>
+                </div>
+            </div>
+        );
+    };
+
+    const getFilterOption = (): SelectProps['filterOption'] | undefined => {
+        if (matchCase || matchWholeWord) {
+            return (option, filter) => {
+                const flags = matchCase ? '' : 'i';
+                const escapedFilter = getEscapedString(filter);
+                const resultFilter = matchWholeWord ? `\\b${escapedFilter}\\b` : escapedFilter;
+                const regExp = new RegExp(resultFilter, flags);
+                return regExp.test(option.content as string);
+            };
+        }
+
+        return undefined;
+    };
+
     return (
         <div className={b()}>
             <ExampleItem
@@ -199,7 +247,21 @@ export const SelectShowcase = (props: SelectProps) => {
                 }}
             >
                 <Select.Option value="1" content="1" />
-                <Select.Option value="2" content="2" disabled />
+                <Select.Option value="2" content="2" text={'Hover here'} disabled />
+            </ExampleItem>
+            <ExampleItem
+                title="Select with custom filter section"
+                code={[EXAMPLE_CUSTOM_FILTER_SECTION]}
+                selectProps={{
+                    ...props,
+                    renderFilter,
+                    filterOption: getFilterOption(),
+                }}
+            >
+                <Select.Option value="val1" content="Value 1" />
+                <Select.Option value="val2" content="val" />
+                <Select.Option value="val3" content="Value" />
+                <Select.Option value="val4" content="value" />
             </ExampleItem>
         </div>
     );

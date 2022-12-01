@@ -205,4 +205,15 @@ describe('Select base actions', () => {
             expect(selectedItem.textContent).toBe('Value 5');
         });
     });
+
+    test('"quick search" don`t work in case of filterable', async () => {
+        const {getByTestId} = setup({options: QUICK_SEARCH_OPTIONS, filterable: true});
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        await user.keyboard('3');
+        const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
+        // active item didn`t changed
+        expect(selectedItem.textContent).toBe('Value 3');
+    });
 });

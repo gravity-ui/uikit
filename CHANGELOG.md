@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.0](https://github.com/gravity-ui/uikit/compare/v3.6.0...v3.7.0) (2022-12-01)
+
+
+### Features
+
+* **Select:** add filter section ([#386](https://github.com/gravity-ui/uikit/issues/386)) ([f2b8660](https://github.com/gravity-ui/uikit/commit/f2b866057ed15eeefe3977064583613595c74b1d))
+
 ## [3.6.0](https://github.com/gravity-ui/uikit/compare/v3.5.0...v3.6.0) (2022-11-18)
 
 

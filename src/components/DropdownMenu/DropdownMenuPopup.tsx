@@ -14,7 +14,7 @@ export type DropdownMenuPopupProps<T> = {
     anchorRef?: RefObject<HTMLDivElement>;
     onMenuItemClick: (
         event: React.MouseEvent<HTMLElement, MouseEvent>,
-        action: DropdownMenuItemAction<T>,
+        action: DropdownMenuItemAction<T> | undefined,
     ) => void;
     onClose: () => void;
     popupClassName?: string;

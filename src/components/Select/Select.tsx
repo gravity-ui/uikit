@@ -21,7 +21,7 @@ import {
     findItemIndexByQuickSearch,
     activateFirstClickableItem,
 } from './utils';
-import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyPlaceholder} from './components';
+import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
 import {Option, OptionGroup} from './tech-components';
 import {VIRTUALIZE_THRESHOLD} from './constants';
 
@@ -40,6 +40,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderControl,
         renderFilter,
         renderOption,
+        renderEmptyOptions,
         getOptionHeight,
         filterOption,
         name,
@@ -49,7 +50,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         defaultValue,
         label,
         placeholder,
-        emptyPlaceholder,
         filterPlaceholder,
         width,
         popupWidth,
@@ -73,13 +73,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
-    const filteredFlattenOptions = filterable
-        ? getFilteredFlattenOptions({
-              options: flattenOptions,
-              filter,
-              filterOption,
-          })
-        : flattenOptions;
+    const filteredFlattenOptions =
+        filterable && filter
+            ? getFilteredFlattenOptions({
+                  options: flattenOptions,
+                  filter,
+                  filterOption,
+              })
+            : flattenOptions;
     const optionsText = getOptionsText(flattenOptions, value);
     const virtualized = filteredFlattenOptions.length >= VIRTUALIZE_THRESHOLD;
     const listHeight = getListHeight({
@@ -234,7 +235,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         getOptionHeight={getOptionHeight}
                     />
                 ) : (
-                    <EmptyPlaceholder content={emptyPlaceholder} />
+                    <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
                 )}
             </SelectPopup>
         </React.Fragment>

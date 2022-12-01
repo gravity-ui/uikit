@@ -7,6 +7,7 @@
 | [renderControl](#rendercontrol) | `function`                              | `-`             | Used to render user control                                                                                |
 | [renderFilter](#renderfilter)   | `function`                              | `-`             | Used to render user filter section                                                                         |
 | renderOption                    | `function`                              | `-`             | Used to render user options                                                                                |
+| renderEmptyOptions              | `function`                              | `-`             | Used to render node for an empty options list                                                              |
 | getOptionHeight                 | `function`                              | `-`             | Used to set height of customized user options                                                              |
 | [options](#options)             | `(SelectOption \| SelectOptionGroup)[]` | `-`             | Options to select                                                                                          |
 | view                            | `string`                                | `'normal'`      | Control [view](https://github.com/gravity-ui/uikit/blob/main/src/components/TextInput/types.ts#L4)         |
@@ -18,7 +19,6 @@
 | className                       | `string`                                | `-`             | Control className                                                                                          |
 | label                           | `string`                                | `-`             | Control label                                                                                              |
 | placeholder                     | `string`                                | `-`             | Placeholder text                                                                                           |
-| emptyPlaceholder                | `string`                                | `-`             | Placeholder node for an empty options list                                                                 |
 | filterPlaceholder               | `string`                                | `-`             | Default filter input placeholder text                                                                      |
 | value                           | `string[]`                              | `-`             | Values that represent selected options                                                                     |
 | defaultValue                    | `string[]`                              | `-`             | Default values that represent selected options in case of using uncontrolled state                         |

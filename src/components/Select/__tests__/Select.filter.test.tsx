@@ -12,7 +12,7 @@ afterEach(() => {
 
 const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
-const EMPTY_PLACEHOLDER_QA = 'empty-placeholder';
+const EMPTY_OPTIONS_QA = 'empty-options';
 
 const renderCustomFilter: SelectProps['renderFilter'] = (props) => {
     const {value, ref, onChange, onKeyDown} = props;
@@ -57,18 +57,18 @@ describe('Select filter', () => {
         expect(onFilterChange).toBeCalledTimes(3);
     });
 
-    test('should render emptyPlaceholder', async () => {
+    test('should render node with renderEmptyOptions', async () => {
         const {getByTestId, queryAllByRole} = setup({
             options: generateOptions(40),
             filterable: true,
-            emptyPlaceholder: <div data-qa={EMPTY_PLACEHOLDER_QA}>Empty plactholder</div>,
+            renderEmptyOptions: () => <div data-qa={EMPTY_OPTIONS_QA}>Empty options</div>,
         });
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
         await user.keyboard('z');
         expect(queryAllByRole('listitem').length).toBe(0);
-        getByTestId(EMPTY_PLACEHOLDER_QA);
+        getByTestId(EMPTY_OPTIONS_QA);
     });
 
     test('should compare options by filterOption', async () => {

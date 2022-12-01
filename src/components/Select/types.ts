@@ -20,6 +20,7 @@ export type SelectProps = QAProps &
             ref: React.Ref<HTMLInputElement>;
         }) => React.ReactElement;
         renderOption?: (option: SelectOption) => React.ReactElement;
+        renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         getOptionHeight?: (option: SelectOption) => number;
         filterOption?: (option: SelectOption, filter: string) => boolean;
         view?: TextInputView;
@@ -30,7 +31,6 @@ export type SelectProps = QAProps &
         className?: string;
         label?: string;
         placeholder?: React.ReactNode;
-        emptyPlaceholder?: React.ReactNode;
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];

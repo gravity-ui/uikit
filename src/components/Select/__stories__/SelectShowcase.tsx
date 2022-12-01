@@ -33,6 +33,10 @@ const generateItems = (count: number): SelectOption[] => {
     }));
 };
 
+const getEscapedString = (str: string) => {
+    return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
 const radioButtonOptions: RadioButtonOption[] = [
     {value: Mode.VIEW, content: 'View'},
     {value: Mode.CODE, content: 'Code'},
@@ -99,24 +103,49 @@ const ExampleItem = (props: {
     );
 };
 
-const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
-
-    return (
-        <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
-            <TextInput
-                controlRef={ref}
-                controlProps={{size: 1}}
-                value={value}
-                onUpdate={onChange}
-                onKeyDown={onKeyDown}
-            />
-            <Button>Do smth</Button>
-        </div>
-    );
-};
-
 export const SelectShowcase = (props: SelectProps) => {
+    const [matchCase, setMatchCase] = React.useState(false);
+    const [matchWholeWord, setMatchWholeWord] = React.useState(false);
+
+    const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyDown}) => {
+        return (
+            <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
+                <TextInput
+                    controlRef={ref}
+                    controlProps={{size: 1}}
+                    value={value}
+                    onUpdate={onChange}
+                    onKeyDown={onKeyDown}
+                />
+                <div style={{display: 'flex', columnGap: 2}}>
+                    <Button selected={matchCase} onClick={() => setMatchCase(!matchCase)}>
+                        Ab
+                    </Button>
+                    <Button
+                        selected={matchWholeWord}
+                        onClick={() => setMatchWholeWord(!matchWholeWord)}
+                    >
+                        <span style={{textDecoration: 'underline'}}>ab</span>
+                    </Button>
+                </div>
+            </div>
+        );
+    };
+
+    const getFilterOption = (): SelectProps['filterOption'] | undefined => {
+        if (matchCase || matchWholeWord) {
+            return (option, filter) => {
+                const flags = matchCase ? '' : 'i';
+                const escapedFilter = getEscapedString(filter);
+                const resultFilter = matchWholeWord ? `\\b${escapedFilter}\\b` : escapedFilter;
+                const regExp = new RegExp(resultFilter, flags);
+                return regExp.test(option.content as string);
+            };
+        }
+
+        return undefined;
+    };
+
     return (
         <div className={b()}>
             <ExampleItem
@@ -226,12 +255,13 @@ export const SelectShowcase = (props: SelectProps) => {
                 selectProps={{
                     ...props,
                     renderFilter,
+                    filterOption: getFilterOption(),
                 }}
             >
-                <Select.Option value="val1" content="Value1" />
-                <Select.Option value="val2" content="Value2" />
-                <Select.Option value="val3" content="Value3" />
-                <Select.Option value="val4" content="Value4" />
+                <Select.Option value="val1" content="Value 1" />
+                <Select.Option value="val2" content="val" />
+                <Select.Option value="val3" content="Value" />
+                <Select.Option value="val4" content="value" />
             </ExampleItem>
         </div>
     );

@@ -97,8 +97,11 @@ export const DropdownMenu = <T,>({
     };
 
     const handleMenuItemClick = useCallback(
-        (event: React.MouseEvent<HTMLElement, MouseEvent>, action: DropdownMenuItemAction<T>) => {
-            action(event, data);
+        (
+            event: React.MouseEvent<HTMLElement, MouseEvent>,
+            action: DropdownMenuItemAction<T> | undefined,
+        ) => {
+            action?.(event, data);
             onMenuToggle?.();
             setPopupShown(false);
         },

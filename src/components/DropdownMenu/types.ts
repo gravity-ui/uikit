@@ -10,10 +10,12 @@ type DropdownMenuItemRequiredProps<T> =
     | {
           text: React.ReactNode;
           action: DropdownMenuItemAction<T>;
+          href?: string;
       }
     | {
           text: React.ReactNode;
           href: string;
+          action?: DropdownMenuItemAction<T>;
       };
 
 export type DropdownMenuItem<T = unknown> = Omit<MenuItemProps, 'onClick' | 'children'> &

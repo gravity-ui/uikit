@@ -135,6 +135,18 @@ export const DropdownMenu = <T,>({
         };
     }, [isPopupShown, hideOnScroll, handleScroll]);
 
+    useEffect(() => {
+        if (disabled) {
+            setPopupShown((popupShown) => {
+                if (popupShown) {
+                    return false;
+                }
+
+                return popupShown;
+            });
+        }
+    }, [disabled]);
+
     return (
         <>
             <div

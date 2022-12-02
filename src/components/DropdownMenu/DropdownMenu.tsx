@@ -137,13 +137,7 @@ export const DropdownMenu = <T,>({
 
     useEffect(() => {
         if (disabled) {
-            setPopupShown((popupShown) => {
-                if (popupShown) {
-                    return false;
-                }
-
-                return popupShown;
-            });
+            setPopupShown(false);
         }
     }, [disabled]);
 

@@ -19,3 +19,12 @@ test('should trigger `onMenuToggle` when menu open', async () => {
 
     expect(onMenuToggle).toHaveBeenCalled();
 });
+
+test('should not trigger on control disable', async () => {
+    const onMenuToggle = jest.fn();
+    const {rerender} = render(<DropdownMenu onMenuToggle={onMenuToggle} />);
+
+    rerender(<DropdownMenu onMenuToggle={onMenuToggle} disabled />);
+
+    expect(onMenuToggle).not.toHaveBeenCalled();
+});

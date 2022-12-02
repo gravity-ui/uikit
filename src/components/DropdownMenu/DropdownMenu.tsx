@@ -4,6 +4,7 @@ import {PopupPlacement} from '../Popup';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {DotsIcon} from '../icons/DotsIcon';
+import {usePreviousValue} from '../utils/usePreviousValue';
 import {
     DropdownMenuSize,
     DropdownMenuItem,
@@ -86,12 +87,20 @@ export const DropdownMenu = <T,>({
     const [isPopupShown, setPopupShown] = useState(false);
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
+    const previousIsPopupShown = usePreviousValue(isPopupShown);
+    useEffect(() => {
+        if (previousIsPopupShown === isPopupShown) {
+            return;
+        }
+
+        onMenuToggle?.();
+    }, [isPopupShown, onMenuToggle, previousIsPopupShown]);
+
     const handleSwitcherClick: MouseEventHandler<HTMLDivElement> = (event) => {
         if (disabled) {
             return;
         }
 
-        onMenuToggle?.();
         onSwitcherClick?.(event);
         setPopupShown((value) => !value);
     };
@@ -102,26 +111,20 @@ export const DropdownMenu = <T,>({
             action: DropdownMenuItemAction<T> | undefined,
         ) => {
             action?.(event, data);
-            onMenuToggle?.();
             setPopupShown(false);
         },
-        [data, onMenuToggle],
+        [data],
     );
 
     const handleClose = useCallback(() => {
         setPopupShown(false);
-        onMenuToggle?.();
-    }, [onMenuToggle]);
+    }, []);
 
-    const handleScroll = useCallback(
-        (event: Event) => {
-            if ((event.target as Node).contains(anchorRef.current)) {
-                onMenuToggle?.();
-                setPopupShown(false);
-            }
-        },
-        [onMenuToggle],
-    );
+    const handleScroll = useCallback((event: Event) => {
+        if ((event.target as Node).contains(anchorRef.current)) {
+            setPopupShown(false);
+        }
+    }, []);
 
     useEffect(() => {
         if (!isPopupShown || !hideOnScroll) {

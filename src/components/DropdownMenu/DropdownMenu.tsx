@@ -89,7 +89,7 @@ export const DropdownMenu = <T,>({
 
     const previousIsPopupShown = usePreviousValue(isPopupShown);
     useEffect(() => {
-        if (previousIsPopupShown === isPopupShown) {
+        if (previousIsPopupShown === undefined || previousIsPopupShown === isPopupShown) {
             return;
         }
 

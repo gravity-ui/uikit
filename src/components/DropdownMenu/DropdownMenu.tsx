@@ -104,18 +104,21 @@ export const DropdownMenu = <T,>({
             action?.(event, data);
             setPopupShown(false);
         },
-        [data],
+        [data, setPopupShown],
     );
 
     const handleClose = useCallback(() => {
         setPopupShown(false);
-    }, []);
+    }, [setPopupShown]);
 
-    const handleScroll = useCallback((event: Event) => {
-        if ((event.target as Node).contains(anchorRef.current)) {
-            setPopupShown(false);
-        }
-    }, []);
+    const handleScroll = useCallback(
+        (event: Event) => {
+            if ((event.target as Node).contains(anchorRef.current)) {
+                setPopupShown(false);
+            }
+        },
+        [setPopupShown],
+    );
 
     useEffect(() => {
         if (!isPopupShown || !hideOnScroll) {
@@ -133,7 +136,7 @@ export const DropdownMenu = <T,>({
         if (disabled) {
             setPopupShown(false);
         }
-    }, [disabled]);
+    }, [disabled, setPopupShown]);
 
     return (
         <>

@@ -1,11 +1,11 @@
-import React, {ReactNode, MouseEventHandler, useState, useRef, useCallback, useEffect} from 'react';
+import React, {ReactNode, MouseEventHandler, useRef, useCallback, useEffect} from 'react';
 import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {DotsIcon} from '../icons/DotsIcon';
-import {usePreviousValue} from '../utils/usePreviousValue';
-import {
+import {useStateWithCallback} from '../utils/useStateWithCallback';
+import type {
     DropdownMenuSize,
     DropdownMenuItem,
     DropdownMenuItemMixed,
@@ -84,17 +84,8 @@ export const DropdownMenu = <T,>({
     popupPlacement,
     children,
 }: DropdownMenuProps<T>) => {
-    const [isPopupShown, setPopupShown] = useState(false);
+    const [isPopupShown, setPopupShown] = useStateWithCallback(false, onMenuToggle);
     const anchorRef = useRef<HTMLDivElement | null>(null);
-
-    const previousIsPopupShown = usePreviousValue(isPopupShown);
-    useEffect(() => {
-        if (previousIsPopupShown === undefined || previousIsPopupShown === isPopupShown) {
-            return;
-        }
-
-        onMenuToggle?.();
-    }, [isPopupShown, onMenuToggle, previousIsPopupShown]);
 
     const handleSwitcherClick: MouseEventHandler<HTMLDivElement> = (event) => {
         if (disabled) {

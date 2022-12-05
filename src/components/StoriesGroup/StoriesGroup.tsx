@@ -20,8 +20,8 @@ export interface StoriesGroupProps {
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
     onItemSelect?: (
-        itemIndexes?: [groupIndex: number, itemIndex: number],
-        selectedFromThumbnail?: boolean,
+        itemIndexes: [groupIndex: number, itemIndex: number],
+        selectedFromThumbnail: boolean,
     ) => void;
 }
 

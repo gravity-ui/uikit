@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.8.0](https://github.com/gravity-ui/uikit/compare/v3.7.0...v3.8.0) (2022-12-05)
+
+
+### Features
+
+* **DropdownMenu:** allow `&lt;DropdownMenu.Item/&gt;` w/out `action` ([#392](https://github.com/gravity-ui/uikit/issues/392)) ([a606920](https://github.com/gravity-ui/uikit/commit/a606920f30b9cb6656da5a90e5f9ddc706382fb0))
+* **DropdownMenu:** extract `&lt;DropdownMenu.Item/&gt;` ([#397](https://github.com/gravity-ui/uikit/issues/397)) ([1307f87](https://github.com/gravity-ui/uikit/commit/1307f87b28c4a8d5c3fbe95940b0b43e0fcbd4ec))
+* **ShareTooltip:** add LinkedIn as one of default SM sharing option ([#383](https://github.com/gravity-ui/uikit/issues/383)) ([5aacc1a](https://github.com/gravity-ui/uikit/commit/5aacc1a8d76379b496d374328d68ba300de4cb32))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** close opened menu on disable ([#393](https://github.com/gravity-ui/uikit/issues/393)) ([14ba916](https://github.com/gravity-ui/uikit/commit/14ba91606da9ac7c659f78cd2bf505c44b46653f))
+* **DropdownMenu:** trigger callback on each state change ([#394](https://github.com/gravity-ui/uikit/issues/394)) ([a70b248](https://github.com/gravity-ui/uikit/commit/a70b248bd33d543a805de814080716584a2180e6))
+
 ## [3.7.0](https://github.com/gravity-ui/uikit/compare/v3.6.0...v3.7.0) (2022-12-01)
 
 

@@ -1,6 +1,6 @@
 ## StoriesGroup
 
-Component for displaying stories. It looks like a carousel in a modal with given places to display text and media.
+Component for displaying group of stories. It looks like a carousel in a modal with given places to display text and media.
 
 ### PropTypes
 

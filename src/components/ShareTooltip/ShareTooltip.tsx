@@ -66,6 +66,7 @@ export const shareTooltipDefaultProps: ShareTooltipDefaultProps = {
     iconSize: 16,
     socialNets: ShareList.defaultProps.socialNets,
     withCopyLink: true,
+    withSendViaEmail: false,
     useWebShareApi: false,
     placement: ['bottom-end'],
     openByHover: true,
@@ -84,6 +85,7 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
             text,
             socialNets,
             withCopyLink,
+            withSendViaEmail,
             useWebShareApi,
             placement,
             openByHover,
@@ -110,6 +112,7 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
                 text={text}
                 socialNets={socialNets}
                 withCopyLink={withCopyLink}
+                withSendViaEmail={withSendViaEmail}
                 direction={direction}
                 copyTitle={copyTitle}
                 copyIcon={copyIcon}

@@ -7,7 +7,7 @@ import {Button} from '../../../Button';
 import {ShareTooltip, ShareSocialNetwork, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
-import {Mail, Cloud, ShareArrowUp} from './icons';
+import {Custom, Cloud, ShareArrowUp} from './icons';
 import {SocialShareData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';
@@ -66,28 +66,29 @@ export function ShareTooltipDemo() {
                     openByHover={false}
                 >
                     <ShareList.Item
-                        icon={Mail}
+                        icon={Custom}
                         url="mailto:example@example.com"
-                        label="Mail"
+                        label="Custom"
                         getShareLink={(params: SocialShareData) => params.url}
                     />
                 </ShareTooltip>
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Custom Social and Copy Link</span>
+                <span style={{marginRight: 8}}>Custom Social, Email and Copy Link</span>
                 <ShareTooltip
                     url={url}
                     title={title}
                     text={text}
                     socialNets={socialNets}
                     withCopyLink={true}
+                    withSendViaEmail={true}
                     openByHover={false}
                 >
                     <ShareList.Item
-                        icon={Mail}
+                        icon={Custom}
                         url="mailto:example@example.com"
-                        label="Mail"
+                        label="Custom"
                         getShareLink={(params: SocialShareData) => params.url}
                     />
                 </ShareTooltip>
@@ -96,6 +97,18 @@ export function ShareTooltipDemo() {
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Socials with copy</span>
                 <ShareTooltip url={url} title={title} text={text} socialNets={socialNets} />
+            </div>
+
+            <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
+                <span style={{marginRight: 8}}>Socials with Email</span>
+                <ShareTooltip
+                    url={url}
+                    title={title}
+                    text={text}
+                    socialNets={socialNets}
+                    withSendViaEmail={true}
+                    withCopyLink={false}
+                />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
@@ -133,6 +146,7 @@ export function ShareTooltipDemo() {
                     text={text}
                     socialNets={socialNets}
                     direction={LayoutDirection.Column}
+                    withSendViaEmail={true}
                 />
             </div>
 

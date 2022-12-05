@@ -8,6 +8,7 @@ import {LayoutDirection, ShareSocialNetwork} from '../constants';
 import {SVGIconData} from '../../Icon/types';
 import * as icons from '../../icons/social';
 import i18n from '../i18n';
+import {getShareUrlWithParams} from '../utils';
 
 import './ShareListItem.scss';
 
@@ -73,43 +74,28 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
         // https://github.com/bradvin/social-share-urls
         switch (type) {
             case ShareSocialNetwork.Telegram:
-                return this.getShareUrlWithParams('https://t.me/share/url', {url, text: title});
+                return getShareUrlWithParams('https://t.me/share/url', {url, text: title});
             case ShareSocialNetwork.Facebook:
-                return this.getShareUrlWithParams('https://facebook.com/sharer.php', {u: url});
+                return getShareUrlWithParams('https://facebook.com/sharer.php', {u: url});
             case ShareSocialNetwork.Twitter:
-                return this.getShareUrlWithParams('https://twitter.com/intent/tweet', {
+                return getShareUrlWithParams('https://twitter.com/intent/tweet', {
                     url,
                     text: title,
                 });
             case ShareSocialNetwork.VK:
-                return this.getShareUrlWithParams('https://vk.com/share.php', {
+                return getShareUrlWithParams('https://vk.com/share.php', {
                     url,
                     title,
                     comment: text,
                 });
             case ShareSocialNetwork.LinkedIn:
-                return this.getShareUrlWithParams(
-                    'https://www.linkedin.com/sharing/share-offsite/',
-                    {
-                        url,
-                    },
-                );
+                return getShareUrlWithParams('https://www.linkedin.com/sharing/share-offsite/', {
+                    url,
+                });
             default:
                 console.error(`Unknown share type: ${type}`);
 
                 return null;
         }
-    }
-
-    private getShareUrlWithParams(url: string, params: Record<string, string | undefined> = {}) {
-        const result = new URL(url);
-
-        Object.entries(params).forEach(([name, value]) => {
-            if (value) {
-                result.searchParams.set(name, value);
-            }
-        });
-
-        return result.toString();
     }
 }

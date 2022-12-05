@@ -1,5 +1,6 @@
 {
   "label_copy-link": "Копировать ссылку",
   "label_copy-link-copied": "Ссылка скопирована",
+  "label_email-send_via_email": "Отправить по E-mail",
   "label_share": "Поделиться в {{name}}"
 }

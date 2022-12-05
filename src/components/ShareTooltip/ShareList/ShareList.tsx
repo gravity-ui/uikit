@@ -7,9 +7,10 @@ import {ShareListItem} from '../ShareListItem/ShareListItem';
 import {Icon} from '../../Icon';
 import {SVGIconData} from '../../Icon/types';
 import {Button} from '../../Button';
-import {Link} from '../../icons';
+import {Mail, Link} from '../../icons';
 import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
 import {isOfType} from '../../utils/isOfType';
+import {getShareUrlWithParams} from '../utils';
 
 import i18n from '../i18n';
 
@@ -22,6 +23,8 @@ export interface ShareListDefaultProps {
     socialNets: ShareSocialNetwork[];
     /** should show copy button */
     withCopyLink: boolean;
+    /** should show send via email button */
+    withSendViaEmail: boolean;
 }
 
 export interface ShareListProps extends SocialShareData, Partial<ShareListDefaultProps> {
@@ -31,8 +34,12 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
     direction?: LayoutDirection;
     /** custom copy link button title */
     copyTitle?: string | React.ReactNode;
+    /** custom send via mail button title */
+    emailTitle?: string | React.ReactNode;
     /** custom copy link button icon */
     copyIcon?: SVGIconData;
+    /** custom send via mail button icon */
+    emailIcon?: SVGIconData;
     /** custom copy button render */
     renderCopy?: ({
         url,
@@ -60,6 +67,7 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
     static defaultProps: ShareListDefaultProps = {
         socialNets: [],
         withCopyLink: false,
+        withSendViaEmail: false,
     };
     static Item = ShareListItem;
 
@@ -76,7 +84,8 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
     }
 
     render() {
-        const {socialNets, withCopyLink, className, direction, children} = this.props;
+        const {socialNets, withCopyLink, withSendViaEmail, className, direction, children} =
+            this.props;
         const hasNets = Array.isArray(socialNets) && socialNets.length > 0;
         const extensions = React.Children.toArray(children).filter((child) =>
             isShareListItemComponent(child),
@@ -84,9 +93,10 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
 
         return (
             <div className={b({layout: direction}, className)}>
-                <div className={b('socials-container')}>
+                <div className={b('socials-container', {direction})}>
                     {hasNets && this.renderSocialShareLinks()}
                     {Boolean(extensions?.length) && extensions}
+                    {withSendViaEmail && this.renderSendViaEmail()}
                 </div>
                 {hasNets && withCopyLink && <div className={b('separator')} />}
                 {withCopyLink && this.renderCopyLink()}
@@ -148,7 +158,35 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
         );
     }
 
+    private renderSendViaEmail() {
+        const {direction, emailIcon, emailTitle} = this.props;
+
+        const label = emailTitle || i18n('label_email-send_via_email');
+
+        return (
+            <div className={b('social')}>
+                <Button
+                    view="flat"
+                    size="l"
+                    href={this.getShareLink()}
+                    target="_blank"
+                    className={b(null, 'className')}
+                    extraProps={{'aria-label': i18n('label_share', {name})}}
+                >
+                    <Icon data={emailIcon || Mail} size={24} className={b('icon')} />
+                    {direction === 'column' ? label : undefined}
+                </Button>
+            </div>
+        );
+    }
+
     private copyLinkRef = (element: unknown) => {
         this.copyLink = element as HTMLButtonElement;
+    };
+
+    private getShareLink = () => {
+        const {url, title, text} = this.props;
+
+        return getShareUrlWithParams('mailto:', {subject: title, body: `${text}\n${url}`});
     };
 }

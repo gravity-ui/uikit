@@ -1,5 +1,6 @@
 {
   "label_copy-link": "Copy link",
   "label_copy-link-copied": "Link copied",
+  "label_email-send_via_email": "Send via E-mail",
   "label_share": "Share to {{name}}"
 }

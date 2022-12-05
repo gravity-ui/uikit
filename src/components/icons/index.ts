@@ -6,6 +6,7 @@ export * from './DotsIcon';
 export * from './ExternalLinkIcon';
 export * from './GearIcon';
 export * from './Info';
+export * from './Mail';
 export * from './PlayIcon';
 export * from './PreviewCloseIcon';
 export * from './QuestionMarkIcon';

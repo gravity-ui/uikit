@@ -76,5 +76,13 @@ $block: '.#{variables.$ns}share-list';
 
     &__socials-container {
         display: flex;
+
+        &_direction_row {
+            flex-direction: row;
+        }
+
+        &_direction_column {
+            flex-direction: column;
+        }
     }
 }

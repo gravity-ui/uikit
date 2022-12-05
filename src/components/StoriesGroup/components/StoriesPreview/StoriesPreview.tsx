@@ -23,8 +23,8 @@ const StoriesPreviewList = ({
 }: StoriesPreviewListProps) => {
     return (
         <React.Fragment>
-            {groups.map(({previewMedia, items}, i) => {
-                const media = previewMedia || items[0]?.media;
+            {groups.map(({thumbnailMedia, items}, i) => {
+                const media = thumbnailMedia || items[0]?.media;
 
                 return (
                     <div

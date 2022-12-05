@@ -15,10 +15,10 @@ Component for displaying group of stories. It looks like a carousel in a modal w
 
 ### StoriesGroupItem object
 
-| Field        | Type                                                                                                               | Required | Default | Description                                                                                |
-| ------------ | ------------------------------------------------------------------------------------------------------------------ | -------- | ------- | ------------------------------------------------------------------------------------------ |
-| items        | `[StoriesItem](https://github.com/gravity-ui/uikit/tree/main/src/components/Stories#storiesitem-object)[]`         |          |         | Array of items as in `Stories` component                                                   |
-| previewMedia | `[StoriesItemMedia](https://github.com/gravity-ui/uikit/tree/main/src/components/Stories#storiesitemmedia-object)` |          |         | Media content for preview, otherwise first StoriesItem.media from StoriesItem will be used |
+| Field          | Type                                                                                                               | Required | Default | Description                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ | -------- | ------- | ------------------------------------------------------------------------------------------ |
+| items          | `[StoriesItem](https://github.com/gravity-ui/uikit/tree/main/src/components/Stories#storiesitem-object)[]`         |          |         | Array of items as in `Stories` component                                                   |
+| thumbnailMedia | `[StoriesItemMedia](https://github.com/gravity-ui/uikit/tree/main/src/components/Stories#storiesitemmedia-object)` |          |         | Media content for preview, otherwise first StoriesItem.media from StoriesItem will be used |
 
 #### Usage example
 

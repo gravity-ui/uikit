@@ -2,8 +2,9 @@ import React, {ReactNode, RefObject, useMemo} from 'react';
 import {block} from '../utils/cn';
 import {Popup, PopupPlacement} from '../Popup';
 import {Menu, MenuProps} from '../Menu';
-import type {DropdownMenuItem, DropdownMenuItemAction, DropdownMenuSize} from './types';
+import type {DropdownMenuItem, DropdownMenuSize} from './types';
 import {toItemList} from './toItemList';
+import {DropdownMenuItem as DropdownMenuItemComponent} from './DropdownMenuItem';
 
 const b = block('dropdown-menu');
 const SEPARATOR: DropdownMenuItem = {text: '', action: () => {}};
@@ -12,10 +13,6 @@ export type DropdownMenuPopupProps<T> = {
     items: (DropdownMenuItem<T> | DropdownMenuItem<T>[])[];
     open: boolean;
     anchorRef?: RefObject<HTMLDivElement>;
-    onMenuItemClick: (
-        event: React.MouseEvent<HTMLElement, MouseEvent>,
-        action: DropdownMenuItemAction<T> | undefined,
-    ) => void;
     onClose: () => void;
     popupClassName?: string;
     placement?: PopupPlacement;
@@ -28,7 +25,6 @@ export const DropdownMenuPopup = <T,>({
     items,
     open,
     anchorRef,
-    onMenuItemClick,
     onClose,
     popupClassName,
     placement,
@@ -41,26 +37,24 @@ export const DropdownMenuPopup = <T,>({
             children || (
                 <Menu className={b('menu')} size={size} {...menuProps}>
                     {toItemList(items, SEPARATOR).map((item, index) => {
-                        const {text, action, className, ...itemProps} = item;
+                        const {className} = item;
+
                         return (
-                            <Menu.Item
+                            <DropdownMenuItemComponent
                                 key={index}
                                 className={b(
                                     'menu-item',
                                     {separator: item === SEPARATOR},
                                     className,
                                 )}
-                                onClick={(event) => onMenuItemClick(event, action)}
-                                {...itemProps}
-                            >
-                                {text}
-                            </Menu.Item>
+                                {...item}
+                            />
                         );
                     })}
                 </Menu>
             )
         );
-    }, [children, size, menuProps, items, onMenuItemClick]);
+    }, [children, size, menuProps, items]);
 
     return (
         <Popup

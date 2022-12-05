@@ -72,3 +72,33 @@ This type describes an individual dropdown menu item.
   ]}
 />
 ```
+
+Usage with custom `<Menu/>`
+
+```tsx
+import {DropdownMenu, Menu} from './DropdownMenu';
+
+const dropdown = (
+  <DropdownMenu>
+    <Menu>
+      <DropdownMenu.Item icon={<Icon data={openIcon} />} action={() => console.log('Open')}>
+        Open
+      </DropdownMenu.Item>
+      <Menu.Group>
+        <DropdownMenu.Item icon={<Icon data={trashIcon} />} action={() => console.log('Remove')}>
+          Remove
+        </DropdownMenu.Item>
+        <DropdownMenu.Item icon={<Icon data={renameIcon} />} action={() => console.log('Rename')}>
+          Rename
+        </DropdownMenu.Item>
+      </Menu.Group>
+      <DropdownMenu.Item
+        icon={<Icon data={propertiesIcon} />}
+        action={() => console.log('Properties')}
+      >
+        Properties
+      </DropdownMenu.Item>
+    </Menu>
+  </DropdownMenu>
+);
+```

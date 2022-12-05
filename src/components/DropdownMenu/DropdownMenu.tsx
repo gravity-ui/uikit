@@ -1,10 +1,11 @@
-import React, {ReactNode, MouseEventHandler, useRef, useCallback, useEffect} from 'react';
+import React, {ReactNode, MouseEventHandler, useRef, useCallback, useEffect, useMemo} from 'react';
 import {block} from '../utils/cn';
 import {PopupPlacement} from '../Popup';
 import {Button, ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {DotsIcon} from '../icons/DotsIcon';
 import {useStateWithCallback} from '../utils/useStateWithCallback';
+import {DropdownMenuContext} from './DropdownMenuContext';
 import type {
     DropdownMenuSize,
     DropdownMenuItem,
@@ -12,6 +13,7 @@ import type {
     DropdownMenuItemAction,
 } from './types';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
+import {DropdownMenuItem as DropdownMenuItemComponent} from './DropdownMenuItem';
 import {MenuProps} from '../Menu';
 import './DropdownMenu.scss';
 
@@ -66,7 +68,7 @@ export type DropdownMenuProps<T> = {
     children?: ReactNode;
 };
 
-export const DropdownMenu = <T,>({
+const DropdownMenu = <T,>({
     items = [],
     size = 'm',
     icon = <Icon data={DotsIcon} />,
@@ -95,17 +97,6 @@ export const DropdownMenu = <T,>({
         onSwitcherClick?.(event);
         setPopupShown((value) => !value);
     };
-
-    const handleMenuItemClick = useCallback(
-        (
-            event: React.MouseEvent<HTMLElement, MouseEvent>,
-            action: DropdownMenuItemAction<T> | undefined,
-        ) => {
-            action?.(event, data);
-            setPopupShown(false);
-        },
-        [data, setPopupShown],
-    );
 
     const handleClose = useCallback(() => {
         setPopupShown(false);
@@ -138,8 +129,24 @@ export const DropdownMenu = <T,>({
         }
     }, [disabled, isPopupShown, setPopupShown]);
 
+    const contextValue = useMemo(
+        () => ({
+            toggle(open?: boolean) {
+                setPopupShown((popupShown) => {
+                    if (typeof open === 'boolean') {
+                        return open;
+                    }
+
+                    return !popupShown;
+                });
+            },
+            data,
+        }),
+        [data, setPopupShown],
+    );
+
     return (
-        <>
+        <DropdownMenuContext.Provider value={contextValue}>
             <div
                 ref={anchorRef}
                 className={b('switcher-wrapper', switcherWrapperClassName)}
@@ -165,13 +172,15 @@ export const DropdownMenu = <T,>({
                 placement={popupPlacement}
                 menuProps={menuProps}
                 anchorRef={anchorRef}
-                onMenuItemClick={handleMenuItemClick}
                 onClose={handleClose}
             >
                 {children}
             </DropdownMenuPopup>
-        </>
+        </DropdownMenuContext.Provider>
     );
 };
+
+const DropdownMenuExport = Object.assign(DropdownMenu, {Item: DropdownMenuItemComponent});
+export {DropdownMenuExport as DropdownMenu};
 
 export type {DropdownMenuItem, DropdownMenuItemMixed, DropdownMenuItemAction};

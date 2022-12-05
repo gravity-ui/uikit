@@ -36,7 +36,7 @@ export const StoriesGroup = ({
 
     const handleClose = React.useCallback<NonNullable<StoriesGroupProps['onClose']>>(
         (event, reason) => {
-            if (onClose) onClose(event, reason);
+            onClose?.(event, reason);
         },
         [onClose],
     );

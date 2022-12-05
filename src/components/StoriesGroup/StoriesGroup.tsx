@@ -14,6 +14,7 @@ export interface StoriesGroupProps {
     groups: StoriesGroupItem[];
     initialStoryIndex?: [groupIndex: number, itemIndex: number];
     disableOutsideClick?: boolean;
+    maxSliderItemsCount?: number;
     onClose?: (
         event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>,
         reason: ModalCloseReason | 'closeButtonClick',
@@ -30,6 +31,7 @@ export const StoriesGroup = ({
     onItemSelect,
     disableOutsideClick,
     initialStoryIndex = [0, 0],
+    maxSliderItemsCount = 12,
     onClose,
 }: StoriesGroupProps) => {
     const [[groupIndex, itemIndex], setCurrentStoryIndex] = React.useState(initialStoryIndex);
@@ -110,7 +112,12 @@ export const StoriesGroup = ({
             disableOutsideClick={disableOutsideClick}
             contentClassName={b('modal-content')}
         >
-            <StoriesPreview groups={groups} groupIndex={groupIndex} onGroupSelect={onGroupSelect} />
+            <StoriesPreview
+                maxSliderItemsCount={maxSliderItemsCount > 0 ? maxSliderItemsCount : 1}
+                groups={groups}
+                groupIndex={groupIndex}
+                onGroupSelect={onGroupSelect}
+            />
             <StoriesLayout
                 storyIndex={itemIndex}
                 items={currentItems}

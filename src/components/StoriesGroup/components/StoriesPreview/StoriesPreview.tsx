@@ -46,34 +46,36 @@ type StoriesPreviewWithSliderProps = {
     groups: StoriesGroupItem[];
     groupIndex: number;
     onGroupSelect: (groupIndex: number) => void;
+    maxSliderItemsCount: number;
 };
 const StoriesPreviewWithSlider = ({
     groupIndex,
     groups,
     onGroupSelect,
+    maxSliderItemsCount,
 }: StoriesPreviewWithSliderProps) => {
     const [offset, setOffset] = React.useState(0);
 
     React.useEffect(() => {
-        const currentOffset = 12 * Math.floor(groupIndex / 12);
+        const currentOffset = maxSliderItemsCount * Math.floor(groupIndex / maxSliderItemsCount);
         setOffset(currentOffset);
-    }, [groupIndex]);
+    }, [groupIndex, maxSliderItemsCount]);
 
     const setPreviewOffset = React.useCallback(() => {
         setOffset((currentOffset) => {
-            return currentOffset - 12;
+            return currentOffset - maxSliderItemsCount;
         });
-    }, []);
+    }, [maxSliderItemsCount]);
 
     const setNextOffset = React.useCallback(() => {
         setOffset((currentOffset) => {
-            return currentOffset + 12;
+            return currentOffset + maxSliderItemsCount;
         });
-    }, []);
+    }, [maxSliderItemsCount]);
 
     return (
         <div className={b()}>
-            {groups.length > 12 && (
+            {groups.length > maxSliderItemsCount && (
                 <div className={b('slider-button-wrapper')}>
                     {offset !== 0 && (
                         <Button view="raised" pin="circle-circle" onClick={setPreviewOffset}>
@@ -82,17 +84,20 @@ const StoriesPreviewWithSlider = ({
                     )}
                 </div>
             )}
-            <div className={b('slider-preview-list-wrapper')}>
+            <div
+                className={b('slider-preview-list-wrapper')}
+                style={{width: `${40 * maxSliderItemsCount + 8 * (maxSliderItemsCount - 1)}px`}}
+            >
                 <StoriesPreviewList
                     groupIndex={groupIndex}
-                    groups={groups.slice(offset, offset + 12)}
+                    groups={groups.slice(offset, offset + maxSliderItemsCount)}
                     onGroupSelect={onGroupSelect}
                     offset={offset}
                 />
             </div>
-            {groups.length > 12 && (
+            {groups.length > maxSliderItemsCount && (
                 <div className={b('slider-button-wrapper')}>
-                    {offset < groups.length - 12 && (
+                    {offset < groups.length - maxSliderItemsCount && (
                         <Button view="raised" pin="circle-circle" onClick={setNextOffset}>
                             <Icon className={b('Icon', {right: true})} data={Chevron} />
                         </Button>
@@ -107,10 +112,16 @@ export type StoriesPreviewProps = {
     groups: StoriesGroupItem[];
     groupIndex: number;
     onGroupSelect: (groupIndex: number) => void;
+    maxSliderItemsCount: number;
 };
 
-export const StoriesPreview = ({groups, groupIndex, onGroupSelect}: StoriesPreviewProps) => {
-    if (groups.length < 12) {
+export const StoriesPreview = ({
+    groups,
+    groupIndex,
+    onGroupSelect,
+    maxSliderItemsCount,
+}: StoriesPreviewProps) => {
+    if (groups.length < maxSliderItemsCount) {
         return (
             <div className={b()}>
                 <StoriesPreviewList
@@ -124,6 +135,7 @@ export const StoriesPreview = ({groups, groupIndex, onGroupSelect}: StoriesPrevi
 
     return (
         <StoriesPreviewWithSlider
+            maxSliderItemsCount={maxSliderItemsCount}
             groupIndex={groupIndex}
             groups={groups}
             onGroupSelect={onGroupSelect}

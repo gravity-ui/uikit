@@ -82,7 +82,7 @@ const StoriesPreviewWithSlider = ({
                     )}
                 </div>
             )}
-            <div className={b('slider-previe-list-wrapper')}>
+            <div className={b('slider-preview-list-wrapper')}>
                 <StoriesPreviewList
                     groupIndex={groupIndex}
                     groups={groups.slice(offset, offset + 12)}

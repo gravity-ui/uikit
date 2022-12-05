@@ -37,7 +37,7 @@ export const DropdownMenuPopup = <T,>({
             children || (
                 <Menu className={b('menu')} size={size} {...menuProps}>
                     {toItemList(items, SEPARATOR).map((item, index) => {
-                        const {className} = item;
+                        const {className, ...itemProps} = item;
 
                         return (
                             <DropdownMenuItemComponent
@@ -47,7 +47,7 @@ export const DropdownMenuPopup = <T,>({
                                     {separator: item === SEPARATOR},
                                     className,
                                 )}
-                                {...item}
+                                {...itemProps}
                             />
                         );
                     })}

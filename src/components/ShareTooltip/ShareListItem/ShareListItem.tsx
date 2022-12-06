@@ -4,9 +4,9 @@ import {block} from '../../utils/cn';
 import {SocialShareData} from '../models';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {LayoutDirection, ShareSocialNetwork} from '../constants';
+import {LayoutDirection, ShareOptions} from '../constants';
 import {SVGIconData} from '../../Icon/types';
-import * as icons from '../../icons/social';
+import * as icons from '../../icons/shareOptions';
 import i18n from '../i18n';
 
 import './ShareListItem.scss';
@@ -14,7 +14,7 @@ import './ShareListItem.scss';
 const b = block('share-list-item');
 
 export interface ShareListItemProps extends SocialShareData {
-    type?: ShareSocialNetwork;
+    type?: ShareOptions;
     icon?: SVGIconData;
     label?: string;
     className?: string;
@@ -29,7 +29,7 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
         const icon = this.props.icon || (type && icons[type]);
         const url = getShareLink?.(rest) ?? (type && this.getShareLink(type));
         const typeModifier = type?.toLowerCase();
-        const name = label || (type && ShareSocialNetwork[type]);
+        const name = label || (type && ShareOptions[type]);
 
         if (!url) {
             return null;
@@ -67,33 +67,38 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
         );
     }
 
-    private getShareLink(type: ShareSocialNetwork) {
+    private getShareLink(type: ShareOptions) {
         const {url, title, text} = this.props;
 
         // https://github.com/bradvin/social-share-urls
         switch (type) {
-            case ShareSocialNetwork.Telegram:
+            case ShareOptions.Telegram:
                 return this.getShareUrlWithParams('https://t.me/share/url', {url, text: title});
-            case ShareSocialNetwork.Facebook:
+            case ShareOptions.Facebook:
                 return this.getShareUrlWithParams('https://facebook.com/sharer.php', {u: url});
-            case ShareSocialNetwork.Twitter:
+            case ShareOptions.Twitter:
                 return this.getShareUrlWithParams('https://twitter.com/intent/tweet', {
                     url,
                     text: title,
                 });
-            case ShareSocialNetwork.VK:
+            case ShareOptions.VK:
                 return this.getShareUrlWithParams('https://vk.com/share.php', {
                     url,
                     title,
                     comment: text,
                 });
-            case ShareSocialNetwork.LinkedIn:
+            case ShareOptions.LinkedIn:
                 return this.getShareUrlWithParams(
                     'https://www.linkedin.com/sharing/share-offsite/',
                     {
                         url,
                     },
                 );
+            case ShareOptions.Mail:
+                return this.getShareUrlWithParams('mailto:', {
+                    subject: title,
+                    body: `${text}\n${url}`,
+                });
             default:
                 console.error(`Unknown share type: ${type}`);
 

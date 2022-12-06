@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/gravity-ui/uikit/compare/v3.8.0...v3.9.0) (2022-12-06)
+
+
+### Features
+
+* **ShareTooltip:** add Email as one of default sharing options and r… ([#399](https://github.com/gravity-ui/uikit/issues/399)) ([48bfbcb](https://github.com/gravity-ui/uikit/commit/48bfbcb17567860ce6b1983826549aada2207032))
+
 ## [3.8.0](https://github.com/gravity-ui/uikit/compare/v3.7.0...v3.8.0) (2022-12-05)
 
 

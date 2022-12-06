@@ -20,8 +20,11 @@ $block: '.#{variables.$ns}dialog-footer';
 
     &__button {
         min-width: 128px;
-        margin-left: 10px;
         position: relative;
+    }
+
+    &__bts-wrapper > &__button {
+        margin-left: 10px;
     }
 
     &__error {

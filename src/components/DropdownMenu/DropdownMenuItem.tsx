@@ -1,10 +1,12 @@
 import React, {MouseEventHandler, ReactNode, useCallback, useContext} from 'react';
-import {Menu} from '../Menu';
+import {Menu, MenuItemProps} from '../Menu';
 import {DropdownMenuContext} from './DropdownMenuContext';
-import type {DropdownMenuItem as DropdownMenuItemType} from './types';
+import type {DropdownMenuItemAction} from './types';
 
-type Props<T> = DropdownMenuItemType<T> & {
-    children?: ReactNode;
+type Props<T> = Omit<MenuItemProps, 'onClick'> & {
+    action?: DropdownMenuItemAction<T>;
+    /** `text` is override given `children` */
+    text?: ReactNode;
 };
 
 export const DropdownMenuItem = <T,>({text, children, action, ...props}: Props<T>) => {

@@ -4,10 +4,10 @@ import {block} from '../../../utils/cn';
 
 import {Icon} from '../../../Icon';
 import {Button} from '../../../Button';
-import {ShareTooltip, ShareSocialNetwork, ShareList} from '../../../ShareTooltip';
+import {ShareTooltip, ShareOptions, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
-import {Mail, Cloud, ShareArrowUp} from './icons';
+import {Custom, Cloud, ShareArrowUp} from './icons';
 import {SocialShareData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';
@@ -20,11 +20,12 @@ export function ShareTooltipDemo() {
     const title = 'Check out this new awesome sharing component';
     const text = 'Content sharing is not supported in all social networks';
     const socialNets = [
-        ShareSocialNetwork.Telegram,
-        ShareSocialNetwork.Facebook,
-        ShareSocialNetwork.Twitter,
-        ShareSocialNetwork.VK,
-        ShareSocialNetwork.LinkedIn,
+        ShareOptions.Telegram,
+        ShareOptions.Facebook,
+        ShareOptions.Twitter,
+        ShareOptions.VK,
+        ShareOptions.LinkedIn,
+        ShareOptions.Mail,
     ];
 
     const ShareTitle = <div>Share</div>;
@@ -66,9 +67,9 @@ export function ShareTooltipDemo() {
                     openByHover={false}
                 >
                     <ShareList.Item
-                        icon={Mail}
+                        icon={Custom}
                         url="mailto:example@example.com"
-                        label="Mail"
+                        label="Custom"
                         getShareLink={(params: SocialShareData) => params.url}
                     />
                 </ShareTooltip>
@@ -85,9 +86,9 @@ export function ShareTooltipDemo() {
                     openByHover={false}
                 >
                     <ShareList.Item
-                        icon={Mail}
+                        icon={Custom}
                         url="mailto:example@example.com"
-                        label="Mail"
+                        label="Custom"
                         getShareLink={(params: SocialShareData) => params.url}
                     />
                 </ShareTooltip>
@@ -176,7 +177,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom share link</span>
-                <ShareList.Item type={ShareSocialNetwork.Telegram} url={url} icon={Cloud} />
+                <ShareList.Item type={ShareOptions.Telegram} url={url} icon={Cloud} />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>

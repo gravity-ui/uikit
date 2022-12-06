@@ -34,7 +34,7 @@ export const StoriesGroup = ({
     maxSliderItemsCount = 12,
     onClose,
 }: StoriesGroupProps) => {
-    const [[groupIndex, itemIndex], setCurrentStoryIndex] = React.useState(initialStoryIndex);
+    const [[groupIndex, itemIndex], setStoryIndex] = React.useState(initialStoryIndex);
 
     const handleClose = React.useCallback<NonNullable<StoriesGroupProps['onClose']>>(
         (event, reason) => {
@@ -53,55 +53,92 @@ export const StoriesGroup = ({
     );
 
     const handleGotoPrevious = React.useCallback(() => {
-        setCurrentStoryIndex(([currentGroupIndex, currentItemIndex]) => {
+        setStoryIndex((prevState) => {
+            const [currentGroupIndex, currentItemIndex] = prevState;
+
             if (currentItemIndex > 0) {
                 const newState: [number, number] = [currentGroupIndex, currentItemIndex - 1];
 
                 onItemSelect?.(newState, false);
                 return newState;
-            } else {
-                const newState: [number, number] = [
-                    currentGroupIndex - 1,
-                    groups[currentGroupIndex - 1].items.length - 1,
-                ];
-
-                onItemSelect?.(newState, false);
-                return newState;
             }
+
+            // try to find previous valid group
+            for (let i = currentGroupIndex - 1; i >= 0; --i) {
+                if (groups[i].items.length !== 0) {
+                    const newState: [number, number] = [i, groups[i].items.length - 1];
+
+                    onItemSelect?.(newState, false);
+                    return newState;
+                }
+            }
+
+            return prevState;
         });
     }, [groups, onItemSelect]);
 
     const handleGotoNext = React.useCallback(() => {
-        setCurrentStoryIndex(([currentGroupIndex, currentItemIndex]) => {
-            if (currentItemIndex < groups[currentGroupIndex].items.length - 1) {
+        setStoryIndex((prevState) => {
+            const [currentGroupIndex, currentItemIndex] = prevState;
+
+            if (currentItemIndex < groups[currentGroupIndex]?.items.length - 1) {
                 const newState: [number, number] = [currentGroupIndex, currentItemIndex + 1];
                 onItemSelect?.(newState, false);
                 return newState;
-            } else {
-                const newState: [number, number] = [currentGroupIndex + 1, 0];
-                onItemSelect?.(newState, false);
-                return newState;
             }
+
+            // try to find next valid group
+            for (let i = currentGroupIndex + 1; i < groups.length; ++i) {
+                if (groups[i].items.length !== 0) {
+                    const newState: [number, number] = [i, 0];
+                    onItemSelect?.(newState, false);
+                    return newState;
+                }
+            }
+
+            return prevState;
         });
     }, [groups, onItemSelect]);
 
     const onGroupSelect = React.useCallback(
         (newGroupIndex: number) => {
-            setCurrentStoryIndex([newGroupIndex, 0]);
+            setStoryIndex([newGroupIndex, 0]);
             onItemSelect?.([newGroupIndex, 0], true);
         },
         [onItemSelect],
     );
 
+    if (groups.length === 0) {
+        return null;
+    }
+
     const currentGroup = groups[groupIndex];
     const currentItems = currentGroup?.items || [];
 
+    // case when groups has changed and indexs has ceased to be valid
+    if (currentGroup === undefined || currentItems[itemIndex] === undefined) {
+        if (
+            groups[initialStoryIndex[0]] &&
+            groups[initialStoryIndex[0]].items[initialStoryIndex[1]]
+        ) {
+            setStoryIndex(initialStoryIndex);
+        } else {
+            // try to find first valid index
+            for (let i = 0; i < groups.length; ++i) {
+                if (groups[i] && groups[i].items.length !== 0) {
+                    setStoryIndex([i, 0]);
+                    break;
+                }
+            }
+        }
+
+        return null;
+    }
+
     const indexType =
-        ((currentGroup === undefined || currentItems[itemIndex] === undefined) &&
-            IndexType.Invalid) ||
         (groupIndex === 0 && itemIndex === 0 && IndexType.Start) ||
-        (groupIndex >= groups.length - 1 &&
-            itemIndex >= currentItems.length - 1 &&
+        (groupIndex === groups.length - 1 &&
+            itemIndex === currentItems.length - 1 &&
             IndexType.End) ||
         IndexType.InProccess;
 

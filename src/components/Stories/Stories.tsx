@@ -74,8 +74,19 @@ export function Stories({
         });
     }, [items, onNextClick]);
 
+    if (items.length === 0) {
+        return null;
+    }
+
+    // case when items has changed and index has ceased to be valid
+    if (items[storyIndex] === undefined) {
+        const correctIndex = items[initialStoryIndex] === undefined ? 0 : initialStoryIndex;
+        setStoryIndex(correctIndex);
+
+        return null;
+    }
+
     const indexType =
-        (items[storyIndex] === undefined && IndexType.Invalid) ||
         (storyIndex === 0 && IndexType.Start) ||
         (storyIndex === items.length - 1 && IndexType.End) ||
         IndexType.InProccess;

@@ -31,8 +31,9 @@ const StoriesPreviewList = ({
                         key={i}
                         className={b('stories-preview-item', {
                             active: offset + i === groupIndex,
+                            disabled: items.length === 0,
                         })}
-                        onClick={() => onGroupSelect(offset + i)}
+                        onClick={items.length === 0 ? undefined : () => onGroupSelect(offset + i)}
                     >
                         {media && <MediaRenderer media={media} />}
                     </div>

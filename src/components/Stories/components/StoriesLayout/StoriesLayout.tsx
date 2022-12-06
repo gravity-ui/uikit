@@ -16,7 +16,6 @@ export enum IndexType {
     Start = 1,
     End,
     InProccess,
-    Invalid,
 }
 
 export type StoriesLayoutProps = {
@@ -67,27 +66,21 @@ export const StoriesLayout = (props: StoriesLayoutProps) => {
                             )}
                         </div>
                         <div className={b('controls-block')}>
-                            {IndexType.Start !== props.indexType &&
-                                IndexType.Invalid !== props.indexType && (
-                                    <Button
-                                        onClick={props.handleGotoPrevious}
-                                        view="outlined"
-                                        size="l"
-                                    >
-                                        {i18n('label_back')}
-                                    </Button>
-                                )}
+                            {IndexType.Start !== props.indexType && (
+                                <Button onClick={props.handleGotoPrevious} view="outlined" size="l">
+                                    {i18n('label_back')}
+                                </Button>
+                            )}
                             {IndexType.InProccess !== props.indexType && (
                                 <Button onClick={props.handleButtonClose} size="l">
                                     {i18n('label_close')}
                                 </Button>
                             )}
-                            {IndexType.End !== props.indexType &&
-                                IndexType.Invalid !== props.indexType && (
-                                    <Button onClick={props.handleGotoNext} view="action" size="l">
-                                        {i18n('label_next')}
-                                    </Button>
-                                )}
+                            {IndexType.End !== props.indexType && (
+                                <Button onClick={props.handleGotoNext} view="action" size="l">
+                                    {i18n('label_next')}
+                                </Button>
+                            )}
                         </div>
                     </div>
                     <div className={b('right-pane')}>

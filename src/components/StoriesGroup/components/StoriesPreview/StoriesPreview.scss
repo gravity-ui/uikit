@@ -17,6 +17,8 @@ $block: '.#{variables.$ns}stories-group-preview';
     }
 
     &__stories-preview-item {
+        $disabled: #{&}_disabled;
+
         position: relative;
         box-sizing: border-box;
 
@@ -45,7 +47,7 @@ $block: '.#{variables.$ns}stories-group-preview';
         }
 
         &_active,
-        &:hover {
+        &:hover:not(#{$disabled}) {
             &::after {
                 display: none;
             }

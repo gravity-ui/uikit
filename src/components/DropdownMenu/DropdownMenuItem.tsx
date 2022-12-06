@@ -1,11 +1,13 @@
-import React, {MouseEventHandler, useCallback, useContext} from 'react';
+import React, {MouseEventHandler, ReactNode, useCallback, useContext} from 'react';
 import {Menu} from '../Menu';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import type {DropdownMenuItem as DropdownMenuItemType} from './types';
 
-type Props<T> = DropdownMenuItemType<T>;
+type Props<T> = DropdownMenuItemType<T> & {
+    children?: ReactNode;
+};
 
-export const DropdownMenuItem = <T,>({text, action, ...props}: Props<T>) => {
+export const DropdownMenuItem = <T,>({text, children, action, ...props}: Props<T>) => {
     const {toggle, data} = useContext(DropdownMenuContext);
     const onClick: MouseEventHandler<HTMLElement> = useCallback(
         (event) => {
@@ -17,7 +19,7 @@ export const DropdownMenuItem = <T,>({text, action, ...props}: Props<T>) => {
 
     return (
         <Menu.Item onClick={onClick} {...props}>
-            {text}
+            {text || children}
         </Menu.Item>
     );
 };

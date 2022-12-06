@@ -42,7 +42,7 @@ const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function Men
 ) {
     const commonProps = {
         title,
-        onClick,
+        onClick: disabled ? undefined : onClick,
         style,
         tabIndex: disabled ? -1 : 0,
         className: b('item', {disabled, active, theme}, className),

@@ -1,4 +1,4 @@
-export {ShareOptions} from './constants';
+export {ShareOptions, ShareOptions as ShareSocialNetwork} from './constants';
 export {ShareList} from './ShareList/ShareList';
 export {ShareTooltip} from './ShareTooltip';
 

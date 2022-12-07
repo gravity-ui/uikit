@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.2](https://github.com/gravity-ui/uikit/compare/v3.9.1...v3.9.2) (2022-12-07)
+
+
+### Bug Fixes
+
+* **DialogFooter:** updated button style ([#405](https://github.com/gravity-ui/uikit/issues/405)) ([956fcf9](https://github.com/gravity-ui/uikit/commit/956fcf90d9b7b4c43f810fc48065c584360ae5ad))
+
 ## [3.9.1](https://github.com/gravity-ui/uikit/compare/v3.9.0...v3.9.1) (2022-12-06)
 
 

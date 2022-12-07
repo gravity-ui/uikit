@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.9.1](https://github.com/gravity-ui/uikit/compare/v3.9.0...v3.9.1) (2022-12-06)
+
+
+### Bug Fixes
+
+* **DropdownMenu.Item:** allow `children` ([#402](https://github.com/gravity-ui/uikit/issues/402)) ([253e291](https://github.com/gravity-ui/uikit/commit/253e291cbc220362a94255456d5c775639314f39))
+* **Menu.Item:** remove `onClick` from disabled items ([#404](https://github.com/gravity-ui/uikit/issues/404)) ([1394457](https://github.com/gravity-ui/uikit/commit/1394457638fd2775448f46921f1a1b0c642c7a66))
+
 ## [3.9.0](https://github.com/gravity-ui/uikit/compare/v3.8.0...v3.9.0) (2022-12-06)
 
 

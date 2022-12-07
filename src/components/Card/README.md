@@ -10,6 +10,7 @@ Card is content container. It supports multiple types: `selection`, `action`, `c
 | type      | `CardType`                                          |          | `'container'` | Card's type affects on available properties                         |
 | view      | `SelectionCardView` \| `ContainerCardView`          |          | `'outlined'`  | Available for `type`: `'container'` and `'selection'`               |
 | theme     | `CardTheme`                                         |          | `'normal'`    | Card's base color. Available for `type`: `'container'`              |
+| size      | `CardSize`                                          |          | `'m'`         | Card's size. Affects border-radius and shadow                       |
 | className | `String`                                            |          |               | CSS class                                                           |
 | onClick   | `(event: React.MouseEvent<HTMLDivElement>) => void` |          |               | Card click handler. Available for `type`: `'selection'`, `'action'` |
 | selected  | `Boolean`                                           |          |               | Selected card. Available for type: `'selection'`                    |
@@ -24,6 +25,7 @@ type SelectionCardView = 'outlined' | 'clear';
 type ContainerCardView = 'outlined' | 'filled' | 'raised';
 
 type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
+type CardSize = 'm' | 'l';
 ```
 
 ### Examples

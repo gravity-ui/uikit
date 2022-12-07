@@ -63,4 +63,15 @@ describe('HotKey parse', () => {
         const res = parseKeyGroups({NormalizeMap: {}, Priority: {}, DisplayName: {}}, '+a++b+');
         expect(res).toStrictEqual([['A', 'B']]);
     });
+
+    it('should remove duplicated keyIds', () => {
+        const res = parseKeyGroups(
+            {NormalizeMap: {}, Priority: {}, DisplayName: {}},
+            'cmd+cMd+CMD+c cmd+v',
+        );
+        expect(res).toStrictEqual([
+            ['Cmd', 'C'],
+            ['Cmd', 'V'],
+        ]);
+    });
 });

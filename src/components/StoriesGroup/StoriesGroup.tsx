@@ -7,6 +7,8 @@ import {StoriesGroupItem} from './types';
 import {block} from '../utils/cn';
 import './StoriesGroup.scss';
 
+const DEFAULT_MAX_SLIDER_ITEMS_COUNT = 12;
+
 const b = block('stories-group');
 
 export interface StoriesGroupProps {
@@ -31,7 +33,7 @@ export const StoriesGroup = ({
     onItemSelect,
     disableOutsideClick,
     initialStoryIndex = [0, 0],
-    maxSliderItemsCount = 12,
+    maxSliderItemsCount = DEFAULT_MAX_SLIDER_ITEMS_COUNT,
     onClose,
 }: StoriesGroupProps) => {
     const [[groupIndex, itemIndex], setStoryIndex] = React.useState(initialStoryIndex);

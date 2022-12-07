@@ -6,9 +6,10 @@ import {Link} from '../../../Link';
 import {MediaRenderer} from '..';
 import i18n from '../../i18n';
 
-import './StoriesLayout.scss';
-import {block} from '../../../utils/cn';
 import {StoriesItem} from '../../types';
+
+import {block} from '../../../utils/cn';
+import './StoriesLayout.scss';
 
 const b = block('stories-layout');
 

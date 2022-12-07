@@ -1,11 +1,13 @@
 import React from 'react';
 import {Icon} from '../../../Icon/Icon';
 import {MediaRenderer} from '../../../Stories/components';
-import {block} from '../../../utils/cn';
+
 import {StoriesGroupItem} from '../../types';
 import {Chevron} from '../../../icons/Chevron';
-import './StoriesPreview.scss';
 import {Button} from '../../../Button';
+
+import {block} from '../../../utils/cn';
+import './StoriesPreview.scss';
 
 const b = block('stories-group-preview');
 

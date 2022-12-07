@@ -91,10 +91,10 @@ const PcDisplayName: Record<PcKeys, string> = {
 };
 
 const MacDisplayName: Record<MacKeys, string> = {
-    up: '↑',
-    down: '↓',
-    left: '←',
-    right: '→',
+    up: '▲',
+    down: '▼',
+    left: '◀',
+    right: '▶',
     escape: '⎋',
 
     return: '⏎',

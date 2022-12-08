@@ -1,0 +1,72 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}stories-group-preview';
+
+#{$block} {
+    user-select: none;
+    margin-bottom: 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    &__slider-preview-list-wrapper {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__stories-preview-item {
+        $disabled: #{&}_disabled;
+
+        position: relative;
+        box-sizing: border-box;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+
+        background-color: var(--yc-color-base-background);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            background-color: var(--yc-color-sfx-shadow);
+            width: 40px;
+            height: 40px;
+        }
+
+        &_active,
+        &:hover:not(#{$disabled}) {
+            &::after {
+                display: none;
+            }
+        }
+
+        &_active {
+            border: 2px solid var(--yc-color-line-selection-active);
+        }
+    }
+
+    &__Icon_left {
+        transform: rotate(90deg);
+    }
+    &__Icon_right {
+        transform: rotate(-90deg);
+    }
+
+    &__slider-button-wrapper {
+        width: 28px;
+        height: 28px;
+    }
+}

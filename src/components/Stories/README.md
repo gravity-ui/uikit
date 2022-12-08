@@ -36,7 +36,7 @@ Component for displaying stories. It looks like a carousel in a modal with given
 ```jsx harmony
 <Stories
   open
-  stories={[
+  items={[
     {
       title: 'Story title',
       description: 'Story text',

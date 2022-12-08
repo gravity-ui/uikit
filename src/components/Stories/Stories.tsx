@@ -1,14 +1,11 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
 import {Modal, ModalCloseReason} from '../Modal';
-import {Button} from '../Button';
-import {ButtonClose} from '../Dialog/ButtonClose/ButtonClose';
-import {Link} from '../Link';
-import {MediaRenderer} from './components';
 import {StoriesItem} from './types';
-import i18n from './i18n';
 
+import {IndexType, StoriesLayout} from './components/StoriesLayout/StoriesLayout';
+
+import {block} from '../utils/cn';
 import './Stories.scss';
 
 const b = block('stories');
@@ -32,25 +29,10 @@ export function Stories({
     items,
     onPreviousClick,
     onNextClick,
-    initialStoryIndex,
+    initialStoryIndex = 0,
     disableOutsideClick = true,
 }: StoriesProps) {
-    let initialIndex = 0;
-    if (
-        typeof initialStoryIndex !== 'undefined' &&
-        initialStoryIndex >= 0 &&
-        initialStoryIndex < items.length
-    ) {
-        initialIndex = initialStoryIndex;
-    }
-
-    const [currentStoryIndex, setCurrentStoryIndex] = React.useState(initialIndex);
-
-    const currentStory = items[currentStoryIndex];
-    const isFirstStory = currentStoryIndex === 0;
-    const isLastStory = currentStoryIndex === items.length - 1;
-    const hasNextStory = !isLastStory;
-    const hasPreviousStory = !isFirstStory;
+    const [storyIndex, setStoryIndex] = React.useState(initialStoryIndex);
 
     const handleClose = React.useCallback<NonNullable<StoriesProps['onClose']>>(
         (event, reason) => {
@@ -69,94 +51,61 @@ export function Stories({
     );
 
     const handleGotoPrevious = React.useCallback(() => {
-        if (currentStoryIndex > 0) {
+        setStoryIndex((currentStoryIndex) => {
+            if (currentStoryIndex <= 0) {
+                return 0;
+            }
+
             const newIndex = currentStoryIndex - 1;
-            setCurrentStoryIndex(newIndex);
             onPreviousClick?.(newIndex);
-        }
-    }, [currentStoryIndex, onPreviousClick]);
+            return newIndex;
+        });
+    }, [onPreviousClick]);
 
     const handleGotoNext = React.useCallback(() => {
-        if (currentStoryIndex < items.length - 1) {
+        setStoryIndex((currentStoryIndex) => {
+            if (currentStoryIndex >= items.length - 1) {
+                return items.length - 1;
+            }
+
             const newIndex = currentStoryIndex + 1;
-            setCurrentStoryIndex(newIndex);
             onNextClick?.(newIndex);
-        }
-    }, [currentStoryIndex, items, onNextClick]);
+            return newIndex;
+        });
+    }, [items, onNextClick]);
+
+    if (items.length === 0) {
+        return null;
+    }
+
+    // case when items has changed and index has ceased to be valid
+    if (items[storyIndex] === undefined) {
+        const correctIndex = items[initialStoryIndex] === undefined ? 0 : initialStoryIndex;
+        setStoryIndex(correctIndex);
+
+        return null;
+    }
+
+    const indexType =
+        (storyIndex === 0 && IndexType.Start) ||
+        (storyIndex === items.length - 1 && IndexType.End) ||
+        IndexType.InProccess;
 
     return (
         <Modal
             open={open}
             onClose={handleClose}
-            className={b()}
             disableOutsideClick={disableOutsideClick}
+            contentClassName={b('modal-content')}
         >
-            <div className={b('wrap-outer')}>
-                <div className={b('wrap-inner')}>
-                    <div className={b('container')}>
-                        {currentStory && (
-                            <React.Fragment>
-                                <div className={b('left-pane')}>
-                                    <div className={b('counter')}>
-                                        {i18n('label_counter', {
-                                            current: currentStoryIndex + 1,
-                                            total: items.length,
-                                        })}
-                                    </div>
-                                    <div className={b('text-block')}>
-                                        {currentStory.title ? (
-                                            <div className={b('text-header')}>
-                                                {currentStory.title}
-                                            </div>
-                                        ) : null}
-                                        {currentStory.description ? (
-                                            <div className={b('text-content')}>
-                                                {currentStory.description}
-                                            </div>
-                                        ) : null}
-                                        {currentStory.url ? (
-                                            <div className={b('story-link-block')}>
-                                                <Link href={currentStory.url} target={'_blank'}>
-                                                    {i18n('label_more')}
-                                                </Link>
-                                            </div>
-                                        ) : null}
-                                    </div>
-                                    <div className={b('controls-block')}>
-                                        {hasPreviousStory && (
-                                            <Button
-                                                onClick={handleGotoPrevious}
-                                                view="outlined"
-                                                size="l"
-                                            >
-                                                {i18n('label_back')}
-                                            </Button>
-                                        )}
-                                        {(isFirstStory || isLastStory) && (
-                                            <Button onClick={handleButtonClose} size="l">
-                                                {i18n('label_close')}
-                                            </Button>
-                                        )}
-                                        {hasNextStory && (
-                                            <Button onClick={handleGotoNext} view="action" size="l">
-                                                {i18n('label_next')}
-                                            </Button>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className={b('right-pane')}>
-                                    <ButtonClose onClose={handleButtonClose} />
-                                    {currentStory.media && (
-                                        <div className={b('media-block')}>
-                                            <MediaRenderer media={currentStory.media} />
-                                        </div>
-                                    )}
-                                </div>
-                            </React.Fragment>
-                        )}
-                    </div>
-                </div>
-            </div>
+            <StoriesLayout
+                items={items}
+                storyIndex={storyIndex}
+                indexType={indexType}
+                handleButtonClose={handleButtonClose}
+                handleGotoNext={handleGotoNext}
+                handleGotoPrevious={handleGotoPrevious}
+            />
         </Modal>
     );
 }

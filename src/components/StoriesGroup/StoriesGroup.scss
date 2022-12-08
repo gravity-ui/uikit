@@ -1,9 +1,10 @@
 @use '../variables';
 
-$block: '.#{variables.$ns}stories';
+$block: '.#{variables.$ns}stories-group';
 
 #{$block} {
     &__modal-content {
+        background-color: inherit;
         border-radius: 20px;
     }
 }

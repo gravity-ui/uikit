@@ -33,6 +33,7 @@ export * from './Skeleton';
 export * from './Spin';
 export * from './StoreBadge';
 export * from './Stories';
+export * from './StoriesGroup';
 export * from './Switch';
 export * from './Table';
 export * from './Tabs';

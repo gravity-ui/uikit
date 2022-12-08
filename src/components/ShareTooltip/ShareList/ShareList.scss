@@ -76,5 +76,7 @@ $block: '.#{variables.$ns}share-list';
 
     &__socials-container {
         display: flex;
+
+        width: 100%;
     }
 }

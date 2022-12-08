@@ -1,13 +1,9 @@
-import React, {MouseEventHandler, ReactNode, useCallback, useContext} from 'react';
+import React, {MouseEventHandler, useCallback, useContext} from 'react';
 import {Menu, MenuItemProps} from '../Menu';
 import {DropdownMenuContext} from './DropdownMenuContext';
-import type {DropdownMenuItemAction} from './types';
+import type {DropdownMenuItemRequiredProps} from './types';
 
-type Props<T> = Omit<MenuItemProps, 'onClick'> & {
-    action?: DropdownMenuItemAction<T>;
-    /** `text` is override given `children` */
-    text?: ReactNode;
-};
+type Props<T> = Omit<MenuItemProps, 'onClick'> & Partial<DropdownMenuItemRequiredProps<T>>;
 
 export const DropdownMenuItem = <T,>({text, children, action, ...props}: Props<T>) => {
     const {toggle, data} = useContext(DropdownMenuContext);

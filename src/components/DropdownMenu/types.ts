@@ -6,7 +6,7 @@ export type DropdownMenuItemAction<T> = (
     data?: T,
 ) => void;
 
-type DropdownMenuItemRequiredProps<T> =
+export type DropdownMenuItemRequiredProps<T> =
     | {
           text: React.ReactNode;
           action: DropdownMenuItemAction<T>;

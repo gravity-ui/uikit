@@ -14,7 +14,7 @@ import './ShareTooltip.scss';
 const b = block('share-tooltip');
 
 interface ShareTooltipDefaultProps extends ShareListDefaultProps {
-    /** Web Share API setting (social networks can be specified for non supported api case) */
+    /** Web Share API setting (share options can be specified for non supported api case) */
     useWebShareApi: boolean;
     /** tooltip opening direction */
     placement: PopupPlacement;
@@ -64,7 +64,7 @@ type ShareTooltipInnerProps = Omit<ShareTooltipProps, keyof ShareTooltipDefaultP
 
 export const shareTooltipDefaultProps: ShareTooltipDefaultProps = {
     iconSize: 16,
-    socialNets: ShareList.defaultProps.socialNets,
+    shareOptions: ShareList.defaultProps.shareOptions,
     withCopyLink: true,
     useWebShareApi: false,
     placement: ['bottom-end'],
@@ -82,7 +82,7 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
             url,
             title,
             text,
-            socialNets,
+            shareOptions,
             withCopyLink,
             useWebShareApi,
             placement,
@@ -108,7 +108,7 @@ export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
                 url={url}
                 title={title}
                 text={text}
-                socialNets={socialNets}
+                shareOptions={shareOptions}
                 withCopyLink={withCopyLink}
                 direction={direction}
                 copyTitle={copyTitle}

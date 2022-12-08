@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {SocialShareData} from '../models';
+import {SharOptionsData} from '../models';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {LayoutDirection, ShareOptions} from '../constants';
@@ -13,14 +13,14 @@ import './ShareListItem.scss';
 
 const b = block('share-list-item');
 
-export interface ShareListItemProps extends SocialShareData {
+export interface ShareListItemProps extends SharOptionsData {
     type?: ShareOptions;
     icon?: SVGIconData;
     label?: string;
     className?: string;
     direction?: LayoutDirection;
 
-    getShareLink?: (params: SocialShareData) => string;
+    getShareLink?: (params: SharOptionsData) => string;
 }
 
 export class ShareListItem extends React.PureComponent<ShareListItemProps> {

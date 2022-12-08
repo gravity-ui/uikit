@@ -9,7 +9,7 @@ Sharing component
 | url              | `String`              | ✔        |                  | share link                                                                                                                                                                 |
 | title            | `String`              |          |                  | link title                                                                                                                                                                 |
 | text             | `String`              |          |                  | link text                                                                                                                                                                  |
-| socialNets       | `Array<ShareOptions>` |          | `[]`             | social networks list                                                                                                                                                       |
+| shareOptions     | `Array<ShareOptions>` |          | `[]`             | share options list                                                                                                                                                         |
 | withCopyLink     | `Boolean`             |          | `true`           | display copy button                                                                                                                                                        |
 | useWebShareApi   | `Boolean`             |          | `false`          | [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share) usage setting. If turned on default share dialog will be shown (if bbrowser supports it) |
 | placement        | `Array`               |          | `['bottom-end']` | tooltip openening direction                                                                                                                                                |
@@ -29,7 +29,7 @@ Copy button only:
 <ShareTooltip url={url} title={title} text={text} />
 ```
 
-Social networks only:
+Default share options only:
 
 ```js
 <ShareTooltip
@@ -37,22 +37,32 @@ Social networks only:
   title={title}
   text={text}
   withCopyLink={false}
-  socialNets={[ShareOptions.Telegram, ShareOptions.Facebook, ShareOptions.Twitter, ShareOptions.VK]}
+  shareOptions={[
+    ShareOptions.Telegram,
+    ShareOptions.Facebook,
+    ShareOptions.Twitter,
+    ShareOptions.VK,
+  ]}
 />
 ```
 
-Social networks and copy button:
+Default share options and copy button:
 
 ```js
 <ShareTooltip
   url={url}
   title={title}
   text={text}
-  socialNets={[ShareOptions.Telegram, ShareOptions.Facebook, ShareOptions.Twitter, ShareOptions.VK]}
+  shareOptions={[
+    ShareOptions.Telegram,
+    ShareOptions.Facebook,
+    ShareOptions.Twitter,
+    ShareOptions.VK,
+  ]}
 />
 ```
 
-With custom social network:
+With custom share option:
 
 ```js
 <ShareTooltip
@@ -60,18 +70,23 @@ With custom social network:
   title={title}
   text={text}
   withCopyLink={false}
-  socialNets={[ShareOptions.Telegram, ShareOptions.Facebook, ShareOptions.Twitter, ShareOptions.VK]}
+  shareOptions={[
+    ShareOptions.Telegram,
+    ShareOptions.Facebook,
+    ShareOptions.Twitter,
+    ShareOptions.VK,
+  ]}
 >
   <ShareList.Item
     icon={LinkedIn}
     url="https://www-linkedin.com/"
     label="LinkedIn"
-    getShareLink={(params: SocialShareData) => params.url}
+    getShareLink={(params: ShareOptionsData) => params.url}
   />
 </ShareTooltip>
 ```
 
-Web Share API setting (social networks can be specified for non supported api case):
+Web Share API setting (share options can be specified for non supported api case):
 
 ```js
 <ShareTooltip url={url} title={title} text={text} useWebShareApi={true} />

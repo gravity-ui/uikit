@@ -1,9 +1,8 @@
-import React, {Children, cloneElement, useCallback, useEffect, useState} from 'react';
+import React, {Children, cloneElement, useEffect, useState} from 'react';
 
 import {Popup, PopupPlacement} from '../Popup';
 import {useBoolean} from '../utils/useBoolean';
 import {block} from '../utils/cn';
-import {setRef} from '../utils/setRef';
 
 import './Tooltip.scss';
 
@@ -28,15 +27,6 @@ export const Tooltip = (props: TooltipProps) => {
     const tooltipVisible = useTooltipVisible(anchorElement, props);
 
     const child = Children.only(children);
-    const childRef = (child as any).ref;
-
-    const elementRef = useCallback(
-        (node: HTMLElement | null) => {
-            setAnchorElement(node);
-            setRef(childRef, node);
-        },
-        [childRef],
-    );
 
     const renderPopup = () => {
         return (
@@ -56,36 +46,38 @@ export const Tooltip = (props: TooltipProps) => {
 
     return (
         <>
-            {cloneElement(child, {ref: elementRef})}
-            {renderPopup()}
+            {cloneElement(child, {ref: setAnchorElement})}
+            {anchorElement ? renderPopup() : null}
         </>
     );
 };
 
 function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: TooltipDelayProps) {
-    const anchorHovered = useAnchorHovered(anchor);
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
-    useEffect(() => {
-        let timeout: ReturnType<typeof setTimeout>;
-        if (anchorHovered && !tooltipVisible) timeout = setTimeout(showTooltip, openDelay);
-        if (!anchorHovered && tooltipVisible) timeout = setTimeout(hideTooltip, closeDelay);
-        return () => {
-            clearTimeout(timeout);
-        };
-    }, [anchorHovered]);
-    return tooltipVisible;
-}
+    const timeoutRef = React.useRef<number>();
 
-function useAnchorHovered(anchor: HTMLElement | null) {
-    const [hovered, setHovered, unsetHovered] = useBoolean(false);
     useEffect(() => {
-        if (!anchor) return;
-        anchor.addEventListener('mouseenter', setHovered);
-        anchor.addEventListener('mouseleave', unsetHovered);
+        if (!anchor) {
+            return undefined;
+        }
+
+        function handleHover() {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = window.setTimeout(showTooltip, openDelay);
+        }
+
+        function handleBlur() {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = window.setTimeout(hideTooltip, closeDelay);
+        }
+
+        anchor.addEventListener('mouseenter', handleHover);
+        anchor.addEventListener('mouseleave', handleBlur);
         return () => {
-            anchor.removeEventListener('mouseenter', setHovered);
-            anchor.removeEventListener('mouseleave', unsetHovered);
+            anchor.removeEventListener('mouseenter', handleHover);
+            anchor.removeEventListener('mouseleave', handleBlur);
         };
-    }, [anchor, setHovered, unsetHovered]);
-    return hovered;
+    }, [anchor, showTooltip, hideTooltip, openDelay, closeDelay]);
+
+    return tooltipVisible;
 }

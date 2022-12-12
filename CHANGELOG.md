@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.10.1](https://github.com/gravity-ui/uikit/compare/v3.10.0...v3.10.1) (2022-12-12)
+
+
+### Bug Fixes
+
+* **ShareTooltip:** fix link for email share option ([#415](https://github.com/gravity-ui/uikit/issues/415)) ([4a5eed0](https://github.com/gravity-ui/uikit/commit/4a5eed018398d20b0703629ac3b39aa649d9038c))
+
 ## [3.10.0](https://github.com/gravity-ui/uikit/compare/v3.9.2...v3.10.0) (2022-12-12)
 
 

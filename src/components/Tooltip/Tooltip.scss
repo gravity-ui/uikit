@@ -3,6 +3,9 @@
 $block: '.#{variables.$ns}tooltip';
 
 #{$block} {
+    // prevent glitch between two nearby tooltip refs
+    pointer-events: none;
+
     // remove a white outline of the <Popup /> component
     &::before {
         display: none;

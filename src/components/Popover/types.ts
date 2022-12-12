@@ -5,6 +5,7 @@ import {LinksProps} from './components/Links/Links';
 import {TriggerProps} from './components/Trigger/Trigger';
 import {PopupProps, PopupAnchorRef} from '../Popup';
 import {PopoverBehavior} from './config';
+import {LayerConfig} from '../utils/LayerManager';
 
 export type PopoverButtonProps = {
     /**
@@ -105,6 +106,7 @@ export type PopoverDefaultProps = {
     theme: PopoverTheme;
     /** Tooltip's size */
     size: 's' | 'l';
+    category: LayerConfig['category'];
 };
 
 export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement'> &

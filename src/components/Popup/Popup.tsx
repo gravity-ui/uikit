@@ -18,6 +18,7 @@ import {useForkRef} from '../utils/useForkRef';
 import {PopupArrow} from './PopupArrow';
 
 import './Popup.scss';
+import {LayerConfig} from '../utils/LayerManager';
 
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
@@ -35,6 +36,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
     container?: HTMLElement;
+    category?: LayerConfig['category'];
 }
 
 const b = block('popup');
@@ -64,10 +66,11 @@ export function Popup({
     container,
     strategy,
     qa,
+    category,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    useLayer({
+    const allowedOpen = useLayer({
         open,
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -76,6 +79,7 @@ export function Popup({
         onClose,
         contentRefs: [anchorRef, containerRef],
         enabled: !disableLayer,
+        category,
     });
 
     const {attributes, styles, setPopperRef, setArrowRef} = usePopper({
@@ -94,11 +98,13 @@ export function Popup({
     });
     const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef);
 
+    const actualOpen = open && allowedOpen;
+
     return (
         <Portal container={container}>
             <CSSTransition
                 nodeRef={containerRef}
-                in={open}
+                in={actualOpen}
                 addEndListener={(done) =>
                     containerRef.current?.addEventListener('animationend', done)
                 }
@@ -111,14 +117,14 @@ export function Popup({
                     ref={handleRef}
                     style={styles.popper}
                     {...attributes.popper}
-                    className={bWrapper({open})}
+                    className={bWrapper({actualOpen})}
                 >
                     <div
                         onClick={onClick}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         tabIndex={-1}
-                        className={b({open}, className)}
+                        className={b({actualOpen}, className)}
                         style={style}
                         data-qa={qa}
                     >

@@ -19,7 +19,8 @@ export function useLayer({
     onClose,
     contentRefs,
     enabled = true,
-}: LayerProps) {
+    category,
+}: LayerProps): boolean {
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -28,7 +29,10 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
+        category,
     });
+
+    const [allowedOpen, setAllowedOpen] = React.useState(false);
 
     React.useEffect(() => {
         Object.assign(layerConfigRef.current, {
@@ -55,7 +59,12 @@ export function useLayer({
     React.useEffect(() => {
         if (open && enabled) {
             const layerConfig = layerConfigRef.current;
-            layerManager.add(layerConfig);
+            const tryAdd = async () => {
+                await layerManager.add(layerConfig);
+                setAllowedOpen(true);
+            };
+
+            tryAdd();
 
             return () => {
                 layerManager.remove(layerConfig);
@@ -64,4 +73,6 @@ export function useLayer({
 
         return undefined;
     }, [open, enabled]);
+
+    return allowedOpen;
 }

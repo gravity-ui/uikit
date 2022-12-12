@@ -49,6 +49,7 @@ export const Popover = forwardRef(function (
         anchorRef,
         strategy,
         qa,
+        category,
     }: PopoverProps & QAProps,
     ref: ForwardedRef<PopoverInstanceProps | undefined>,
 ) {
@@ -112,6 +113,7 @@ export const Popover = forwardRef(function (
             offset={tooltipOffset}
             onClose={anchorRef ? undefined : closeTooltip}
             qa={qa ? `${qa}-tooltip` : ''}
+            category={category}
         >
             <React.Fragment>
                 {title && <h3 className={cnPopover('tooltip-title')}>{title}</h3>}

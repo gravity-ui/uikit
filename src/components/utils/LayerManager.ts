@@ -17,19 +17,49 @@ export type ContentElement =
     | (VirtualElement & {contains?: (other: Node | null) => boolean});
 
 export interface LayerConfig extends LayerExtendableProps {
+    category?: 'user-driven' | 'code-driven' | 'promo-driven';
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
 }
 
+const createPromise = (): {promise: Promise<void>; resolve: () => void; reject: () => void} => {
+    let resolve!: () => void;
+    let reject!: () => void;
+
+    const promise = new Promise<void>((_resolve, _reject) => {
+        resolve = _resolve;
+        reject = _reject;
+    });
+
+    return {promise, resolve, reject};
+};
+
 class LayerManager {
     private stack: LayerConfig[] = [];
+    private preStack: {config: LayerConfig; promise: Promise<void>; resolve: () => void}[] = [];
     private mouseDownTarget: HTMLElement | null = null;
 
-    add(config: LayerConfig) {
-        this.stack.push(config);
+    add(config: LayerConfig, usePrestacking = true): Promise<void> {
+        if (config.category === 'promo-driven' && usePrestacking) {
+            for (const entry of this.preStack) {
+                if (entry.config === config) {
+                    return entry.promise;
+                }
+            }
 
-        if (this.stack.length === 1) {
-            this.addListeners();
+            const {promise, resolve} = createPromise();
+            this.preStack.push({config, promise, resolve});
+
+            this.checkPreStack();
+            return promise;
+        } else {
+            this.stack.push(config);
+
+            if (this.stack.length === 1) {
+                this.addListeners();
+            }
         }
+
+        return Promise.resolve();
     }
 
     remove(config: LayerConfig) {
@@ -38,7 +68,29 @@ class LayerManager {
 
         if (this.stack.length === 0) {
             this.removeListeners();
+            this.checkPreStack();
         }
+    }
+
+    private checkPreStack() {
+        if (this.stack.length !== 0) {
+            return;
+        }
+
+        // TODO: add a timeout here so that promotional
+        // popups are less distracting.
+
+        // TODO: decide which candidate to pick if there
+        // are multiple candidates. Maybe we should add
+        // some prop for priority?
+        const candidate = this.preStack.pop();
+
+        if (!candidate) {
+            return;
+        }
+
+        this.add(candidate.config, false);
+        candidate.resolve();
     }
 
     private addListeners() {

@@ -15,11 +15,13 @@ configure({
 
 const withContextProvider: DecoratorFn = (Story, context) => {
     return (
-        <ThemeProvider theme={context.globals.theme}>
-            <MobileProvider>
-                <Story {...context} />
-            </MobileProvider>
-        </ThemeProvider>
+        <React.StrictMode>
+            <ThemeProvider theme={context.globals.theme}>
+                <MobileProvider>
+                    <Story {...context} />
+                </MobileProvider>
+            </ThemeProvider>
+        </React.StrictMode>
     );
 };
 

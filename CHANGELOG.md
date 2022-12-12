@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.10.0](https://github.com/gravity-ui/uikit/compare/v3.9.2...v3.10.0) (2022-12-12)
+
+
+### Features
+
+* new component StoriesGroup ([#387](https://github.com/gravity-ui/uikit/issues/387)) ([e19c711](https://github.com/gravity-ui/uikit/commit/e19c711ad5ae0b97f6e82d5c61f13b03a291ffea))
+
+
+### Bug Fixes
+
+* **ShareTooltip:** popup default options container width ([#410](https://github.com/gravity-ui/uikit/issues/410)) ([7cf7435](https://github.com/gravity-ui/uikit/commit/7cf7435e84cba1c3015f9c7f3cbda7c46e44254b))
+* **Tooltip:** fix transition glitch on nearby tooltips ([#408](https://github.com/gravity-ui/uikit/issues/408)) ([7f7f752](https://github.com/gravity-ui/uikit/commit/7f7f7521fc18ac089458814f8e1c6da1de1be065))
+* **Tooltip:** tooltip sometimes gets stuck on an element ([#413](https://github.com/gravity-ui/uikit/issues/413)) ([2fdab3f](https://github.com/gravity-ui/uikit/commit/2fdab3fbb3771c0df713b0f792787dce5a75ad11))
+* **withTableSelection:** range select must ignore disabled lines ([#414](https://github.com/gravity-ui/uikit/issues/414)) ([5b50237](https://github.com/gravity-ui/uikit/commit/5b502376eaa968b6451ddff9c2766b15ce992775))
+
 ## [3.9.2](https://github.com/gravity-ui/uikit/compare/v3.9.1...v3.9.2) (2022-12-07)
 
 

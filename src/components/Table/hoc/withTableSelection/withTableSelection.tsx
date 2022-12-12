@@ -91,7 +91,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         }: {
             checked: boolean;
             disabled: boolean;
-            handler: any;
+            handler: React.ChangeEventHandler<HTMLInputElement>;
         }) {
             return (
                 <Checkbox
@@ -122,18 +122,19 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 const begin = Math.min(this.lastCheckedIndex, index);
                 const end = Math.max(this.lastCheckedIndex, index);
 
-                const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
-                const diffIds = dataIds.slice(begin, end + 1);
+                const dataIds = data.map((item, i) => Table.getRowId(this.props, item, i));
+                const diffIds = dataIds.filter(
+                    (_id, i) => begin <= i && i <= end && !this.isDisabled(data[i], i),
+                );
 
-                this.lastCheckedIndex = index;
-
-                return onSelectionChange(
+                onSelectionChange(
                     checked ? _union(selectedIds, diffIds) : _without(selectedIds, ...diffIds),
                 );
+            } else {
+                onSelectionChange(checked ? [...selectedIds, id] : _without(selectedIds, id));
             }
 
             this.lastCheckedIndex = index;
-            onSelectionChange(checked ? [...selectedIds, id] : _without(selectedIds, id));
         };
 
         private handleAllCheckBoxUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +152,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             );
         };
 
-        // eslint-disable-next-line @typescript-eslint/member-ordering
+        // eslint-disable-next-line @typescript-eslint/member-ordering, react/sort-comp
         private enhanceColumns = _memoize((columns: TableColumnConfig<I>[]) => {
             const selectionColumn: TableColumnConfig<I> = {
                 id: selectionColumnId,
@@ -185,7 +186,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                             `.${checkboxClassName}, .${checkboxClassName} *`,
                         )
                     ) {
-                        return;
+                        return undefined;
                     }
 
                     return onRowClick(item, index, event);

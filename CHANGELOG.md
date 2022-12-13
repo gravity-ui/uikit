@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.10.2](https://github.com/gravity-ui/uikit/compare/v3.10.1...v3.10.2) (2022-12-13)
+
+
+### Bug Fixes
+
+* **Tooltip:** preserve child ref ([#421](https://github.com/gravity-ui/uikit/issues/421)) ([a0aa070](https://github.com/gravity-ui/uikit/commit/a0aa070006ee12c3404c095e92d17e17f196abae))
+
 ## [3.10.1](https://github.com/gravity-ui/uikit/compare/v3.10.0...v3.10.1) (2022-12-12)
 
 

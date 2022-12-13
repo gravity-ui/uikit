@@ -1,0 +1,34 @@
+.sheet-stories-default-showcase {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__show-btn {
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        background-color: var(--yc-color-base-background);
+        z-index: 1;
+    }
+
+    &__checkbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+    }
+
+    &__extra-content {
+        word-wrap: break-word;
+    }
+
+    &__content-item {
+        margin-bottom: 15px;
+
+        &:last-child {
+            margin-bottom: 25px;
+        }
+    }
+}

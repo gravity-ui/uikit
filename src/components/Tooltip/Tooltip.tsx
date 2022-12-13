@@ -3,6 +3,7 @@ import React, {Children, cloneElement, useEffect, useState} from 'react';
 import {Popup, PopupPlacement} from '../Popup';
 import {useBoolean} from '../utils/useBoolean';
 import {block} from '../utils/cn';
+import {useForkRef} from '../utils/useForkRef';
 
 import './Tooltip.scss';
 
@@ -26,8 +27,6 @@ export const Tooltip = (props: TooltipProps) => {
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
     const tooltipVisible = useTooltipVisible(anchorElement, props);
 
-    const child = Children.only(children);
-
     const renderPopup = () => {
         return (
             <Popup
@@ -44,9 +43,14 @@ export const Tooltip = (props: TooltipProps) => {
         );
     };
 
+    const child = Children.only(children);
+    const childRef = (child as any).ref;
+
+    const ref = useForkRef(setAnchorElement, childRef);
+
     return (
         <>
-            {cloneElement(child, {ref: setAnchorElement})}
+            {cloneElement(child, {ref})}
             {anchorElement ? renderPopup() : null}
         </>
     );

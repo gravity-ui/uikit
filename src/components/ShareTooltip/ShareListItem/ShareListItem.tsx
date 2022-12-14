@@ -97,7 +97,7 @@ export class ShareListItem extends React.PureComponent<ShareListItemProps> {
             case ShareOptions.Mail:
                 return this.getShareUrlWithParams('mailto:', {
                     subject: title,
-                    body: `${text}\n${url}`,
+                    body: text ? `${text}\n${url}` : url,
                 });
             default:
                 console.error(`Unknown share type: ${type}`);

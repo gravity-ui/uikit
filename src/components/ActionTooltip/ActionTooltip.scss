@@ -1,10 +1,13 @@
 @use '../../../styles/mixins.scss';
 @use '../variables';
 
-$block: '.#{variables.$ns}tooltip-layout';
+$block: '.#{variables.$ns}action-tooltip';
 
 #{$block} {
-    max-width: 276px;
+    &__layout {
+        max-width: 300px;
+        box-sizing: border-box;
+    }
 
     &__heading {
         display: flex;

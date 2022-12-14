@@ -28,7 +28,7 @@ export interface HotKeyProps extends DOMProps, QAProps {
 export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey(props, ref) {
     const {value, platform, qa, style, className} = props;
 
-    const groups = parse(value, {platform});
+    const groups = parseHotkeys(value, {platform});
     const content: ReactNode[] = [];
 
     let hasGroups = false;
@@ -57,7 +57,7 @@ export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey
     );
 });
 
-function parse(value: string, opts: {platform?: Platform}): string[][] {
+export function parseHotkeys(value: string, opts: {platform?: Platform}): string[][] {
     const platform: Platform = opts.platform ?? (isMac() ? 'mac' : 'pc');
     const defs = defsByPlatform[platform];
     return parseKeyGroups(defs, value);

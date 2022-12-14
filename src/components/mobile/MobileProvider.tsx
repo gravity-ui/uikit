@@ -1,6 +1,6 @@
 import React from 'react';
 import {MobileContext, MobileContextProps, History, Location} from './MobileContext';
-import {Platform} from './constants';
+import {Platform, rootMobileClassName} from './constants';
 
 function useHistoryMock(): History {
     return {action: '', replace() {}, push() {}, goBack() {}};
@@ -47,6 +47,8 @@ export function MobileProvider({
         },
         [useHistory],
     );
+
+    document.body.classList.toggle(rootMobileClassName, mobileValue);
 
     const state: MobileContextProps = React.useMemo(() => {
         return {

@@ -5,7 +5,6 @@ import _cloneDeep from 'lodash/cloneDeep';
 import {
     data,
     columns,
-    rowsRefs,
     TableWithSelection,
     TableWithAction,
     TableWithCopy,
@@ -46,25 +45,6 @@ const OnRowClickTemplate: Story<TableProps<DataItem>> = (args) => <Table {...arg
 export const OnRowClick = OnRowClickTemplate.bind({});
 OnRowClick.args = {
     onRowClick: (item) => alert(JSON.stringify(item)),
-};
-
-// ---------------------------------
-const OnRowMouseEnterAndLeaveTemplate: Story<TableProps<DataItem>> = (args) => (
-    <Table rowsRefs={rowsRefs} {...args} />
-);
-export const OnRowMouseEnterAndLeave = OnRowMouseEnterAndLeaveTemplate.bind({});
-OnRowMouseEnterAndLeave.args = {
-    onRowMouseEnter(_, index) {
-        rowsRefs.forEach((ref) => {
-            ref.current!.style.opacity = '0.3';
-        });
-        rowsRefs[index].current!.style.opacity = '';
-    },
-    onRowMouseLeave() {
-        rowsRefs.forEach((ref) => {
-            ref.current!.style.opacity = '';
-        });
-    },
 };
 
 // ---------------------------------

@@ -1,4 +1,3 @@
-import React from 'react';
 import {TableColumnConfig, Table} from '../Table';
 import {withTableSelection} from '..';
 import {withTableActions, withTableCopy, withTableSettings, withTableSorting} from '../hoc';
@@ -71,8 +70,6 @@ export const columns: TableColumnConfig<DataItem>[] = [
         name: 'Date created',
     },
 ];
-
-export const rowsRefs = data.map(() => React.createRef<HTMLTableRowElement>());
 
 export const TableWithAction = withTableActions<DataItem>(Table);
 export const TableWithCopy = withTableCopy<DataItem>(Table);

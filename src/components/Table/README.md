@@ -45,6 +45,18 @@ interface Props {
    */
   onRowClick?: (item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
   /**
+   * Row mouseenter handler.
+   */
+  onRowMouseEnter?: (
+    item: any,
+    index: number,
+    event: React.MouseEvent<HTMLTableRowElement>,
+  ) => void;
+  /**
+   * Row mouseleave handler.
+   */
+  onRowMouseLeave?: (item: any, index: number, event: React.MouseEvent<HTML>) => void;
+  /**
    * Message returned if data is missing.
    *
    * By default: "No data"

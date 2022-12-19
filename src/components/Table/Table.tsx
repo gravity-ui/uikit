@@ -92,6 +92,8 @@ export interface TableProps<I> {
         index: number,
         event: React.MouseEvent<HTMLTableRowElement>,
     ) => void;
+    /** Access DOM nodes of the table rows. */
+    rowsRefs?: React.RefObject<HTMLTableRowElement>[];
     /** Message returned if data is missing. By default: "No data". */
     emptyMessage?: string;
     /** Table CSS-class. */
@@ -394,6 +396,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         return (
             <tr
                 key={Table.getRowId(this.props, item, rowIndex)}
+                ref={this.props.rowsRefs?.[rowIndex]}
                 onClick={
                     !disabled && onRowClick ? onRowClick.bind(null, item, rowIndex) : undefined
                 }

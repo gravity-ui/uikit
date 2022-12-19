@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.11.0](https://github.com/gravity-ui/uikit/compare/v3.10.2...v3.11.0) (2022-12-14)
+
+
+### Features
+
+* add linkedin color ([#424](https://github.com/gravity-ui/uikit/issues/424)) ([8b09fc1](https://github.com/gravity-ui/uikit/commit/8b09fc16355eea5c5e33962300c01dbce6b99e0e))
+
+
+### Bug Fixes
+
+* **ArrowToggle:** normal flip behavior [#115](https://github.com/gravity-ui/uikit/issues/115) ([#419](https://github.com/gravity-ui/uikit/issues/419)) ([081292f](https://github.com/gravity-ui/uikit/commit/081292fa0e2d84e29a1199fd9501172abaa3b644))
+* use native scrollbar on mobile devices ([#395](https://github.com/gravity-ui/uikit/issues/395)) ([83c5851](https://github.com/gravity-ui/uikit/commit/83c5851b901935834295831cdc13fca20142d816))
+
 ## [3.10.2](https://github.com/gravity-ui/uikit/compare/v3.10.1...v3.10.2) (2022-12-13)
 
 

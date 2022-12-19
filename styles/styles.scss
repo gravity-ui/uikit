@@ -104,7 +104,7 @@
     }
 }
 
-body.yc-root {
+body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
         width: var(--yc-scrollbar-width);

@@ -14,6 +14,7 @@ interface ThemeProviderDefaultProps {
     theme: Theme;
     systemLightTheme: RealTheme;
     systemDarkTheme: RealTheme;
+    nativeScrollbar: boolean;
 }
 
 export interface ThemeProviderProps
@@ -25,6 +26,7 @@ export function ThemeProvider({
     theme: themeProp = DEFAULT_THEME,
     systemLightTheme: systemLightThemeProp = DEFAULT_LIGHT_THEME,
     systemDarkTheme: systemDarkThemeProp = DEFAULT_DARK_THEME,
+    nativeScrollbar = false,
     children,
 }: ThemeProviderProps) {
     const [theme, setTheme] = useState<Theme>(themeProp);
@@ -47,8 +49,8 @@ export function ThemeProvider({
     const themeValue = theme === 'system' ? systemTheme : theme;
 
     useEffect(() => {
-        updateBodyClassName(themeValue);
-    }, [themeValue]);
+        updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar});
+    }, [nativeScrollbar, themeValue]);
 
     const contextValue = useMemo(
         () => ({

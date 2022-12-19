@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.12.0](https://github.com/gravity-ui/uikit/compare/v3.11.0...v3.12.0) (2022-12-19)
+
+
+### Features
+
+* **Table:** add row mouse events ([#427](https://github.com/gravity-ui/uikit/issues/427)) ([f7701c7](https://github.com/gravity-ui/uikit/commit/f7701c7347863c800d585f2fa7074d2b3fa48ed3))
+
+
+### Bug Fixes
+
+* **Table:** typo in README.md ([#429](https://github.com/gravity-ui/uikit/issues/429)) ([972f764](https://github.com/gravity-ui/uikit/commit/972f76486038764e7c09086d9e16a625f4f79d89))
+
 ## [3.11.0](https://github.com/gravity-ui/uikit/compare/v3.10.2...v3.11.0) (2022-12-14)
 
 

@@ -50,6 +50,12 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
+    &__label {
+        position: absolute;
+        font-weight: 500;
+        box-sizing: border-box;
+    }
+
     &__error {
         @include mixins.text-body-1();
         color: var(--yc-color-text-danger);
@@ -84,6 +90,14 @@ $block: '.#{variables.$ns}text-input';
                 line-height: 16px;
             }
 
+            #{$block}__label {
+                height: 24px;
+                padding: 4px 8px;
+                padding-right: 4px;
+                font-size: 13px;
+                line-height: 16px;
+            }
+
             &#{$block}_has-clear {
                 #{$block}__control {
                     padding-right: 26px;
@@ -98,7 +112,15 @@ $block: '.#{variables.$ns}text-input';
                 height: 28px;
                 padding: 5px 8px;
                 font-size: 13px;
-                line-height: 16px;
+                line-height: 18px;
+            }
+
+            #{$block}__label {
+                height: 28px;
+                padding: 5px 8px;
+                padding-right: 4px;
+                font-size: 13px;
+                line-height: 18px;
             }
 
             &#{$block}_has-clear {
@@ -118,6 +140,14 @@ $block: '.#{variables.$ns}text-input';
                 line-height: 16px;
             }
 
+            #{$block}__label {
+                height: 36px;
+                padding: 10px 13px;
+                padding-right: 4px;
+                font-size: 13px;
+                line-height: 16px;
+            }
+
             &#{$block}_has-clear {
                 #{$block}__control {
                     padding-right: 36px;
@@ -131,6 +161,14 @@ $block: '.#{variables.$ns}text-input';
             #{$block}__control {
                 height: 44px;
                 padding: 12px 13px;
+                font-size: 15px;
+                line-height: 20px;
+            }
+
+            #{$block}__label {
+                height: 44px;
+                padding: 12px 13px;
+                padding-right: 4px;
                 font-size: 15px;
                 line-height: 20px;
             }
@@ -189,6 +227,10 @@ $block: '.#{variables.$ns}text-input';
             &:hover {
                 border-color: transparent;
             }
+        }
+
+        #{$block}__label {
+            color: var(--yc-color-text-hint);
         }
     }
 

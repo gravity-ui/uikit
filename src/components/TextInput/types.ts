@@ -43,6 +43,7 @@ export interface TextInputProps extends DOMProps, QAProps {
     defaultValue?: string;
     disabled?: boolean;
     placeholder?: string;
+    innerLabel?: string;
     /**
      * clear button
      */

@@ -42,6 +42,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         name,
         value,
         defaultValue,
+        innerLabel,
         disabled = false,
         multiline = false,
         hasClear = false,
@@ -57,6 +58,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
+    const innerLabelRef = React.useRef<HTMLSpanElement>(null);
+    const [innerLabelWidth, setInnerLabelWidth] = React.useState(0);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;
@@ -75,6 +78,12 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             }
         }
     }, [multiline, inputValue, hasVerticalScrollbar]);
+
+    React.useLayoutEffect(() => {
+        const label = innerLabelRef.current;
+        const width = label?.offsetWidth || 0;
+        setInnerLabelWidth(width);
+    }, [innerLabel, size, multiline]);
 
     const state = React.useMemo(() => getTextInputState({error}), [error]);
 
@@ -106,6 +115,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
+    const isInnerLabelVisible = !multiline && Boolean(innerLabel);
 
     const commonProps = {
         id,
@@ -144,10 +154,20 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             )}
             data-qa={qa}
         >
-            {props.multiline ? (
+            {isInnerLabelVisible && (
+                <span ref={innerLabelRef} className={b('label')}>
+                    {`${innerLabel}:`}
+                </span>
+            )}
+            {multiline ? (
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
             ) : (
-                <InputControl {...props} {...commonProps} controlRef={handleRef} />
+                <InputControl
+                    innerLabelWidth={innerLabelWidth}
+                    {...props}
+                    {...commonProps}
+                    controlRef={handleRef}
+                />
             )}
 
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}

@@ -1,0 +1,25 @@
+@use '../../variables.scss' as v;
+
+#{v.$containerClassName} {
+    margin-inline: auto;
+    max-width: 100%;
+    height: 100%;
+
+    @each $media, $mod, $width in v.$MEDIA_MOD_CONTAINER {
+        &_w_#{$mod} {
+            max-width: $width;
+        }
+    }
+
+    @each $space, $value in v.$SPACE {
+        // space row
+        &_sr_#{$space} > #{v.$rowClassName}:not(:last-child) {
+            margin-bottom: $value;
+        }
+    }
+
+    // order is important here. Mast be at the and
+    &_fl {
+        max-width: 100%;
+    }
+}

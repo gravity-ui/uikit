@@ -1,0 +1,11 @@
+@mixin yc-spacing {
+    --yc-spacing-none: 0px;
+    --yc-spacing-micro: 2px;
+    --yc-spacing-xxs: 4px;
+    --yc-spacing-xs: 8px;
+    --yc-spacing-s: 16px;
+    --yc-spacing-m: 20px;
+    --yc-spacing-l: 24px;
+    --yc-spacing-xl: 32px;
+    --yc-spacing-xxl: 40px;
+}

@@ -1,0 +1,27 @@
+/* stylelint-disable declaration-no-important */
+@use '../../variables.scss';
+
+#{variables.$rowClassName} {
+    display: flex;
+    flex-flow: row wrap;
+    flex-shrink: 0;
+
+    @each $space, $value in variables.$SPACE {
+        &_s_#{$space} {
+            margin-top: calc(-1 * $value);
+            margin-left: calc(-1 * $value);
+
+            & > #{variables.$colClassName} {
+                padding-top: $value;
+                padding-left: $value;
+            }
+        }
+        &_s-r_#{$space} {
+            margin-top: calc(-1 * $value) !important;
+
+            & > #{variables.$colClassName} {
+                padding-top: $value !important;
+            }
+        }
+    }
+}

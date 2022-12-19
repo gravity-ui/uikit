@@ -1,0 +1,82 @@
+@use '../variables.scss';
+
+$colClassName: '.#{variables.$ns}col';
+$rowClassName: '.#{variables.$ns}row';
+$flexClassName: '.#{variables.$ns}flex';
+$containerClassName: '.#{variables.$ns}container';
+$spacingClassName: '.#{variables.$ns}s';
+
+$none: var(--yc-spacing-none) !default;
+$micro: var(--yc-spacing-micro) !default;
+$xxs: var(--yc-spacing-xxs) !default;
+$xs: var(--yc-spacing-xs) !default;
+$s: var(--yc-spacing-s) !default;
+$m: var(--yc-spacing-m) !default;
+$l: var(--yc-spacing-l) !default;
+$xl: var(--yc-spacing-xl) !default;
+$xxl: var(--yc-spacing-xxl) !default;
+
+$COL_SIZE: (
+    1: 8.33333333%,
+    2: 16.66666667%,
+    3: 25%,
+    4: 33.33333333%,
+    5: 41.66666667%,
+    6: 50%,
+    7: 58.33333333%,
+    8: 66.66666667%,
+    9: 75%,
+    10: 83.33333333%,
+    11: 91.66666667%,
+    12: 100%,
+);
+
+$SPACE: (
+    none: $none,
+    micro: $micro,
+    xxs: $xxs,
+    xs: $xs,
+    s: $s,
+    m: $m,
+    l: $l,
+    xl: $xl,
+    xxl: $xxl,
+);
+
+$mobile: 480px !default;
+$tablH: 1080px !default;
+$lptpS: 1200px !default;
+$lptpM: 1400px !default;
+$dsktp: 1920px !default;
+
+$MEDIA_MOD_CONTAINER: (
+    'mobile' 'm' 480px,
+    'tablH' 'th' 1024px,
+    'lptpS' 'lps' 1200px,
+    'lptpM' 'plm' 1400px,
+    'dsktp' 'd' 1920px
+);
+
+@mixin use-media($size) {
+    @if $size == mobile {
+        @media only screen and (max-width: $mobile) {
+            @content;
+        }
+    } @else if $size == tablH {
+        @media only screen and (min-width: calc($mobile + 1px)) and (max-width: $tablH) {
+            @content;
+        }
+    } @else if $size == lptpS {
+        @media only screen and (min-width: calc($tablH + 1px)) and (max-width: $lptpS) {
+            @content;
+        }
+    } @else if $size == lptpM {
+        @media only screen and (min-width: calc($lptpS + 1px)) and (max-width: $lptpM) {
+            @content;
+        }
+    } @else if $size == dsktp {
+        @media only screen and (min-width: calc($lptpM + 1px)) and (max-width: $dsktp) {
+            @content;
+        }
+    }
+}

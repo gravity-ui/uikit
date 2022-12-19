@@ -30,11 +30,13 @@
 @import './colors/system';
 @import './typography';
 @import './brand';
+@import './spacing';
 
 .yc-root {
     @include yc-typography;
     @include yc-brand;
     @include yc-colors-social;
+    @include yc-spacing;
 
     --yc-scrollbar-width: var(--yc-my-scrollbar-width);
 

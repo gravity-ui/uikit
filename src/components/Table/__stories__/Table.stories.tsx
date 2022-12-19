@@ -55,11 +55,15 @@ const OnRowMouseEnterAndLeaveTemplate: Story<TableProps<DataItem>> = (args) => (
 export const OnRowMouseEnterAndLeave = OnRowMouseEnterAndLeaveTemplate.bind({});
 OnRowMouseEnterAndLeave.args = {
     onRowMouseEnter(_, index) {
-        rowsRefs.forEach((ref) => (ref.current!.style.opacity = '0.3'));
+        rowsRefs.forEach((ref) => {
+            ref.current!.style.opacity = '0.3';
+        });
         rowsRefs[index].current!.style.opacity = '';
     },
     onRowMouseLeave() {
-        rowsRefs.forEach((ref) => (ref.current!.style.opacity = ''));
+        rowsRefs.forEach((ref) => {
+            ref.current!.style.opacity = '';
+        });
     },
 };
 

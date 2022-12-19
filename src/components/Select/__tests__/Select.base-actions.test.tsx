@@ -2,15 +2,17 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {ListQa} from '../../List';
 import {SelectQa} from '..';
-import {QUICK_SEARCH_TIMEOUT} from '../constants';
+import {QUICK_SEARCH_TIMEOUT, DEFAULT_VIRTUALIZATION_THRESHOLD} from '../constants';
 import {
     TEST_QA,
     DEFAULT_OPTIONS,
     QUICK_SEARCH_OPTIONS,
     GROUPED_OPTIONS,
     GROUPED_QUICK_SEARCH_OPTIONS,
+    SELECT_LIST_VIRTUALIZED_CLASS,
     setup,
     timeout,
+    generateOptions,
 } from './utils';
 
 describe('Select base actions', () => {
@@ -215,5 +217,38 @@ describe('Select base actions', () => {
         const selectedItem = getByTestId(ListQa.ACTIVE_ITEM);
         // active item didn`t changed
         expect(selectedItem.textContent).toBe('Value 3');
+    });
+
+    test.each<[number, number | undefined]>([
+        [DEFAULT_VIRTUALIZATION_THRESHOLD - 1, undefined],
+        [DEFAULT_VIRTUALIZATION_THRESHOLD, DEFAULT_VIRTUALIZATION_THRESHOLD + 1],
+    ])(
+        'select list shouldn`t have virtualization',
+        async (optionsCount, virtualizationThreshold) => {
+            const {getByTestId} = setup({
+                options: generateOptions(optionsCount),
+                virtualizationThreshold,
+            });
+            const user = userEvent.setup();
+            const selectControl = getByTestId(TEST_QA);
+            await user.click(selectControl);
+            const selectList = getByTestId(SelectQa.LIST);
+            expect(selectList).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+        },
+    );
+
+    test.each<[number, number | undefined]>([
+        [DEFAULT_VIRTUALIZATION_THRESHOLD, undefined],
+        [DEFAULT_VIRTUALIZATION_THRESHOLD - 1, DEFAULT_VIRTUALIZATION_THRESHOLD - 2],
+    ])('select list should have virtualization', async (optionsCount, virtualizationThreshold) => {
+        const {getByTestId} = setup({
+            options: generateOptions(optionsCount),
+            virtualizationThreshold,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        const selectList = getByTestId(SelectQa.LIST);
+        expect(selectList).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
     });
 });

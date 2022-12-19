@@ -80,6 +80,18 @@ export interface TableProps<I> {
     isRowDisabled?: (item: I, index: number) => boolean;
     /** Row click handler. When passed row's hover is visible. */
     onRowClick?: (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
+    /** Row mouseenter handler. */
+    onRowMouseEnter?: (
+        item: I,
+        index: number,
+        event: React.MouseEvent<HTMLTableRowElement>,
+    ) => void;
+    /** Row mouseleave handler. */
+    onRowMouseLeave?: (
+        item: I,
+        index: number,
+        event: React.MouseEvent<HTMLTableRowElement>,
+    ) => void;
     /** Message returned if data is missing. By default: "No data". */
     emptyMessage?: string;
     /** Table CSS-class. */
@@ -363,8 +375,16 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     private renderRow = (item: I, rowIndex: number) => {
-        const {columns, isRowDisabled, onRowClick, getRowClassNames, verticalAlign, edgePadding} =
-            this.props;
+        const {
+            columns,
+            isRowDisabled,
+            onRowClick,
+            onRowMouseEnter,
+            onRowMouseLeave,
+            getRowClassNames,
+            verticalAlign,
+            edgePadding,
+        } = this.props;
         const {columnsStyles} = this.state;
 
         const disabled = isRowDisabled ? isRowDisabled(item, rowIndex) : false;
@@ -376,6 +396,16 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 key={Table.getRowId(this.props, item, rowIndex)}
                 onClick={
                     !disabled && onRowClick ? onRowClick.bind(null, item, rowIndex) : undefined
+                }
+                onMouseEnter={
+                    !disabled && onRowMouseEnter
+                        ? onRowMouseEnter.bind(null, item, rowIndex)
+                        : undefined
+                }
+                onMouseLeave={
+                    !disabled && onRowMouseLeave
+                        ? onRowMouseLeave.bind(null, item, rowIndex)
+                        : undefined
                 }
                 className={b(
                     'row',

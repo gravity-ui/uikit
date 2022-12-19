@@ -1,6 +1,32 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
+@mixin block_size($size: s) {
+    height: 24px;
+    padding: 4px 8px;
+    font-size: 13px;
+    line-height: 16px;
+
+    @if $size == 'm' {
+        height: 28px;
+        padding: 5px 8px;
+        font-size: 13px;
+        line-height: 18px;
+    }
+    @if $size == 'l' {
+        height: 36px;
+        padding: 10px 13px;
+        font-size: 13px;
+        line-height: 16px;
+    }
+    @if $size == 'xl' {
+        height: 44px;
+        padding: 12px 13px;
+        font-size: 15px;
+        line-height: 20px;
+    }
+}
+
 $block: '.#{variables.$ns}text-input';
 
 #{$block} {
@@ -84,18 +110,12 @@ $block: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             #{$block}__control {
-                height: 24px;
-                padding: 4px 8px;
-                font-size: 13px;
-                line-height: 16px;
+                @include block_size(s);
             }
 
             #{$block}__label {
-                height: 24px;
-                padding: 4px 8px;
+                @include block_size(s);
                 padding-right: 4px;
-                font-size: 13px;
-                line-height: 16px;
             }
 
             &#{$block}_has-clear {
@@ -109,18 +129,12 @@ $block: '.#{variables.$ns}text-input';
 
         &_m {
             #{$block}__control {
-                height: 28px;
-                padding: 5px 8px;
-                font-size: 13px;
-                line-height: 18px;
+                @include block_size(m);
             }
 
             #{$block}__label {
-                height: 28px;
-                padding: 5px 8px;
+                @include block_size(m);
                 padding-right: 4px;
-                font-size: 13px;
-                line-height: 18px;
             }
 
             &#{$block}_has-clear {
@@ -134,18 +148,12 @@ $block: '.#{variables.$ns}text-input';
 
         &_l {
             #{$block}__control {
-                height: 36px;
-                padding: 10px 13px;
-                font-size: 13px;
-                line-height: 16px;
+                @include block_size(l);
             }
 
             #{$block}__label {
-                height: 36px;
-                padding: 10px 13px;
+                @include block_size(l);
                 padding-right: 4px;
-                font-size: 13px;
-                line-height: 16px;
             }
 
             &#{$block}_has-clear {
@@ -159,18 +167,12 @@ $block: '.#{variables.$ns}text-input';
 
         &_xl {
             #{$block}__control {
-                height: 44px;
-                padding: 12px 13px;
-                font-size: 15px;
-                line-height: 20px;
+                @include block_size(xl);
             }
 
             #{$block}__label {
-                height: 44px;
-                padding: 12px 13px;
+                @include block_size(xl);
                 padding-right: 4px;
-                font-size: 15px;
-                line-height: 20px;
             }
 
             &#{$block}_has-clear {

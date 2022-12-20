@@ -28,6 +28,7 @@ export type SelectProps = QAProps &
         pin?: TextInputPin;
         width?: 'auto' | 'max' | number;
         popupWidth?: number;
+        virtualizationThreshold?: number;
         className?: string;
         label?: string;
         placeholder?: React.ReactNode;

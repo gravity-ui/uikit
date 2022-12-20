@@ -3,6 +3,8 @@ import {SelectProps} from './types';
 
 export const selectBlock = block('select');
 
+export const selectListBlock = block('select-list');
+
 export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, number> = {
     s: 28,
     m: 28,
@@ -20,8 +22,9 @@ export const POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE = 100;
 
 export const QUICK_SEARCH_TIMEOUT = 2000;
 
-export const VIRTUALIZE_THRESHOLD = 50;
+export const DEFAULT_VIRTUALIZATION_THRESHOLD = 50;
 
 export const SelectQa = {
+    LIST: 'select-list',
     POPUP: 'select-popup',
 };

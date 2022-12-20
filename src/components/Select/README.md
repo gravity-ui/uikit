@@ -15,6 +15,7 @@
 | pin                             | `string`                                | `'round-round'` | Control [border view](https://github.com/gravity-ui/uikit/blob/main/src/components/TextInput/types.ts#L8)  |
 | width                           | `string \| number`                      | `undefined`     | Control width                                                                                              |
 | popupWidth                      | `number`                                | `-`             | Popup width                                                                                                |
+| virtualizationThreshold         | `number`                                | `50`            | The threshold of the options count after which virtualization is enabled                                   |
 | name                            | `string`                                | `-`             | Name of the control                                                                                        |
 | className                       | `string`                                | `-`             | Control className                                                                                          |
 | label                           | `string`                                | `-`             | Control label                                                                                              |

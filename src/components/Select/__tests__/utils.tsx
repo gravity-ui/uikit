@@ -2,7 +2,7 @@ import React from 'react';
 import {act, render} from '@testing-library/react';
 import {range} from 'lodash';
 import {Select, SelectProps, SelectOption, SelectOptionGroup} from '..';
-import {selectBlock} from '../constants';
+import {selectBlock, selectListBlock} from '../constants';
 
 export const OptionsListType = {
     FLAT: 'flat',
@@ -10,6 +10,7 @@ export const OptionsListType = {
 } as const;
 export const TEST_QA = 'select-test-qa';
 export const SELECT_CONTROL_OPEN_CLASS = selectBlock({open: true});
+export const SELECT_LIST_VIRTUALIZED_CLASS = selectListBlock({virtualized: true});
 export const DEFAULT_OPTIONS = generateOptions([
     ['js', 'JavaScript'],
     ['python', 'Python'],

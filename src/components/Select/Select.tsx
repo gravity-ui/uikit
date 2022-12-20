@@ -23,7 +23,7 @@ import {
 } from './utils';
 import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {VIRTUALIZE_THRESHOLD} from './constants';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD} from './constants';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -53,6 +53,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterPlaceholder,
         width,
         popupWidth,
+        virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -82,7 +83,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
               })
             : flattenOptions;
     const optionsText = getOptionsText(flattenOptions, value);
-    const virtualized = filteredFlattenOptions.length >= VIRTUALIZE_THRESHOLD;
+    const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
     const listHeight = getListHeight({
         options: filteredFlattenOptions,
         getOptionHeight,

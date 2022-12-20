@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.0](https://github.com/gravity-ui/uikit/compare/v3.12.0...v3.13.0) (2022-12-20)
+
+
+### Features
+
+* **Select:** add virtualizationThreshold property ([#431](https://github.com/gravity-ui/uikit/issues/431)) ([6bd9751](https://github.com/gravity-ui/uikit/commit/6bd975184fd9bbf83eb6e4c6fbd76c6f2df6bd2e))
+
 ## [3.12.0](https://github.com/gravity-ui/uikit/compare/v3.11.0...v3.12.0) (2022-12-19)
 
 

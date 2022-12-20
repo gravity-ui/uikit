@@ -14,6 +14,8 @@ type KnownKeys = {
     esc: 'esc';
     escape: 'escape';
 
+    plus: 'plus';
+
     shift: 'shift';
     tab: 'tab';
 
@@ -37,7 +39,7 @@ type KnownKeys = {
 
 type CommonKeys = keyof Pick<
     KnownKeys,
-    'up' | 'down' | 'right' | 'left' | 'escape' | 'shift' | 'tab' | 'backspace'
+    'up' | 'down' | 'right' | 'left' | 'escape' | 'plus' | 'shift' | 'tab' | 'backspace'
 >;
 
 type PcKeys = keyof Pick<KnownKeys, CommonKeys | 'enter' | 'ctrl' | 'alt'>;
@@ -82,6 +84,8 @@ const PcDisplayName: Record<PcKeys, string> = {
     right: '→',
     escape: 'Esc',
 
+    plus: '＋',
+
     enter: 'Enter',
     ctrl: 'Ctrl',
     alt: 'Alt',
@@ -96,6 +100,8 @@ const MacDisplayName: Record<MacKeys, string> = {
     left: '◀',
     right: '▶',
     escape: '⎋',
+
+    plus: '＋',
 
     return: '⏎',
     command: '⌘',

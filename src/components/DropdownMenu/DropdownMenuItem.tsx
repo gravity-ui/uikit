@@ -3,7 +3,8 @@ import {Menu} from '../Menu';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import type {DropdownMenuItem as DropdownMenuItemType} from './types';
 
-type Props<T> = DropdownMenuItemType<T> & {
+type Props<T> = Omit<DropdownMenuItemType<T>, 'text'> & {
+    text?: DropdownMenuItemType<T>['text'];
     children?: ReactNode;
 };
 

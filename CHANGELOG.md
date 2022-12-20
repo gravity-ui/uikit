@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.1](https://github.com/gravity-ui/uikit/compare/v3.13.0...v3.13.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* **DropdownMenu.Item:** allow usage w/out `text` ([#406](https://github.com/gravity-ui/uikit/issues/406)) ([54def67](https://github.com/gravity-ui/uikit/commit/54def671bc2598e6ba68247c4b929730f6c7ff8a))
+
 ## [3.13.0](https://github.com/gravity-ui/uikit/compare/v3.12.0...v3.13.0) (2022-12-20)
 
 

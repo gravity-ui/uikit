@@ -12,8 +12,8 @@ import './HotKey.scss';
 const b = block('hotkey');
 
 const Spaces = {
-    NoBreakSpace: String.fromCharCode(160), // &nbsp;
-    WordJoiner: String.fromCharCode(8288), // &NoBreak;
+    BetweenGroups: String.fromCharCode(160), // &nbsp;
+    BetweenKeys: String.fromCharCode(8239), // Narrow No-Break Space
 };
 
 export interface HotKeyProps extends DOMProps, QAProps {
@@ -39,7 +39,7 @@ export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey
     groups.forEach((keys, groupIdx) => {
         if (keys.length === 0) return;
         if (hasGroups) {
-            content.push(Spaces.NoBreakSpace);
+            content.push(Spaces.BetweenGroups);
         } else {
             hasGroups = true;
         }
@@ -47,9 +47,9 @@ export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey
             const isFirstKey = keyIdx === 0;
             if (!isFirstKey) {
                 content.push(
-                    Spaces.WordJoiner,
+                    Spaces.BetweenKeys,
                     <span className={b('plus')}>+</span>,
-                    Spaces.WordJoiner,
+                    Spaces.BetweenKeys,
                 );
             }
             content.push(<kbd key={`${key}_${groupIdx}_${keyIdx}`}>{key}</kbd>);

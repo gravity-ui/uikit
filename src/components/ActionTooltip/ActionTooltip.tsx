@@ -29,7 +29,7 @@ export const ActionTooltip: React.FC<ActionTooltipProps> = function TooltipLayou
                 <>
                     <div className={b('heading')}>
                         <div className={b('title')}>{title}</div>
-                        {hotkey && <HotKey value={hotkey} className={b('hotkey')} />}
+                        {hotkey && <HotKey view="dark" value={hotkey} className={b('hotkey')} />}
                     </div>
                     {description && <div className={b('description')}>{description}</div>}
                 </>

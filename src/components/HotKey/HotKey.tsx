@@ -22,11 +22,15 @@ export interface HotKeyProps extends DOMProps, QAProps {
      * 'mod+a mod+c mod+v'
      */
     value: string;
+    /**
+     * @default light
+     */
+    view?: 'light' | 'dark';
     platform?: Platform;
 }
 
 export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey(props, ref) {
-    const {value, platform, qa, style, className} = props;
+    const {value, platform, view = 'light', qa, style, className} = props;
 
     const groups = parseHotkeys(value, {platform});
     const content: ReactNode[] = [];
@@ -42,7 +46,11 @@ export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey
         keys.forEach((key, keyIdx) => {
             const isFirstKey = keyIdx === 0;
             if (!isFirstKey) {
-                content.push(Spaces.WordJoiner, '+', Spaces.WordJoiner);
+                content.push(
+                    Spaces.WordJoiner,
+                    <span className={b('plus')}>+</span>,
+                    Spaces.WordJoiner,
+                );
             }
             content.push(<kbd key={`${key}_${groupIdx}_${keyIdx}`}>{key}</kbd>);
         });
@@ -51,7 +59,7 @@ export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey
     if (content.length === 0) return null;
 
     return (
-        <kbd ref={ref} style={style} data-qa={qa} className={b(null, className)}>
+        <kbd ref={ref} style={style} data-qa={qa} className={b({view}, className)}>
             {content}
         </kbd>
     );

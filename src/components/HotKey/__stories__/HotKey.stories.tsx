@@ -24,6 +24,8 @@ const examples = [
     'alt+backspace',
     'alt+s+alt+s',
     'mod+[ mod+]',
+    'mod+plus',
+    'mod+-',
 ];
 
 export const Examples: Story = () => (

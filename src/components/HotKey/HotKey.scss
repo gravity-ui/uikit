@@ -4,9 +4,31 @@
 $block: '.#{variables.$ns}hotkey';
 
 #{$block} {
+    padding: 1px 5px;
+    border-radius: 4px;
+
     &,
     kbd {
         @include mixins.text-body-1();
         font-family: var(--yc-text-body-font-family);
+    }
+
+    &_view {
+        &_light {
+            background-color: var(--yc-color-base-generic);
+
+            #{$block}__plus {
+                color: var(--yc-color-text-hint);
+            }
+        }
+
+        &_dark {
+            color: var(--yc-color-text-light-complementary);
+            background-color: var(--yc-color-base-light-simple-hover);
+
+            #{$block}__plus {
+                color: var(--yc-color-text-light-hint);
+            }
+        }
     }
 }

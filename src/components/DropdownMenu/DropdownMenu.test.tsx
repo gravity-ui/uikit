@@ -3,28 +3,28 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import {DropdownMenu} from './DropdownMenu';
 
-test('do not trigger `onMenuToggle` on mount', () => {
-    const onMenuToggle = jest.fn();
-    render(<DropdownMenu onMenuToggle={onMenuToggle} />);
+test('do not trigger `onOpenToggle` on mount', () => {
+    const onOpenToggle = jest.fn();
+    render(<DropdownMenu onOpenToggle={onOpenToggle} />);
 
-    expect(onMenuToggle).not.toHaveBeenCalled();
+    expect(onOpenToggle).not.toHaveBeenCalled();
 });
 
-test('should trigger `onMenuToggle` when menu open', async () => {
-    const onMenuToggle = jest.fn();
-    render(<DropdownMenu onMenuToggle={onMenuToggle} />);
+test('should trigger `onOpenToggle` when menu open', async () => {
+    const onOpenToggle = jest.fn();
+    render(<DropdownMenu onOpenToggle={onOpenToggle} />);
 
     const switcher = screen.getByRole('button');
     await userEvent.click(switcher);
 
-    expect(onMenuToggle).toHaveBeenCalled();
+    expect(onOpenToggle).toHaveBeenCalled();
 });
 
 test('should not trigger on control disable', async () => {
-    const onMenuToggle = jest.fn();
-    const {rerender} = render(<DropdownMenu onMenuToggle={onMenuToggle} />);
+    const onOpenToggle = jest.fn();
+    const {rerender} = render(<DropdownMenu onOpenToggle={onOpenToggle} />);
 
-    rerender(<DropdownMenu onMenuToggle={onMenuToggle} disabled />);
+    rerender(<DropdownMenu onOpenToggle={onOpenToggle} disabled />);
 
-    expect(onMenuToggle).not.toHaveBeenCalled();
+    expect(onOpenToggle).not.toHaveBeenCalled();
 });

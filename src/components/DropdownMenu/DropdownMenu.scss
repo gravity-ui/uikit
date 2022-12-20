@@ -16,4 +16,41 @@ $block: '.#{variables.$ns}dropdown-menu';
         margin: 0.5em 0;
         pointer-events: none;
     }
+
+    &__menu-item-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+    }
+
+    &__menu-item-chevron {
+        transform: rotate(-90deg);
+    }
+
+    &__sub-menu {
+        position: relative;
+
+        #{$block}__menu {
+            &:before,
+            &:after {
+                position: absolute;
+
+                top: 0;
+
+                width: 10px;
+                height: 100%;
+
+                content: '';
+            }
+
+            &:before {
+                left: -10px;
+            }
+
+            &:after {
+                right: -10px;
+            }
+        }
+    }
 }

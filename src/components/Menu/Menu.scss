@@ -46,7 +46,8 @@ $block: '.#{variables.$ns}menu';
         }
 
         &:hover,
-        &:focus {
+        &:focus,
+        &_selected {
             background-color: var(--yc-color-base-simple-hover);
         }
 

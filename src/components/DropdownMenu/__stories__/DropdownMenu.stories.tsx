@@ -5,7 +5,7 @@ import {DropdownMenu, DropdownMenuItem} from '../DropdownMenu';
 import {Label, LabelProps} from '../../Label';
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
-import {options, optionsWithGroups, optionsAssorted} from './options';
+import {options, optionsWithGroups, optionsWithSubItems, optionsAssorted} from './options';
 import './DropdownMenu.stories.scss';
 
 const b = block('dropdown-menu-stories');
@@ -37,6 +37,13 @@ WithGroups.args = {
     items: optionsWithGroups,
 };
 WithGroups.storyName = 'Options with groups';
+
+const WithSubmenuTemplate: Story = (args) => <DropdownMenu {...args} />;
+export const WithSubmenu = WithSubmenuTemplate.bind({});
+WithSubmenu.args = {
+    items: optionsWithSubItems,
+};
+WithSubmenu.storyName = 'Submenu';
 
 // ----------------------------------------
 const AssortedTemplate: Story = (args) => <DropdownMenu {...args} />;

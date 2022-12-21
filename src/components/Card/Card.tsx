@@ -27,6 +27,8 @@ export interface CardProps {
     view?: CardView;
     /** Card's base color. Available for type: 'container' */
     theme?: CardTheme;
+    /** Property to pass title attribute to the wrapper */
+    titleAttribute?: string;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
@@ -39,6 +41,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         onClick,
         disabled,
         selected,
+        titleAttribute,
     } = props;
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
@@ -68,6 +71,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                 className,
             )}
             onClick={isClickable ? onClick : undefined}
+            title={titleAttribute}
         >
             {children}
         </div>

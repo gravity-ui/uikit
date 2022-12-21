@@ -81,6 +81,54 @@ export const optionsWithGroups: DropdownMenuItemMixed<unknown>[] = [
     ],
 ];
 
+export const optionsWithSubItems: DropdownMenuItem<unknown>[] = [
+    {
+        action: () => console.log('==> action "Edit" called'),
+        text: 'Edit',
+    },
+    {
+        action: () => console.log('==> action "Delete" called'),
+        text: 'Delete',
+        theme: 'danger',
+    },
+    {
+        text: 'Other',
+        items: [
+            {
+                action: () => console.log('==> action "Select" called'),
+                text: 'Select',
+                items: [
+                    {
+                        action: () => console.log('==> action "Select one" called'),
+                        text: 'One',
+                    },
+                    {
+                        action: () => console.log('==> action "Select all" called'),
+                        text: 'All',
+                    },
+                ],
+            },
+            {
+                action: () => console.log('==> action "Copy" called'),
+                text: 'Copy',
+            },
+            {
+                text: 'Move to',
+                items: [
+                    {
+                        action: () => console.log('==> action "Move to Folder 1" called'),
+                        text: 'Folder 1',
+                    },
+                    {
+                        action: () => console.log('==> action "Move to Folder 2" called'),
+                        text: 'Folder 2',
+                    },
+                ],
+            },
+        ],
+    },
+];
+
 export const optionsAssorted: DropdownMenuItem<unknown>[] = [
     {
         action: () => console.log('==> normal item action called'),

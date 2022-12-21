@@ -11,8 +11,9 @@ import './Breadcrumbs.scss';
 
 export interface BreadcrumbsItem {
     text: string;
-    action: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    action: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
     href?: string;
+    items?: BreadcrumbsItem[];
 }
 
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> {

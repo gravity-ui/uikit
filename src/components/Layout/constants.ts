@@ -27,7 +27,7 @@ export const MEDIA_TO_VALUE: Record<MediaType, number> = {
     dsktp: 1920,
 };
 
-export const DATA_UI_LAYOUT_THEME: LayoutTheme = {
+export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
     base: {
         gutters: 's',
         space: 's',

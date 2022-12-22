@@ -1,6 +1,7 @@
 import React from 'react';
 import {block} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
+import {useElementSize} from '../utils/useElementSize';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
 import {Button} from '../Button';
@@ -65,8 +66,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
+    const isInnerLabelVisible = !multiline && Boolean(innerLabel);
 
     const handleRef = useForkRef(props.controlRef, innerControlRef);
+
+    const innerControlSize = useElementSize(isInnerLabelVisible ? innerControlRef : null);
 
     React.useEffect(() => {
         const control = innerControlRef.current;
@@ -84,7 +88,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         const label = innerLabelRef.current;
         const width = label?.offsetWidth || 0;
         setInnerLabelWidth(width);
-    }, [innerLabel, size, multiline]);
+    }, [innerControlSize, innerLabel, size, multiline]);
 
     const state = React.useMemo(() => getTextInputState({error}), [error]);
 
@@ -116,7 +120,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
-    const isInnerLabelVisible = !multiline && Boolean(innerLabel);
 
     const commonProps = {
         id,

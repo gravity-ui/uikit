@@ -63,6 +63,62 @@ export const TextInputShowcase: React.FC = () => {
                 </div>
             </div>
 
+            <div className={b('text-input-inner-label-examples')}>
+                <h2 className={b('title')}>TextInput (innerLabel)</h2>
+
+                <div className={'size-examples'}>
+                    <h3 className={b('section-header')}>Sizes:</h3>
+
+                    <TextInput {...textInputProps} size="s" placeholder="s" innerLabel="Label" />
+                    <TextInput {...textInputProps} placeholder="m" innerLabel="Label" />
+                    <TextInput {...textInputProps} size="l" placeholder="l" innerLabel="Label" />
+                    <TextInput {...textInputProps} size="xl" placeholder="xl" innerLabel="Label" />
+                </div>
+
+                <div className={b('state-examples')}>
+                    <h3 className={b('section-header')}>States:</h3>
+
+                    <div className={b('row')}>
+                        <TextInput
+                            {...textInputProps}
+                            placeholder="error with message"
+                            innerLabel="Label"
+                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
+                        />
+                        <Checkbox
+                            onUpdate={setErrorMessageVisibility}
+                            checked={isErrorMessageVisible}
+                        />
+                    </div>
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="disabled"
+                        innerLabel="Label"
+                        disabled
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="clear"
+                        innerLabel="Label"
+                        hasClear
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="default value"
+                        innerLabel="Label"
+                        value={undefined}
+                        defaultValue="defaultValue"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="default value"
+                        innerLabel="Very very long label is limited by 50% width of the input control size"
+                        value={undefined}
+                        defaultValue="defaultValue"
+                    />
+                </div>
+            </div>
+
             <div className={b('text-area-examples')}>
                 <h2 className={b('title')}>TextInput (multiline)</h2>
 

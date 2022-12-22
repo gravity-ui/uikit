@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.14.0](https://github.com/gravity-ui/uikit/compare/v3.13.1...v3.14.0) (2022-12-22)
+
+
+### Features
+
+* new component Sheet & PromoSheet ([#420](https://github.com/gravity-ui/uikit/issues/420)) ([ec24c90](https://github.com/gravity-ui/uikit/commit/ec24c901387c2a8f35426d8b791bdb42b62c6f45))
+
 ## [3.13.1](https://github.com/gravity-ui/uikit/compare/v3.13.0...v3.13.1) (2022-12-20)
 
 

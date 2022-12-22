@@ -78,8 +78,12 @@ $block: '.#{variables.$ns}text-input';
 
     &__label {
         position: absolute;
-        font-weight: 500;
+        font-weight: bold;
         box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 50%;
     }
 
     &__error {

@@ -78,7 +78,7 @@ $block: '.#{variables.$ns}text-input';
 
     &__label {
         position: absolute;
-        font-weight: bold;
+        font-weight: 500;
         box-sizing: border-box;
         overflow: hidden;
         text-overflow: ellipsis;

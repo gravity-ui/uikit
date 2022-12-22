@@ -161,7 +161,7 @@ interface RenderIconProps {
     type?: ToastType;
 }
 
-function renderIcon({type}: RenderIconProps) {
+function renderIconByType({type}: RenderIconProps) {
     if (!type) {
         return null;
     }
@@ -176,6 +176,7 @@ export function Toast(props: ToastUnitedProps) {
         title,
         className,
         type,
+        renderIcon,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
         isOverride = false,
@@ -209,8 +210,10 @@ export function Toast(props: ToastUnitedProps) {
             {...heightProps}
             {...closeOnTimeoutProps}
         >
+            <div className={b('icon-container')}>
+                {renderIcon ? renderIcon(props) : renderIconByType({type})}
+            </div>
             <div className={b('container')}>
-                {renderIcon({type})}
                 <h3 className={b('title')}>{title}</h3>
                 {isClosable && (
                     <Button

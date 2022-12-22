@@ -4,7 +4,7 @@ import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
-import type {ToastAction, ToastProps, ToastType} from '../types';
+import type {InternalToastProps, ToastAction, ToastType} from '../types';
 import i18n from '../i18n';
 
 import './Toast.scss';
@@ -26,7 +26,7 @@ interface ToastInnerProps {
     mobile?: boolean;
 }
 
-interface ToastUnitedProps extends ToastProps, ToastInnerProps {}
+interface ToastUnitedProps extends InternalToastProps, ToastInnerProps {}
 
 enum ToastStatus {
     Creating = 'creating',
@@ -37,20 +37,19 @@ enum ToastStatus {
 }
 
 interface UseToastHeightProps {
-    isOverride: boolean;
     status: ToastStatus;
+    updatesCounter: number;
 }
 
 function getHeight(ref: React.RefObject<HTMLDivElement>) {
     return ref.current?.offsetHeight;
 }
 
-function useToastHeight({isOverride, status}: UseToastHeightProps) {
+function useToastHeight({status, updatesCounter}: UseToastHeightProps) {
     const [height, setHeight] = React.useState<number | undefined>(undefined);
 
     const ref = React.useRef<HTMLDivElement>(null);
 
-    const heightRef = React.useRef<number>();
     React.useEffect(() => {
         // ATTENTION: getting `offsetHeight` is important for correct transaction of `height`
         // HOW THIS WORKS:
@@ -58,18 +57,22 @@ function useToastHeight({isOverride, status}: UseToastHeightProps) {
         // We need now to apply this styles, to achieve this we're calling `offsetHeight`, to force repaint
         // Now we call changing state to `ShowingHeight` and changing height now happen with transition
         if (status === ToastStatus.ShowingIndents) {
-            heightRef.current = getHeight(ref);
+            getHeight(ref);
         }
     }, [status]);
 
     React.useEffect(() => {
-        const height =
-            typeof heightRef.current === 'number' && !isOverride
-                ? heightRef.current
-                : getHeight(ref);
+        if (
+            status === ToastStatus.ShowingIndents ||
+            status === ToastStatus.ShowingHeight ||
+            status === ToastStatus.Hiding
+        ) {
+            return; // Not update height during animation
+        }
 
-        setHeight(height);
-    }, [isOverride]);
+        const newHeight = getHeight(ref);
+        setHeight(newHeight);
+    }, [updatesCounter]);
 
     const style: React.CSSProperties = {};
     if (height && status !== ToastStatus.ShowingIndents && status !== ToastStatus.Shown) {
@@ -179,7 +182,7 @@ export function Toast(props: ToastUnitedProps) {
         renderIcon,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
-        isOverride = false,
+        updatesCounter = 0,
         mobile = false,
     } = props;
 
@@ -189,7 +192,7 @@ export function Toast(props: ToastUnitedProps) {
         handleClose,
     } = useToastStatus({onRemove: props.removeCallback});
 
-    const heightProps = useToastHeight({isOverride, status});
+    const heightProps = useToastHeight({status, updatesCounter});
 
     const timeout = typeof timeoutProp === 'number' ? timeoutProp : undefined;
     const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});

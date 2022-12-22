@@ -52,11 +52,16 @@ export const Text: React.FC<TextProps> = ({
     color,
     title,
     titleAttribute,
+    whiteSpace,
+    wordBreak,
     ...rest
 }) => {
     return (
         <Tag
-            className={text({variant, ellipsis}, color ? colorText({color}, className) : className)}
+            className={text(
+                {variant, ellipsis, whiteSpace, wordBreak},
+                color ? colorText({color}, className) : className,
+            )}
             {...rest}
             title={title || titleAttribute}
         >

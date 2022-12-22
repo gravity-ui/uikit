@@ -70,4 +70,13 @@ $block: '.#{variables.$ns}text';
     &_ellipsis {
         @include mixins.overflow-ellipsis();
     }
+    &_ws_nowrap {
+        white-space: nowrap;
+    }
+    &_ws_break-spaces {
+        white-space: break-spaces;
+    }
+    &_wb_break-all {
+        word-break: break-all;
+    }
 }

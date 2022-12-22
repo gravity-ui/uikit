@@ -71,6 +71,14 @@ export interface TextBaseProps {
      * - text-overflow: ellipsis;
      */
     ellipsis?: boolean;
+    /**
+     * white-space css property
+     */
+    whiteSpace?: 'nowrap' | 'break-spaces';
+    /**
+     * word-break css property
+     */
+    wordBreak?: 'break-all';
 }
 
 /**
@@ -84,5 +92,7 @@ export interface TextBaseProps {
  * text({variant: 'display-1'}, 'some-class')`
  *```
  */
-export const text = ({variant = 'body-1', ellipsis}: TextBaseProps, className?: string) =>
-    b({variant, ellipsis}, className);
+export const text = (
+    {variant = 'body-1', ellipsis, whiteSpace, wordBreak}: TextBaseProps,
+    className?: string,
+) => b({variant, ellipsis, ws: whiteSpace, wb: wordBreak}, className);

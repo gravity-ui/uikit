@@ -120,6 +120,8 @@ Accepts argument `toastOptions` with ongoing notification details:
 | isClosable | `boolean`                               |          | `true`      | Configuration that manages visibility of cross icon, which allows to close notification                                                                             |
 | actions    | `ToastAction[]`                         |          | `undefined` | Array of [actions](./types.ts#L9) which displays after `content`                                                                                                    |
 | renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Use for toast icon customization. By default type-based behavior is used                                                                                            |
+| onMount    | `ToastLifecycleCallback`                |          | `undefined` | Callback. Fired when corresponding toast component mount                                                                                                            |
+| onUnmount  | `ToastLifecycleCallback`                |          | `undefined` | Callback. Fired when corresponding toast component unmount                                                                                                          |
 
 Every `action` is an object with following parameters:
 

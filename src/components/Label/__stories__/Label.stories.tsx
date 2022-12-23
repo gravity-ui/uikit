@@ -156,7 +156,6 @@ export const Interactions: Story<LabelProps> = (args) => (
                 {...args}
                 type={'close'}
                 theme={'unknown'}
-                size="xs"
                 onClick={() => {
                     console.log('click');
                 }}

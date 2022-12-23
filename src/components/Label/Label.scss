@@ -71,7 +71,7 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &_size {
-        &_s {
+        &_xs {
             height: 20px;
 
             & #{$block}__text {
@@ -95,12 +95,48 @@ $transitionTimingFunction: ease-in-out;
             &#{$block}_style {
                 &_default,
                 &_rounded {
-                    border-radius: 4px;
+                    border-radius: var(--yc-border-radius-xs);
 
                     & #{$block}__icon {
                         &_interactive {
                             --yc-button-height: 20px;
-                            --yc-button-border-radius: 4px;
+                            --yc-button-border-radius: var(--yc-border-radius-xs);
+                        }
+                    }
+                }
+            }
+        }
+
+        &_s {
+            height: 24px;
+
+            & #{$block}__text {
+                line-height: 24px;
+                margin: 0 10px;
+            }
+
+            & #{$block}__icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            &#{$block}_has-right-icon #{$block}__text {
+                margin-right: 26px;
+            }
+
+            &#{$block}_has-left-icon #{$block}__text {
+                margin-left: 28px;
+            }
+
+            &#{$block}_style {
+                &_default,
+                &_rounded {
+                    border-radius: var(--yc-border-radius-s);
+
+                    & #{$block}__icon {
+                        &_interactive {
+                            --yc-button-height: 24px;
+                            --yc-button-border-radius: var(--yc-border-radius-s);
                         }
                     }
                 }
@@ -130,12 +166,12 @@ $transitionTimingFunction: ease-in-out;
 
             &#{$block}_style {
                 &_default {
-                    border-radius: 4px;
+                    border-radius: var(--yc-border-radius-m);
 
                     & #{$block}__icon {
                         &_interactive {
                             --yc-button-height: 28px;
-                            --yc-button-border-radius: 4px;
+                            --yc-button-border-radius: var(--yc-border-radius-m);
                         }
                     }
                 }

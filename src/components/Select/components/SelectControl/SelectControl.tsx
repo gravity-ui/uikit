@@ -69,6 +69,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
             onKeyDown,
             onClick: handleClick,
             ref: handleControlRef,
+            open: Boolean(open),
         });
     }
 

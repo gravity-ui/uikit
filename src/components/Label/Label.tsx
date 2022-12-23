@@ -4,15 +4,19 @@ import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
-import {Button, ButtonProps} from '../Button';
+import {Button, ButtonProps, ButtonSize} from '../Button';
 import './Label.scss';
 
 const b = block('label');
 
-const sizeMap = {
-    s: {copyIconSize: 12, closeIconSize: 8},
-    m: {copyIconSize: 16, closeIconSize: 10},
+type SizeMapType = {copyIconSize: number; closeIconSize: number; buttonSize: ButtonSize};
+
+const sizeMap: Record<string, SizeMapType> = {
+    xs: {copyIconSize: 12, closeIconSize: 8, buttonSize: 's'},
+    s: {copyIconSize: 12, closeIconSize: 8, buttonSize: 's'},
+    m: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'm'},
 };
+
 const commonActionButtonProps: ButtonProps = {
     pin: 'brick-round',
     className: b('addon', {
@@ -52,7 +56,7 @@ interface LabelDefaultProps {
     /** Label type (plain, with copy text button or with close button) */
     type: 'default' | 'copy' | 'close';
     /** Label size */
-    size: 's' | 'm';
+    size: 'xs' | 's' | 'm';
     /** Label appearance (with round corners or plain) */
     style: 'rounded' | 'default';
 }
@@ -63,7 +67,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const {
         type = 'default',
         theme = 'normal',
-        size = 's',
+        size = 'xs',
         style = 'default',
         icon,
         children,
@@ -80,19 +84,27 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
 
     const hasContent = Boolean(children !== '' && React.Children.count(children) > 0);
 
-    const typeDefault = type === 'default';
     const typeClose = type === 'close' && hasContent;
     const typeCopy = type === 'copy' && hasContent;
 
-    const hasOnClick = Boolean(onClick) && typeDefault;
+    const hasOnClick = Boolean(onClick);
     const hasCopy = Boolean(typeCopy && copyText);
     const isInteractive = hasOnClick || hasCopy || interactive;
-    const {copyIconSize, closeIconSize} = sizeMap[size];
+    const {copyIconSize, closeIconSize, buttonSize} = sizeMap[size];
 
     const leftIcon = icon && (
         <div className={b('addon', {side: hasContent ? 'left' : undefined})}>{icon}</div>
     );
     const content = hasContent && <div className={b('text')}>{children}</div>;
+
+    const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (hasOnClick) {
+            /* preventing event from bubbling */
+            event.stopPropagation();
+        }
+
+        if (onClose) onClose(event);
+    };
 
     const renderLabel = (status?: CopyToClipboardStatus) => {
         let actionButton: ReactNode;
@@ -100,7 +112,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         if (typeCopy) {
             actionButton = (
                 <Button
-                    size={size}
+                    size={buttonSize}
                     extraProps={{'aria-label': copyButtonLabel || undefined}}
                     {...commonActionButtonProps}
                 >
@@ -115,8 +127,8 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         } else if (typeClose) {
             actionButton = (
                 <Button
-                    onClick={onClose}
-                    size={size}
+                    onClick={onClose ? handleCloseClick : undefined}
+                    size={buttonSize}
                     extraProps={{'aria-label': closeButtonLabel || undefined}}
                     {...commonActionButtonProps}
                 >

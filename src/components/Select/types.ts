@@ -12,6 +12,7 @@ export type SelectProps = QAProps &
             onClick: (e: React.MouseEvent<HTMLElement>) => void;
             onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
             ref: React.Ref<HTMLElement>;
+            open: boolean;
         }) => React.ReactElement;
         renderFilter?: (props: {
             onChange: (filter: string) => void;

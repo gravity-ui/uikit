@@ -9,18 +9,5 @@ export function useToaster(): ToasterPublicMethods {
         throw new Error('Toaster: `useToaster` hook is used out of context');
     }
 
-    const {add, remove, removeAll, update} = toaster;
-
-    return React.useMemo(
-        () => ({
-            add,
-            createToast: add,
-            remove,
-            removeToast: remove,
-            removeAll: removeAll,
-            update,
-            overrideToast: update,
-        }),
-        [add, remove, removeAll, update],
-    );
+    return React.useMemo(() => toaster, [toaster]);
 }

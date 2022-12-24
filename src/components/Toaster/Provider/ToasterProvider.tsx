@@ -70,12 +70,9 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
 
         React.useImperativeHandle(ref, () => ({
             add,
-            createToast: add,
             remove,
-            removeToast: remove,
-            removeAll: removeAll,
+            removeAll,
             update,
-            overrideToast: update,
         }));
 
         return (

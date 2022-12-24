@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import get from 'lodash/get';
 import {block} from '../utils/cn';
 import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
-import {getToastIndex} from './utilities/getToastIndex';
 import {ToasterProvider} from './Provider/ToasterProvider';
 import {ToasterComponent} from './ToasterComponent/ToasterComponent';
 
@@ -17,10 +16,7 @@ declare global {
 }
 
 export class ToasterSingleton {
-    // FIXME: BREAKING CHANGE. Rename to "rootNode" and convert to private
-    _rootNode!: HTMLDivElement;
-    // FIXME: BREAKING CHANGE. Rename to "toasts" and convert to private
-    _toasts: ToastProps[] = [];
+    private rootNode!: HTMLDivElement;
     private className = '';
     private mobile = false;
     private componentAPI: null | ToasterPublicMethods = null;
@@ -40,11 +36,15 @@ export class ToasterSingleton {
 
         this.className = additionalClass;
         this.mobile = mobile;
-        this._toasts = [];
-        this._createRootNode();
-        this._render();
+        this.createRootNode();
+        this.render();
 
         window[TOASTER_KEY] = this;
+    }
+
+    destroy() {
+        ReactDOM.unmountComponentAtNode(this.rootNode);
+        document.body.removeChild(this.rootNode);
     }
 
     add = (options: ToastProps) => {
@@ -63,54 +63,13 @@ export class ToasterSingleton {
         this.componentAPI?.update(name, overrideOptions);
     };
 
-    /**
-     * @deprecated Use `toaster.add` instead
-     * @param toastOptions
-     */
-    createToast = async (toastOptions: ToastProps) => {
-        this.add(toastOptions);
-    };
-
-    /**
-     * @deprecated Use `toaster.remove` instead
-     * @param {string} name
-     */
-    removeToast = (name: string) => {
-        this.remove(name);
-    };
-
-    /**
-     * @deprecated Use `toaster.update` instead
-     * @param name
-     * @param overrideOptions
-     */
-    overrideToast = (name: string, overrideOptions: Partial<ToastProps>) => {
-        this.update(name, overrideOptions);
-    };
-
-    // FIXME: BREAKING CHANGE. Rename to "removeToastFromDOM" and convert to private
-    /** @deprecated  Will be renamed and converted to private method in te next major */
-    _removeToastFromDOM(name: string) {
-        this.remove(name);
-    }
-
-    // FIXME: BREAKING CHANGE. Rename to "getToastIndex" and convert to private
-    /** @deprecated  Will be renamed and converted to private method in te next major */
-    _getToastIndex = (name: string) => {
-        return getToastIndex(this._toasts, name);
-    };
-
-    // FIXME: BREAKING CHANGE. Rename to "createRootNode" and convert to private
-    /** @deprecated  Will be renamed and converted to private method in te next major */
-    _createRootNode() {
-        this._rootNode = document.createElement('div');
+    private createRootNode() {
+        this.rootNode = document.createElement('div');
         this.setRootNodeClassName();
-        document.body.appendChild(this._rootNode);
+        document.body.appendChild(this.rootNode);
     }
 
-    // FIXME: BREAKING CHANGE. Rename to "render" and convert to private
-    /** @deprecated  Will be renamed and converted to private method in te next major */
-    _render() {
+    private render() {
         ReactDOM.render(
             <ToasterProvider
                 ref={(api) => {
@@ -119,18 +78,12 @@ export class ToasterSingleton {
             >
                 <ToasterComponent hasPortal={false} mobile={this.mobile} />
             </ToasterProvider>,
-            this._rootNode,
+            this.rootNode,
             () => Promise.resolve(),
         );
     }
 
-    destroy() {
-        this._toasts = [];
-        ReactDOM.unmountComponentAtNode(this._rootNode);
-        document.body.removeChild(this._rootNode);
-    }
-
     private setRootNodeClassName() {
-        this._rootNode.className = bToaster({mobile: this.mobile}, this.className);
+        this.rootNode.className = bToaster({mobile: this.mobile}, this.className);
     }
 }

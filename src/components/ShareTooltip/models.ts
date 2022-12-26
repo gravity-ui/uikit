@@ -1,4 +1,4 @@
-export interface SharOptionsData extends ShareData {
+export interface ShareOptionsData extends ShareData {
     /** sharing link */
     url: string;
 }

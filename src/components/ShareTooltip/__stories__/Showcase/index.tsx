@@ -8,7 +8,7 @@ import {ShareTooltip, ShareOptions, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
 import {Custom, Cloud, ShareArrowUp} from './icons';
-import {SharOptionsData} from 'src/components/ShareTooltip/models';
+import {ShareOptionsData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';
 
@@ -70,7 +70,7 @@ export function ShareTooltipDemo() {
                         icon={Custom}
                         url="mailto:example@example.com"
                         label="Custom"
-                        getShareLink={(params: SharOptionsData) => params.url}
+                        getShareLink={(params: ShareOptionsData) => params.url}
                     />
                 </ShareTooltip>
             </div>
@@ -89,7 +89,7 @@ export function ShareTooltipDemo() {
                         icon={Custom}
                         url="mailto:example@example.com"
                         label="Custom"
-                        getShareLink={(params: SharOptionsData) => params.url}
+                        getShareLink={(params: ShareOptionsData) => params.url}
                     />
                 </ShareTooltip>
             </div>

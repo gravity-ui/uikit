@@ -1,7 +1,7 @@
 import React from 'react';
 import {block} from '../../utils/cn';
 
-import {SharOptionsData} from '../models';
+import {ShareOptionsData} from '../models';
 import {LayoutDirection, ShareOptions} from '../constants';
 import {ShareListItem} from '../ShareListItem/ShareListItem';
 import {Icon} from '../../Icon';
@@ -24,7 +24,7 @@ export interface ShareListDefaultProps {
     withCopyLink: boolean;
 }
 
-export interface ShareListProps extends SharOptionsData, Partial<ShareListDefaultProps> {
+export interface ShareListProps extends ShareOptionsData, Partial<ShareListDefaultProps> {
     /** control css class */
     className?: string;
     /** elements location direction */

@@ -163,6 +163,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     {...innerLabelProps}
                     ref={innerLabelRef}
                     className={b('label', innerLabelProps?.className)}
+                    title={innerLabel}
                 >
                     {`${innerLabel}:`}
                 </span>

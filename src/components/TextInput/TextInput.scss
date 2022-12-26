@@ -84,6 +84,7 @@ $block: '.#{variables.$ns}text-input';
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 50%;
+        z-index: 1;
     }
 
     &__error {

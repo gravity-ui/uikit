@@ -8,7 +8,7 @@ import {ShareTooltip, ShareOptions, ShareList} from '../../../ShareTooltip';
 
 import {LayoutDirection} from '../../constants';
 import {Custom, Cloud, ShareArrowUp} from './icons';
-import {SocialShareData} from 'src/components/ShareTooltip/models';
+import {ShareOptionsData} from 'src/components/ShareTooltip/models';
 
 import './ShareTooltip.scss';
 
@@ -18,8 +18,8 @@ export function ShareTooltipDemo() {
     const url =
         'https://preview.yandexcloud.dev/uikit/?path=/story/components-sharetooltip--default';
     const title = 'Check out this new awesome sharing component';
-    const text = 'Content sharing is not supported in all social networks';
-    const socialNets = [
+    const text = 'Content sharing is not supported in all share options';
+    const shareOptions = [
         ShareOptions.Telegram,
         ShareOptions.Facebook,
         ShareOptions.Twitter,
@@ -46,23 +46,23 @@ export function ShareTooltipDemo() {
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Socials only</span>
+                <span style={{marginRight: 8}}>Default share options only</span>
                 <ShareTooltip
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     withCopyLink={false}
                 />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Custom Social</span>
+                <span style={{marginRight: 8}}>Custom share option</span>
                 <ShareTooltip
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     withCopyLink={false}
                     openByHover={false}
                 >
@@ -70,18 +70,18 @@ export function ShareTooltipDemo() {
                         icon={Custom}
                         url="mailto:example@example.com"
                         label="Custom"
-                        getShareLink={(params: SocialShareData) => params.url}
+                        getShareLink={(params: ShareOptionsData) => params.url}
                     />
                 </ShareTooltip>
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Custom Social and Copy Link</span>
+                <span style={{marginRight: 8}}>Custom share option and Copy Link</span>
                 <ShareTooltip
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     withCopyLink={true}
                     openByHover={false}
                 >
@@ -89,28 +89,28 @@ export function ShareTooltipDemo() {
                         icon={Custom}
                         url="mailto:example@example.com"
                         label="Custom"
-                        getShareLink={(params: SocialShareData) => params.url}
+                        getShareLink={(params: ShareOptionsData) => params.url}
                     />
                 </ShareTooltip>
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Socials with copy</span>
-                <ShareTooltip url={url} title={title} text={text} socialNets={socialNets} />
+                <span style={{marginRight: 8}}>Default share options with copy</span>
+                <ShareTooltip url={url} title={title} text={text} shareOptions={shareOptions} />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Socials with copy (only URL)</span>
-                <ShareTooltip url={url} socialNets={socialNets} />
+                <span style={{marginRight: 8}}>Share options with copy (only URL)</span>
+                <ShareTooltip url={url} shareOptions={shareOptions} />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: 8}}>Socials with copy (open by click)</span>
+                <span style={{marginRight: 8}}>Share options with copy (open by click)</span>
                 <ShareTooltip
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     openByHover={false}
                 />
             </div>
@@ -121,7 +121,7 @@ export function ShareTooltipDemo() {
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     useWebShareApi={true}
                 />
             </div>
@@ -132,7 +132,7 @@ export function ShareTooltipDemo() {
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     direction={LayoutDirection.Column}
                 />
             </div>
@@ -143,7 +143,7 @@ export function ShareTooltipDemo() {
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     customIcon={ShareArrowUp}
                 />
             </div>
@@ -154,7 +154,7 @@ export function ShareTooltipDemo() {
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     customIcon={ShareArrowUp}
                     buttonTitle={ShareTitle}
                 />
@@ -168,7 +168,7 @@ export function ShareTooltipDemo() {
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     customIcon={ShareArrowUp}
                     buttonTitle={ShareTitle}
                     switcherClassName={b('custom-switcher')}
@@ -186,7 +186,7 @@ export function ShareTooltipDemo() {
                     url={url}
                     title={title}
                     text={text}
-                    socialNets={socialNets}
+                    shareOptions={shareOptions}
                     openByHover={false}
                     copyTitle={ShareTitle}
                     copyIcon={Cloud}

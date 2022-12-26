@@ -6,8 +6,6 @@ import {Icon} from '../Icon';
 import {QuestionMarkIcon} from '../icons/QuestionMarkIcon';
 import {QAProps} from '../types';
 
-import './HelpPopover.scss';
-
 const b = block('help-popover');
 
 /**
@@ -19,7 +17,7 @@ export type HelpPopoverProps = DistributiveOmit<PopoverProps, 'children'> & QAPr
 
 export function HelpPopover(props: HelpPopoverProps) {
     return (
-        <Popover offset={{left: 4}} {...props} className={b(null, props.className)}>
+        <Popover {...props} className={b(null, props.className)}>
             <Icon data={QuestionMarkIcon} size={16} />
         </Popover>
     );

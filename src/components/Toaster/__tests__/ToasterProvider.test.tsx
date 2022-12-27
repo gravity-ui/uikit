@@ -83,7 +83,7 @@ describe('api.remove', () => {
         act(() => {
             providerAPI.add({
                 ...toastProps,
-                timeout: toastTimeout,
+                hideAfter: toastTimeout,
             });
         });
 
@@ -106,7 +106,7 @@ it('should remove toast after timeout', function () {
     act(() => {
         providerAPI.add({
             ...toastProps,
-            timeout: toastTimeout,
+            hideAfter: toastTimeout,
         });
     });
 
@@ -134,7 +134,7 @@ it('should preserve toast on hover', function () {
     act(() => {
         providerAPI.add({
             ...toastProps,
-            timeout: toastTimeout,
+            hideAfter: toastTimeout,
         });
     });
 
@@ -172,7 +172,7 @@ describe('api.update', () => {
         act(() => {
             providerAPI.add({
                 ...toastProps,
-                timeout: toastTimeout,
+                hideAfter: toastTimeout,
             });
         });
 
@@ -204,7 +204,7 @@ describe('api.update', () => {
         act(() => {
             providerAPI.add({
                 ...toastProps,
-                timeout: toastTimeout,
+                hideAfter: toastTimeout,
             });
         });
 

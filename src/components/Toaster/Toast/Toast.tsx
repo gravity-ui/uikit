@@ -176,7 +176,7 @@ export function Toast(props: ToastUnitedProps) {
         title,
         className,
         type,
-        timeout: timeoutProp = DEFAULT_TIMEOUT,
+        hideAfter: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
         isOverride = false,
         mobile = false,

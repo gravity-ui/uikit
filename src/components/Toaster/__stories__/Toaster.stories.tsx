@@ -53,7 +53,7 @@ export default {
         name: disabledControl,
         title: disabledControl,
         className: disabledControl,
-        timeout: disabledControl,
+        hideAfter: disabledControl,
         content: disabledControl,
         type: disabledControl,
         isClosable: disabledControl,

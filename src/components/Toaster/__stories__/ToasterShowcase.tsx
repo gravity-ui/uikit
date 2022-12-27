@@ -77,7 +77,7 @@ export const ToasterDemo = ({
             content = CONTENT;
         }
 
-        let timeout = allowAutoHiding ? 5000 : null;
+        let timeout = allowAutoHiding ? 5000 : false;
 
         if (setTimeout) {
             timeout = customTimeout;

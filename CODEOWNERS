@@ -4,10 +4,10 @@
 /src/components/Button @amje
 /src/components/Card @Lunory
 /src/components/Checkbox @Kail1112
-# /src/components/ClipboardButton @damask
-# /src/components/ClipboardIcon @damask
-# /src/components/CopyToClipboard @damask
-# /src/components/Dialog @Volodomor
+/src/components/ClipboardButton @damask
+/src/components/ClipboardIcon @damask
+/src/components/CopyToClipboard @damask
+/src/components/Dialog @Volodomor
 /src/components/DropdownMenu @axtk
 /src/components/Icon @amje
 /src/components/Label @amje
@@ -22,9 +22,9 @@
 /src/components/PromoSheet @Avol-V
 /src/components/Select @korvin89
 /src/components/Sheet @korvin89
-/src/components/Skeleton @pseudopirate
+/src/components/Skeleton @amje
 /src/components/Stories @DarkGenius
-# /src/components/Switch @trabemz
+/src/components/Switch @trabemz
 /src/components/Table @krozhkov
 /src/components/Tabs @sofiushko
 /src/components/Text @IsaevAlexandr

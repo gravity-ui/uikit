@@ -1,4 +1,4 @@
-import {useLayoutEffect, useState, MutableRefObject, useCallback} from 'react';
+import {useLayoutEffect, useState, MutableRefObject} from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import _throttle from 'lodash/throttle';
 
@@ -17,19 +17,19 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
         height: 0,
     });
 
-    const handleResize = useCallback<ResizeObserverCallback>((entries) => {
-        if (!Array.isArray(entries)) {
-            return;
-        }
-
-        const entry = entries[0];
-        setSize({width: entry.contentRect.width, height: entry.contentRect.height});
-    }, []);
-
     useLayoutEffect(() => {
         if (!ref?.current) {
             return undefined;
         }
+
+        const handleResize: ResizeObserverCallback = (entries) => {
+            if (!Array.isArray(entries)) {
+                return;
+            }
+
+            const entry = entries[0];
+            setSize({width: entry.contentRect.width, height: entry.contentRect.height});
+        };
 
         const observer = new ResizeObserver(_throttle(handleResize, RESIZE_THROTTLE));
         observer.observe(ref.current);
@@ -37,7 +37,7 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
         return () => {
             observer.disconnect();
         };
-    }, [ref, handleResize]);
+    }, [ref]);
 
     return size;
 }

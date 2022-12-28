@@ -21,7 +21,7 @@ describe('TextInput', () => {
     });
 
     test('render input with internal label', () => {
-        const {container} = render(<TextInput label="Label" />);
+        const {container} = render(<TextInput label="Label:" />);
 
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
         expect(container.querySelector('.yc-text-input__label')).toBeInTheDocument();

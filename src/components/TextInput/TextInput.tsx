@@ -165,7 +165,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     className={b('label', labelProps?.className)}
                     title={label}
                 >
-                    {`${label}:`}
+                    {`${label}`}
                 </span>
             )}
             {multiline ? (

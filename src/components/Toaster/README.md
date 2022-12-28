@@ -90,17 +90,16 @@ On initialization it is possible to pass className, that will be assigned to dom
 
 Accepts argument `toastOptions` with ongoing notification details:
 
-| Parameter       | Type            | Required | Default     | Description                                                                                                                                                         |
-| :-------------- | :-------------- | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| name            | `string`        | yes      |             | Notification unique name. Notifications with same names collapse into one                                                                                           |
-| title           | `string`        | yes      |             | Notification title                                                                                                                                                  |
-| className       | `string`        |          |             | CSS-class                                                                                                                                                           |
-| allowAutoHiding | `boolean`       |          | `true`      | Configuration that manages notification automatic hiding                                                                                                            |
-| timeout         | `number`        |          | 5000        | Time (in milliseconds)after which the notification will hide                                                                                                        |
-| content         | `node`          |          | `undefined` | Notification content. [Anything that can be rendered: numbers, strings, elements or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)  |
-| type            | `string`        |          | `undefined` | Notification type. Possible values: `error`, `success`. If `type` is set, icon (success/error) will be added into notification title. _By default there is no icon_ |
-| isClosable      | `boolean`       |          | `true`      | Configuration that manages visibility of cross icon, which allows to close notification                                                                             |
-| actions         | `ToastAction[]` |          | `undefined` | Array of [actions](./types.ts#L9) which displays after `content`                                                                                                    |
+| Parameter  | Type                | Required | Default     | Description                                                                                                                                                         |
+| :--------- | :------------------ | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| name       | `string`            | yes      |             | Notification unique name. Notifications with same names collapse into one                                                                                           |
+| title      | `string`            | yes      |             | Notification title                                                                                                                                                  |
+| className  | `string`            |          |             | CSS-class                                                                                                                                                           |
+| autoHiding | `number` or `false` |          | 5000        | Time (in milliseconds) after which the notification will hide. Use `false` to disable toast hiding after timeout.                                                   |
+| content    | `node`              |          | `undefined` | Notification content. [Anything that can be rendered: numbers, strings, elements or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)  |
+| type       | `string`            |          | `undefined` | Notification type. Possible values: `error`, `success`. If `type` is set, icon (success/error) will be added into notification title. _By default there is no icon_ |
+| isClosable | `boolean`           |          | `true`      | Configuration that manages visibility of cross icon, which allows to close notification                                                                             |
+| actions    | `ToastAction[]`     |          | `undefined` | Array of [actions](./types.ts#L9) which displays after `content`                                                                                                    |
 
 Every `action` is an object with following parameters:
 

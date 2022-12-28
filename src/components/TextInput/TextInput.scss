@@ -2,10 +2,12 @@
 @use '../../../styles/mixins';
 
 @mixin block_size($size: s) {
-    height: 24px;
-    padding: 4px 8px;
-    font-size: 13px;
-    line-height: 16px;
+    @if $size == 's' {
+        height: 24px;
+        padding: 4px 8px;
+        font-size: 13px;
+        line-height: 16px;
+    }
 
     @if $size == 'm' {
         height: 28px;

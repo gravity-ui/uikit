@@ -11,25 +11,27 @@ const DefaultTemplate: Story = () => {
     return (
         <React.Fragment>
             <div style={{marginTop: 0, marginLeft: 30}}>
-                <h1>Two buttons with promo-driven popovers</h1>
+                <h1>Demo of idle popovers</h1>
                 <Popover
                     initialOpen={true}
                     placement={'bottom'}
-                    htmlContent={`Promo banner!`}
-                    category={'promo-driven'}
+                    htmlContent={`You can attach any type of file now, not only images!`}
+                    idle={true}
+                    idlePriority={1}
                 >
-                    <Button pin={'round-brick'} view={'action'}>
-                        Launch
-                    </Button>
+                    <Button pin={'round-brick'}>Attach Files</Button>
+                </Popover>
+                <Popover placement={'bottom'} htmlContent={`Open the edit dialog`}>
+                    <Button pin={'brick-brick'}>Edit E-mail</Button>
                 </Popover>
                 <Popover
                     initialOpen={true}
-                    theme={'special'}
                     placement={'bottom'}
-                    htmlContent={`Promo 2!`}
-                    category={'promo-driven'}
+                    htmlContent={`From now on, you can find deleted emails in Trash bin`}
+                    idle={true}
+                    idlePriority={2}
                 >
-                    <Button pin={'brick-round'}>Details</Button>
+                    <Button pin={'brick-round'}>Delete</Button>
                 </Popover>
             </div>
         </React.Fragment>

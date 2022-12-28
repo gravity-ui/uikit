@@ -106,7 +106,12 @@ export type PopoverDefaultProps = {
     theme: PopoverTheme;
     /** Tooltip's size */
     size: 's' | 'l';
-    category: LayerConfig['category'];
+    /** Layers can be idle: they will be added only once list of layers is empty */
+    idle: LayerConfig['idle'];
+    /** Number of ms to wait before actually showing idle layer */
+    idleTimeout: LayerConfig['idleTimeout'];
+    /** When there are multiple idle layers, layer with highest priority is added first */
+    idlePriority: LayerConfig['idlePriority'];
 };
 
 export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement'> &

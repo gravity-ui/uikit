@@ -1,5 +1,6 @@
 import React from 'react';
 import type {VirtualElement} from '@popperjs/core';
+import _debounce from 'lodash/debounce';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 
@@ -17,7 +18,9 @@ export type ContentElement =
     | (VirtualElement & {contains?: (other: Node | null) => boolean});
 
 export interface LayerConfig extends LayerExtendableProps {
-    category?: 'user-driven' | 'code-driven' | 'promo-driven';
+    idle?: boolean;
+    idleTimeout?: number;
+    idlePriority?: number;
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
 }
 
@@ -33,13 +36,71 @@ const createPromise = (): {promise: Promise<void>; resolve: () => void; reject: 
     return {promise, resolve, reject};
 };
 
+type LayerCandidate = {config: LayerConfig; promise: Promise<void>; resolve: () => void};
+
+const defaultIdleTimeout = 1000;
+
+const compareCandidatesByPriority = (candA: LayerCandidate, candB: LayerCandidate) => {
+    const priorityA = candA.config.idlePriority;
+    const priorityB = candB.config.idlePriority;
+    const isAInt = Number.isInteger(priorityA);
+    const isBInt = Number.isInteger(priorityB);
+
+    if ((priorityA === undefined && priorityB === undefined) || (!isAInt && !isBInt)) {
+        return 0;
+    }
+
+    if (priorityA === undefined || (isBInt && !isAInt)) {
+        return 1;
+    }
+
+    if (priorityB === undefined || (isAInt && !isBInt)) {
+        return -1;
+    }
+
+    return Math.sign(priorityB - priorityA);
+};
+
 class LayerManager {
     private stack: LayerConfig[] = [];
-    private preStack: {config: LayerConfig; promise: Promise<void>; resolve: () => void}[] = [];
+    private preStack: LayerCandidate[] = [];
     private mouseDownTarget: HTMLElement | null = null;
+    private scheduledAdd: ReturnType<typeof setTimeout> | undefined;
+    private scheduledCandidate: LayerCandidate | undefined;
+
+    private checkPreStack = _debounce(() => {
+        if (this.stack.length !== 0) {
+            return;
+        }
+
+        const sortedByPriorityDesc = this.preStack.slice();
+        sortedByPriorityDesc.sort(compareCandidatesByPriority);
+        const candidate = sortedByPriorityDesc.shift();
+
+        if (!candidate || candidate === this.scheduledCandidate) {
+            return;
+        }
+
+        this.unscheduleCandidate();
+
+        const scheduledAdd = (scheduledCandidate: LayerCandidate) => {
+            const index = this.preStack.indexOf(scheduledCandidate);
+            this.preStack.splice(index, 1);
+            this.add(scheduledCandidate.config, false);
+            scheduledCandidate.resolve();
+            this.unscheduleCandidate();
+        };
+
+        const timeout = Number.isInteger(candidate.config.idleTimeout)
+            ? candidate.config.idleTimeout
+            : defaultIdleTimeout;
+
+        this.scheduledAdd = setTimeout(scheduledAdd.bind(this, candidate), timeout);
+        this.scheduledCandidate = candidate;
+    }, 100);
 
     add(config: LayerConfig, usePrestacking = true): Promise<void> {
-        if (config.category === 'promo-driven' && usePrestacking) {
+        if (config.idle && usePrestacking) {
             for (const entry of this.preStack) {
                 if (entry.config === config) {
                     return entry.promise;
@@ -49,10 +110,14 @@ class LayerManager {
             const {promise, resolve} = createPromise();
             this.preStack.push({config, promise, resolve});
 
-            this.checkPreStack();
+            if (this.stack.length === 0) {
+                this.checkPreStack();
+            }
+
             return promise;
         } else {
             this.stack.push(config);
+            this.unscheduleCandidate();
 
             if (this.stack.length === 1) {
                 this.addListeners();
@@ -64,6 +129,11 @@ class LayerManager {
 
     remove(config: LayerConfig) {
         const index = this.stack.indexOf(config);
+
+        if (index < 0) {
+            return;
+        }
+
         this.stack.splice(index, 1);
 
         if (this.stack.length === 0) {
@@ -72,25 +142,14 @@ class LayerManager {
         }
     }
 
-    private checkPreStack() {
-        if (this.stack.length !== 0) {
-            return;
+    private unscheduleCandidate() {
+        if (this.scheduledCandidate) {
+            this.scheduledCandidate = undefined;
         }
-
-        // TODO: add a timeout here so that promotional
-        // popups are less distracting.
-
-        // TODO: decide which candidate to pick if there
-        // are multiple candidates. Maybe we should add
-        // some prop for priority?
-        const candidate = this.preStack.pop();
-
-        if (!candidate) {
-            return;
+        if (this.scheduledAdd) {
+            clearTimeout(this.scheduledAdd);
+            this.scheduledAdd = undefined;
         }
-
-        this.add(candidate.config, false);
-        candidate.resolve();
     }
 
     private addListeners() {

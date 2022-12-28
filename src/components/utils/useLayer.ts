@@ -19,7 +19,9 @@ export function useLayer({
     onClose,
     contentRefs,
     enabled = true,
-    category,
+    idle,
+    idlePriority,
+    idleTimeout,
 }: LayerProps): boolean {
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
@@ -29,7 +31,9 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
-        category,
+        idle,
+        idlePriority,
+        idleTimeout,
     });
 
     const [allowedOpen, setAllowedOpen] = React.useState(false);

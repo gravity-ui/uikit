@@ -36,7 +36,9 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
     container?: HTMLElement;
-    category?: LayerConfig['category'];
+    idle?: LayerConfig['idle'];
+    idleTimeout?: LayerConfig['idleTimeout'];
+    idlePriority?: LayerConfig['idlePriority'];
 }
 
 const b = block('popup');
@@ -66,7 +68,9 @@ export function Popup({
     container,
     strategy,
     qa,
-    category,
+    idle,
+    idlePriority,
+    idleTimeout,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -79,7 +83,9 @@ export function Popup({
         onClose,
         contentRefs: [anchorRef, containerRef],
         enabled: !disableLayer,
-        category,
+        idle,
+        idlePriority,
+        idleTimeout,
     });
 
     const {attributes, styles, setPopperRef, setArrowRef} = usePopper({

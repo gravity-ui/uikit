@@ -77,8 +77,8 @@ $block: '.#{variables.$ns}text-input';
     }
 
     &__label {
+        @include mixins.text-accent;
         position: absolute;
-        font-weight: 500;
         box-sizing: border-box;
         overflow: hidden;
         text-overflow: ellipsis;

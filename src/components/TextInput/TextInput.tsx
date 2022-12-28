@@ -71,7 +71,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const handleRef = useForkRef(props.controlRef, innerControlRef);
 
-    const innerControlSize = useElementSize(isLabelVisible ? innerControlRef : null);
+    const labelSize = useElementSize(isLabelVisible ? labelRef : null);
 
     React.useEffect(() => {
         const control = innerControlRef.current;
@@ -89,7 +89,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         const labelEl = labelRef.current;
         const width = labelEl?.offsetWidth || 0;
         setLabelWidth(width);
-    }, [innerControlSize, label, size, multiline]);
+    }, [labelSize, label, size, multiline]);
 
     const state = React.useMemo(() => getTextInputState({error}), [error]);
 

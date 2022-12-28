@@ -90,7 +90,7 @@ export const ToasterDemo = ({
             title: extra.title,
             type: extra.type,
             isClosable: showCloseIcon,
-            hideAfter: timeout,
+            autoHiding: timeout,
             actions: setActions
                 ? ACTIONS.map((action, index) => ({
                       ...action,

@@ -22,7 +22,7 @@ export type ToastProps = {
     name: string;
     title?: string;
     className?: string;
-    hideAfter?: number | false;
+    autoHiding?: number | false;
     content?: React.ReactNode;
     type?: ToastType;
     isClosable?: boolean;

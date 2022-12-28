@@ -53,7 +53,7 @@ export default {
         name: disabledControl,
         title: disabledControl,
         className: disabledControl,
-        hideAfter: disabledControl,
+        autoHiding: disabledControl,
         content: disabledControl,
         type: disabledControl,
         isClosable: disabledControl,

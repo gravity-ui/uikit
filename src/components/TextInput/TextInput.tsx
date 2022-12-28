@@ -56,7 +56,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         style,
         className,
         qa,
-        controlProps: controlPropsOriginal,
+        controlProps: originalControlProps,
         labelProps,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
@@ -122,16 +122,13 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
 
-    const controlProps: TextInputProps['controlProps'] = React.useMemo(
-        () => ({
-            ...controlPropsOriginal,
-            style: {
-                ...controlPropsOriginal?.style,
-                ...(isLabelVisible && labelWidth ? {paddingLeft: `${labelWidth}px`} : {}),
-            },
-        }),
-        [isLabelVisible, labelWidth, controlPropsOriginal],
-    );
+    const controlProps: TextInputProps['controlProps'] = {
+        ...originalControlProps,
+        style: {
+            ...originalControlProps?.style,
+            ...(isLabelVisible && labelWidth ? {paddingLeft: `${labelWidth}px`} : {}),
+        },
+    };
 
     const commonProps = {
         id,

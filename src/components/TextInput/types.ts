@@ -43,7 +43,7 @@ export interface TextInputProps extends DOMProps, QAProps {
     defaultValue?: string;
     disabled?: boolean;
     placeholder?: string;
-    innerLabel?: string;
+    label?: string;
     /**
      * clear button
      */
@@ -86,5 +86,5 @@ export interface TextInputProps extends DOMProps, QAProps {
     controlProps?:
         | React.InputHTMLAttributes<HTMLInputElement>
         | React.TextareaHTMLAttributes<HTMLTextAreaElement>;
-    innerLabelProps?: React.HTMLAttributes<HTMLSpanElement>;
+    labelProps?: React.HTMLAttributes<HTMLSpanElement>;
 }

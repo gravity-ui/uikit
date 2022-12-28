@@ -43,7 +43,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         name,
         value,
         defaultValue,
-        innerLabel,
+        label,
         disabled = false,
         multiline = false,
         hasClear = false,
@@ -56,21 +56,21 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         style,
         className,
         qa,
-        innerLabelProps,
+        labelProps,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
-    const innerLabelRef = React.useRef<HTMLSpanElement>(null);
-    const [innerLabelWidth, setInnerLabelWidth] = React.useState(0);
+    const labelRef = React.useRef<HTMLSpanElement>(null);
+    const [labelWidth, setLabelWidth] = React.useState(0);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isInnerLabelVisible = !multiline && Boolean(innerLabel);
+    const isLabelVisible = !multiline && Boolean(label);
 
     const handleRef = useForkRef(props.controlRef, innerControlRef);
 
-    const innerControlSize = useElementSize(isInnerLabelVisible ? innerControlRef : null);
+    const innerControlSize = useElementSize(isLabelVisible ? innerControlRef : null);
 
     React.useEffect(() => {
         const control = innerControlRef.current;
@@ -85,10 +85,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     }, [multiline, inputValue, hasVerticalScrollbar]);
 
     React.useLayoutEffect(() => {
-        const label = innerLabelRef.current;
-        const width = label?.offsetWidth || 0;
-        setInnerLabelWidth(width);
-    }, [innerControlSize, innerLabel, size, multiline]);
+        const labelEl = labelRef.current;
+        const width = labelEl?.offsetWidth || 0;
+        setLabelWidth(width);
+    }, [innerControlSize, label, size, multiline]);
 
     const state = React.useMemo(() => getTextInputState({error}), [error]);
 
@@ -158,21 +158,21 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             )}
             data-qa={qa}
         >
-            {isInnerLabelVisible && (
+            {isLabelVisible && (
                 <span
-                    {...innerLabelProps}
-                    ref={innerLabelRef}
-                    className={b('label', innerLabelProps?.className)}
-                    title={innerLabel}
+                    {...labelProps}
+                    ref={labelRef}
+                    className={b('label', labelProps?.className)}
+                    title={label}
                 >
-                    {`${innerLabel}:`}
+                    {`${label}:`}
                 </span>
             )}
             {multiline ? (
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
             ) : (
                 <InputControl
-                    innerLabelWidth={innerLabelWidth}
+                    labelWidth={labelWidth}
                     {...props}
                     {...commonProps}
                     controlRef={handleRef}

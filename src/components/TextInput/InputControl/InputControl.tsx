@@ -5,7 +5,7 @@ import {TextInputProps} from '../types';
 export interface InputControlProps
     extends Omit<TextInputProps, 'autoComplete'>,
         Pick<React.InputHTMLAttributes<HTMLInputElement>, 'autoComplete'> {
-    innerLabelWidth?: number;
+    labelWidth?: number;
 }
 
 const b = block('text-input');
@@ -19,8 +19,8 @@ export function InputControl(props: InputControlProps) {
         autoFocus,
         autoComplete,
         placeholder,
-        innerLabel,
-        innerLabelWidth,
+        label,
+        labelWidth,
         value,
         defaultValue,
         onChange,
@@ -35,8 +35,8 @@ export function InputControl(props: InputControlProps) {
     } = props;
 
     const style: React.CSSProperties = React.useMemo(
-        () => (innerLabel && innerLabelWidth ? {paddingLeft: `${innerLabelWidth}px`} : {}),
-        [innerLabel, innerLabelWidth],
+        () => (label && labelWidth ? {paddingLeft: `${labelWidth}px`} : {}),
+        [label, labelWidth],
     );
 
     return (

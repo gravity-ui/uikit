@@ -63,16 +63,16 @@ export const TextInputShowcase: React.FC = () => {
                 </div>
             </div>
 
-            <div className={b('text-input-inner-label-examples')}>
-                <h2 className={b('title')}>TextInput (innerLabel)</h2>
+            <div className={b('text-input-label-examples')}>
+                <h2 className={b('title')}>TextInput (label)</h2>
 
                 <div className={'size-examples'}>
                     <h3 className={b('section-header')}>Sizes:</h3>
 
-                    <TextInput {...textInputProps} size="s" placeholder="s" innerLabel="Label" />
-                    <TextInput {...textInputProps} placeholder="m" innerLabel="Label" />
-                    <TextInput {...textInputProps} size="l" placeholder="l" innerLabel="Label" />
-                    <TextInput {...textInputProps} size="xl" placeholder="xl" innerLabel="Label" />
+                    <TextInput {...textInputProps} size="s" placeholder="s" label="Label" />
+                    <TextInput {...textInputProps} placeholder="m" label="Label" />
+                    <TextInput {...textInputProps} size="l" placeholder="l" label="Label" />
+                    <TextInput {...textInputProps} size="xl" placeholder="xl" label="Label" />
                 </div>
 
                 <div className={b('state-examples')}>
@@ -82,7 +82,7 @@ export const TextInputShowcase: React.FC = () => {
                         <TextInput
                             {...textInputProps}
                             placeholder="error with message"
-                            innerLabel="Label"
+                            label="Label"
                             error={isErrorMessageVisible ? 'It happened a validation error' : true}
                         />
                         <Checkbox
@@ -90,29 +90,19 @@ export const TextInputShowcase: React.FC = () => {
                             checked={isErrorMessageVisible}
                         />
                     </div>
-                    <TextInput
-                        {...textInputProps}
-                        placeholder="disabled"
-                        innerLabel="Label"
-                        disabled
-                    />
-                    <TextInput
-                        {...textInputProps}
-                        placeholder="clear"
-                        innerLabel="Label"
-                        hasClear
-                    />
+                    <TextInput {...textInputProps} placeholder="disabled" label="Label" disabled />
+                    <TextInput {...textInputProps} placeholder="clear" label="Label" hasClear />
                     <TextInput
                         {...textInputProps}
                         placeholder="default value"
-                        innerLabel="Label"
+                        label="Label"
                         value={undefined}
                         defaultValue="defaultValue"
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="default value"
-                        innerLabel="Very very long label is limited by 50% width of the input control size"
+                        label="Very very long label is limited by 50% width of the input control size"
                         value={undefined}
                         defaultValue="defaultValue"
                     />

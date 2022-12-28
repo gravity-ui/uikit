@@ -2,7 +2,7 @@
     display: grid;
     grid-template:
         'text-input' auto
-        'text-input-inner-label' auto
+        'text-input-label' auto
         'text-area' auto / auto;
 
     &__text-input-examples {
@@ -15,8 +15,8 @@
         padding: 20px;
     }
 
-    &__text-input-inner-label-examples {
-        grid-area: text-input-inner-label;
+    &__text-input-label-examples {
+        grid-area: text-input-label;
         display: grid;
         grid-template:
             'title title' auto

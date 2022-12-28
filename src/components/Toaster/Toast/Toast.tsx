@@ -176,7 +176,7 @@ export function Toast(props: ToastUnitedProps) {
         title,
         className,
         type,
-        allowAutoHiding = true,
+        autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
         isOverride = false,
         mobile = false,
@@ -190,7 +190,7 @@ export function Toast(props: ToastUnitedProps) {
 
     const heightProps = useToastHeight({isOverride, status});
 
-    const timeout = allowAutoHiding ? props.timeout || DEFAULT_TIMEOUT : undefined;
+    const timeout = typeof timeoutProp === 'number' ? timeoutProp : undefined;
     const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});
 
     const mods = {

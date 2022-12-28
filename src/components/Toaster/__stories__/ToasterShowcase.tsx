@@ -77,6 +77,12 @@ export const ToasterDemo = ({
             content = CONTENT;
         }
 
+        let timeout = allowAutoHiding ? 5000 : false;
+
+        if (setTimeout) {
+            timeout = customTimeout;
+        }
+
         return {
             content,
             name: getToastName(extra.name),
@@ -84,8 +90,7 @@ export const ToasterDemo = ({
             title: extra.title,
             type: extra.type,
             isClosable: showCloseIcon,
-            timeout: setTimeout ? Number(customTimeout) : undefined,
-            allowAutoHiding: allowAutoHiding,
+            autoHiding: timeout,
             actions: setActions
                 ? ACTIONS.map((action, index) => ({
                       ...action,

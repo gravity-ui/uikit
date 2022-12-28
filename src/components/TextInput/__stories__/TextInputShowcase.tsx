@@ -8,6 +8,7 @@ import './TextInputShowcase.scss';
 const b = block('text-input-showcase');
 
 const LABEL = 'Label:';
+const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
 
 export const TextInputShowcase: React.FC = () => {
     const [value, setValue] = React.useState('');
@@ -104,7 +105,7 @@ export const TextInputShowcase: React.FC = () => {
                     <TextInput
                         {...textInputProps}
                         placeholder="default value"
-                        label="Very very long label is limited by 50% width of the input control size"
+                        label={LONG_LABEL}
                         value={undefined}
                         defaultValue="defaultValue"
                     />

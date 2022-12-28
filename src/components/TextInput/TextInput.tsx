@@ -1,4 +1,5 @@
 import React from 'react';
+import _uniqueId from 'lodash/uniqueId';
 import {block} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
@@ -15,6 +16,8 @@ import './TextInput.scss';
 export type {TextInputProps, TextInputView, TextInputSize, TextInputPin};
 
 const b = block('text-input');
+
+const uniqueIdPrefix = 'text-input';
 
 const getTextInputState = (
     args: Pick<TextInputProps, 'error'> = {},
@@ -51,7 +54,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         autoComplete,
         onUpdate,
         onChange,
-        id,
+        id: originalId,
         tabIndex,
         style,
         className,
@@ -61,8 +64,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
-    const labelRef = React.useRef<HTMLSpanElement>(null);
+    const labelRef = React.useRef<HTMLLabelElement>(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
+    const [id] = React.useState(() =>
+        label ? originalId || _uniqueId(uniqueIdPrefix) : originalId,
+    );
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;
@@ -169,14 +175,15 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             data-qa={qa}
         >
             {isLabelVisible && (
-                <span
+                <label
                     {...labelProps}
                     ref={labelRef}
                     className={b('label', labelProps?.className)}
                     title={label}
+                    htmlFor={id}
                 >
                     {`${label}`}
-                </span>
+                </label>
             )}
             {multiline ? (
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />

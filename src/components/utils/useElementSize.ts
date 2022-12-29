@@ -28,10 +28,16 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
             }
 
             const entry = entries[0];
-            if (entry.borderBoxSize?.length > 0) {
+            if (entry.borderBoxSize) {
+                const borderBoxSize = entry.borderBoxSize[0]
+                    ? entry.borderBoxSize[0]
+                    : (entry.borderBoxSize as unknown as ResizeObserverSize);
+                // ...but old versions of Firefox treat it as a single item
+                // https://github.com/mdn/dom-examples/blob/main/resize-observer/resize-observer-text.html#L88
+
                 setSize({
-                    width: Math.round(entry.borderBoxSize[0].inlineSize),
-                    height: Math.round(entry.borderBoxSize[0].blockSize),
+                    width: Math.round(borderBoxSize.inlineSize),
+                    height: Math.round(borderBoxSize.blockSize),
                 });
             } else {
                 const target = entry.target as HTMLElement;

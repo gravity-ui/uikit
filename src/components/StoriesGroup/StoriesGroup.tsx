@@ -31,7 +31,7 @@ export const StoriesGroup = ({
     open,
     groups,
     onItemSelect,
-    disableOutsideClick,
+    disableOutsideClick = true,
     initialStoryIndex = [0, 0],
     maxSliderItemsCount = DEFAULT_MAX_SLIDER_ITEMS_COUNT,
     onClose,

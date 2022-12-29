@@ -63,7 +63,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const labelRef = React.useRef<HTMLLabelElement>(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
     const innerId = useUniqId();
     const id = label ? originalId || innerId : originalId;
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
@@ -87,12 +86,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             }
         }
     }, [multiline, inputValue, hasVerticalScrollbar]);
-
-    React.useLayoutEffect(() => {
-        const labelEl = labelRef.current;
-        const width = labelEl?.offsetWidth || 0;
-        setLabelWidth(width);
-    }, [labelSize, label, size, multiline]);
 
     const state = React.useMemo(() => getTextInputState({error}), [error]);
 
@@ -129,7 +122,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         ...originalControlProps,
         style: {
             ...originalControlProps?.style,
-            ...(isLabelVisible && labelWidth ? {paddingLeft: `${labelWidth}px`} : {}),
+            ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
         },
     };
 

@@ -20,11 +20,14 @@ describe('TextInput', () => {
         expect(input.tagName.toLowerCase()).toBe('textarea');
     });
 
-    test('render input with internal label', () => {
+    test('render input with label', () => {
         const {container} = render(<TextInput label="Label:" />);
 
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        expect(container.querySelector('.yc-text-input__label')).toBeInTheDocument();
+        const label = container.querySelector('.yc-text-input__label');
+
+        expect(label).toBeInTheDocument();
+        expect(label?.tagName.toLowerCase()).toBe('label');
         expect(screen.getByText('Label:')).toBeVisible();
     });
 

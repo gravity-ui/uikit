@@ -28,7 +28,18 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
             }
 
             const entry = entries[0];
-            setSize({width: entry.contentRect.width, height: entry.contentRect.height});
+            if (entry.borderBoxSize?.length > 0) {
+                setSize({
+                    width: Math.round(entry.borderBoxSize[0].inlineSize),
+                    height: Math.round(entry.borderBoxSize[0].blockSize),
+                });
+            } else {
+                const target = entry.target as HTMLElement;
+                setSize({
+                    width: Math.round(target.offsetWidth),
+                    height: Math.round(target.offsetHeight),
+                });
+            }
         };
 
         const observer = new ResizeObserver(_throttle(handleResize, RESIZE_THROTTLE));

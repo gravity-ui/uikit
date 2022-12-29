@@ -1,8 +1,8 @@
 import React from 'react';
-import _uniqueId from 'lodash/uniqueId';
 import {block} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
+import {useUniqId} from '../utils/useUniqId';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
 import {Button} from '../Button';
@@ -16,8 +16,6 @@ import './TextInput.scss';
 export type {TextInputProps, TextInputView, TextInputSize, TextInputPin};
 
 const b = block('text-input');
-
-const uniqueIdPrefix = 'text-input';
 
 const getTextInputState = (
     args: Pick<TextInputProps, 'error'> = {},
@@ -66,9 +64,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
-    const [id] = React.useState(() =>
-        label ? originalId || _uniqueId(uniqueIdPrefix) : originalId,
-    );
+    const innerId = useUniqId();
+    const id = label ? originalId || innerId : originalId;
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;

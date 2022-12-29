@@ -64,7 +64,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const innerId = useUniqId();
-    const id = label ? originalId || innerId : originalId;
+    const id = originalId || innerId;
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;

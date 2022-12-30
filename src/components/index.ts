@@ -47,6 +47,7 @@ export * from './User';
 export * from './UserAvatar';
 
 export * from './utils/event-broker';
+export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
 export * from './utils/useEventBroker';
 export * from './utils/useLayer';

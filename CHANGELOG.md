@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.14.1](https://github.com/gravity-ui/uikit/compare/v3.14.0...v3.14.1) (2022-12-30)
+
+
+### Bug Fixes
+
+* add `getComponentName` reexport ([#447](https://github.com/gravity-ui/uikit/issues/447)) ([99df0fb](https://github.com/gravity-ui/uikit/commit/99df0fb021e48884247e85782224aec67e7a650b))
+
 ## [3.14.0](https://github.com/gravity-ui/uikit/compare/v3.13.1...v3.14.0) (2022-12-22)
 
 

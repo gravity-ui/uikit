@@ -15,7 +15,7 @@ const sizeMap = {
 };
 const commonActionButtonProps: ButtonProps = {
     pin: 'brick-round',
-    className: b('icon', {
+    className: b('addon', {
         side: 'right',
         interactive: true,
     }),
@@ -90,7 +90,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const {copyIconSize, closeIconSize} = sizeMap[size];
 
     const leftIcon = icon && (
-        <div className={b('icon', {side: hasContent ? 'left' : undefined})}>{icon}</div>
+        <div className={b('addon', {side: hasContent ? 'left' : undefined})}>{icon}</div>
     );
     const content = hasContent && <div className={b('text')}>{children}</div>;
 
@@ -136,8 +136,8 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                         style,
                         type,
                         'is-interactive': isInteractive,
-                        'has-right-icon': Boolean(actionButton),
-                        'has-left-icon': Boolean(leftIcon),
+                        'has-right-addon': Boolean(actionButton),
+                        'has-left-addon': Boolean(leftIcon),
                         disabled,
                     },
                     className,

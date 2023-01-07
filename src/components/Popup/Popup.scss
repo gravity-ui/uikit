@@ -15,9 +15,6 @@ $transition-distance: 10px;
     --yc-popup-border-color: var(--yc-color-line-solid);
     --yc-popup-border-width: 1px;
 
-    position: absolute;
-    top: 0;
-    left: 0;
     z-index: 1000;
     animation-duration: 0.1s;
     animation-timing-function: ease-out;
@@ -25,7 +22,6 @@ $transition-distance: 10px;
     border-radius: 4px;
     background-color: var(--yc-popup-background-color);
     visibility: hidden;
-    box-shadow: 0 8px 20px var(--yc-color-sfx-shadow);
     outline: none;
 
     &::before {
@@ -38,7 +34,8 @@ $transition-distance: 10px;
         left: 0;
 
         border-radius: inherit;
-        box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color);
+        box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
+            0 8px 20px var(--yc-popup-border-width) var(--yc-color-sfx-shadow);
     }
 
     // Corners rounding for content
@@ -57,59 +54,68 @@ $transition-distance: 10px;
         visibility: visible;
     }
 
-    &[data-popper-placement*='bottom'][data-inited] {
+    [data-popper-placement*='bottom'] &.rt-exit-active {
         animation-name: #{variables.$ns}popup-bottom;
     }
 
-    &[data-popper-placement*='top'][data-inited] {
+    [data-popper-placement*='top'] &.rt-exit-active {
         animation-name: #{variables.$ns}popup-top;
     }
 
-    &[data-popper-placement*='left'][data-inited] {
+    [data-popper-placement*='left'] &.rt-exit-active {
         animation-name: #{variables.$ns}popup-left;
     }
 
-    &[data-popper-placement*='right'][data-inited] {
+    [data-popper-placement*='right'] &.rt-exit-active {
         animation-name: #{variables.$ns}popup-right;
     }
 
     // open state
 
-    &_open[data-popper-placement*='bottom'][data-inited] {
+    [data-popper-placement*='bottom'] &.rt-enter-active {
         animation-name: #{variables.$ns}popup-bottom-open;
     }
 
-    &_open[data-popper-placement*='top'][data-inited] {
+    [data-popper-placement*='top'] &.rt-enter-active {
         animation-name: #{variables.$ns}popup-top-open;
     }
 
-    &_open[data-popper-placement*='left'][data-inited] {
+    [data-popper-placement*='left'] &.rt-enter-active {
         animation-name: #{variables.$ns}popup-left-open;
     }
 
-    &_open[data-popper-placement*='right'][data-inited] {
+    [data-popper-placement*='right'] &.rt-enter-active {
         animation-name: #{variables.$ns}popup-right-open;
     }
 
     // arrow
 
-    &[data-popper-placement*='bottom'] &__arrow {
+    [data-popper-placement*='bottom'] &__arrow {
         top: -$arrow-offset;
     }
 
-    &[data-popper-placement*='top'] &__arrow {
-        transform: rotate(180deg);
+    [data-popper-placement*='top'] &__arrow {
         bottom: -$arrow-offset;
+
+        &-content {
+            transform: rotate(180deg);
+        }
     }
 
-    &[data-popper-placement*='left'] &__arrow {
-        transform: rotate(90deg);
+    [data-popper-placement*='left'] &__arrow {
         right: -$arrow-offset;
+
+        &-content {
+            transform: rotate(90deg);
+        }
     }
 
-    &[data-popper-placement*='right'] &__arrow {
-        transform: rotate(-90deg);
+    [data-popper-placement*='right'] &__arrow {
         left: -$arrow-offset;
+
+        &-content {
+            transform: rotate(-90deg);
+        }
     }
 
     &__arrow-content {
@@ -123,7 +129,7 @@ $transition-distance: 10px;
     &__arrow-circle-wrapper {
         background-color: transparent;
         overflow: hidden;
-        width: 8px;
+        width: 9px;
         height: 9px;
         position: relative;
     }

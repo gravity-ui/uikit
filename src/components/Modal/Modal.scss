@@ -3,7 +3,6 @@
 $block: '.#{variables.$ns}modal';
 
 #{$block} {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -41,7 +40,6 @@ $block: '.#{variables.$ns}modal';
 
     &,
     &__content {
-        animation-duration: 200ms;
         animation-timing-function: ease-out;
         outline: none;
     }
@@ -51,18 +49,22 @@ $block: '.#{variables.$ns}modal';
         margin: 0;
     }
 
-    &[data-inited] {
+    &.rt-enter-active {
+        $animation-duration: 150ms;
+
+        animation-name: #{variables.$ns}modal-open;
+        animation-duration: $animation-duration;
+
+        #{$block}__content {
+            animation-name: #{variables.$ns}modal-content-open;
+            animation-duration: $animation-duration;
+        }
+    }
+
+    &.rt-exit-active {
         display: block;
         animation-name: #{variables.$ns}modal;
-
-        &#{$block}_open {
-            animation-name: #{variables.$ns}modal-open;
-            animation-duration: 150ms;
-        }
-        &#{$block}_open #{$block}__content {
-            animation-name: #{variables.$ns}modal-content-open;
-            animation-duration: 150ms;
-        }
+        animation-duration: 200ms;
     }
 }
 

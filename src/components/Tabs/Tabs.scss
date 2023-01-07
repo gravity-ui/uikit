@@ -52,6 +52,10 @@ $block: '.#{variables.$ns}tabs';
         &-content {
             display: flex;
             align-items: center;
+
+            #{$block}__item_overflow & {
+                min-width: 0;
+            }
         }
 
         &-icon {
@@ -60,6 +64,11 @@ $block: '.#{variables.$ns}tabs';
 
         &-title {
             white-space: nowrap;
+
+            #{$block}__item_overflow & {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         &-counter,

@@ -23,6 +23,7 @@ export interface TabsItemProps {
     hint?: string;
     active?: boolean;
     disabled?: boolean;
+    hasOverflow?: boolean;
     icon?: React.ReactNode;
     counter?: number;
     label?: {
@@ -43,6 +44,7 @@ export const TabsItem: React.FC<TabsItemProps> = ({
     label,
     active,
     disabled,
+    hasOverflow,
     extraProps,
     onClick,
 }) => {
@@ -75,7 +77,7 @@ export const TabsItem: React.FC<TabsItemProps> = ({
             aria-selected={active === true}
             aria-disabled={disabled === true}
             tabIndex={disabled ? -1 : 0}
-            className={b('item', {active, disabled})}
+            className={b('item', {active, disabled, overflow: Boolean(hasOverflow)})}
             title={htmlTitle}
             onClick={handleClick}
             onKeyDown={handleKeyDown}

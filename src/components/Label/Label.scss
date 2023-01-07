@@ -18,7 +18,9 @@ $transitionTimingFunction: ease-in-out;
     &:not(#{$disabled}) #{$block}__icon_interactive {
         --yc-button-background-color-hover: #{$bgHoverColor};
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             color: #{$textColor};
         }
     }

@@ -150,18 +150,11 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         );
     };
 
-    const handleCopyClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        /* preventing event from bubbling */
-        event.stopPropagation();
-    };
-
     if (hasCopy && copyText) {
         return (
-            <div onClick={handleCopyClick}>
-                <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000}>
-                    {(status) => renderLabel(status)}
-                </CopyToClipboard>
-            </div>
+            <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000}>
+                {(status) => renderLabel(status)}
+            </CopyToClipboard>
         );
     }
 

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {forwardRef, useMemo} from 'react';
 import {block} from '../utils/cn';
 import {QAProps} from '../types';
 import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem';
@@ -38,53 +38,60 @@ export interface TabsProps extends QAProps {
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
 }
 
-export const Tabs: React.FC<TabsProps> = ({
-    direction = TabsDirection.Horizontal,
-    size = 'm',
-    activeTab,
-    allowNotSelected = false,
-    items = [],
-    className,
-    onSelectTab,
-    wrapTo,
-    qa,
-}) => {
-    const activeTabId = useMemo(() => {
-        if (activeTab) {
-            return activeTab;
-        }
+export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
+    (
+        {
+            direction = TabsDirection.Horizontal,
+            size = 'm',
+            activeTab,
+            allowNotSelected = false,
+            items = [],
+            className,
+            onSelectTab,
+            wrapTo,
+            qa,
+        },
+        ref,
+    ) => {
+        const activeTabId = useMemo(() => {
+            if (activeTab) {
+                return activeTab;
+            }
 
-        if (allowNotSelected || items.length === 0) {
-            return undefined;
-        }
+            if (allowNotSelected || items.length === 0) {
+                return undefined;
+            }
 
-        return items[0].id;
-    }, [activeTab, allowNotSelected, items]);
+            return items[0].id;
+        }, [activeTab, allowNotSelected, items]);
 
-    const handleTabClick = (tabId: string) => {
-        if (onSelectTab) {
-            onSelectTab(tabId);
-        }
-    };
+        const handleTabClick = (tabId: string) => {
+            if (onSelectTab) {
+                onSelectTab(tabId);
+            }
+        };
 
-    return (
-        <div role="tablist" className={b({direction, size}, className)} data-qa={qa}>
-            {items.map((item, index) => {
-                const tabItemNode = (
-                    <TabsItem
-                        key={item.id}
-                        {...item}
-                        active={item.id === activeTabId}
-                        onClick={handleTabClick}
-                    />
-                );
+        return (
+            <div role="tablist" className={b({direction, size}, className)} data-qa={qa} ref={ref}>
+                {items.map((item, index) => {
+                    const tabItemNode = (
+                        <TabsItem
+                            key={item.id}
+                            {...item}
+                            active={item.id === activeTabId}
+                            onClick={handleTabClick}
+                        />
+                    );
 
-                if (wrapTo) {
-                    return wrapTo(item, tabItemNode, index);
-                }
+                    if (wrapTo) {
+                        return wrapTo(item, tabItemNode, index);
+                    }
 
-                return tabItemNode;
-            })}
-        </div>
-    );
-};
+                    return tabItemNode;
+                })}
+            </div>
+        );
+    },
+);
+
+Tabs.displayName = 'Tabs';

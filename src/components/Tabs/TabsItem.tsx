@@ -1,8 +1,20 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, HTMLProps} from 'react';
 import {block} from '../utils/cn';
 import {Label, LabelProps} from '../Label';
 
 const b = block('tabs');
+
+type ExtraProps = Omit<
+    HTMLProps<HTMLDivElement>,
+    | 'role'
+    | 'aria-selected'
+    | 'aria-disabled'
+    | 'tabIndex'
+    | 'className'
+    | 'title'
+    | 'onClick'
+    | 'onKeyDown'
+>;
 
 export interface TabsItemProps {
     id: string;
@@ -17,6 +29,7 @@ export interface TabsItemProps {
         content: React.ReactNode;
         theme?: LabelProps['theme'];
     };
+    extraProps?: ExtraProps;
     onClick(tabId: string): void;
 }
 
@@ -30,6 +43,7 @@ export const TabsItem: React.FC<TabsItemProps> = ({
     label,
     active,
     disabled,
+    extraProps,
     onClick,
 }) => {
     const handleClick = () => {
@@ -56,6 +70,7 @@ export const TabsItem: React.FC<TabsItemProps> = ({
 
     return (
         <div
+            {...extraProps}
             role="tab"
             aria-selected={active === true}
             aria-disabled={disabled === true}

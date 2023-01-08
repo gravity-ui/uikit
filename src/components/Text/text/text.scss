@@ -3,6 +3,15 @@
 
 $block: '.#{variables.$ns}text';
 
+$textFontWeightMap: (
+    'bold' bold,
+    'normal' normal,
+    'lighter' lighter,
+    'bolder' bolder,
+    'inherit' inherit,
+    'unset' unset
+);
+
 #{$block} {
     &_variant_display-1 {
         @include mixins.text-display-1();
@@ -69,5 +78,11 @@ $block: '.#{variables.$ns}text';
     }
     &_ellipsis {
         @include mixins.overflow-ellipsis();
+    }
+
+    @each $mod, $value in $textFontWeightMap {
+        &_weight_#{$mod} {
+            font-weight: $value;
+        }
     }
 }

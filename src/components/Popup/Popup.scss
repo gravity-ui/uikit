@@ -74,25 +74,27 @@ $transition-distance: 10px;
     }
 
     // open state
-
-    [data-popper-placement*='bottom'] &.rt-enter-active {
+    [data-popper-placement*='bottom'] &.rt-enter-active,
+    [data-popper-placement*='bottom'] &.rt-appear-active {
         animation-name: #{variables.$ns}popup-bottom-open;
     }
 
-    [data-popper-placement*='top'] &.rt-enter-active {
+    [data-popper-placement*='top'] &.rt-enter-active,
+    [data-popper-placement*='top'] &.rt-appear-active {
         animation-name: #{variables.$ns}popup-top-open;
     }
 
-    [data-popper-placement*='left'] &.rt-enter-active {
+    [data-popper-placement*='left'] &.rt-enter-active,
+    [data-popper-placement*='left'] &.rt-appear-active {
         animation-name: #{variables.$ns}popup-left-open;
     }
 
-    [data-popper-placement*='right'] &.rt-enter-active {
+    [data-popper-placement*='right'] &.rt-enter-active,
+    [data-popper-placement*='right'] &.rt-appear-active {
         animation-name: #{variables.$ns}popup-right-open;
     }
 
     // arrow
-
     [data-popper-placement*='bottom'] &__arrow {
         top: -$arrow-offset;
     }

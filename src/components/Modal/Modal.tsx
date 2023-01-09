@@ -55,12 +55,7 @@ export function Modal({
 }: ModalProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
-    const [isMounted, setIsMounted] = React.useState(false);
     const [inTransition, setInTransition] = React.useState(false);
-
-    React.useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
     // useFocusTrap({
@@ -82,13 +77,14 @@ export function Modal({
         <Portal container={container}>
             <CSSTransition
                 nodeRef={containerRef}
-                in={isMounted && open}
+                in={open}
                 addEndListener={(done) =>
                     containerRef.current?.addEventListener('animationend', done)
                 }
                 classNames="rt"
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
+                appear={true}
                 onEnter={() => setInTransition(true)}
                 onExit={() => setInTransition(true)}
                 onEntered={() => setInTransition(false)}

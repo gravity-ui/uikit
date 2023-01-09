@@ -52,7 +52,8 @@ $block: '.#{variables.$ns}modal';
         margin: 0;
     }
 
-    &.rt-enter-active {
+    &.rt-enter-active,
+    &.rt-appear-active {
         $animation-duration: 150ms;
 
         animation-name: #{variables.$ns}modal-open;

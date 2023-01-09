@@ -101,6 +101,7 @@ export function Popup({
                 classNames="rt"
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
+                appear={true}
             >
                 <div ref={setPopperRef} style={styles.popper} {...attributes.popper}>
                     <div

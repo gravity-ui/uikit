@@ -9,22 +9,22 @@ export function getThemeValue<T extends keyof LayoutProps>(
     medias: MediaPartial<boolean>,
 ): LayoutProps[T] | undefined {
     if (medias.mobile) {
-        return theme.medias?.mobile?.[key] || theme.base?.[key];
+        return theme.mediasOverrides?.mobile?.[key] || theme.default?.[key];
     }
 
-    if (medias.tablH) {
-        return theme.medias?.tablH?.[key] || theme.base?.[key];
+    if (medias.tabletH) {
+        return theme.mediasOverrides?.tabletH?.[key] || theme.default?.[key];
     }
 
-    if (medias.lptpM) {
-        return theme.medias?.lptpM?.[key] || theme.base?.[key];
+    if (medias.laptopM) {
+        return theme.mediasOverrides?.laptopM?.[key] || theme.default?.[key];
     }
-    if (medias.lptpS) {
-        return theme.medias?.lptpS?.[key] || theme.base?.[key];
+    if (medias.laptopS) {
+        return theme.mediasOverrides?.laptopS?.[key] || theme.default?.[key];
     }
 
-    if (medias.dsktp) {
-        return theme.medias?.dsktp?.[key] || theme.base?.[key];
+    if (medias.desktop) {
+        return theme.mediasOverrides?.desktop?.[key] || theme.default?.[key];
     }
 
     return undefined;

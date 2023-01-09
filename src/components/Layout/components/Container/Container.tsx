@@ -51,7 +51,7 @@ export interface ContainerProps {
  * ```tsx
  * import {Container, Row, Col} from '@gravity-ui/uikit';
  *
- * <Container masWidth="lptpM">
+ * <Container masWidth="laptopM">
  *   <Row>
  *     <Col>
  *       Col 1
@@ -75,8 +75,9 @@ export const Container = React.memo(
         disableGutters,
         spaceRow,
     }: ContainerProps) => {
-        const {medias, theme} = useLayoutContext();
-        const additionClassName = typeof className === 'function' ? className(medias) : className;
+        const {theme, activeMediasMap} = useLayoutContext();
+        const additionClassName =
+            typeof className === 'function' ? className(activeMediasMap) : className;
 
         return (
             <Tag
@@ -87,7 +88,7 @@ export const Container = React.memo(
                         fl: fluid,
                         sr:
                             typeof spaceRow === 'function'
-                                ? spaceRow(medias)
+                                ? spaceRow(activeMediasMap)
                                 : spaceRow || theme.spaceRow,
                     },
                     (gutters || theme.gutters) && !disableGutters

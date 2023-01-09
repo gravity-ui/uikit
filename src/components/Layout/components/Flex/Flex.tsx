@@ -93,14 +93,15 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
         },
         ref,
     ) => {
-        const {medias, theme} = useLayoutContext();
+        const {activeMediasMap, theme} = useLayoutContext();
 
         return (
             <div
                 style={{
                     width,
                     alignSelf,
-                    flexDirection: typeof direction === 'function' ? direction(medias) : direction,
+                    flexDirection:
+                        typeof direction === 'function' ? direction(activeMediasMap) : direction,
                     flexGrow: grow === true ? 1 : grow,
                     flexWrap: wrap,
                     flexBasis: basis,
@@ -116,7 +117,7 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
                         inline,
                         s:
                             typeof space === 'function'
-                                ? space(medias)
+                                ? space(activeMediasMap)
                                 : space === true
                                 ? theme.space
                                 : space,

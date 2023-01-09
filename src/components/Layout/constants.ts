@@ -14,36 +14,36 @@ export const SPACE_TO_PIXEL: Record<Space, number> = {
 
 export const MEDIA_TO_MOD: Record<MediaType, string> = {
     mobile: 'm',
-    tablH: 'th',
-    lptpS: 'lps',
-    lptpM: 'plm',
-    dsktp: 'd',
-};
-export const MEDIA_TO_VALUE: Record<MediaType, number> = {
-    mobile: 480,
-    tablH: 1080,
-    lptpS: 1200,
-    lptpM: 1400,
-    dsktp: 1920,
+    tabletH: 'th',
+    laptopS: 'lps',
+    laptopM: 'lpm',
+    desktop: 'd',
 };
 
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
-    base: {
+    breakpoints: {
+        mobile: 480,
+        tabletH: 1080,
+        laptopS: 1200,
+        laptopM: 1400,
+        desktop: 1920,
+    },
+    default: {
         gutters: 's',
         space: 's',
     },
-    medias: {
+    mediasOverrides: {
         mobile: {},
-        tablH: {},
-        lptpS: {
+        tabletH: {},
+        laptopS: {
             gutters: 'l',
             space: 'l',
         },
-        lptpM: {
+        laptopM: {
             gutters: 'l',
             space: 'l',
         },
-        dsktp: {
+        desktop: {
             gutters: 'l',
             space: 'l',
         },

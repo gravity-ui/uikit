@@ -42,17 +42,17 @@ export interface RowProps {
  * ```
  */
 export const Row = ({children, style, className, space, spaceRow}: RowProps) => {
-    const {medias, theme} = useLayoutContext();
+    const {activeMediasMap, theme} = useLayoutContext();
 
     return (
         <div
             style={style}
             className={b(
                 {
-                    s: typeof space === 'function' ? space(medias) : space || theme.space,
+                    s: typeof space === 'function' ? space(activeMediasMap) : space || theme.space,
                     's-r':
                         typeof spaceRow === 'function'
-                            ? spaceRow(medias)
+                            ? spaceRow(activeMediasMap)
                             : spaceRow || theme.spaceRow,
                 },
                 className,

@@ -6,15 +6,21 @@ $flexClassName: '.#{variables.$ns}flex';
 $containerClassName: '.#{variables.$ns}container';
 $spacingClassName: '.#{variables.$ns}s';
 
-$none: var(--yc-spacing-none) !default;
-$micro: var(--yc-spacing-micro) !default;
-$xxs: var(--yc-spacing-xxs) !default;
-$xs: var(--yc-spacing-xs) !default;
-$s: var(--yc-spacing-s) !default;
-$m: var(--yc-spacing-m) !default;
-$l: var(--yc-spacing-l) !default;
-$xl: var(--yc-spacing-xl) !default;
-$xxl: var(--yc-spacing-xxl) !default;
+$space-none: var(--yc-spacing-none) !default;
+$space-micro: var(--yc-spacing-micro) !default;
+$space-xxs: var(--yc-spacing-xxs) !default;
+$space-xs: var(--yc-spacing-xs) !default;
+$space-s: var(--yc-spacing-s) !default;
+$space-m: var(--yc-spacing-m) !default;
+$space-l: var(--yc-spacing-l) !default;
+$space-xl: var(--yc-spacing-xl) !default;
+$space-xxl: var(--yc-spacing-xxl) !default;
+
+$breakpoint-mobile: 480px !default;
+$breakpoint-tabletH: 1080px !default;
+$breakpoint-laptopS: 1200px !default;
+$breakpoint-laptopM: 1400px !default;
+$breakpoint-desktop: 1920px !default;
 
 $COL_SIZE: (
     1: 8.33333333%,
@@ -32,50 +38,44 @@ $COL_SIZE: (
 );
 
 $SPACE: (
-    none: $none,
-    micro: $micro,
-    xxs: $xxs,
-    xs: $xs,
-    s: $s,
-    m: $m,
-    l: $l,
-    xl: $xl,
-    xxl: $xxl,
+    none: $space-none,
+    micro: $space-micro,
+    xxs: $space-xxs,
+    xs: $space-xs,
+    s: $space-s,
+    m: $space-m,
+    l: $space-l,
+    xl: $space-xl,
+    xxl: $space-xxl,
 );
 
-$mobile: 480px !default;
-$tablH: 1080px !default;
-$lptpS: 1200px !default;
-$lptpM: 1400px !default;
-$dsktp: 1920px !default;
-
 $MEDIA_MOD_CONTAINER: (
-    'mobile' 'm' 480px,
-    'tablH' 'th' 1024px,
-    'lptpS' 'lps' 1200px,
-    'lptpM' 'plm' 1400px,
-    'dsktp' 'd' 1920px
+    'mobile' 'm' $breakpoint-mobile,
+    'tabletH' 'th' $breakpoint-tabletH,
+    'laptopS' 'lps' $breakpoint-laptopS,
+    'laptopM' 'lpm' $breakpoint-laptopM,
+    'desktop' 'd' $breakpoint-desktop
 );
 
 @mixin use-media($size) {
     @if $size == mobile {
-        @media only screen and (max-width: $mobile) {
+        @media only screen and (max-width: $breakpoint-mobile) {
             @content;
         }
-    } @else if $size == tablH {
-        @media only screen and (min-width: calc($mobile + 1px)) and (max-width: $tablH) {
+    } @else if $size == tabletH {
+        @media only screen and (min-width: calc($breakpoint-mobile + 1px)) and (max-width: $breakpoint-tabletH) {
             @content;
         }
-    } @else if $size == lptpS {
-        @media only screen and (min-width: calc($tablH + 1px)) and (max-width: $lptpS) {
+    } @else if $size == laptopS {
+        @media only screen and (min-width: calc($breakpoint-tabletH + 1px)) and (max-width: $breakpoint-laptopS) {
             @content;
         }
-    } @else if $size == lptpM {
-        @media only screen and (min-width: calc($lptpS + 1px)) and (max-width: $lptpM) {
+    } @else if $size == laptopM {
+        @media only screen and (min-width: calc($breakpoint-laptopS + 1px)) and (max-width: $breakpoint-laptopM) {
             @content;
         }
-    } @else if $size == dsktp {
-        @media only screen and (min-width: calc($lptpM + 1px)) and (max-width: $dsktp) {
+    } @else if $size == desktop {
+        @media only screen and (min-width: calc($breakpoint-laptopM + 1px)) and (max-width: $breakpoint-desktop) {
             @content;
         }
     }

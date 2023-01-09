@@ -1,5 +1,4 @@
 import React from 'react';
-import {MEDIA_TO_VALUE} from '../constants';
 import {MediaPartial, MediaProps} from '../types';
 
 export const mockMediaQueryList: MediaQueryList = {
@@ -13,74 +12,82 @@ export const mockMediaQueryList: MediaQueryList = {
     dispatchEvent: (_: Event) => true,
 };
 
-const MEDIA_QUERIES: MediaProps<string> = {
-    mobile: `(max-width: ${MEDIA_TO_VALUE.mobile}px)`,
-    tablH: `(min-width: ${MEDIA_TO_VALUE.mobile + 1}px) and (max-width: ${MEDIA_TO_VALUE.tablH}px)`,
-    lptpS: `(min-width: ${MEDIA_TO_VALUE.tablH + 1}px) and (max-width: ${MEDIA_TO_VALUE.lptpS}px)`,
-    lptpM: `(min-width: ${MEDIA_TO_VALUE.lptpS + 1}px) and (max-width: ${MEDIA_TO_VALUE.lptpM}px)`,
-    dsktp: `(min-width: ${MEDIA_TO_VALUE.lptpM + 1}px) and (max-width: ${MEDIA_TO_VALUE.dsktp}px)`,
-};
+export const makeMediaExpressions = (mediaToValue: MediaProps<number>): MediaProps<string> => ({
+    mobile: `(max-width: ${mediaToValue.mobile}px)`,
+    tabletH: `(min-width: ${mediaToValue.mobile + 1}px) and (max-width: ${mediaToValue.tabletH}px)`,
+    laptopS: `(min-width: ${mediaToValue.tabletH + 1}px) and (max-width: ${
+        mediaToValue.laptopS
+    }px)`,
+    laptopM: `(min-width: ${mediaToValue.laptopS + 1}px) and (max-width: ${
+        mediaToValue.laptopM
+    }px)`,
+    desktop: `(min-width: ${mediaToValue.laptopM + 1}px) and (max-width: ${
+        mediaToValue.desktop
+    }px)`,
+});
 
-const safeMatchMedia = (query: string): MediaQueryList => {
+const safeMatchMedia = (query: string | number): MediaQueryList => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
         return mockMediaQueryList;
     }
 
-    return window.matchMedia(query);
+    return window.matchMedia(String(query));
 };
 
 class Queries {
-    private readonly _mobileQueryList: MediaQueryList;
-    private readonly _tablHList: MediaQueryList;
-    private readonly _lptpSList: MediaQueryList;
-    private readonly _lptpMList: MediaQueryList;
-    private readonly _dsktpList: MediaQueryList;
+    private readonly _mobileList: MediaQueryList;
+    private readonly _tabletHList: MediaQueryList;
+    private readonly _laptopSList: MediaQueryList;
+    private readonly _laptopMList: MediaQueryList;
+    private readonly _desktopList: MediaQueryList;
 
-    constructor() {
-        this._mobileQueryList = safeMatchMedia(MEDIA_QUERIES.mobile);
-        this._tablHList = safeMatchMedia(MEDIA_QUERIES.tablH);
-        this._lptpSList = safeMatchMedia(MEDIA_QUERIES.lptpS);
-        this._lptpMList = safeMatchMedia(MEDIA_QUERIES.lptpM);
-        this._dsktpList = safeMatchMedia(MEDIA_QUERIES.dsktp);
+    constructor(breakpointsMap: MediaProps<number>) {
+        const mediaToExpression = makeMediaExpressions(breakpointsMap);
+
+        this._mobileList = safeMatchMedia(mediaToExpression.mobile);
+        this._tabletHList = safeMatchMedia(mediaToExpression.tabletH);
+        this._laptopSList = safeMatchMedia(mediaToExpression.laptopS);
+        this._laptopMList = safeMatchMedia(mediaToExpression.laptopM);
+        this._desktopList = safeMatchMedia(mediaToExpression.desktop);
     }
 
     matches(): MediaProps<boolean> {
         return {
-            mobile: this._mobileQueryList.matches,
-            tablH: this._tablHList.matches,
-            lptpS: this._lptpSList.matches,
-            lptpM: this._lptpMList.matches,
-            dsktp: this._dsktpList.matches,
+            mobile: this._mobileList.matches,
+            tabletH: this._tabletHList.matches,
+            laptopS: this._laptopSList.matches,
+            laptopM: this._laptopMList.matches,
+            desktop: this._desktopList.matches,
         };
     }
 
     addListeners(fn: () => void) {
-        this._mobileQueryList.addEventListener('change', fn);
-        this._tablHList.addEventListener('change', fn);
-        this._lptpSList.addEventListener('change', fn);
-        this._lptpMList.addEventListener('change', fn);
-        this._dsktpList.addEventListener('change', fn);
+        this._mobileList.addEventListener('change', fn);
+        this._tabletHList.addEventListener('change', fn);
+        this._laptopSList.addEventListener('change', fn);
+        this._laptopMList.addEventListener('change', fn);
+        this._desktopList.addEventListener('change', fn);
     }
 
     removeListeners(fn: () => void) {
-        this._mobileQueryList.removeEventListener('change', fn);
-        this._tablHList.removeEventListener('change', fn);
-        this._lptpSList.removeEventListener('change', fn);
-        this._lptpMList.removeEventListener('change', fn);
-        this._dsktpList.removeEventListener('change', fn);
+        this._mobileList.removeEventListener('change', fn);
+        this._tabletHList.removeEventListener('change', fn);
+        this._laptopSList.removeEventListener('change', fn);
+        this._laptopMList.removeEventListener('change', fn);
+        this._desktopList.removeEventListener('change', fn);
     }
 }
 
 /**
  * @private - use `useMediaContext` hook instead
  */
-export const useMediaQuery = () => {
+export const useMediaQuery = (breakpointsMap: MediaProps<number>) => {
     const [state, _setState] = React.useState<MediaPartial<boolean>>({});
 
     React.useLayoutEffect(() => {
         let mounted = true;
 
-        const queries = new Queries();
+        const queries = new Queries(breakpointsMap);
 
         const setState = () => {
             _setState(queries.matches());

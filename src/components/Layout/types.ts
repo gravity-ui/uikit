@@ -2,30 +2,9 @@ export type ColSize = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10'
 
 export type Space = 'none' | 'micro' | 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
 
-export type MediaType = 'mobile' | 'tablH' | 'lptpS' | 'lptpM' | 'dsktp';
+export type MediaType = 'mobile' | 'tabletH' | 'laptopS' | 'laptopM' | 'desktop';
 
-export type MediaProps<T> = {
-    /**
-     * 480px
-     */
-    mobile: T;
-    /**
-     * 1080px
-     */
-    tablH: T;
-    /**
-     * 1200px
-     */
-    lptpS: T;
-    /**
-     * 1400px
-     */
-    lptpM: T;
-    /**
-     * 1920px
-     */
-    dsktp: T;
-};
+export type MediaProps<T> = Record<MediaType, T>;
 
 export type MediaPartial<T> = Partial<MediaProps<T>>;
 
@@ -37,11 +16,34 @@ export type LayoutProps = Partial<{
 
 export type LayoutTheme = {
     /**
-     * Common props
+     * Override default breakpoints values.
+     *
+     * @important **you mast override corresponding scss variables**
      */
-    base?: LayoutProps;
+    breakpoints: MediaProps<number>;
     /**
-     * Override common props in different screen media type
+     * Default props
      */
-    medias?: Partial<MediaProps<LayoutProps | undefined>>;
+    default: LayoutProps;
+    /**
+     * Override default props in different screen media type
+     */
+    mediasOverrides: Partial<MediaProps<LayoutProps | undefined>>;
+};
+
+export type PartialLayoutTheme = {
+    /**
+     * Override default breakpoints values.
+     *
+     * @important **you mast override corresponding scss variables**
+     */
+    breakpoints?: Partial<MediaProps<number>>;
+    /**
+     * Default props
+     */
+    default?: LayoutProps;
+    /**
+     * Override default props in different screen media type
+     */
+    mediasOverrides?: Partial<MediaProps<LayoutProps | undefined>>;
 };

@@ -29,11 +29,11 @@ const DefaultTemplate: Story<ContainerProps> = (args) => (
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
-    spaceRow: ({mobile, dsktp, lptpM, lptpS, tablH}) => {
-        if (dsktp) return 'xxl';
-        if (lptpM) return 'l';
-        if (lptpS) return 'm';
-        if (tablH) return 's';
+    spaceRow: ({mobile, desktop, laptopM, laptopS, tabletH}) => {
+        if (desktop) return 'xxl';
+        if (laptopM) return 'l';
+        if (laptopS) return 'm';
+        if (tabletH) return 's';
         if (mobile) return 'micro';
 
         return 'none';

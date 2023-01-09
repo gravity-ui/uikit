@@ -9,4 +9,4 @@ export * from './LayoutProvider';
 // hooks
 export * from './useLayoutContext';
 // utils
-export * from './makeDataUiTheme';
+export * from './makeDefaultTheme';

@@ -4,7 +4,12 @@ import {getThemeValue} from './getThemeValue';
 import {LayoutContext} from './LayoutContext';
 
 interface UseMediaContext {
-    medias: MediaPartial<boolean>;
+    /**
+     * Map of computed values:
+     * @key - media name
+     * @value - is media active now
+     */
+    activeMediasMap: MediaPartial<boolean>;
     theme: LayoutProps;
 }
 
@@ -22,5 +27,5 @@ export const useLayoutContext = (): UseMediaContext => {
         };
     }, [_theme, medias]);
 
-    return {medias, theme};
+    return {activeMediasMap: medias, theme};
 };

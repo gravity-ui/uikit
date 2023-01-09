@@ -42,8 +42,19 @@ describe('Select base actions', () => {
             await user.keyboard('[Space]');
             getByTestId(SelectQa.POPUP);
         });
+    });
 
-        test('default with defaultOpen prop', async () => {
+    describe('initial state', () => {
+        test('should be closed while rendering with default props', async () => {
+            await act(async () => {
+                setup();
+            });
+            const selectControl = screen.getByTestId(TEST_QA);
+            expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(screen.queryByTestId(SelectQa.POPUP)).toBeNull();
+        });
+
+        test('should be opened while rendering with defaultOpen prop', async () => {
             await act(async () => {
                 setup({defaultOpen: true});
             });

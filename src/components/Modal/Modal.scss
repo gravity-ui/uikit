@@ -3,6 +3,7 @@
 $block: '.#{variables.$ns}modal';
 
 #{$block} {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -44,7 +45,9 @@ $block: '.#{variables.$ns}modal';
         outline: none;
     }
 
-    &_open {
+    &_open,
+    &.rt-exit-active {
+        display: block;
         visibility: visible;
         margin: 0;
     }
@@ -62,7 +65,6 @@ $block: '.#{variables.$ns}modal';
     }
 
     &.rt-exit-active {
-        display: block;
         animation-name: #{variables.$ns}modal;
         animation-duration: 200ms;
     }
@@ -70,16 +72,9 @@ $block: '.#{variables.$ns}modal';
 
 @keyframes #{variables.$ns}modal {
     0% {
-        visibility: visible;
-        margin: 0;
         opacity: 1;
     }
-    99% {
-        margin: 0;
-    }
     100% {
-        visibility: hidden;
-        margin: -9999px 0 0 -9999px;
         opacity: 0;
     }
 }

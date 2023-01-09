@@ -84,10 +84,7 @@ export function Modal({
                 nodeRef={containerRef}
                 in={isMounted && open}
                 addEndListener={(done) =>
-                    containerRef.current?.addEventListener('animationend', () => {
-                        setInTransition(false);
-                        done();
-                    })
+                    containerRef.current?.addEventListener('animationend', done)
                 }
                 classNames="rt"
                 mountOnEnter={!keepMounted}

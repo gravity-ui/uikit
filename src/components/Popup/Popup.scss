@@ -22,6 +22,7 @@ $transition-distance: 10px;
     border-radius: 4px;
     background-color: var(--yc-popup-background-color);
     visibility: hidden;
+    margin: -9999px 0 0 -9999px;
     outline: none;
 
     &::before {
@@ -50,8 +51,10 @@ $transition-distance: 10px;
         border-bottom-right-radius: inherit;
     }
 
-    &_open {
+    &_open,
+    &.rt-exit-active {
         visibility: visible;
+        margin: 0;
     }
 
     [data-popper-placement*='bottom'] &.rt-exit-active {
@@ -157,17 +160,12 @@ $transition-distance: 10px;
 
     @keyframes #{variables.$ns}popup-bottom {
         0% {
-            visibility: visible;
             opacity: 1;
             transform: translateY(0);
         }
-
-        99% {
-            transform: translateY($transition-distance);
-        }
         100% {
-            visibility: hidden;
             opacity: 0;
+            transform: translateY($transition-distance);
         }
     }
 
@@ -184,17 +182,12 @@ $transition-distance: 10px;
 
     @keyframes #{variables.$ns}popup-top {
         0% {
-            visibility: visible;
             opacity: 1;
             transform: translateY(0);
         }
-
-        99% {
-            transform: translateY(-$transition-distance);
-        }
         100% {
-            visibility: hidden;
             opacity: 0;
+            transform: translateY(-$transition-distance);
         }
     }
 
@@ -211,18 +204,12 @@ $transition-distance: 10px;
 
     @keyframes #{variables.$ns}popup-left {
         0% {
-            visibility: visible;
-
             opacity: 1;
             transform: translateX(0);
         }
-
-        99% {
-            transform: translateX(-$transition-distance);
-        }
         100% {
-            visibility: hidden;
             opacity: 0;
+            transform: translateX(-$transition-distance);
         }
     }
 
@@ -239,18 +226,12 @@ $transition-distance: 10px;
 
     @keyframes #{variables.$ns}popup-right {
         0% {
-            visibility: visible;
-
             opacity: 1;
             transform: translateX(0);
         }
-
-        99% {
-            transform: translateX($transition-distance);
-        }
         100% {
-            visibility: hidden;
             opacity: 0;
+            transform: translateX($transition-distance);
         }
     }
 

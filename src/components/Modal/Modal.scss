@@ -46,14 +46,14 @@ $block: '.#{variables.$ns}modal';
     }
 
     &_open,
-    &.rt-exit-active {
+    &_exit_active {
         display: block;
         visibility: visible;
         margin: 0;
     }
 
-    &.rt-enter-active,
-    &.rt-appear-active {
+    &_enter_active,
+    &_appear_active {
         $animation-duration: 150ms;
 
         animation-name: #{variables.$ns}modal-open;
@@ -65,7 +65,7 @@ $block: '.#{variables.$ns}modal';
         }
     }
 
-    &.rt-exit-active {
+    &_exit_active {
         animation-name: #{variables.$ns}modal;
         animation-duration: 200ms;
     }

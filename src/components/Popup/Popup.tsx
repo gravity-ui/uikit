@@ -2,6 +2,7 @@ import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
 import {block} from '../utils/cn';
+import {getCSSTransitionClassNames} from '../utils/transition';
 import {DOMProps, QAProps} from '../types';
 import {Portal} from '../Portal';
 import {useLayer, LayerExtendableProps} from '../utils/useLayer';
@@ -98,7 +99,7 @@ export function Popup({
                 addEndListener={(done) =>
                     containerRef.current?.addEventListener('animationend', done)
                 }
-                classNames="rt"
+                classNames={getCSSTransitionClassNames(b)}
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
                 appear={true}

@@ -8,8 +8,8 @@ import {Button, ButtonProps} from '../../../Button';
 
 import {block} from '../../../utils/cn';
 import './StoriesPreview.scss';
-import {ModalCloseReason} from 'src/components/Modal';
-import {StoriesItemMedia} from 'src/components/Stories/types';
+import {ModalCloseReason} from '../../../Modal';
+import {StoriesItemMedia} from '../../../Stories/types';
 
 const PREVIEW_ITEM_SIZE = 40;
 const PREVIEW_LIST_GAP = 8;

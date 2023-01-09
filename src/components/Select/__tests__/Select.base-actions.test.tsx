@@ -13,7 +13,9 @@ import {
     setup,
     timeout,
     generateOptions,
+    SELECT_CONTROL_OPEN_CLASS,
 } from './utils';
+import {act, screen} from '@testing-library/react';
 
 describe('Select base actions', () => {
     describe('open popup by', () => {
@@ -39,6 +41,15 @@ describe('Select base actions', () => {
             await user.keyboard('[Tab]');
             await user.keyboard('[Space]');
             getByTestId(SelectQa.POPUP);
+        });
+
+        test('default with defaultOpen prop', async () => {
+            await act(async () => {
+                setup({defaultOpen: true});
+            });
+            const selectControl = screen.getByTestId(TEST_QA);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            screen.getByTestId(SelectQa.POPUP);
         });
     });
 

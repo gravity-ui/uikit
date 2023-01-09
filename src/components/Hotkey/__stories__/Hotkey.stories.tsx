@@ -1,14 +1,14 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Table} from '../../Table';
-import {HotKey, HotKeyProps} from '../HotKey';
+import {Hotkey, HotkeyProps} from '../Hotkey';
 
 export default {
-    title: 'Components/HotKey',
-    component: HotKey,
+    title: 'Components/Hotkey',
+    component: Hotkey,
 } as Meta;
 
-export const Default: Story<HotKeyProps> = (args) => <HotKey {...args} />;
+export const Default: Story<HotkeyProps> = (args) => <Hotkey {...args} />;
 Default.args = {value: 'mod+a mod+c mod+v'};
 
 const examples = [
@@ -37,8 +37,8 @@ export const Examples: Story = () => (
         ]}
         data={examples.map((val) => ({
             val: <code>{val}</code>,
-            pc: <HotKey value={val} platform="pc" />,
-            mac: <HotKey value={val} platform="mac" />,
+            pc: <Hotkey value={val} platform="pc" />,
+            mac: <Hotkey value={val} platform="mac" />,
         }))}
     />
 );

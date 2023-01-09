@@ -7,7 +7,7 @@ import {defsByPlatform} from './definitions';
 import {parseKeyGroups} from './parse';
 import {isMac} from './utils';
 
-import './HotKey.scss';
+import './Hotkey.scss';
 
 const b = block('hotkey');
 
@@ -16,7 +16,7 @@ const Spaces = {
     BetweenKeys: String.fromCharCode(8239), // Narrow No-Break Space
 };
 
-export interface HotKeyProps extends DOMProps, QAProps {
+export interface HotkeyProps extends DOMProps, QAProps {
     /**
      * @example
      * 'mod+a mod+c mod+v'
@@ -29,7 +29,7 @@ export interface HotKeyProps extends DOMProps, QAProps {
     platform?: Platform;
 }
 
-export const HotKey = React.forwardRef<HTMLElement, HotKeyProps>(function HotKey(props, ref) {
+export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey(props, ref) {
     const {value, platform, view = 'light', qa, style, className} = props;
 
     const groups = parseHotkeys(value, {platform});

@@ -1,6 +1,6 @@
 import {parseKeyGroups} from '../parse';
 
-describe('HotKey parse', () => {
+describe('Hotkey parse', () => {
     it('should parse keys by plus separator', () => {
         const res = parseKeyGroups({NormalizeMap: {}, Priority: {}, DisplayName: {}}, 'A+B');
         expect(res).toStrictEqual([['A', 'B']]);

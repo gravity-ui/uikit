@@ -14,7 +14,7 @@ export * from './CopyToClipboard';
 export * from './Dialog';
 export * from './DropdownMenu';
 export * from './HelpPopover';
-export * from './HotKey';
+export * from './Hotkey';
 export * from './Icon';
 export * from './Label';
 export * from './Link';

@@ -6,7 +6,8 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
-import {Button, ButtonProps} from '../Button';
+import {Button} from '../Button';
+import type {ButtonProps} from '../Button';
 
 import './ButtonShowcase.scss';
 

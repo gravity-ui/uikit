@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Lang} from '../index';
-import {Platform} from '../mobile/constants';
+import type {Platform} from '../mobile/constants';
 import {block} from '../utils/cn';
 
 import './StoreBadge.scss';

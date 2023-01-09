@@ -1,10 +1,8 @@
-import React from 'react';
+import type {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
+import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
+import type {UseOpenProps} from '../utils/useSelect/types';
 
-import {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
-import {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
-import {UseOpenProps} from '../utils/useSelect/types';
-
-import {Option, OptionGroup} from './tech-components';
+import type {Option, OptionGroup} from './tech-components';
 
 export type SelectRenderControlProps = {
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
@@ -29,6 +27,8 @@ export type SelectRenderOption<T> = (
     options: SelectRenderOptionViewParams,
 ) => React.ReactElement;
 
+export type SelectSize = TextInputSize;
+
 export type SelectProps<T = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
@@ -47,7 +47,7 @@ export type SelectProps<T = any> = QAProps &
         getOptionHeight?: (option: SelectOption<T>) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
         view?: TextInputView;
-        size?: TextInputSize;
+        size?: SelectSize;
         pin?: TextInputPin;
         width?: 'auto' | 'max' | number;
         popupWidth?: number;

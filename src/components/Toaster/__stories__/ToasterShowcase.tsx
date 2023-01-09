@@ -2,8 +2,10 @@ import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 
-import {ToastProps, ToasterComponent, useToaster} from '..';
-import {Button, ButtonView} from '../../Button';
+import {ToasterComponent, useToaster} from '..';
+import type {ToastProps} from '..';
+import {Button} from '../../Button';
+import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
 import {Alarm, Info, Success} from '../../icons';
 import {block} from '../../utils/cn';
@@ -317,7 +319,7 @@ export const ToasterDemo = ({
     const component = React.useMemo(() => <ToasterComponent />, []);
 
     return (
-        <>
+        <React.Fragment>
             <p>{defaultToastBtn}</p>
             <p>{infoToastBtn}</p>
             <p>{successToastBtn}</p>
@@ -329,6 +331,6 @@ export const ToasterDemo = ({
             <p>{clearBtn}</p>
 
             {component}
-        </>
+        </React.Fragment>
     );
 };

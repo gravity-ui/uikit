@@ -3,7 +3,7 @@ import React from 'react';
 import {Icon} from '../../../Icon';
 import {Tick} from '../../../icons/Tick';
 import {blockNew as block} from '../../../utils/cn';
-import {SelectOption, SelectProps} from '../../types';
+import type {SelectOption, SelectProps} from '../../types';
 
 const b = block('select-list');
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Button, ButtonProps, ButtonView} from '../../Button';
+import {Button} from '../../Button';
+import type {ButtonProps, ButtonView} from '../../Button';
 import {Popup} from '../../Popup';
 import {block} from '../../utils/cn';
 
@@ -146,10 +147,10 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
                     {renderButtons ? (
                         renderButtons(buttonApply, buttonCancel)
                     ) : (
-                        <>
+                        <React.Fragment>
                             {textButtonCancel && buttonCancel}
                             {textButtonApply && buttonApply}
-                        </>
+                        </React.Fragment>
                     )}
                 </div>
             </div>

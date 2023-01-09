@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Col, ColProps} from '../../Col/Col';
+import {Col} from '../../Col/Col';
+import type {ColProps} from '../../Col/Col';
 import {Box} from '../Box/Box';
 
 // @ts-ignore-error

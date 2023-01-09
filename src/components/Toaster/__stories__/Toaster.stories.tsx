@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {ComponentMeta, ComponentStory} from '@storybook/react';
+import type {ComponentMeta, ComponentStory} from '@storybook/react';
 
-import {ButtonView} from '../../Button';
+import type {ButtonView} from '../../Button';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 

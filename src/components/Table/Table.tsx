@@ -5,7 +5,7 @@ import _has from 'lodash/has';
 import _isNumber from 'lodash/isNumber';
 import ResizeObserver from 'resize-observer-polyfill';
 
-import {QAProps} from '../types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import i18n from './i18n';

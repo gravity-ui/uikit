@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {useArgs} from '@storybook/client-api';
-import {ComponentStory, Meta, Story} from '@storybook/react';
+import type {ComponentStory, Meta, Story} from '@storybook/react';
 
-import {UserAvatar, UserAvatarProps} from '../UserAvatar';
+import {UserAvatar} from '../UserAvatar';
+import type {UserAvatarProps} from '../UserAvatar';
 
 import {getAvatarSrcSet} from './getAvatarSrcSet';
 
@@ -44,11 +45,11 @@ const randomAvatars = faker.helpers
 export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
     const [, setArgs] = useArgs();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (args.size) {
             setArgs({srcSet: getAvatarSrcSet(args.size, randomAvatars)});
         }
-    }, [args.size]);
+    }, [args.size, setArgs]);
 
     return <UserAvatar {...args} />;
 };

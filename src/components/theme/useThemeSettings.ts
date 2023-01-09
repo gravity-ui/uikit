@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {ThemeSettings, ThemeSettingsContext} from './ThemeSettingsContext';
+import {ThemeSettingsContext} from './ThemeSettingsContext';
+import type {ThemeSettings} from './ThemeSettingsContext';
 
 export function useThemeSettings(): [ThemeSettings, (s: ThemeSettings) => void] {
     const settings = React.useContext(ThemeSettingsContext);

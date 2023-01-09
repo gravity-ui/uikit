@@ -3,7 +3,7 @@ import React from 'react';
 
 import {LayoutContext} from '../contexts/LayoutContext';
 import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
-import {LayoutTheme, MediaType, RecursivePartial} from '../types';
+import type {LayoutTheme, MediaType, RecursivePartial} from '../types';
 import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
 
 interface LayoutProviderProps {
@@ -20,11 +20,11 @@ interface LayoutProviderProps {
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#layoutprovider-and-layouttheme
  */
-export const LayoutProvider: React.FC<LayoutProviderProps> = ({
+export function LayoutProvider({
     children,
     theme: override,
     initialMediaQuery,
-}) => {
+}: LayoutProviderProps) {
     const theme = makeLayoutDefaultTheme({override});
     const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints, initialMediaQuery);
 
@@ -38,4 +38,4 @@ export const LayoutProvider: React.FC<LayoutProviderProps> = ({
             {children}
         </LayoutContext.Provider>
     );
-};
+}

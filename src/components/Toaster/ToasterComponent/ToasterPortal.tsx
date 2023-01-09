@@ -1,9 +1,9 @@
-import React, {PropsWithChildren} from 'react';
+import React from 'react';
 
 import {Portal} from '../../Portal';
 import {block} from '../../utils/cn';
 
-type Props = PropsWithChildren<{
+type Props = React.PropsWithChildren<{
     className: string;
     mobile?: boolean;
 }>;
@@ -12,14 +12,14 @@ const b = block('toaster');
 
 export function ToasterPortal({children, className, mobile}: Props) {
     const el = React.useRef(
-        typeof document !== 'undefined' ? document.createElement('div') : undefined,
+        typeof document === 'undefined' ? undefined : document.createElement('div'),
     );
 
     React.useEffect(() => {
         const container = el.current;
 
         if (!container) {
-            return;
+            return undefined;
         }
 
         document.body.appendChild(container);

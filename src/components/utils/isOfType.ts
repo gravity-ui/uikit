@@ -1,15 +1,18 @@
-import {ComponentType, ReactElement, ReactNode, isValidElement} from 'react';
+import React from 'react';
 
-export function isOfType<P = {}>(Component: ComponentType<P>) {
+export function isOfType<P = {}>(Component: React.ComponentType<P>) {
     return function isMatching(
-        component: ReactNode,
-    ): component is ReactElement<P, typeof Component> {
-        if (!isValidElement(component)) {
+        component: React.ReactNode,
+    ): component is React.ReactElement<P, typeof React.Component> {
+        if (!React.isValidElement(component)) {
             return false;
         }
 
         const {type} = component;
 
-        return type === Component || (type as ComponentType).displayName === Component.displayName;
+        return (
+            type === React.Component ||
+            (type as React.ComponentType).displayName === Component.displayName
+        );
     };
 }

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import ReactCopyToClipboard from 'react-copy-to-clipboard';
+import type ReactCopyToClipboard from 'react-copy-to-clipboard';
 
 export enum CopyToClipboardStatus {
     Pending = 'pending',

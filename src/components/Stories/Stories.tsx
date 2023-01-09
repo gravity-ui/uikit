@@ -1,14 +1,12 @@
 import React from 'react';
 
-import {Modal, ModalCloseReason} from '../Modal';
+import {Modal} from '../Modal';
+import type {ModalCloseReason} from '../Modal';
 import {block} from '../utils/cn';
 
-import {
-    IndexType,
-    StoriesLayout,
-    StoriesLayoutProps,
-} from './components/StoriesLayout/StoriesLayout';
-import {StoriesItem} from './types';
+import {IndexType, StoriesLayout} from './components/StoriesLayout/StoriesLayout';
+import type {StoriesLayoutProps} from './components/StoriesLayout/StoriesLayout';
+import type {StoriesItem} from './types';
 
 import './Stories.scss';
 

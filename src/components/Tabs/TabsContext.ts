@@ -1,6 +1,6 @@
-import {createContext} from 'react';
+import React from 'react';
 
-export const TabsContext = createContext<{activeTabId: string | undefined}>({
+export const TabsContext = React.createContext<{activeTabId: string | undefined}>({
     activeTabId: undefined,
 });
 

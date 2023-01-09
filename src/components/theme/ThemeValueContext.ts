@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RealTheme} from './types';
+import type {RealTheme} from './types';
 
 export interface ThemeValueContextProps {
     themeValue: RealTheme;

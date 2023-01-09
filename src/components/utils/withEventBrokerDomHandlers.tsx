@@ -1,12 +1,13 @@
-import React, {SyntheticEvent} from 'react';
+import React from 'react';
 
-import {EventBrokerData, eventBroker} from './event-broker';
+import {eventBroker} from './event-broker';
+import type {EventBrokerData} from './event-broker';
 import {getComponentName} from './getComponentName';
 
 type SupportedEvents = 'onClick' | 'onClickCapture';
 
 export function withEventBrokerDomHandlers<
-    T extends Partial<{[k in SupportedEvents]: React.EventHandler<SyntheticEvent>}>,
+    T extends Partial<{[k in SupportedEvents]: React.EventHandler<React.SyntheticEvent>}>,
 >(
     Component: React.ComponentType<T>,
     eventTypes: Array<SupportedEvents>,
@@ -20,7 +21,7 @@ export function withEventBrokerDomHandlers<
             const originalHandler = props[eventType];
             return {
                 ...handlers,
-                [eventType]: (event: SyntheticEvent) => {
+                [eventType]: (event: React.SyntheticEvent) => {
                     eventBroker.publish({
                         eventId: eventType.replace(/^on/, '').toLowerCase(),
                         domEvent: event,

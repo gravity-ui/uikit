@@ -9,7 +9,7 @@ import {Icon} from '../../../Icon';
 import {GearIcon} from '../../../icons/GearIcon';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
@@ -127,13 +127,13 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
 ): React.ComponentType<TableProps<I> & WithTableSettingsProps & E> {
     const componentName = getComponentName(TableComponent);
 
-    const TableWithSettings: React.FC<TableProps<I> & WithTableSettingsProps & E> = ({
+    const TableWithSettings = ({
         updateSettings,
         settings,
         columns,
         settingsPopupWidth,
         ...restTableProps
-    }) => {
+    }: TableProps<I> & WithTableSettingsProps & E) => {
         const actualItems = React.useMemo(
             () => getActualItems(columns, settings || []),
             [columns, settings],

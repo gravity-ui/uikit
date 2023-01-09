@@ -4,12 +4,13 @@ import _memoize from 'lodash/memoize';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
-import {Menu, MenuItemProps} from '../../../Menu';
+import {Menu} from '../../../Menu';
+import type {MenuItemProps} from '../../../Menu';
 import {Popup} from '../../../Popup';
 import {DotsIcon} from '../../../icons/DotsIcon';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
 import './withTableActions.scss';
 
@@ -251,7 +252,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                             `.${BUTTON_CLASSNAME}, .${BUTTON_CLASSNAME} *`,
                         )
                     ) {
-                        return;
+                        return undefined;
                     }
 
                     return onRowClick(item, index, event);

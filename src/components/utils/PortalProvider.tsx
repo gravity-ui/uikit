@@ -1,14 +1,13 @@
-import React, {PropsWithChildren} from 'react';
-import type {RefObject} from 'react';
+import React from 'react';
 
-export const PortalContext = React.createContext<RefObject<HTMLElement>>({current: null});
+export const PortalContext = React.createContext<React.RefObject<HTMLElement>>({current: null});
 
 PortalContext.displayName = 'PortalContext';
 
-export type PortalProviderProps = PropsWithChildren<{
-    container: RefObject<HTMLElement>;
+export type PortalProviderProps = React.PropsWithChildren<{
+    container: React.RefObject<HTMLElement>;
 }>;
 
-export const PortalProvider: React.FC<PortalProviderProps> = ({container, children}) => {
+export function PortalProvider({container, children}: PortalProviderProps) {
     return <PortalContext.Provider value={container}>{children}</PortalContext.Provider>;
-};
+}

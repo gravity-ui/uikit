@@ -1,5 +1,5 @@
 {
-    "extends": "@gravity-ui/tsconfig/tsconfig",
+    "extends": "@gravity-ui/tsconfig",
     "compilerOptions": {
         "allowJs": true,
         "outDir": "build/esm",
@@ -7,7 +7,8 @@
         "jsx": "react",
         "baseUrl": ".",
         "resolveJsonModule": true,
-        "importHelpers": true
+        "importHelpers": true,
+        "verbatimModuleSyntax": true
     },
     "include": [
         "src/**/*.ts",

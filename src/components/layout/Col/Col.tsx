@@ -2,7 +2,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {ColSize, MediaPartial} from '../types';
+import type {ColSize, MediaPartial} from '../types';
 import {makeCssMod} from '../utils';
 
 import './Col.scss';

@@ -1,12 +1,13 @@
 import React from 'react';
 
 import {MediaRenderer} from '..';
-import {Button, ButtonProps} from '../../../Button';
+import {Button} from '../../../Button';
+import type {ButtonProps} from '../../../Button';
 import {ButtonClose} from '../../../Dialog/ButtonClose/ButtonClose';
 import {Link} from '../../../Link';
 import {block} from '../../../utils/cn';
 import i18n from '../../i18n';
-import {StoriesItem} from '../../types';
+import type {StoriesItem} from '../../types';
 
 import './StoriesLayout.scss';
 

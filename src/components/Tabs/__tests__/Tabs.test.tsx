@@ -3,7 +3,8 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Tabs, TabsDirection, TabsItemProps, TabsSize} from '../Tabs';
+import {Tabs, TabsDirection} from '../Tabs';
+import type {TabsItemProps, TabsSize} from '../Tabs';
 
 const tabId1 = 'tab1';
 const tabTitle1 = 'Tab 1 title';

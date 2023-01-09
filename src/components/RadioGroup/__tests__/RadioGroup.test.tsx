@@ -3,7 +3,8 @@ import React from 'react';
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {RadioGroup, RadioGroupDirection, RadioGroupOption, RadioGroupSize} from '../RadioGroup';
+import {RadioGroup} from '../RadioGroup';
+import type {RadioGroupDirection, RadioGroupOption, RadioGroupSize} from '../RadioGroup';
 
 const qaId = 'radio-group-component';
 

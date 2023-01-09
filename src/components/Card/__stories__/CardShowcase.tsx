@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Card, CardTheme, CardView} from '../../../components/Card/Card';
+import {Card} from '../../../components/Card/Card';
+import type {CardTheme, CardView} from '../../../components/Card/Card';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 

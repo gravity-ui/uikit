@@ -3,7 +3,8 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Radio, RadioSize} from '../Radio';
+import {Radio} from '../Radio';
+import type {RadioSize} from '../Radio';
 
 const qaId = 'radio-component';
 const value = 'some';

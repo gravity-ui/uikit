@@ -1,13 +1,14 @@
 import React from 'react';
 
-import {Button, ButtonProps} from '../../../Button';
+import {Button} from '../../../Button';
+import type {ButtonProps} from '../../../Button';
 import {Icon} from '../../../Icon/Icon';
-import {ModalCloseReason} from '../../../Modal';
+import type {ModalCloseReason} from '../../../Modal';
 import {MediaRenderer} from '../../../Stories/components';
-import {StoriesItemMedia} from '../../../Stories/types';
+import type {StoriesItemMedia} from '../../../Stories/types';
 import {Chevron} from '../../../icons/Chevron';
 import {block} from '../../../utils/cn';
-import {StoriesGroupItem} from '../../types';
+import type {StoriesGroupItem} from '../../types';
 
 import './StoriesPreview.scss';
 

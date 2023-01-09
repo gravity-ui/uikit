@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {DEFAULT_THEME} from './constants';
-import {Theme} from './types';
+import type {Theme} from './types';
 
 export interface ThemeContextProps {
     theme: Theme;

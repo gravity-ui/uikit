@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {List} from '../List';
+import type {List} from '../List';
 import {KeyCode} from '../constants';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
@@ -16,7 +16,6 @@ import {Option, OptionGroup} from './tech-components';
 import type {SelectProps} from './types';
 import type {SelectFilterRef} from './types-misc';
 import {
-    FlattenOption,
     activateFirstClickableItem,
     findItemIndexByQuickSearch,
     getActiveItem,
@@ -26,6 +25,7 @@ import {
     getOptionsFromChildren,
     getSelectedOptionsContent,
 } from './utils';
+import type {FlattenOption} from './utils';
 
 import './Select.scss';
 

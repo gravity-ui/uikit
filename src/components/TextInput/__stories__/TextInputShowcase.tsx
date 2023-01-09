@@ -7,7 +7,7 @@ import {Button} from '../../Button';
 import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
 import {TextInput} from '../TextInput';
-import {TextInputProps} from '../types';
+import type {TextInputProps} from '../types';
 
 import './TextInputShowcase.scss';
 
@@ -31,7 +31,7 @@ const EyeButton = (props: {
     );
 };
 
-export const TextInputShowcase: React.FC = () => {
+export function TextInputShowcase() {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
     const [hideValue, setHideValue] = React.useState(false);
@@ -302,4 +302,4 @@ export const TextInputShowcase: React.FC = () => {
             </div>
         </div>
     );
-};
+}

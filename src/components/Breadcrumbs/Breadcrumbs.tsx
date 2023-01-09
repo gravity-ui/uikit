@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 
 import _throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 
-import {PopupPlacement} from '../Popup';
+import type {PopupPlacement} from '../Popup';
 import {block} from '../utils/cn';
 
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';

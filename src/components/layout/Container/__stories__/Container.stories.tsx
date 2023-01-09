@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
 import {Col} from '../../Col/Col';
 import {Row} from '../../Row/Row';
 import {Box, LayoutPresenter} from '../../demo';
-import {Container, ContainerProps} from '../Container';
+import {Container} from '../Container';
+import type {ContainerProps} from '../Container';
 
 export default {
     title: 'Layout/Container',

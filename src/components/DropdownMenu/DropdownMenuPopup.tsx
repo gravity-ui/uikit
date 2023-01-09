@@ -1,5 +1,4 @@
-import React, {useCallback, useContext, useEffect} from 'react';
-import type {MouseEvent, ReactNode, RefObject} from 'react';
+import React from 'react';
 
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
@@ -19,11 +18,11 @@ import {stringifyNavigationPath} from './utils/stringifyNavigationPath';
 export type DropdownMenuPopupProps<T> = {
     items: DropdownMenuListItem<T>[];
     open: boolean;
-    anchorRef: RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<HTMLDivElement>;
     onClose?: () => void;
     size?: DropdownMenuSize;
     menuProps?: MenuProps;
-    children?: ReactNode;
+    children?: React.ReactNode;
     popupProps?: Partial<PopupProps>;
     path?: number[];
 };
@@ -39,36 +38,36 @@ export const DropdownMenuPopup = <T,>({
     popupProps,
     path = [],
 }: DropdownMenuPopupProps<T>) => {
-    const {toggle, data} = useContext(DropdownMenuContext);
+    const {toggle, data} = React.useContext(DropdownMenuContext);
 
     const {
         activeMenuPath,
         setActiveMenuPath,
         anchorRef: navigationAnchorRef,
-    } = useContext(DropdownMenuNavigationContext);
+    } = React.useContext(DropdownMenuNavigationContext);
 
     const isSubmenu = path.length > 0;
 
-    const activateParent = useCallback(() => {
+    const activateParent = React.useCallback(() => {
         setActiveMenuPath(path.slice(0, path.length - 1));
     }, [setActiveMenuPath, path]);
 
-    const handleMouseEnter = useCallback(
-        (event: MouseEvent<HTMLDivElement>) => {
+    const handleMouseEnter = React.useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
             setActiveMenuPath(path);
             popupProps?.onMouseEnter?.(event);
         },
         [path, popupProps, setActiveMenuPath],
     );
 
-    const handleMouseLeave = useCallback(
-        (event: MouseEvent<HTMLDivElement>) => {
+    const handleMouseLeave = React.useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
             activateParent();
             popupProps?.onMouseLeave?.(event);
         },
         [activateParent, popupProps],
     );
-    const handleSelect = useCallback(
+    const handleSelect = React.useCallback(
         (activeItem: DropdownMenuListItem<T>, event: KeyboardEvent) => {
             if (activeItem.items && activeItem.path) {
                 setActiveMenuPath(activeItem.path);
@@ -80,7 +79,7 @@ export const DropdownMenuPopup = <T,>({
         [data, setActiveMenuPath, toggle],
     );
 
-    const handleKeydown = useCallback(
+    const handleKeydown = React.useCallback(
         (activeItemIndex: number, event: KeyboardEvent) => {
             switch (event.key) {
                 case 'Escape': {
@@ -125,7 +124,7 @@ export const DropdownMenuPopup = <T,>({
         initialValue: isSubmenu ? 0 : -1,
     });
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!open) {
             resetNavigation();
         }

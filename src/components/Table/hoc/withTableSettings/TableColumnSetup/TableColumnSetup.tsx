@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {PopperPlacement} from '../../../../../components/utils/usePopper';
+import type {PopperPlacement} from '../../../../../components/utils/usePopper';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
 import {List} from '../../../../List';
 import {Popup} from '../../../../Popup';
 import {GearIcon} from '../../../../icons/GearIcon';
 import {block} from '../../../../utils/cn';
-import {TableColumnSetupItem} from '../withTableSettings';
+import type {TableColumnSetupItem} from '../withTableSettings';
 
 import {LockIcon} from './LockIcon';
 import {TickIcon} from './TickIcon';

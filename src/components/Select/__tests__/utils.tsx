@@ -3,7 +3,8 @@ import React from 'react';
 import {act, render} from '@testing-library/react';
 import {range} from 'lodash';
 
-import {Select, SelectOption, SelectOptionGroup, SelectProps} from '..';
+import {Select} from '..';
+import type {SelectOption, SelectOptionGroup, SelectProps} from '..';
 import {MobileProvider} from '../../mobile';
 import {selectControlBlock, selectListBlock} from '../constants';
 

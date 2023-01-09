@@ -1,4 +1,4 @@
-import {ToastProps} from '../types';
+import type {ToastProps} from '../types';
 
 import {getToastIndex} from './getToastIndex';
 

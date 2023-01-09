@@ -2,12 +2,12 @@ import React from 'react';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {SVGIconData} from '../../Icon/types';
+import type {SVGIconData} from '../../Icon/types';
 import * as icons from '../../icons/shareOptions';
 import {block} from '../../utils/cn';
 import {LayoutDirection, ShareOptions} from '../constants';
 import i18n from '../i18n';
-import {ShareOptionsData} from '../models';
+import type {ShareOptionsData} from '../models';
 
 import './ShareListItem.scss';
 

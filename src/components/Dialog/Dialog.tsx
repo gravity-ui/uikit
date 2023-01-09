@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {Modal, ModalCloseReason, ModalProps} from '../Modal';
-import {QAProps} from '../types';
+import {Modal} from '../Modal';
+import type {ModalCloseReason, ModalProps} from '../Modal';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {ButtonClose} from './ButtonClose/ButtonClose';

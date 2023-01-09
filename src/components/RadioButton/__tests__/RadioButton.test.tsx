@@ -3,13 +3,8 @@ import React from 'react';
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {
-    RadioButton,
-    RadioButtonOption,
-    RadioButtonProps,
-    RadioButtonSize,
-    RadioButtonWidth,
-} from '../';
+import {RadioButton} from '../';
+import type {RadioButtonOption, RadioButtonProps, RadioButtonSize, RadioButtonWidth} from '../';
 import {block} from '../../../components/utils/cn';
 
 const qaId = 'radio-button-component';

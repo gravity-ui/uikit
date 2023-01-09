@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {History, Location, MobileContextProps, Platform, withMobile} from '../mobile';
+import {Platform, withMobile} from '../mobile';
+import type {History, Location, MobileContextProps} from '../mobile';
 
 import {sheetBlock} from './constants';
 import {VelocityTracker} from './utils';

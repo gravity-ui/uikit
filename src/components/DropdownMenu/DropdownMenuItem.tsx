@@ -1,5 +1,4 @@
-import React, {useCallback, useContext, useMemo, useRef} from 'react';
-import type {ReactNode} from 'react';
+import React from 'react';
 
 import {Icon} from '../Icon';
 import {Menu} from '../Menu';
@@ -16,7 +15,7 @@ import type {DropdownMenuListItem} from './types';
 export type DropdownMenuItemProps<T> = Omit<DropdownMenuListItem<T>, 'path'> & {
     popupProps?: Partial<PopupProps>;
     closeMenu?: () => void;
-    children?: ReactNode;
+    children?: React.ReactNode;
     path?: number[];
 };
 
@@ -30,15 +29,15 @@ export const DropdownMenuItem = <T,>({
     path,
     ...props
 }: DropdownMenuItemProps<T>) => {
-    const {toggle, data} = useContext(DropdownMenuContext);
-    const menuItemRef = useRef(null);
+    const {toggle, data} = React.useContext(DropdownMenuContext);
+    const menuItemRef = React.useRef(null);
 
     const {hasSubmenu, isSubmenuOpen, closeSubmenu, openSubmenu} = useSubmenu({
         items: subMenuItems,
         path,
     });
 
-    const handleCloseMenu = useCallback(() => {
+    const handleCloseMenu = React.useCallback(() => {
         const close = () => {
             if (closeMenu) {
                 closeMenu();
@@ -56,7 +55,7 @@ export const DropdownMenuItem = <T,>({
         }
     }, [closeMenu, closeSubmenu, hasSubmenu, toggle]);
 
-    const handleMenuItemClick = useCallback(
+    const handleMenuItemClick = React.useCallback(
         (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
             if (hasSubmenu) {
                 return;
@@ -68,7 +67,7 @@ export const DropdownMenuItem = <T,>({
         [action, data, handleCloseMenu, hasSubmenu],
     );
 
-    const extraProps = useMemo(() => {
+    const extraProps = React.useMemo(() => {
         return {
             ...props.extraProps,
             onMouseEnter: (
@@ -93,7 +92,7 @@ export const DropdownMenuItem = <T,>({
     }, [props.extraProps, closeSubmenu, hasSubmenu, openSubmenu]);
 
     return (
-        <>
+        <React.Fragment>
             <Menu.Item
                 ref={menuItemRef}
                 {...props}
@@ -125,6 +124,6 @@ export const DropdownMenuItem = <T,>({
                     onClose={handleCloseMenu}
                 />
             )}
-        </>
+        </React.Fragment>
     );
 };

@@ -1,4 +1,4 @@
-import {Space} from '../types';
+import type {Space} from '../types';
 
 import {getClosestMediaPropsFactory, isMediaActiveFactory, makeCssMod} from './index';
 

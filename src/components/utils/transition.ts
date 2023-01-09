@@ -1,4 +1,5 @@
-import {CnBlock, modsClassName} from './cn';
+import {modsClassName} from './cn';
+import type {CnBlock} from './cn';
 
 export function getCSSTransitionClassNames(b: CnBlock) {
     return {

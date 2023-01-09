@@ -1,5 +1,4 @@
-import React, {useMemo, useRef} from 'react';
-import type {Dispatch, MouseEventHandler, ReactNode, SetStateAction} from 'react';
+import React from 'react';
 
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
@@ -36,7 +35,7 @@ export type DropdownMenuProps<T> = {
     /**
      * Switcher icon.
      */
-    icon?: ReactNode;
+    icon?: React.ReactNode;
     open?: boolean;
     onOpenToggle?: (open: boolean) => void;
     hideOnScroll?: boolean;
@@ -57,14 +56,14 @@ export type DropdownMenuProps<T> = {
     /**
      * Menu toggle control.
      */
-    switcher?: ReactNode;
+    switcher?: React.ReactNode;
     switcherWrapperClassName?: string;
     /**
      * Overrides the default switcher button props.
      */
     defaultSwitcherProps?: ButtonProps;
     defaultSwitcherClassName?: string;
-    onSwitcherClick?: MouseEventHandler<HTMLElement>;
+    onSwitcherClick?: React.MouseEventHandler<HTMLElement>;
     /**
      * Overrides the default dropdown menu props.
      */
@@ -76,12 +75,12 @@ export type DropdownMenuProps<T> = {
     /**
      * Custom content inside the menu popup.
      */
-    children?: ReactNode;
+    children?: React.ReactNode;
 };
 
 export type ControlledDropdownMenuProps<T> = DropdownMenuProps<T> & {
     open: boolean;
-    onOpenToggle: Dispatch<SetStateAction<boolean>>;
+    onOpenToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DropdownMenu = <T,>({
@@ -102,7 +101,7 @@ const DropdownMenu = <T,>({
     popupProps,
     children,
 }: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
-    const anchorRef = useRef<HTMLDivElement | null>(null);
+    const anchorRef = React.useRef<HTMLDivElement | null>(null);
 
     const {isPopupShown, togglePopup, closePopup} = usePopupVisibility(
         open,
@@ -112,7 +111,7 @@ const DropdownMenu = <T,>({
 
     useScrollHandler(closePopup, anchorRef, !isPopupShown || !hideOnScroll);
 
-    const contextValue = useMemo(
+    const contextValue = React.useMemo(
         () => ({
             toggle: togglePopup,
             data,
@@ -120,13 +119,13 @@ const DropdownMenu = <T,>({
         [data, togglePopup],
     );
 
-    const itemsList = useMemo(
+    const itemsList = React.useMemo(
         () =>
             toItemList<DropdownMenuItem<T>, DropdownMenuListItem<T>>(items, dropdownMenuSeparator),
         [items],
     );
 
-    const handleSwitcherClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    const handleSwitcherClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
         if (disabled) {
             return;
         }

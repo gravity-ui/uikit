@@ -1,6 +1,4 @@
-import React from 'react';
-
-import {ButtonView} from '../Button';
+import type {ButtonView} from '../Button';
 
 export type ToasterArgs = {
     className?: string;

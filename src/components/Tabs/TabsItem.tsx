@@ -1,6 +1,7 @@
-import React, {HTMLProps, useContext, useMemo} from 'react';
+import React from 'react';
 
-import {Label, LabelProps} from '../Label';
+import {Label} from '../Label';
+import type {LabelProps} from '../Label';
 import {block} from '../utils/cn';
 
 import {TabsContext} from './TabsContext';
@@ -8,7 +9,7 @@ import {TabsContext} from './TabsContext';
 const b = block('tabs');
 
 type ExtraProps = Omit<
-    HTMLProps<HTMLDivElement>,
+    React.HTMLProps<HTMLDivElement>,
     | 'role'
     | 'aria-selected'
     | 'aria-disabled'
@@ -38,7 +39,7 @@ export interface TabsItemProps {
     onClick(tabId: string): void;
 }
 
-export const TabsItem: React.FC<TabsItemProps> = ({
+export function TabsItem({
     id,
     className,
     title,
@@ -52,8 +53,8 @@ export const TabsItem: React.FC<TabsItemProps> = ({
     hasOverflow,
     extraProps,
     onClick,
-}) => {
-    const {activeTabId} = useContext(TabsContext);
+}: TabsItemProps) {
+    const {activeTabId} = React.useContext(TabsContext);
     const isActive = typeof active === 'boolean' ? active : activeTabId === id;
 
     const handleClick = () => {
@@ -66,7 +67,7 @@ export const TabsItem: React.FC<TabsItemProps> = ({
         }
     };
 
-    const htmlTitle = useMemo(() => {
+    const htmlTitle = React.useMemo(() => {
         if (hint !== undefined) {
             return hint;
         }
@@ -107,6 +108,6 @@ export const TabsItem: React.FC<TabsItemProps> = ({
             {meta && <div className={b('item-meta')}>{meta}</div>}
         </div>
     );
-};
+}
 
 TabsItem.displayName = 'Tabs.Item';

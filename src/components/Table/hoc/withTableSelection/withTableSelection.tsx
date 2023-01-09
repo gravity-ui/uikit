@@ -9,7 +9,8 @@ import _without from 'lodash/without';
 import {Checkbox} from '../../../Checkbox';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {Table, TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import {Table} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
 import './withTableSelection.scss';
 

@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
-import {User, UserProps} from '../User';
+import {User} from '../User';
+import type {UserProps} from '../User';
 
 export default {
     title: 'Components/User',

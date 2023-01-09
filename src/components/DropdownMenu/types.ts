@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type {MenuItemProps} from '../Menu';
 
 export type DropdownMenuItemAction<T> = (

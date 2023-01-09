@@ -1,4 +1,4 @@
-import {MutableRefObject, useLayoutEffect, useState} from 'react';
+import React from 'react';
 
 import _throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
@@ -11,18 +11,18 @@ interface ElementSize {
 }
 
 export function useElementSize<T extends HTMLElement = HTMLDivElement>(
-    ref: MutableRefObject<T | null> | null,
+    ref: React.MutableRefObject<T | null> | null,
     // can be used, when it is needed to force reassign observer to element
     // in order to get correct measures. might be related to below
     // https://github.com/WICG/resize-observer/issues/65
     key?: string,
 ) {
-    const [size, setSize] = useState<ElementSize>({
+    const [size, setSize] = React.useState<ElementSize>({
         width: 0,
         height: 0,
     });
 
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         if (!ref?.current) {
             return undefined;
         }

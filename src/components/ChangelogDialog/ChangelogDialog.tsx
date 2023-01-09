@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Dialog, DialogProps} from '../Dialog';
+import {Dialog} from '../Dialog';
+import type {DialogProps} from '../Dialog';
 import {Icon} from '../Icon';
 import {Link} from '../Link';
 import {ExternalLinkIcon} from '../icons/ExternalLinkIcon';
@@ -9,7 +10,7 @@ import {useUniqId} from '../utils/useUniqId';
 
 import {Item} from './components/Item/Item';
 import i18n from './i18n';
-import {ChangelogItem, ChangelogStoryClickHandler} from './types';
+import type {ChangelogItem, ChangelogStoryClickHandler} from './types';
 
 import './ChangelogDialog.scss';
 

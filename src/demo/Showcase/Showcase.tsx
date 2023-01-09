@@ -1,18 +1,18 @@
-import React, {FC, PropsWithChildren, ReactNode} from 'react';
+import React from 'react';
 
 import block from 'bem-cn-lite';
 
 import './Showcase.scss';
 
-type Props = PropsWithChildren<{
+type Props = React.PropsWithChildren<{
     title: string;
-    description?: ReactNode;
+    description?: React.ReactNode;
     className?: string;
 }>;
 
 const b = block('showcase');
 
-export const Showcase: FC<Props> = ({title, description, className, children}) => {
+export function Showcase({title, description, className, children}: Props) {
     return (
         <div className={b(null, className)}>
             <div className={b('title')}>{title}</div>
@@ -20,4 +20,4 @@ export const Showcase: FC<Props> = ({title, description, className, children}) =
             <div className={b('content')}>{children}</div>
         </div>
     );
-};
+}

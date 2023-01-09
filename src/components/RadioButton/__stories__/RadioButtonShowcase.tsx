@@ -6,7 +6,8 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
 import {Alarm, Info} from '../../icons';
-import {RadioButton, RadioButtonOption} from '../RadioButton';
+import {RadioButton} from '../RadioButton';
+import type {RadioButtonOption} from '../RadioButton';
 
 import './RadioButtonShowcase.scss';
 

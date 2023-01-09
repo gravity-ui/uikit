@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
-import {ClipboardButton, ClipboardButtonProps} from '../ClipboardButton';
+import {ClipboardButton} from '../ClipboardButton';
+import type {ClipboardButtonProps} from '../ClipboardButton';
 
 export default {
     title: 'Components/ClipboardButton',

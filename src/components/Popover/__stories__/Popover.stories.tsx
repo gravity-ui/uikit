@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
-import {Popover, PopoverBehavior, PopoverProps} from '../';
+import {Popover, PopoverBehavior} from '../';
+import type {PopoverProps} from '../';
 import {Button} from '../../Button';
 
 import {cnPopoverDemo} from './PopoverDemo.classname';

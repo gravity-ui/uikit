@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../TextInput';
 import {useVirtualElementRef} from '../../utils/useVirtualElementRef';
-import {Popup, PopupPlacement, PopupProps} from '../Popup';
+import {Popup} from '../Popup';
+import type {PopupPlacement, PopupProps} from '../Popup';
 
 export default {
     title: 'Components/Popup',

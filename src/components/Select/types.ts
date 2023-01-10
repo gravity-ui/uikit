@@ -36,6 +36,7 @@ export type SelectProps = QAProps &
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
+        defaultOpen?: boolean;
         options?: (SelectOption | SelectOptionGroup)[];
         multiple?: boolean;
         filterable?: boolean;

@@ -1,6 +1,4 @@
-import {TableColumnConfig, Table} from '../Table';
-import {withTableSelection} from '..';
-import {withTableActions, withTableCopy, withTableSettings, withTableSorting} from '../hoc';
+import {TableColumnConfig} from '../Table';
 
 export interface DataItem {
     name: string;
@@ -72,9 +70,3 @@ export const columns: TableColumnConfig<DataItem>[] = [
         name: 'Date created',
     },
 ];
-
-export const TableWithAction = withTableActions<DataItem>(Table);
-export const TableWithCopy = withTableCopy<DataItem>(Table);
-export const TableWithSelection = withTableSelection<DataItem>(Table);
-export const TableWithSettings = withTableSettings<DataItem>(Table);
-export const TableWithSorting = withTableSorting<DataItem>(Table);

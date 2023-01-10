@@ -14,6 +14,7 @@ import {
     PopperPlacement,
     PopperProps,
 } from '../utils/usePopper';
+import {useForkRef} from '../utils/useForkRef';
 import {PopupArrow} from './PopupArrow';
 
 import './Popup.scss';
@@ -37,6 +38,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 }
 
 const b = block('popup');
+const bWrapper = block('popup-wrapper');
 const ARROW_SIZE = 8;
 
 export function Popup({
@@ -90,6 +92,7 @@ export function Popup({
             ...modifiers,
         ],
     });
+    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef);
 
     return (
         <Portal container={container}>
@@ -99,14 +102,18 @@ export function Popup({
                 addEndListener={(done) =>
                     containerRef.current?.addEventListener('animationend', done)
                 }
-                classNames={getCSSTransitionClassNames(b)}
+                classNames={getCSSTransitionClassNames(bWrapper)}
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
                 appear={true}
             >
-                <div ref={setPopperRef} style={styles.popper} {...attributes.popper}>
+                <div
+                    ref={handleRef}
+                    style={styles.popper}
+                    {...attributes.popper}
+                    className={bWrapper({open})}
+                >
                     <div
-                        ref={containerRef}
                         onClick={onClick}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}

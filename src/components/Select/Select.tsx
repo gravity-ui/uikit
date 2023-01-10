@@ -48,6 +48,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         qa,
         value: propsValue,
         defaultValue,
+        defaultOpen,
         label,
         placeholder,
         filterPlaceholder,
@@ -70,6 +71,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onUpdate,
         value: propsValue,
         defaultValue,
+        defaultOpen,
         multiple,
     });
     const options = props.options || getOptionsFromChildren(props.children);

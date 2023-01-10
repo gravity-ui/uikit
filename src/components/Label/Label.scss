@@ -15,10 +15,12 @@ $transitionTimingFunction: ease-in-out;
     }
 
     // hover on action button
-    &:not(#{$disabled}) #{$block}__icon_interactive {
+    &:not(#{$disabled}) #{$block}__addon_interactive {
         --yc-button-background-color-hover: #{$bgHoverColor};
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             color: #{$textColor};
         }
     }
@@ -40,7 +42,7 @@ $transitionTimingFunction: ease-in-out;
         overflow: hidden;
     }
 
-    &__icon {
+    &__addon {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -79,16 +81,16 @@ $transitionTimingFunction: ease-in-out;
                 margin: 0 8px;
             }
 
-            & #{$block}__icon {
+            & #{$block}__addon {
                 width: 20px;
                 height: 20px;
             }
 
-            &#{$block}_has-right-icon #{$block}__text {
+            &#{$block}_has-right-addon #{$block}__text {
                 margin-right: 22px;
             }
 
-            &#{$block}_has-left-icon #{$block}__text {
+            &#{$block}_has-left-addon #{$block}__text {
                 margin-left: 24px;
             }
 
@@ -97,7 +99,7 @@ $transitionTimingFunction: ease-in-out;
                 &_rounded {
                     border-radius: 4px;
 
-                    & #{$block}__icon {
+                    & #{$block}__addon {
                         &_interactive {
                             --yc-button-height: 20px;
                             --yc-button-border-radius: 4px;
@@ -115,16 +117,16 @@ $transitionTimingFunction: ease-in-out;
                 margin: 0 12px;
             }
 
-            & #{$block}__icon {
+            & #{$block}__addon {
                 width: 28px;
                 height: 28px;
             }
 
-            &#{$block}_has-right-icon #{$block}__text {
+            &#{$block}_has-right-addon #{$block}__text {
                 margin-right: 32px;
             }
 
-            &#{$block}_has-left-icon #{$block}__text {
+            &#{$block}_has-left-addon #{$block}__text {
                 margin-left: 32px;
             }
 
@@ -132,7 +134,7 @@ $transitionTimingFunction: ease-in-out;
                 &_default {
                     border-radius: 4px;
 
-                    & #{$block}__icon {
+                    & #{$block}__addon {
                         &_interactive {
                             --yc-button-height: 28px;
                             --yc-button-border-radius: 4px;
@@ -143,7 +145,7 @@ $transitionTimingFunction: ease-in-out;
                 &_rounded {
                     border-radius: 24px;
 
-                    & #{$block}__icon {
+                    & #{$block}__addon {
                         &_interactive {
                             --yc-button-height: 28px;
                             --yc-button-border-radius: 24px;

@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.15.0](https://github.com/gravity-ui/uikit/compare/v3.14.1...v3.15.0) (2023-01-10)
+
+
+### Features
+
+* **Select:** add defaultOpen prop ([#459](https://github.com/gravity-ui/uikit/issues/459)) ([775f857](https://github.com/gravity-ui/uikit/commit/775f857b694c56cf0bdcbb59f04899afe52277b2))
+* **Text:** add text break common properties ([#438](https://github.com/gravity-ui/uikit/issues/438)) ([c879e0a](https://github.com/gravity-ui/uikit/commit/c879e0aca7af2a105482a5a62023bd51e3ae1959))
+* **Text:** replace titleAttribute with native title ([#437](https://github.com/gravity-ui/uikit/issues/437)) ([cf9d42e](https://github.com/gravity-ui/uikit/commit/cf9d42e27cb2bbb7b3c9112e9f60c7646c7db244))
+
+
+### Bug Fixes
+
+* **List:** remove focus from list on Tab key ([#444](https://github.com/gravity-ui/uikit/issues/444)) ([78a8a60](https://github.com/gravity-ui/uikit/commit/78a8a6017e4a5b0c1f2922f76b76ad3c5f01969b))
+
 ## [3.14.1](https://github.com/gravity-ui/uikit/compare/v3.14.0...v3.14.1) (2022-12-30)
 
 

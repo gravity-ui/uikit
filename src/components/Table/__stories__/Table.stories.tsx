@@ -13,6 +13,7 @@ import {
     DataItem,
 } from './utils';
 import {TableAction, TableSettingsData} from '..';
+import {action} from '@storybook/addon-actions';
 
 export default {
     title: 'Components/Table',
@@ -79,7 +80,10 @@ const WithTableActionsTemplate: Story<TableProps<DataItem>> = (args) => {
     const getRowActions = (item: DataItem, index: number): TableAction<DataItem>[] => [
         {
             text: 'default',
-            handler: () => alert(JSON.stringify(item)),
+            handler: (...handlerArgs) => {
+                alert(JSON.stringify(item));
+                action('default')(handlerArgs);
+            },
         },
         {
             text: 'disabled',
@@ -89,7 +93,10 @@ const WithTableActionsTemplate: Story<TableProps<DataItem>> = (args) => {
         {
             text: 'danger theme',
             theme: 'danger',
-            handler: () => alert(index),
+            handler: (...handlerArgs) => {
+                alert(index);
+                action('danger')(handlerArgs);
+            },
         },
     ];
     return <TableWithAction {...args} getRowActions={getRowActions} />;

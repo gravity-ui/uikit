@@ -35,7 +35,11 @@ interface PopupData<I> {
 
 export interface TableAction<I> {
     text: string;
-    handler: (item: I, index: number) => void;
+    handler: (
+        item: I,
+        index: number,
+        event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>,
+    ) => void;
     disabled?: boolean;
     theme?: MenuItemProps['theme'];
 }
@@ -183,8 +187,12 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
             }
         };
 
-        private handleActionClick = (action: TableAction<I>, data: PopupData<I>) => {
-            action.handler(data.item, data.index);
+        private handleActionClick = (
+            action: TableAction<I>,
+            data: PopupData<I>,
+            event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>,
+        ) => {
+            action.handler(data.item, data.index, event);
             this.closePopup();
         };
 

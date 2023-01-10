@@ -8,6 +8,7 @@ import {block} from '../utils/cn';
 import {MobileContext} from '../mobile';
 import {TextInput} from '../TextInput';
 import {ListItem, SimpleContainer} from './components';
+import {listNavigationIgnoredKeys} from './constants';
 import type {ListProps, ListItemData, ListSortParams} from './types';
 
 import './List.scss';
@@ -146,6 +147,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     // FIXME: BREAKING CHANGE. Rename to "handleKeyDown"
     onKeyDown: React.KeyboardEventHandler<HTMLElement> = (event) => {
         const {activeItem, pageSize} = this.state;
+
+        if (listNavigationIgnoredKeys.includes(event.key)) {
+            return;
+        }
 
         switch (event.key) {
             case 'ArrowDown': {

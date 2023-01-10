@@ -13,7 +13,9 @@ import {
     setup,
     timeout,
     generateOptions,
+    SELECT_CONTROL_OPEN_CLASS,
 } from './utils';
+import {act, screen} from '@testing-library/react';
 
 describe('Select base actions', () => {
     describe('open popup by', () => {
@@ -39,6 +41,26 @@ describe('Select base actions', () => {
             await user.keyboard('[Tab]');
             await user.keyboard('[Space]');
             getByTestId(SelectQa.POPUP);
+        });
+    });
+
+    describe('initial state', () => {
+        test('should be closed while rendering with default props', async () => {
+            await act(async () => {
+                setup();
+            });
+            const selectControl = screen.getByTestId(TEST_QA);
+            expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(screen.queryByTestId(SelectQa.POPUP)).toBeNull();
+        });
+
+        test('should be opened while rendering with defaultOpen prop', async () => {
+            await act(async () => {
+                setup({defaultOpen: true});
+            });
+            const selectControl = screen.getByTestId(TEST_QA);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            screen.getByTestId(SelectQa.POPUP);
         });
     });
 

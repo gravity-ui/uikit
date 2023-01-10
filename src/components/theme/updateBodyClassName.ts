@@ -1,4 +1,4 @@
-import {block} from '../utils/cn';
+import {block, modsClassName} from '../utils/cn';
 import {RealTheme} from './types';
 
 const b = block('root');
@@ -12,10 +12,6 @@ const defaultModifiers: BodyClassNameModifiers = {
     'native-scrollbar': false,
 };
 
-function modifier(className: string) {
-    return className.split(/\s+/)[1];
-}
-
 export function updateBodyClassName(
     newTheme: RealTheme,
     modifiers?: Partial<BodyClassNameModifiers>,
@@ -27,13 +23,13 @@ export function updateBodyClassName(
     }
 
     [...bodyEl.classList].forEach((cls) => {
-        if (cls.startsWith(modifier(b({theme: true})))) {
+        if (cls.startsWith(modsClassName(b({theme: true})))) {
             bodyEl.classList.remove(cls);
         }
     });
-    bodyEl.classList.add(modifier(b({theme: newTheme})));
+    bodyEl.classList.add(modsClassName(b({theme: newTheme})));
 
     for (const [key, value] of Object.entries({...defaultModifiers, ...modifiers})) {
-        bodyEl.classList.toggle(modifier(b({[key]: true})), value);
+        bodyEl.classList.toggle(modsClassName(b({[key]: true})), value);
     }
 }

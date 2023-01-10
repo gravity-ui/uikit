@@ -1,13 +1,13 @@
 import React from 'react';
+import {CSSTransition} from 'react-transition-group';
 
 import {block} from '../utils/cn';
+import {getCSSTransitionClassNames} from '../utils/transition';
 import {DOMProps, QAProps} from '../types';
 import {Portal} from '../Portal';
 import {useBodyScrollLock} from '../utils/useBodyScrollLock';
 // import {useFocusTrap} from '../utils//useFocusTrap';
 import {useLayer, LayerExtendableProps, LayerCloseReason} from '../utils/useLayer';
-import {usePreviousValue} from '../utils/usePreviousValue';
-import {useForceUpdate} from '../utils/useForceUpdate';
 
 import './Modal.scss';
 
@@ -54,28 +54,11 @@ export function Modal({
     container,
     qa,
 }: ModalProps) {
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
-    const hasBeenOpen = React.useRef(false);
-    const inTransition = React.useRef(false);
-    const previousOpen = usePreviousValue(open);
-    const forceUpdate = useForceUpdate();
+    const [inTransition, setInTransition] = React.useState(false);
 
-    if (open) {
-        hasBeenOpen.current = true;
-    }
-
-    if (typeof previousOpen !== 'undefined' && !inTransition.current) {
-        inTransition.current = open !== previousOpen;
-    }
-
-    function handleAnimationEnd(event: React.AnimationEvent) {
-        if (event.target === event.currentTarget) {
-            inTransition.current = false;
-            forceUpdate();
-        }
-    }
-
-    useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition.current)});
+    useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
     // useFocusTrap({
     //     enabled: !disableFocusTrap && (open || inTransition.current),
     //     rootRef: contentRef,
@@ -91,35 +74,41 @@ export function Modal({
         contentRefs: [contentRef],
     });
 
-    if (!keepMounted && !open && !inTransition.current) {
-        return null;
-    }
-
     return (
         <Portal container={container}>
-            <div
-                data-inited={hasBeenOpen.current ? '' : undefined}
-                onAnimationEnd={handleAnimationEnd}
-                style={style}
-                className={b({open}, className)}
-                data-qa={qa}
+            <CSSTransition
+                nodeRef={containerRef}
+                in={open}
+                addEndListener={(done) =>
+                    containerRef.current?.addEventListener('animationend', done)
+                }
+                classNames={getCSSTransitionClassNames(b)}
+                mountOnEnter={!keepMounted}
+                unmountOnExit={!keepMounted}
+                appear={true}
+                onEnter={() => setInTransition(true)}
+                onExit={() => setInTransition(true)}
+                onEntered={() => setInTransition(false)}
+                onExited={() => setInTransition(false)}
             >
-                <div className={b('table')}>
-                    <div className={b('cell')}>
-                        <div
-                            ref={contentRef}
-                            tabIndex={-1}
-                            role="dialog"
-                            aria-modal={open}
-                            aria-label={ariaLabel}
-                            aria-labelledby={ariaLabelledBy}
-                            className={b('content', contentClassName)}
-                        >
-                            {children}
+                <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
+                    <div className={b('table')}>
+                        <div className={b('cell')}>
+                            <div
+                                ref={contentRef}
+                                tabIndex={-1}
+                                role="dialog"
+                                aria-modal={open}
+                                aria-label={ariaLabel}
+                                aria-labelledby={ariaLabelledBy}
+                                className={b('content', contentClassName)}
+                            >
+                                {children}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </CSSTransition>
         </Portal>
     );
 }

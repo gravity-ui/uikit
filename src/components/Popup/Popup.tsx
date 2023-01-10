@@ -1,6 +1,8 @@
 import React from 'react';
+import {CSSTransition} from 'react-transition-group';
 
 import {block} from '../utils/cn';
+import {getCSSTransitionClassNames} from '../utils/transition';
 import {DOMProps, QAProps} from '../types';
 import {Portal} from '../Portal';
 import {useLayer, LayerExtendableProps} from '../utils/useLayer';
@@ -12,10 +14,8 @@ import {
     PopperPlacement,
     PopperProps,
 } from '../utils/usePopper';
-import {PopupArrow} from './PopupArrow';
-import {usePreviousValue} from '../utils/usePreviousValue';
-import {useForceUpdate} from '../utils/useForceUpdate';
 import {useForkRef} from '../utils/useForkRef';
+import {PopupArrow} from './PopupArrow';
 
 import './Popup.scss';
 
@@ -38,6 +38,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 }
 
 const b = block('popup');
+const bWrapper = block('popup-wrapper');
 const ARROW_SIZE = 8;
 
 export function Popup({
@@ -65,23 +66,6 @@ export function Popup({
     qa,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const inTransition = React.useRef(false);
-    const hasBeenOpen = React.useRef(false);
-    const previousOpen = usePreviousValue(open);
-    const forceUpdate = useForceUpdate();
-
-    if (open) {
-        hasBeenOpen.current = true;
-    }
-
-    if (typeof previousOpen !== 'undefined' && !inTransition.current) {
-        inTransition.current = open !== previousOpen;
-    }
-
-    function handleAnimationEnd() {
-        inTransition.current = false;
-        forceUpdate();
-    }
 
     useLayer({
         open,
@@ -101,8 +85,6 @@ export function Popup({
         offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
         strategy,
         modifiers: [
-            // Should be disabled cause we have own transforms on the root element
-            {name: 'computeStyles', options: {gpuAcceleration: false}},
             // Properly display arrow within rounded container
             {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
             // Prevent border hiding
@@ -110,37 +92,47 @@ export function Popup({
             ...modifiers,
         ],
     });
-
-    const handleRef = useForkRef(containerRef, (ref) => setPopperRef(ref));
-
-    if (!keepMounted && !open && !inTransition.current) {
-        return null;
-    }
+    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef);
 
     return (
         <Portal container={container}>
-            <div
-                ref={handleRef}
-                data-inited={hasBeenOpen.current ? '' : undefined}
-                onAnimationEnd={handleAnimationEnd}
-                onClick={onClick}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
-                tabIndex={-1}
-                className={b({open}, className)}
-                style={{...style, ...styles.popper}}
-                {...attributes.popper}
-                data-qa={qa}
+            <CSSTransition
+                nodeRef={containerRef}
+                in={open}
+                addEndListener={(done) =>
+                    containerRef.current?.addEventListener('animationend', done)
+                }
+                classNames={getCSSTransitionClassNames(bWrapper)}
+                mountOnEnter={!keepMounted}
+                unmountOnExit={!keepMounted}
+                appear={true}
             >
-                {hasArrow && (
-                    <PopupArrow
-                        styles={styles.arrow}
-                        attributes={attributes.arrow}
-                        setArrowRef={setArrowRef}
-                    />
-                )}
-                {children}
-            </div>
+                <div
+                    ref={handleRef}
+                    style={styles.popper}
+                    {...attributes.popper}
+                    className={bWrapper({open})}
+                >
+                    <div
+                        onClick={onClick}
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
+                        tabIndex={-1}
+                        className={b({open}, className)}
+                        style={style}
+                        data-qa={qa}
+                    >
+                        {hasArrow && (
+                            <PopupArrow
+                                styles={styles.arrow}
+                                attributes={attributes.arrow}
+                                setArrowRef={setArrowRef}
+                            />
+                        )}
+                        {children}
+                    </div>
+                </div>
+            </CSSTransition>
         </Portal>
     );
 }

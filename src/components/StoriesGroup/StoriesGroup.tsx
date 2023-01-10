@@ -2,10 +2,10 @@ import React from 'react';
 import {Modal, ModalCloseReason} from '../Modal';
 import {IndexType, StoriesLayout} from '../Stories/components/StoriesLayout/StoriesLayout';
 import {StoriesPreview} from './components';
-import {StoriesGroupItem} from './types';
 
 import {block} from '../utils/cn';
 import './StoriesGroup.scss';
+import {StoriesGroupItem} from './types';
 
 const DEFAULT_MAX_SLIDER_ITEMS_COUNT = 12;
 
@@ -31,7 +31,7 @@ export const StoriesGroup = ({
     open,
     groups,
     onItemSelect,
-    disableOutsideClick,
+    disableOutsideClick = true,
     initialStoryIndex = [0, 0],
     maxSliderItemsCount = DEFAULT_MAX_SLIDER_ITEMS_COUNT,
     onClose,
@@ -156,6 +156,7 @@ export const StoriesGroup = ({
                 groups={groups}
                 groupIndex={groupIndex}
                 onGroupSelect={onGroupSelect}
+                onClose={disableOutsideClick ? undefined : handleClose}
             />
             <StoriesLayout
                 storyIndex={itemIndex}

@@ -31,6 +31,7 @@ export type SelectProps = QAProps &
         popupWidth?: number;
         virtualizationThreshold?: number;
         className?: string;
+        popupClassName?: string;
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;

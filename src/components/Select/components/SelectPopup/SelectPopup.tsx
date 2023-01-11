@@ -10,22 +10,29 @@ type SelectPopupProps = {
     open?: boolean;
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
+    className?: string;
 };
 
-export const SelectPopup = (props: SelectPopupProps) => {
-    const {handleClose, verticalOffset, width, minWidth, open, controlRef, children} = props;
-
-    return (
-        <Popup
-            qa={SelectQa.POPUP}
-            style={{width, minWidth}}
-            anchorRef={controlRef}
-            offset={[BORDER_WIDTH, verticalOffset]}
-            placement={['bottom-start', 'top-start']}
-            open={open}
-            onClose={handleClose}
-        >
-            {children}
-        </Popup>
-    );
-};
+export const SelectPopup = ({
+    handleClose,
+    verticalOffset,
+    width,
+    minWidth,
+    open,
+    controlRef,
+    children,
+    className,
+}: SelectPopupProps) => (
+    <Popup
+        className={className}
+        qa={SelectQa.POPUP}
+        style={{width, minWidth}}
+        anchorRef={controlRef}
+        offset={[BORDER_WIDTH, verticalOffset]}
+        placement={['bottom-start', 'top-start']}
+        open={open}
+        onClose={handleClose}
+    >
+        {children}
+    </Popup>
+);

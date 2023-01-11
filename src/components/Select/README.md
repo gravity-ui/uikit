@@ -18,6 +18,7 @@
 | virtualizationThreshold         | `number`                                | `50`            | The threshold of the options count after which virtualization is enabled                                   |
 | name                            | `string`                                | `-`             | Name of the control                                                                                        |
 | className                       | `string`                                | `-`             | Control className                                                                                          |
+| popupClassName                  | `string`                                | `-`             | Popup with options list className                                                                          |
 | label                           | `string`                                | `-`             | Control label                                                                                              |
 | placeholder                     | `string`                                | `-`             | Placeholder text                                                                                           |
 | filterPlaceholder               | `string`                                | `-`             | Default filter input placeholder text                                                                      |

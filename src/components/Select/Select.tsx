@@ -45,6 +45,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterOption,
         name,
         className,
+        popupClassName,
         qa,
         value: propsValue,
         defaultValue,
@@ -205,6 +206,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderControl={renderControl}
             />
             <SelectPopup
+                className={popupClassName}
                 controlRef={controlRef}
                 width={popupWidth}
                 minWidth={popupMinWidth}

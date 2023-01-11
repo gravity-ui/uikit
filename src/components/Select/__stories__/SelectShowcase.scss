@@ -36,4 +36,14 @@ $block: '.#{variables.$ns}select-showcase';
     &__user-control {
         display: inline-flex;
     }
+
+    &__custom-popup {
+        margin-top: 10px;
+        border-radius: 12px;
+
+        .yc-list__item {
+            margin: 4px;
+            border-radius: 12px;
+        }
+    }
 }

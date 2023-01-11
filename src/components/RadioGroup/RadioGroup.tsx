@@ -19,6 +19,7 @@ export interface RadioGroupProps extends ControlGroupProps, DOMProps, QAProps {
     children?:
         | React.ReactElement<RadioProps, typeof Radio>
         | React.ReactElement<RadioProps, typeof Radio>[];
+    optionClassName?: string;
 }
 
 interface RadioGroupComponent
@@ -30,7 +31,15 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(func
     props,
     ref,
 ) {
-    const {size = 'm', direction = 'horizontal', style, className, qa, children} = props;
+    const {
+        size = 'm',
+        direction = 'horizontal',
+        style,
+        className,
+        optionClassName,
+        qa,
+        children,
+    } = props;
     let options = props.options;
 
     if (!options) {
@@ -51,7 +60,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(func
                 <Radio
                     {...optionProps}
                     key={optionProps.value}
-                    className={b('option')}
+                    className={b('option', optionClassName)}
                     size={size}
                 />
             ))}

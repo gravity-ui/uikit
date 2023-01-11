@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.16.0](https://github.com/gravity-ui/uikit/compare/v3.15.0...v3.16.0) (2023-01-11)
+
+
+### Features
+
+* **Select:** add popupClassName property ([#468](https://github.com/gravity-ui/uikit/issues/468)) ([f0184a8](https://github.com/gravity-ui/uikit/commit/f0184a87cbfe4f09c07bf0851f8e84876e75b9d8))
+* **Table:** pass click event to action handler ([#461](https://github.com/gravity-ui/uikit/issues/461)) ([620c0e1](https://github.com/gravity-ui/uikit/commit/620c0e1a156da9de452ce5f46f2ace96f23a947c))
+* use react-transition in Modal and Popup ([#453](https://github.com/gravity-ui/uikit/issues/453)) ([9edec4a](https://github.com/gravity-ui/uikit/commit/9edec4ad0068872fea499b6822edf71bbe185971))
+
+
+### Bug Fixes
+
+* **Label:** various fixes ([#451](https://github.com/gravity-ui/uikit/issues/451)) ([e28f92f](https://github.com/gravity-ui/uikit/commit/e28f92fd559e19f587f678ee04abe702c2cbe948))
+* **StoriesGroup:** fix click area ([#446](https://github.com/gravity-ui/uikit/issues/446)) ([cf898d4](https://github.com/gravity-ui/uikit/commit/cf898d448ed729457c343a1ddad6a6e8da7483b8))
+
 ## [3.15.0](https://github.com/gravity-ui/uikit/compare/v3.14.1...v3.15.0) (2023-01-10)
 
 

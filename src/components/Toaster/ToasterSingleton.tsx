@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOMClient from 'react-dom/client';
 import get from 'lodash/get';
 import {block} from '../utils/cn';
 import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
@@ -17,6 +17,7 @@ declare global {
 
 export class ToasterSingleton {
     private rootNode!: HTMLDivElement;
+    private reactRoot!: ReactDOMClient.Root;
     private className = '';
     private mobile = false;
     private componentAPI: null | ToasterPublicMethods = null;
@@ -37,14 +38,15 @@ export class ToasterSingleton {
         this.className = additionalClass;
         this.mobile = mobile;
         this.createRootNode();
+        this.createReactRoot();
         this.render();
 
         window[TOASTER_KEY] = this;
     }
 
     destroy() {
-        ReactDOM.unmountComponentAtNode(this.rootNode);
-        document.body.removeChild(this.rootNode);
+        this.reactRoot.unmount();
+        this.rootNode.remove();
     }
 
     add = (options: ToastProps) => {
@@ -69,8 +71,12 @@ export class ToasterSingleton {
         document.body.appendChild(this.rootNode);
     }
 
+    private createReactRoot() {
+        this.reactRoot = ReactDOMClient.createRoot(this.rootNode);
+    }
+
     private render() {
-        ReactDOM.render(
+        this.reactRoot.render(
             <ToasterProvider
                 ref={(api) => {
                     this.componentAPI = api;
@@ -78,8 +84,6 @@ export class ToasterSingleton {
             >
                 <ToasterComponent hasPortal={false} mobile={this.mobile} />
             </ToasterProvider>,
-            this.rootNode,
-            () => Promise.resolve(),
         );
     }
 

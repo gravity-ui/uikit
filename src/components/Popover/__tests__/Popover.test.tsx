@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render, screen, act} from '@testing-library/react';
 
 import {setupTimersMock} from '../../../tests/utils/setupTimersMock';
 import {delayByBehavior, PopoverBehavior} from '../config';
@@ -62,12 +62,16 @@ test('Can be opened/closed on hover/unhover', async () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    waitForTooltipOpenedStateChange(true);
+    act(() => {
+        waitForTooltipOpenedStateChange(true);
+    });
 
     checkIfPopoverOpened();
 
     fireEvent.mouseLeave(popoverTrigger);
-    waitForTooltipOpenedStateChange(false);
+    act(() => {
+        waitForTooltipOpenedStateChange(false);
+    });
 
     checkIfPopoverClosed();
 });
@@ -82,12 +86,16 @@ test("Doesn't close if the cursor is on the tooltip", () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    waitForTooltipOpenedStateChange(true);
+    act(() => {
+        waitForTooltipOpenedStateChange(true);
+    });
 
     const tooltip = screen.getByText(defaultTooltipContent);
     fireEvent.mouseLeave(popoverTrigger);
     fireEvent.mouseEnter(tooltip);
-    waitForTooltipOpenedStateChange(false);
+    act(() => {
+        waitForTooltipOpenedStateChange(false);
+    });
 
     checkIfPopoverOpened();
 });
@@ -102,9 +110,13 @@ test("Doesn't close on unhover if not autoclosable", () => {
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.mouseEnter(popoverTrigger);
-    waitForTooltipOpenedStateChange(true);
+    act(() => {
+        waitForTooltipOpenedStateChange(true);
+    });
     fireEvent.mouseLeave(popoverTrigger);
-    waitForTooltipOpenedStateChange(false);
+    act(() => {
+        waitForTooltipOpenedStateChange(false);
+    });
 
     checkIfPopoverOpened();
 });

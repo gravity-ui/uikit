@@ -10,13 +10,16 @@ type SelectPopupProps = {
     open?: boolean;
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
+    className?: string;
 };
 
 export const SelectPopup = (props: SelectPopupProps) => {
-    const {handleClose, verticalOffset, width, minWidth, open, controlRef, children} = props;
+    const {handleClose, verticalOffset, width, minWidth, open, controlRef, children, className} =
+        props;
 
     return (
         <Popup
+            className={className}
             qa={SelectQa.POPUP}
             style={{width, minWidth}}
             anchorRef={controlRef}

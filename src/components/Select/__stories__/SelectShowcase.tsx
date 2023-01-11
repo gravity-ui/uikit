@@ -263,6 +263,19 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val3" content="Value" />
                 <Select.Option value="val4" content="value" />
             </ExampleItem>
+            <ExampleItem
+                title="Select with custom popup"
+                code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}
+                selectProps={{
+                    ...props,
+                    popupClassName: b('custom-popup'),
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </ExampleItem>
         </div>
     );
 };

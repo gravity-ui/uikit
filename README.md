@@ -17,13 +17,28 @@ import {Button} from '@gravity-ui/uikit';
 const SubmitButton = <Button view="action" size="l" />;
 ```
 
-## I18N
+### Styles
 
-Some components contain prepared text. For changing language use `configure` function. Default language is `en`.
-
-**index.js**
+UIKit comes with base styling and theme. In order to everything look nice include this at the top of your entry file:
 
 ```js
+// index.js
+
+import '@gravity-ui/uikit/styles/styles.css';
+
+// ...
+```
+
+Also, there is a SCSS [mixins](styles/mixins.scss) file with useful helpers to use in your app.
+
+### I18N
+
+Some components contain text tokens (words and phrases). They come in two languages: `en` (default) and `ru`.
+To set the language use `configure` function:
+
+```js
+// index.js
+
 import {configure} from '@gravity-ui/uikit';
 
 configure({
@@ -33,8 +48,8 @@ configure({
 
 ## Development
 
-To start the dev storybook
+To start the development server with storybook run the following:
 
 ```shell
-npm run start
+npm start
 ```

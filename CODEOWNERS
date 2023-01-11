@@ -29,7 +29,7 @@
 /src/components/Tabs @sofiushko
 /src/components/Text @IsaevAlexandr
 #/src/components/TextInput @dustyo-O
-/src/components/Toaster @korvin89
+/src/components/Toaster @ogonkov
 /src/components/theme @resure
 # Allow everyone to publish releases
 /package.json

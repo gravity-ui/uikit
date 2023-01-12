@@ -1,5 +1,5 @@
 export {ToasterSingleton as Toaster} from './ToasterSingleton';
-export {ToasterSingleton as ToasterOld} from './ToasterSingletonOld';
+export {ToasterSingleton as ToasterReact18} from './ToasterSingletonReact18';
 export {Toast} from './Toast/Toast';
 
 export * from './types';

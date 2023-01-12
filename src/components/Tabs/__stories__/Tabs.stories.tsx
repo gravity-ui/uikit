@@ -25,13 +25,23 @@ export default {
             type: 'boolean',
             default: false,
         },
+        withOverflow: {
+            name: 'Labels',
+            type: 'boolean',
+            default: false,
+        },
     },
 } as Meta;
 
 const gearIcon = <GearIcon width={20} height={20} />;
 
 const Template: Story<
-    TabsProps & {withIcon?: boolean; withCounter?: boolean; withLabel?: boolean}
+    TabsProps & {
+        withIcon?: boolean;
+        withCounter?: boolean;
+        withLabel?: boolean;
+        withOverflow?: boolean;
+    }
 > = (args) => {
     const [activeTab, setActiveTab] = useState('active');
 
@@ -43,6 +53,12 @@ const Template: Story<
                 icon: args.withIcon ? gearIcon : undefined,
                 counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
                 label: args.withLabel ? {content: 'Normal', theme: 'normal'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
             },
             {
                 id: 'active',
@@ -50,6 +66,12 @@ const Template: Story<
                 icon: args.withIcon ? gearIcon : undefined,
                 counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
                 label: args.withLabel ? {content: 'Warning', theme: 'warning'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
             },
             {
                 id: 'disabled',
@@ -58,9 +80,15 @@ const Template: Story<
                 counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
                 label: args.withLabel ? {content: 'Danger', theme: 'danger'} : undefined,
                 disabled: true,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
             },
         ],
-        [args.withIcon, args.withCounter, args.withLabel],
+        [args.withIcon, args.withCounter, args.withLabel, args.withOverflow],
     );
 
     return <Tabs {...args} items={items} onSelectTab={setActiveTab} activeTab={activeTab} />;
@@ -81,6 +109,11 @@ Default.argTypes = {
     },
     withLabel: {
         name: 'Labels',
+        type: 'boolean',
+        default: false,
+    },
+    withOverflow: {
+        name: 'Overflow',
         type: 'boolean',
         default: false,
     },

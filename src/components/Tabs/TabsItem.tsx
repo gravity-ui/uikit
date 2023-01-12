@@ -1,8 +1,20 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, HTMLProps} from 'react';
 import {block} from '../utils/cn';
 import {Label, LabelProps} from '../Label';
 
 const b = block('tabs');
+
+type ExtraProps = Omit<
+    HTMLProps<HTMLDivElement>,
+    | 'role'
+    | 'aria-selected'
+    | 'aria-disabled'
+    | 'tabIndex'
+    | 'className'
+    | 'title'
+    | 'onClick'
+    | 'onKeyDown'
+>;
 
 export interface TabsItemProps {
     id: string;
@@ -11,12 +23,14 @@ export interface TabsItemProps {
     hint?: string;
     active?: boolean;
     disabled?: boolean;
+    hasOverflow?: boolean;
     icon?: React.ReactNode;
     counter?: number;
     label?: {
         content: React.ReactNode;
         theme?: LabelProps['theme'];
     };
+    extraProps?: ExtraProps;
     onClick(tabId: string): void;
 }
 
@@ -30,6 +44,8 @@ export const TabsItem: React.FC<TabsItemProps> = ({
     label,
     active,
     disabled,
+    hasOverflow,
+    extraProps,
     onClick,
 }) => {
     const handleClick = () => {
@@ -56,11 +72,12 @@ export const TabsItem: React.FC<TabsItemProps> = ({
 
     return (
         <div
+            {...extraProps}
             role="tab"
             aria-selected={active === true}
             aria-disabled={disabled === true}
             tabIndex={disabled ? -1 : 0}
-            className={b('item', {active, disabled})}
+            className={b('item', {active, disabled, overflow: Boolean(hasOverflow)})}
             title={htmlTitle}
             onClick={handleClick}
             onKeyDown={handleKeyDown}

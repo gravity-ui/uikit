@@ -6,15 +6,15 @@ Component for adjustable notifications.
 
 ```jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOMClient from 'react-dom/client';
 import {ToasterComponent, ToasterProvider} from '@gravity-ui/uikit';
 
-ReactDOM.render(
+const root = ReactDOMClient.createRoot(document.getElementById('root'));
+root.render(
   <ToasterProvider>
     <App />
     <ToasterComponent className="optional additional classes" />
   </ToasterProvider>,
-  document.getElementById('root'),
 );
 ```
 

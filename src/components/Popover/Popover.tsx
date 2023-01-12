@@ -40,7 +40,7 @@ export const Popover = forwardRef(function (
         htmlContent,
         contentClassName,
         links,
-        forceLinksAppearance = true,
+        forceLinksAppearance = false,
         tooltipActionButton,
         tooltipCancelButton,
         onOpenChange,

@@ -18,6 +18,7 @@ type ExtraProps = Omit<
 
 export interface TabsItemProps {
     id: string;
+    className?: string;
     title: string | React.ReactNode;
     meta?: string;
     hint?: string;
@@ -36,6 +37,7 @@ export interface TabsItemProps {
 
 export const TabsItem: React.FC<TabsItemProps> = ({
     id,
+    className,
     title,
     meta,
     hint,
@@ -77,7 +79,7 @@ export const TabsItem: React.FC<TabsItemProps> = ({
             aria-selected={active === true}
             aria-disabled={disabled === true}
             tabIndex={disabled ? -1 : 0}
-            className={b('item', {active, disabled, overflow: Boolean(hasOverflow)})}
+            className={b('item', {active, disabled, overflow: Boolean(hasOverflow)}, className)}
             title={htmlTitle}
             onClick={handleClick}
             onKeyDown={handleKeyDown}

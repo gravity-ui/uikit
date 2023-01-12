@@ -73,7 +73,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const handleRef = useForkRef(props.controlRef, innerControlRef);
 
-    const labelSize = useElementSize(isLabelVisible ? labelRef : null);
+    const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
 
     React.useEffect(() => {
         const control = innerControlRef.current;

@@ -59,6 +59,8 @@ const FoobarWithToaster = withToaster()(FoobarComponent);
 
 ## Usage as singleton
 
+### React < 18
+
 ```js
 import {Toaster} from '@gravity-ui/uikit';
 const toaster = new Toaster();
@@ -66,6 +68,17 @@ const toaster = new Toaster();
 
 ```js
 import {toaster} from '@gravity-ui/uikit/toaster-singleton';
+```
+
+### React 18
+
+```js
+import {ToasterReact18} from '@gravity-ui/uikit';
+const toaster = new ToasterReact18();
+```
+
+```js
+import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 ```
 
 Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.

@@ -1,31 +1,31 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
-@mixin block_size($size: s) {
+@mixin block_style($size: s, $type: control) {
     @if $size == 's' {
         height: 24px;
         padding: 4px 8px;
-        font-size: 13px;
-        line-height: 16px;
+        @include mixins.text-body-short;
     }
-
     @if $size == 'm' {
         height: 28px;
-        padding: 5px 8px;
-        font-size: 13px;
-        line-height: 18px;
+        padding: 6px 8px;
+        @include mixins.text-body-short;
     }
     @if $size == 'l' {
         height: 36px;
         padding: 10px 13px;
-        font-size: 13px;
-        line-height: 16px;
+        @include mixins.text-body-short;
     }
     @if $size == 'xl' {
         height: 44px;
         padding: 12px 13px;
-        font-size: 15px;
-        line-height: 20px;
+        @include mixins.text-body-2;
+    }
+
+    @if $type == 'label' {
+        @include mixins.text-accent;
+        padding-right: 4px;
     }
 }
 
@@ -79,7 +79,6 @@ $block: '.#{variables.$ns}text-input';
     }
 
     &__label {
-        @include mixins.text-accent;
         position: absolute;
         box-sizing: border-box;
         overflow: hidden;
@@ -117,12 +116,11 @@ $block: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             #{$block}__control {
-                @include block_size(s);
+                @include block_style(s);
             }
 
             #{$block}__label {
-                @include block_size(s);
-                padding-right: 4px;
+                @include block_style(s, label);
             }
 
             &#{$block}_has-clear {
@@ -136,12 +134,11 @@ $block: '.#{variables.$ns}text-input';
 
         &_m {
             #{$block}__control {
-                @include block_size(m);
+                @include block_style(m);
             }
 
             #{$block}__label {
-                @include block_size(m);
-                padding-right: 4px;
+                @include block_style(m, label);
             }
 
             &#{$block}_has-clear {
@@ -155,12 +152,11 @@ $block: '.#{variables.$ns}text-input';
 
         &_l {
             #{$block}__control {
-                @include block_size(l);
+                @include block_style(l);
             }
 
             #{$block}__label {
-                @include block_size(l);
-                padding-right: 4px;
+                @include block_style(l, label);
             }
 
             &#{$block}_has-clear {
@@ -174,12 +170,11 @@ $block: '.#{variables.$ns}text-input';
 
         &_xl {
             #{$block}__control {
-                @include block_size(xl);
+                @include block_style(xl);
             }
 
             #{$block}__label {
-                @include block_size(xl);
-                padding-right: 4px;
+                @include block_style(xl, label);
             }
 
             &#{$block}_has-clear {

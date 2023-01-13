@@ -1,12 +1,15 @@
 import React, {PropsWithChildren, useEffect, useLayoutEffect, useMemo, useState} from 'react';
 
-import {DEFAULT_LIGHT_THEME, DEFAULT_DARK_THEME, DEFAULT_THEME} from './constants';
+import {block} from '../utils/cn';
+import {DEFAULT_LIGHT_THEME, DEFAULT_DARK_THEME, DEFAULT_THEME, ROOT_CLASS_NAME} from './constants';
 import {ThemeContext} from './ThemeContext';
 import {ThemeValueContext} from './ThemeValueContext';
 import {ThemeSettings, ThemeSettingsContext} from './ThemeSettingsContext';
 import type {Theme, RealTheme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
+
+const b = block(ROOT_CLASS_NAME);
 
 interface ThemeProviderExternalProps {}
 
@@ -15,6 +18,8 @@ interface ThemeProviderDefaultProps {
     systemLightTheme: RealTheme;
     systemDarkTheme: RealTheme;
     nativeScrollbar: boolean;
+    scoped: boolean;
+    modifiers: Record<string, string | boolean>;
 }
 
 export interface ThemeProviderProps
@@ -27,6 +32,8 @@ export function ThemeProvider({
     systemLightTheme: systemLightThemeProp = DEFAULT_LIGHT_THEME,
     systemDarkTheme: systemDarkThemeProp = DEFAULT_DARK_THEME,
     nativeScrollbar = false,
+    scoped = false,
+    modifiers = {},
     children,
 }: ThemeProviderProps) {
     const [theme, setTheme] = useState<Theme>(themeProp);
@@ -49,8 +56,10 @@ export function ThemeProvider({
     const themeValue = theme === 'system' ? systemTheme : theme;
 
     useEffect(() => {
-        updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar});
-    }, [nativeScrollbar, themeValue]);
+        if (!scoped) {
+            updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar, ...modifiers});
+        }
+    }, [nativeScrollbar, themeValue, scoped, modifiers]);
 
     const contextValue = useMemo(
         () => ({
@@ -75,7 +84,19 @@ export function ThemeProvider({
         <ThemeContext.Provider value={contextValue}>
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 <ThemeValueContext.Provider value={themeValueContext}>
-                    {children}
+                    {scoped ? (
+                        <div
+                            className={b({
+                                theme: themeValue,
+                                'native-scrollbar': nativeScrollbar,
+                                ...modifiers,
+                            })}
+                        >
+                            {children}
+                        </div>
+                    ) : (
+                        children
+                    )}
                 </ThemeValueContext.Provider>
             </ThemeSettingsContext.Provider>
         </ThemeContext.Provider>

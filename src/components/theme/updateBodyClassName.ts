@@ -1,7 +1,8 @@
 import {block, modsClassName} from '../utils/cn';
+import {ROOT_CLASS_NAME} from './constants';
 import {RealTheme} from './types';
 
-const b = block('root');
+const b = block(ROOT_CLASS_NAME);
 const rootClassName = b();
 
 export type BodyClassNameModifiers = {

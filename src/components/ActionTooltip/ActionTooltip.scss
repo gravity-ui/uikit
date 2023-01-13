@@ -1,0 +1,30 @@
+@use '../../../styles/mixins.scss';
+@use '../variables';
+
+$block: '.#{variables.$ns}action-tooltip';
+
+#{$block} {
+    &__layout {
+        max-width: 300px;
+        box-sizing: border-box;
+    }
+
+    &__heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+    }
+
+    &__title {
+        color: var(--yc-color-text-light-primary);
+    }
+
+    &__hotkey {
+        margin-left: 8px;
+    }
+
+    &__description {
+        margin-top: 4px;
+        color: var(--yc-color-text-light-secondary);
+    }
+}

@@ -12,6 +12,8 @@ export interface TooltipProps extends TooltipDelayProps {
     content?: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
+    className?: string;
+    contentClassName?: string;
 }
 
 interface TooltipDelayProps {
@@ -30,7 +32,7 @@ export const Tooltip = (props: TooltipProps) => {
     const renderPopup = () => {
         return (
             <Popup
-                className={b()}
+                className={b(null, props.className)}
                 open={tooltipVisible && !disabled}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
@@ -38,7 +40,7 @@ export const Tooltip = (props: TooltipProps) => {
                 disableOutsideClick
                 disableLayer
             >
-                <div className={b('content')}>{content}</div>
+                <div className={b('content', props.contentClassName)}>{content}</div>
             </Popup>
         );
     };

@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.17.0](https://github.com/gravity-ui/uikit/compare/v3.16.0...v3.17.0) (2023-01-12)
+
+
+### Features
+
+* **RadioGroup:** add optionClassName prop ([#462](https://github.com/gravity-ui/uikit/issues/462)) ([1104078](https://github.com/gravity-ui/uikit/commit/1104078c6d3dd4a0630a5f43e19ec4b2a2ff972d))
+* **Tabs:** add `className` to `&lt;TabItem/&gt;` ([#471](https://github.com/gravity-ui/uikit/issues/471)) ([66817c8](https://github.com/gravity-ui/uikit/commit/66817c8e9c77f2e521e0384e25047ec71fcb4fe9))
+* **Tabs:** new features ([#450](https://github.com/gravity-ui/uikit/issues/450)) ([6bcdfbf](https://github.com/gravity-ui/uikit/commit/6bcdfbf7b5568a78c472d88fd37ce3f37c998034))
+
 ## [3.16.0](https://github.com/gravity-ui/uikit/compare/v3.15.0...v3.16.0) (2023-01-11)
 
 

@@ -24,12 +24,14 @@ export function updateBodyClassName(
         bodyEl.classList.add(rootClassName);
     }
 
-    const parsedCustomRootClassNames = customRootClassName.split(' ');
-    parsedCustomRootClassNames.forEach((cls) => {
-        if (cls && !bodyEl.classList.contains(cls)) {
-            bodyEl.classList.add(cls);
-        }
-    });
+    if (customRootClassName) {
+        const parsedCustomRootClassNames = customRootClassName.split(' ');
+        parsedCustomRootClassNames.forEach((cls) => {
+            if (cls && !bodyEl.classList.contains(cls)) {
+                bodyEl.classList.add(cls);
+            }
+        });
+    }
 
     [...bodyEl.classList].forEach((cls) => {
         if (cls.startsWith(modsClassName(b({theme: true})))) {

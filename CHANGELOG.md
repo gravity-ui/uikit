@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.18.0](https://github.com/gravity-ui/uikit/compare/v3.17.0...v3.18.0) (2023-01-13)
+
+
+### Features
+
+* add Hotkey and ActionTooltip components ([#398](https://github.com/gravity-ui/uikit/issues/398)) ([76cf9dd](https://github.com/gravity-ui/uikit/commit/76cf9dd2e45abb006a73e72f41a8776fea985bf7))
+* **Select:** add prop renderSelectedOption ([#474](https://github.com/gravity-ui/uikit/issues/474)) ([6449e31](https://github.com/gravity-ui/uikit/commit/6449e31886daa9cbc86608e187b7118275fcc078))
+* **ThemeProvider:** add props scoped and rootClassName ([#478](https://github.com/gravity-ui/uikit/issues/478)) ([763af7b](https://github.com/gravity-ui/uikit/commit/763af7b1afbb3b0bcd48c7c00437c0517574ad53))
+
 ## [3.17.0](https://github.com/gravity-ui/uikit/compare/v3.16.0...v3.17.0) (2023-01-12)
 
 

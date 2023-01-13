@@ -16,12 +16,20 @@ const defaultModifiers: BodyClassNameModifiers = {
 export function updateBodyClassName(
     newTheme: RealTheme,
     modifiers?: Partial<BodyClassNameModifiers>,
+    customRootClassName?: string,
 ) {
     const bodyEl = document.body;
 
     if (!bodyEl.classList.contains(rootClassName)) {
         bodyEl.classList.add(rootClassName);
     }
+
+    const parsedCustomRootClassNames = customRootClassName.split(' ');
+    parsedCustomRootClassNames.forEach((cls) => {
+        if (cls && !bodyEl.classList.contains(cls)) {
+            bodyEl.classList.add(cls);
+        }
+    });
 
     [...bodyEl.classList].forEach((cls) => {
         if (cls.startsWith(modsClassName(b({theme: true})))) {

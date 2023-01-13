@@ -19,7 +19,7 @@ interface ThemeProviderDefaultProps {
     systemDarkTheme: RealTheme;
     nativeScrollbar: boolean;
     scoped: boolean;
-    modifiers: Record<string, string | boolean>;
+    rootClassName: string;
 }
 
 export interface ThemeProviderProps
@@ -33,7 +33,7 @@ export function ThemeProvider({
     systemDarkTheme: systemDarkThemeProp = DEFAULT_DARK_THEME,
     nativeScrollbar = false,
     scoped = false,
-    modifiers = {},
+    rootClassName = '',
     children,
 }: ThemeProviderProps) {
     const [theme, setTheme] = useState<Theme>(themeProp);
@@ -57,9 +57,9 @@ export function ThemeProvider({
 
     useEffect(() => {
         if (!scoped) {
-            updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar, ...modifiers});
+            updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar}, rootClassName);
         }
-    }, [nativeScrollbar, themeValue, scoped, modifiers]);
+    }, [nativeScrollbar, themeValue, scoped, rootClassName]);
 
     const contextValue = useMemo(
         () => ({
@@ -86,11 +86,10 @@ export function ThemeProvider({
                 <ThemeValueContext.Provider value={themeValueContext}>
                     {scoped ? (
                         <div
-                            className={b({
+                            className={`${b({
                                 theme: themeValue,
                                 'native-scrollbar': nativeScrollbar,
-                                ...modifiers,
-                            })}
+                            })}${rootClassName ? ` ${rootClassName}` : ''}`}
                         >
                             {children}
                         </div>

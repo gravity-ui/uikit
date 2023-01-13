@@ -195,6 +195,42 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
             </ExampleItem>
             <ExampleItem
+                title="Select with user selected options"
+                code={[EXAMPLE_USER_OPTIONS]}
+                selectProps={{
+                    ...props,
+                    renderOption: (option) => {
+                        return (
+                            <div
+                                style={{color: option.data?.color, height: 22, lineHeight: '22px'}}
+                            >
+                                {option.content}
+                            </div>
+                        );
+                    },
+                    renderSelectedOption: (option) => {
+                        return (
+                            <span
+                                style={{
+                                    color: option.data?.color,
+                                    height: 22,
+                                    lineHeight: '22px',
+                                    marginRight: '6px',
+                                }}
+                            >
+                                {option.content}
+                            </span>
+                        );
+                    },
+                    getOptionHeight: () => 22,
+                }}
+            >
+                <Select.Option value="val1" content="Value1" data={{color: 'green'}} />
+                <Select.Option value="val2" content="Value2" data={{color: 'red'}} />
+                <Select.Option value="val3" content="Value3" data={{color: 'pink'}} />
+                <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
+            </ExampleItem>
+            <ExampleItem
                 title="Select with user control"
                 code={[EXAMPLE_USER_CONTROL]}
                 selectProps={{

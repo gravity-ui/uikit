@@ -104,8 +104,16 @@ const getOptionText = (option: SelectOption): string => {
     return option.value;
 };
 
-export const getOptionsText = (flattenOptions: FlattenOption[], value: string[]): string[] => {
-    return flattenOptions.reduce((acc, option) => {
+export const getSelectedOptionsContent = (
+    flattenOptions: FlattenOption[],
+    value: string[],
+    renderSelectedOption?: SelectProps['renderSelectedOption'],
+): React.ReactNode => {
+    if (value.length === 0) {
+        return null;
+    }
+
+    const selectedOptions = flattenOptions.reduce((acc, option) => {
         if ('label' in option) {
             return acc;
         }
@@ -113,11 +121,27 @@ export const getOptionsText = (flattenOptions: FlattenOption[], value: string[])
         const optionSelected = value.includes(option.value);
 
         if (optionSelected) {
-            acc.push(getOptionText(option));
+            acc.push(option);
         }
 
         return acc;
-    }, [] as string[]);
+    }, [] as SelectOption[]);
+
+    if (renderSelectedOption) {
+        return selectedOptions.map((option, index) => {
+            return (
+                <React.Fragment key={option.value}>
+                    {renderSelectedOption(option, index)}
+                </React.Fragment>
+            );
+        });
+    } else {
+        return selectedOptions
+            .map((option) => {
+                return getOptionText(option);
+            })
+            .join(', ');
+    }
 };
 
 const getTypedChildrenArray = (children: SelectProps['children']) => {

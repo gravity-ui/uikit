@@ -86,10 +86,13 @@ export function ThemeProvider({
                 <ThemeValueContext.Provider value={themeValueContext}>
                     {scoped ? (
                         <div
-                            className={`${b({
-                                theme: themeValue,
-                                'native-scrollbar': nativeScrollbar,
-                            })}${rootClassName ? ` ${rootClassName}` : ''}`}
+                            className={b(
+                                {
+                                    theme: themeValue,
+                                    'native-scrollbar': nativeScrollbar,
+                                },
+                                rootClassName,
+                            )}
                         >
                             {children}
                         </div>

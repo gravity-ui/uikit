@@ -1,7 +1,8 @@
 import {block, modsClassName} from '../utils/cn';
+import {ROOT_CLASS_NAME} from './constants';
 import {RealTheme} from './types';
 
-const b = block('root');
+const b = block(ROOT_CLASS_NAME);
 const rootClassName = b();
 
 export type BodyClassNameModifiers = {
@@ -15,11 +16,21 @@ const defaultModifiers: BodyClassNameModifiers = {
 export function updateBodyClassName(
     newTheme: RealTheme,
     modifiers?: Partial<BodyClassNameModifiers>,
+    customRootClassName?: string,
 ) {
     const bodyEl = document.body;
 
     if (!bodyEl.classList.contains(rootClassName)) {
         bodyEl.classList.add(rootClassName);
+    }
+
+    if (customRootClassName) {
+        const parsedCustomRootClassNames = customRootClassName.split(' ');
+        parsedCustomRootClassNames.forEach((cls) => {
+            if (cls && !bodyEl.classList.contains(cls)) {
+                bodyEl.classList.add(cls);
+            }
+        });
     }
 
     [...bodyEl.classList].forEach((cls) => {

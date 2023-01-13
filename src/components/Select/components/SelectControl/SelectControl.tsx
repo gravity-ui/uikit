@@ -15,7 +15,7 @@ type ControlProps = {
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
-    optionsText: string[];
+    selectedOptionsContent: React.ReactNode;
     width?: SelectProps['width'];
     name?: string;
     className?: string;
@@ -34,7 +34,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         view,
         size,
         pin,
-        optionsText,
+        selectedOptionsContent,
         width,
         className,
         qa,
@@ -46,7 +46,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
-    const showOptionsText = Boolean(optionsText.length);
+    const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const mods: CnMods = {
         view,
@@ -89,7 +89,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
             {label && <span className={selectBlock('label')}>{label}</span>}
             {showPlaceholder && <span className={selectBlock('placeholder')}>{placeholder}</span>}
             {showOptionsText && (
-                <span className={selectBlock('option-text')}>{optionsText.join(', ')}</span>
+                <span className={selectBlock('option-text')}>{selectedOptionsContent}</span>
             )}
             <Icon className={selectBlock('chevron-icon')} data={Chevron} />
         </button>

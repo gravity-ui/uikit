@@ -11,7 +11,7 @@ import {
     FlattenOption,
     getOptionsFromChildren,
     getFlattenOptions,
-    getOptionsText,
+    getSelectedOptionsContent,
     getListItems,
     getActiveItem,
     getListHeight,
@@ -40,6 +40,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderControl,
         renderFilter,
         renderOption,
+        renderSelectedOption,
         renderEmptyOptions,
         getOptionHeight,
         filterOption,
@@ -85,7 +86,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                   filterOption,
               })
             : flattenOptions;
-    const optionsText = getOptionsText(flattenOptions, value);
+    const selectedOptionsContent = getSelectedOptionsContent(
+        flattenOptions,
+        value,
+        renderSelectedOption,
+    );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
     const listHeight = getListHeight({
         options: filteredFlattenOptions,
@@ -198,7 +203,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 width={width}
                 label={label}
                 placeholder={placeholder}
-                optionsText={optionsText}
+                selectedOptionsContent={selectedOptionsContent}
                 open={open}
                 disabled={disabled}
                 setOpen={setOpen}

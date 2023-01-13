@@ -7,6 +7,7 @@
 | [renderControl](#rendercontrol) | `function`                              | `-`             | Used to render user control                                                                                |
 | [renderFilter](#renderfilter)   | `function`                              | `-`             | Used to render user filter section                                                                         |
 | renderOption                    | `function`                              | `-`             | Used to render user options                                                                                |
+| renderSelectedOption            | `function`                              | `-`             | Used to render user selected options                                                                       |
 | renderEmptyOptions              | `function`                              | `-`             | Used to render node for an empty options list                                                              |
 | getOptionHeight                 | `function`                              | `-`             | Used to set height of customized user options                                                              |
 | [options](#options)             | `(SelectOption \| SelectOptionGroup)[]` | `-`             | Options to select                                                                                          |

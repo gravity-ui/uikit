@@ -1,6 +1,7 @@
+/* eslint-disable valid-jsdoc */
 import React from 'react';
 import {LayoutProps, MediaPartial} from '../types';
-import {getThemeValue} from './getThemeValue';
+import {getLayoutThemeValue} from './getLayoutThemeValue';
 import {LayoutContext} from './LayoutContext';
 
 interface UseMediaContext {
@@ -21,9 +22,9 @@ export const useLayoutContext = (): UseMediaContext => {
 
     const theme: LayoutProps = React.useMemo(() => {
         return {
-            gutters: getThemeValue('gutters', _theme, medias),
-            space: getThemeValue('space', _theme, medias),
-            spaceRow: getThemeValue('spaceRow', _theme, medias),
+            gutters: getLayoutThemeValue('gutters', _theme, medias),
+            space: getLayoutThemeValue('space', _theme, medias),
+            spaceRow: getLayoutThemeValue('spaceRow', _theme, medias),
         };
     }, [_theme, medias]);
 

@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 import React from 'react';
 import {MediaPartial, MediaProps} from '../types';
 
@@ -109,6 +110,8 @@ export const useMediaQuery = (breakpointsMap: MediaProps<number>) => {
             mounted = false;
             queries.removeListeners(onChange);
         };
+        // don't support runtime breakpoint redefinition. Breakpoints defined only one at LayoutTheme
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return state;

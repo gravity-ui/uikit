@@ -1,9 +1,10 @@
+/* eslint-disable valid-jsdoc */
 import {LayoutProps, LayoutTheme, MediaPartial} from '../types';
 
 /**
  * Select provided prop value from LayoutTheme. Depends on the current screen media query
  */
-export function getThemeValue<T extends keyof LayoutProps>(
+export function getLayoutThemeValue<T extends keyof LayoutProps>(
     key: T,
     theme: Partial<LayoutTheme>,
     medias: MediaPartial<boolean>,

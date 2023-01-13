@@ -95,6 +95,18 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
     ) => {
         const {activeMediasMap, theme} = useLayoutContext();
 
+        const s = React.useMemo(() => {
+            if (typeof space === 'function') {
+                return space(activeMediasMap);
+            }
+
+            if (space === true) {
+                return theme.space;
+            }
+
+            return space;
+        }, [activeMediasMap, space, theme.space]);
+
         return (
             <div
                 style={{
@@ -115,12 +127,7 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
                 className={b(
                     {
                         inline,
-                        s:
-                            typeof space === 'function'
-                                ? space(activeMediasMap)
-                                : space === true
-                                ? theme.space
-                                : space,
+                        s,
                     },
                     className,
                 )}

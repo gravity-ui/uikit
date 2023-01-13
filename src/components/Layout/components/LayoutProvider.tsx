@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 import React from 'react';
 import {PartialLayoutTheme} from '../types';
 import {LayoutContext} from './LayoutContext';

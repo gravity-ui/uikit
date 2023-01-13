@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 import React from 'react';
 import {block} from '../../../utils/cn';
 import {MediaPartial, Space} from '../../types';

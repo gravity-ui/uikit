@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.18.1](https://github.com/gravity-ui/uikit/compare/v3.18.0...v3.18.1) (2023-01-16)
+
+
+### Bug Fixes
+
+* **Popup:** return shadow on root element ([#479](https://github.com/gravity-ui/uikit/issues/479)) ([5a4098d](https://github.com/gravity-ui/uikit/commit/5a4098d75b43f030b876c3deb78a680e18b2a4e9))
+
 ## [3.18.0](https://github.com/gravity-ui/uikit/compare/v3.17.0...v3.18.0) (2023-01-13)
 
 

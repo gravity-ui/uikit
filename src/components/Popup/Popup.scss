@@ -22,21 +22,9 @@ $transition-distance: 10px;
     animation-fill-mode: forwards;
     border-radius: 4px;
     background-color: var(--yc-popup-background-color);
+    box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
+        0 8px 20px var(--yc-popup-border-width) var(--yc-color-sfx-shadow);
     outline: none;
-
-    &::before {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-
-        border-radius: inherit;
-        box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
-            0 8px 20px var(--yc-popup-border-width) var(--yc-color-sfx-shadow);
-    }
 
     // Corners rounding for content
     & > :first-child:not(&__arrow),

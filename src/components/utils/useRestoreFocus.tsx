@@ -15,6 +15,7 @@ export function useRestoreFocus({enabled, restoreFocusRef, focusTrapped}: UseRes
     const handleFocus = (event: React.FocusEvent) => {
         if (enabled && initialActiveElementRef.current === null) {
             initialActiveElementRef.current = event.relatedTarget as HTMLElement | null;
+            lastActiveElementRef.current = initialActiveElementRef.current;
         }
     };
 
@@ -67,12 +68,13 @@ export function useRestoreFocus({enabled, restoreFocusRef, focusTrapped}: UseRes
                 element &&
                 typeof element.focus === 'function' &&
                 document.contains(element) &&
-                element !== document.activeElement &&
                 isFocusable(element)
             ) {
-                setTimeout(() => {
-                    element?.focus();
-                }, 0);
+                if (element !== document.activeElement) {
+                    setTimeout(() => {
+                        element?.focus();
+                    }, 0);
+                }
                 initialActiveElementRef.current = null;
                 lastActiveElementRef.current = null;
             }

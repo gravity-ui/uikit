@@ -8,7 +8,6 @@ interface UseFocusTrapProps {
     disableRestoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
     disableAutoFocus?: boolean;
-    autoFocusRef?: React.RefObject<HTMLElement>;
 }
 
 export function useFocusTrap({
@@ -16,7 +15,6 @@ export function useFocusTrap({
     disableRestoreFocus,
     restoreFocusRef,
     disableAutoFocus = false,
-    autoFocusRef,
 }: UseFocusTrapProps = {}) {
     const containerProps = useRestoreFocus({
         enabled: enabled && !disableRestoreFocus,
@@ -24,11 +22,9 @@ export function useFocusTrap({
         focusTrapped: true,
     });
 
-    const initialFocusRef = React.useRef<HTMLElement | undefined | false>(
-        disableAutoFocus ? false : autoFocusRef?.current ?? undefined,
-    );
+    const setAutoFocusRef = React.useRef(!disableAutoFocus);
     React.useEffect(() => {
-        initialFocusRef.current = disableAutoFocus ? false : autoFocusRef?.current ?? undefined;
+        setAutoFocusRef.current = !disableAutoFocus;
     });
 
     const trapRef = React.useRef<FocusTrap>();
@@ -37,8 +33,7 @@ export function useFocusTrap({
         (node: HTMLElement | null) => {
             if (node && enabled) {
                 trapRef.current = createFocusTrap(node, {
-                    // @ts-expect-error () => undefined is the same as undefined here
-                    initialFocus: () => initialFocusRef.current,
+                    initialFocus: () => setAutoFocusRef.current && getFocusElement(node),
                     fallbackFocus: () => node,
                     returnFocusOnDeactivate: false,
                     escapeDeactivates: false,
@@ -55,4 +50,23 @@ export function useFocusTrap({
     );
 
     return [setFocusTrap, containerProps] as const;
+}
+
+function getFocusElement(root: HTMLElement) {
+    if (
+        !(document.activeElement instanceof HTMLElement) ||
+        !root.contains(document.activeElement)
+    ) {
+        if (!root.hasAttribute('tabIndex')) {
+            if (process.env.NODE_ENV !== 'production') {
+                // used only in dev build
+                // eslint-disable-next-line no-console
+                console.error('@gravity-ui/uikit: focus-trap content node does node accept focus.');
+            }
+            root.setAttribute('tabIndex', '-1');
+        }
+        return root;
+    }
+
+    return document.activeElement;
 }

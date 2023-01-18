@@ -62,7 +62,10 @@ function OtherDialog() {
                 className="my-custom-class-for-dialog"
                 hasCloseButton
                 keepMounted
-                autoFocusRef={selectRef}
+                onEnterKeyDown={handleApply}
+                onOpenEnd={() => {
+                    selectRef?.current?.focus();
+                }}
             >
                 <Dialog.Body>
                     <pre>{darthVader}</pre>
@@ -84,7 +87,6 @@ function OtherDialog() {
                     loading={loading}
                     errorText="Ooops! You lose..."
                     showError={errorVisible}
-                    listenKeyEnter
                     renderButtons={(buttonApply, buttonCancel) => (
                         <>
                             {buttonCancel}
@@ -143,8 +145,7 @@ export function DialogShowcase() {
                 onClose={switchVisibility}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
-                disableFocusTrap
-                restoreFocusRef={buttonRef}
+                onEnterKeyDown={handleApply}
             >
                 <Dialog.Header
                     caption="Episode VII THE FORCE AWAKENS"
@@ -175,13 +176,15 @@ export function DialogShowcase() {
                     onClickButtonCancel={switchVisibility}
                     onClickButtonApply={handleApply}
                     textButtonApply="attack"
-                    propsButtonApply={{className: 'my-custom-apply-btn-class'}}
+                    propsButtonApply={{
+                        className: 'my-custom-apply-btn-class',
+                        extraProps: {autoFocus: true},
+                    }}
                     textButtonCancel="fend off attack"
                     propsButtonCancel={{className: 'my-custom-cancel-btn-class'}}
                     loading={loading}
                     errorText="Ooops! You lose..."
                     showError={errorVisible}
-                    listenKeyEnter
                 >
                     <b>StarWars</b>
                 </Dialog.Footer>

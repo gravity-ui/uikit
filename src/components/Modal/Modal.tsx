@@ -19,7 +19,6 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     disableBodyScrollLock?: boolean;
     disableFocusTrap?: boolean;
     disableAutoFocus?: boolean;
-    autoFocusRef?: React.RefObject<HTMLElement>;
     restoreFocusRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     /**
@@ -33,6 +32,8 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     'aria-label'?: string;
     container?: HTMLElement;
     contentClassName?: string;
+    onOpenEnd?: VoidFunction;
+    onCloseEnd?: VoidFunction;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -47,12 +48,13 @@ export function Modal({
     disableOutsideClick,
     disableFocusTrap,
     disableAutoFocus,
-    autoFocusRef,
     restoreFocusRef,
     onEscapeKeyDown,
     onEnterKeyDown,
     onOutsideClick,
     onClose,
+    onOpenEnd,
+    onCloseEnd,
     children,
     style,
     className,
@@ -71,7 +73,6 @@ export function Modal({
         enabled: !disableFocusTrap && open && !inTransition,
         disableRestoreFocus: true,
         disableAutoFocus,
-        autoFocusRef,
     });
     const containerProps = useRestoreFocus({
         enabled: open || inTransition,
@@ -105,8 +106,14 @@ export function Modal({
                 appear={true}
                 onEnter={() => setInTransition(true)}
                 onExit={() => setInTransition(true)}
-                onEntered={() => setInTransition(false)}
-                onExited={() => setInTransition(false)}
+                onEntered={() => {
+                    setInTransition(false);
+                    onOpenEnd?.();
+                }}
+                onExited={() => {
+                    setInTransition(false);
+                    onCloseEnd?.();
+                }}
             >
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
                     <div className={b('table')}>

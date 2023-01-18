@@ -23,6 +23,8 @@ interface DialogOwnProps {
         event: MouseEvent | KeyboardEvent,
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
+    onOpenEnd?: VoidFunction;
+    onCloseEnd?: VoidFunction;
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
@@ -31,7 +33,6 @@ interface DialogOwnProps {
     container?: HTMLElement;
     disableFocusTrap?: boolean;
     disableAutoFocus?: boolean;
-    autoFocusRef?: React.RefObject<HTMLElement>;
     restoreFocusRef?: React.RefObject<HTMLElement>;
 }
 
@@ -70,7 +71,6 @@ export class Dialog extends React.Component<DialogInnerProps> {
             disableOutsideClick,
             disableFocusTrap,
             disableAutoFocus,
-            autoFocusRef,
             restoreFocusRef,
             keepMounted,
             size,
@@ -81,6 +81,8 @@ export class Dialog extends React.Component<DialogInnerProps> {
             onEnterKeyDown,
             onOutsideClick,
             onClose,
+            onOpenEnd,
+            onCloseEnd,
             'aria-label': ariaLabel,
             'aria-labelledby': ariaLabelledBy,
             qa,
@@ -94,13 +96,14 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 disableOutsideClick={disableOutsideClick}
                 disableFocusTrap={disableFocusTrap}
                 disableAutoFocus={disableAutoFocus}
-                autoFocusRef={autoFocusRef}
                 restoreFocusRef={restoreFocusRef}
                 keepMounted={keepMounted}
                 onEscapeKeyDown={onEscapeKeyDown}
                 onEnterKeyDown={onEnterKeyDown}
                 onOutsideClick={onOutsideClick}
                 onClose={onClose}
+                onOpenEnd={onOpenEnd}
+                onCloseEnd={onCloseEnd}
                 className={b('modal', modalClassName)}
                 aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}

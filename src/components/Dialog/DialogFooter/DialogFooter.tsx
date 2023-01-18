@@ -29,6 +29,9 @@ interface DialogFooterOwnProps {
 interface DialogFooterDefaultProps {
     preset: ButtonPreset;
     showError: boolean;
+    /**
+     * @deprecated use on onEnterKeyDown on Dialog component
+     */
     listenKeyEnter: boolean;
 }
 

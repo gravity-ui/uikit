@@ -90,7 +90,7 @@ export function Modal({
         contentRefs: [contentRef],
     });
 
-    const _contentRef = useForkRef<HTMLDivElement>(contentRef, setFocusTrap);
+    const handleContentRef = useForkRef<HTMLDivElement>(contentRef, setFocusTrap);
     return (
         <Portal container={container}>
             <CSSTransition
@@ -112,7 +112,7 @@ export function Modal({
                     <div className={b('table')}>
                         <div className={b('cell')}>
                             <div
-                                ref={_contentRef}
+                                ref={handleContentRef}
                                 tabIndex={-1}
                                 role="dialog"
                                 aria-modal={open}

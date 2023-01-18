@@ -219,7 +219,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 width={popupWidth}
                 minWidth={popupMinWidth}
                 verticalOffset={popupVerticalOffset}
-                enableFocusTrap={filterable}
                 open={open}
                 handleClose={handleClose}
             >

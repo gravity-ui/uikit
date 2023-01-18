@@ -11,7 +11,6 @@ type SelectPopupProps = {
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     className?: string;
-    enableFocusTrap?: boolean;
 };
 
 export const SelectPopup = ({

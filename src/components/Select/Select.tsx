@@ -64,6 +64,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple = false,
         disabled = false,
         filterable = false,
+        disablePortal,
     } = props;
     const [{controlRect, filter}, dispatch] = React.useReducer(reducer, initialState);
     const controlRef = React.useRef<HTMLElement>(null);
@@ -221,6 +222,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 verticalOffset={popupVerticalOffset}
                 open={open}
                 handleClose={handleClose}
+                disablePortal={disablePortal}
             >
                 {filterable && (
                     <SelectFilter

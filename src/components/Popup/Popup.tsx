@@ -34,7 +34,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
-    enablePortal?: boolean;
+    disablePortal?: boolean;
     container?: HTMLElement;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
@@ -64,7 +64,7 @@ export function Popup({
     onClick,
     onMouseEnter,
     onMouseLeave,
-    enablePortal,
+    disablePortal,
     container,
     strategy,
     qa,
@@ -90,12 +90,12 @@ export function Popup({
         // Take arrow size into offset account
         offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
         strategy,
-        altBoundary: !enablePortal,
+        altBoundary: disablePortal,
         modifiers: [
             // Properly display arrow within rounded container
             {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
             // Prevent border hiding
-            {name: 'preventOverflow', options: {padding: 1, altBoundary: !enablePortal}},
+            {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
             ...modifiers,
         ],
     });
@@ -107,7 +107,7 @@ export function Popup({
     });
 
     return (
-        <Portal container={container} disablePortal={!enablePortal}>
+        <Portal container={container} disablePortal={disablePortal}>
             <CSSTransition
                 nodeRef={containerRef}
                 in={open}

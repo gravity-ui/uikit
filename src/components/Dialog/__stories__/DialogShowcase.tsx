@@ -70,7 +70,7 @@ function OtherDialog() {
                 <Dialog.Body>
                     <pre>{darthVader}</pre>
                     <TextInput />
-                    <Select filterable ref={selectRef}>
+                    <Select filterable ref={selectRef} disablePortal>
                         <Select.Option value="dark">Dark side</Select.Option>
                         <Select.Option value="some">Something in the middle</Select.Option>
                         <Select.Option value="light">Light side</Select.Option>

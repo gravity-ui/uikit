@@ -42,6 +42,7 @@ export type SelectProps = QAProps &
         options?: (SelectOption | SelectOptionGroup)[];
         multiple?: boolean;
         filterable?: boolean;
+        disablePortal?: boolean;
         children?:
             | React.ReactElement<SelectOption, typeof Option>
             | React.ReactElement<SelectOption, typeof Option>[]

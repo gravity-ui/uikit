@@ -39,7 +39,6 @@ export const Tooltip = (props: TooltipProps) => {
                 disableEscapeKeyDown
                 disableOutsideClick
                 disableLayer
-                enablePortal
             >
                 <div className={b('content', props.contentClassName)}>{content}</div>
             </Popup>

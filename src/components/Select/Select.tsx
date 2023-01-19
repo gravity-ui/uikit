@@ -23,8 +23,12 @@ import {
 } from './utils';
 import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD} from './constants';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useOnFocusOutside} from '../utils/useOnFocusOutside';
+
+import type {CnMods} from '../utils/cn';
+
+import './Select.scss';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -47,6 +51,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterOption,
         name,
         className,
+        controlClassName,
         popupClassName,
         qa,
         value: propsValue,
@@ -192,19 +197,32 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onOpenChange?.(open);
     }, [open, filterable, onOpenChange]);
 
+    const mods: CnMods = {
+        ...(width === 'max' && {width}),
+    };
+    const inlineStyles: React.CSSProperties = {};
+
+    if (typeof width === 'number') {
+        inlineStyles.width = width;
+    }
+
     const {onFocus, onBlur} = useOnFocusOutside(handleClose, open);
 
     return (
-        <div style={{display: 'inline-block'}} onFocus={onFocus} onBlur={onBlur}>
+        <div
+            className={selectBlock(mods, className)}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            style={inlineStyles}
+        >
             <SelectControl
                 ref={handleControlRef}
-                className={className}
+                className={controlClassName}
                 qa={qa}
                 name={name}
                 view={view}
                 size={size}
                 pin={pin}
-                width={width}
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}

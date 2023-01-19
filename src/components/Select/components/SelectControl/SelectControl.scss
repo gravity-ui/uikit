@@ -15,7 +15,7 @@
     }
 }
 
-$block: '.#{variables.$ns}select';
+$block: '.#{variables.$ns}select-control';
 
 #{$block} {
     @include mixins.button-reset();
@@ -25,7 +25,7 @@ $block: '.#{variables.$ns}select';
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
-    width: fit-content;
+    width: 100%;
     min-width: 34px;
     border: 1px solid var(--yc-color-line-generic);
     background-color: transparent;
@@ -63,14 +63,6 @@ $block: '.#{variables.$ns}select';
         height: 44px;
         padding: 0 12px;
         font-size: 15px;
-    }
-
-    &_width_auto {
-        max-width: 100%;
-    }
-
-    &_width_max {
-        width: 100%;
     }
 
     &_disabled {

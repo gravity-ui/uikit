@@ -1,4 +1,4 @@
-## ShareTooltip
+## SharePopover
 
 Sharing component
 
@@ -26,13 +26,13 @@ Sharing component
 Copy button only:
 
 ```js
-<ShareTooltip url={url} title={title} text={text} />
+<SharePopover url={url} title={title} text={text} />
 ```
 
 Default share options only:
 
 ```js
-<ShareTooltip
+<SharePopover
   url={url}
   title={title}
   text={text}
@@ -49,7 +49,7 @@ Default share options only:
 Default share options and copy button:
 
 ```js
-<ShareTooltip
+<SharePopover
   url={url}
   title={title}
   text={text}
@@ -65,7 +65,7 @@ Default share options and copy button:
 With custom share option:
 
 ```js
-<ShareTooltip
+<SharePopover
   url={url}
   title={title}
   text={text}
@@ -83,11 +83,11 @@ With custom share option:
     label="LinkedIn"
     getShareLink={(params: ShareOptionsData) => params.url}
   />
-</ShareTooltip>
+</SharePopover>
 ```
 
 Web Share API setting (share options can be specified for non supported api case):
 
 ```js
-<ShareTooltip url={url} title={title} text={text} useWebShareApi={true} />
+<SharePopover url={url} title={title} text={text} useWebShareApi={true} />
 ```

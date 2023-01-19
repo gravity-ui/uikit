@@ -22,9 +22,10 @@ function compileTs(modules = false) {
 
     return src([
         'src/**/*.{ts,tsx}',
-        '!src/demo/**/*.{ts,tsx}',
-        '!src/stories/**/*.{ts,tsx}',
-        '!src/**/__stories__/**/*.{ts,tsx}',
+        '!src/demo/**/*',
+        '!src/stories/**/*',
+        '!src/**/__stories__/**/*',
+        '!src/**/__tests__/**/*',
     ])
         .pipe(
             replace(/import '.+\.scss';/g, (match) =>
@@ -54,7 +55,7 @@ task('styles-global', () => {
 });
 
 task('styles-components', () => {
-    return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*.scss'])
+    return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*'])
         .pipe(sass().on('error', sass.logError))
         .pipe(dest(path.resolve(BUILD_DIR, 'esm', 'components')))
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs', 'components')));
@@ -65,7 +66,6 @@ task(
     series([
         'clean',
         parallel(['compile-to-esm', 'compile-to-cjs']),
-        'copy-js-declarations',
         'copy-i18n',
         parallel(['styles-global', 'styles-components']),
     ]),

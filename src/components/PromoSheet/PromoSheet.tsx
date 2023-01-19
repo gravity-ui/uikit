@@ -2,8 +2,9 @@ import type {FC} from 'react';
 import React, {useState, useCallback, useEffect, useMemo} from 'react';
 import {block} from '../utils/cn';
 import {CrossIcon} from '../icons/CrossIcon';
-import type {ButtonProps, SheetProps} from '../';
-import {Button, Icon, Sheet} from '../';
+import {Button, ButtonProps} from '../Button';
+import {Sheet, SheetProps} from '../Sheet';
+import {Icon} from '../Icon';
 
 import './PromoSheet.scss';
 

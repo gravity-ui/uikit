@@ -4,12 +4,15 @@ import userEvent from '@testing-library/user-event';
 import {HelpPopover} from '../HelpPopover';
 import {PopoverBehavior} from '../../Popover';
 import {delayByBehavior} from '../../Popover/config';
+import {setupTimersMock} from '../../../tests/utils/setupTimersMock';
 
 const qaId = 'help-popover-component';
 
 function waitForTooltipOpenedStateChange(shouldOpen?: boolean) {
     jest.advanceTimersByTime(delayByBehavior[PopoverBehavior.Delayed][shouldOpen ? 0 : 1]);
 }
+
+setupTimersMock();
 
 describe('HelpPopover', () => {
     test('render popup when hover help icon', async () => {

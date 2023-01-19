@@ -2,7 +2,7 @@ import React, {useCallback, useContext, useEffect} from 'react';
 import type {ReactNode, RefObject, MouseEvent} from 'react';
 
 import {Popup} from '../Popup';
-import type {PopupPlacement, PopupProps} from '../Popup';
+import type {PopupProps} from '../Popup';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
 import {useListNavigation} from '../utils/useListNavigation';
@@ -21,8 +21,6 @@ export type DropdownMenuPopupProps<T> = {
     open: boolean;
     anchorRef: RefObject<HTMLDivElement>;
     onClose?: () => void;
-    popupClassName?: string;
-    placement?: PopupPlacement;
     size?: DropdownMenuSize;
     menuProps?: MenuProps;
     children?: ReactNode;
@@ -35,8 +33,6 @@ export const DropdownMenuPopup = <T,>({
     open,
     anchorRef,
     onClose,
-    popupClassName,
-    placement,
     size,
     menuProps,
     children,
@@ -139,8 +135,6 @@ export const DropdownMenuPopup = <T,>({
         <Popup
             open={open}
             anchorRef={anchorRef}
-            className={popupClassName}
-            placement={placement}
             onClose={onClose}
             {...popupProps}
             onMouseEnter={handleMouseEnter}
@@ -166,7 +160,7 @@ export const DropdownMenuPopup = <T,>({
                                     item.className,
                                 )}
                                 selected={isActive}
-                                popupClassName={popupClassName}
+                                popupProps={popupProps}
                                 closeMenu={onClose}
                                 {...item}
                                 extraProps={extraProps}

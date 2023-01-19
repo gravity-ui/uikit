@@ -1,5 +1,6 @@
 import React, {useRef, useCallback, useContext, useMemo} from 'react';
 import type {ReactNode} from 'react';
+import type {PopupProps} from '../Popup';
 
 import {Icon} from '../Icon';
 import {Menu} from '../Menu';
@@ -13,7 +14,7 @@ import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {DropdownMenuContext} from './DropdownMenuContext';
 
 export type DropdownMenuItemProps<T> = DropdownMenuListItem<T> & {
-    popupClassName?: string;
+    popupProps?: Partial<PopupProps>;
     closeMenu?: () => void;
     children?: ReactNode;
     path?: number[];
@@ -23,7 +24,7 @@ export const DropdownMenuItem = <T,>({
     text,
     action,
     items: subMenuItems,
-    popupClassName,
+    popupProps,
     closeMenu,
     children,
     path,
@@ -112,12 +113,15 @@ export const DropdownMenuItem = <T,>({
             </Menu.Item>
             {hasSubmenu && subMenuItems && (
                 <DropdownMenuPopup
-                    popupClassName={cnDropdownMenu('sub-menu', popupClassName)}
+                    popupProps={{
+                        ...popupProps,
+                        className: cnDropdownMenu('sub-menu', popupProps?.className),
+                        placement: subMenuPlacement,
+                    }}
                     items={subMenuItems}
                     path={path}
                     open={isSubmenuOpen}
                     anchorRef={menuItemRef}
-                    placement={subMenuPlacement}
                     onClose={handleCloseMenu}
                 />
             )}

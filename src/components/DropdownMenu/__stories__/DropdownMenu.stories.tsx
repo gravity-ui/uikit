@@ -116,7 +116,7 @@ const LabelSwitcherTemplate: Story<{statuses: {text: string; style: LabelProps['
                     {status.text}
                 </Label>
             }
-            popupClassName={b('label-switcher-menu')}
+            popupProps={{className: b('label-switcher-menu')}}
         />
     );
 };

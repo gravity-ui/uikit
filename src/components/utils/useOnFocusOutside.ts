@@ -12,7 +12,7 @@ import React from 'react';
  *
  * @param {onFocusOutsideCallback} onFocusOutside  - handler for focus outside event
  * @param {true} enable
- * @returns {{onFocus: VoidFunction}}
+ * @returns container props
  *
  * @example
  *
@@ -21,10 +21,10 @@ import React from 'react';
  *
  *   const handleFocusOutside = React.useCallback(() => {setOpen(false);}, []);
  *
- *   const {onFocus} = useOnFocusOutside(handleFocusOutside, open);
+ *   const {onFocus, onBlur} = useOnFocusOutside(handleFocusOutside, open);
  *
  *   return (
- *     <span onFocus={onFocus}>
+ *     <span onFocus={onFocus} onBlur={onBlur}>
  *       <Button onClick={() => {setOpen(true);}}>Select</Button>
  *       <Popup open={open}>
  *          ...
@@ -58,9 +58,18 @@ export function useOnFocusOutside(onFocusOutside: (event: FocusEvent) => void, e
         };
     }, [enable, onFocusOutside]);
 
-    const handleFocus = React.useCallback(() => {
+    const handleFocusIn = React.useCallback(() => {
         capturedRef.current = true;
     }, []);
 
-    return {onFocus: handleFocus};
+    const handleFocusOut = React.useCallback(
+        (event: React.FocusEvent) => {
+            if (event.relatedTarget === null || event.relatedTarget === document.body) {
+                onFocusOutside(event.nativeEvent);
+            }
+        },
+        [onFocusOutside],
+    );
+
+    return {onFocus: handleFocusIn, onBlur: handleFocusOut};
 }

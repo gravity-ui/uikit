@@ -192,10 +192,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onOpenChange?.(open);
     }, [open, filterable, onOpenChange]);
 
-    const {onFocus} = useOnFocusOutside(handleClose, open);
+    const {onFocus, onBlur} = useOnFocusOutside(handleClose, open);
 
     return (
-        <div style={{display: 'inline-block'}} onFocus={onFocus}>
+        <div style={{display: 'inline-block'}} onFocus={onFocus} onBlur={onBlur}>
             <SelectControl
                 ref={handleControlRef}
                 className={className}

@@ -21,10 +21,10 @@ function compileTs(modules = false) {
     });
 
     return src([
-        'src/**/*.{js,jsx,ts,tsx}',
-        '!src/demo/**/*.{js,jsx,ts,tsx}',
-        '!src/stories/**/*.{js,jsx,ts,tsx}',
-        '!src/**/__stories__/**/*.{js,jsx,ts,tsx}',
+        'src/**/*.{ts,tsx}',
+        '!src/demo/**/*.{ts,tsx}',
+        '!src/stories/**/*.{ts,tsx}',
+        '!src/**/__stories__/**/*.{ts,tsx}',
     ])
         .pipe(
             replace(/import '.+\.scss';/g, (match) =>
@@ -41,17 +41,6 @@ task('compile-to-esm', () => {
 
 task('compile-to-cjs', () => {
     return compileTs();
-});
-
-task('copy-js-declarations', () => {
-    return src([
-        'src/**/*.d.ts',
-        '!src/demo/**/*.d.ts',
-        '!src/stories/**/*.d.ts',
-        '!src/**/__stories__/**/*.d.ts',
-    ])
-        .pipe(dest(path.resolve(BUILD_DIR, 'esm')))
-        .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
 });
 
 task('copy-i18n', () => {

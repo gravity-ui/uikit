@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.18.2](https://github.com/gravity-ui/uikit/compare/v3.18.1...v3.18.2) (2023-01-19)
+
+
+### Bug Fixes
+
+* **Modal:** fix close animation ([#483](https://github.com/gravity-ui/uikit/issues/483)) ([e4df040](https://github.com/gravity-ui/uikit/commit/e4df0407cbb4d5694932f124e536a765bfc1df06))
+
 ## [3.18.1](https://github.com/gravity-ui/uikit/compare/v3.18.0...v3.18.1) (2023-01-16)
 
 

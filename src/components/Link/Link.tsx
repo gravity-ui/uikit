@@ -1,7 +1,7 @@
 import React from 'react';
 import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
+import {eventBroker} from '../utils/event-broker';
 
 import './Link.scss';
 
@@ -25,7 +25,7 @@ export interface LinkProps extends DOMProps, QAProps {
 
 const b = block('link');
 
-const PureLink = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, LinkProps>(function Link(
+export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
     {
         view = 'normal',
         href,
@@ -44,10 +44,19 @@ const PureLink = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, LinkProps
     },
     ref,
 ) {
+    const handleClickCapture = React.useCallback((event: React.SyntheticEvent) => {
+        eventBroker.publish({
+            componentId: 'Link',
+            eventId: 'click',
+            domEvent: event,
+        });
+    }, []);
+
     const commonProps = {
         title,
         children,
         onClick,
+        onClickCapture: handleClickCapture,
         onFocus,
         onBlur,
         id,
@@ -80,6 +89,3 @@ const PureLink = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, LinkProps
         );
     }
 });
-
-PureLink.displayName = 'Link';
-export const Link = withEventBrokerDomHandlers(PureLink, ['onClick'], {componentId: 'Link'});

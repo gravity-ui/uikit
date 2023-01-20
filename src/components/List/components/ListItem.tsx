@@ -49,6 +49,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 )}
                 style={style}
                 onClick={item.disabled ? undefined : this.onClick}
+                onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 ref={this.ref}
@@ -75,12 +76,13 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         return <div className={b('item-content')}>{renderItem(item, active, itemIndex)}</div>;
     }
 
-    private onClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    private onClick = () => this.props.onClick?.(this.props.item, this.props.itemIndex);
+
+    private onClickCapture: React.MouseEventHandler<HTMLDivElement> = (event) => {
         ListItem.publishEvent({
             domEvent: event,
             eventId: 'click',
         });
-        this.props.onClick?.(this.props.item, this.props.itemIndex);
     };
 
     private onMouseEnter = () =>

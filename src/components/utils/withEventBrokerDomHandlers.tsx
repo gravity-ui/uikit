@@ -2,7 +2,7 @@ import React, {SyntheticEvent} from 'react';
 import {eventBroker, EventBrokerData} from './event-broker';
 import {getComponentName} from './getComponentName';
 
-type SupportedEvents = 'onClick';
+type SupportedEvents = 'onClick' | 'onClickCapture';
 
 export function withEventBrokerDomHandlers<
     T extends Partial<{[k in SupportedEvents]: React.EventHandler<SyntheticEvent>}>,

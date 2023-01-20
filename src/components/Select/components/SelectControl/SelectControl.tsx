@@ -4,7 +4,7 @@ import type {CnMods} from '../../../utils/cn';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
 import type {SelectProps} from '../../types';
-import {selectBlock} from '../../constants';
+import {selectControlBlock} from '../../constants';
 
 import './SelectControl.scss';
 
@@ -16,7 +16,6 @@ type ControlProps = {
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
     selectedOptionsContent: React.ReactNode;
-    width?: SelectProps['width'];
     name?: string;
     className?: string;
     qa?: string;
@@ -35,7 +34,6 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         size,
         pin,
         selectedOptionsContent,
-        width,
         className,
         qa,
         name,
@@ -54,13 +52,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         pin,
         disabled,
         open,
-        ...(typeof width === 'string' && {width}),
     };
-    const inlineStyles: React.CSSProperties = {};
-
-    if (typeof width === 'number') {
-        inlineStyles.width = width;
-    }
 
     const handleClick = React.useCallback(() => setOpen(!open), [setOpen, open]);
 
@@ -77,21 +69,23 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         <button
             ref={handleControlRef as React.Ref<HTMLButtonElement>}
             name={name}
-            className={selectBlock(mods, className)}
-            style={inlineStyles}
+            className={selectControlBlock(mods, className)}
             aria-haspopup="listbox"
+            aria-expanded={open ? 'true' : 'false'}
             disabled={disabled}
             onClick={handleClick}
             onKeyDown={onKeyDown}
             type="button"
             data-qa={qa}
         >
-            {label && <span className={selectBlock('label')}>{label}</span>}
-            {showPlaceholder && <span className={selectBlock('placeholder')}>{placeholder}</span>}
-            {showOptionsText && (
-                <span className={selectBlock('option-text')}>{selectedOptionsContent}</span>
+            {label && <span className={selectControlBlock('label')}>{label}</span>}
+            {showPlaceholder && (
+                <span className={selectControlBlock('placeholder')}>{placeholder}</span>
             )}
-            <Icon className={selectBlock('chevron-icon')} data={Chevron} />
+            {showOptionsText && (
+                <span className={selectControlBlock('option-text')}>{selectedOptionsContent}</span>
+            )}
+            <Icon className={selectControlBlock('chevron-icon')} data={Chevron} />
         </button>
     );
 });

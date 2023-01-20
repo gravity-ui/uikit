@@ -23,12 +23,19 @@ interface DialogOwnProps {
         event: MouseEvent | KeyboardEvent,
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
+    onTransitionEnter?: ModalProps['onTransitionEnter'];
+    onTransitionEntered?: ModalProps['onTransitionEntered'];
+    onTransitionExit?: ModalProps['onTransitionExit'];
+    onTransitionExited?: ModalProps['onTransitionExited'];
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
     'aria-label'?: string;
     'aria-labelledby'?: string;
     container?: HTMLElement;
+    disableFocusTrap?: boolean;
+    disableAutoFocus?: boolean;
+    restoreFocusRef?: React.RefObject<HTMLElement>;
 }
 
 interface DialogDefaultProps {
@@ -64,6 +71,9 @@ export class Dialog extends React.Component<DialogInnerProps> {
             disableBodyScrollLock,
             disableEscapeKeyDown,
             disableOutsideClick,
+            disableFocusTrap,
+            disableAutoFocus,
+            restoreFocusRef,
             keepMounted,
             size,
             className,
@@ -73,6 +83,10 @@ export class Dialog extends React.Component<DialogInnerProps> {
             onEnterKeyDown,
             onOutsideClick,
             onClose,
+            onTransitionEnter,
+            onTransitionEntered,
+            onTransitionExit,
+            onTransitionExited,
             'aria-label': ariaLabel,
             'aria-labelledby': ariaLabelledBy,
             qa,
@@ -84,11 +98,18 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 disableBodyScrollLock={disableBodyScrollLock}
                 disableEscapeKeyDown={disableEscapeKeyDown}
                 disableOutsideClick={disableOutsideClick}
+                disableFocusTrap={disableFocusTrap}
+                disableAutoFocus={disableAutoFocus}
+                restoreFocusRef={restoreFocusRef}
                 keepMounted={keepMounted}
                 onEscapeKeyDown={onEscapeKeyDown}
                 onEnterKeyDown={onEnterKeyDown}
                 onOutsideClick={onOutsideClick}
                 onClose={onClose}
+                onTransitionEnter={onTransitionEnter}
+                onTransitionEntered={onTransitionEntered}
+                onTransitionExit={onTransitionExit}
+                onTransitionExited={onTransitionExited}
                 className={b('modal', modalClassName)}
                 aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}

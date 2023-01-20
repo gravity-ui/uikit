@@ -40,6 +40,7 @@ export function useRadioGroup(props: ControlGroupProps) {
 
     const containerProps = {
         role: 'radiogroup',
+        'aria-disabled': disabled,
         'aria-label': props['aria-label'],
         'aria-labelledby': props['aria-labelledby'],
     };

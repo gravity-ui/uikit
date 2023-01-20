@@ -1,18 +1,23 @@
 @mixin yc-colors-text-dark-hc {
     --yc-color-text-primary: var(--yc-color-private-white-1000);
-
     --yc-color-text-complementary: var(--yc-color-private-white-800);
     --yc-color-text-secondary: var(--yc-color-private-white-600);
     --yc-color-text-hint: var(--yc-color-private-white-400);
 
-    --yc-color-text-info: var(--yc-color-private-blue-850-solid);
+    --yc-color-text-info: var(--yc-color-private-blue-600-solid);
+    --yc-color-text-positive: var(--yc-color-private-green-600-solid);
+    --yc-color-text-warning: var(--yc-color-private-yellow-600-solid);
+    --yc-color-text-danger: var(--yc-color-private-red-600-solid);
+    --yc-color-text-utility: var(--yc-color-private-purple-600-solid);
+    --yc-color-text-misc: var(--yc-color-private-cool-grey-600-solid);
 
-    --yc-color-text-positive: var(--yc-color-private-green-850-solid);
-    --yc-color-text-warning-medium: var(--yc-color-private-yellow-800-solid);
+    --yc-color-text-info-heavy: var(--yc-color-private-blue-850-solid);
+    --yc-color-text-positive-heavy: var(--yc-color-private-green-850-solid);
     --yc-color-text-warning-heavy: var(--yc-color-private-yellow-850-solid);
-    --yc-color-text-danger: var(--yc-color-private-red-850-solid);
-    --yc-color-text-utility: var(--yc-color-private-purple-805-solid);
-    --yc-color-text-misc: var(--yc-color-private-cool-grey-850-solid);
+    --yc-color-text-danger-heavy: var(--yc-color-private-red-850-solid);
+    --yc-color-text-utility-heavy: var(--yc-color-private-purple-850-solid);
+    --yc-color-text-misc-heavy: var(--yc-color-private-cool-grey-850-solid);
+
     --yc-color-text-special: var(--yc-my-color-brand-normal);
     --yc-color-text-link: var(--yc-my-color-brand-link);
     --yc-color-text-link-hover: var(--yc-my-color-brand-link-hover);

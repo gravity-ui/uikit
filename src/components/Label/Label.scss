@@ -206,7 +206,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--yc-color-base-misc),
                 var(--yc-color-base-misc-hover),
-                var(--yc-color-text-misc)
+                var(--yc-color-text-misc-heavy)
             );
         }
 
@@ -214,7 +214,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--yc-color-base-positive),
                 var(--yc-color-base-positive-hover),
-                var(--yc-color-text-positive)
+                var(--yc-color-text-positive-heavy)
             );
         }
 
@@ -222,7 +222,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--yc-color-base-info),
                 var(--yc-color-base-info-hover),
-                var(--yc-color-text-info)
+                var(--yc-color-text-info-heavy)
             );
         }
 
@@ -238,7 +238,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--yc-color-base-danger),
                 var(--yc-color-base-danger-hover),
-                var(--yc-color-text-danger)
+                var(--yc-color-text-danger-heavy)
             );
         }
 

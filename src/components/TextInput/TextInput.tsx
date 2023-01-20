@@ -58,7 +58,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         className,
         qa,
         controlProps: originalControlProps,
-        labelProps,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
@@ -165,13 +164,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             data-qa={qa}
         >
             {isLabelVisible && (
-                <label
-                    {...labelProps}
-                    ref={labelRef}
-                    className={b('label', labelProps?.className)}
-                    title={label}
-                    htmlFor={id}
-                >
+                <label ref={labelRef} className={b('label')} title={label} htmlFor={id}>
                     {`${label}`}
                 </label>
             )}

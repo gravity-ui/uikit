@@ -14,12 +14,12 @@
     }
     @if $size == 'l' {
         height: 36px;
-        padding: 10px 13px;
+        padding: 10px 12px;
         @include mixins.text-body-short;
     }
     @if $size == 'xl' {
         height: 44px;
-        padding: 12px 13px;
+        padding: 12px;
         @include mixins.text-body-2;
     }
 

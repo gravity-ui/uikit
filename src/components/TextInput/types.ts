@@ -86,5 +86,4 @@ export interface TextInputProps extends DOMProps, QAProps {
     controlProps?:
         | React.InputHTMLAttributes<HTMLInputElement>
         | React.TextareaHTMLAttributes<HTMLTextAreaElement>;
-    labelProps?: React.HTMLAttributes<HTMLLabelElement>;
 }

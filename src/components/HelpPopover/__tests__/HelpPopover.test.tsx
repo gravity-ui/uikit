@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {HelpPopover} from '../HelpPopover';
 import {PopoverBehavior} from '../../Popover';
 import {delayByBehavior} from '../../Popover/config';
-import {setupTimersMock} from '../../../tests/utils/setupTimersMock';
+import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
 
 const qaId = 'help-popover-component';
 

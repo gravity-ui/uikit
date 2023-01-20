@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.19.0](https://github.com/gravity-ui/uikit/compare/v3.18.2...v3.19.0) (2023-01-20)
+
+
+### Features
+
+* **RadioGroup:** improve radio-group components a11y ([#196](https://github.com/gravity-ui/uikit/issues/196)) ([70f36ea](https://github.com/gravity-ui/uikit/commit/70f36eaceebb4e8b9dfdd6ec056896b07bd8f89c))
+* **TextInput:** ability to show innerLabel in InputControl ([#426](https://github.com/gravity-ui/uikit/issues/426)) ([8a5e3c5](https://github.com/gravity-ui/uikit/commit/8a5e3c594eb2e4c5d9505d078a44e5cd495bb435))
+
+
+### Bug Fixes
+
+* lighter colors for base-neutral ([#490](https://github.com/gravity-ui/uikit/issues/490)) ([64e7278](https://github.com/gravity-ui/uikit/commit/64e72785c6c3f7f68bf075921a70b5cbbb400a63))
+
 ## [3.18.2](https://github.com/gravity-ui/uikit/compare/v3.18.1...v3.18.2) (2023-01-19)
 
 

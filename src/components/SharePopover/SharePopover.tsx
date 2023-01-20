@@ -9,20 +9,20 @@ import {Popover} from '../Popover';
 import {Icon} from '../Icon';
 import {Share} from '../icons';
 
-import './ShareTooltip.scss';
+import './SharePopover.scss';
 
-const b = block('share-tooltip');
+const b = block('share-popover');
 
-interface ShareTooltipDefaultProps extends ShareListDefaultProps {
+interface SharePopoverDefaultProps extends ShareListDefaultProps {
     /** Web Share API setting (share options can be specified for non supported api case) */
     useWebShareApi: boolean;
-    /** tooltip opening direction */
+    /** popover opening direction */
     placement: PopupPlacement;
-    /** should open tooltip with hover */
+    /** should open popover with hover */
     openByHover: boolean;
-    /** should close tooltip when cursor is outside */
+    /** should close popover when cursor is outside */
     autoclosable: boolean;
-    /** delay before tooltip will be hidden when cursor is otside */
+    /** delay before popover will be hidden when cursor is otside */
     closeDelay: number;
     /** control-icon size */
     iconSize: number;
@@ -30,7 +30,7 @@ interface ShareTooltipDefaultProps extends ShareListDefaultProps {
     direction: LayoutDirection;
 }
 
-export interface ShareTooltipProps extends ShareListProps, Partial<ShareTooltipDefaultProps> {
+export interface SharePopoverProps extends ShareListProps, Partial<SharePopoverDefaultProps> {
     /** icon control mixin */
     iconClass?: string;
     /** tooltip mixin */
@@ -59,10 +59,10 @@ export interface ShareTooltipProps extends ShareListProps, Partial<ShareTooltipD
     }) => React.ReactElement;
 }
 
-type ShareTooltipInnerProps = Omit<ShareTooltipProps, keyof ShareTooltipDefaultProps> &
-    Required<Pick<ShareTooltipProps, keyof ShareTooltipDefaultProps>>;
+type SharePopoverInnerProps = Omit<SharePopoverProps, keyof SharePopoverDefaultProps> &
+    Required<Pick<SharePopoverProps, keyof SharePopoverDefaultProps>>;
 
-export const shareTooltipDefaultProps: ShareTooltipDefaultProps = {
+export const sharePopoverDefaultProps: SharePopoverDefaultProps = {
     iconSize: 16,
     shareOptions: ShareList.defaultProps.shareOptions,
     withCopyLink: true,
@@ -74,8 +74,8 @@ export const shareTooltipDefaultProps: ShareTooltipDefaultProps = {
     direction: LayoutDirection.Row,
 };
 
-export class ShareTooltip extends React.PureComponent<ShareTooltipInnerProps> {
-    static defaultProps = shareTooltipDefaultProps;
+export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
+    static defaultProps = sharePopoverDefaultProps;
 
     render() {
         const {

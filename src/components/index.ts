@@ -31,7 +31,7 @@ export * from './Radio';
 export * from './RadioButton';
 export * from './RadioGroup';
 export * from './Select';
-export * from './ShareTooltip';
+export * from './SharePopover';
 export * from './Sheet';
 export * from './Skeleton';
 export * from './Spin';

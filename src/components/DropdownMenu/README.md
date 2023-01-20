@@ -21,31 +21,29 @@ A dropdown menu with a customizable toggle. By default, the toggle is an ellipsi
 | `onOpenToggle`             | `() => void`                                       |          |               | Called when the menu is opened or closed.                                                           |
 | `onSwitcherClick`          | `React.MouseEventHandler<HTMLElement>`             |          |               | Called when `switcher` is clicked.                                                                  |
 | `hideOnScroll`             | `boolean`                                          |          | `true`        | Specifies whether to hide the menu when a parent element is scrolled.                               |
-| `popupPlacement`           | `PopupPlacement`                                   |          |               | Allowed positions of the menu popup.                                                                |
-| `popupClassName`           | `string`                                           |          |               | A value of the `className` prop of the menu popup.                                                  |
 | `children`                 | `ReactNode`                                        |          |               | Custom content inside the menu popup.                                                               |
 
 ### DropdownMenuItem
 
 This type describes an individual dropdown menu item.
 
-| Name             | Type                                           | Required | Default | Description                                                                                                               |
-| :--------------- | :--------------------------------------------- | :------: | :------ | :------------------------------------------------------------------------------------------------------------------------ |
-| `text`           | `ReactNode`                                    |   yes    |         | Menu item content.                                                                                                        |
-| `action`         | `(event: React.MouseEvent, data: any) => void` |   yes    |         | A menu item click handler. Recieves the parameters (both `event` and `data`) from the parent dropdown menu component.     |
-| `icon`           | `ReactNode`                                    |          |         | A menu item icon.                                                                                                         |
-| `hidden`         | `boolean`                                      |          |         |                                                                                                                           |
-| `disabled`       | `boolean`                                      |          |         |                                                                                                                           |
-| `href`           | `string`                                       |          |         | A menu item with this prop becomes a link to the specified location.                                                      |
-| `target`         | `string`                                       |          |         | Same as the `target` attribute of the `<a>` tag.                                                                          |
-| `rel`            | `string`                                       |          |         | Same as the `rel` attribute of the `<a>` tag.                                                                             |
-| `extraProps`     | `object`                                       |          |         | Additional menu item props.                                                                                               |
-| `title`          | `string`                                       |          |         | A tooltip text.                                                                                                           |
-| `className`      | `string`                                       |          |         |                                                                                                                           |
-| `items`          | `(DropdownMenuItem` or `DropdownMenuItem[])[]` |          |         | Sub-menu items                                                                                                            |
-| `popupClassName` | `string`                                       |          |         | Sub-menu popup class                                                                                                      |
-| `path`           | `number[]`                                     |          |         | Path of indexes from the root to the current item                                                                         |
-| `closeMenu`      | `() => void`                                   |          |         | Custom `closeMenu` callback, can be called instead of closing the main menu, used to close sub-menus before the main menu |
+| Name         | Type                                           | Required | Default | Description                                                                                                               |
+| :----------- | :--------------------------------------------- | :------: | :------ | :------------------------------------------------------------------------------------------------------------------------ |
+| `text`       | `ReactNode`                                    |   yes    |         | Menu item content.                                                                                                        |
+| `action`     | `(event: React.MouseEvent, data: any) => void` |   yes    |         | A menu item click handler. Recieves the parameters (both `event` and `data`) from the parent dropdown menu component.     |
+| `icon`       | `ReactNode`                                    |          |         | A menu item icon.                                                                                                         |
+| `hidden`     | `boolean`                                      |          |         |                                                                                                                           |
+| `disabled`   | `boolean`                                      |          |         |                                                                                                                           |
+| `href`       | `string`                                       |          |         | A menu item with this prop becomes a link to the specified location.                                                      |
+| `target`     | `string`                                       |          |         | Same as the `target` attribute of the `<a>` tag.                                                                          |
+| `rel`        | `string`                                       |          |         | Same as the `rel` attribute of the `<a>` tag.                                                                             |
+| `extraProps` | `object`                                       |          |         | Additional menu item props.                                                                                               |
+| `title`      | `string`                                       |          |         | A tooltip text.                                                                                                           |
+| `className`  | `string`                                       |          |         |                                                                                                                           |
+| `items`      | `(DropdownMenuItem` or `DropdownMenuItem[])[]` |          |         | Sub-menu items                                                                                                            |
+| `popupProps` | `string`                                       |          |         | Sub-menu popup props                                                                                                      |
+| `path`       | `number[]`                                     |          |         | Path of indexes from the root to the current item                                                                         |
+| `closeMenu`  | `() => void`                                   |          |         | Custom `closeMenu` callback, can be called instead of closing the main menu, used to close sub-menus before the main menu |
 
 ## Example
 

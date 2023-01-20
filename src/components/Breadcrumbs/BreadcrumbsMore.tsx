@@ -21,10 +21,12 @@ export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
     return (
         <DropdownMenu
             items={items}
-            popupClassName={b('popup', {
-                staircase: popupStyle === 'staircase',
-            })}
-            popupPlacement={popupPlacement}
+            popupProps={{
+                className: b('popup', {
+                    staircase: popupStyle === 'staircase',
+                }),
+                placement: popupPlacement,
+            }}
             switcher={<Switcher />}
         />
     );

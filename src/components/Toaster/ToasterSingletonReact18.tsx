@@ -23,19 +23,18 @@ export class ToasterSingleton {
     private componentAPI: null | ToasterPublicMethods = null;
 
     constructor(args?: ToasterArgs) {
-        const additionalClass = get(args, ['additionalClass'], '');
         const className = get(args, ['className'], '');
         const mobile = get(args, ['mobile'], false);
 
         if (window[TOASTER_KEY] instanceof ToasterSingleton) {
             const me = window[TOASTER_KEY];
-            me.className = className || additionalClass;
+            me.className = className;
             me.mobile = mobile;
             me.setRootNodeClassName();
             return me;
         }
 
-        this.className = additionalClass;
+        this.className = className;
         this.mobile = mobile;
         this.createRootNode();
         this.createReactRoot();

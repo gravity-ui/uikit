@@ -1,7 +1,7 @@
 import React, {useRef, useMemo} from 'react';
 import type {ReactNode, MouseEventHandler, Dispatch, SetStateAction} from 'react';
 
-import type {PopupPlacement, PopupProps} from '../Popup';
+import type {PopupProps} from '../Popup';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
@@ -65,13 +65,12 @@ export type DropdownMenuProps<T> = {
     defaultSwitcherClassName?: string;
     onSwitcherClick?: MouseEventHandler<HTMLElement>;
     /**
-     * Overrides the default dropdown menu popup props.
+     * Overrides the default dropdown menu props.
      */
-    menuProps?: MenuProps;
-    /** @deprecated Use `popupProps` instead */
-    popupClassName?: string;
-    /** @deprecated Use `popupProps` instead */
-    popupPlacement?: PopupPlacement;
+    menuProps?: Partial<MenuProps>;
+    /**
+     * Overrides the default dropdown popup props.
+     */
     popupProps?: Partial<PopupProps>;
     /**
      * Custom content inside the menu popup.
@@ -99,8 +98,6 @@ const DropdownMenu = <T,>({
     defaultSwitcherClassName,
     onSwitcherClick,
     menuProps,
-    popupClassName,
-    popupPlacement,
     popupProps,
     children,
 }: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
@@ -158,11 +155,9 @@ const DropdownMenu = <T,>({
             </div>
             <DropdownMenuNavigationContextProvider anchorRef={anchorRef} disabled={!isPopupShown}>
                 <DropdownMenuPopup
-                    popupClassName={popupClassName}
                     items={itemsList}
                     open={isPopupShown}
                     size={size}
-                    placement={popupPlacement}
                     menuProps={menuProps}
                     anchorRef={anchorRef}
                     onClose={closePopup}

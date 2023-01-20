@@ -16,7 +16,7 @@ task('clean', (done) => {
 
 function compileTs(modules = false) {
     const tsProject = ts.createProject('tsconfig.json', {
-        declaration: true,
+        declaration: modules,
         module: modules ? 'esnext' : 'commonjs',
     });
 

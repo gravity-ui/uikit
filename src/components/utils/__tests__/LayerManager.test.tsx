@@ -1,5 +1,5 @@
 import {act} from '@testing-library/react';
-import {setupTimersMock} from '../../../tests/utils/setupTimersMock';
+import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
 import {layerManager} from '../LayerManager';
 
 describe('LayerManager', () => {

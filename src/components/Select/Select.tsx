@@ -206,7 +206,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         inlineStyles.width = width;
     }
 
-    const {onFocus, onBlur} = useOnFocusOutside(handleClose, open);
+    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
 
     return (
         <div

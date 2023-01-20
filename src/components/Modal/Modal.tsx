@@ -32,8 +32,10 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     'aria-label'?: string;
     container?: HTMLElement;
     contentClassName?: string;
-    onOpenEnd?: VoidFunction;
-    onCloseEnd?: VoidFunction;
+    onTransitionEnter?: VoidFunction;
+    onTransitionEntered?: VoidFunction;
+    onTransitionExit?: VoidFunction;
+    onTransitionExited?: VoidFunction;
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -53,8 +55,10 @@ export function Modal({
     onEnterKeyDown,
     onOutsideClick,
     onClose,
-    onOpenEnd,
-    onCloseEnd,
+    onTransitionEnter,
+    onTransitionEntered,
+    onTransitionExit,
+    onTransitionExited,
     children,
     style,
     className,
@@ -104,15 +108,21 @@ export function Modal({
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
                 appear={true}
-                onEnter={() => setInTransition(true)}
-                onExit={() => setInTransition(true)}
+                onEnter={() => {
+                    setInTransition(true);
+                    onTransitionEnter?.();
+                }}
+                onExit={() => {
+                    setInTransition(true);
+                    onTransitionExit?.();
+                }}
                 onEntered={() => {
                     setInTransition(false);
-                    onOpenEnd?.();
+                    onTransitionEntered?.();
                 }}
                 onExited={() => {
                     setInTransition(false);
-                    onCloseEnd?.();
+                    onTransitionExited?.();
                 }}
             >
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>

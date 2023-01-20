@@ -63,7 +63,7 @@ function OtherDialog() {
                 hasCloseButton
                 keepMounted
                 onEnterKeyDown={handleApply}
-                onOpenEnd={() => {
+                onTransitionEntered={() => {
                     selectRef?.current?.focus();
                 }}
             >

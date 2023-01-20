@@ -7,11 +7,17 @@ import React from 'react';
  * @param {FocusEvent} event
  */
 
+interface UseOnFocusOutsideProps {
+    enabled?: boolean;
+    onFocusOutside: (event: FocusEvent) => void;
+}
+
 /**
  * Calls callback on focus element outside of some React sub-tree
  *
- * @param {onFocusOutsideCallback} onFocusOutside  - handler for focus outside event
- * @param {true} enable
+ * @param {Object} props
+ * @param {true} [props.enabled=true] - if false, will not track focus outside events
+ * @param {onFocusOutsideCallback} props.onFocusOutside - handler for focus outside event
  * @returns container props
  *
  * @example
@@ -21,7 +27,7 @@ import React from 'react';
  *
  *   const handleFocusOutside = React.useCallback(() => {setOpen(false);}, []);
  *
- *   const {onFocus, onBlur} = useOnFocusOutside(handleFocusOutside, open);
+ *   const {onFocus, onBlur} = useOnFocusOutside({onFocusOutside: handleFocusOutside, enabled: open});
  *
  *   return (
  *     <span onFocus={onFocus} onBlur={onBlur}>
@@ -34,11 +40,11 @@ import React from 'react';
  *  }
  * }
  */
-export function useOnFocusOutside(onFocusOutside: (event: FocusEvent) => void, enable = true) {
+export function useOnFocusOutside({onFocusOutside, enabled = true}: UseOnFocusOutsideProps) {
     const capturedRef = React.useRef(false);
 
     React.useEffect(() => {
-        if (!enable) {
+        if (!enabled) {
             return undefined;
         }
 
@@ -56,7 +62,7 @@ export function useOnFocusOutside(onFocusOutside: (event: FocusEvent) => void, e
         return () => {
             window.removeEventListener('focus', handleFocus, {capture: true});
         };
-    }, [enable, onFocusOutside]);
+    }, [enabled, onFocusOutside]);
 
     const handleFocusIn = React.useCallback(() => {
         capturedRef.current = true;
@@ -64,11 +70,14 @@ export function useOnFocusOutside(onFocusOutside: (event: FocusEvent) => void, e
 
     const handleFocusOut = React.useCallback(
         (event: React.FocusEvent) => {
-            if (event.relatedTarget === null || event.relatedTarget === document.body) {
+            if (
+                enabled &&
+                (event.relatedTarget === null || event.relatedTarget === document.body)
+            ) {
                 onFocusOutside(event.nativeEvent);
             }
         },
-        [onFocusOutside],
+        [onFocusOutside, enabled],
     );
 
     return {onFocus: handleFocusIn, onBlur: handleFocusOut};

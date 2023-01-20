@@ -23,8 +23,10 @@ interface DialogOwnProps {
         event: MouseEvent | KeyboardEvent,
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
-    onOpenEnd?: VoidFunction;
-    onCloseEnd?: VoidFunction;
+    onTransitionEnter?: ModalProps['onTransitionEnter'];
+    onTransitionEntered?: ModalProps['onTransitionEntered'];
+    onTransitionExit?: ModalProps['onTransitionExit'];
+    onTransitionExited?: ModalProps['onTransitionExited'];
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
@@ -81,8 +83,10 @@ export class Dialog extends React.Component<DialogInnerProps> {
             onEnterKeyDown,
             onOutsideClick,
             onClose,
-            onOpenEnd,
-            onCloseEnd,
+            onTransitionEnter,
+            onTransitionEntered,
+            onTransitionExit,
+            onTransitionExited,
             'aria-label': ariaLabel,
             'aria-labelledby': ariaLabelledBy,
             qa,
@@ -102,8 +106,10 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 onEnterKeyDown={onEnterKeyDown}
                 onOutsideClick={onOutsideClick}
                 onClose={onClose}
-                onOpenEnd={onOpenEnd}
-                onCloseEnd={onCloseEnd}
+                onTransitionEnter={onTransitionEnter}
+                onTransitionEntered={onTransitionEntered}
+                onTransitionExit={onTransitionExit}
+                onTransitionExited={onTransitionExited}
                 className={b('modal', modalClassName)}
                 aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}

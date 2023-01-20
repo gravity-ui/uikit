@@ -1,6 +1,8 @@
 import React from 'react';
 import {block} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
+import {useElementSize} from '../utils/useElementSize';
+import {useUniqId} from '../utils/useUniqId';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
 import {Button} from '../Button';
@@ -42,6 +44,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         name,
         value,
         defaultValue,
+        label,
         disabled = false,
         multiline = false,
         hasClear = false,
@@ -49,20 +52,27 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         autoComplete,
         onUpdate,
         onChange,
-        id,
+        id: originalId,
         tabIndex,
         style,
         className,
         qa,
+        controlProps: originalControlProps,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
+    const labelRef = React.useRef<HTMLLabelElement>(null);
+    const innerId = useUniqId();
+    const id = originalId || innerId;
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
+    const isLabelVisible = !multiline && Boolean(label);
 
     const handleRef = useForkRef(props.controlRef, innerControlRef);
+
+    const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
 
     React.useEffect(() => {
         const control = innerControlRef.current;
@@ -107,6 +117,14 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
 
+    const controlProps: TextInputProps['controlProps'] = {
+        ...originalControlProps,
+        style: {
+            ...originalControlProps?.style,
+            ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
+        },
+    };
+
     const commonProps = {
         id,
         tabIndex,
@@ -124,6 +142,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             }
         },
         autoComplete: prepareAutoComplete(autoComplete),
+        controlProps,
     };
 
     return (
@@ -144,7 +163,12 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             )}
             data-qa={qa}
         >
-            {props.multiline ? (
+            {isLabelVisible && (
+                <label ref={labelRef} className={b('label')} title={label} htmlFor={id}>
+                    {`${label}`}
+                </label>
+            )}
+            {multiline ? (
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
             ) : (
                 <InputControl {...props} {...commonProps} controlRef={handleRef} />

@@ -38,7 +38,7 @@
         "@gravity-ui/i18n": "^1.0.0",
         "@popperjs/core": "2.11.6",
         "bem-cn-lite": "4.0.0",
-        "focus-trap": "6.7.2",
+        "focus-trap": "7.2.0",
         "lodash": "4.17.21",
         "react-copy-to-clipboard": "5.1.0",
         "react-popper": "2.3.0",

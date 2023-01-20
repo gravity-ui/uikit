@@ -3,6 +3,8 @@ import {SelectProps} from './types';
 
 export const selectBlock = block('select');
 
+export const selectControlBlock = block('select-control');
+
 export const selectListBlock = block('select-list');
 
 export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, number> = {

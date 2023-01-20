@@ -1,0 +1,13 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}select';
+
+#{$block} {
+    display: inline-block;
+
+    max-width: 100%;
+
+    &_width_max {
+        width: 100%;
+    }
+}

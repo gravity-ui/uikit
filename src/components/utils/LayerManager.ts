@@ -142,6 +142,14 @@ class LayerManager {
         }
     }
 
+    reset() {
+        this.stack = [];
+        this.preStack = [];
+        this.unscheduleCandidate();
+        this.mouseDownTarget = null;
+        this.removeListeners();
+    }
+
     private unscheduleCandidate() {
         if (this.scheduledCandidate) {
             this.scheduledCandidate = undefined;

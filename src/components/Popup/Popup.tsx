@@ -123,14 +123,14 @@ export function Popup({
                     ref={handleRef}
                     style={styles.popper}
                     {...attributes.popper}
-                    className={bWrapper({actualOpen})}
+                    className={bWrapper({open: actualOpen})}
                 >
                     <div
                         onClick={onClick}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         tabIndex={-1}
-                        className={b({actualOpen}, className)}
+                        className={b({open: actualOpen}, className)}
                         style={style}
                         data-qa={qa}
                     >

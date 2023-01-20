@@ -36,7 +36,7 @@ export function useLayer({
         idleTimeout,
     });
 
-    const [allowedOpen, setAllowedOpen] = React.useState(false);
+    const [allowedOpen, setAllowedOpen] = React.useState(idle !== true);
 
     React.useEffect(() => {
         Object.assign(layerConfigRef.current, {

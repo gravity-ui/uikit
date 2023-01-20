@@ -4,19 +4,18 @@ import {block} from '../../../utils/cn';
 
 import {Icon} from '../../../Icon';
 import {Button} from '../../../Button';
-import {ShareTooltip, ShareOptions, ShareList} from '../../../ShareTooltip';
+import {SharePopover, ShareOptions, ShareList} from '../../../SharePopover';
 
 import {LayoutDirection} from '../../constants';
 import {Custom, Cloud, ShareArrowUp} from './icons';
-import {ShareOptionsData} from 'src/components/ShareTooltip/models';
+import {ShareOptionsData} from 'src/components/SharePopover/models';
 
-import './ShareTooltip.scss';
+import './SharePopover.scss';
 
-const b = block('share-tooltip-demo');
+const b = block('share-popover-demo');
 
-export function ShareTooltipDemo() {
-    const url =
-        'https://preview.yandexcloud.dev/uikit/?path=/story/components-sharetooltip--default';
+export function SharePopoverDemo() {
+    const url = 'https://www.example.com';
     const title = 'Check out this new awesome sharing component';
     const text = 'Content sharing is not supported in all share options';
     const shareOptions = [
@@ -42,12 +41,12 @@ export function ShareTooltipDemo() {
         >
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Copy only</span>
-                <ShareTooltip url={url} title={title} text={text} />
+                <SharePopover url={url} title={title} text={text} />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Default share options only</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -58,7 +57,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom share option</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -72,12 +71,12 @@ export function ShareTooltipDemo() {
                         label="Custom"
                         getShareLink={(params: ShareOptionsData) => params.url}
                     />
-                </ShareTooltip>
+                </SharePopover>
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom share option and Copy Link</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -91,22 +90,22 @@ export function ShareTooltipDemo() {
                         label="Custom"
                         getShareLink={(params: ShareOptionsData) => params.url}
                     />
-                </ShareTooltip>
+                </SharePopover>
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Default share options with copy</span>
-                <ShareTooltip url={url} title={title} text={text} shareOptions={shareOptions} />
+                <SharePopover url={url} title={title} text={text} shareOptions={shareOptions} />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Share options with copy (only URL)</span>
-                <ShareTooltip url={url} shareOptions={shareOptions} />
+                <SharePopover url={url} shareOptions={shareOptions} />
             </div>
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Share options with copy (open by click)</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -117,7 +116,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Using Web Share API (for mobile)</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -128,7 +127,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Layout with direction = &quot;column&quot;</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -139,7 +138,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>With alternative Icon</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -150,7 +149,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>With alternative Icon and Title on the right</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -164,7 +163,7 @@ export function ShareTooltipDemo() {
                 <span style={{marginRight: 8}}>
                     With alternative Icon and Title on the right and custom style
                 </span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}
@@ -182,7 +181,7 @@ export function ShareTooltipDemo() {
 
             <div style={{margin: 16, display: 'flex', alignItems: 'center'}}>
                 <span style={{marginRight: 8}}>Custom copy button render</span>
-                <ShareTooltip
+                <SharePopover
                     url={url}
                     title={title}
                     text={text}

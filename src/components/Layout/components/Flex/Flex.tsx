@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 
 import {block} from '../../../utils/cn';
@@ -9,7 +10,8 @@ import './Flex.scss';
 
 const b = block('flex');
 
-export interface FlexProps {
+export interface FlexProps<T extends React.ElementType> {
+    as?: T;
     /**
      * `flex-direction` property
      */
@@ -51,12 +53,16 @@ export interface FlexProps {
      */
     space?: true | Space | ((medias: MediaPartial<boolean>) => Space | undefined);
     children?: React.ReactNode;
+    ref?: React.ComponentPropsWithRef<T>['ref'];
+    Component?: React.ComponentPropsWithRef<T>;
 }
 
 /**
  * Utility component - represent Flexbox model
  * For more convenient usage has build in `space` utility (extends Space interface and provide `mr`, `ml` and more space props)
  *
+ * ---
+ * @example
  * ```tsx
  * import {Flex} from '@gravity-ui/uikit';
  *
@@ -64,15 +70,22 @@ export interface FlexProps {
  *  // take space between children from LayoutContext (depending of current media query)
  *  space
  *  direction={({mobile}) => mobile ? "column" : "row"}
- *  "mr="s"
  * >
- *  {/** *\/}
+ *  flex
  * </Flex>
+ *
+ * // or add flex styles to you existing component
+ * // you componnet mast support `style` and classNameProps
+ * <Flex Component={YouAwesomeComponent} justifyContent="center">
+ *  awesome component content
+ * </Flex>
+ *
  * ```
  */
-export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
-    (
+export const Flex = React.forwardRef(
+    <T extends React.ElementType = 'div'>(
         {
+            as,
             justifyContent,
             direction,
             width,
@@ -89,9 +102,10 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
             gap,
             className,
             space,
+            Component,
             ...props
-        },
-        ref,
+        }: Omit<FlexProps<T>, 'ref'>,
+        ref: React.ComponentPropsWithRef<T>['ref'],
     ) => {
         const {activeMediasMap, theme} = useLayoutContext();
 
@@ -107,37 +121,44 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
             return space;
         }, [activeMediasMap, space, theme.space]);
 
-        return (
-            <div
-                style={{
-                    width,
-                    alignSelf,
-                    flexDirection:
-                        typeof direction === 'function' ? direction(activeMediasMap) : direction,
-                    flexGrow: grow === true ? 1 : grow,
-                    flexWrap: wrap,
-                    flexBasis: basis,
-                    flexShrink: shrink,
-                    justifyContent,
-                    alignItems,
-                    gap: gap ? SPACE_TO_PIXEL[gap] : undefined,
-                    ...style,
-                }}
-                title={title}
-                className={b(
-                    {
-                        inline,
-                        s,
-                    },
-                    className,
-                )}
-                ref={ref}
-                {...props}
-            >
-                {children}
-            </div>
-        );
-    },
-);
+        const componentProps = {
+            className: b(
+                {
+                    inline,
+                    s,
+                },
+                className,
+            ),
+            style: {
+                width,
+                alignSelf,
+                flexDirection:
+                    typeof direction === 'function' ? direction(activeMediasMap) : direction,
+                flexGrow: grow === true ? 1 : grow,
+                flexWrap: wrap,
+                flexBasis: basis,
+                flexShrink: shrink,
+                justifyContent,
+                alignItems,
+                // TODO: поправить баг со складыванием пропсов gap + space
+                gap: gap ? SPACE_TO_PIXEL[gap] : undefined,
+                ...style,
+            },
+            title,
+            ref,
+            ...props,
+        };
 
-Flex.displayName = 'Flex';
+        if (Component) {
+            return <Component {...componentProps}>{children}</Component>;
+        }
+
+        const Tag: React.ElementType = as || 'div';
+
+        return <Tag {...componentProps}>{children}</Tag>;
+    },
+) as unknown as <T extends unknown, C extends React.ElementType>(
+    props: T extends (args: infer B) => unknown
+        ? Omit<FlexProps<C>, 'Component' | 'as' | 'ref'> & {Component: T} & B
+        : Omit<FlexProps<C>, 'Component'>,
+) => React.ReactElement | null;

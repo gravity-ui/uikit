@@ -8,6 +8,7 @@ import {ToasterComponent} from './ToasterComponent/ToasterComponent';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
 const bToaster = block('toaster');
+let ReactDOMClient: any;
 
 declare global {
     interface Window {
@@ -16,7 +17,12 @@ declare global {
 }
 
 export class ToasterSingleton {
+    static injectReactDOMClient(client: any) {
+        ReactDOMClient = client;
+    }
+
     private rootNode!: HTMLDivElement;
+    private reactRoot!: any;
     private className = '';
     private mobile = false;
     private componentAPI: null | ToasterPublicMethods = null;
@@ -36,6 +42,7 @@ export class ToasterSingleton {
         this.className = className;
         this.mobile = mobile;
         this.createRootNode();
+        this.createReactRoot();
         this.render();
 
         window[TOASTER_KEY] = this;
@@ -68,18 +75,28 @@ export class ToasterSingleton {
         document.body.appendChild(this.rootNode);
     }
 
+    private createReactRoot() {
+        if (ReactDOMClient) {
+            this.reactRoot = ReactDOMClient.createRoot(this.rootNode);
+        }
+    }
+
     private render() {
-        ReactDOM.render(
+        const container = (
             <ToasterProvider
                 ref={(api) => {
                     this.componentAPI = api;
                 }}
             >
                 <ToasterComponent hasPortal={false} mobile={this.mobile} />
-            </ToasterProvider>,
-            this.rootNode,
-            () => Promise.resolve(),
+            </ToasterProvider>
         );
+
+        if (this.reactRoot) {
+            this.reactRoot.render(container);
+        } else {
+            ReactDOM.render(container, this.rootNode, () => Promise.resolve());
+        }
     }
 
     private setRootNodeClassName() {

@@ -59,12 +59,17 @@ const FoobarWithToaster = withToaster()(FoobarComponent);
 
 ## Usage as singleton
 
+Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.
+On initialization it is possible to pass className, that will be assigned to dom-element which is wrapping all toasts.
+
 ### React < 18
 
 ```js
 import {Toaster} from '@gravity-ui/uikit';
 const toaster = new Toaster();
 ```
+
+or
 
 ```js
 import {toaster} from '@gravity-ui/uikit/toaster-singleton';
@@ -73,16 +78,17 @@ import {toaster} from '@gravity-ui/uikit/toaster-singleton';
 ### React 18
 
 ```js
-import {ToasterReact18} from '@gravity-ui/uikit';
-const toaster = new ToasterReact18();
+import ReactDOMClient from 'react-dom/client';
+import {Toaster} from '@gravity-ui/uikit';
+Toaster.injectReactDOMClient(ReactDOMClient);
+const toaster = new Toaster();
 ```
+
+or
 
 ```js
 import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 ```
-
-Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.
-On initialization it is possible to pass className, that will be assigned to dom-element which is wrapping all toasts.
 
 ## Constructor arguments
 

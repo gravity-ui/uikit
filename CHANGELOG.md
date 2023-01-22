@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.19.1](https://github.com/gravity-ui/uikit/compare/v3.19.0...v3.19.1) (2023-01-22)
+
+
+### Bug Fixes
+
+* **Select:** use theme font-family ([#495](https://github.com/gravity-ui/uikit/issues/495)) ([4615c46](https://github.com/gravity-ui/uikit/commit/4615c46e7f74010c5b6c283de54ed635e34efdd5))
+
 ## [3.19.0](https://github.com/gravity-ui/uikit/compare/v3.18.2...v3.19.0) (2023-01-20)
 
 

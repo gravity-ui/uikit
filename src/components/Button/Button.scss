@@ -29,8 +29,6 @@ $block: '.#{variables.$ns}button';
     box-sizing: border-box;
     height: var(--yc-button-height);
     line-height: var(--yc-button-height);
-    font-family: var(--yc-text-body-font-family);
-    font-weight: normal;
     user-select: none;
     text-align: center;
     white-space: nowrap;

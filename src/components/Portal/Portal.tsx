@@ -9,5 +9,8 @@ export interface PortalProps {
 
 export function Portal({container, children}: PortalProps) {
     const defaultContainer = usePortalContainer();
-    return ReactDOM.createPortal(children, container ?? defaultContainer);
+
+    const containerNode = container ?? defaultContainer;
+
+    return containerNode ? ReactDOM.createPortal(children, containerNode) : null;
 }

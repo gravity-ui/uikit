@@ -15,10 +15,12 @@ const options: RadioGroupOption[] = [
     {value: 'Value 3', content: 'Value 3'},
 ];
 
-const DefaultTemplate: Story<RadioGroupProps> = (args) => <RadioGroup {...args} />;
+const DefaultTemplate: Story<RadioGroupProps> = (args) => {
+    const [value, setValue] = React.useState<string>(options[0].value);
+    return <RadioGroup {...args} value={value} onUpdate={setValue} />;
+};
 export const Default = DefaultTemplate.bind({});
 Default.args = {
-    value: options[0].value,
     options,
 };
 

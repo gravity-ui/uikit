@@ -55,6 +55,10 @@ export interface ControlGroupProps {
     defaultValue?: string;
     onUpdate?: (value: string) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     options?: ControlGroupOption[];
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 }

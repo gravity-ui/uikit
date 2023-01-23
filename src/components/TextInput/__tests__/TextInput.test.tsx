@@ -20,6 +20,17 @@ describe('TextInput', () => {
         expect(input.tagName.toLowerCase()).toBe('textarea');
     });
 
+    test('render input with label', () => {
+        const {container} = render(<TextInput label="Label:" />);
+
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        const label = container.querySelector('.yc-text-input__label');
+
+        expect(label).toBeInTheDocument();
+        expect(label?.tagName.toLowerCase()).toBe('label');
+        expect(screen.getByText('Label:')).toBeVisible();
+    });
+
     test('render error message with error prop', () => {
         const {container} = render(<TextInput error="Some Error" />);
 

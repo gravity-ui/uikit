@@ -1,7 +1,7 @@
 import React from 'react';
 import {block} from '../utils/cn';
 import {DOMProps, QAProps} from '../types';
-import {withEventBrokerDomHandlers} from '../utils/withEventBrokerDomHandlers';
+import {eventBroker} from '../utils/event-broker';
 
 const b = block('menu');
 
@@ -21,7 +21,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     children?: React.ReactNode;
 }
 
-const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function MenuItem(
+export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function MenuItem(
     {
         icon,
         title,
@@ -40,9 +40,18 @@ const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function Men
     },
     ref,
 ) {
+    const handleClickCapture = React.useCallback((event: React.SyntheticEvent) => {
+        eventBroker.publish({
+            componentId: 'MenuItem',
+            eventId: 'click',
+            domEvent: event,
+        });
+    }, []);
+
     const commonProps = {
         title,
         onClick: disabled ? undefined : onClick,
+        onClickCapture: disabled ? undefined : handleClickCapture,
         style,
         tabIndex: disabled ? -1 : 0,
         className: b('item', {disabled, active, theme}, className),
@@ -81,12 +90,8 @@ const PureMenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function Men
     }
 
     return (
-        <li ref={ref} className={b('list-item')}>
+        <li ref={ref as React.ForwardedRef<HTMLLIElement>} className={b('list-item')}>
             {item}
         </li>
     );
-});
-
-export const MenuItem = withEventBrokerDomHandlers(PureMenuItem, ['onClick'], {
-    componentId: 'MenuItem',
 });

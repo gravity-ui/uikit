@@ -1,7 +1,14 @@
 import {useContext} from 'react';
 import {PortalContext} from './PortalProvider';
 
-export function usePortalContainer(): HTMLElement {
+export function usePortalContainer(): HTMLElement | null {
     const context = useContext(PortalContext);
-    return context.current ?? document.body;
+
+    let defaultContainer = null;
+
+    if (typeof window === 'object') {
+        defaultContainer = window.document.body;
+    }
+
+    return context.current ?? defaultContainer;
 }

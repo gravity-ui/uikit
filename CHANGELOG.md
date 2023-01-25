@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.19.2](https://github.com/gravity-ui/uikit/compare/v3.19.1...v3.19.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* **Portal:** add condition for default container for Portal ([#497](https://github.com/gravity-ui/uikit/issues/497)) ([da21d63](https://github.com/gravity-ui/uikit/commit/da21d6398ba2020d5b9d47d13a63bbb3d9959b92))
+
 ## [3.19.1](https://github.com/gravity-ui/uikit/compare/v3.19.0...v3.19.1) (2023-01-22)
 
 

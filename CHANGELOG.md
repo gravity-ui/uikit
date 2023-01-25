@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.20.0](https://github.com/gravity-ui/uikit/compare/v3.19.2...v3.20.0) (2023-01-25)
+
+
+### Features
+
+* **eventBroker:** eventBroker acts in the bubbling phase ([#489](https://github.com/gravity-ui/uikit/issues/489)) ([ef2c901](https://github.com/gravity-ui/uikit/commit/ef2c9013b67e14170ebdc4eb9e6b182b298fde7c))
+
 ## [3.19.2](https://github.com/gravity-ui/uikit/compare/v3.19.1...v3.19.2) (2023-01-23)
 
 

@@ -15,7 +15,7 @@
     }
 }
 
-$block: '.#{variables.$ns}select-control';
+$block: '.#{variables.$ns-new}select-control';
 
 #{$block} {
     @include mixins.button-reset();

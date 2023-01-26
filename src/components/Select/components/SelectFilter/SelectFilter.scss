@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns}select-filter';
+$block: '.#{variables.$ns-new}select-filter';
 
 #{$block} {
     // display: flex;

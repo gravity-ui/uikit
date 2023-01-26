@@ -1,5 +1,5 @@
 import React from 'react';
-import {block} from '../../../utils/cn';
+import {blockNew as block} from '../../../utils/cn';
 import {Icon} from '../../../Icon';
 import {Tick} from '../../../icons/Tick';
 import {SelectProps, SelectOption} from '../../types';

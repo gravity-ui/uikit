@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/gravity-ui/uikit/compare/v4.0.0...v4.0.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* **TextInput:** do not auto generate id for input if not needed ([#505](https://github.com/gravity-ui/uikit/issues/505)) ([26b24df](https://github.com/gravity-ui/uikit/commit/26b24dfeecd8ab427215cd4b48e9b508cffbea9f))
+
 ## [4.0.0](https://github.com/gravity-ui/uikit/compare/v3.20.0...v4.0.0) (2023-01-26)
 
 

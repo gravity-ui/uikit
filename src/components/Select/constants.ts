@@ -1,4 +1,4 @@
-import {block} from '../utils/cn';
+import {blockNew as block} from '../utils/cn';
 import {SelectProps} from './types';
 
 export const selectBlock = block('select');

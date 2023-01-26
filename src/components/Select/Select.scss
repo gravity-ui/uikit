@@ -1,6 +1,6 @@
 @use '../variables';
 
-$block: '.#{variables.$ns}select';
+$block: '.#{variables.$ns-new}select';
 
 #{$block} {
     display: inline-block;

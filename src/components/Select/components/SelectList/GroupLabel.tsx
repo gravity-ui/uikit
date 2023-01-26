@@ -1,5 +1,5 @@
 import React from 'react';
-import {block} from '../../../utils/cn';
+import {blockNew as block} from '../../../utils/cn';
 
 const b = block('select-list');
 

@@ -42,6 +42,7 @@ export interface TableAction<I> {
     ) => void;
     disabled?: boolean;
     theme?: MenuItemProps['theme'];
+    icon?: MenuItemProps['icon'];
 }
 
 export interface TableActionGroup<I> {
@@ -165,6 +166,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                         disabled={action.disabled}
                         onClick={this.handleActionClick.bind(this, action, popupData!)}
                         theme={action.theme}
+                        icon={action.icon}
                         className={bPopup('menu-item')}
                     >
                         {action.text}

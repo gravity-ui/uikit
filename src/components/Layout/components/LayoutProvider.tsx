@@ -1,26 +1,26 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {PartialLayoutTheme} from '../types';
-import {LayoutContext} from './LayoutContext';
-import {makeDefaultTheme} from './makeDefaultTheme';
-import {useMediaQuery} from './useMediaQuery';
+import {RecursivePartial, LayoutTheme} from '../types';
+import {LayoutContext} from '../contexts/LayoutContext';
+import {makeDefaultTheme} from '../utils/makeDefaultTheme';
+import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
 
 interface LayoutThemeProviderProps {
-    value?: PartialLayoutTheme;
+    value?: RecursivePartial<LayoutTheme>;
     children: React.ReactNode;
 }
 
 /**
- * Provide context with default props what will be computed depends of current media query and passed to corresponding componnet. You can override this props during override corresponding prop on component level
+ * Provide context for layout components and current media queries.
  */
-export const LayoutProvider: React.FC<LayoutThemeProviderProps> = ({children, value: value}) => {
+export const LayoutProvider: React.FC<LayoutThemeProviderProps> = ({children, value}) => {
     const theme = makeDefaultTheme({override: value});
-    const medias = useMediaQuery(theme.breakpoints);
+    const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints);
 
     return (
         <LayoutContext.Provider
             value={{
-                medias,
+                activeMediaQuery,
                 theme,
             }}
         >

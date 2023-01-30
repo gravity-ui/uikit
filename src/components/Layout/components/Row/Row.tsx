@@ -1,8 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 import {block} from '../../../utils/cn';
-import {MediaPartial, Space} from '../../types';
-import {useLayoutContext} from '../useLayoutContext';
+import {IsMediaActive, Space} from '../../types';
+import {useRowThemeProps} from './useRowThemeProps';
 
 import './Row.scss';
 
@@ -15,11 +15,11 @@ export interface RowProps {
      *
      * If not specified takes props via `LayoutContext`
      */
-    space?: Space | ((medias: MediaPartial<boolean>) => Space | undefined);
+    space?: Space | ((fn: IsMediaActive) => Space | undefined);
     /**
      * Override default (space) vertical gaps between children if it wrap on next line
      */
-    spaceRow?: Space | ((medias: MediaPartial<boolean>) => Space | undefined);
+    spaceRow?: Space | ((fn: IsMediaActive) => Space | undefined);
     className?: string;
     children?: React.ReactNode;
 }
@@ -43,18 +43,21 @@ export interface RowProps {
  * ```
  */
 export const Row = ({children, style, className, space, spaceRow}: RowProps) => {
-    const {activeMediasMap, theme} = useLayoutContext();
+    const {isMediaActive, rowThemeProps} = useRowThemeProps();
 
     return (
         <div
             style={style}
             className={b(
                 {
-                    s: typeof space === 'function' ? space(activeMediasMap) : space || theme.space,
+                    s:
+                        typeof space === 'function'
+                            ? space(isMediaActive)
+                            : space || rowThemeProps.space,
                     's-r':
                         typeof spaceRow === 'function'
-                            ? spaceRow(activeMediasMap)
-                            : spaceRow || theme.spaceRow,
+                            ? spaceRow(isMediaActive)
+                            : spaceRow || rowThemeProps.spaceRow,
                 },
                 className,
             )}

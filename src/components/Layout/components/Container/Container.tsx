@@ -1,9 +1,9 @@
 import React from 'react';
+
 import {block} from '../../../utils/cn';
-import {MEDIA_TO_MOD} from '../../constants';
-import {MediaType, Space, MediaPartial} from '../../types';
-import {spacing} from '../spacing/spacing';
-import {useLayoutContext} from '../useLayoutContext';
+import {MediaType, Space, IsMediaActive} from '../../types';
+import {sp} from '../spacing/spacing';
+import {useContainerThemeProps} from './useContainerThemeProps';
 
 import './Container.scss';
 
@@ -14,12 +14,12 @@ export interface ContainerProps {
     /**
      * Use function to define different classes in different media queries
      */
-    className?: (m: MediaPartial<boolean>) => string | string;
+    className?: (fn: IsMediaActive) => string | string;
     children?: React.ReactNode;
     /**
-     * Take all available space
+     * Max width equals max width of current breakpoint
      */
-    fluid?: boolean;
+    fixed?: boolean;
     /**
      * Width of container will never be larger then specified media type width
      */
@@ -39,19 +39,19 @@ export interface ContainerProps {
      *
      * By default takes props via `LayoutContext`
      */
-    spaceRow?: ((media: MediaPartial<boolean>) => Space) | Space;
+    spaceRow?: ((fn: IsMediaActive) => Space) | Space;
     as?: keyof JSX.IntrinsicElements;
 }
 
 /**
- * Center you content by this component.
+ * Center you content in horizontal direction.
  *
- * In most cases mast be one on the page.
+ * > In most cases mast be one on the page.
  *
  * ```tsx
  * import {Container, Row, Col} from '@gravity-ui/uikit';
  *
- * <Container masWidth="laptopM">
+ * <Container masWidth="m">
  *   <Row>
  *     <Col>
  *       Col 1
@@ -70,31 +70,30 @@ export const Container = React.memo(
         as: Tag = 'div',
         className,
         maxWidth,
-        fluid,
         gutters,
         disableGutters,
         spaceRow,
     }: ContainerProps) => {
-        const {theme, activeMediasMap} = useLayoutContext();
+        const {isMediaActive, containerThemeProps} = useContainerThemeProps();
+
         const additionClassName =
-            typeof className === 'function' ? className(activeMediasMap) : className;
+            typeof className === 'function' ? className(isMediaActive) : className;
 
         return (
             <Tag
                 style={style}
                 className={b(
                     {
-                        w: maxWidth && MEDIA_TO_MOD[maxWidth],
-                        fl: fluid,
+                        mw: maxWidth,
                         sr:
                             typeof spaceRow === 'function'
-                                ? spaceRow(activeMediasMap)
-                                : spaceRow || theme.spaceRow,
+                                ? spaceRow(isMediaActive)
+                                : spaceRow || containerThemeProps.spaceRow,
                     },
-                    (gutters || theme.gutters) && !disableGutters
-                        ? spacing(
+                    (gutters || containerThemeProps.gutters) && !disableGutters
+                        ? sp(
                               {
-                                  px: gutters || theme.gutters,
+                                  px: gutters || containerThemeProps.gutters,
                               },
                               additionClassName,
                           )

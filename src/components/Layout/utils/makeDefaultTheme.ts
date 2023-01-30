@@ -1,10 +1,10 @@
 /* eslint-disable valid-jsdoc */
 import merge from 'lodash/merge';
 import {DEFAULT_LAYOUT_THEME} from '../constants';
-import {LayoutTheme, PartialLayoutTheme} from '../types';
+import {LayoutTheme, RecursivePartial} from '../types';
 
 interface MakeDefaultLayoutTheme {
-    override?: PartialLayoutTheme;
+    override?: RecursivePartial<LayoutTheme>;
 }
 
 /**

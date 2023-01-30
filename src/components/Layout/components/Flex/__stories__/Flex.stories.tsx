@@ -3,18 +3,22 @@ import {Meta, Story} from '@storybook/react';
 import {Col} from './../../Col/Col';
 import {Flex, FlexProps} from './../Flex';
 import {Row} from '../../Row/Row';
-import {Box, Layout} from '../../../storybookComponents';
+import {Box, LayoutPresenter} from '../../../../../demo/Layout';
 
 export default {
-    title: 'Layout/Flex',
+    title: 'Layout (unstable)/Flex',
     component: Flex,
 } as Meta;
 
-const DefaultTemplate: Story<FlexProps> = (args) => (
-    <Layout title="Change screen size to mobile/desktop to see result">
+const DefaultTemplate: Story<FlexProps<'div'>> = (args) => (
+    <LayoutPresenter title="Change screen size to 's' to see result">
         <Row space="micro">
             <Col>
-                <Flex direction={({mobile}) => (mobile ? 'row' : 'column')} {...args}>
+                <Flex
+                    direction={(match) => (match('m') ? 'row' : 'column')}
+                    space={(match) => (match('m') ? 'l' : 'micro')}
+                    {...args}
+                >
                     <Box w={50} h={50}>
                         Box 1
                     </Box>
@@ -31,12 +35,11 @@ const DefaultTemplate: Story<FlexProps> = (args) => (
                 </Flex>
             </Col>
         </Row>
-    </Layout>
+    </LayoutPresenter>
 );
 
 export const Default = DefaultTemplate.bind({});
 Default.args = {
-    space: 'micro',
     alignItems: 'center',
     justifyContent: 'center',
 };

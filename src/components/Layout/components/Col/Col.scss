@@ -1,16 +1,5 @@
-/* stylelint-disable declaration-no-important */
 @use '../../variables.scss';
 
-// reset default class behavior if has size modification
-// [class*='#{variables.$colClassName}_s_'] - syntax doesn't work here
-/* stylelint-disable-next-line rule-empty-line-before */
-*[class*='yc-col_s_'],
-*[class*='yc-col_s-'] {
-    box-sizing: border-box;
-    flex: 0 0 auto;
-}
-
-// hide at different screen sizes
 #{variables.$colClassName} {
     // by default col takes all available space
     flex-grow: 1;
@@ -18,18 +7,12 @@
     max-width: 100%;
 
     @each $size, $value in variables.$COL_SIZE {
+        // col size
         &_s_#{$size} {
+            box-sizing: border-box;
+            flex-grow: 0;
             flex-basis: $value;
             max-width: $value;
-        }
-
-        @each $media, $mod in variables.$MEDIA_MOD_CONTAINER {
-            @include variables.use-media($media) {
-                &_s-#{$mod}_#{$size} {
-                    flex-basis: $value !important;
-                    max-width: $value !important;
-                }
-            }
         }
     }
 }

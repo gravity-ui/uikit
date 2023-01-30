@@ -1,9 +1,9 @@
-import {LayoutTheme, MediaType, Space} from './types';
+import {LayoutTheme, Space} from './types';
 
 export const SPACE_TO_PIXEL: Record<Space, number> = {
     none: 0,
-    micro: 2,
-    xxs: 4,
+    nano: 2,
+    micro: 4,
     xs: 8,
     s: 16,
     m: 20,
@@ -12,40 +12,31 @@ export const SPACE_TO_PIXEL: Record<Space, number> = {
     xxl: 40,
 };
 
-export const MEDIA_TO_MOD: Record<MediaType, string> = {
-    mobile: 'm',
-    tabletH: 'th',
-    laptopS: 'lps',
-    laptopM: 'lpm',
-    desktop: 'd',
-};
-
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
     breakpoints: {
-        mobile: 480,
-        tabletH: 1080,
-        laptopS: 1200,
-        laptopM: 1400,
-        desktop: 1920,
+        s: 576,
+        m: 768,
+        l: 1080,
+        xl: 1200,
+        xxl: 1400,
+        xxxl: 1920,
     },
-    default: {
-        gutters: 's',
-        space: 's',
-    },
-    mediasOverrides: {
-        mobile: {},
-        tabletH: {},
-        laptopS: {
-            gutters: 'l',
-            space: 'l',
+    smartProps: {
+        common: {
+            space: 's',
+            media: {
+                l: {
+                    space: 'l',
+                },
+            },
         },
-        laptopM: {
-            gutters: 'l',
-            space: 'l',
-        },
-        desktop: {
-            gutters: 'l',
-            space: 'l',
+        container: {
+            gutters: 's',
+            media: {
+                l: {
+                    gutters: 'l',
+                },
+            },
         },
     },
 };

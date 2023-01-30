@@ -2,34 +2,34 @@ import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Row, RowProps} from './../Row';
 import {Col} from '../../Col/Col';
-import {Box, Layout} from '../../../storybookComponents';
+import {Box, LayoutPresenter} from '../../../../../demo/Layout';
 
 export default {
-    title: 'Layout/Row',
+    title: 'Layout (unstable)/Row',
     component: Row,
 } as Meta;
 
 const DefaultTemplate: Story<RowProps> = (args) => (
-    <Layout title="Change screen size to see changes">
+    <LayoutPresenter title="Change screen size to see changes">
         <Row
-            space={({mobile}) => (mobile ? 'micro' : 'm')}
-            spaceRow={({mobile}) => (mobile ? 'm' : 'micro')}
+            space={(match) => (match('m') ? 'm' : 'micro')}
+            spaceRow={(match) => (match('m') ? 'micro' : 'l')}
             {...args}
         >
-            <Col size="6" mobile="12" laptopS="3">
-                <Box>Col-6, Col-mobile-12 Col-laptopS-s-3</Box>
+            <Col s="12" m="6" l="2" xl="3">
+                <Box>s-12 m-6 l-2 xl-3</Box>
             </Col>
-            <Col size="6" mobile="12" laptopS="3">
-                <Box>Col-6, Col-Mobile-12 Col-laptopS-s-3</Box>
+            <Col s="12" m="6" l="2" xl="3">
+                <Box>s-12 m-6 l-2 xl-3</Box>
             </Col>
-            <Col size="12" mobile="6" laptopS="3">
-                <Box>Col-12, Col-Mobile-6 Col-laptopS-s-3</Box>
+            <Col s="6" m="12" xl="3">
+                <Box>s-6 m-12 xl-3</Box>
             </Col>
-            <Col size="12" mobile="6" laptopS="3">
-                <Box>Col-12, Col-Mobile-6 Col-laptopS-s-3</Box>
+            <Col s="6" m="12" xl="3">
+                <Box>s-6 m-12 xl-3</Box>
             </Col>
         </Row>
-    </Layout>
+    </LayoutPresenter>
 );
 
 export const Default = DefaultTemplate.bind({});

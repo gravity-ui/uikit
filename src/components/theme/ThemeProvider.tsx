@@ -8,8 +8,6 @@ import {ThemeSettings, ThemeSettingsContext} from './ThemeSettingsContext';
 import type {Theme, RealTheme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
-import {LayoutTheme} from '../Layout/types';
-import {LayoutProvider} from '../Layout/components/LayoutProvider';
 
 const b = block(ROOT_CLASS_NAME);
 
@@ -27,19 +25,7 @@ interface ThemeProviderDefaultProps {
 export interface ThemeProviderProps
     extends ThemeProviderExternalProps,
         Partial<ThemeProviderDefaultProps>,
-        PropsWithChildren<{}> {
-    /**
-     * Wrap you project in you own `LayoutProvider` or just disable
-     */
-    overrideLayoutContext?: boolean;
-    /**
-     * Specify you own layout theme or extends common with `makeDataUiTheme` function:
-     * ```tsx
-     * <ThemeProvider layoutTheme={makeDataUiTheme({override: {modile: {...}}})}>{children}</ThemeProvider>
-     * ```
-     */
-    layoutTheme?: Partial<LayoutTheme>;
-}
+        PropsWithChildren<{}> {}
 
 export function ThemeProvider({
     theme: themeProp = DEFAULT_THEME,
@@ -93,12 +79,6 @@ export function ThemeProvider({
         }),
         [systemLightTheme, systemDarkTheme],
     );
-
-    let children = _children;
-
-    if (!overrideLayoutContext) {
-        children = <LayoutProvider value={layoutTheme}>{children}</LayoutProvider>;
-    }
 
     return (
         <ThemeContext.Provider value={contextValue}>

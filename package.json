@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
@@ -23,8 +23,12 @@
     "types": "./index.d.ts",
     "typesVersions": {
         "*": {
-            "*": ["./build/esm/*"],
-            "index.d.ts": ["./build/esm/index.d.ts"]
+            "*": [
+                "./build/esm/*"
+            ],
+            "index.d.ts": [
+                "./build/esm/index.d.ts"
+            ]
         }
     },
     "sideEffects": [

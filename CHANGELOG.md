@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.3](https://github.com/gravity-ui/uikit/compare/v4.0.2...v4.0.3) (2023-01-31)
+
+
+### Bug Fixes
+
+* old exports should work with the new ones ([#515](https://github.com/gravity-ui/uikit/issues/515)) ([fe7790c](https://github.com/gravity-ui/uikit/commit/fe7790cda3beb6866e847edb0877dd5b78bfc84e))
+
 ## [4.0.2](https://github.com/gravity-ui/uikit/compare/v4.0.1...v4.0.2) (2023-01-30)
 
 

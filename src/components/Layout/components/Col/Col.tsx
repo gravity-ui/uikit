@@ -1,6 +1,5 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {useLayoutContext} from '../../hooks/useLayoutContext';
 
 import {block} from '../../../utils/cn';
 import {ColSize, MediaPartial} from '../../types';
@@ -10,30 +9,20 @@ import './Col.scss';
 const b = block('col');
 
 export interface ColProps extends MediaPartial<ColSize> {
-    /**
-     * How many column of 12-th column layout will component take in all screen size.
-     * Explicitly override col size in needed media query:
-     *
-     * ```tsx
-     * <Col size="12" m="6" />
-     * ```
-     *
-     * If not specified, assume that component take all available space.
-     */
-    size?: ColSize;
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
 }
 
 /**
- * Describe columns of you 12-th column layout during this component.
+ * How many columns of you 12-th column layout will take content.
  * Mast be used as a child of `Row` component.
  *
- * By default component takes all available space. Use `size` props to specify exact dimension
+ * By default component takes all available space.
+ * If you wont to specify static size to all media queries use `s` prop. In mobile first layout grid is first passible value.
  *
  * ```tsx
- * <Col size="12">some content</Col>
+ * <Col s="12">some content</Col>
  * ```
  * ---
  *
@@ -41,33 +30,52 @@ export interface ColProps extends MediaPartial<ColSize> {
  *
  * ```tsx
  * <Row>
- *  <Col size="2" l="1">col 2</Col>
+ *  <Col s="2" l="1">col 2</Col>
  *  <Col />
- *  <Col size="2" l="1">col 2</Col>
+ *  <Col s="2" l="1">col 2</Col>
  * </Row>
  * ```
+ *
+ * ---
+ * instead of ~imperfection of the world~ browser compatibility for margins between layout components used negative margins there is passible issues with `background-color` css property and others that depends of current block position. Use in this situations wrappers. In future version this issues will be avoided during flex `gap` properties
+ *
+ * ```tsx
+ * // wrong
+ * <Col>
+ *      <SomeComponentWIthBackground />
+ * </Col>
+ *
+ * // right
+ * <Col>
+ *   <div>
+ *     <SomeComponentWIthBackground />
+ *   </div>
+ * </Col>
+ * ```
  */
-export const Col = React.memo(({children, style, className, size, ...media}: ColProps) => {
-    const {getClosestMediaProps} = useLayoutContext();
+export const Col = ({children, style, className, ...media}: ColProps) => {
+    const mods = React.useMemo(
+        () =>
+            Object.entries(media).reduce((acc, [mod, modSize]) => {
+                acc[`s-${mod}`] = modSize;
+
+                return acc;
+            }, {} as Record<string, ColSize>),
+        [media],
+    );
 
     return (
-        <div
-            style={style}
-            className={b(
-                {
-                    /**
-                     * priority:
-                     * - match with media query and rules for this query
-                     * - size prop as default behavior
-                     */
-                    s: getClosestMediaProps(media) || size,
-                },
-                className,
-            )}
-        >
+        <div style={style} className={b(mods, className)}>
             {children}
         </div>
     );
-});
+};
 
-Col.displayName = 'Col';
+/**
+ * Possible improvements that the customer is looking for:
+ * - props for vertical alignment in row;
+ * - offset;
+ * - media only. Rule that will be applied only in specified media query;
+ * - alias for 's' media query like `size` prop for example;
+ * - content alignment;
+ */

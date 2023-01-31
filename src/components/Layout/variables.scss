@@ -40,7 +40,7 @@ $SPACE: (
     xxl: var(--yc-spacing-xxl),
 );
 
-$MEDIA_MOD_CONTAINER: (
+$MEDIA_TO_BREAKPOINT_WIDTH: (
     's' $breakpoint-s,
     'm' $breakpoint-m,
     'l' $breakpoint-l,
@@ -53,9 +53,7 @@ $MEDIA_MOD_CONTAINER: (
 // for example if we set `m` breakpoint condition, then the same condition will be applied to `l`, `xl`, `xxl` and 'xxxl' breakpoints
 @mixin use-media($size) {
     @if $size == s {
-        @media (min-width: $breakpoint-s) {
-            @content;
-        }
+        @content;
     } @else if $size == m {
         @media (min-width: $breakpoint-m) {
             @content;

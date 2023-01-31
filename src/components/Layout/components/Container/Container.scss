@@ -5,14 +5,14 @@
     max-width: 100%;
     height: 100%;
 
-    @each $media, $width in v.$MEDIA_MOD_CONTAINER {
+    @each $media, $breakpoint-width in v.$MEDIA_TO_BREAKPOINT_WIDTH {
         &_mw_#{$media} {
-            max-width: $width;
+            max-width: $breakpoint-width;
         }
     }
 
     @each $space, $value in v.$SPACE {
-        // space row
+        // space row - space between Row components
         &_sr_#{$space} {
             & > #{v.$rowClassName}:not(:last-child) {
                 margin-bottom: $value;

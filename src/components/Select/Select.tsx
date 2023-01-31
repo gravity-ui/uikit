@@ -85,14 +85,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
-    const filteredFlattenOptions =
-        filterable && filter
-            ? getFilteredFlattenOptions({
-                  options: flattenOptions,
-                  filter,
-                  filterOption,
-              })
-            : flattenOptions;
+    const filteredFlattenOptions = filterable
+        ? getFilteredFlattenOptions({
+              options: flattenOptions,
+              filter,
+              filterOption,
+          })
+        : flattenOptions;
     const selectedOptionsContent = getSelectedOptionsContent(
         flattenOptions,
         value,

@@ -24,10 +24,19 @@
     "typesVersions": {
         "*": {
             "*": [
-                "./build/esm/*"
+                "./build/esm/*",
+                "./build/esm/*/index.d.ts"
             ],
             "index.d.ts": [
                 "./build/esm/index.d.ts"
+            ],
+            "build/esm/*": [
+                "./build/esm/*",
+                "./build/esm/*/index.d.ts"
+            ],
+            "build/cjs/*": [
+                "./build/esm/*",
+                "./build/esm/*/index.d.ts"
             ]
         }
     },

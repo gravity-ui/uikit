@@ -34,9 +34,9 @@ interface LabelOwnProps {
     onClose?(event: React.MouseEvent<HTMLButtonElement>): void;
     /** Text to copy */
     copyText?: string;
-    /* `aria-label` of close button */
+    /** `aria-label` of close button */
     closeButtonLabel?: string;
-    /* `aria-label` of copy button */
+    /** `aria-label` of copy button */
     copyButtonLabel?: string;
     /** Handler for copy event */
     onCopy?(text: string, result: boolean): void;

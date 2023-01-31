@@ -1,0 +1,12 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}infinite-scroll';
+
+#{$block} {
+    &__loader {
+        width: 100%;
+        padding: 60px 0 20px;
+        display: flex;
+        justify-content: center;
+    }
+}

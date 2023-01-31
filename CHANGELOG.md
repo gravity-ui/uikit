@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.4](https://github.com/gravity-ui/uikit/compare/v4.0.3...v4.0.4) (2023-01-31)
+
+
+### Bug Fixes
+
+* **Select:** filter options when filter text is empty ([#517](https://github.com/gravity-ui/uikit/issues/517)) ([9fd57d5](https://github.com/gravity-ui/uikit/commit/9fd57d55761c9975ddfe35e62be33895f47c5a56))
+
 ## [4.0.3](https://github.com/gravity-ui/uikit/compare/v4.0.2...v4.0.3) (2023-01-31)
 
 

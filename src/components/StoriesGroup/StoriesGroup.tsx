@@ -5,22 +5,28 @@ import {StoriesPreview} from './components';
 
 import {block} from '../utils/cn';
 import './StoriesGroup.scss';
-import {StoriesGroupItem} from './types';
+import {StoriesGroupIndex, StoriesGroupItem} from './types';
 
 const DEFAULT_MAX_SLIDER_ITEMS_COUNT = 12;
+const DEFAULT_INDEX = {groupIndex: 0, itemIndex: 0};
 
 const b = block('stories-group');
+
+type EventType = MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>;
+type ReasonType = ModalCloseReason | 'closeButtonClick';
 
 export interface StoriesGroupProps {
     open: boolean;
     groups: StoriesGroupItem[];
+
+    /** @deprecated  Will be deleted in te next major. Use `index` instead */
     initialStoryIndex?: [groupIndex: number, itemIndex: number];
+
+    index?: StoriesGroupIndex;
     disableOutsideClick?: boolean;
     maxSliderItemsCount?: number;
-    onClose?: (
-        event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>,
-        reason: ModalCloseReason | 'closeButtonClick',
-    ) => void;
+    onClose?: (event: EventType, reason: ReasonType) => void;
+
     onItemSelect?: (
         itemIndexes: [groupIndex: number, itemIndex: number],
         selectedFromThumbnail: boolean,
@@ -32,14 +38,22 @@ export const StoriesGroup = ({
     groups,
     onItemSelect,
     disableOutsideClick = true,
-    initialStoryIndex = [0, 0],
+    initialStoryIndex,
+    index,
     maxSliderItemsCount = DEFAULT_MAX_SLIDER_ITEMS_COUNT,
     onClose,
 }: StoriesGroupProps) => {
-    const [[groupIndex, itemIndex], setStoryIndex] = React.useState(initialStoryIndex);
+    const [{groupIndex, itemIndex}, setStoryIndex] = React.useState(
+        initialStoryIndex
+            ? {
+                  groupIndex: initialStoryIndex[0],
+                  itemIndex: initialStoryIndex[1],
+              }
+            : index || {...DEFAULT_INDEX},
+    );
 
-    const handleClose = React.useCallback<NonNullable<StoriesGroupProps['onClose']>>(
-        (event, reason) => {
+    const handleClose = React.useCallback(
+        (event: EventType, reason: ReasonType) => {
             onClose?.(event, reason);
         },
         [onClose],
@@ -56,21 +70,27 @@ export const StoriesGroup = ({
 
     const handleGotoPrevious = React.useCallback(() => {
         setStoryIndex((prevState) => {
-            const [currentGroupIndex, currentItemIndex] = prevState;
+            const {groupIndex: currentGroupIndex, itemIndex: currentItemIndex} = prevState;
 
             if (currentItemIndex > 0) {
-                const newState: [number, number] = [currentGroupIndex, currentItemIndex - 1];
+                const newState: StoriesGroupIndex = {
+                    groupIndex: currentGroupIndex,
+                    itemIndex: currentItemIndex - 1,
+                };
 
-                onItemSelect?.(newState, false);
+                onItemSelect?.([newState.groupIndex, newState.itemIndex], false);
                 return newState;
             }
 
             // try to find previous valid group
             for (let i = currentGroupIndex - 1; i >= 0; --i) {
                 if (groups[i].items.length !== 0) {
-                    const newState: [number, number] = [i, groups[i].items.length - 1];
+                    const newState: StoriesGroupIndex = {
+                        groupIndex: i,
+                        itemIndex: groups[i].items.length - 1,
+                    };
 
-                    onItemSelect?.(newState, false);
+                    onItemSelect?.([newState.groupIndex, newState.itemIndex], false);
                     return newState;
                 }
             }
@@ -81,19 +101,27 @@ export const StoriesGroup = ({
 
     const handleGotoNext = React.useCallback(() => {
         setStoryIndex((prevState) => {
-            const [currentGroupIndex, currentItemIndex] = prevState;
+            const {groupIndex: currentGroupIndex, itemIndex: currentItemIndex} = prevState;
 
             if (currentItemIndex < groups[currentGroupIndex]?.items.length - 1) {
-                const newState: [number, number] = [currentGroupIndex, currentItemIndex + 1];
-                onItemSelect?.(newState, false);
+                const newState: StoriesGroupIndex = {
+                    groupIndex: currentGroupIndex,
+                    itemIndex: currentItemIndex + 1,
+                };
+
+                onItemSelect?.([newState.groupIndex, newState.itemIndex], false);
                 return newState;
             }
 
             // try to find next valid group
             for (let i = currentGroupIndex + 1; i < groups.length; ++i) {
                 if (groups[i].items.length !== 0) {
-                    const newState: [number, number] = [i, 0];
-                    onItemSelect?.(newState, false);
+                    const newState: StoriesGroupIndex = {
+                        groupIndex: i,
+                        itemIndex: 0,
+                    };
+
+                    onItemSelect?.([newState.groupIndex, newState.itemIndex], false);
                     return newState;
                 }
             }
@@ -104,36 +132,36 @@ export const StoriesGroup = ({
 
     const onGroupSelect = React.useCallback(
         (newGroupIndex: number) => {
-            setStoryIndex([newGroupIndex, 0]);
+            setStoryIndex({groupIndex: newGroupIndex, itemIndex: 0});
             onItemSelect?.([newGroupIndex, 0], true);
         },
         [onItemSelect],
     );
 
-    if (groups.length === 0) {
-        return null;
-    }
+    React.useEffect(() => {
+        if (index === undefined || !open) {
+            return;
+        }
+
+        const externalGroupIndex = index.groupIndex;
+        const externalItemIndex = index.itemIndex;
+
+        if (groupIndex !== externalGroupIndex || itemIndex !== externalItemIndex) {
+            setStoryIndex({
+                groupIndex: externalGroupIndex,
+                itemIndex: externalItemIndex,
+            });
+        }
+    }, [open]);
 
     const currentGroup = groups[groupIndex];
     const currentItems = currentGroup?.items || [];
 
-    // case when groups has changed and indexs has ceased to be valid
-    if (currentGroup === undefined || currentItems[itemIndex] === undefined) {
-        if (
-            groups[initialStoryIndex[0]] &&
-            groups[initialStoryIndex[0]].items[initialStoryIndex[1]]
-        ) {
-            setStoryIndex(initialStoryIndex);
-        } else {
-            // try to find first valid index
-            for (let i = 0; i < groups.length; ++i) {
-                if (groups[i] && groups[i].items.length !== 0) {
-                    setStoryIndex([i, 0]);
-                    break;
-                }
-            }
-        }
-
+    if (
+        groups.length === 0 ||
+        currentGroup === undefined ||
+        currentItems[itemIndex] === undefined
+    ) {
         return null;
     }
 
@@ -152,7 +180,9 @@ export const StoriesGroup = ({
             contentClassName={b('modal-content')}
         >
             <StoriesPreview
-                maxSliderItemsCount={maxSliderItemsCount > 0 ? maxSliderItemsCount : 1}
+                maxSliderItemsCount={
+                    maxSliderItemsCount > 0 ? maxSliderItemsCount : DEFAULT_MAX_SLIDER_ITEMS_COUNT
+                }
                 groups={groups}
                 groupIndex={groupIndex}
                 onGroupSelect={onGroupSelect}

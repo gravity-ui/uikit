@@ -4,15 +4,16 @@ Component for displaying group of stories. It looks like a carousel in a modal w
 
 ### PropTypes
 
-| Property            | Type                                      | Required | Default | Description                                                |
-| :------------------ | :---------------------------------------- | :------- | :------ | :--------------------------------------------------------- |
-| open                | `Boolean`                                 | ✓        |         | Visibility flag                                            |
-| groups              | `StoriesGroupItem[]`                      | ✓        |         | List of groups of stories to display                       |
-| initialStoryIndex   | `[groupIndex: Number, itemIndex: Number]` |          | [0, 0]  | Index of the first story to be displayed                   |
-| onClose             | `Function`                                |          |         | Action on close                                            |
-| onItemSelect        | `Function`                                |          |         | Action when switching to story                             |
-| disableOutsideClick | `Boolean`                                 |          | true    | If `true`, do not close stories on click outside           |
-| maxSliderItemsCount | `Number`                                  |          | 12      | Positive maximum number of slider thumbnails on the screen |
+| Property            | Type                                      | Required | Default                       | Description                                                   |
+| :------------------ | :---------------------------------------- | :------- | :---------------------------- | :------------------------------------------------------------ |
+| open                | `Boolean`                                 | ✓        |                               | Visibility flag                                               |
+| groups              | `StoriesGroupItem[]`                      | ✓        |                               | List of groups of stories to display                          |
+| initialStoryIndex   | `[groupIndex: Number, itemIndex: Number]` |          | [0, 0]                        | [DEPRECATED] Initial index of the first story to be displayed |
+| index               | `StoriesGroupIndex`                       |          | {groupIndex: 0, itemIndex: 0} | Index of the current story to be displayed                    |
+| onClose             | `Function`                                |          |                               | Action on close                                               |
+| onItemSelect        | `Function`                                |          |                               | Action when switching to story                                |
+| disableOutsideClick | `Boolean`                                 |          | true                          | If `true`, do not close stories on click outside              |
+| maxSliderItemsCount | `Number`                                  |          | 12                            | Positive maximum number of slider thumbnails on the screen    |
 
 ### StoriesGroupItem object
 
@@ -20,6 +21,13 @@ Component for displaying group of stories. It looks like a carousel in a modal w
 | -------------- | ------------------------------------------------------------------------------------------------------------------ | -------- | ------- | ------------------------------------------------------------------------------------------ |
 | items          | `[StoriesItem](https://github.com/gravity-ui/uikit/tree/main/src/components/Stories#storiesitem-object)[]`         |          |         | Array of items as in `Stories` component                                                   |
 | thumbnailMedia | `[StoriesItemMedia](https://github.com/gravity-ui/uikit/tree/main/src/components/Stories#storiesitemmedia-object)` |          |         | Media content for preview, otherwise first StoriesItem.media from StoriesItem will be used |
+
+### StoriesGroupIndex object
+
+| Field      | Type     | Required |
+| :--------- | :------- | :------- |
+| groupIndex | `Number` |          |
+| itemIndex  | `Number` |          |
 
 #### Usage example
 

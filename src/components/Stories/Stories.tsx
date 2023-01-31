@@ -6,6 +6,7 @@ import {StoriesItem} from './types';
 import {IndexType, StoriesLayout} from './components/StoriesLayout/StoriesLayout';
 
 import {block} from '../utils/cn';
+
 import './Stories.scss';
 
 const b = block('stories');
@@ -17,7 +18,11 @@ export interface StoriesProps {
         event: MouseEvent | KeyboardEvent | React.MouseEvent<HTMLElement, MouseEvent>,
         reason: ModalCloseReason | 'closeButtonClick',
     ) => void;
+
+    /** @deprecated  Will be deleted in te next major. Use `index` instead */
     initialStoryIndex?: number;
+
+    index?: number;
     onPreviousClick?: (storyIndex: number) => void;
     onNextClick?: (storyIndex: number) => void;
     disableOutsideClick?: boolean;
@@ -29,10 +34,21 @@ export function Stories({
     items,
     onPreviousClick,
     onNextClick,
-    initialStoryIndex = 0,
+    initialStoryIndex,
+    index,
     disableOutsideClick = true,
 }: StoriesProps) {
-    const [storyIndex, setStoryIndex] = React.useState(initialStoryIndex);
+    const [storyIndex, setStoryIndex] = React.useState(initialStoryIndex ?? index ?? 0);
+
+    React.useEffect(() => {
+        if (index === undefined || index < 0) {
+            return;
+        }
+
+        if (storyIndex !== index) {
+            setStoryIndex(index);
+        }
+    }, [open]);
 
     const handleClose = React.useCallback<NonNullable<StoriesProps['onClose']>>(
         (event, reason) => {
@@ -74,15 +90,7 @@ export function Stories({
         });
     }, [items, onNextClick]);
 
-    if (items.length === 0) {
-        return null;
-    }
-
-    // case when items has changed and index has ceased to be valid
-    if (items[storyIndex] === undefined) {
-        const correctIndex = items[initialStoryIndex] === undefined ? 0 : initialStoryIndex;
-        setStoryIndex(correctIndex);
-
+    if (items.length === 0 || items[storyIndex] === undefined) {
         return null;
     }
 

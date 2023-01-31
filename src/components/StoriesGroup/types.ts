@@ -5,3 +5,8 @@ export interface StoriesGroupItem {
     /** Custom image for preview, otherwise first StoriesItem.media from StoriesItem will be used */
     thumbnailMedia?: StoriesItemMedia;
 }
+
+export type StoriesGroupIndex = {
+    groupIndex: number;
+    itemIndex: number;
+};

@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.5](https://github.com/gravity-ui/uikit/compare/v4.0.4...v4.0.5) (2023-02-01)
+
+
+### Bug Fixes
+
+* **Icon:** add type for icon's data ([#522](https://github.com/gravity-ui/uikit/issues/522)) ([1fb9eff](https://github.com/gravity-ui/uikit/commit/1fb9eff8d82098b07cdb66631ade284e25a16ecb))
+
 ## [4.0.4](https://github.com/gravity-ui/uikit/compare/v4.0.3...v4.0.4) (2023-01-31)
 
 

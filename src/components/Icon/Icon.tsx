@@ -15,8 +15,10 @@ import {
 
 import './Icon.scss';
 
+export type IconData = SVGIconData;
+
 export interface IconProps extends QAProps {
-    data: SVGIconData;
+    data: IconData;
     width?: number | string;
     height?: number | string;
     size?: number | string;

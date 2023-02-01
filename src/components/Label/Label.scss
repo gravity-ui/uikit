@@ -122,11 +122,11 @@ $transitionTimingFunction: ease-in-out;
                 height: 24px;
             }
 
-            &#{$block}_has-right-icon #{$block}__text {
+            &#{$block}_has-right-addon #{$block}__text {
                 margin-right: 26px;
             }
 
-            &#{$block}_has-left-icon #{$block}__text {
+            &#{$block}_has-left-addon #{$block}__text {
                 margin-left: 28px;
             }
 
@@ -135,7 +135,7 @@ $transitionTimingFunction: ease-in-out;
                 &_rounded {
                     border-radius: var(--yc-border-radius-s);
 
-                    & #{$block}__icon {
+                    & #{$block}__addon {
                         &_interactive {
                             --yc-button-height: 24px;
                             --yc-button-border-radius: var(--yc-border-radius-s);

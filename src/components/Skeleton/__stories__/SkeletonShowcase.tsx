@@ -7,7 +7,7 @@ import './SkeletonShowcase.scss';
 
 const b = block('skeleton-showcase');
 
-function PersonCard({info, info2}: {name: string; info: string; info2: string}) {
+function PersonCard({info, info2}: {info: string; info2: string}) {
     return (
         <div className={b('card')}>
             <div className={b('avatar')} />
@@ -35,9 +35,9 @@ function PersonSkeleton() {
 }
 
 const persons = [
-    {name: 'Hugh Jass', info: 'Yendax Cdoul', info2: 'Lead Developer'},
-    {name: 'Do Cker', info: 'Yandex', info2: 'Container'},
-    {name: 'Al Coholic', info: 'Somewhere', info2: 'DevOps'},
+    {info: 'Joey', info2: 'Lead Developer'},
+    {info: 'Monica', info2: 'Product Owner'},
+    {info: 'David', info2: 'Head of Design'},
 ];
 
 function SkeletonListShowcase() {
@@ -45,7 +45,7 @@ function SkeletonListShowcase() {
     return (
         <div className={b()}>
             {listVisible ? (
-                persons.map((props) => <PersonCard {...props} key={props.name} />)
+                persons.map((props, index) => <PersonCard {...props} key={index} />)
             ) : (
                 <React.Fragment>
                     <PersonSkeleton />

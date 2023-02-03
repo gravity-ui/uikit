@@ -10,6 +10,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     title?: string;
     disabled?: boolean;
     active?: boolean;
+    selected?: boolean;
     href?: string;
     target?: string;
     rel?: string;
@@ -27,6 +28,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         title,
         disabled,
         active,
+        selected,
         href,
         target,
         rel,
@@ -54,7 +56,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         onClickCapture: disabled ? undefined : handleClickCapture,
         style,
         tabIndex: disabled ? -1 : 0,
-        className: b('item', {disabled, active, theme}, className),
+        className: b('item', {disabled, active, selected, theme}, className),
         qa,
     };
     const content = [

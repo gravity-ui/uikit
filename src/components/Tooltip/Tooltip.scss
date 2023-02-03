@@ -6,16 +6,11 @@ $block: '.#{variables.$ns}tooltip';
     // prevent glitch between two nearby tooltip refs
     pointer-events: none;
 
-    // remove a white outline of the <Popup /> component
-    &::before {
-        display: none;
-    }
+    --yc-popup-border-width: 0;
+    --yc-popup-background-color: var(--yc-color-base-float-heavy);
 
     &__content {
         padding: 6px 12px;
-
         color: var(--yc-color-text-light-primary);
-        border-radius: 4px;
-        background-color: var(--yc-color-base-float-heavy);
     }
 }

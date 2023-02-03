@@ -11,6 +11,7 @@ type SelectPopupProps = {
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     className?: string;
+    disablePortal?: boolean;
 };
 
 export const SelectPopup = ({
@@ -22,6 +23,7 @@ export const SelectPopup = ({
     controlRef,
     children,
     className,
+    disablePortal,
 }: SelectPopupProps) => (
     <Popup
         className={className}
@@ -32,6 +34,9 @@ export const SelectPopup = ({
         placement={['bottom-start', 'top-start']}
         open={open}
         onClose={handleClose}
+        disablePortal={disablePortal}
+        restoreFocus
+        restoreFocusRef={controlRef}
     >
         {children}
     </Popup>

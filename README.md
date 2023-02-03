@@ -29,6 +29,40 @@ import '@gravity-ui/uikit/styles/styles.css';
 // ...
 ```
 
+UIKit supports different themes: light, dark and their contrast variants. The theme must be applied. To do that either
+wrap your app in `ThemeProvider`:
+
+```js
+import {createRoot} from 'react-dom/client';
+import {ThemeProvider} from '@gravity-ui/uikit';
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <ThemeProvider theme="light">
+    <App />
+  </ThemeProvider>,
+);
+```
+
+or add specific CSS-classes to the root node:
+
+```html
+<!-- index.html -->
+<html>
+  <body>
+    <div id="root" class="yc-root yc-root_theme_light"></div>
+  </body>
+</html>
+```
+
+```js
+// index.js
+import {createRoot} from 'react-dom/client';
+
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
 Also, there is a SCSS [mixins](styles/mixins.scss) file with useful helpers to use in your app.
 
 ### I18N

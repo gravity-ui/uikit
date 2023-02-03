@@ -13,6 +13,7 @@ export interface PopperProps {
     offset?: [number, number];
     modifiers?: PopperModifiers;
     strategy?: popper.PositioningStrategy;
+    altBoundary?: boolean;
 }
 
 const DEFAULT_PLACEMENT: PopperPlacement = [
@@ -36,6 +37,7 @@ export function usePopper({
     offset,
     modifiers = [],
     strategy,
+    altBoundary,
 }: PopperProps) {
     const [popperElement, setPopperElement] = React.useState<HTMLElement | null>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
@@ -45,8 +47,7 @@ export function usePopper({
         strategy,
         modifiers: [
             {name: 'arrow', options: {element: arrowElement}},
-            {name: 'offset', options: {offset}},
-            {name: 'flip', options: {fallbackPlacements: placements.slice(1)}},
+            {name: 'offset', options: {offset, altBoundary}},
             ...modifiers,
         ],
         placement: placements[0],

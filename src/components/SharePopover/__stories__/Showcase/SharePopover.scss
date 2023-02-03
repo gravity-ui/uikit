@@ -1,6 +1,6 @@
 @use '../../../variables.scss';
 
-$block: '.#{variables.$ns}share-tooltip-demo';
+$block: '.#{variables.$ns}share-popover-demo';
 
 #{$block} {
     &__custom-switcher {

@@ -20,7 +20,7 @@ $block: '.#{variables.$ns}share-list';
                 }
             }
 
-            #{$block}__social {
+            #{$block}__option {
                 flex-direction: row;
             }
 
@@ -38,14 +38,14 @@ $block: '.#{variables.$ns}share-list';
                 margin: 8px -2px;
             }
 
-            #{$block}__social {
+            #{$block}__option {
                 flex-direction: column;
                 width: 100%;
             }
         }
     }
 
-    &__social {
+    &__option {
         display: flex;
         align-items: flex-start;
     }
@@ -63,7 +63,7 @@ $block: '.#{variables.$ns}share-list';
         align-items: stretch;
         min-width: 175px;
 
-        &__social {
+        &__option {
             justify-content: space-evenly;
         }
 
@@ -74,7 +74,7 @@ $block: '.#{variables.$ns}share-list';
         }
     }
 
-    &__socials-container {
+    &__options-container {
         display: flex;
 
         width: 100%;

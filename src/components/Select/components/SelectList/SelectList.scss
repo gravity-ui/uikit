@@ -1,7 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-$block: '.#{variables.$ns}select-list';
+$block: '.#{variables.$ns-new}select-list';
 $popupBlock: '.#{variables.$ns}popup';
 $s-height: '28px';
 $s-hor-padding: '8px';

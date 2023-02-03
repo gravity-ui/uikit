@@ -15,16 +15,16 @@ import {
 
 import './Icon.scss';
 
+export type IconData = SVGIconData;
+
 export interface IconProps extends QAProps {
-    data: SVGIconData;
+    data: IconData;
     width?: number | string;
     height?: number | string;
     size?: number | string;
     fill?: string;
     stroke?: string;
     className?: string;
-    /** @deprecated Wrap `<Icon/>` to element with correct role (like button) and add handler here */
-    onClick?: (event: React.MouseEvent<SVGElement>) => void;
 }
 
 const b = block('icon');
@@ -35,7 +35,6 @@ export function Icon({
     height,
     size,
     className,
-    onClick,
     fill = 'currentColor',
     stroke = 'none',
     qa,
@@ -98,7 +97,6 @@ export function Icon({
         width: w,
         height: h,
         className: b(null, className),
-        onClick,
         fill,
         stroke,
         'data-qa': qa,

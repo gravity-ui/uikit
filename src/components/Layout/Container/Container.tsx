@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {block} from '../../../utils/cn';
-import {MediaType, Space, IsMediaActive} from '../../types';
+import {block} from '../../utils/cn';
+import {MediaType, Space, IsMediaActive} from '../types';
 import {sp} from '../spacing/spacing';
 import {useContainerThemeProps} from './useContainerThemeProps';
 
@@ -14,12 +14,8 @@ export interface ContainerProps {
     /**
      * Use function to define different classes in different media queries
      */
-    className?: (fn: IsMediaActive) => string | string;
+    className?: string;
     children?: React.ReactNode;
-    /**
-     * Max width equals max width of current breakpoint
-     */
-    fixed?: boolean;
     /**
      * Width of container will never be larger then specified media type width
      */
@@ -29,11 +25,7 @@ export interface ContainerProps {
      *
      * Take default values during `LayoutContext`
      */
-    gutters?: Space;
-    /**
-     * Remove gutters
-     */
-    disableGutters?: boolean;
+    gutters?: Space | false;
     /**
      * Space between child `Row` components
      *
@@ -71,13 +63,9 @@ export const Container = React.memo(
         className,
         maxWidth,
         gutters,
-        disableGutters,
         spaceRow,
     }: ContainerProps) => {
         const {isMediaActive, containerThemeProps} = useContainerThemeProps();
-
-        const additionClassName =
-            typeof className === 'function' ? className(isMediaActive) : className;
 
         return (
             <Tag
@@ -90,14 +78,14 @@ export const Container = React.memo(
                                 ? spaceRow(isMediaActive)
                                 : spaceRow || containerThemeProps.spaceRow,
                     },
-                    (gutters || containerThemeProps.gutters) && !disableGutters
-                        ? sp(
+                    gutters === false
+                        ? className
+                        : sp(
                               {
                                   px: gutters || containerThemeProps.gutters,
                               },
-                              additionClassName,
-                          )
-                        : additionClassName,
+                              className,
+                          ),
                 )}
             >
                 {children}

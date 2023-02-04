@@ -1,6 +1,6 @@
 import React from 'react';
-import {CommonProps} from '../../types';
-import {useLayoutContext} from '../../hooks/useLayoutContext';
+import {CommonProps} from '../types';
+import {useLayoutContext} from '../hooks/useLayoutContext';
 
 const pickFlexProps = ({space}: CommonProps = {}) => {
     const res: CommonProps = {};
@@ -16,8 +16,8 @@ export const useFlexThemeProps = () => {
 
     const themeFlexProps = React.useMemo(
         () => ({
-            ...pickFlexProps(theme.smartProps?.common),
-            ...pickFlexProps(getClosestMediaProps(theme.smartProps?.common?.media)),
+            ...pickFlexProps(theme.common),
+            ...pickFlexProps(getClosestMediaProps(theme.common?.media)),
         }),
         [getClosestMediaProps, theme],
     );

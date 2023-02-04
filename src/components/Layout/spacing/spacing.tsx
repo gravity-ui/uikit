@@ -1,6 +1,6 @@
 /* eslint-disable valid-jsdoc */
-import {block} from '../../../utils/cn';
-import {Space} from '../../types';
+import {block} from '../../utils/cn';
+import {Space} from '../types';
 
 import './spacing.scss';
 

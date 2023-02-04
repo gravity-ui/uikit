@@ -1,8 +1,8 @@
 import React from 'react';
 import {Box} from '../Box/Box';
-import {Col, ColProps} from '../../../components/Layout';
+import {Col, ColProps} from '../../../components/layout';
 
-// @ts-ignore
+// @ts-ignore-error
 const pickSizeProps = <T extends {}>({l, xl, s, m, xxl, xxxl, size}: T = {}): string => {
     // skip empty values
     return Object.entries({...{l, xl, s, m, xxl, xxxl, size}})

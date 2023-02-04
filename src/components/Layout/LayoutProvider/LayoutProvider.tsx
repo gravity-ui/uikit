@@ -5,7 +5,7 @@ import {LayoutContext} from '../contexts/LayoutContext';
 import {makeDefaultTheme} from '../utils/makeDefaultTheme';
 import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
 
-interface LayoutThemeProviderProps {
+interface LayoutProviderProps {
     value?: RecursivePartial<LayoutTheme>;
     children: React.ReactNode;
 }
@@ -13,7 +13,7 @@ interface LayoutThemeProviderProps {
 /**
  * Provide context for layout components and current media queries.
  */
-export const LayoutProvider: React.FC<LayoutThemeProviderProps> = ({children, value}) => {
+export const LayoutProvider: React.FC<LayoutProviderProps> = React.memo(({children, value}) => {
     const theme = makeDefaultTheme({override: value});
     const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints);
 
@@ -27,4 +27,6 @@ export const LayoutProvider: React.FC<LayoutThemeProviderProps> = ({children, va
             {children}
         </LayoutContext.Provider>
     );
-};
+});
+
+LayoutProvider.displayName = 'LayoutProvider';

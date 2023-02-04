@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import {block} from '../../../utils/cn';
-import {Space, IsMediaActive} from '../../types';
-import {QAProps} from '../../../types';
-import {SPACE_TO_PIXEL} from '../../constants';
+import {block} from '../../utils/cn';
+import {Space, IsMediaActive} from '../types';
+import {QAProps} from '../../types';
+import {SPACE_TO_PIXEL} from '../constants';
 import {useFlexThemeProps} from './useFlexThemeProps';
 
 import './Flex.scss';
@@ -55,11 +55,36 @@ export interface FlexProps<T extends React.ElementType>
      * display: inline-flex;
      */
     inline?: boolean;
-    gap?: Space;
+    /**
+     * `gap - true` - use space value for current media query from theme
+     */
+    gap?: Space | true;
+    rowGap?: Space;
     /**
      * Space between children. Works like gap but supports in old browsers. Under the hoods uses negative margins. Vertical and horizontal directions are also supported
      *
-     * `space - true` - useDefault theme space what depends at media query
+     * `space - true` - use default theme space what depends at media query
+     *
+     * ---
+     * instead of ~imperfection of the world~ browser compatibility for margins between layout components used negative margins there is passible issues with `background-color` css property and others that depends of current block position. Use in this situations wrappers. In future version this issues will be avoided during flex `gap` properties
+     *
+     * ```tsx
+     * // wrong
+     * <Flex>
+     *   <SomeComponentWIthBackground />
+     *   <SomeComponentWIthBackground />
+     * </Flex>
+     *
+     * // right
+     * <Flex>
+     *   <div>
+     *     <SomeComponentWIthBackground />
+     *   </div>
+     *   <div>
+     *     <SomeComponentWIthBackground />
+     *   </div>
+     * </Flex>
+     * ```
      */
     space?: true | Space | ((fn: IsMediaActive) => Space | undefined);
     children?: React.ReactNode;
@@ -131,6 +156,7 @@ export const Flex = React.memo(
                 inline,
                 title,
                 gap,
+                rowGap,
                 className,
                 space,
                 Component,
@@ -140,23 +166,29 @@ export const Flex = React.memo(
 
             const {isMediaActive, themeFlexProps} = useFlexThemeProps();
 
-            const s = React.useMemo(() => {
-                if (typeof space === 'function') {
-                    return space(isMediaActive);
-                }
+            let s: Space | undefined;
 
-                if (space === true) {
-                    return themeFlexProps.space;
-                }
+            if (typeof space === 'function') {
+                s = space(isMediaActive);
+            } else if (space === true) {
+                s = themeFlexProps.space;
+            } else {
+                s = space;
+            }
 
-                return space;
-            }, [isMediaActive, space, themeFlexProps.space]);
+            let g: Space | undefined;
+
+            if (gap === true) {
+                g = themeFlexProps.space;
+            } else {
+                g = gap;
+            }
 
             const passThroughProps: FlexPassThroughProps<T> = {
                 className: b(
                     {
                         inline,
-                        s: gap ? undefined : s,
+                        s: gap || rowGap ? undefined : s,
                     },
                     className,
                 ),
@@ -169,13 +201,14 @@ export const Flex = React.memo(
                     flexWrap: wrap,
                     flexBasis: basis,
                     flexShrink: shrink,
+                    gap: g ? SPACE_TO_PIXEL[g] : undefined,
+                    rowGap: rowGap ? SPACE_TO_PIXEL[rowGap] : undefined,
                     justifyContent:
                         typeof justifyContent === 'function'
                             ? justifyContent(isMediaActive)
                             : justifyContent,
                     alignItems:
                         typeof alignItems === 'function' ? alignItems(isMediaActive) : alignItems,
-                    gap: gap ? SPACE_TO_PIXEL[gap] : undefined,
                     ...style,
                 },
                 title,

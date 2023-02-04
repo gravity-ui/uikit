@@ -4,7 +4,7 @@ import {ActiveMediaQuery, LayoutTheme, RecursivePartial} from '../types';
 import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
 import {LayoutContext} from '../contexts/LayoutContext';
 
-interface UseComputedMediaContext {
+interface ComputedMediaContext {
     theme: RecursivePartial<LayoutTheme>;
     /**
      * Current active media query
@@ -34,7 +34,7 @@ interface UseComputedMediaContext {
 /**
  * Quick access to theme and helpers to work with media queries
  */
-export const useLayoutContext = (): UseComputedMediaContext => {
+export const useLayoutContext = (): ComputedMediaContext => {
     const {activeMediaQuery, theme} = React.useContext(LayoutContext);
 
     const {isMediaActive, getClosestMediaProps} = React.useMemo(

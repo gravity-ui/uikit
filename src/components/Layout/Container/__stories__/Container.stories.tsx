@@ -1,8 +1,8 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
-import {Container, ContainerProps} from './../Container';
+import {Container, ContainerProps} from '../Container';
 import {Col} from '../../Col/Col';
-import {Box, LayoutPresenter} from '../../../../../demo/Layout';
+import {Box, LayoutPresenter} from '../../../../demo/Layout';
 import {Row} from '../../Row/Row';
 
 export default {

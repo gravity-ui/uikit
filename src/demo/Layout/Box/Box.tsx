@@ -1,7 +1,8 @@
 import React from 'react';
-import {Flex, FlexProps} from '../../../components/Layout';
+import {Flex, FlexProps} from '../../../components/layout';
 
 interface BoxProps extends FlexProps<'div'> {
+    style?: React.CSSProperties;
     children?: React.ReactNode;
     minHeight?: number;
     w?: number;

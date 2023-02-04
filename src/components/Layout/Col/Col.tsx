@@ -1,8 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
-import {block} from '../../../utils/cn';
-import {ColSize, MediaPartial} from '../../types';
+import {block} from '../../utils/cn';
+import {ColSize, MediaPartial} from '../types';
 
 import './Col.scss';
 
@@ -35,47 +35,27 @@ export interface ColProps extends MediaPartial<ColSize> {
  *  <Col s="2" l="1">col 2</Col>
  * </Row>
  * ```
- *
- * ---
- * instead of ~imperfection of the world~ browser compatibility for margins between layout components used negative margins there is passible issues with `background-color` css property and others that depends of current block position. Use in this situations wrappers. In future version this issues will be avoided during flex `gap` properties
- *
- * ```tsx
- * // wrong
- * <Col>
- *      <SomeComponentWIthBackground />
- * </Col>
- *
- * // right
- * <Col>
- *   <div>
- *     <SomeComponentWIthBackground />
- *   </div>
- * </Col>
- * ```
  */
-export const Col = ({children, style, className, ...media}: ColProps) => {
-    const mods = React.useMemo(
-        () =>
-            Object.entries(media).reduce((acc, [mod, modSize]) => {
-                acc[`s-${mod}`] = modSize;
+export const Col = React.memo(({children, style, className, ...media}: ColProps) => {
+    const mods = Object.entries(media).reduce<Record<string, string>>((acc, [mod, modSize]) => {
+        acc[`s-${mod}`] = modSize;
 
-                return acc;
-            }, {} as Record<string, ColSize>),
-        [media],
-    );
+        return acc;
+    }, {});
 
     return (
         <div style={style} className={b(mods, className)}>
             {children}
         </div>
     );
-};
+});
+
+Col.displayName = 'Col';
 
 /**
  * Possible improvements that the customer is looking for:
  * - props for vertical alignment in row;
  * - offset;
  * - media only. Rule that will be applied only in specified media query;
- * - alias for 's' media query like `size` prop for example;
  * - content alignment;
  */

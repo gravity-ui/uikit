@@ -21,15 +21,15 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         xxl: 1400,
         xxxl: 1920,
     },
-    smartProps: {
-        common: {
-            space: 's',
-            media: {
-                l: {
-                    space: 'l',
-                },
+    common: {
+        space: 's',
+        media: {
+            l: {
+                space: 'l',
             },
         },
+    },
+    components: {
         container: {
             gutters: 's',
             media: {

@@ -1,4 +1,28 @@
-export type ColSize = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
+export type ColSize =
+    | '1'
+    | '2'
+    | '3'
+    | '4'
+    | '5'
+    | '6'
+    | '7'
+    | '8'
+    | '9'
+    | '10'
+    | '11'
+    | '12'
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12;
 
 export type Space = 'none' | 'nano' | 'micro' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
 
@@ -26,11 +50,7 @@ export type RecursivePartial<T> = {
     [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-interface SmartProps {
-    /**
-     * Common props, that can you all layout components
-     */
-    common: WithMedia<CommonProps>;
+interface ComponentProps {
     container: WithMedia<ContainerConfigProps>;
 }
 
@@ -42,9 +62,13 @@ export interface LayoutTheme {
      */
     breakpoints: MediaProps<number>;
     /**
-     * Component props build in into the theme. You can describe the props depending on the current media expression
+     * Common props, that can you all layout components
      */
-    smartProps: SmartProps;
+    common: WithMedia<CommonProps>;
+    /**
+     * Components props build in into the theme. You can describe the props depending on the current media expression
+     */
+    components: ComponentProps;
 }
 
 export interface IsMediaActive {

@@ -1,7 +1,7 @@
-@use '../../variables.scss';
+@use '../variables.scss' as v;
 
-#{variables.$spacingClassName} {
-    @each $space, $value in variables.$SPACE {
+#{v.$spacingBlock} {
+    @each $space, $value in v.$SPACE {
         &__m_#{$space} {
             margin: $value;
         }

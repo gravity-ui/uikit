@@ -1,6 +1,6 @@
 import React from 'react';
-import {CommonProps} from '../../types';
-import {useLayoutContext} from '../../hooks/useLayoutContext';
+import {CommonProps} from '../types';
+import {useLayoutContext} from '../hooks/useLayoutContext';
 
 const pickRowProps = ({space, spaceRow}: CommonProps = {}) => {
     const res: CommonProps = {};
@@ -21,10 +21,10 @@ export const useRowThemeProps = () => {
 
     const rowThemeProps = React.useMemo(
         () => ({
-            ...pickRowProps(theme.smartProps?.common),
-            ...pickRowProps(getClosestMediaProps(theme.smartProps?.common?.media)),
+            ...pickRowProps(theme.common),
+            ...pickRowProps(getClosestMediaProps(theme.common?.media)),
         }),
-        [getClosestMediaProps, theme.smartProps?.common],
+        [getClosestMediaProps, theme],
     );
 
     return {

@@ -1,10 +1,10 @@
 @use '../variables.scss';
 
-$colClassName: '.#{variables.$ns}col';
-$rowClassName: '.#{variables.$ns}row';
-$flexClassName: '.#{variables.$ns}flex';
-$containerClassName: '.#{variables.$ns}container';
-$spacingClassName: '.#{variables.$ns}s';
+$colBlock: '.#{variables.$ns}col';
+$rowBlock: '.#{variables.$ns}row';
+$flexBlock: '.#{variables.$ns}flex';
+$containerBlock: '.#{variables.$ns}container';
+$spacingBlock: '.#{variables.$ns}s';
 
 $breakpoint-s: 576px !default;
 $breakpoint-m: 768px !default;

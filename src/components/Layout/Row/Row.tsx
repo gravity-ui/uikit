@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {block} from '../../../utils/cn';
-import {IsMediaActive, Space} from '../../types';
+import {block} from '../../utils/cn';
+import {IsMediaActive, Space} from '../types';
 import {useRowThemeProps} from './useRowThemeProps';
 
 import './Row.scss';

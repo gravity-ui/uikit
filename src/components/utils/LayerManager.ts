@@ -36,7 +36,12 @@ const createPromise = (): {promise: Promise<void>; resolve: () => void; reject: 
     return {promise, resolve, reject};
 };
 
-type LayerCandidate = {config: LayerConfig; promise: Promise<void>; resolve: () => void};
+type LayerCandidate = {
+    config: LayerConfig;
+    promise: Promise<void>;
+    resolve: () => void;
+    reject: () => void;
+};
 
 const defaultIdleTimeout = 1000;
 
@@ -107,8 +112,8 @@ export class LayerManager {
                 }
             }
 
-            const {promise, resolve} = createPromise();
-            this.preStack.push({config, promise, resolve});
+            const {promise, resolve, reject} = createPromise();
+            this.preStack.push({config, promise, resolve, reject});
 
             if (this.stack.length === 0) {
                 this.checkPreStack();
@@ -130,11 +135,22 @@ export class LayerManager {
     remove(config: LayerConfig) {
         const index = this.stack.indexOf(config);
 
-        if (index < 0) {
-            return;
+        if (index >= 0) {
+            this.stack.splice(index, 1);
         }
 
-        this.stack.splice(index, 1);
+        let preStackIndex = -1;
+        for (let i = 0; i < this.preStack.length; i++) {
+            if (this.preStack[i].config === config) {
+                preStackIndex = i;
+                break;
+            }
+        }
+
+        if (preStackIndex >= 0) {
+            this.preStack[preStackIndex].reject();
+            this.preStack.splice(preStackIndex, 1);
+        }
 
         if (this.stack.length === 0) {
             this.removeListeners();

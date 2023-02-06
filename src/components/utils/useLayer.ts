@@ -64,8 +64,12 @@ export function useLayer({
         if (open && enabled) {
             const layerConfig = layerConfigRef.current;
             const tryAdd = async () => {
-                await layerManager.add(layerConfig);
-                setAllowedOpen(true);
+                try {
+                    await layerManager.add(layerConfig);
+                    setAllowedOpen(true);
+                } catch (error) {
+                    setAllowedOpen(false);
+                }
             };
 
             tryAdd();

@@ -1,12 +1,12 @@
 import {act} from '@testing-library/react';
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
-import {layerManager} from '../LayerManager';
+import {LayerManager} from '../LayerManager';
 
 describe('LayerManager', () => {
     setupTimersMock();
 
     test('should add all non-idle layers directly to stack', () => {
-        layerManager.reset();
+        const layerManager = new LayerManager();
 
         const layer1 = {};
         const layer2 = {};
@@ -18,7 +18,7 @@ describe('LayerManager', () => {
     });
 
     test('should add idle layer when stack is empty after timeout', () => {
-        layerManager.reset();
+        const layerManager = new LayerManager();
 
         const layer1 = {idle: true, idleTimeout: 10000};
 
@@ -36,7 +36,7 @@ describe('LayerManager', () => {
     });
 
     test('should not add idle layer to stack when stack is not empty', () => {
-        layerManager.reset();
+        const layerManager = new LayerManager();
 
         const layer1 = {idle: true, idleTimeout: 100};
         const layer2 = {};
@@ -57,7 +57,7 @@ describe('LayerManager', () => {
     });
 
     test('should add non-idle layer on top of idle layer', () => {
-        layerManager.reset();
+        const layerManager = new LayerManager();
 
         const layer1 = {idle: true, idleTimeout: 100};
         const layer2 = {};
@@ -76,7 +76,7 @@ describe('LayerManager', () => {
     });
 
     test('should add idle layers depending on idlePriority', () => {
-        layerManager.reset();
+        const layerManager = new LayerManager();
 
         const layer1 = {idle: true, idleTimeout: 100, idlePriority: 1};
         const layer2 = {idle: true, idleTimeout: 100, idlePriority: 2};

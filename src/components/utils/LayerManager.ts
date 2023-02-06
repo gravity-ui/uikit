@@ -61,7 +61,7 @@ const compareCandidatesByPriority = (candA: LayerCandidate, candB: LayerCandidat
     return Math.sign(priorityB - priorityA);
 };
 
-class LayerManager {
+export class LayerManager {
     private stack: LayerConfig[] = [];
     private preStack: LayerCandidate[] = [];
     private mouseDownTarget: HTMLElement | null = null;
@@ -140,14 +140,6 @@ class LayerManager {
             this.removeListeners();
             this.checkPreStack();
         }
-    }
-
-    reset() {
-        this.stack = [];
-        this.preStack = [];
-        this.unscheduleCandidate();
-        this.mouseDownTarget = null;
-        this.removeListeners();
     }
 
     private unscheduleCandidate() {

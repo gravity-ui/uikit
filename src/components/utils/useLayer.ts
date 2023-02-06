@@ -63,16 +63,14 @@ export function useLayer({
     React.useEffect(() => {
         if (open && enabled) {
             const layerConfig = layerConfigRef.current;
-            const tryAdd = async () => {
-                try {
-                    await layerManager.add(layerConfig);
+            layerManager
+                .add(layerConfig)
+                .then(() => {
                     setAllowedOpen(true);
-                } catch (error) {
+                })
+                .catch(() => {
                     setAllowedOpen(false);
-                }
-            };
-
-            tryAdd();
+                });
 
             return () => {
                 layerManager.remove(layerConfig);

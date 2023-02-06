@@ -32,14 +32,24 @@ const semantic = [
         description: 'Info text.',
     },
     {
+        name: 'text-info-heavy',
+        title: 'Info Heavy',
+        description: 'Info text with underlay.',
+    },
+    {
         name: 'text-positive',
         title: 'Positive',
         description: 'Positive text.',
     },
     {
-        name: 'text-warning-medium',
-        title: 'Warning Medium',
-        description: 'Warning text without underlay.',
+        name: 'text-positive-heavy',
+        title: 'Positive Heavy',
+        description: 'Positive text with underlay.',
+    },
+    {
+        name: 'text-warning',
+        title: 'Warning',
+        description: 'Warning text.',
     },
     {
         name: 'text-warning-heavy',
@@ -52,14 +62,29 @@ const semantic = [
         description: 'Danger text.',
     },
     {
+        name: 'text-danger-heavy',
+        title: 'Danger Heavy',
+        description: 'Danger text with underlay.',
+    },
+    {
         name: 'text-utility',
         title: 'Utility',
         description: 'For emphasizing, without semantic.',
     },
     {
+        name: 'text-utility-heavy',
+        title: 'Utility Heavy',
+        description: 'Utility text with underlay.',
+    },
+    {
         name: 'text-misc',
         title: 'Misc',
         description: 'For emphasizing, without semantic.',
+    },
+    {
+        name: 'text-misc-heavy',
+        title: 'Misc Heavy',
+        description: 'Misc text with underlay.',
     },
 ];
 

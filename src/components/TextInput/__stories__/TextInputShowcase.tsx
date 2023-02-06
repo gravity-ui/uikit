@@ -7,6 +7,9 @@ import './TextInputShowcase.scss';
 
 const b = block('text-input-showcase');
 
+const LABEL = 'Label:';
+const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
+
 export const TextInputShowcase: React.FC = () => {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
@@ -57,6 +60,52 @@ export const TextInputShowcase: React.FC = () => {
                     <TextInput
                         {...textInputProps}
                         placeholder="default value"
+                        value={undefined}
+                        defaultValue="defaultValue"
+                    />
+                </div>
+            </div>
+
+            <div className={b('text-input-label-examples')}>
+                <h2 className={b('title')}>TextInput (label)</h2>
+
+                <div className={'size-examples'}>
+                    <h3 className={b('section-header')}>Sizes:</h3>
+
+                    <TextInput {...textInputProps} size="s" placeholder="s" label={LABEL} />
+                    <TextInput {...textInputProps} placeholder="m" label={LABEL} />
+                    <TextInput {...textInputProps} size="l" placeholder="l" label={LABEL} />
+                    <TextInput {...textInputProps} size="xl" placeholder="xl" label={LABEL} />
+                </div>
+
+                <div className={b('state-examples')}>
+                    <h3 className={b('section-header')}>States:</h3>
+
+                    <div className={b('row')}>
+                        <TextInput
+                            {...textInputProps}
+                            placeholder="error with message"
+                            label={LABEL}
+                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
+                        />
+                        <Checkbox
+                            onUpdate={setErrorMessageVisibility}
+                            checked={isErrorMessageVisible}
+                        />
+                    </div>
+                    <TextInput {...textInputProps} placeholder="disabled" label={LABEL} disabled />
+                    <TextInput {...textInputProps} placeholder="clear" label={LABEL} hasClear />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="default value"
+                        label={LABEL}
+                        value={undefined}
+                        defaultValue="defaultValue"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="default value"
+                        label={LONG_LABEL}
                         value={undefined}
                         defaultValue="defaultValue"
                     />

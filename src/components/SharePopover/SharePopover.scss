@@ -1,6 +1,6 @@
 @use '../variables';
 
-$block: '.#{variables.$ns}share-tooltip';
+$block: '.#{variables.$ns}share-popover';
 
 #{$block} {
     position: relative;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {block} from '../../../utils/cn';
+import {blockNew as block} from '../../../utils/cn';
 import {TextInput} from '../../../TextInput';
 import type {SelectProps} from '../../types';
 import type {SelectFilterRef} from '../../types-misc';

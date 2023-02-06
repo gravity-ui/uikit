@@ -84,10 +84,16 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
         [],
     );
 
-    const {optionsProps} = useRadioGroup({...props, options});
+    const {containerProps, optionsProps} = useRadioGroup({...props, options});
 
     return (
-        <div ref={ref} style={style} className={b({size, width}, className)} data-qa={qa}>
+        <div
+            {...containerProps}
+            ref={ref}
+            style={style}
+            className={b({size, width}, className)}
+            data-qa={qa}
+        >
             <div
                 ref={plateRef}
                 className={b('plate')}

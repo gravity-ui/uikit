@@ -32,6 +32,7 @@ export type SelectProps = QAProps &
         popupWidth?: number;
         virtualizationThreshold?: number;
         className?: string;
+        controlClassName?: string;
         popupClassName?: string;
         label?: string;
         placeholder?: React.ReactNode;
@@ -42,6 +43,7 @@ export type SelectProps = QAProps &
         options?: (SelectOption | SelectOptionGroup)[];
         multiple?: boolean;
         filterable?: boolean;
+        disablePortal?: boolean;
         children?:
             | React.ReactElement<SelectOption, typeof Option>
             | React.ReactElement<SelectOption, typeof Option>[]

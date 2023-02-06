@@ -23,7 +23,12 @@ import {
 } from './utils';
 import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
 import {Option, OptionGroup} from './tech-components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD} from './constants';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
+import {useOnFocusOutside} from '../utils/useOnFocusOutside';
+
+import type {CnMods} from '../utils/cn';
+
+import './Select.scss';
 
 type SelectComponent = React.ForwardRefExoticComponent<
     SelectProps & React.RefAttributes<HTMLButtonElement>
@@ -46,6 +51,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterOption,
         name,
         className,
+        controlClassName,
         popupClassName,
         qa,
         value: propsValue,
@@ -63,6 +69,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple = false,
         disabled = false,
         filterable = false,
+        disablePortal,
     } = props;
     const [{controlRect, filter}, dispatch] = React.useReducer(reducer, initialState);
     const controlRef = React.useRef<HTMLElement>(null);
@@ -78,14 +85,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
-    const filteredFlattenOptions =
-        filterable && filter
-            ? getFilteredFlattenOptions({
-                  options: flattenOptions,
-                  filter,
-                  filterOption,
-              })
-            : flattenOptions;
+    const filteredFlattenOptions = filterable
+        ? getFilteredFlattenOptions({
+              options: flattenOptions,
+              filter,
+              filterOption,
+          })
+        : flattenOptions;
     const selectedOptionsContent = getSelectedOptionsContent(
         flattenOptions,
         value,
@@ -190,17 +196,32 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onOpenChange?.(open);
     }, [open, filterable, onOpenChange]);
 
+    const mods: CnMods = {
+        ...(width === 'max' && {width}),
+    };
+    const inlineStyles: React.CSSProperties = {};
+
+    if (typeof width === 'number') {
+        inlineStyles.width = width;
+    }
+
+    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
+
     return (
-        <React.Fragment>
+        <div
+            className={selectBlock(mods, className)}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            style={inlineStyles}
+        >
             <SelectControl
                 ref={handleControlRef}
-                className={className}
+                className={controlClassName}
                 qa={qa}
                 name={name}
                 view={view}
                 size={size}
                 pin={pin}
-                width={width}
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}
@@ -218,6 +239,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 verticalOffset={popupVerticalOffset}
                 open={open}
                 handleClose={handleClose}
+                disablePortal={disablePortal}
             >
                 {filterable && (
                     <SelectFilter
@@ -248,7 +270,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
                 )}
             </SelectPopup>
-        </React.Fragment>
+        </div>
     );
 }) as SelectComponent;
 

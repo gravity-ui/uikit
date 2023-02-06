@@ -2,7 +2,7 @@ import React from 'react';
 import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {TextInput} from '../../TextInput';
-import type {SelectProps} from '../types';
+import type {SelectOption, SelectProps} from '../types';
 import {TEST_QA, generateOptions, setup} from './utils';
 
 afterEach(() => {
@@ -83,5 +83,20 @@ describe('Select filter', () => {
         await user.keyboard('[a][b][c][1][2]');
         // filter shouldn`t work due to initialized filterOption
         expect(queryAllByRole('listitem').length).toBe(40);
+    });
+
+    test('should filter options even if filter text is empty', async () => {
+        const filterOption = jest.fn((option: SelectOption) => option.value.endsWith('0'));
+        const {getByTestId, queryAllByRole} = setup({
+            options: generateOptions(40),
+            filterable: true,
+            filterOption,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        expect(filterOption).toHaveBeenCalled();
+        // 10, 20, 30, 40
+        expect(queryAllByRole('listitem').length).toBe(4);
     });
 });

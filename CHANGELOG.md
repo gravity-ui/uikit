@@ -1,5 +1,120 @@
 # Changelog
 
+## [4.0.5](https://github.com/gravity-ui/uikit/compare/v4.0.4...v4.0.5) (2023-02-01)
+
+
+### Bug Fixes
+
+* **Icon:** add type for icon's data ([#522](https://github.com/gravity-ui/uikit/issues/522)) ([1fb9eff](https://github.com/gravity-ui/uikit/commit/1fb9eff8d82098b07cdb66631ade284e25a16ecb))
+
+## [4.0.4](https://github.com/gravity-ui/uikit/compare/v4.0.3...v4.0.4) (2023-01-31)
+
+
+### Bug Fixes
+
+* **Select:** filter options when filter text is empty ([#517](https://github.com/gravity-ui/uikit/issues/517)) ([9fd57d5](https://github.com/gravity-ui/uikit/commit/9fd57d55761c9975ddfe35e62be33895f47c5a56))
+
+## [4.0.3](https://github.com/gravity-ui/uikit/compare/v4.0.2...v4.0.3) (2023-01-31)
+
+
+### Bug Fixes
+
+* old exports should work with the new ones ([#515](https://github.com/gravity-ui/uikit/issues/515)) ([fe7790c](https://github.com/gravity-ui/uikit/commit/fe7790cda3beb6866e847edb0877dd5b78bfc84e))
+
+## [4.0.2](https://github.com/gravity-ui/uikit/compare/v4.0.1...v4.0.2) (2023-01-30)
+
+
+### Bug Fixes
+
+* package exports fixes ([#512](https://github.com/gravity-ui/uikit/issues/512)) ([b1579f7](https://github.com/gravity-ui/uikit/commit/b1579f7123495628c5831c76db2ab54cba335343))
+
+## [4.0.1](https://github.com/gravity-ui/uikit/compare/v4.0.0...v4.0.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* **TextInput:** do not auto generate id for input if not needed ([#505](https://github.com/gravity-ui/uikit/issues/505)) ([26b24df](https://github.com/gravity-ui/uikit/commit/26b24dfeecd8ab427215cd4b48e9b508cffbea9f))
+
+## [4.0.0](https://github.com/gravity-ui/uikit/compare/v3.20.0...v4.0.0) (2023-01-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* text semantic colors update ([#484](https://github.com/gravity-ui/uikit/issues/484))
+* remove deprecated props ([#486](https://github.com/gravity-ui/uikit/issues/486))
+* **ShareTooltip:** rename to SharePopover ([#488](https://github.com/gravity-ui/uikit/issues/488))
+* **Popover:** make `forceLinksAppearance` false by default ([#472](https://github.com/gravity-ui/uikit/issues/472))
+* **Icon:** remove `onClick` handler ([#473](https://github.com/gravity-ui/uikit/issues/473))
+* **Toaster:** rename `timeout` to `autoHiding` ([#248](https://github.com/gravity-ui/uikit/issues/248))
+* **ShareTooltip:** socialNets props renamed to shareOptions ([#411](https://github.com/gravity-ui/uikit/issues/411))
+* **HelpPopup:** remove default ofset ([#304](https://github.com/gravity-ui/uikit/issues/304))
+* **TextInput:** remove incorrect resize attribute styles ([#266](https://github.com/gravity-ui/uikit/issues/266))
+* **Toaster:** remove singleton instantiation ([#225](https://github.com/gravity-ui/uikit/issues/225))
+* **Label:** new xs size and click action for more custom label ([#380](https://github.com/gravity-ui/uikit/issues/380))
+* **DropdownMenu:** custom popup props, controlled popup visibility, submenus, keyboard navigation ([#409](https://github.com/gravity-ui/uikit/issues/409))
+
+### Features
+
+* add focus trap ([#482](https://github.com/gravity-ui/uikit/issues/482)) ([e091ee0](https://github.com/gravity-ui/uikit/commit/e091ee0d442f2d5e1997003ea0dc5a1891846a96))
+* **DropdownMenu:** custom popup props, controlled popup visibility, submenus, keyboard navigation ([#409](https://github.com/gravity-ui/uikit/issues/409)) ([a6db9f8](https://github.com/gravity-ui/uikit/commit/a6db9f83fa797fdb7012c29a0e16a646c10d8321))
+* **HelpPopup:** remove default ofset ([#304](https://github.com/gravity-ui/uikit/issues/304)) ([c150cb2](https://github.com/gravity-ui/uikit/commit/c150cb229f9c623dde83cdf4b35564f1bce4763d))
+* **Icon:** remove `onClick` handler ([#473](https://github.com/gravity-ui/uikit/issues/473)) ([50faf8f](https://github.com/gravity-ui/uikit/commit/50faf8f43999176894dcf6a5693cd9db7b3677cb))
+* **Label:** new xs size and click action for more custom label ([#380](https://github.com/gravity-ui/uikit/issues/380)) ([c9f7c36](https://github.com/gravity-ui/uikit/commit/c9f7c36692705b644e0e103fd64c2fbb67d1312a))
+* **Popover:** make `forceLinksAppearance` false by default ([#472](https://github.com/gravity-ui/uikit/issues/472)) ([65f44ec](https://github.com/gravity-ui/uikit/commit/65f44ec491598f0fd2284bbbc8d6d5e5f52cca09))
+* **ShareTooltip:** socialNets props renamed to shareOptions ([#411](https://github.com/gravity-ui/uikit/issues/411)) ([c3b1aeb](https://github.com/gravity-ui/uikit/commit/c3b1aeb16cc0c19aaad5f15fcc1752657a809a9b))
+* support React 18 ([#469](https://github.com/gravity-ui/uikit/issues/469)) ([e54108d](https://github.com/gravity-ui/uikit/commit/e54108db248a4850ed42d3c42acd82754b1d84c7))
+* text semantic colors update ([#484](https://github.com/gravity-ui/uikit/issues/484)) ([dbbf04a](https://github.com/gravity-ui/uikit/commit/dbbf04a43ae978450b26385a72377ad8b6233310))
+* **Toaster:** remove singleton instantiation ([#225](https://github.com/gravity-ui/uikit/issues/225)) ([60933f8](https://github.com/gravity-ui/uikit/commit/60933f8ccacc28da6bd66960a86c801fdfda6052))
+* **Toaster:** rename `timeout` to `autoHiding` ([#248](https://github.com/gravity-ui/uikit/issues/248)) ([ed0585a](https://github.com/gravity-ui/uikit/commit/ed0585a24ce3889a139be84bdb2b16b81256b453))
+
+
+### Bug Fixes
+
+* **TextInput:** remove incorrect resize attribute styles ([#266](https://github.com/gravity-ui/uikit/issues/266)) ([85ef55a](https://github.com/gravity-ui/uikit/commit/85ef55a60c02a0891378d8fa44fbd6f6fcdb77b1))
+* **Toaster:** pre 18 react fix ([#494](https://github.com/gravity-ui/uikit/issues/494)) ([0f0877a](https://github.com/gravity-ui/uikit/commit/0f0877a4ba74ffb9c35ce6b8c5b03dc5cf880486))
+* **Toaster:** swap namings in singletons ([440ed7e](https://github.com/gravity-ui/uikit/commit/440ed7ebc8dee1f1159cf608018c34cb69f4a8f7))
+* **Tooltip:** hide Popup border ([252f2f3](https://github.com/gravity-ui/uikit/commit/252f2f353c02a69af451b5f99d724fd94bd746e0))
+
+
+### refactor
+
+* remove deprecated props ([#486](https://github.com/gravity-ui/uikit/issues/486)) ([89c8885](https://github.com/gravity-ui/uikit/commit/89c88850599c03325a5cc825f2009c0b8e70475f))
+* **ShareTooltip:** rename to SharePopover ([#488](https://github.com/gravity-ui/uikit/issues/488)) ([32db8b2](https://github.com/gravity-ui/uikit/commit/32db8b25c5ba16faf787473708f39ca86bc402af))
+
+## [3.20.0](https://github.com/gravity-ui/uikit/compare/v3.19.2...v3.20.0) (2023-01-25)
+
+
+### Features
+
+* **eventBroker:** eventBroker acts in the bubbling phase ([#489](https://github.com/gravity-ui/uikit/issues/489)) ([ef2c901](https://github.com/gravity-ui/uikit/commit/ef2c9013b67e14170ebdc4eb9e6b182b298fde7c))
+
+## [3.19.2](https://github.com/gravity-ui/uikit/compare/v3.19.1...v3.19.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* **Portal:** add condition for default container for Portal ([#497](https://github.com/gravity-ui/uikit/issues/497)) ([da21d63](https://github.com/gravity-ui/uikit/commit/da21d6398ba2020d5b9d47d13a63bbb3d9959b92))
+
+## [3.19.1](https://github.com/gravity-ui/uikit/compare/v3.19.0...v3.19.1) (2023-01-22)
+
+
+### Bug Fixes
+
+* **Select:** use theme font-family ([#495](https://github.com/gravity-ui/uikit/issues/495)) ([4615c46](https://github.com/gravity-ui/uikit/commit/4615c46e7f74010c5b6c283de54ed635e34efdd5))
+
+## [3.19.0](https://github.com/gravity-ui/uikit/compare/v3.18.2...v3.19.0) (2023-01-20)
+
+
+### Features
+
+* **RadioGroup:** improve radio-group components a11y ([#196](https://github.com/gravity-ui/uikit/issues/196)) ([70f36ea](https://github.com/gravity-ui/uikit/commit/70f36eaceebb4e8b9dfdd6ec056896b07bd8f89c))
+* **TextInput:** ability to show innerLabel in InputControl ([#426](https://github.com/gravity-ui/uikit/issues/426)) ([8a5e3c5](https://github.com/gravity-ui/uikit/commit/8a5e3c594eb2e4c5d9505d078a44e5cd495bb435))
+
+
+### Bug Fixes
+
+* lighter colors for base-neutral ([#490](https://github.com/gravity-ui/uikit/issues/490)) ([64e7278](https://github.com/gravity-ui/uikit/commit/64e72785c6c3f7f68bf075921a70b5cbbb400a63))
+
 ## [3.18.2](https://github.com/gravity-ui/uikit/compare/v3.18.1...v3.18.2) (2023-01-19)
 
 

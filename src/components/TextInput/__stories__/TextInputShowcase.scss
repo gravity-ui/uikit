@@ -2,10 +2,21 @@
     display: grid;
     grid-template:
         'text-input' auto
+        'text-input-label' auto
         'text-area' auto / auto;
 
     &__text-input-examples {
         grid-area: text-input;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes states' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__text-input-label-examples {
+        grid-area: text-input-label;
         display: grid;
         grid-template:
             'title title' auto

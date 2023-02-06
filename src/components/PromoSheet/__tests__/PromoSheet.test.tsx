@@ -42,7 +42,9 @@ test('Has image when imageSrc property is set', () => {
     render(<PromoSheet title="" message="" actionText="" closeText="" imageSrc="image.png" />);
 
     window.Image = originalWindowImage;
-    onLoad();
+    act(() => {
+        onLoad();
+    });
 
     expect(screen.getByRole('presentation')).toBeInTheDocument();
 });

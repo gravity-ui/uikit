@@ -52,10 +52,16 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(func
         }));
     }
 
-    const {optionsProps} = useRadioGroup({...props, options});
+    const {containerProps, optionsProps} = useRadioGroup({...props, options});
 
     return (
-        <div ref={ref} style={style} className={b({size, direction}, className)} data-qa={qa}>
+        <div
+            {...containerProps}
+            ref={ref}
+            style={style}
+            className={b({size, direction}, className)}
+            data-qa={qa}
+        >
             {optionsProps.map((optionProps) => (
                 <Radio
                     {...optionProps}

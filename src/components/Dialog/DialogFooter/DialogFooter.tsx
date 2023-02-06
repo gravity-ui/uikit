@@ -29,6 +29,9 @@ interface DialogFooterOwnProps {
 interface DialogFooterDefaultProps {
     preset: ButtonPreset;
     showError: boolean;
+    /**
+     * @deprecated use on onEnterKeyDown on Dialog component
+     */
     listenKeyEnter: boolean;
 }
 
@@ -127,6 +130,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
                         open={showError}
                         anchorRef={this.errorTooltipRef}
                         placement={['bottom', 'top']}
+                        disableLayer
                         hasArrow
                     >
                         <div className={b('error')}>{errorText}</div>

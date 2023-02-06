@@ -104,8 +104,8 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
     },
     ref,
 ) {
-    const handleClick = React.useCallback(
-        (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    const handleClickCapture = React.useCallback(
+        (event: React.SyntheticEvent) => {
             eventBroker.publish({
                 componentId: 'Button',
                 eventId: 'click',
@@ -115,15 +115,15 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
                     view,
                 },
             });
-            onClick?.(event);
         },
-        [view, onClick],
+        [view],
     );
 
     const commonProps = {
         title,
         tabIndex,
-        onClick: handleClick,
+        onClick,
+        onClickCapture: handleClickCapture,
         onMouseEnter,
         onMouseLeave,
         onFocus,

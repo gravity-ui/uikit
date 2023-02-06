@@ -1,7 +1,7 @@
 import React from 'react';
 import {block} from '../../utils/cn';
 
-import {SocialShareData} from '../models';
+import {ShareOptionsData} from '../models';
 import {LayoutDirection, ShareOptions} from '../constants';
 import {ShareListItem} from '../ShareListItem/ShareListItem';
 import {Icon} from '../../Icon';
@@ -18,13 +18,13 @@ import './ShareList.scss';
 const b = block('share-list');
 const isShareListItemComponent = isOfType(ShareListItem);
 export interface ShareListDefaultProps {
-    /** social networks list */
-    socialNets: ShareOptions[];
+    /** share options list */
+    shareOptions: ShareOptions[];
     /** should show copy button */
     withCopyLink: boolean;
 }
 
-export interface ShareListProps extends SocialShareData, Partial<ShareListDefaultProps> {
+export interface ShareListProps extends ShareOptionsData, Partial<ShareListDefaultProps> {
     /** control css class */
     className?: string;
     /** elements location direction */
@@ -43,7 +43,7 @@ export interface ShareListProps extends SocialShareData, Partial<ShareListDefaul
         title: string | React.ReactNode;
         icon: SVGIconData;
     }) => React.ReactElement;
-    /** you can extend available social nets with custom ones using ShareListProps.Item */
+    /** you can extend available share options with custom ones using ShareListProps.Item */
     children?:
         | React.ReactElement<ShareListItem, typeof ShareListItem>
         | React.ReactElement<ShareListItem, typeof ShareListItem>[];
@@ -58,7 +58,7 @@ interface ShareListState {
 
 export class ShareList extends React.PureComponent<ShareListInnerProps, ShareListState> {
     static defaultProps: ShareListDefaultProps = {
-        socialNets: [],
+        shareOptions: [],
         withCopyLink: false,
     };
     static Item = ShareListItem;
@@ -76,29 +76,29 @@ export class ShareList extends React.PureComponent<ShareListInnerProps, ShareLis
     }
 
     render() {
-        const {socialNets, withCopyLink, className, direction, children} = this.props;
-        const hasNets = Array.isArray(socialNets) && socialNets.length > 0;
+        const {shareOptions, withCopyLink, className, direction, children} = this.props;
+        const hasShareOptions = Array.isArray(shareOptions) && shareOptions.length > 0;
         const extensions = React.Children.toArray(children).filter((child) =>
             isShareListItemComponent(child),
         );
 
         return (
             <div className={b({layout: direction}, className)}>
-                <div className={b('socials-container')}>
-                    {hasNets && this.renderSocialShareLinks()}
+                <div className={b('options-container')}>
+                    {hasShareOptions && this.renderShareOptionsLinks()}
                     {Boolean(extensions?.length) && extensions}
                 </div>
-                {hasNets && withCopyLink && <div className={b('separator')} />}
+                {hasShareOptions && withCopyLink && <div className={b('separator')} />}
                 {withCopyLink && this.renderCopyLink()}
             </div>
         );
     }
 
-    private renderSocialShareLinks() {
-        const {url, title, text, socialNets, direction} = this.props;
+    private renderShareOptionsLinks() {
+        const {url, title, text, shareOptions, direction} = this.props;
         return (
-            <div className={b('social')}>
-                {socialNets.map((type) => (
+            <div className={b('option')}>
+                {shareOptions.map((type) => (
                     <ShareListItem
                         key={type}
                         type={type}

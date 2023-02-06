@@ -4,7 +4,17 @@ import {ControlGroupProps} from '../types';
 import {useUniqId} from './useUniqId';
 
 export function useRadioGroup(props: ControlGroupProps) {
-    const {name, value, defaultValue, options = [], disabled, onUpdate, onChange} = props;
+    const {
+        name,
+        value,
+        defaultValue,
+        options = [],
+        disabled,
+        onUpdate,
+        onChange,
+        onFocus,
+        onBlur,
+    } = props;
 
     const controlId = useUniqId();
     const [valueState, setValueState] = React.useState(
@@ -28,6 +38,13 @@ export function useRadioGroup(props: ControlGroupProps) {
         [isControlled, onUpdate, onChange],
     );
 
+    const containerProps = {
+        role: 'radiogroup',
+        'aria-disabled': disabled,
+        'aria-label': props['aria-label'],
+        'aria-labelledby': props['aria-labelledby'],
+    };
+
     const optionsProps = options.map((option) => ({
         name: name || controlId,
         value: String(option.value),
@@ -35,7 +52,9 @@ export function useRadioGroup(props: ControlGroupProps) {
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,
         onChange: handleChange,
+        onFocus: onFocus,
+        onBlur: onBlur,
     }));
 
-    return {optionsProps};
+    return {containerProps, optionsProps};
 }

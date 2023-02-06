@@ -91,7 +91,7 @@ export class LayerManager {
         const scheduledAdd = (scheduledCandidate: LayerCandidate) => {
             const index = this.preStack.indexOf(scheduledCandidate);
             this.preStack.splice(index, 1);
-            this.add(scheduledCandidate.config, false);
+            this.addToStack(scheduledCandidate.config);
             scheduledCandidate.resolve();
             this.unscheduleCandidate();
         };
@@ -104,29 +104,17 @@ export class LayerManager {
         this.scheduledCandidate = candidate;
     }, 100);
 
-    add(config: LayerConfig, usePrestacking = true): Promise<void> {
-        if (config.idle && usePrestacking) {
+    add(config: LayerConfig): Promise<void> {
+        if (config.idle) {
             for (const entry of this.preStack) {
                 if (entry.config === config) {
                     return entry.promise;
                 }
             }
 
-            const {promise, resolve, reject} = createPromise();
-            this.preStack.push({config, promise, resolve, reject});
-
-            if (this.stack.length === 0) {
-                this.checkPreStack();
-            }
-
-            return promise;
+            return this.addToPreStack(config);
         } else {
-            this.stack.push(config);
-            this.unscheduleCandidate();
-
-            if (this.stack.length === 1) {
-                this.addListeners();
-            }
+            this.addToStack(config);
         }
 
         return Promise.resolve();
@@ -155,6 +143,26 @@ export class LayerManager {
         if (this.stack.length === 0) {
             this.removeListeners();
             this.checkPreStack();
+        }
+    }
+
+    private addToPreStack(config: LayerConfig): Promise<void> {
+        const {promise, resolve, reject} = createPromise();
+        this.preStack.push({config, promise, resolve, reject});
+
+        if (this.stack.length === 0) {
+            this.checkPreStack();
+        }
+
+        return promise;
+    }
+
+    private addToStack(config: LayerConfig): void {
+        this.stack.push(config);
+        this.unscheduleCandidate();
+
+        if (this.stack.length === 1) {
+            this.addListeners();
         }
     }
 

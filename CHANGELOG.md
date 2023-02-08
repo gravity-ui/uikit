@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.0.6](https://github.com/gravity-ui/uikit/compare/v4.0.5...v4.0.6) (2023-02-08)
+
+
+### Bug Fixes
+
+* add explicitly used deps to package.json ([#530](https://github.com/gravity-ui/uikit/issues/530)) ([72c134d](https://github.com/gravity-ui/uikit/commit/72c134d97013c39e069c39f31d7e70e33446096a))
+* **Label:** the Label with the close button style fix ([#524](https://github.com/gravity-ui/uikit/issues/524)) ([b7963be](https://github.com/gravity-ui/uikit/commit/b7963be65054816fa0f49f650cbf612faf699f9c))
+
 ## [4.0.5](https://github.com/gravity-ui/uikit/compare/v4.0.4...v4.0.5) (2023-02-01)
 
 

@@ -15,15 +15,15 @@
 
 ### Tabs PropTypes
 
-| Property         | Type                                                                      | Required | Default      | Description                                                          |
-| :--------------- | :------------------------------------------------------------------------ | :------: | :----------- | :------------------------------------------------------------------- |
-| direction        | `String`                                                                  |          | `horizontal` | Tab direction (deprecated)                                           |
-| activeTab        | `String`                                                                  |          |              | Active tab ID                                                        |
-| allowNotSelected | `Boolean`                                                                 |          |              | Allows `activeTab` to be undefined                                   |
-| items            | `TabItemProps[]`                                                          |  `true`  | `[]`         | Tabs array                                                           |
-| onSelectTab      | `onSelectTab?(tabId: string): void`                                       |  `true`  |              | Select tab handler                                                   |
-| wrapTo           | `wrapTo?(item: TabItemProps, node: React.ReactNode, index: number): void` |          |              | Allows to wrap `TabItem` into another component or render custom tab |
-| className        | `String`                                                                  |          |              | CSS-class of element                                                 |
+| Property         | Type                                                                       | Required | Default      | Description                                                          |
+| :--------------- | :------------------------------------------------------------------------- | :------: | :----------- | :------------------------------------------------------------------- |
+| direction        | `String`                                                                   |          | `horizontal` | Tab direction (deprecated)                                           |
+| activeTab        | `String`                                                                   |          |              | Active tab ID                                                        |
+| allowNotSelected | `Boolean`                                                                  |          |              | Allows `activeTab` to be undefined                                   |
+| items            | `TabsItemProps[]`                                                          |  `true`  | `[]`         | Tabs array                                                           |
+| onSelectTab      | `onSelectTab?(tabId: string): void`                                        |  `true`  |              | Select tab handler                                                   |
+| wrapTo           | `wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void` |          |              | Allows to wrap `TabItem` into another component or render custom tab |
+| className        | `String`                                                                   |          |              | CSS-class of element                                                 |
 
 ### Examples
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Flex, FlexProps} from '../../../components/layout';
+import {Flex, FlexProps} from '../../Flex/Flex';
 
 interface BoxProps extends FlexProps<'div'> {
     style?: React.CSSProperties;

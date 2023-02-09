@@ -3,7 +3,7 @@ import {Meta, Story} from '@storybook/react';
 import {Col} from '../../Col/Col';
 import {Flex, FlexProps} from '../Flex';
 import {Row} from '../../Row/Row';
-import {Box, LayoutPresenter} from '../../../../demo/Layout';
+import {Box, LayoutPresenter} from '../../demo';
 import {Container} from '../..';
 import {Text} from '../../../Text';
 

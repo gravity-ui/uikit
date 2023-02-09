@@ -1,6 +1,9 @@
 import React from 'react';
-import {Text} from '../../../components/Text';
-import {Flex, sp, useLayoutContext, LayoutProvider} from '../../../components/layout';
+import {Text} from '../../../Text';
+import {Flex} from '../../Flex/Flex';
+import {sp} from '../../spacing/spacing';
+import {useLayoutContext} from '../../hooks/useLayoutContext';
+import {LayoutProvider} from '../../LayoutProvider/LayoutProvider';
 
 interface LayoutPresenterProps {
     children?: React.ReactNode;

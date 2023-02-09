@@ -1,7 +1,7 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {Col, ColProps} from '../Col';
-import {LayoutPresenter, ColPresenter} from '../../../../demo/Layout';
+import {LayoutPresenter, ColPresenter} from '../../demo';
 import {Space} from '../../types';
 import {Container} from '../../Container/Container';
 import {Row} from '../../Row/Row';

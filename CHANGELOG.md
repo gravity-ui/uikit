@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.7](https://github.com/gravity-ui/uikit/compare/v4.0.6...v4.0.7) (2023-02-10)
+
+
+### Bug Fixes
+
+* **Tabs:** typo readme types fix ([#529](https://github.com/gravity-ui/uikit/issues/529)) ([8cbfff2](https://github.com/gravity-ui/uikit/commit/8cbfff2db260f1dd848ddf496b70c243f4534d71))
+
 ## [4.0.6](https://github.com/gravity-ui/uikit/compare/v4.0.5...v4.0.6) (2023-02-08)
 
 

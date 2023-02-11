@@ -62,13 +62,17 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const labelRef = React.useRef<HTMLLabelElement>(null);
-    const innerId = useUniqId();
-    const id = label ? originalId || innerId : originalId;
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
     const isLabelVisible = !multiline && Boolean(label);
+
+    const innerId = useUniqId();
+    const id = isLabelVisible ? originalId || innerId : originalId;
+
+    const isAutoCompleteOff =
+        isLabelVisible && !originalId && !name && typeof autoComplete === 'undefined';
 
     const handleRef = useForkRef(props.controlRef, innerControlRef);
 
@@ -141,7 +145,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 onUpdate(newValue);
             }
         },
-        autoComplete: prepareAutoComplete(autoComplete),
+        autoComplete: isAutoCompleteOff ? 'off' : prepareAutoComplete(autoComplete),
         controlProps,
     };
 

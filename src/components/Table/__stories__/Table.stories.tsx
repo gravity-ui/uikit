@@ -46,6 +46,11 @@ const OnRowClickTemplate: Story<TableProps<DataItem>> = (args) => <Table {...arg
 export const OnRowClick = OnRowClickTemplate.bind({});
 OnRowClick.args = {
     onRowClick: (item) => alert(JSON.stringify(item)),
+    onRowMouseDown: (item, _, event) => {
+        if (event.button === 1) {
+            alert(JSON.stringify(item));
+        }
+    },
 };
 
 // ---------------------------------

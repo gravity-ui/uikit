@@ -93,6 +93,8 @@ export interface TableProps<I> extends QAProps {
         index: number,
         event: React.MouseEvent<HTMLTableRowElement>,
     ) => void;
+    /** Row mousedown handler. */
+    onRowMouseDown?: (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
     /** Message returned if data is missing. By default: "No data". */
     emptyMessage?: string;
     /** Table CSS-class. */
@@ -383,6 +385,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             onRowClick,
             onRowMouseEnter,
             onRowMouseLeave,
+            onRowMouseDown,
             getRowClassNames,
             verticalAlign,
             edgePadding,
@@ -407,6 +410,11 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 onMouseLeave={
                     !disabled && onRowMouseLeave
                         ? onRowMouseLeave.bind(null, item, rowIndex)
+                        : undefined
+                }
+                onMouseDown={
+                    !disabled && onRowMouseDown
+                        ? onRowMouseDown.bind(null, item, rowIndex)
                         : undefined
                 }
                 className={b(

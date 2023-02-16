@@ -15,6 +15,7 @@ interface Stack {
     color?: string;
     title?: string;
     theme?: ProgressTheme;
+    loading?: boolean;
     className?: string;
     content?: React.ReactNode;
 }
@@ -36,6 +37,8 @@ interface ProgressDefaultProps {
     theme: ProgressTheme;
     /** View. Text of progress bar is displayed in `normal` view only. */
     view: ProgressView;
+    /** Loading. Аdds loading animation */
+    loading?: boolean;
 }
 
 interface ProgressWithValue extends ProgressGeneralProps, Partial<ProgressDefaultProps> {
@@ -62,6 +65,7 @@ export class Progress extends Component<ProgressProps> {
         text: '',
         theme: 'default',
         view: 'normal',
+        loading: false,
     };
 
     static isFiniteNumber(value: number): boolean {
@@ -122,6 +126,14 @@ export class Progress extends Component<ProgressProps> {
         return theme as ProgressTheme;
     }
 
+    private getLoading(): boolean {
+        if (Progress.isProgressWithStack(this.props)) {
+            throw new Error('Unexpected behavior');
+        }
+
+        return Boolean(this.props.loading);
+    }
+
     private renderContent() {
         if (Progress.isProgressWithStack(this.props)) {
             return this.renderStack(this.props);
@@ -133,7 +145,7 @@ export class Progress extends Component<ProgressProps> {
     private renderItem(props: ProgressWithValue) {
         const {value} = props;
 
-        const className = b('item', {theme: this.getTheme()});
+        const className = b('item', {theme: this.getTheme(), loading: this.getLoading()});
         const offset = Progress.getOffset(value);
         const style = {transform: `translateX(${offset}%)`};
 
@@ -172,6 +184,7 @@ export class Progress extends Component<ProgressProps> {
                             color,
                             title,
                             theme,
+                            loading = false,
                             className: itemClassName,
                             content,
                         }: Stack,
@@ -179,7 +192,9 @@ export class Progress extends Component<ProgressProps> {
                     ) => {
                         itemStyle = {width: `${itemValue}%`, backgroundColor: color};
 
-                        const modifiers: Record<string, string | boolean> = {};
+                        const modifiers: Record<string, string | boolean> = {
+                            loading,
+                        };
 
                         if (typeof color === 'undefined') {
                             modifiers.theme = theme || 'default';

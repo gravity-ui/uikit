@@ -65,6 +65,15 @@ const StackTemplate: Story<ProgressProps> = (args) => {
                 ]}
             />
             <br />
+            <Progress
+                {...args}
+                stack={[
+                    {value: 33.33, theme: 'default', content: 'First', loading: true},
+                    {value: 33.33, theme: 'success', content: 'Second', loading: true},
+                    {value: 33.33, theme: 'warning', content: 'Third', loading: true},
+                ]}
+            />
+            <br />
         </>
     );
 };

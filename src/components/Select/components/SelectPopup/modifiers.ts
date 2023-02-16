@@ -29,10 +29,10 @@ export const getModifiers = (
                 const minWidth = getMinWidth(state.rects.reference.width, virtualized);
                 state.attributes.popper['data-width-set'] = true;
                 state.styles.popper.minWidth = `${minWidth}px`;
+            }
 
-                if (typeof width === 'number') {
-                    state.styles.popper.width = `${width}px`;
-                }
+            if (typeof width === 'number') {
+                state.styles.popper.width = `${width}px`;
             }
         },
     };

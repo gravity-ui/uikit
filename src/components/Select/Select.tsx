@@ -14,9 +14,7 @@ import {
     getSelectedOptionsContent,
     getListItems,
     getActiveItem,
-    getListHeight,
-    getPopupMinWidth,
-    getPopupVerticalOffset,
+    getOptionsHeight,
     getFilteredFlattenOptions,
     findItemIndexByQuickSearch,
     activateFirstClickableItem,
@@ -71,7 +69,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterable = false,
         disablePortal,
     } = props;
-    const [{controlRect, filter}, dispatch] = React.useReducer(reducer, initialState);
+    const [{filter}, dispatch] = React.useReducer(reducer, initialState);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
@@ -98,15 +96,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
-    const listHeight = getListHeight({
+    const optionsHeight = getOptionsHeight({
         options: filteredFlattenOptions,
         getOptionHeight,
         size,
     });
-    const filterHeight = filterRef.current?.getHeight() || 0;
-    const popupHeight = listHeight + filterHeight;
-    const popupMinWidth = getPopupMinWidth(virtualized, controlRect);
-    const popupVerticalOffset = getPopupVerticalOffset({height: popupHeight, controlRect});
 
     const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
@@ -182,13 +176,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     React.useEffect(() => {
         if (open) {
             activateFirstClickableItem(listRef);
-            const nextControlRect = controlRef.current?.getBoundingClientRect();
 
             if (filterable) {
                 filterRef.current?.focus();
             }
-
-            dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect: nextControlRect}});
         } else {
             dispatch({type: 'SET_FILTER', payload: {filter: ''}});
         }
@@ -235,11 +226,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 className={popupClassName}
                 controlRef={controlRef}
                 width={popupWidth}
-                minWidth={popupMinWidth}
-                verticalOffset={popupVerticalOffset}
                 open={open}
                 handleClose={handleClose}
                 disablePortal={disablePortal}
+                virtualized={virtualized}
             >
                 {filterable && (
                     <SelectFilter
@@ -258,8 +248,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         size={size}
                         value={value}
                         flattenOptions={filteredFlattenOptions}
-                        listHeight={listHeight}
-                        filterHeight={filterHeight}
+                        optionsHeight={optionsHeight}
                         multiple={multiple}
                         virtualized={virtualized}
                         onOptionClick={handleOptionClick}

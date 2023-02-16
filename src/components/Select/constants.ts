@@ -16,8 +16,6 @@ export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, numbe
 
 export const GROUP_ITEM_MARGIN_TOP = 5;
 
-export const CONTAINER_VERTICAL_MARGIN = 4;
-
 export const BORDER_WIDTH = 1;
 
 export const POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE = 100;

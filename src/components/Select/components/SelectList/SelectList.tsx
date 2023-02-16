@@ -15,8 +15,7 @@ type SelectListProps = {
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     flattenOptions: FlattenOption[];
-    listHeight: number;
-    filterHeight: number;
+    optionsHeight: number;
     multiple?: boolean;
     virtualized?: boolean;
 };
@@ -29,8 +28,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         size,
         flattenOptions,
         value,
-        listHeight,
-        filterHeight,
+        optionsHeight,
         multiple,
         virtualized,
     } = props;
@@ -61,23 +59,19 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     );
 
     return (
-        <div
+        <List
+            ref={ref}
             className={selectListBlock({size, virtualized})}
-            style={{maxHeight: `calc(90vh - ${filterHeight}px)`}}
-            data-qa={SelectQa.LIST}
-        >
-            <List
-                ref={ref}
-                itemClassName={selectListBlock('item')}
-                itemHeight={getItemHeight}
-                itemsHeight={virtualized ? listHeight : undefined}
-                items={flattenOptions}
-                filterable={false}
-                virtualized={virtualized}
-                renderItem={renderItem}
-                onItemClick={onOptionClick}
-            />
-        </div>
+            qa={SelectQa.LIST}
+            itemClassName={selectListBlock('item')}
+            itemHeight={getItemHeight}
+            itemsHeight={virtualized ? optionsHeight : undefined}
+            items={flattenOptions}
+            filterable={false}
+            virtualized={virtualized}
+            renderItem={renderItem}
+            onItemClick={onOptionClick}
+        />
     );
 });
 

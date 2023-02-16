@@ -15,7 +15,7 @@ $xl-hor-padding: '12px';
 #{$block} {
     display: flex;
     margin: 4px 0;
-    overflow: hidden auto;
+    overflow: hidden;
 
     #{$popupBlock} &:first-child,
     #{$popupBlock} &:last-child {

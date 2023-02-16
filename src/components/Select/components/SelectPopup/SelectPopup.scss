@@ -1,0 +1,10 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns-new}select-popup';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden auto;
+}

@@ -1,42 +1,36 @@
 import React from 'react';
 import {Popup} from '../../../Popup';
+import {blockNew} from '../../../utils/cn';
 import {BORDER_WIDTH, SelectQa} from '../../constants';
+import type {SelectPopupProps} from './types';
+import {getModifiers} from './modifiers';
 
-type SelectPopupProps = {
-    handleClose: () => void;
-    verticalOffset: number;
-    width?: number;
-    minWidth?: number;
-    open?: boolean;
-    controlRef?: React.RefObject<HTMLElement>;
-    children?: React.ReactNode;
-    className?: string;
-    disablePortal?: boolean;
-};
+import './SelectPopup.scss';
+
+const b = blockNew('select-popup');
 
 export const SelectPopup = ({
     handleClose,
-    verticalOffset,
     width,
-    minWidth,
     open,
     controlRef,
     children,
     className,
     disablePortal,
+    virtualized,
 }: SelectPopupProps) => (
     <Popup
-        className={className}
+        className={b(null, className)}
         qa={SelectQa.POPUP}
-        style={{width, minWidth}}
         anchorRef={controlRef}
-        offset={[BORDER_WIDTH, verticalOffset]}
-        placement={['bottom-start', 'top-start']}
+        placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
+        offset={[BORDER_WIDTH, BORDER_WIDTH]}
         open={open}
         onClose={handleClose}
         disablePortal={disablePortal}
         restoreFocus
         restoreFocusRef={controlRef}
+        modifiers={getModifiers({width, disablePortal, virtualized})}
     >
         {children}
     </Popup>

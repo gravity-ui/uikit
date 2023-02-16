@@ -1,5 +1,6 @@
 import type {ReactNode} from 'react';
 import type {TextInputSize} from '../TextInput';
+import type {QAProps} from '../types';
 
 export type ListSortHandleAlign = 'left' | 'right';
 
@@ -7,7 +8,7 @@ export type ListSortParams = {oldIndex: number; newIndex: number};
 
 export type ListItemData<T> = T & {disabled?: boolean};
 
-export type ListProps<T = unknown> = {
+export type ListProps<T = unknown> = QAProps & {
     items: ListItemData<T>[];
     className?: string;
     itemClassName?: string;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {List} from '../../../List';
 import {SelectProps} from '../../types';
-import {FlattenOption, getPopupItemHeight} from '../../utils';
+import {FlattenOption, getOptionsHeight, getPopupItemHeight} from '../../utils';
 import {selectListBlock, SelectQa} from '../../constants';
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
@@ -15,8 +15,6 @@ type SelectListProps = {
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     flattenOptions: FlattenOption[];
-    listHeight: number;
-    filterHeight: number;
     multiple?: boolean;
     virtualized?: boolean;
 };
@@ -29,11 +27,14 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         size,
         flattenOptions,
         value,
-        listHeight,
-        filterHeight,
         multiple,
         virtualized,
     } = props;
+    const optionsHeight = getOptionsHeight({
+        options: flattenOptions,
+        getOptionHeight,
+        size,
+    });
 
     const getItemHeight = React.useCallback(
         (option: FlattenOption, index: number) => {
@@ -61,23 +62,19 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     );
 
     return (
-        <div
+        <List
+            ref={ref}
             className={selectListBlock({size, virtualized})}
-            style={{maxHeight: `calc(90vh - ${filterHeight}px)`}}
-            data-qa={SelectQa.LIST}
-        >
-            <List
-                ref={ref}
-                itemClassName={selectListBlock('item')}
-                itemHeight={getItemHeight}
-                itemsHeight={virtualized ? listHeight : undefined}
-                items={flattenOptions}
-                filterable={false}
-                virtualized={virtualized}
-                renderItem={renderItem}
-                onItemClick={onOptionClick}
-            />
-        </div>
+            qa={SelectQa.LIST}
+            itemClassName={selectListBlock('item')}
+            itemHeight={getItemHeight}
+            itemsHeight={virtualized ? optionsHeight : undefined}
+            items={flattenOptions}
+            filterable={false}
+            virtualized={virtualized}
+            renderItem={renderItem}
+            onItemClick={onOptionClick}
+        />
     );
 });
 

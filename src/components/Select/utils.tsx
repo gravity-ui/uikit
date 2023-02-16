@@ -1,16 +1,9 @@
 import React from 'react';
-import {PopupPlacement} from '../Popup';
 import {List, ListItemData} from '../List';
 import {KeyCode} from '../constants';
 import {SelectProps, SelectOption, SelectOptionGroup} from './types';
 import {Option, OptionGroup} from './tech-components';
-import {
-    BORDER_WIDTH,
-    CONTAINER_VERTICAL_MARGIN,
-    GROUP_ITEM_MARGIN_TOP,
-    SIZE_TO_ITEM_HEIGHT,
-    POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE,
-} from './constants';
+import {GROUP_ITEM_MARGIN_TOP, SIZE_TO_ITEM_HEIGHT} from './constants';
 
 // "disable" property needs to deactivate group title item in List
 type GroupTitleItem = {label: string; disabled: true};
@@ -48,7 +41,7 @@ export const getPopupItemHeight = (args: {
     return getOptionHeight ? getOptionHeight(option) : SIZE_TO_ITEM_HEIGHT[size];
 };
 
-export const getListHeight = (args: {
+export const getOptionsHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
     size: NonNullable<SelectProps['size']>;
     options: FlattenOption[];
@@ -57,35 +50,6 @@ export const getListHeight = (args: {
     return options.reduce((height, option, index) => {
         return height + getPopupItemHeight({getOptionHeight, size, option, index});
     }, 0);
-};
-
-export const getPopupVerticalOffset = (args: {height: number; controlRect?: DOMRect}) => {
-    const {height, controlRect} = args;
-
-    if (!controlRect) {
-        return BORDER_WIDTH;
-    }
-
-    const vh = window.innerHeight / 100;
-    const heigth5vh = vh * 5;
-    const heigth90vh = vh * 90;
-    const containerHeight = heigth90vh < height ? heigth90vh : height;
-    const popupPlacement: PopupPlacement =
-        controlRect.y + controlRect.height / 2 < window.innerHeight / 2
-            ? 'bottom-start'
-            : 'top-start';
-    const screenOffset =
-        popupPlacement === 'bottom-start'
-            ? window.innerHeight - controlRect.y - controlRect.height
-            : controlRect.y;
-
-    let offset = BORDER_WIDTH;
-
-    if (containerHeight > screenOffset) {
-        offset = (containerHeight - screenOffset) * -1 - heigth5vh - CONTAINER_VERTICAL_MARGIN;
-    }
-
-    return offset;
 };
 
 const getOptionText = (option: SelectOption): string => {
@@ -179,18 +143,6 @@ export const getOptionsFromChildren = (children: SelectProps['children']) => {
 
         return acc;
     }, [] as (SelectOption | SelectOptionGroup)[]);
-};
-
-export const getPopupMinWidth = (virtualized?: boolean, controlRect?: DOMRect) => {
-    const controlWidth = controlRect?.width;
-
-    if (virtualized && controlWidth) {
-        return controlWidth > POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE
-            ? controlWidth
-            : POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE;
-    }
-
-    return controlWidth ? controlWidth - BORDER_WIDTH * 2 : undefined;
 };
 
 export const getNextQuickSearch = (keyCode: string, quickSearch: string) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {List} from '../../../List';
 import {SelectProps} from '../../types';
-import {FlattenOption, getPopupItemHeight} from '../../utils';
+import {FlattenOption, getOptionsHeight, getPopupItemHeight} from '../../utils';
 import {selectListBlock, SelectQa} from '../../constants';
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
@@ -15,7 +15,6 @@ type SelectListProps = {
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     flattenOptions: FlattenOption[];
-    optionsHeight: number;
     multiple?: boolean;
     virtualized?: boolean;
 };
@@ -28,10 +27,14 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         size,
         flattenOptions,
         value,
-        optionsHeight,
         multiple,
         virtualized,
     } = props;
+    const optionsHeight = getOptionsHeight({
+        options: flattenOptions,
+        getOptionHeight,
+        size,
+    });
 
     const getItemHeight = React.useCallback(
         (option: FlattenOption, index: number) => {

@@ -14,7 +14,6 @@ import {
     getSelectedOptionsContent,
     getListItems,
     getActiveItem,
-    getOptionsHeight,
     getFilteredFlattenOptions,
     findItemIndexByQuickSearch,
     activateFirstClickableItem,
@@ -96,11 +95,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
-    const optionsHeight = getOptionsHeight({
-        options: filteredFlattenOptions,
-        getOptionHeight,
-        size,
-    });
 
     const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
@@ -248,7 +242,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         size={size}
                         value={value}
                         flattenOptions={filteredFlattenOptions}
-                        optionsHeight={optionsHeight}
                         multiple={multiple}
                         virtualized={virtualized}
                         onOptionClick={handleOptionClick}

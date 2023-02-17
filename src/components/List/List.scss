@@ -51,6 +51,10 @@ $block: '.#{variables.$ns}list';
             background: var(--yc-color-base-simple-hover);
         }
 
+        &_inactive {
+            opacity: 0.5;
+        }
+
         &_selected {
             background: var(--yc-color-base-selection);
         }

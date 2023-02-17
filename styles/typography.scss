@@ -1,6 +1,6 @@
 @mixin yc-typography {
     --yc-font-family-sans: 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
-    --yc-font-family-monospace: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
+    --yc-font-family-monospace: 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
         'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
 
     --yc-text-body-font-family: var(--yc-font-family-sans);

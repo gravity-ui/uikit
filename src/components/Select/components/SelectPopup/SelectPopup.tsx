@@ -9,29 +9,27 @@ import './SelectPopup.scss';
 
 const b = blockNew('select-popup');
 
-export const SelectPopup = ({
-    handleClose,
-    width,
-    open,
-    controlRef,
-    children,
-    className,
-    disablePortal,
-    virtualized,
-}: SelectPopupProps) => (
-    <Popup
-        className={b(null, className)}
-        qa={SelectQa.POPUP}
-        anchorRef={controlRef}
-        placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
-        offset={[BORDER_WIDTH, BORDER_WIDTH]}
-        open={open}
-        onClose={handleClose}
-        disablePortal={disablePortal}
-        restoreFocus
-        restoreFocusRef={controlRef}
-        modifiers={getModifiers({width, disablePortal, virtualized})}
-    >
-        {children}
-    </Popup>
+export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
+    (
+        {handleClose, width, open, controlRef, children, className, disablePortal, virtualized},
+        ref,
+    ) => (
+        <Popup
+            className={b(null, className)}
+            qa={SelectQa.POPUP}
+            anchorRef={ref as React.RefObject<HTMLDivElement>}
+            placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
+            offset={[BORDER_WIDTH, BORDER_WIDTH]}
+            open={open}
+            onClose={handleClose}
+            disablePortal={disablePortal}
+            restoreFocus
+            restoreFocusRef={controlRef}
+            modifiers={getModifiers({width, disablePortal, virtualized})}
+        >
+            {children}
+        </Popup>
+    ),
 );
+
+SelectPopup.displayName = 'SelectPopup';

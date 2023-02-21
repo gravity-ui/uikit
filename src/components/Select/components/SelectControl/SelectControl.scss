@@ -16,15 +16,30 @@ $buttonBlock: '.#{variables.$ns}button';
         border: 1px solid var(--yc-color-line-generic-active);
     }
 
-    &:active {
-        // to prevent incorrect popper offset calculation
-        // for example: https://github.com/radix-ui/primitives/issues/1567
-        transform: scale(1);
+    &_error::before {
+        border: 1px solid var(--yc-color-line-danger);
     }
 
     & #{$buttonBlock}__text {
         display: flex;
+        // remove after https://github.com/gravity-ui/uikit/issues/547
         margin-left: 9px;
+    }
+
+    // remove after https://github.com/gravity-ui/uikit/issues/547
+    &#{$buttonBlock}_size_s #{$buttonBlock}__text {
+        margin-right: 25px;
+    }
+
+    // remove after https://github.com/gravity-ui/uikit/issues/547
+    &#{$buttonBlock}_size_l #{$buttonBlock}__text,
+    &#{$buttonBlock}_size_xl #{$buttonBlock}__text {
+        margin-left: 13px;
+    }
+
+    // remove after https://github.com/gravity-ui/uikit/issues/547
+    &#{$buttonBlock}_size_xl #{$buttonBlock}__text {
+        margin-right: 33px;
     }
 
     &__label {
@@ -36,7 +51,16 @@ $buttonBlock: '.#{variables.$ns}button';
     &__placeholder,
     &__option-text {
         @include mixins.overflow-ellipsis();
+        // remove after https://github.com/gravity-ui/uikit/issues/547
         margin-right: 8px;
+    }
+
+    // remove after https://github.com/gravity-ui/uikit/issues/547
+    &#{$buttonBlock}_size_l &__placeholder,
+    &#{$buttonBlock}_size_l &__option-text,
+    &#{$buttonBlock}_size_xl &__placeholder,
+    &#{$buttonBlock}_size_xl &__option-text {
+        margin-right: 4px;
     }
 
     &__placeholder {
@@ -44,7 +68,9 @@ $buttonBlock: '.#{variables.$ns}button';
     }
 
     &__chevron-icon {
+        // remove after https://github.com/gravity-ui/uikit/issues/547
         position: relative;
+        // remove after https://github.com/gravity-ui/uikit/issues/547
         left: -3px;
         flex: 0 0 16px;
         color: var(--yc-color-text-secondary);
@@ -52,5 +78,21 @@ $buttonBlock: '.#{variables.$ns}button';
         &_disabled {
             color: var(--yc-color-text-hint);
         }
+    }
+
+    // remove after https://github.com/gravity-ui/uikit/issues/547
+    &#{$buttonBlock}_size_s &__chevron-icon {
+        left: -5px;
+    }
+
+    // remove after https://github.com/gravity-ui/uikit/issues/547
+    &#{$buttonBlock}_size_xl &__chevron-icon {
+        left: 1px;
+    }
+
+    &__error {
+        @include mixins.text-body-1();
+        color: var(--yc-color-text-danger);
+        margin-top: 2px;
     }
 }

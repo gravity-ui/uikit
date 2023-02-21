@@ -22,6 +22,7 @@ type ControlProps = {
     qa?: string;
     label?: string;
     placeholder?: SelectProps['placeholder'];
+    error?: SelectProps['error'];
     open?: boolean;
     disabled?: boolean;
 };
@@ -40,6 +41,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         name,
         label,
         placeholder,
+        error,
         open,
         disabled,
     } = props;
@@ -60,31 +62,38 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     }
 
     return (
-        <Button
-            ref={handleControlRef as React.Ref<HTMLButtonElement>}
-            className={selectControlBlock({open}, className)}
-            qa={qa}
-            view={mapToButtonView(view)}
-            size={size}
-            pin={pin}
-            extraProps={{
-                name,
-                'aria-haspopup': 'listbox',
-                'aria-expanded': open ? 'true' : 'false',
-                onKeyDown,
-            }}
-            disabled={disabled}
-            onClick={handleClick}
-        >
-            {label && <span className={selectControlBlock('label')}>{label}</span>}
-            {showPlaceholder && (
-                <span className={selectControlBlock('placeholder')}>{placeholder}</span>
+        <React.Fragment>
+            <Button
+                ref={handleControlRef as React.Ref<HTMLButtonElement>}
+                className={selectControlBlock({open, error: Boolean(error)}, className)}
+                qa={qa}
+                view={mapToButtonView(view)}
+                size={size}
+                pin={pin}
+                extraProps={{
+                    name,
+                    'aria-haspopup': 'listbox',
+                    'aria-expanded': open ? 'true' : 'false',
+                    onKeyDown,
+                }}
+                disabled={disabled}
+                onClick={handleClick}
+            >
+                {label && <span className={selectControlBlock('label')}>{label}</span>}
+                {showPlaceholder && (
+                    <span className={selectControlBlock('placeholder')}>{placeholder}</span>
+                )}
+                {showOptionsText && (
+                    <span className={selectControlBlock('option-text')}>
+                        {selectedOptionsContent}
+                    </span>
+                )}
+                <Icon className={selectControlBlock('chevron-icon', {disabled})} data={Chevron} />
+            </Button>
+            {typeof error === 'string' && (
+                <div className={selectControlBlock('error')}>{error}</div>
             )}
-            {showOptionsText && (
-                <span className={selectControlBlock('option-text')}>{selectedOptionsContent}</span>
-            )}
-            <Icon className={selectControlBlock('chevron-icon', {disabled})} data={Chevron} />
-        </Button>
+        </React.Fragment>
     );
 });
 

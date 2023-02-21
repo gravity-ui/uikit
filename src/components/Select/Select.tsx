@@ -59,6 +59,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterPlaceholder,
         width,
         popupWidth,
+        error,
         virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
         size = 'm',
@@ -69,6 +70,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disablePortal,
     } = props;
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
+    // to avoid problem with incorrect popper offset calculation
+    // for example: https://github.com/radix-ui/primitives/issues/1567
+    const controlWrapRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
@@ -194,6 +198,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     return (
         <div
+            ref={controlWrapRef}
             className={selectBlock(mods, className)}
             onFocus={onFocus}
             onBlur={onBlur}
@@ -210,6 +215,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}
+                error={error}
                 open={open}
                 disabled={disabled}
                 setOpen={setOpen}
@@ -217,6 +223,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderControl={renderControl}
             />
             <SelectPopup
+                ref={controlWrapRef}
                 className={popupClassName}
                 controlRef={controlRef}
                 width={popupWidth}

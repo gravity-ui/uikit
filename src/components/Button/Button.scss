@@ -232,7 +232,7 @@ $block: '.#{variables.$ns}button';
             @include button-text-color(var(--yc-color-text-primary));
 
             &::before {
-                border: 1px solid var(--yc-color-line-generic-accent);
+                border: 1px solid var(--yc-color-line-generic);
             }
         }
 

@@ -1,93 +1,30 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-@mixin button-text-color($color, $hoverColor: $color) {
-    &,
-    &:link,
-    &:visited,
-    &:active,
-    &:focus {
-        color: $color;
-    }
-
-    &:hover {
-        color: $hoverColor;
-    }
-}
-
 $block: '.#{variables.$ns-new}select-control';
+$buttonBlock: '.#{variables.$ns}button';
 
 #{$block} {
-    @include mixins.button-reset();
-    @include button-text-color(var(--yc-color-text-primary));
-    @include mixins.pin($block, $block, var(--yc-select-border-radius));
-
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
     width: 100%;
     min-width: 34px;
-    border: 1px solid var(--yc-color-line-generic);
-    background-color: transparent;
-    white-space: nowrap;
-    cursor: pointer;
 
-    &_view_clear {
-        border-color: transparent;
+    &_open:focus::before {
+        box-shadow: none;
     }
 
-    &_size_s {
-        --yc-select-border-radius: var(--yc-border-radius-s);
-
-        height: 24px;
-        padding: 0 8px;
-    }
-
-    &_size_m {
-        --yc-select-border-radius: var(--yc-border-radius-m);
-
-        height: 28px;
-        padding: 0 8px;
-    }
-
-    &_size_l {
-        --yc-select-border-radius: var(--yc-border-radius-l);
-
-        height: 36px;
-        padding: 0 12px;
-    }
-
-    &_size_xl {
-        --yc-select-border-radius: var(--yc-border-radius-xl);
-
-        height: 44px;
-        padding: 0 12px;
-        font-size: 15px;
-    }
-
-    &_disabled {
-        background-color: var(--yc-color-base-generic-accent-disabled);
-        color: var(--yc-color-text-hint);
-        border-color: transparent;
-        pointer-events: none;
-    }
-
-    &:hover {
-        background-color: var(--yc-color-base-simple-hover);
-
-        &:not(#{$block}_view_clear) {
-            border-color: var(--yc-color-line-generic-hover);
-        }
-    }
-
-    &:focus,
-    &_open {
-        outline: none;
-        border-color: var(--yc-color-line-generic-active);
+    &_open::before {
+        border: 1px solid var(--yc-color-line-generic-active);
     }
 
     &:active {
-        transform: scale(0.98);
+        // to prevent incorrect popper offset calculation
+        // for example: https://github.com/radix-ui/primitives/issues/1567
+        transform: scale(1);
+    }
+
+    & #{$buttonBlock}__text {
+        display: flex;
+        margin-left: 9px;
     }
 
     &__label {
@@ -96,24 +33,23 @@ $block: '.#{variables.$ns-new}select-control';
         white-space: nowrap;
     }
 
-    &__placeholder {
+    &__placeholder,
+    &__option-text {
         @include mixins.overflow-ellipsis();
         margin-right: 8px;
+    }
+
+    &__placeholder {
         color: var(--yc-color-text-hint);
     }
 
-    &__option-text {
-        margin-right: 8px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
     &__chevron-icon {
+        position: relative;
+        left: -3px;
         flex: 0 0 16px;
-        margin-left: auto;
         color: var(--yc-color-text-secondary);
 
-        #{$block}_disabled & {
+        &_disabled {
             color: var(--yc-color-text-hint);
         }
     }

@@ -254,7 +254,6 @@ export const mapToButtonView = (view: NonNullable<SelectProps['view']>): ButtonV
         case 'clear': {
             return 'flat';
         }
-        case 'normal':
         default: {
             return 'outlined';
         }

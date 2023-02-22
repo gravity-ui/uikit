@@ -77,7 +77,6 @@ $transition-distance: 10px;
 }
 
 #{$blockWrapper} {
-    z-index: 1000;
     visibility: hidden;
 
     &_open,

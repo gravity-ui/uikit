@@ -35,6 +35,8 @@ export interface SharePopoverProps extends ShareListProps, Partial<SharePopoverD
     iconClass?: string;
     /** tooltip mixin */
     tooltipClassName?: string;
+    /** tooltip z-index */
+    zIndex?: string;
     /** sitcher mixin */
     switcherClassName?: string;
     /** custom icon */
@@ -92,6 +94,7 @@ export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
             iconSize,
             iconClass,
             tooltipClassName,
+            zIndex,
             switcherClassName,
             className,
             direction,
@@ -128,6 +131,7 @@ export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
                 delayClosing={closeDelay}
                 content={content}
                 className={b(null, className)}
+                zIndex={zIndex}
                 tooltipClassName={b('tooltip', tooltipClassName)}
                 onClick={this.handleClick}
             >

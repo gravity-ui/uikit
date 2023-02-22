@@ -38,6 +38,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     container?: HTMLElement;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
+    zIndex?: number;
 }
 
 const b = block('popup');
@@ -56,6 +57,7 @@ export function Popup({
     disableLayer,
     style,
     className,
+    zIndex = 1000,
     modifiers = [],
     children,
     onEscapeKeyDown,
@@ -121,7 +123,7 @@ export function Popup({
             >
                 <div
                     ref={handleRef}
-                    style={styles.popper}
+                    style={{...styles.popper, zIndex}}
                     {...attributes.popper}
                     {...containerProps}
                     className={bWrapper({open})}

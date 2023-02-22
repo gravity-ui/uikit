@@ -16,11 +16,13 @@ export const SelectPopup = ({
     controlRef,
     children,
     className,
+    zIndex,
     disablePortal,
     virtualized,
 }: SelectPopupProps) => (
     <Popup
         className={b(null, className)}
+        zIndex={zIndex}
         qa={SelectQa.POPUP}
         anchorRef={controlRef}
         placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}

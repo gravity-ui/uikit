@@ -29,6 +29,7 @@ export const Popover = forwardRef(function (
         offset = {},
         tooltipOffset,
         tooltipClassName,
+        zIndex,
         theme = 'info',
         size = 's',
         hasArrow = true,
@@ -106,6 +107,7 @@ export const Popover = forwardRef(function (
                 },
                 tooltipClassName,
             )}
+            zIndex={zIndex}
             open={isOpen}
             placement={placement}
             hasArrow={hasArrow}

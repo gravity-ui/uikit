@@ -7,6 +7,7 @@ export type SelectPopupProps = {
     controlRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     className?: string;
+    zIndex?: number;
     disablePortal?: boolean;
     virtualized?: boolean;
 };

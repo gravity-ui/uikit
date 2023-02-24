@@ -4,13 +4,17 @@
 $block: '.#{variables.$ns-new}select-list';
 $popupBlock: '.#{variables.$ns}popup';
 $s-height: '28px';
-$s-hor-padding: '8px';
+$s-left-padding: '10px';
+$s-right-padding: '8px';
 $m-height: '28px';
-$m-hor-padding: '8px';
+$m-left-padding: '13px';
+$m-right-padding: '8px';
 $l-height: '32px';
-$l-hor-padding: '12px';
+$l-left-padding: '18px';
+$l-right-padding: '12px';
 $xl-height: '36px';
-$xl-hor-padding: '12px';
+$xl-left-padding: '25px';
+$xl-right-padding: '12px';
 
 #{$block} {
     display: flex;
@@ -29,22 +33,22 @@ $xl-hor-padding: '12px';
 
         #{$block}_size_s & {
             height: #{$s-height};
-            padding: 8px #{$s-hor-padding} 4px #{$s-hor-padding};
+            padding: 8px #{$s-right-padding} 4px #{$s-left-padding};
         }
 
         #{$block}_size_m & {
             height: #{$m-height};
-            padding: 8px #{$m-hor-padding} 4px #{$m-hor-padding};
+            padding: 8px #{$m-right-padding} 4px #{$m-left-padding};
         }
 
         #{$block}_size_l & {
             height: #{$l-height};
-            padding: 10px #{$l-hor-padding} 6px #{$l-hor-padding};
+            padding: 10px #{$l-right-padding} 6px #{$l-left-padding};
         }
 
         #{$block}_size_xl & {
             height: #{$xl-height};
-            padding: 12px #{$xl-hor-padding} 8px #{$xl-hor-padding};
+            padding: 12px #{$xl-right-padding} 8px #{$xl-left-padding};
             font-size: 15px;
         }
 
@@ -79,7 +83,7 @@ $xl-hor-padding: '12px';
         cursor: pointer;
 
         #{$block}_size_s & {
-            padding: 0 #{$s-hor-padding};
+            padding: 0 #{$s-right-padding} 0 #{$s-left-padding};
 
             & #{$block}__option-default-label {
                 height: #{$s-height};
@@ -87,12 +91,12 @@ $xl-hor-padding: '12px';
             }
 
             & #{$block}__tick-icon {
-                padding-left: #{$s-hor-padding};
+                padding-left: #{$s-right-padding};
             }
         }
 
         #{$block}_size_m & {
-            padding: 0 #{$m-hor-padding};
+            padding: 0 #{$m-right-padding} 0 #{$m-left-padding};
 
             & #{$block}__option-default-label {
                 height: #{$m-height};
@@ -100,12 +104,12 @@ $xl-hor-padding: '12px';
             }
 
             & #{$block}__tick-icon {
-                padding-left: #{$m-hor-padding};
+                padding-left: #{$m-right-padding};
             }
         }
 
         #{$block}_size_l & {
-            padding: 0 #{$l-hor-padding};
+            padding: 0 #{$l-right-padding} 0 #{$l-left-padding};
 
             & #{$block}__option-default-label {
                 height: #{$l-height};
@@ -113,12 +117,12 @@ $xl-hor-padding: '12px';
             }
 
             & #{$block}__tick-icon {
-                padding-left: #{$l-hor-padding};
+                padding-left: #{$l-right-padding};
             }
         }
 
         #{$block}_size_xl & {
-            padding: 0 #{$xl-hor-padding};
+            padding: 0 #{$xl-right-padding} 0 #{$xl-left-padding};
 
             & #{$block}__option-default-label {
                 height: #{$xl-height};
@@ -127,7 +131,7 @@ $xl-hor-padding: '12px';
             }
 
             & #{$block}__tick-icon {
-                padding-left: #{$xl-hor-padding};
+                padding-left: #{$xl-right-padding};
             }
         }
 

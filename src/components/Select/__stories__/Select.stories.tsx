@@ -16,7 +16,7 @@ const DefaultTemplate: Story<SelectProps> = (args) => (
         <Select.Option value="val4" content="Value4" />
     </Select>
 );
-const ShowcaseTemplate: Story<SelectProps> = (args) => <SelectShowcase {...args} />;
+const ShowcaseTemplate: Story<SelectProps> = (args: SelectProps) => <SelectShowcase {...args} />;
 export const Default = DefaultTemplate.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
 
@@ -28,4 +28,4 @@ Showcase.args = {
     disabled: false,
     placeholder: 'Values',
     label: '',
-} as SelectProps;
+};

@@ -41,6 +41,7 @@ export type SelectProps = QAProps &
         defaultValue?: string[];
         defaultOpen?: boolean;
         options?: (SelectOption | SelectOptionGroup)[];
+        error?: string | boolean;
         multiple?: boolean;
         filterable?: boolean;
         disablePortal?: boolean;

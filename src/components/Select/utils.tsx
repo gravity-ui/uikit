@@ -1,7 +1,8 @@
 import React from 'react';
-import {List, ListItemData} from '../List';
+import type {ButtonView} from '../Button';
+import type {List, ListItemData} from '../List';
 import {KeyCode} from '../constants';
-import {SelectProps, SelectOption, SelectOptionGroup} from './types';
+import type {SelectProps, SelectOption, SelectOptionGroup} from './types';
 import {Option, OptionGroup} from './tech-components';
 import {GROUP_ITEM_MARGIN_TOP, SIZE_TO_ITEM_HEIGHT} from './constants';
 
@@ -246,4 +247,15 @@ export const getFilteredFlattenOptions = (args: {
 
         return acc;
     }, [] as FlattenOption[]);
+};
+
+export const mapToButtonView = (view: NonNullable<SelectProps['view']>): ButtonView => {
+    switch (view) {
+        case 'clear': {
+            return 'flat';
+        }
+        default: {
+            return 'outlined';
+        }
+    }
 };

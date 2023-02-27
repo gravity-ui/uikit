@@ -1,0 +1,78 @@
+@use '../variables.scss';
+
+$colBlock: '.#{variables.$ns}col';
+$rowBlock: '.#{variables.$ns}row';
+$flexBlock: '.#{variables.$ns}flex';
+$containerBlock: '.#{variables.$ns}container';
+$spacingBlock: '.#{variables.$ns}s';
+
+$breakpoint-s: 576px !default;
+$breakpoint-m: 768px !default;
+$breakpoint-l: 1080px !default;
+$breakpoint-xl: 1200px !default;
+$breakpoint-xxl: 1400px !default;
+$breakpoint-xxxl: 1920px !default;
+
+$COL_SIZE: (
+    1: 8.33333333%,
+    2: 16.66666667%,
+    3: 25%,
+    4: 33.33333333%,
+    5: 41.66666667%,
+    6: 50%,
+    7: 58.33333333%,
+    8: 66.66666667%,
+    9: 75%,
+    10: 83.33333333%,
+    11: 91.66666667%,
+    12: 100%,
+);
+
+$SPACE: (
+    none: var(--yc-spacing-none),
+    nano: var(--yc-spacing-nano),
+    micro: var(--yc-spacing-micro),
+    xs: var(--yc-spacing-xs),
+    s: var(--yc-spacing-s),
+    m: var(--yc-spacing-m),
+    l: var(--yc-spacing-l),
+    xl: var(--yc-spacing-xl),
+    xxl: var(--yc-spacing-xxl),
+);
+
+$MEDIA_TO_BREAKPOINT_WIDTH: (
+    's' $breakpoint-s,
+    'm' $breakpoint-m,
+    'l' $breakpoint-l,
+    'xl' $breakpoint-xl,
+    'xxl' $breakpoint-xxl,
+    'xxxl' $breakpoint-xxxl
+);
+
+// mobile first
+// for example if we set `m` breakpoint condition, then the same condition will be applied to `l`, `xl`, `xxl` and 'xxxl' breakpoints
+@mixin use-media($size) {
+    @if $size == s {
+        @content;
+    } @else if $size == m {
+        @media (min-width: $breakpoint-m) {
+            @content;
+        }
+    } @else if $size == l {
+        @media (min-width: $breakpoint-l) {
+            @content;
+        }
+    } @else if $size == xl {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    } @else if $size == xxl {
+        @media (min-width: $breakpoint-xxl) {
+            @content;
+        }
+    } @else if $size == xxxl {
+        @media (min-width: $breakpoint-xxxl) {
+            @content;
+        }
+    }
+}

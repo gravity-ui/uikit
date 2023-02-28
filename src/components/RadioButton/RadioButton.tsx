@@ -11,10 +11,11 @@ const b = block('radio-button');
 
 export type RadioButtonOption = ControlGroupOption;
 export type RadioButtonSize = 's' | 'm' | 'l' | 'xl';
+export type RadioButtonWidth = 'auto' | 'max';
 
 export interface RadioButtonProps extends ControlGroupProps, DOMProps, QAProps {
     size?: RadioButtonSize;
-    width?: 'auto' | 'max';
+    width?: RadioButtonWidth;
     children?: React.ReactElement<ControlGroupOption> | React.ReactElement<ControlGroupOption>[];
 }
 

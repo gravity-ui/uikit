@@ -8,8 +8,10 @@ import {
     RadioButtonWidth,
 } from '../';
 import userEvent from '@testing-library/user-event';
+import {block} from '../../../components/utils/cn';
 
 const qaId = 'radio-button-component';
+const b = block('radio-button');
 
 const options: RadioButtonOption[] = [
     {value: 'Value 1', content: 'Value 1'},
@@ -215,7 +217,7 @@ describe('RadioButton', () => {
                 renderRadioButton({width});
                 const component = screen.getByTestId(qaId);
 
-                expect(component).toHaveClass(`yc-radio-button_width_${width}`);
+                expect(component).toHaveClass(b({width}));
             },
         );
 
@@ -225,7 +227,7 @@ describe('RadioButton', () => {
                 renderRadioButton({size});
                 const component = screen.getByTestId(qaId);
 
-                expect(component).toHaveClass(`yc-radio-button_size_${size}`);
+                expect(component).toHaveClass(b({size}));
             },
         );
     });

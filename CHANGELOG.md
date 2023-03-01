@@ -1,5 +1,25 @@
 # Changelog
 
+## [4.1.0](https://github.com/gravity-ui/uikit/compare/v4.0.7...v4.1.0) (2023-03-01)
+
+
+### Features
+
+* **Select:** add error property ([#548](https://github.com/gravity-ui/uikit/issues/548)) ([061a8df](https://github.com/gravity-ui/uikit/commit/061a8df8b87d82c5f0185e7271bcedfe7fa33fb5))
+* **Select:** add opportunity to apply maxHeight style to popup via popupClassName property ([#537](https://github.com/gravity-ui/uikit/issues/537)) ([16786e0](https://github.com/gravity-ui/uikit/commit/16786e0cd58b155774ca746db9e6e4f486b0cc82))
+* **Table:** add onMouseDown action for Table tr ([#534](https://github.com/gravity-ui/uikit/issues/534)) ([4f287b3](https://github.com/gravity-ui/uikit/commit/4f287b3ac45f2cb648db1789efe517f035191df8))
+* **Table:** add table action icon ([#510](https://github.com/gravity-ui/uikit/issues/510)) ([a265b34](https://github.com/gravity-ui/uikit/commit/a265b34a0885eb8ca365776d7d1dc4868c203958))
+* **typography:** do not use SF Mono ([#541](https://github.com/gravity-ui/uikit/issues/541)) ([6f4f0d6](https://github.com/gravity-ui/uikit/commit/6f4f0d6f59c2cc68b8d84f521b324c91b6cfba5c))
+
+
+### Bug Fixes
+
+* base-generic-ultralight color in dark-hc theme ([#545](https://github.com/gravity-ui/uikit/issues/545)) ([6e23eac](https://github.com/gravity-ui/uikit/commit/6e23eac3d69ee7de155d27b6c42bfe1f6d861e3e))
+* **Button:** change border for outlined view ([#546](https://github.com/gravity-ui/uikit/issues/546)) ([f47bdfb](https://github.com/gravity-ui/uikit/commit/f47bdfb44ffe5ac76c8c0f6aa5d7302503c9fe98))
+* fix exports object ([#555](https://github.com/gravity-ui/uikit/issues/555)) ([68dd2bd](https://github.com/gravity-ui/uikit/commit/68dd2bd500f216167ba74b677b14bc322425b52b))
+* **LayerManager:** check click outside event on the same layer where the  mousedown event happened ([#549](https://github.com/gravity-ui/uikit/issues/549)) ([63637b2](https://github.com/gravity-ui/uikit/commit/63637b213a43fc94353e4d47db5178c59d3cc565))
+* **TextInput:** no unexpected autocomplete when label prop present ([#509](https://github.com/gravity-ui/uikit/issues/509)) ([0a81ce2](https://github.com/gravity-ui/uikit/commit/0a81ce2f0d0017db2256fc71bd317d26aee7f0b5))
+
 ## [4.0.7](https://github.com/gravity-ui/uikit/compare/v4.0.6...v4.0.7) (2023-02-10)
 
 

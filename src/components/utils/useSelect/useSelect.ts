@@ -5,8 +5,15 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
     const {value: valueProps, defaultValue = [], multiple, defaultOpen = false, onUpdate} = props;
     const [innerValue, setInnerValue] = React.useState(defaultValue);
     const [open, setOpen] = React.useState(defaultOpen);
+    const isOpenControlled = React.useMemo(() => typeof props.open === 'boolean', [props.open]);
     const value = valueProps || innerValue;
     const uncontrolled = !valueProps;
+
+    React.useEffect(() => {
+        if (!isOpenControlled) return;
+
+        setOpen(props.open as boolean);
+    }, [props.open, isOpenControlled]);
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {
@@ -19,9 +26,9 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
                 }
             }
 
-            setOpen(false);
+            if (!isOpenControlled) setOpen(false);
         },
-        [value, uncontrolled, onUpdate],
+        [value, uncontrolled, onUpdate, isOpenControlled],
     );
 
     const handleMultipleSelection = React.useCallback(

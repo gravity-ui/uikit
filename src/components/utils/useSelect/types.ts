@@ -6,4 +6,5 @@ export type UseSelectProps = {
     multiple?: boolean;
     defaultOpen?: boolean;
     onUpdate?: (value: string[]) => void;
+    open?: boolean;
 };

@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "4.0.7",
+    "version": "4.1.0",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
@@ -13,11 +13,23 @@
             "import": "./build/esm/index.js"
         },
         "./*": {
-            "require": ["./build/cjs/*.js", "./build/cjs/*/index.js"],
-            "import": ["./build/esm/*.js", "./build/esm/*/index.js"]
+            "require": [
+                "./build/cjs/*.js",
+                "./build/cjs/*/index.js"
+            ],
+            "import": [
+                "./build/esm/*.js",
+                "./build/esm/*/index.js"
+            ]
         },
-        "./build/cjs/*": ["./build/cjs/*.js", "./build/cjs/*/index.js"],
-        "./build/esm/*": ["./build/esm/*.js", "./build/esm/*/index.js"],
+        "./build/cjs/*": [
+            "./build/cjs/*.js",
+            "./build/cjs/*/index.js"
+        ],
+        "./build/esm/*": [
+            "./build/esm/*.js",
+            "./build/esm/*/index.js"
+        ],
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",

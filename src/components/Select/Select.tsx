@@ -14,9 +14,6 @@ import {
     getSelectedOptionsContent,
     getListItems,
     getActiveItem,
-    getListHeight,
-    getPopupMinWidth,
-    getPopupVerticalOffset,
     getFilteredFlattenOptions,
     findItemIndexByQuickSearch,
     activateFirstClickableItem,
@@ -62,6 +59,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterPlaceholder,
         width,
         popupWidth,
+        error,
         virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
         size = 'm',
@@ -71,7 +69,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterable = false,
         disablePortal,
     } = props;
-    const [{controlRect, filter}, dispatch] = React.useReducer(reducer, initialState);
+    const [{filter}, dispatch] = React.useReducer(reducer, initialState);
+    // to avoid problem with incorrect popper offset calculation
+    // for example: https://github.com/radix-ui/primitives/issues/1567
+    const controlWrapRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
@@ -98,15 +99,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
-    const listHeight = getListHeight({
-        options: filteredFlattenOptions,
-        getOptionHeight,
-        size,
-    });
-    const filterHeight = filterRef.current?.getHeight() || 0;
-    const popupHeight = listHeight + filterHeight;
-    const popupMinWidth = getPopupMinWidth(virtualized, controlRect);
-    const popupVerticalOffset = getPopupVerticalOffset({height: popupHeight, controlRect});
 
     const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
@@ -182,13 +174,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     React.useEffect(() => {
         if (open) {
             activateFirstClickableItem(listRef);
-            const nextControlRect = controlRef.current?.getBoundingClientRect();
 
             if (filterable) {
                 filterRef.current?.focus();
             }
-
-            dispatch({type: 'SET_CONTROL_RECT', payload: {controlRect: nextControlRect}});
         } else {
             dispatch({type: 'SET_FILTER', payload: {filter: ''}});
         }
@@ -209,6 +198,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     return (
         <div
+            ref={controlWrapRef}
             className={selectBlock(mods, className)}
             onFocus={onFocus}
             onBlur={onBlur}
@@ -225,6 +215,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}
+                error={error}
                 open={open}
                 disabled={disabled}
                 setOpen={setOpen}
@@ -232,14 +223,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderControl={renderControl}
             />
             <SelectPopup
+                ref={controlWrapRef}
                 className={popupClassName}
                 controlRef={controlRef}
                 width={popupWidth}
-                minWidth={popupMinWidth}
-                verticalOffset={popupVerticalOffset}
                 open={open}
                 handleClose={handleClose}
                 disablePortal={disablePortal}
+                virtualized={virtualized}
             >
                 {filterable && (
                     <SelectFilter
@@ -258,8 +249,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         size={size}
                         value={value}
                         flattenOptions={filteredFlattenOptions}
-                        listHeight={listHeight}
-                        filterHeight={filterHeight}
                         multiple={multiple}
                         virtualized={virtualized}
                         onOptionClick={handleOptionClick}

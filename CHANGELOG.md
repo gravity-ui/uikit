@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.0.7](https://github.com/gravity-ui/uikit/compare/v4.0.6...v4.0.7) (2023-02-10)
+
+
+### Bug Fixes
+
+* **Tabs:** typo readme types fix ([#529](https://github.com/gravity-ui/uikit/issues/529)) ([8cbfff2](https://github.com/gravity-ui/uikit/commit/8cbfff2db260f1dd848ddf496b70c243f4534d71))
+
+## [4.0.6](https://github.com/gravity-ui/uikit/compare/v4.0.5...v4.0.6) (2023-02-08)
+
+
+### Bug Fixes
+
+* add explicitly used deps to package.json ([#530](https://github.com/gravity-ui/uikit/issues/530)) ([72c134d](https://github.com/gravity-ui/uikit/commit/72c134d97013c39e069c39f31d7e70e33446096a))
+* **Label:** the Label with the close button style fix ([#524](https://github.com/gravity-ui/uikit/issues/524)) ([b7963be](https://github.com/gravity-ui/uikit/commit/b7963be65054816fa0f49f650cbf612faf699f9c))
+
 ## [4.0.5](https://github.com/gravity-ui/uikit/compare/v4.0.4...v4.0.5) (2023-02-01)
 
 

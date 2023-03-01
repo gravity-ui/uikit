@@ -25,7 +25,6 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
     React.useImperativeHandle(
         ref,
         () => ({
-            getHeight: () => wrapRef.current?.getBoundingClientRect().height,
             focus: () => inputRef.current?.focus({preventScroll: true}),
         }),
         [],

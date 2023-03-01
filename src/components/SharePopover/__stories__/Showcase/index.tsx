@@ -8,7 +8,7 @@ import {SharePopover, ShareOptions, ShareList} from '../../../SharePopover';
 
 import {LayoutDirection} from '../../constants';
 import {Custom, Cloud, ShareArrowUp} from './icons';
-import {ShareOptionsData} from 'src/components/SharePopover/models';
+import {ShareOptionsData} from '../../models';
 
 import './SharePopover.scss';
 

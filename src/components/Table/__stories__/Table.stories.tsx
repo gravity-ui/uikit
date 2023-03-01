@@ -1,7 +1,8 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
-import {Table, TableProps} from '../Table';
+import {action} from '@storybook/addon-actions';
 import _cloneDeep from 'lodash/cloneDeep';
+import {Table, TableProps} from '../Table';
 import {
     data,
     columns,
@@ -13,7 +14,8 @@ import {
     DataItem,
 } from './utils';
 import {TableAction, TableSettingsData} from '..';
-import {action} from '@storybook/addon-actions';
+import {GearIcon} from '../../icons';
+import {Icon} from '../../Icon';
 
 export default {
     title: 'Components/Table',
@@ -46,6 +48,12 @@ const OnRowClickTemplate: Story<TableProps<DataItem>> = (args) => <Table {...arg
 export const OnRowClick = OnRowClickTemplate.bind({});
 OnRowClick.args = {
     onRowClick: (item) => alert(JSON.stringify(item)),
+    onRowMouseDown: (item, _, event) => {
+        const isMiddleButtonClicked = event.button === 1;
+        if (isMiddleButtonClicked) {
+            alert(JSON.stringify(item));
+        }
+    },
 };
 
 // ---------------------------------
@@ -84,6 +92,11 @@ const WithTableActionsTemplate: Story<TableProps<DataItem>> = (args) => {
                 alert(JSON.stringify(item));
                 action('default')(handlerArgs);
             },
+        },
+        {
+            text: 'with icon',
+            icon: <Icon data={GearIcon} size={14} />,
+            handler: () => {},
         },
         {
             text: 'disabled',

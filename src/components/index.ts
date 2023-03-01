@@ -51,6 +51,7 @@ export * from './UserAvatar';
 export * from './utils/event-broker';
 export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
+export * from './utils/useBodyScrollLock';
 export * from './utils/useEventBroker';
 export * from './utils/useLayer';
 export * from './utils/useVirtualElementRef';

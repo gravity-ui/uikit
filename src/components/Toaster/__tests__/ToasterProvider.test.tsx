@@ -254,7 +254,7 @@ describe('api.removeAll', () => {
 describe('api.has', () => {
     it('should return false when toast is not added', () => {
         const providerAPI = setup();
-        expect(providerAPI.has('unexisted toasts')).toBeFalsy();
+        expect(providerAPI.has('unexisted toasts')).toBe(false);
     });
 
     it('should return false when toast is removed by code', () => {
@@ -268,14 +268,14 @@ describe('api.has', () => {
         });
 
         const toast = getToast();
-        expect(providerAPI.has(toastProps.name)).toBeTruthy();
+        expect(providerAPI.has(toastProps.name)).toBe(true);
 
         act(() => {
             providerAPI.remove(toastProps.name);
         });
         tick(toast, 0);
 
-        expect(providerAPI.has(toastProps.name)).toBeFalsy();
+        expect(providerAPI.has(toastProps.name)).toBe(false);
     });
 
     it('should return false when toast is removed by timer', () => {
@@ -289,15 +289,15 @@ describe('api.has', () => {
         });
 
         const toast = getToast();
-        expect(providerAPI.has(toastProps.name)).toBeTruthy();
+        expect(providerAPI.has(toastProps.name)).toBe(true);
 
         act(() => {
             jest.advanceTimersByTime(toastTimeout);
         });
-        expect(providerAPI.has(toastProps.name)).toBeTruthy();
+        expect(providerAPI.has(toastProps.name)).toBe(true);
 
         fireAnimationEndEvent(toast, 'toast-hide-end');
 
-        expect(providerAPI.has(toastProps.name)).toBeFalsy();
+        expect(providerAPI.has(toastProps.name)).toBe(false);
     });
 });

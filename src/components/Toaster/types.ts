@@ -25,6 +25,9 @@ export type ToastProps = {
     isClosable?: boolean;
     isOverride?: boolean;
     actions?: ToastAction[];
+
+    /** Function. Use for toast icon customization. By default type-based behavior is used */
+    renderIcon?: (toastProps: ToastProps) => React.ReactNode;
 };
 
 export type InternalToastProps = ToastProps & {

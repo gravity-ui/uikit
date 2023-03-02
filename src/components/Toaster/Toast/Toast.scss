@@ -35,6 +35,8 @@ $block: '.#{variables.$ns}toast';
         width: 100%;
     }
 
+    // Since the "opacity" needs to be overridden when toast appearing
+    // The "created" modifier must be higher in code than the "appearing" modifier.
     &_created {
         position: relative;
         opacity: 1;

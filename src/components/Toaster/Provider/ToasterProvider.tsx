@@ -50,6 +50,7 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                         {
                             ...toasts[index],
                             ...override,
+                            isOverride: true,
                             updatesCounter: (toasts[index].updatesCounter ?? 0) + 1,
                         },
                         ...toasts.slice(index + 1),

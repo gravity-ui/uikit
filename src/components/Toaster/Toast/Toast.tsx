@@ -37,6 +37,7 @@ enum ToastStatus {
 }
 
 interface UseToastHeightProps {
+    isOverride: boolean;
     status: ToastStatus;
     updatesCounter: number;
 }
@@ -45,7 +46,7 @@ function getHeight(ref: React.RefObject<HTMLDivElement>) {
     return ref.current?.offsetHeight;
 }
 
-function useToastHeight({status, updatesCounter}: UseToastHeightProps) {
+function useToastHeight({isOverride, status, updatesCounter}: UseToastHeightProps) {
     const [height, setHeight] = React.useState<number | undefined>(undefined);
 
     const ref = React.useRef<HTMLDivElement>(null);
@@ -72,7 +73,7 @@ function useToastHeight({status, updatesCounter}: UseToastHeightProps) {
 
         const newHeight = getHeight(ref);
         setHeight(newHeight);
-    }, [updatesCounter]);
+    }, [isOverride, updatesCounter]);
 
     const style: React.CSSProperties = {};
     if (height && status !== ToastStatus.ShowingIndents && status !== ToastStatus.Shown) {
@@ -182,6 +183,7 @@ export function Toast(props: ToastUnitedProps) {
         renderIcon,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
+        isOverride = false,
         updatesCounter = 0,
         mobile = false,
     } = props;
@@ -192,7 +194,7 @@ export function Toast(props: ToastUnitedProps) {
         handleClose,
     } = useToastStatus({onRemove: props.removeCallback});
 
-    const heightProps = useToastHeight({status, updatesCounter});
+    const heightProps = useToastHeight({isOverride, status, updatesCounter});
 
     const timeout = typeof timeoutProp === 'number' ? timeoutProp : undefined;
     const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});

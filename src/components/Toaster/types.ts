@@ -15,13 +15,6 @@ export type ToastAction = {
     removeAfterClick?: boolean;
 };
 
-export interface ToastLifecycleArgs {
-    element: HTMLDivElement;
-    props: ToastProps;
-}
-
-export type ToastLifecycleCallback = (args: ToastLifecycleArgs) => void;
-
 export type ToastProps = {
     name: string;
     title?: string;
@@ -37,12 +30,6 @@ export type ToastProps = {
 
     /** Function. Use for toast icon customization. By default type-based behavior is used */
     renderIcon?: (toastProps: ToastProps) => React.ReactNode;
-
-    /** Callback. Fired when corresponding toast component mount */
-    onMount?: ToastLifecycleCallback;
-
-    /** Callback. Fired when corresponding toast component unmount */
-    onUnmount?: ToastLifecycleCallback;
 };
 
 export type InternalToastProps = ToastProps & {
@@ -55,6 +42,7 @@ export interface ToasterContextMethods {
     remove(toastName: ToastProps['name']): void;
     removeAll(): void;
     update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
+    has(toastName: ToastProps['name']): boolean;
 }
 
 export interface ToasterPublicMethods extends ToasterContextMethods {}

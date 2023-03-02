@@ -104,6 +104,7 @@ import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 | add(toastOptions)             | `Object`           | Create new notification                                                                                                                 |
 | remove(name)                  | `string`           | Delete existing notification manually                                                                                                   |
 | update(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
+| has(name)                     | `string`           | Checks if there is a toast with the given name in the list of displayed toasts                                                          |
 
 ## More about `add`
 
@@ -120,8 +121,6 @@ Accepts argument `toastOptions` with ongoing notification details:
 | isClosable | `boolean`                               |          | `true`      | Configuration that manages visibility of cross icon, which allows to close notification                                                                             |
 | actions    | `ToastAction[]`                         |          | `undefined` | Array of [actions](./types.ts#L9) which displays after `content`                                                                                                    |
 | renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Use for toast icon customization. By default type-based behavior is used                                                                                            |
-| onMount    | `ToastLifecycleCallback`                |          | `undefined` | Callback. Fired when corresponding toast component mount                                                                                                            |
-| onUnmount  | `ToastLifecycleCallback`                |          | `undefined` | Callback. Fired when corresponding toast component unmount                                                                                                          |
 
 Every `action` is an object with following parameters:
 

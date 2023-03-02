@@ -60,20 +60,28 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
             [],
         );
 
+        const toastsRef = React.useRef<InternalToastProps[]>();
+        toastsRef.current = toasts;
+        const has = React.useCallback((toastName: ToastProps['name']) => {
+            return toastsRef.current ? hasToast(toastsRef.current, toastName) : false;
+        }, []);
+
         const toasterContext = React.useMemo(() => {
             return {
                 add,
                 remove,
                 removeAll,
                 update,
+                has,
             };
-        }, [add, remove, removeAll, update]);
+        }, [add, remove, removeAll, update, has]);
 
         React.useImperativeHandle(ref, () => ({
             add,
             remove,
             removeAll,
             update,
+            has,
         }));
 
         return (

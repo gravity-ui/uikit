@@ -250,3 +250,54 @@ describe('api.removeAll', () => {
         expect(screen.queryByRole('heading', {name: 'Test Toast2'})).not.toBeInTheDocument();
     });
 });
+
+describe('api.has', () => {
+    it('should return false when toast is not added', () => {
+        const providerAPI = setup();
+        expect(providerAPI.has('unexisted toasts')).toBeFalsy();
+    });
+
+    it('should return false when toast is removed by code', () => {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                autoHiding: toastTimeout,
+            });
+        });
+
+        const toast = getToast();
+        expect(providerAPI.has(toastProps.name)).toBeTruthy();
+
+        act(() => {
+            providerAPI.remove(toastProps.name);
+        });
+        tick(toast, 0);
+
+        expect(providerAPI.has(toastProps.name)).toBeFalsy();
+    });
+
+    it('should return false when toast is removed by timer', () => {
+        const providerAPI = setup();
+
+        act(() => {
+            providerAPI.add({
+                ...toastProps,
+                autoHiding: toastTimeout,
+            });
+        });
+
+        const toast = getToast();
+        expect(providerAPI.has(toastProps.name)).toBeTruthy();
+
+        act(() => {
+            jest.advanceTimersByTime(toastTimeout);
+        });
+        expect(providerAPI.has(toastProps.name)).toBeTruthy();
+
+        fireAnimationEndEvent(toast, 'toast-hide-end');
+
+        expect(providerAPI.has(toastProps.name)).toBeFalsy();
+    });
+});

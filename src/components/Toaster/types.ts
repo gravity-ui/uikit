@@ -23,6 +23,8 @@ export type ToastProps = {
     content?: React.ReactNode;
     type?: ToastType;
     isClosable?: boolean;
+    // FIXME: BREAKING CHANGE.
+    /** @deprecated This prop was part of private API. It is no longer used and Will be deleted */
     isOverride?: boolean;
     actions?: ToastAction[];
 
@@ -32,6 +34,7 @@ export type ToastProps = {
 
 export type InternalToastProps = ToastProps & {
     addedAt?: number;
+    updatesCounter?: number;
 };
 
 export interface ToasterContextMethods {

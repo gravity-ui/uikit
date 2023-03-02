@@ -203,6 +203,8 @@ export function Toast(props: ToastUnitedProps) {
         [type || 'default']: true,
     };
 
+    const icon = renderIcon ? renderIcon(props) : renderIconByType({type});
+
     return (
         <div
             className={b(mods, className)}
@@ -210,9 +212,7 @@ export function Toast(props: ToastUnitedProps) {
             {...heightProps}
             {...closeOnTimeoutProps}
         >
-            <div className={b('icon-container')}>
-                {renderIcon ? renderIcon(props) : renderIconByType({type})}
-            </div>
+            {icon && <div className={b('icon-container')}>{icon}</div>}
             <div className={b('container')}>
                 <h3 className={b('title')}>{title}</h3>
                 {isClosable && (

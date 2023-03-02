@@ -14,13 +14,16 @@ $block: '.#{variables.$ns}toast';
     $containerClass: #{&}__container;
     $iconClass: #{&}__icon;
 
+    // Deprecated. This custom property can be removed in next major release
+    --yc-toaster-padding: 16px;
+
     display: flex;
     box-sizing: border-box;
     position: absolute;
     opacity: 0;
     width: inherit;
     margin-bottom: 10px;
-    padding: 16px;
+    padding: var(--yc-toaster-padding);
     font-size: 13px;
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--yc-color-sfx-shadow);
@@ -28,13 +31,13 @@ $block: '.#{variables.$ns}toast';
     overflow: hidden;
     z-index: 0;
 
+    &_mobile {
+        width: 100%;
+    }
+
     &_created {
         position: relative;
         opacity: 1;
-    }
-
-    &_mobile {
-        width: 100%;
     }
 
     &_appearing {
@@ -142,10 +145,6 @@ $block: '.#{variables.$ns}toast';
     &__icon-container {
         flex: 0 0 auto;
         padding-right: 8px;
-
-        &:empty {
-            display: none;
-        }
     }
 
     &__title {

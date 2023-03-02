@@ -126,14 +126,6 @@ export class Progress extends Component<ProgressProps> {
         return theme as ProgressTheme;
     }
 
-    private getLoading(): boolean {
-        if (Progress.isProgressWithStack(this.props)) {
-            throw new Error('Unexpected behavior');
-        }
-
-        return Boolean(this.props.loading);
-    }
-
     private renderContent() {
         if (Progress.isProgressWithStack(this.props)) {
             return this.renderStack(this.props);
@@ -145,7 +137,8 @@ export class Progress extends Component<ProgressProps> {
     private renderItem(props: ProgressWithValue) {
         const {value} = props;
 
-        const className = b('item', {theme: this.getTheme(), loading: this.getLoading()});
+        const className = b('item', {theme: this.getTheme(), loading: this.props.loading});
+
         const offset = Progress.getOffset(value);
         const style = {transform: `translateX(${offset}%)`};
 

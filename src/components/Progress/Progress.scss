@@ -1,4 +1,5 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}progress';
 
@@ -64,69 +65,30 @@ $progress-thinnest-height: 4px;
 
         &_theme_default {
             background-color: var(--yc-color-infographics-neutral-medium);
-
-            &#{$item}_loading {
-                --yc-progress-loading-color-1: var(--yc-color-infographics-neutral-light);
-                --yc-progress-loading-color-2: var(--yc-color-infographics-neutral-medium);
-            }
         }
 
         &_theme_success {
             background-color: var(--yc-color-infographics-positive-medium);
-
-            &#{$item}_loading {
-                --yc-progress-loading-color-1: var(--yc-color-infographics-positive-light);
-                --yc-progress-loading-color-2: var(--yc-color-infographics-positive-medium);
-            }
         }
 
         &_theme_warning {
             background-color: var(--yc-color-infographics-warning-medium);
-
-            &#{$item}_loading {
-                --yc-progress-loading-color-1: var(--yc-color-infographics-warning-light);
-                --yc-progress-loading-color-2: var(--yc-color-infographics-warning-medium);
-            }
         }
 
         &_theme_danger {
             background-color: var(--yc-color-infographics-danger-medium);
-
-            &#{$item}_loading {
-                --yc-progress-loading-color-1: var(--yc-color-infographics-danger-light);
-                --yc-progress-loading-color-2: var(--yc-color-infographics-danger-medium);
-            }
         }
 
         &_theme_info {
             background-color: var(--yc-color-infographics-info-medium);
-
-            &#{$item}_loading {
-                --yc-progress-loading-color-1: var(--yc-color-infographics-info-light);
-                --yc-progress-loading-color-2: var(--yc-color-infographics-info-medium);
-            }
         }
 
         &_theme_misc {
             background-color: var(--yc-color-infographics-misc-medium);
-
-            &#{$item}_loading {
-                --yc-progress-loading-color-1: var(--yc-color-infographics-misc-light);
-                --yc-progress-loading-color-2: var(--yc-color-infographics-misc-medium);
-            }
         }
 
         &_loading {
-            background-image: repeating-linear-gradient(
-                -45deg,
-                var(--yc-progress-loading-color-1),
-                var(--yc-progress-loading-color-1) 4px,
-                var(--yc-progress-loading-color-2) 4px,
-                var(--yc-progress-loading-color-2) 8px
-            );
-            background-size: 150%;
-            background-clip: padding-box;
-            animation: #{variables.$ns}progress-loading 0.5s linear infinite;
+            @include mixins.loading();
         }
     }
 
@@ -167,14 +129,5 @@ $progress-thinnest-height: 4px;
     &_view_thin &__text,
     &_view_thinnest &__text {
         display: none;
-    }
-}
-
-@keyframes #{variables.$ns}progress-loading {
-    from {
-        background-position: -12px 0;
-    }
-    to {
-        background-position: 0 0;
     }
 }

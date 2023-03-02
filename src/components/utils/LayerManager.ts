@@ -70,7 +70,7 @@ const compareCandidatesByPriority = (candA: LayerCandidate, candB: LayerCandidat
 export class LayerManager {
     private stack: LayerConfig[] = [];
     private preStack: LayerCandidate[] = [];
-    private mouseDownTarget: HTMLElement | null = null;
+    private mouseDownLayerTarget?: {layer: LayerConfig; target: HTMLElement};
     private scheduledAdd: ReturnType<typeof setTimeout> | undefined;
     private scheduledCandidate: LayerCandidate | undefined;
 
@@ -207,23 +207,41 @@ export class LayerManager {
     };
 
     private handleDocumentClick = (event: MouseEvent) => {
-        const topLayer = this.getTopLayer();
+        let layer: LayerConfig;
+        let mouseDownTarget: HTMLElement | null = null;
+        if (this.mouseDownLayerTarget) {
+            layer = this.mouseDownLayerTarget.layer;
+            mouseDownTarget = this.mouseDownLayerTarget.target;
+            this.mouseDownLayerTarget = undefined;
+            if (!this.stack.includes(layer)) {
+                return;
+            }
+        } else {
+            layer = this.getTopLayer();
+        }
 
-        if (!topLayer.disableOutsideClick && this.isOutsideClick(topLayer, event)) {
-            topLayer.onOutsideClick?.(event);
-            topLayer.onClose?.(event, 'outsideClick');
+        if (!layer.disableOutsideClick && this.isOutsideClick(layer, event, mouseDownTarget)) {
+            layer.onOutsideClick?.(event);
+            layer.onClose?.(event, 'outsideClick');
         }
     };
 
     private handleDocumentMouseDown = (event: MouseEvent) => {
-        this.mouseDownTarget = event.target as HTMLElement;
+        const layer = this.getTopLayer();
+        if (layer) {
+            this.mouseDownLayerTarget = {layer, target: event.target as HTMLElement};
+        }
     };
 
     private getTopLayer() {
         return this.stack[this.stack.length - 1];
     }
 
-    private isOutsideClick(layer: LayerConfig, event: MouseEvent) {
+    private isOutsideClick(
+        layer: LayerConfig,
+        event: MouseEvent,
+        mouseDownTarget: HTMLElement | null = null,
+    ) {
         const contentElements = layer.contentRefs || [];
         const {target} = event;
         const composedPath = typeof event.composedPath === 'function' ? event.composedPath() : [];
@@ -232,7 +250,7 @@ export class LayerManager {
             const isClickOnContentElements = contentElements.some(
                 (el) =>
                     el?.current?.contains?.(target as Element) ||
-                    el?.current?.contains?.(this.mouseDownTarget) ||
+                    el?.current?.contains?.(mouseDownTarget) ||
                     composedPath.includes(el?.current as EventTarget),
             );
 

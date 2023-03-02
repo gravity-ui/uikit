@@ -4,7 +4,7 @@ import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import {Icon, IconProps} from '../../Icon';
 import {Button} from '../../Button';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
-import type {ToastAction, InternalToastProps, ToastType} from '../types';
+import type {InternalToastProps, ToastAction, ToastType} from '../types';
 import i18n from '../i18n';
 
 import './Toast.scss';

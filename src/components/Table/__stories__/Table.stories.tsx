@@ -112,7 +112,7 @@ const WithTableActionsTemplate: Story<TableProps<DataItem>> = (args) => {
             },
         },
     ];
-    return <TableWithAction {...args} rowActionsSize="l" getRowActions={getRowActions} />;
+    return <TableWithAction {...args} getRowActions={getRowActions} />;
 };
 export const HOCWithTableActions = WithTableActionsTemplate.bind({});
 

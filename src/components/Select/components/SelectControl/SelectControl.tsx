@@ -3,7 +3,7 @@ import {useForkRef} from '../../../utils/useForkRef';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
-import type {SelectProps} from '../../types';
+import type {RenderControl, SelectProps} from '../../types';
 import {selectControlBlock} from '../../constants';
 import {mapToButtonView} from '../../utils';
 
@@ -11,8 +11,7 @@ import './SelectControl.scss';
 
 type ControlProps = {
     setOpen: (nextOpen: boolean) => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-    renderControl?: SelectProps['renderControl'];
+    renderControl?: RenderControl;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -23,9 +22,8 @@ type ControlProps = {
     label?: string;
     placeholder?: SelectProps['placeholder'];
     error?: SelectProps['error'];
-    open?: boolean;
     disabled?: boolean;
-};
+} & Parameters<RenderControl>[0];
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {

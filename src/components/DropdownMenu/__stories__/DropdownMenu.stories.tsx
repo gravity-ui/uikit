@@ -16,7 +16,7 @@ export default {
     args: {},
 } as Meta;
 
-const DefaultTemplate: Story = (args) => <DropdownMenu {...args} />;
+const DefaultTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="xl" />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items: options,
@@ -31,14 +31,14 @@ Default.args = {
 // WithIcons.storyName = 'Options with icons';
 
 // ----------------------------------------
-const WithGroupsTemplate: Story = (args) => <DropdownMenu {...args} />;
+const WithGroupsTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="l" />;
 export const WithGroups = WithGroupsTemplate.bind({});
 WithGroups.args = {
     items: optionsWithGroups,
 };
 WithGroups.storyName = 'Options with groups';
 
-const WithSubmenuTemplate: Story = (args) => <DropdownMenu {...args} />;
+const WithSubmenuTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="m" />;
 export const WithSubmenu = WithSubmenuTemplate.bind({});
 WithSubmenu.args = {
     items: optionsWithSubItems,
@@ -46,7 +46,7 @@ WithSubmenu.args = {
 WithSubmenu.storyName = 'Submenu';
 
 // ----------------------------------------
-const AssortedTemplate: Story = (args) => <DropdownMenu {...args} />;
+const AssortedTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="s" />;
 export const Assorted = AssortedTemplate.bind({});
 Assorted.args = {
     items: optionsAssorted,
@@ -54,7 +54,7 @@ Assorted.args = {
 Assorted.storyName = 'Different options for each action';
 
 // ----------------------------------------
-const DisabledTemplate: Story = (args) => <DropdownMenu {...args} />;
+const DisabledTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="m" />;
 export const Disabled = DisabledTemplate.bind({});
 Disabled.args = {
     items: options,
@@ -62,7 +62,7 @@ Disabled.args = {
 };
 
 // ----------------------------------------
-const CustomIconTemplate: Story = (args) => <DropdownMenu {...args} />;
+const CustomIconTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="l" />;
 export const CustomIcon = CustomIconTemplate.bind({});
 CustomIcon.args = {
     items: options,
@@ -71,7 +71,7 @@ CustomIcon.args = {
 CustomIcon.storyName = 'Non-standard icon';
 
 // ----------------------------------------
-const SwitcherThemeTemplate: Story = (args) => <DropdownMenu {...args} />;
+const SwitcherThemeTemplate: Story = (args) => <DropdownMenu {...args} rowActionsSize="xl" />;
 export const SwitcherTheme = SwitcherThemeTemplate.bind({});
 SwitcherTheme.args = {
     items: options,

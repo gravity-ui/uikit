@@ -69,6 +69,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disabled = false,
         filterable = false,
         disablePortal,
+        onClose,
     } = props;
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
     // to avoid problem with incorrect popper offset calculation
@@ -78,13 +79,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const {value, open, setOpen, handleSelection} = useSelect({
+    const {value, open, setClose, toggleOpen, handleSelection} = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
         defaultOpen,
         multiple,
         open: propsOpen,
+        onClose,
+        onOpenChange,
     });
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
@@ -101,8 +104,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
-
-    const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
@@ -183,9 +184,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         } else {
             dispatch({type: 'SET_FILTER', payload: {filter: ''}});
         }
-
-        onOpenChange?.(open);
-    }, [open, filterable, onOpenChange]);
+    }, [open, filterable]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),
@@ -196,7 +195,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         inlineStyles.width = width;
     }
 
-    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
+    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: setClose});
 
     return (
         <div
@@ -207,6 +206,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             style={inlineStyles}
         >
             <SelectControl
+                onClick={toggleOpen}
                 ref={handleControlRef}
                 className={controlClassName}
                 qa={qa}
@@ -220,7 +220,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 error={error}
                 open={open}
                 disabled={disabled}
-                setOpen={setOpen}
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
             />
@@ -230,7 +229,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}
-                handleClose={handleClose}
+                handleClose={setClose}
                 disablePortal={disablePortal}
                 virtualized={virtualized}
             >

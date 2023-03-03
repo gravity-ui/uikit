@@ -131,7 +131,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
         };
 
         private renderPopup() {
-            const {getRowActions} = this.props;
+            const {getRowActions, rowActionsSize} = this.props;
             const {popupOpen, popupData} = this.state;
 
             if (!popupData) {
@@ -147,7 +147,9 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     placement={['bottom-end', 'top-end']}
                     onClose={this.handlePopupClose}
                 >
-                    <Menu className={bPopup('menu')}>{actions.map(this.renderPopupMenuItem)}</Menu>
+                    <Menu className={bPopup('menu')} size={rowActionsSize}>
+                        {actions.map(this.renderPopupMenuItem)}
+                    </Menu>
                 </Popup>
             );
         }

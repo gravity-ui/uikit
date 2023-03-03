@@ -2,7 +2,7 @@ import React, {useRef, useMemo} from 'react';
 import type {ReactNode, MouseEventHandler, Dispatch, SetStateAction} from 'react';
 
 import type {PopupProps} from '../Popup';
-import {Button, ButtonSize} from '../Button';
+import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {DotsIcon} from '../icons';
@@ -72,7 +72,6 @@ export type DropdownMenuProps<T> = {
      * Overrides the default dropdown popup props.
      */
     popupProps?: Partial<PopupProps>;
-    rowActionsSize?: ButtonSize;
     /**
      * Custom content inside the menu popup.
      */
@@ -101,7 +100,6 @@ const DropdownMenu = <T,>({
     menuProps,
     popupProps,
     children,
-    rowActionsSize,
 }: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
@@ -146,7 +144,7 @@ const DropdownMenu = <T,>({
                 {switcher || (
                     <Button
                         view="flat"
-                        size={rowActionsSize || size}
+                        size={size}
                         {...defaultSwitcherProps}
                         className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
                         disabled={disabled}

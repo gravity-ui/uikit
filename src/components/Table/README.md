@@ -151,6 +151,10 @@ interface Props {
    * Array of action configs for each row.
    */
   getRowActions: (item: any, index: number) => TableActionConfig[];
+  /**
+   * Size of actions button and popup menu items.
+   */
+  rowActionsSize: 's' | 'm' | 'l' | 'xl';
 }
 ```
 

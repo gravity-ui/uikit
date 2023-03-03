@@ -18,6 +18,12 @@ import {
 } from './utils';
 import {act, render, screen} from '@testing-library/react';
 
+const toggleSelectPopup = async () => {
+    const user = userEvent.setup();
+    const selectControl = screen.getByTestId(TEST_QA);
+    await user.click(selectControl);
+};
+
 describe('Select base actions', () => {
     describe('open popup by', () => {
         test('click', async () => {
@@ -85,6 +91,34 @@ describe('Select base actions', () => {
 
             const rerenderedSelectControl = getByTestId(TEST_QA);
             expect(rerenderedSelectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+        });
+        test('should not close when open=true prop passed', async () => {
+            setup({open: true});
+            const selectControl = screen.getByTestId(TEST_QA);
+
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+
+            await toggleSelectPopup();
+
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+        });
+
+        test('should call onClose while closing', async () => {
+            const onClose = jest.fn();
+            setup({onClose});
+
+            await toggleSelectPopup();
+            await toggleSelectPopup();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+        });
+        test('should call onClose whith controlled open', async () => {
+            const onClose = jest.fn();
+            setup({open: true, onClose});
+
+            await toggleSelectPopup();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
         });
     });
 

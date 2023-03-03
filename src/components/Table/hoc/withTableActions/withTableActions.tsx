@@ -3,7 +3,7 @@ import _memoize from 'lodash/memoize';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import {Icon} from '../../../Icon';
-import {Button} from '../../../Button';
+import {Button, ButtonSize} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Menu, MenuItemProps} from '../../../Menu';
 import {DotsIcon} from '../../../icons/DotsIcon';
@@ -54,6 +54,7 @@ export type TableActionConfig<I> = TableAction<I> | TableActionGroup<I>;
 
 export interface WithTableActionsProps<I> {
     getRowActions: (item: I, index: number) => TableActionConfig<I>[];
+    actionsButtonSize?: ButtonSize;
 }
 
 interface WithTableActionsState<I> {
@@ -105,7 +106,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
         }
 
         private renderBodyCell = (item: I, index: number) => {
-            const {isRowDisabled, getRowActions} = this.props;
+            const {isRowDisabled, getRowActions, actionsButtonSize} = this.props;
             const actions = getRowActions(item, index);
 
             if (actions.length === 0) {
@@ -121,6 +122,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                         disabled={disabled}
                         className={BUTTON_CLASSNAME}
                         onClick={this.handleActionsButtonClick.bind(this, {item, index})}
+                        size={actionsButtonSize}
                     >
                         <Icon data={DotsIcon} />
                     </Button>

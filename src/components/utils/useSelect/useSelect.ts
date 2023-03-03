@@ -1,19 +1,13 @@
 import React from 'react';
 import type {UseSelectOption, UseSelectProps} from './types';
+import {useOpenState} from './useOpenState';
 
 export const useSelect = <T extends unknown>(props: UseSelectProps) => {
-    const {value: valueProps, defaultValue = [], multiple, defaultOpen = false, onUpdate} = props;
+    const {value: valueProps, defaultValue = [], multiple, onUpdate} = props;
     const [innerValue, setInnerValue] = React.useState(defaultValue);
-    const [open, setOpen] = React.useState(defaultOpen);
-    const isOpenControlled = React.useMemo(() => typeof props.open === 'boolean', [props.open]);
     const value = valueProps || innerValue;
     const uncontrolled = !valueProps;
-
-    React.useEffect(() => {
-        if (!isOpenControlled) return;
-
-        setOpen(props.open as boolean);
-    }, [props.open, isOpenControlled]);
+    const {setClose, ...openState} = useOpenState(props);
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {
@@ -26,9 +20,9 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
                 }
             }
 
-            if (!isOpenControlled) setOpen(false);
+            setClose();
         },
-        [value, uncontrolled, onUpdate, isOpenControlled],
+        [value, uncontrolled, onUpdate, setClose],
     );
 
     const handleMultipleSelection = React.useCallback(
@@ -60,8 +54,8 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
 
     return {
         value,
-        open,
-        setOpen,
         handleSelection,
+        setClose,
+        ...openState,
     };
 };

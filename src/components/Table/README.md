@@ -154,7 +154,7 @@ interface Props {
   /**
    * Size of actions button and popup menu items.
    */
-  rowActionsSize: 's' | 'm' | 'l' | 'xl';
+  rowActionsSize?: 's' | 'm' | 'l' | 'xl';
 }
 ```
 

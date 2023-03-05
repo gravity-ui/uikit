@@ -87,6 +87,8 @@ $progress-thinnest-height: 4px;
 
         &_loading {
             @include mixins.loading();
+
+            text-shadow: 0 0 1px var(--yc-color-text-dark-primary);
         }
     }
 

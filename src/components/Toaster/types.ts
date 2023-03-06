@@ -42,6 +42,7 @@ export interface ToasterContextMethods {
     remove(toastName: ToastProps['name']): void;
     removeAll(): void;
     update(toastName: ToastProps['name'], override: Partial<ToastProps>): void;
+    has(toastName: ToastProps['name']): boolean;
 }
 
 export interface ToasterPublicMethods extends ToasterContextMethods {}

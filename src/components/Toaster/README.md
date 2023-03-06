@@ -104,6 +104,7 @@ import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 | add(toastOptions)             | `Object`           | Create new notification                                                                                                                 |
 | remove(name)                  | `string`           | Delete existing notification manually                                                                                                   |
 | update(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
+| has(name)                     | `string`           | Checks if there is a toast with the given name in the list of displayed toasts                                                          |
 
 ## More about `add`
 

@@ -3,7 +3,7 @@ import type {UseOpenProps} from './types';
 
 export const useOpenState = (props: UseOpenProps) => {
     const [open, setOpenState] = React.useState(props.defaultOpen || false);
-    const isOpenControlled = React.useMemo(() => typeof props.open === 'boolean', [props.open]);
+    const isOpenControlled = typeof props.open === 'boolean';
     const {onOpenChange, onClose} = props;
 
     React.useEffect(() => {

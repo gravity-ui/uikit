@@ -3,14 +3,14 @@ import {useForkRef} from '../../../utils/useForkRef';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
-import type {RenderControl, SelectProps} from '../../types';
+import type {SelectRenderControl, SelectProps, SelectRenderControlProps} from '../../types';
 import {selectControlBlock} from '../../constants';
 import {mapToButtonView} from '../../utils';
 
 import './SelectControl.scss';
 
 type ControlProps = {
-    renderControl?: RenderControl;
+    renderControl?: SelectRenderControl;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -22,7 +22,7 @@ type ControlProps = {
     placeholder?: SelectProps['placeholder'];
     error?: SelectProps['error'];
     disabled?: boolean;
-} & Parameters<RenderControl>[0];
+} & SelectRenderControlProps;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {

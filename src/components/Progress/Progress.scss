@@ -25,6 +25,7 @@ $progress-thinnest-height: 4px;
     background-color: var(--yc-color-base-generic);
 
     text-align: center;
+    text-shadow: 0 0 1px var(--yc-color-text-dark-primary);
     line-height: $progress-height;
 
     &__text {
@@ -87,8 +88,6 @@ $progress-thinnest-height: 4px;
 
         &_loading {
             @include mixins.loading();
-
-            text-shadow: 0 0 1px var(--yc-color-text-dark-primary);
         }
     }
 

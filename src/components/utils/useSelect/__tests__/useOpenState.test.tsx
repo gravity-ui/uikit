@@ -22,8 +22,8 @@ describe('useOpen', () => {
             expect(result.current.open).toBe(true);
         });
     });
-    describe('use funtions to change state', () => {
-        test('setOnep/setClose changes open value', () => {
+    describe('use functions to change state', () => {
+        test('setOpen/setClose changes open value', () => {
             const {result, rerender} = renderUseOpenStateHook();
 
             expect(result.current.open).toBe(false);

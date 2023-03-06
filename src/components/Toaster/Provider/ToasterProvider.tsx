@@ -60,8 +60,10 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
             [],
         );
 
-        const toastsRef = React.useRef<InternalToastProps[]>();
-        toastsRef.current = toasts;
+        const toastsRef = React.useRef<InternalToastProps[]>(toasts);
+        React.useEffect(() => {
+            toastsRef.current = toasts;
+        }, [toasts]);
         const has = React.useCallback((toastName: ToastProps['name']) => {
             return toastsRef.current ? hasToast(toastsRef.current, toastName) : false;
         }, []);

@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {useForkRef} from '../utils/useForkRef';
 import {useSelect} from '../utils/useSelect';
 import {List} from '../List';
@@ -195,8 +195,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         inlineStyles.width = width;
     }
 
-    const setClose = useCallback(() => toggleOpen(false), [toggleOpen]);
-    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: setClose});
+    const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
+    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
 
     return (
         <div
@@ -230,7 +230,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}
-                handleClose={setClose}
+                handleClose={handleClose}
                 disablePortal={disablePortal}
                 virtualized={virtualized}
             >

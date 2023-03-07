@@ -10,6 +10,7 @@ import {mapToButtonView} from '../../utils';
 import './SelectControl.scss';
 
 type ControlProps = {
+    toggleOpen: () => void;
     renderControl?: SelectRenderControl;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
@@ -22,11 +23,11 @@ type ControlProps = {
     placeholder?: SelectProps['placeholder'];
     error?: SelectProps['error'];
     disabled?: boolean;
-} & SelectRenderControlProps;
+} & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {
-        onClick,
+        toggleOpen,
         onKeyDown,
         renderControl,
         view,
@@ -50,7 +51,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     if (renderControl) {
         return renderControl({
             onKeyDown,
-            onClick: onClick,
+            onClick: toggleOpen,
             ref: handleControlRef,
             open: Boolean(open),
         });
@@ -72,7 +73,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                     onKeyDown,
                 }}
                 disabled={disabled}
-                onClick={onClick}
+                onClick={toggleOpen}
             >
                 {label && <span className={selectControlBlock('label')}>{label}</span>}
                 {showPlaceholder && (

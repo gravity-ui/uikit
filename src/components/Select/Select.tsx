@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useForkRef} from '../utils/useForkRef';
 import {useSelect} from '../utils/useSelect';
 import {List} from '../List';
@@ -79,7 +79,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const {value, open, setClose, toggleOpen, handleSelection} = useSelect({
+    const {value, open, toggleOpen, handleSelection} = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
@@ -195,6 +195,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         inlineStyles.width = width;
     }
 
+    const setClose = useCallback(() => toggleOpen(false), [toggleOpen]);
     const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: setClose});
 
     return (
@@ -206,7 +207,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             style={inlineStyles}
         >
             <SelectControl
-                onClick={toggleOpen}
+                toggleOpen={toggleOpen}
                 ref={handleControlRef}
                 className={controlClassName}
                 qa={qa}

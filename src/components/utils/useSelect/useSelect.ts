@@ -7,7 +7,7 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
     const [innerValue, setInnerValue] = React.useState(defaultValue);
     const value = valueProps || innerValue;
     const uncontrolled = !valueProps;
-    const {setClose, ...openState} = useOpenState(props);
+    const {toggleOpen, ...openState} = useOpenState(props);
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {
@@ -20,9 +20,9 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
                 }
             }
 
-            setClose();
+            toggleOpen(false);
         },
-        [value, uncontrolled, onUpdate, setClose],
+        [value, uncontrolled, onUpdate, toggleOpen],
     );
 
     const handleMultipleSelection = React.useCallback(
@@ -55,7 +55,7 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
     return {
         value,
         handleSelection,
-        setClose,
+        toggleOpen,
         ...openState,
     };
 };

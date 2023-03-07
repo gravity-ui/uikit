@@ -6,14 +6,13 @@ const renderUseOpenStateHook = (initialProps: UseOpenProps = {}) => {
     return renderHook((props) => useOpenState(props), {initialProps});
 };
 
-describe('useOpen', () => {
+describe('useOpenState', () => {
     describe('initial render', () => {
         test('check default result', () => {
             const {result} = renderUseOpenStateHook();
 
             expect(result.current.open).toBe(false);
             expect(result.current.setOpen).toEqual(expect.any(Function));
-            expect(result.current.setClose).toEqual(expect.any(Function));
             expect(result.current.toggleOpen).toEqual(expect.any(Function));
         });
         test('check defaultOpen prop', () => {
@@ -23,22 +22,22 @@ describe('useOpen', () => {
         });
     });
     describe('use functions to change state', () => {
-        test('setOpen/setClose changes open value', () => {
+        test('toggleOpen with arg changes open value', () => {
             const {result, rerender} = renderUseOpenStateHook();
 
             expect(result.current.open).toBe(false);
 
-            result.current.setOpen();
+            result.current.toggleOpen(true);
             rerender({});
 
             expect(result.current.open).toBe(true);
 
-            result.current.setClose();
+            result.current.toggleOpen(false);
             rerender({});
 
             expect(result.current.open).toBe(false);
         });
-        test('toggleOpen changes open value', () => {
+        test('toggleOpen without arg changes open value', () => {
             const {result, rerender} = renderUseOpenStateHook();
 
             expect(result.current.open).toBe(false);
@@ -60,43 +59,29 @@ describe('useOpen', () => {
             const props = {onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.setOpen();
+            result.current.toggleOpen();
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledWith(true);
 
-            result.current.setClose();
+            result.current.toggleOpen();
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledWith(false);
         });
-        test('onClose is called', () => {
-            const onClose = jest.fn();
-            const props = {onClose};
-            const {result, rerender} = renderUseOpenStateHook(props);
-
-            result.current.setOpen();
-            rerender(props);
-            result.current.setClose();
-            rerender(props);
-
-            expect(onClose).toHaveBeenCalledTimes(1);
-        });
-        test('if the same value is set, the callback will not be executed', () => {
-            const onClose = jest.fn();
+        test('if the same value is set, the onOpenChange will not be called', () => {
             const onOpenChange = jest.fn();
-            const props = {onClose, onOpenChange};
+            const props = {onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.setClose();
+            result.current.toggleOpen(false);
             rerender(props);
 
-            expect(onClose).toHaveBeenCalledTimes(0);
             expect(onOpenChange).toHaveBeenCalledTimes(0);
 
-            result.current.setOpen();
+            result.current.toggleOpen(true);
             rerender(props);
-            result.current.setOpen();
+            result.current.toggleOpen(true);
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledTimes(1);
@@ -120,37 +105,43 @@ describe('useOpen', () => {
             expect(result.current.open).toBe(false);
         });
 
-        test('setOpen/setClose do not work', () => {
+        test('toggleOpen do not work', () => {
             const {result, rerender} = renderUseOpenStateHook({open: true});
 
-            result.current.setClose();
+            result.current.toggleOpen(false);
 
             expect(result.current.open).toBe(true);
 
             rerender({open: false});
 
-            result.current.setOpen();
+            result.current.toggleOpen(true);
 
             expect(result.current.open).toBe(false);
         });
 
-        test('onClose is called', () => {
-            const onClose = jest.fn();
-            const {result} = renderUseOpenStateHook({open: true, onClose});
-
-            result.current.setClose();
-
-            expect(onClose).toHaveBeenCalledTimes(1);
-        });
-
-        test('onOpenChange is not called', () => {
+        test('onOpenChange is called', () => {
             const onOpenChange = jest.fn();
             const props = {open: true, onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.setClose();
-            result.current.setOpen();
+            result.current.toggleOpen(false);
             rerender(props);
+
+            expect(onOpenChange).toHaveBeenCalledWith(false);
+        });
+
+        test('if the same value is set, the onOpenChange will not be called', () => {
+            const onOpenChange = jest.fn();
+            const props = {open: true, onOpenChange};
+            const {result, rerender} = renderUseOpenStateHook(props);
+
+            result.current.toggleOpen(true);
+            rerender(props);
+
+            expect(onOpenChange).toHaveBeenCalledTimes(0);
+
+            rerender({...props, open: false});
+            result.current.toggleOpen(false);
 
             expect(onOpenChange).toHaveBeenCalledTimes(0);
         });

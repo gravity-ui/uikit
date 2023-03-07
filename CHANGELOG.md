@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.2.0](https://github.com/gravity-ui/uikit/compare/v4.1.0...v4.2.0) (2023-03-07)
+
+
+### Features
+
+* **Progress:** add loading state ([#540](https://github.com/gravity-ui/uikit/issues/540)) ([a76aee0](https://github.com/gravity-ui/uikit/commit/a76aee088efb61abf470660a6e49e323af225467))
+* **Select:** add "open", "toggleOpen" props ([#558](https://github.com/gravity-ui/uikit/issues/558)) ([43d130f](https://github.com/gravity-ui/uikit/commit/43d130f2cdc67c7eba04bcc7cf1e02d811d77de5))
+* **Table:** add row actions size control prop ([#557](https://github.com/gravity-ui/uikit/issues/557)) ([a045e12](https://github.com/gravity-ui/uikit/commit/a045e129163360b1c8ce5e9ace67cbf768ed6f29))
+* **Toaster:** add "has" method ([#439](https://github.com/gravity-ui/uikit/issues/439)) ([ea2b2d8](https://github.com/gravity-ui/uikit/commit/ea2b2d8dbd5ba04304b16859b1c1392952a955bc))
+* **Toaster:** add ability to customize icon ([#440](https://github.com/gravity-ui/uikit/issues/440)) ([1fefa17](https://github.com/gravity-ui/uikit/commit/1fefa17ab0fd9717ac243d4b97bee08746168d65))
+
+
+### Bug Fixes
+
+* **Toaster:** fix animation when toast is updated ([#441](https://github.com/gravity-ui/uikit/issues/441)) ([9e25c8b](https://github.com/gravity-ui/uikit/commit/9e25c8bdc52754ec7d4ba2a2ae21a72813f0d94a))
+
 ## [4.1.0](https://github.com/gravity-ui/uikit/compare/v4.0.7...v4.1.0) (2023-03-01)
 
 

@@ -103,22 +103,24 @@ describe('Select base actions', () => {
             expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
         });
 
-        test('should call onClose while closing', async () => {
-            const onClose = jest.fn();
-            setup({onClose});
+        test('should call onOpenChange while closing', async () => {
+            const onOpenChange = jest.fn();
+            setup({onOpenChange});
 
             await toggleSelectPopup();
+            expect(onOpenChange).toHaveBeenCalledWith(true);
             await toggleSelectPopup();
-
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledTimes(2);
         });
-        test('should call onClose whith controlled open', async () => {
-            const onClose = jest.fn();
-            setup({open: true, onClose});
+        test('should call onOpenChange whith controlled open', async () => {
+            const onOpenChange = jest.fn();
+            setup({open: true, onOpenChange});
 
             await toggleSelectPopup();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
         });
     });
 

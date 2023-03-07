@@ -22,10 +22,6 @@ export const useOpenState = (props: UseOpenProps) => {
 
     return {
         open: openValue,
-        /**
-         * @deprecated use on onEnterKeyDown on Dialog component
-         */
-        setOpen: toggleOpen,
         toggleOpen,
     };
 };

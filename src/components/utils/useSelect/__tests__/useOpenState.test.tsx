@@ -12,7 +12,6 @@ describe('useOpenState', () => {
             const {result} = renderUseOpenStateHook();
 
             expect(result.current.open).toBe(false);
-            expect(result.current.setOpen).toEqual(expect.any(Function));
             expect(result.current.toggleOpen).toEqual(expect.any(Function));
         });
         test('check defaultOpen prop', () => {

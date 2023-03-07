@@ -138,3 +138,12 @@ body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
     // stylelint-disable-next-line property-no-unknown
     scrollbar-color: var(--yc-color-scroll-handle) var(--yc-color-scroll-track);
 }
+
+@keyframes yc-loading-animation {
+    from {
+        background-position: -12px 0;
+    }
+    to {
+        background-position: 0 0;
+    }
+}

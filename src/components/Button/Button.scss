@@ -189,11 +189,6 @@ $block: '.#{variables.$ns}button';
 
             @include button-text-color(var(--yc-color-text-primary));
 
-            &#{$block}_loading {
-                --yc-button-loading-color-1: var(--yc-color-base-generic);
-                --yc-button-loading-color-2: var(--yc-color-base-generic-hover);
-            }
-
             &#{$block}_selected {
                 --yc-button-background-color: var(--yc-color-base-selection);
                 --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
@@ -209,11 +204,6 @@ $block: '.#{variables.$ns}button';
             --yc-button-background-color-hover: var(--yc-color-base-special-hover);
 
             @include button-text-color(var(--yc-my-color-brand-text-contrast));
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: var(--yc-color-base-special);
-                --yc-button-loading-color-2: var(--yc-color-base-special-hover);
-            }
         }
 
         &_outlined,
@@ -221,11 +211,6 @@ $block: '.#{variables.$ns}button';
         &_outlined-danger {
             --yc-button-background-color: transparent;
             --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: transparent;
-                --yc-button-loading-color-2: var(--yc-color-base-simple-hover);
-            }
         }
 
         &_outlined {
@@ -277,11 +262,6 @@ $block: '.#{variables.$ns}button';
             &:active:focus:not(:focus-visible)::before {
                 box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
             }
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: var(--yc-color-base-float);
-                --yc-button-loading-color-2: var(--yc-color-base-float-hover);
-            }
         }
 
         &_flat,
@@ -290,11 +270,6 @@ $block: '.#{variables.$ns}button';
         &_flat-secondary {
             --yc-button-background-color: transparent;
             --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: transparent;
-                --yc-button-loading-color-2: var(--yc-color-base-simple-hover);
-            }
         }
 
         &_flat {
@@ -321,11 +296,6 @@ $block: '.#{variables.$ns}button';
             --yc-button-background-color-hover: var(--yc-color-base-light-hover);
 
             @include button-text-color(var(--yc-color-text-dark-primary));
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: var(--yc-color-base-light);
-                --yc-button-loading-color-2: var(--yc-color-base-light-hover);
-            }
         }
 
         &_outlined-contrast {
@@ -337,11 +307,6 @@ $block: '.#{variables.$ns}button';
             &::before {
                 border: 1px solid var(--yc-color-line-light);
             }
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: transparent;
-                --yc-button-loading-color-2: var(--yc-color-base-light-simple-hover);
-            }
         }
 
         &_flat-contrast {
@@ -349,11 +314,6 @@ $block: '.#{variables.$ns}button';
             --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
 
             @include button-text-color(var(--yc-color-text-light-primary));
-
-            &#{$block}_loading {
-                --yc-button-loading-color-1: transparent;
-                --yc-button-loading-color-2: var(--yc-color-base-light-simple-hover);
-            }
         }
 
         &_flat,
@@ -456,16 +416,10 @@ $block: '.#{variables.$ns}button';
     }
 
     &_loading::before {
-        background-image: repeating-linear-gradient(
-            -45deg,
-            var(--yc-button-loading-color-1),
-            var(--yc-button-loading-color-1) 4px,
-            var(--yc-button-loading-color-2) 4px,
-            var(--yc-button-loading-color-2) 8px
+        @include mixins.loading(
+            var(--yc-button-background-color),
+            var(--yc-button-background-color-hover)
         );
-        background-size: 150%;
-        background-clip: padding-box;
-        animation: #{variables.$ns}button-loading 0.5s linear infinite;
     }
 
     &_width_auto {
@@ -483,14 +437,5 @@ $block: '.#{variables.$ns}button';
             overflow: hidden;
             text-overflow: ellipsis;
         }
-    }
-}
-
-@keyframes #{variables.$ns}button-loading {
-    from {
-        background-position: -12px 0;
-    }
-    to {
-        background-position: 0 0;
     }
 }

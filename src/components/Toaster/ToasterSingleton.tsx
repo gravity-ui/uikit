@@ -69,6 +69,10 @@ export class ToasterSingleton {
         this.componentAPI?.update(name, overrideOptions);
     };
 
+    has = (name: string) => {
+        return this.componentAPI?.has(name) ?? false;
+    };
+
     private createRootNode() {
         this.rootNode = document.createElement('div');
         this.setRootNodeClassName();

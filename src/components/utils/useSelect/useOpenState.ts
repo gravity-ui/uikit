@@ -4,24 +4,20 @@ import type {UseOpenProps} from './types';
 export const useOpenState = (props: UseOpenProps) => {
     const [open, setOpenState] = React.useState(props.defaultOpen || false);
     const {onOpenChange} = props;
-
-    const openValue = typeof props.open === 'boolean' ? props.open : open;
+    const isControlled = typeof props.open === 'boolean';
+    const openValue = isControlled ? (props.open as boolean) : open;
 
     const toggleOpen = React.useCallback(
         (val?: boolean) => {
-            const invertedOpen = typeof props.open === 'boolean' ? !props.open : !open;
-            const newOpen = typeof val === 'boolean' ? val : invertedOpen;
-
-            if (typeof props.open === 'boolean') {
-                if (newOpen !== props.open) {
-                    onOpenChange?.(newOpen);
-                }
-            } else if (newOpen !== open) {
-                setOpenState(newOpen);
+            const newOpen = typeof val === 'boolean' ? val : !openValue;
+            if (newOpen !== openValue) {
                 onOpenChange?.(newOpen);
+                if (!isControlled) {
+                    setOpenState(newOpen);
+                }
             }
         },
-        [setOpenState, open, onOpenChange, props.open],
+        [openValue, onOpenChange, isControlled],
     );
 
     return {

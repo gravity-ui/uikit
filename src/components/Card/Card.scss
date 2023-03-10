@@ -103,13 +103,11 @@ $block: '.#{variables.$ns}card';
 
         &#{$block}_view_raised {
             background-color: var(--yc-color-base-float);
-        }
 
-        &#{$block}_size {
-            &#{$block}_s {
+            &#{$block}_size_s {
                 box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
             }
-            &#{$block}_m {
+            &#{$block}_size_m {
                 box-shadow: 0px 1px 6px var(--yc-color-sfx-shadow-light), 1px 3px 13px var(--yc-color-sfx-shadow-light);
                 border-radius: 16px;
             }

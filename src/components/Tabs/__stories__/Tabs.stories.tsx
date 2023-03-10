@@ -94,6 +94,28 @@ const Template: Story<
     return <Tabs {...args} items={items} onSelectTab={setActiveTab} activeTab={activeTab} />;
 };
 
+const AdjustableTabsTemplate: Story<
+    TabsProps & {
+        withIcon?: boolean;
+        withCounter?: boolean;
+        withLabel?: boolean;
+        withOverflow?: boolean;
+    }
+> = (args) => {
+    const props: TabsProps & {
+        withIcon?: boolean;
+        withCounter?: boolean;
+        withLabel?: boolean;
+        withOverflow?: boolean;
+    } = {...args, adjustable: true};
+
+    return (
+        <div style={{resize: 'horizontal', overflow: 'auto', width: 340}}>
+            <Template {...props} />
+        </div>
+    );
+};
+
 export const Default = Template.bind({});
 
 Default.argTypes = {
@@ -123,5 +145,29 @@ export const WithWrapTo = Template.bind({});
 WithWrapTo.args = {
     wrapTo(_item: TabsItemProps, node: React.ReactNode) {
         return <a href="#">{node}</a>;
+    },
+};
+
+export const AdjustableTabs = AdjustableTabsTemplate.bind({});
+Default.argTypes = {
+    withIcon: {
+        name: 'Icons',
+        type: 'boolean',
+        default: false,
+    },
+    withCounter: {
+        name: 'Counters',
+        type: 'boolean',
+        default: false,
+    },
+    withLabel: {
+        name: 'Labels',
+        type: 'boolean',
+        default: false,
+    },
+    withOverflow: {
+        name: 'Overflow',
+        type: 'boolean',
+        default: false,
     },
 };

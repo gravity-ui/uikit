@@ -112,7 +112,7 @@ const AdjustableTabsTemplate: Story<
     const items: TabsProps['items'] = React.useMemo(
         () => [
             {
-                id: 'first',
+                id: 'active',
                 title: 'First Tab Item Long Name',
                 icon: args.withIcon ? gearIcon : undefined,
                 counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,

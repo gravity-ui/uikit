@@ -200,12 +200,12 @@ $block: '.#{variables.$ns}tabs';
     &_is-default-render {
         box-shadow: inset 0 -1px 0 0 var(--dl-tabs-color-divider);
 
-        .adjustable-tabs__tab {
+        .yc-tabs__tab {
             border-bottom: var(--yc-tabs-border-width) solid transparent;
             padding: var(--yc-tabs-border-width) 1px 0;
 
             &_active {
-                border-color: var(--dl-tabs-color-border-active);
+                border-color: var(--yc-color-base-special);
                 color: var(--dl-tabs-color-text-active);
             }
         }
@@ -228,7 +228,7 @@ $block: '.#{variables.$ns}tabs';
         top: 0;
         will-change: left;
 
-        .adjustable-tabs__tab-container .adjustable-tabs__tab {
+        .yc-tabs__tab-container .yc-tabs__tab {
             margin-right: 0;
         }
     }
@@ -253,7 +253,7 @@ $block: '.#{variables.$ns}tabs';
         padding-right: var(--yc-tabs-gap);
 
         &:not(&_switcher-tab):only-child {
-            .adjustable-tabs__tab {
+            .yc-tabs__tab {
                 cursor: auto;
 
                 .dl-draggable-handle-element.dashkit-plugin-widget__tabs_edit-mode & {
@@ -270,7 +270,7 @@ $block: '.#{variables.$ns}tabs';
             padding-right: 0;
             max-width: 100%;
 
-            .adjustable-tabs__tab {
+            .yc-tabs__tab {
                 width: auto;
                 display: inline-flex;
                 max-width: 100%;
@@ -278,7 +278,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         &_no-overflow {
-            .adjustable-tabs__tab {
+            .yc-tabs__tab {
                 overflow: initial;
             }
         }

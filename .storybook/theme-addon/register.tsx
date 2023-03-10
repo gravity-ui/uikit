@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {addons, types} from '@storybook/addons';
 import {useGlobals, type API} from '@storybook/api';
-import {FORCE_RE_RENDER} from '@storybook/core-events';
 import {themes} from '../theme';
 import {getThemeType} from '../../src/components/theme/getThemeType';
 
@@ -22,7 +21,6 @@ function Tool({api}: {api: API}) {
     const [{theme}] = useGlobals();
     React.useEffect(() => {
         api.setOptions({theme: themes[getThemeType(theme)]});
-        addons.getChannel().emit(FORCE_RE_RENDER);
     }, [theme]);
     return null;
 }

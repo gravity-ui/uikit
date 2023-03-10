@@ -37,22 +37,22 @@ const getSortObjectKeysByValuesFunc =
     };
 
 /*
-    ОБЩИЕ ПРИНЦИПЫ РАБОТЫ КОМПОНЕНТА:
-    - Если все табы не помещаются в ширину контейнера, непоместившиеся скрываются и появляется свитчер с текстом
-        "Ещё N", где N - количество непоместившихся табов, по клику появляется выпадающий список в котором можно
-        выбрать один из непоместившихся табов при этом выбранный таб "встанет" на место последнего видимого.
+    THE GENERAL PRINCIPLES OF THE COMPONENT:
+    - If all the tabs do not fit into the width of the container, the incomplete tabs will be hidden and a switcher will appear with the text
+        "N more", where N - the number of tabs that don't fit, and when you click on it you will see a dropdown list where you can
+        Select one of the tabs that didn't fit, and the selected tab will "stand" in place of the last visible one.
 
-    - Имеются две тесно связанные фичи:
-        1 - конфигурируемая максимально допустимая ширина таба (текст таба скрывается за "…" если не помещается -
-            будем в дальнейшем называть такие табы "переполненными")
-        2 - использование всей ширины контейнера - подстройка ширины переполненных табов, чтобы заполнить всю ширину
-            контейнера (на практике это выражется в том, что при выборе через свитчер максимально широкого из
-            непоместившихся табов, отрендеренные табы + свитчер займут всю ширину контейнера).
-        Поэтому, при расчёте лэйаута, логически выделяются: этап подготовки (в дальнейшем "снятие замеров") - вычисление
-        ширины табов с учётом активного брейкпоинта (максимальной ширины на данном брейкпоинте), вычисление реальной
-        ширины табов (без ограничения максимальной ширины), вычисление ширины свитчера, величины отступа между табами и
-        прочее) и две основные фазы:) 1) нахождение индекса первого непоместившегося таба и 2) подстройка ширины
-        переполненных табов под ширину контейнера (в дальнейшем фазы 1 и 2)
+    - There are two closely related features:
+        1 - configurable maximum width of the tab (tab text is hidden behind "..." if it does not fit -
+            we will further call such tabs "overflowing")
+        2 - use the whole width of the container - adjust the width of the overflowing tabs to fill the whole width
+            of the container width (in practice this means that if you choose the widest of
+            to fill the whole width of the container).
+        Therefore, when calculating the layout, the following stages are logically separated: the preparation stage (hereinafter referred to as "measuring") - calculation
+        tabs width taking into account the active breakpoint (maximum width at this breakpoint), calculation of the real
+        tabs width (without the maximum width restriction), calculation of the switcher width, the tabs indentation value, and
+        etc.) and two main phases:) 1) finding the index of the first tab that doesn't fit, and 2) adjusting the width
+        2) adjusting the width of the overflowing tabs to the width of the container (hereinafter phases 1 and 2)
  */
 interface AdjustableTabsProps {
     items: TabsItemProps[];
@@ -64,22 +64,35 @@ interface AdjustableTabsProps {
 }
 
 interface AdjustableTabsState {
+    /* a flag indicating whether the "unmetered" stage has occurred */
     dimensionsWereCollected: boolean;
+    /* index of the first hidden tab */
     firstHiddenTabIndex: number;
+    /* in a certain case, there is a need to know the previous index value of the first hidden tab */
     firstHiddenTabIndexBeforeRecollection: number | null;
+    /* because after one of the incomplete tabs has been selected by the switcher and the selected tab is "inserted"
+     in place of the last visible tab, the list of visible (currently rendered tabs) will NOT be in
+     consecutive order (for example, the 1st, 2nd and 5th (chosen by the switcher) tabs will be rendered,
+     the 3rd and 4th are hidden), therefore we need to store the ID of switched on tab */
     tabChosenFromSelectId: string | null;
+    /*
+    the "name" of the current container width - to determine the active breakpoint, depends on the value in the
+    "breakpointsConfig" property (for example, if breakpointsConfig={ '400': 33, '1200': 22 }, if the width of the container
+    <= 400 currentContainerWidthName would be "small", at > 1200 it would be "large", and at container widths between 400 and
+    1200 - "400-1200")
+    */
     currentContainerWidthName: string | null | undefined;
-    // flag for opened/closed status of select
+    /* flag for opened/closed status of select */
     isSelectOpened: boolean;
 }
 
 class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabsState> {
     static defaultProps = {
-        // дефолтные значения конфигурации брейкпоинтов - объект где ключ - ширина элемента контейнера,  значение -
-        // максимальная ширина таба в процентах от ширины контейнера, (так, для дефолтных значений, при ширине
-        // контейнера от 401px до 500px максимальная ширина таба составит 33%, при ширине от 501px до 700px 30% и т.д.)
-        // при ширине контейнера минимального из значений определённых в ключах объекта (в дефолтном случае 400)
-        // вместо табов рендерится селект занимающий всю ширину контейнера.
+        /* default values of breakpoint configuration - object where the key is the width of the container element, the value is
+         maximum width of tab as a percentage of the container width, (so, for default values, if the width of
+         container width from 401px to 500px the maximum tab width will be 33%, from 501px to 700px 30%, etc.)
+         the width of the container is the minimum of the values defined in the object keys (the default value is 400)
+         instead of tabs, select is rendered occupying the entire width of the container. */
         breakpointsConfig: DEFAULT_BREAKPOINTS_CONFIG,
     };
 
@@ -90,25 +103,24 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     private tabItemPaddingRight = 0;
     private switcherWidth = 0;
 
-    // для удобства вычислений потребуется три объекта, у которых ключи - индексы табов, а значения - ширина табов,
-    // при этом отдельно рассматривается реальная ширина табов (как если бы не было ограничений на max width)
-    // и текущая ширина табов (с учётом ограничений по max width и подстройки ширины):
-
-    // - реальная ширина табов, запишутся значения для всех табов
+    /* for the convenience of calculations, you will need three objects, whose keys are tab indices and values are tab widths,
+     the real width of tabs is considered separately (as if there were no max width limitations)
+     and the current tabs width (taking into account max width constraints and width adjustment):
+     - real width of the tabs, the values for all tabs will be written */
     private tabsRealWidth: Record<string, number> = {};
 
-    // - то же, но запишутся только значения для переполненных табов (иметь такой объект только со значениями
-    // переполненных табов необходимо для вычислений подстройки ширины переполненных табов)
+    /* - the same, but only values for overflowing tabs will be written (it is necessary to have such an object with the values of
+     of the overflowed tabs is necessary for calculations of width adjustment of the overflowed tabs) */
     private overflownTabsRealWidth: Record<string, number> = {};
 
-    // - текущая ширина табов, опять же, только для переполненных табов
+    /* - current width of tabs, again, only for crowded tabs */
     private overflownTabsCurrentWidth: Record<string, number> = {};
 
-    // помимо этого, в массиве будем хранить текущую ширину всех табов, массив здесь удобен для вычисления
-    // ширины N видимых табов, например, с первого по пятый.
+    /* in addition, the array will store the current width of all the tabs, the array is convenient for calculating
+     the width of N visible tabs, for example, from the first to the fifth. */
     private tabsWidth: number[] = [];
 
-    // флаг указывающий, что первоначальное снятие необходимых для дальнейших рассчётов размеров уже произошло
+    /* a flag indicating that the initial acquisition of the dimensions required for further calculations has already taken place */
     private dimensionsWereInitiallyCollected = true;
 
     private selectSwitcherNode = React.createRef<HTMLDivElement>();
@@ -119,21 +131,10 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         super(props);
 
         this.state = {
-            // флаг указывающий на то, произошёл ли этап "снятия замеров"
             dimensionsWereCollected: false,
-            // индекс первого скрытого таба
             firstHiddenTabIndex: this.props.items.length,
-            // в определённом случае есть необходимость знать предыдущее значение индекса первого скрытого таба
             firstHiddenTabIndexBeforeRecollection: null,
-            // так как после того, как посредством свитчера выбран один из непоместившихся табов и выбранный таб "встал"
-            // на место последнего видимого, список видимых (в данный момент отрендеренных табов) будет НЕ в
-            // последовательном порядке (например, будут отрендерены 1-й, 2-й и 5-й (выбранный через свитчер) табы,
-            // а 3-й и 4-й будут скрыты), поэтому нам нужно хранить ID выбранного через свитчер таба
             tabChosenFromSelectId: null,
-            // "имя" текущей ширины контейнера - для определения активного брейкоинта, зависит от значения в свойстве
-            // "breakpointsConfig" (например, если, breakpointsConfig={ '400': 33, '1200': 22 }, при ширине контейнера
-            // <= 400 currentContainerWidthName будет "small", при > 1200 - "large", а при ширине контейнера между 400 и
-            // 1200 - "400-1200")
             currentContainerWidthName: null,
             isSelectOpened: false,
         };
@@ -142,8 +143,8 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             .map(Number)
             .sort((a, b) => a - b);
 
-        // сохраняем объект, где ключи - "имя" текущей ширины контейнера, значения - максимальная ширина таба для
-        // соответствующей ширины контейнера (в процентах от ширины контейнера)
+        /* save the object, where the keys are the "name" of the current container width, the values are the maximum width of the tab for
+         the corresponding container width (in percent of the container width) */
         this.tabMaxWidthInPercentsForScreenSize = this.breakpoints.reduce(
             (accum: Record<string, number>, currentBreakpointWidth, index, breakpointsArray) => {
                 const nextBreakpointWidth = breakpointsArray[index + 1];
@@ -217,9 +218,9 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     }
 
     initialCollectDimensions = () => {
-        // так как мы ожидаем прогрузки шрифтов для замера размеров табов и подписки на ресайз контейнера, возможен
-        // случай, что к моменту загрузки шрифтов, компонент уже unmounted, поэтому, нужно проверять, что ref у корневой
-        // ноды существует
+        /* Because we are expecting fonts to be loaded to measure tab sizes and subscribe to container resize, it is possible
+         case that by the time the fonts are loaded the component is already unmounted, so it's necessary to check that the ref at the root
+         node exists */
         if (this.tabsRootNode.current) {
             this.dimensionsWereInitiallyCollected = true;
             this.recollectDimensions();
@@ -228,7 +229,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     };
 
     /*
-        Этап "снятия замеров". Разово высчитывается ширина табов и некоторые сопутствующие размеры/отступы
+        The "taking measurements" stage. Once the width of the tabs and some associated dimensions/indentation are calculated
      */
     collectDimensions = () => {
         const tabsListNode = this.tabsListNode.current!;
@@ -243,16 +244,16 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
                 .getComputedStyle(tabElement)
                 .getPropertyValue('padding-right');
 
-            // сохраняем значение правого padding-a (расстояние между табами которое может быть различным в зависимости
-            // от значения css переменной --dl-tabs-space-between)
+            /* save the value of the right padding (the distance between tabs, which can be different depending on
+             the value of css variable --yc-tabs-gap) */
             this.tabItemPaddingRight = paddingRightValue ? parseInt(paddingRightValue, 10) : 0;
         }
 
         this.overflownTabsRealWidth = {};
         this.tabsRealWidth = {};
 
-        // обходя в цикле все табы записываем текущую ширину каждого таба в массив this.tabsWidth
-        // "наполняем" объекты this.tabsRealWidth и this.overflownTabsRealWidth
+        /* bypass all the tabs in the loop and write the current width of each tab to the array this.tabsWidth
+        "fill" the objects this.tabsRealWidth and this.overflownTabsRealWidth */
         for (let i = 0; i < tabs.length; i++) {
             const {width} = tabs[i].getBoundingClientRect();
 
@@ -304,18 +305,18 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     };
 
     /*
-        Перерасчёт лэйаута - фазы 1 и 2
+        Recalculating the Layout - Phases 1 and 2
      */
     recalculateTabs = () => {
-        // фаза 1 - вычисление индекса первого скрытого таба
+        /*Phase 1 - calculation of the index of the first hidden tab*/
         const activeTabId = this.props.activeTab;
         const {
             tabChosenFromSelectId,
             firstHiddenTabIndexBeforeRecollection: prevFirstHiddenTabIndex,
         } = this.state;
-        // activeTabId - это ID активного таба, tabChosenFromSelectId - ID таба выбранного через свитчер,
-        // таб выбранный через свитчер сразу после выбора становится активным (в этом случае, эти значения совпадают)
-        // но если после юзер переключится (кликнул) на соседний таб, они снова будут отличаться
+        /* activeTabId is ID of the active tab, tabChosenFromSelectId is ID of the tab selected via the switch,
+         the tab selected via the switcher becomes active immediately after selection (in this case, these values coincide)
+         but if after the user switches (clicks) to the neighboring tab, they will be different again */
 
         const {items} = this.props;
         const {width: tabsRootNodeWidth} = this.tabsRootNode.current!.getBoundingClientRect();
@@ -327,27 +328,28 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
         let renderedTabsSumWidth = 0;
 
-        // firstHiddenTabIndexForSequentialCase - индекс первого скрытого таба для случая, когда табы расположены в
-        // порядковой последовательности и без учёта максимальной ширины скрытого таба (необходим только для
-        // промежуточных вычислений)
-        // firstHiddenTabIndex - индекс первого скрытого таба в конкретной ситуации (с учётом шириный таба выбранного
-        // через свитчер и максимальной ширины среди непоместившихся табов (будет храниться в стейте)
+        /* firstHiddenTabIndexForSequentialCase - index of the first hidden tab for the case when the tabs are located in
+         serial sequence and without taking into account the maximal width of the hidden tab (it is necessary only for
+         intermediate calculations)
+         firstHiddenTabIndex - index of the first hidden tab in a particular situation (taking into account the width of the tab selected
+         through the switch
+         by the switcher and the maximum width of the missing tabs (to be stored in the stack)
 
-        // сначала, при обходе в цикле всех табов запоминается firstHiddenTabIndexForSequentialCase и максимальная
-        // ширина среди скрытых табов, после этого в обратном цикле, начиная со значения таба с индексом
-        // firstHiddenTabIndexForSequentialCase - 1 определяется сколько табов необходимо "переместить" в
-        // непоместившееся, чтобы даже при выборе через свитчер таба с максимальной шириной, его ширина + ширина видимых
-        // табов не превысила бы ширину контейнера
+         firstHiddenTabIndexForSequentialCase and the maximal
+         width among the hidden tabs, then in the reverse loop, starting from the tab with the index
+         firstHiddenTabIndexForSequentialCase - 1, it is determined how many tabs should be "moved" into
+         incomplete, so that even if a tab with the maximum width is chosen by the switcher, its width + width of the visible
+         tabs would not exceed the width of the container */
         let firstHiddenTabIndexForSequentialCase = null;
         let firstHiddenTabIndex = items.length;
-        // если обойдя все значения ширин табов, мы так и не превысим ширину контейнера, в firstHiddenTabIndex
-        // запишется значение равное количеству табов, таком образом будут отрендерены все табы
+        /* if we have bypassed all the widths of the tabs without exceeding the container width, the firstHiddenTabIndex
+         value equal to the number of tabs will be written, in this way all the tabs will be rendered */
 
         let maxHiddenTabWidth = 0;
         let emptySpace = 0;
 
-        // в цикле будут обходиться и суммироваться все значения ширины табов пока суммарная величина + значение
-        // ширины свитчера не превысит ширину контейнера
+        /* all tab width values will be bypassed in the loop and summed up until the sum + value of
+         of the switcher width will not exceed the width of the container */
         for (let i = 0; i < this.tabsWidth.length; i++) {
             renderedTabsSumWidth = renderedTabsSumWidth + this.tabsWidth[i];
             const switcherWidthCorrection = i >= items.length - 1 ? 0 : this.switcherWidth;
@@ -355,8 +357,8 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
             if (firstHiddenTabIndexForSequentialCase === null && isOverflown) {
                 firstHiddenTabIndexForSequentialCase = i;
-                // emptySpace - "пустое" пространство в пикселях - разница между шириной контейнера и шириной
-                // отрендеренных табов и свитчера
+                /* emptySpace - "empty" space in pixels - the difference between the width of the container and the width
+                 of the rendered tabs and the switcher */
                 emptySpace =
                     tabsRootNodeWidth -
                     (renderedTabsSumWidth - this.tabsWidth[i] + this.switcherWidth);
@@ -389,19 +391,19 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         const newFirstHiddenTabIndexLowerThanPrevious =
             firstHiddenTabIndex < prevFirstHiddenTabIndex!;
 
-        // имеются два узких кейса, которые возникают при ресайзе и требуют изменения значения tabChosenFromSelectId и
-        // перерасчёта лёйаута:
-        // 1) ранее выбрав один из скрытых табов через свитчер пользователь переключился кликом на другой таб и уменьшил
-        // экран таким образом, что выбранный ранее через свитчер таб перестал помещаться, в этом случае обнуляем
-        // значение tabChosenFromSelectId и запускаем перерасчёт
+        /* there are two narrow cases that arise during resizing that require changing the value of tabChosenFromSelectId and
+         recalculate the layout:
+         1) previously selecting one of the hidden tabs via the switcher, the user switched by click to another tab and reduced
+         screen so that the tab chosen earlier by the switcher would no longer fit; in such a case, we reset
+         tabChosenFromSelectId value and start recalculation */
         if (activeTabWasNotChosenBySelect && newFirstHiddenTabIndexLowerThanPrevious) {
             this.setState({tabChosenFromSelectId: null}, this.recalculateTabs);
             return false;
         }
 
-        // 2) активный таб выбран не через свитчер, размер экрана уменьшен таким образом, что при стандартной порядковой
-        // последовательности активный таб не должен быть отрендерен, но так как он активный - его нельзя просто так
-        // скрыть, поэтому записываем его ID в tabChosenFromSelectId и запускаем перерасчёт
+        /* 2) the active tab is not selected via a switcher, the screen size is reduced so that the standard
+         sequence, the active tab should not be rendered, but because it is active, it simply can't be
+         hide it, so we write its ID into tabChosenFromSelectId and start recalculation */
         if (
             activeTabId &&
             this.state.tabChosenFromSelectId !== activeTabId &&
@@ -413,7 +415,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
         this.setState({firstHiddenTabIndex});
 
-        // фаза 1 завершена, вызываем метод подстройки ширины переполненных табов, чтобы заполнить всю ширину контейнера
+        /*phase 1 is complete, call the method of adjusting the width of the overflowing tabs to fill the entire width of the container*/
         this.setUpOverflownTabs(firstHiddenTabIndex, activeTabIndex, tabsRootNodeWidth);
 
         return;
@@ -431,10 +433,10 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         );
         const allTabsWillBeVisible = firstHiddenTabIndex === items.length;
         const withTabChosenFromSelect = tabChosenFromSelectIndex >= firstHiddenTabIndex;
-        // firstTabParticipatedInShiftingIndex - индекс первого таба который участвует в смене выбранного таба при
-        // использовании свитчера (другими словами может оказаться в выпадающем списке при текущей ширине контейнера)
-        // - это либо последний видимый таб (если выбор через свитчер еще ни произошёл) либо первый из скрытых
-        // (в обратном случае)
+        /* firstTabParticipatedInShiftingIndex - index of the first tab which participates in the change of the selected tab when
+         it is the index of the first tab which participates in switching of the selected tab (in other words it can appear in the dropdown list at the current width of the container)
+         it is either the last visible tab (if the selection is not made by the switcher yet) or the first of hidden tabs.
+         (otherwise) */
         const firstTabParticipatedInShiftingIndex =
             firstHiddenTabIndex - (withTabChosenFromSelect ? 0 : 1);
 
@@ -445,7 +447,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             )
             .reduce((sum, val) => sum + val, 0);
 
-        // индекс самого широкого (реальная ширина) таба, из тех, что участвуют в смене выбранного таба
+        /*index of the widest (real width) tab of those that participate in the change of the selected tab*/
         let widestTabParticipatedInShiftingIndex: number | null = null;
         let widestHiddenTabRealWidth = 0;
 
@@ -464,9 +466,9 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
         const overflownTabsKeys = Object.keys(this.overflownTabsRealWidth);
 
-        // необходимо иметь отдельно массив индексов переполненных табов которые в настоящий момент
-        // видимы (overflownAndVisibleTabsKeys) и отдельно массив индексов переполненных табов в настоящий момент не
-        // видимых (overflownAndHiddenTabsKeys)
+        /* it is necessary to have a separate array of indexes of overflown tabs which at the moment
+         visible (overflownAndVisibleTabsKeys) and separately an array of indexes of overflown tabs which are not currently
+         visible (overflownAndHiddenTabsKeys) */
         const overflownAndVisibleTabsKeys = overflownTabsKeys.filter(
             (tabIndex) =>
                 Number(tabIndex) < firstTabParticipatedInShiftingIndex ||
@@ -477,10 +479,10 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             tabChosenFromSelectIndex === items.length - 1 &&
             overflownAndVisibleTabsKeys.indexOf(String(tabChosenFromSelectIndex)) >= 0;
 
-        // главная идея подстройки ширины переполненных табов, для заполнения всей ширины контейнера - высчитать,
-        // какое "пустое" пространство останется, если пользователь выбрал таб с максимальной шириной через свитчер и
-        // разделить это пространство среди переполненных табов - т.е. увеличить их ширину, чтобы занять всю ширину
-        // контейнера
+        /* the main idea of adjusting the width of overflowing tabs, to fill the entire width of the container - calculate,
+         what "empty" space will be left if the user chose the tab with the maximum width through the switcher and
+         divide this space among the overflowing tabs - i.e. increase their width to occupy the full width
+         container */
         let emptySpace = tabsRootNodeWidth - alwaysVisibleTabsWidth - switcherAndMaxHiddenTabWidth;
 
         if (isLastTabChosenFromSelectAndOverflown) {
@@ -496,7 +498,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             .sort(getSortObjectKeysByValuesFunc(this.overflownTabsRealWidth))
             .map(Number);
 
-        // additionPixelsToFitEmptySpace - значение сколько пикселей будет прибавлено к ширине переполненных табов
+        /*additionPixelsToFitEmptySpace - the value of how many pixels will be added to the width of the crowded tabs */
         let additionPixelsToFitEmptySpace = emptySpace / overflownAndVisibleTabsKeys.length;
         let numberOfTabsToShareEmptySpace = overflownAndVisibleTabsKeys.length;
 
@@ -508,11 +510,11 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
                 this.tabsWidth[overflownTabIndex] + additionPixelsToFitEmptySpace;
 
             if (realTabWidth < tabWidthWithAdditional) {
-                // может случиться, что значение "текущая ширина переполненного таба + additionPixelsToFitEmptySpace"
-                // окажется больше реальной ширины таба, в таком случае текущая ширина становится равной реальной, а
-                // это значит, что мы использовали не всё пиксели из того значения что мы собрались разделить среди
-                // переполненных табов и тогда мы передаём эти пиксели (diff) для оставшихся табов, т.е. тех, чью ширину
-                // к данной итерации  ещё не увеличили (если они есть)
+                /* It can happen that the value "current width of the overflowing tab + additionPixelsToFitEmptySpace"
+                 is greater than the real width of the tab, in which case the current width becomes equal to the real width, and
+                 it means that we haven't used all the pixels from the
+                 overflowing tabs and then we pass those pixels (diff) for the remaining tabs, i.e. those whose width
+                 have not been incremented by the current iteration (if there are any). */
                 numberOfTabsToShareEmptySpace--;
                 const diff = tabWidthWithAdditional - realTabWidth;
                 additionPixelsToFitEmptySpace =
@@ -558,9 +560,9 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     }
 
     /*
-        Проверка вызывающаяся в методе componentDidUpdate и проверяющая что табы "пришедшие" с новыми props имеют тот же
-        порядок и тайтл что и предыдущие. В случае, если это не так будет вызван метод collectDimensions, чтобы
-        запомнить снять новые замеры и запустить последующие фазы пересчёта лэйаута
+        A check which is called in the componentDidUpdate method and checks if the tabs "come" with new props have the same
+        order and title as the previous ones. If this is not the case, the collectDimensions method will be called to
+        memorize the new props and run the subsequent phases of recalculating the layout
      */
     wasItemsListUpdated = (currentItems: TabsItemProps[], prevItems: TabsItemProps[]) => {
         if (currentItems.length !== prevItems.length) {
@@ -621,8 +623,8 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     };
 
     /*
-        Высчитывается какое значение свойста left необходимо задать абсолютно спозиционированному свитчеру при
-        текущем наборе отрендеренных табов
+        Calculates what value of the left property should be set to the absolutely positioned switcher at
+        the current set of rendered tabs
      */
     calcSelectSwitcherLeftPosition = () => {
         const {tabChosenFromSelectId, firstHiddenTabIndex} = this.state;
@@ -640,9 +642,10 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
                 ? this.tabsWidth[tabChosenFromSelectIndex!]
                 : 0;
 
-        // если выбран самый последний таб, необходимо учесть значение правого маржина, так как в положении, когда
-        // все табы помещаюся в ширину контейнера и свитчера нет, последнему табу не нужен правый маржин, но если
-        // не все табы помещаются и справа от этого таба есть свитчер, то маржин нужен, чтобы свитчер не был вплотную
+        /* if the last tab is selected, the right margin must be taken into account, because in the position where
+         all tabs fit into the container width and there is no switcher, the right margin is not needed for the last tab.
+         all tabs do not fit into the container width and there is a switcher to the right of this tab,
+         then a margin is needed to prevent the switcher from being flattened */
         if (tabChosenFromSelectIndex === items.length - 1) {
             widthCorrection = widthCorrection + this.tabItemPaddingRight;
         }

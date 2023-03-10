@@ -54,7 +54,7 @@ export const Row = ({children, style, className, space, spaceRow}: RowProps) => 
                         typeof space === 'function'
                             ? space(isMediaActive)
                             : space || rowThemeProps.space,
-                    's-r':
+                    sr:
                         typeof spaceRow === 'function'
                             ? spaceRow(isMediaActive)
                             : spaceRow || rowThemeProps.spaceRow,

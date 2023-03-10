@@ -7,6 +7,7 @@
     flex-shrink: 0;
 
     @each $space, $value in variables.$SPACE {
+        // space
         &_s_#{$space} {
             margin-top: calc(-1 * $value);
             margin-left: calc(-1 * $value);
@@ -16,7 +17,8 @@
                 padding-left: $value;
             }
         }
-        &_s-r_#{$space} {
+        // space-row
+        &_sr_#{$space} {
             margin-top: calc(-1 * $value) !important;
 
             & > #{variables.$colBlock} {

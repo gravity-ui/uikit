@@ -56,9 +56,9 @@ const getSortObjectKeysByValuesFunc =
  */
 interface AdjustableTabsProps {
     items: TabsItemProps[];
-    activeTab?: string;
+    activeTab: string | undefined;
     breakpointsConfig: Record<string, number>;
-    onSelectTab?: (tabId: string, event?: React.MouseEvent) => void;
+    onSelectTab: (tabId: string, event?: React.MouseEvent) => void;
     wrapTo?: (item: TabsItemProps, node: React.ReactNode, index: number) => React.ReactNode;
     className?: string;
 }
@@ -114,16 +114,6 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     private selectSwitcherNode = React.createRef<HTMLDivElement>();
     private tabsRootNode = React.createRef<HTMLDivElement>();
     private tabsListNode = React.createRef<HTMLDivElement>();
-
-    get activeTab() {
-        const {activeTab, items} = this.props;
-        if (activeTab) {
-            return activeTab;
-        } else {
-            const [firstTab] = items;
-            return firstTab.id;
-        }
-    }
 
     constructor(props: AdjustableTabsProps) {
         super(props);
@@ -318,7 +308,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
      */
     recalculateTabs = () => {
         // фаза 1 - вычисление индекса первого скрытого таба
-        const activeTabId = this.activeTab;
+        const activeTabId = this.props.activeTab;
         const {
             tabChosenFromSelectId,
             firstHiddenTabIndexBeforeRecollection: prevFirstHiddenTabIndex,
@@ -413,6 +403,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         // последовательности активный таб не должен быть отрендерен, но так как он активный - его нельзя просто так
         // скрыть, поэтому записываем его ID в tabChosenFromSelectId и запускаем перерасчёт
         if (
+            activeTabId &&
             this.state.tabChosenFromSelectId !== activeTabId &&
             activeTabIndex >= firstHiddenTabIndex
         ) {
@@ -560,7 +551,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         );
     };
 
-    selectTab(tabId: string, event?: React.MouseEvent) {
+    onSelectTab(tabId: string, event?: React.MouseEvent) {
         if (this.props.onSelectTab) {
             this.props.onSelectTab(tabId, event);
         }
@@ -615,18 +606,18 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
     onChooseTabFromSelect = (tabChosenFromSelectIds: string[]) => {
         const tabChosenFromSelectId = tabChosenFromSelectIds?.[0];
-        this.selectTab(tabChosenFromSelectId);
+        this.props.onSelectTab(tabChosenFromSelectId);
 
         this.setState({tabChosenFromSelectId});
         this.recollectDimensions();
     };
 
     onTabClick = (tabId: string, event?: React.MouseEvent<Element, MouseEvent>) => {
-        if (tabId === this.activeTab) {
+        if (tabId === this.props.activeTab) {
             return;
         }
 
-        this.selectTab(tabId, event);
+        this.props.onSelectTab(tabId, event);
     };
 
     /*
@@ -680,8 +671,8 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
     renderSwitcherForTabsAsSelect = (switcherProps: RenderControlProps) => {
         const {items} = this.props;
-        const activeTab = items.find((item) => item.id === this.activeTab);
-        const activeTabIndex = items.findIndex((item) => item.id === this.activeTab);
+        const activeTab = items.find((item) => item.id === this.props.activeTab);
+        const activeTabIndex = items.findIndex((item) => item.id === this.props.activeTab);
         const hint = activeTab ? activeTab.title || activeTab.id : items[0].title || items[0].id;
 
         return this.renderSwitcher({
@@ -760,7 +751,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
     renderTabItem = (item: TabsItemProps, tabIndex: number) => {
         const {items, wrapTo} = this.props;
-        const activeTabID = this.activeTab;
+        const activeTabID = this.props.activeTab;
         const {dimensionsWereCollected, currentContainerWidthName} = this.state;
 
         const needSetMaxWidth =
@@ -795,7 +786,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     };
 
     renderSelect() {
-        const activeTabID = this.activeTab;
+        const activeTabID = this.props.activeTab;
         const {firstHiddenTabIndex, tabChosenFromSelectId} = this.state;
         const {items} = this.props;
 
@@ -825,12 +816,12 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
     handleTabsAsSelectUpdate = (tabIds: string[]) => {
         const tabId = tabIds?.[0];
-        this.selectTab(tabId);
+        this.props.onSelectTab(tabId);
         this.setState({tabChosenFromSelectId: tabId});
     };
 
     renderTabsAsSelect() {
-        const activeTabID = this.activeTab;
+        const activeTabID = this.props.activeTab;
         const {items} = this.props;
 
         const itemsForSelect = items.map((item) => ({

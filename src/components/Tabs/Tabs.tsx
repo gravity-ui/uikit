@@ -81,7 +81,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
             return (
                 <AdjustableTabs
                     activeTab={activeTabId}
-                    onSelectTab={onSelectTab}
+                    onSelectTab={handleTabClick}
                     items={items}
                     breakpointsConfig={breakpointsConfig}
                     className={className}

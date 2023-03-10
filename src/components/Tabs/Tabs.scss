@@ -263,10 +263,6 @@ $block: '.#{variables.$ns}tabs';
         &:not(&_switcher-tab):only-child {
             #{$block}__tab {
                 cursor: auto;
-
-                .dl-draggable-handle-element.dashkit-plugin-widget__tabs_edit-mode & {
-                    cursor: move;
-                }
             }
         }
 

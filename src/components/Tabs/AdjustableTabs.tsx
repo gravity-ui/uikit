@@ -5,6 +5,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 
 import i18n from './i18n';
 import {TabsItemProps} from './Tabs';
+import {TabsItem} from './TabsItem';
 import {Icon} from '../Icon';
 import {ChevronDownIcon} from '../icons';
 import {Select, SelectProps} from '../Select';
@@ -53,34 +54,6 @@ const getSortObjectKeysByValuesFunc =
         прочее) и две основные фазы:) 1) нахождение индекса первого непоместившегося таба и 2) подстройка ширины
         переполненных табов под ширину контейнера (в дальнейшем фазы 1 и 2)
  */
-
-interface TabProps {
-    id: string;
-    title: string | React.ReactNode;
-    hint?: string;
-    active?: boolean;
-    disabled?: boolean;
-    onClick?: (id: string, event: React.MouseEvent) => void;
-}
-
-class Tab extends React.Component<TabProps> {
-    onClick = (event: React.MouseEvent) => {
-        this.props.onClick?.(this.props.id, event);
-    };
-    render() {
-        const {active, disabled, hint, title = this.props.id} = this.props;
-        return (
-            <div
-                className={b('tab', {active, disabled})}
-                title={String(hint || title || '')}
-                onClick={this.onClick}
-            >
-                {title}
-            </div>
-        );
-    }
-}
-
 interface AdjustableTabsProps {
     items: TabsItemProps[];
     activeTab?: string;
@@ -752,7 +725,14 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         );
 
         const switcherTabProps = {title, hint: text, id: 'switcher-tab'};
-        const tabItemNode = <Tab {...switcherTabProps} active={Boolean(active)} />;
+        const tabItemNode = (
+            <TabsItem
+                {...switcherTabProps}
+                className={b('tab', {active})}
+                active={Boolean(active)}
+                onClick={() => {}}
+            />
+        );
 
         return (
             <div
@@ -815,7 +795,12 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             >
                 {wrapTo(
                     item.id === activeTabID,
-                    <Tab {...item} active={item.id === activeTabID} onClick={this.onTabClick} />,
+                    <TabsItem
+                        {...item}
+                        className={b('tab', {active: item.id === activeTabID})}
+                        active={item.id === activeTabID}
+                        onClick={this.onTabClick}
+                    />,
                     item.id,
                 )}
             </div>

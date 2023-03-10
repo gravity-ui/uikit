@@ -89,6 +89,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
                     breakpointsConfig={breakpointsConfig}
                     className={className}
                     wrapTo={wrapTo}
+                    size={size}
                 />
             );
         }

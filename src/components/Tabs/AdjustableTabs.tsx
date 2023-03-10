@@ -4,7 +4,7 @@ import throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import i18n from './i18n';
-import {TabsItemProps} from './Tabs';
+import {TabsItemProps, TabsSize} from './Tabs';
 import {TabsItem} from './TabsItem';
 import {Icon} from '../Icon';
 import {ChevronDownIcon} from '../icons';
@@ -61,6 +61,7 @@ interface AdjustableTabsProps {
     onSelectTab: (tabId: string, event?: React.MouseEvent) => void;
     wrapTo?: (item: TabsItemProps, node: React.ReactNode, index: number) => React.ReactNode;
     className?: string;
+    size?: TabsSize;
 }
 
 interface AdjustableTabsState {
@@ -848,7 +849,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
     }
 
     render() {
-        const {wrapTo, items, className} = this.props;
+        const {wrapTo, items, className, size} = this.props;
         const isDefaultRender = !wrapTo;
 
         return (
@@ -857,6 +858,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
                 className={b(
                     {
                         adjustable: true,
+                        size,
                         visible: this.state.dimensionsWereCollected,
                         'is-default-render': isDefaultRender,
                     },

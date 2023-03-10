@@ -102,10 +102,10 @@ test('should call onSelectTab on tab click', async () => {
     const tabComponent2 = screen.getByTitle(tabTitle2);
 
     await user.click(tabComponent2);
-    expect(onSelectTabFn).toBeCalledWith(tabId2);
+    expect(onSelectTabFn).toBeCalledWith(tabId2, undefined);
 
     await user.click(tabComponent1);
-    expect(onSelectTabFn).toBeCalledWith(tabId1);
+    expect(onSelectTabFn).toBeCalledWith(tabId1, undefined);
 });
 
 test('should wrap tabs', () => {

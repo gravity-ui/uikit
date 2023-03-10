@@ -26,7 +26,7 @@ export const GROUPED_QUICK_SEARCH_OPTIONS: SelectOptionGroup[] = [
     {label: 'Group 2', options: generateOptions(40).slice(20)},
 ];
 
-const ControlledSelect = (props: Partial<SelectProps>) => {
+export const ControlledSelect = (props: Partial<SelectProps>) => {
     const {options = DEFAULT_OPTIONS, value, onUpdate, ...restProps} = props;
     const [stateValue, setStateValue] = React.useState(value || []);
 

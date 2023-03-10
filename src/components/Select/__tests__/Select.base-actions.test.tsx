@@ -14,8 +14,15 @@ import {
     timeout,
     generateOptions,
     SELECT_CONTROL_OPEN_CLASS,
+    ControlledSelect,
 } from './utils';
-import {act, screen} from '@testing-library/react';
+import {act, render, screen} from '@testing-library/react';
+
+const toggleSelectPopup = async () => {
+    const user = userEvent.setup();
+    const selectControl = screen.getByTestId(TEST_QA);
+    await user.click(selectControl);
+};
 
 describe('Select base actions', () => {
     describe('open popup by', () => {
@@ -53,7 +60,9 @@ describe('Select base actions', () => {
             expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
             expect(screen.queryByTestId(SelectQa.POPUP)).toBeNull();
         });
+    });
 
+    describe('open', () => {
         test('should be opened while rendering with defaultOpen prop', async () => {
             await act(async () => {
                 setup({defaultOpen: true});
@@ -61,6 +70,57 @@ describe('Select base actions', () => {
             const selectControl = screen.getByTestId(TEST_QA);
             expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
             screen.getByTestId(SelectQa.POPUP);
+        });
+
+        test('open prop dominates over defaultOpen prop', async () => {
+            await act(async () => {
+                setup({defaultOpen: false, open: true});
+            });
+
+            const selectControl = screen.getByTestId(TEST_QA);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+        });
+
+        test('shoult open/close by open prop', async () => {
+            const {rerender, getByTestId} = render(<ControlledSelect open={true} />);
+
+            const selectControl = getByTestId(TEST_QA);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+
+            rerender(<ControlledSelect open={false} />);
+
+            const rerenderedSelectControl = getByTestId(TEST_QA);
+            expect(rerenderedSelectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+        });
+        test('should not close when open=true prop passed', async () => {
+            setup({open: true});
+            const selectControl = screen.getByTestId(TEST_QA);
+
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+
+            await toggleSelectPopup();
+
+            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+        });
+
+        test('should call onOpenChange while closing', async () => {
+            const onOpenChange = jest.fn();
+            setup({onOpenChange});
+
+            await toggleSelectPopup();
+            expect(onOpenChange).toHaveBeenCalledWith(true);
+            await toggleSelectPopup();
+            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledTimes(2);
+        });
+        test('should call onOpenChange whith controlled open', async () => {
+            const onOpenChange = jest.fn();
+            setup({open: true, onOpenChange});
+
+            await toggleSelectPopup();
+
+            expect(onOpenChange).toHaveBeenCalledWith(false);
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
         });
     });
 

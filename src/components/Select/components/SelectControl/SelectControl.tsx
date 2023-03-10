@@ -3,16 +3,15 @@ import {useForkRef} from '../../../utils/useForkRef';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
-import type {SelectProps} from '../../types';
+import type {SelectRenderControl, SelectProps, SelectRenderControlProps} from '../../types';
 import {selectControlBlock} from '../../constants';
 import {mapToButtonView} from '../../utils';
 
 import './SelectControl.scss';
 
 type ControlProps = {
-    setOpen: (nextOpen: boolean) => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-    renderControl?: SelectProps['renderControl'];
+    toggleOpen: () => void;
+    renderControl?: SelectRenderControl;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -23,13 +22,12 @@ type ControlProps = {
     label?: string;
     placeholder?: SelectProps['placeholder'];
     error?: SelectProps['error'];
-    open?: boolean;
     disabled?: boolean;
-};
+} & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {
-        setOpen,
+        toggleOpen,
         onKeyDown,
         renderControl,
         view,
@@ -50,12 +48,10 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
 
-    const handleClick = React.useCallback(() => setOpen(!open), [setOpen, open]);
-
     if (renderControl) {
         return renderControl({
             onKeyDown,
-            onClick: handleClick,
+            onClick: toggleOpen,
             ref: handleControlRef,
             open: Boolean(open),
         });
@@ -77,7 +73,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                     onKeyDown,
                 }}
                 disabled={disabled}
-                onClick={handleClick}
+                onClick={toggleOpen}
             >
                 {label && <span className={selectControlBlock('label')}>{label}</span>}
                 {showPlaceholder && (

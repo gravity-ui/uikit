@@ -12,11 +12,13 @@ import {Select, SelectProps} from '../Select';
 import {block} from '../utils/cn';
 
 import './Tabs.scss';
-
-const SMALL_CONTAINER_WIDTH_NAME = 'small';
-const LARGE_CONTAINER_WIDTH_NAME = 'large';
-const READY_STATE_COMPLETE = 'complete';
-const OUT_OF_SCREEN_POSITION = -99999;
+import {
+    DEFAULT_BREAKPOINTS_CONFIG,
+    LARGE_CONTAINER_WIDTH_NAME,
+    OUT_OF_SCREEN_POSITION,
+    READY_STATE_COMPLETE,
+    SMALL_CONTAINER_WIDTH_NAME,
+} from './constants';
 
 const b = block('tabs');
 const TAB_CLASS_NAME = b('tab');
@@ -78,18 +80,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         // контейнера от 401px до 500px максимальная ширина таба составит 33%, при ширине от 501px до 700px 30% и т.д.)
         // при ширине контейнера минимального из значений определённых в ключах объекта (в дефолтном случае 400)
         // вместо табов рендерится селект занимающий всю ширину контейнера.
-        breakpointsConfig: {
-            '400': 33,
-            '500': 30,
-            '700': 27,
-            '800': 26,
-            '900': 25,
-            '1000': 24,
-            '1100': 23,
-            '1200': 22,
-            '1300': 21,
-            '1400': 20,
-        },
+        breakpointsConfig: DEFAULT_BREAKPOINTS_CONFIG,
     };
 
     private breakpoints: number[];

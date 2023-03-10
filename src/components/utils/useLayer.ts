@@ -23,6 +23,8 @@ export function useLayer({
     idlePriority,
     idleTimeout,
 }: LayerProps): boolean {
+    const [frozenIdle] = React.useState(idle);
+
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -31,7 +33,7 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
-        idle,
+        idle: frozenIdle,
         idlePriority,
         idleTimeout,
     });

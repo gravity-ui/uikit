@@ -96,9 +96,9 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         breakpointsConfig: DEFAULT_BREAKPOINTS_CONFIG,
     };
 
-    private breakpoints: number[];
-    private tabMaxWidthInPercentsForScreenSize: Record<string, number>;
-    private throttledHandleResize: () => void;
+    private readonly breakpoints: number[];
+    private readonly tabMaxWidthInPercentsForScreenSize: Record<string, number>;
+    private readonly throttledHandleResize: () => void;
     private resizeObserver?: ResizeObserver;
     private tabItemPaddingRight = 0;
     private switcherWidth = 0;

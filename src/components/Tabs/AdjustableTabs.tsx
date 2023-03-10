@@ -23,8 +23,6 @@ const TAB_CLASS_NAME = b('tab');
 
 type RenderControlProps = Parameters<NonNullable<SelectProps['renderControl']>>[0];
 type OpenChangeProps = Parameters<NonNullable<SelectProps['onOpenChange']>>[0];
-const defaultWrapToFunc = (_isActive: boolean, node: any) => node;
-
 const getSortObjectKeysByValuesFunc =
     (objectToSort: Record<string, any>) => (a: string, b: string) => {
         if (objectToSort[a] > objectToSort[b]) {
@@ -59,11 +57,7 @@ interface AdjustableTabsProps {
     activeTab?: string;
     breakpointsConfig: Record<string, number>;
     onSelectTab?: (tabId: string, event?: React.MouseEvent) => void;
-    wrapTo: (
-        isActive: boolean | undefined,
-        node: React.ReactNode,
-        tabId?: string,
-    ) => React.ReactNode;
+    wrapTo?: (item: TabsItemProps, node: React.ReactNode, index: number) => React.ReactNode;
     className?: string;
 }
 
@@ -79,7 +73,6 @@ interface AdjustableTabsState {
 
 class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabsState> {
     static defaultProps = {
-        wrapTo: defaultWrapToFunc,
         // дефолтные значения конфигурации брейкпоинтов - объект где ключ - ширина элемента контейнера,  значение -
         // максимальная ширина таба в процентах от ширины контейнера, (так, для дефолтных значений, при ширине
         // контейнера от 401px до 500px максимальная ширина таба составит 33%, при ширине от 501px до 700px 30% и т.д.)
@@ -691,18 +684,20 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             (tabChosenFromSelectIndex > firstHiddenTabIndex ? 1 : 0);
         const hint = i18n('label_more', {count: itemsNum});
 
-        return this.renderSwitcher({...switcherProps, text: hint});
+        return this.renderSwitcher({...switcherProps, text: hint, index: firstHiddenTabIndex});
     };
 
     renderSwitcherForTabsAsSelect = (switcherProps: RenderControlProps) => {
         const {items} = this.props;
         const activeTab = items.find((item) => item.id === this.activeTab);
+        const activeTabIndex = items.findIndex((item) => item.id === this.activeTab);
         const hint = activeTab ? activeTab.title || activeTab.id : items[0].title || items[0].id;
 
         return this.renderSwitcher({
             ...switcherProps,
             text: hint as string,
             active: Boolean(activeTab),
+            index: activeTabIndex!,
         });
     };
 
@@ -710,10 +705,11 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         switcherProps: RenderControlProps & {
             text: string;
             active?: boolean;
+            index: number;
         },
     ) => {
         const {wrapTo} = this.props;
-        const {text, active = false, onClick, ref} = switcherProps;
+        const {text, active = false, onClick, ref, index} = switcherProps;
 
         const title = (
             <div className={b('switcher-tab-content')}>
@@ -741,7 +737,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
                 onClick={onClick}
                 ref={ref as React.LegacyRef<HTMLDivElement>} // https://github.com/gravity-ui/uikit/issues/552
             >
-                {wrapTo ? wrapTo(undefined, tabItemNode, undefined) : tabItemNode}
+                {wrapTo ? wrapTo(switcherTabProps, tabItemNode, index) : tabItemNode}
             </div>
         );
     };
@@ -787,22 +783,22 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             ? this.overflownTabsCurrentWidth[tabIndex]
             : `${this.tabMaxWidthInPercentsForScreenSize[currentContainerWidthName!]}%`;
 
+        const tabNode = (
+            <TabsItem
+                {...item}
+                className={b('tab', {active: item.id === activeTabID})}
+                active={item.id === activeTabID}
+                onClick={this.onTabClick}
+            />
+        );
+
         return (
             <div
                 key={item.id}
                 style={{maxWidth: items.length > 1 ? maxWidth : '100%'}}
                 className={b('tab-container', {'last-tab': isLastTab, 'no-overflow': noOverflow})}
             >
-                {wrapTo(
-                    item.id === activeTabID,
-                    <TabsItem
-                        {...item}
-                        className={b('tab', {active: item.id === activeTabID})}
-                        active={item.id === activeTabID}
-                        onClick={this.onTabClick}
-                    />,
-                    item.id,
-                )}
+                {wrapTo ? wrapTo(item, tabNode, tabIndex) : tabNode}
             </div>
         );
     };
@@ -868,7 +864,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
     render() {
         const {wrapTo, items, className} = this.props;
-        const isDefaultRender = !wrapTo || wrapTo === defaultWrapToFunc;
+        const isDefaultRender = !wrapTo;
 
         return (
             <div

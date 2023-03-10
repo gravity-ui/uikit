@@ -38,7 +38,10 @@ export interface TabsProps extends QAProps {
     onSelectTab?(tabId: string, event?: React.MouseEvent): void;
     /** Allows to wrap `TabItem` into another component or render custom tab  */
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
+    /** Switch between default and adjustable tabs */
     adjustable?: boolean;
+    /** Config for AdjustableTabs where the key is the width of the container element, the value is
+     maximum width of tab as a percentage of the container width */
     breakpointsConfig?: Record<string, number>;
 }
 

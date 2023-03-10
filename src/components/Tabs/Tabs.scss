@@ -198,15 +198,17 @@ $block: '.#{variables.$ns}tabs';
     width: 100%;
 
     &_is-default-render {
-        box-shadow: inset 0 -1px 0 0 var(--dl-tabs-color-divider);
+        > :not(#{$block}__tabs-as-select-control) {
+            box-shadow: inset 0 -1px 0 0 var(--yc-color-line-generic);
+        }
 
-        .yc-tabs__tab {
+        #{$block}__tab {
             border-bottom: var(--yc-tabs-border-width) solid transparent;
             padding: var(--yc-tabs-border-width) 1px 0;
 
             &_active {
                 border-color: var(--yc-color-base-special);
-                color: var(--dl-tabs-color-text-active);
+                color: var(--yc-color-text-primary);
             }
         }
     }
@@ -228,8 +230,14 @@ $block: '.#{variables.$ns}tabs';
         top: 0;
         will-change: left;
 
-        .yc-tabs__tab-container .yc-tabs__tab {
+        #{$block}__tab-container #{$block}__tab {
             margin-right: 0;
+        }
+    }
+
+    &__tabs-as-select-control {
+        #{$block}__tab {
+            border: none;
         }
     }
 
@@ -253,7 +261,7 @@ $block: '.#{variables.$ns}tabs';
         padding-right: var(--yc-tabs-gap);
 
         &:not(&_switcher-tab):only-child {
-            .yc-tabs__tab {
+            #{$block}__tab {
                 cursor: auto;
 
                 .dl-draggable-handle-element.dashkit-plugin-widget__tabs_edit-mode & {
@@ -270,7 +278,7 @@ $block: '.#{variables.$ns}tabs';
             padding-right: 0;
             max-width: 100%;
 
-            .yc-tabs__tab {
+            #{$block}__tab {
                 width: auto;
                 display: inline-flex;
                 max-width: 100%;
@@ -278,7 +286,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         &_no-overflow {
-            .yc-tabs__tab {
+            #{$block}__tab {
                 overflow: initial;
             }
         }
@@ -288,7 +296,7 @@ $block: '.#{variables.$ns}tabs';
         box-sizing: border-box;
         text-decoration: none;
         line-height: var(--yc-tabs-height);
-        color: var(--dl-tabs-color-text-inactive);
+        color: var(--yc-color-text-secondary);
         text-overflow: ellipsis;
         overflow: hidden;
         width: 100%;
@@ -301,7 +309,7 @@ $block: '.#{variables.$ns}tabs';
         &_disabled {
             pointer-events: none;
             cursor: auto;
-            color: var(--dl-tabs-color-text-disabled);
+            color: var(--yc-color-text-hint);
         }
     }
 

@@ -870,6 +870,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
 
         return (
             <Select
+                className={b('tabs-as-select-control')}
                 onUpdate={this.handleTabsAsSelectUpdate}
                 options={itemsForSelect}
                 value={activeTabID === undefined ? [] : [activeTabID]}

@@ -193,9 +193,11 @@ $block: '.#{variables.$ns}tabs';
     --yc-tabs-border-width: 2px;
     --yc-tabs-height: 36px;
 
-    position: relative;
-    overflow: hidden;
-    width: 100%;
+    &_adjustable {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+    }
 
     &_is-default-render {
         > :not(#{$block}__tabs-as-select-control) {

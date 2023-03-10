@@ -856,6 +856,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
                 ref={this.tabsRootNode}
                 className={b(
                     {
+                        adjustable: true,
                         visible: this.state.dimensionsWereCollected,
                         'is-default-render': isDefaultRender,
                     },

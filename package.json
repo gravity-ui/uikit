@@ -9,48 +9,35 @@
     },
     "exports": {
         ".": {
+            "types": "./build/esm/index.d.ts",
             "require": "./build/cjs/index.js",
             "import": "./build/esm/index.js"
         },
-        "./*": {
-            "require": [
-                "./build/cjs/*.js",
-                "./build/cjs/*/index.js"
-            ],
-            "import": [
-                "./build/esm/*.js",
-                "./build/esm/*/index.js"
-            ]
+        "./toaster-singleton": {
+            "types": "./build/cjs/toaster-singleton.d.ts",
+            "require": "./build/cjs/toaster-singleton.js",
+            "import": "./build/esm//toaster-singleton.js"
         },
-        "./build/cjs/*": [
-            "./build/cjs/*.js",
-            "./build/cjs/*/index.js"
-        ],
-        "./build/esm/*": [
-            "./build/esm/*.js",
-            "./build/esm/*/index.js"
-        ],
+        "./toaster-singleton-react-18": {
+            "types": "./build/cjs/toaster-singleton-react-18.d.ts",
+            "require": "./build/cjs/toaster-singleton-react-18.js",
+            "import": "./build/esm//toaster-singleton-react-18.js"
+        },
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",
     "module": "./build/esm/index.js",
-    "types": "./index.d.ts",
+    "types": "./build/esm/index.d.ts",
     "typesVersions": {
         "*": {
-            "*": [
-                "./build/esm/*",
-                "./build/esm/*/index.d.ts"
-            ],
             "index.d.ts": [
                 "./build/esm/index.d.ts"
             ],
-            "build/esm/*": [
-                "./build/esm/*",
-                "./build/esm/*/index.d.ts"
+            "toaster-singleton": [
+                "./build/esm/toaster-singleton.d.ts"
             ],
-            "build/cjs/*": [
-                "./build/esm/*",
-                "./build/esm/*/index.d.ts"
+            "toaster-singleton-react-18": [
+                "./build/esm/toaster-singleton-react-18.d.ts"
             ]
         }
     },

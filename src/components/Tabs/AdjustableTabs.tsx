@@ -1,23 +1,23 @@
 import React from 'react';
-import block from 'bem-cn-lite';
 import difference from 'lodash/difference';
 import throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import i18n from './i18n';
-
-import './Tabs.scss';
+import {TabsItemProps} from './Tabs';
 import {Icon} from '../Icon';
 import {ChevronDownIcon} from '../icons';
 import {Select, SelectProps} from '../Select';
-import {TabsItemProps} from './Tabs';
+import {block} from '../utils/cn';
+
+import './Tabs.scss';
 
 const SMALL_CONTAINER_WIDTH_NAME = 'small';
 const LARGE_CONTAINER_WIDTH_NAME = 'large';
 const READY_STATE_COMPLETE = 'complete';
 const OUT_OF_SCREEN_POSITION = -99999;
 
-const b = block('adjustable-tabs');
+const b = block('tabs');
 const TAB_CLASS_NAME = b('tab');
 
 type RenderControlProps = Parameters<NonNullable<SelectProps['renderControl']>>[0];

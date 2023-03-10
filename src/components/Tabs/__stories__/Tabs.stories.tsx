@@ -91,7 +91,14 @@ const Template: Story<
         [args.withIcon, args.withCounter, args.withLabel, args.withOverflow],
     );
 
-    return <Tabs {...args} items={items} onSelectTab={setActiveTab} activeTab={activeTab} />;
+    return (
+        <Tabs
+            {...args}
+            items={args.items || items}
+            onSelectTab={setActiveTab}
+            activeTab={activeTab}
+        />
+    );
 };
 
 const AdjustableTabsTemplate: Story<
@@ -102,15 +109,85 @@ const AdjustableTabsTemplate: Story<
         withOverflow?: boolean;
     }
 > = (args) => {
+    const items: TabsProps['items'] = React.useMemo(
+        () => [
+            {
+                id: 'first',
+                title: 'First Tab Item Long Name',
+                icon: args.withIcon ? gearIcon : undefined,
+                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
+                label: args.withLabel ? {content: 'Normal', theme: 'normal'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
+            },
+            {
+                id: 'second',
+                title: 'Second Tab',
+                icon: args.withIcon ? gearIcon : undefined,
+                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
+                label: args.withLabel ? {content: 'Warning', theme: 'warning'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
+            },
+            {
+                id: 'third',
+                title: 'Third Tab Item Long Name',
+                icon: args.withIcon ? gearIcon : undefined,
+                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
+                label: args.withLabel ? {content: 'Danger', theme: 'danger'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
+            },
+            {
+                id: 'fourth',
+                title: 'Fourth Tab Item Long Name',
+                icon: args.withIcon ? gearIcon : undefined,
+                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
+                label: args.withLabel ? {content: 'Danger', theme: 'danger'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
+            },
+            {
+                id: 'fifth',
+                title: 'Fifth Tab Item Long Name',
+                icon: args.withIcon ? gearIcon : undefined,
+                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
+                label: args.withLabel ? {content: 'Danger', theme: 'danger'} : undefined,
+                hasOverflow: args.withOverflow,
+                extraProps: {
+                    style: {
+                        maxWidth: args.withOverflow ? '100px' : 'auto',
+                    },
+                },
+            },
+        ],
+        [args.withIcon, args.withCounter, args.withLabel, args.withOverflow],
+    );
     const props: TabsProps & {
         withIcon?: boolean;
         withCounter?: boolean;
         withLabel?: boolean;
         withOverflow?: boolean;
-    } = {...args, adjustable: true};
+    } = {...args, adjustable: true, items};
 
     return (
-        <div style={{resize: 'horizontal', overflow: 'auto', width: 340}}>
+        <div style={{resize: 'horizontal', overflow: 'auto', width: 515}}>
             <Template {...props} />
         </div>
     );

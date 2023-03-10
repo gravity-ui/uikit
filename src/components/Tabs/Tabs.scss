@@ -189,9 +189,9 @@ $block: '.#{variables.$ns}tabs';
     }
 
     // Adjustable tabs styles
-    --dl-tabs-space-between: 20px;
-    --dl-tabs-border-width: 2px;
-    --dl-tabs-height: 36px;
+    --yc-tabs-gap: 20px;
+    --yc-tabs-border-width: 2px;
+    --yc-tabs-height: 36px;
 
     position: relative;
     overflow: hidden;
@@ -201,8 +201,8 @@ $block: '.#{variables.$ns}tabs';
         box-shadow: inset 0 -1px 0 0 var(--dl-tabs-color-divider);
 
         .adjustable-tabs__tab {
-            border-bottom: var(--dl-tabs-border-width) solid transparent;
-            padding: var(--dl-tabs-border-width) 1px 0;
+            border-bottom: var(--yc-tabs-border-width) solid transparent;
+            padding: var(--yc-tabs-border-width) 1px 0;
 
             &_active {
                 border-color: var(--dl-tabs-color-border-active);
@@ -216,7 +216,7 @@ $block: '.#{variables.$ns}tabs';
     }
 
     &__tabs-list {
-        max-height: calc(var(--dl-tabs-height) + var(--dl-tabs-border-width) * 2);
+        max-height: calc(var(--yc-tabs-height) + var(--yc-tabs-border-width) * 2);
         display: flex;
         align-items: flex-end;
         overflow: hidden;
@@ -250,7 +250,7 @@ $block: '.#{variables.$ns}tabs';
 
     &__tab-container {
         overflow: hidden;
-        padding-right: var(--dl-tabs-space-between);
+        padding-right: var(--yc-tabs-gap);
 
         &:not(&_switcher-tab):only-child {
             .adjustable-tabs__tab {
@@ -287,7 +287,7 @@ $block: '.#{variables.$ns}tabs';
     &__tab {
         box-sizing: border-box;
         text-decoration: none;
-        line-height: var(--dl-tabs-height);
+        line-height: var(--yc-tabs-height);
         color: var(--dl-tabs-color-text-inactive);
         text-overflow: ellipsis;
         overflow: hidden;

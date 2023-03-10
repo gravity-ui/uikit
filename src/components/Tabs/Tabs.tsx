@@ -3,6 +3,7 @@ import {block} from '../utils/cn';
 import {QAProps} from '../types';
 import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem';
 import './Tabs.scss';
+import AdjustableTabs from './AdjustableTabs';
 
 const b = block('tabs');
 
@@ -33,7 +34,7 @@ export interface TabsProps extends QAProps {
     /** Additional CSS-class */
     className?: string;
     /** Select tab handler */
-    onSelectTab?(tabId: string): void;
+    onSelectTab?(tabId: string, event?: React.MouseEvent): void;
     /** Allows to wrap `TabItem` into another component or render custom tab  */
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
     adjustable?: boolean;
@@ -52,6 +53,8 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
             onSelectTab,
             wrapTo,
             qa,
+            adjustable,
+            breakpointsConfig,
         },
         ref,
     ) => {
@@ -67,11 +70,23 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
             return items[0].id;
         }, [activeTab, allowNotSelected, items]);
 
-        const handleTabClick = (tabId: string) => {
+        const handleTabClick = (tabId: string, event?: React.MouseEvent) => {
             if (onSelectTab) {
-                onSelectTab(tabId);
+                onSelectTab(tabId, event);
             }
         };
+
+        if (adjustable) {
+            return (
+                <AdjustableTabs
+                    activeTab={activeTabId}
+                    onSelectTab={onSelectTab}
+                    items={items}
+                    breakpointsConfig={breakpointsConfig}
+                    className={className}
+                />
+            );
+        }
 
         return (
             <div role="tablist" className={b({direction, size}, className)} data-qa={qa} ref={ref}>

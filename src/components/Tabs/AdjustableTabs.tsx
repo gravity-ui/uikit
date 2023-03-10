@@ -10,6 +10,7 @@ import './Tabs.scss';
 import {Icon} from '../Icon';
 import {ChevronDownIcon} from '../icons';
 import {Select, SelectProps} from '../Select';
+import {TabsItemProps} from './Tabs';
 
 const SMALL_CONTAINER_WIDTH_NAME = 'small';
 const LARGE_CONTAINER_WIDTH_NAME = 'large';
@@ -81,14 +82,10 @@ class Tab extends React.Component<TabProps> {
 }
 
 interface AdjustableTabsProps {
-    items: {
-        id: string;
-        title: string;
-        disabled?: boolean;
-    }[];
+    items: TabsItemProps[];
     activeTab?: string;
     breakpointsConfig: Record<string, number>;
-    onSelectTab: (tabId: string, event?: React.MouseEvent) => void;
+    onSelectTab?: (tabId: string, event?: React.MouseEvent) => void;
     wrapTo: (
         isActive: boolean | undefined,
         node: React.ReactNode,
@@ -617,10 +614,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         порядок и тайтл что и предыдущие. В случае, если это не так будет вызван метод collectDimensions, чтобы
         запомнить снять новые замеры и запустить последующие фазы пересчёта лэйаута
      */
-    wasItemsListUpdated = (
-        currentItems: {title: string; id: string}[],
-        prevItems: {title: string; id: string}[],
-    ) => {
+    wasItemsListUpdated = (currentItems: TabsItemProps[], prevItems: TabsItemProps[]) => {
         if (currentItems.length !== prevItems.length) {
             return true;
         }
@@ -732,7 +726,11 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
         const activeTab = items.find((item) => item.id === this.activeTab);
         const hint = activeTab ? activeTab.title || activeTab.id : items[0].title || items[0].id;
 
-        return this.renderSwitcher({...switcherProps, text: hint, active: Boolean(activeTab)});
+        return this.renderSwitcher({
+            ...switcherProps,
+            text: hint as string,
+            active: Boolean(activeTab),
+        });
     };
 
     renderSwitcher = (
@@ -793,7 +791,7 @@ class AdjustableTabs extends React.Component<AdjustableTabsProps, AdjustableTabs
             );
     };
 
-    renderTabItem = (item: {id: string; title: string}, tabIndex: number) => {
+    renderTabItem = (item: TabsItemProps, tabIndex: number) => {
         const {items, wrapTo} = this.props;
         const activeTabID = this.activeTab;
         const {dimensionsWereCollected, currentContainerWidthName} = this.state;

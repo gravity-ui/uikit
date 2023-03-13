@@ -223,6 +223,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disabled={disabled}
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
+                value={value}
             />
             <SelectPopup
                 ref={controlWrapRef}

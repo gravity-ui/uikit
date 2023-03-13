@@ -10,7 +10,13 @@ export type SelectRenderControlProps = {
     ref: React.Ref<HTMLElement>;
     open: boolean;
 };
-export type SelectRenderControl = (props: SelectRenderControlProps) => React.ReactElement;
+export type SelectRenderControlOptions = {
+    value: SelectProps['value'];
+};
+export type SelectRenderControl = (
+    props: SelectRenderControlProps,
+    options: SelectRenderControlOptions,
+) => React.ReactElement;
 
 export type SelectProps = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &

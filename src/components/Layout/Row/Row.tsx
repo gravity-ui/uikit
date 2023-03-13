@@ -26,12 +26,10 @@ export interface RowProps {
 
 /**
  * Defines the margins between columns (`<Col />`).
- * By default takes all passible props through `LayoutContext`. This props can be overrided by defining props directly in place
- *
  * By default, accepts all possible props via `LayoutContext'.
- * This props can be overriden by defining the prop directly on the jsx
+ * This props can be overridden by defining the prop directly on the jsx
  *
- * Required to use with `<Col />` componet
+ * Required to use with `<Col />` component
  *
  * ```tsx
  * import {Row, Col} from '@gravity-ui/uikit';

@@ -11,21 +11,11 @@ import './Flex.scss';
 
 const b = block('flex');
 
-export interface FlexPassThroughProps<T extends React.ElementType> {
-    style?: React.CSSProperties;
-    className?: string;
-    title?: string;
-    ref?: React.ComponentPropsWithRef<T>['ref'];
-    ['data-qa']?: string;
-}
-
 type AdaptiveProp<T extends keyof React.CSSProperties> =
     | React.CSSProperties[T]
     | ((fn: IsMediaActive) => React.CSSProperties[T]);
 
-export interface FlexProps<T extends React.ElementType>
-    extends Omit<FlexPassThroughProps<T>, 'data-qa'>,
-        QAProps {
+export interface FlexProps<T extends React.ElementType> extends QAProps {
     as?: T;
     /**
      * `flex-direction` property
@@ -88,7 +78,10 @@ export interface FlexProps<T extends React.ElementType>
      */
     space?: true | Space | ((fn: IsMediaActive) => Space | undefined);
     children?: React.ReactNode;
-    Component?: React.ComponentPropsWithRef<T>;
+    style?: React.CSSProperties;
+    className?: string;
+    title?: string;
+    ref?: React.ComponentPropsWithRef<T>['ref'];
 }
 
 /**
@@ -110,17 +103,6 @@ export interface FlexProps<T extends React.ElementType>
  * </Flex>
  * ```
  *
- * You can add flex styles to existing component:
- *
- * > you component mast support `style` and `className` props
- *
- * ```tsx
- * <Flex Component={YouAwesomeComponent} justifyContent="center" {...{/ you component props /}}>
- *  awesome component content
- * </Flex>
- *
- * ```
- *
  * Use build in media goods via props
  *
  * ```tsx
@@ -140,7 +122,7 @@ export const Flex = React.forwardRef(
         ref: React.ComponentPropsWithRef<T>['ref'],
     ) => {
         const {
-            as,
+            as: Tag = 'div',
             justifyContent,
             direction,
             width,
@@ -158,7 +140,6 @@ export const Flex = React.forwardRef(
             rowGap,
             className,
             space,
-            Component,
             qa,
             ...restProps
         } = props;
@@ -183,50 +164,41 @@ export const Flex = React.forwardRef(
             g = gap;
         }
 
-        const passThroughProps: FlexPassThroughProps<T> = {
-            className: b(
-                {
-                    inline,
-                    s: gap || rowGap ? undefined : s,
-                },
-                className,
-            ),
-            style: {
-                width,
-                alignSelf,
-                flexDirection:
-                    typeof direction === 'function' ? direction(isMediaActive) : direction,
-                flexGrow: grow === true ? 1 : grow,
-                flexWrap: wrap,
-                flexBasis: basis,
-                flexShrink: shrink,
-                gap: g ? SPACE_TO_PIXEL[g] : undefined,
-                rowGap: rowGap ? SPACE_TO_PIXEL[rowGap] : undefined,
-                justifyContent:
-                    typeof justifyContent === 'function'
-                        ? justifyContent(isMediaActive)
-                        : justifyContent,
-                alignItems:
-                    typeof alignItems === 'function' ? alignItems(isMediaActive) : alignItems,
-                ...style,
-            },
-            title,
-            ref,
-            ['data-qa']: qa,
-            ...restProps,
-        };
-
-        if (Component) {
-            return <Component {...passThroughProps}>{children}</Component>;
-        }
-
-        const Tag: React.ElementType = as || 'div';
-
-        return <Tag {...passThroughProps}>{children}</Tag>;
+        return (
+            <Tag
+                className={b(
+                    {
+                        inline,
+                        s: gap || rowGap ? undefined : s,
+                    },
+                    className,
+                )}
+                style={{
+                    width,
+                    alignSelf,
+                    flexDirection:
+                        typeof direction === 'function' ? direction(isMediaActive) : direction,
+                    flexGrow: grow === true ? 1 : grow,
+                    flexWrap: wrap,
+                    flexBasis: basis,
+                    flexShrink: shrink,
+                    gap: g ? SPACE_TO_PIXEL[g] : undefined,
+                    rowGap: rowGap ? SPACE_TO_PIXEL[rowGap] : undefined,
+                    justifyContent:
+                        typeof justifyContent === 'function'
+                            ? justifyContent(isMediaActive)
+                            : justifyContent,
+                    alignItems:
+                        typeof alignItems === 'function' ? alignItems(isMediaActive) : alignItems,
+                    ...style,
+                }}
+                title={title}
+                ref={ref}
+                data-qa={qa}
+                {...restProps}
+            >
+                {children}
+            </Tag>
+        );
     },
-) as unknown as <T extends unknown, C extends React.ElementType>(
-    props: T extends (args: infer B) => unknown
-        ? // If Component is passed as a props, that component props are auto inferred and Flex props which inappropriate are omitted
-          Omit<FlexProps<C>, 'Component' | 'as' | 'ref'> & {Component: T} & B
-        : Omit<FlexProps<C>, 'Component'>,
-) => React.ReactElement | null;
+);

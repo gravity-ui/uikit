@@ -23,7 +23,7 @@ type ControlProps = {
     placeholder?: SelectProps['placeholder'];
     error?: SelectProps['error'];
     disabled?: boolean;
-    selectPropsValue: SelectProps['value'];
+    value: SelectProps['value'];
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
@@ -43,7 +43,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         error,
         open,
         disabled,
-        selectPropsValue,
+        value,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
@@ -58,7 +58,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 ref: handleControlRef,
                 open: Boolean(open),
             },
-            selectPropsValue,
+            {value},
         );
     }
 

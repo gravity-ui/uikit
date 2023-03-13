@@ -10,9 +10,12 @@ export type SelectRenderControlProps = {
     ref: React.Ref<HTMLElement>;
     open: boolean;
 };
+export type SelectRenderControlOptions = {
+    value: SelectProps['value'];
+};
 export type SelectRenderControl = (
     props: SelectRenderControlProps,
-    selectedValue: SelectProps['value'],
+    options: SelectRenderControlOptions,
 ) => React.ReactElement;
 
 export type SelectProps = QAProps &

@@ -1,0 +1,271 @@
+import {ArgsTable} from '@storybook/addon-docs';
+
+# Layout Components (unstable)
+
+Components to describe relations between elements on the page.
+
+```tsx
+import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
+
+<Container>
+    <Row>
+        <Col s="12" l="6">
+            <Flex space>...</Flex>
+        </Col>
+        <Col s="12" l="8">
+            ...
+        </Col>
+    </Row>
+</Container>;
+```
+
+> boolean prop here in `Flex` component means that there is spacing between child components with default value taken from LayoutTheme
+
+**All components supports `jsdoc` on hover feature. Just hover over the component or components prop in you favorite editor to see documentation**
+
+### How to start using?
+
+Just wrap you app with `LayoutProvider`.
+
+```tsx
+import {LayoutProvider} from '@gravity-ui/uikit';
+
+<LayoutProvider>
+    <App />
+</LayoutProvider>;
+```
+
+### Base concepts:
+
+-   [Spacing](#spacing)
+-   [Screen sizes](#screen-sizes)
+
+### Components:
+
+-   [LayoutProvider and LayoutTheme](#layoutprovider-and-layouttheme)
+-   [Layout Grid](#layout-grid)
+    -   [Row](#row)
+    -   [Col](#col)
+-   [Container](#container)
+-   [Flex](#flex)
+
+## Spacing
+
+-   `none` - 0px;
+-   `nano` - 2px;
+-   `micro` - 4px;
+-   `xs` - 8px;
+-   `s` - 12px;
+-   `m`- 16px;
+-   `l`- 20px;
+-   `xl`- 24px;
+-   `xxl`- 32px;
+
+This `tokens` are also available in project during css custom properties:
+
+```css
+.example-class {
+    margin-right: var(--yc-spacing-xs);
+}
+```
+
+_You can override default values on project level:_
+
+```css
+:root {
+    --yc-spacing-none: 0px;
+    --yc-spacing-nano: 2px;
+    --yc-spacing-micro: 4px;
+    --yc-spacing-xs: 16px;
+    --yc-spacing-s: 20px;
+    --yc-spacing-m: 28px;
+    --yc-spacing-l: 40px;
+    --yc-spacing-xl: 52px;
+    --yc-spacing-xxl: 60px;
+}
+```
+
+### spacing utility
+
+Very often during developing process you have to specify relative position between components. Inventing class names for such elements carries a very large overhead.
+
+For such purposes, you can use `spacing` utility to generate predefined class names:
+
+```tsx
+import {spacing} from '@gravity-ui/uilit';
+
+<>
+    <Button className={spacing({mr: 'l'})}>button 1</Button>
+    <Button>button 1</Button>
+</>;
+```
+
+> `mr` - means `margin-right`.
+
+## Screen sizes:
+
+We use `mobile-first` approach. It means that you should adapt you app to desktop after complete developing mobile version.
+
+-   `s` - 576px;
+-   `m` - 768px;
+-   `l` - 1080px;
+-   `xl` - 1200px;
+-   `xxl` - 1400px;
+-   `xxxl` - 1920px;
+
+## LayoutProvider and LayoutTheme
+
+Through `LayoutProvider` components can get default props which are corresponding to different screen sizes.
+
+Also you can manage `spacings` in `LayoutTheme` and override default behavior in specific screen size.
+
+In most cases you can use layout components without common props specified directly
+
+```tsx
+import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit';
+
+export const APP_LAYOUT_THEME: LayoutTheme = {
+    common: {
+        // default prop for all screen size
+        space: 's',
+        media: {
+            l: {
+                // override value starting from `l` breakpoint
+                space: 'l',
+            },
+        },
+    },
+    components: {
+        container: {
+            gutters: 's',
+            media: {
+                l: {
+                    gutters: 'l',
+                },
+            },
+        },
+    },
+};
+
+export const App = () => {
+    return (
+        <LayoutProvider theme={AWESOME_LAYOUT_THEME}>
+            <Router />
+        </LayoutProvider>
+    );
+};
+```
+
+## Layout Grid
+
+Base components to describe 12-th column layout grid for you app.
+Supports nested grids. This should be used when you have mobile and desktop app versions.
+
+```tsx
+import {Row, Col} from '@gravity-ui/uikit';
+
+<Row>
+    <Col s="4">...</Col>
+    <Col s="4">...</Col>
+    <Col s="4">...</Col>
+</Row>;
+```
+
+### Row
+
+props:
+
+-   `space` - sets spacings between child `Col` components;
+-   `spaceRow` - specify `y` axis spacing between `Col` components. By default it takes values from `space` props.
+
+### Col
+
+How many columns of your 12-th column layout will take content.
+Must be used as a child inside `Row` component.
+
+props:
+
+-   as props takes [screen size](#screen-sizes) (`s`, `m`, `l`,`xl`, `xxl`, `xxxl`) and column size to take corresponding to `mobile-first` approach
+
+> To specify col value to all screen sizes use `s` (`small` - also you can think about this props as a `size`) prop
+
+```tsx
+import {Row, Col} from '@gravity-ui/uikit';
+
+<Row
+    /**
+     * In this example we override default theme behavior.
+     *
+     * If you want to override behavior to different media queries, you should use predicate function:
+     * space = (matchMedia => matchMedia('xl') ? 'l' : 'nano')
+     */
+    space="l"
+>
+    <Col
+        // will be apply for `s` and `m` breakpoint
+        s="12"
+        // will be apply for `l`, `xl` ...
+        l="6"
+    >
+        ...
+    </Col>
+</Row>;
+```
+
+> Grid system use negative margins under the hood. So you can specify background-color css property directly in `Col` components. Use wrapper components in such situations.
+
+## Container
+
+Center you content. Almost always it should be one per page. Manage max width corresponding to current screen size
+
+props:
+
+-   `gutters` - left and right content padding. Needed when you content width equals screen width;
+-   `maxWidth` - limits screen width for specific screen size;
+-   `spaceRow` - ability to specify spacing between children `Row` components
+
+## Flex
+
+Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to manage space between children's. All flex properties are available during props. For most used properties it supports predicate functions to override behavior in different screen sizes.
+
+#### Examples
+
+-   space between children components in row direction
+
+```jsx
+import {Row, Col} from '@gravity-ui/uikit';
+
+<Flex space>
+    <TextInput />
+    <Button />
+</Flex>;
+```
+
+-   nested `Flex` example
+
+```jsx
+import {Row, Col} from '@gravity-ui/uikit';
+
+<Flex direction="column" space="l">
+    <Flex space>
+        <TextInput />
+        <Button />
+    </Flex>
+    <Table />
+</Flex>;
+```
+
+-   responsible example
+
+```jsx
+import {Row, Col} from '@gravity-ui/uikit';
+
+<Flex
+    // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
+    direction={(matchMedia) => (matchMedia('l') ? 'column' : 'row')}
+    space={(matchMedia) => (matchMedia('l') ? 'm' : 'l')}
+>
+    <TextInput />
+    <Button />
+</Flex>;
+```

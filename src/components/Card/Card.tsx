@@ -11,6 +11,7 @@ type ContainerCardView = 'outlined' | 'filled' | 'raised';
 export type CardType = 'selection' | 'action' | 'container';
 export type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
 export type CardView = SelectionCardView | ContainerCardView;
+export type CardSize = 'm' | 'l';
 
 export interface CardProps {
     children: React.ReactNode;
@@ -27,6 +28,8 @@ export interface CardProps {
     view?: CardView;
     /** Card's base color. Available for type: 'container' */
     theme?: CardTheme;
+    /** Card's size affects on available properties*/
+    size?: CardSize;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
@@ -34,6 +37,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         type = 'container',
         theme,
         view,
+        size = 'm',
         children,
         className,
         onClick,
@@ -52,6 +56,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultTheme = isTypeContainer ? 'normal' : undefined;
     /* View only with type 'container' and 'selection' */
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
+    
 
     return (
         <div
@@ -62,6 +67,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                     view: view || defaultView,
                     type,
                     selected,
+                    size,
                     disabled,
                     clickable: isClickable,
                 },

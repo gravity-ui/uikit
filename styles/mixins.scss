@@ -275,3 +275,18 @@
 @mixin text-accent() {
     font-weight: var(--yc-text-accent-font-weight);
 }
+
+@mixin loading($loading-color-1: rgba(255, 255, 255, 0.3), $loading-color-2: transparent) {
+    background-image: repeating-linear-gradient(
+        -45deg,
+        $loading-color-1,
+        $loading-color-1 4px,
+        $loading-color-2 4px,
+        $loading-color-2 8px
+    );
+    background-size: 150%;
+    background-clip: padding-box;
+
+    // stylelint-disable-next-line no-unknown-animations
+    animation: yc-loading-animation 0.5s linear infinite;
+}

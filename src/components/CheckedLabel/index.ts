@@ -1,0 +1,1 @@
+export {CheckedLabel} from './CheckedLabel';

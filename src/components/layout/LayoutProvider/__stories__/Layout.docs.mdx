@@ -5,7 +5,7 @@ import {ArgsTable} from '@storybook/addon-docs';
 Components to describe relations between elements on the page.
 
 ```tsx
-import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
+import {Container, Row, Col, Flex} from '@gravity-ui/uikit/unstable_layout';
 
 <Container>
     <Row>
@@ -28,7 +28,7 @@ import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
 Just wrap you app with `LayoutProvider`.
 
 ```tsx
-import {LayoutProvider} from '@gravity-ui/uikit';
+import {LayoutProvider} from '@gravity-ui/uikit/unstable_layout';
 
 <LayoutProvider>
     <App />
@@ -92,7 +92,7 @@ Very often during developing process you have to specify relative position betwe
 For such purposes, you can use `spacing` utility to generate predefined class names:
 
 ```tsx
-import {spacing} from '@gravity-ui/uilit';
+import {spacing} from '@gravity-ui/uikit/unstable_layout';
 
 <>
     <Button className={spacing({mr: 'l'})}>button 1</Button>
@@ -122,7 +122,7 @@ Also you can manage `spacings` in `LayoutTheme` and override default behavior in
 In most cases you can use layout components without common props specified directly
 
 ```tsx
-import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit';
+import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
 
 export const APP_LAYOUT_THEME: LayoutTheme = {
     common: {
@@ -162,7 +162,7 @@ Base components to describe 12-th column layout grid for you app.
 Supports nested grids. This should be used when you have mobile and desktop app versions.
 
 ```tsx
-import {Row, Col} from '@gravity-ui/uikit';
+import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Row>
     <Col s="4">...</Col>
@@ -190,7 +190,7 @@ props:
 > To specify col value to all screen sizes use `s` (`small` - also you can think about this props as a `size`) prop
 
 ```tsx
-import {Row, Col} from '@gravity-ui/uikit';
+import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Row
     /**
@@ -233,7 +233,7 @@ Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to man
 -   space between children components in row direction
 
 ```jsx
-import {Row, Col} from '@gravity-ui/uikit';
+import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex space>
     <TextInput />
@@ -244,7 +244,7 @@ import {Row, Col} from '@gravity-ui/uikit';
 -   nested `Flex` example
 
 ```jsx
-import {Row, Col} from '@gravity-ui/uikit';
+import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex direction="column" space="l">
     <Flex space>
@@ -258,7 +258,7 @@ import {Row, Col} from '@gravity-ui/uikit';
 -   responsible example
 
 ```jsx
-import {Row, Col} from '@gravity-ui/uikit';
+import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex
     // direction: column will be applied to l, xl, xxl, xxxl screen sizes here

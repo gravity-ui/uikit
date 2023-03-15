@@ -1,19 +1,29 @@
 import React from 'react';
 import {TextInputView, TextInputSize, TextInputPin} from '../TextInput';
 import {ControlGroupProps, ControlGroupOption, QAProps} from '../types';
+import {UseOpenProps} from '../utils/useSelect/types';
 import {Option, OptionGroup} from './tech-components';
 
+export type SelectRenderControlProps = {
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
+    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+    ref: React.Ref<HTMLElement>;
+    open: boolean;
+};
+export type SelectRenderControlOptions = {
+    value: SelectProps['value'];
+};
+export type SelectRenderControl = (
+    props: SelectRenderControlProps,
+    options: SelectRenderControlOptions,
+) => React.ReactElement;
+
 export type SelectProps = QAProps &
-    Pick<ControlGroupProps, 'name' | 'disabled'> & {
+    Pick<ControlGroupProps, 'name' | 'disabled'> &
+    UseOpenProps & {
         onUpdate?: (value: string[]) => void;
-        onOpenChange?: (open: boolean) => void;
         onFilterChange?: (filter: string) => void;
-        renderControl?: (props: {
-            onClick: (e: React.MouseEvent<HTMLElement>) => void;
-            onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-            ref: React.Ref<HTMLElement>;
-            open: boolean;
-        }) => React.ReactElement;
+        renderControl?: SelectRenderControl;
         renderFilter?: (props: {
             onChange: (filter: string) => void;
             onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
@@ -39,7 +49,6 @@ export type SelectProps = QAProps &
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
-        defaultOpen?: boolean;
         options?: (SelectOption | SelectOptionGroup)[];
         error?: string | boolean;
         multiple?: boolean;

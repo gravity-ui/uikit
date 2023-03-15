@@ -28,6 +28,7 @@ $block: '.#{variables.$ns}checked-label';
     }
 
     &__text {
+        align-self: center;
         white-space: normal;
 
         #{$block}_disabled & {

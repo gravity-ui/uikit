@@ -24,7 +24,7 @@
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
         "./unstable_layout": {
-            "types": "./build/cjs/unstable_layout.d.ts",
+            "types": "./build/esm/unstable_layout.d.ts",
             "require": "./build/cjs/unstable_layout.js",
             "import": "./build/esm/unstable_layout.js"
         },
@@ -43,6 +43,9 @@
             ],
             "toaster-singleton-react-18": [
                 "./build/esm/toaster-singleton-react-18.d.ts"
+            ],
+            "unstable_layout": [
+                "./build/esm/unstable_layout.d.ts"
             ]
         }
     },

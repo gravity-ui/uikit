@@ -1,0 +1,39 @@
+import React from 'react';
+import {useLayoutContext} from '../hooks/useLayoutContext';
+import {CommonProps, ContainerConfigProps} from '../types';
+
+const pickContainerProps = ({
+    gutters,
+    spaceRow,
+    space,
+}: ContainerConfigProps & CommonProps = {}) => {
+    const res: ContainerConfigProps = {};
+
+    if (gutters) {
+        res.gutters = gutters;
+    }
+    if (spaceRow || space) {
+        res.spaceRow = spaceRow || space;
+    }
+
+    return res;
+};
+
+export const useContainerThemeProps = () => {
+    const {theme, getClosestMediaProps, isMediaActive} = useLayoutContext();
+
+    const containerThemeProps = React.useMemo(
+        () => ({
+            ...pickContainerProps(theme.common),
+            ...pickContainerProps(getClosestMediaProps(theme.common?.media)),
+            ...pickContainerProps(theme.components?.container),
+            ...pickContainerProps(getClosestMediaProps(theme.components?.container?.media)),
+        }),
+        [getClosestMediaProps, theme],
+    );
+
+    return {
+        isMediaActive,
+        containerThemeProps,
+    };
+};

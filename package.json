@@ -14,14 +14,19 @@
             "import": "./build/esm/index.js"
         },
         "./toaster-singleton": {
-            "types": "./build/cjs/toaster-singleton.d.ts",
+            "types": "./build/esm/toaster-singleton.d.ts",
             "require": "./build/cjs/toaster-singleton.js",
-            "import": "./build/esm//toaster-singleton.js"
+            "import": "./build/esm/toaster-singleton.js"
         },
         "./toaster-singleton-react-18": {
-            "types": "./build/cjs/toaster-singleton-react-18.d.ts",
+            "types": "./build/esm/toaster-singleton-react-18.d.ts",
             "require": "./build/cjs/toaster-singleton-react-18.js",
-            "import": "./build/esm//toaster-singleton-react-18.js"
+            "import": "./build/esm/toaster-singleton-react-18.js"
+        },
+        "./unstable_layout": {
+            "types": "./build/esm/unstable_layout.d.ts",
+            "require": "./build/cjs/unstable_layout.js",
+            "import": "./build/esm/unstable_layout.js"
         },
         "./styles/*": "./styles/*"
     },
@@ -38,6 +43,9 @@
             ],
             "toaster-singleton-react-18": [
                 "./build/esm/toaster-singleton-react-18.d.ts"
+            ],
+            "unstable_layout": [
+                "./build/esm/unstable_layout.d.ts"
             ]
         }
     },

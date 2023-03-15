@@ -1,0 +1,22 @@
+/* stylelint-disable declaration-no-important */
+@use '../variables.scss' as v;
+
+#{v.$flexBlock} {
+    display: flex;
+
+    &_inline {
+        display: inline-flex;
+    }
+
+    @each $space, $value in v.$SPACE {
+        &_s_#{$space} {
+            margin-top: calc(-1 * $value) !important;
+            margin-left: calc(-1 * $value) !important;
+
+            & > * {
+                padding-top: $value !important;
+                padding-left: $value !important;
+            }
+        }
+    }
+}

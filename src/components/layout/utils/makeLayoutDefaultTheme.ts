@@ -10,7 +10,7 @@ interface MakeDefaultLayoutTheme {
 /**
  * Use this function to override default `DEFAULT_LAYOUT_THEME`
  */
-export const makeDefaultTheme = ({
+export const makeLayoutDefaultTheme = ({
     override,
 }: MakeDefaultLayoutTheme | undefined = {}): LayoutTheme => {
     return merge(DEFAULT_LAYOUT_THEME, override);

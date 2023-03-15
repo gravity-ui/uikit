@@ -7,4 +7,4 @@ export * from './spacing/spacing';
 
 export * from './hooks/useLayoutContext';
 
-export * from './utils/makeDefaultTheme';
+export * from './utils/makeLayoutDefaultTheme';

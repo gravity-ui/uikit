@@ -1,4 +1,5 @@
 import React from 'react';
+import {CheckedLabel} from '../CheckedLabel';
 import {block} from '../utils/cn';
 import {DOMProps, ControlProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
@@ -21,11 +22,21 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
     const {checked, inputProps} = useCheckbox(props);
     const text = content || children;
 
+    const control = (
+        <span className={b('indicator')}>
+            <input {...inputProps} className={b('control')} />
+            <span className={b('outline')} />
+            <span className={b('slider')} />
+        </span>
+    );
+
     return (
-        <label
+        <CheckedLabel
             ref={ref}
             title={title}
             style={style}
+            size={size}
+            disabled={disabled}
             className={b(
                 {
                     size,
@@ -35,13 +46,9 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
                 className,
             )}
             data-qa={qa}
+            control={control}
         >
-            <span className={b('indicator')}>
-                <input {...inputProps} className={b('control')} />
-                <span className={b('outline')} />
-                <span className={b('slider')} />
-            </span>
-            {text && <span className={b('text')}>{text}</span>}
-        </label>
+            {text}
+        </CheckedLabel>
     );
 });

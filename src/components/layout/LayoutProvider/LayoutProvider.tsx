@@ -13,22 +13,18 @@ interface LayoutProviderProps {
 /**
  * Provide context for layout components and current media queries.
  */
-export const LayoutProvider: React.FC<LayoutProviderProps> = React.memo(
-    ({children, theme: override}) => {
-        const theme = makeLayoutDefaultTheme({override});
-        const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints);
+export const LayoutProvider: React.FC<LayoutProviderProps> = ({children, theme: override}) => {
+    const theme = makeLayoutDefaultTheme({override});
+    const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints);
 
-        return (
-            <LayoutContext.Provider
-                value={{
-                    activeMediaQuery,
-                    theme,
-                }}
-            >
-                {children}
-            </LayoutContext.Provider>
-        );
-    },
-);
-
-LayoutProvider.displayName = 'LayoutProvider';
+    return (
+        <LayoutContext.Provider
+            value={{
+                activeMediaQuery,
+                theme,
+            }}
+        >
+            {children}
+        </LayoutContext.Provider>
+    );
+};

@@ -5,6 +5,7 @@ import {block} from '../utils/cn';
 import './CheckedLabel.scss';
 
 type Props = PropsWithChildren<{
+    labelClassName?: string;
     title?: string;
     disabled?: boolean;
     size?: 'm' | 'l';
@@ -16,7 +17,20 @@ type Props = PropsWithChildren<{
 const b = block('checked-label');
 
 export const CheckedLabel = forwardRef<HTMLLabelElement, Props>(
-    ({children, className, title, style, disabled = false, control, size = 'm', qa}, ref) => {
+    (
+        {
+            children,
+            className,
+            labelClassName,
+            title,
+            style,
+            disabled = false,
+            control,
+            size = 'm',
+            qa,
+        },
+        ref,
+    ) => {
         return (
             <label
                 ref={ref}
@@ -26,7 +40,7 @@ export const CheckedLabel = forwardRef<HTMLLabelElement, Props>(
                 data-qa={qa}
             >
                 {control}
-                {children ? <span className={b('text')}>{children}</span> : null}
+                {children ? <span className={b('text', labelClassName)}>{children}</span> : null}
             </label>
         );
     },

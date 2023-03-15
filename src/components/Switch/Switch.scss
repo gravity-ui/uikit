@@ -75,6 +75,10 @@ $block: '.#{variables.$ns}switch';
                 width: 16px;
                 height: 16px;
             }
+
+            #{$block}__text {
+                margin-top: 3px;
+            }
         }
 
         &_l {
@@ -91,6 +95,10 @@ $block: '.#{variables.$ns}switch';
                 left: 3px;
                 width: 18px;
                 height: 18px;
+            }
+
+            #{$block}__text {
+                margin-top: 4px;
             }
         }
     }

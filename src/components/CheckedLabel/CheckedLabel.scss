@@ -4,7 +4,6 @@ $block: '.#{variables.$ns}checked-label';
 
 #{$block} {
     display: inline-flex;
-    align-items: baseline;
     font-family: var(--yc-text-body-font-family);
     font-weight: normal;
     color: var(--yc-color-text-primary);

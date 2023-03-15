@@ -45,6 +45,7 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
                 },
                 className,
             )}
+            labelClassName={b('text')}
             qa={qa}
             control={control}
         >

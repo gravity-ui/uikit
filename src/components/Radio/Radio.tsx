@@ -46,7 +46,7 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
                 },
                 className,
             )}
-            data-qa={qa}
+            qa={qa}
             control={control}
         >
             {text}

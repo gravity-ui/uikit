@@ -67,7 +67,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
                 },
                 className,
             )}
-            data-qa={qa}
+            qa={qa}
             control={control}
         >
             {text}

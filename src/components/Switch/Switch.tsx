@@ -45,7 +45,7 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
                 },
                 className,
             )}
-            data-qa={qa}
+            qa={qa}
             control={control}
         >
             {text}

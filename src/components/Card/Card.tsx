@@ -56,7 +56,6 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultTheme = isTypeContainer ? 'normal' : undefined;
     /* View only with type 'container' and 'selection' */
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
-    
 
     return (
         <div

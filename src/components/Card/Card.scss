@@ -7,12 +7,12 @@ $block: '.#{variables.$ns}card';
     box-shadow: var(--yc-card-box-shadow);
     box-sizing: border-box;
     border-radius: var(--yc-card-border-radius);
-    --yc-card-box-shadow:none;
-    --yc-card-border-radius:5px;
+    --yc-card-box-shadow: none;
+    --yc-card-border-radius: 5px;
 
     &_type_action {
         background-color: var(--yc-color-base-float);
-        --yc-card-box-shadow:0px 1px 5px var(--yc-color-sfx-shadow);
+        --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
 
         &#{$block}_clickable:hover {
             --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
@@ -108,20 +108,21 @@ $block: '.#{variables.$ns}card';
             background-color: var(--yc-color-base-float);
 
             &#{$block}_size_s {
-                --yc-card-box-shadow:0px 1px 5px var(--yc-color-sfx-shadow); 
+                --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
             }
             &#{$block}_size_m {
-                --yc-card-box-shadow: 0px 1px 6px var(--yc-color-sfx-shadow-light), 1px 3px 13px var(--yc-color-sfx-shadow-light);
+                --yc-card-box-shadow: 0px 1px 6px var(--yc-color-sfx-shadow-light),
+                    1px 3px 13px var(--yc-color-sfx-shadow-light);
             }
         }
     }
     &_size {
         &_m {
-            --yc-card-border-radius:5px;
+            --yc-card-border-radius: 5px;
         }
 
         &_l {
-            --yc-card-border-radius:16px;
+            --yc-card-border-radius: 16px;
         }
     }
 }

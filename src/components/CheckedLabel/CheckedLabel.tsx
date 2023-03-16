@@ -1,18 +1,8 @@
-import React, {forwardRef, PropsWithChildren, ReactNode} from 'react';
-import {DOMProps, QAProps} from '../types';
+import React, {forwardRef} from 'react';
 import {block} from '../utils/cn';
+import {Props} from './types';
 
 import './CheckedLabel.scss';
-
-type Props = PropsWithChildren<{
-    labelClassName?: string;
-    title?: string;
-    disabled?: boolean;
-    size?: 'm' | 'l';
-    control: ReactNode;
-}> &
-    DOMProps &
-    QAProps;
 
 const b = block('checked-label');
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {CheckedLabel} from '../CheckedLabel';
+import {CheckedLabel, CheckedLabelSizes} from '../CheckedLabel';
 import {block} from '../utils/cn';
 import {DOMProps, ControlProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
@@ -8,7 +8,7 @@ import './Switch.scss';
 
 const b = block('switch');
 
-export type SwitchSize = 'm' | 'l';
+export type SwitchSize = CheckedLabelSizes;
 
 export interface SwitchProps extends ControlProps, DOMProps, QAProps {
     size?: SwitchSize;

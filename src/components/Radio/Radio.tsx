@@ -1,5 +1,5 @@
 import React from 'react';
-import {CheckedLabel} from '../CheckedLabel';
+import {CheckedLabel, CheckedLabelSizes} from '../CheckedLabel';
 import {block} from '../utils/cn';
 import {DOMProps, ControlProps, QAProps} from '../types';
 import {useRadio} from '../utils/useRadio';
@@ -8,7 +8,7 @@ import './Radio.scss';
 
 const b = block('radio');
 
-export type RadioSize = 'm' | 'l';
+export type RadioSize = CheckedLabelSizes;
 
 export interface RadioProps extends ControlProps, DOMProps, QAProps {
     value: string;

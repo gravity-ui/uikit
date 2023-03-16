@@ -30,11 +30,11 @@ export type SelectProps<T = any> = QAProps &
             value: string;
             ref: React.Ref<HTMLInputElement>;
         }) => React.ReactElement;
-        renderOption?: (option: SelectOption) => React.ReactElement;
-        renderSelectedOption?: (option: SelectOption, index: number) => React.ReactElement;
+        renderOption?: (option: SelectOption<T>) => React.ReactElement;
+        renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
-        getOptionHeight?: (option: SelectOption) => number;
-        filterOption?: (option: SelectOption, filter: string) => boolean;
+        getOptionHeight?: (option: SelectOption<T>) => number;
+        filterOption?: (option: SelectOption<T>, filter: string) => boolean;
         view?: TextInputView;
         size?: TextInputSize;
         pin?: TextInputPin;
@@ -55,10 +55,10 @@ export type SelectProps<T = any> = QAProps &
         filterable?: boolean;
         disablePortal?: boolean;
         children?:
-            | React.ReactElement<SelectOption, typeof Option>
-            | React.ReactElement<SelectOption, typeof Option>[]
-            | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
-            | React.ReactElement<SelectOptionGroup, typeof OptionGroup>[];
+            | React.ReactElement<SelectOption<T>, typeof Option>
+            | React.ReactElement<SelectOption<T>, typeof Option>[]
+            | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
+            | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
     };
 
 export type SelectOption<T = any> = ControlGroupOption & {

@@ -27,14 +27,7 @@ import type {CnMods} from '../utils/cn';
 
 import './Select.scss';
 
-type SelectComponent = React.ForwardRefExoticComponent<
-    SelectProps & React.RefAttributes<HTMLButtonElement>
-> & {
-    Option: typeof Option;
-    OptionGroup: typeof OptionGroup;
-};
-
-export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
+function SelectComponent<T = any>(props: SelectProps<T>, ref: React.Ref<HTMLButtonElement>) {
     const {
         onUpdate,
         onOpenChange,
@@ -264,7 +257,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             </SelectPopup>
         </div>
     );
-}) as SelectComponent;
+}
+
+export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
+    SelectComponent,
+) as unknown as (<T = any>(
+    p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
+) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
 Select.Option = Option;
 Select.OptionGroup = OptionGroup;

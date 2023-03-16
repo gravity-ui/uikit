@@ -43,6 +43,11 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
             return;
         }
 
+        const canNavigate = items.some((item) => !skip?.(item));
+        if (!canNavigate) {
+            return;
+        }
+
         const anchor = anchorRef?.current;
         if (!anchor) {
             return;

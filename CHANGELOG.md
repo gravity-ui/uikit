@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.3.0](https://github.com/gravity-ui/uikit/compare/v4.2.0...v4.3.0) (2023-03-16)
+
+
+### Features
+
+* **Select:** add support selected value in renderControl ([#566](https://github.com/gravity-ui/uikit/issues/566)) ([f987fb3](https://github.com/gravity-ui/uikit/commit/f987fb39f448d45bdd3638e64eef874835e35d00))
+* unstable layout components set ([#551](https://github.com/gravity-ui/uikit/issues/551)) ([dc2ffad](https://github.com/gravity-ui/uikit/commit/dc2ffad72e967ff41edb64c2f3e0567c73b52527))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** remove required path from DropdownMenuItemProps, fix navigation ([#567](https://github.com/gravity-ui/uikit/issues/567)) ([e7470c3](https://github.com/gravity-ui/uikit/commit/e7470c3e8f1d65d2480eb1eafba7963f627cbd7c))
+* only known names are now exported from the package ([#565](https://github.com/gravity-ui/uikit/issues/565)) ([203653d](https://github.com/gravity-ui/uikit/commit/203653ddf07fd7a9d6bba1f3ecac18b55208136f))
+* **storybook:** remove RE_RENDER event from theme addon ([#562](https://github.com/gravity-ui/uikit/issues/562)) ([305aa38](https://github.com/gravity-ui/uikit/commit/305aa38039511e8c36cf1069736267ae20304946))
+
 ## [4.2.0](https://github.com/gravity-ui/uikit/compare/v4.1.0...v4.2.0) (2023-03-07)
 
 

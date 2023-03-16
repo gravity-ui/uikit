@@ -10,7 +10,7 @@ export default {
 
 const DefaultTemplate: Story<SelectProps> = (args) => (
     <Select {...args}>
-        <Select.Option value="val1" content="Value1" data={1} />
+        <Select.Option value="val1" content="Value1" />
         <Select.Option value="val2" content="Value2" />
         <Select.Option value="val3" content="Value3" />
         <Select.Option value="val4" content="Value4" />

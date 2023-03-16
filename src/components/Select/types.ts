@@ -18,7 +18,7 @@ export type SelectRenderControl = (
     options: SelectRenderControlOptions,
 ) => React.ReactElement;
 
-export type SelectProps = QAProps &
+export type SelectProps<T = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
         onUpdate?: (value: string[]) => void;
@@ -49,7 +49,7 @@ export type SelectProps = QAProps &
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
-        options?: (SelectOption | SelectOptionGroup)[];
+        options?: (SelectOption<T> | SelectOptionGroup<T>)[];
         error?: string | boolean;
         multiple?: boolean;
         filterable?: boolean;
@@ -61,14 +61,14 @@ export type SelectProps = QAProps &
             | React.ReactElement<SelectOptionGroup, typeof OptionGroup>[];
     };
 
-export type SelectOption = ControlGroupOption & {
+export type SelectOption<T = any> = ControlGroupOption & {
     text?: string;
-    data?: any;
+    data?: T;
 };
 
-export type SelectOptionGroup = {
+export type SelectOptionGroup<T = any> = {
     label: string;
-    options?: SelectOption[];
+    options?: SelectOption<T>[];
     children?:
         | React.ReactElement<SelectOption, typeof Option>
         | React.ReactElement<SelectOption, typeof Option>[];

@@ -13,7 +13,7 @@ import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {DropdownMenuContext} from './DropdownMenuContext';
 
-export type DropdownMenuItemProps<T> = DropdownMenuListItem<T> & {
+export type DropdownMenuItemProps<T> = Omit<DropdownMenuListItem<T>, 'path'> & {
     popupProps?: Partial<PopupProps>;
     closeMenu?: () => void;
     children?: ReactNode;

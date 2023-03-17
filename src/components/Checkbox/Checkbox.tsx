@@ -1,5 +1,5 @@
 import React from 'react';
-import {CheckedLabel, CheckedLabelSizes} from '../CheckedLabel';
+import {CheckedLabel, CheckedLabelSize} from '../CheckedLabel';
 import {block} from '../utils/cn';
 import {ControlProps, DOMProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
@@ -8,7 +8,7 @@ import {CheckboxDashIcon} from './CheckboxDashIcon';
 
 import './Checkbox.scss';
 
-export type CheckboxSize = CheckedLabelSizes;
+export type CheckboxSize = CheckedLabelSize;
 
 export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
     size?: CheckboxSize;

@@ -33,4 +33,5 @@ export type ListProps<T = unknown> = QAProps & {
     onFilterUpdate?: (filter: string) => void;
     onFilterEnd?: ({items}: {items: ListItemData<T>[]}) => void;
     onSortEnd?: (params: ListSortParams) => void;
+    autoFocus?: boolean;
 };

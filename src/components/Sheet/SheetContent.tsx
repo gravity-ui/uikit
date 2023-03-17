@@ -9,6 +9,8 @@ const DEFAULT_TRANSITION_DURATION = '0.3s';
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
+// 90% from viewport
+const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 
 let hashHistory: string[] = [];
 
@@ -64,6 +66,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetTopRef = React.createRef<HTMLDivElement>();
     sheetContentRef = React.createRef<HTMLDivElement>();
     sheetInnerContentRef = React.createRef<HTMLDivElement>();
+    sheetTitleRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: MutationObserver | null = null;
     transitionDuration = DEFAULT_TRANSITION_DURATION;
@@ -161,7 +164,14 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                         onTouchEnd={this.onContentTouchEnd}
                         onTransitionEnd={this.onContentTransitionEnd}
                     >
-                        {title && <div className={sheetBlock('sheet-content-title')}>{title}</div>}
+                        {title && (
+                            <div
+                                ref={this.sheetTitleRef}
+                                className={sheetBlock('sheet-content-title')}
+                            >
+                                {title}
+                            </div>
+                        )}
                         <div ref={this.sheetInnerContentRef}>{content}</div>
                     </div>
                 </div>
@@ -183,6 +193,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private get innerContentHeight() {
         return this.sheetInnerContentRef.current?.getBoundingClientRect().height || 0;
+    }
+
+    private get sheetTitleHeight() {
+        return this.sheetTitleRef.current?.getBoundingClientRect().height || 0;
     }
 
     private get sheetScrollTop() {
@@ -392,12 +406,19 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                 ? `height 0s ease ${this.transitionDuration}`
                 : 'none';
 
-        this.setState({prevInnerContentHeight: this.innerContentHeight});
+        const contentHeight = this.sheetTitleHeight + this.innerContentHeight;
 
-        this.sheetContentRef.current.style.height = `${this.innerContentHeight}px`;
+        const viewportHeight = window.innerHeight;
+        const resultHeight =
+            contentHeight >= viewportHeight
+                ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
+                : contentHeight;
+
+        this.sheetContentRef.current.style.height = `${resultHeight}px`;
         this.sheetRef.current.style.transform = `translate3d(0, -${
-            this.innerContentHeight + this.sheetTopHeight
+            resultHeight + this.sheetTopHeight
         }px, 0)`;
+        this.setState({prevInnerContentHeight: contentHeight});
     };
 
     private addListeners() {

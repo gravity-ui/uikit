@@ -9,6 +9,8 @@ const DEFAULT_TRANSITION_DURATION = '0.3s';
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
+// 90% from viewport
+const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
 
 let hashHistory: string[] = [];
 
@@ -392,12 +394,17 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                 ? `height 0s ease ${this.transitionDuration}`
                 : 'none';
 
-        this.setState({prevInnerContentHeight: this.innerContentHeight});
+        const viewportHeight = window.innerHeight;
+        const contentHeight =
+            this.innerContentHeight >= viewportHeight
+                ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
+                : this.innerContentHeight;
 
-        this.sheetContentRef.current.style.height = `${this.innerContentHeight}px`;
+        this.sheetContentRef.current.style.height = `${contentHeight}px`;
         this.sheetRef.current.style.transform = `translate3d(0, -${
-            this.innerContentHeight + this.sheetTopHeight
+            contentHeight + this.sheetTopHeight
         }px, 0)`;
+        this.setState({prevInnerContentHeight: contentHeight});
     };
 
     private addListeners() {

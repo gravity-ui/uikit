@@ -30,6 +30,7 @@ export const Showcase: Story<SheetProps> = (args: SheetProps) => {
     const [withExtraInnerContent, setWithExtraInnerContent] = React.useState(false);
     const [withExtraInnerContentMoreThenViewport, setWithExtraInnerContentMoreThenViewport] =
         React.useState(false);
+    const [withTitle, setWithTitle] = React.useState(false);
 
     return (
         <div className={b()}>
@@ -43,10 +44,22 @@ export const Showcase: Story<SheetProps> = (args: SheetProps) => {
                     checked={withExtraOuterContent}
                 />
             </div>
+            <div className={b('content-item', b('checkbox'))}>
+                <Checkbox
+                    content="Show title in sheet"
+                    onUpdate={() => setWithTitle(!withTitle)}
+                    checked={withTitle}
+                />
+            </div>
             {withExtraOuterContent && (
                 <div className={b('extra-content')}>{EXTRA_OUTER_CONTENT}</div>
             )}
-            <Sheet {...args} visible={visible} onClose={() => setVisible(false)}>
+            <Sheet
+                {...args}
+                visible={visible}
+                onClose={() => setVisible(false)}
+                title={withTitle ? 'Sheet title' : undefined}
+            >
                 <div className={b('content-item', b('checkbox'))}>
                     <Checkbox
                         content="Extra content"

@@ -21,12 +21,15 @@ const getRandomText = (length: number) => {
 };
 
 const EXTRA_OUTER_CONTENT = getRandomText(8000);
-const EXTRA_INNER_CONTENT = getRandomText(1000);
+const EXTRA_INNER_CONTENT = getRandomText(500);
+const EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT = getRandomText(3000);
 
 export const Showcase: Story<SheetProps> = (args: SheetProps) => {
     const [visible, setVisible] = React.useState(false);
     const [withExtraOuterContent, setWithExtraOuterContent] = React.useState(false);
     const [withExtraInnerContent, setWithExtraInnerContent] = React.useState(false);
+    const [withExtraInnerContentMoreThenViewport, setWithExtraInnerContentMoreThenViewport] =
+        React.useState(false);
 
     return (
         <div className={b()}>
@@ -47,13 +50,33 @@ export const Showcase: Story<SheetProps> = (args: SheetProps) => {
                 <div className={b('content-item', b('checkbox'))}>
                     <Checkbox
                         content="Extra content"
-                        onUpdate={() => setWithExtraInnerContent(!withExtraInnerContent)}
+                        onUpdate={() => {
+                            setWithExtraInnerContent(!withExtraInnerContent);
+                            setWithExtraInnerContentMoreThenViewport(false);
+                        }}
                         checked={withExtraInnerContent}
+                    />
+                </div>
+                <div className={b('content-item', b('checkbox'))}>
+                    <Checkbox
+                        content="Extra content more then viewport"
+                        onUpdate={() => {
+                            setWithExtraInnerContentMoreThenViewport(
+                                !withExtraInnerContentMoreThenViewport,
+                            );
+                            setWithExtraInnerContent(false);
+                        }}
+                        checked={withExtraInnerContentMoreThenViewport}
                     />
                 </div>
                 {withExtraInnerContent && (
                     <div className={b('content-item', b('extra-content'))}>
                         {EXTRA_INNER_CONTENT}
+                    </div>
+                )}
+                {withExtraInnerContentMoreThenViewport && (
+                    <div className={b('content-item', b('extra-content'))}>
+                        {EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT}
                     </div>
                 )}
                 <Button

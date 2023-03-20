@@ -24,6 +24,8 @@ export function useLayer({
     idleTimeout,
 }: LayerProps): boolean {
     const [frozenIdle] = React.useState(idle);
+    const [frozenIdlePriority] = React.useState(idlePriority);
+    const [frozenIdleTimeout] = React.useState(idleTimeout);
 
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
@@ -34,8 +36,8 @@ export function useLayer({
         onClose,
         contentRefs,
         idle: frozenIdle,
-        idlePriority,
-        idleTimeout,
+        idlePriority: frozenIdlePriority,
+        idleTimeout: frozenIdleTimeout,
     });
 
     const [allowedOpen, setAllowedOpen] = React.useState(idle !== true);

@@ -8,15 +8,31 @@ $block: '.#{variables.$ns}dialog';
     &_size {
         &_s {
             width: var(--yc-dialog-size-s);
+
+            #{$block}_adaptive-width#{&} {
+                max-width: var(--yc-dialog-size-s);
+            }
         }
 
         &_m {
             width: var(--yc-dialog-size-m);
+
+            #{$block}_adaptive-width#{&} {
+                max-width: var(--yc-dialog-size-m);
+            }
         }
 
         &_l {
             width: var(--yc-dialog-size-l);
+
+            #{$block}_adaptive-width#{&} {
+                max-width: var(--yc-dialog-size-l);
+            }
         }
+    }
+
+    &_adaptive-width {
+        width: calc(100vw - var(--yc-modal-margin) * 2);
     }
 
     &_has-close {

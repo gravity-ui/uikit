@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}dialog';
         &_s {
             width: var(--yc-dialog-size-s);
 
-            #{$block}_adaptive-width#{&} {
+            @at-root #{$block}_adaptive-width#{&} {
                 max-width: var(--yc-dialog-size-s);
             }
         }
@@ -17,7 +17,7 @@ $block: '.#{variables.$ns}dialog';
         &_m {
             width: var(--yc-dialog-size-m);
 
-            #{$block}_adaptive-width#{&} {
+            @at-root #{$block}_adaptive-width#{&} {
                 max-width: var(--yc-dialog-size-m);
             }
         }
@@ -25,7 +25,7 @@ $block: '.#{variables.$ns}dialog';
         &_l {
             width: var(--yc-dialog-size-l);
 
-            #{$block}_adaptive-width#{&} {
+            @at-root #{$block}_adaptive-width#{&} {
                 max-width: var(--yc-dialog-size-l);
             }
         }

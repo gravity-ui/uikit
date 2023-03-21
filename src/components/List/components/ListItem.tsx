@@ -2,24 +2,10 @@ import React from 'react';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
+import type {ListItemProps} from '../types';
 import {DragHandleIcon} from './DragHandleIcon';
-import type {ListProps, ListItemData, ListSortHandleAlign} from '../types';
 
 const b = block('list');
-
-type ListItemProps<T> = {
-    item: ListItemData<T>;
-    itemIndex: number;
-    active: boolean;
-    selected: boolean;
-    itemClassName?: string;
-    sortable?: boolean;
-    sortHandleAlign?: ListSortHandleAlign;
-    style?: React.CSSProperties;
-    onActivate: (index?: number) => void;
-    renderItem?: ListProps<T>['renderItem'];
-    onClick?: ListProps<T>['onItemClick'];
-};
 
 const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 

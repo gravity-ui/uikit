@@ -1,5 +1,5 @@
 import React from 'react';
-import {CheckedLabel, CheckedLabelSize} from '../CheckedLabel';
+import {ControlLabel, ControlLabelSize} from '../ControlLabel';
 import {block} from '../utils/cn';
 import {DOMProps, ControlProps, QAProps} from '../types';
 import {useRadio} from '../utils/useRadio';
@@ -8,7 +8,7 @@ import './Radio.scss';
 
 const b = block('radio');
 
-export type RadioSize = CheckedLabelSize;
+export type RadioSize = ControlLabelSize;
 
 export interface RadioProps extends ControlProps, DOMProps, QAProps {
     value: string;
@@ -32,7 +32,7 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
     );
 
     return (
-        <CheckedLabel
+        <ControlLabel
             ref={ref}
             title={title}
             style={style}
@@ -50,6 +50,6 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
             control={control}
         >
             {text}
-        </CheckedLabel>
+        </ControlLabel>
     );
 });

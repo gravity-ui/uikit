@@ -1,6 +1,6 @@
 @use '../variables';
 
-$block: '.#{variables.$ns}checked-label';
+$block: '.#{variables.$ns}control-label';
 
 #{$block} {
     display: inline-flex;

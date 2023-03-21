@@ -1,5 +1,5 @@
 import React from 'react';
-import {CheckedLabel, CheckedLabelSize} from '../CheckedLabel';
+import {ControlLabel, ControlLabelSize} from '../ControlLabel';
 import {block} from '../utils/cn';
 import {DOMProps, ControlProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
@@ -8,7 +8,7 @@ import './Switch.scss';
 
 const b = block('switch');
 
-export type SwitchSize = CheckedLabelSize;
+export type SwitchSize = ControlLabelSize;
 
 export interface SwitchProps extends ControlProps, DOMProps, QAProps {
     size?: SwitchSize;
@@ -31,7 +31,7 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
     );
 
     return (
-        <CheckedLabel
+        <ControlLabel
             ref={ref}
             title={title}
             style={style}
@@ -50,6 +50,6 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
             control={control}
         >
             {text}
-        </CheckedLabel>
+        </ControlLabel>
     );
 });

@@ -2,11 +2,11 @@ import React, {forwardRef} from 'react';
 import {block} from '../utils/cn';
 import {Props} from './types';
 
-import './CheckedLabel.scss';
+import './ControlLabel.scss';
 
-const b = block('checked-label');
+const b = block('control-label');
 
-export const CheckedLabel = forwardRef<HTMLLabelElement, Props>(
+export const ControlLabel = forwardRef<HTMLLabelElement, Props>(
     (
         {
             children,
@@ -36,4 +36,4 @@ export const CheckedLabel = forwardRef<HTMLLabelElement, Props>(
     },
 );
 
-CheckedLabel.displayName = 'CheckedLabel';
+ControlLabel.displayName = 'ControlLabel';

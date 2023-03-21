@@ -1,5 +1,5 @@
 import React from 'react';
-import {CheckedLabel, CheckedLabelSize} from '../CheckedLabel';
+import {ControlLabel, ControlLabelSize} from '../ControlLabel';
 import {block} from '../utils/cn';
 import {ControlProps, DOMProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
@@ -8,7 +8,7 @@ import {CheckboxDashIcon} from './CheckboxDashIcon';
 
 import './Checkbox.scss';
 
-export type CheckboxSize = CheckedLabelSize;
+export type CheckboxSize = ControlLabelSize;
 
 export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
     size?: CheckboxSize;
@@ -52,7 +52,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
     );
 
     return (
-        <CheckedLabel
+        <ControlLabel
             ref={ref}
             title={title}
             style={style}
@@ -71,6 +71,6 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
             control={control}
         >
             {text}
-        </CheckedLabel>
+        </ControlLabel>
     );
 });

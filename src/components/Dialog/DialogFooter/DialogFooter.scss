@@ -2,6 +2,9 @@
 
 $block: '.#{variables.$ns}dialog-footer';
 
+$button-margin: 10px;
+$button-stack-width: 128px;
+
 #{$block} {
     padding: var(--yc-dialog-footer-padding);
     display: flex;
@@ -9,6 +12,8 @@ $block: '.#{variables.$ns}dialog-footer';
 
     &__bts-wrapper {
         display: flex;
+        flex-flow: row-reverse wrap;
+        margin: $button-margin * 0.5 * -1;
     }
 
     &__children {
@@ -19,12 +24,13 @@ $block: '.#{variables.$ns}dialog-footer';
     }
 
     &__button {
-        min-width: 128px;
+        min-width: $button-stack-width;
         position: relative;
+        flex-basis: calc(calc(($button-stack-width * 2 + $button-margin * 2) - 100%) * 999);
     }
 
     &__bts-wrapper > &__button {
-        margin-left: 10px;
+        margin: $button-margin * 0.5;
     }
 
     &__error {

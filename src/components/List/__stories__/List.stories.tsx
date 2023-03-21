@@ -1,26 +1,28 @@
-import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {List, ListWrapper, ListProps} from '..';
+import React, {JSXElementConstructor} from 'react';
+import type {ComponentMeta, ComponentStory} from '@storybook/react';
+import {List, ListProps, listDefaultProps} from '..';
 import {ListShowcase} from './ListShowcase';
+
+type ComponentType = JSXElementConstructor<ListProps<string>>;
 
 export default {
     title: 'Components/List',
-    component: ListWrapper,
+    component: List,
     args: {
-        ...ListWrapper.defaultProps,
+        ...listDefaultProps,
     },
-} as Meta;
+} as ComponentMeta<ComponentType>;
 
 const items = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
 
-const DefaultTemplate: Story<ListProps<string>> = (args) => <List {...args} />;
+const DefaultTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items,
     itemsHeight: 150,
 };
 
-const SortableTemplate: Story<ListProps<string>> = (args) => <List {...args} />;
+const SortableTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
 export const Sortable = SortableTemplate.bind({});
 Sortable.args = {
     items,
@@ -28,7 +30,7 @@ Sortable.args = {
     itemsHeight: 150,
 };
 
-const RenderItemTemplate: Story<ListProps<string>> = (args) => <List {...args} />;
+const RenderItemTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
 export const RenderItem = RenderItemTemplate.bind({});
 RenderItem.args = {
     items,
@@ -36,5 +38,5 @@ RenderItem.args = {
     itemsHeight: 150,
 };
 
-const ShowcaseTemplate: Story = () => <ListShowcase />;
+const ShowcaseTemplate: ComponentStory<ComponentType> = () => <ListShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

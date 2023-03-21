@@ -3,7 +3,7 @@
 /src/components/Breadcrumbs @vrozaev
 /src/components/Button @amje
 /src/components/Card @Lunory
-/src/components/Checkbox @Kail1112
+#/src/components/Checkbox
 /src/components/ClipboardButton @damask
 /src/components/ClipboardIcon @damask
 /src/components/CopyToClipboard @damask

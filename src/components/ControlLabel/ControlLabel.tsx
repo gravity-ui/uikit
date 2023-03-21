@@ -6,6 +6,9 @@ import './ControlLabel.scss';
 
 const b = block('control-label');
 
+/**
+ * Wrap with label for `<Checkbox/>`, `<Radio/>`, `<Switch/>`
+ */
 export const ControlLabel = forwardRef<HTMLLabelElement, Props>(
     (
         {

@@ -71,7 +71,7 @@ export class LayerManager {
     private stack: LayerConfig[] = [];
     private preStack: LayerCandidate[] = [];
     private mouseDownLayerTarget?: {layer: LayerConfig; target: HTMLElement};
-    private scheduledAdd: ReturnType<typeof setTimeout> | undefined;
+    private scheduleAddTimeoutId: ReturnType<typeof setTimeout> | undefined;
     private scheduledCandidate: LayerCandidate | undefined;
 
     private checkPreStack = _debounce(() => {
@@ -101,7 +101,7 @@ export class LayerManager {
             ? candidate.config.idleTimeout
             : defaultIdleTimeout;
 
-        this.scheduledAdd = setTimeout(scheduledAdd.bind(this, candidate), timeout);
+        this.scheduleAddTimeoutId = setTimeout(scheduledAdd.bind(this, candidate), timeout);
         this.scheduledCandidate = candidate;
     }, 100);
 
@@ -129,7 +129,7 @@ export class LayerManager {
             config.onRemove?.();
         }
 
-        let preStackIndex = this.preStack.findIndex((item) => item.config === config);
+        const preStackIndex = this.preStack.findIndex((item) => item.config === config);
 
         if (preStackIndex >= 0) {
             this.preStack[preStackIndex].reject();
@@ -166,9 +166,9 @@ export class LayerManager {
         if (this.scheduledCandidate) {
             this.scheduledCandidate = undefined;
         }
-        if (this.scheduledAdd) {
-            clearTimeout(this.scheduledAdd);
-            this.scheduledAdd = undefined;
+        if (this.scheduleAddTimeoutId) {
+            clearTimeout(this.scheduleAddTimeoutId);
+            this.scheduleAddTimeoutId = undefined;
         }
     }
 

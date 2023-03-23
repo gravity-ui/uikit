@@ -101,7 +101,7 @@ export class LayerManager {
             ? candidate.config.idleTimeout
             : defaultIdleTimeout;
 
-        this.scheduleAddTimeoutId = setTimeout(scheduledAdd.bind(this, candidate), timeout);
+        this.scheduleAddTimeoutId = setTimeout(scheduledAdd.bind(null, candidate), timeout);
         this.scheduledCandidate = candidate;
     }, 100);
 

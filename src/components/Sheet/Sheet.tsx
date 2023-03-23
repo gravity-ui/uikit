@@ -24,6 +24,7 @@ export interface SheetProps {
     allowHideOnContentScroll?: boolean;
     /** Hide top bar with resize handle */
     hideTopBar?: boolean;
+    qa?: string;
 }
 
 interface SheetState {
@@ -107,10 +108,11 @@ export class Sheet extends React.Component<SheetProps, SheetState> {
             visible,
             allowHideOnContentScroll,
             hideTopBar,
+            qa,
         } = this.props;
 
         return (
-            <div className={sheetBlock(null, className)}>
+            <div data-qa={qa} className={sheetBlock(null, className)}>
                 <SheetContentContainer
                     id={id}
                     content={children}

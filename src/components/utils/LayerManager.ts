@@ -129,13 +129,7 @@ export class LayerManager {
             config.onRemove?.();
         }
 
-        let preStackIndex = -1;
-        for (let i = 0; i < this.preStack.length; i++) {
-            if (this.preStack[i].config === config) {
-                preStackIndex = i;
-                break;
-            }
-        }
+        let preStackIndex = this.preStack.findIndex((item) => item.config === config);
 
         if (preStackIndex >= 0) {
             this.preStack[preStackIndex].reject();

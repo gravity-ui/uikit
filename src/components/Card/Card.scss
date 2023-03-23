@@ -107,12 +107,10 @@ $block: '.#{variables.$ns}card';
         &#{$block}_view_raised {
             background-color: var(--yc-color-base-float);
 
-            &_size_m {
-                // yc-card yc-card_theme_normal yc-card_view_raised yc-card_type_container yc-card_size_m card-stories
+            @at-root &#{$block}_size_m {
                 --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
             }
-            &_size_l {
-                // yc-card yc-card_theme_normal yc-card_view_raised yc-card_type_container yc-card_size_l card-stories
+            @at-root &#{$block}_size_l {
                 --yc-card-box-shadow: 0px 1px 6px var(--yc-color-sfx-shadow-light),
                     1px 3px 13px var(--yc-color-sfx-shadow-light);
             }

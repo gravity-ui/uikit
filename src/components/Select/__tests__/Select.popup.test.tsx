@@ -1,15 +1,16 @@
 import {DEFAULT_OPTIONS, setup, TEST_QA} from './utils';
 import userEvent from '@testing-library/user-event';
+import {SelectQa} from '../constants';
 
 const onUpdate = jest.fn();
 describe('Select popup', () => {
     test.each([
         {
-            attribute: 'select-sheet',
+            attribute: SelectQa.SHEET,
             mode: 'mobile',
         },
         {
-            attribute: 'select-popup',
+            attribute: SelectQa.POPUP,
             mode: 'desktop',
         },
     ])('should render $attribute, when mode is $mode', async ({mode, attribute}) => {

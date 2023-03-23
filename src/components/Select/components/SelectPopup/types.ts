@@ -9,4 +9,6 @@ export type SelectPopupProps = {
     className?: string;
     disablePortal?: boolean;
     virtualized?: boolean;
+
+    mobile: boolean;
 };

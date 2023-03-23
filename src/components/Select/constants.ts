@@ -27,4 +27,5 @@ export const DEFAULT_VIRTUALIZATION_THRESHOLD = 50;
 export const SelectQa = {
     LIST: 'select-list',
     POPUP: 'select-popup',
+    SHEET: 'select-sheet',
 };

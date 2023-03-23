@@ -1,6 +1,7 @@
 import type React from 'react';
 
 export type SelectPopupProps = {
+    mobile: boolean;
     handleClose: () => void;
     width?: number;
     open?: boolean;
@@ -9,6 +10,4 @@ export type SelectPopupProps = {
     className?: string;
     disablePortal?: boolean;
     virtualized?: boolean;
-
-    mobile: boolean;
 };

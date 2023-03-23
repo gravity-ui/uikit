@@ -114,9 +114,9 @@ export class LayerManager {
             }
 
             return this.addToPreStack(config);
-        } else {
-            this.addToStack(config);
         }
+
+        this.addToStack(config);
 
         return Promise.resolve();
     }

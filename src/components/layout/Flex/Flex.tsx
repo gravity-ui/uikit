@@ -38,9 +38,11 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
     alignItems?: AdaptiveProp<'alignItems'>;
     /**
      * `flex-wrap` property
+     *
+     * If value equals `true`, add css property `flex-wrap: wrap`;
      */
-    wrap?: React.CSSProperties['flexWrap'];
-    width?: React.CSSProperties['width'];
+    wrap?: true | React.CSSProperties['flexWrap'];
+    width?: number;
     /**
      * display: inline-flex;
      */
@@ -179,7 +181,7 @@ export const Flex = React.forwardRef(
                     flexDirection:
                         typeof direction === 'function' ? direction(isMediaActive) : direction,
                     flexGrow: grow === true ? 1 : grow,
-                    flexWrap: wrap,
+                    flexWrap: wrap === true ? 'wrap' : wrap,
                     flexBasis: basis,
                     flexShrink: shrink,
                     gap: g ? SPACE_TO_PIXEL[g] : undefined,
@@ -197,7 +199,12 @@ export const Flex = React.forwardRef(
                 data-qa={qa}
                 {...restProps}
             >
-                {children}
+                {space
+                    ? React.Children.map(children, (child) => (
+                          // `space` uses negative margins under the hood. This is hack to prevent wrong background position appearance.
+                          <div className={b('wr')}>{child}</div>
+                      ))
+                    : children}
             </Tag>
         );
     },

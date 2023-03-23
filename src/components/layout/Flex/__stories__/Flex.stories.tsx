@@ -6,6 +6,7 @@ import {Row} from '../../Row/Row';
 import {Box, LayoutPresenter} from '../../demo';
 import {Container} from '../..';
 import {Text} from '../../../Text';
+import {Button} from '../../../Button/Button';
 
 export default {
     title: 'Layout (unstable)/Flex',
@@ -69,3 +70,21 @@ GapAndRowGap.args = {
     gap: 'l',
     rowGap: 'nano',
 };
+
+const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
+    <LayoutPresenter title="Change screen size to 's' to see result">
+        <Container>
+            <Row>
+                <Col>
+                    <Flex {...args} space wrap>
+                        <Button>Some element with background</Button>
+                        <Button>Some element with background</Button>
+                    </Flex>
+                </Col>
+            </Row>
+        </Container>
+    </LayoutPresenter>
+);
+
+export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
+ChildrenWithBgColor.args = {};

@@ -7,5 +7,6 @@ export * from './types';
 export * from './components/ListItem';
 export {ListQa} from './constants';
 
+/** @deprecated Use `<List/>` */
 export const ListWrapper: FC<ListProps<any>> = (props) => <List {...props} />;
 ListWrapper.defaultProps = listDefaultProps;

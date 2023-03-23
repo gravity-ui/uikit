@@ -1,4 +1,5 @@
 import React from 'react';
+import {ControlLabel, ControlLabelSize} from '../ControlLabel';
 import {block} from '../utils/cn';
 import {DOMProps, ControlProps, QAProps} from '../types';
 import {useRadio} from '../utils/useRadio';
@@ -7,7 +8,7 @@ import './Radio.scss';
 
 const b = block('radio');
 
-export type RadioSize = 'm' | 'l';
+export type RadioSize = ControlLabelSize;
 
 export interface RadioProps extends ControlProps, DOMProps, QAProps {
     value: string;
@@ -22,11 +23,21 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
     const {checked, inputProps} = useRadio(props);
     const text = content || children;
 
+    const control = (
+        <span className={b('indicator')}>
+            <span className={b('disc')} />
+            <input {...inputProps} className={b('control')} />
+            <span className={b('outline')} />
+        </span>
+    );
+
     return (
-        <label
+        <ControlLabel
             ref={ref}
             title={title}
             style={style}
+            size={size}
+            disabled={disabled}
             className={b(
                 {
                     size,
@@ -35,14 +46,10 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
                 },
                 className,
             )}
-            data-qa={qa}
+            qa={qa}
+            control={control}
         >
-            <span className={b('indicator')}>
-                <span className={b('disc')} />
-                <input {...inputProps} className={b('control')} />
-                <span className={b('outline')} />
-            </span>
-            {text && <span className={b('text')}>{text}</span>}
-        </label>
+            {text}
+        </ControlLabel>
     );
 });

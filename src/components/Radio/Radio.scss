@@ -5,15 +5,6 @@ $discMarginMSize: 5px;
 $discMarginLSize: 6px;
 
 #{$block} {
-    display: inline-flex;
-    font-family: var(--yc-text-body-font-family);
-    font-weight: normal;
-    color: var(--yc-color-text-primary);
-    user-select: none;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    cursor: pointer;
-
     &__indicator {
         flex-shrink: 0;
         display: inline-block;
@@ -86,22 +77,11 @@ $discMarginLSize: 6px;
         box-shadow: none;
     }
 
-    &__text {
-        white-space: normal;
-    }
-
     &_size {
         &_m {
-            font-size: 13px;
-            line-height: 15px;
-
             #{$block}__indicator {
                 width: 14px;
                 height: 14px;
-            }
-
-            #{$block}__text {
-                margin-left: 5px;
             }
 
             #{$block}__disc::before {
@@ -113,16 +93,9 @@ $discMarginLSize: 6px;
         }
 
         &_l {
-            font-size: 15px;
-            line-height: 18px;
-
             #{$block}__indicator {
                 width: 17px;
                 height: 17px;
-            }
-
-            #{$block}__text {
-                margin-left: 7px;
             }
 
             #{$block}__disc::before {
@@ -157,13 +130,6 @@ $discMarginLSize: 6px;
     }
 
     &_disabled {
-        cursor: default;
-        pointer-events: none;
-
-        #{$block}__text {
-            opacity: 0.6;
-        }
-
         #{$block}__indicator {
             &::before {
                 background-color: var(--yc-color-base-generic-accent-disabled);

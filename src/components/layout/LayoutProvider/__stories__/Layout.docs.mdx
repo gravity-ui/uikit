@@ -200,8 +200,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
     /**
      * In this example we override default theme behavior.
      *
-     * If you want to override behavior to different media queries, you should use predicate function:
-     * space = (matchMedia => matchMedia('xl') ? 'l' : 'nano')
+     * space={{s: 'nano', xl:'l'}}
      */
     space="l"
 >
@@ -266,8 +265,8 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex
     // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
-    direction={(matchMedia) => (matchMedia('l') ? 'column' : 'row')}
-    space={(matchMedia) => (matchMedia('l') ? 'm' : 'l')}
+    direction={{l: 'column'}}
+    space={{s: 'l', m: 's'}}
 >
     <TextInput />
     <Button />

@@ -9,4 +9,4 @@ export * from './useThemeType';
 export * from './withTheme';
 export * from './withThemeValue';
 export * from './getThemeType';
-export {Theme} from './types';
+export {Theme, RealTheme, ThemeType} from './types';

@@ -22,7 +22,6 @@ export interface LayerConfig extends LayerExtendableProps {
     idleTimeout?: number;
     idlePriority?: number;
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
-    onRemove?: () => void;
 }
 
 const createPromise = (): {promise: Promise<void>; resolve: () => void; reject: () => void} => {
@@ -126,7 +125,6 @@ export class LayerManager {
 
         if (index >= 0) {
             this.stack.splice(index, 1);
-            config.onRemove?.();
         }
 
         const preStackIndex = this.preStack.findIndex((item) => item.config === config);

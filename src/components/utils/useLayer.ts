@@ -48,7 +48,6 @@ export function useLayer({
             onClose,
             contentRefs,
             enabled,
-            onRemove: setAllowedOpen.bind(null, false),
         });
     }, [
         disableEscapeKeyDown,
@@ -76,6 +75,7 @@ export function useLayer({
 
             return () => {
                 layerManager.remove(layerConfig);
+                setAllowedOpen(false);
             };
         }
 

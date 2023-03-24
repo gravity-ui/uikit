@@ -36,11 +36,12 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         options: flattenOptions,
         getOptionHeight,
         size,
+        mobile,
     });
 
     const getItemHeight = React.useCallback(
         (option: FlattenOption, index: number) => {
-            return getPopupItemHeight({getOptionHeight, size, option, index});
+            return getPopupItemHeight({getOptionHeight, size, option, index, mobile});
         },
         [getOptionHeight, size],
     );

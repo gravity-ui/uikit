@@ -14,6 +14,8 @@ export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, numbe
     xl: 36,
 };
 
+export const MOBILE_ITEM_HEIGHT = 32;
+
 export const GROUP_ITEM_MARGIN_TOP = 5;
 
 export const BORDER_WIDTH = 1;

@@ -199,7 +199,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     }
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
-    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
+    const {onFocus, onBlur} = useOnFocusOutside({enabled: false, onFocusOutside: handleClose});
 
     return (
         <div
@@ -255,6 +255,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         ref={listRef}
                         size={size}
                         value={value}
+                        mobile={mobile}
                         flattenOptions={filteredFlattenOptions}
                         multiple={multiple}
                         virtualized={virtualized}

@@ -9,6 +9,7 @@ import {OptionWrap} from './OptionWrap';
 import './SelectList.scss';
 
 type SelectListProps = {
+    mobile: boolean;
     onOptionClick: (option: FlattenOption) => void;
     renderOption?: SelectProps['renderOption'];
     getOptionHeight?: SelectProps['getOptionHeight'];
@@ -29,6 +30,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         value,
         multiple,
         virtualized,
+        mobile,
     } = props;
     const optionsHeight = getOptionsHeight({
         options: flattenOptions,
@@ -64,7 +66,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     return (
         <List
             ref={ref}
-            className={selectListBlock({size, virtualized})}
+            className={selectListBlock({size, virtualized, mobile})}
             qa={SelectQa.LIST}
             itemClassName={selectListBlock('item')}
             itemHeight={getItemHeight}

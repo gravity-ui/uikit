@@ -199,7 +199,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     }
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
-    const {onFocus, onBlur} = useOnFocusOutside({enabled: false, onFocusOutside: handleClose});
+    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
 
     return (
         <div

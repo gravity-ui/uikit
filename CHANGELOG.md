@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.4.0](https://github.com/gravity-ui/uikit/compare/v4.3.0...v4.4.0) (2023-03-27)
+
+
+### Features
+
+* added wrappers to Flex children components if spacing enabled ([#573](https://github.com/gravity-ui/uikit/issues/573)) ([0a44309](https://github.com/gravity-ui/uikit/commit/0a44309ba66ee5b63a0f364d5a037bfb1f2dcce8))
+* **List:** add autoFocus ([#570](https://github.com/gravity-ui/uikit/issues/570)) ([3b96d37](https://github.com/gravity-ui/uikit/commit/3b96d372e115ce283c3a601a1db7a051b6e80f7a))
+* **Select:** add generic type for select option data ([#569](https://github.com/gravity-ui/uikit/issues/569)) ([21819cb](https://github.com/gravity-ui/uikit/commit/21819cbbf80a0052d33a78bc9e5ba9415472f586))
+* **Select:** add support mobile view ([#579](https://github.com/gravity-ui/uikit/issues/579)) ([0c0df4a](https://github.com/gravity-ui/uikit/commit/0c0df4a58aa81a81bcd14477c584dec77b6cb171))
+
+
+### Bug Fixes
+
+* **SheetContent:** fix setting height for content ([#572](https://github.com/gravity-ui/uikit/issues/572)) ([e749230](https://github.com/gravity-ui/uikit/commit/e74923009c2c233c0d74c7c19733dd17a20c617d))
+
 ## [4.3.0](https://github.com/gravity-ui/uikit/compare/v4.2.0...v4.3.0) (2023-03-16)
 
 

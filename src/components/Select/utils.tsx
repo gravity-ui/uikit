@@ -4,7 +4,7 @@ import type {List, ListItemData} from '../List';
 import {KeyCode} from '../constants';
 import type {SelectProps, SelectOption, SelectOptionGroup} from './types';
 import {Option, OptionGroup} from './tech-components';
-import {GROUP_ITEM_MARGIN_TOP, SIZE_TO_ITEM_HEIGHT} from './constants';
+import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
 
 // "disable" property needs to deactivate group title item in List
 type GroupTitleItem = {label: string; disabled: true};
@@ -31,25 +31,30 @@ export const getPopupItemHeight = (args: {
     size: NonNullable<SelectProps['size']>;
     option: FlattenOption;
     index: number;
+    mobile: boolean;
 }) => {
-    const {getOptionHeight, size, option, index} = args;
+    const {getOptionHeight, size, option, index, mobile} = args;
+
+    const itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
 
     if ('label' in option) {
         const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;
-        return SIZE_TO_ITEM_HEIGHT[size] + marginTop;
+
+        return itemHeight + marginTop;
     }
 
-    return getOptionHeight ? getOptionHeight(option) : SIZE_TO_ITEM_HEIGHT[size];
+    return getOptionHeight ? getOptionHeight(option) : itemHeight;
 };
 
 export const getOptionsHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
     size: NonNullable<SelectProps['size']>;
     options: FlattenOption[];
+    mobile: boolean;
 }) => {
-    const {getOptionHeight, size, options} = args;
+    const {getOptionHeight, size, options, mobile} = args;
     return options.reduce((height, option, index) => {
-        return height + getPopupItemHeight({getOptionHeight, size, option, index});
+        return height + getPopupItemHeight({getOptionHeight, size, option, index, mobile});
     }, 0);
 };
 

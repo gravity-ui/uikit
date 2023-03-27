@@ -1,6 +1,7 @@
 import type React from 'react';
 
 export type SelectPopupProps = {
+    mobile: boolean;
     handleClose: () => void;
     width?: number;
     open?: boolean;

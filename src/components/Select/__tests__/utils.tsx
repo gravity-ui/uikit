@@ -3,6 +3,7 @@ import {act, render} from '@testing-library/react';
 import {range} from 'lodash';
 import {Select, SelectProps, SelectOption, SelectOptionGroup} from '..';
 import {selectControlBlock, selectListBlock} from '../constants';
+import {MobileProvider} from '../../mobile';
 
 export const OptionsListType = {
     FLAT: 'flat',
@@ -46,8 +47,12 @@ export const ControlledSelect = (props: Partial<SelectProps>) => {
     );
 };
 
-export function setup(props: Partial<SelectProps> = {}) {
-    const utils = render(<ControlledSelect {...props} />);
+export function setup(props: Partial<SelectProps> = {}, mobile?: boolean) {
+    const utils = render(
+        <MobileProvider mobile={Boolean(mobile)}>
+            <ControlledSelect {...props} />
+        </MobileProvider>,
+    );
     return utils;
 }
 

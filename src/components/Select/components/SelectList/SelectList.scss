@@ -26,6 +26,10 @@ $xl-right-padding: '12px';
         border-radius: 0;
     }
 
+    &_mobile {
+        max-height: calc(90vh - 20px);
+    }
+
     &__group-label {
         box-sizing: border-box;
         position: relative;
@@ -49,6 +53,12 @@ $xl-right-padding: '12px';
         #{$block}_size_xl & {
             height: #{$xl-height};
             padding: 12px #{$xl-right-padding} 8px #{$xl-left-padding};
+            font-size: 15px;
+        }
+
+        #{$block}_mobile & {
+            height: #{$l-height};
+            padding: 12px #{$l-right-padding} 8px #{$l-left-padding};
             font-size: 15px;
         }
 
@@ -132,6 +142,20 @@ $xl-right-padding: '12px';
 
             & #{$block}__tick-icon {
                 padding-left: #{$xl-right-padding};
+            }
+        }
+
+        #{$block}_mobile & {
+            padding: 0 #{$l-right-padding} 0 #{$l-left-padding};
+
+            & #{$block}__option-default-label {
+                height: #{$l-height};
+                line-height: #{$l-height};
+                font-size: 15px;
+            }
+
+            & #{$block}__tick-icon {
+                padding-left: #{$l-right-padding};
             }
         }
 

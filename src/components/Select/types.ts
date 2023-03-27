@@ -7,7 +7,7 @@ import {Option, OptionGroup} from './tech-components';
 export type SelectRenderControlProps = {
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-    ref: React.Ref<HTMLElement>;
+    ref: React.Ref<HTMLElement> | React.LegacyRef<HTMLElement>;
     open: boolean;
 };
 export type SelectRenderControlOptions = {

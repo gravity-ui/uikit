@@ -20,7 +20,7 @@ const pickContainerProps = ({
 };
 
 export const useContainerThemeProps = () => {
-    const {theme, getClosestMediaProps, isMediaActive} = useLayoutContext();
+    const {theme, getClosestMediaProps} = useLayoutContext();
 
     const containerThemeProps = React.useMemo(
         () => ({
@@ -33,7 +33,7 @@ export const useContainerThemeProps = () => {
     );
 
     return {
-        isMediaActive,
+        getClosestMediaProps,
         containerThemeProps,
     };
 };

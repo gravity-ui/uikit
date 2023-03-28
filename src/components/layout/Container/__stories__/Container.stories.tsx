@@ -30,6 +30,6 @@ const DefaultTemplate: Story<ContainerProps> = (args) => (
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
-    spaceRow: (matchMedia) => (matchMedia('m') ? 'l' : 'nano'),
+    spaceRow: {m: 'nano'},
     maxWidth: 'l',
 };

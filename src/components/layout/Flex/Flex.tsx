@@ -2,7 +2,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {Space, IsMediaActive} from '../types';
+import {Space, MediaPartial} from '../types';
 import {QAProps} from '../../types';
 import {SPACE_TO_PIXEL} from '../constants';
 import {useFlexThemeProps} from './useFlexThemeProps';
@@ -13,7 +13,7 @@ const b = block('flex');
 
 type AdaptiveProp<T extends keyof React.CSSProperties> =
     | React.CSSProperties[T]
-    | ((fn: IsMediaActive) => React.CSSProperties[T]);
+    | MediaPartial<React.CSSProperties[T]>;
 
 export interface FlexProps<T extends React.ElementType> extends QAProps {
     as?: T;
@@ -50,8 +50,8 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
     /**
      * `gap - true` - use space value for current media query from theme
      */
-    gap?: Space | true;
-    rowGap?: Space;
+    gap?: Space | true | MediaPartial<Space>;
+    gapRow?: Space | MediaPartial<Space>;
     /**
      * Space between children. Works like gap but supports in old browsers. Under the hoods uses negative margins. Vertical and horizontal directions are also supported
      *
@@ -78,7 +78,7 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
      * </Flex>
      * ```
      */
-    space?: true | Space | ((fn: IsMediaActive) => Space | undefined);
+    space?: true | Space | MediaPartial<Space>;
     children?: React.ReactNode;
     style?: React.CSSProperties;
     className?: string;
@@ -110,9 +110,9 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
  * ```tsx
  * <Flex
  *  // space dynamically changes instead of current media query
- *  space={matchMedia => matchMedia('m') ? 'l' : 'nano'}
+ *  space={{s: 'nano', m: 'l'}}
  *  // `flex-direction: column` will be applied to `l`, 'xl', 'xxl' and `xxxl` media queries
- *  direction={matchMedia => matchMedia('m') ? 'row' : 'column'}
+ *  direction={{'s': 'column', 'm': 'row'}}
  * >
  *  {...}
  * </Flex>
@@ -139,31 +139,50 @@ export const Flex = React.forwardRef(
             inline,
             title,
             gap,
-            rowGap,
+            gapRow,
             className,
             space,
             qa,
             ...restProps
         } = props;
 
-        const {isMediaActive, themeFlexProps} = useFlexThemeProps();
+        const {getClosestMediaProps, themeFlexProps} = useFlexThemeProps();
 
         let s: Space | undefined;
+        let g: Space | undefined;
+        let gr: Space | undefined;
+        let columnGap: number | undefined;
+        let rowGap: number | undefined;
 
-        if (typeof space === 'function') {
-            s = space(isMediaActive);
+        if (typeof space === 'object') {
+            s = getClosestMediaProps(space) || themeFlexProps.space;
         } else if (space === true) {
             s = themeFlexProps.space;
         } else {
             s = space;
         }
 
-        let g: Space | undefined;
-
-        if (gap === true) {
+        if (typeof gap === 'object') {
+            g = getClosestMediaProps(gap) || themeFlexProps.space;
+        } else if (gap === true) {
             g = themeFlexProps.space;
         } else {
             g = gap;
+        }
+
+        if (typeof gapRow === 'object') {
+            gr = getClosestMediaProps(gapRow);
+        } else if (gapRow) {
+            gr = gapRow;
+        } else if (g) {
+            gr = g;
+        }
+
+        if (g) {
+            columnGap = SPACE_TO_PIXEL[g];
+        }
+        if (gr) {
+            rowGap = SPACE_TO_PIXEL[gr];
         }
 
         return (
@@ -171,7 +190,7 @@ export const Flex = React.forwardRef(
                 className={b(
                     {
                         inline,
-                        s: gap || rowGap ? undefined : s,
+                        s: gap || gapRow ? undefined : s,
                     },
                     className,
                 )}
@@ -179,19 +198,21 @@ export const Flex = React.forwardRef(
                     width,
                     alignSelf,
                     flexDirection:
-                        typeof direction === 'function' ? direction(isMediaActive) : direction,
+                        typeof direction === 'object' ? getClosestMediaProps(direction) : direction,
                     flexGrow: grow === true ? 1 : grow,
                     flexWrap: wrap === true ? 'wrap' : wrap,
                     flexBasis: basis,
                     flexShrink: shrink,
-                    gap: g ? SPACE_TO_PIXEL[g] : undefined,
-                    rowGap: rowGap ? SPACE_TO_PIXEL[rowGap] : undefined,
+                    columnGap,
+                    rowGap,
                     justifyContent:
-                        typeof justifyContent === 'function'
-                            ? justifyContent(isMediaActive)
+                        typeof justifyContent === 'object'
+                            ? getClosestMediaProps(justifyContent)
                             : justifyContent,
                     alignItems:
-                        typeof alignItems === 'function' ? alignItems(isMediaActive) : alignItems,
+                        typeof alignItems === 'object'
+                            ? getClosestMediaProps(alignItems)
+                            : alignItems,
                     ...style,
                 }}
                 title={title}

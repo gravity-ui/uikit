@@ -12,7 +12,7 @@ const pickFlexProps = ({space}: CommonProps = {}) => {
 };
 
 export const useFlexThemeProps = () => {
-    const {theme, getClosestMediaProps, isMediaActive} = useLayoutContext();
+    const {theme, getClosestMediaProps} = useLayoutContext();
 
     const themeFlexProps = React.useMemo(
         () => ({
@@ -24,6 +24,6 @@ export const useFlexThemeProps = () => {
 
     return {
         themeFlexProps,
-        isMediaActive,
+        getClosestMediaProps,
     };
 };

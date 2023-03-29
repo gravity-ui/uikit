@@ -1,4 +1,3 @@
-@use '../../../styles/mixins';
 @use '../variables';
 
 .#{variables.$ns}form-row {
@@ -7,12 +6,17 @@
     display: flex;
 
     &__left {
-        @include mixins.overflow-ellipsis;
+        display: flex;
+        flex-flow: row;
+        min-height: 28px;
         box-sizing: border-box;
         flex-shrink: 0;
         width: 172px;
         padding-right: 8px;
-        padding-top: 5px;
+    }
+
+    &__field-name {
+        align-self: center;
     }
 
     &__required-mark {

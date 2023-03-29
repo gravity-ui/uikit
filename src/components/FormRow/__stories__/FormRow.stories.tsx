@@ -19,6 +19,11 @@ const Template: ComponentStory<typeof FormRow> = (args) => <FormRow {...args} />
 
 export const Default = Template.bind({});
 
+export const WithLongLabel = Template.bind({});
+WithLongLabel.args = {
+    fieldName: 'Very long label for text field to test how it will wrap label text in real life',
+};
+
 export const RequiredField = Template.bind({});
 RequiredField.args = {
     fieldRequired: true,

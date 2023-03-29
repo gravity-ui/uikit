@@ -10,9 +10,9 @@ export default {
     component: FormRow,
 } as ComponentMeta<typeof FormRow>;
 
-const DefaultTemplate: ComponentStory<typeof FormRow> = (args) => <FormRow {...args} />;
+const Template: ComponentStory<typeof FormRow> = (args) => <FormRow {...args} />;
 
-export const Default = DefaultTemplate.bind({});
+export const Default = Template.bind({});
 Default.args = {
     fieldName: 'Enter your name',
     fieldId,

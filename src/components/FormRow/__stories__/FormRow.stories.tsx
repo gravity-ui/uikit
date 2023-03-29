@@ -38,6 +38,13 @@ WithFieldDescription.args = {
     ),
 };
 
+export const WithFieldDescriptionAndLongLabel = Template.bind({});
+WithFieldDescriptionAndLongLabel.storyName = 'With Field Description (Long Label)';
+WithFieldDescriptionAndLongLabel.args = {
+    ...WithFieldDescription.args,
+    ...WithLongLabel.args,
+};
+
 export const RequiredField = Template.bind({});
 RequiredField.args = {
     fieldRequired: true,
@@ -51,4 +58,11 @@ WithHelpPopover.args = {
             placement={['top', 'bottom']}
         />
     ),
+};
+
+export const WithHelpPopoverAndLongLabel = Template.bind({});
+WithHelpPopoverAndLongLabel.storyName = 'With Help Popover (Long Label)';
+WithHelpPopoverAndLongLabel.args = {
+    ...WithLongLabel.args,
+    ...WithHelpPopover.args,
 };

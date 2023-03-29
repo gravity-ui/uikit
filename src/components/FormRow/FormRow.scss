@@ -2,17 +2,16 @@
 @use '../variables';
 
 .#{variables.$ns}form-row {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     align-items: flex-start;
     display: flex;
-    width: 100%;
 
     &__left {
         @include mixins.overflow-ellipsis;
         box-sizing: border-box;
         flex-shrink: 0;
-        width: 120px;
-        padding-right: 10px;
+        width: 172px;
+        padding-right: 8px;
         padding-top: 5px;
     }
 

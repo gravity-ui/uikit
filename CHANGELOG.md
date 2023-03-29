@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.2](https://github.com/gravity-ui/uikit/compare/v4.4.1...v4.4.2) (2023-03-29)
+
+
+### Bug Fixes
+
+* **Select:** fix scroll when virtualization disabled ([#593](https://github.com/gravity-ui/uikit/issues/593)) ([e78e7ad](https://github.com/gravity-ui/uikit/commit/e78e7ade595570f0207bae3939f88e1e49a1311c))
+
 ## [4.4.1](https://github.com/gravity-ui/uikit/compare/v4.4.0...v4.4.1) (2023-03-29)
 
 

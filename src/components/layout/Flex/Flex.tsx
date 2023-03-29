@@ -221,10 +221,10 @@ export const Flex = React.forwardRef(
                 {...restProps}
             >
                 {space
-                    ? React.Children.map(children, (child) => (
+                    ? React.Children.map(children, (child) =>
                           // `space` uses negative margins under the hood. This is hack to prevent wrong background position appearance.
-                          <div className={b('wr')}>{child}</div>
-                      ))
+                          child ? <div className={b('wr')}>{child}</div> : child,
+                      )
                     : children}
             </Tag>
         );

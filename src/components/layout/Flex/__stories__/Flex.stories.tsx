@@ -107,3 +107,25 @@ const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
 
 export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
 ChildrenWithBgColor.args = {};
+
+const WithNullChildrensTemplate: Story<FlexProps<'div'>> = (args) => (
+    <LayoutPresenter title="Change screen size to 's' to see result">
+        <Container>
+            <Row>
+                <Col>
+                    <Flex {...args} space="l" direction="column">
+                        <Box />
+                        {null}
+                        {null}
+                        <Box />
+                        {null}
+                        <Box />
+                    </Flex>
+                </Col>
+            </Row>
+        </Container>
+    </LayoutPresenter>
+);
+
+export const WithNullChildrens = WithNullChildrensTemplate.bind({});
+WithNullChildrens.args = {};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {block} from '../utils/cn';
 import i18n from './i18n';
 
@@ -15,14 +15,14 @@ export interface FormRowProps {
     children?: React.ReactNode;
 }
 
-export function FormRow({
+export const FormRow: FC<FormRowProps> = ({
     className,
     fieldName,
     fieldHelpPopover,
     fieldId,
     fieldRequired = false,
     children,
-}: FormRowProps) {
+}) => {
     const LabelComponent = fieldId ? 'label' : 'span';
 
     return (
@@ -47,4 +47,6 @@ export function FormRow({
             <div className={b('right')}>{children}</div>
         </div>
     );
-}
+};
+
+FormRow.displayName = 'FormRow';

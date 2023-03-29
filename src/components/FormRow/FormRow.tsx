@@ -1,5 +1,6 @@
 import React from 'react';
 import {block} from '../utils/cn';
+import i18n from './i18n';
 
 import './FormRow.scss';
 
@@ -9,10 +10,17 @@ export interface FormRowProps {
     className?: string;
     fieldName?: React.ReactNode;
     fieldId?: string;
+    fieldRequired?: boolean;
     children?: React.ReactNode;
 }
 
-export function FormRow({className, fieldName, fieldId, children}: FormRowProps) {
+export function FormRow({
+    className,
+    fieldName,
+    fieldId,
+    fieldRequired = false,
+    children,
+}: FormRowProps) {
     const LabelComponent = fieldId ? 'label' : 'span';
 
     return (
@@ -20,6 +28,14 @@ export function FormRow({className, fieldName, fieldId, children}: FormRowProps)
             <div className={b('left')}>
                 <LabelComponent className={b('field-name')} htmlFor={fieldId ? fieldId : undefined}>
                     {fieldName}
+                    {fieldRequired ? (
+                        <sup
+                            className={b('required-mark')}
+                            aria-label={i18n('label_required-field')}
+                        >
+                            *
+                        </sup>
+                    ) : null}
                 </LabelComponent>
             </div>
             <div className={b('right')}>{children}</div>

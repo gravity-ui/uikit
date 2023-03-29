@@ -16,6 +16,12 @@
         padding-top: 5px;
     }
 
+    &__required-mark {
+        margin-left: 2px;
+        line-height: 0;
+        color: var(--yc-color-text-danger);
+    }
+
     &__right {
         flex-grow: 1;
     }

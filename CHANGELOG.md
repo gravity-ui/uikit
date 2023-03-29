@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.4.1](https://github.com/gravity-ui/uikit/compare/v4.4.0...v4.4.1) (2023-03-29)
+
+
+### Bug Fixes
+
+* **layout/Flex:** remove wrappers around null children elements ([#588](https://github.com/gravity-ui/uikit/issues/588)) ([6c6c62f](https://github.com/gravity-ui/uikit/commit/6c6c62f3c4e13025f299c9019d700ce22f0bc1ec))
+* **layout:** fixed flex gap properties and replaced api with complex … ([#583](https://github.com/gravity-ui/uikit/issues/583)) ([8686fbb](https://github.com/gravity-ui/uikit/commit/8686fbbfe0c633184a8dbf1cebfebfffb6de4943))
+
 ## [4.4.0](https://github.com/gravity-ui/uikit/compare/v4.3.0...v4.4.0) (2023-03-27)
 
 

@@ -9,6 +9,7 @@ const b = block('form-row');
 export interface FormRowProps {
     className?: string;
     fieldName?: React.ReactNode;
+    fieldHelpPopover?: React.ReactNode;
     fieldId?: string;
     fieldRequired?: boolean;
     children?: React.ReactNode;
@@ -17,6 +18,7 @@ export interface FormRowProps {
 export function FormRow({
     className,
     fieldName,
+    fieldHelpPopover,
     fieldId,
     fieldRequired = false,
     children,
@@ -37,6 +39,10 @@ export function FormRow({
                         </sup>
                     ) : null}
                 </LabelComponent>
+
+                {fieldHelpPopover ? (
+                    <span className={b('help-popover')}>{fieldHelpPopover}</span>
+                ) : null}
             </div>
             <div className={b('right')}>{children}</div>
         </div>

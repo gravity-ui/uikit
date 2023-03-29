@@ -1,5 +1,6 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
+import {HelpPopover} from '../../HelpPopover';
 import {Text} from '../../Text';
 import {FormRow} from '../FormRow';
 import {TextInput} from '../../TextInput';
@@ -40,4 +41,14 @@ WithFieldDescription.args = {
 export const RequiredField = Template.bind({});
 RequiredField.args = {
     fieldRequired: true,
+};
+
+export const WithHelpPopover = Template.bind({});
+WithHelpPopover.args = {
+    fieldHelpPopover: (
+        <HelpPopover
+            content={'Your name as it used in your foreign passport.'}
+            placement={['top', 'bottom']}
+        />
+    ),
 };

@@ -1,6 +1,8 @@
 @use '../variables';
 
 .#{variables.$ns}form-row {
+    --yc-form-row-field-height: 28px;
+
     margin-bottom: 20px;
     align-items: flex-start;
     display: flex;
@@ -8,7 +10,7 @@
     &__left {
         display: flex;
         flex-flow: row;
-        min-height: 28px;
+        min-height: var(--yc-form-row-field-height);
         box-sizing: border-box;
         flex-shrink: 0;
         width: 172px;
@@ -23,6 +25,13 @@
         margin-left: 2px;
         line-height: 0;
         color: var(--yc-color-text-danger);
+    }
+
+    &__help-popover {
+        margin-left: 4px;
+        height: var(--yc-form-row-field-height);
+        display: flex;
+        align-items: center;
     }
 
     &__right {

@@ -26,6 +26,10 @@ $xl-right-padding: '12px';
         border-radius: 0;
     }
 
+    &:not(#{$block}__virtualized) {
+        overflow: auto;
+    }
+
     &_mobile {
         max-height: calc(90vh - 20px);
     }

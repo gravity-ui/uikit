@@ -1,7 +1,7 @@
-@import '../../../styles/mixins';
-@import '../variables';
+@use '../../../styles/mixins';
+@use '../variables';
 
-.#{$ns}form-row {
+.#{variables.$ns}form-row {
     flex-shrink: 0;
     margin-bottom: 16px;
     align-items: flex-start;
@@ -9,7 +9,7 @@
     width: 100%;
 
     &__left {
-        @include overflow-ellipsis;
+        @include mixins.overflow-ellipsis;
         box-sizing: border-box;
         flex-shrink: 0;
         width: 120px;

@@ -1,5 +1,6 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
+import {Text} from '../../Text';
 import {FormRow} from '../FormRow';
 import {TextInput} from '../../TextInput';
 
@@ -22,6 +23,18 @@ export const Default = Template.bind({});
 export const WithLongLabel = Template.bind({});
 WithLongLabel.args = {
     fieldName: 'Very long label for text field to test how it will wrap label text in real life',
+};
+
+export const WithFieldDescription = Template.bind({});
+WithFieldDescription.args = {
+    children: (
+        <>
+            <TextInput id={fieldId} />
+            <Text as={'p'} style={{margin: '10px 0 0'}} color={'secondary'}>
+                Your name as it used in your foreign passport.
+            </Text>
+        </>
+    ),
 };
 
 export const RequiredField = Template.bind({});

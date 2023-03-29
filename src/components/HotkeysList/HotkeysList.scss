@@ -1,0 +1,37 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}hotkeys-list';
+
+#{$block} {
+    &__item {
+        height: auto;
+        padding: 8px 0;
+
+        &.yc-list__item_active {
+            background: inherit;
+        }
+    }
+
+    &__item-content {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+
+        width: 100%;
+
+        font-size: var(--yc-text-body-1-font-size);
+        line-height: var(--yc-text-body-1-line-height);
+
+        color: var(--yc-color-text-primary);
+
+        &_group {
+            font-size: var(--yc-text-body-2-font-size);
+            font-weight: 500;
+            line-height: var(--yc-text-body-2-line-height);
+        }
+    }
+
+    &__hotkey {
+        color: var(--yc-color-text-complementary);
+    }
+}

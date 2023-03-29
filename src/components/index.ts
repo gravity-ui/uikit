@@ -47,6 +47,7 @@ export * from './Toaster';
 export * from './Tooltip';
 export * from './User';
 export * from './UserAvatar';
+export * from './HotkeysList';
 
 export * from './utils/event-broker';
 export {getComponentName} from './utils/getComponentName';

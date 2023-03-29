@@ -95,7 +95,7 @@ const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
         <Container>
             <Row>
                 <Col>
-                    <Flex {...args} space wrap>
+                    <Flex {...args} space="l" wrap>
                         <Button>Some element with background</Button>
                         <Button>Some element with background</Button>
                     </Flex>
@@ -108,7 +108,7 @@ const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
 export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
 ChildrenWithBgColor.args = {};
 
-const WithNullChildrensTemplate: Story<FlexProps<'div'>> = (args) => (
+const WithNullChildrenTemplate: Story<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Container>
             <Row>
@@ -127,5 +127,5 @@ const WithNullChildrensTemplate: Story<FlexProps<'div'>> = (args) => (
     </LayoutPresenter>
 );
 
-export const WithNullChildrens = WithNullChildrensTemplate.bind({});
-WithNullChildrens.args = {};
+export const WithNullChildren = WithNullChildrenTemplate.bind({});
+WithNullChildren.args = {};

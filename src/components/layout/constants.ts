@@ -5,11 +5,11 @@ export const SPACE_TO_PIXEL: Record<Space, number> = {
     nano: 2,
     micro: 4,
     xs: 8,
-    s: 16,
-    m: 20,
-    l: 24,
-    xl: 32,
-    xxl: 40,
+    s: 12,
+    m: 16,
+    l: 20,
+    xl: 24,
+    xxl: 32,
 };
 
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {

@@ -38,4 +38,10 @@
     &__right {
         flex-grow: 1;
     }
+
+    &__field-description {
+        margin: 10px 0 0;
+        color: var(--yc-color-text-secondary);
+        word-break: break-word;
+    }
 }

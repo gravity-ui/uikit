@@ -1,11 +1,11 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {HelpPopover} from '../../HelpPopover';
-import {Text} from '../../Text';
 import {FormRow} from '../FormRow';
 import {TextInput} from '../../TextInput';
 
 const fieldId = 'form-row-input-id';
+const fieldDescriptionId = `${fieldId}-description`;
 
 export default {
     title: 'Components/FormRow',
@@ -30,10 +30,10 @@ export const WithFieldDescription = Template.bind({});
 WithFieldDescription.args = {
     children: (
         <>
-            <TextInput id={fieldId} />
-            <Text as={'p'} style={{margin: '10px 0 0'}} color={'secondary'}>
+            <TextInput id={fieldId} controlProps={{'aria-describedby': fieldDescriptionId}} />
+            <FormRow.FieldDescription id={fieldDescriptionId}>
                 Your name as it used in your foreign passport.
-            </Text>
+            </FormRow.FieldDescription>
         </>
     ),
 };

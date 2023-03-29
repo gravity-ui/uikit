@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
 import {block} from '../utils/cn';
+import {FormRowFieldDescription} from './FormRowFieldDescription';
 import i18n from './i18n';
 
 import './FormRow.scss';
@@ -15,7 +16,7 @@ export interface FormRowProps {
     children?: React.ReactNode;
 }
 
-export const FormRow: FC<FormRowProps> = ({
+const FormRowComponent: FC<FormRowProps> = ({
     className,
     fieldName,
     fieldHelpPopover,
@@ -49,4 +50,6 @@ export const FormRow: FC<FormRowProps> = ({
     );
 };
 
-FormRow.displayName = 'FormRow';
+FormRowComponent.displayName = 'FormRow';
+
+export const FormRow = Object.assign(FormRowComponent, {FieldDescription: FormRowFieldDescription});

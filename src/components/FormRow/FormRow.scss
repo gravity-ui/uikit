@@ -2,7 +2,6 @@
 @use '../variables';
 
 .#{variables.$ns}form-row {
-    flex-shrink: 0;
     margin-bottom: 16px;
     align-items: flex-start;
     display: flex;

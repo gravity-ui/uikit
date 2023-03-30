@@ -56,8 +56,6 @@ const Template: ComponentStory<StoriesComponent> = ({
         [withCounter, withIcon, withLabel, withOverflow],
     );
 
-    setStoryArgs({items});
-
     return <Tabs {...args} items={items} onSelectTab={(activeTab) => setStoryArgs({activeTab})} />;
 };
 
@@ -66,6 +64,34 @@ export const Default = Template.bind({});
 export const WithWrapTo = Template.bind({});
 WithWrapTo.args = {
     wrapTo(_item: TabsItemProps, node: React.ReactNode) {
-        return <a href="#">{node}</a>;
+        return (
+            <a key={_item.id} href="#">
+                {node}
+            </a>
+        );
     },
+};
+
+export const WithChildren: ComponentStory<StoriesComponent> = ({
+    withIcon,
+    withCounter,
+    withLabel,
+    withOverflow,
+    ...args
+}) => {
+    const [, setStoryArgs] = useArgs();
+
+    const items = React.useMemo(
+        () =>
+            getTabsMock({withIcon, withCounter, withLabel, withOverflow})?.map((props) => (
+                <Tabs.Item
+                    key={props.id}
+                    {...props}
+                    onClick={(tabId) => setStoryArgs({activeTab: tabId})}
+                />
+            )),
+        [withCounter, withIcon, withLabel, withOverflow],
+    );
+
+    return <Tabs {...args}>{items}</Tabs>;
 };

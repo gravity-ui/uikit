@@ -1,6 +1,7 @@
 import React, {forwardRef, useMemo} from 'react';
 import {block} from '../utils/cn';
 import {QAProps} from '../types';
+import {TabsContext} from './TabsContext';
 import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem';
 import './Tabs.scss';
 
@@ -39,6 +40,22 @@ export interface TabsProps extends QAProps {
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
 }
 
+const getActiveTabId = (
+    activeTab: TabsProps['activeTab'],
+    allowNotSelected: TabsProps['allowNotSelected'],
+    items: TabsProps['items'],
+) => {
+    if (activeTab) {
+        return activeTab;
+    }
+
+    if (allowNotSelected || items?.length === 0) {
+        return undefined;
+    }
+
+    return items?.[0]?.id;
+};
+
 const emptyTabsList: TabsItemProps[] = [];
 
 const TabsComponent = forwardRef<HTMLDivElement, TabsProps>(
@@ -57,17 +74,7 @@ const TabsComponent = forwardRef<HTMLDivElement, TabsProps>(
         },
         ref,
     ) => {
-        const activeTabId = useMemo(() => {
-            if (activeTab) {
-                return activeTab;
-            }
-
-            if (allowNotSelected || items.length === 0) {
-                return undefined;
-            }
-
-            return items[0].id;
-        }, [activeTab, allowNotSelected, items]);
+        const activeTabId = getActiveTabId(activeTab, allowNotSelected, items);
 
         const handleTabClick = (tabId: string) => {
             if (onSelectTab) {
@@ -75,25 +82,29 @@ const TabsComponent = forwardRef<HTMLDivElement, TabsProps>(
             }
         };
 
+        const tabsContextValue = useMemo(() => ({activeTabId}), [activeTabId]);
+
         return (
             <div role="tablist" className={b({direction, size}, className)} data-qa={qa} ref={ref}>
-                {children ||
-                    items.map((item, index) => {
-                        const tabItemNode = (
-                            <TabsItem
-                                key={item.id}
-                                {...item}
-                                active={item.id === activeTabId}
-                                onClick={handleTabClick}
-                            />
-                        );
+                <TabsContext.Provider value={tabsContextValue}>
+                    {children ||
+                        items.map((item, index) => {
+                            const tabItemNode = (
+                                <TabsItem
+                                    key={item.id}
+                                    {...item}
+                                    active={item.id === activeTabId}
+                                    onClick={handleTabClick}
+                                />
+                            );
 
-                        if (wrapTo) {
-                            return wrapTo(item, tabItemNode, index);
-                        }
+                            if (wrapTo) {
+                                return wrapTo(item, tabItemNode, index);
+                            }
 
-                        return tabItemNode;
-                    })}
+                            return tabItemNode;
+                        })}
+                </TabsContext.Provider>
             </div>
         );
     },

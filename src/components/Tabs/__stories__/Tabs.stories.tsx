@@ -33,7 +33,7 @@ export default {
             default: false,
         },
         withOverflow: {
-            name: 'Labels',
+            name: 'Overflow',
             type: 'boolean',
             default: false,
         },

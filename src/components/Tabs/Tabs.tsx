@@ -30,6 +30,7 @@ export interface TabsProps extends QAProps {
     allowNotSelected?: boolean;
     /** Tabs list object */
     items?: TabsItemProps[];
+    children?: React.ReactNode;
     /** Additional CSS-class */
     className?: string;
     /** Select tab handler */
@@ -48,6 +49,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
             activeTab,
             allowNotSelected = false,
             items = emptyTabsList,
+            children,
             className,
             onSelectTab,
             wrapTo,
@@ -75,22 +77,23 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 
         return (
             <div role="tablist" className={b({direction, size}, className)} data-qa={qa} ref={ref}>
-                {items.map((item, index) => {
-                    const tabItemNode = (
-                        <TabsItem
-                            key={item.id}
-                            {...item}
-                            active={item.id === activeTabId}
-                            onClick={handleTabClick}
-                        />
-                    );
+                {children ||
+                    items.map((item, index) => {
+                        const tabItemNode = (
+                            <TabsItem
+                                key={item.id}
+                                {...item}
+                                active={item.id === activeTabId}
+                                onClick={handleTabClick}
+                            />
+                        );
 
-                    if (wrapTo) {
-                        return wrapTo(item, tabItemNode, index);
-                    }
+                        if (wrapTo) {
+                            return wrapTo(item, tabItemNode, index);
+                        }
 
-                    return tabItemNode;
-                })}
+                        return tabItemNode;
+                    })}
             </div>
         );
     },

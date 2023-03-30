@@ -28,8 +28,8 @@ export interface TabsProps extends QAProps {
     activeTab?: string;
     /** By default if activeTab is not set, first tab will be active */
     allowNotSelected?: boolean;
-    /** Tabs */
-    items: TabsItemProps[];
+    /** Tabs list object */
+    items?: TabsItemProps[];
     /** Additional CSS-class */
     className?: string;
     /** Select tab handler */

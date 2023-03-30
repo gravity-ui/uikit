@@ -38,6 +38,8 @@ export interface TabsProps extends QAProps {
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
 }
 
+const emptyTabsList: TabsItemProps[] = [];
+
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     (
         {
@@ -45,7 +47,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
             size = 'm',
             activeTab,
             allowNotSelected = false,
-            items = [],
+            items = emptyTabsList,
             className,
             onSelectTab,
             wrapTo,

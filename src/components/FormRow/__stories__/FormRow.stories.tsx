@@ -20,7 +20,7 @@ export default {
         children: <TextInput id={fieldId} />,
     },
     argTypes: {
-        children: {...argTypeReactNode, description: '`ReactNode`'},
+        children: argTypeReactNode,
         fieldHelpPopover: argTypeReactNode,
     },
 } as ComponentMeta<typeof FormRow>;

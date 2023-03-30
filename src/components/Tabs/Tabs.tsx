@@ -29,7 +29,7 @@ export interface TabsProps extends QAProps {
     activeTab?: string;
     /** By default if activeTab is not set, first tab will be active */
     allowNotSelected?: boolean;
-    /** Tabs list object */
+    /** Tabs props list */
     items?: TabsItemProps[];
     children?: React.ReactNode;
     /** Additional CSS-class */

@@ -36,7 +36,8 @@ export interface TabsProps extends QAProps {
     className?: string;
     /** Select tab handler */
     onSelectTab?(tabId: string): void;
-    /** Allows to wrap `TabItem` into another component or render custom tab  */
+    /** Allows to wrap `TabItem` into another component or render custom tab.
+     * Ignored when tabs rendered via `children` */
     wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): React.ReactNode;
 }
 

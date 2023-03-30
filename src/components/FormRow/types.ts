@@ -1,4 +1,13 @@
-import {HTMLAttributes, PropsWithChildren} from 'react';
+import type {ReactNode, HTMLAttributes, PropsWithChildren} from 'react';
 
-export type Props = PropsWithChildren<{}> &
+export interface FormRowProps {
+    className?: string;
+    fieldName?: ReactNode;
+    fieldHelpPopover?: ReactNode;
+    fieldId?: string;
+    fieldRequired?: boolean;
+    children?: ReactNode;
+}
+
+export type FormRowFieldDescriptionProps = PropsWithChildren<{}> &
     Pick<HTMLAttributes<HTMLParagraphElement>, 'id' | 'className'>;

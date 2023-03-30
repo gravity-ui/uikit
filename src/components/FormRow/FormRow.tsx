@@ -1,20 +1,13 @@
 import React, {FC} from 'react';
 import {block} from '../utils/cn';
+
 import {FormRowFieldDescription} from './FormRowFieldDescription';
 import i18n from './i18n';
+import {FormRowProps} from './types';
 
 import './FormRow.scss';
 
 const b = block('form-row');
-
-export interface FormRowProps {
-    className?: string;
-    fieldName?: React.ReactNode;
-    fieldHelpPopover?: React.ReactNode;
-    fieldId?: string;
-    fieldRequired?: boolean;
-    children?: React.ReactNode;
-}
 
 const FormRowComponent: FC<FormRowProps> = ({
     className,

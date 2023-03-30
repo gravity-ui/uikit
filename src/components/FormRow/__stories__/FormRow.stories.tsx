@@ -26,6 +26,11 @@ WithLongLabel.args = {
     fieldName: 'Very long label for text field to test how it will wrap label text in real life',
 };
 
+export const WithLongLabelWord = Template.bind({});
+WithLongLabelWord.args = {
+    fieldName: 'Antidisestablishmentarianism',
+};
+
 export const WithFieldDescription = Template.bind({});
 WithFieldDescription.args = {
     children: (

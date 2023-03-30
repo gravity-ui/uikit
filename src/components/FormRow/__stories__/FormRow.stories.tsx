@@ -7,6 +7,10 @@ import {TextInput} from '../../TextInput';
 const fieldId = 'form-row-input-id';
 const fieldDescriptionId = `${fieldId}-description`;
 
+const argTypeReactNode = {
+    control: {type: null},
+};
+
 export default {
     title: 'Components/FormRow',
     component: FormRow,
@@ -14,6 +18,10 @@ export default {
         fieldName: 'Enter your name',
         fieldId,
         children: <TextInput id={fieldId} />,
+    },
+    argTypes: {
+        children: {...argTypeReactNode, description: '`ReactNode`'},
+        fieldHelpPopover: argTypeReactNode,
     },
 } as ComponentMeta<typeof FormRow>;
 

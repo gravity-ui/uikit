@@ -98,3 +98,5 @@ export const TabsItem: React.FC<TabsItemProps> = ({
         </div>
     );
 };
+
+TabsItem.displayName = 'Tabs.Item';

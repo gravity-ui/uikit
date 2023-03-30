@@ -41,7 +41,7 @@ export interface TabsProps extends QAProps {
 
 const emptyTabsList: TabsItemProps[] = [];
 
-export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
+const TabsComponent = forwardRef<HTMLDivElement, TabsProps>(
     (
         {
             direction = TabsDirection.Horizontal,
@@ -99,4 +99,6 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     },
 );
 
-Tabs.displayName = 'Tabs';
+TabsComponent.displayName = 'Tabs';
+
+export const Tabs = Object.assign(TabsComponent, {Item: TabsItem});

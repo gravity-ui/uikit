@@ -39,11 +39,11 @@ const FormRowComponent: FC<FormRowProps> = ({
                             *
                         </sup>
                     ) : null}
-                </LabelComponent>
 
-                {fieldHelpPopover ? (
-                    <span className={b('help-popover')}>{fieldHelpPopover}</span>
-                ) : null}
+                    {fieldHelpPopover ? (
+                        <span className={b('help-popover')}>{fieldHelpPopover}</span>
+                    ) : null}
+                </LabelComponent>
             </div>
             <div className={b('right')}>{children}</div>
         </div>

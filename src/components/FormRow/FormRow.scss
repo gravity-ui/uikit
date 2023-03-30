@@ -31,8 +31,8 @@
 
     &__help-popover {
         margin-left: 4px;
-        height: var(--yc-form-row-field-height);
-        display: flex;
+        display: inline-flex;
+        vertical-align: middle;
         align-items: center;
     }
 

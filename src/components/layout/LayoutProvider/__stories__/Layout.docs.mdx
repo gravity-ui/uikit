@@ -229,7 +229,7 @@ props:
 
 ## Flex
 
-Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to manage space between children's. All flex properties are available during props. For most used properties it supports predicate functions to override behavior in different screen sizes.
+Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to manage space between children's. All flex properties are available during props. For most used properties it supports object syntax config to override behavior in different screen sizes.
 
 #### Examples
 
@@ -238,7 +238,7 @@ Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to man
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
-<Flex space>
+<Flex space="l">
     <TextInput />
     <Button />
 </Flex>;
@@ -250,7 +250,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex direction="column" space="l">
-    <Flex space>
+    <Flex space="l">
         <TextInput />
         <Button />
     </Flex>

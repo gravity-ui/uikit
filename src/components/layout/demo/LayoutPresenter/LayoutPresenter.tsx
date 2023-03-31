@@ -13,7 +13,7 @@ interface LayoutPresenterProps {
 const Title: React.FC<{title?: string}> = ({title}) => {
     const {activeMediaQuery} = useLayoutContext();
     return (
-        <Flex direction="column" space className={sp({mb: 'l'})}>
+        <Flex direction="column" space="l" className={sp({mb: 'l'})}>
             {title && (
                 <Text variant="subheader-2" as="div">
                     {title}

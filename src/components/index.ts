@@ -22,6 +22,7 @@ export * from './List';
 export * from './Loader';
 export * from './Menu';
 export * from './Modal';
+export * from './Persona';
 export * from './Popover';
 export * from './Popup';
 export * from './Portal';

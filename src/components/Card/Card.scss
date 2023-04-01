@@ -3,12 +3,12 @@
 $block: '.#{variables.$ns}card';
 
 #{$block} {
+    --yc-card-box-shadow: none;
+    --yc-card-border-radius: 5px;
     background-color: transparent;
     box-shadow: var(--yc-card-box-shadow);
     box-sizing: border-box;
     border-radius: var(--yc-card-border-radius);
-    --yc-card-box-shadow: none;
-    --yc-card-border-radius: 5px;
 
     &_type_action {
         background-color: var(--yc-color-base-float);

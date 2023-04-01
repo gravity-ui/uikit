@@ -16,7 +16,7 @@ const misc = [
     {
         name: 'sfx-shadow-light',
         title: 'Shadow Light',
-        description: 'Shadow for card size m.',
+        description: 'Lighter version of shadow.',
     },
     {
         name: 'sfx-shadow-heavy',

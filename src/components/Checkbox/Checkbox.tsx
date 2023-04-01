@@ -1,4 +1,5 @@
 import React from 'react';
+import {ControlLabel, ControlLabelSize} from '../ControlLabel';
 import {block} from '../utils/cn';
 import {ControlProps, DOMProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
@@ -7,7 +8,7 @@ import {CheckboxDashIcon} from './CheckboxDashIcon';
 
 import './Checkbox.scss';
 
-export type CheckboxSize = 'm' | 'l';
+export type CheckboxSize = ControlLabelSize;
 
 export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
     size?: CheckboxSize;
@@ -36,11 +37,27 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
     const {checked, inputProps} = useCheckbox(props);
     const text = content || children;
 
+    const control = (
+        <span className={b('indicator')}>
+            <span className={b('icon')} aria-hidden>
+                {indeterminate ? (
+                    <CheckboxDashIcon className={b('icon-svg', {type: 'dash'})} />
+                ) : (
+                    <CheckboxTickIcon className={b('icon-svg', {type: 'tick'})} />
+                )}
+            </span>
+            <input {...inputProps} className={b('control')} />
+            <span className={b('outline')} />
+        </span>
+    );
+
     return (
-        <label
+        <ControlLabel
             ref={ref}
             title={title}
             style={style}
+            size={size}
+            disabled={disabled}
             className={b(
                 {
                     size,
@@ -50,20 +67,10 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
                 },
                 className,
             )}
-            data-qa={qa}
+            qa={qa}
+            control={control}
         >
-            <span className={b('indicator')}>
-                <span className={b('icon')} aria-hidden>
-                    {indeterminate ? (
-                        <CheckboxDashIcon className={b('icon-svg', {type: 'dash'})} />
-                    ) : (
-                        <CheckboxTickIcon className={b('icon-svg', {type: 'tick'})} />
-                    )}
-                </span>
-                <input {...inputProps} className={b('control')} />
-                <span className={b('outline')} />
-            </span>
-            {text && <span className={b('text')}>{text}</span>}
-        </label>
+            {text}
+        </ControlLabel>
     );
 });

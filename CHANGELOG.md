@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.4.3](https://github.com/gravity-ui/uikit/compare/v4.4.2...v4.4.3) (2023-04-03)
+
+
+### Bug Fixes
+
+* **layout/Flex:** fix gap size values and remove default theme spacin… ([#592](https://github.com/gravity-ui/uikit/issues/592)) ([42aea11](https://github.com/gravity-ui/uikit/commit/42aea11b3a8bfb729457d2eb2eea0fd24a78ba9e))
+* **Select:** fix empty group label render ([#601](https://github.com/gravity-ui/uikit/issues/601)) ([548c81c](https://github.com/gravity-ui/uikit/commit/548c81c4cd911fcde3b3f33334b33e64a8504bbe))
+
 ## [4.4.2](https://github.com/gravity-ui/uikit/compare/v4.4.1...v4.4.2) (2023-03-29)
 
 

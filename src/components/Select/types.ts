@@ -61,10 +61,11 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
     };
 
-export type SelectOption<T = any> = ControlGroupOption & {
-    text?: string;
-    data?: T;
-};
+export type SelectOption<T = any> = QAProps &
+    ControlGroupOption & {
+        text?: string;
+        data?: T;
+    };
 
 export type SelectOptionGroup<T = any> = {
     label: string;

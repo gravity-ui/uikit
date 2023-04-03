@@ -68,6 +68,8 @@ export type SelectOption<T = any> = QAProps &
     };
 
 export type SelectOptionGroup<T = any> = {
+    /** Label is a string which displayed above the options group.
+     * If label is empty string, group item height will be 0 and only border will be displayed */
     label: string;
     options?: SelectOption<T>[];
     children?:

@@ -35,10 +35,11 @@ export const getPopupItemHeight = (args: {
 }) => {
     const {getOptionHeight, size, option, index, mobile} = args;
 
-    const itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
+    let itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
 
     if ('label' in option) {
         const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;
+        itemHeight = option.label === '' ? 0 : itemHeight;
 
         return itemHeight + marginTop;
     }

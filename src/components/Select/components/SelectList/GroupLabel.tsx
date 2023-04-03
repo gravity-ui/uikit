@@ -8,8 +8,9 @@ type GroupLabelProps = {
 };
 
 export const GroupLabel = ({label}: GroupLabelProps) => {
+    const isEmpty = label === '';
     return (
-        <div className={b('group-label')}>
+        <div className={b('group-label', {empty: isEmpty})}>
             <div className={b('group-label-content')}>{label}</div>
         </div>
     );

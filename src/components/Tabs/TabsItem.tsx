@@ -1,6 +1,7 @@
-import React, {useMemo, HTMLProps} from 'react';
+import React, {useMemo, HTMLProps, useContext} from 'react';
 import {block} from '../utils/cn';
 import {Label, LabelProps} from '../Label';
+import {TabsContext} from './TabsContext';
 
 const b = block('tabs');
 
@@ -50,6 +51,9 @@ export const TabsItem: React.FC<TabsItemProps> = ({
     extraProps,
     onClick,
 }) => {
+    const {activeTabId} = useContext(TabsContext);
+    const isActive = typeof active === 'boolean' ? active : activeTabId === id;
+
     const handleClick = () => {
         onClick(id);
     };
@@ -76,10 +80,14 @@ export const TabsItem: React.FC<TabsItemProps> = ({
         <div
             {...extraProps}
             role="tab"
-            aria-selected={active === true}
+            aria-selected={isActive}
             aria-disabled={disabled === true}
             tabIndex={disabled ? -1 : 0}
-            className={b('item', {active, disabled, overflow: Boolean(hasOverflow)}, className)}
+            className={b(
+                'item',
+                {active: isActive, disabled, overflow: Boolean(hasOverflow)},
+                className,
+            )}
             title={htmlTitle}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
@@ -98,3 +106,5 @@ export const TabsItem: React.FC<TabsItemProps> = ({
         </div>
     );
 };
+
+TabsItem.displayName = 'Tabs.Item';

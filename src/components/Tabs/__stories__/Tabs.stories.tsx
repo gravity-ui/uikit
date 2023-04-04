@@ -1,15 +1,22 @@
-import React, {useState} from 'react';
-import {Meta, Story} from '@storybook/react';
+import type {ComponentMeta, ComponentStory} from '@storybook/react';
+import React, {FC} from 'react';
 import {Tabs, TabsItemProps, TabsProps} from '../Tabs';
-import {GearIcon} from '../../icons/GearIcon';
+import {getTabsMock} from './getTabsMock';
+import type {StoryParams} from './types';
+import {useArgs} from '@storybook/client-api';
 
 export default {
     title: 'Components/Tabs',
     component: Tabs,
     args: {
         direction: 'horizontal',
+        activeTab: 'active',
     },
     argTypes: {
+        activeTab: {
+            control: {type: 'select'},
+            options: getTabsMock({})?.map(({id}) => id),
+        },
         withIcon: {
             name: 'Icons',
             type: 'boolean',
@@ -26,102 +33,65 @@ export default {
             default: false,
         },
         withOverflow: {
-            name: 'Labels',
+            name: 'Overflow',
             type: 'boolean',
             default: false,
         },
     },
-} as Meta;
+} as ComponentMeta<typeof Tabs>;
 
-const gearIcon = <GearIcon width={20} height={20} />;
+type StoriesComponent = FC<TabsProps & StoryParams>;
 
-const Template: Story<
-    TabsProps & {
-        withIcon?: boolean;
-        withCounter?: boolean;
-        withLabel?: boolean;
-        withOverflow?: boolean;
-    }
-> = (args) => {
-    const [activeTab, setActiveTab] = useState('active');
+const Template: ComponentStory<StoriesComponent> = ({
+    withIcon,
+    withCounter,
+    withLabel,
+    withOverflow,
+    ...args
+}) => {
+    const [, setStoryArgs] = useArgs();
 
-    const items: TabsProps['items'] = React.useMemo(
-        () => [
-            {
-                id: 'first',
-                title: 'First Tab',
-                icon: args.withIcon ? gearIcon : undefined,
-                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
-                label: args.withLabel ? {content: 'Normal', theme: 'normal'} : undefined,
-                hasOverflow: args.withOverflow,
-                extraProps: {
-                    style: {
-                        maxWidth: args.withOverflow ? '100px' : 'auto',
-                    },
-                },
-            },
-            {
-                id: 'active',
-                title: 'Active Tab',
-                icon: args.withIcon ? gearIcon : undefined,
-                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
-                label: args.withLabel ? {content: 'Warning', theme: 'warning'} : undefined,
-                hasOverflow: args.withOverflow,
-                extraProps: {
-                    style: {
-                        maxWidth: args.withOverflow ? '100px' : 'auto',
-                    },
-                },
-            },
-            {
-                id: 'disabled',
-                title: 'Disabled Tab',
-                icon: args.withIcon ? gearIcon : undefined,
-                counter: args.withCounter ? Math.floor(Math.random() * 5 + 1) : undefined,
-                label: args.withLabel ? {content: 'Danger', theme: 'danger'} : undefined,
-                disabled: true,
-                hasOverflow: args.withOverflow,
-                extraProps: {
-                    style: {
-                        maxWidth: args.withOverflow ? '100px' : 'auto',
-                    },
-                },
-            },
-        ],
-        [args.withIcon, args.withCounter, args.withLabel, args.withOverflow],
+    const items = React.useMemo(
+        () => getTabsMock({withIcon, withCounter, withLabel, withOverflow}),
+        [withCounter, withIcon, withLabel, withOverflow],
     );
 
-    return <Tabs {...args} items={items} onSelectTab={setActiveTab} activeTab={activeTab} />;
+    return <Tabs {...args} items={items} onSelectTab={(activeTab) => setStoryArgs({activeTab})} />;
 };
 
 export const Default = Template.bind({});
 
-Default.argTypes = {
-    withIcon: {
-        name: 'Icons',
-        type: 'boolean',
-        default: false,
-    },
-    withCounter: {
-        name: 'Counters',
-        type: 'boolean',
-        default: false,
-    },
-    withLabel: {
-        name: 'Labels',
-        type: 'boolean',
-        default: false,
-    },
-    withOverflow: {
-        name: 'Overflow',
-        type: 'boolean',
-        default: false,
-    },
-};
-
 export const WithWrapTo = Template.bind({});
 WithWrapTo.args = {
     wrapTo(_item: TabsItemProps, node: React.ReactNode) {
-        return <a href="#">{node}</a>;
+        return (
+            <a key={_item.id} href="#">
+                {node}
+            </a>
+        );
     },
+};
+
+export const WithChildren: ComponentStory<StoriesComponent> = ({
+    withIcon,
+    withCounter,
+    withLabel,
+    withOverflow,
+    ...args
+}) => {
+    const [, setStoryArgs] = useArgs();
+
+    const items = React.useMemo(
+        () =>
+            getTabsMock({withIcon, withCounter, withLabel, withOverflow})?.map((props) => (
+                <Tabs.Item
+                    key={props.id}
+                    {...props}
+                    onClick={(tabId) => setStoryArgs({activeTab: tabId})}
+                />
+            )),
+        [withCounter, withIcon, withLabel, withOverflow],
+    );
+
+    return <Tabs {...args}>{items}</Tabs>;
 };

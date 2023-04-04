@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.5.0](https://github.com/gravity-ui/uikit/compare/v4.4.3...v4.5.0) (2023-04-04)
+
+
+### Features
+
+* **Persona:** add component ([#599](https://github.com/gravity-ui/uikit/issues/599)) ([5190c9d](https://github.com/gravity-ui/uikit/commit/5190c9d2d21aa622a6e5b5350bd22695120bb321))
+* **Tabs:** add support for tabs via `children` ([#597](https://github.com/gravity-ui/uikit/issues/597)) ([8546901](https://github.com/gravity-ui/uikit/commit/854690192016a43c6f6d11038694321fdc6d8712))
+
 ## [4.4.3](https://github.com/gravity-ui/uikit/compare/v4.4.2...v4.4.3) (2023-04-03)
 
 

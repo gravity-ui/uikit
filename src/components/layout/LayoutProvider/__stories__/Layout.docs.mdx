@@ -200,8 +200,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
     /**
      * In this example we override default theme behavior.
      *
-     * If you want to override behavior to different media queries, you should use predicate function:
-     * space = (matchMedia => matchMedia('xl') ? 'l' : 'nano')
+     * space={{s: 'nano', xl:'l'}}
      */
     space="l"
 >
@@ -230,7 +229,7 @@ props:
 
 ## Flex
 
-Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to manage space between children's. All flex properties are available during props. For most used properties it supports predicate functions to override behavior in different screen sizes.
+Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to manage space between children's. All flex properties are available during props. For most used properties it supports object syntax config to override behavior in different screen sizes.
 
 #### Examples
 
@@ -239,7 +238,7 @@ Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to man
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
-<Flex space>
+<Flex space="l">
     <TextInput />
     <Button />
 </Flex>;
@@ -251,7 +250,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex direction="column" space="l">
-    <Flex space>
+    <Flex space="l">
         <TextInput />
         <Button />
     </Flex>
@@ -266,8 +265,8 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
 <Flex
     // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
-    direction={(matchMedia) => (matchMedia('l') ? 'column' : 'row')}
-    space={(matchMedia) => (matchMedia('l') ? 'm' : 'l')}
+    direction={{l: 'column'}}
+    space={{s: 'l', m: 's'}}
 >
     <TextInput />
     <Button />

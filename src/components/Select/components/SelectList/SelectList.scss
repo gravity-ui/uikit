@@ -26,29 +26,45 @@ $xl-right-padding: '12px';
         border-radius: 0;
     }
 
+    &:not(#{$block}_virtualized) {
+        overflow: auto;
+    }
+
+    &_mobile {
+        max-height: calc(90vh - 20px);
+    }
+
     &__group-label {
         box-sizing: border-box;
         position: relative;
         width: 100%;
+        height: auto;
+        padding: 0;
 
-        #{$block}_size_s & {
+        #{$block}_size_s &:not(#{&}_empty) {
             height: #{$s-height};
             padding: 8px #{$s-right-padding} 4px #{$s-left-padding};
         }
 
-        #{$block}_size_m & {
+        #{$block}_size_m &:not(#{&}_empty) {
             height: #{$m-height};
             padding: 8px #{$m-right-padding} 4px #{$m-left-padding};
         }
 
-        #{$block}_size_l & {
+        #{$block}_size_l &:not(#{&}_empty) {
             height: #{$l-height};
             padding: 10px #{$l-right-padding} 6px #{$l-left-padding};
         }
 
-        #{$block}_size_xl & {
+        #{$block}_size_xl &:not(#{&}_empty) {
             height: #{$xl-height};
             padding: 12px #{$xl-right-padding} 8px #{$xl-left-padding};
+            font-size: 15px;
+        }
+
+        #{$block}_mobile &:not(#{&}_empty) {
+            height: #{$l-height};
+            padding: 12px #{$l-right-padding} 8px #{$l-left-padding};
             font-size: 15px;
         }
 
@@ -132,6 +148,20 @@ $xl-right-padding: '12px';
 
             & #{$block}__tick-icon {
                 padding-left: #{$xl-right-padding};
+            }
+        }
+
+        #{$block}_mobile & {
+            padding: 0 #{$l-right-padding} 0 #{$l-left-padding};
+
+            & #{$block}__option-default-label {
+                height: #{$l-height};
+                line-height: #{$l-height};
+                font-size: 15px;
+            }
+
+            & #{$block}__tick-icon {
+                padding-left: #{$l-right-padding};
             }
         }
 

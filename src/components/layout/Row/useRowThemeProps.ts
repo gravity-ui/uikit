@@ -17,7 +17,7 @@ const pickRowProps = ({space, spaceRow}: CommonProps = {}) => {
 };
 
 export const useRowThemeProps = () => {
-    const {isMediaActive, theme, getClosestMediaProps} = useLayoutContext();
+    const {theme, getClosestMediaProps} = useLayoutContext();
 
     const rowThemeProps = React.useMemo(
         () => ({
@@ -28,7 +28,7 @@ export const useRowThemeProps = () => {
     );
 
     return {
-        isMediaActive,
+        getClosestMediaProps,
         rowThemeProps,
     };
 };

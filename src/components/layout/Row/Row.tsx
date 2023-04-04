@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 import {block} from '../../utils/cn';
-import {IsMediaActive, Space} from '../types';
+import {Space, MediaPartial} from '../types';
 import {useRowThemeProps} from './useRowThemeProps';
 
 import './Row.scss';
@@ -15,11 +15,11 @@ export interface RowProps {
      *
      * If not specified takes props via `LayoutContext`
      */
-    space?: Space | ((fn: IsMediaActive) => Space | undefined);
+    space?: Space | MediaPartial<Space>;
     /**
      * Override default (space) vertical gaps between children if it wrap on next line
      */
-    spaceRow?: Space | ((fn: IsMediaActive) => Space | undefined);
+    spaceRow?: Space | MediaPartial<Space>;
     className?: string;
     children?: React.ReactNode;
 }
@@ -41,7 +41,7 @@ export interface RowProps {
  * ```
  */
 export const Row = ({children, style, className, space, spaceRow}: RowProps) => {
-    const {isMediaActive, rowThemeProps} = useRowThemeProps();
+    const {getClosestMediaProps, rowThemeProps} = useRowThemeProps();
 
     return (
         <div
@@ -49,13 +49,14 @@ export const Row = ({children, style, className, space, spaceRow}: RowProps) => 
             className={b(
                 {
                     s:
-                        typeof space === 'function'
-                            ? space(isMediaActive)
-                            : space || rowThemeProps.space,
+                        (typeof space === 'object' ? getClosestMediaProps(space) : space) ||
+                        rowThemeProps.space,
                     sr:
-                        typeof spaceRow === 'function'
-                            ? spaceRow(isMediaActive)
-                            : spaceRow || rowThemeProps.spaceRow,
+                        (typeof spaceRow === 'object'
+                            ? getClosestMediaProps(spaceRow)
+                            : spaceRow) ||
+                        rowThemeProps.spaceRow ||
+                        rowThemeProps.space,
                 },
                 className,
             )}

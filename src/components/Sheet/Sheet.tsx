@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {QAProps} from '../types';
 import {SheetContentContainer} from './SheetContent';
 import {sheetBlock} from './constants';
 
 import './Sheet.scss';
 
-export interface SheetProps {
+export interface SheetProps extends QAProps {
     children?: React.ReactNode;
     onClose?: () => void;
     /** Show/hide sheet */
@@ -107,10 +108,11 @@ export class Sheet extends React.Component<SheetProps, SheetState> {
             visible,
             allowHideOnContentScroll,
             hideTopBar,
+            qa,
         } = this.props;
 
         return (
-            <div className={sheetBlock(null, className)}>
+            <div data-qa={qa} className={sheetBlock(null, className)}>
                 <SheetContentContainer
                     id={id}
                     content={children}

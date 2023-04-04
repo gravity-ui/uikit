@@ -24,6 +24,7 @@ import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useOnFocusOutside} from '../utils/useOnFocusOutside';
 
 import type {CnMods} from '../utils/cn';
+import {useMobile} from '../mobile';
 
 import './Select.scss';
 
@@ -72,6 +73,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disablePortal,
         onClose,
     } = props;
+    const [mobile] = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
     // to avoid problem with incorrect popper offset calculation
     // for example: https://github.com/radix-ui/primitives/issues/1567
@@ -235,6 +237,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 handleClose={handleClose}
                 disablePortal={disablePortal}
                 virtualized={virtualized}
+                mobile={mobile}
             >
                 {filterable && (
                     <SelectFilter
@@ -252,6 +255,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         ref={listRef}
                         size={size}
                         value={value}
+                        mobile={mobile}
                         flattenOptions={filteredFlattenOptions}
                         multiple={multiple}
                         virtualized={virtualized}

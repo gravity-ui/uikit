@@ -11,11 +11,7 @@ export default {
 
 const DefaultTemplate: Story<RowProps> = (args) => (
     <LayoutPresenter title="Change screen size to see changes">
-        <Row
-            space={(match) => (match('m') ? 'm' : 'micro')}
-            spaceRow={(match) => (match('m') ? 'micro' : 'l')}
-            {...args}
-        >
+        <Row space={{m: 'm'}} spaceRow={{m: 'micro'}} {...args}>
             <Col s="12" m="6" l="2" xl="3">
                 <Box>s-12 m-6 l-2 xl-3</Box>
             </Col>

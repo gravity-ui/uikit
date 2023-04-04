@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type {CSSProperties, ReactNode} from 'react';
 import type {TextInputSize} from '../TextInput';
 import type {QAProps} from '../types';
 
@@ -34,4 +34,18 @@ export type ListProps<T = unknown> = QAProps & {
     onFilterEnd?: ({items}: {items: ListItemData<T>[]}) => void;
     onSortEnd?: (params: ListSortParams) => void;
     autoFocus?: boolean;
+};
+
+export type ListItemProps<T> = {
+    item: ListItemData<T>;
+    itemIndex: number;
+    active: boolean;
+    selected: boolean;
+    itemClassName?: string;
+    sortable?: boolean;
+    sortHandleAlign?: ListSortHandleAlign;
+    style?: CSSProperties;
+    onActivate: (index?: number) => void;
+    renderItem?: ListProps<T>['renderItem'];
+    onClick?: ListProps<T>['onItemClick'];
 };

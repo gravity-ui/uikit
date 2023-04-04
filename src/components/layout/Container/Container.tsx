@@ -2,7 +2,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {MediaType, Space, IsMediaActive} from '../types';
+import {MediaType, Space, MediaPartial} from '../types';
 import {sp} from '../spacing/spacing';
 import {useContainerThemeProps} from './useContainerThemeProps';
 
@@ -32,7 +32,7 @@ export interface ContainerProps {
      *
      * By default takes props via `LayoutContext`
      */
-    spaceRow?: ((fn: IsMediaActive) => Space) | Space;
+    spaceRow?: Space | MediaPartial<Space>;
     as?: keyof JSX.IntrinsicElements;
 }
 
@@ -65,7 +65,7 @@ export const Container = ({
     gutters,
     spaceRow,
 }: ContainerProps) => {
-    const {isMediaActive, containerThemeProps} = useContainerThemeProps();
+    const {getClosestMediaProps, containerThemeProps} = useContainerThemeProps();
 
     return (
         <Tag
@@ -74,9 +74,9 @@ export const Container = ({
                 {
                     mw: maxWidth,
                     sr:
-                        typeof spaceRow === 'function'
-                            ? spaceRow(isMediaActive)
-                            : spaceRow || containerThemeProps.spaceRow,
+                        (typeof spaceRow === 'object'
+                            ? getClosestMediaProps(spaceRow)
+                            : spaceRow) || containerThemeProps.spaceRow,
                 },
                 gutters === false
                     ? className

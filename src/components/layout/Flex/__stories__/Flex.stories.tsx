@@ -17,11 +17,7 @@ const DefaultTemplate: Story<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Row space="micro">
             <Col>
-                <Flex
-                    direction={(match) => (match('m') ? 'row' : 'column')}
-                    space={(match) => (match('m') ? 'l' : 'micro')}
-                    {...args}
-                >
+                <Flex direction={{s: 'column', m: 'row'}} space={{s: 'micro', m: 'l'}} {...args}>
                     <Box w={50} h={50}>
                         Box 1
                     </Box>
@@ -47,6 +43,29 @@ Default.args = {
     justifyContent: 'center',
 };
 
+const FlexGapTemplate: Story<FlexProps<'div'>> = (args) => (
+    <LayoutPresenter title="Change screen size to 's' to see result">
+        <Container>
+            <Row>
+                <Col>
+                    <Flex {...args} wrap="wrap">
+                        {new Array(20).fill('_').map((_, i) => (
+                            <Box w={100} h={50} key={i}>
+                                <Text color="secondary">Fixed size 100x50</Text>
+                            </Box>
+                        ))}
+                    </Flex>
+                </Col>
+            </Row>
+        </Container>
+    </LayoutPresenter>
+);
+
+export const FlexGap = FlexGapTemplate.bind({});
+FlexGap.args = {
+    gap: {s: 'nano', m: 'xl'},
+};
+
 const GapAndRowGapTemplate: Story<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Container>
@@ -67,8 +86,8 @@ const GapAndRowGapTemplate: Story<FlexProps<'div'>> = (args) => (
 
 export const GapAndRowGap = GapAndRowGapTemplate.bind({});
 GapAndRowGap.args = {
-    gap: 'l',
-    rowGap: 'nano',
+    gap: {s: 'nano', m: 'xl'},
+    gapRow: {s: 'xl', m: 'nano'},
 };
 
 const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
@@ -76,7 +95,7 @@ const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
         <Container>
             <Row>
                 <Col>
-                    <Flex {...args} space wrap>
+                    <Flex {...args} space="l" wrap>
                         <Button>Some element with background</Button>
                         <Button>Some element with background</Button>
                     </Flex>
@@ -88,3 +107,25 @@ const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
 
 export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
 ChildrenWithBgColor.args = {};
+
+const WithNullChildrenTemplate: Story<FlexProps<'div'>> = (args) => (
+    <LayoutPresenter title="Change screen size to 's' to see result">
+        <Container>
+            <Row>
+                <Col>
+                    <Flex {...args} space="l" direction="column">
+                        <Box />
+                        {null}
+                        {null}
+                        <Box />
+                        {null}
+                        <Box />
+                    </Flex>
+                </Col>
+            </Row>
+        </Container>
+    </LayoutPresenter>
+);
+
+export const WithNullChildren = WithNullChildrenTemplate.bind({});
+WithNullChildren.args = {};

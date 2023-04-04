@@ -2,10 +2,10 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {Space, IsMediaActive} from '../types';
+import {Space, MediaPartial} from '../types';
 import {QAProps} from '../../types';
 import {SPACE_TO_PIXEL} from '../constants';
-import {useFlexThemeProps} from './useFlexThemeProps';
+import {useLayoutContext} from '../hooks/useLayoutContext';
 
 import './Flex.scss';
 
@@ -13,9 +13,9 @@ const b = block('flex');
 
 type AdaptiveProp<T extends keyof React.CSSProperties> =
     | React.CSSProperties[T]
-    | ((fn: IsMediaActive) => React.CSSProperties[T]);
+    | MediaPartial<React.CSSProperties[T]>;
 
-export interface FlexProps<T extends React.ElementType> extends QAProps {
+export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps {
     as?: T;
     /**
      * `flex-direction` property
@@ -47,15 +47,10 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
      * display: inline-flex;
      */
     inline?: boolean;
-    /**
-     * `gap - true` - use space value for current media query from theme
-     */
-    gap?: Space | true;
-    rowGap?: Space;
+    gap?: Space | MediaPartial<Space>;
+    gapRow?: Space | MediaPartial<Space>;
     /**
      * Space between children. Works like gap but supports in old browsers. Under the hoods uses negative margins. Vertical and horizontal directions are also supported
-     *
-     * `space - true` - use default theme space what depends at media query
      *
      * ---
      * instead of ~imperfection of the world~ browser compatibility for margins between layout components used negative margins there is passible issues with `background-color` css property and others that depends of current block position. Use in this situations wrappers. In future version this issues will be avoided during flex `gap` properties
@@ -78,7 +73,7 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
      * </Flex>
      * ```
      */
-    space?: true | Space | ((fn: IsMediaActive) => Space | undefined);
+    space?: Space | MediaPartial<Space>;
     children?: React.ReactNode;
     style?: React.CSSProperties;
     className?: string;
@@ -110,102 +105,115 @@ export interface FlexProps<T extends React.ElementType> extends QAProps {
  * ```tsx
  * <Flex
  *  // space dynamically changes instead of current media query
- *  space={matchMedia => matchMedia('m') ? 'l' : 'nano'}
+ *  space={{s: 'nano', m: 'l'}}
  *  // `flex-direction: column` will be applied to `l`, 'xl', 'xxl' and `xxxl` media queries
- *  direction={matchMedia => matchMedia('m') ? 'row' : 'column'}
+ *  direction={{'s': 'column', 'm': 'row'}}
  * >
  *  {...}
  * </Flex>
  * ```
  */
-export const Flex = React.forwardRef(
-    <T extends React.ElementType = 'div'>(
-        props: Omit<FlexProps<T>, 'ref'>,
-        ref: React.ComponentPropsWithRef<T>['ref'],
-    ) => {
-        const {
-            as: Tag = 'div',
-            justifyContent,
-            direction,
-            width,
-            grow,
-            alignSelf,
-            basis,
-            children,
-            style,
-            alignItems,
-            shrink,
-            wrap,
-            inline,
-            title,
-            gap,
-            rowGap,
-            className,
-            space,
-            qa,
-            ...restProps
-        } = props;
+export const Flex = React.forwardRef(function Flex<T extends React.ElementType = 'div'>(
+    props: Omit<FlexProps<T>, 'ref'>,
+    ref: React.ComponentPropsWithRef<T>['ref'],
+) {
+    const {
+        as: Tag = 'div',
+        justifyContent,
+        direction,
+        width,
+        grow,
+        alignSelf,
+        basis,
+        children,
+        style,
+        alignItems,
+        shrink,
+        wrap,
+        inline,
+        title,
+        gap,
+        gapRow,
+        className,
+        space,
+        qa,
+        ...restProps
+    } = props;
 
-        const {isMediaActive, themeFlexProps} = useFlexThemeProps();
+    const {getClosestMediaProps} = useLayoutContext();
 
-        let s: Space | undefined;
+    let spaceSize: Space | undefined;
+    let gapSpaceSize: Space | undefined;
+    let gapRowSpaceSize: Space | undefined;
+    let columnGap: number | undefined;
+    let rowGap: number | undefined;
 
-        if (typeof space === 'function') {
-            s = space(isMediaActive);
-        } else if (space === true) {
-            s = themeFlexProps.space;
-        } else {
-            s = space;
-        }
+    if (typeof space === 'object') {
+        spaceSize = getClosestMediaProps(space);
+    } else {
+        spaceSize = space;
+    }
 
-        let g: Space | undefined;
+    if (typeof gap === 'object') {
+        gapSpaceSize = getClosestMediaProps(gap);
+    } else {
+        gapSpaceSize = gap;
+    }
 
-        if (gap === true) {
-            g = themeFlexProps.space;
-        } else {
-            g = gap;
-        }
+    if (typeof gapRow === 'object') {
+        gapRowSpaceSize = getClosestMediaProps(gapRow);
+    } else if (gapRow) {
+        gapRowSpaceSize = gapRow;
+    } else if (gapSpaceSize) {
+        gapRowSpaceSize = gapSpaceSize;
+    }
 
-        return (
-            <Tag
-                className={b(
-                    {
-                        inline,
-                        s: gap || rowGap ? undefined : s,
-                    },
-                    className,
-                )}
-                style={{
-                    width,
-                    alignSelf,
-                    flexDirection:
-                        typeof direction === 'function' ? direction(isMediaActive) : direction,
-                    flexGrow: grow === true ? 1 : grow,
-                    flexWrap: wrap === true ? 'wrap' : wrap,
-                    flexBasis: basis,
-                    flexShrink: shrink,
-                    gap: g ? SPACE_TO_PIXEL[g] : undefined,
-                    rowGap: rowGap ? SPACE_TO_PIXEL[rowGap] : undefined,
-                    justifyContent:
-                        typeof justifyContent === 'function'
-                            ? justifyContent(isMediaActive)
-                            : justifyContent,
-                    alignItems:
-                        typeof alignItems === 'function' ? alignItems(isMediaActive) : alignItems,
-                    ...style,
-                }}
-                title={title}
-                ref={ref}
-                data-qa={qa}
-                {...restProps}
-            >
-                {space
-                    ? React.Children.map(children, (child) => (
-                          // `space` uses negative margins under the hood. This is hack to prevent wrong background position appearance.
-                          <div className={b('wr')}>{child}</div>
-                      ))
-                    : children}
-            </Tag>
-        );
-    },
-);
+    if (gapSpaceSize) {
+        columnGap = SPACE_TO_PIXEL[gapSpaceSize];
+    }
+    if (gapRowSpaceSize) {
+        rowGap = SPACE_TO_PIXEL[gapRowSpaceSize];
+    }
+
+    return (
+        <Tag
+            className={b(
+                {
+                    inline,
+                    s: gap || gapRow ? undefined : spaceSize,
+                },
+                className,
+            )}
+            style={{
+                width,
+                alignSelf,
+                flexDirection:
+                    typeof direction === 'object' ? getClosestMediaProps(direction) : direction,
+                flexGrow: grow === true ? 1 : grow,
+                flexWrap: wrap === true ? 'wrap' : wrap,
+                flexBasis: basis,
+                flexShrink: shrink,
+                columnGap,
+                rowGap,
+                justifyContent:
+                    typeof justifyContent === 'object'
+                        ? getClosestMediaProps(justifyContent)
+                        : justifyContent,
+                alignItems:
+                    typeof alignItems === 'object' ? getClosestMediaProps(alignItems) : alignItems,
+                ...style,
+            }}
+            title={title}
+            ref={ref}
+            data-qa={qa}
+            {...restProps}
+        >
+            {space
+                ? React.Children.map(children, (child) =>
+                      // `space` uses negative margins under the hood. This is hack to prevent wrong background position appearance.
+                      child ? <div className={b('wr')}>{child}</div> : child,
+                  )
+                : children}
+        </Tag>
+    );
+});

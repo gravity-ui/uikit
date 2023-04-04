@@ -7,7 +7,7 @@ import {getTwoLetters} from './getTwoLetters';
 export interface PersonaProps {
     /** Visible text */
     text: string;
-    /** Complimentary image */
+    /** Image source */
     image?: string;
     /** Visual appearance (with or without border) */
     theme?: 'default' | 'clear';

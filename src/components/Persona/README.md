@@ -7,7 +7,7 @@ Component to display user or email.
 | Property  | Type                         | Required | Default   | Description                                |
 | :-------- | :--------------------------- | :------: | :-------- | :----------------------------------------- |
 | text      | `String`                     |   `+`    |           | Visible text                               |
-| image     | `String`                     |          |           | Complimentary image                        |
+| image     | `String`                     |          |           | Image source                               |
 | theme     | `'default', 'clear'`         |          | `default` | Visual appearance (with or without border) |
 | type      | `'person', 'email', 'empty'` |          | `person`  | Avatar appearance                          |
 | size      | `'s', 'n'`                   |          | `s`       | Text size                                  |

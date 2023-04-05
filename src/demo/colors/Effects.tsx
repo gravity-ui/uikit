@@ -14,6 +14,11 @@ const misc = [
         description: 'Shadow for everything that might have it.',
     },
     {
+        name: 'sfx-shadow-light',
+        title: 'Shadow Light',
+        description: 'Lighter version of shadow.',
+    },
+    {
         name: 'sfx-shadow-heavy',
         title: 'Shadow Heavy',
         description: 'Heavy shadows. DEPRECATED.',

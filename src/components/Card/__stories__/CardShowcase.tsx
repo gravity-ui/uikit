@@ -12,6 +12,26 @@ const themes: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
 export function CardShowcase() {
     return (
         <Showcase title="Card" className="cards-showcase-stories">
+            <ShowcaseItem title="size">
+                <Card size="m" view="raised" type="container" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        size: m
+                        <br />
+                        type: container
+                        <br />
+                        view: raised
+                    </div>
+                </Card>
+                <Card size="l" view="raised" type="container" className="card-showcase-stories">
+                    <div className="card-content-showcase-stories">
+                        size: l
+                        <br />
+                        type: container
+                        <br />
+                        view: raised
+                    </div>
+                </Card>
+            </ShowcaseItem>
             <ShowcaseItem title="type">
                 <Card view="outlined" type="selection" className="card-showcase-stories">
                     <div className="card-content-showcase-stories">selection</div>

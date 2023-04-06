@@ -245,8 +245,14 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             }
         }
 
-        this.columnsResizeObserver = new ResizeObserver(() => {
-            this.updateColumnStyles();
+        this.columnsResizeObserver = new ResizeObserver((entries) => {
+            // fix ResizeObserver loop error
+            window.requestAnimationFrame(() => {
+                if (!Array.isArray(entries) || !entries.length) {
+                    return;
+                }
+                this.updateColumnStyles();
+            });
         });
 
         if (this.tableRef.current) {

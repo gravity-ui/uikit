@@ -48,6 +48,7 @@ export * from './Tooltip';
 export * from './User';
 export * from './UserAvatar';
 
+export * from './utils/class-transform';
 export * from './utils/event-broker';
 export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
@@ -63,3 +64,4 @@ export * from './utils/useListNavigation';
 export * from './utils/useForkRef';
 export * from './utils/setRef';
 export {useOnFocusOutside} from './utils/useOnFocusOutside';
+export * from './utils/xpath';

@@ -13,9 +13,9 @@ export type XpathClassConverter = (
 ) => ElementClass | undefined;
 
 export interface XpathOptions {
-    /** Функция для конвертации и фильтрации классов */
+    /** Function for converting and filtering classes */
     classConverter?: XpathClassConverter;
-    /** Флаг, отключающий замену tag[@class='...'] на tag[@id='...'] в случае присутствия id */
+    /** Flag for managing replaces from tag[@class='...'] to tag[@id='...'] if id is exist */
     withoutId?: boolean;
 }
 

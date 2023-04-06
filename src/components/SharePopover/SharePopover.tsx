@@ -41,12 +41,7 @@ export interface SharePopoverProps extends ShareListProps, Partial<SharePopoverD
     customIcon?: SVGIconData;
     /** icon title */
     buttonTitle?: string | React.ReactNode;
-    /**
-     * @deprecated use onClick instead
-     * metrika traking registration handler
-     * */
-    handleMetrika?: () => void;
-    /** custom copy link button title */
+    /** custom onClick handler */
     onClick?: (event?: React.MouseEvent<HTMLSpanElement>) => void;
     /** custom copy link button title */
     copyTitle?: string | React.ReactNode;
@@ -152,11 +147,7 @@ export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
     }
 
     private handleClick = async (event: React.MouseEvent<HTMLSpanElement>) => {
-        const {url, title, text, useWebShareApi, handleMetrika, onClick} = this.props;
-
-        if (handleMetrika) {
-            handleMetrika();
-        }
+        const {url, title, text, useWebShareApi, onClick} = this.props;
 
         if (onClick) {
             onClick(event);

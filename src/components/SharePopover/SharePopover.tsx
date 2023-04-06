@@ -46,7 +46,7 @@ export interface SharePopoverProps extends ShareListProps, Partial<SharePopoverD
      * metrika traking registration handler
      * */
     handleMetrika?: () => void;
-    /** custom copy link button title */
+    /** custom onClick handler */
     onClick?: (event?: React.MouseEvent<HTMLSpanElement>) => void;
     /** custom copy link button title */
     copyTitle?: string | React.ReactNode;

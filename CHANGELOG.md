@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.6.0](https://github.com/gravity-ui/uikit/compare/v4.5.0...v4.6.0) (2023-04-06)
+
+
+### Features
+
+* **Card:** add size Card and add new sfx style ([#550](https://github.com/gravity-ui/uikit/issues/550)) ([d1dbea6](https://github.com/gravity-ui/uikit/commit/d1dbea6161ae4430280a9052f38f2434366076e7))
+* export LayoutDirection ([#586](https://github.com/gravity-ui/uikit/issues/586)) ([c1b3375](https://github.com/gravity-ui/uikit/commit/c1b33757263c1c7fe8c491e1ed6d4ee843a2b04f))
+* **FocusTrap:** automatically add popup content to parent focus-trap ([#594](https://github.com/gravity-ui/uikit/issues/594)) ([7de4a6f](https://github.com/gravity-ui/uikit/commit/7de4a6fb03e088313df2daf3b54b49f66a975652))
+* **SharePopover:** add an onClick prop, deprecate a handleMetrika prop ([#606](https://github.com/gravity-ui/uikit/issues/606)) ([f5c5c16](https://github.com/gravity-ui/uikit/commit/f5c5c16e79c126d9db5f1d60c63b8535da4bb4c6))
+
+
+### Bug Fixes
+
+* table component resize observer loop error ([#610](https://github.com/gravity-ui/uikit/issues/610)) ([4962e47](https://github.com/gravity-ui/uikit/commit/4962e47fdf0cbdb5a96c2e97992621bf143d55c4))
+
 ## [4.5.0](https://github.com/gravity-ui/uikit/compare/v4.4.3...v4.5.0) (2023-04-04)
 
 

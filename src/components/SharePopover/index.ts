@@ -1,4 +1,4 @@
-export {ShareOptions} from './constants';
+export {ShareOptions, LayoutDirection as ShareLayoutDirection} from './constants';
 export {ShareList} from './ShareList/ShareList';
 export {SharePopover} from './SharePopover';
 

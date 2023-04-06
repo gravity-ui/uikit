@@ -17,6 +17,7 @@ import {
 import {useForkRef} from '../utils/useForkRef';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 import {PopupArrow} from './PopupArrow';
+import {useParentFocusTrap} from '../utils/FocusTrap';
 
 import './Popup.scss';
 
@@ -99,7 +100,7 @@ export function Popup({
             ...modifiers,
         ],
     });
-    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef);
+    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef, useParentFocusTrap());
 
     const containerProps = useRestoreFocus({
         enabled: Boolean(restoreFocus && open),

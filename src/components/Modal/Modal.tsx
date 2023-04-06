@@ -6,9 +6,8 @@ import {getCSSTransitionClassNames} from '../utils/transition';
 import {DOMProps, QAProps} from '../types';
 import {Portal} from '../Portal';
 import {useBodyScrollLock} from '../utils/useBodyScrollLock';
-import {useFocusTrap} from '../utils/useFocusTrap';
+import {FocusTrap} from '../utils/FocusTrap';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
-import {useForkRef} from '../utils/useForkRef';
 import {useLayer, LayerExtendableProps, LayerCloseReason} from '../utils/useLayer';
 
 import './Modal.scss';
@@ -73,11 +72,6 @@ export function Modal({
     const [inTransition, setInTransition] = React.useState(false);
 
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
-    const [setFocusTrap] = useFocusTrap({
-        enabled: !disableFocusTrap && open && !inTransition,
-        disableRestoreFocus: true,
-        disableAutoFocus,
-    });
     const containerProps = useRestoreFocus({
         enabled: open || inTransition,
         restoreFocusRef,
@@ -95,7 +89,6 @@ export function Modal({
         contentRefs: [contentRef],
     });
 
-    const handleContentRef = useForkRef<HTMLDivElement>(contentRef, setFocusTrap);
     return (
         <Portal container={container}>
             <CSSTransition
@@ -128,18 +121,23 @@ export function Modal({
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
                     <div className={b('table')}>
                         <div className={b('cell')}>
-                            <div
-                                ref={handleContentRef}
-                                tabIndex={-1}
-                                role="dialog"
-                                aria-modal={open}
-                                aria-label={ariaLabel}
-                                aria-labelledby={ariaLabelledBy}
-                                className={b('content', contentClassName)}
-                                {...containerProps}
+                            <FocusTrap
+                                enabled={!disableFocusTrap && open && !inTransition}
+                                disableAutoFocus={disableAutoFocus}
                             >
-                                {children}
-                            </div>
+                                <div
+                                    ref={contentRef}
+                                    tabIndex={-1}
+                                    role="dialog"
+                                    aria-modal={open}
+                                    aria-label={ariaLabel}
+                                    aria-labelledby={ariaLabelledBy}
+                                    className={b('content', contentClassName)}
+                                    {...containerProps}
+                                >
+                                    {children}
+                                </div>
+                            </FocusTrap>
                         </div>
                     </div>
                 </div>

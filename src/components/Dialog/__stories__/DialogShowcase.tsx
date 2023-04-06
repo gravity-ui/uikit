@@ -3,6 +3,7 @@ import {Dialog} from '../../../components/Dialog/Dialog';
 import {Button} from '../../../components/Button';
 import {Select} from '../../../components/Select';
 import {TextInput} from '../../TextInput';
+import {Flex} from '../../layout/Flex/Flex';
 
 const darthVader = String.raw`
                        .-.
@@ -33,6 +34,8 @@ function OtherDialog() {
     const [open, setOpen] = React.useState(false);
     const [errorVisible, setErrorVisible] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+
+    const [openSelect, setOpenSelect] = React.useState(false);
 
     const switchVisibility = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -65,16 +68,32 @@ function OtherDialog() {
                 onEnterKeyDown={handleApply}
                 onTransitionEntered={() => {
                     selectRef?.current?.focus();
+                    setTimeout(() => setOpenSelect(true), 0);
                 }}
             >
                 <Dialog.Body>
                     <pre>{darthVader}</pre>
-                    <TextInput />
-                    <Select filterable ref={selectRef} disablePortal>
-                        <Select.Option value="dark">Dark side</Select.Option>
-                        <Select.Option value="some">Something in the middle</Select.Option>
-                        <Select.Option value="light">Light side</Select.Option>
-                    </Select>
+                    <Flex direction="column" gap="s">
+                        <TextInput />
+                        <Flex gap="xs">
+                            <Select
+                                filterable
+                                ref={selectRef}
+                                open={openSelect}
+                                onOpenChange={setOpenSelect}
+                                disablePortal
+                            >
+                                <Select.Option value="dark">Dark side</Select.Option>
+                                <Select.Option value="some">Something in the middle</Select.Option>
+                                <Select.Option value="light">Light side</Select.Option>
+                            </Select>
+                            <Select filterable>
+                                <Select.Option value="dark">Dark side</Select.Option>
+                                <Select.Option value="some">Something in the middle</Select.Option>
+                                <Select.Option value="light">Light side</Select.Option>
+                            </Select>
+                        </Flex>
+                    </Flex>
                 </Dialog.Body>
                 <Dialog.Footer
                     preset="default"

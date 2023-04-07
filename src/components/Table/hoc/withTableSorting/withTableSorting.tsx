@@ -19,6 +19,7 @@ type SortState = ColumnSortState[];
 
 export type TableSortState = SortState;
 export type TableColumnSortState = ColumnSortState;
+export const TableSortIndicator = SortIndicator;
 
 export interface WithTableSortingProps {
     defaultSortState?: SortState;

@@ -110,9 +110,11 @@ export function Icon({
     }
 
     if (isSpriteData(data)) {
+        const href = Icon.prefix + (data.url || `#${data.id}`);
+
         return (
             <svg {...props} viewBox={viewBox}>
-                <use xlinkHref={Icon.prefix + (data.url || `#${data.id}`)} />
+                <use href={href} xlinkHref={href} />
             </svg>
         );
     }

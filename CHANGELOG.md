@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.6.1](https://github.com/gravity-ui/uikit/compare/v4.6.0...v4.6.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* **Icon:** use href attribute in &lt;use&gt; element ([#580](https://github.com/gravity-ui/uikit/issues/580)) ([aaaa900](https://github.com/gravity-ui/uikit/commit/aaaa90045800cc360abc41ec6ea735a1e998995b))
+* **Table:** add export for TableSortIndicator ([#612](https://github.com/gravity-ui/uikit/issues/612)) ([5072097](https://github.com/gravity-ui/uikit/commit/5072097f9c97beff9a30c036d357418cb4d4755c))
+
 ## [4.6.0](https://github.com/gravity-ui/uikit/compare/v4.5.0...v4.6.0) (2023-04-06)
 
 

@@ -9,7 +9,7 @@ export type {
 } from './withTableActions/withTableActions';
 export {withTableCopy} from './withTableCopy/withTableCopy';
 export type {WithTableCopyProps} from './withTableCopy/withTableCopy';
-export {withTableSorting} from './withTableSorting/withTableSorting';
+export {withTableSorting, TableSortIndicator} from './withTableSorting/withTableSorting';
 export type {
     WithTableSortingProps,
     TableSortState,

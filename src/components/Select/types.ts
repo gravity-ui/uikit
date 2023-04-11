@@ -18,6 +18,15 @@ export type SelectRenderControl = (
     options: SelectRenderControlOptions,
 ) => React.ReactElement;
 
+export type SelectRenderOptionViewParams = {
+    itemHeight: number;
+};
+
+export type SelectRenderOption<T> = (
+    option: SelectOption<T>,
+    options: SelectRenderOptionViewParams,
+) => React.ReactElement;
+
 export type SelectProps<T = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
@@ -30,7 +39,7 @@ export type SelectProps<T = any> = QAProps &
             value: string;
             ref: React.Ref<HTMLInputElement>;
         }) => React.ReactElement;
-        renderOption?: (option: SelectOption<T>) => React.ReactElement;
+        renderOption?: SelectRenderOption<T>;
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         getOptionHeight?: (option: SelectOption<T>) => number;

@@ -47,7 +47,6 @@ describe('Select popup', () => {
         'should return correct height for option depends on size (%s)',
         async (_type, {size, height, mobile}) => {
             const renderOption: SelectRenderOption<any> = (_option, {itemHeight}) => {
-                console.log(itemHeight);
                 expect(itemHeight).toEqual(height);
                 return <div />;
             };

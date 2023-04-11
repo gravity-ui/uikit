@@ -76,3 +76,19 @@ Default.argTypes = {
     onPreviousClick: {action: 'onPreviousClick'},
     onNextClick: {action: 'onNextClick'},
 };
+
+export const Single = DefaultTemplate.bind({});
+Single.args = {
+    open: false,
+    items: [items[0]],
+};
+
+export const WithCustomAction = DefaultTemplate.bind({});
+WithCustomAction.args = {
+    open: false,
+    items: [items[0]],
+    action: {
+        view: 'action',
+        children: 'View examples',
+    },
+};

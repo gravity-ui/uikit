@@ -18,13 +18,13 @@ export type SelectRenderControl = (
     options: SelectRenderControlOptions,
 ) => React.ReactElement;
 
-export type SelectRenderOptionOptions = {
+export type SelectRenderOptionViewParams = {
     itemHeight: number;
 };
 
 export type SelectRenderOption<T> = (
     option: SelectOption<T>,
-    options: SelectRenderOptionOptions,
+    options: SelectRenderOptionViewParams,
 ) => React.ReactElement;
 
 export type SelectProps<T = any> = QAProps &

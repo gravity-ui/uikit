@@ -52,7 +52,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                 return <GroupLabel label={option.label} />;
             }
 
-            const renderOptionWithOptions = renderOption
+            const wrappedRenderOption = renderOption
                 ? (option: SelectOption) => {
                       return renderOption(option, {itemHeight: getItemHeight(option, itemIndex)});
                   }
@@ -63,7 +63,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                     option={option}
                     value={value}
                     multiple={multiple}
-                    renderOption={renderOptionWithOptions}
+                    renderOption={wrappedRenderOption}
                 />
             );
         },

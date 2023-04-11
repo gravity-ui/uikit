@@ -110,10 +110,10 @@ $textBlockMargin: 16px;
 
     &__controls-block {
         display: flex;
-        justify-content: space-between;
+        gap: #{$smallMargin};
 
         button {
-            width: calc(50% - #{$smallMargin});
+            max-width: 50%;
         }
     }
 

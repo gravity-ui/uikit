@@ -1,9 +1,6 @@
-import React from 'react';
-
 import {DEFAULT_OPTIONS, setup, TEST_QA} from './utils';
 import userEvent from '@testing-library/user-event';
 import {SelectQa} from '../constants';
-import {SelectRenderOption} from '../types';
 import {TextInputSize} from '../../TextInput';
 
 const onUpdate = jest.fn();
@@ -46,10 +43,7 @@ describe('Select popup', () => {
     ])(
         'should return correct height for option depends on size (%s)',
         async (_type, {size, height, mobile}) => {
-            const renderOption: SelectRenderOption<any> = (_option, {itemHeight}) => {
-                expect(itemHeight).toEqual(height);
-                return <div />;
-            };
+            const renderOption = jest.fn();
 
             const {getByTestId} = setup(
                 {size: size as TextInputSize, renderOption, onUpdate, options: DEFAULT_OPTIONS},
@@ -60,6 +54,11 @@ describe('Select popup', () => {
             const selectControl = getByTestId(TEST_QA);
             // open select popup
             await user.click(selectControl);
+
+            expect(renderOption).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({itemHeight: height}),
+            );
         },
     );
 });

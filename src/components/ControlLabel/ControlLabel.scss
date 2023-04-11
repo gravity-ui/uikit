@@ -27,7 +27,12 @@ $block: '.#{variables.$ns}control-label';
         line-height: 18px;
     }
 
+    &__indicator {
+        flex-shrink: 0;
+    }
+
     &__text {
+        flex-grow: 1;
         white-space: normal;
 
         #{$block}_disabled & {

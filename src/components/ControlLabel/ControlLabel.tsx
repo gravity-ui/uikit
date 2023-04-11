@@ -1,4 +1,4 @@
-import React, {forwardRef} from 'react';
+import React, {forwardRef, cloneElement} from 'react';
 import {block} from '../utils/cn';
 import {Props} from './types';
 
@@ -24,6 +24,10 @@ export const ControlLabel = forwardRef<HTMLLabelElement, Props>(
         },
         ref,
     ) => {
+        const clonedControl = cloneElement(control, {
+            className: b('indicator', control.props.className),
+        });
+
         return (
             <label
                 ref={ref}
@@ -32,7 +36,7 @@ export const ControlLabel = forwardRef<HTMLLabelElement, Props>(
                 className={b({size, disabled}, className)}
                 data-qa={qa}
             >
-                {control}
+                {clonedControl}
                 {children ? <span className={b('text', labelClassName)}>{children}</span> : null}
             </label>
         );

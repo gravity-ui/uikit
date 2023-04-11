@@ -1,6 +1,6 @@
 import React from 'react';
 import {List} from '../../../List';
-import {SelectProps} from '../../types';
+import {SelectOption, SelectProps} from '../../types';
 import {FlattenOption, getOptionsHeight, getPopupItemHeight} from '../../utils';
 import {selectListBlock, SelectQa} from '../../constants';
 import {GroupLabel} from './GroupLabel';
@@ -43,21 +43,27 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         (option: FlattenOption, index: number) => {
             return getPopupItemHeight({getOptionHeight, size, option, index, mobile});
         },
-        [getOptionHeight, size],
+        [getOptionHeight, mobile, size],
     );
 
     const renderItem = React.useCallback(
-        (option: FlattenOption) => {
+        (option: FlattenOption, _isItemActive: boolean, itemIndex: number) => {
             if ('label' in option) {
                 return <GroupLabel label={option.label} />;
             }
+
+            const renderOptionWithOptions = renderOption
+                ? (option: SelectOption) => {
+                      return renderOption(option, {itemHeight: getItemHeight(option, itemIndex)});
+                  }
+                : undefined;
 
             return (
                 <OptionWrap
                     option={option}
                     value={value}
                     multiple={multiple}
-                    renderOption={renderOption}
+                    renderOption={renderOptionWithOptions}
                 />
             );
         },

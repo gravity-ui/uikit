@@ -4,6 +4,7 @@ import React from 'react';
 import {block} from '../../utils/cn';
 import {MediaType, Space, MediaPartial} from '../types';
 import {sp} from '../spacing/spacing';
+import {makeCssMod} from '../utils';
 import {useContainerThemeProps} from './useContainerThemeProps';
 
 import './Container.scss';
@@ -67,16 +68,25 @@ export const Container = ({
 }: ContainerProps) => {
     const {getClosestMediaProps, containerThemeProps} = useContainerThemeProps();
 
+    let sr: string | undefined;
+
+    if (typeof spaceRow === 'object') {
+        const propsCandidate = getClosestMediaProps(spaceRow);
+
+        if (propsCandidate) {
+            sr = makeCssMod(propsCandidate);
+        }
+    } else if (spaceRow) {
+        sr = makeCssMod(spaceRow);
+    }
+
     return (
         <Tag
             style={style}
             className={b(
                 {
                     mw: maxWidth,
-                    sr:
-                        (typeof spaceRow === 'object'
-                            ? getClosestMediaProps(spaceRow)
-                            : spaceRow) || containerThemeProps.spaceRow,
+                    sr,
                 },
                 gutters === false
                     ? className

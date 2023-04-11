@@ -1,6 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import {block} from '../../utils/cn';
 import {Space} from '../types';
+import {makeCssMod} from '../utils';
 
 import './spacing.scss';
 
@@ -78,7 +79,10 @@ export const spacing = (props: SpacingProps, className?: string) => {
     for (const key in props) {
         if (Object.prototype.hasOwnProperty.call(props, key)) {
             const value = props[key as keyof SpacingProps];
-            classes.push(b(`${key}_${value}`));
+
+            if (typeof value !== 'undefined') {
+                classes.push(b(`${key}_${makeCssMod(value)}`));
+            }
         }
     }
 

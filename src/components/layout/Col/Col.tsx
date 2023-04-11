@@ -3,6 +3,7 @@ import React from 'react';
 
 import {block} from '../../utils/cn';
 import {ColSize, MediaPartial} from '../types';
+import {makeCssMod} from '../utils';
 
 import './Col.scss';
 
@@ -38,7 +39,7 @@ export interface ColProps extends MediaPartial<ColSize> {
  */
 export const Col = ({children, style, className, ...media}: ColProps) => {
     const mods = Object.entries(media).reduce<Record<string, string>>((acc, [mod, modSize]) => {
-        acc[`s-${mod}`] = modSize;
+        acc[`s-${mod}`] = makeCssMod(modSize);
 
         return acc;
     }, {});

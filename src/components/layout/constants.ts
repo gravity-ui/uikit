@@ -1,16 +1,9 @@
 import {LayoutTheme, Space} from './types';
 
-export const SPACE_TO_PIXEL: Record<Space, number> = {
-    none: 0,
-    nano: 2,
-    micro: 4,
-    xs: 8,
-    s: 12,
-    m: 16,
-    l: 20,
-    xl: 24,
-    xxl: 32,
-};
+// css custom properties doesn't support decimal numbers in name
+export const CSS_SIZE_EXCEPTION = {
+    '0.5': 'micro',
+} as Record<Space, string>;
 
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
     breakpoints: {
@@ -21,20 +14,21 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         xxl: 1400,
         xxxl: 1920,
     },
+    spaceUnitSize: 4,
     common: {
-        space: 's',
+        space: '3',
         media: {
             l: {
-                space: 'l',
+                space: '5',
             },
         },
     },
     components: {
         container: {
-            gutters: 's',
+            gutters: '3',
             media: {
                 l: {
-                    gutters: 'l',
+                    gutters: '5',
                 },
             },
         },

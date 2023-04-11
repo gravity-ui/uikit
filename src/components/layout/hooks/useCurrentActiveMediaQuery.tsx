@@ -1,6 +1,6 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {MediaProps, MediaType, ActiveMediaQuery} from '../types';
+import {MediaProps, MediaType} from '../types';
 
 export const mockMediaQueryList: MediaQueryList = {
     media: '',
@@ -49,11 +49,11 @@ class Queries {
         ];
     }
 
-    getCurrentActiveMedia(): ActiveMediaQuery {
+    getCurrentActiveMedia(): MediaType {
         const activeMedia = this.queryListsDecl.find(([_, queryList]) => queryList.matches);
 
         if (!activeMedia) {
-            return '';
+            return 's';
         }
 
         return activeMedia[0];
@@ -73,8 +73,11 @@ class Queries {
 /**
  * @private - use `useLayoutContext` hook instead
  */
-export const useCurrentActiveMediaQuery = (breakpointsMap: MediaProps<number>) => {
-    const [state, _setState] = React.useState<ActiveMediaQuery>('');
+export const useCurrentActiveMediaQuery = (
+    breakpointsMap: MediaProps<number>,
+    initialMediaQuery: MediaType = 's',
+) => {
+    const [state, _setState] = React.useState<MediaType>(initialMediaQuery);
 
     React.useLayoutEffect(() => {
         let mounted = true;

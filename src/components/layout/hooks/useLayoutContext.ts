@@ -1,13 +1,12 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {ActiveMediaQuery, LayoutTheme, RecursivePartial} from '../types';
+import {MediaType, LayoutTheme} from '../types';
 import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
 import {LayoutContext} from '../contexts/LayoutContext';
 
 interface ComputedMediaContext {
-    theme: RecursivePartial<LayoutTheme>;
+    theme: LayoutTheme;
     /**
-     * returns current [Screen sizes](#screen-sizes) keys or empty string (`''`) if referenced on server.
      *
      *  > Note: `s` breakpoint starts from `0px` and and's with `m` - 1px
      *
@@ -27,7 +26,7 @@ interface ComputedMediaContext {
      * };
      * ```
      */
-    activeMediaQuery: ActiveMediaQuery;
+    activeMediaQuery: MediaType;
     /**
      * Returns a boolean value if the passed value is equal to or greater than the currently active media expression.
      * It is necessary to describe the logic of adaptive behavior of elements taking into account the mobile-first approach

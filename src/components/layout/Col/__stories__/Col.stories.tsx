@@ -11,7 +11,7 @@ export default {
     component: Col,
 } as Meta;
 
-const StaticTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space, spaceRow}) => (
+const StaticTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space = '3', spaceRow}) => (
     <LayoutPresenter>
         <Row {...{space, spaceRow}}>
             {new Array(12).fill('1').map((s, i) => (
@@ -46,9 +46,13 @@ const StaticTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space, spaceR
 
 export const Static = StaticTemplate.bind({});
 
-const DynamicTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space, spaceRow}) => (
+Static.args = {
+    space: 3,
+};
+
+const DynamicTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space = '2', spaceRow}) => (
     <LayoutPresenter>
-        <Container spaceRow="xxl">
+        <Container spaceRow="8">
             <Row {...{space, spaceRow}}>
                 <ColPresenter s="1" l="12" />
                 <ColPresenter s="1" l="12" />
@@ -83,8 +87,12 @@ const DynamicTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space, space
 
 export const Dynamic = DynamicTemplate.bind({});
 
+Dynamic.args = {
+    space: '2',
+};
+
 const AllModsTemplate: Story<ColProps & {space?: Space; spaceRow?: Space}> = ({
-    space,
+    space = '3',
     spaceRow,
     ...args
 }) => (
@@ -105,5 +113,5 @@ AllMods.args = {
     l: '4',
     m: '6',
     s: '12',
-    space: 'm',
+    space: 3,
 };

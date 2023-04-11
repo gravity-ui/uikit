@@ -1,3 +1,4 @@
+import type {LayoutTheme as StrictLayoutTheme, RecursivePartial} from './types';
 export * from './Col/Col';
 export * from './Row/Row';
 export * from './Flex/Flex';
@@ -7,4 +8,4 @@ export * from './spacing/spacing';
 
 export * from './hooks/useLayoutContext';
 
-export * from './utils/makeLayoutDefaultTheme';
+export type LayoutTheme = RecursivePartial<StrictLayoutTheme>;

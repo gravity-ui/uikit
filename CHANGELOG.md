@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.7.0](https://github.com/gravity-ui/uikit/compare/v4.6.1...v4.7.0) (2023-04-11)
+
+
+### Features
+
+* **Select:** add itemHeight to renderOption  ([#618](https://github.com/gravity-ui/uikit/issues/618)) ([4f46baa](https://github.com/gravity-ui/uikit/commit/4f46baa69da0c3ef9e8a7f2eef1fbdaebe8099c3))
+* **Stories:** support single page story ([#591](https://github.com/gravity-ui/uikit/issues/591)) ([e5ceb5a](https://github.com/gravity-ui/uikit/commit/e5ceb5a174c7f2cdfa772b172f537315e8bb7dfd))
+
+
+### Bug Fixes
+
+* **ControlLabel:** allow control text to be stretched ([#619](https://github.com/gravity-ui/uikit/issues/619)) ([5193fc4](https://github.com/gravity-ui/uikit/commit/5193fc41aad9d90702685cbf68479da2470b3952))
+
 ## [4.6.1](https://github.com/gravity-ui/uikit/compare/v4.6.0...v4.6.1) (2023-04-07)
 
 

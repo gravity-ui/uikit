@@ -11,7 +11,7 @@ type DefaultOptionProps = {
 };
 
 type OptionWrapProps = {
-    renderOption?: SelectProps['renderOption'];
+    renderOption?: (option: SelectOption) => React.ReactElement;
     value: NonNullable<SelectProps['value']>;
     option: SelectOption;
     multiple?: boolean;

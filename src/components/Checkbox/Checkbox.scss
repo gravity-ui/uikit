@@ -4,7 +4,6 @@ $block: '.#{variables.$ns}checkbox';
 
 #{$block} {
     &__indicator {
-        flex-shrink: 0;
         display: inline-block;
         position: relative;
         cursor: inherit;

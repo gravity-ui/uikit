@@ -37,6 +37,15 @@ const LabelTemplate: Story<CheckboxProps> = (args) => (
         <Checkbox {...args} size="m" content="content m" />
         <span style={{margin: '16px'}} />
         <Checkbox {...args} size="l" content="content l" />
+        <div style={{width: 200, marginTop: 10}}>
+            <Checkbox {...args} size="m" style={{width: '100%'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <span>Full</span>
+                    <span>width</span>
+                    <span>content</span>
+                </div>
+            </Checkbox>
+        </div>
     </>
 );
 export const Label = LabelTemplate.bind({});

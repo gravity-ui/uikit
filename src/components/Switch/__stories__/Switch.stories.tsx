@@ -34,6 +34,15 @@ const LabelTemplate: Story<SwitchProps> = (args) => (
         <Switch {...args} size="m" content="content m" />
         <span style={{margin: '16px'}} />
         <Switch {...args} size="l" content="content l" />
+        <div style={{width: 200, marginTop: 10}}>
+            <Switch {...args} size="m" style={{width: '100%'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <span>Full</span>
+                    <span>width</span>
+                    <span>content</span>
+                </div>
+            </Switch>
+        </div>
     </>
 );
 export const Label = LabelTemplate.bind({});

@@ -3,7 +3,11 @@ import React from 'react';
 import {Modal, ModalCloseReason} from '../Modal';
 import {StoriesItem} from './types';
 
-import {IndexType, StoriesLayout} from './components/StoriesLayout/StoriesLayout';
+import {
+    IndexType,
+    StoriesLayout,
+    StoriesLayoutProps,
+} from './components/StoriesLayout/StoriesLayout';
 
 import {block} from '../utils/cn';
 import './Stories.scss';
@@ -21,6 +25,8 @@ export interface StoriesProps {
     onPreviousClick?: (storyIndex: number) => void;
     onNextClick?: (storyIndex: number) => void;
     disableOutsideClick?: boolean;
+    className?: string;
+    action?: StoriesLayoutProps['action'];
 }
 
 export function Stories({
@@ -31,6 +37,8 @@ export function Stories({
     onNextClick,
     initialStoryIndex = 0,
     disableOutsideClick = true,
+    className,
+    action,
 }: StoriesProps) {
     const [storyIndex, setStoryIndex] = React.useState(initialStoryIndex);
 
@@ -96,7 +104,7 @@ export function Stories({
             open={open}
             onClose={handleClose}
             disableOutsideClick={disableOutsideClick}
-            contentClassName={b('modal-content')}
+            contentClassName={b('modal-content', className)}
         >
             <StoriesLayout
                 items={items}
@@ -105,6 +113,7 @@ export function Stories({
                 handleButtonClose={handleButtonClose}
                 handleGotoNext={handleGotoNext}
                 handleGotoPrevious={handleGotoPrevious}
+                action={action}
             />
         </Modal>
     );

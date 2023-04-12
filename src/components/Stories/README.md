@@ -13,6 +13,8 @@ Component for displaying stories. It looks like a carousel in a modal with given
 | onPreviousClick     | `Function`      |          |         | Action when switching to previous story          |
 | onNextClick         | `Function`      |          |         | Action when switching to next story              |
 | disableOutsideClick | `Boolean`       |          | true    | If `true`, do not close stories on click outside |
+| className           | `string`        |          |         | Stories modal class                              |
+| action              | `ButtonProps`   |          |         | Custom action button props for the last step     |
 
 ### StoriesItem object
 

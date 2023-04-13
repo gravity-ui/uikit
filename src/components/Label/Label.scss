@@ -42,7 +42,8 @@ $transitionTimingFunction: ease-in-out;
         overflow: hidden;
     }
 
-    &__addon {
+    // & selector added to up priority over button styles
+    & &__addon {
         display: flex;
         align-items: center;
         justify-content: center;

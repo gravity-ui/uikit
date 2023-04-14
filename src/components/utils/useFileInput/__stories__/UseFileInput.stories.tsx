@@ -6,14 +6,13 @@ import {useFileInput} from '../useFileInput';
 export default {title: 'Hooks/useFileInput'} as Meta;
 
 const DefaultTemplate: Story = () => {
-    const ref = React.useRef<HTMLInputElement>(null);
     const onUpdate = (files: File[]) => console.log(files);
-    const {controlProps, openDeviceStorage} = useFileInput({ref, onUpdate});
+    const {controlProps, triggerProps} = useFileInput({onUpdate});
 
     return (
         <React.Fragment>
-            <input ref={ref} {...controlProps} />
-            <Button onClick={openDeviceStorage}>Upload</Button>
+            <input {...controlProps} />
+            <Button {...triggerProps}>Upload</Button>
         </React.Fragment>
     );
 };

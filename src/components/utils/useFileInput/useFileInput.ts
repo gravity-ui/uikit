@@ -2,7 +2,6 @@
 import React from 'react';
 
 export type UseFileInputProps = {
-    ref: React.RefObject<HTMLInputElement>;
     onUpdate?: (files: File[]) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -12,7 +11,9 @@ export type UseFileInputOutput = {
         React.InputHTMLAttributes<HTMLInputElement>,
         HTMLInputElement
     >;
-    openDeviceStorage: () => void;
+    triggerProps: {
+        onClick: () => void;
+    };
 };
 
 /**
@@ -23,25 +24,22 @@ export type UseFileInputOutput = {
     import {Button, useFileInput} from '@gravity-ui/uikit';
     
     const Component = () => {
-        const ref = React.useRef<HTMLInputElement>(null);
         const onUpdate = (files: File[]) => {
             // do some staff here
         }
-        const {controlProps, openDeviceStorage} = useFileInput({ref, onUpdate});
+        const {controlProps, triggerProps} = useFileInput({onUpdate});
 
         return (
             <React.Fragment>
-                <input ref={ref} {...controlProps} />
-                <Button onClick={openDeviceStorage}>Upload</Button>
+                <input {...controlProps} />
+                <Button {...triggerProps}>Upload</Button>
             </React.Fragment>
         );
     };
 ```
 */
-export function useFileInput({ref, onUpdate, onChange}: UseFileInputProps): UseFileInputOutput {
-    const openDeviceStorage = React.useCallback(() => {
-        ref.current?.click();
-    }, [ref]);
+export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileInputOutput {
+    const ref = React.useRef<HTMLInputElement>(null);
 
     const handleChange = React.useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,13 +51,25 @@ export function useFileInput({ref, onUpdate, onChange}: UseFileInputProps): UseF
         [onChange, onUpdate],
     );
 
-    return {
-        controlProps: {
-            type: 'file',
-            tabIndex: -1,
-            style: {opacity: 0, position: 'absolute', width: 1, height: 1},
-            onChange: handleChange,
-        },
-        openDeviceStorage,
-    };
+    const openDeviceStorage = React.useCallback(() => {
+        ref.current?.click();
+    }, []);
+
+    const result: UseFileInputOutput = React.useMemo(
+        () => ({
+            controlProps: {
+                ref,
+                type: 'file',
+                tabIndex: -1,
+                style: {opacity: 0, position: 'absolute', width: 1, height: 1},
+                onChange: handleChange,
+            },
+            triggerProps: {
+                onClick: openDeviceStorage,
+            },
+        }),
+        [handleChange, openDeviceStorage],
+    );
+
+    return result;
 }

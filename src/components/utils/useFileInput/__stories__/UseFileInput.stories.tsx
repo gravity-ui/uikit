@@ -6,7 +6,7 @@ import {useFileInput} from '../useFileInput';
 export default {title: 'Hooks/useFileInput'} as Meta;
 
 const DefaultTemplate: Story = () => {
-    const onUpdate = (files: File[]) => console.log(files);
+    const onUpdate = React.useCallback((files: File[]) => console.log(files), []);
     const {controlProps, triggerProps} = useFileInput({onUpdate});
 
     return (

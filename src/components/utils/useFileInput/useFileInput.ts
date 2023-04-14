@@ -21,14 +21,13 @@ export type UseFileInputOutput = {
  * 
  * Usage example:
  ```tsx
+    import React from 'react';
     import {Button, useFileInput} from '@gravity-ui/uikit';
     
     const Component = () => {
-        const onUpdate = (files: File[]) => {
-            // do some staff here
-        }
+        const onUpdate = React.useCallback((files: File[]) => console.log(files), []);
         const {controlProps, triggerProps} = useFileInput({onUpdate});
-
+        
         return (
             <React.Fragment>
                 <input {...controlProps} />

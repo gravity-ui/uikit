@@ -29,15 +29,18 @@ $COL_SIZE: (
 );
 
 $SPACE: (
-    none: var(--yc-spacing-none),
-    nano: var(--yc-spacing-nano),
-    micro: var(--yc-spacing-micro),
-    xs: var(--yc-spacing-xs),
-    s: var(--yc-spacing-s),
-    m: var(--yc-spacing-m),
-    l: var(--yc-spacing-l),
-    xl: var(--yc-spacing-xl),
-    xxl: var(--yc-spacing-xxl),
+    0: var(--yc-spacing-0),
+    half: var(--yc-spacing-half),
+    1: var(--yc-spacing-1),
+    2: var(--yc-spacing-2),
+    3: var(--yc-spacing-3),
+    4: var(--yc-spacing-4),
+    5: var(--yc-spacing-5),
+    6: var(--yc-spacing-6),
+    7: var(--yc-spacing-7),
+    8: var(--yc-spacing-8),
+    9: var(--yc-spacing-9),
+    10: var(--yc-spacing-10),
 );
 
 $MEDIA_TO_BREAKPOINT_WIDTH: (

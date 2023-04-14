@@ -24,11 +24,33 @@ export type ColSize =
     | 11
     | 12;
 
-export type Space = 'none' | 'nano' | 'micro' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+export type Space =
+    | '0'
+    | '0.5'
+    | '1'
+    | '2'
+    | '3'
+    | '4'
+    | '5'
+    | '6'
+    | '7'
+    | '8'
+    | '9'
+    | '10'
+    | 0
+    | 0.5
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10;
 
 export type MediaType = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
-
-export type ActiveMediaQuery = MediaType | '';
 
 export type MediaProps<T> = Record<MediaType, T>;
 
@@ -61,6 +83,13 @@ export interface LayoutTheme {
      * @important **you mast override corresponding scss variables**
      */
     breakpoints: MediaProps<number>;
+    /**
+     * Base space unit size.
+     *
+     * **Don't forget to override corresponding css custom property `--yc-space-base` at project level,
+     * if you will change this value in theme**
+     */
+    spaceBaseSize: number;
     /**
      * Common props, that can you all layout components
      */

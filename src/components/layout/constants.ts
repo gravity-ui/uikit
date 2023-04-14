@@ -2,7 +2,7 @@ import {LayoutTheme, Space} from './types';
 
 // css custom properties doesn't support decimal numbers in name
 export const CSS_SIZE_EXCEPTION = {
-    '0.5': 'micro',
+    '0.5': 'half',
 } as Record<Space, string>;
 
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
@@ -14,7 +14,7 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         xxl: 1400,
         xxxl: 1920,
     },
-    spaceUnitSize: 4,
+    spaceBaseSize: 4,
     common: {
         space: '3',
         media: {

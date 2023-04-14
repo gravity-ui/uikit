@@ -86,10 +86,10 @@ export interface LayoutTheme {
     /**
      * Base space unit size.
      *
-     * **Don't forget to override corresponding css custom property `--base-space-unit` at project level,
+     * **Don't forget to override corresponding css custom property `--yc-space-base` at project level,
      * if you will change this value in theme**
      */
-    spaceUnitSize: number;
+    spaceBaseSize: number;
     /**
      * Common props, that can you all layout components
      */

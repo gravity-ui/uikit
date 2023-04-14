@@ -79,7 +79,7 @@ _You can override default values on project level:_
 
 ```css
 :root {
-    --base-space-unit: 5px;
+    --yc-space-base: 5px;
 }
 ```
 
@@ -87,7 +87,7 @@ _You can override default values on project level:_
 import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
 
 const layoutTheme: LayoutTheme = {
-    spaceUnitSize: 5,
+    spaceBaseSize: 5,
 };
 
 export const App = () => {
@@ -136,8 +136,9 @@ Also you can manage `spacings` in `LayoutTheme` and override default behavior in
 In most cases you can use layout components without common props specified directly
 
 ### props:
-- `theme` - partial LayoutTheme onject that will be override original theme;
-- `initialMediaQuery` - use can directly pass initial 
+
+-   `theme` - partial LayoutTheme onject that will be override original theme;
+-   `initialMediaQuery` - use can directly pass initial
 
 ```tsx
 import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
@@ -153,7 +154,7 @@ export const APP_LAYOUT_THEME: LayoutTheme = {
             },
         },
     },
-    spaceUnitSize: 4,
+    spaceBaseSize: 4,
     components: {
         container: {
             gutters: 3,

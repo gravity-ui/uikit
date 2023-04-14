@@ -1,16 +1,16 @@
 @mixin yc-spacing {
-    --base-space-unit: 4px;
+    --yc-space-base: 4px;
 
-    --yc-spacing-0: calc(var(--base-space-unit) * 0);
-    --yc-spacing-micro: calc(var(--base-space-unit) * 0.5);
-    --yc-spacing-1: var(--base-space-unit);
-    --yc-spacing-2: calc(var(--base-space-unit) * 2);
-    --yc-spacing-3: calc(var(--base-space-unit) * 3);
-    --yc-spacing-4: calc(var(--base-space-unit) * 4);
-    --yc-spacing-5: calc(var(--base-space-unit) * 5);
-    --yc-spacing-6: calc(var(--base-space-unit) * 6);
-    --yc-spacing-7: calc(var(--base-space-unit) * 7);
-    --yc-spacing-8: calc(var(--base-space-unit) * 8);
-    --yc-spacing-9: calc(var(--base-space-unit) * 9);
-    --yc-spacing-10: calc(var(--base-space-unit) * 10);
+    --yc-spacing-0: calc(var(--yc-space-base) * 0);
+    --yc-spacing-half: calc(var(--yc-space-base) * 0.5);
+    --yc-spacing-1: var(--yc-space-base);
+    --yc-spacing-2: calc(var(--yc-space-base) * 2);
+    --yc-spacing-3: calc(var(--yc-space-base) * 3);
+    --yc-spacing-4: calc(var(--yc-space-base) * 4);
+    --yc-spacing-5: calc(var(--yc-space-base) * 5);
+    --yc-spacing-6: calc(var(--yc-space-base) * 6);
+    --yc-spacing-7: calc(var(--yc-space-base) * 7);
+    --yc-spacing-8: calc(var(--yc-space-base) * 8);
+    --yc-spacing-9: calc(var(--yc-space-base) * 9);
+    --yc-spacing-10: calc(var(--yc-space-base) * 10);
 }

@@ -32,7 +32,7 @@ export const Default = DefaultTemplate.bind({});
 
 const ZeroSpacingsTemplate: Story<RowProps> = (args) => (
     <LayoutPresenter title="Change screen size to see changes">
-        <Row {...args} space={{s: 0, m: 2}} spaceRow={{s: 5, m: '0'}}>
+        <Row {...args} space={{s: 0.5, m: 2}} spaceRow={{s: 5, m: '0'}}>
             <Col s="12" m="6" l="2" xl="3">
                 <Box>s-12 m-6 l-2 xl-3</Box>
             </Col>

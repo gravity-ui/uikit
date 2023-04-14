@@ -142,7 +142,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
 
     const {
         getClosestMediaProps,
-        theme: {spaceUnitSize},
+        theme: {spaceBaseSize},
     } = useLayoutContext();
 
     let spaceSize: Space | undefined;
@@ -173,10 +173,10 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
     }
 
     if (gapSpaceSize) {
-        columnGap = spaceUnitSize * Number(gapSpaceSize);
+        columnGap = spaceBaseSize * Number(gapSpaceSize);
     }
     if (gapRowSpaceSize) {
-        rowGap = spaceUnitSize * Number(gapRowSpaceSize);
+        rowGap = spaceBaseSize * Number(gapRowSpaceSize);
     }
 
     if (!gap && !gapRow && spaceSize) {

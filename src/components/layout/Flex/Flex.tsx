@@ -4,8 +4,8 @@ import React from 'react';
 import {block} from '../../utils/cn';
 import {Space, MediaPartial} from '../types';
 import {QAProps} from '../../types';
-import {SPACE_TO_PIXEL} from '../constants';
 import {useLayoutContext} from '../hooks/useLayoutContext';
+import {makeCssMod} from '../utils';
 
 import './Flex.scss';
 
@@ -105,7 +105,7 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
  * ```tsx
  * <Flex
  *  // space dynamically changes instead of current media query
- *  space={{s: 'nano', m: 'l'}}
+ *  space={{s: '1', m: '5'}}
  *  // `flex-direction: column` will be applied to `l`, 'xl', 'xxl' and `xxxl` media queries
  *  direction={{'s': 'column', 'm': 'row'}}
  * >
@@ -140,13 +140,17 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         ...restProps
     } = props;
 
-    const {getClosestMediaProps} = useLayoutContext();
+    const {
+        getClosestMediaProps,
+        theme: {spaceBaseSize},
+    } = useLayoutContext();
 
     let spaceSize: Space | undefined;
     let gapSpaceSize: Space | undefined;
     let gapRowSpaceSize: Space | undefined;
     let columnGap: number | undefined;
     let rowGap: number | undefined;
+    let s: string | undefined;
 
     if (typeof space === 'object') {
         spaceSize = getClosestMediaProps(space);
@@ -169,10 +173,14 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
     }
 
     if (gapSpaceSize) {
-        columnGap = SPACE_TO_PIXEL[gapSpaceSize];
+        columnGap = spaceBaseSize * Number(gapSpaceSize);
     }
     if (gapRowSpaceSize) {
-        rowGap = SPACE_TO_PIXEL[gapRowSpaceSize];
+        rowGap = spaceBaseSize * Number(gapRowSpaceSize);
+    }
+
+    if (!gap && !gapRow && spaceSize) {
+        s = makeCssMod(spaceSize);
     }
 
     return (
@@ -180,7 +188,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
             className={b(
                 {
                     inline,
-                    s: gap || gapRow ? undefined : spaceSize,
+                    s,
                 },
                 className,
             )}

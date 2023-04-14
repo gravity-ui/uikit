@@ -73,9 +73,9 @@ function OtherDialog() {
             >
                 <Dialog.Body>
                     <pre>{darthVader}</pre>
-                    <Flex direction="column" gap="s">
+                    <Flex direction="column" gap="3">
                         <TextInput />
-                        <Flex gap="xs">
+                        <Flex gap="2">
                             <Select
                                 filterable
                                 ref={selectRef}

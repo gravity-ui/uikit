@@ -1,4 +1,5 @@
-import {getClosestMediaPropsFactory, isMediaActiveFactory} from './index';
+import {Space} from '../types';
+import {getClosestMediaPropsFactory, isMediaActiveFactory, makeCssMod} from './index';
 
 describe('getClosestMediaPropsFactory', () => {
     test('should return predicted result if actual media query in props', () => {
@@ -28,5 +29,20 @@ describe('isMediaActiveFactory', () => {
     test('should detect wrong queries', () => {
         expect(isMediaActiveFactory('s')('m')).toBeFalsy();
         expect(isMediaActiveFactory('s')('l')).toBeFalsy();
+    });
+});
+
+describe('makeCssMod', () => {
+    test.each<[Space, string]>([
+        ['0', '0'],
+        [0, '0'],
+        ['1', '1'],
+        [0.5, 'half'],
+        ['0.5', 'half'],
+        [1, '1'],
+        [10, '10'],
+        ['10', '10'],
+    ])('should return expected result if passed %s', (value, result) => {
+        expect(makeCssMod(value)).toEqual(result);
     });
 });

@@ -1,12 +1,13 @@
 import React from 'react';
-import {RecursivePartial, LayoutTheme, ActiveMediaQuery} from '../types';
+import {LayoutTheme, MediaType} from '../types';
+import {DEFAULT_LAYOUT_THEME} from '../constants';
 
 interface LayoutContextProps {
-    theme: RecursivePartial<LayoutTheme>;
-    activeMediaQuery: ActiveMediaQuery;
+    theme: LayoutTheme;
+    activeMediaQuery: MediaType;
 }
 
 export const LayoutContext = React.createContext<LayoutContextProps>({
-    theme: {},
-    activeMediaQuery: '',
+    theme: DEFAULT_LAYOUT_THEME,
+    activeMediaQuery: 's',
 });

@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.8.1](https://github.com/gravity-ui/uikit/compare/v4.8.0...v4.8.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* **FocusTrap:** deactivate focusTrap before clear root node ([#627](https://github.com/gravity-ui/uikit/issues/627)) ([7a5abf1](https://github.com/gravity-ui/uikit/commit/7a5abf1e1e83fbb1fc33e2a774af9d95afc9633b))
+* **usePopper:** return flip modifier ([#625](https://github.com/gravity-ui/uikit/issues/625)) ([03239bf](https://github.com/gravity-ui/uikit/commit/03239bfe4a969573366a1d4fdd2f07cc8ff217f9))
+
 ## [4.8.0](https://github.com/gravity-ui/uikit/compare/v4.7.0...v4.8.0) (2023-04-14)
 
 

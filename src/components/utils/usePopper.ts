@@ -48,6 +48,7 @@ export function usePopper({
         modifiers: [
             {name: 'arrow', options: {element: arrowElement}},
             {name: 'offset', options: {offset, altBoundary}},
+            {name: 'flip', options: {fallbackPlacements: placements.slice(1), altBoundary}},
             ...modifiers,
         ],
         placement: placements[0],

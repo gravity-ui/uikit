@@ -12,9 +12,11 @@ export interface PersonaWrapProps {
     isEmpty?: boolean;
     theme?: 'default' | 'clear';
     size?: 's' | 'n';
+    /** @deprecated Use `renderButton` prop to render custom button */
     onClose?: (event: MouseEvent) => void;
     onClick?: (event: MouseEvent) => void;
     className?: string;
+    renderButton?: () => ReactNode;
 }
 
 export const PersonaWrap: FC<PersonaWrapProps> = ({
@@ -23,19 +25,21 @@ export const PersonaWrap: FC<PersonaWrapProps> = ({
     isEmpty,
     onClick,
     onClose,
+    renderButton,
     className,
     avatar,
     children,
 }) => {
     const clickable = Boolean(onClick);
-    const closeable = Boolean(onClose);
+    const closeable = Boolean(onClose || renderButton);
     return (
         <div className={b({size, theme, clickable, closeable, empty: isEmpty}, className)}>
             <div className={b('main')} onClick={onClick}>
                 {avatar && <div className={b('avatar')}>{avatar}</div>}
                 <div className={b('text')}>{children}</div>
             </div>
-            {onClose && <PersonaButton onClick={onClose} />}
+            {onClose && !renderButton && <PersonaButton onClick={onClose} />}
+            {renderButton && renderButton()}
         </div>
     );
 };

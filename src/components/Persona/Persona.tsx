@@ -1,4 +1,4 @@
-import React, {FC, ReactNode} from 'react';
+import React, {FC, ReactNode, useCallback} from 'react';
 import {Icon} from '../Icon';
 import {Mail} from '../icons';
 import {PersonaButton, PersonaWrap} from '../PersonaWrap';
@@ -47,13 +47,18 @@ const PersonaComponent: FC<PersonaProps> = ({
             break;
     }
 
+    const renderButton = useCallback(
+        () => <PersonaButton onClick={() => onClose?.(text)} />,
+        [onClose, text],
+    );
+
     return (
         <PersonaWrap
             size={size}
             theme={theme}
             isEmpty={type === 'empty'}
             onClick={onClick && onClick.bind(null, text)}
-            onClose={onClose && onClose.bind(null, text)}
+            renderButton={onClose ? renderButton : undefined}
             avatar={avatar}
             className={className}
         >

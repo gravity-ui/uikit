@@ -1,8 +1,6 @@
 import React, {ReactNode, MouseEvent, FC} from 'react';
-import {Button} from '../Button';
-import {Icon} from '../Icon';
-import {CrossIcon} from '../icons';
 import {block} from '../utils/cn';
+import {PersonaButton} from './PersonaButton';
 
 import './PersonaWrap.scss';
 
@@ -37,16 +35,7 @@ export const PersonaWrap: FC<PersonaWrapProps> = ({
                 {avatar && <div className={b('avatar')}>{avatar}</div>}
                 <div className={b('text')}>{children}</div>
             </div>
-            {onClose && (
-                <Button
-                    view={'flat-secondary'}
-                    pin={'circle-circle'}
-                    className={b('close')}
-                    onClick={onClose}
-                >
-                    <Icon data={CrossIcon} size={8} />
-                </Button>
-            )}
+            {onClose && <PersonaButton onClick={onClose} />}
         </div>
     );
 };

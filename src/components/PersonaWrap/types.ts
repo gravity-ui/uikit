@@ -17,4 +17,7 @@ export interface PersonaWrapProps {
     renderButton?: () => ReactNode;
 }
 
-export type PersonaButtonProps = Omit<ButtonProps, 'view' | 'pin' | 'children'>;
+export type PersonaButtonProps = Omit<
+    ButtonProps,
+    'view' | 'pin' | 'children' | 'href' | 'component'
+>;

@@ -9,10 +9,11 @@ export interface PersonaWrapProps {
     theme?: 'default' | 'clear';
     /** Text size */
     size?: 's' | 'n';
-    /** @deprecated Use `renderButton` prop to render custom button */
+    /** Render default button. Ignored, if `renderButton` used */
     onClose?: (event: MouseEvent) => void;
     onClick?: (event: MouseEvent) => void;
     className?: string;
+    /** Render custom button */
     renderButton?: () => ReactNode;
 }
 

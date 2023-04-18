@@ -1,6 +1,9 @@
 import type {PersonaWrapProps} from '../PersonaWrap';
 
-export type PersonaProps = Pick<PersonaWrapProps, 'size' | 'theme' | 'className'> & {
+export type PersonaProps = Pick<
+    PersonaWrapProps,
+    'size' | 'theme' | 'className' | 'renderButton'
+> & {
     /** Visible text */
     text: string;
     /** Image source */

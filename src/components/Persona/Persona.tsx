@@ -11,6 +11,7 @@ const PersonaComponent: FC<PersonaProps> = ({
     type = 'person',
     onClick,
     onClose,
+    renderButton,
     text,
     image,
     className,
@@ -29,9 +30,9 @@ const PersonaComponent: FC<PersonaProps> = ({
             break;
     }
 
-    const renderButton = useCallback(
-        () => <PersonaButton onClick={() => onClose?.(text)} />,
-        [onClose, text],
+    const renderCloseButton = useCallback(
+        () => (renderButton ? renderButton() : <PersonaButton onClick={() => onClose?.(text)} />),
+        [onClose, renderButton, text],
     );
 
     return (
@@ -40,7 +41,7 @@ const PersonaComponent: FC<PersonaProps> = ({
             theme={theme}
             isEmpty={type === 'empty'}
             onClick={onClick && onClick.bind(null, text)}
-            renderButton={onClose ? renderButton : undefined}
+            renderButton={onClose ? renderCloseButton : undefined}
             avatar={avatar}
             className={className}
         >

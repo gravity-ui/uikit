@@ -1,23 +1,11 @@
-import React, {ReactNode, MouseEvent, FC} from 'react';
+import React, {FC} from 'react';
 import {block} from '../utils/cn';
 import {PersonaButton} from './PersonaButton';
+import type {PersonaWrapProps} from './types';
 
 import './PersonaWrap.scss';
 
 const b = block('persona');
-
-export interface PersonaWrapProps {
-    avatar: ReactNode;
-    children?: ReactNode;
-    isEmpty?: boolean;
-    theme?: 'default' | 'clear';
-    size?: 's' | 'n';
-    /** @deprecated Use `renderButton` prop to render custom button */
-    onClose?: (event: MouseEvent) => void;
-    onClick?: (event: MouseEvent) => void;
-    className?: string;
-    renderButton?: () => ReactNode;
-}
 
 export const PersonaWrap: FC<PersonaWrapProps> = ({
     size = 's',

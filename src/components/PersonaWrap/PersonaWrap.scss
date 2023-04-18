@@ -110,31 +110,17 @@ $block: '.#{variables.$ns}persona';
     &__text {
         #{$block}_size_n & {
             @include mixins.text-body-2;
-            margin-right: 10px;
         }
 
         #{$block}_size_s & {
             @include mixins.text-body-1;
-            margin-right: 6px;
         }
     }
 
     &__close {
-        height: $avatarSize;
-        width: 16px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding-right: 6px;
-        color: var(--yc-color-text-secondary);
-
-        transition-property: color;
-        transition-duration: $transitionDuration;
-        transition-timing-function: $transitionTimingFunction;
-
-        &:hover {
-            color: var(--yc-color-text-primary);
+        @at-root #{&}#{&} {
+            --yc-button-height: #{$avatarSize};
+            --yc-button-background-color-hover: transparent;
         }
     }
 }

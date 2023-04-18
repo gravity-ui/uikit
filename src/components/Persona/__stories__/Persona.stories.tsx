@@ -3,25 +3,25 @@ import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {faker} from '@faker-js/faker/locale/en';
 import {Persona} from '../Persona';
 
+const person = 'Charles Darwin';
+
 export default {
     title: 'Components/Persona',
     component: Persona,
+    args: {
+        text: person,
+    },
 } as ComponentMeta<typeof Persona>;
 
-const person = 'Charles Darwin';
 const email = faker.internet.email(...person.split(' '));
 const personImg = faker.internet.avatar();
 
 const Template: ComponentStory<typeof Persona> = (args) => <Persona {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-    text: person,
-};
 
 export const Image = Template.bind({});
 Image.args = {
-    text: person,
     image: personImg,
 };
 
@@ -33,18 +33,15 @@ Email.args = {
 
 export const Empty = Template.bind({});
 Empty.args = {
-    text: person,
     type: 'empty',
 };
 
 export const Clickable = Template.bind({});
 Clickable.args = {
-    text: person,
     onClick: (text) => console.log('clicked', text),
 };
 
 export const Closable = Template.bind({});
 Closable.args = {
-    text: person,
     onClose: (text) => console.log('closed', text),
 };

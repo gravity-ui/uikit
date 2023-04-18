@@ -1,7 +1,7 @@
 import React, {FC, ReactNode} from 'react';
 import {Icon} from '../Icon';
 import {Mail} from '../icons';
-import {PersonaWrap} from '../PersonaWrap';
+import {PersonaButton, PersonaWrap} from '../PersonaWrap';
 import {getTwoLetters} from './getTwoLetters';
 
 export interface PersonaProps {
@@ -23,7 +23,7 @@ export interface PersonaProps {
     className?: string;
 }
 
-export const Persona: FC<PersonaProps> = ({
+const PersonaComponent: FC<PersonaProps> = ({
     size = 's',
     theme = 'default',
     type = 'person',
@@ -62,4 +62,6 @@ export const Persona: FC<PersonaProps> = ({
     );
 };
 
-Persona.displayName = 'Persona';
+PersonaComponent.displayName = 'Persona';
+
+export const Persona = Object.assign(PersonaComponent, {Button: PersonaButton});

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {faker} from '@faker-js/faker/locale/en';
+import {Tooltip} from '../../Tooltip';
 import {Persona} from '../Persona';
 
 const person = 'Charles Darwin';
@@ -44,4 +45,19 @@ Clickable.args = {
 export const Closable = Template.bind({});
 Closable.args = {
     onClose: (text) => console.log('closed', text),
+};
+
+function CustomButton() {
+    return (
+        <Tooltip content={'This action is not permitted'}>
+            <Persona.Button extraProps={{'aria-label': 'Remove user from the list'}} />
+        </Tooltip>
+    );
+}
+
+CustomButton.displayName = 'CustomButton';
+
+export const WithCustomButton = Template.bind({});
+WithCustomButton.args = {
+    renderButton: () => <CustomButton />,
 };

@@ -41,7 +41,7 @@ const PersonaComponent: FC<PersonaProps> = ({
             theme={theme}
             isEmpty={type === 'empty'}
             onClick={onClick && onClick.bind(null, text)}
-            renderButton={onClose ? renderCloseButton : undefined}
+            renderButton={onClose || renderButton ? renderCloseButton : undefined}
             avatar={avatar}
             className={className}
         >

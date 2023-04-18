@@ -5,7 +5,9 @@ export interface PersonaWrapProps {
     avatar: ReactNode;
     children?: ReactNode;
     isEmpty?: boolean;
+    /** Visual appearance (with or without border) */
     theme?: 'default' | 'clear';
+    /** Text size */
     size?: 's' | 'n';
     /** @deprecated Use `renderButton` prop to render custom button */
     onClose?: (event: MouseEvent) => void;

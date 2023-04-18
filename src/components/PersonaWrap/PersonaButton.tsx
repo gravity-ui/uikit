@@ -1,22 +1,19 @@
-import React, {FC, MouseEventHandler} from 'react';
+import React, {FC} from 'react';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons';
 import {block} from '../utils/cn';
-
-interface Props {
-    onClick: MouseEventHandler<HTMLButtonElement>;
-}
+import {PersonaButtonProps} from './types';
 
 const b = block('persona');
 
-export const PersonaButton: FC<Props> = ({onClick}) => {
+export const PersonaButton: FC<PersonaButtonProps> = ({className, ...props}) => {
     return (
         <Button
+            {...props}
             view={'flat-secondary'}
             pin={'circle-circle'}
-            className={b('close')}
-            onClick={onClick}
+            className={b('close', className)}
         >
             <Icon data={CrossIcon} size={8} />
         </Button>

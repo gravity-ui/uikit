@@ -8,6 +8,7 @@ export interface UserAvatarProps {
     imgUrl?: string;
     size?: UserAvatarSize;
     srcSet?: string;
+    sizes?: string;
     title?: string;
     className?: string;
     /** @deprecated Use appropriate component, like `<Button/>` instead */
@@ -20,6 +21,7 @@ export function UserAvatar({
     imgUrl,
     size = 'm',
     srcSet,
+    sizes,
     title,
     className,
     onClick,
@@ -39,6 +41,7 @@ export function UserAvatar({
                     height={SIZES[size]}
                     src={imgUrl}
                     srcSet={srcSet}
+                    sizes={sizes}
                     alt={''}
                 />
             </div>

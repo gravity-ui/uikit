@@ -36,14 +36,18 @@ $block: '.#{variables.$ns}popover';
 
         &-buttons {
             display: inline-flex;
-            width: 100%;
-            margin-top: 20px;
-            $buttonClass: #{$class}__tooltip-button;
             flex-wrap: wrap;
-            gap: 10px;
+            width: 100%;
+            // giving additional -5 margin
+            // this is taking into account the margins of buttons
+            // to imitate the `gap` property for flexbox
+            margin: 15px -5px -5px;
+
+            $buttonClass: #{$class}__tooltip-button;
         }
 
         &-button {
+            margin: 5px;
             flex: 1;
         }
 

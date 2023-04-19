@@ -20,6 +20,8 @@ $block: '.#{variables.$ns}popover';
         --yc-popover-close-margin: 8px;
         --yc-popover-close-size: 24px;
 
+        $buttonGap: 5px;
+
         box-sizing: border-box;
         min-height: 40px;
         max-width: var(--yc-popover-max-width);
@@ -41,13 +43,13 @@ $block: '.#{variables.$ns}popover';
             // giving additional -5 margin
             // this is taking into account the margins of buttons
             // to imitate the `gap` property for flexbox
-            margin: 15px -5px -5px;
+            margin: (20px - $buttonGap) (-$buttonGap) (-$buttonGap);
 
             $buttonClass: #{$class}__tooltip-button;
         }
 
         &-button {
-            margin: 5px;
+            margin: $buttonGap;
             flex: 1;
         }
 

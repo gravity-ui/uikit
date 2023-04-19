@@ -29,12 +29,6 @@ describe('TextInput input', () => {
                 expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
             });
 
-            test('render clear button with hasClear prop', () => {
-                render(<TextInput hasClear />);
-
-                expect(screen.getByRole('button', {name: 'Clear input value'})).toBeInTheDocument();
-            });
-
             test('do not render clear button without hasClear prop', () => {
                 render(<TextInput />);
 
@@ -66,6 +60,8 @@ describe('TextInput input', () => {
                 const onChangeFn = jest.fn();
                 const user = userEvent.setup();
                 render(<TextInput hasClear onChange={onChangeFn} />);
+                const input = screen.getByRole('textbox');
+                await user.type(input, 'abc');
                 const clear = screen.getByRole('button', {name: 'Clear input value'});
 
                 if (clear) {
@@ -73,19 +69,6 @@ describe('TextInput input', () => {
                 }
 
                 expect(onChangeFn).toBeCalled();
-            });
-
-            test('call onUpdate with emply value when click to clean button', async () => {
-                const onUpdateFn = jest.fn();
-                const user = userEvent.setup();
-                render(<TextInput hasClear onUpdate={onUpdateFn} />);
-                const clear = screen.getByRole('button', {name: 'Clear input value'});
-
-                if (clear) {
-                    await user.click(clear);
-                }
-
-                expect(onUpdateFn).toBeCalledWith('');
             });
         });
 

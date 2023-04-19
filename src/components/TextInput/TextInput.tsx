@@ -1,15 +1,13 @@
 import React from 'react';
-import {block} from '../utils/cn';
+import {block, modsClassName} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
 import {useUniqId} from '../utils/useUniqId';
-import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
-import {Button} from '../Button';
-import {Icon} from '../Icon';
-import {CrossIcon} from '../icons/CrossIcon';
+import {TextAreaControl} from './TextAreaControl/TextAreaControl';
+import {ClearAction} from './ClearAction/ClearAction';
+import {AdditionalContent} from './AdditionalContent/AdditionalContent';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
-import i18n from './i18n';
 
 import './TextInput.scss';
 
@@ -33,7 +31,8 @@ const prepareAutoComplete = (autoComplete: TextInputProps['autoComplete']): stri
     }
 };
 
-export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(function TextInput(
+// eslint-disable-next-line complexity
+export const TextInput = React.forwardRef<HTMLElement, TextInputProps>(function TextInput(
     props,
     ref,
 ) {
@@ -150,45 +149,49 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     };
 
     return (
-        <span
-            ref={ref}
+        <div
+            ref={ref as React.ForwardedRef<HTMLDivElement>}
             style={style}
             className={b(
                 {
                     view,
                     size,
-                    pin: view === 'clear' ? undefined : pin,
                     disabled,
                     state,
-                    'has-clear': hasClear,
+                    pin: view === 'clear' ? undefined : pin,
+                    'has-left-content': isLabelVisible,
+                    'has-right-content': isClearControlVisible && !multiline,
                     'has-scrollbar': hasVerticalScrollbar,
                 },
                 className,
             )}
             data-qa={qa}
         >
-            {isLabelVisible && (
-                <label ref={labelRef} className={b('label')} title={label} htmlFor={id}>
-                    {`${label}`}
-                </label>
-            )}
-            {multiline ? (
-                <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
-            ) : (
-                <InputControl {...props} {...commonProps} controlRef={handleRef} />
-            )}
-
+            <span className={b('content')}>
+                {isLabelVisible && (
+                    <label ref={labelRef} className={b('label')} title={label} htmlFor={id}>
+                        {`${label}`}
+                    </label>
+                )}
+                {multiline ? (
+                    <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
+                ) : (
+                    <InputControl {...props} {...commonProps} controlRef={handleRef} />
+                )}
+                {isClearControlVisible && !multiline && (
+                    <AdditionalContent>
+                        <ClearAction size={size} onClick={handleClear} />
+                    </AdditionalContent>
+                )}
+                {isClearControlVisible && multiline && (
+                    <ClearAction
+                        className={modsClassName(b('clear', {textarea: true}))}
+                        size={size}
+                        onClick={handleClear}
+                    />
+                )}
+            </span>
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
-            {hasClear && (
-                <Button
-                    size={size}
-                    className={b('clear', {visible: isClearControlVisible})}
-                    onClick={handleClear}
-                    extraProps={{'aria-label': i18n('label_clear-button')}}
-                >
-                    <Icon data={CrossIcon} size={10} />
-                </Button>
-            )}
-        </span>
+        </div>
     );
 });

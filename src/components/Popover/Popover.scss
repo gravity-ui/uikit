@@ -37,6 +37,7 @@ $block: '.#{variables.$ns}popover';
         }
 
         &-buttons {
+            align-self: center;
             display: inline-flex;
             flex-wrap: wrap;
             width: 100%;

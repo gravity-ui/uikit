@@ -4,7 +4,7 @@ $block: '.#{variables.$ns}card';
 
 #{$block} {
     --yc-card-box-shadow: none;
-    --yc-card-border-radius: 5px;
+    --yc-card-border-radius: 8px;
     background-color: transparent;
     box-shadow: var(--yc-card-box-shadow);
     box-sizing: border-box;
@@ -118,7 +118,7 @@ $block: '.#{variables.$ns}card';
     }
     &_size {
         &_m {
-            --yc-card-border-radius: 5px;
+            --yc-card-border-radius: 8px;
         }
 
         &_l {

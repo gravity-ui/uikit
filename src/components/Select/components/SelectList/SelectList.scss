@@ -168,6 +168,10 @@ $xl-right-padding: '12px';
         &_colored {
             background-color: var(--yc-color-base-selection);
         }
+
+        &_disabled {
+            cursor: default;
+        }
     }
 
     &__option-default-label {

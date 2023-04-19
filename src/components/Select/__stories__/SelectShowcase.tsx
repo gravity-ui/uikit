@@ -12,6 +12,7 @@ import {
     EXAMPLE_CHILDREN_OPTIONS,
     EXAMPLE_GROUP_JSON_OPTIONS,
     EXAMPLE_GROUP_CHILDREN_OPTIONS,
+    EXAMPLE_DISABLED_OPTIONS,
     EXAMPLE_USER_OPTIONS,
     EXAMPLE_USER_CONTROL,
     EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
@@ -171,6 +172,16 @@ export const SelectShowcase = (props: SelectProps) => {
                     <Select.Option value="val3" content="Value3" />
                     <Select.Option value="val4" content="Value4" />
                 </Select.OptionGroup>
+            </ExampleItem>
+            <ExampleItem
+                title="Select with disabled options"
+                code={[EXAMPLE_DISABLED_OPTIONS]}
+                selectProps={props}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" disabled />
+                <Select.Option value="val3" content="Value3" disabled />
+                <Select.Option value="val4" content="Value4" />
             </ExampleItem>
             <ExampleItem
                 title="Select with user options"

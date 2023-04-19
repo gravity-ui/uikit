@@ -8,7 +8,7 @@ Components to describe relations between elements on the page.
 import {Container, Row, Col, Flex} from '@gravity-ui/uikit/unstable_layout';
 
 <Container>
-    <Row>
+    <Row space="5">
         <Col s="12" l="6">
             <Flex space>...</Flex>
         </Col>
@@ -55,21 +55,23 @@ import {LayoutProvider} from '@gravity-ui/uikit/unstable_layout';
 
 ## Spacing
 
--   `none` - 0px;
--   `nano` - 2px;
--   `micro` - 4px;
--   `xs` - 8px;
--   `s` - 12px;
--   `m`- 16px;
--   `l`- 20px;
--   `xl`- 24px;
--   `xxl`- 32px;
+-   0.5 - 2px;
+-   1 - 4px;
+-   2 - 8px;
+-   3 - 12px;
+-   4 - 16px;
+-   5 - 20px;
+-   6 - 24px;
+-   7 - 28px;
+-   8 - 32px;
+-   9 - 36px;
+-   10 - 40px;
 
-This `tokens` are also available in project during css custom properties:
+These `tokens` are also available in project during css custom properties:
 
 ```css
 .example-class {
-    margin-right: var(--yc-spacing-xs);
+    margin-right: var(--yc-spacing-5);
 }
 ```
 
@@ -77,16 +79,24 @@ _You can override default values on project level:_
 
 ```css
 :root {
-    --yc-spacing-none: 0px;
-    --yc-spacing-nano: 2px;
-    --yc-spacing-micro: 4px;
-    --yc-spacing-xs: 16px;
-    --yc-spacing-s: 20px;
-    --yc-spacing-m: 28px;
-    --yc-spacing-l: 40px;
-    --yc-spacing-xl: 52px;
-    --yc-spacing-xxl: 60px;
+    --yc-space-base: 5px;
 }
+```
+
+```tsx
+import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
+
+const layoutTheme: LayoutTheme = {
+    spaceBaseSize: 5,
+};
+
+export const App = () => {
+    return (
+        <LayoutProvider theme={layoutTheme}>
+            {...}
+        </LayoutProvider>
+    );
+};
 ```
 
 ### spacing utility
@@ -99,7 +109,7 @@ For such purposes, you can use `spacing` utility to generate predefined class na
 import {spacing} from '@gravity-ui/uikit/unstable_layout';
 
 <>
-    <Button className={spacing({mr: 'l'})}>button 1</Button>
+    <Button className={spacing({mr: 5})}>button 1</Button>
     <Button>button 1</Button>
 </>;
 ```
@@ -125,26 +135,32 @@ Also you can manage `spacings` in `LayoutTheme` and override default behavior in
 
 In most cases you can use layout components without common props specified directly
 
+### props:
+
+-   `theme` - partial LayoutTheme onject that will be override original theme;
+-   `initialMediaQuery` - use can directly pass initial
+
 ```tsx
 import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
 
 export const APP_LAYOUT_THEME: LayoutTheme = {
     common: {
         // default prop for all screen size
-        space: 's',
+        space: '3',
         media: {
             l: {
                 // override value starting from `l` breakpoint
-                space: 'l',
+                space: '5',
             },
         },
     },
+    spaceBaseSize: 4,
     components: {
         container: {
-            gutters: 's',
+            gutters: 3,
             media: {
                 l: {
-                    gutters: 'l',
+                    gutters: 5,
                 },
             },
         },
@@ -168,7 +184,7 @@ Supports nested grids. This should be used when you have mobile and desktop app 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
-<Row>
+<Row space="5">
     <Col s="4">...</Col>
     <Col s="4">...</Col>
     <Col s="4">...</Col>
@@ -181,6 +197,8 @@ props:
 
 -   `space` - sets spacings between child `Col` components;
 -   `spaceRow` - specify `y` axis spacing between `Col` components. By default it takes values from `space` props.
+
+_`space` is a required prop to exclude implicit behavior of code. You need to specify _
 
 ### Col
 
@@ -200,9 +218,9 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
     /**
      * In this example we override default theme behavior.
      *
-     * space={{s: 'nano', xl:'l'}}
+     * space={{s: '1', xl:'5'}}
      */
-    space="l"
+    space="5"
 >
     <Col
         // will be apply for `s` and `m` breakpoint
@@ -238,7 +256,7 @@ Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to man
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
-<Flex space="l">
+<Flex space="5">
     <TextInput />
     <Button />
 </Flex>;
@@ -249,8 +267,8 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 ```jsx
 import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 
-<Flex direction="column" space="l">
-    <Flex space="l">
+<Flex direction="column" space="5">
+    <Flex space="5">
         <TextInput />
         <Button />
     </Flex>
@@ -266,7 +284,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 <Flex
     // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
     direction={{l: 'column'}}
-    space={{s: 'l', m: 's'}}
+    space={{s: '5', m: '3'}}
 >
     <TextInput />
     <Button />
@@ -282,7 +300,7 @@ Hook `useLayoutContext` provide ability to use `LayoutTheme` and helper function
 returns the following methods and objects:
 
 -   `theme` - `LayoutTheme` object;
--   `activeMediaQuery` - returns current [Screen sizes](#screen-sizes) keys or empty string (`''`) if referenced on server.
+-   `activeMediaQuery` - returns current [Screen sizes](#screen-sizes) keys.
     > Note: `s` breakpoint starts from `0px` and and's with `m (768px) - 1px`
 
 ```tsx

@@ -1,5 +1,27 @@
 # Changelog
 
+## [4.8.1](https://github.com/gravity-ui/uikit/compare/v4.8.0...v4.8.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* **FocusTrap:** deactivate focusTrap before clear root node ([#627](https://github.com/gravity-ui/uikit/issues/627)) ([7a5abf1](https://github.com/gravity-ui/uikit/commit/7a5abf1e1e83fbb1fc33e2a774af9d95afc9633b))
+* **usePopper:** return flip modifier ([#625](https://github.com/gravity-ui/uikit/issues/625)) ([03239bf](https://github.com/gravity-ui/uikit/commit/03239bfe4a969573366a1d4fdd2f07cc8ff217f9))
+
+## [4.8.0](https://github.com/gravity-ui/uikit/compare/v4.7.0...v4.8.0) (2023-04-14)
+
+
+### Features
+
+* add useFileInput hook ([#624](https://github.com/gravity-ui/uikit/issues/624)) ([eb47759](https://github.com/gravity-ui/uikit/commit/eb47759bb41be8c3c104b93339225b2fa99e302f))
+* added xpath utils ([#614](https://github.com/gravity-ui/uikit/issues/614)) ([20c72ac](https://github.com/gravity-ui/uikit/commit/20c72ac5175542f0e8328ddd0d7cf284ceda8986))
+* **Layout:** changed letter designation of the spacings to a digital ([#615](https://github.com/gravity-ui/uikit/issues/615)) ([2aae0d2](https://github.com/gravity-ui/uikit/commit/2aae0d2bb09844be225040b6eae4014dfab6e107))
+
+
+### Bug Fixes
+
+* **Label:** Increase priority over button styles ([#622](https://github.com/gravity-ui/uikit/issues/622)) ([e67ce4d](https://github.com/gravity-ui/uikit/commit/e67ce4dfb01a36ec7339ef99cff55d59bf04cd1c))
+
 ## [4.7.0](https://github.com/gravity-ui/uikit/compare/v4.6.1...v4.7.0) (2023-04-11)
 
 

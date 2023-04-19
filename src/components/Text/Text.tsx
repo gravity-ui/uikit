@@ -13,6 +13,10 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
     title?: string;
 }
 
+type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
+
+type TextPropsWithoutRef<C extends React.ElementType> = {as?: C} & Omit<TextProps, 'as'>;
+
 /**
  * A component for working with typography.
  *
@@ -39,26 +43,39 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
  * <span className={textStyles}>some text</span>
  * ```
  */
-export const Text: React.FC<TextProps> = ({
-    as: Tag = 'span',
-    children,
-    variant,
-    className,
-    ellipsis,
-    color,
-    whiteSpace,
-    wordBreak,
-    ...rest
-}) => {
-    return (
-        <Tag
-            className={text(
-                {variant, ellipsis, whiteSpace, wordBreak},
-                color ? colorText({color}, className) : className,
-            )}
-            {...rest}
-        >
-            {children}
-        </Tag>
-    );
-};
+export const Text = React.forwardRef(
+    <C extends React.ElementType = 'span'>(
+        {
+            as,
+            children,
+            variant,
+            className,
+            ellipsis,
+            color,
+            whiteSpace,
+            wordBreak,
+            ...rest
+        }: TextPropsWithoutRef<C>,
+        ref?: TextRef<C>,
+    ) => {
+        const Tag: React.ElementType = as || 'span';
+
+        return (
+            <Tag
+                ref={ref}
+                className={text(
+                    {variant, ellipsis, whiteSpace, wordBreak},
+                    color ? colorText({color}, className) : className,
+                )}
+                {...rest}
+            >
+                {children}
+            </Tag>
+        );
+    },
+) as (<C extends React.ElementType = 'span'>({
+    ref,
+    ...props
+}: TextPropsWithoutRef<C> & {ref?: TextRef<C>}) => React.ReactElement) & {displayName: string};
+
+Text.displayName = 'Text';

@@ -1,4 +1,5 @@
-import {MediaType, MediaProps, ActiveMediaQuery, IsMediaActive, MediaPartial} from '../types';
+import {CSS_SIZE_EXCEPTION} from '../constants';
+import {MediaType, MediaProps, IsMediaActive, MediaPartial, Space} from '../types';
 
 const mediaByOrder: MediaProps<number> = {
     s: 0,
@@ -10,7 +11,7 @@ const mediaByOrder: MediaProps<number> = {
 };
 
 export const isMediaActiveFactory =
-    (activeType: ActiveMediaQuery): IsMediaActive =>
+    (activeType: MediaType): IsMediaActive =>
     (toCheck) => {
         return activeType in mediaByOrder
             ? mediaByOrder[activeType as MediaType] - mediaByOrder[toCheck] >= 0
@@ -20,7 +21,7 @@ export const isMediaActiveFactory =
 const mediaOrder = ['s', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
 
 export const getClosestMediaPropsFactory =
-    (currentActive: ActiveMediaQuery) =>
+    (currentActive: MediaType) =>
     <T = unknown>(medias: MediaPartial<T> = {}): T | undefined => {
         if (!currentActive) {
             return undefined;
@@ -38,3 +39,7 @@ export const getClosestMediaPropsFactory =
 
         return undefined;
     };
+
+export const makeCssMod = (space: Space): string => {
+    return space in CSS_SIZE_EXCEPTION ? CSS_SIZE_EXCEPTION[space] : String(space);
+};

@@ -13,12 +13,12 @@ export default {
 const DefaultTemplate: Story<ContainerProps> = (args) => (
     <LayoutPresenter title="Change screen size to see different row spacing">
         <Container {...args}>
-            <Row>
+            <Row space="5">
                 <Col>
                     <Box>Row</Box>
                 </Col>
             </Row>
-            <Row>
+            <Row space="5">
                 <Col>
                     <Box>Row</Box>
                 </Col>
@@ -30,6 +30,6 @@ const DefaultTemplate: Story<ContainerProps> = (args) => (
 export const Default = DefaultTemplate.bind({});
 
 Default.args = {
-    spaceRow: {m: 'nano'},
+    spaceRow: {m: '1'},
     maxWidth: 'l',
 };

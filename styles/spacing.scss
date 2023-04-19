@@ -1,11 +1,16 @@
 @mixin yc-spacing {
-    --yc-spacing-none: 0px;
-    --yc-spacing-nano: 2px;
-    --yc-spacing-micro: 4px;
-    --yc-spacing-xs: 8px;
-    --yc-spacing-s: 12px;
-    --yc-spacing-m: 16px;
-    --yc-spacing-l: 20px;
-    --yc-spacing-xl: 24px;
-    --yc-spacing-xxl: 32px;
+    --yc-space-base: 4px;
+
+    --yc-spacing-0: calc(var(--yc-space-base) * 0);
+    --yc-spacing-half: calc(var(--yc-space-base) * 0.5);
+    --yc-spacing-1: var(--yc-space-base);
+    --yc-spacing-2: calc(var(--yc-space-base) * 2);
+    --yc-spacing-3: calc(var(--yc-space-base) * 3);
+    --yc-spacing-4: calc(var(--yc-space-base) * 4);
+    --yc-spacing-5: calc(var(--yc-space-base) * 5);
+    --yc-spacing-6: calc(var(--yc-space-base) * 6);
+    --yc-spacing-7: calc(var(--yc-space-base) * 7);
+    --yc-spacing-8: calc(var(--yc-space-base) * 8);
+    --yc-spacing-9: calc(var(--yc-space-base) * 9);
+    --yc-spacing-10: calc(var(--yc-space-base) * 10);
 }

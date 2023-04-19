@@ -2,7 +2,8 @@
 import React from 'react';
 import {block} from '../../utils/cn';
 import {Space, MediaPartial} from '../types';
-import {useRowThemeProps} from './useRowThemeProps';
+import {useLayoutContext} from '../hooks/useLayoutContext';
+import {makeCssMod} from '../utils';
 
 import './Row.scss';
 
@@ -11,11 +12,9 @@ const b = block('row');
 export interface RowProps {
     style?: React.CSSProperties;
     /**
-     * Space between children `<Col />` components. Gaps are saved if children go to another line
-     *
-     * If not specified takes props via `LayoutContext`
+     * Vertical and horizontal `space` between children `<Col />` components.
      */
-    space?: Space | MediaPartial<Space>;
+    space: Space | MediaPartial<Space>;
     /**
      * Override default (space) vertical gaps between children if it wrap on next line
      */
@@ -26,37 +25,51 @@ export interface RowProps {
 
 /**
  * Defines the margins between columns (`<Col />`).
- * By default, accepts all possible props via `LayoutContext'.
- * This props can be overridden by defining the prop directly on the jsx
  *
  * Required to use with `<Col />` component
  *
  * ```tsx
  * import {Row, Col} from '@gravity-ui/uikit';
  *
- * <Row>
+ * <Row space="5">
  *  <Col>col</Col>
  *  <Col>col</Col>
  * </Row>
  * ```
  */
 export const Row = ({children, style, className, space, spaceRow}: RowProps) => {
-    const {getClosestMediaProps, rowThemeProps} = useRowThemeProps();
+    const {getClosestMediaProps} = useLayoutContext();
+
+    let s: string | undefined;
+    let sr: string | undefined;
+
+    if (typeof space === 'object') {
+        const res = getClosestMediaProps(space);
+
+        if (res) {
+            s = makeCssMod(res);
+        }
+    } else if (space) {
+        s = makeCssMod(space);
+    }
+
+    if (typeof spaceRow === 'object') {
+        const res = getClosestMediaProps(spaceRow);
+
+        if (res) {
+            sr = makeCssMod(res);
+        }
+    } else if (spaceRow) {
+        sr = String(spaceRow);
+    }
 
     return (
         <div
             style={style}
             className={b(
                 {
-                    s:
-                        (typeof space === 'object' ? getClosestMediaProps(space) : space) ||
-                        rowThemeProps.space,
-                    sr:
-                        (typeof spaceRow === 'object'
-                            ? getClosestMediaProps(spaceRow)
-                            : spaceRow) ||
-                        rowThemeProps.spaceRow ||
-                        rowThemeProps.space,
+                    s,
+                    sr,
                 },
                 className,
             )}

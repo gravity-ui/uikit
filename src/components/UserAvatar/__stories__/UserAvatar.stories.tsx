@@ -1,5 +1,8 @@
-import React from 'react';
-import {Meta, Story} from '@storybook/react';
+import {useArgs} from '@storybook/client-api';
+import React, {useEffect} from 'react';
+import {ComponentStory, Meta, Story} from '@storybook/react';
+import {faker} from '@faker-js/faker/locale/en';
+import {getAvatarSrcSet} from '../getAvatarSrcSet';
 
 import {UserAvatar, UserAvatarProps} from '../UserAvatar';
 
@@ -26,3 +29,28 @@ export const Size: Story<UserAvatarProps> = (args) => (
     </div>
 );
 Size.args = {imgUrl};
+
+const randomAvatars = faker.helpers
+    .uniqueArray(() => faker.datatype.number({min: 20, max: 500}), 30)
+    .reduce(
+        (sizes, num) => ({
+            ...sizes,
+            [num]: faker.image.cats(num, Math.round((num / 640) * 480)),
+        }),
+        {},
+    );
+export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
+    const [, setArgs] = useArgs();
+
+    useEffect(() => {
+        if (args.size) {
+            setArgs({srcSet: getAvatarSrcSet(args.size, randomAvatars)});
+        }
+    }, [args.size]);
+
+    return <UserAvatar {...args} />;
+};
+WithSrcSet.args = {
+    imgUrl: faker.image.cats(),
+    size: 'xl',
+};

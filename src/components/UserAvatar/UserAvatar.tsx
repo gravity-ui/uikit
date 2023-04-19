@@ -1,11 +1,13 @@
 import React from 'react';
 import {block} from '../utils/cn';
+import {SIZES} from './constants';
 import type {UserAvatarSize} from './types';
 import './UserAvatar.scss';
 
 export interface UserAvatarProps {
     imgUrl?: string;
     size?: UserAvatarSize;
+    srcSet?: string;
     title?: string;
     className?: string;
     /** @deprecated Use appropriate component, like `<Button/>` instead */
@@ -14,15 +16,41 @@ export interface UserAvatarProps {
 
 const b = block('user-avatar');
 
-export function UserAvatar({imgUrl, size = 'm', title, className, onClick}: UserAvatarProps) {
+export function UserAvatar({
+    imgUrl,
+    size = 'm',
+    srcSet,
+    title,
+    className,
+    onClick,
+}: UserAvatarProps) {
+    const commonProps = {
+        title,
+        className: b({size, 'has-figure': Boolean(srcSet)}, className),
+        onClick,
+    };
+
+    if (srcSet) {
+        return (
+            <div {...commonProps}>
+                <img
+                    className={b('figure')}
+                    width={SIZES[size]}
+                    height={SIZES[size]}
+                    src={imgUrl}
+                    srcSet={srcSet}
+                    alt={''}
+                />
+            </div>
+        );
+    }
+
     return (
         <div
-            title={title}
-            className={b({size}, className)}
+            {...commonProps}
             style={{
                 backgroundImage: `url(${imgUrl})`,
             }}
-            onClick={onClick}
         />
     );
 }

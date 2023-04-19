@@ -6,7 +6,6 @@ import {useUniqId} from '../utils/useUniqId';
 import {InputControl} from './InputControl/InputControl';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {ClearAction} from './ClearAction/ClearAction';
-import {AdditionalContent} from './AdditionalContent/AdditionalContent';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
 
 import './TextInput.scss';
@@ -178,12 +177,7 @@ export const TextInput = React.forwardRef<HTMLElement, TextInputProps>(function 
                 ) : (
                     <InputControl {...props} {...commonProps} controlRef={handleRef} />
                 )}
-                {isClearControlVisible && !multiline && (
-                    <AdditionalContent>
-                        <ClearAction size={size} onClick={handleClear} />
-                    </AdditionalContent>
-                )}
-                {isClearControlVisible && multiline && (
+                {isClearControlVisible && (
                     <ClearAction
                         className={modsClassName(b('clear', {textarea: true}))}
                         size={size}

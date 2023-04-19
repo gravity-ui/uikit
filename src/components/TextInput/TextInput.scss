@@ -124,10 +124,6 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
-    &__additional-content {
-        margin: -1px;
-    }
-
     &_size {
         &_s {
             #{$block}__control {

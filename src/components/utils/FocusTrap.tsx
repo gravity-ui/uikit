@@ -17,7 +17,7 @@ interface FocusTrapProps {
     children: React.ReactNode;
 }
 export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTrapProps) {
-    const nodeRef = React.useRef<HTMLElement>(null);
+    const nodeRef = React.useRef<HTMLElement | null>(null);
 
     const setAutoFocusRef = React.useRef(!disableAutoFocus);
     React.useEffect(() => {
@@ -62,18 +62,19 @@ export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTra
         [updateContainerElements],
     );
 
-    React.useEffect(() => {
-        const focusTrap = focusTrapRef.current;
-        if (!focusTrap || !enabled) {
-            return undefined;
-        }
-
-        updateContainerElements();
-        focusTrap.activate();
-        return () => {
-            focusTrap.deactivate();
-        };
-    }, [enabled, updateContainerElements]);
+    const handleNodeRef = React.useCallback(
+        (node: HTMLElement | null) => {
+            if (enabled && node) {
+                nodeRef.current = node;
+                updateContainerElements();
+                focusTrapRef.current?.activate();
+            } else {
+                focusTrapRef.current?.deactivate();
+                nodeRef.current = null;
+            }
+        },
+        [enabled, updateContainerElements],
+    );
 
     const child = React.Children.only(children);
     if (!React.isValidElement(child)) {
@@ -81,7 +82,7 @@ export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTra
     }
     const childRef = (child as any).ref;
 
-    const ref = useForkRef(nodeRef, childRef);
+    const ref = useForkRef(handleNodeRef, childRef);
 
     return (
         <focusTrapContext.Provider value={actions}>

@@ -1,8 +1,7 @@
 import React from 'react';
 import {block} from '../utils/cn';
+import type {UserAvatarSize} from './types';
 import './UserAvatar.scss';
-
-export type UserAvatarSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export interface UserAvatarProps {
     imgUrl?: string;

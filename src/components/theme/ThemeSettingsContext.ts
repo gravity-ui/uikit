@@ -10,6 +10,7 @@ export type ThemeSettings = {
 export type ThemeSettingsContextProps =
     | {
           themeSettings: ThemeSettings;
+          /** @deprecated Set theme settings in your app and pass it to context, instead of managing it via context methods */
           setThemeSettings: (themeSettings: ThemeSettings) => void;
       }
     | undefined;

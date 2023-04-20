@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.9.0](https://github.com/gravity-ui/uikit/compare/v4.8.1...v4.9.0) (2023-04-20)
+
+
+### Features
+
+* **Select:** remove pointer cursor for disabled option ([#638](https://github.com/gravity-ui/uikit/issues/638)) ([d1dd601](https://github.com/gravity-ui/uikit/commit/d1dd60117b03c5c3c6c55ca38f9cee6a6c44e7fc))
+* **Text:** add reference ([#628](https://github.com/gravity-ui/uikit/issues/628)) ([922b390](https://github.com/gravity-ui/uikit/commit/922b390d92747d55b9ca2521f4de78a5754ca263))
+
+
+### Bug Fixes
+
+* **Card:** update border-radius ([#639](https://github.com/gravity-ui/uikit/issues/639)) ([a05df9e](https://github.com/gravity-ui/uikit/commit/a05df9e1c8ddc4f697634296b10aac9aa264b204))
+
 ## [4.8.1](https://github.com/gravity-ui/uikit/compare/v4.8.0...v4.8.1) (2023-04-17)
 
 

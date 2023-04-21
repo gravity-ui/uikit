@@ -1,4 +1,4 @@
-import {getClosestNumber} from '../utils/getClosestNumber/getClosestNumber';
+import {getClosestNumber} from '../utils/getClosestNumber';
 import {getSrcSet} from '../utils/getSrcSet';
 import {SrcSetType} from '../utils/getSrcSet/types';
 import {SIZES} from './constants';

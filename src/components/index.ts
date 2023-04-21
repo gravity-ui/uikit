@@ -67,5 +67,3 @@ export * from './utils/setRef';
 export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/xpath';
 export * from './utils/useFileInput/useFileInput';
-export * from './utils/getSrcSet';
-export * from './utils/getClosestNumber';

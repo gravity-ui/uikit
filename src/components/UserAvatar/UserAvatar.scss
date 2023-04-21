@@ -3,17 +3,16 @@
 $block: '.#{variables.$ns}user-avatar';
 
 #{$block} {
-    box-sizing: border-box;
     display: inline-block;
+    overflow: hidden;
+
+    box-sizing: border-box;
+
+    border-radius: 50%;
     background-color: var(--yc-color-base-background);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    border-radius: 50%;
-
-    &_has-figure {
-        overflow: hidden;
-    }
 
     &_size {
         &_xs {

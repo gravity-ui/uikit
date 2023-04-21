@@ -26,34 +26,17 @@ export function UserAvatar({
     className,
     onClick,
 }: UserAvatarProps) {
-    const commonProps = {
-        title,
-        className: b({size, 'has-figure': Boolean(srcSet)}, className),
-        onClick,
-    };
-
-    if (srcSet) {
-        return (
-            <div {...commonProps}>
-                <img
-                    className={b('figure')}
-                    width={SIZES[size]}
-                    height={SIZES[size]}
-                    src={imgUrl}
-                    srcSet={srcSet}
-                    sizes={sizes}
-                    alt={''}
-                />
-            </div>
-        );
-    }
-
     return (
-        <div
-            {...commonProps}
-            style={{
-                backgroundImage: `url(${imgUrl})`,
-            }}
-        />
+        <div title={title} className={b({size}, className)} onClick={onClick}>
+            <img
+                className={b('figure')}
+                width={SIZES[size]}
+                height={SIZES[size]}
+                src={imgUrl}
+                srcSet={srcSet}
+                sizes={sizes}
+                alt={''}
+            />
+        </div>
     );
 }

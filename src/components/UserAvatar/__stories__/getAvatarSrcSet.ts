@@ -1,8 +1,8 @@
-import {getClosestNumber} from '../utils/getClosestNumber';
-import {getSrcSet} from '../utils/getSrcSet';
-import {SrcSetType} from '../utils/getSrcSet/types';
-import {SIZES} from './constants';
-import type {UserAvatarSize} from './types';
+import {getClosestNumber} from './getClosestNumber';
+import {getSrcSet} from './getSrcSet';
+import {SrcSetType} from './types';
+import {SIZES} from '../constants';
+import type {UserAvatarSize} from '../types';
 
 export function getAvatarSrcSet(
     size: UserAvatarSize,

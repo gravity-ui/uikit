@@ -2,7 +2,7 @@ import {useArgs} from '@storybook/client-api';
 import React, {useEffect} from 'react';
 import {ComponentStory, Meta, Story} from '@storybook/react';
 import {faker} from '@faker-js/faker/locale/en';
-import {getAvatarSrcSet} from '../getAvatarSrcSet';
+import {getAvatarSrcSet} from './getAvatarSrcSet';
 
 import {UserAvatar, UserAvatarProps} from '../UserAvatar';
 

@@ -1,1 +1,0 @@
-export {getSrcSet} from './getSrcSet';

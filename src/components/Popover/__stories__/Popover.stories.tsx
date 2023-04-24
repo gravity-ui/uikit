@@ -155,6 +155,24 @@ FullFeatured.args = {
         'Tooltip\'s <b>html</b> content. Learn more <a href="https://example.com" target="_blank">here</a>',
 };
 
+export const WithLongActionItems = FullFeaturedTemplate.bind({});
+WithLongActionItems.args = {
+    autoclosable: false,
+    content: 'There are two actions',
+    tooltipActionButton: {
+        text: 'Action with moderately long text',
+        onClick: () => alert('Action button was clicked'),
+    },
+    tooltipCancelButton: {
+        text: 'Cancel with moderately long text',
+        onClick: () => alert('Cancel button was clicked'),
+    },
+    className: 'demo-icon-tooltip',
+    openOnHover: false,
+    behavior: PopoverBehavior.Delayed,
+    theme: 'info',
+};
+
 const WithCustomAnchorTemplate: Story = () => <WithCustomAnchorExample />;
 export const WithCustomAnchor = WithCustomAnchorTemplate.bind({});
 WithCustomAnchor.args = {

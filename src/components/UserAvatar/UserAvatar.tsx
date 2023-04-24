@@ -9,6 +9,7 @@ export interface UserAvatarProps {
     size?: UserAvatarSize;
     title?: string;
     className?: string;
+    /** @deprecated Use appropriate component, like `<Button/>` instead */
     onClick?: () => void;
 }
 

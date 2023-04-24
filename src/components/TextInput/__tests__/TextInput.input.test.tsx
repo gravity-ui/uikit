@@ -29,6 +29,17 @@ describe('TextInput input', () => {
                 expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
             });
 
+            test('check clear button visibility with hasClear prop', async () => {
+                render(<TextInput hasClear />);
+                const user = userEvent.setup();
+                const input = screen.getByRole('textbox');
+                let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+                expect(clearButton).not.toBeInTheDocument();
+                await user.type(input, 'abc');
+                clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+                expect(clearButton).toBeInTheDocument();
+            });
+
             test('do not render clear button without hasClear prop', () => {
                 render(<TextInput />);
 

@@ -18,6 +18,7 @@ type ClearActionProps = {
 export const ClearAction = (props: ClearActionProps) => {
     const {size, className, onClick} = props;
 
+    // remove using of Button component after https://github.com/gravity-ui/uikit/issues/645
     return (
         <Button
             size={size}

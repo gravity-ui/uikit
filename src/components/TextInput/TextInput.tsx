@@ -31,7 +31,7 @@ const prepareAutoComplete = (autoComplete: TextInputProps['autoComplete']): stri
 };
 
 // eslint-disable-next-line complexity
-export const TextInput = React.forwardRef<HTMLElement, TextInputProps>(function TextInput(
+export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(function TextInput(
     props,
     ref,
 ) {
@@ -179,7 +179,7 @@ export const TextInput = React.forwardRef<HTMLElement, TextInputProps>(function 
                 )}
                 {isClearControlVisible && (
                     <ClearAction
-                        className={modsClassName(b('clear', {textarea: true}))}
+                        className={modsClassName(b('clear', {textarea: multiline}))}
                         size={size}
                         onClick={handleClear}
                     />

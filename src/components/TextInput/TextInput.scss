@@ -122,6 +122,10 @@ $block: '.#{variables.$ns}text-input';
             top: 0;
             right: 0;
         }
+
+        &:not(#{&}_textarea) {
+            margin: -1px;
+        }
     }
 
     &_size {

@@ -148,8 +148,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     };
 
     return (
-        <div
-            ref={ref as React.ForwardedRef<HTMLDivElement>}
+        <span
+            ref={ref}
             style={style}
             className={b(
                 {
@@ -186,6 +186,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 )}
             </span>
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
-        </div>
+        </span>
     );
 });

@@ -20,7 +20,7 @@ type TextPropsWithoutRef<C extends React.ElementType> = {as?: C} & Omit<TextProp
 /**
  * A component for working with typography.
  *
- * Storybook: https://preview.yandexcloud.dev/gravity-ui-bae/?path=/docs/components-text--default
+ * Storybook: https://preview.gravity-ui.com/uikit/?path=/story/components-text--default
  *
  * **Hint:** Hover on props in your editor to read jsdoc
  *

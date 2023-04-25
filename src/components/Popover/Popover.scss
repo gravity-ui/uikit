@@ -20,6 +20,8 @@ $block: '.#{variables.$ns}popover';
         --yc-popover-close-margin: 8px;
         --yc-popover-close-size: 24px;
 
+        $buttonGap: 5px;
+
         box-sizing: border-box;
         min-height: 40px;
         max-width: var(--yc-popover-max-width);
@@ -35,17 +37,20 @@ $block: '.#{variables.$ns}popover';
         }
 
         &-buttons {
+            align-self: center;
             display: inline-flex;
+            flex-wrap: wrap;
             width: 100%;
-            margin-top: 20px;
-            $buttonClass: #{$class}__tooltip-button;
+            // giving additional -5 margin
+            // this is taking into account the margins of buttons
+            // to imitate the `gap` property for flexbox
+            margin: (20px - $buttonGap) (-$buttonGap) (-$buttonGap);
 
-            #{$buttonClass}:not(:first-child) {
-                margin-left: 10px;
-            }
+            $buttonClass: #{$class}__tooltip-button;
         }
 
         &-button {
+            margin: $buttonGap;
             flex: 1;
         }
 

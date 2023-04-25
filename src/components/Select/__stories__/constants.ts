@@ -92,6 +92,20 @@ export const EXAMPLE_GROUP_CHILDREN_OPTIONS = `const [value, setValue] = React.u
 </Select>
 `;
 
+export const EXAMPLE_DISABLED_OPTIONS = `const [value, setValue] = React.useState<string[]>([]);
+
+<Select
+    value={value}
+    placeholder="Values",
+    onUpdate={(nextValue) => setValue1(nextValue)}
+>
+    <Select.Option value="val1" content="Value1" />
+    <Select.Option value="val2" content="Value2" disabled />
+    <Select.Option value="val3" content="Value3" disabled />
+    <Select.Option value="val4" content="Value4" />
+</Select>
+`;
+
 export const EXAMPLE_USER_OPTIONS = `const [value, setValue] = React.useState<string[]>([]);
 
 <Select

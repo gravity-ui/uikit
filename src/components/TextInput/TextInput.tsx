@@ -6,6 +6,7 @@ import {useUniqId} from '../utils/useUniqId';
 import {InputControl} from './InputControl/InputControl';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {ClearAction} from './ClearAction/ClearAction';
+import {AdditionalContent} from './AdditionalContent/AdditionalContent';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
 
 import './TextInput.scss';
@@ -56,6 +57,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         className,
         qa,
         controlProps: originalControlProps,
+        rightContent,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
@@ -118,6 +120,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
+    const isRightContentVisible = Boolean(rightContent && !multiline);
 
     const controlProps: TextInputProps['controlProps'] = {
         ...originalControlProps,
@@ -158,8 +161,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     disabled,
                     state,
                     pin: view === 'clear' ? undefined : pin,
-                    'has-left-content': isLabelVisible,
-                    'has-right-content': isClearControlVisible && !multiline,
+                    'has-right-content':
+                        (isClearControlVisible || isRightContentVisible) && !multiline,
                     'has-scrollbar': hasVerticalScrollbar,
                 },
                 className,
@@ -184,6 +187,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                         onClick={handleClear}
                     />
                 )}
+                {isRightContentVisible && <AdditionalContent>{rightContent}</AdditionalContent>}
             </span>
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
         </span>

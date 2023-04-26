@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.10.0](https://github.com/gravity-ui/uikit/compare/v4.9.0...v4.10.0) (2023-04-26)
+
+
+### Features
+
+* **Popover:** let action and cancel buttons to wrap on long text ([#631](https://github.com/gravity-ui/uikit/issues/631)) ([f22f9b5](https://github.com/gravity-ui/uikit/commit/f22f9b5ed2b864fbccb19118b142b6e03285296a))
+
 ## [4.9.0](https://github.com/gravity-ui/uikit/compare/v4.8.1...v4.9.0) (2023-04-20)
 
 

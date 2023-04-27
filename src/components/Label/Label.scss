@@ -96,14 +96,24 @@ $transitionTimingFunction: ease-in-out;
             }
 
             &#{$block}_style {
-                &_default,
-                &_rounded {
+                &_default {
                     border-radius: var(--yc-border-radius-xs);
 
                     & #{$block}__addon {
                         &_interactive {
                             --yc-button-height: 20px;
                             --yc-button-border-radius: var(--yc-border-radius-xs);
+                        }
+                    }
+                }
+
+                &_rounded {
+                    border-radius: 16px;
+
+                    & #{$block}__addon {
+                        &_interactive {
+                            --yc-button-height: 20px;
+                            --yc-button-border-radius: 16px;
                         }
                     }
                 }
@@ -132,14 +142,24 @@ $transitionTimingFunction: ease-in-out;
             }
 
             &#{$block}_style {
-                &_default,
-                &_rounded {
+                &_default {
                     border-radius: var(--yc-border-radius-s);
 
                     & #{$block}__addon {
                         &_interactive {
                             --yc-button-height: 24px;
                             --yc-button-border-radius: var(--yc-border-radius-s);
+                        }
+                    }
+                }
+
+                &_rounded {
+                    border-radius: 20px;
+
+                    & #{$block}__addon {
+                        &_interactive {
+                            --yc-button-height: 24px;
+                            --yc-button-border-radius: 20px;
                         }
                     }
                 }

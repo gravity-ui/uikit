@@ -128,6 +128,11 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
+    &__additional-content {
+        display: flex;
+        align-items: center;
+    }
+
     &_size {
         &_s {
             #{$block}__control {
@@ -139,7 +144,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$sHeight};
+                height: #{$sHeight - $borderWidth * 2};
+                padding-right: 1px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-s);
@@ -155,7 +161,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$mHeight};
+                height: #{$mHeight - $borderWidth * 2};
+                padding-right: 1px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-m);
@@ -171,7 +178,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$lHeight};
+                height: #{$lHeight - $borderWidth * 2};
+                padding-right: 3px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-l);
@@ -187,7 +195,8 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$xlHeight};
+                height: #{$xlHeight - $borderWidth * 2};
+                padding-right: 3px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-xl);
@@ -254,12 +263,6 @@ $block: '.#{variables.$ns}text-input';
     &_has-scrollbar {
         #{$block}__clear {
             right: var(--yc-scrollbar-width);
-        }
-    }
-
-    &_has-left-content {
-        #{$block}__control {
-            padding-left: 2px;
         }
     }
 

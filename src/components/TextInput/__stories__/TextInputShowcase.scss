@@ -1,10 +1,4 @@
 .text-input-showcase {
-    display: grid;
-    grid-template:
-        'text-input' auto
-        'text-input-label' auto
-        'text-area' auto / auto;
-
     &__text-input-examples {
         grid-area: text-input;
         display: grid;

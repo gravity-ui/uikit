@@ -20,9 +20,12 @@ export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
 }
 
+type StackChangeEventListener = (stack: LayerConfig[]) => void;
+
 class LayerManager {
     private stack: LayerConfig[] = [];
     private mouseDownLayerTarget?: {layer: LayerConfig; target: HTMLElement};
+    private stackChangeEventListeners: StackChangeEventListener[] = [];
 
     add(config: LayerConfig) {
         this.stack.push(config);
@@ -30,6 +33,8 @@ class LayerManager {
         if (this.stack.length === 1) {
             this.addListeners();
         }
+
+        this.notifyStackChanged();
     }
 
     remove(config: LayerConfig) {
@@ -39,6 +44,18 @@ class LayerManager {
         if (this.stack.length === 0) {
             this.removeListeners();
         }
+
+        this.notifyStackChanged();
+    }
+
+    subscribeToStackChange(listener: StackChangeEventListener) {
+        this.stackChangeEventListeners.push(listener);
+        return () => {
+            const index = this.stackChangeEventListeners.indexOf(listener);
+            if (index >= 0) {
+                this.stackChangeEventListeners.splice(index, 1);
+            }
+        };
     }
 
     private addListeners() {
@@ -51,6 +68,12 @@ class LayerManager {
         document.removeEventListener('keydown', this.handleDocumentKeyDown);
         document.removeEventListener('click', this.handleDocumentClick, true);
         document.removeEventListener('mousedown', this.handleDocumentMouseDown, true);
+    }
+
+    private notifyStackChanged() {
+        for (const listener of this.stackChangeEventListeners) {
+            listener(this.stack);
+        }
     }
 
     private handleDocumentKeyDown = (event: KeyboardEvent) => {

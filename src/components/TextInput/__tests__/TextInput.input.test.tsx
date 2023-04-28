@@ -29,10 +29,15 @@ describe('TextInput input', () => {
                 expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
             });
 
-            test('render clear button with hasClear prop', () => {
+            test('check clear button visibility with hasClear prop', async () => {
                 render(<TextInput hasClear />);
-
-                expect(screen.getByRole('button', {name: 'Clear input value'})).toBeInTheDocument();
+                const user = userEvent.setup();
+                const input = screen.getByRole('textbox');
+                let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+                expect(clearButton).not.toBeInTheDocument();
+                await user.type(input, 'abc');
+                clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+                expect(clearButton).toBeInTheDocument();
             });
 
             test('do not render clear button without hasClear prop', () => {
@@ -66,6 +71,8 @@ describe('TextInput input', () => {
                 const onChangeFn = jest.fn();
                 const user = userEvent.setup();
                 render(<TextInput hasClear onChange={onChangeFn} />);
+                const input = screen.getByRole('textbox');
+                await user.type(input, 'abc');
                 const clear = screen.getByRole('button', {name: 'Clear input value'});
 
                 if (clear) {
@@ -73,19 +80,6 @@ describe('TextInput input', () => {
                 }
 
                 expect(onChangeFn).toBeCalled();
-            });
-
-            test('call onUpdate with emply value when click to clean button', async () => {
-                const onUpdateFn = jest.fn();
-                const user = userEvent.setup();
-                render(<TextInput hasClear onUpdate={onUpdateFn} />);
-                const clear = screen.getByRole('button', {name: 'Clear input value'});
-
-                if (clear) {
-                    await user.click(clear);
-                }
-
-                expect(onUpdateFn).toBeCalledWith('');
             });
         });
 

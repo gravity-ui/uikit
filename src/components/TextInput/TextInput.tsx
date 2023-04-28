@@ -1,15 +1,13 @@
 import React from 'react';
-import {block} from '../utils/cn';
+import {block, modsClassName} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
 import {useUniqId} from '../utils/useUniqId';
-import {TextAreaControl} from './TextAreaControl/TextAreaControl';
 import {InputControl} from './InputControl/InputControl';
-import {Button} from '../Button';
-import {Icon} from '../Icon';
-import {CrossIcon} from '../icons/CrossIcon';
+import {TextAreaControl} from './TextAreaControl/TextAreaControl';
+import {ClearAction} from './ClearAction/ClearAction';
+import {AdditionalContent} from './AdditionalContent/AdditionalContent';
 import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
-import i18n from './i18n';
 
 import './TextInput.scss';
 
@@ -33,6 +31,7 @@ const prepareAutoComplete = (autoComplete: TextInputProps['autoComplete']): stri
     }
 };
 
+// eslint-disable-next-line complexity
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(function TextInput(
     props,
     ref,
@@ -58,6 +57,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         className,
         qa,
         controlProps: originalControlProps,
+        rightContent,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
@@ -120,6 +120,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
+    const isRightContentVisible = Boolean(rightContent && !multiline);
 
     const controlProps: TextInputProps['controlProps'] = {
         ...originalControlProps,
@@ -157,38 +158,38 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 {
                     view,
                     size,
-                    pin: view === 'clear' ? undefined : pin,
                     disabled,
                     state,
-                    'has-clear': hasClear,
+                    pin: view === 'clear' ? undefined : pin,
+                    'has-right-content':
+                        (isClearControlVisible || isRightContentVisible) && !multiline,
                     'has-scrollbar': hasVerticalScrollbar,
                 },
                 className,
             )}
             data-qa={qa}
         >
-            {isLabelVisible && (
-                <label ref={labelRef} className={b('label')} title={label} htmlFor={id}>
-                    {`${label}`}
-                </label>
-            )}
-            {multiline ? (
-                <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
-            ) : (
-                <InputControl {...props} {...commonProps} controlRef={handleRef} />
-            )}
-
+            <span className={b('content')}>
+                {isLabelVisible && (
+                    <label ref={labelRef} className={b('label')} title={label} htmlFor={id}>
+                        {`${label}`}
+                    </label>
+                )}
+                {multiline ? (
+                    <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
+                ) : (
+                    <InputControl {...props} {...commonProps} controlRef={handleRef} />
+                )}
+                {isClearControlVisible && (
+                    <ClearAction
+                        className={modsClassName(b('clear', {textarea: multiline}))}
+                        size={size}
+                        onClick={handleClear}
+                    />
+                )}
+                {isRightContentVisible && <AdditionalContent>{rightContent}</AdditionalContent>}
+            </span>
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
-            {hasClear && (
-                <Button
-                    size={size}
-                    className={b('clear', {visible: isClearControlVisible})}
-                    onClick={handleClear}
-                    extraProps={{'aria-label': i18n('label_clear-button')}}
-                >
-                    <Icon data={CrossIcon} size={10} />
-                </Button>
-            )}
         </span>
     );
 });

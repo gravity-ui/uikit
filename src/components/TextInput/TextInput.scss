@@ -1,24 +1,30 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
+$sHeight: 24px;
+$mHeight: 28px;
+$lHeight: 36px;
+$xlHeight: 44px;
+$borderWidth: 1px;
+
 @mixin block_style($size: s, $type: control) {
     @if $size == 's' {
-        height: 24px;
+        height: #{$sHeight - $borderWidth * 2};
         padding: 4px 8px;
         @include mixins.text-body-short;
     }
     @if $size == 'm' {
-        height: 28px;
+        height: #{$mHeight - $borderWidth * 2};
         padding: 6px 8px;
         @include mixins.text-body-short;
     }
     @if $size == 'l' {
-        height: 36px;
+        height: #{$lHeight - $borderWidth * 2};
         padding: 10px 12px;
         @include mixins.text-body-short;
     }
     @if $size == 'xl' {
-        height: 44px;
+        height: #{$xlHeight - $borderWidth * 2};
         padding: 12px;
         @include mixins.text-body-2;
     }
@@ -32,14 +38,20 @@
 $block: '.#{variables.$ns}text-input';
 
 #{$block} {
-    box-sizing: border-box;
     display: inline-block;
     width: 100%;
     position: relative;
 
+    &__content {
+        box-sizing: border-box;
+        display: flex;
+        width: 100%;
+    }
+
     &__control {
         box-sizing: border-box;
         display: inline-block;
+        flex-grow: 1;
         vertical-align: top;
         position: relative;
         margin: 0;
@@ -49,6 +61,7 @@ $block: '.#{variables.$ns}text-input';
         font-family: var(--yc-text-body-font-family);
         color: var(--yc-color-text-primary);
         background-color: transparent;
+        border: none;
 
         &::placeholder {
             color: var(--yc-color-text-hint);
@@ -91,23 +104,33 @@ $block: '.#{variables.$ns}text-input';
         margin-top: 2px;
     }
 
-    /* increase css specificity to rewrite Button styles */
-    &__clear[class] {
-        --yc-button-background-color: transparent;
-        --yc-button-background-color-hover: transparent;
+    &__clear {
+        /* increase css specificity to rewrite Button styles */
+        &[class] {
+            --yc-button-background-color: transparent;
+            --yc-button-background-color-hover: transparent;
 
-        position: absolute;
-        top: 0;
-        right: 0;
-        color: var(--yc-color-text-hint);
+            color: var(--yc-color-text-hint);
 
-        &:hover {
-            color: var(--yc-color-text-primary);
+            &:hover {
+                color: var(--yc-color-text-primary);
+            }
         }
 
-        &:not(#{$block}__clear_visible) {
-            display: none;
+        &_textarea {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
+
+        &:not(#{&}_textarea) {
+            margin: -1px;
+        }
+    }
+
+    &__additional-content {
+        display: flex;
+        align-items: center;
     }
 
     &_size {
@@ -120,10 +143,9 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(s, label);
             }
 
-            &#{$block}_has-clear {
-                #{$block}__control {
-                    padding-right: 26px;
-                }
+            #{$block}__additional-content {
+                height: #{$sHeight - $borderWidth * 2};
+                padding-right: 1px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-s);
@@ -138,10 +160,9 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(m, label);
             }
 
-            &#{$block}_has-clear {
-                #{$block}__control {
-                    padding-right: 26px;
-                }
+            #{$block}__additional-content {
+                height: #{$mHeight - $borderWidth * 2};
+                padding-right: 1px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-m);
@@ -156,10 +177,9 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(l, label);
             }
 
-            &#{$block}_has-clear {
-                #{$block}__control {
-                    padding-right: 36px;
-                }
+            #{$block}__additional-content {
+                height: #{$lHeight - $borderWidth * 2};
+                padding-right: 3px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-l);
@@ -174,10 +194,9 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(xl, label);
             }
 
-            &#{$block}_has-clear {
-                #{$block}__control {
-                    padding-right: 36px;
-                }
+            #{$block}__additional-content {
+                height: #{$xlHeight - $borderWidth * 2};
+                padding-right: 3px;
             }
 
             --yc-text-input-border-radius: var(--yc-border-radius-xl);
@@ -186,26 +205,28 @@ $block: '.#{variables.$ns}text-input';
 
     &_view {
         &_normal {
-            #{$block}__control {
+            #{$block}__content {
                 border: 1px solid var(--yc-color-line-generic);
 
                 &:hover {
-                    border: 1px solid var(--yc-color-line-generic-hover);
+                    border-color: var(--yc-color-line-generic-hover);
                 }
 
-                &:focus {
-                    border: 1px solid var(--yc-color-line-generic-active);
+                &:focus-within {
+                    border-color: var(--yc-color-line-generic-active);
                 }
             }
         }
 
         &_clear {
-            #{$block}__control {
+            & #{$block}__content {
                 border: 1px solid transparent;
                 border-left: 0;
                 border-right: 0;
                 border-radius: 0;
+            }
 
+            & #{$block}__control {
                 padding-left: 0;
                 padding-right: 0;
             }
@@ -214,13 +235,13 @@ $block: '.#{variables.$ns}text-input';
 
     @include mixins.pin(
         $block,
-        #{$block}__control,
+        #{$block}__content,
         var(--yc-text-input-border-radius),
         $append: false
     );
 
     &_disabled {
-        #{$block}__control {
+        #{$block}__content {
             background-color: var(--yc-color-base-generic-accent-disabled);
             color: var(--yc-color-text-hint);
             border-color: transparent;
@@ -228,6 +249,10 @@ $block: '.#{variables.$ns}text-input';
             &:hover {
                 border-color: transparent;
             }
+        }
+
+        #{$block}__control {
+            color: var(--yc-color-text-hint);
         }
 
         #{$block}__label {
@@ -241,25 +266,31 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
+    &_has-right-content {
+        #{$block}__control {
+            padding-right: 2px;
+        }
+    }
+
     &_state {
         &_error {
             &#{$block}_view_normal {
-                #{$block}__control {
+                #{$block}__content {
                     border-color: var(--yc-color-line-danger);
 
                     &:hover,
-                    &:focus {
+                    &:focus-within {
                         border-color: var(--yc-color-line-danger);
                     }
                 }
             }
 
             &#{$block}_view_clear {
-                #{$block}__control {
+                #{$block}__content {
                     border-bottom: 1px solid var(--yc-color-line-danger);
 
                     &:hover,
-                    &:focus {
+                    &:focus-within {
                         border-bottom: 1px solid var(--yc-color-line-danger);
                     }
                 }

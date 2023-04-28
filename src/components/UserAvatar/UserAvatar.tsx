@@ -1,12 +1,14 @@
 import React from 'react';
 import {block} from '../utils/cn';
+import {SIZES} from './constants';
+import type {UserAvatarSize} from './types';
 import './UserAvatar.scss';
-
-export type UserAvatarSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export interface UserAvatarProps {
     imgUrl?: string;
     size?: UserAvatarSize;
+    srcSet?: string;
+    sizes?: string;
     title?: string;
     className?: string;
     /** @deprecated Use appropriate component, like `<Button/>` instead */
@@ -15,15 +17,26 @@ export interface UserAvatarProps {
 
 const b = block('user-avatar');
 
-export function UserAvatar({imgUrl, size = 'm', title, className, onClick}: UserAvatarProps) {
+export function UserAvatar({
+    imgUrl,
+    size = 'm',
+    srcSet,
+    sizes,
+    title,
+    className,
+    onClick,
+}: UserAvatarProps) {
     return (
-        <div
-            title={title}
-            className={b({size}, className)}
-            style={{
-                backgroundImage: `url(${imgUrl})`,
-            }}
-            onClick={onClick}
-        />
+        <div title={title} className={b({size}, className)} onClick={onClick}>
+            <img
+                className={b('figure')}
+                width={SIZES[size]}
+                height={SIZES[size]}
+                src={imgUrl}
+                srcSet={srcSet}
+                sizes={sizes}
+                alt={''}
+            />
+        </div>
     );
 }

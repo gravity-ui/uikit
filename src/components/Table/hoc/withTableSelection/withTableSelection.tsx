@@ -73,12 +73,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 checked = false;
             }
 
-            return this.renderCheckBox({
-                disabled,
-                checked,
-                headCell: true,
-                handler: this.handleAllCheckBoxUpdate,
-            });
+            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxUpdate});
         };
 
         private renderBodyCell = (item: I, index: number) => {
@@ -95,41 +90,33 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         private renderCheckBox({
             disabled,
             checked,
-            headCell = false,
             handler,
         }: {
             checked: boolean;
             disabled: boolean;
             headCell?: boolean;
-            handler: React.MouseEventHandler<HTMLDivElement>;
+            handler: React.ChangeEventHandler<HTMLInputElement>;
         }) {
             return (
-                <span
-                    className={b('selection-checkbox-wrapper', {
-                        head: headCell,
-                        body: !headCell,
-                    })}
-                    onClick={handler}
-                >
-                    <Checkbox
-                        size="l"
-                        checked={checked}
-                        disabled={disabled}
-                        className={b('selection-checkbox')}
-                    />
-                </span>
+                <Checkbox
+                    size="l"
+                    checked={checked}
+                    disabled={disabled}
+                    onChange={handler}
+                    className={b('selection-checkbox')}
+                />
             );
         }
 
         private handleCheckBoxUpdate = (
             id: string,
             index: number,
-            event: React.MouseEvent<HTMLDivElement>,
+            event: React.ChangeEvent<HTMLInputElement>,
         ) => {
+            const {checked} = event.target;
             // @ts-ignore shiftKey is defined for click events
             const isShiftPressed = event.nativeEvent.shiftKey;
             const {data, selectedIds, onSelectionChange} = this.props;
-            const checked = !selectedIds.includes(id);
             if (
                 isShiftPressed &&
                 this.lastCheckedIndex !== undefined &&
@@ -153,9 +140,9 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             this.lastCheckedIndex = index;
         };
 
-        private handleAllCheckBoxUpdate = () => {
+        private handleAllCheckBoxUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const {checked} = event.target;
             const {data, selectedIds, onSelectionChange} = this.props;
-            const checked = !(selectedIds.length === data.length);
             const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
             const notDisabledItemIds = dataIds.filter(
                 (_id, index) => !this.isDisabled(data[index], index),

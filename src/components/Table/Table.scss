@@ -61,13 +61,6 @@
         text-align: left;
         overflow-wrap: break-word;
         min-width: 18px;
-        // &:first-child {
-        //     padding-left: 0;
-        // }
-
-        // &:last-child {
-        //     padding-right: 0;
-        // }
 
         &:not(&_word-wrap) {
             @include mixins.overflow-ellipsis();

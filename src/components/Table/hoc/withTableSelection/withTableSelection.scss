@@ -5,10 +5,7 @@
     &__selection-checkbox {
         @extend #{variables.$block}__cell;
         @extend #{variables.$block}__cell_edge-padding;
-        // height: 100%;
-        // display: flex;
         border-bottom: none;
-        // background: rgba($color: #000000, $alpha: 0.2);
         position: absolute;
         top: 0;
         bottom: 0;

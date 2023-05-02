@@ -1,9 +1,9 @@
 import React from 'react';
 import block from 'bem-cn-lite';
+import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
 import {Checkbox} from '../../Checkbox';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {GearIcon} from '../../icons';
 import {TextInput} from '../TextInput';
 import {TextInputProps} from '../types';
 import './TextInputShowcase.scss';
@@ -13,28 +13,51 @@ const b = block('text-input-showcase');
 const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
 
-const RightContent = (props: {size: TextInputProps['size']; disabled?: boolean}) => {
-    const {size, disabled} = props;
-    const [selected, setSelected] = React.useState(false);
-
-    const handleClick = () => setSelected(!selected);
+const EyeButton = (props: {
+    size: TextInputProps['size'];
+    opened?: boolean;
+    disabled?: boolean;
+    onClick: () => void;
+}) => {
+    const {size, disabled, opened, onClick} = props;
 
     return (
-        <Button
-            view={selected ? 'normal' : 'flat'}
-            size={size}
-            selected={selected}
-            disabled={disabled}
-            onClick={handleClick}
-        >
-            <Icon data={GearIcon} size={18} />
+        <Button size={size} view="flat" disabled={disabled} onClick={onClick}>
+            <Icon data={opened ? Eye : EyeSlash} />
         </Button>
     );
+};
+
+const KeyIcon = ({size}: {size: TextInputProps['size']}) => {
+    let width: number;
+
+    switch (size) {
+        case 's': {
+            width = 24;
+            break;
+        }
+        case 'l': {
+            width = 36;
+            break;
+        }
+        case 'xl': {
+            width = 44;
+            break;
+        }
+        case 'm':
+        default: {
+            width = 28;
+        }
+    }
+
+    return <Icon data={Key} width={width} />;
 };
 
 export const TextInputShowcase: React.FC = () => {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
+    const [hideValue, setHideValue] = React.useState(false);
+    const additionalContentExmpleInputType = hideValue ? 'password' : undefined;
 
     const textInputProps: TextInputProps = {
         className: b('input'),
@@ -48,6 +71,8 @@ export const TextInputShowcase: React.FC = () => {
         onUpdate: setValue,
         value,
     };
+
+    const handleEyeButtonClick = () => setHideValue(!hideValue);
 
     return (
         <div className={b()}>
@@ -135,7 +160,7 @@ export const TextInputShowcase: React.FC = () => {
             </div>
 
             <div className={b('text-input-examples')}>
-                <h2 className={b('title')}>TextInput (with right content)</h2>
+                <h2 className={b('title')}>TextInput (with additional content)</h2>
 
                 <div className={'size-examples'}>
                     <h3 className={b('section-header')}>Sizes:</h3>
@@ -144,24 +169,40 @@ export const TextInputShowcase: React.FC = () => {
                         {...textInputProps}
                         size="s"
                         placeholder="s"
-                        rightContent={<RightContent size="s" />}
+                        type={additionalContentExmpleInputType}
+                        leftContent={<KeyIcon size="s" />}
+                        rightContent={
+                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="m"
-                        rightContent={<RightContent size="s" />}
+                        type={additionalContentExmpleInputType}
+                        leftContent={<KeyIcon size="m" />}
+                        rightContent={
+                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
                         size="l"
                         placeholder="l"
-                        rightContent={<RightContent size="m" />}
+                        type={additionalContentExmpleInputType}
+                        leftContent={<KeyIcon size="l" />}
+                        rightContent={
+                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                     <TextInput
                         {...textInputProps}
                         size="xl"
                         placeholder="xl"
-                        rightContent={<RightContent size="l" />}
+                        type={additionalContentExmpleInputType}
+                        leftContent={<KeyIcon size="xl" />}
+                        rightContent={
+                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                 </div>
 
@@ -173,7 +214,15 @@ export const TextInputShowcase: React.FC = () => {
                             {...textInputProps}
                             placeholder="error with message"
                             error={isErrorMessageVisible ? 'It happened a validation error' : true}
-                            rightContent={<RightContent size="s" />}
+                            type={additionalContentExmpleInputType}
+                            leftContent={<KeyIcon size="m" />}
+                            rightContent={
+                                <EyeButton
+                                    size="s"
+                                    opened={hideValue}
+                                    onClick={handleEyeButtonClick}
+                                />
+                            }
                         />
                         <Checkbox
                             onUpdate={setErrorMessageVisibility}
@@ -183,13 +232,27 @@ export const TextInputShowcase: React.FC = () => {
                     <TextInput
                         {...textInputProps}
                         placeholder="disabled"
-                        rightContent={<RightContent size="s" disabled />}
+                        type={additionalContentExmpleInputType}
+                        leftContent={<KeyIcon size="m" />}
+                        rightContent={
+                            <EyeButton
+                                size="s"
+                                opened={hideValue}
+                                disabled
+                                onClick={handleEyeButtonClick}
+                            />
+                        }
                         disabled
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="clear"
-                        rightContent={<RightContent size="s" />}
+                        type={additionalContentExmpleInputType}
+                        label={LABEL}
+                        leftContent={<KeyIcon size="m" />}
+                        rightContent={
+                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                         hasClear
                     />
                     <TextInput
@@ -197,7 +260,12 @@ export const TextInputShowcase: React.FC = () => {
                         placeholder="default value"
                         value={undefined}
                         defaultValue="defaultValue"
-                        rightContent={<RightContent size="s" />}
+                        type={additionalContentExmpleInputType}
+                        label={LONG_LABEL}
+                        leftContent={<KeyIcon size="m" />}
+                        rightContent={
+                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                     />
                 </div>
             </div>

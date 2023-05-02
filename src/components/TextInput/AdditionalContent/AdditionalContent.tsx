@@ -4,14 +4,21 @@ import {block} from '../../utils/cn';
 const b = block('text-input');
 
 type Props = {
+    placement: 'left' | 'right';
     children?: React.ReactNode;
-    className?: string;
 };
 
-export const AdditionalContent = ({children, className}: Props) => {
+export const AdditionalContent = React.forwardRef<HTMLDivElement, Props>(function AdditionalContent(
+    {placement, children},
+    ref,
+) {
     if (!children) {
         return null;
     }
 
-    return <div className={b('additional-content', className)}>{children}</div>;
-};
+    return (
+        <div ref={ref} className={b('additional-content', {placement})}>
+            {children}
+        </div>
+    );
+});

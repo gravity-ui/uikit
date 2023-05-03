@@ -6,10 +6,11 @@ const b = block('text-input');
 type Props = {
     placement: 'left' | 'right';
     children?: React.ReactNode;
+    onClick: () => void;
 };
 
 export const AdditionalContent = React.forwardRef<HTMLDivElement, Props>(function AdditionalContent(
-    {placement, children},
+    {placement, children, onClick},
     ref,
 ) {
     if (!children) {
@@ -17,7 +18,7 @@ export const AdditionalContent = React.forwardRef<HTMLDivElement, Props>(functio
     }
 
     return (
-        <div ref={ref} className={b('additional-content', {placement})}>
+        <div ref={ref} className={b('additional-content', {placement})} onClick={onClick}>
             {children}
         </div>
     );

@@ -137,6 +137,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         }
     };
 
+    const handleFocus = () => {
+        innerControlRef.current?.focus();
+    };
+
     React.useEffect(() => {
         const control = innerControlRef.current;
 
@@ -171,7 +175,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         >
             <span className={b('content')}>
                 {isLeftContentVisible && (
-                    <AdditionalContent ref={leftContentRef} placement="left">
+                    <AdditionalContent ref={leftContentRef} placement="left" onClick={handleFocus}>
                         {leftContent}
                     </AdditionalContent>
                 )}
@@ -202,7 +206,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     />
                 )}
                 {isRightContentVisible && (
-                    <AdditionalContent placement="right">{rightContent}</AdditionalContent>
+                    <AdditionalContent placement="right" onClick={handleFocus}>
+                        {rightContent}
+                    </AdditionalContent>
                 )}
             </span>
             {isErrorMsgVisible && <div className={b('error')}>{error}</div>}

@@ -58,6 +58,10 @@ class LayerManager {
         };
     }
 
+    getStackLength() {
+        return this.stack.length;
+    }
+
     private addListeners() {
         document.addEventListener('keydown', this.handleDocumentKeyDown);
         document.addEventListener('click', this.handleDocumentClick, true);

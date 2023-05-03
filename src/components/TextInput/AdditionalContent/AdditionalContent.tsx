@@ -6,7 +6,7 @@ const b = block('text-input');
 type Props = {
     placement: 'left' | 'right';
     children?: React.ReactNode;
-    onClick: () => void;
+    onClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
 export const AdditionalContent = React.forwardRef<HTMLDivElement, Props>(function AdditionalContent(

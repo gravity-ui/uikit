@@ -1,4 +1,5 @@
 import React from 'react';
+import {isFocusable} from 'tabbable';
 import {block, modsClassName} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
@@ -137,8 +138,19 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         }
     };
 
-    const handleFocus = () => {
-        innerControlRef.current?.focus();
+    const handleAdditionalContentClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+        const currentTarget = event.currentTarget;
+        let target = event.target as HTMLElement | null | undefined;
+        let isFocusableElementClicked: boolean | undefined;
+
+        while (target && currentTarget !== target && !isFocusableElementClicked) {
+            isFocusableElementClicked = target ? isFocusable(target) : false;
+            target = target?.parentElement;
+        }
+
+        if (!isFocusableElementClicked) {
+            innerControlRef.current?.focus();
+        }
     };
 
     React.useEffect(() => {
@@ -175,7 +187,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         >
             <span className={b('content')}>
                 {isLeftContentVisible && (
-                    <AdditionalContent ref={leftContentRef} placement="left" onClick={handleFocus}>
+                    <AdditionalContent
+                        ref={leftContentRef}
+                        placement="left"
+                        onClick={handleAdditionalContentClick}
+                    >
                         {leftContent}
                     </AdditionalContent>
                 )}
@@ -206,7 +222,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     />
                 )}
                 {isRightContentVisible && (
-                    <AdditionalContent placement="right" onClick={handleFocus}>
+                    <AdditionalContent placement="right" onClick={handleAdditionalContentClick}>
                         {rightContent}
                     </AdditionalContent>
                 )}

@@ -1,0 +1,80 @@
+@use '../../variables';
+
+$transition-distance: 10px;
+$animation-duration: 0.6s;
+
+@mixin hidden-toast-height {
+    margin-bottom: 0;
+    padding: 0;
+    height: 0;
+}
+
+@mixin visible-toast-height {
+    margin-bottom: var(--yc-toaster-margin);
+    padding: var(--yc-toaster-padding);
+    height: var(--yc-toast-height);
+}
+
+@mixin hidden-toast-move($platform) {
+    opacity: 0;
+    @if ($platform == 'mobile') {
+        transform: translateY($transition-distance);
+    } @else {
+        transform: translateX($transition-distance);
+    }
+}
+
+@mixin visible-toast-move {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@each $platform in ('mobile', 'desktop') {
+    #{'.#{variables.$ns}toast-animation-#{$platform}'} {
+        &_enter {
+            opacity: 0;
+            position: absolute;
+        }
+
+        &_enter_active {
+            animation: #{variables.$ns}toast-enter-#{$platform}
+                $animation-duration
+                ease-out
+                forwards;
+            position: relative;
+        }
+
+        &_exit_active {
+            animation: #{variables.$ns}toast-exit-#{$platform} $animation-duration ease-in forwards;
+        }
+    }
+
+    @keyframes #{variables.$ns}toast-enter-#{$platform} {
+        0% {
+            @include hidden-toast-height;
+            @include hidden-toast-move($platform);
+        }
+        50% {
+            @include visible-toast-height;
+            @include hidden-toast-move($platform);
+        }
+        100% {
+            @include visible-toast-move;
+        }
+    }
+
+    @keyframes #{variables.$ns}toast-exit-#{$platform} {
+        0% {
+            @include visible-toast-height;
+            @include visible-toast-move;
+        }
+        50% {
+            @include visible-toast-height;
+            @include hidden-toast-move($platform);
+        }
+        100% {
+            @include hidden-toast-height;
+            @include hidden-toast-move($platform);
+        }
+    }
+}

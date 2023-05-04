@@ -3,26 +3,19 @@
 
 $block: '.#{variables.$ns}toast';
 
-// Function to get animation that will trigger action in `onAnimationEnd` event handler
-// It always should be at the end of animations list
-@function get-trailing-keyframe($keyframe, $delay) {
-    // Short animation duration to make sure that onAnimationEnd would be triggered
-    @return $keyframe 0.0001s forwards $delay;
-}
-
 #{$block} {
     $containerClass: #{&}__container;
     $iconClass: #{&}__icon;
 
-    // Deprecated. This custom property can be removed in next major release
+    // These custom properties used in ToastAnimation
+    --yc-toaster-margin: 10px;
     --yc-toaster-padding: 16px;
 
     display: flex;
     box-sizing: border-box;
-    position: absolute;
-    opacity: 0;
+    position: relative;
     width: inherit;
-    margin-bottom: 10px;
+    margin-bottom: var(--yc-toaster-margin);
     padding: var(--yc-toaster-padding);
     font-size: 13px;
     border-radius: 8px;
@@ -33,52 +26,6 @@ $block: '.#{variables.$ns}toast';
 
     &_mobile {
         width: 100%;
-    }
-
-    // Since the "opacity" needs to be overridden when toast appearing
-    // The "created" modifier must be higher in code than the "appearing" modifier.
-    &_created {
-        position: relative;
-        opacity: 1;
-    }
-
-    &_appearing {
-        opacity: 0;
-        height: 0;
-        margin-bottom: 0;
-        padding: 0;
-        transition: height 0.35s ease;
-    }
-
-    &_show-animation {
-        $indents-duration: 0.35s;
-        $move-duration: 0.25s;
-
-        animation: toast-set-indents $indents-duration ease forwards,
-            toast-move-left $move-duration ease forwards $indents-duration,
-            get-trailing-keyframe(toast-display-end, $indents-duration + $move-duration);
-    }
-
-    &_show-animation#{&}_mobile {
-        animation: toast-set-indents 0.35s ease forwards, toast-move-top 0.25s ease forwards 0.35s;
-    }
-
-    &_hide-animation {
-        $move-duration: 0.25s;
-        $remove-duration: 0.35s;
-
-        animation: toast-move-right $move-duration ease forwards,
-            toast-remove-height $remove-duration ease forwards $move-duration,
-            get-trailing-keyframe(toast-hide-end, $move-duration + $remove-duration);
-    }
-
-    &_hide-animation#{&}_mobile {
-        $move-duration: 0.25s;
-        $remove-duration: 0.35s;
-
-        animation: toast-move-bottom $move-duration ease forwards,
-            toast-remove-height $remove-duration ease forwards $move-duration,
-            get-trailing-keyframe(toast-hide-end, $move-duration + $remove-duration);
     }
 
     &_default {
@@ -167,72 +114,5 @@ $block: '.#{variables.$ns}toast';
         position: absolute;
         top: 14px;
         right: 14px;
-    }
-}
-
-@keyframes toast-move-right {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateX(10px);
-    }
-}
-
-@keyframes toast-move-left {
-    from {
-        opacity: 0;
-        transform: translateX(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes toast-display-end {
-}
-
-@keyframes toast-move-top {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes toast-move-bottom {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-}
-
-@keyframes toast-remove-height {
-    to {
-        height: 0;
-        margin-bottom: 0;
-        padding: 0;
-    }
-}
-
-@keyframes toast-hide-end {
-}
-
-@keyframes toast-set-indents {
-    to {
-        margin-bottom: 10px;
-        padding: 16px;
     }
 }

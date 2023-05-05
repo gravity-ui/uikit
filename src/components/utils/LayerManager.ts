@@ -20,7 +20,11 @@ export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
 }
 
-type StackChangeEventListener = (stack: LayerConfig[]) => void;
+type StackChangeEventPayload = {
+    stackLength: number;
+};
+
+type StackChangeEventListener = (payload: StackChangeEventPayload) => void;
 
 class LayerManager {
     private stack: LayerConfig[] = [];
@@ -76,7 +80,9 @@ class LayerManager {
 
     private notifyStackChanged() {
         for (const listener of this.stackChangeEventListeners) {
-            listener(this.stack);
+            listener({
+                stackLength: this.getStackLength(),
+            });
         }
     }
 

@@ -146,7 +146,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             &#{$block}_has-left-content #{$block}__label {
-                padding-left: 1px;
+                padding-left: 2px;
             }
 
             #{$block}__additional-content {
@@ -175,7 +175,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             &#{$block}_has-left-content #{$block}__label {
-                padding-left: 1px;
+                padding-left: 2px;
             }
 
             #{$block}__additional-content {

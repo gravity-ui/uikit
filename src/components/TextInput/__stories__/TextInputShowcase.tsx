@@ -28,31 +28,6 @@ const EyeButton = (props: {
     );
 };
 
-const KeyIcon = ({size}: {size: TextInputProps['size']}) => {
-    let width: number;
-
-    switch (size) {
-        case 's': {
-            width = 24;
-            break;
-        }
-        case 'l': {
-            width = 36;
-            break;
-        }
-        case 'xl': {
-            width = 44;
-            break;
-        }
-        case 'm':
-        default: {
-            width = 28;
-        }
-    }
-
-    return <Icon data={Key} width={width} />;
-};
-
 export const TextInputShowcase: React.FC = () => {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
@@ -170,7 +145,7 @@ export const TextInputShowcase: React.FC = () => {
                         size="s"
                         placeholder="s"
                         type={additionalContentExmpleInputType}
-                        leftContent={<KeyIcon size="s" />}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -179,7 +154,7 @@ export const TextInputShowcase: React.FC = () => {
                         {...textInputProps}
                         placeholder="m"
                         type={additionalContentExmpleInputType}
-                        leftContent={<KeyIcon size="m" />}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -189,7 +164,7 @@ export const TextInputShowcase: React.FC = () => {
                         size="l"
                         placeholder="l"
                         type={additionalContentExmpleInputType}
-                        leftContent={<KeyIcon size="l" />}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -199,7 +174,8 @@ export const TextInputShowcase: React.FC = () => {
                         size="xl"
                         placeholder="xl"
                         type={additionalContentExmpleInputType}
-                        leftContent={<KeyIcon size="xl" />}
+                        label={LABEL}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -215,7 +191,7 @@ export const TextInputShowcase: React.FC = () => {
                             placeholder="error with message"
                             error={isErrorMessageVisible ? 'It happened a validation error' : true}
                             type={additionalContentExmpleInputType}
-                            leftContent={<KeyIcon size="m" />}
+                            leftContent={<Icon data={Key} />}
                             rightContent={
                                 <EyeButton
                                     size="s"
@@ -233,7 +209,7 @@ export const TextInputShowcase: React.FC = () => {
                         {...textInputProps}
                         placeholder="disabled"
                         type={additionalContentExmpleInputType}
-                        leftContent={<KeyIcon size="m" />}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton
                                 size="s"
@@ -249,7 +225,7 @@ export const TextInputShowcase: React.FC = () => {
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
-                        leftContent={<KeyIcon size="m" />}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
@@ -262,7 +238,7 @@ export const TextInputShowcase: React.FC = () => {
                         defaultValue="defaultValue"
                         type={additionalContentExmpleInputType}
                         label={LONG_LABEL}
-                        leftContent={<KeyIcon size="m" />}
+                        leftContent={<Icon data={Key} />}
                         rightContent={
                             <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
                         }

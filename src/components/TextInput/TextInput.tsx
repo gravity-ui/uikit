@@ -1,5 +1,4 @@
 import React from 'react';
-import {isFocusable} from 'tabbable';
 import {block, modsClassName} from '../utils/cn';
 import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
@@ -139,16 +138,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     };
 
     const handleAdditionalContentClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-        const currentTarget = event.currentTarget;
-        let target = event.target as HTMLElement | null | undefined;
-        let isFocusableElementClicked: boolean | undefined;
+        const hasActiveElement = event.currentTarget.contains(document.activeElement);
+        const hasSelection = Boolean(document.getSelection()?.toString());
 
-        while (target && currentTarget !== target && !isFocusableElementClicked) {
-            isFocusableElementClicked = target ? isFocusable(target) : false;
-            target = target?.parentElement;
-        }
-
-        if (!isFocusableElementClicked) {
+        if (!hasActiveElement && !hasSelection) {
             innerControlRef.current?.focus();
         }
     };

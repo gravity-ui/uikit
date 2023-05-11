@@ -2,6 +2,7 @@
 
 $block: '.#{variables.$ns}tooltip';
 
+// [class] for increasing specificity
 #{$block}[class] {
     // prevent glitch between two nearby tooltip refs
     pointer-events: none;

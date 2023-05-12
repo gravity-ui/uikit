@@ -38,7 +38,7 @@ class LayerManager {
             this.addListeners();
         }
 
-        this.notifyStackChanged();
+        this.notifyLayersChange();
     }
 
     remove(config: LayerConfig) {
@@ -49,7 +49,7 @@ class LayerManager {
             this.removeListeners();
         }
 
-        this.notifyStackChanged();
+        this.notifyLayersChange();
     }
 
     subscribeToStackChange(listener: StackChangeEventListener) {
@@ -78,7 +78,7 @@ class LayerManager {
         document.removeEventListener('mousedown', this.handleDocumentMouseDown, true);
     }
 
-    private notifyStackChanged() {
+    private notifyLayersChange() {
         for (const listener of this.stackChangeEventListeners) {
             listener({
                 stackLength: this.getStackLength(),

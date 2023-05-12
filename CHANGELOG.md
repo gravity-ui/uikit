@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.11.1](https://github.com/gravity-ui/uikit/compare/v4.11.0...v4.11.1) (2023-05-12)
+
+
+### Bug Fixes
+
+* **Select:** align items by baseline for label and values ([#661](https://github.com/gravity-ui/uikit/issues/661)) ([b25734f](https://github.com/gravity-ui/uikit/commit/b25734f94a0837f2c5857f3609e45e317fbcb99b))
+
 ## [4.11.0](https://github.com/gravity-ui/uikit/compare/v4.10.0...v4.11.0) (2023-05-11)
 
 

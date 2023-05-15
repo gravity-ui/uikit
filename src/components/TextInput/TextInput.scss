@@ -140,6 +140,10 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(s);
             }
 
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 26px;
+            }
+
             #{$block}__label {
                 @include block_style(s, label);
                 line-height: #{$sHeight - $borderWidth * 2};
@@ -167,6 +171,10 @@ $block: '.#{variables.$ns}text-input';
         &_m {
             #{$block}__control {
                 @include block_style(m);
+            }
+
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 26px;
             }
 
             #{$block}__label {
@@ -198,6 +206,10 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(l);
             }
 
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 36px;
+            }
+
             #{$block}__label {
                 @include block_style(l, label);
                 line-height: #{$lHeight - $borderWidth * 2};
@@ -225,6 +237,10 @@ $block: '.#{variables.$ns}text-input';
         &_xl {
             #{$block}__control {
                 @include block_style(xl);
+            }
+
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 36px;
             }
 
             #{$block}__label {

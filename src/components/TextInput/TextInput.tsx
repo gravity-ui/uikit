@@ -169,6 +169,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     disabled,
                     state,
                     pin: view === 'clear' ? undefined : pin,
+                    'has-clear': isClearControlVisible,
                     'has-left-content': isLeftContentVisible && !multiline,
                     'has-right-content':
                         (isClearControlVisible || isRightContentVisible) && !multiline,

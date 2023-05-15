@@ -54,7 +54,7 @@ export type TableActionConfig<I> = TableAction<I> | TableActionGroup<I>;
 
 export interface WithTableActionsProps<I> {
     getRowActions: (item: I, index: number) => TableActionConfig<I>[];
-    rowActionsSize?: ButtonSize;
+    rowActionsSize?: Exclude<ButtonSize, 'xs'>;
 }
 
 interface WithTableActionsState<I> {
@@ -122,7 +122,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                         disabled={disabled}
                         className={BUTTON_CLASSNAME}
                         onClick={this.handleActionsButtonClick.bind(this, {item, index})}
-                        size={rowActionsSize}
+                        size={rowActionsSize as ButtonSize}
                     >
                         <Icon data={DotsIcon} />
                     </Button>

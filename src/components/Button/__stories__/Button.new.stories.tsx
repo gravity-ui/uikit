@@ -29,7 +29,7 @@ export default {
             defaultValue: 'normal',
         },
         size: {
-            options: ['s', 'm', 'l', 'xl'],
+            options: ['xs', 's', 'm', 'l', 'xl'],
             control: {type: 'radio'},
             defaultValue: 'm',
         },

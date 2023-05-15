@@ -85,6 +85,46 @@ $block: '.#{variables.$ns}button';
     }
 
     &_size {
+        &_xs {
+            --yc-button-height: 20px;
+            --yc-button-icon-size: 12px;
+
+            font-size: 13px;
+
+            #{$block}__text {
+                margin: 0 6px;
+            }
+
+            #{$block}__icon {
+                width: var(--yc-button-height);
+
+                &_side_left {
+                    margin-left: 6px;
+                    width: var(--yc-button-icon-size);
+                }
+
+                &_side_left ~ #{$block}__text {
+                    margin-left: 22px;
+                }
+
+                &_side_right {
+                    margin-right: 6px;
+                    width: var(--yc-button-icon-size);
+                }
+
+                &_side_right ~ #{$block}__text {
+                    margin-right: 22px;
+                }
+
+                #{$block}__icon-inner > * {
+                    max-height: var(--yc-button-icon-size);
+                    max-width: var(--yc-button-icon-size);
+                }
+            }
+
+            --yc-button-border-radius: var(--yc-border-radius-xs);
+        }
+
         &_s {
             --yc-button-height: 24px;
 

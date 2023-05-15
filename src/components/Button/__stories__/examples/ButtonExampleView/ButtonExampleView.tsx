@@ -238,6 +238,7 @@ export function ButtonExampleState() {
 export function ButtonExampleSize() {
     return (
         <DocsExample gap="l" space="l">
+            <Button size="xs">XS-size</Button>
             <Button size="s">S-size</Button>
             <Button size="m">M-size</Button>
             <Button size="l">L-size</Button>

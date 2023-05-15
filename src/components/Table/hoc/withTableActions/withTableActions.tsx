@@ -55,11 +55,11 @@ export type TableActionConfig<I> = TableAction<I> | TableActionGroup<I>;
 /**
  * common sizes for Menu and Button
  */
-export type RowActionsSize = 's' | 'm' | 'l' | 'xl';
+export type TableRowActionsSize = 's' | 'm' | 'l' | 'xl';
 
 export interface WithTableActionsProps<I> {
     getRowActions: (item: I, index: number) => TableActionConfig<I>[];
-    rowActionsSize?: RowActionsSize;
+    rowActionsSize?: TableRowActionsSize;
 }
 
 interface WithTableActionsState<I> {

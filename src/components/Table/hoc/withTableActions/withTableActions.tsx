@@ -3,7 +3,7 @@ import _memoize from 'lodash/memoize';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import {Icon} from '../../../Icon';
-import {Button, ButtonSize} from '../../../Button';
+import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Menu, MenuItemProps} from '../../../Menu';
 import {DotsIcon} from '../../../icons/DotsIcon';
@@ -52,9 +52,11 @@ export interface TableActionGroup<I> {
 
 export type TableActionConfig<I> = TableAction<I> | TableActionGroup<I>;
 
+export type RowActionsSize = 's' | 'm' | 'l' | 'xl';
+
 export interface WithTableActionsProps<I> {
     getRowActions: (item: I, index: number) => TableActionConfig<I>[];
-    rowActionsSize?: Exclude<ButtonSize, 'xs'>;
+    rowActionsSize?: RowActionsSize;
 }
 
 interface WithTableActionsState<I> {
@@ -122,7 +124,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                         disabled={disabled}
                         className={BUTTON_CLASSNAME}
                         onClick={this.handleActionsButtonClick.bind(this, {item, index})}
-                        size={rowActionsSize as ButtonSize}
+                        size={rowActionsSize}
                     >
                         <Icon data={DotsIcon} />
                     </Button>

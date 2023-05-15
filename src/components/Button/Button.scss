@@ -98,22 +98,12 @@ $block: '.#{variables.$ns}button';
             #{$block}__icon {
                 width: var(--yc-button-height);
 
-                &_side_left {
-                    margin-left: 6px;
-                    width: var(--yc-button-icon-size);
-                }
-
                 &_side_left ~ #{$block}__text {
-                    margin-left: 22px;
-                }
-
-                &_side_right {
-                    margin-right: 6px;
-                    width: var(--yc-button-icon-size);
+                    margin-left: 18px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-right: 22px;
+                    margin-right: 18px;
                 }
 
                 #{$block}__icon-inner > * {

@@ -48,12 +48,15 @@ describe('Button', () => {
         expect(button).not.toBeDisabled();
     });
 
-    test.each(new Array<ButtonSize>('s', 'm', 'l', 'xl'))('render with given "%s" size', (size) => {
-        render(<Button size={size} qa={qaId} />);
-        const button = screen.getByTestId(qaId);
+    test.each(new Array<ButtonSize>('xs', 's', 'm', 'l', 'xl'))(
+        'render with given "%s" size',
+        (size) => {
+            render(<Button size={size} qa={qaId} />);
+            const button = screen.getByTestId(qaId);
 
-        expect(button).toHaveClass(`yc-button_size_${size}`);
-    });
+            expect(button).toHaveClass(`yc-button_size_${size}`);
+        },
+    );
 
     test.each(new Array<ButtonView>(...buttonViews))('render with given "%s" view', (view) => {
         render(<Button view={view} qa={qaId} />);

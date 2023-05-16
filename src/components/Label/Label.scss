@@ -12,10 +12,7 @@ $transitionTimingFunction: ease-in-out;
     @if $BorderColor != none {
         --outline-size: 1px;
         outline: var(--outline-size) solid #{$BorderColor};
-        // box-sizing: content-box;
     }
-
-    // .yc-label__content {}
 
     // hover on interactive label (excluding hover on addon)
     &:not(#{$disabled})#{$block}_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {

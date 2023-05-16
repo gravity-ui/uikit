@@ -5,14 +5,26 @@ A component that puts all together: **CopyToClipboard** and **ClipboardIcon**.<b
 
 ### PropTypes
 
-| Property  | Type       | Required | Default | Description                                                                   |
-| :-------- | :--------- | :------: | :------ | :---------------------------------------------------------------------------- |
-| text      | `String`   |          |         | Text to copy                                                                  |
-| size      | `Number`   |          | 24      | Icon size                                                                     |
-| timeout   | `Number`   |          | 1000    | Time before state bounces back to its normal <br/>after the button is clicked |
-| className | `String`   |          |         | CSS class name                                                                |
-| onCopy    | `Function` |          |         | Callback after copy <br/>`(text: string, result: boolean) => void`            |
-| options   | `Options`  |          |         | [copy-to-clipboard](https://github.com/sudodoki/copy-to-clipboard) options    |
+| Property     | Type                          | Required | Default | Description                                                                   |
+| :----------- | :---------------------------- | :------: | :------ | :---------------------------------------------------------------------------- |
+| text         | `String`                      |          |         | Text to copy                                                                  |
+| size         | `Number`                      |          | 24      | Icon size                                                                     |
+| timeout      | `Number`                      |          | 1000    | Time before state bounces back to its normal <br/>after the button is clicked |
+| className    | `String`                      |          |         | CSS class name                                                                |
+| onCopy       | `Function`                    |          |         | Callback after copy <br/>`(text: string, result: boolean) => void`            |
+| options      | `Options`                     |          |         | [copy-to-clipboard](https://github.com/sudodoki/copy-to-clipboard) options    |
+| tooltipProps | `ClipboardButtonTooltipProps` |          |         | [Props](#clipboardbuttontooltipprops) to configure tooltip                    |
+
+### ClipboardButtonTooltipProps
+
+| Property     | Type             | Required | Default   | Description                                              |
+| :----------- | :--------------- | :------: | :-------- | :------------------------------------------------------- |
+| disabled     | `boolean`        |    no    | -         | Disable tooltip. Tooltip won't be shown                  |
+| placement    | `PopupPlacement` |    no    | -         | A tooltip position relative to it's anchor               |
+| openDelay    | `number`         |    no    | -         | Delay in ms before showing the popup after hovering      |
+| closeDelay   | `number`         |    no    | -         | Delay in ms before hiding the popup after the hover ends |
+| startCopyTip | `string`         |    no    | `Copy`    | Text shown before copy                                   |
+| endCopyTip   | `string`         |    no    | `Copied!` | Text shown after copy                                    |
 
 ### Examples
 

@@ -26,6 +26,42 @@ $transitionTimingFunction: ease-in-out;
     }
 }
 
+@mixin sizeState($margin, $mainSize, $rAddon, $lAddon, $borderRadius) {
+    --main-size-without-outline: calc(#{$mainSize} - var(--outline-size) * 2);
+    height: var(--main-size-without-outline);
+    & #{$block}__text {
+        line-height: var(--main-size-without-outline);
+        margin: 0 #{$margin};
+    }
+
+    & #{$block}__addon {
+        width: var(--main-size-without-outline);
+        height: var(--main-size-without-outline);
+    }
+
+    &#{$block}_has-right-addon #{$block}__text {
+        margin-right: #{$rAddon};
+    }
+
+    &#{$block}_has-left-addon #{$block}__text {
+        margin-left: #{$lAddon};
+    }
+
+    &#{$block}_style {
+        &_default,
+        &_rounded {
+            border-radius: #{$borderRadius};
+
+            & #{$block}__addon {
+                &_interactive {
+                    --yc-button-height: var(--main-size-without-outline);
+                    --yc-button-border-radius: #{$borderRadius};
+                }
+            }
+        }
+    }
+}
+
 #{$block} {
     display: inline-flex;
     align-items: center;
@@ -33,6 +69,8 @@ $transitionTimingFunction: ease-in-out;
     transition-property: opacity, color, background-color;
     transition-duration: $transitionDuration;
     transition-timing-function: $transitionTimingFunction;
+
+    --outline-size: 0px;
 
     &__text {
         width: 100%;
@@ -75,121 +113,15 @@ $transitionTimingFunction: ease-in-out;
 
     &_size {
         &_xs {
-            height: 20px;
-
-            & #{$block}__text {
-                line-height: 20px;
-                margin: 0 8px;
-            }
-
-            & #{$block}__addon {
-                width: 20px;
-                height: 20px;
-            }
-
-            &#{$block}_has-right-addon #{$block}__text {
-                margin-right: 22px;
-            }
-
-            &#{$block}_has-left-addon #{$block}__text {
-                margin-left: 24px;
-            }
-
-            &#{$block}_style {
-                &_default,
-                &_rounded {
-                    border-radius: var(--yc-border-radius-xs);
-
-                    & #{$block}__addon {
-                        &_interactive {
-                            --yc-button-height: 20px;
-                            --yc-button-border-radius: var(--yc-border-radius-xs);
-                        }
-                    }
-                }
-            }
+            @include sizeState(8px, 20px, 22px, 24px, var(--yc-border-radius-xs));
         }
 
         &_s {
-            height: 24px;
-
-            & #{$block}__text {
-                line-height: 24px;
-                margin: 0 10px;
-            }
-
-            & #{$block}__icon {
-                width: 24px;
-                height: 24px;
-            }
-
-            &#{$block}_has-right-addon #{$block}__text {
-                margin-right: 26px;
-            }
-
-            &#{$block}_has-left-addon #{$block}__text {
-                margin-left: 28px;
-            }
-
-            &#{$block}_style {
-                &_default,
-                &_rounded {
-                    border-radius: var(--yc-border-radius-s);
-
-                    & #{$block}__addon {
-                        &_interactive {
-                            --yc-button-height: 24px;
-                            --yc-button-border-radius: var(--yc-border-radius-s);
-                        }
-                    }
-                }
-            }
+            @include sizeState(10px, 24px, 26px, 28px, var(--yc-border-radius-s));
         }
 
         &_m {
-            height: 28px;
-
-            & #{$block}__text {
-                line-height: 28px;
-                margin: 0 12px;
-            }
-
-            & #{$block}__addon {
-                width: 28px;
-                height: 28px;
-            }
-
-            &#{$block}_has-right-addon #{$block}__text {
-                margin-right: 32px;
-            }
-
-            &#{$block}_has-left-addon #{$block}__text {
-                margin-left: 32px;
-            }
-
-            &#{$block}_style {
-                &_default {
-                    border-radius: var(--yc-border-radius-m);
-
-                    & #{$block}__addon {
-                        &_interactive {
-                            --yc-button-height: 28px;
-                            --yc-button-border-radius: var(--yc-border-radius-m);
-                        }
-                    }
-                }
-
-                &_rounded {
-                    border-radius: 24px;
-
-                    & #{$block}__addon {
-                        &_interactive {
-                            --yc-button-height: 28px;
-                            --yc-button-border-radius: 24px;
-                        }
-                    }
-                }
-            }
+            @include sizeState(12px, 28px, 32px, 32px, var(--yc-border-radius-m));
         }
     }
 

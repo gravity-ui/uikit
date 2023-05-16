@@ -73,11 +73,21 @@ $transitionTimingFunction: ease-in-out;
     --outline-size: 0px;
 
     &__text {
+        display: flex;
         width: 100%;
         text-align: center;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+    }
+
+    &__value {
+        display: flex;
+        opacity: 0.7;
+    }
+
+    &__separator {
+        margin: 0 4px;
     }
 
     // & selector added to up priority over button styles

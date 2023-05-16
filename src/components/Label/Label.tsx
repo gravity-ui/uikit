@@ -51,11 +51,13 @@ interface LabelOwnProps {
     children?: React.ReactNode;
     /** Display hover */
     interactive?: boolean;
+    /** Label value (shows as "children : value") */
+    value?: string;
 }
 
 interface LabelDefaultProps {
     /** Label color */
-    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown';
+    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown' | 'outline';
     /** Label type (plain, with copy text button or with close button) */
     type: 'default' | 'copy' | 'close';
     /** Label size */
@@ -81,6 +83,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         closeButtonLabel,
         copyButtonLabel,
         interactive = false,
+        value,
         onCopy,
         onClick,
     } = props;
@@ -98,7 +101,21 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     const leftIcon = icon && (
         <div className={b('addon', {side: hasContent ? 'left' : undefined})}>{icon}</div>
     );
-    const content = hasContent && <div className={b('text')}>{children}</div>;
+    const content = hasContent && (
+        <div className={b('text')}>
+            <>
+                <div className={b('content')}>{children}</div>
+                {Boolean(value) && (
+                    <>
+                        <div className={b('value')}>
+                            <div className={b('separator')}>:</div>
+                            <div className={b('key')}>{value}</div>
+                        </div>
+                    </>
+                )}
+            </>
+        </div>
+    );
 
     const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (hasOnClick) {

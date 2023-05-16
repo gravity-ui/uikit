@@ -2,16 +2,31 @@
 
 $block: '.#{variables.$ns}label';
 $disabled: #{$block}_disabled;
-$transitionDuration: 0.3s;
+$transitionDuration: 0.15s;
 $transitionTimingFunction: ease-in-out;
 
-@mixin themeState($bgColor, $bgHoverColor, $textColor) {
+@mixin themeState($bgColor, $bgHoverColor, $textColor, $BorderColor: none) {
     color: #{$textColor};
     background-color: #{$bgColor};
 
-    // hover on interactive label
-    &:not(#{$disabled})#{$block}_is-interactive:hover {
+    @if $BorderColor != none {
+        --outline-size: 1px;
+        outline: var(--outline-size) solid #{$BorderColor};
+        // box-sizing: content-box;
+    }
+
+    // .yc-label__content {}
+
+    // hover on interactive label (excluding hover on addon)
+    &:not(#{$disabled})#{$block}_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {
         background-color: #{$bgHoverColor};
+    }
+
+    //fallback for old browsers
+    @supports not selector(:has(*)) {
+        &:not(#{$disabled})#{$block}_is-interactive:hover {
+            background-color: #{$bgHoverColor};
+        }
     }
 
     // hover on action button
@@ -190,6 +205,15 @@ $transitionTimingFunction: ease-in-out;
                 var(--yc-color-base-neutral),
                 var(--yc-color-base-neutral-hover),
                 var(--yc-color-text-complementary)
+            );
+        }
+
+        &_outline {
+            @include themeState(
+                none,
+                var(--yc-color-base-simple-hover-solid),
+                var(--yc-color-text-complementary),
+                var(--yc-color-line-generic)
             );
         }
     }

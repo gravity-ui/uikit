@@ -72,6 +72,8 @@ export interface SpacingProps {
 
 /**
  * Utility to generate predefined css classes to describe position between components
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#spacing-utility
  */
 export const spacing = (props: SpacingProps, className?: string) => {
     const classes: string[] = [];

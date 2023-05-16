@@ -15,14 +15,6 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         xxxl: 1920,
     },
     spaceBaseSize: 4,
-    common: {
-        space: '3',
-        media: {
-            l: {
-                space: '5',
-            },
-        },
-    },
     components: {
         container: {
             gutters: '3',

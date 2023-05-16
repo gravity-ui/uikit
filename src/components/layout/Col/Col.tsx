@@ -36,6 +36,8 @@ export interface ColProps extends MediaPartial<ColSize> {
  *  <Col s="2" l="1">col 2</Col>
  * </Row>
  * ```
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#col
  */
 export const Col = ({children, style, className, ...media}: ColProps) => {
     const mods = Object.entries(media).reduce<Record<string, string>>((acc, [mod, modSize]) => {

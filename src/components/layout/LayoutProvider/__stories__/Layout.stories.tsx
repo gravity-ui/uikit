@@ -3,8 +3,8 @@ import {Meta, Story} from '@storybook/react';
 import Docs from './Layout.docs.mdx';
 
 export default {
-    title: 'Layout (unstable)',
-    id: 'Layout (unstable)',
+    title: 'Layout',
+    id: 'Layout',
     parameters: {
         order: -100,
         docs: {

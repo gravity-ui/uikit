@@ -112,6 +112,8 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
  *  {...}
  * </Flex>
  * ```
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#flex
  */
 export const Flex = React.forwardRef(function Flex<T extends React.ElementType = 'div'>(
     props: Omit<FlexProps<T>, 'ref'>,

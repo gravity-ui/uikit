@@ -11,7 +11,7 @@ interface ComputedMediaContext {
      *  > Note: `s` breakpoint starts from `0px` and and's with `m` - 1px
      *
      * ```tsx
-     * import {useLayoutContext} from '@gravity-ui/uikit/unstable_layout';
+     * import {useLayoutContext} from '@gravity-ui/uikit';
      *
      * const Component = () => {
      *  const {activeMediaQuery} = useLayoutContext();
@@ -31,7 +31,7 @@ interface ComputedMediaContext {
      * Returns a boolean value if the passed value is equal to or greater than the currently active media expression.
      * It is necessary to describe the logic of adaptive behavior of elements taking into account the mobile-first approach
      * ```tsx
-     * import {useLayoutContext} from '@gravity-ui/uikit/unstable_layout';
+     * import {useLayoutContext} from '@gravity-ui/uikit';
      *
      * // this example of code will be shown on l, xl, xxl and xxxl screen sizes
      * const Component = () => {
@@ -49,7 +49,7 @@ interface ComputedMediaContext {
      * Returns the nearest available key value taking into account the mobile first approach.
      *
      * ```tsx
-     * import {useLayoutContext} from '@gravity-ui/uikit/unstable_layout';
+     * import {useLayoutContext} from '@gravity-ui/uikit';
      *
      * const mapOfPropsByScreen = {
      *  s: "i'm will be shown on 's' and 'n' screen size",
@@ -69,6 +69,8 @@ interface ComputedMediaContext {
 
 /**
  * Quick access to theme and helpers to work with media queries
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#uselayoutcontext
  */
 export const useLayoutContext = (): ComputedMediaContext => {
     const {activeMediaQuery, theme} = React.useContext(LayoutContext);

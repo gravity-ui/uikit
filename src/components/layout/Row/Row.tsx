@@ -36,6 +36,8 @@ export interface RowProps {
  *  <Col>col</Col>
  * </Row>
  * ```
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#row
  */
 export const Row = ({children, style, className, space, spaceRow}: RowProps) => {
     const {getClosestMediaProps} = useLayoutContext();

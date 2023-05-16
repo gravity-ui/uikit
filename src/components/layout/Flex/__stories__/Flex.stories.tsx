@@ -9,7 +9,7 @@ import {Text} from '../../../Text';
 import {Button} from '../../../Button/Button';
 
 export default {
-    title: 'Layout (unstable)/Flex',
+    title: 'Layout/Flex',
     component: Flex,
 } as Meta;
 

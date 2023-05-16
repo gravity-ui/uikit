@@ -16,6 +16,8 @@ interface LayoutProviderProps {
 
 /**
  * Provide context for layout components and current media queries.
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#layoutprovider-and-layouttheme
  */
 export const LayoutProvider: React.FC<LayoutProviderProps> = ({
     children,

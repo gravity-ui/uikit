@@ -7,7 +7,7 @@ import {Container} from '../../Container/Container';
 import {Row} from '../../Row/Row';
 
 export default {
-    title: 'Layout (unstable)/Col',
+    title: 'Layout/Col',
     component: Col,
 } as Meta;
 

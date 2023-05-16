@@ -74,7 +74,7 @@ function renderIconByType({type}: RenderIconProps) {
     return <Icon data={TITLE_ICONS[type]} className={b('icon', {[type]: true})} />;
 }
 
-export function Toast(props: ToastUnitedProps) {
+export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast(props, ref) {
     const {
         name,
         content,
@@ -87,7 +87,6 @@ export function Toast(props: ToastUnitedProps) {
         isClosable = true,
         mobile = false,
         removeCallback,
-        containerRef,
     } = props;
 
     const onClose = React.useCallback(() => removeCallback(name), [removeCallback, name]);
@@ -102,7 +101,7 @@ export function Toast(props: ToastUnitedProps) {
     const icon = renderIcon ? renderIcon(props) : renderIconByType({type});
 
     return (
-        <div ref={containerRef} className={b(mods, className)} {...closeOnTimeoutProps}>
+        <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps}>
             {icon && <div className={b('icon-container')}>{icon}</div>}
             <div className={b('container')}>
                 <h3 className={b('title')}>{title}</h3>
@@ -121,4 +120,4 @@ export function Toast(props: ToastUnitedProps) {
             </div>
         </div>
     );
-}
+});

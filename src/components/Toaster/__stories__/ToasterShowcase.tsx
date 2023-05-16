@@ -1,4 +1,5 @@
 import React from 'react';
+import {faker} from '@faker-js/faker/locale/en';
 import {block} from '../../utils/cn';
 import {Alarm, Info, Success} from '../../icons';
 import {ToasterComponent, ToastProps, useToaster} from '..';
@@ -208,27 +209,27 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    const createFastUpdatableToast = () => {
+    const createDynamicallyUpdatingToast = () => {
         const toastProps = getToastProps({
-            name: 'updatable',
-            title: 'Updatable Toast',
+            name: 'UpdatingToast',
+            title: 'Updating Toast',
+            content: faker.lorem.sentences(),
         });
 
         toaster.add(toastProps);
         setState((state) => ({...state, lastToastName: toastProps.name}));
 
-        let content = '';
-        const updateInterval = 50;
-        const update = (i: number) => {
-            content += `This is another portion of updated data ${i}\n`;
-            toaster.update(toastProps.name, {
-                content: <div style={{whiteSpace: 'pre'}}>{content}</div>,
-            });
-            if (i < 10) {
-                window.setTimeout(() => update(i + 1), updateInterval);
+        const updateInterval = 75;
+        const update = () => {
+            if (!toaster.has(toastProps.name)) {
+                return;
             }
+
+            const content = faker.lorem.sentences();
+            toaster.update(toastProps.name, {content});
+            window.setTimeout(update, updateInterval);
         };
-        window.setTimeout(() => update(0), updateInterval);
+        window.setTimeout(update, updateInterval);
     };
 
     const overrideLastToast = () => {
@@ -293,9 +294,9 @@ export const ToasterDemo = ({
         </Button>
     );
 
-    const fastUpdatableToastBtn = (
-        <Button size="l" onClick={createFastUpdatableToast} style={btnStyle}>
-            Create fast updatable toast
+    const dynamicallyUpdatingToast = (
+        <Button size="l" onClick={createDynamicallyUpdatingToast} style={btnStyle}>
+            Create dynamically updating toast
         </Button>
     );
 
@@ -321,7 +322,7 @@ export const ToasterDemo = ({
             <p>{warningToastBtn}</p>
             <p>{errorToastBtn}</p>
             <p>{customToastBtn}</p>
-            <p>{fastUpdatableToastBtn}</p>
+            <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>
             <p>{clearBtn}</p>
 

@@ -27,7 +27,7 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                     {
                         ...toast,
                         addedAt: Date.now(),
-                        containerRef: React.createRef<HTMLDivElement>(),
+                        ref: React.createRef<HTMLDivElement>(),
                     },
                 ];
             });

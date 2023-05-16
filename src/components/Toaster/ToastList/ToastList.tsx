@@ -25,10 +25,10 @@ export function ToastList(props: ToastListProps) {
             {toasts.map((toast) => (
                 <CSSTransition
                     key={`${toast.name}_${toast.addedAt}`}
-                    nodeRef={toast.containerRef}
+                    nodeRef={toast.ref}
                     classNames={mobile ? mobileTransitionClassNames : desktopTransitionClassNames}
                     addEndListener={(done) =>
-                        toast.containerRef?.current?.addEventListener('animationend', done)
+                        toast.ref?.current?.addEventListener('animationend', done)
                     }
                     onEnter={() => updateToastHeightCssProperty(toast)}
                     onExit={() => updateToastHeightCssProperty(toast)}
@@ -41,10 +41,10 @@ export function ToastList(props: ToastListProps) {
 }
 
 function updateToastHeightCssProperty(toast: InternalToastProps) {
-    if (toast.containerRef?.current) {
-        toast.containerRef.current.style.setProperty(
+    if (toast.ref?.current) {
+        toast.ref.current.style.setProperty(
             '--yc-toast-height',
-            `${toast.containerRef.current.offsetHeight}px`,
+            `${toast.ref.current.offsetHeight}px`,
         );
     }
 }

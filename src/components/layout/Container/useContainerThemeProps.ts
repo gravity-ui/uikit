@@ -24,8 +24,6 @@ export const useContainerThemeProps = () => {
 
     const containerThemeProps = React.useMemo(
         () => ({
-            ...pickContainerProps(theme.common),
-            ...pickContainerProps(getClosestMediaProps(theme.common?.media)),
             ...pickContainerProps(theme.components?.container),
             ...pickContainerProps(getClosestMediaProps(theme.components?.container?.media)),
         }),

@@ -40,7 +40,7 @@ export interface ContainerProps {
 /**
  * Center you content in horizontal direction.
  *
- * > In most cases mast be one on the page.
+ * > In most cases must be one on the page.
  *
  * ```tsx
  * import {Container, Row, Col} from '@gravity-ui/uikit';

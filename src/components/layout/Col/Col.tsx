@@ -17,7 +17,7 @@ export interface ColProps extends MediaPartial<ColSize> {
 
 /**
  * How many columns of you 12-th column layout will take content.
- * Mast be used as a child of `Row` component.
+ * Must be used as a child of `Row` component.
  *
  * By default component takes all available space.
  * If you wont to specify static size to all media queries use `s` prop. In mobile first layout grid is first passible value.

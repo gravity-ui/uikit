@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.12.0](https://github.com/gravity-ui/uikit/compare/v4.11.1...v4.12.0) (2023-05-17)
+
+
+### Features
+
+* **Button:** add xs Button size ([#663](https://github.com/gravity-ui/uikit/issues/663)) ([efbe9fc](https://github.com/gravity-ui/uikit/commit/efbe9fc70e48466961830994269ecc60ea03400e))
+
 ## [4.11.1](https://github.com/gravity-ui/uikit/compare/v4.11.0...v4.11.1) (2023-05-12)
 
 

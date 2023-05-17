@@ -1,5 +1,6 @@
 import React from 'react';
 import type {VirtualElement} from '@popperjs/core';
+import {eventBroker} from './event-broker';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 
@@ -20,16 +21,9 @@ export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
 }
 
-type StackChangeEventPayload = {
-    stackLength: number;
-};
-
-type StackChangeEventListener = (payload: StackChangeEventPayload) => void;
-
 class LayerManager {
     private stack: LayerConfig[] = [];
     private mouseDownLayerTarget?: {layer: LayerConfig; target: HTMLElement};
-    private stackChangeEventListeners: StackChangeEventListener[] = [];
 
     add(config: LayerConfig) {
         this.stack.push(config);
@@ -52,16 +46,6 @@ class LayerManager {
         this.notifyLayersChange();
     }
 
-    subscribeToStackChange(listener: StackChangeEventListener) {
-        this.stackChangeEventListeners.push(listener);
-        return () => {
-            const index = this.stackChangeEventListeners.indexOf(listener);
-            if (index >= 0) {
-                this.stackChangeEventListeners.splice(index, 1);
-            }
-        };
-    }
-
     getStackLength() {
         return this.stack.length;
     }
@@ -79,11 +63,13 @@ class LayerManager {
     }
 
     private notifyLayersChange() {
-        for (const listener of this.stackChangeEventListeners) {
-            listener({
-                stackLength: this.getStackLength(),
-            });
-        }
+        eventBroker.publish({
+            componentId: 'LayerManager',
+            eventId: 'layers-change',
+            meta: {
+                layersLength: this.getStackLength(),
+            },
+        });
     }
 
     private handleDocumentKeyDown = (event: KeyboardEvent) => {

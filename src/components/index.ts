@@ -56,7 +56,6 @@ export * from './utils/withEventBrokerDomHandlers';
 export * from './utils/useBodyScrollLock';
 export * from './utils/useEventBroker';
 export * from './utils/useLayer';
-export {layerManager} from './utils/LayerManager';
 export * from './utils/useVirtualElementRef';
 export {Lang, configure} from './utils/configure';
 export * from './utils/PortalProvider';

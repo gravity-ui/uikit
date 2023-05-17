@@ -1,5 +1,32 @@
 # Changelog
 
+## [4.12.0](https://github.com/gravity-ui/uikit/compare/v4.11.1...v4.12.0) (2023-05-17)
+
+
+### Features
+
+* **Button:** add xs Button size ([#663](https://github.com/gravity-ui/uikit/issues/663)) ([efbe9fc](https://github.com/gravity-ui/uikit/commit/efbe9fc70e48466961830994269ecc60ea03400e))
+
+## [4.11.1](https://github.com/gravity-ui/uikit/compare/v4.11.0...v4.11.1) (2023-05-12)
+
+
+### Bug Fixes
+
+* **Select:** align items by baseline for label and values ([#661](https://github.com/gravity-ui/uikit/issues/661)) ([b25734f](https://github.com/gravity-ui/uikit/commit/b25734f94a0837f2c5857f3609e45e317fbcb99b))
+
+## [4.11.0](https://github.com/gravity-ui/uikit/compare/v4.10.0...v4.11.0) (2023-05-11)
+
+
+### Features
+
+* **TextInput:** add rightContent props ([#649](https://github.com/gravity-ui/uikit/issues/649)) ([fd29127](https://github.com/gravity-ui/uikit/commit/fd29127d30df8659da3785fc1417cae778846842))
+* **UserAvatar:** add `srcset` support ([#641](https://github.com/gravity-ui/uikit/issues/641)) ([fe05925](https://github.com/gravity-ui/uikit/commit/fe05925d6b47ff9cc0d4786c5cb435089e3a7987))
+
+
+### Bug Fixes
+
+* **Tooltip:** increase selector specificity ([#660](https://github.com/gravity-ui/uikit/issues/660)) ([1f53d8d](https://github.com/gravity-ui/uikit/commit/1f53d8dbd75b01c3c621d4696e4d0317d06b3a82))
+
 ## [4.10.0](https://github.com/gravity-ui/uikit/compare/v4.9.0...v4.10.0) (2023-04-26)
 
 

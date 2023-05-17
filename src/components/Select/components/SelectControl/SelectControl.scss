@@ -22,6 +22,7 @@ $buttonBlock: '.#{variables.$ns}button';
 
     & #{$buttonBlock}__text {
         display: flex;
+        align-items: baseline;
     }
 
     &__label {

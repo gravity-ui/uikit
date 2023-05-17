@@ -82,7 +82,7 @@ type ButtonView =
   | 'outlined-contrast'
   | 'flat-contrast';
 
-type ButtonSize = 's' | 'm' | 'l' | 'xl';
+type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 type ButtonPin =
   | 'round-round'

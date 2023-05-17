@@ -6,11 +6,14 @@ $block: '.#{variables.$ns}tooltip';
     // prevent glitch between two nearby tooltip refs
     pointer-events: none;
 
-    --yc-popup-border-width: 0;
-    --yc-popup-background-color: var(--yc-color-base-float-heavy);
-
     &__content {
         padding: 6px 12px;
         color: var(--yc-color-text-light-primary);
     }
+}
+
+// [class] for increasing specificity
+#{$block}[class] {
+    --yc-popup-border-width: 0;
+    --yc-popup-background-color: var(--yc-color-base-float-heavy);
 }

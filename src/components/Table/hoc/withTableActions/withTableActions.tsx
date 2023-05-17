@@ -3,7 +3,7 @@ import _memoize from 'lodash/memoize';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import {Icon} from '../../../Icon';
-import {Button, ButtonSize} from '../../../Button';
+import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Menu, MenuItemProps} from '../../../Menu';
 import {DotsIcon} from '../../../icons/DotsIcon';
@@ -52,9 +52,14 @@ export interface TableActionGroup<I> {
 
 export type TableActionConfig<I> = TableAction<I> | TableActionGroup<I>;
 
+/**
+ * common sizes for Menu and Button
+ */
+export type TableRowActionsSize = 's' | 'm' | 'l' | 'xl';
+
 export interface WithTableActionsProps<I> {
     getRowActions: (item: I, index: number) => TableActionConfig<I>[];
-    rowActionsSize?: ButtonSize;
+    rowActionsSize?: TableRowActionsSize;
 }
 
 interface WithTableActionsState<I> {

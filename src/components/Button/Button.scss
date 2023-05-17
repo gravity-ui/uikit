@@ -85,6 +85,30 @@ $block: '.#{variables.$ns}button';
     }
 
     &_size {
+        &_xs {
+            --yc-button-height: 20px;
+
+            font-size: 13px;
+
+            #{$block}__text {
+                margin: 0 6px;
+            }
+
+            #{$block}__icon {
+                width: var(--yc-button-height);
+
+                &_side_left ~ #{$block}__text {
+                    margin-left: 18px;
+                }
+
+                &_side_right ~ #{$block}__text {
+                    margin-right: 18px;
+                }
+            }
+
+            --yc-button-border-radius: var(--yc-border-radius-xs);
+        }
+
         &_s {
             --yc-button-height: 24px;
 

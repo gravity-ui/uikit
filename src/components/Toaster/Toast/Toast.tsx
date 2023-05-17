@@ -10,8 +10,6 @@ import i18n from '../i18n';
 import './Toast.scss';
 
 const b = block('toast');
-const FADE_IN_LAST_ANIMATION_NAME = 'toast-display-end';
-const FADE_OUT_LAST_ANIMATION_NAME = 'toast-hide-end';
 const DEFAULT_TIMEOUT = 5000;
 const CROSS_ICON_SIZE = 12;
 const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
@@ -22,108 +20,11 @@ const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
 };
 
 interface ToastInnerProps {
-    removeCallback: VoidFunction;
+    removeCallback: (name: string) => void;
     mobile?: boolean;
 }
 
 interface ToastUnitedProps extends InternalToastProps, ToastInnerProps {}
-
-enum ToastStatus {
-    Creating = 'creating',
-    ShowingIndents = 'showing-indents',
-    ShowingHeight = 'showing-height',
-    Hiding = 'hiding',
-    Shown = 'shown',
-}
-
-interface UseToastHeightProps {
-    isOverride: boolean;
-    status: ToastStatus;
-    updatesCounter: number;
-}
-
-function getHeight(ref: React.RefObject<HTMLDivElement>) {
-    return ref.current?.offsetHeight;
-}
-
-function useToastHeight({isOverride, status, updatesCounter}: UseToastHeightProps) {
-    const [height, setHeight] = React.useState<number | undefined>(undefined);
-
-    const ref = React.useRef<HTMLDivElement>(null);
-
-    React.useEffect(() => {
-        // ATTENTION: getting `offsetHeight` is important for correct transaction of `height`
-        // HOW THIS WORKS:
-        // On the step of changing state to `ShowingIndent` we set class with height `transition`
-        // We need now to apply this styles, to achieve this we're calling `offsetHeight`, to force repaint
-        // Now we call changing state to `ShowingHeight` and changing height now happen with transition
-        if (status === ToastStatus.ShowingIndents) {
-            getHeight(ref);
-        }
-    }, [status]);
-
-    React.useEffect(() => {
-        if (
-            status === ToastStatus.ShowingIndents ||
-            status === ToastStatus.ShowingHeight ||
-            status === ToastStatus.Hiding
-        ) {
-            return; // Not update height during animation
-        }
-
-        const newHeight = getHeight(ref);
-        setHeight(newHeight);
-    }, [isOverride, updatesCounter]);
-
-    const style: React.CSSProperties = {};
-    if (height && status !== ToastStatus.ShowingIndents && status !== ToastStatus.Shown) {
-        style.height = height;
-    }
-
-    return {style, ref};
-}
-
-interface UseToastStatusProps {
-    onRemove: VoidFunction;
-}
-
-function useToastStatus({onRemove}: UseToastStatusProps) {
-    const [status, setStatus] = React.useState<ToastStatus>(ToastStatus.Creating);
-
-    React.useEffect(() => {
-        if (status === ToastStatus.Creating) {
-            setStatus(ToastStatus.ShowingIndents);
-        } else if (status === ToastStatus.ShowingIndents) {
-            setStatus(ToastStatus.ShowingHeight);
-        }
-    }, [status]);
-
-    const onFadeInAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (e) => {
-        if (e.animationName === FADE_IN_LAST_ANIMATION_NAME) {
-            setStatus(ToastStatus.Shown);
-        }
-    };
-
-    const onFadeOutAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (e) => {
-        if (e.animationName === FADE_OUT_LAST_ANIMATION_NAME) {
-            onRemove();
-        }
-    };
-
-    let onAnimationEnd;
-    if (status === ToastStatus.ShowingHeight) {
-        onAnimationEnd = onFadeInAnimationEnd;
-    }
-    if (status === ToastStatus.Hiding) {
-        onAnimationEnd = onFadeOutAnimationEnd;
-    }
-
-    const handleClose = React.useCallback(() => {
-        setStatus(ToastStatus.Hiding);
-    }, []);
-
-    return {status, containerProps: {onAnimationEnd}, handleClose};
-}
 
 interface RenderActionsProps {
     actions?: ToastAction[];
@@ -173,8 +74,9 @@ function renderIconByType({type}: RenderIconProps) {
     return <Icon data={TITLE_ICONS[type]} className={b('icon', {[type]: true})} />;
 }
 
-export function Toast(props: ToastUnitedProps) {
+export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast(props, ref) {
     const {
+        name,
         content,
         actions,
         title,
@@ -183,40 +85,23 @@ export function Toast(props: ToastUnitedProps) {
         renderIcon,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
-        isOverride = false,
-        updatesCounter = 0,
         mobile = false,
+        removeCallback,
     } = props;
 
-    const {
-        status,
-        containerProps: statusProps,
-        handleClose,
-    } = useToastStatus({onRemove: props.removeCallback});
-
-    const heightProps = useToastHeight({isOverride, status, updatesCounter});
-
+    const onClose = React.useCallback(() => removeCallback(name), [removeCallback, name]);
     const timeout = typeof timeoutProp === 'number' ? timeoutProp : undefined;
-    const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose: handleClose, timeout});
+    const closeOnTimeoutProps = useCloseOnTimeout<HTMLDivElement>({onClose, timeout});
 
     const mods = {
         mobile,
-        appearing: status === ToastStatus.ShowingIndents || status === ToastStatus.ShowingHeight,
-        'show-animation': status === ToastStatus.ShowingHeight,
-        'hide-animation': status === ToastStatus.Hiding,
-        created: status !== ToastStatus.Creating,
         [type || 'default']: true,
     };
 
     const icon = renderIcon ? renderIcon(props) : renderIconByType({type});
 
     return (
-        <div
-            className={b(mods, className)}
-            {...statusProps}
-            {...heightProps}
-            {...closeOnTimeoutProps}
-        >
+        <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps}>
             {icon && <div className={b('icon-container')}>{icon}</div>}
             <div className={b('container')}>
                 <h3 className={b('title')}>{title}</h3>
@@ -224,15 +109,15 @@ export function Toast(props: ToastUnitedProps) {
                     <Button
                         view="flat-secondary"
                         className={b('btn-close')}
-                        onClick={handleClose}
+                        onClick={onClose}
                         extraProps={{'aria-label': i18n('label_close-button')}}
                     >
                         <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />
                     </Button>
                 )}
                 {Boolean(content) && <div className={b('content')}>{content}</div>}
-                {renderActions({actions, onClose: handleClose})}
+                {renderActions({actions, onClose})}
             </div>
         </div>
     );
-}
+});

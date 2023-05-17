@@ -67,6 +67,7 @@ describe('api.add', () => {
         act(() => {
             providerAPI.add(toastProps);
         });
+        fireAnimationEndEvent(toast, 'toast-hide-end');
 
         expect(toast).not.toBeInTheDocument();
 
@@ -239,12 +240,17 @@ describe('api.removeAll', () => {
             });
         });
 
-        expect(screen.getByRole('heading', {name: 'Test Toast'})).toBeInTheDocument();
-        expect(screen.getByRole('heading', {name: 'Test Toast2'})).toBeInTheDocument();
+        const toast1 = screen.getByRole('heading', {name: 'Test Toast'});
+        const toast2 = screen.getByRole('heading', {name: 'Test Toast2'});
+
+        expect(toast1).toBeInTheDocument();
+        expect(toast2).toBeInTheDocument();
 
         act(() => {
             providerAPI.removeAll();
         });
+
+        [toast1, toast2].forEach((toast) => fireAnimationEndEvent(toast, 'toast-hide-end'));
 
         expect(screen.queryByRole('heading', {name: 'Test Toast'})).not.toBeInTheDocument();
         expect(screen.queryByRole('heading', {name: 'Test Toast2'})).not.toBeInTheDocument();
@@ -267,13 +273,11 @@ describe('api.has', () => {
             });
         });
 
-        const toast = getToast();
         expect(providerAPI.has(toastProps.name)).toBe(true);
 
         act(() => {
             providerAPI.remove(toastProps.name);
         });
-        tick(toast, 0);
 
         expect(providerAPI.has(toastProps.name)).toBe(false);
     });
@@ -288,16 +292,11 @@ describe('api.has', () => {
             });
         });
 
-        const toast = getToast();
         expect(providerAPI.has(toastProps.name)).toBe(true);
 
         act(() => {
             jest.advanceTimersByTime(toastTimeout);
         });
-        expect(providerAPI.has(toastProps.name)).toBe(true);
-
-        fireAnimationEndEvent(toast, 'toast-hide-end');
-
         expect(providerAPI.has(toastProps.name)).toBe(false);
     });
 });

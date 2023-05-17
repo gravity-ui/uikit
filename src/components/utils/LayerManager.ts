@@ -46,7 +46,7 @@ class LayerManager {
         this.notifyLayersChange();
     }
 
-    getStackLength() {
+    getLayersLength() {
         return this.stack.length;
     }
 
@@ -67,7 +67,7 @@ class LayerManager {
             componentId: 'LayerManager',
             eventId: 'layers-change',
             meta: {
-                layersLength: this.getStackLength(),
+                layersLength: this.getLayersLength(),
             },
         });
     }

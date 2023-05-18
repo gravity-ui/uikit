@@ -1,4 +1,5 @@
 import React from 'react';
+import {faker} from '@faker-js/faker/locale/en';
 import {block} from '../../utils/cn';
 import {Alarm, Info, Success} from '../../icons';
 import {ToasterComponent, ToastProps, useToaster} from '..';
@@ -208,6 +209,29 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
+    const createDynamicallyUpdatingToast = () => {
+        const toastProps = getToastProps({
+            name: 'UpdatingToast',
+            title: 'Updating Toast',
+            content: faker.lorem.sentences(),
+        });
+
+        toaster.add(toastProps);
+        setState((state) => ({...state, lastToastName: toastProps.name}));
+
+        const updateInterval = 75;
+        const update = () => {
+            if (!toaster.has(toastProps.name)) {
+                return;
+            }
+
+            const content = faker.lorem.sentences();
+            toaster.update(toastProps.name, {content});
+            window.setTimeout(update, updateInterval);
+        };
+        window.setTimeout(update, updateInterval);
+    };
+
     const overrideLastToast = () => {
         toaster.update(lastToastName, {
             title: 'Here is information not about payments at all...',
@@ -270,6 +294,12 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const dynamicallyUpdatingToast = (
+        <Button size="l" onClick={createDynamicallyUpdatingToast} style={btnStyle}>
+            Create dynamically updating toast
+        </Button>
+    );
+
     const overrideToastBtn = (
         <Button size="l" onClick={overrideLastToast} disabled={!lastToastName} style={btnStyle}>
             Override last toast
@@ -292,6 +322,7 @@ export const ToasterDemo = ({
             <p>{warningToastBtn}</p>
             <p>{errorToastBtn}</p>
             <p>{customToastBtn}</p>
+            <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>
             <p>{clearBtn}</p>
 

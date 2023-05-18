@@ -15,6 +15,10 @@ export const Default = DefaultTemplate.bind({});
 
 const SizeTemplate: Story<ButtonProps> = (args) => (
     <>
+        <Button {...args} size="xs">
+            Size xs
+        </Button>
+        <span style={{margin: '16px'}} />
         <Button {...args} size="s">
             Size s
         </Button>

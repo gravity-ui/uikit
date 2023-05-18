@@ -16,6 +16,8 @@ export function ButtonShowcase() {
             {renderViewGrid()}
             <ShowcaseItem title="size">
                 <p>
+                    <Button size="xs">Size xs</Button>
+                    <span style={{margin: '8px'}} />
                     <Button size="s">Size s</Button>
                     <span style={{margin: '8px'}} />
                     <Button size="m">Size m</Button>

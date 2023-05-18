@@ -22,7 +22,14 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                     nextToasts = removeToast(toasts, name);
                 }
 
-                return [...nextToasts, {...toast, addedAt: Date.now()}];
+                return [
+                    ...nextToasts,
+                    {
+                        ...toast,
+                        addedAt: Date.now(),
+                        ref: React.createRef<HTMLDivElement>(),
+                    },
+                ];
             });
         }, []);
 
@@ -51,7 +58,6 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                             ...toasts[index],
                             ...override,
                             isOverride: true,
-                            updatesCounter: (toasts[index].updatesCounter ?? 0) + 1,
                         },
                         ...toasts.slice(index + 1),
                     ];

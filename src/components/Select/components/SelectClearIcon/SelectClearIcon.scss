@@ -1,0 +1,49 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns-new}select-clear';
+$sHeight: 24px;
+$mHeight: 28px;
+$lHeight: 36px;
+$xlHeight: 44px;
+
+#{$block} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &_size_s {
+        height: $sHeight;
+        width: $sHeight;
+    }
+
+    &_size_m {
+        height: $mHeight;
+        width: $mHeight;
+    }
+
+    &_size_l {
+        height: $lHeight;
+        width: $lHeight;
+    }
+
+    &_size_xl {
+        height: $xlHeight;
+        width: $xlHeight;
+    }
+
+    &__clear {
+        --yc-button-background-color: transparent;
+        --yc-button-background-color-hover: transparent;
+
+        color: var(--yc-color-text-secondary);
+
+        #{$block}:hover & {
+            color: var(--yc-color-text-primary);
+        }
+
+        #{$block}:hover &_disabled,
+        &_disabled {
+            color: var(--yc-color-text-hint);
+        }
+    }
+}

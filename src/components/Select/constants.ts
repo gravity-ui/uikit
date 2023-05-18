@@ -8,6 +8,8 @@ export const selectControlBlock = block('select-control');
 
 export const selectListBlock = block('select-list');
 
+export const selectClearBlock = block('select-clear');
+
 export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = {
     s: 28,
     m: 28,

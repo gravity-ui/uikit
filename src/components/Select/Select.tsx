@@ -72,6 +72,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disabled = false,
         filterable = false,
         disablePortal,
+        hasClear = false,
         onClose,
     } = props;
     const [mobile] = useMobile();
@@ -83,7 +84,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const {value, open, toggleOpen, handleSelection} = useSelect({
+    const {value, open, toggleOpen, handleSelection, handleClearValue} = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
@@ -134,8 +135,27 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleSelection, multiple],
     );
 
+    const clearValue = React.useCallback(
+        (e?: React.MouseEvent) => {
+            e?.stopPropagation();
+            handleClearValue();
+        },
+        [handleClearValue],
+    );
+
     const handleControlKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLElement>) => {
+            const isClearButton = (e.target as HTMLElement).classList.contains(selectClearBlock());
+            if (isClearButton) {
+                // do not prevent default when press tab/shift+tab key on focused clear icon
+                if (![KeyCode.TAB, KeyCode.SHIFT].includes(e.key)) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+                clearValue();
+                return;
+            }
+
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
             if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
                 e.preventDefault();
@@ -147,7 +167,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             listRef?.current?.onKeyDown(e);
         },
-        [handleOptionClick, open],
+        [handleOptionClick, open, clearValue],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
@@ -212,6 +232,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         >
             <SelectControl
                 toggleOpen={toggleOpen}
+                hasClear={hasClear}
+                clearValue={clearValue}
                 ref={handleControlRef}
                 className={controlClassName}
                 qa={qa}

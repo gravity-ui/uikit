@@ -7,6 +7,7 @@ import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock} from '../../constants';
 import type {SelectProps, SelectRenderControl, SelectRenderControlProps} from '../../types';
+import {SelectClearIcon} from '../SelectClearIcon/SelectClearIcon';
 
 import './SelectControl.scss';
 
@@ -25,11 +26,14 @@ type ControlProps = {
     error?: SelectProps['error'];
     disabled?: boolean;
     value: SelectProps['value'];
+    clearValue?: (e: React.MouseEvent) => void;
+    hasClear?: boolean;
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {
         toggleOpen,
+        clearValue,
         onKeyDown,
         renderControl,
         view,
@@ -45,6 +49,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         open,
         disabled,
         value,
+        hasClear,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
@@ -86,6 +91,9 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                     <span className={selectControlBlock('option-text')}>
                         {selectedOptionsContent}
                     </span>
+                )}
+                {hasClear && clearValue && (
+                    <SelectClearIcon size={size} disabled={disabled} onClick={clearValue} />
                 )}
                 <Icon
                     className={selectControlBlock('chevron-icon', {disabled})}

@@ -1,6 +1,7 @@
 @use '../../variables';
 
 $block: '.#{variables.$ns}select-showcase';
+$blockSelectClear: '.#{variables.$ns-new}select-clear';
 
 #{$block} {
     display: flex;
@@ -35,6 +36,11 @@ $block: '.#{variables.$ns}select-showcase';
 
     &__user-control {
         display: inline-flex;
+
+        #{$block}_has-clear #{$blockSelectClear} {
+            display: inline-block;
+            vertical-align: middle;
+        }
     }
 
     &__custom-popup {

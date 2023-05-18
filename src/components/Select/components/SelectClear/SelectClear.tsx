@@ -2,16 +2,25 @@ import React from 'react';
 import {Icon} from '../../../Icon';
 import {CrossIcon} from '../../../icons/CrossIcon';
 import {selectClearBlock} from '../../constants';
-import './SelectClearIcon.scss';
+import './SelectClear.scss';
 
 type SelectClearIconProps = {
     size: 's' | 'm' | 'l' | 'xl';
     disabled?: boolean;
-    onClick: (e: React.MouseEvent) => void;
 };
 
-export const SelectClearIcon = (props: SelectClearIconProps) => {
-    const {size, disabled, onClick} = props;
+export type SelectClearProps = SelectClearIconProps & {
+    onClick: (e: React.MouseEvent) => void;
+    renderClearIcon?: (args?: SelectClearIconProps) => React.ReactNode;
+};
+
+export const SelectClear = (props: SelectClearProps) => {
+    const {size, disabled, onClick, renderClearIcon} = props;
+    const icon = renderClearIcon ? (
+        renderClearIcon()
+    ) : (
+        <Icon className={selectClearBlock('clear', {disabled})} data={CrossIcon} />
+    );
     return (
         <div
             className={selectClearBlock({size})}
@@ -20,9 +29,9 @@ export const SelectClearIcon = (props: SelectClearIconProps) => {
             tabIndex={disabled ? -1 : 0}
             onClick={onClick}
         >
-            <Icon className={selectClearBlock('clear', {disabled})} data={CrossIcon} />
+            {icon}
         </div>
     );
 };
 
-SelectClearIcon.displayName = 'SelectClearIcon';
+SelectClear.displayName = 'SelectClear';

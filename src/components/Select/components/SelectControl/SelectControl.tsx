@@ -7,13 +7,14 @@ import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock} from '../../constants';
 import type {SelectProps, SelectRenderControl, SelectRenderControlProps} from '../../types';
-import {SelectClearIcon} from '../SelectClearIcon/SelectClearIcon';
+import {SelectClear, SelectClearProps} from '../SelectClear/SelectClear';
 
 import './SelectControl.scss';
 
 type ControlProps = {
     toggleOpen: () => void;
     renderControl?: SelectRenderControl;
+    renderClearIcon?: NonNullable<SelectClearProps['renderClearIcon']>;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -36,6 +37,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         clearValue,
         onKeyDown,
         renderControl,
+        renderClearIcon,
         view,
         size,
         pin,
@@ -55,7 +57,21 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error)};
+    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear};
+
+    const renderClear = () => {
+        if (!hasClear || !clearValue) {
+            return null;
+        }
+        return (
+            <SelectClear
+                size={size}
+                onClick={clearValue}
+                disabled={disabled}
+                renderClearIcon={renderClearIcon}
+            />
+        );
+    };
 
     if (renderControl) {
         return renderControl(
@@ -64,6 +80,8 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 onClick: toggleOpen,
                 ref: handleControlRef,
                 open: Boolean(open),
+                hasClear,
+                renderClear,
             },
             {value},
         );
@@ -92,9 +110,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                         {selectedOptionsContent}
                     </span>
                 )}
-                {hasClear && clearValue && (
-                    <SelectClearIcon size={size} disabled={disabled} onClick={clearValue} />
-                )}
+                {renderClear()}
                 <Icon
                     className={selectControlBlock('chevron-icon', {disabled})}
                     data={ChevronDown}

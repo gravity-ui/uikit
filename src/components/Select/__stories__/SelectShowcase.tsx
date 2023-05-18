@@ -5,11 +5,13 @@ import range from 'lodash/range';
 import {Select} from '..';
 import type {SelectOption, SelectProps} from '..';
 import {Button} from '../../Button';
+import {Icon} from '../../Icon';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton} from '../../RadioButton';
 import type {RadioButtonOption} from '../../RadioButton';
 import {TextInput} from '../../TextInput';
 import {Tooltip} from '../../Tooltip';
+import {Alarm} from '../../icons';
 import {block} from '../../utils/cn';
 
 import {
@@ -247,12 +249,27 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
             </ExampleItem>
             <ExampleItem
-                title="Select with user control"
+                title="Simple select with custom clear icon"
+                code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}
+                selectProps={{
+                    ...props,
+                    renderClearIcon: () => {
+                        return <Icon data={Alarm} />;
+                    },
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </ExampleItem>
+            <ExampleItem
+                title="Select with user control and native clear icon"
                 code={[EXAMPLE_USER_CONTROL]}
                 selectProps={{
                     ...props,
                     className: b('user-control'),
-                    renderControl: ({onClick, onKeyDown, ref}) => {
+                    renderControl: ({onClick, onKeyDown, ref, renderClear}) => {
                         return (
                             <Button
                                 ref={ref}
@@ -262,9 +279,42 @@ export const SelectShowcase = (props: SelectProps) => {
                                     onKeyDown,
                                 }}
                             >
-                                User control
+                                <span className={b('text')}> User control</span>
+                                {renderClear?.()}
                             </Button>
                         );
+                    },
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="\" />
+                <Select.Option value="val4" content="Value4" />
+            </ExampleItem>
+            <ExampleItem
+                title="Select with user control and native custom icon"
+                code={[EXAMPLE_USER_CONTROL]}
+                selectProps={{
+                    ...props,
+                    className: b('user-control'),
+                    renderControl: ({onClick, onKeyDown, ref, renderClear, hasClear}) => {
+                        return (
+                            <Button
+                                ref={ref}
+                                view="action"
+                                onClick={onClick}
+                                extraProps={{
+                                    onKeyDown,
+                                }}
+                                className={b({'has-clear': hasClear})}
+                            >
+                                <span className={b('text')}>User control</span>
+                                {renderClear?.()}
+                            </Button>
+                        );
+                    },
+                    renderClearIcon: () => {
+                        return <Icon data={Alarm} />;
                     },
                 }}
             >

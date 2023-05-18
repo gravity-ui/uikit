@@ -2,6 +2,7 @@ import type {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 import type {UseOpenProps} from '../utils/useSelect/types';
 
+import type {SelectClearProps} from './components/SelectClear/SelectClear';
 import type {Option, OptionGroup} from './tech-components';
 
 export type SelectRenderControlProps = {
@@ -9,6 +10,8 @@ export type SelectRenderControlProps = {
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
     ref: React.Ref<HTMLElement>;
     open: boolean;
+    hasClear?: SelectProps['hasClear'];
+    renderClear?: () => React.ReactNode;
 };
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];
@@ -35,6 +38,7 @@ export type SelectProps<T = any> = QAProps &
         onUpdate?: (value: string[]) => void;
         onFilterChange?: (filter: string) => void;
         renderControl?: SelectRenderControl;
+        renderClearIcon?: SelectClearProps['renderClearIcon'];
         renderFilter?: (props: {
             onChange: (filter: string) => void;
             onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;

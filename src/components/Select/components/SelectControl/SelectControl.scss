@@ -114,6 +114,10 @@ $block: '.#{variables.$ns-new}select-control';
         @include mixins.overflow-ellipsis();
 
         padding-right: var(--_--select-options-text-right-padding);
+
+        #{$block}_has-clear & {
+            align-self: center;
+        }
     }
 
     &__placeholder {

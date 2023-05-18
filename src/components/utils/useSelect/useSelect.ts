@@ -54,7 +54,7 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
     );
 
     const handleClearValue = React.useCallback(() => {
-        onUpdate?.(['']); // ?
+        onUpdate?.(['']);
         setInnerValue(['']);
         toggleOpen(false);
     }, [onUpdate, toggleOpen]);

@@ -1,5 +1,6 @@
 import React from 'react';
 import type {VirtualElement} from '@popperjs/core';
+import {eventBroker} from './event-broker';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 
@@ -30,6 +31,8 @@ class LayerManager {
         if (this.stack.length === 1) {
             this.addListeners();
         }
+
+        this.notifyLayersChange();
     }
 
     remove(config: LayerConfig) {
@@ -39,6 +42,12 @@ class LayerManager {
         if (this.stack.length === 0) {
             this.removeListeners();
         }
+
+        this.notifyLayersChange();
+    }
+
+    getLayersCount() {
+        return this.stack.length;
     }
 
     private addListeners() {
@@ -51,6 +60,16 @@ class LayerManager {
         document.removeEventListener('keydown', this.handleDocumentKeyDown);
         document.removeEventListener('click', this.handleDocumentClick, true);
         document.removeEventListener('mousedown', this.handleDocumentMouseDown, true);
+    }
+
+    private notifyLayersChange() {
+        eventBroker.publish({
+            componentId: 'LayerManager',
+            eventId: 'layerschange',
+            meta: {
+                layersCount: this.getLayersCount(),
+            },
+        });
     }
 
     private handleDocumentKeyDown = (event: KeyboardEvent) => {

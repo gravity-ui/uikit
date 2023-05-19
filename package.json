@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "4.12.0",
+    "version": "4.13.0",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
@@ -96,6 +96,7 @@
         "@commitlint/config-conventional": "^15.0.0",
         "@faker-js/faker": "^7.6.0",
         "@gravity-ui/eslint-config": "^1.0.0",
+        "@gravity-ui/icons": "^2.1.0",
         "@gravity-ui/prettier-config": "^1.0.0",
         "@gravity-ui/stylelint-config": "^1.0.0",
         "@gravity-ui/tsconfig": "^1.0.0",

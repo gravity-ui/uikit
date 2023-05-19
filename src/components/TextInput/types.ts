@@ -76,6 +76,10 @@ export interface TextInputProps extends DOMProps, QAProps {
      */
     maxRows?: number;
     /**
+     * User`s node rendered before label and input
+     */
+    leftContent?: React.ReactNode;
+    /**
      * User`s node rendered after input and clear button
      */
     rightContent?: React.ReactNode;

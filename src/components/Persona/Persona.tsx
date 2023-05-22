@@ -1,34 +1,17 @@
-import React, {FC, ReactNode} from 'react';
+import React, {FC, ReactNode, useCallback} from 'react';
 import {Icon} from '../Icon';
 import {Mail} from '../icons';
-import {PersonaWrap} from '../PersonaWrap';
+import {PersonaButton, PersonaWrap} from '../PersonaWrap';
 import {getTwoLetters} from './getTwoLetters';
+import type {PersonaProps} from './types';
 
-export interface PersonaProps {
-    /** Visible text */
-    text: string;
-    /** Image source */
-    image?: string;
-    /** Visual appearance (with or without border) */
-    theme?: 'default' | 'clear';
-    /** Avatar appearance */
-    type?: 'person' | 'email' | 'empty';
-    /** Text size */
-    size?: 's' | 'n';
-    /** Handle click on button with cross */
-    onClose?: (text: string) => void;
-    /** Handle click on component itself */
-    onClick?: (text: string) => void;
-    /** Custom CSS class for root element */
-    className?: string;
-}
-
-export const Persona: FC<PersonaProps> = ({
+const PersonaComponent: FC<PersonaProps> = ({
     size = 's',
     theme = 'default',
     type = 'person',
     onClick,
     onClose,
+    renderButton,
     text,
     image,
     className,
@@ -47,13 +30,18 @@ export const Persona: FC<PersonaProps> = ({
             break;
     }
 
+    const renderCloseButton = useCallback(
+        () => (renderButton ? renderButton() : <PersonaButton onClick={() => onClose?.(text)} />),
+        [onClose, renderButton, text],
+    );
+
     return (
         <PersonaWrap
             size={size}
             theme={theme}
             isEmpty={type === 'empty'}
             onClick={onClick && onClick.bind(null, text)}
-            onClose={onClose && onClose.bind(null, text)}
+            renderButton={onClose || renderButton ? renderCloseButton : undefined}
             avatar={avatar}
             className={className}
         >
@@ -62,4 +50,6 @@ export const Persona: FC<PersonaProps> = ({
     );
 };
 
-Persona.displayName = 'Persona';
+PersonaComponent.displayName = 'Persona';
+
+export const Persona = Object.assign(PersonaComponent, {Button: PersonaButton});

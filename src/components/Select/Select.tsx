@@ -74,6 +74,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterable = false,
         disablePortal,
         hasClear = false,
+        hideClearOnEmpty = false,
         onClose,
     } = props;
     const [mobile] = useMobile();
@@ -234,6 +235,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <SelectControl
                 toggleOpen={toggleOpen}
                 hasClear={hasClear}
+                hideClearOnEmpty={hideClearOnEmpty}
                 clearValue={clearValue}
                 ref={handleControlRef}
                 className={controlClassName}

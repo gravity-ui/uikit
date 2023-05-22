@@ -29,6 +29,7 @@ type ControlProps = {
     value: SelectProps['value'];
     clearValue?: (e: React.MouseEvent) => void;
     hasClear?: boolean;
+    hideClearOnEmpty?: boolean;
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
@@ -52,6 +53,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         disabled,
         value,
         hasClear,
+        hideClearOnEmpty,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
@@ -60,7 +62,8 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear};
 
     const renderClear = () => {
-        if (!hasClear || !clearValue) {
+        const hideOnEmpty = hideClearOnEmpty ? !value || !value?.[0] : false;
+        if (!hasClear || !clearValue || hideOnEmpty) {
             return null;
         }
         return (

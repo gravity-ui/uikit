@@ -59,7 +59,17 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear};
+
+    const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
+
+    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear, 'no-active': isDisabledButtonAnimation};
+
+    const disableButtonAnimation = React.useCallback(() => {
+        setIsDisabledButtonAnimation(true);
+    }, []);
+    const enableButtonAnimation = React.useCallback(() => {
+        setIsDisabledButtonAnimation(false);
+    }, []);
 
     const renderClear = () => {
         const hideOnEmpty = hideClearOnEmpty ? !value || !value?.[0] : false;
@@ -70,6 +80,8 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
             <SelectClear
                 size={size}
                 onClick={clearValue}
+                onMouseEnter={disableButtonAnimation}
+                onMouseLeave={enableButtonAnimation}
                 disabled={disabled}
                 renderClearIcon={renderClearIcon}
             />

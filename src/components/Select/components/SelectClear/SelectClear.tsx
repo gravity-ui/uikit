@@ -11,11 +11,13 @@ type SelectClearIconProps = {
 
 export type SelectClearProps = SelectClearIconProps & {
     onClick: (e: React.MouseEvent) => void;
+    onMouseEnter: (e: React.MouseEvent) => void;
+    onMouseLeave: (e: React.MouseEvent) => void;
     renderClearIcon?: (args?: SelectClearIconProps) => React.ReactNode;
 };
 
 export const SelectClear = (props: SelectClearProps) => {
-    const {size, disabled, onClick, renderClearIcon} = props;
+    const {size, disabled, onClick, onMouseEnter, onMouseLeave, renderClearIcon} = props;
     const icon = renderClearIcon ? (
         renderClearIcon()
     ) : (
@@ -28,6 +30,8 @@ export const SelectClear = (props: SelectClearProps) => {
             aria-disabled={disabled}
             tabIndex={disabled ? -1 : 0}
             onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         >
             {icon}
         </div>

@@ -140,4 +140,9 @@ $block: '.#{variables.$ns-new}select-control';
         color: var(--yc-color-text-danger);
         margin-top: 2px;
     }
+
+    &#{$block}_no-active:active {
+        transition: none;
+        transform: none;
+    }
 }

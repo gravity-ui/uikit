@@ -324,6 +324,19 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val4" content="Value4" />
             </ExampleItem>
             <ExampleItem
+                title="Select with full width"
+                code={[EXAMPLE_USER_OPTIONS]}
+                selectProps={{
+                    ...props,
+                    width: 'max',
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </ExampleItem>
+            <ExampleItem
                 title="Select with virtualized list"
                 selectProps={{
                     ...props,

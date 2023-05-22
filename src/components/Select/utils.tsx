@@ -215,7 +215,7 @@ const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
     const lowerOptionText = getOptionText(option).toLocaleLowerCase();
     const lowerFilter = filter.toLocaleLowerCase();
 
-    return Boolean(lowerOptionText.match(lowerFilter));
+    return lowerOptionText.indexOf(lowerFilter) !== -1;
 };
 
 const isGroupTitle = (option?: FlattenOption): option is GroupTitleItem => {

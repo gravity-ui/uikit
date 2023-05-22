@@ -10,6 +10,8 @@ $xlHeight: 44px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    margin-left: auto;
+    cursor: pointer;
 
     &_size_s {
         height: $sHeight;

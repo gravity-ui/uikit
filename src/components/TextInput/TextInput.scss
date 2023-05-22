@@ -32,6 +32,8 @@ $borderWidth: 1px;
     @if $type == 'label' {
         @include mixins.text-accent;
         padding-right: 4px;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
 
@@ -94,7 +96,6 @@ $block: '.#{variables.$ns}text-input';
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 50%;
         z-index: 1;
     }
 
@@ -139,12 +140,28 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(s);
             }
 
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 26px;
+            }
+
             #{$block}__label {
                 @include block_style(s, label);
+                line-height: #{$sHeight - $borderWidth * 2};
+            }
+
+            &#{$block}_has-left-content #{$block}__label {
+                padding-left: 2px;
             }
 
             #{$block}__additional-content {
                 height: #{$sHeight - $borderWidth * 2};
+            }
+
+            #{$block}__additional-content_placement_left {
+                padding-left: 1px;
+            }
+
+            #{$block}__additional-content_placement_right {
                 padding-right: 1px;
             }
 
@@ -156,12 +173,28 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(m);
             }
 
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 26px;
+            }
+
             #{$block}__label {
                 @include block_style(m, label);
+                line-height: #{$mHeight - $borderWidth * 2};
+            }
+
+            &#{$block}_has-left-content #{$block}__label {
+                padding-left: 2px;
             }
 
             #{$block}__additional-content {
                 height: #{$mHeight - $borderWidth * 2};
+            }
+
+            #{$block}__additional-content_placement_left {
+                padding-left: 1px;
+            }
+
+            #{$block}__additional-content_placement_right {
                 padding-right: 1px;
             }
 
@@ -173,12 +206,28 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(l);
             }
 
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 36px;
+            }
+
             #{$block}__label {
                 @include block_style(l, label);
+                line-height: #{$lHeight - $borderWidth * 2};
+            }
+
+            &#{$block}_has-left-content #{$block}__label {
+                padding-left: 3px;
             }
 
             #{$block}__additional-content {
                 height: #{$lHeight - $borderWidth * 2};
+            }
+
+            #{$block}__additional-content_placement_left {
+                padding-left: 3px;
+            }
+
+            #{$block}__additional-content_placement_right {
                 padding-right: 3px;
             }
 
@@ -190,12 +239,28 @@ $block: '.#{variables.$ns}text-input';
                 @include block_style(xl);
             }
 
+            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
+                padding-right: 36px;
+            }
+
             #{$block}__label {
                 @include block_style(xl, label);
+                line-height: #{$xlHeight - $borderWidth * 2};
+            }
+
+            &#{$block}_has-left-content #{$block}__label {
+                padding-left: 3px;
             }
 
             #{$block}__additional-content {
                 height: #{$xlHeight - $borderWidth * 2};
+            }
+
+            #{$block}__additional-content_placement_left {
+                padding-left: 3px;
+            }
+
+            #{$block}__additional-content_placement_right {
                 padding-right: 3px;
             }
 
@@ -263,6 +328,12 @@ $block: '.#{variables.$ns}text-input';
     &_has-scrollbar {
         #{$block}__clear {
             right: var(--yc-scrollbar-width);
+        }
+    }
+
+    &_has-left-content {
+        #{$block}__control {
+            padding-left: 2px;
         }
     }
 

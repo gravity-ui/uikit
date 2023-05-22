@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.13.0](https://github.com/gravity-ui/uikit/compare/v4.12.0...v4.13.0) (2023-05-18)
+
+
+### Features
+
+* **TextInput:** add leftContent props ([#653](https://github.com/gravity-ui/uikit/issues/653)) ([e6cbfd6](https://github.com/gravity-ui/uikit/commit/e6cbfd623194b1196f1fe2e08dc0819eca61e6c1))
+
+## [4.12.0](https://github.com/gravity-ui/uikit/compare/v4.11.1...v4.12.0) (2023-05-17)
+
+
+### Features
+
+* **Button:** add xs Button size ([#663](https://github.com/gravity-ui/uikit/issues/663)) ([efbe9fc](https://github.com/gravity-ui/uikit/commit/efbe9fc70e48466961830994269ecc60ea03400e))
+
 ## [4.11.1](https://github.com/gravity-ui/uikit/compare/v4.11.0...v4.11.1) (2023-05-12)
 
 

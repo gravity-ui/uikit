@@ -23,7 +23,7 @@ export type ButtonView =
     | 'outlined-contrast' // outlined button appearance with contrast background
     | 'flat-contrast'; // flat button appearance with contrast background
 
-export type ButtonSize = 's' | 'm' | 'l' | 'xl';
+export type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export type ButtonPin =
     | 'round-round'

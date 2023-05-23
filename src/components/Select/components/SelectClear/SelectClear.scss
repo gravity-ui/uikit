@@ -12,6 +12,12 @@ $xlHeight: 44px;
     align-items: center;
     margin-left: auto;
     cursor: pointer;
+    outline: none;
+
+    &:focus-visible,
+    &:focus {
+        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+    }
 
     &_size_s {
         height: $sHeight;

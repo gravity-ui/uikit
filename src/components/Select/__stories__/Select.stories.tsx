@@ -33,5 +33,4 @@ Showcase.args = {
     placeholder: 'Values',
     label: '',
     hasClear: false,
-    hideClearOnEmpty: false,
 };

@@ -56,6 +56,8 @@ export interface ContainerProps {
  *  </Row>
  * </Container>
  * ```
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#container
  */
 export const Container = ({
     children,

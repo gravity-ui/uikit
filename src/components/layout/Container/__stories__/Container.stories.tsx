@@ -6,7 +6,7 @@ import {Box, LayoutPresenter} from '../../demo';
 import {Row} from '../../Row/Row';
 
 export default {
-    title: 'Layout (unstable)/Container',
+    title: 'Layout/Container',
     component: Container,
 } as Meta;
 

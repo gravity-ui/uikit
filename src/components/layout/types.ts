@@ -91,10 +91,6 @@ export interface LayoutTheme {
      */
     spaceBaseSize: number;
     /**
-     * Common props, that can you all layout components
-     */
-    common: WithMedia<CommonProps>;
-    /**
      * Components props build in into the theme. You can describe the props depending on the current media expression
      */
     components: ComponentProps;

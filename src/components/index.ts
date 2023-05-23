@@ -48,6 +48,7 @@ export * from './Toaster';
 export * from './Tooltip';
 export * from './User';
 export * from './UserAvatar';
+export * from './layout';
 
 export * from './utils/class-transform';
 export * from './utils/event-broker';

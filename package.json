@@ -23,11 +23,6 @@
             "require": "./build/cjs/toaster-singleton-react-18.js",
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
-        "./unstable_layout": {
-            "types": "./build/esm/unstable_layout.d.ts",
-            "require": "./build/cjs/unstable_layout.js",
-            "import": "./build/esm/unstable_layout.js"
-        },
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",
@@ -43,9 +38,6 @@
             ],
             "toaster-singleton-react-18": [
                 "./build/esm/toaster-singleton-react-18.d.ts"
-            ],
-            "unstable_layout": [
-                "./build/esm/unstable_layout.d.ts"
             ]
         }
     },

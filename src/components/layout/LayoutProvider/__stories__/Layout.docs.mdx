@@ -1,11 +1,11 @@
 import {ArgsTable} from '@storybook/addon-docs';
 
-# Layout Components (unstable)
+# Layout Components
 
 Components to describe relations between elements on the page.
 
 ```tsx
-import {Container, Row, Col, Flex} from '@gravity-ui/uikit/unstable_layout';
+import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
 
 <Container>
     <Row space="5">
@@ -23,17 +23,6 @@ import {Container, Row, Col, Flex} from '@gravity-ui/uikit/unstable_layout';
 
 **All components supports `jsdoc` on hover feature. Just hover over the component or components prop in you favorite editor to see documentation**
 
-### How to start using?
-
-Just wrap you app with `LayoutProvider`.
-
-```tsx
-import {LayoutProvider} from '@gravity-ui/uikit/unstable_layout';
-
-<LayoutProvider>
-    <App />
-</LayoutProvider>;
-```
 
 ### Base concepts:
 
@@ -84,7 +73,7 @@ _You can override default values on project level:_
 ```
 
 ```tsx
-import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
+import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit';
 
 const layoutTheme: LayoutTheme = {
     spaceBaseSize: 5,
@@ -106,7 +95,7 @@ Very often during developing process you have to specify relative position betwe
 For such purposes, you can use `spacing` utility to generate predefined class names:
 
 ```tsx
-import {spacing} from '@gravity-ui/uikit/unstable_layout';
+import {spacing} from '@gravity-ui/uikit';
 
 <>
     <Button className={spacing({mr: 5})}>button 1</Button>
@@ -131,9 +120,7 @@ We use `mobile-first` approach. It means that you should adapt you app to deskto
 
 Through `LayoutProvider` components can get default props which are corresponding to different screen sizes.
 
-Also you can manage `spacings` in `LayoutTheme` and override default behavior in specific screen size.
-
-In most cases you can use layout components without common props specified directly
+Usage of `LayoutProvider` is optional. Use it if you need to override default spacing or add default behaviour to connected to theme compoennts (now only `Container`)
 
 ### props:
 
@@ -141,19 +128,9 @@ In most cases you can use layout components without common props specified direc
 -   `initialMediaQuery` - use can directly pass initial
 
 ```tsx
-import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit/unstable_layout';
+import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit';
 
 export const APP_LAYOUT_THEME: LayoutTheme = {
-    common: {
-        // default prop for all screen size
-        space: '3',
-        media: {
-            l: {
-                // override value starting from `l` breakpoint
-                space: '5',
-            },
-        },
-    },
     spaceBaseSize: 4,
     components: {
         container: {
@@ -182,7 +159,7 @@ Base components to describe 12-th column layout grid for you app.
 Supports nested grids. This should be used when you have mobile and desktop app versions.
 
 ```tsx
-import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
+import {Row, Col} from '@gravity-ui/uikit';
 
 <Row space="5">
     <Col s="4">...</Col>
@@ -212,7 +189,7 @@ props:
 > To specify col value to all screen sizes use `s` (`small` - also you can think about this props as a `size`) prop
 
 ```tsx
-import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
+import {Row, Col} from '@gravity-ui/uikit';
 
 <Row
     /**
@@ -254,7 +231,7 @@ Css `Flexbox` model representation in `jsx` world. Has build in `spacing` to man
 -   space between children components in row direction
 
 ```jsx
-import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
+import {Row, Col} from '@gravity-ui/uikit';
 
 <Flex space="5">
     <TextInput />
@@ -265,7 +242,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 -   nested `Flex` example
 
 ```jsx
-import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
+import {Row, Col} from '@gravity-ui/uikit';
 
 <Flex direction="column" space="5">
     <Flex space="5">
@@ -279,7 +256,7 @@ import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
 -   responsible example
 
 ```jsx
-import {Row, Col} from '@gravity-ui/uikit/unstable_layout';
+import {Row, Col} from '@gravity-ui/uikit';
 
 <Flex
     // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
@@ -304,7 +281,7 @@ returns the following methods and objects:
     > Note: `s` breakpoint starts from `0px` and and's with `m (768px) - 1px`
 
 ```tsx
-import {useLayoutContext} from '@gravity-ui/uikit/unstable_layout';
+import {useLayoutContext} from '@gravity-ui/uikit';
 
 const Component = () => {
     const {activeMediaQuery} = useLayoutContext();
@@ -322,7 +299,7 @@ const Component = () => {
 -   `isMediaActive` - returns a boolean value if the passed value is equal to or greater than the currently active media expression. It is necessary to describe the logic of adaptive behavior of elements taking into account the mobile-first approach
 
 ```tsx
-import {useLayoutContext} from '@gravity-ui/uikit/unstable_layout';
+import {useLayoutContext} from '@gravity-ui/uikit';
 
 // this example of code will be shown on l, xl, xxl and xxxl screen sizes
 const Component = () => {
@@ -337,7 +314,7 @@ const Component = () => {
 -   `getClosestMediaProps` - it works in a similar way to is Media Active, only it takes map as an argument in the keys of screen resolutions. Returns the nearest available key value taking into account the mobile first approach.
 
 ```tsx
-import {useLayoutContext} from '@gravity-ui/uikit/unstable_layout';
+import {useLayoutContext} from '@gravity-ui/uikit';
 
 const mapOfPropsByScreen = {
     s: "i'm will be shown on 's' and 'n' screen size",

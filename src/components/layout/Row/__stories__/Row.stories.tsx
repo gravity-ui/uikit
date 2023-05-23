@@ -5,7 +5,7 @@ import {Col} from '../../Col/Col';
 import {Box, LayoutPresenter} from '../../demo';
 
 export default {
-    title: 'Layout (unstable)/Row',
+    title: 'Layout/Row',
     component: Row,
 } as Meta;
 

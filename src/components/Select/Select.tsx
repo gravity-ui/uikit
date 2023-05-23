@@ -152,8 +152,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 if (![KeyCode.TAB, KeyCode.SHIFT].includes(e.key)) {
                     e.stopPropagation();
                     e.preventDefault();
+                    clearValue();
                 }
-                clearValue();
                 return;
             }
 

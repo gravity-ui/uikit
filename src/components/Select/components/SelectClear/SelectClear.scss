@@ -14,9 +14,15 @@ $xlHeight: 44px;
     cursor: pointer;
     outline: none;
 
-    &:focus-visible,
+    &:active:focus,
     &:focus {
         box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+    }
+
+    &:focus:not(:focus-visible),
+    &:active:focus:not(:focus-visible),
+    &:active {
+        box-shadow: none;
     }
 
     &_size_s {

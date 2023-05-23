@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.14.0](https://github.com/gravity-ui/uikit/compare/v4.13.0...v4.14.0) (2023-05-22)
+
+
+### Features
+
+* **LayerManager:** add a way to subscribe to stack changes ([#652](https://github.com/gravity-ui/uikit/issues/652)) ([84f6b46](https://github.com/gravity-ui/uikit/commit/84f6b460c7cb4190642149c2a77e13cf2e2a01e0))
+
+
+### Bug Fixes
+
+* **Select:** fixed behaviour of isOptionMatchedByFilter ([#673](https://github.com/gravity-ui/uikit/issues/673)) ([823fb09](https://github.com/gravity-ui/uikit/commit/823fb09acc8c2e66f948d9986c0c19aebc5d49f2))
+
 ## [4.13.0](https://github.com/gravity-ui/uikit/compare/v4.12.0...v4.13.0) (2023-05-18)
 
 

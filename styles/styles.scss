@@ -26,7 +26,6 @@
 @import './colors/promo/dark';
 @import './colors/promo/light-hc';
 @import './colors/promo/dark-hc';
-@import './colors/social';
 @import './colors/system';
 @import './typography';
 @import './brand';
@@ -35,7 +34,6 @@
 .yc-root {
     @include yc-typography;
     @include yc-brand;
-    @include yc-colors-social;
     @include yc-spacing;
 
     --yc-scrollbar-width: var(--yc-my-scrollbar-width);

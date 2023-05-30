@@ -3,7 +3,8 @@ import React from 'react';
 import range from 'lodash/range';
 
 import {Select} from '..';
-import type {SelectOption, SelectProps} from '..';
+import type {SelectProps, SelectOption, SelectAsyncOptionType} from '..';
+
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton} from '../../RadioButton';
@@ -22,6 +23,7 @@ import {
     EXAMPLE_JSON_OPTIONS,
     EXAMPLE_USER_CONTROL,
     EXAMPLE_USER_OPTIONS,
+    EXAMPLE_SELECT_FETCH,
 } from './constants';
 
 import './SelectShowcase.scss';
@@ -47,6 +49,26 @@ const radioButtonOptions: RadioButtonOption[] = [
     {value: Mode.VIEW, content: 'View'},
     {value: Mode.CODE, content: 'Code'},
 ];
+
+type Pagination = {pageNumber: number};
+
+const fetchExample: SelectAsyncOptionType<SelectOption[], Pagination> = (
+    pagination = {pageNumber: 0},
+) => {
+    const {pageNumber} = pagination;
+
+    const nextPagination = pageNumber < 3 ? {pageNumber: pageNumber + 1} : null;
+    const resp = {
+        response: generateItems(100),
+        pagination: nextPagination,
+    };
+
+    return new Promise((res) => {
+        setTimeout(() => {
+            res(resp);
+        }, 1000);
+    });
+};
 
 const ExampleItem = (props: {
     title: string;
@@ -154,6 +176,14 @@ export const SelectShowcase = (props: SelectProps) => {
 
     return (
         <div className={b()}>
+            <ExampleItem
+                title="Select with fetch"
+                code={[EXAMPLE_SELECT_FETCH]}
+                selectProps={{
+                    ...props,
+                    options: fetchExample,
+                }}
+            />
             <ExampleItem
                 title="Simple select"
                 code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}

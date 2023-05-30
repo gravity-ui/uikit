@@ -243,3 +243,25 @@ const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyD
 </Select>
 
 `;
+
+export const EXAMPLE_SELECT_FETCH = `
+const fetchExample: SelectAsyncOptionType<SelectOption[], Pagination> = (
+    pagination = {pageNumber: 0},
+) => {
+    const {pageNumber} = pagination;
+
+    const nextPagination = pageNumber < 3 ? {pageNumber: pageNumber + 1} : null;
+    const resp = {
+        response: generateItems(100),
+        pagination: nextPagination,
+    };
+
+    return new Promise((res) => {
+        setTimeout(() => {
+            res(resp);
+        }, 1000);
+    });
+};
+
+<Select options={fetchExample} />;
+`;

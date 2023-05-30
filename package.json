@@ -23,6 +23,11 @@
             "require": "./build/cjs/toaster-singleton-react-18.js",
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
+        "./i18n": {
+          "types": "./build/esm/components/utils/addComponentKeysets.d.ts",
+          "require": "./build/cjs/components/utils/addComponentKeysets.js",
+          "import": "./build/esm/components/utils/addComponentKeysets.js"
+        },
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",
@@ -66,7 +71,7 @@
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
-        "@gravity-ui/i18n": "^1.0.0",
+        "@gravity-ui/i18n": "^1.1.0",
         "@popperjs/core": "2.11.6",
         "bem-cn-lite": "4.0.0",
         "blueimp-md5": "^2.19.0",

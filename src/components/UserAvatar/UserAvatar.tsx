@@ -1,7 +1,10 @@
 import React from 'react';
+
 import {block} from '../utils/cn';
+
 import {SIZES} from './constants';
 import type {UserAvatarSize} from './types';
+
 import './UserAvatar.scss';
 
 export interface UserAvatarProps {

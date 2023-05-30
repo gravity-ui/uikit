@@ -1,10 +1,11 @@
 import React from 'react';
+
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {CrossIcon} from '../../icons/CrossIcon';
 import {block} from '../../utils/cn';
-import type {TextInputSize} from '../types';
 import i18n from '../i18n';
+import type {TextInputSize} from '../types';
 
 const b = block('text-input');
 const ICON_SIZE = 10;

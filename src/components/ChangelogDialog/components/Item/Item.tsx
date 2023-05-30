@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {block} from '../../../utils/cn';
-import {Label} from '../../../Label';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
+import {Label} from '../../../Label';
 import {PlayIcon} from '../../../icons/PlayIcon';
-import {Picture} from '../Picture/Picture';
-import {ChangelogItem, ChangelogStoryClickHandler} from '../../types';
+import {block} from '../../../utils/cn';
 import i18n from '../../i18n';
+import {ChangelogItem, ChangelogStoryClickHandler} from '../../types';
+import {Picture} from '../Picture/Picture';
 
 import './Item.scss';
 

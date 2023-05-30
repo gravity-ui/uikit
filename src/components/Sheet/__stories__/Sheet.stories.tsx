@@ -1,5 +1,7 @@
 import {Meta} from '@storybook/react';
+
 import {Sheet} from '../Sheet';
+
 import {Showcase} from './DefaultShowcase/DefaultShowcase.stories';
 import {WithMenuShowcase} from './WithMenuShowcase/WithMenuShowcase.stories';
 

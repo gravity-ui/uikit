@@ -1,11 +1,13 @@
 import React from 'react';
+
 import {Modal, ModalCloseReason} from '../Modal';
 import {IndexType, StoriesLayout} from '../Stories/components/StoriesLayout/StoriesLayout';
-import {StoriesPreview} from './components';
-
 import {block} from '../utils/cn';
-import './StoriesGroup.scss';
+
+import {StoriesPreview} from './components';
 import {StoriesGroupItem} from './types';
+
+import './StoriesGroup.scss';
 
 const DEFAULT_MAX_SLIDER_ITEMS_COUNT = 12;
 

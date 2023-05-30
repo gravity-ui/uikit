@@ -1,6 +1,9 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {Checkbox, CheckboxProps} from '../Checkbox';
+
 import {CheckboxShowcase} from './CheckboxShowcase';
 
 export default {

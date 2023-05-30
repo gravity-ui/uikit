@@ -1,7 +1,8 @@
 import React from 'react';
-import {TextInputProps} from '../types';
+
 import {block} from '../../utils/cn';
 import {useForkRef} from '../../utils/useForkRef';
+import {TextInputProps} from '../types';
 
 export interface TextAreaControlProps
     extends Omit<TextInputProps, 'multiline' | 'autoComplete'>,

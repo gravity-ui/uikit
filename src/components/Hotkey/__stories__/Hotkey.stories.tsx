@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {Table} from '../../Table';
 import {Hotkey, HotkeyProps} from '../Hotkey';
 

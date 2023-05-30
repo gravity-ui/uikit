@@ -1,9 +1,12 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
-import {Button} from '../Button';
-import Docs from './Button.docs.mdx';
+
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
+import {Button} from '../Button';
+
+import Docs from './Button.docs.mdx';
 
 export default {
     title: 'Components/Basic/Button',

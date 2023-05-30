@@ -1,5 +1,7 @@
 import React from 'react';
+
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
 import './ColorPanel.scss';
 
 interface ColorInfo {

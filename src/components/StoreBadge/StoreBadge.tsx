@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
+import {Lang} from '../index';
 import {Platform} from '../mobile/constants';
+import {block} from '../utils/cn';
 
 import './StoreBadge.scss';
-import {Lang} from '../index';
 
 const b = block('store-badge');
 

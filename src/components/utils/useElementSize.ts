@@ -1,6 +1,7 @@
-import {useLayoutEffect, useState, MutableRefObject} from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
+import {MutableRefObject, useLayoutEffect, useState} from 'react';
+
 import _throttle from 'lodash/throttle';
+import ResizeObserver from 'resize-observer-polyfill';
 
 const RESIZE_THROTTLE = 16;
 

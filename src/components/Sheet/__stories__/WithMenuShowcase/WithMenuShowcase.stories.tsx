@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import block from 'bem-cn-lite';
+
 import {Story} from '@storybook/react';
+import block from 'bem-cn-lite';
+
 import {Button, Menu} from '../../../';
 import {Sheet, SheetProps} from '../../Sheet';
 

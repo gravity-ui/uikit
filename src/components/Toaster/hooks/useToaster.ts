@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {ToasterContext} from '../Provider/ToasterContext';
 import {ToasterPublicMethods} from '../types';
 

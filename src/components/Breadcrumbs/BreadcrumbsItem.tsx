@@ -1,7 +1,9 @@
 import * as React from 'react';
+
 import {Link} from '../Link';
 import {block} from '../utils/cn';
-import type {BreadcrumbsItem as IBreadcrumbsItem, BreadcrumbsProps} from './Breadcrumbs';
+
+import type {BreadcrumbsProps, BreadcrumbsItem as IBreadcrumbsItem} from './Breadcrumbs';
 
 interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
     data: T;

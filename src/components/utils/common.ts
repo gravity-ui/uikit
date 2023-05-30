@@ -1,6 +1,7 @@
+import {Icon} from '../Icon';
+
 import {NAMESPACE} from './cn';
 import {isOfType} from './isOfType';
-import {Icon} from '../Icon';
 
 let nextUniqueId = 1;
 

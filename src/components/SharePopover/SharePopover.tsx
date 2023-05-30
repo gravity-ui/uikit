@@ -1,13 +1,14 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
-import {LayoutDirection} from './constants';
-import {ShareList, ShareListProps, ShareListDefaultProps} from './ShareList/ShareList';
-import {PopupPlacement} from '../Popup';
+import {Icon} from '../Icon';
 import {SVGIconData} from '../Icon/types';
 import {Popover} from '../Popover';
-import {Icon} from '../Icon';
+import {PopupPlacement} from '../Popup';
 import {Share} from '../icons';
+import {block} from '../utils/cn';
+
+import {ShareList, ShareListDefaultProps, ShareListProps} from './ShareList/ShareList';
+import {LayoutDirection} from './constants';
 
 import './SharePopover.scss';
 

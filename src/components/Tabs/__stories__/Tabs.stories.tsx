@@ -1,9 +1,12 @@
-import type {ComponentMeta, ComponentStory} from '@storybook/react';
 import React, {FC} from 'react';
+
+import {useArgs} from '@storybook/client-api';
+import type {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {Tabs, TabsItemProps, TabsProps} from '../Tabs';
+
 import {getTabsMock} from './getTabsMock';
 import type {StoryParams} from './types';
-import {useArgs} from '@storybook/client-api';
 
 export default {
     title: 'Components/Tabs',

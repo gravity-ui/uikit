@@ -1,13 +1,15 @@
 import React from 'react';
+
 import {block, modsClassName} from '../utils/cn';
-import {useForkRef} from '../utils/useForkRef';
 import {useElementSize} from '../utils/useElementSize';
+import {useForkRef} from '../utils/useForkRef';
 import {useUniqId} from '../utils/useUniqId';
+
+import {AdditionalContent} from './AdditionalContent/AdditionalContent';
+import {ClearAction} from './ClearAction/ClearAction';
 import {InputControl} from './InputControl/InputControl';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
-import {ClearAction} from './ClearAction/ClearAction';
-import {AdditionalContent} from './AdditionalContent/AdditionalContent';
-import {TextInputProps, TextInputView, TextInputSize, TextInputPin, TextInputState} from './types';
+import {TextInputPin, TextInputProps, TextInputSize, TextInputState, TextInputView} from './types';
 
 import './TextInput.scss';
 

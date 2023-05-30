@@ -1,7 +1,8 @@
 import React, {ReactNode} from 'react';
-import {block} from '../utils/cn';
+
 import {Hotkey, HotkeyProps} from '../Hotkey';
 import {Tooltip, TooltipProps} from '../Tooltip';
+import {block} from '../utils/cn';
 
 import './ActionTooltip.scss';
 

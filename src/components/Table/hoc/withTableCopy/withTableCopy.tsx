@@ -1,9 +1,11 @@
 import React from 'react';
+
 import _memoize from 'lodash/memoize';
+
+import {ClipboardButton} from '../../../ClipboardButton';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {ClipboardButton} from '../../../ClipboardButton';
-import {Table, TableDataItem, TableProps, TableColumnConfig} from '../../Table';
+import {Table, TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
 import './withTableCopy.scss';
 

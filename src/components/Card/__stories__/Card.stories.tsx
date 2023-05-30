@@ -1,6 +1,9 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {Card, CardProps} from '../Card';
+
 import {CardShowcase} from './CardShowcase';
 
 import './Card.stories.scss';

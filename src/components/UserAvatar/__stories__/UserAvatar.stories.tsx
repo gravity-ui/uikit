@@ -1,10 +1,12 @@
-import {useArgs} from '@storybook/client-api';
 import React, {useEffect} from 'react';
-import {ComponentStory, Meta, Story} from '@storybook/react';
+
 import {faker} from '@faker-js/faker/locale/en';
-import {getAvatarSrcSet} from './getAvatarSrcSet';
+import {useArgs} from '@storybook/client-api';
+import {ComponentStory, Meta, Story} from '@storybook/react';
 
 import {UserAvatar, UserAvatarProps} from '../UserAvatar';
+
+import {getAvatarSrcSet} from './getAvatarSrcSet';
 
 const imgUrl =
     'https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50';

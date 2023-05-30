@@ -1,7 +1,9 @@
 import React, {FC, ReactNode} from 'react';
+
 import {Icon} from '../Icon';
-import {Mail} from '../icons';
 import {PersonaWrap} from '../PersonaWrap';
+import {Mail} from '../icons';
+
 import {getTwoLetters} from './getTwoLetters';
 
 export interface PersonaProps {

@@ -1,8 +1,11 @@
 import React, {forwardRef, useMemo} from 'react';
-import {block} from '../utils/cn';
+
 import {QAProps} from '../types';
+import {block} from '../utils/cn';
+
 import {TabsContext} from './TabsContext';
 import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem';
+
 import './Tabs.scss';
 
 const b = block('tabs');

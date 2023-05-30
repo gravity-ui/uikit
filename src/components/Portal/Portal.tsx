@@ -1,5 +1,7 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+
 import {usePortalContainer} from '../utils/usePortalContainer';
 
 export interface PortalProps {

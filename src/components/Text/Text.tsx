@@ -1,6 +1,7 @@
 import React from 'react';
-import {text, TextBaseProps} from './text/text';
-import {colorText, ColorTextBaseProps} from './colorText/colorText';
+
+import {ColorTextBaseProps, colorText} from './colorText/colorText';
+import {TextBaseProps, text} from './text/text';
 
 export interface TextProps extends TextBaseProps, ColorTextBaseProps {
     /**

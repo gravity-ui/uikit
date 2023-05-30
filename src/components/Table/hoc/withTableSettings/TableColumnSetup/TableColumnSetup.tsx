@@ -1,15 +1,16 @@
 import React from 'react';
 
-import {block} from '../../../../utils/cn';
-import {List} from '../../../../List';
-import {Icon} from '../../../../Icon';
-import {Popup} from '../../../../Popup';
-import {Button} from '../../../../Button';
-import {GearIcon} from '../../../../icons/GearIcon';
-import {TickIcon} from './TickIcon';
-import {LockIcon} from './LockIcon';
-import {TableColumnSetupItem} from '../withTableSettings';
 import {PopperPlacement} from '../../../../../components/utils/usePopper';
+import {Button} from '../../../../Button';
+import {Icon} from '../../../../Icon';
+import {List} from '../../../../List';
+import {Popup} from '../../../../Popup';
+import {GearIcon} from '../../../../icons/GearIcon';
+import {block} from '../../../../utils/cn';
+import {TableColumnSetupItem} from '../withTableSettings';
+
+import {LockIcon} from './LockIcon';
+import {TickIcon} from './TickIcon';
 import i18n from './i18n';
 
 import './TableColumnSetup.scss';

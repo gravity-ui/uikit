@@ -1,29 +1,30 @@
-import React, {useRef, useMemo} from 'react';
-import type {ReactNode, MouseEventHandler, Dispatch, SetStateAction} from 'react';
+import React, {useMemo, useRef} from 'react';
+import type {Dispatch, MouseEventHandler, ReactNode, SetStateAction} from 'react';
 
-import type {PopupProps} from '../Popup';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
-import {DotsIcon} from '../icons';
 import type {MenuProps} from '../Menu';
-import {DropdownMenuNavigationContextProvider} from './DropdownMenuNavigationContext';
+import type {PopupProps} from '../Popup';
+import {DotsIcon} from '../icons';
 
-import {usePopupVisibility} from './hooks/usePopupVisibility';
-import {useScrollHandler} from './hooks/useScrollHandler';
-import {toItemList} from './utils/toItemList';
-import {dropdownMenuSeparator} from './constants';
-import type {
-    DropdownMenuSize,
-    DropdownMenuItem,
-    DropdownMenuItemMixed,
-    DropdownMenuItemAction,
-    DropdownMenuListItem,
-} from './types';
 import {cnDropdownMenu} from './DropdownMenu.classname';
-import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import {DropdownMenuItem as DropdownMenuItemComponent} from './DropdownMenuItem';
+import {DropdownMenuNavigationContextProvider} from './DropdownMenuNavigationContext';
+import {DropdownMenuPopup} from './DropdownMenuPopup';
+import {dropdownMenuSeparator} from './constants';
+import {usePopupVisibility} from './hooks/usePopupVisibility';
+import {useScrollHandler} from './hooks/useScrollHandler';
+import type {
+    DropdownMenuItem,
+    DropdownMenuItemAction,
+    DropdownMenuItemMixed,
+    DropdownMenuListItem,
+    DropdownMenuSize,
+} from './types';
+import {toItemList} from './utils/toItemList';
+
 import './DropdownMenu.scss';
 
 export type DropdownMenuProps<T> = {

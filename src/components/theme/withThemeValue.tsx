@@ -1,7 +1,9 @@
 import React, {ContextType} from 'react';
+
 import {Subtract} from 'utility-types';
 
 import {getComponentName} from '../utils/getComponentName';
+
 import {ThemeValueContext, ThemeValueContextProps} from './ThemeValueContext';
 
 export interface WithThemeValueProps extends ThemeValueContextProps {}

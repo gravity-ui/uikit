@@ -1,5 +1,5 @@
-import {TableColumnConfig, Table} from '../Table';
 import {withTableSelection} from '..';
+import {Table, TableColumnConfig} from '../Table';
 import {withTableActions, withTableCopy, withTableSettings, withTableSorting} from '../hoc';
 
 export interface DataItem {

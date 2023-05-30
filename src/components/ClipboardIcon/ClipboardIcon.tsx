@@ -1,7 +1,8 @@
 import React from 'react';
+
+import {CopyToClipboardStatus} from '../CopyToClipboard/types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
-import {CopyToClipboardStatus} from '../CopyToClipboard/types';
 
 import './ClipboardIcon.scss';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
 import {Icon} from '../Icon';
 import {ChevronDownIcon} from '../icons/ChevronDownIcon';
+import {block} from '../utils/cn';
 
 import './ArrowToggle.scss';
 

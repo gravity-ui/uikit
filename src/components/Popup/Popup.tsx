@@ -1,23 +1,25 @@
 import React from 'react';
+
 import {CSSTransition} from 'react-transition-group';
 
+import {Portal} from '../Portal';
+import {DOMProps, QAProps} from '../types';
+import {useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
-import {DOMProps, QAProps} from '../types';
-import {Portal} from '../Portal';
-import {useLayer, LayerExtendableProps} from '../utils/useLayer';
+import {useForkRef} from '../utils/useForkRef';
+import {LayerExtendableProps, useLayer} from '../utils/useLayer';
 import {
-    usePopper,
     PopperAnchorRef,
     PopperModifiers,
     PopperOffset,
     PopperPlacement,
     PopperProps,
+    usePopper,
 } from '../utils/usePopper';
-import {useForkRef} from '../utils/useForkRef';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
+
 import {PopupArrow} from './PopupArrow';
-import {useParentFocusTrap} from '../utils/FocusTrap';
 
 import './Popup.scss';
 

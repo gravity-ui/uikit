@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {SelectOption, SelectOptionGroup} from './types';
 
 export const Option = <T extends any>(

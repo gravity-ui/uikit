@@ -1,8 +1,8 @@
 import React from 'react';
-import {block} from '../../utils/cn';
 
 import {Button, ButtonProps, ButtonView} from '../../Button';
 import {Popup} from '../../Popup';
+import {block} from '../../utils/cn';
 
 import './DialogFooter.scss';
 

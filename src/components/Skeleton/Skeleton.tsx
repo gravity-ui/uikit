@@ -1,4 +1,5 @@
 import React, {HTMLAttributes} from 'react';
+
 import {block} from '../utils/cn';
 
 import './Skeleton.scss';

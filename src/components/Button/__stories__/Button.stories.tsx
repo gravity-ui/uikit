@@ -1,8 +1,11 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
-import {Button, ButtonProps} from '../Button';
+
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {GearIcon} from '../../icons/GearIcon';
+import {Button, ButtonProps} from '../Button';
+
 import {ButtonShowcase} from './ButtonShowcase';
 
 export default {

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {block} from '../utils/cn';
+
 import _sumBy from 'lodash/sumBy';
+
+import {block} from '../utils/cn';
 
 import './Progress.scss';
 

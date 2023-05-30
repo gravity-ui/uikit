@@ -1,6 +1,8 @@
 import React from 'react';
-import {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {faker} from '@faker-js/faker/locale/en';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {Persona} from '../Persona';
 
 export default {

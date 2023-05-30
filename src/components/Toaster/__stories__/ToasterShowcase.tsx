@@ -1,10 +1,12 @@
 import React from 'react';
+
 import {faker} from '@faker-js/faker/locale/en';
-import {block} from '../../utils/cn';
-import {Alarm, Info, Success} from '../../icons';
-import {ToasterComponent, ToastProps, useToaster} from '..';
-import {Icon} from '../../Icon';
+
+import {ToastProps, ToasterComponent, useToaster} from '..';
 import {Button, ButtonView} from '../../Button';
+import {Icon} from '../../Icon';
+import {Alarm, Info, Success} from '../../icons';
+import {block} from '../../utils/cn';
 
 import './ToasterShowcase.scss';
 

@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+
 import {Button} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';

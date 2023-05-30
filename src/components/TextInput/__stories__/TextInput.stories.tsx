@@ -1,6 +1,9 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {TextInput, TextInputProps} from '../TextInput';
+
 import {TextInputShowcase} from './TextInputShowcase';
 
 export default {

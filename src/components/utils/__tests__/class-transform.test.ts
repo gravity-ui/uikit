@@ -1,4 +1,4 @@
-import {formatClass, parseClass, ElementClass} from '../class-transform';
+import {ElementClass, formatClass, parseClass} from '../class-transform';
 
 describe('class-transform', () => {
     function checkParseFormat(strClass: string, objClass: ElementClass) {

@@ -1,4 +1,5 @@
 import type {CSSProperties, ReactNode} from 'react';
+
 import type {TextInputSize} from '../TextInput';
 import type {QAProps} from '../types';
 

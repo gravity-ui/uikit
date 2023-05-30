@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {HelpPopover, HelpPopoverProps} from '../HelpPopover';
 
 export default {

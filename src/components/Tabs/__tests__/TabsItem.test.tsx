@@ -1,8 +1,10 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '@testing-library/react';
-import {TabsItem} from '../TabsItem';
+import userEvent from '@testing-library/user-event';
+
 import {GearIcon} from '../../icons/GearIcon';
+import {TabsItem} from '../TabsItem';
 
 const tabId = 'tab-id';
 const tabTitle = 'Tab title';

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {block} from '../utils/cn';
 
 import './Card.scss';

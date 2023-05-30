@@ -1,10 +1,12 @@
 import React, {ReactNode} from 'react';
-import {block} from '../utils/cn';
-import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
+
+import {Button, ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
+import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons/CrossIcon';
-import {Button, ButtonProps, ButtonSize} from '../Button';
+import {block} from '../utils/cn';
+
 import './Label.scss';
 
 const b = block('label');

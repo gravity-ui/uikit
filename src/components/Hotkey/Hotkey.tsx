@@ -1,10 +1,11 @@
 import React, {ReactNode} from 'react';
-import {block} from '../utils/cn';
-import type {DOMProps, QAProps} from '../types';
 
-import {Platform} from './types';
+import type {DOMProps, QAProps} from '../types';
+import {block} from '../utils/cn';
+
 import {defsByPlatform} from './definitions';
 import {parseKeyGroups} from './parse';
+import {Platform} from './types';
 import {isMac} from './utils';
 
 import './Hotkey.scss';

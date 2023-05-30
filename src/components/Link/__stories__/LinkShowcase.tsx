@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {Link} from '../Link';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseGrid} from '../../../demo/ShowcaseGrid/ShowcaseGrid';
+import {Link} from '../Link';
 
 export function LinkShowcase() {
     return (

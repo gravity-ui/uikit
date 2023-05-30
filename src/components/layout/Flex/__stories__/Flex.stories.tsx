@@ -1,12 +1,14 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
+import {Container} from '../..';
+import {Button} from '../../../Button/Button';
+import {Text} from '../../../Text';
 import {Col} from '../../Col/Col';
-import {Flex, FlexProps} from '../Flex';
 import {Row} from '../../Row/Row';
 import {Box, LayoutPresenter} from '../../demo';
-import {Container} from '../..';
-import {Text} from '../../../Text';
-import {Button} from '../../../Button/Button';
+import {Flex, FlexProps} from '../Flex';
 
 export default {
     title: 'Layout/Flex',

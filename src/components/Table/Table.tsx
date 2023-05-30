@@ -1,11 +1,15 @@
 import React from 'react';
+
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _isNumber from 'lodash/isNumber';
 import ResizeObserver from 'resize-observer-polyfill';
-import {block} from '../utils/cn';
-import i18n from './i18n';
+
 import {QAProps} from '../types';
+import {block} from '../utils/cn';
+
+import i18n from './i18n';
+
 import './Table.scss';
 
 const DASH = '\u2014';

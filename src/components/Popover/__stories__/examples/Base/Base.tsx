@@ -1,5 +1,6 @@
 import React from 'react';
 import type {FC, MouseEvent} from 'react';
+
 import {Popover} from '../../../Popover';
 import {PopoverProps} from '../../../types';
 

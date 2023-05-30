@@ -1,6 +1,9 @@
 import React from 'react';
+
 import {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {SharePopover, sharePopoverDefaultProps} from '../SharePopover';
+
 import {SharePopoverDemo} from './Showcase';
 
 export default {

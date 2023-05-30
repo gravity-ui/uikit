@@ -1,4 +1,5 @@
 import {Space} from '../types';
+
 import {getClosestMediaPropsFactory, isMediaActiveFactory, makeCssMod} from './index';
 
 describe('getClosestMediaPropsFactory', () => {

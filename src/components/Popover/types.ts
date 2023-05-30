@@ -1,9 +1,11 @@
 import React from 'react';
+
+import {PopupAnchorRef, PopupProps} from '../Popup';
+
 import {ButtonsProps} from './components/Buttons/Buttons';
 import {ContentProps} from './components/Content/Content';
 import {LinksProps} from './components/Links/Links';
 import {TriggerProps} from './components/Trigger/Trigger';
-import {PopupProps, PopupAnchorRef} from '../Popup';
 import {PopoverBehavior} from './config';
 
 export type PopoverButtonProps = {

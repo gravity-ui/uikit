@@ -1,4 +1,5 @@
 import {block, modsClassName} from '../utils/cn';
+
 import {ROOT_CLASS_NAME} from './constants';
 import {RealTheme} from './types';
 

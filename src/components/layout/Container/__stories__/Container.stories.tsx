@@ -1,9 +1,11 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
-import {Container, ContainerProps} from '../Container';
+
 import {Col} from '../../Col/Col';
-import {Box, LayoutPresenter} from '../../demo';
 import {Row} from '../../Row/Row';
+import {Box, LayoutPresenter} from '../../demo';
+import {Container, ContainerProps} from '../Container';
 
 export default {
     title: 'Layout/Container',

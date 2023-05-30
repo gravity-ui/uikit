@@ -1,7 +1,9 @@
 import React from 'react';
-import {MobileContextProps, Platform, withMobile, History, Location} from '../mobile';
-import {VelocityTracker} from './utils';
+
+import {History, Location, MobileContextProps, Platform, withMobile} from '../mobile';
+
 import {sheetBlock} from './constants';
+import {VelocityTracker} from './utils';
 
 import './Sheet.scss';
 

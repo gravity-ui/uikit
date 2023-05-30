@@ -1,8 +1,10 @@
 import React from 'react';
-import {block} from '../../utils/cn';
+
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {CrossIcon} from '../../icons/CrossIcon';
+import {block} from '../../utils/cn';
+
 import './ButtonClose.scss';
 
 const b = block('dialog-btn-close');

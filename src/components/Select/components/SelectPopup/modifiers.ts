@@ -1,5 +1,7 @@
 import type {Modifier} from '@popperjs/core';
+
 import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE} from '../../constants';
+
 import type {SelectPopupProps} from './types';
 
 const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {

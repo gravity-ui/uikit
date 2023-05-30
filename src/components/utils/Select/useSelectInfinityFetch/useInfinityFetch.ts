@@ -1,20 +1,27 @@
 import React from 'react';
 
-export const useInfinityFetch = <Pagination, Response>({
+export type PaginationResponse<Response, Pagination> = {
+    response: Response;
+    pagination?: Pagination | null;
+};
+
+export type Fetcher<Response, Pagination> = (
+    pagination?: Pagination,
+) => Promise<PaginationResponse<Response, Pagination>>;
+
+export const useInfinityFetch = <Response, Pagination>({
     fetcher,
-    getPagination,
 }: {
-    fetcher: (pagination?: Pagination) => Promise<Response>;
-    getPagination?: (lastResp: Response) => Pagination | null;
+    fetcher: Fetcher<Response, Pagination>;
 }) => {
     const mounted = React.useRef(false);
     const [isLoadingInitial, setIsLoadingInitial] = React.useState(false);
     const [isLoadingInfinity, setIsLoadingInfinity] = React.useState(false);
-    const [resps, setResps] = React.useState<Response[]>([]);
+    const [resps, setResps] = React.useState<PaginationResponse<Response, Pagination>[]>([]);
 
     const pagination = React.useMemo(
-        () => resps[resps.length - 1] && getPagination?.(resps[resps.length - 1]),
-        [getPagination, resps],
+        () => resps[resps.length - 1] && resps[resps.length - 1].pagination,
+        [resps],
     );
 
     const onFetchInitial = React.useCallback(() => {

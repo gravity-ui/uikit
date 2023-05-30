@@ -278,7 +278,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     Pagination = any,
 >(props: SelectProps<T>, ref: React.Ref<HTMLButtonElement>) {
     if (isFunction(props.options)) {
-        return <SelectAsync {...(props as SelectAsyncProps<T, Pagination>)} ref={ref} />;
+        return <SelectAsync {...(props as unknown as SelectAsyncProps<T, Pagination>)} ref={ref} />;
     }
 
     return <SelectBasic {...(props as SelectBasicProps<T>)} ref={ref} />;

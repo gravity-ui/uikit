@@ -234,6 +234,7 @@ const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyD
     placeholder="Values",
     onUpdate={(nextValue) => setValue1(nextValue)}
     renderFilter={renderFilter}
+    filterable
     filterOption={getFilterOption()}
 >
     <Select.Option value="val1" content="Value 1" />

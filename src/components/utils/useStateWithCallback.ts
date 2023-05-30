@@ -1,4 +1,5 @@
 import {useCallback, useState} from 'react';
+
 import {isFunction} from './typeCheckers';
 
 export function useStateWithCallback<T>(

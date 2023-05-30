@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {Showcase} from '../Showcase';
+
 import {ColorPanel} from './ColorPanel';
 
 const basic = [

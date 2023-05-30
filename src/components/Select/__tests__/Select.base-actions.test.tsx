@@ -1,22 +1,25 @@
 import React from 'react';
+
+import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {ListQa} from '../../List';
+
 import {SelectQa} from '..';
-import {QUICK_SEARCH_TIMEOUT, DEFAULT_VIRTUALIZATION_THRESHOLD} from '../constants';
+import {ListQa} from '../../List';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, QUICK_SEARCH_TIMEOUT} from '../constants';
+
 import {
-    TEST_QA,
+    ControlledSelect,
     DEFAULT_OPTIONS,
-    QUICK_SEARCH_OPTIONS,
     GROUPED_OPTIONS,
     GROUPED_QUICK_SEARCH_OPTIONS,
+    QUICK_SEARCH_OPTIONS,
+    SELECT_CONTROL_OPEN_CLASS,
     SELECT_LIST_VIRTUALIZED_CLASS,
+    TEST_QA,
+    generateOptions,
     setup,
     timeout,
-    generateOptions,
-    SELECT_CONTROL_OPEN_CLASS,
-    ControlledSelect,
 } from './utils';
-import {act, render, screen} from '@testing-library/react';
 
 const toggleSelectPopup = async () => {
     const user = userEvent.setup();

@@ -1,11 +1,12 @@
 import React, {PropsWithChildren, useEffect, useLayoutEffect, useMemo, useState} from 'react';
 
 import {block} from '../utils/cn';
-import {DEFAULT_LIGHT_THEME, DEFAULT_DARK_THEME, DEFAULT_THEME, ROOT_CLASS_NAME} from './constants';
+
 import {ThemeContext} from './ThemeContext';
-import {ThemeValueContext} from './ThemeValueContext';
 import {ThemeSettings, ThemeSettingsContext} from './ThemeSettingsContext';
-import type {Theme, RealTheme} from './types';
+import {ThemeValueContext} from './ThemeValueContext';
+import {DEFAULT_DARK_THEME, DEFAULT_LIGHT_THEME, DEFAULT_THEME, ROOT_CLASS_NAME} from './constants';
+import type {RealTheme, Theme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
 

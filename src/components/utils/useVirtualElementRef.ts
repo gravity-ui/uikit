@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type {VirtualElement} from '@popperjs/core';
 
 export type VirtualElementRect = {

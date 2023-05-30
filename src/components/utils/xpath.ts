@@ -1,4 +1,5 @@
 import React from 'react';
+
 import md5 from 'blueimp-md5';
 
 import {ElementClass, formatClass, parseClass} from './class-transform';

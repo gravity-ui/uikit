@@ -1,6 +1,9 @@
 import React, {ContextType} from 'react';
+
 import {Subtract} from 'utility-types';
+
 import {getComponentName} from '../utils/getComponentName';
+
 import {MobileContext, MobileContextProps} from './MobileContext';
 
 export interface WithMobileProps extends MobileContextProps {}

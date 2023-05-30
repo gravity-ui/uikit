@@ -1,5 +1,6 @@
 import React, {SyntheticEvent} from 'react';
-import {eventBroker, EventBrokerData} from './event-broker';
+
+import {EventBrokerData, eventBroker} from './event-broker';
 import {getComponentName} from './getComponentName';
 
 type SupportedEvents = 'onClick' | 'onClickCapture';

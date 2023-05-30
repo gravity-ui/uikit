@@ -1,8 +1,11 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
-import {RadioGroup, RadioGroupProps, RadioGroupOption} from '../RadioGroup';
-import {RadioGroupShowcase} from './RadioGroupShowcase';
+
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {RadioGroup, RadioGroupOption, RadioGroupProps} from '../RadioGroup';
+
+import {RadioGroupShowcase} from './RadioGroupShowcase';
 
 export default {
     title: 'Components/RadioGroup',

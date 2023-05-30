@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
-import {Story, Meta} from '@storybook/react';
+
+import {Meta, Story} from '@storybook/react';
+
 import {Button} from '../../Button';
 import {Dialog, DialogProps} from '../Dialog';
+
 import {DialogShowcase} from './DialogShowcase';
 
 export default {

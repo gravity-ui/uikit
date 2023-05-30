@@ -1,11 +1,14 @@
 import * as React from 'react';
+
 import _throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
-import {block} from '../utils/cn';
+
 import {PopupPlacement} from '../Popup';
+import {block} from '../utils/cn';
+
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
-import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 import {BreadcrumbsMore} from './BreadcrumbsMore';
+import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 
 import './Breadcrumbs.scss';
 

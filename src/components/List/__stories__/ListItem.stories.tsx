@@ -1,5 +1,7 @@
-import {ComponentMeta, ComponentStory} from '@storybook/react';
 import React, {CSSProperties, JSXElementConstructor} from 'react';
+
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {ListItem} from '../components';
 import {ListItemProps, ListSortHandleAlign} from '../types';
 

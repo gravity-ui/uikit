@@ -1,8 +1,9 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {MediaType, LayoutTheme} from '../types';
-import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
+
 import {LayoutContext} from '../contexts/LayoutContext';
+import {LayoutTheme, MediaType} from '../types';
+import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
 
 interface ComputedMediaContext {
     theme: LayoutTheme;

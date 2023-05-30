@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+
 import {getDarkMediaMatch} from './getDarkMediaMatch';
 import {getSystemTheme} from './getSystemTheme';
 import {ThemeType} from './types';

@@ -1,19 +1,20 @@
 import React, {ForwardedRef, forwardRef, useImperativeHandle, useRef} from 'react';
 
-import {Popup} from '../Popup';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
-import type {QAProps} from '../types';
+import {Popup} from '../Popup';
 import {PreviewCloseIcon} from '../icons';
+import type {QAProps} from '../types';
 
+import {cnPopover} from './Popover.classname';
 import {Buttons} from './components/Buttons/Buttons';
 import {Content} from './components/Content/Content';
 import {Links} from './components/Links/Links';
 import {Trigger} from './components/Trigger/Trigger';
-import {useOpen} from './hooks/useOpen';
-import {cnPopover} from './Popover.classname';
-import type {PopoverInstanceProps, PopoverProps} from './types';
 import {PopoverBehavior} from './config';
+import {useOpen} from './hooks/useOpen';
+import type {PopoverInstanceProps, PopoverProps} from './types';
+
 import './Popover.scss';
 
 export const Popover = forwardRef(function (

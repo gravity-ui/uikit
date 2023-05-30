@@ -1,7 +1,9 @@
 import React from 'react';
-import {TextInputView, TextInputSize, TextInputPin} from '../TextInput';
-import {ControlGroupProps, ControlGroupOption, QAProps} from '../types';
+
+import {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
+import {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 import {UseOpenProps} from '../utils/useSelect/types';
+
 import {Option, OptionGroup} from './tech-components';
 
 export type SelectRenderControlProps = {

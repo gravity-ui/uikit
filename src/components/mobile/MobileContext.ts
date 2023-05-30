@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {Platform} from './constants';
 
 export interface History {

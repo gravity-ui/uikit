@@ -1,4 +1,4 @@
-import {useContext, useCallback} from 'react';
+import {useCallback, useContext} from 'react';
 
 import {DropdownMenuNavigationContext} from '../DropdownMenuNavigationContext';
 import {DropdownMenuListItem} from '../types';

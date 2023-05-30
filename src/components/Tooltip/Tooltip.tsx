@@ -1,8 +1,8 @@
 import React, {Children, cloneElement, useEffect, useState} from 'react';
 
 import {Popup, PopupPlacement} from '../Popup';
-import {useBoolean} from '../utils/useBoolean';
 import {block} from '../utils/cn';
+import {useBoolean} from '../utils/useBoolean';
 import {useForkRef} from '../utils/useForkRef';
 
 import './Tooltip.scss';

@@ -24,9 +24,9 @@
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
         "./i18n": {
-          "types": "./build/esm/components/utils/addComponentKeysets.d.ts",
-          "require": "./build/cjs/components/utils/addComponentKeysets.js",
-          "import": "./build/esm/components/utils/addComponentKeysets.js"
+            "types": "./build/esm/components/utils/addComponentKeysets.d.ts",
+            "require": "./build/cjs/components/utils/addComponentKeysets.js",
+            "import": "./build/esm/components/utils/addComponentKeysets.js"
         },
         "./styles/*": "./styles/*"
     },
@@ -92,7 +92,7 @@
         "@commitlint/cli": "^15.0.0",
         "@commitlint/config-conventional": "^15.0.0",
         "@faker-js/faker": "^7.6.0",
-        "@gravity-ui/eslint-config": "^1.0.0",
+        "@gravity-ui/eslint-config": "^2.1.1",
         "@gravity-ui/icons": "^2.1.0",
         "@gravity-ui/prettier-config": "^1.0.0",
         "@gravity-ui/stylelint-config": "^1.0.0",
@@ -114,8 +114,8 @@
         "@types/react-window": "^1.8.5",
         "cross-env": "7.0.3",
         "css-loader": "^5.2.7",
-        "eslint": "^8.8.0",
-        "eslint-plugin-testing-library": "^5.5.1",
+        "eslint": "^8.41.0",
+        "eslint-plugin-testing-library": "^5.11.0",
         "gulp": "^4.0.2",
         "gulp-cli": "^2.3.0",
         "gulp-dart-sass": "^1.0.2",

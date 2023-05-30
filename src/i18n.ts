@@ -1,4 +1,5 @@
 import {I18N} from '@gravity-ui/i18n';
+
 import {getConfig, subscribeConfigure} from './components/utils/configure';
 
 export const i18n = new I18N();

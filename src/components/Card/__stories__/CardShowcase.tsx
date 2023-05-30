@@ -1,8 +1,8 @@
 import React from 'react';
+
+import {Card, CardTheme, CardView} from '../../../components/Card/Card';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-
-import {Card, CardView, CardTheme} from '../../../components/Card/Card';
 
 import './CardShowcase.scss';
 

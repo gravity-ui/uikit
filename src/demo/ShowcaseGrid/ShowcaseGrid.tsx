@@ -1,6 +1,8 @@
 import React, {useMemo} from 'react';
+
 import {Text} from '../../components/Text';
-import {getPropsCombinations, PropCombination, PropSequences} from './getPropsCombinations';
+
+import {PropCombination, PropSequences, getPropsCombinations} from './getPropsCombinations';
 
 type Combinations<ComponentType extends React.ElementType> = PropCombination<
     Partial<React.ComponentProps<ComponentType>>

@@ -1,6 +1,9 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {Switch, SwitchProps} from '../Switch';
+
 import {SwitchShowcase} from './SwitchShowcase';
 
 export default {

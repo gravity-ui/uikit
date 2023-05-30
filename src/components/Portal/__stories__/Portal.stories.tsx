@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {Portal, PortalProps} from '../Portal';
 
 export default {

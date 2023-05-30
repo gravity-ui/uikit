@@ -1,10 +1,12 @@
 import React from 'react';
-import {render, screen, act} from '@testing-library/react';
+
+import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {HelpPopover} from '../HelpPopover';
+
+import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
 import {PopoverBehavior} from '../../Popover';
 import {delayByBehavior} from '../../Popover/config';
-import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
+import {HelpPopover} from '../HelpPopover';
 
 const qaId = 'help-popover-component';
 

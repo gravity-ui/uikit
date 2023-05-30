@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
+
 import {Meta, Story} from '@storybook/react';
+
 import {Progress, ProgressProps, ProgressTheme} from '../Progress';
 
 export default {

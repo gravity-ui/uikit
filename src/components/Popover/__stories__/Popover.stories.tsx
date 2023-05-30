@@ -1,13 +1,15 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
 
 import {Popover, PopoverBehavior, PopoverProps} from '../';
 import {Button} from '../../Button';
 
+import {cnPopoverDemo} from './PopoverDemo.classname';
 import {Base} from './examples/Base/Base';
 import {WithCustomAnchor as WithCustomAnchorExample} from './examples/WithCustomAnchor/WithCustomAnchor';
+
 import './PopoverDemo.scss';
-import {cnPopoverDemo} from './PopoverDemo.classname';
 
 export default {
     title: 'Components/Popover',

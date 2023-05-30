@@ -1,4 +1,4 @@
-import type {State, Action} from './types';
+import type {Action, State} from './types';
 
 export const initialState: State = {filter: ''};
 

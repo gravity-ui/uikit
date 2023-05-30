@@ -1,6 +1,9 @@
 import React, {JSXElementConstructor} from 'react';
+
 import type {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {List, ListProps, listDefaultProps} from '..';
+
 import {ListShowcase} from './ListShowcase';
 
 type ComponentType = JSXElementConstructor<ListProps<string>>;

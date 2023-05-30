@@ -1,9 +1,12 @@
 import React from 'react';
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+
 import {ButtonView} from '../../Button';
-import {Toast} from '../Toast/Toast';
-import {ToasterDemo} from './ToasterShowcase';
 import {ToasterProvider} from '../Provider/ToasterProvider';
+import {Toast} from '../Toast/Toast';
+
+import {ToasterDemo} from './ToasterShowcase';
 
 const views: ButtonView[] = [
     'normal',

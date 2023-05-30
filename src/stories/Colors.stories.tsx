@@ -1,12 +1,14 @@
 import React from 'react';
+
 import {Meta, Story} from '@storybook/react';
-import {RenderTexts} from '../demo/colors/Texts';
+
 import {RenderBackgrounds} from '../demo/colors/Base';
-import {RenderLines} from '../demo/colors/Lines';
-import {RenderInfographic} from '../demo/colors/Infographic';
 import {RenderEffects} from '../demo/colors/Effects';
+import {RenderInfographic} from '../demo/colors/Infographic';
+import {RenderLines} from '../demo/colors/Lines';
 import {RenderPrivate} from '../demo/colors/Private';
 import {RenderPromo} from '../demo/colors/Promo';
+import {RenderTexts} from '../demo/colors/Texts';
 
 export default {
     title: 'Colors',

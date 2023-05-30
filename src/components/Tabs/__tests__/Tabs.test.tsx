@@ -1,7 +1,9 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '@testing-library/react';
-import {Tabs, TabsSize, TabsDirection, TabsItemProps} from '../Tabs';
+import userEvent from '@testing-library/user-event';
+
+import {Tabs, TabsDirection, TabsItemProps, TabsSize} from '../Tabs';
 
 const tabId1 = 'tab1';
 const tabTitle1 = 'Tab 1 title';

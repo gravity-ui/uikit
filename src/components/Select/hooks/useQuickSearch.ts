@@ -1,6 +1,7 @@
 import React from 'react';
-import {getNextQuickSearch} from '../utils';
+
 import {QUICK_SEARCH_TIMEOUT} from '../constants';
+import {getNextQuickSearch} from '../utils';
 
 type UseQuickSearchProps = {
     onChange: (search: string) => void;

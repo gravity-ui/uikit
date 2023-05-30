@@ -1,11 +1,14 @@
 import React from 'react';
-import block from 'bem-cn-lite';
+
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
-import {Checkbox} from '../../Checkbox';
+import block from 'bem-cn-lite';
+
 import {Button} from '../../Button';
+import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
 import {TextInput} from '../TextInput';
 import {TextInputProps} from '../types';
+
 import './TextInputShowcase.scss';
 
 const b = block('text-input-showcase');

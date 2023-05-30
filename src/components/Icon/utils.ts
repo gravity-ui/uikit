@@ -1,9 +1,9 @@
 import {
+    SVGIconComponentData,
     SVGIconData,
     SVGIconSpriteData,
-    SVGIconSvgrData,
     SVGIconStringData,
-    SVGIconComponentData,
+    SVGIconSvgrData,
 } from './types';
 
 export function isSpriteData(data: SVGIconData): data is SVGIconSpriteData {

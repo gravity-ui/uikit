@@ -1,15 +1,15 @@
 import React from 'react';
-import {Icon} from '../../../Icon/Icon';
-import {MediaRenderer} from '../../../Stories/components';
 
-import {StoriesGroupItem} from '../../types';
-import {Chevron} from '../../../icons/Chevron';
 import {Button, ButtonProps} from '../../../Button';
-
-import {block} from '../../../utils/cn';
-import './StoriesPreview.scss';
+import {Icon} from '../../../Icon/Icon';
 import {ModalCloseReason} from '../../../Modal';
+import {MediaRenderer} from '../../../Stories/components';
 import {StoriesItemMedia} from '../../../Stories/types';
+import {Chevron} from '../../../icons/Chevron';
+import {block} from '../../../utils/cn';
+import {StoriesGroupItem} from '../../types';
+
+import './StoriesPreview.scss';
 
 const PREVIEW_ITEM_SIZE = 40;
 const PREVIEW_LIST_GAP = 8;

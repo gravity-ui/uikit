@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {QAProps} from '../types';
+
 import {NAMESPACE} from './cn';
 
 export interface EventBrokerData<T = unknown> extends QAProps {

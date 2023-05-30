@@ -1,5 +1,7 @@
-import React, {forwardRef, cloneElement} from 'react';
+import React, {cloneElement, forwardRef} from 'react';
+
 import {block} from '../utils/cn';
+
 import {Props} from './types';
 
 import './ControlLabel.scss';

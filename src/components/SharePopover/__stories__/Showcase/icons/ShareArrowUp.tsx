@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {a11yHiddenSvgProps} from '../../../../utils/svg';
 
 export function ShareArrowUp(props: React.SVGProps<SVGSVGElement>) {

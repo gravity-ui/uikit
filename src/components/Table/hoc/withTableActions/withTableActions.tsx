@@ -1,13 +1,16 @@
 import React from 'react';
+
 import _memoize from 'lodash/memoize';
+
+import {Button} from '../../../Button';
+import {Icon} from '../../../Icon';
+import {Menu, MenuItemProps} from '../../../Menu';
+import {Popup} from '../../../Popup';
+import {DotsIcon} from '../../../icons/DotsIcon';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {Icon} from '../../../Icon';
-import {Button} from '../../../Button';
-import {Popup} from '../../../Popup';
-import {Menu, MenuItemProps} from '../../../Menu';
-import {DotsIcon} from '../../../icons/DotsIcon';
-import {TableDataItem, TableProps, TableColumnConfig} from '../../Table';
+import {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+
 import './withTableActions.scss';
 
 export const actionsColumnId = '_actions';

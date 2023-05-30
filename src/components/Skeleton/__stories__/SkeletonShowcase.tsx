@@ -1,7 +1,9 @@
 import React from 'react';
+
 import block from 'bem-cn-lite';
-import {Skeleton} from '../Skeleton';
+
 import {Button} from '../../Button';
+import {Skeleton} from '../Skeleton';
 
 import './SkeletonShowcase.scss';
 

@@ -1,6 +1,8 @@
-import React, {useMemo, HTMLProps, useContext} from 'react';
-import {block} from '../utils/cn';
+import React, {HTMLProps, useContext, useMemo} from 'react';
+
 import {Label, LabelProps} from '../Label';
+import {block} from '../utils/cn';
+
 import {TabsContext} from './TabsContext';
 
 const b = block('tabs');

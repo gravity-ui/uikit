@@ -1,7 +1,9 @@
 import React from 'react';
+
 import block from 'bem-cn-lite';
-import _range from 'lodash/range';
 import _random from 'lodash/random';
+import _range from 'lodash/range';
+
 import {Button} from '../../Button';
 import {TextInput} from '../../TextInput';
 import {List} from '../List';

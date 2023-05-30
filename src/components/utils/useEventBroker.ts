@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
-import {eventBroker, EventBrokerSubscription} from './event-broker';
+
+import {EventBrokerSubscription, eventBroker} from './event-broker';
 
 export function useEventBroker(subscription: EventBrokerSubscription, broker = eventBroker) {
     useEffect(() => {

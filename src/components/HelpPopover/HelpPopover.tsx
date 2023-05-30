@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
-import {Popover, PopoverProps} from '../Popover';
 import {Icon} from '../Icon';
+import {Popover, PopoverProps} from '../Popover';
 import {QuestionMarkIcon} from '../icons/QuestionMarkIcon';
 import {QAProps} from '../types';
+import {block} from '../utils/cn';
 
 const b = block('help-popover');
 

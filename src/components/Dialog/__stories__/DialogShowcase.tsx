@@ -1,6 +1,7 @@
 import React from 'react';
-import {Dialog} from '../../../components/Dialog/Dialog';
+
 import {Button} from '../../../components/Button';
+import {Dialog} from '../../../components/Dialog/Dialog';
 import {Select} from '../../../components/Select';
 import {TextInput} from '../../TextInput';
 import {Flex} from '../../layout/Flex/Flex';

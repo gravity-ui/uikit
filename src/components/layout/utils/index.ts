@@ -1,5 +1,5 @@
 import {CSS_SIZE_EXCEPTION} from '../constants';
-import {MediaType, MediaProps, IsMediaActive, MediaPartial, Space} from '../types';
+import {IsMediaActive, MediaPartial, MediaProps, MediaType, Space} from '../types';
 
 const mediaByOrder: MediaProps<number> = {
     s: 0,

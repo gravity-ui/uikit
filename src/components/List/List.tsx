@@ -1,15 +1,18 @@
 /* eslint new-cap: "off" */
 
 import React from 'react';
+
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import {block} from '../utils/cn';
-import {MobileContext} from '../mobile';
+
 import {TextInput} from '../TextInput';
+import {MobileContext} from '../mobile';
+import {block} from '../utils/cn';
+
 import {ListItem, SimpleContainer} from './components';
 import {listNavigationIgnoredKeys} from './constants';
-import type {ListProps, ListItemData, ListSortParams} from './types';
+import type {ListItemData, ListProps, ListSortParams} from './types';
 
 import './List.scss';
 

@@ -1,9 +1,10 @@
-import React, {useRef, useCallback, TransitionEventHandler, Ref} from 'react';
+import React, {Ref, TransitionEventHandler, useCallback, useRef} from 'react';
 
-import {block} from '../utils/cn';
 import {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
-import {RadioButtonOption as Option} from './RadioButtonOption';
+import {block} from '../utils/cn';
 import {useRadioGroup} from '../utils/useRadioGroup';
+
+import {RadioButtonOption as Option} from './RadioButtonOption';
 
 import './RadioButton.scss';
 

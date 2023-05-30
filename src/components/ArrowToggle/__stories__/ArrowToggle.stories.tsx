@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+
 import {Meta, Story} from '@storybook/react/types-6-0';
+
 import {ArrowToggle, ArrowToggleProps} from '../ArrowToggle';
 
 export default {

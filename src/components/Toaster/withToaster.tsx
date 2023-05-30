@@ -1,5 +1,7 @@
 import React, {ComponentType} from 'react';
+
 import {getComponentName} from '../utils/getComponentName';
+
 import {useToaster} from './hooks/useToaster';
 
 export function withToaster<T>() {

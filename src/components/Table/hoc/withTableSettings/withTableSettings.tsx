@@ -1,17 +1,19 @@
 import React from 'react';
-import _last from 'lodash/last';
-import _isString from 'lodash/isString';
-import _get from 'lodash/get';
 
-import {block} from '../../../utils/cn';
-import {getComponentName} from '../../../utils/getComponentName';
-import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
+import _get from 'lodash/get';
+import _isString from 'lodash/isString';
+import _last from 'lodash/last';
+
+import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {GearIcon} from '../../../icons/GearIcon';
-import {Button} from '../../../Button';
+import {block} from '../../../utils/cn';
+import {getComponentName} from '../../../utils/getComponentName';
 import {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
-import {enhanceSystemColumn, actionsColumnId} from '../withTableActions/withTableActions';
+import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
+
+import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
 
 import './withTableSettings.scss';
 

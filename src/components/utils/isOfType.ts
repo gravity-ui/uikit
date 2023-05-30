@@ -1,4 +1,4 @@
-import {isValidElement, ReactNode, ComponentType, ReactElement} from 'react';
+import {ComponentType, ReactElement, ReactNode, isValidElement} from 'react';
 
 export function isOfType<P = {}>(Component: ComponentType<P>) {
     return function isMatching(

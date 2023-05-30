@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type {UseSelectOption, UseSelectProps} from './types';
 import {useOpenState} from './useOpenState';
 

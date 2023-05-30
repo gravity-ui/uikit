@@ -1,6 +1,7 @@
 import {MutableRefObject, useCallback, useEffect, useRef, useState} from 'react';
+
 import {useUpdateEffect} from '../../utils/useUpdateEffect';
-import {delayByBehavior, PopoverBehavior} from '../config';
+import {PopoverBehavior, delayByBehavior} from '../config';
 
 export type UseOpenProps = {
     initialOpen: boolean;

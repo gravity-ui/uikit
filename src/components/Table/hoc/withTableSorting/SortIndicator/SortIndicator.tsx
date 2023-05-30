@@ -2,6 +2,7 @@ import React from 'react';
 
 import {block} from '../../../../utils/cn';
 import {a11yHiddenSvgProps} from '../../../../utils/svg';
+
 import './SortIndicator.scss';
 
 export interface SortIndicatorProps {

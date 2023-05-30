@@ -1,5 +1,7 @@
 import React, {FC, PropsWithChildren, ReactNode} from 'react';
+
 import block from 'bem-cn-lite';
+
 import './Showcase.scss';
 
 type Props = PropsWithChildren<{

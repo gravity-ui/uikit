@@ -1,9 +1,10 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {RecursivePartial, LayoutTheme, MediaType} from '../types';
+
 import {LayoutContext} from '../contexts/LayoutContext';
-import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
 import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
+import {LayoutTheme, MediaType, RecursivePartial} from '../types';
+import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
 
 interface LayoutProviderProps {
     theme?: RecursivePartial<LayoutTheme>;

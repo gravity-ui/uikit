@@ -1,4 +1,5 @@
-import React, {ReactNode, MouseEvent, FC} from 'react';
+import React, {FC, MouseEvent, ReactNode} from 'react';
+
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons';
 import {block} from '../utils/cn';

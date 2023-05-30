@@ -1,17 +1,17 @@
-import React, {useRef, useCallback, useContext, useMemo} from 'react';
+import React, {useCallback, useContext, useMemo, useRef} from 'react';
 import type {ReactNode} from 'react';
-import type {PopupProps} from '../Popup';
 
 import {Icon} from '../Icon';
 import {Menu} from '../Menu';
+import type {PopupProps} from '../Popup';
 import {Chevron} from '../icons';
 
+import {cnDropdownMenu} from './DropdownMenu.classname';
+import {DropdownMenuContext} from './DropdownMenuContext';
+import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {subMenuPlacement} from './constants';
 import {useSubmenu} from './hooks/useSubmenu';
 import type {DropdownMenuListItem} from './types';
-import {cnDropdownMenu} from './DropdownMenu.classname';
-import {DropdownMenuPopup} from './DropdownMenuPopup';
-import {DropdownMenuContext} from './DropdownMenuContext';
 
 export type DropdownMenuItemProps<T> = Omit<DropdownMenuListItem<T>, 'path'> & {
     popupProps?: Partial<PopupProps>;

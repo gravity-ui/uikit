@@ -1,10 +1,10 @@
 import React, {useCallback, useContext, useEffect} from 'react';
-import type {ReactNode, RefObject, MouseEvent} from 'react';
+import type {MouseEvent, ReactNode, RefObject} from 'react';
 
-import {Popup} from '../Popup';
-import type {PopupProps} from '../Popup';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
+import {Popup} from '../Popup';
+import type {PopupProps} from '../Popup';
 import {useListNavigation} from '../utils/useListNavigation';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';

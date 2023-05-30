@@ -1,10 +1,12 @@
 import React, {cloneElement} from 'react';
+
 import {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {isOfType} from '../utils/isOfType';
-import {eventBroker} from '../utils/event-broker';
-import {ButtonIcon} from './ButtonIcon';
 import {isIcon} from '../utils/common';
+import {eventBroker} from '../utils/event-broker';
+import {isOfType} from '../utils/isOfType';
+
+import {ButtonIcon} from './ButtonIcon';
 
 import './Button.scss';
 

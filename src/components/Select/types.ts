@@ -3,6 +3,7 @@ import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 import type {UseOpenProps} from '../utils/useSelect/types';
 
 import type {Option, OptionGroup} from './tech-components';
+import type {Fetcher} from '../utils/Select/useSelectInfinityFetch/useInfinityFetch';
 
 export type SelectRenderControlProps = {
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
@@ -29,7 +30,10 @@ export type SelectRenderOption<T> = (
 
 export type SelectSize = TextInputSize;
 
-export type SelectProps<T = any> = QAProps &
+export type SelectOptionType<T> = SelectOption<T> | SelectOptionGroup<T>;
+export type SelectAsyncOptionType<Option, Pagination> = Fetcher<Option, Pagination>;
+
+export type SelectProps<T = any, Pagination = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
         onUpdate?: (value: string[]) => void;
@@ -60,7 +64,7 @@ export type SelectProps<T = any> = QAProps &
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
-        options?: (SelectOption<T> | SelectOptionGroup<T>)[];
+        options?: SelectOptionType<T>[] | SelectAsyncOptionType<T, Pagination>;
         error?: string | boolean;
         multiple?: boolean;
         filterable?: boolean;
@@ -71,6 +75,17 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
     };
+
+export type SelectBasicProps<Option = any> = Omit<SelectProps<Option>, 'options'> & {
+    options?: SelectOptionType<Option>[];
+};
+
+export type SelectAsyncProps<Option = any, Pagination = any> = Omit<
+    SelectProps<Option>,
+    'options'
+> & {
+    options: SelectAsyncOptionType<SelectOptionType<Option>[], Pagination>;
+};
 
 export type SelectOption<T = any> = QAProps &
     ControlGroupOption & {

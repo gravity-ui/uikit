@@ -13,7 +13,7 @@ import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectProps} from './types';
+import type {SelectProps, SelectBasicProps, SelectAsyncProps} from './types';
 import type {SelectFilterRef} from './types-misc';
 import {
     activateFirstClickableItem,
@@ -28,16 +28,17 @@ import {
 import type {FlattenOption} from './utils';
 
 import './Select.scss';
+import {isFunction} from 'lodash';
+import {SelectAsync} from './wrappers/SelectAsync/SelectAsync';
 
 //https://stackoverflow.com/a/58473012
-type SelectComponent = (<T = any>(
-    p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
+type SelectComponent = (<T = any, Pagination = any>(
+    p: SelectProps<T, Pagination> & {ref?: React.Ref<HTMLButtonElement>},
 ) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
-export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    props: SelectProps<T>,
-    ref: React.Ref<HTMLButtonElement>,
-) {
+export const SelectBasic = React.forwardRef<HTMLButtonElement, SelectBasicProps>(function Select<
+    T = any,
+>(props: SelectBasicProps<T>, ref: React.Ref<HTMLButtonElement>) {
     const {
         onUpdate,
         onOpenChange,
@@ -270,6 +271,17 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             </SelectPopup>
         </div>
     );
+}) as unknown as SelectComponent;
+
+export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<
+    T = any,
+    Pagination = any,
+>(props: SelectProps<T>, ref: React.Ref<HTMLButtonElement>) {
+    if (isFunction(props.options)) {
+        return <SelectAsync {...(props as SelectAsyncProps<T, Pagination>)} ref={ref} />;
+    }
+
+    return <SelectBasic {...(props as SelectBasicProps<T>)} ref={ref} />;
 }) as unknown as SelectComponent;
 
 Select.Option = Option;

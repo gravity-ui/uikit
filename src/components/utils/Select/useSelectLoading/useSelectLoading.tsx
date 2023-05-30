@@ -1,13 +1,13 @@
 import React from 'react';
 
 import './CustomLoader.scss';
-import {Loader} from 'src/components/Loader/Loader';
+import {Loader} from '../../../Loader/Loader';
 import {
+    SelectBasicProps,
     SelectOption,
-    SelectProps,
     SelectRenderOption,
     SelectRenderOptionViewParams,
-} from 'src/components/Select/types';
+} from '../../../Select/types';
 
 const LOADER = 'LOADER';
 const LOADER_PERSISTENT = 'LOADER_PERSISTENT';
@@ -32,7 +32,7 @@ const CustomLoader = (props: {onRendered?: () => void}) => {
 export type UseSelectLoading = {
     onFetch?: () => void | Promise<unknown>;
     loading?: boolean;
-} & Pick<SelectProps, 'options' | 'renderOption' | 'filterOption'>;
+} & Pick<SelectBasicProps, 'options' | 'renderOption' | 'filterOption'>;
 
 export const useSelectLoading = ({
     options = [],

@@ -205,7 +205,7 @@ $transitionTimingFunction: ease-in-out;
             );
         }
 
-        &_outline {
+        &_clear {
             @include themeState(
                 none,
                 var(--yc-color-base-simple-hover-solid),

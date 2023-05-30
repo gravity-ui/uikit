@@ -68,64 +68,14 @@ const ThemeTemplate: StoryFn<LabelProps> = (args) => {
             <Label {...args} theme="unknown">
                 unknown
             </Label>
+            <Label {...args} theme="clear">
+                clear
+            </Label>
         </div>
     );
 };
 
 export const Theme = ThemeTemplate.bind({});
-
-type WithKey<T> = T & {key: React.Key};
-
-const themes = ['normal', 'info', 'danger', 'warning', 'success', 'unknown', 'outline'] as const;
-const sizes = ['xs', 's', 'm'] as const;
-
-const getLabel = ({...args}: WithKey<LabelProps>) => <Label {...args}></Label>;
-
-const section = (args: LabelProps) => {
-    const cases: LabelProps[] = [
-        {children: 'Label', icon: icons['TickIcon'], type: 'default'},
-        {children: 'Label', type: 'default'},
-        {children: 'Label', icon: icons['TickIcon'], type: 'copy'},
-        {children: 'Label', type: 'copy'},
-        {children: 'Label', icon: icons['TickIcon'], type: 'close'},
-        {children: 'Label', type: 'close'},
-        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'default'},
-        {children: 'Key', value: 'Value', type: 'default'},
-        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'copy'},
-        {children: 'Key', value: 'Value', type: 'copy'},
-        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'close'},
-        {children: 'Key', value: 'Value', type: 'close'},
-        {icon: icons['TickIcon']},
-    ];
-    return cases.map((label, i) => getLabel({key: i, ...args, ...label}));
-};
-
-const keyValuesTemplate: StoryFn<LabelProps> = (args) => (
-    <div className="label-stories">
-        <div className="grid" style={{gridTemplateColumns: `repeat(${1 + themes.length}, 1fr)`}}>
-            <h1></h1>
-            {themes.map((theme) => (
-                <h1 key={`${theme}-header`}>{theme}</h1>
-            ))}
-            {sizes.map((size) => (
-                <React.Fragment key={size}>
-                    <h1>{size}</h1>
-                    {themes.map((theme) => (
-                        <div key={theme} className="section">
-                            {section({theme, size, ...args})}
-                        </div>
-                    ))}
-                </React.Fragment>
-            ))}
-        </div>
-    </div>
-);
-
-export const keyValues = keyValuesTemplate.bind({});
-
-keyValues.args = {
-    interactive: true,
-};
 
 const SizeTemplate: StoryFn<LabelProps> = (args) => {
     return (
@@ -230,3 +180,56 @@ export const Interactions: StoryFn<LabelProps> = (args) => (
         </div>
     </div>
 );
+
+type WithKey<T> = T & {key: React.Key};
+
+const themes = ['normal', 'info', 'danger', 'warning', 'success', 'unknown', 'clear'] as const;
+const sizes = ['xs', 's', 'm'] as const;
+
+const getLabel = ({...args}: WithKey<LabelProps>) => <Label {...args}></Label>;
+
+const section = (args: LabelProps) => {
+    const cases: LabelProps[] = [
+        {children: 'Label', icon: icons['TickIcon'], type: 'default'},
+        {children: 'Label', type: 'default'},
+        {children: 'Label', icon: icons['TickIcon'], type: 'copy'},
+        {children: 'Label', type: 'copy'},
+        {children: 'Label', icon: icons['TickIcon'], type: 'close'},
+        {children: 'Label', type: 'close'},
+        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'default'},
+        {children: 'Key', value: 'Value', type: 'default'},
+        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'copy'},
+        {children: 'Key', value: 'Value', type: 'copy'},
+        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'close'},
+        {children: 'Key', value: 'Value', type: 'close'},
+        {icon: icons['TickIcon']},
+    ];
+    return cases.map((label, i) => getLabel({key: i, ...args, ...label}));
+};
+
+const keyValuesTemplate: StoryFn<LabelProps> = (args) => (
+    <div className="label-stories">
+        <div className="grid" style={{gridTemplateColumns: `repeat(${1 + themes.length}, 1fr)`}}>
+            <h1></h1>
+            {themes.map((theme) => (
+                <h1 key={`${theme}-header`}>{theme}</h1>
+            ))}
+            {sizes.map((size) => (
+                <React.Fragment key={size}>
+                    <h1>{size}</h1>
+                    {themes.map((theme) => (
+                        <div key={theme} className="section">
+                            {section({theme, size, ...args})}
+                        </div>
+                    ))}
+                </React.Fragment>
+            ))}
+        </div>
+    </div>
+);
+
+export const showcase = keyValuesTemplate.bind({});
+
+showcase.args = {
+    interactive: true,
+};

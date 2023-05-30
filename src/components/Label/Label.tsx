@@ -57,7 +57,7 @@ interface LabelOwnProps {
 
 interface LabelDefaultProps {
     /** Label color */
-    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown' | 'outline';
+    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'unknown' | 'clear';
     /** Label type (plain, with copy text button or with close button) */
     type: 'default' | 'copy' | 'close';
     /** Label size */

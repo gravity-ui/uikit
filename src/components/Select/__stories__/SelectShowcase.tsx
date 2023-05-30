@@ -301,6 +301,7 @@ export const SelectShowcase = (props: SelectProps) => {
                 code={[EXAMPLE_CUSTOM_FILTER_SECTION]}
                 selectProps={{
                     ...props,
+                    filterable,
                     renderFilter,
                     filterOption: getFilterOption(),
                 }}

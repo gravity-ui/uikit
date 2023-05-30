@@ -24,9 +24,9 @@
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
         "./i18n": {
-          "types": "./build/esm/components/utils/registerKeyset.d.ts",
-          "require": "./build/cjs/components/utils/registerKeyset.js",
-          "import": "./build/esm/components/utils/registerKeyset.js"
+          "types": "./build/esm/components/utils/addComponentKeysets.d.ts",
+          "require": "./build/cjs/components/utils/addComponentKeysets.js",
+          "import": "./build/esm/components/utils/addComponentKeysets.js"
         },
         "./styles/*": "./styles/*"
     },

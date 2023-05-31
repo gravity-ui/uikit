@@ -28,6 +28,7 @@ export function StoreBadge({
     alt,
 }: StoreBadgeProps) {
     if (!url) {
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
         return <img className={b({platform, lang}, className)} onClick={onClick} alt={alt} />;
     }
 

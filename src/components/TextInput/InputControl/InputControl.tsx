@@ -43,6 +43,7 @@ export function InputControl(props: InputControlProps) {
             placeholder={placeholder}
             value={value}
             defaultValue={defaultValue}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}
             onChange={onChange}

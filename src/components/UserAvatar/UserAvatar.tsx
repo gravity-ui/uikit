@@ -30,6 +30,7 @@ export function UserAvatar({
     onClick,
 }: UserAvatarProps) {
     return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div title={title} className={b({size}, className)} onClick={onClick}>
             <img
                 className={b('figure')}

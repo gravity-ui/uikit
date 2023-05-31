@@ -21,6 +21,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             this.props;
 
         return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
                 role="listitem"
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}

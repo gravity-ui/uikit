@@ -67,6 +67,7 @@ export const WithWrapTo = Template.bind({});
 WithWrapTo.args = {
     wrapTo(_item: TabsItemProps, node: React.ReactNode) {
         return (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a key={_item.id} href="#">
                 {node}
             </a>

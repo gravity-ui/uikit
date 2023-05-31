@@ -31,6 +31,7 @@ interface DialogOwnProps {
     className?: string;
     modalClassName?: string;
     size?: 's' | 'm' | 'l';
+    adaptiveWidth?: boolean;
     'aria-label'?: string;
     'aria-labelledby'?: string;
     container?: HTMLElement;
@@ -77,6 +78,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
             restoreFocusRef,
             keepMounted,
             size,
+            adaptiveWidth,
             className,
             modalClassName,
             hasCloseButton,
@@ -117,7 +119,12 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 container={container}
                 qa={qa}
             >
-                <div className={b({size, 'has-close': hasCloseButton}, className)}>
+                <div
+                    className={b(
+                        {size, 'has-close': hasCloseButton, 'adaptive-width': adaptiveWidth},
+                        className,
+                    )}
+                >
                     {children}
                     {hasCloseButton && <ButtonClose onClose={this.handleCloseButtonClick} />}
                 </div>

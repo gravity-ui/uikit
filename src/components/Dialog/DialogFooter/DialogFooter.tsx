@@ -147,8 +147,8 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
                         renderButtons(buttonApply, buttonCancel)
                     ) : (
                         <>
-                            {textButtonCancel && buttonCancel}
                             {textButtonApply && buttonApply}
+                            {textButtonCancel && buttonCancel}
                         </>
                     )}
                 </div>

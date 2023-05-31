@@ -6,8 +6,10 @@ import {a11yHiddenSvgProps} from '../utils/svg';
 
 import {SVGIconData} from './types';
 import {
+    getDataUriViewBox,
     getStringViewBox,
     isComponentSvgData,
+    isDataUriSvgData,
     isSpriteData,
     isStringSvgData,
     isSvgrData,
@@ -40,11 +42,12 @@ export function Icon({
     stroke = 'none',
     qa,
 }: IconProps) {
-    // This component supports four different ways to load and use icons:
+    // This component supports five different ways to load and use icons:
     // - svg-react-loader
     // - svg-sprite-loader
     // - @svgr/webpack
     // - string with raw svg
+    // - string with data uri svg
 
     let w, h;
 
@@ -69,6 +72,8 @@ export function Icon({
 
     if (isSpriteData(data)) {
         ({viewBox} = data);
+    } else if (isDataUriSvgData(data)) {
+        viewBox = getDataUriViewBox(data);
     } else if (isStringSvgData(data)) {
         viewBox = getStringViewBox(data);
     } else if (isComponentSvgData(data)) {
@@ -103,6 +108,10 @@ export function Icon({
         'data-qa': qa,
         ...a11yHiddenSvgProps,
     };
+
+    if (isDataUriSvgData(data)) {
+        return <img {...props} src={data} />;
+    }
 
     if (isStringSvgData(data)) {
         const preparedData = prepareStringData(data);

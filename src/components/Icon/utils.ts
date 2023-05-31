@@ -1,6 +1,7 @@
 import {
     SVGIconComponentData,
     SVGIconData,
+    SVGIconDataUriData,
     SVGIconSpriteData,
     SVGIconStringData,
     SVGIconSvgrData,
@@ -29,4 +30,23 @@ export function getStringViewBox(data: SVGIconStringData) {
     const match = data.match(/viewBox=(["']?)([\d\s,-]+)\1/);
 
     return match ? match[2] : undefined;
+}
+
+export function isDataUriSvgData(data: SVGIconData): data is SVGIconDataUriData {
+    return typeof data === 'string' && !/^data:image\/svg+xml/.test(data);
+}
+
+function convertDataUriToStringSvgData(data: SVGIconDataUriData): SVGIconStringData {
+    const [options, body] = data.split(',');
+    const [, encoding] = options.split(';');
+
+    try {
+        return encoding === 'base64' ? atob(body) : decodeURIComponent(body);
+    } catch (e) {
+        return '<svg></svg>';
+    }
+}
+
+export function getDataUriViewBox(data: SVGIconDataUriData) {
+    return getStringViewBox(convertDataUriToStringSvgData(data));
 }

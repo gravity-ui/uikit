@@ -12,6 +12,7 @@ class SVGReactComponent extends React.Component<React.SVGProps<SVGSVGElement>> {
 
 export type SVGIconComponentData = typeof SVGReactComponent;
 export type SVGIconStringData = string;
+export type SVGIconDataUriData = string;
 
 export interface SVGIconSvgrData extends React.FunctionComponent<React.SVGProps<SVGSVGElement>> {}
 
@@ -19,4 +20,5 @@ export type SVGIconData =
     | SVGIconComponentData
     | SVGIconSpriteData
     | SVGIconSvgrData
-    | SVGIconStringData;
+    | SVGIconStringData
+    | SVGIconDataUriData;

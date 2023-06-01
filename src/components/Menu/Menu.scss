@@ -15,12 +15,6 @@ $block: '.#{variables.$ns}menu';
     user-select: none;
     outline: none;
 
-    &::before,
-    &::after {
-        content: '';
-        display: block;
-    }
-
     &__list-group-item + &__list-group-item,
     &__list-item + &__list-group-item,
     &__list-group-item + &__list-item {
@@ -96,11 +90,7 @@ $block: '.#{variables.$ns}menu';
         &_s {
             font-size: 13px;
             line-height: 24px;
-
-            &::before,
-            &::after {
-                height: 3px;
-            }
+            padding: 3px 0;
 
             #{$block}__item,
             #{$block}__group-label {
@@ -122,11 +112,7 @@ $block: '.#{variables.$ns}menu';
         &_m {
             font-size: 13px;
             line-height: 24px;
-
-            &::before,
-            &::after {
-                height: 4px;
-            }
+            padding: 4px 0;
 
             #{$block}__item,
             #{$block}__group-label {
@@ -148,11 +134,7 @@ $block: '.#{variables.$ns}menu';
         &_l {
             font-size: 13px;
             line-height: 28px;
-
-            &::before,
-            &::after {
-                height: 5px;
-            }
+            padding: 5px 0;
 
             #{$block}__item,
             #{$block}__group-label {
@@ -174,11 +156,7 @@ $block: '.#{variables.$ns}menu';
         &_xl {
             font-size: 15px;
             line-height: 36px;
-
-            &::before,
-            &::after {
-                height: 6px;
-            }
+            padding: 6px 0;
 
             #{$block}__item,
             #{$block}__group-label {

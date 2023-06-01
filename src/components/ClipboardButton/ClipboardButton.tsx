@@ -11,6 +11,7 @@ import { block } from '../utils/cn';
 import { Tooltip, TooltipProps } from '../Tooltip';
 
 import './ClipboardButton.scss';
+import i18n from './i18n';
 
 export interface ClipboardButtonProps
     extends CopyToClipboardBaseProps,
@@ -42,8 +43,6 @@ const b = block('clipboard-button');
 
 const DEFAULT_ICON_SIZE = 24;
 const DEFAULT_TIMEOUT = 1000;
-const DEFAULT_START_COPY_TIP = 'Copy';
-const DEFAULT_END_COPY_TIP = 'Copied!';
 
 const ClipboardButtonComponent: React.FC<ClipboardButtonComponentProps> = (props) => {
     const {size = DEFAULT_ICON_SIZE, className, qa, tooltipProps = {}, status, onClick} = props;
@@ -53,8 +52,8 @@ const ClipboardButtonComponent: React.FC<ClipboardButtonComponentProps> = (props
         buttonRef?.current?.style.setProperty('--yc-button-height', `${size}px`);
     }, [size]);
     const {
-        startCopyTip = DEFAULT_START_COPY_TIP,
-        endCopyTip = DEFAULT_END_COPY_TIP,
+        startCopyTip = i18n('startCopy'),
+        endCopyTip = i18n('endCopy'),
         ...restTooltipProps
     } = tooltipProps;
 

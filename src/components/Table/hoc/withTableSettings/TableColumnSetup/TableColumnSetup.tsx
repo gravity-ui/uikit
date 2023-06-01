@@ -200,6 +200,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <div className={b(null, className)}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className={b('control')} ref={refControl} onClick={handleControlClick}>
                 {switcher || (
                     <Button disabled={disabled}>

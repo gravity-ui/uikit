@@ -95,6 +95,7 @@ export const Position: Story<PopupProps> = (args) => {
     const anchorRef = useVirtualElementRef({rect: {top, left}});
     return (
         <div>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label style={{display: 'flex', alignItems: 'center'}}>
                 x:
                 <TextInput
@@ -107,6 +108,7 @@ export const Position: Story<PopupProps> = (args) => {
                     style={{width: 100}}
                 />
             </label>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label style={{display: 'flex', alignItems: 'center'}}>
                 y:
                 <TextInput

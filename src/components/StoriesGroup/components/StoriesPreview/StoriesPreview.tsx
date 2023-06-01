@@ -38,6 +38,7 @@ const PreviewItem = ({active, disabled, groupIndex, media, onSelectGroup}: Previ
     );
 
     return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
             className={b('stories-preview-item', {
                 active,
@@ -195,6 +196,7 @@ export const StoriesPreview = ({
 
     if (groups.length < maxSliderItemsCount) {
         return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div className={b()} onClick={handleClose}>
                 <StoriesPreviewList
                     groupIndex={groupIndex}
@@ -206,6 +208,7 @@ export const StoriesPreview = ({
     }
 
     return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div className={b()} onClick={handleClose}>
             <StoriesPreviewListWithSlider
                 maxSliderItemsCount={maxSliderItemsCount}

@@ -139,6 +139,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         return (
             <React.Fragment>
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div
                     ref={this.veilRef}
                     className={sheetBlock('veil', veilTransitionMod)}

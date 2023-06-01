@@ -147,6 +147,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                             }
 
                             return (
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                                 <div
                                     className={b('sort', {active: Boolean(sortOrder)})}
                                     onClick={this.handleColumnSortClick.bind(this, column)}

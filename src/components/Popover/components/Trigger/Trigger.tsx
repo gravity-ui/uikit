@@ -66,5 +66,6 @@ export const Trigger = ({
         toggleTooltip();
     };
 
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     return <span onClick={handleClick}>{children}</span>;
 };

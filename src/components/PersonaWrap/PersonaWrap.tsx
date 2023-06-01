@@ -33,11 +33,13 @@ export function PersonaWrap({
     const closeable = Boolean(onClose);
     return (
         <div className={b({size, theme, clickable, closeable, empty: isEmpty}, className)}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className={b('main')} onClick={onClick}>
                 {avatar && <div className={b('avatar')}>{avatar}</div>}
                 <div className={b('text')}>{children}</div>
             </div>
             {onClose && (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                 <div className={b('close')} onClick={onClose}>
                     <Icon data={CrossIcon} size={8} />
                 </div>

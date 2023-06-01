@@ -8,8 +8,8 @@ import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock} from '../../constants';
 import type {
-    SelectClearProps,
     SelectProps,
+    SelectRenderClearArgs,
     SelectRenderControl,
     SelectRenderControlProps,
 } from '../../types';
@@ -20,7 +20,6 @@ import './SelectControl.scss';
 type ControlProps = {
     toggleOpen: () => void;
     renderControl?: SelectRenderControl;
-    renderClearIcon?: NonNullable<SelectClearProps['renderClearIcon']>;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -43,7 +42,6 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         clearValue,
         onKeyDown,
         renderControl,
-        renderClearIcon,
         view,
         size,
         pin,
@@ -76,7 +74,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         setIsDisabledButtonAnimation(false);
     }, []);
 
-    const renderClear = () => {
+    const renderClearIcon = (args: SelectRenderClearArgs) => {
         const hideOnEmpty = !value || !value?.[0];
         if (!hasClear || !clearValue || hideOnEmpty || disabled) {
             return null;
@@ -87,7 +85,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 onClick={clearValue}
                 onMouseEnter={disableButtonAnimation}
                 onMouseLeave={enableButtonAnimation}
-                renderClearIcon={renderClearIcon}
+                renderIcon={args.renderIcon}
             />
         );
     };
@@ -99,7 +97,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 onClick: toggleOpen,
                 ref: handleControlRef,
                 open: Boolean(open),
-                renderClear,
+                renderClear: (arg) => renderClearIcon(arg),
             },
             {value},
         );
@@ -128,7 +126,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                         {selectedOptionsContent}
                     </span>
                 )}
-                {renderClear()}
+                {renderClearIcon({})}
                 <Icon
                     className={selectControlBlock('chevron-icon', {disabled})}
                     data={ChevronDown}

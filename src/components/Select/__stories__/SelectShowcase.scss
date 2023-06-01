@@ -43,6 +43,10 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
         }
     }
 
+    &__user-clear-icon {
+        margin-left: 6px;
+    }
+
     &__custom-popup {
         margin-top: 10px;
         border-radius: 12px;

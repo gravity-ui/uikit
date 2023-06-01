@@ -249,49 +249,6 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
             </ExampleItem>
             <ExampleItem
-                title="Simple select with custom clear icon"
-                code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}
-                selectProps={{
-                    ...props,
-                    renderClearIcon: () => {
-                        return <Icon data={Alarm} />;
-                    },
-                }}
-            >
-                <Select.Option value="val1" content="Value1" />
-                <Select.Option value="val2" content="Value2" />
-                <Select.Option value="val3" content="Value3" />
-                <Select.Option value="val4" content="Value4" />
-            </ExampleItem>
-            <ExampleItem
-                title="Select with user control and native clear icon"
-                code={[EXAMPLE_USER_CONTROL]}
-                selectProps={{
-                    ...props,
-                    className: b('user-control'),
-                    renderControl: ({onClick, onKeyDown, ref, renderClear}) => {
-                        return (
-                            <Button
-                                ref={ref}
-                                view="action"
-                                onClick={onClick}
-                                extraProps={{
-                                    onKeyDown,
-                                }}
-                            >
-                                <span className={b('text')}> User control</span>
-                                {renderClear?.()}
-                            </Button>
-                        );
-                    },
-                }}
-            >
-                <Select.Option value="val1" content="Value1" />
-                <Select.Option value="val2" content="Value2" />
-                <Select.Option value="val3" content="\" />
-                <Select.Option value="val4" content="Value4" />
-            </ExampleItem>
-            <ExampleItem
                 title="Select with user control and native custom icon"
                 code={[EXAMPLE_USER_CONTROL]}
                 selectProps={{
@@ -309,12 +266,13 @@ export const SelectShowcase = (props: SelectProps) => {
                                 className={b({'has-clear': props.hasClear})}
                             >
                                 <span className={b('text')}>User control</span>
-                                {renderClear?.()}
+                                {renderClear?.({
+                                    renderIcon: () => (
+                                        <Icon data={Alarm} className={b('user-clear-icon')} />
+                                    ),
+                                })}
                             </Button>
                         );
-                    },
-                    renderClearIcon: () => {
-                        return <Icon data={Alarm} />;
                     },
                 }}
             >

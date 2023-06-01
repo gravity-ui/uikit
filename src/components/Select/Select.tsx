@@ -47,7 +47,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderOption,
         renderSelectedOption,
         renderEmptyOptions,
-        renderClearIcon,
         getOptionHeight,
         filterOption,
         name,
@@ -249,7 +248,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disabled={disabled}
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
-                renderClearIcon={renderClearIcon}
                 value={value}
             />
             <SelectPopup

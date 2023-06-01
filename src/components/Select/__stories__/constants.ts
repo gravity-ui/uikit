@@ -134,7 +134,7 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
 
 <Select
     value={value}
-    renderControl={({onClick, onKeyDown, ref}) => {
+    renderControl={({onClick, onKeyDown, ref, renderClear}) => {
         return (
             <Button
                 ref={ref}
@@ -145,6 +145,9 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
                 }}
             >
                 User control
+                {renderClear?.({
+                    renderIcon: () => <Icon data={CrossIcon} />,
+                })}
             </Button>
         );
     }},

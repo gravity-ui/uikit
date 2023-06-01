@@ -6,12 +6,16 @@ import type {UseOpenProps} from '../utils/useSelect/types';
 
 import type {Option, OptionGroup} from './tech-components';
 
+export type SelectRenderClearArgs = {
+    renderIcon?: () => React.ReactNode;
+};
+
 export type SelectRenderControlProps = {
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
     ref: React.Ref<HTMLElement>;
     open: boolean;
-    renderClear?: () => React.ReactNode;
+    renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
 };
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];
@@ -38,7 +42,6 @@ export type SelectProps<T = any> = QAProps &
         onUpdate?: (value: string[]) => void;
         onFilterChange?: (filter: string) => void;
         renderControl?: SelectRenderControl;
-        renderClearIcon?: SelectClearProps['renderClearIcon'];
         renderFilter?: (props: {
             onChange: (filter: string) => void;
             onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
@@ -95,6 +98,7 @@ export type SelectOptionGroup<T = any> = {
 
 type SelectClearIconProps = {
     size: SelectSize;
+    renderIcon: SelectRenderClearArgs['renderIcon'];
 };
 
 export type SelectClearProps = SelectClearIconProps & {
@@ -107,5 +111,4 @@ export type SelectClearProps = SelectClearIconProps & {
      */
     onMouseEnter: (e: React.MouseEvent) => void;
     onMouseLeave: (e: React.MouseEvent) => void;
-    renderClearIcon?: (args?: SelectClearIconProps) => React.ReactNode;
 };

@@ -8,13 +8,13 @@ $lHeight: 36px;
 $xlHeight: 44px;
 
 #{$block} {
+    @include mixins.button-reset();
     display: inline-flex;
     justify-content: center;
     align-items: center;
     margin-left: auto;
     cursor: pointer;
     outline: none;
-    @include mixins.button-reset();
 
     &:active:focus,
     &:focus {

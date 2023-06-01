@@ -127,7 +127,7 @@ $block: '.#{variables.$ns-new}select-control';
         // reserving place for clear icon to fix width changing on displaying clear
         #{$block}_has-clear:not(#{$block}_has-value) &::after {
             content: '';
-            display: inline-flex;
+            display: inline-block;
             vertical-align: bottom;
         }
 

@@ -8,9 +8,9 @@ import type {SelectClearProps} from '../../types';
 import './SelectClear.scss';
 
 export const SelectClear = (props: SelectClearProps) => {
-    const {size, onClick, onMouseEnter, onMouseLeave, renderClearIcon} = props;
-    const icon = renderClearIcon ? (
-        renderClearIcon()
+    const {size, onClick, onMouseEnter, onMouseLeave, renderIcon} = props;
+    const icon = renderIcon ? (
+        renderIcon()
     ) : (
         <Icon className={selectClearBlock('clear')} data={CrossIcon} />
     );

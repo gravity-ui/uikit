@@ -15,6 +15,8 @@ export const SelectClear = (props: SelectClearProps) => {
         <Icon className={selectClearBlock('clear')} data={CrossIcon} />
     );
     return (
+        // there is key event handler on parent button node with check for current clear node target
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div
             className={selectClearBlock({size})}
             role="button"

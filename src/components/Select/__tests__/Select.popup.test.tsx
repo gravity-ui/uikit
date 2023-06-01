@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {TextInputSize} from '../../TextInput';
+import type {TextInputSize} from '../../TextInput';
 import {SelectQa} from '../constants';
 
 import {DEFAULT_OPTIONS, TEST_QA, setup} from './utils';

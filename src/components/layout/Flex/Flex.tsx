@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import {QAProps} from '../../types';
+import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {useLayoutContext} from '../hooks/useLayoutContext';
-import {MediaPartial, Space} from '../types';
+import type {MediaPartial, Space} from '../types';
 import {makeCssMod} from '../utils';
 
 import './Flex.scss';

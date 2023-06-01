@@ -2,7 +2,7 @@ import type {KeysData} from '@gravity-ui/i18n';
 
 import {i18n} from '../../i18n';
 
-import {Lang} from './configure';
+import type {Lang} from './configure';
 
 export function addComponentKeysets<T extends KeysData>(data: Record<Lang, T>, keysetName: string) {
     Object.entries(data).forEach(([lang, keys]) => i18n.registerKeyset(lang, keysetName, keys));

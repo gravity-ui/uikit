@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
 import {RenderBackgrounds} from '../demo/colors/Base';
 import {RenderEffects} from '../demo/colors/Effects';

@@ -1,4 +1,4 @@
-import {MutableRefObject, useCallback, useEffect, useRef, useState} from 'react';
+import React from 'react';
 
 import {useUpdateEffect} from '../../utils/useUpdateEffect';
 import {PopoverBehavior, delayByBehavior} from '../config';
@@ -11,7 +11,7 @@ export type UseOpenProps = {
     delayOpening?: number;
     delayClosing?: number;
     behavior: PopoverBehavior;
-    shouldBeOpen: MutableRefObject<boolean>;
+    shouldBeOpen: React.MutableRefObject<boolean>;
 };
 
 export const useOpen = ({
@@ -24,33 +24,33 @@ export const useOpen = ({
     behavior,
     shouldBeOpen,
 }: UseOpenProps) => {
-    const openingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const closingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const openingTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const closingTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const [isOpen, setIsOpen] = useState(initialOpen);
+    const [isOpen, setIsOpen] = React.useState(initialOpen);
 
-    const unsetOpeningTimeout = useCallback(() => {
+    const unsetOpeningTimeout = React.useCallback(() => {
         if (openingTimeout.current) {
             clearTimeout(openingTimeout.current);
             openingTimeout.current = null;
         }
     }, []);
 
-    const unsetClosingTimeout = useCallback(() => {
+    const unsetClosingTimeout = React.useCallback(() => {
         if (closingTimeout.current) {
             clearTimeout(closingTimeout.current);
             closingTimeout.current = null;
         }
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         return () => {
             unsetOpeningTimeout();
             unsetClosingTimeout();
         };
     }, [unsetClosingTimeout, unsetOpeningTimeout]);
 
-    const setTooltipOpen = useCallback(
+    const setTooltipOpen = React.useCallback(
         (open: boolean) => {
             setIsOpen(open);
             shouldBeOpen.current = open;
@@ -59,17 +59,17 @@ export const useOpen = ({
         [onOpenChange, shouldBeOpen],
     );
 
-    const openTooltip = useCallback(() => {
+    const openTooltip = React.useCallback(() => {
         unsetOpeningTimeout();
         setTooltipOpen(true);
     }, [setTooltipOpen, unsetOpeningTimeout]);
 
-    const closeTooltip = useCallback(() => {
+    const closeTooltip = React.useCallback(() => {
         unsetClosingTimeout();
         setTooltipOpen(false);
     }, [setTooltipOpen, unsetClosingTimeout]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (disabled) {
             closeTooltip();
         }
@@ -83,14 +83,14 @@ export const useOpen = ({
 
     const [defaultDelayOpening, defaultDelayClosing] = delayByBehavior[behavior];
 
-    const openTooltipDelayed = useCallback(() => {
+    const openTooltipDelayed = React.useCallback(() => {
         openingTimeout.current = setTimeout(() => {
             openingTimeout.current = null;
             openTooltip();
         }, delayOpening ?? defaultDelayOpening);
     }, [defaultDelayOpening, delayOpening, openTooltip]);
 
-    const closeTooltipDelayed = useCallback(() => {
+    const closeTooltipDelayed = React.useCallback(() => {
         closingTimeout.current = setTimeout(() => {
             closingTimeout.current = null;
             closeTooltip();

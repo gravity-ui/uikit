@@ -11,7 +11,7 @@ interface LayoutPresenterProps {
     title?: string;
 }
 
-const Title: React.FC<{title?: string}> = ({title}) => {
+function Title({title}: {title?: string}) {
     const {activeMediaQuery} = useLayoutContext();
     return (
         <Flex direction="column" space="5" className={sp({mb: '5'})}>
@@ -25,7 +25,7 @@ const Title: React.FC<{title?: string}> = ({title}) => {
             </Text>
         </Flex>
     );
-};
+}
 
 export const LayoutPresenter = ({children, title}: LayoutPresenterProps) => {
     return (

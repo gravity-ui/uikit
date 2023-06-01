@@ -3,7 +3,7 @@ import type {UserAvatarSize} from '../types';
 
 import {getClosestNumber} from './getClosestNumber';
 import {getSrcSet} from './getSrcSet';
-import {SrcSetType} from './types';
+import type {SrcSetType} from './types';
 
 export function getAvatarSrcSet(
     size: UserAvatarSize,

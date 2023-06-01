@@ -1,12 +1,13 @@
-import type {Dispatch, SetStateAction} from 'react';
-
 import {useStateWithCallback} from '../useStateWithCallback';
 
-type UseConditionallyControlledStateResult<T extends unknown> = [T, Dispatch<SetStateAction<T>>];
+type UseConditionallyControlledStateResult<T extends unknown> = [
+    T,
+    React.Dispatch<React.SetStateAction<T>>,
+];
 
 export function useConditionallyControlledState<T>(
     property?: T,
-    setProperty?: Dispatch<SetStateAction<T>> | ((value: T) => void),
+    setProperty?: React.Dispatch<React.SetStateAction<T>> | ((value: T) => void),
     initialState?: T | (() => T),
     isControlled = property !== undefined && setProperty !== undefined,
 ): UseConditionallyControlledStateResult<T> {

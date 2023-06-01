@@ -5,7 +5,8 @@ import _memoize from 'lodash/memoize';
 import {ClipboardButton} from '../../../ClipboardButton';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {Table, TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import {Table} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
 import './withTableCopy.scss';
 
@@ -108,7 +109,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
                             `.${buttonClassName}, .${buttonClassName} *`,
                         )
                     ) {
-                        return;
+                        return undefined;
                     }
 
                     return onRowClick(item, index, event);

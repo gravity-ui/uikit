@@ -1,4 +1,4 @@
-import React, {FC, MouseEvent, ReactNode} from 'react';
+import React from 'react';
 
 import {Icon} from '../Icon';
 import {CrossIcon} from '../icons';
@@ -9,17 +9,17 @@ import './PersonaWrap.scss';
 const b = block('persona');
 
 export interface PersonaWrapProps {
-    avatar: ReactNode;
-    children?: ReactNode;
+    avatar: React.ReactNode;
+    children?: React.ReactNode;
     isEmpty?: boolean;
     theme?: 'default' | 'clear';
     size?: 's' | 'n';
-    onClose?: (event: MouseEvent) => void;
-    onClick?: (event: MouseEvent) => void;
+    onClose?: (event: React.MouseEvent) => void;
+    onClick?: (event: React.MouseEvent) => void;
     className?: string;
 }
 
-export const PersonaWrap: FC<PersonaWrapProps> = ({
+export function PersonaWrap({
     size = 's',
     theme = 'default',
     isEmpty,
@@ -28,7 +28,7 @@ export const PersonaWrap: FC<PersonaWrapProps> = ({
     className,
     avatar,
     children,
-}) => {
+}: PersonaWrapProps) {
     const clickable = Boolean(onClick);
     const closeable = Boolean(onClose);
     return (
@@ -44,6 +44,6 @@ export const PersonaWrap: FC<PersonaWrapProps> = ({
             )}
         </div>
     );
-};
+}
 
 PersonaWrap.displayName = 'PersonaWrap';

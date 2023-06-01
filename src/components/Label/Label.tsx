@@ -1,6 +1,7 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 
-import {Button, ButtonProps, ButtonSize} from '../Button';
+import {Button} from '../Button';
+import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
@@ -109,7 +110,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     };
 
     const renderLabel = (status?: CopyToClipboardStatus) => {
-        let actionButton: ReactNode;
+        let actionButton: React.ReactNode;
 
         if (typeCopy) {
             actionButton = (

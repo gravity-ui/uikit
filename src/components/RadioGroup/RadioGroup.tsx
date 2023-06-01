@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {Radio, RadioProps, RadioSize} from '../Radio';
-import {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
+import {Radio} from '../Radio';
+import type {RadioProps, RadioSize} from '../Radio';
+import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {useRadioGroup} from '../utils/useRadioGroup';
 

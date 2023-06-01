@@ -1,6 +1,6 @@
-import {PopperPlacement} from '../utils/usePopper';
+import type {PopperPlacement} from '../utils/usePopper';
 
-import {DropdownMenuListItem} from './types';
+import type {DropdownMenuListItem} from './types';
 
 export const subMenuPlacement: PopperPlacement = ['right-start', 'left-start'];
 

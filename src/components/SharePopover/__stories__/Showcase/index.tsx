@@ -5,7 +5,7 @@ import {Icon} from '../../../Icon';
 import {ShareList, ShareOptions, SharePopover} from '../../../SharePopover';
 import {block} from '../../../utils/cn';
 import {LayoutDirection} from '../../constants';
-import {ShareOptionsData} from '../../models';
+import type {ShareOptionsData} from '../../models';
 
 import {Cloud, Custom, ShareArrowUp} from './icons';
 

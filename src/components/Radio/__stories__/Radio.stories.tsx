@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
-import {Radio, RadioProps} from '../Radio';
+import {Radio} from '../Radio';
+import type {RadioProps} from '../Radio';
 
 import {RadioShowcase} from './RadioShowcase';
 

@@ -1,10 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 
 import {Button} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
-import {CopyToClipboardBaseProps} from '../CopyToClipboard/types';
-import {QAProps} from '../types';
+import type {CopyToClipboardBaseProps} from '../CopyToClipboard/types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './ClipboardButton.scss';
@@ -32,9 +32,9 @@ export function ClipboardButton({
     timeout = DEFAULT_TIMEOUT,
     options,
 }: ClipboardButtonProps) {
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         buttonRef?.current?.style.setProperty('--yc-button-height', `${size}px`);
     }, [size]);
 

@@ -1,11 +1,11 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {defsByPlatform} from './definitions';
 import {parseKeyGroups} from './parse';
-import {Platform} from './types';
+import type {Platform} from './types';
 import {isMac} from './utils';
 
 import './Hotkey.scss';
@@ -34,7 +34,7 @@ export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey
     const {value, platform, view = 'light', qa, style, className} = props;
 
     const groups = parseHotkeys(value, {platform});
-    const content: ReactNode[] = [];
+    const content: React.ReactNode[] = [];
 
     let hasGroups = false;
     groups.forEach((keys, groupIdx) => {

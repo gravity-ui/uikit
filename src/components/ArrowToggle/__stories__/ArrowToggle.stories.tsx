@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {Meta, Story} from '@storybook/react/types-6-0';
+import type {Meta, Story} from '@storybook/react/types-6-0';
 
-import {ArrowToggle, ArrowToggleProps} from '../ArrowToggle';
+import {ArrowToggle} from '../ArrowToggle';
+import type {ArrowToggleProps} from '../ArrowToggle';
 
 export default {
     title: 'Components/ArrowToggle',
@@ -14,12 +15,12 @@ export const Default = DefaultTemplate.bind({});
 
 const DirectionsTemplate: Story<ArrowToggleProps> = (args) => {
     return (
-        <>
+        <React.Fragment>
             <ArrowToggle {...args} direction="top" /> top
             <ArrowToggle {...args} direction="right" /> right
             <ArrowToggle {...args} direction="bottom" /> bottom
             <ArrowToggle {...args} direction="left" /> left
-        </>
+        </React.Fragment>
     );
 };
 
@@ -27,21 +28,21 @@ export const Directions = DirectionsTemplate.bind({});
 
 const SizesTemplate: Story<ArrowToggleProps> = (args) => {
     return (
-        <>
+        <React.Fragment>
             <ArrowToggle {...args} size={10} /> 10
             <ArrowToggle {...args} size={20} /> 20
             <ArrowToggle {...args} size={30} /> 30
             <ArrowToggle {...args} size={40} /> 40
             <ArrowToggle {...args} size={50} /> 50
             <ArrowToggle {...args} size={100} /> 100
-        </>
+        </React.Fragment>
     );
 };
 
 export const Sizes = SizesTemplate.bind({});
 
 export const Interactive: Story<ArrowToggleProps> = (args) => {
-    const [directionIndex, setDirectionIndex] = useState(0);
+    const [directionIndex, setDirectionIndex] = React.useState(0);
     const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
     const direction = directions[directionIndex % directions.length];
 

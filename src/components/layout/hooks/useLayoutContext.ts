@@ -2,7 +2,7 @@
 import React from 'react';
 
 import {LayoutContext} from '../contexts/LayoutContext';
-import {LayoutTheme, MediaType} from '../types';
+import type {LayoutTheme, MediaType} from '../types';
 import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
 
 interface ComputedMediaContext {

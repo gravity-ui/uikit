@@ -4,7 +4,8 @@ import _memoize from 'lodash/memoize';
 
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {Table, TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import {Table} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 
 import {SortIndicator} from './SortIndicator/SortIndicator';
 

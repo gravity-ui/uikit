@@ -1,4 +1,4 @@
-import {RefObject, useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React from 'react';
 
 import {moveBack} from './moveBack';
 import {moveForward} from './moveForward';
@@ -11,7 +11,7 @@ export type UseListNavigationProps<ItemType, AnchorType> = {
     processEndKey?: boolean;
     disabled?: boolean;
     initialValue?: number;
-    anchorRef?: RefObject<AnchorType>;
+    anchorRef?: React.RefObject<AnchorType>;
     onAnchorKeyDown?: (activeItemIndex: number, event: KeyboardEvent) => void | boolean;
 };
 
@@ -26,31 +26,31 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
     initialValue = -1,
     onAnchorKeyDown,
 }: UseListNavigationProps<ItemType, AnchorType>) {
-    const [activeItemIndex, setActiveItemIndex] = useState<number>(initialValue);
+    const [activeItemIndex, setActiveItemIndex] = React.useState<number>(initialValue);
 
-    const reset = useCallback(() => {
+    const reset = React.useCallback(() => {
         setActiveItemIndex(initialValue);
     }, [initialValue]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (items) {
             reset();
         }
     }, [items, reset]);
 
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         if (disabled) {
-            return;
+            return undefined;
         }
 
         const canNavigate = items.some((item) => !skip?.(item));
         if (!canNavigate) {
-            return;
+            return undefined;
         }
 
         const anchor = anchorRef?.current;
         if (!anchor) {
-            return;
+            return undefined;
         }
 
         const handleKeyDown = (event: KeyboardEvent) => {

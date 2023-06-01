@@ -3,7 +3,7 @@ import React from 'react';
 
 import {block} from '../../utils/cn';
 import {sp} from '../spacing/spacing';
-import {MediaPartial, MediaType, Space} from '../types';
+import type {MediaPartial, MediaType, Space} from '../types';
 import {makeCssMod} from '../utils';
 
 import {useContainerThemeProps} from './useContainerThemeProps';

@@ -9,7 +9,13 @@ import {AdditionalContent} from './AdditionalContent/AdditionalContent';
 import {ClearAction} from './ClearAction/ClearAction';
 import {InputControl} from './InputControl/InputControl';
 import {TextAreaControl} from './TextAreaControl/TextAreaControl';
-import {TextInputPin, TextInputProps, TextInputSize, TextInputState, TextInputView} from './types';
+import type {
+    TextInputPin,
+    TextInputProps,
+    TextInputSize,
+    TextInputState,
+    TextInputView,
+} from './types';
 
 import './TextInput.scss';
 

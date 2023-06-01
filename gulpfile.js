@@ -19,6 +19,8 @@ function compileTs(modules = false) {
     const tsProject = ts.createProject('tsconfig.json', {
         declaration: true,
         module: modules ? 'esnext' : 'commonjs',
+        // uncomment after switching to typescript 5 with verbatimModuleSyntax: true
+        // ...(modules ? undefined : {verbatimModuleSyntax: false}),
     });
 
     return src([

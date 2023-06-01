@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
-import {Select, SelectProps} from '..';
+import {Select} from '..';
+import type {SelectProps} from '..';
 
 import {SelectShowcase} from './SelectShowcase';
 

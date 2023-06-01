@@ -1,11 +1,12 @@
-import {useCallback, useEffect} from 'react';
-import type {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 
 import {useConditionallyControlledState} from '../../utils/useConditionallyControlledState';
 
 export function usePopupVisibility(
     visible?: boolean,
-    onChangeVisibility?: Dispatch<SetStateAction<boolean>> | ((visible: boolean) => void),
+    onChangeVisibility?:
+        | React.Dispatch<React.SetStateAction<boolean>>
+        | ((visible: boolean) => void),
     disabled?: boolean,
 ) {
     const [isPopupShown, setPopupShown] = useConditionallyControlledState<boolean>(
@@ -14,7 +15,7 @@ export function usePopupVisibility(
         false,
     );
 
-    const togglePopup = useCallback(
+    const togglePopup = React.useCallback(
         (open?: boolean) => {
             setPopupShown((isShown) => {
                 if (typeof open === 'boolean') {
@@ -27,11 +28,11 @@ export function usePopupVisibility(
         [setPopupShown],
     );
 
-    const closePopup = useCallback(() => {
+    const closePopup = React.useCallback(() => {
         setPopupShown(false);
     }, [setPopupShown]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (disabled && isPopupShown) {
             closePopup();
         }

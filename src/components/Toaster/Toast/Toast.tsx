@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {Button} from '../../Button';
-import {Icon, IconProps} from '../../Icon';
+import {Icon} from '../../Icon';
+import type {IconProps} from '../../Icon';
 import {Alarm, CrossIcon, Info, Success} from '../../icons';
 import {block} from '../../utils/cn';
 import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';

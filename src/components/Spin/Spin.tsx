@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {DOMProps, QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './Spin.scss';

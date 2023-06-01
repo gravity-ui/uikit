@@ -5,8 +5,8 @@ import type {List, ListItemData} from '../List';
 import {KeyCode} from '../constants';
 
 import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
-import {Option, OptionGroup} from './tech-components';
-import type {SelectOption, SelectOptionGroup, SelectProps} from './types';
+import type {Option, OptionGroup} from './tech-components';
+import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
 
 // "disable" property needs to deactivate group title item in List
 type GroupTitleItem = {label: string; disabled: true};
@@ -30,7 +30,7 @@ export const getFlattenOptions = (
 
 export const getPopupItemHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
-    size: NonNullable<SelectProps['size']>;
+    size: SelectSize;
     option: FlattenOption;
     index: number;
     mobile: boolean;

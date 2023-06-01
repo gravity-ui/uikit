@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
-import {Link, LinkProps} from '../Link';
+import {Link} from '../Link';
+import type {LinkProps} from '../Link';
 import {LinkShowcase} from '../__stories__/LinkShowcase';
 
 export default {

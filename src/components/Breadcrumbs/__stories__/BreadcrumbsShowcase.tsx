@@ -2,7 +2,8 @@ import React from 'react';
 
 import block from 'bem-cn-lite';
 
-import {Breadcrumbs, BreadcrumbsProps} from '../Breadcrumbs';
+import {Breadcrumbs} from '../Breadcrumbs';
+import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 import './BreadcrumbsShowcase.scss';
 

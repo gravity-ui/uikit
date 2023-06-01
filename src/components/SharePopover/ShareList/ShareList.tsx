@@ -3,14 +3,14 @@ import React from 'react';
 import {Button} from '../../Button';
 import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
 import {Icon} from '../../Icon';
-import {SVGIconData} from '../../Icon/types';
+import type {SVGIconData} from '../../Icon/types';
 import {Link} from '../../icons';
 import {block} from '../../utils/cn';
 import {isOfType} from '../../utils/isOfType';
 import {ShareListItem} from '../ShareListItem/ShareListItem';
-import {LayoutDirection, ShareOptions} from '../constants';
+import type {LayoutDirection, ShareOptions} from '../constants';
 import i18n from '../i18n';
-import {ShareOptionsData} from '../models';
+import type {ShareOptionsData} from '../models';
 
 import './ShareList.scss';
 

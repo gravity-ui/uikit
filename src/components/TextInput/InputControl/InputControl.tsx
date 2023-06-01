@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {TextInputProps} from '../types';
+import type {TextInputProps} from '../types';
 
 export interface InputControlProps
     extends Omit<TextInputProps, 'autoComplete'>,

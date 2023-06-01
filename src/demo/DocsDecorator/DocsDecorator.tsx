@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {DocsContainer, DocsContainerProps} from '@storybook/addon-docs';
+import {DocsContainer} from '@storybook/addon-docs';
+import type {DocsContainerProps} from '@storybook/addon-docs';
 import block from 'bem-cn-lite';
 
 import {MobileProvider, ThemeProvider, getThemeType} from '../..';

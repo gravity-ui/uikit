@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {UserAvatar, UserAvatarSize} from '../UserAvatar';
+import {UserAvatar} from '../UserAvatar';
+import type {UserAvatarSize} from '../UserAvatar';
 import {block} from '../utils/cn';
 
 import './User.scss';

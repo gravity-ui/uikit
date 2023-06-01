@@ -2,10 +2,12 @@ import React from 'react';
 
 import range from 'lodash/range';
 
-import {Select, SelectOption, SelectProps} from '..';
+import {Select} from '..';
+import type {SelectOption, SelectProps} from '..';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
-import {RadioButton, RadioButtonOption} from '../../RadioButton';
+import {RadioButton} from '../../RadioButton';
+import type {RadioButtonOption} from '../../RadioButton';
 import {TextInput} from '../../TextInput';
 import {Tooltip} from '../../Tooltip';
 import {block} from '../../utils/cn';

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {LayerCloseReason, LayerConfig, LayerExtendableProps, layerManager} from './LayerManager';
+import {layerManager} from './LayerManager';
+import type {LayerCloseReason, LayerConfig, LayerExtendableProps} from './LayerManager';
 
 export type {LayerCloseReason, LayerExtendableProps};
 

@@ -3,7 +3,7 @@ import React from 'react';
 
 import {block} from '../../utils/cn';
 import {useLayoutContext} from '../hooks/useLayoutContext';
-import {MediaPartial, Space} from '../types';
+import type {MediaPartial, Space} from '../types';
 import {makeCssMod} from '../utils';
 
 import './Row.scss';

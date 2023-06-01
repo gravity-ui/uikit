@@ -1,5 +1,5 @@
 import {getThemeType} from './getThemeType';
-import {ThemeType} from './types';
+import type {ThemeType} from './types';
 import {useThemeValue} from './useThemeValue';
 
 export function useThemeType(): ThemeType {

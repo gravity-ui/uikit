@@ -1,6 +1,6 @@
-import React, {Ref, TransitionEventHandler, useCallback, useRef} from 'react';
+import React from 'react';
 
-import {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
+import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {useRadioGroup} from '../utils/useRadioGroup';
 
@@ -44,10 +44,10 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
         }));
     }
 
-    const plateRef = useRef<HTMLDivElement>(null);
-    const optionRef = useRef<HTMLLabelElement>();
+    const plateRef = React.useRef<HTMLDivElement>(null);
+    const optionRef = React.useRef<HTMLLabelElement>();
 
-    const handleCheckedOptionMount: Ref<HTMLLabelElement> = useCallback(
+    const handleCheckedOptionMount: React.Ref<HTMLLabelElement> = React.useCallback(
         (checkedOptionNode: HTMLLabelElement | null) => {
             if (!checkedOptionNode) {
                 return;
@@ -79,12 +79,10 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
         [],
     );
 
-    const handlePlateTransitionEnd: TransitionEventHandler<HTMLDivElement> = useCallback(
-        (event) => {
+    const handlePlateTransitionEnd: React.TransitionEventHandler<HTMLDivElement> =
+        React.useCallback((event) => {
             event.currentTarget.hidden = true;
-        },
-        [],
-    );
+        }, []);
 
     const {containerProps, optionsProps} = useRadioGroup({...props, options});
 

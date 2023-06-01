@@ -1,1 +1,2 @@
-export {Hotkey, HotkeyProps, parseHotkeys} from './Hotkey';
+export {Hotkey, parseHotkeys} from './Hotkey';
+export type {HotkeyProps} from './Hotkey';

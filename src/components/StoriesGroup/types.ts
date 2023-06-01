@@ -1,4 +1,4 @@
-import {StoriesItem, StoriesItemMedia} from '../Stories/types';
+import type {StoriesItem, StoriesItemMedia} from '../Stories/types';
 
 export interface StoriesGroupItem {
     items: StoriesItem[];

@@ -1,12 +1,13 @@
 import React from 'react';
 
-import {Meta, Story} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
 import {GearIcon} from '../../icons/GearIcon';
 import {Tick as TickIcon} from '../../icons/Tick';
-import {Label, LabelProps} from '../Label';
+import {Label} from '../Label';
+import type {LabelProps} from '../Label';
 
 import './Label.stories.scss';
 

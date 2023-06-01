@@ -1,6 +1,4 @@
-import React from 'react';
-
-import {QAProps} from '../types';
+import type {QAProps} from '../types';
 
 import {NAMESPACE} from './cn';
 

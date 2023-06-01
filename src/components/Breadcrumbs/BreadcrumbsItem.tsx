@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import {Link} from '../Link';
 import {block} from '../utils/cn';

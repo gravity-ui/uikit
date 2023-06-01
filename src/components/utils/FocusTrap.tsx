@@ -1,6 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
-import {FocusTrap as FocusTrapInstance, createFocusTrap} from 'focus-trap';
+import {createFocusTrap} from 'focus-trap';
+import type {FocusTrap as FocusTrapInstance} from 'focus-trap';
 
 import {useForkRef} from './useForkRef';
 import {useUniqId} from './useUniqId';
@@ -15,7 +16,7 @@ const focusTrapContext = React.createContext<FocusTrapContext | undefined>(undef
 interface FocusTrapProps {
     enabled?: boolean;
     disableAutoFocus?: boolean;
-    children: React.ReactNode;
+    children: React.ReactElement;
 }
 export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTrapProps) {
     const nodeRef = React.useRef<HTMLElement | null>(null);
@@ -78,7 +79,7 @@ export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTra
     );
 
     const child = React.Children.only(children);
-    if (!React.isValidElement(child)) {
+    if (!React.isValidElement<any>(child)) {
         throw new Error('Children must contain only one valid element');
     }
     const childRef = (child as any).ref;
@@ -93,7 +94,7 @@ export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTra
 }
 
 export function useParentFocusTrap() {
-    const actions = useContext(focusTrapContext);
+    const actions = React.useContext(focusTrapContext);
     const id = useUniqId();
 
     return React.useMemo(() => {

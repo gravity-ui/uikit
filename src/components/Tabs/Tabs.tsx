@@ -1,10 +1,11 @@
-import React, {forwardRef, useMemo} from 'react';
+import React from 'react';
 
-import {QAProps} from '../types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {TabsContext} from './TabsContext';
-import {TabsItem, TabsItemProps as TabsItemInternalProps} from './TabsItem';
+import {TabsItem} from './TabsItem';
+import type {TabsItemProps as TabsItemInternalProps} from './TabsItem';
 
 import './Tabs.scss';
 
@@ -62,7 +63,7 @@ const getActiveTabId = (
 
 const emptyTabsList: TabsItemProps[] = [];
 
-const TabsComponent = forwardRef<HTMLDivElement, TabsProps>(
+const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
     (
         {
             direction = TabsDirection.Horizontal,
@@ -80,9 +81,9 @@ const TabsComponent = forwardRef<HTMLDivElement, TabsProps>(
     ) => {
         const activeTabId = getActiveTabId(activeTab, allowNotSelected, items);
 
-        const tabsContextValue = useMemo(() => ({activeTabId}), [activeTabId]);
+        const tabsContextValue = React.useMemo(() => ({activeTabId}), [activeTabId]);
 
-        const tabs = useMemo(() => {
+        const tabs = React.useMemo(() => {
             const handleTabClick = (tabId: string) => {
                 if (onSelectTab) {
                     onSelectTab(tabId);

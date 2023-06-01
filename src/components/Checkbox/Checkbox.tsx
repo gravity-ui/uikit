@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {ControlLabel, ControlLabelSize} from '../ControlLabel';
-import {ControlProps, DOMProps, QAProps} from '../types';
+import {ControlLabel} from '../ControlLabel';
+import type {ControlLabelSize} from '../ControlLabel';
+import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {useCheckbox} from '../utils/useCheckbox';
 

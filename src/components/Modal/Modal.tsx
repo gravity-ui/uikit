@@ -3,12 +3,13 @@ import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
 import {Portal} from '../Portal';
-import {DOMProps, QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 import {FocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
 import {useBodyScrollLock} from '../utils/useBodyScrollLock';
-import {LayerCloseReason, LayerExtendableProps, useLayer} from '../utils/useLayer';
+import {useLayer} from '../utils/useLayer';
+import type {LayerCloseReason, LayerExtendableProps} from '../utils/useLayer';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
 import './Modal.scss';

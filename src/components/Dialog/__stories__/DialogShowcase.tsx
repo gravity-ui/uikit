@@ -108,7 +108,7 @@ function OtherDialog() {
                     errorText="Ooops! You lose..."
                     showError={errorVisible}
                     renderButtons={(buttonApply, buttonCancel) => (
-                        <>
+                        <React.Fragment>
                             {buttonCancel}
                             <div style={{marginLeft: 10}}>
                                 <Button view="flat" size="l" width="max" onClick={switchVisibility}>
@@ -116,7 +116,7 @@ function OtherDialog() {
                                 </Button>
                             </div>
                             {buttonApply}
-                        </>
+                        </React.Fragment>
                     )}
                 />
             </Dialog>

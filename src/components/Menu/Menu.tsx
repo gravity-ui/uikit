@@ -1,10 +1,12 @@
 import React from 'react';
 
-import {DOMProps, QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {MenuGroup, MenuGroupProps} from './MenuGroup';
-import {MenuItem, MenuItemProps} from './MenuItem';
+import {MenuGroup} from './MenuGroup';
+import type {MenuGroupProps} from './MenuGroup';
+import {MenuItem} from './MenuItem';
+import type {MenuItemProps} from './MenuItem';
 
 import './Menu.scss';
 

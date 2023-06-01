@@ -1,5 +1,3 @@
-import type {CSSProperties, ReactNode} from 'react';
-
 import type {TextInputSize} from '../TextInput';
 import type {QAProps} from '../types';
 
@@ -28,7 +26,11 @@ export type ListProps<T = unknown> = QAProps & {
     deactivateOnLeave?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
     size?: TextInputSize;
-    renderItem?: (item: ListItemData<T>, isItemActive: boolean, itemIndex: number) => ReactNode;
+    renderItem?: (
+        item: ListItemData<T>,
+        isItemActive: boolean,
+        itemIndex: number,
+    ) => React.ReactNode;
     filterItem?: (filter: string) => (item: ListItemData<T>) => boolean;
     onItemClick?: (item: ListItemData<T>, index: number, fromKeyboard?: boolean) => void;
     onFilterUpdate?: (filter: string) => void;
@@ -45,7 +47,7 @@ export type ListItemProps<T> = {
     itemClassName?: string;
     sortable?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
-    style?: CSSProperties;
+    style?: React.CSSProperties;
     onActivate: (index?: number) => void;
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];

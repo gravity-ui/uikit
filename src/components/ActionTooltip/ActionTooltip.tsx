@@ -1,7 +1,9 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 
-import {Hotkey, HotkeyProps} from '../Hotkey';
-import {Tooltip, TooltipProps} from '../Tooltip';
+import {Hotkey} from '../Hotkey';
+import type {HotkeyProps} from '../Hotkey';
+import {Tooltip} from '../Tooltip';
+import type {TooltipProps} from '../Tooltip';
 import {block} from '../utils/cn';
 
 import './ActionTooltip.scss';
@@ -15,10 +17,10 @@ export interface ActionTooltipProps
     > {
     title: string;
     hotkey?: HotkeyProps['value'];
-    description?: ReactNode;
+    description?: React.ReactNode;
 }
 
-export const ActionTooltip: React.FC<ActionTooltipProps> = function TooltipLayout(props) {
+export function ActionTooltip(props: ActionTooltipProps) {
     const {title, hotkey, description, children, ...tooltipProps} = props;
 
     return (
@@ -27,16 +29,16 @@ export const ActionTooltip: React.FC<ActionTooltipProps> = function TooltipLayou
             className={b(null, tooltipProps.className)}
             contentClassName={b('layout')}
             content={
-                <>
+                <React.Fragment>
                     <div className={b('heading')}>
                         <div className={b('title')}>{title}</div>
                         {hotkey && <Hotkey view="dark" value={hotkey} className={b('hotkey')} />}
                     </div>
                     {description && <div className={b('description')}>{description}</div>}
-                </>
+                </React.Fragment>
             }
         >
             {children}
         </Tooltip>
     );
-};
+}

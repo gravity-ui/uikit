@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import React from 'react';
 
 import {isFunction} from './typeCheckers';
 
@@ -6,9 +6,9 @@ export function useStateWithCallback<T>(
     initialValue: T,
     callback?: (value: T) => void,
 ): [T, (nextValue: T | ((prevValue: T) => T)) => void] {
-    const [state, setState] = useState(initialValue);
+    const [state, setState] = React.useState(initialValue);
 
-    const setWithCallback = useCallback(
+    const setWithCallback = React.useCallback(
         (nextValue: T | ((value: T) => T)) => {
             if (isFunction(nextValue)) {
                 setState((previousState: T) => {

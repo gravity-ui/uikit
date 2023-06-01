@@ -4,7 +4,8 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {GearIcon} from '../../icons/GearIcon';
-import {Button, ButtonPin, ButtonProps, ButtonSize, ButtonView} from '../Button';
+import {Button} from '../Button';
+import type {ButtonPin, ButtonProps, ButtonSize, ButtonView} from '../Button';
 
 const qaId = 'button-component';
 

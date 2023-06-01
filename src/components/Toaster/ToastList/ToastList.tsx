@@ -5,7 +5,7 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {block} from '../../utils/cn';
 import {getCSSTransitionClassNames} from '../../utils/transition';
 import {Toast} from '../Toast/Toast';
-import {InternalToastProps} from '../types';
+import type {InternalToastProps} from '../types';
 
 import './ToastAnimation.scss';
 import './ToastList.scss';

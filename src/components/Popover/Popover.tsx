@@ -1,4 +1,4 @@
-import React, {ForwardedRef, forwardRef, useImperativeHandle, useRef} from 'react';
+import React from 'react';
 
 import {Button} from '../Button';
 import {Icon} from '../Icon';
@@ -17,7 +17,7 @@ import type {PopoverInstanceProps, PopoverProps} from './types';
 
 import './Popover.scss';
 
-export const Popover = forwardRef(function (
+export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAProps>(function (
     {
         initialOpen = false,
         disabled = false,
@@ -50,12 +50,12 @@ export const Popover = forwardRef(function (
         anchorRef,
         strategy,
         qa,
-    }: PopoverProps & QAProps,
-    ref: ForwardedRef<PopoverInstanceProps | undefined>,
+    },
+    ref,
 ) {
-    const controlRef = useRef<HTMLDivElement>(null);
-    const closedManually = useRef(false);
-    const shouldBeOpen = useRef(initialOpen);
+    const controlRef = React.useRef<HTMLDivElement>(null);
+    const closedManually = React.useRef(false);
+    const shouldBeOpen = React.useRef(initialOpen);
 
     const {
         isOpen,
@@ -77,7 +77,7 @@ export const Popover = forwardRef(function (
         shouldBeOpen,
     });
 
-    useImperativeHandle(
+    React.useImperativeHandle(
         ref,
         () => ({
             openTooltip,

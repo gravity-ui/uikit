@@ -1,10 +1,8 @@
-import type {ElementType} from 'react';
-
 import {getPropsCombinations} from './getPropsCombinations';
 
 describe('getPropsCombinations', () => {
     it('Creates props combinations', () => {
-        type TestType = ElementType<{
+        type TestType = React.ElementType<{
             prop1: 'value11' | 'value12';
             prop2: 'value21' | 'value22';
             prop3: 'value31' | 'value32';

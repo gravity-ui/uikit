@@ -1,7 +1,8 @@
 import React from 'react';
 
-import popper from '@popperjs/core';
-import {Modifier, usePopper as useReactPopper} from 'react-popper';
+import type popper from '@popperjs/core';
+import {usePopper as useReactPopper} from 'react-popper';
+import type {Modifier} from 'react-popper';
 
 export type PopperPlacement = popper.Placement | popper.Placement[];
 export type PopperOffset = [number, number];

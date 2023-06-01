@@ -1,5 +1,6 @@
 import {withTableSelection} from '..';
-import {Table, TableColumnConfig} from '../Table';
+import {Table} from '../Table';
+import type {TableColumnConfig} from '../Table';
 import {withTableActions, withTableCopy, withTableSettings, withTableSorting} from '../hoc';
 
 export interface DataItem {

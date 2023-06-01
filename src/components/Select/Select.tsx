@@ -9,7 +9,7 @@ import {useOnFocusOutside} from '../utils/useOnFocusOutside';
 import {useSelect} from '../utils/useSelect';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock, selectClearBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';

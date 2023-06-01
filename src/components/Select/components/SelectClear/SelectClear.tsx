@@ -1,7 +1,9 @@
 import React from 'react';
+
 import {Icon} from '../../../Icon';
 import {CrossIcon} from '../../../icons/CrossIcon';
 import {selectClearBlock} from '../../constants';
+
 import './SelectClear.scss';
 
 type SelectClearIconProps = {

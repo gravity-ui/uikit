@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
+import isEmpty from 'lodash/isEmpty';
 
 import {Icon} from '../../../Icon';
 import type {CnMods} from '../../../utils/cn';
@@ -57,10 +58,11 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
+    const hasValue = Array.isArray(value) && !isEmpty(value.filter(Boolean));
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
-    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear, 'no-active': isDisabledButtonAnimation};
+    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear, 'no-active': isDisabledButtonAnimation, 'has-value': hasValue};
 
     const disableButtonAnimation = React.useCallback(() => {
         setIsDisabledButtonAnimation(true);

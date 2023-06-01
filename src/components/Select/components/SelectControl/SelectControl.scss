@@ -1,6 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 @use '../../variables.scss' as select-css-variables;
+@use '../SelectClear/SelectClear';
 
 $block: '.#{variables.$ns-new}select-control';
 
@@ -122,6 +123,33 @@ $block: '.#{variables.$ns-new}select-control';
 
     &__placeholder {
         color: var(--yc-color-text-hint);
+
+        // reserving place for clear icon to fix width changing on displaying clear
+        #{$block}_has-clear:not(#{$block}_has-value) &::after {
+            content: '';
+            display: inline-flex;
+            vertical-align: bottom;
+        }
+
+        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_s &::after {
+            width: #{SelectClear.$sHeight};
+            height: #{SelectClear.$sHeight};
+        }
+
+        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_m &::after {
+            width: #{SelectClear.$mHeight};
+            height: #{SelectClear.$mHeight};
+        }
+
+        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_l &::after {
+            width: #{SelectClear.$lHeight};
+            height: #{SelectClear.$lHeight};
+        }
+
+        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_xl &::after {
+            width: #{SelectClear.$xlHeight};
+            height: #{SelectClear.$xlHeight};
+        }
     }
 
     &__chevron-icon {

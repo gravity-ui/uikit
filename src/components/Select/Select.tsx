@@ -137,7 +137,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     );
 
     const clearValue = React.useCallback(
-        (e?: React.MouseEvent) => {
+        (e?: React.MouseEvent | React.KeyboardEvent<HTMLElement>) => {
             e?.stopPropagation();
             handleClearValue();
         },
@@ -150,9 +150,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if (isClearButton) {
                 // do not prevent default when press tab/shift+tab key on focused clear icon
                 if (![KeyCode.TAB, KeyCode.SHIFT].includes(e.key)) {
-                    e.stopPropagation();
                     e.preventDefault();
-                    clearValue();
+                    clearValue(e);
                 }
                 return;
             }

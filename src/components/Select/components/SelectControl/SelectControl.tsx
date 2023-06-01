@@ -7,8 +7,13 @@ import {Icon} from '../../../Icon';
 import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock} from '../../constants';
-import type {SelectProps, SelectRenderControl, SelectRenderControlProps} from '../../types';
-import {SelectClear, SelectClearProps} from '../SelectClear/SelectClear';
+import type {
+    SelectClearProps,
+    SelectProps,
+    SelectRenderControl,
+    SelectRenderControlProps,
+} from '../../types';
+import {SelectClear} from '../SelectClear/SelectClear';
 
 import './SelectControl.scss';
 
@@ -73,7 +78,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     const renderClear = () => {
         const hideOnEmpty = !value || !value?.[0];
-        if (!hasClear || !clearValue || hideOnEmpty) {
+        if (!hasClear || !clearValue || hideOnEmpty || disabled) {
             return null;
         }
         return (
@@ -82,7 +87,6 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 onClick={clearValue}
                 onMouseEnter={disableButtonAnimation}
                 onMouseLeave={enableButtonAnimation}
-                disabled={disabled}
                 renderClearIcon={renderClearIcon}
             />
         );
@@ -95,7 +99,6 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 onClick: toggleOpen,
                 ref: handleControlRef,
                 open: Boolean(open),
-                hasClear,
                 renderClear,
             },
             {value},

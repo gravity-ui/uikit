@@ -297,7 +297,7 @@ export const SelectShowcase = (props: SelectProps) => {
                 selectProps={{
                     ...props,
                     className: b('user-control'),
-                    renderControl: ({onClick, onKeyDown, ref, renderClear, hasClear}) => {
+                    renderControl: ({onClick, onKeyDown, ref, renderClear}) => {
                         return (
                             <Button
                                 ref={ref}
@@ -306,7 +306,7 @@ export const SelectShowcase = (props: SelectProps) => {
                                 extraProps={{
                                     onKeyDown,
                                 }}
-                                className={b({'has-clear': hasClear})}
+                                className={b({'has-clear': props.hasClear})}
                             >
                                 <span className={b('text')}>User control</span>
                                 {renderClear?.()}

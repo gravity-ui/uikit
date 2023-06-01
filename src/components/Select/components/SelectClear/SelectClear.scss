@@ -1,3 +1,4 @@
+@use '../../../../../styles/mixins';
 @use '../../../variables';
 
 $block: '.#{variables.$ns-new}select-clear';
@@ -13,6 +14,7 @@ $xlHeight: 44px;
     margin-left: auto;
     cursor: pointer;
     outline: none;
+    @include mixins.button-reset();
 
     &:active:focus,
     &:focus {
@@ -53,11 +55,6 @@ $xlHeight: 44px;
 
         #{$block}:hover & {
             color: var(--yc-color-text-primary);
-        }
-
-        #{$block}:hover &_disabled,
-        &_disabled {
-            color: var(--yc-color-text-hint);
         }
     }
 }

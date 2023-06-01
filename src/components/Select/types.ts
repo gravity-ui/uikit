@@ -1,8 +1,9 @@
+import type React from 'react';
+
 import type {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 import type {UseOpenProps} from '../utils/useSelect/types';
 
-import type {SelectClearProps} from './components/SelectClear/SelectClear';
 import type {Option, OptionGroup} from './tech-components';
 
 export type SelectRenderControlProps = {
@@ -10,7 +11,6 @@ export type SelectRenderControlProps = {
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
     ref: React.Ref<HTMLElement>;
     open: boolean;
-    hasClear?: SelectProps['hasClear'];
     renderClear?: () => React.ReactNode;
 };
 export type SelectRenderControlOptions = {
@@ -91,4 +91,21 @@ export type SelectOptionGroup<T = any> = {
     children?:
         | React.ReactElement<SelectOption, typeof Option>
         | React.ReactElement<SelectOption, typeof Option>[];
+};
+
+type SelectClearIconProps = {
+    size: SelectSize;
+};
+
+export type SelectClearProps = SelectClearIconProps & {
+    onClick: (e: React.MouseEvent) => void;
+    /**
+     * select control (button) has styles on focus, focus-in with animation on click event
+     * to prevent this on click by clear icon need to set class on button
+     * with disabling animation on button
+     * @param e
+     */
+    onMouseEnter: (e: React.MouseEvent) => void;
+    onMouseLeave: (e: React.MouseEvent) => void;
+    renderClearIcon?: (args?: SelectClearIconProps) => React.ReactNode;
 };

@@ -1,6 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Breadcrumbs, BreadcrumbsProps} from '../Breadcrumbs';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Breadcrumbs} from '../Breadcrumbs';
+import type {BreadcrumbsProps} from '../Breadcrumbs';
+
 import {BreadcrumbsShowcase} from './BreadcrumbsShowcase';
 
 const action = () => {};

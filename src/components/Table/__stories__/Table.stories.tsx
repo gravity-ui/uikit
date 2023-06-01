@@ -1,21 +1,25 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
+
 import {action} from '@storybook/addon-actions';
+import type {Meta, Story} from '@storybook/react';
 import _cloneDeep from 'lodash/cloneDeep';
-import {Table, TableProps} from '../Table';
+
+import type {TableAction, TableSettingsData} from '..';
+import {Icon} from '../../Icon';
+import {GearIcon} from '../../icons';
+import {Table} from '../Table';
+import type {TableProps} from '../Table';
+
 import {
-    data,
-    columns,
-    TableWithSelection,
     TableWithAction,
     TableWithCopy,
+    TableWithSelection,
     TableWithSettings,
     TableWithSorting,
-    DataItem,
+    columns,
+    data,
 } from './utils';
-import {TableAction, TableSettingsData} from '..';
-import {GearIcon} from '../../icons';
-import {Icon} from '../../Icon';
+import type {DataItem} from './utils';
 
 export default {
     title: 'Components/Table',

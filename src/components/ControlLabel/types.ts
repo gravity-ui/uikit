@@ -1,14 +1,13 @@
-import {PropsWithChildren, ReactElement} from 'react';
-import {DOMProps, QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 
 export type Size = 'm' | 'l';
 
-export type Props = PropsWithChildren<{
+export type Props = React.PropsWithChildren<{
     labelClassName?: string;
     title?: string;
     disabled?: boolean;
     size?: Size;
-    control: ReactElement;
+    control: React.ReactElement;
 }> &
     DOMProps &
     QAProps;

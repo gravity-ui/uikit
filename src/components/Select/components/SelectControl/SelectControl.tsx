@@ -1,10 +1,11 @@
 import React from 'react';
-import {useForkRef} from '../../../utils/useForkRef';
+
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Chevron} from '../../../icons/Chevron';
-import type {SelectRenderControl, SelectProps, SelectRenderControlProps} from '../../types';
+import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock} from '../../constants';
+import type {SelectProps, SelectRenderControl, SelectRenderControlProps} from '../../types';
 import {mapToButtonView} from '../../utils';
 
 import './SelectControl.scss';

@@ -1,11 +1,13 @@
-import React, {PropsWithChildren, useEffect, useLayoutEffect, useMemo, useState} from 'react';
+import React from 'react';
 
 import {block} from '../utils/cn';
-import {DEFAULT_LIGHT_THEME, DEFAULT_DARK_THEME, DEFAULT_THEME, ROOT_CLASS_NAME} from './constants';
+
 import {ThemeContext} from './ThemeContext';
+import {ThemeSettingsContext} from './ThemeSettingsContext';
+import type {ThemeSettings} from './ThemeSettingsContext';
 import {ThemeValueContext} from './ThemeValueContext';
-import {ThemeSettings, ThemeSettingsContext} from './ThemeSettingsContext';
-import type {Theme, RealTheme} from './types';
+import {DEFAULT_DARK_THEME, DEFAULT_LIGHT_THEME, DEFAULT_THEME, ROOT_CLASS_NAME} from './constants';
+import type {RealTheme, Theme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
 
@@ -25,7 +27,7 @@ interface ThemeProviderDefaultProps {
 export interface ThemeProviderProps
     extends ThemeProviderExternalProps,
         Partial<ThemeProviderDefaultProps>,
-        PropsWithChildren<{}> {}
+        React.PropsWithChildren<{}> {}
 
 export function ThemeProvider({
     theme: themeProp = DEFAULT_THEME,
@@ -36,13 +38,13 @@ export function ThemeProvider({
     rootClassName = '',
     children,
 }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>(themeProp);
-    const [{systemLightTheme, systemDarkTheme}, setThemeSettings] = useState<ThemeSettings>({
+    const [theme, setTheme] = React.useState<Theme>(themeProp);
+    const [{systemLightTheme, systemDarkTheme}, setThemeSettings] = React.useState<ThemeSettings>({
         systemLightTheme: systemLightThemeProp,
         systemDarkTheme: systemDarkThemeProp,
     });
 
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         setTheme(themeProp);
         setThemeSettings({
             systemLightTheme: systemLightThemeProp,
@@ -55,13 +57,13 @@ export function ThemeProvider({
     ) as RealTheme;
     const themeValue = theme === 'system' ? systemTheme : theme;
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!scoped) {
             updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar}, rootClassName);
         }
     }, [nativeScrollbar, themeValue, scoped, rootClassName]);
 
-    const contextValue = useMemo(
+    const contextValue = React.useMemo(
         () => ({
             theme,
             themeValue,
@@ -70,9 +72,9 @@ export function ThemeProvider({
         [theme, themeValue],
     );
 
-    const themeValueContext = useMemo(() => ({themeValue}), [themeValue]);
+    const themeValueContext = React.useMemo(() => ({themeValue}), [themeValue]);
 
-    const themeSettingsContext = useMemo(
+    const themeSettingsContext = React.useMemo(
         () => ({
             themeSettings: {systemLightTheme, systemDarkTheme},
             setThemeSettings,

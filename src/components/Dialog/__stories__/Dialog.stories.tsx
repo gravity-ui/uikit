@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
-import {Story, Meta} from '@storybook/react';
+import React from 'react';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Button} from '../../Button';
-import {Dialog, DialogProps} from '../Dialog';
+import {Dialog} from '../Dialog';
+import type {DialogProps} from '../Dialog';
+
 import {DialogShowcase} from './DialogShowcase';
 
 export default {
@@ -11,9 +15,9 @@ export default {
 
 const DefaultTemplate: Story<DialogProps> = (args) => {
     const dialogTitleId = 'app-confirmation-dialog-title';
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
     return (
-        <>
+        <React.Fragment>
             <Button view="normal" onClick={() => setOpen(true)}>
                 Show dialog
             </Button>
@@ -35,7 +39,7 @@ const DefaultTemplate: Story<DialogProps> = (args) => {
                     textButtonCancel="Cancel"
                 />
             </Dialog>
-        </>
+        </React.Fragment>
     );
 };
 export const Default = DefaultTemplate.bind({});

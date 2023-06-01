@@ -1,6 +1,9 @@
 import React from 'react';
+
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
-import {CopyToClipboardBaseProps, CopyToClipboardContent, CopyToClipboardStatus} from './types';
+
+import {CopyToClipboardStatus} from './types';
+import type {CopyToClipboardBaseProps, CopyToClipboardContent} from './types';
 
 interface CopyToClipboardGeneralProps extends CopyToClipboardBaseProps {
     children: CopyToClipboardContent;

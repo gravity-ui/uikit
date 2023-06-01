@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {Button, ButtonProps} from '../../../Button';
+import {MediaRenderer} from '..';
+import {Button} from '../../../Button';
+import type {ButtonProps} from '../../../Button';
 import {ButtonClose} from '../../../Dialog/ButtonClose/ButtonClose';
 import {Link} from '../../../Link';
-import {MediaRenderer} from '..';
-import i18n from '../../i18n';
-
-import {StoriesItem} from '../../types';
-
 import {block} from '../../../utils/cn';
+import i18n from '../../i18n';
+import type {StoriesItem} from '../../types';
+
 import './StoriesLayout.scss';
 
 const b = block('stories-layout');

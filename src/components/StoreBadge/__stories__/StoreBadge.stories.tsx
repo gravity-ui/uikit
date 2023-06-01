@@ -1,7 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {StoreBadge, StoreBadgeProps} from '../StoreBadge';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Platform} from '../../mobile/constants';
+import {StoreBadge} from '../StoreBadge';
+import type {StoreBadgeProps} from '../StoreBadge';
 
 export default {
     title: 'Components/StoreBadge',

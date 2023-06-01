@@ -1,11 +1,12 @@
 import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import {
-    TEST_QA,
-    SELECT_CONTROL_OPEN_CLASS,
     DEFAULT_OPTIONS,
     GROUPED_OPTIONS,
     OptionsListType,
+    SELECT_CONTROL_OPEN_CLASS,
+    TEST_QA,
     setup,
 } from './utils';
 

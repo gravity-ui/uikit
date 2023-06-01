@@ -1,8 +1,11 @@
 import React from 'react';
+
 import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import {TextInput} from '../../TextInput';
 import type {SelectOption, SelectProps} from '../types';
+
 import {TEST_QA, generateOptions, setup} from './utils';
 
 afterEach(() => {

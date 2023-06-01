@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {block} from '../../utils/cn';
+
 import './DialogHeader.scss';
 
 const b = block('dialog-header');

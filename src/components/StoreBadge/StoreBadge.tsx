@@ -1,10 +1,10 @@
 import React from 'react';
 
+import {Lang} from '../index';
+import type {Platform} from '../mobile/constants';
 import {block} from '../utils/cn';
-import {Platform} from '../mobile/constants';
 
 import './StoreBadge.scss';
-import {Lang} from '../index';
 
 const b = block('store-badge');
 
@@ -28,6 +28,7 @@ export function StoreBadge({
     alt,
 }: StoreBadgeProps) {
     if (!url) {
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
         return <img className={b({platform, lang}, className)} onClick={onClick} alt={alt} />;
     }
 

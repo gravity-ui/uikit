@@ -1,9 +1,9 @@
-import {LayoutTheme, Space} from './types';
+import type {ColSize, LayoutTheme, Space} from './types';
 
 // css custom properties doesn't support decimal numbers in name
 export const CSS_SIZE_EXCEPTION = {
     '0.5': 'half',
-} as Record<Space, string>;
+} as Record<Space | ColSize, string>;
 
 export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
     breakpoints: {

@@ -1,17 +1,19 @@
+import React from 'react';
+
 import {act, fireEvent, render, screen} from '@testing-library/react';
-import React, {useEffect} from 'react';
-import {useToaster} from '../hooks/useToaster';
-import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
+
 import {ToasterProvider} from '../Provider/ToasterProvider';
-import {ToasterPublicMethods} from '../types';
+import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
+import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
 import {getToast} from '../__mocks__/getToast';
 import {tick} from '../__mocks__/tick';
-import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
+import {useToaster} from '../hooks/useToaster';
+import type {ToasterPublicMethods} from '../types';
 
 function ToastAPI({onMount}: {onMount: (api: ToasterPublicMethods) => void}) {
     const toaster = useToaster();
 
-    useEffect(() => {
+    React.useEffect(() => {
         onMount(toaster);
     }, []);
 

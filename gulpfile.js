@@ -1,10 +1,11 @@
 /* eslint-env node */
 const path = require('path');
+
 const {task, src, dest, series, parallel} = require('gulp');
-const rimraf = require('rimraf');
-const ts = require('gulp-typescript');
-const replace = require('gulp-replace');
 const sass = require('gulp-dart-sass');
+const replace = require('gulp-replace');
+const ts = require('gulp-typescript');
+const rimraf = require('rimraf');
 
 const BUILD_DIR = path.resolve('build');
 
@@ -18,6 +19,8 @@ function compileTs(modules = false) {
     const tsProject = ts.createProject('tsconfig.json', {
         declaration: true,
         module: modules ? 'esnext' : 'commonjs',
+        // uncomment after switching to typescript 5 with verbatimModuleSyntax: true
+        // ...(modules ? undefined : {verbatimModuleSyntax: false}),
     });
 
     return src([

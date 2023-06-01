@@ -1,6 +1,8 @@
 import React from 'react';
+
 import {GearIcon} from '../../icons';
 import type {TabsProps} from '../Tabs';
+
 import type {StoryParams} from './types';
 
 const gearIcon = <GearIcon width={20} height={20} />;

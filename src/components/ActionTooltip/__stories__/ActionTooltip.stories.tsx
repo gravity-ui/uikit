@@ -1,7 +1,10 @@
 import React from 'react';
-import {Story} from '@storybook/react';
-import {ActionTooltip, ActionTooltipProps} from '../ActionTooltip';
+
+import type {Story} from '@storybook/react';
+
 import {Button} from '../../Button';
+import {ActionTooltip} from '../ActionTooltip';
+import type {ActionTooltipProps} from '../ActionTooltip';
 
 export default {
     title: 'Components/ActionTooltip',

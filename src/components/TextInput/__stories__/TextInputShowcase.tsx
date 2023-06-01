@@ -1,11 +1,14 @@
 import React from 'react';
-import block from 'bem-cn-lite';
+
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
-import {Checkbox} from '../../Checkbox';
+import block from 'bem-cn-lite';
+
 import {Button} from '../../Button';
+import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
 import {TextInput} from '../TextInput';
-import {TextInputProps} from '../types';
+import type {TextInputProps} from '../types';
+
 import './TextInputShowcase.scss';
 
 const b = block('text-input-showcase');
@@ -28,7 +31,7 @@ const EyeButton = (props: {
     );
 };
 
-export const TextInputShowcase: React.FC = () => {
+export function TextInputShowcase() {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
     const [hideValue, setHideValue] = React.useState(false);
@@ -299,4 +302,4 @@ export const TextInputShowcase: React.FC = () => {
             </div>
         </div>
     );
-};
+}

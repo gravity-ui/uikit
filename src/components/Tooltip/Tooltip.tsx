@@ -1,8 +1,9 @@
-import React, {Children, cloneElement, useEffect, useState} from 'react';
+import React from 'react';
 
-import {Popup, PopupPlacement} from '../Popup';
-import {useBoolean} from '../utils/useBoolean';
+import {Popup} from '../Popup';
+import type {PopupPlacement} from '../Popup';
 import {block} from '../utils/cn';
+import {useBoolean} from '../utils/useBoolean';
 import {useForkRef} from '../utils/useForkRef';
 
 import './Tooltip.scss';
@@ -26,7 +27,7 @@ const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
 
 export const Tooltip = (props: TooltipProps) => {
     const {children, content, disabled, placement = DEFAULT_PLACEMENT} = props;
-    const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
+    const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const tooltipVisible = useTooltipVisible(anchorElement, props);
 
     const renderPopup = () => {
@@ -45,16 +46,16 @@ export const Tooltip = (props: TooltipProps) => {
         );
     };
 
-    const child = Children.only(children);
+    const child = React.Children.only(children);
     const childRef = (child as any).ref;
 
     const ref = useForkRef(setAnchorElement, childRef);
 
     return (
-        <>
-            {cloneElement(child, {ref})}
+        <React.Fragment>
+            {React.cloneElement(child, {ref})}
             {anchorElement ? renderPopup() : null}
-        </>
+        </React.Fragment>
     );
 };
 
@@ -62,7 +63,7 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
     const timeoutRef = React.useRef<number>();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!anchor) {
             return undefined;
         }

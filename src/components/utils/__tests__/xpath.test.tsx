@@ -1,5 +1,9 @@
+/* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
+
 import React from 'react';
+
 import {render, screen} from '@testing-library/react';
+
 import {getXpath, withoutClassMods} from '../xpath';
 
 class XpathBuilder {

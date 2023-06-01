@@ -1,4 +1,5 @@
-import {sp, SpacingProps} from './spacing';
+import {sp} from './spacing';
+import type {SpacingProps} from './spacing';
 
 describe('spacing utility', () => {
     test.each<[SpacingProps, string]>([

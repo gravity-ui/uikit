@@ -1,4 +1,5 @@
 import {addons} from '@storybook/addons';
+
 import {themes} from './theme';
 
 addons.setConfig({

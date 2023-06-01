@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../../../utils/cn';
-import {StoriesItemMedia} from '../../types';
+import type {StoriesItemMedia} from '../../types';
 
 import './ImageView.scss';
 

@@ -1,16 +1,17 @@
 import React from 'react';
 
-import {QAProps} from '../types';
-import {SVGIconData} from './types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {a11yHiddenSvgProps} from '../utils/svg';
+
+import type {SVGIconData} from './types';
 import {
-    isSpriteData,
-    isSvgrData,
-    isStringSvgData,
-    prepareStringData,
     getStringViewBox,
     isComponentSvgData,
+    isSpriteData,
+    isStringSvgData,
+    isSvgrData,
+    prepareStringData,
 } from './utils';
 
 import './Icon.scss';

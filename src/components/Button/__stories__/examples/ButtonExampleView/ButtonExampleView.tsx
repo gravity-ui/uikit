@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {Button} from '../../..';
+import {DocsExample} from '../../../../../demo/DocsExample/DocsExample';
 import {Icon} from '../../../../Icon';
 import {GearIcon} from '../../../../icons';
-import {DocsExample} from '../../../../../demo/DocsExample/DocsExample';
 
 export function ButtonExampleViewAction() {
     return (

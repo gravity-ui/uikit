@@ -1,15 +1,16 @@
 import React from 'react';
+
+import {Button} from '../../../Button';
+import type {ButtonProps} from '../../../Button';
 import {Icon} from '../../../Icon/Icon';
+import type {ModalCloseReason} from '../../../Modal';
 import {MediaRenderer} from '../../../Stories/components';
-
-import {StoriesGroupItem} from '../../types';
+import type {StoriesItemMedia} from '../../../Stories/types';
 import {Chevron} from '../../../icons/Chevron';
-import {Button, ButtonProps} from '../../../Button';
-
 import {block} from '../../../utils/cn';
+import type {StoriesGroupItem} from '../../types';
+
 import './StoriesPreview.scss';
-import {ModalCloseReason} from '../../../Modal';
-import {StoriesItemMedia} from '../../../Stories/types';
 
 const PREVIEW_ITEM_SIZE = 40;
 const PREVIEW_LIST_GAP = 8;
@@ -37,6 +38,7 @@ const PreviewItem = ({active, disabled, groupIndex, media, onSelectGroup}: Previ
     );
 
     return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
             className={b('stories-preview-item', {
                 active,
@@ -194,6 +196,7 @@ export const StoriesPreview = ({
 
     if (groups.length < maxSliderItemsCount) {
         return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div className={b()} onClick={handleClose}>
                 <StoriesPreviewList
                     groupIndex={groupIndex}
@@ -205,6 +208,7 @@ export const StoriesPreview = ({
     }
 
     return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div className={b()} onClick={handleClose}>
             <StoriesPreviewListWithSlider
                 maxSliderItemsCount={maxSliderItemsCount}

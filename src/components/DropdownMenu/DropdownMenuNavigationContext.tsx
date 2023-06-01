@@ -1,22 +1,24 @@
-import React, {createContext, ReactNode, RefObject, useEffect, useMemo, useState} from 'react';
+import React from 'react';
 
 export type DropdownMenuNavigationContextType = {
     activeMenuPath: number[];
     setActiveMenuPath: (path: number[]) => void;
-    anchorRef: RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<HTMLDivElement>;
 };
 
 const rootMenuPath: number[] = [];
 
-export const DropdownMenuNavigationContext = createContext<DropdownMenuNavigationContextType>({
-    activeMenuPath: rootMenuPath,
-    setActiveMenuPath: () => {},
-    anchorRef: {current: null},
-});
+export const DropdownMenuNavigationContext = React.createContext<DropdownMenuNavigationContextType>(
+    {
+        activeMenuPath: rootMenuPath,
+        setActiveMenuPath: () => {},
+        anchorRef: {current: null},
+    },
+);
 
 export type DropdownMenuNavigationContextProviderProps = {
-    anchorRef: RefObject<HTMLDivElement>;
-    children: ReactNode;
+    anchorRef: React.RefObject<HTMLDivElement>;
+    children: React.ReactNode;
     disabled: boolean;
 };
 
@@ -25,15 +27,15 @@ export const DropdownMenuNavigationContextProvider = ({
     children,
     disabled,
 }: DropdownMenuNavigationContextProviderProps) => {
-    const [activeMenuPath, setActiveMenuPath] = useState<number[]>(rootMenuPath);
+    const [activeMenuPath, setActiveMenuPath] = React.useState<number[]>(rootMenuPath);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (disabled) {
             setActiveMenuPath(rootMenuPath);
         }
     }, [disabled]);
 
-    const contextValue = useMemo(
+    const contextValue = React.useMemo(
         () => ({
             activeMenuPath,
             setActiveMenuPath,

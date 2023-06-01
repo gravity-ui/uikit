@@ -1,6 +1,9 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Spin, SpinProps} from '../Spin';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Spin} from '../Spin';
+import type {SpinProps} from '../Spin';
 
 export default {
     title: 'Components/Spin',

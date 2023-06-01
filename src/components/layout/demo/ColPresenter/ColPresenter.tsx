@@ -1,6 +1,8 @@
 import React from 'react';
+
+import {Col} from '../../Col/Col';
+import type {ColProps} from '../../Col/Col';
 import {Box} from '../Box/Box';
-import {Col, ColProps} from '../../Col/Col';
 
 // @ts-ignore-error
 const pickSizeProps = <T extends {}>({l, xl, s, m, xxl, xxxl, size}: T = {}): string => {

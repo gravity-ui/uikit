@@ -1,6 +1,9 @@
-import React, {useEffect} from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Progress, ProgressProps, ProgressTheme} from '../Progress';
+import React from 'react';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Progress} from '../Progress';
+import type {ProgressProps, ProgressTheme} from '../Progress';
 
 export default {
     title: 'Components/Progress',
@@ -13,7 +16,7 @@ export const Default = Template.bind({value: 50});
 
 const ThemeTemplate: Story<ProgressProps> = (args) => {
     return (
-        <>
+        <React.Fragment>
             <Progress {...args} value={80} theme="default" text="default" />
             <br />
             <Progress {...args} value={90} theme="success" text="success" />
@@ -25,7 +28,7 @@ const ThemeTemplate: Story<ProgressProps> = (args) => {
             <Progress {...args} value={90} theme="info" text="info" />
             <br />
             <Progress {...args} value={60} theme="misc" text="misc" />
-        </>
+        </React.Fragment>
     );
 };
 
@@ -33,7 +36,7 @@ export const Theme = ThemeTemplate.bind({});
 
 const StackTemplate: Story<ProgressProps> = (args) => {
     return (
-        <>
+        <React.Fragment>
             <Progress
                 {...args}
                 stack={[
@@ -65,16 +68,7 @@ const StackTemplate: Story<ProgressProps> = (args) => {
                 ]}
             />
             <br />
-            <Progress
-                {...args}
-                stack={[
-                    {value: 33.33, theme: 'default', content: 'First', loading: true},
-                    {value: 33.33, theme: 'success', content: 'Second', loading: true},
-                    {value: 33.33, theme: 'warning', content: 'Third', loading: true},
-                ]}
-            />
-            <br />
-        </>
+        </React.Fragment>
     );
 };
 
@@ -82,13 +76,13 @@ export const Stack = StackTemplate.bind({});
 
 const ViewTemplate: Story<ProgressProps> = (args) => {
     return (
-        <>
+        <React.Fragment>
             <Progress {...args} value={80} theme="success" view="normal" />
             <br />
             <Progress {...args} value={60} theme="warning" view="thin" />
             <br />
             <Progress {...args} value={70} theme="danger" view="thinnest" />
-        </>
+        </React.Fragment>
     );
 };
 
@@ -99,7 +93,7 @@ const defaultState: {value: number; theme: ProgressTheme} = {value: 40, theme: '
 const AnimationTemplate: Story<ProgressProps> = (args) => {
     const [progressState, setProgressState] = React.useState(defaultState);
 
-    useEffect(() => {
+    React.useEffect(() => {
         let timerId: number;
 
         function next(timeout = 2000) {

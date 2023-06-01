@@ -1,14 +1,13 @@
 import React from 'react';
 
-import {block} from '../../../utils/cn';
-
-import {Icon} from '../../../Icon';
 import {Button} from '../../../Button';
-import {SharePopover, ShareOptions, ShareList} from '../../../SharePopover';
-
+import {Icon} from '../../../Icon';
+import {ShareList, ShareOptions, SharePopover} from '../../../SharePopover';
+import {block} from '../../../utils/cn';
 import {LayoutDirection} from '../../constants';
-import {Custom, Cloud, ShareArrowUp} from './icons';
-import {ShareOptionsData} from '../../models';
+import type {ShareOptionsData} from '../../models';
+
+import {Cloud, Custom, ShareArrowUp} from './icons';
 
 import './SharePopover.scss';
 

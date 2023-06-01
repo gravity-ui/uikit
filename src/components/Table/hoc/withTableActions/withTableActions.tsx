@@ -1,13 +1,17 @@
 import React from 'react';
+
 import _memoize from 'lodash/memoize';
+
+import {Button} from '../../../Button';
+import {Icon} from '../../../Icon';
+import {Menu} from '../../../Menu';
+import type {MenuItemProps} from '../../../Menu';
+import {Popup} from '../../../Popup';
+import {DotsIcon} from '../../../icons/DotsIcon';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {Icon} from '../../../Icon';
-import {Button} from '../../../Button';
-import {Popup} from '../../../Popup';
-import {Menu, MenuItemProps} from '../../../Menu';
-import {DotsIcon} from '../../../icons/DotsIcon';
-import {TableDataItem, TableProps, TableColumnConfig} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+
 import './withTableActions.scss';
 
 export const actionsColumnId = '_actions';
@@ -248,7 +252,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                             `.${BUTTON_CLASSNAME}, .${BUTTON_CLASSNAME} *`,
                         )
                     ) {
-                        return;
+                        return undefined;
                     }
 
                     return onRowClick(item, index, event);

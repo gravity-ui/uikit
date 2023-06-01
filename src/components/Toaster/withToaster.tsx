@@ -1,9 +1,11 @@
-import React, {ComponentType} from 'react';
+import React from 'react';
+
 import {getComponentName} from '../utils/getComponentName';
+
 import {useToaster} from './hooks/useToaster';
 
 export function withToaster<T>() {
-    return function (WrappedComponent: ComponentType<T>) {
+    return function (WrappedComponent: React.ComponentType<T>) {
         function WithToaster(props: T) {
             const toaster = useToaster();
 

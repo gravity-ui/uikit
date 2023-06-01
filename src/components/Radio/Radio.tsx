@@ -1,7 +1,9 @@
 import React from 'react';
-import {ControlLabel, ControlLabelSize} from '../ControlLabel';
+
+import {ControlLabel} from '../ControlLabel';
+import type {ControlLabelSize} from '../ControlLabel';
+import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {DOMProps, ControlProps, QAProps} from '../types';
 import {useRadio} from '../utils/useRadio';
 
 import './Radio.scss';

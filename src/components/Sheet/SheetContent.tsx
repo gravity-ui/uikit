@@ -1,7 +1,10 @@
 import React from 'react';
-import {MobileContextProps, Platform, withMobile, History, Location} from '../mobile';
-import {VelocityTracker} from './utils';
+
+import {Platform, withMobile} from '../mobile';
+import type {History, Location, MobileContextProps} from '../mobile';
+
 import {sheetBlock} from './constants';
+import {VelocityTracker} from './utils';
 
 import './Sheet.scss';
 
@@ -136,6 +139,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         return (
             <React.Fragment>
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div
                     ref={this.veilRef}
                     className={sheetBlock('veil', veilTransitionMod)}

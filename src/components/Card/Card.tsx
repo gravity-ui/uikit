@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {block} from '../utils/cn';
 
 import './Card.scss';
@@ -58,6 +59,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
     return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
             ref={ref}
             className={b(

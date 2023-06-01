@@ -1,10 +1,12 @@
-import type {FC} from 'react';
-import React, {useState, useCallback, useEffect, useMemo} from 'react';
-import {block} from '../utils/cn';
-import {CrossIcon} from '../icons/CrossIcon';
-import {Button, ButtonProps} from '../Button';
-import {Sheet, SheetProps} from '../Sheet';
+import React from 'react';
+
+import {Button} from '../Button';
+import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
+import {Sheet} from '../Sheet';
+import type {SheetProps} from '../Sheet';
+import {CrossIcon} from '../icons/CrossIcon';
+import {block} from '../utils/cn';
 
 import './PromoSheet.scss';
 
@@ -30,7 +32,7 @@ type ImageSizes = {
     height?: number;
 };
 
-export const PromoSheet: FC<PromoSheetProps> = ({
+export function PromoSheet({
     title,
     message,
     actionText,
@@ -43,12 +45,12 @@ export const PromoSheet: FC<PromoSheetProps> = ({
     imageClassName,
     onActionClick,
     onClose,
-}) => {
-    const [visible, setVisible] = useState(true);
-    const [loaded, setLoaded] = useState(!imageSrc);
-    const [imageSizes, setImageSizes] = useState<ImageSizes | undefined>();
+}: PromoSheetProps) {
+    const [visible, setVisible] = React.useState(true);
+    const [loaded, setLoaded] = React.useState(!imageSrc);
+    const [imageSizes, setImageSizes] = React.useState<ImageSizes | undefined>();
 
-    const handleActionClick = useCallback<NonNullable<PromoSheetProps['onActionClick']>>(
+    const handleActionClick = React.useCallback<NonNullable<PromoSheetProps['onActionClick']>>(
         (event) => {
             setVisible(false);
             onActionClick?.(event);
@@ -56,18 +58,18 @@ export const PromoSheet: FC<PromoSheetProps> = ({
         [onActionClick],
     );
 
-    const handleCloseClick = useCallback<NonNullable<PromoSheetProps['onClose']>>(() => {
+    const handleCloseClick = React.useCallback<NonNullable<PromoSheetProps['onClose']>>(() => {
         setVisible(false);
     }, []);
 
-    const closeButtonExtraProps = useMemo(
+    const closeButtonExtraProps = React.useMemo(
         () => ({
             'aria-label': closeText,
         }),
         [closeText],
     );
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!imageSrc) {
             setLoaded(true);
 
@@ -142,4 +144,4 @@ export const PromoSheet: FC<PromoSheetProps> = ({
             </div>
         </Sheet>
     );
-};
+}

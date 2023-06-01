@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {ControlGroupProps} from '../types';
+import type {ControlGroupProps} from '../types';
+
 import {useUniqId} from './useUniqId';
 
 export function useRadioGroup(props: ControlGroupProps) {

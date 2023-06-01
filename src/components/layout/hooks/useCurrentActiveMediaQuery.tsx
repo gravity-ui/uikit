@@ -1,6 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
-import {MediaProps, MediaType} from '../types';
+
+import type {MediaProps, MediaType} from '../types';
 
 export const mockMediaQueryList: MediaQueryList = {
     media: '',

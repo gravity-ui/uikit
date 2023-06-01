@@ -1,6 +1,9 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Portal, PortalProps} from '../Portal';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Portal} from '../Portal';
+import type {PortalProps} from '../Portal';
 
 export default {
     title: 'Components/Portal',

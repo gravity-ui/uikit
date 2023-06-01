@@ -150,9 +150,9 @@ export const optionsAssorted: DropdownMenuItem<unknown>[] = [
     {
         action: () => console.log('==> magic action called'),
         text: (
-            <>
+            <React.Fragment>
                 I am <span style={{color: 'deeppink'}}>magic</span> item with React.Node
-            </>
+            </React.Fragment>
         ),
     },
 ];

@@ -1,4 +1,4 @@
-import {PopoverTheme} from '../../../types';
+import type {PopoverTheme} from '../../../types';
 
 export const getButtonView = (theme: PopoverTheme, isAction = false) => {
     switch (theme) {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {block} from '../../../utils/cn';
 import {Loader} from '../../../Loader';
+import {block} from '../../../utils/cn';
 
 import './Picture.scss';
 

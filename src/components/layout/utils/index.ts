@@ -1,5 +1,5 @@
 import {CSS_SIZE_EXCEPTION} from '../constants';
-import {MediaType, MediaProps, IsMediaActive, MediaPartial, Space} from '../types';
+import type {ColSize, IsMediaActive, MediaPartial, MediaProps, MediaType, Space} from '../types';
 
 const mediaByOrder: MediaProps<number> = {
     s: 0,
@@ -40,6 +40,6 @@ export const getClosestMediaPropsFactory =
         return undefined;
     };
 
-export const makeCssMod = (space: Space): string => {
+export const makeCssMod = (space: Space | ColSize): string => {
     return space in CSS_SIZE_EXCEPTION ? CSS_SIZE_EXCEPTION[space] : String(space);
 };

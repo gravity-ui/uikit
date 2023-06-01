@@ -1,15 +1,16 @@
 import React from 'react';
+
 import block from 'bem-cn-lite';
 
 import {
     Button,
-    Switch,
     Checkbox,
-    Radio,
     Loader,
+    Radio,
     Spin,
-    Tabs,
+    Switch,
     Table,
+    Tabs,
     withTableSelection,
 } from '../../components';
 

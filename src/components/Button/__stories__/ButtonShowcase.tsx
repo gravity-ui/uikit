@@ -1,10 +1,13 @@
 import React from 'react';
+
 import block from 'bem-cn-lite';
+
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import {Button, ButtonProps} from '../Button';
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
+import {Button} from '../Button';
+import type {ButtonProps} from '../Button';
 
 import './ButtonShowcase.scss';
 

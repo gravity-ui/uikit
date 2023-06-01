@@ -1,7 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Modal, ModalProps} from '../Modal';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Button} from '../../Button';
+import {Modal} from '../Modal';
+import type {ModalProps} from '../Modal';
 
 export default {
     title: 'Components/Modal',

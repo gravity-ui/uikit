@@ -1,6 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Card, CardProps} from '../Card';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Card} from '../Card';
+import type {CardProps} from '../Card';
+
 import {CardShowcase} from './CardShowcase';
 
 import './Card.stories.scss';

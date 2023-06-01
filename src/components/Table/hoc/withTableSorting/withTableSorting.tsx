@@ -1,9 +1,12 @@
 import React from 'react';
+
 import _memoize from 'lodash/memoize';
 
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
-import {Table, TableDataItem, TableProps, TableColumnConfig} from '../../Table';
+import {Table} from '../../Table';
+import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+
 import {SortIndicator} from './SortIndicator/SortIndicator';
 
 import './withTableSorting.scss';
@@ -144,6 +147,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                             }
 
                             return (
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                                 <div
                                     className={b('sort', {active: Boolean(sortOrder)})}
                                     onClick={this.handleColumnSortClick.bind(this, column)}

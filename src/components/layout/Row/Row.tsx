@@ -1,8 +1,9 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
+
 import {block} from '../../utils/cn';
-import {Space, MediaPartial} from '../types';
 import {useLayoutContext} from '../hooks/useLayoutContext';
+import type {MediaPartial, Space} from '../types';
 import {makeCssMod} from '../utils';
 
 import './Row.scss';

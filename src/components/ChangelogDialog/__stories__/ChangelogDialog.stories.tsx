@@ -1,9 +1,11 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
+
+import type {Meta, Story} from '@storybook/react';
 
 import {Button} from '../../Button';
-import {ChangelogDialog, ChangelogDialogProps} from '../ChangelogDialog';
-import {ChangelogItem} from '../types';
+import {ChangelogDialog} from '../ChangelogDialog';
+import type {ChangelogDialogProps} from '../ChangelogDialog';
+import type {ChangelogItem} from '../types';
 
 export default {
     title: 'Components/ChangelogDialog',

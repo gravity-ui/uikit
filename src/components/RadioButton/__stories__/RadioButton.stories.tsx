@@ -1,6 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {RadioButton, RadioButtonProps, RadioButtonOption} from '../RadioButton';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {RadioButton} from '../RadioButton';
+import type {RadioButtonOption, RadioButtonProps} from '../RadioButton';
+
 import {RadioButtonShowcase} from './RadioButtonShowcase';
 
 export default {

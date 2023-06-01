@@ -1,8 +1,12 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Button, ButtonProps} from '../Button';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {GearIcon} from '../../icons/GearIcon';
+import {Button} from '../Button';
+import type {ButtonProps} from '../Button';
+
 import {ButtonShowcase} from './ButtonShowcase';
 
 export default {
@@ -14,7 +18,7 @@ const DefaultTemplate: Story<ButtonProps> = (args) => <Button {...args}>Button</
 export const Default = DefaultTemplate.bind({});
 
 const SizeTemplate: Story<ButtonProps> = (args) => (
-    <>
+    <React.Fragment>
         <Button {...args} size="xs">
             Size xs
         </Button>
@@ -34,12 +38,12 @@ const SizeTemplate: Story<ButtonProps> = (args) => (
         <Button {...args} size="xl">
             Size xl
         </Button>
-    </>
+    </React.Fragment>
 );
 export const Size = SizeTemplate.bind({});
 
 const IconTemplate: Story<ButtonProps> = (args) => (
-    <>
+    <React.Fragment>
         <Button {...args}>No icon</Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
@@ -75,7 +79,7 @@ const IconTemplate: Story<ButtonProps> = (args) => (
                 <IconComponent data={GearIcon} size={18} />
             </Button.Icon>
         </Button>
-    </>
+    </React.Fragment>
 );
 export const Icon = IconTemplate.bind({});
 

@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
-import {block} from '../utils/cn';
+import React from 'react';
+
 import _sumBy from 'lodash/sumBy';
+
+import {block} from '../utils/cn';
 
 import './Progress.scss';
 
@@ -60,7 +62,7 @@ interface ProgressWithStack extends ProgressGeneralProps, Partial<ProgressDefaul
 
 export type ProgressProps = ProgressWithStack | ProgressWithValue;
 
-export class Progress extends Component<ProgressProps> {
+export class Progress extends React.Component<ProgressProps> {
     static defaultProps: ProgressDefaultProps = {
         text: '',
         theme: 'default',
@@ -100,11 +102,12 @@ export class Progress extends Component<ProgressProps> {
     }
 
     private getTheme(): ProgressTheme {
-        if (Progress.isProgressWithStack(this.props)) {
+        const progressProps: ProgressProps = this.props;
+        if (Progress.isProgressWithStack(progressProps)) {
             throw new Error('Unexpected behavior');
         }
 
-        const {theme, colorStops, colorStopsValue, value} = this.props;
+        const {theme, colorStops, colorStopsValue, value} = progressProps;
 
         if (colorStops) {
             const matchingColorStopItem: ProgressColorStops | undefined = colorStops.find(
@@ -127,10 +130,11 @@ export class Progress extends Component<ProgressProps> {
     }
 
     private renderContent() {
-        if (Progress.isProgressWithStack(this.props)) {
-            return this.renderStack(this.props);
+        const progressProps: ProgressProps = this.props;
+        if (Progress.isProgressWithStack(progressProps)) {
+            return this.renderStack(progressProps);
         } else {
-            return this.renderItem(this.props);
+            return this.renderItem(progressProps);
         }
     }
 

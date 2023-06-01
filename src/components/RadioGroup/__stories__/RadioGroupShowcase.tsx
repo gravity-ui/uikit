@@ -1,7 +1,9 @@
 import React from 'react';
+
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import {RadioGroup, RadioGroupOption} from '../RadioGroup';
+import {RadioGroup} from '../RadioGroup';
+import type {RadioGroupOption} from '../RadioGroup';
 
 export function RadioGroupShowcase() {
     const options: RadioGroupOption[] = [

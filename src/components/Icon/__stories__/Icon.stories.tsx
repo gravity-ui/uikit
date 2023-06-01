@@ -1,7 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Icon, IconProps} from '../Icon';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {GearIcon} from '../../icons/GearIcon';
+import {Icon} from '../Icon';
+import type {IconProps} from '../Icon';
 
 export default {
     title: 'Components/Icon',

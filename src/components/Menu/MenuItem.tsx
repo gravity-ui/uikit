@@ -1,6 +1,7 @@
 import React from 'react';
+
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {DOMProps, QAProps} from '../types';
 import {eventBroker} from '../utils/event-broker';
 
 const b = block('menu');

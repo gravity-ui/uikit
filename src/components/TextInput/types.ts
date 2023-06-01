@@ -1,5 +1,4 @@
-import React from 'react';
-import {DOMProps, QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 
 export type TextInputView = 'normal' | 'clear';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {Link} from '../../..';
-import {Text} from '../../../../Text';
 import {DocsExample} from '../../../../../demo/DocsExample/DocsExample';
+import {Text} from '../../../../Text';
 
 export function LinkExampleViewNormal() {
     return (

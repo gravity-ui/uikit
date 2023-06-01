@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RealTheme} from './types';
+import type {RealTheme} from './types';
 
 export type ThemeSettings = {
     systemLightTheme: RealTheme;

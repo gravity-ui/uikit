@@ -75,7 +75,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     }, []);
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
-        const hideOnEmpty = !value || !value?.[0];
+        const hideOnEmpty = !value?.[0];
         if (!hasClear || !clearValue || hideOnEmpty || disabled) {
             return null;
         }

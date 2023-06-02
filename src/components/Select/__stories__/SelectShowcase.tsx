@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {TrashBin} from '@gravity-ui/icons';
 import range from 'lodash/range';
 
 import {Select} from '..';
@@ -11,7 +12,6 @@ import {RadioButton} from '../../RadioButton';
 import type {RadioButtonOption} from '../../RadioButton';
 import {TextInput} from '../../TextInput';
 import {Tooltip} from '../../Tooltip';
-import {Alarm} from '../../icons';
 import {block} from '../../utils/cn';
 
 import {
@@ -268,7 +268,7 @@ export const SelectShowcase = (props: SelectProps) => {
                                 <span className={b('text')}>User control</span>
                                 {renderClear?.({
                                     renderIcon: () => (
-                                        <Icon data={Alarm} className={b('user-clear-icon')} />
+                                        <Icon data={TrashBin} className={b('user-clear-icon')} />
                                     ),
                                 })}
                             </Button>

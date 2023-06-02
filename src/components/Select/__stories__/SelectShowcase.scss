@@ -39,7 +39,7 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
 
         #{$block}_has-clear #{$blockSelectClear} {
             display: inline-block;
-            vertical-align: middle;
+            vertical-align: text-top;
         }
     }
 

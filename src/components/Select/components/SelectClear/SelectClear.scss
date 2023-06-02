@@ -13,11 +13,9 @@ $xlHeight: 44px;
     justify-content: center;
     align-items: center;
     margin-left: auto;
-    cursor: pointer;
-    outline: none;
 
-    &:active:focus,
-    &:focus {
+    &:active:focus-visible,
+    &:focus-visible {
         box-shadow: 0 0 0 2px var(--yc-color-line-misc);
     }
 
@@ -30,21 +28,25 @@ $xlHeight: 44px;
     &_size_s {
         height: $sHeight;
         width: $sHeight;
+        border-radius: var(--yc-border-radius-s);
     }
 
     &_size_m {
         height: $mHeight;
         width: $mHeight;
+        border-radius: var(--yc-border-radius-m);
     }
 
     &_size_l {
         height: $lHeight;
         width: $lHeight;
+        border-radius: var(--yc-border-radius-l);
     }
 
     &_size_xl {
         height: $xlHeight;
         width: $xlHeight;
+        border-radius: var(--yc-border-radius-xl);
     }
 
     &__clear {

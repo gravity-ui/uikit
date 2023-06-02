@@ -73,6 +73,14 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const enableButtonAnimation = React.useCallback(() => {
         setIsDisabledButtonAnimation(false);
     }, []);
+    const handleOnClearIconClick = React.useCallback(
+        (e: React.MouseEvent) => {
+            // return animation on clear click
+            setIsDisabledButtonAnimation(false);
+            clearValue?.(e);
+        },
+        [clearValue],
+    );
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
         const hideOnEmpty = !value?.[0];
@@ -82,7 +90,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         return (
             <SelectClear
                 size={size}
-                onClick={clearValue}
+                onClick={handleOnClearIconClick}
                 onMouseEnter={disableButtonAnimation}
                 onMouseLeave={enableButtonAnimation}
                 renderIcon={args.renderIcon}

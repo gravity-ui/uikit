@@ -43,6 +43,9 @@
             ],
             "toaster-singleton-react-18": [
                 "./build/esm/toaster-singleton-react-18.d.ts"
+            ],
+            "i18n": [
+                "./build/esm/components/utils/addComponentKeysets.d.ts"
             ]
         }
     },

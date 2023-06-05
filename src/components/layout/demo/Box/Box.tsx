@@ -1,18 +1,20 @@
 import React from 'react';
-import {Flex, FlexProps} from '../../Flex/Flex';
+
+import {Flex} from '../../Flex/Flex';
+import type {FlexProps} from '../../Flex/Flex';
 
 interface BoxProps extends FlexProps<'div'> {
     style?: React.CSSProperties;
     children?: React.ReactNode;
     minHeight?: number;
-    w?: number;
-    h?: number;
+    w?: number | string;
+    h?: number | string;
     grow?: true;
     bc?: React.CSSProperties['backgroundColor'];
     bgc?: React.CSSProperties['backgroundColor'];
 }
 
-export const Box: React.FC<BoxProps> = ({
+export function Box({
     children,
     w = '100%',
     h = '100%',
@@ -20,7 +22,7 @@ export const Box: React.FC<BoxProps> = ({
     bgc = '#DDBEE1',
     bc = 'rosybrown',
     ...props
-}) => {
+}: BoxProps) {
     return (
         <Flex
             {...props}
@@ -37,4 +39,4 @@ export const Box: React.FC<BoxProps> = ({
             {children}
         </Flex>
     );
-};
+}

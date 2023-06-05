@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type PropCombination<PropType> = {
     [key in keyof PropType]: Array<PropWithItName<PropType[key]>>;
 };

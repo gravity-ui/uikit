@@ -1,6 +1,8 @@
 import React from 'react';
+
 import {Source} from '@storybook/addon-docs';
-import {useThemeValue, getThemeType} from '../..';
+
+import {getThemeType, useThemeValue} from '../..';
 
 type DocsSourceProps = Omit<React.ComponentProps<typeof Source>, 'dark'>;
 

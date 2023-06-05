@@ -1,10 +1,13 @@
 import React from 'react';
-import {ControlLabel, ControlLabelSize} from '../ControlLabel';
+
+import {ControlLabel} from '../ControlLabel';
+import type {ControlLabelSize} from '../ControlLabel';
+import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {ControlProps, DOMProps, QAProps} from '../types';
 import {useCheckbox} from '../utils/useCheckbox';
-import {CheckboxTickIcon} from './CheckboxTickIcon';
+
 import {CheckboxDashIcon} from './CheckboxDashIcon';
+import {CheckboxTickIcon} from './CheckboxTickIcon';
 
 import './Checkbox.scss';
 

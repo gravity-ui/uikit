@@ -1,9 +1,11 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+
 import {render, screen, within} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import {Table} from '../Table';
 
-import {data, columns} from './utils';
+import {columns, data} from './utils';
 
 const qaId = 'table-component';
 

@@ -1,9 +1,12 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Button} from '../../Button';
-import {Popup, PopupProps, PopupPlacement} from '../Popup';
 import {TextInput} from '../../TextInput';
 import {useVirtualElementRef} from '../../utils/useVirtualElementRef';
+import {Popup} from '../Popup';
+import type {PopupPlacement, PopupProps} from '../Popup';
 
 export default {
     title: 'Components/Popup',
@@ -92,6 +95,7 @@ export const Position: Story<PopupProps> = (args) => {
     const anchorRef = useVirtualElementRef({rect: {top, left}});
     return (
         <div>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label style={{display: 'flex', alignItems: 'center'}}>
                 x:
                 <TextInput
@@ -104,6 +108,7 @@ export const Position: Story<PopupProps> = (args) => {
                     style={{width: 100}}
                 />
             </label>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label style={{display: 'flex', alignItems: 'center'}}>
                 y:
                 <TextInput

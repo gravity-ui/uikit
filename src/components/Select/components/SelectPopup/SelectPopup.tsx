@@ -1,12 +1,14 @@
 import React from 'react';
+
 import {Popup} from '../../../Popup';
+import {Sheet} from '../../../Sheet';
 import {blockNew} from '../../../utils/cn';
 import {BORDER_WIDTH, SelectQa} from '../../constants';
-import type {SelectPopupProps} from './types';
+
 import {getModifiers} from './modifiers';
+import type {SelectPopupProps} from './types';
 
 import './SelectPopup.scss';
-import {Sheet} from '../../../Sheet';
 
 const b = blockNew('select-popup');
 

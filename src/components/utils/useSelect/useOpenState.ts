@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type {UseOpenProps} from './types';
 
 export const useOpenState = (props: UseOpenProps) => {

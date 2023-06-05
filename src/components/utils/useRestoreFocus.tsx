@@ -1,5 +1,6 @@
 import React from 'react';
-import {isTabbable, isFocusable} from 'tabbable';
+
+import {isFocusable, isTabbable} from 'tabbable';
 
 interface UseRestoreFocusProps {
     enabled: boolean;

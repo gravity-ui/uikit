@@ -1,5 +1,7 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
+
+import type {Meta, Story} from '@storybook/react';
+
 import Docs from './Layout.docs.mdx';
 
 export default {
@@ -13,5 +15,5 @@ export default {
     },
 } as Meta;
 
-export const Playground: Story = () => <></>;
+export const Playground: Story = () => <React.Fragment></React.Fragment>;
 Playground.storyName = 'Layout';

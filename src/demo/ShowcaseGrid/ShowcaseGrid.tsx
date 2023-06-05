@@ -1,6 +1,9 @@
-import React, {useMemo} from 'react';
+import React from 'react';
+
 import {Text} from '../../components/Text';
-import {getPropsCombinations, PropCombination, PropSequences} from './getPropsCombinations';
+
+import {getPropsCombinations} from './getPropsCombinations';
+import type {PropCombination, PropSequences} from './getPropsCombinations';
 
 type Combinations<ComponentType extends React.ElementType> = PropCombination<
     Partial<React.ComponentProps<ComponentType>>
@@ -17,7 +20,7 @@ export function ShowcaseGrid<ComponentType extends React.ElementType>({
     staticProps?: Partial<React.ComponentProps<ComponentType>>;
     rowKey?: keyof React.ComponentProps<ComponentType>;
 }) {
-    const combinations = useMemo(() => {
+    const combinations = React.useMemo(() => {
         return getPropsCombinations<typeof Component>({propsCombinations, staticProps});
     }, [propsCombinations, staticProps]);
 

@@ -1,9 +1,11 @@
-import {ComponentMeta, ComponentStory} from '@storybook/react';
-import React, {CSSProperties, JSXElementConstructor} from 'react';
-import {ListItem} from '../components';
-import {ListItemProps, ListSortHandleAlign} from '../types';
+import React from 'react';
 
-const demoWrapperStyles: CSSProperties = {
+import type {ComponentMeta, ComponentStory} from '@storybook/react';
+
+import {ListItem} from '../components';
+import type {ListItemProps, ListSortHandleAlign} from '../types';
+
+const demoWrapperStyles: React.CSSProperties = {
     maxWidth: '300px',
     border: 'dotted 2px',
     margin: '0 auto',
@@ -39,7 +41,9 @@ export default {
 } as ComponentMeta<typeof ListItem>;
 
 const getComponentTemplate =
-    <T extends JSXElementConstructor<ListItemProps<any>> = typeof ListItem>(): ComponentStory<T> =>
+    <
+        T extends React.JSXElementConstructor<ListItemProps<any>> = typeof ListItem,
+    >(): ComponentStory<T> =>
     // eslint-disable-next-line react/display-name
     (args) =>
         <ListItem {...args} />;
@@ -63,7 +67,7 @@ Selected.args = {
     selected: true,
 };
 
-type CustomItemComponent = JSXElementConstructor<ListItemProps<{title: string}>>;
+type CustomItemComponent = React.JSXElementConstructor<ListItemProps<{title: string}>>;
 export const CustomRender = getComponentTemplate<CustomItemComponent>().bind({});
 CustomRender.args = {
     item: {title: 'Custom Item', disabled: true},

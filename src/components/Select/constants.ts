@@ -1,5 +1,6 @@
 import {blockNew as block} from '../utils/cn';
-import {SelectProps} from './types';
+
+import type {SelectSize} from './types';
 
 export const selectBlock = block('select');
 
@@ -7,7 +8,7 @@ export const selectControlBlock = block('select-control');
 
 export const selectListBlock = block('select-list');
 
-export const SIZE_TO_ITEM_HEIGHT: Record<NonNullable<SelectProps['size']>, number> = {
+export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = {
     s: 28,
     m: 28,
     l: 32,

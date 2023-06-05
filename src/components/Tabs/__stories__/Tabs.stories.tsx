@@ -1,9 +1,13 @@
-import type {ComponentMeta, ComponentStory} from '@storybook/react';
-import React, {FC} from 'react';
-import {Tabs, TabsItemProps, TabsProps} from '../Tabs';
+import React from 'react';
+
+import {useArgs} from '@storybook/client-api';
+import type {ComponentMeta, Story} from '@storybook/react';
+
+import {Tabs} from '../Tabs';
+import type {TabsItemProps, TabsProps} from '../Tabs';
+
 import {getTabsMock} from './getTabsMock';
 import type {StoryParams} from './types';
-import {useArgs} from '@storybook/client-api';
 
 export default {
     title: 'Components/Tabs',
@@ -40,9 +44,7 @@ export default {
     },
 } as ComponentMeta<typeof Tabs>;
 
-type StoriesComponent = FC<TabsProps & StoryParams>;
-
-const Template: ComponentStory<StoriesComponent> = ({
+const Template: Story<TabsProps & StoryParams> = ({
     withIcon,
     withCounter,
     withLabel,
@@ -65,6 +67,7 @@ export const WithWrapTo = Template.bind({});
 WithWrapTo.args = {
     wrapTo(_item: TabsItemProps, node: React.ReactNode) {
         return (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a key={_item.id} href="#">
                 {node}
             </a>
@@ -72,7 +75,7 @@ WithWrapTo.args = {
     },
 };
 
-export const WithChildren: ComponentStory<StoriesComponent> = ({
+export const WithChildren: Story<TabsProps & StoryParams> = ({
     withIcon,
     withCounter,
     withLabel,

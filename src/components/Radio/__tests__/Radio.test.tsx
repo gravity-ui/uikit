@@ -1,7 +1,10 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '@testing-library/react';
-import {Radio, RadioSize} from '../Radio';
+import userEvent from '@testing-library/user-event';
+
+import {Radio} from '../Radio';
+import type {RadioSize} from '../Radio';
 
 const qaId = 'radio-component';
 const value = 'some';

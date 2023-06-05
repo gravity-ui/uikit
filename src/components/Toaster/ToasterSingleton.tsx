@@ -1,10 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 import get from 'lodash/get';
+import ReactDOM from 'react-dom';
+
 import {block} from '../utils/cn';
-import type {ToasterArgs, ToasterPublicMethods, ToastProps} from './types';
+
 import {ToasterProvider} from './Provider/ToasterProvider';
 import {ToasterComponent} from './ToasterComponent/ToasterComponent';
+import type {ToastProps, ToasterArgs, ToasterPublicMethods} from './types';
 
 const TOASTER_KEY: unique symbol = Symbol('Toaster instance key');
 const bToaster = block('toaster');

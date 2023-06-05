@@ -1,4 +1,4 @@
-import type {LayoutTheme as StrictLayoutTheme, RecursivePartial} from './types';
+import type {RecursivePartial, LayoutTheme as StrictLayoutTheme} from './types';
 export * from './Col/Col';
 export * from './Row/Row';
 export * from './Flex/Flex';

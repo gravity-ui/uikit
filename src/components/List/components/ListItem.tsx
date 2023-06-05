@@ -1,8 +1,10 @@
 import React from 'react';
+
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
 import type {ListItemProps} from '../types';
+
 import {DragHandleIcon} from './DragHandleIcon';
 
 const b = block('list');
@@ -19,6 +21,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             this.props;
 
         return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
                 role="listitem"
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}

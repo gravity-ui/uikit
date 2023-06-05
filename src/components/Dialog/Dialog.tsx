@@ -1,13 +1,15 @@
 import React from 'react';
+
+import {Modal} from '../Modal';
+import type {ModalCloseReason, ModalProps} from '../Modal';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
-import {Modal, ModalProps, ModalCloseReason} from '../Modal';
-import {DialogFooter} from './DialogFooter/DialogFooter';
-import {DialogHeader} from './DialogHeader/DialogHeader';
+import {ButtonClose} from './ButtonClose/ButtonClose';
 import {DialogBody} from './DialogBody/DialogBody';
 import {DialogDivider} from './DialogDivider/DialogDivider';
-import {ButtonClose} from './ButtonClose/ButtonClose';
-import {QAProps} from '../types';
+import {DialogFooter} from './DialogFooter/DialogFooter';
+import {DialogHeader} from './DialogHeader/DialogHeader';
 
 import './Dialog.scss';
 

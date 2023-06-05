@@ -1,5 +1,26 @@
 # Changelog
 
+## [4.15.1](https://github.com/gravity-ui/uikit/compare/v4.15.0...v4.15.1) (2023-06-05)
+
+
+### Bug Fixes
+
+* add var for light shadows ([#704](https://github.com/gravity-ui/uikit/issues/704)) ([d12134c](https://github.com/gravity-ui/uikit/commit/d12134ca12a1edbfcc8ac691ce06c6fec318416a))
+* **types:** add typings for i18n export ([#706](https://github.com/gravity-ui/uikit/issues/706)) ([8c68e0e](https://github.com/gravity-ui/uikit/commit/8c68e0eb47a7a9b7048d1951e3826257a5a900ad))
+
+## [4.15.0](https://github.com/gravity-ui/uikit/compare/v4.14.0...v4.15.0) (2023-06-01)
+
+
+### Features
+
+* **18n:** export addComponentKeysets ([#676](https://github.com/gravity-ui/uikit/issues/676)) ([da2c12f](https://github.com/gravity-ui/uikit/commit/da2c12fcb60d429c0e3496dfba03b23e6c7ffa66))
+* **Layout:** stable version ([#666](https://github.com/gravity-ui/uikit/issues/666)) ([6fc0459](https://github.com/gravity-ui/uikit/commit/6fc04590dabcc0e968ebdd0d13fedf6d0b6d1bc9))
+
+
+### Bug Fixes
+
+* **Menu:** group label style ([#680](https://github.com/gravity-ui/uikit/issues/680)) ([029974b](https://github.com/gravity-ui/uikit/commit/029974beafa49c3dfdb154dd2e16f4a64755d434))
+
 ## [4.14.0](https://github.com/gravity-ui/uikit/compare/v4.13.0...v4.14.0) (2023-05-22)
 
 

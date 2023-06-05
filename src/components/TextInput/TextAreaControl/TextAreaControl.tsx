@@ -1,7 +1,8 @@
 import React from 'react';
-import {TextInputProps} from '../types';
+
 import {block} from '../../utils/cn';
 import {useForkRef} from '../../utils/useForkRef';
+import type {TextInputProps} from '../types';
 
 export interface TextAreaControlProps
     extends Omit<TextInputProps, 'multiline' | 'autoComplete'>,
@@ -90,6 +91,7 @@ export function TextAreaControl(props: TextAreaControlProps) {
             value={value}
             defaultValue={defaultValue}
             rows={textareaRows}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}
             onChange={handleChange}

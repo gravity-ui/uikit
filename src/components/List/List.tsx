@@ -1,15 +1,18 @@
 /* eslint new-cap: "off" */
 
 import React from 'react';
+
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import {block} from '../utils/cn';
-import {MobileContext} from '../mobile';
+
 import {TextInput} from '../TextInput';
+import {MobileContext} from '../mobile';
+import {block} from '../utils/cn';
+
 import {ListItem, SimpleContainer} from './components';
 import {listNavigationIgnoredKeys} from './constants';
-import type {ListProps, ListItemData, ListSortParams} from './types';
+import type {ListItemData, ListProps, ListSortParams} from './types';
 
 import './List.scss';
 
@@ -104,6 +107,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return (
             <MobileContext.Consumer>
                 {({mobile}) => (
+                    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                     <div
                         className={b({mobile}, className)}
                         data-qa={qa}
@@ -242,6 +246,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     value={filter}
                     hasClear={true}
                     onUpdate={this.onFilterUpdate}
+                    // eslint-disable-next-line jsx-a11y/no-autofocus
                     autoFocus={autoFocus}
                 />
             </div>

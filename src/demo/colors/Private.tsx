@@ -1,6 +1,9 @@
 import React from 'react';
+
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
 import {Showcase} from '../Showcase';
+
 import './Private.scss';
 
 let steps: number[] = [];

@@ -1,8 +1,11 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Menu, MenuProps} from '../Menu';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
+import {Menu} from '../Menu';
+import type {MenuProps} from '../Menu';
 
 export default {
     title: 'Components/Menu',

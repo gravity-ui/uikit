@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {cnPopover} from '../../Popover.classname';
-import {PopoverButtonProps, PopoverTheme} from '../../types';
+import type {PopoverButtonProps, PopoverTheme} from '../../types';
 
 import {getButtonView} from './helpers/getButtonView';
 

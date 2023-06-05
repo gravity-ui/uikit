@@ -1,5 +1,6 @@
-import uniqBy from 'lodash/uniqBy';
 import capitalize from 'lodash/capitalize';
+import uniqBy from 'lodash/uniqBy';
+
 import type {KeyDefs, KeyParser, PlatformDefs} from './types';
 import {split} from './utils';
 

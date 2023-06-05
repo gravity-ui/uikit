@@ -1,6 +1,9 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Branding, BrandingProps} from '../demo/Branding/Branding';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Branding} from '../demo/Branding/Branding';
+import type {BrandingProps} from '../demo/Branding/Branding';
 
 export default {
     title: 'Branding',

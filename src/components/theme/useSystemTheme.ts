@@ -1,7 +1,8 @@
-import {useEffect, useState} from 'react';
+import React from 'react';
+
 import {getDarkMediaMatch} from './getDarkMediaMatch';
 import {getSystemTheme} from './getSystemTheme';
-import {ThemeType} from './types';
+import type {ThemeType} from './types';
 
 function addListener(
     matcher: MediaQueryList,
@@ -25,9 +26,9 @@ function addListener(
 }
 
 export function useSystemTheme(): ThemeType {
-    const [theme, setTheme] = useState<ThemeType>(getSystemTheme());
+    const [theme, setTheme] = React.useState<ThemeType>(getSystemTheme());
 
-    useEffect(() => {
+    React.useEffect(() => {
         function onChange(event: MediaQueryListEvent) {
             setTheme(event.matches ? 'dark' : 'light');
         }

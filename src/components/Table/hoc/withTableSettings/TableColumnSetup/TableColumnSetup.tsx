@@ -1,15 +1,16 @@
 import React from 'react';
 
-import {block} from '../../../../utils/cn';
-import {List} from '../../../../List';
-import {Icon} from '../../../../Icon';
-import {Popup} from '../../../../Popup';
+import type {PopperPlacement} from '../../../../../components/utils/usePopper';
 import {Button} from '../../../../Button';
+import {Icon} from '../../../../Icon';
+import {List} from '../../../../List';
+import {Popup} from '../../../../Popup';
 import {GearIcon} from '../../../../icons/GearIcon';
-import {TickIcon} from './TickIcon';
+import {block} from '../../../../utils/cn';
+import type {TableColumnSetupItem} from '../withTableSettings';
+
 import {LockIcon} from './LockIcon';
-import {TableColumnSetupItem} from '../withTableSettings';
-import {PopperPlacement} from '../../../../../components/utils/usePopper';
+import {TickIcon} from './TickIcon';
 import i18n from './i18n';
 
 import './TableColumnSetup.scss';
@@ -199,6 +200,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <div className={b(null, className)}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className={b('control')} ref={refControl} onClick={handleControlClick}>
                 {switcher || (
                     <Button disabled={disabled}>

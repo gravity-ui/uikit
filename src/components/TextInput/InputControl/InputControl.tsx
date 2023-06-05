@@ -1,6 +1,7 @@
 import React from 'react';
+
 import {block} from '../../utils/cn';
-import {TextInputProps} from '../types';
+import type {TextInputProps} from '../types';
 
 export interface InputControlProps
     extends Omit<TextInputProps, 'autoComplete'>,
@@ -42,6 +43,7 @@ export function InputControl(props: InputControlProps) {
             placeholder={placeholder}
             value={value}
             defaultValue={defaultValue}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}
             onChange={onChange}

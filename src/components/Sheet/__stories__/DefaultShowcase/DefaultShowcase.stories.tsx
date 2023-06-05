@@ -1,8 +1,11 @@
 import React from 'react';
+
+import type {Story} from '@storybook/react';
 import block from 'bem-cn-lite';
-import {Story} from '@storybook/react';
+
 import {Button, Checkbox} from '../../../';
-import {Sheet, SheetProps} from '../../Sheet';
+import {Sheet} from '../../Sheet';
+import type {SheetProps} from '../../Sheet';
 
 import './DefaultShowcase.scss';
 

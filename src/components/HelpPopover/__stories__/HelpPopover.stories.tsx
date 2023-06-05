@@ -1,6 +1,9 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {HelpPopover, HelpPopoverProps} from '../HelpPopover';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {HelpPopover} from '../HelpPopover';
+import type {HelpPopoverProps} from '../HelpPopover';
 
 export default {
     title: 'Components/HelpPopover',

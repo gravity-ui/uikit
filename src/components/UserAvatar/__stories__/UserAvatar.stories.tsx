@@ -1,10 +1,13 @@
-import {useArgs} from '@storybook/client-api';
-import React, {useEffect} from 'react';
-import {ComponentStory, Meta, Story} from '@storybook/react';
-import {faker} from '@faker-js/faker/locale/en';
-import {getAvatarSrcSet} from './getAvatarSrcSet';
+import React from 'react';
 
-import {UserAvatar, UserAvatarProps} from '../UserAvatar';
+import {faker} from '@faker-js/faker/locale/en';
+import {useArgs} from '@storybook/client-api';
+import type {ComponentStory, Meta, Story} from '@storybook/react';
+
+import {UserAvatar} from '../UserAvatar';
+import type {UserAvatarProps} from '../UserAvatar';
+
+import {getAvatarSrcSet} from './getAvatarSrcSet';
 
 const imgUrl =
     'https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50';
@@ -42,11 +45,11 @@ const randomAvatars = faker.helpers
 export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
     const [, setArgs] = useArgs();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (args.size) {
             setArgs({srcSet: getAvatarSrcSet(args.size, randomAvatars)});
         }
-    }, [args.size]);
+    }, [args.size, setArgs]);
 
     return <UserAvatar {...args} />;
 };

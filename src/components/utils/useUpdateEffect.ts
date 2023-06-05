@@ -1,9 +1,9 @@
-import {useEffect, useRef} from 'react';
+import React from 'react';
 
-export const useUpdateEffect: typeof useEffect = (effect, deps) => {
-    const isInitial = useRef(true);
+export const useUpdateEffect: typeof React.useEffect = (effect, deps) => {
+    const isInitial = React.useRef(true);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (isInitial.current) {
             isInitial.current = false;
             return;

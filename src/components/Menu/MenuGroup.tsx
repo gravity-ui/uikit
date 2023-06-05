@@ -1,6 +1,7 @@
 import React from 'react';
+
+import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {DOMProps, QAProps} from '../types';
 import {useUniqId} from '../utils/useUniqId';
 
 const b = block('menu');

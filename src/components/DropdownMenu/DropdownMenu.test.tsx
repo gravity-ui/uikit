@@ -1,6 +1,8 @@
+import React from 'react';
+
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+
 import {DropdownMenu} from './DropdownMenu';
 
 test('do not trigger `onOpenToggle` on mount', () => {

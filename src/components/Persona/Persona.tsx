@@ -1,7 +1,9 @@
-import React, {FC, ReactNode} from 'react';
+import React from 'react';
+
 import {Icon} from '../Icon';
-import {Mail} from '../icons';
 import {PersonaWrap} from '../PersonaWrap';
+import {Mail} from '../icons';
+
 import {getTwoLetters} from './getTwoLetters';
 
 export interface PersonaProps {
@@ -23,7 +25,7 @@ export interface PersonaProps {
     className?: string;
 }
 
-export const Persona: FC<PersonaProps> = ({
+export function Persona({
     size = 's',
     theme = 'default',
     type = 'person',
@@ -32,8 +34,8 @@ export const Persona: FC<PersonaProps> = ({
     text,
     image,
     className,
-}) => {
-    let avatar: ReactNode | null;
+}: PersonaProps) {
+    let avatar: React.ReactNode | null;
 
     switch (type) {
         case 'person':
@@ -60,6 +62,6 @@ export const Persona: FC<PersonaProps> = ({
             {text}
         </PersonaWrap>
     );
-};
+}
 
 Persona.displayName = 'Persona';

@@ -1,13 +1,17 @@
+// eslint-disable-next-line import/order
 import '../styles/styles.scss';
 
 import React from 'react';
+
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
 import type {DecoratorFn} from '@storybook/react';
-import {themes} from './theme';
-import {withMobile} from './decorators/withMobile';
-import {withLang} from './decorators/withLang';
-import {ThemeProvider, MobileProvider, configure, Lang} from '../src';
+
+import {Lang, MobileProvider, ThemeProvider, configure} from '../src';
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
+
+import {WithLang} from './decorators/withLang';
+import {WithMobile} from './decorators/withMobile';
+import {themes} from './theme';
 
 configure({
     lang: Lang.En,
@@ -25,7 +29,7 @@ const withContextProvider: DecoratorFn = (Story, context) => {
     );
 };
 
-export const decorators = [withMobile, withLang, withContextProvider];
+export const decorators = [WithMobile, WithLang, withContextProvider];
 
 export const parameters = {
     docs: {

@@ -1,5 +1,6 @@
 import {renderHook} from '@testing-library/react';
-import {UseOpenProps} from '../types';
+
+import type {UseOpenProps} from '../types';
 import {useOpenState} from '../useOpenState';
 
 const renderUseOpenStateHook = (initialProps: UseOpenProps = {}) => {

@@ -1,5 +1,7 @@
 import React from 'react';
-import {MobileContext, MobileContextProps, History, Location} from './MobileContext';
+
+import {MobileContext} from './MobileContext';
+import type {History, Location, MobileContextProps} from './MobileContext';
 import {Platform, rootMobileClassName} from './constants';
 
 function useHistoryMock(): History {

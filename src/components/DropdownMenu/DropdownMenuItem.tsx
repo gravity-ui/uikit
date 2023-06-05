@@ -1,22 +1,21 @@
-import React, {useRef, useCallback, useContext, useMemo} from 'react';
-import type {ReactNode} from 'react';
-import type {PopupProps} from '../Popup';
+import React from 'react';
 
 import {Icon} from '../Icon';
 import {Menu} from '../Menu';
+import type {PopupProps} from '../Popup';
 import {Chevron} from '../icons';
 
+import {cnDropdownMenu} from './DropdownMenu.classname';
+import {DropdownMenuContext} from './DropdownMenuContext';
+import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {subMenuPlacement} from './constants';
 import {useSubmenu} from './hooks/useSubmenu';
 import type {DropdownMenuListItem} from './types';
-import {cnDropdownMenu} from './DropdownMenu.classname';
-import {DropdownMenuPopup} from './DropdownMenuPopup';
-import {DropdownMenuContext} from './DropdownMenuContext';
 
 export type DropdownMenuItemProps<T> = Omit<DropdownMenuListItem<T>, 'path'> & {
     popupProps?: Partial<PopupProps>;
     closeMenu?: () => void;
-    children?: ReactNode;
+    children?: React.ReactNode;
     path?: number[];
 };
 
@@ -30,15 +29,15 @@ export const DropdownMenuItem = <T,>({
     path,
     ...props
 }: DropdownMenuItemProps<T>) => {
-    const {toggle, data} = useContext(DropdownMenuContext);
-    const menuItemRef = useRef(null);
+    const {toggle, data} = React.useContext(DropdownMenuContext);
+    const menuItemRef = React.useRef(null);
 
     const {hasSubmenu, isSubmenuOpen, closeSubmenu, openSubmenu} = useSubmenu({
         items: subMenuItems,
         path,
     });
 
-    const handleCloseMenu = useCallback(() => {
+    const handleCloseMenu = React.useCallback(() => {
         const close = () => {
             if (closeMenu) {
                 closeMenu();
@@ -56,7 +55,7 @@ export const DropdownMenuItem = <T,>({
         }
     }, [closeMenu, closeSubmenu, hasSubmenu, toggle]);
 
-    const handleMenuItemClick = useCallback(
+    const handleMenuItemClick = React.useCallback(
         (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
             if (hasSubmenu) {
                 return;
@@ -68,7 +67,7 @@ export const DropdownMenuItem = <T,>({
         [action, data, handleCloseMenu, hasSubmenu],
     );
 
-    const extraProps = useMemo(() => {
+    const extraProps = React.useMemo(() => {
         return {
             ...props.extraProps,
             onMouseEnter: (
@@ -93,7 +92,7 @@ export const DropdownMenuItem = <T,>({
     }, [props.extraProps, closeSubmenu, hasSubmenu, openSubmenu]);
 
     return (
-        <>
+        <React.Fragment>
             <Menu.Item
                 ref={menuItemRef}
                 {...props}
@@ -125,6 +124,6 @@ export const DropdownMenuItem = <T,>({
                     onClose={handleCloseMenu}
                 />
             )}
-        </>
+        </React.Fragment>
     );
 };

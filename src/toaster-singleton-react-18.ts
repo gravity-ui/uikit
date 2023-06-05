@@ -1,4 +1,5 @@
 import ReactDOMClient from 'react-dom/client';
+
 import {ToasterSingleton} from './components/Toaster/ToasterSingleton';
 
 ToasterSingleton.injectReactDOMClient(ReactDOMClient);

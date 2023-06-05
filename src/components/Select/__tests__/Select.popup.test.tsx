@@ -1,7 +1,9 @@
-import {DEFAULT_OPTIONS, setup, TEST_QA} from './utils';
 import userEvent from '@testing-library/user-event';
+
+import type {TextInputSize} from '../../TextInput';
 import {SelectQa} from '../constants';
-import {TextInputSize} from '../../TextInput';
+
+import {DEFAULT_OPTIONS, TEST_QA, setup} from './utils';
 
 const onUpdate = jest.fn();
 describe('Select popup', () => {

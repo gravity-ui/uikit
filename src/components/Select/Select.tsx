@@ -1,30 +1,31 @@
 import React from 'react';
-import {useForkRef} from '../utils/useForkRef';
-import {useSelect} from '../utils/useSelect';
-import {List} from '../List';
+
+import type {List} from '../List';
 import {KeyCode} from '../constants';
-import {reducer, initialState} from './store';
+import {useMobile} from '../mobile';
+import type {CnMods} from '../utils/cn';
+import {useForkRef} from '../utils/useForkRef';
+import {useOnFocusOutside} from '../utils/useOnFocusOutside';
+import {useSelect} from '../utils/useSelect';
+
+import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
+import {useQuickSearch} from './hooks';
+import {initialState, reducer} from './store';
+import {Option, OptionGroup} from './tech-components';
 import type {SelectProps} from './types';
 import type {SelectFilterRef} from './types-misc';
-import {useQuickSearch} from './hooks';
 import {
-    FlattenOption,
-    getOptionsFromChildren,
-    getFlattenOptions,
-    getSelectedOptionsContent,
-    getListItems,
+    activateFirstClickableItem,
+    findItemIndexByQuickSearch,
     getActiveItem,
     getFilteredFlattenOptions,
-    findItemIndexByQuickSearch,
-    activateFirstClickableItem,
+    getFlattenOptions,
+    getListItems,
+    getOptionsFromChildren,
+    getSelectedOptionsContent,
 } from './utils';
-import {SelectControl, SelectPopup, SelectList, SelectFilter, EmptyOptions} from './components';
-import {Option, OptionGroup} from './tech-components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
-import {useOnFocusOutside} from '../utils/useOnFocusOutside';
-
-import type {CnMods} from '../utils/cn';
-import {useMobile} from '../mobile';
+import type {FlattenOption} from './utils';
 
 import './Select.scss';
 

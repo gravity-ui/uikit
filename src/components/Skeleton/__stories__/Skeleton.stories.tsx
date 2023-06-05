@@ -1,6 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {Skeleton, SkeletonProps} from '../Skeleton';
+
+import type {Meta, Story} from '@storybook/react';
+
+import {Skeleton} from '../Skeleton';
+import type {SkeletonProps} from '../Skeleton';
+
 import {SkeletonShowcase} from './SkeletonShowcase';
 
 export default {

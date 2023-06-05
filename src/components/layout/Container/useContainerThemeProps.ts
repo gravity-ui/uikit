@@ -1,6 +1,7 @@
 import React from 'react';
+
 import {useLayoutContext} from '../hooks/useLayoutContext';
-import {CommonProps, ContainerConfigProps} from '../types';
+import type {CommonProps, ContainerConfigProps} from '../types';
 
 const pickContainerProps = ({
     gutters,

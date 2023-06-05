@@ -1,11 +1,17 @@
 import React from 'react';
+
+import type {Meta, Story} from '@storybook/react';
 import block from 'bem-cn-lite';
-import {Meta, Story} from '@storybook/react';
-import {DropdownMenu, DropdownMenuItem} from '../DropdownMenu';
-import {Label, LabelProps} from '../../Label';
+
 import {Icon} from '../../Icon';
+import {Label} from '../../Label';
+import type {LabelProps} from '../../Label';
 import {GearIcon} from '../../icons/GearIcon';
-import {options, optionsWithGroups, optionsWithSubItems, optionsAssorted} from './options';
+import {DropdownMenu} from '../DropdownMenu';
+import type {DropdownMenuItem} from '../DropdownMenu';
+
+import {options, optionsAssorted, optionsWithGroups, optionsWithSubItems} from './options';
+
 import './DropdownMenu.stories.scss';
 
 const b = block('dropdown-menu-stories');

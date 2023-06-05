@@ -1,9 +1,10 @@
-import React, {PropsWithChildren} from 'react';
+import React from 'react';
+
 import {block} from '../utils/cn';
 
 const b = block('button');
 
-type Props = PropsWithChildren<{
+type Props = React.PropsWithChildren<{
     className?: string;
     side?: 'left' | 'right';
 }>;

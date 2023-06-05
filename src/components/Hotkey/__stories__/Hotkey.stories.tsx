@@ -1,7 +1,10 @@
 import React from 'react';
-import {Meta, Story} from '@storybook/react';
+
+import type {Meta, Story} from '@storybook/react';
+
 import {Table} from '../../Table';
-import {Hotkey, HotkeyProps} from '../Hotkey';
+import {Hotkey} from '../Hotkey';
+import type {HotkeyProps} from '../Hotkey';
 
 export default {
     title: 'Components/Hotkey',

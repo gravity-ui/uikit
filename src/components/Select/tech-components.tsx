@@ -1,5 +1,4 @@
-import React from 'react';
-import {SelectOption, SelectOptionGroup} from './types';
+import type {SelectOption, SelectOptionGroup} from './types';
 
 export const Option = <T extends any>(
     _props: SelectOption<T>,

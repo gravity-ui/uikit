@@ -1,29 +1,29 @@
-import React, {useRef, useMemo} from 'react';
-import type {ReactNode, MouseEventHandler, Dispatch, SetStateAction} from 'react';
+import React from 'react';
 
-import type {PopupProps} from '../Popup';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
-import {DotsIcon} from '../icons';
 import type {MenuProps} from '../Menu';
-import {DropdownMenuNavigationContextProvider} from './DropdownMenuNavigationContext';
+import type {PopupProps} from '../Popup';
+import {DotsIcon} from '../icons';
 
-import {usePopupVisibility} from './hooks/usePopupVisibility';
-import {useScrollHandler} from './hooks/useScrollHandler';
-import {toItemList} from './utils/toItemList';
-import {dropdownMenuSeparator} from './constants';
-import type {
-    DropdownMenuSize,
-    DropdownMenuItem,
-    DropdownMenuItemMixed,
-    DropdownMenuItemAction,
-    DropdownMenuListItem,
-} from './types';
 import {cnDropdownMenu} from './DropdownMenu.classname';
-import {DropdownMenuPopup} from './DropdownMenuPopup';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import {DropdownMenuItem as DropdownMenuItemComponent} from './DropdownMenuItem';
+import {DropdownMenuNavigationContextProvider} from './DropdownMenuNavigationContext';
+import {DropdownMenuPopup} from './DropdownMenuPopup';
+import {dropdownMenuSeparator} from './constants';
+import {usePopupVisibility} from './hooks/usePopupVisibility';
+import {useScrollHandler} from './hooks/useScrollHandler';
+import type {
+    DropdownMenuItem,
+    DropdownMenuItemAction,
+    DropdownMenuItemMixed,
+    DropdownMenuListItem,
+    DropdownMenuSize,
+} from './types';
+import {toItemList} from './utils/toItemList';
+
 import './DropdownMenu.scss';
 
 export type DropdownMenuProps<T> = {
@@ -35,7 +35,7 @@ export type DropdownMenuProps<T> = {
     /**
      * Switcher icon.
      */
-    icon?: ReactNode;
+    icon?: React.ReactNode;
     open?: boolean;
     onOpenToggle?: (open: boolean) => void;
     hideOnScroll?: boolean;
@@ -56,14 +56,14 @@ export type DropdownMenuProps<T> = {
     /**
      * Menu toggle control.
      */
-    switcher?: ReactNode;
+    switcher?: React.ReactNode;
     switcherWrapperClassName?: string;
     /**
      * Overrides the default switcher button props.
      */
     defaultSwitcherProps?: ButtonProps;
     defaultSwitcherClassName?: string;
-    onSwitcherClick?: MouseEventHandler<HTMLElement>;
+    onSwitcherClick?: React.MouseEventHandler<HTMLElement>;
     /**
      * Overrides the default dropdown menu props.
      */
@@ -75,12 +75,12 @@ export type DropdownMenuProps<T> = {
     /**
      * Custom content inside the menu popup.
      */
-    children?: ReactNode;
+    children?: React.ReactNode;
 };
 
 export type ControlledDropdownMenuProps<T> = DropdownMenuProps<T> & {
     open: boolean;
-    onOpenToggle: Dispatch<SetStateAction<boolean>>;
+    onOpenToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DropdownMenu = <T,>({
@@ -101,7 +101,7 @@ const DropdownMenu = <T,>({
     popupProps,
     children,
 }: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
-    const anchorRef = useRef<HTMLDivElement | null>(null);
+    const anchorRef = React.useRef<HTMLDivElement | null>(null);
 
     const {isPopupShown, togglePopup, closePopup} = usePopupVisibility(
         open,
@@ -111,7 +111,7 @@ const DropdownMenu = <T,>({
 
     useScrollHandler(closePopup, anchorRef, !isPopupShown || !hideOnScroll);
 
-    const contextValue = useMemo(
+    const contextValue = React.useMemo(
         () => ({
             toggle: togglePopup,
             data,
@@ -119,13 +119,13 @@ const DropdownMenu = <T,>({
         [data, togglePopup],
     );
 
-    const itemsList = useMemo(
+    const itemsList = React.useMemo(
         () =>
             toItemList<DropdownMenuItem<T>, DropdownMenuListItem<T>>(items, dropdownMenuSeparator),
         [items],
     );
 
-    const handleSwitcherClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    const handleSwitcherClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
         if (disabled) {
             return;
         }
@@ -136,6 +136,7 @@ const DropdownMenu = <T,>({
 
     return (
         <DropdownMenuContext.Provider value={contextValue}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 ref={anchorRef}
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}

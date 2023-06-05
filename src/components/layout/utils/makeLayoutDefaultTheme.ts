@@ -1,7 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import merge from 'lodash/merge';
+
 import {DEFAULT_LAYOUT_THEME} from '../constants';
-import {LayoutTheme, RecursivePartial} from '../types';
+import type {LayoutTheme, RecursivePartial} from '../types';
 
 interface MakeDefaultLayoutTheme {
     override?: RecursivePartial<LayoutTheme>;

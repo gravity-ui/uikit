@@ -1,7 +1,9 @@
 import React from 'react';
+
 import block from 'bem-cn-lite';
-import {Skeleton} from '../Skeleton';
+
 import {Button} from '../../Button';
+import {Skeleton} from '../Skeleton';
 
 import './SkeletonShowcase.scss';
 
@@ -63,12 +65,12 @@ function SkeletonListShowcase() {
 
 export function SkeletonShowcase() {
     return (
-        <>
+        <React.Fragment>
             <h1>Skeleton</h1>
             <h2>List</h2>
             <SkeletonListShowcase />
             <h2>Styled with inline prop</h2>
             <Skeleton style={{height: 100, width: 200}} />
-        </>
+        </React.Fragment>
     );
 }

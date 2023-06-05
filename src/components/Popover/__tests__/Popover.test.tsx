@@ -1,9 +1,10 @@
 import React from 'react';
-import {fireEvent, render, screen, act} from '@testing-library/react';
+
+import {act, fireEvent, render, screen} from '@testing-library/react';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
-import {delayByBehavior, PopoverBehavior} from '../config';
 import {Popover} from '../Popover';
+import {PopoverBehavior, delayByBehavior} from '../config';
 import type {PopoverProps} from '../types';
 
 setupTimersMock();

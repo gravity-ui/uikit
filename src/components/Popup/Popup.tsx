@@ -1,23 +1,26 @@
 import React from 'react';
+
 import {CSSTransition} from 'react-transition-group';
 
+import {Portal} from '../Portal';
+import type {DOMProps, QAProps} from '../types';
+import {useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
-import {DOMProps, QAProps} from '../types';
-import {Portal} from '../Portal';
-import {useLayer, LayerExtendableProps} from '../utils/useLayer';
-import {
-    usePopper,
+import {useForkRef} from '../utils/useForkRef';
+import {useLayer} from '../utils/useLayer';
+import type {LayerExtendableProps} from '../utils/useLayer';
+import {usePopper} from '../utils/usePopper';
+import type {
     PopperAnchorRef,
     PopperModifiers,
     PopperOffset,
     PopperPlacement,
     PopperProps,
 } from '../utils/usePopper';
-import {useForkRef} from '../utils/useForkRef';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
+
 import {PopupArrow} from './PopupArrow';
-import {useParentFocusTrap} from '../utils/FocusTrap';
 
 import './Popup.scss';
 
@@ -127,6 +130,7 @@ export function Popup({
                     {...containerProps}
                     className={bWrapper({open})}
                 >
+                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <div
                         onClick={onClick}
                         onMouseEnter={onMouseEnter}

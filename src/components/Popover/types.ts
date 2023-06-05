@@ -1,10 +1,10 @@
-import React from 'react';
-import {ButtonsProps} from './components/Buttons/Buttons';
-import {ContentProps} from './components/Content/Content';
-import {LinksProps} from './components/Links/Links';
-import {TriggerProps} from './components/Trigger/Trigger';
-import {PopupProps, PopupAnchorRef} from '../Popup';
-import {PopoverBehavior} from './config';
+import type {PopupAnchorRef, PopupProps} from '../Popup';
+
+import type {ButtonsProps} from './components/Buttons/Buttons';
+import type {ContentProps} from './components/Content/Content';
+import type {LinksProps} from './components/Links/Links';
+import type {TriggerProps} from './components/Trigger/Trigger';
+import type {PopoverBehavior} from './config';
 
 export type PopoverButtonProps = {
     /**

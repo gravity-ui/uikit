@@ -1,4 +1,5 @@
 import {act} from '@testing-library/react';
+
 import {fireAnimationEndEvent} from './fireAnimationEndEvent';
 
 export function tick(el: Node | Window, ms: number) {

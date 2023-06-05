@@ -1,17 +1,16 @@
 import React from 'react';
-import {block} from '../../utils/cn';
 
-import {ShareOptionsData} from '../models';
-import {LayoutDirection, ShareOptions} from '../constants';
-import {ShareListItem} from '../ShareListItem/ShareListItem';
-import {Icon} from '../../Icon';
-import {SVGIconData} from '../../Icon/types';
 import {Button} from '../../Button';
-import {Link} from '../../icons';
 import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
+import {Icon} from '../../Icon';
+import type {SVGIconData} from '../../Icon/types';
+import {Link} from '../../icons';
+import {block} from '../../utils/cn';
 import {isOfType} from '../../utils/isOfType';
-
+import {ShareListItem} from '../ShareListItem/ShareListItem';
+import type {LayoutDirection, ShareOptions} from '../constants';
 import i18n from '../i18n';
+import type {ShareOptionsData} from '../models';
 
 import './ShareList.scss';
 

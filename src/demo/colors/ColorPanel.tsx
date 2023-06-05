@@ -1,5 +1,7 @@
 import React from 'react';
+
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
 import './ColorPanel.scss';
 
 interface ColorInfo {
@@ -52,6 +54,7 @@ export function ColorPanel(props: ColorPanelProps) {
 
     return (
         <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className="color-panel__bg-switcher" onClick={() => rotateBackground()}>
                 BG
             </div>

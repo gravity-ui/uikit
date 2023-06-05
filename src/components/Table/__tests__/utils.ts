@@ -1,4 +1,4 @@
-import {TableColumnConfig} from '../Table';
+import type {TableColumnConfig} from '../Table';
 
 export interface DataItem {
     name: string;

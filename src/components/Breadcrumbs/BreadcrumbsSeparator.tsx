@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+
 import {block} from '../utils/cn';
-import {BreadcrumbsProps} from './Breadcrumbs';
+
+import type {BreadcrumbsProps} from './Breadcrumbs';
 
 type Props = Pick<BreadcrumbsProps, 'renderItemDivider'>;
 

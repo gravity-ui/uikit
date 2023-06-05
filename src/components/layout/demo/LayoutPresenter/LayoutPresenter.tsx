@@ -1,16 +1,17 @@
 import React from 'react';
+
 import {Text} from '../../../Text';
 import {Flex} from '../../Flex/Flex';
-import {sp} from '../../spacing/spacing';
-import {useLayoutContext} from '../../hooks/useLayoutContext';
 import {LayoutProvider} from '../../LayoutProvider/LayoutProvider';
+import {useLayoutContext} from '../../hooks/useLayoutContext';
+import {sp} from '../../spacing/spacing';
 
 interface LayoutPresenterProps {
     children?: React.ReactNode;
     title?: string;
 }
 
-const Title: React.FC<{title?: string}> = ({title}) => {
+function Title({title}: {title?: string}) {
     const {activeMediaQuery} = useLayoutContext();
     return (
         <Flex direction="column" space="5" className={sp({mb: '5'})}>
@@ -24,7 +25,7 @@ const Title: React.FC<{title?: string}> = ({title}) => {
             </Text>
         </Flex>
     );
-};
+}
 
 export const LayoutPresenter = ({children, title}: LayoutPresenterProps) => {
     return (

@@ -1,9 +1,11 @@
 import React from 'react';
-import block from 'bem-cn-lite';
-import {DocsContainer, DocsContainerProps} from '@storybook/addon-docs';
-import {themes} from '../../../.storybook/theme';
 
-import {ThemeProvider, MobileProvider, getThemeType} from '../..';
+import {DocsContainer} from '@storybook/addon-docs';
+import type {DocsContainerProps} from '@storybook/addon-docs';
+import block from 'bem-cn-lite';
+
+import {MobileProvider, ThemeProvider, getThemeType} from '../..';
+import {themes} from '../../../.storybook/theme';
 
 import './DocsDecorator.scss';
 

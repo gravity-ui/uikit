@@ -1,22 +1,27 @@
 import React from 'react';
+
 import range from 'lodash/range';
-import {block} from '../../utils/cn';
-import {ClipboardButton} from '../../ClipboardButton';
-import {RadioButton, RadioButtonOption} from '../../RadioButton';
-import {Tooltip} from '../../Tooltip';
+
+import {Select} from '..';
+import type {SelectOption, SelectProps} from '..';
 import {Button} from '../../Button';
+import {ClipboardButton} from '../../ClipboardButton';
+import {RadioButton} from '../../RadioButton';
+import type {RadioButtonOption} from '../../RadioButton';
 import {TextInput} from '../../TextInput';
-import {Select, SelectProps, SelectOption} from '..';
+import {Tooltip} from '../../Tooltip';
+import {block} from '../../utils/cn';
+
 import {
-    EXAMPLE_JSON_OPTIONS,
     EXAMPLE_CHILDREN_OPTIONS,
-    EXAMPLE_GROUP_JSON_OPTIONS,
-    EXAMPLE_GROUP_CHILDREN_OPTIONS,
-    EXAMPLE_DISABLED_OPTIONS,
-    EXAMPLE_USER_OPTIONS,
-    EXAMPLE_USER_CONTROL,
-    EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
     EXAMPLE_CUSTOM_FILTER_SECTION,
+    EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
+    EXAMPLE_DISABLED_OPTIONS,
+    EXAMPLE_GROUP_CHILDREN_OPTIONS,
+    EXAMPLE_GROUP_JSON_OPTIONS,
+    EXAMPLE_JSON_OPTIONS,
+    EXAMPLE_USER_CONTROL,
+    EXAMPLE_USER_OPTIONS,
 } from './constants';
 
 import './SelectShowcase.scss';

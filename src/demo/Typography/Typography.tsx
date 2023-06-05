@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
 import block from 'bem-cn-lite';
-import {Text, TEXT_VARIANTS} from '../../components/Text';
+import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
+import {TEXT_VARIANTS, Text} from '../../components/Text';
 
 import './Typography.scss';
 

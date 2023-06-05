@@ -1,9 +1,11 @@
-import {render, screen} from '@testing-library/react';
-import React, {PropsWithChildren} from 'react';
-import {ListItem} from '../components';
-import {ListItemData, ListItemProps} from '../types';
+import React from 'react';
 
-function ListWrapper({children}: PropsWithChildren) {
+import {render, screen} from '@testing-library/react';
+
+import {ListItem} from '../components';
+import type {ListItemData, ListItemProps} from '../types';
+
+function ListWrapper({children}: React.PropsWithChildren) {
     return <div role={'list'}>{children}</div>;
 }
 

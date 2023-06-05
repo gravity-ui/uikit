@@ -2,6 +2,7 @@ import React from 'react';
 
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {TEST_CHILDREN, TEST_CLASS_NAME, TEST_STYLE} from '@uikit/__fixtures__/consts';
 
 import {Switch} from '../Switch';
 
@@ -45,41 +46,33 @@ describe('Switch', () => {
     });
 
     test('use passed style', () => {
-        const style = {color: 'red'};
-
-        render(<Switch style={style} qa={qaId} />);
+        render(<Switch style={TEST_STYLE} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveStyle(style);
+        expect(component).toHaveStyle(TEST_STYLE);
     });
 
     test('use passed className', () => {
-        const className = 'class-name';
-
-        render(<Switch className={className} qa={qaId} />);
+        render(<Switch className={TEST_CLASS_NAME} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(className);
+        expect(component).toHaveClass(TEST_CLASS_NAME);
     });
 
     test('display passed content', () => {
-        const content = 'Some content';
-
-        render(<Switch content={content} />);
-        const text = screen.getByText(content);
+        render(<Switch content={TEST_CHILDREN} />);
+        const text = screen.getByText(TEST_CHILDREN);
 
         expect(text).toBeVisible();
     });
 
     test('display passed children', () => {
-        const childrenText = 'Children content';
-
         render(
             <Switch>
-                <span>{childrenText}</span>
+                <span>{TEST_CHILDREN}</span>
             </Switch>,
         );
-        const text = screen.getByText(childrenText);
+        const text = screen.getByText(TEST_CHILDREN);
 
         expect(text).toBeVisible();
     });

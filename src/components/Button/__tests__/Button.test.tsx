@@ -2,6 +2,13 @@ import React from 'react';
 
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {
+    TEST_CHILDREN,
+    TEST_CLASS_NAME,
+    TEST_ID,
+    TEST_STYLE,
+    TEST_TITLE,
+} from '@uikit/__fixtures__/consts';
 
 import {GearIcon} from '../../icons/GearIcon';
 import {Button} from '../Button';
@@ -146,7 +153,7 @@ describe('Button', () => {
         expect(button).toHaveClass('yc-button_selected');
     });
 
-    test('should render <a /> tag', () => {
+    test('should render `<a />` tag', () => {
         const href = 'https://yandex.ru';
         const target = '_blank';
 
@@ -197,16 +204,14 @@ describe('Button', () => {
     });
 
     test('set given title to label', () => {
-        const title = 'Some title';
-
-        render(<Button title={title} />);
-        const label = screen.getByTitle(title);
+        render(<Button title={TEST_TITLE} />);
+        const label = screen.getByTitle(TEST_TITLE);
 
         expect(label).toBeVisible();
     });
 
     test('show given content', () => {
-        const content = 'Some content';
+        const content = TEST_CHILDREN;
 
         render(<Button>{content}</Button>);
         const text = screen.getByText(content);
@@ -215,7 +220,7 @@ describe('Button', () => {
     });
 
     test('show given children', () => {
-        const childrenText = 'Children content';
+        const childrenText = TEST_CHILDREN;
 
         render(
             <Button>
@@ -228,33 +233,27 @@ describe('Button', () => {
     });
 
     test('add className', () => {
-        const className = 'my-class';
-
-        render(<Button className={className} qa={qaId} />);
+        render(<Button className={TEST_CLASS_NAME} qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
-        expect(button).toHaveClass(className);
+        expect(button).toHaveClass(TEST_CLASS_NAME);
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
-
-        render(<Button style={style} qa={qaId} />);
+        render(<Button style={TEST_STYLE} qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
-        expect(button).toHaveStyle(style);
+        expect(button).toHaveStyle(TEST_STYLE);
     });
 
     test('set base control props', () => {
-        const id = 'my_id';
-        const title = 'my_title';
         const tabIndex = 777;
 
-        render(<Button id={id} title={title} tabIndex={tabIndex} />);
+        render(<Button id={TEST_ID} title={TEST_TITLE} tabIndex={tabIndex} />);
         const button = screen.getByRole('button');
 
-        expect(button).toHaveAttribute('id', id);
-        expect(button).toHaveAttribute('title', title);
+        expect(button).toHaveAttribute('id', TEST_ID);
+        expect(button).toHaveAttribute('title', TEST_TITLE);
         expect(button).toHaveAttribute('tabIndex', `${tabIndex}`);
     });
 

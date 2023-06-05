@@ -15,6 +15,7 @@ export type CheckboxSize = ControlLabelSize;
 
 export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
     size?: CheckboxSize;
+    // TODO: Remove the extra prop "content", leaving only "children"
     content?: React.ReactNode;
     children?: React.ReactNode;
     title?: string;

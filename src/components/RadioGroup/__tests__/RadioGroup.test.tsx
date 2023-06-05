@@ -2,6 +2,7 @@ import React from 'react';
 
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {TEST_CLASS_NAME, TEST_STYLE} from '@uikit/__fixtures__/consts';
 
 import {RadioGroup} from '../RadioGroup';
 import type {RadioGroupDirection, RadioGroupOption, RadioGroupSize} from '../RadioGroup';
@@ -107,37 +108,33 @@ describe('RadioGroup', () => {
     });
 
     test('add className', () => {
-        const className = 'my-class';
-
         render(
             <RadioGroup
                 defaultValue={options[0].value}
                 options={options}
-                className={className}
+                className={TEST_CLASS_NAME}
                 disabled={false}
                 qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(className);
+        expect(component).toHaveClass(TEST_CLASS_NAME);
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
-
         render(
             <RadioGroup
                 defaultValue={options[0].value}
                 options={options}
-                style={style}
+                style={TEST_STYLE}
                 disabled={false}
                 qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveStyle(style);
+        expect(component).toHaveStyle(TEST_STYLE);
     });
 
     test('only one child is checked', async () => {

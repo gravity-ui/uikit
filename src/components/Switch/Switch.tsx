@@ -14,6 +14,7 @@ export type SwitchSize = ControlLabelSize;
 
 export interface SwitchProps extends ControlProps, DOMProps, QAProps {
     size?: SwitchSize;
+    // TODO Remove the extra prop "content", leaving only "children"
     content?: React.ReactNode;
     children?: React.ReactNode;
     title?: string;

@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.15.1](https://github.com/gravity-ui/uikit/compare/v4.15.0...v4.15.1) (2023-06-05)
+
+
+### Bug Fixes
+
+* add var for light shadows ([#704](https://github.com/gravity-ui/uikit/issues/704)) ([d12134c](https://github.com/gravity-ui/uikit/commit/d12134ca12a1edbfcc8ac691ce06c6fec318416a))
+* **types:** add typings for i18n export ([#706](https://github.com/gravity-ui/uikit/issues/706)) ([8c68e0e](https://github.com/gravity-ui/uikit/commit/8c68e0eb47a7a9b7048d1951e3826257a5a900ad))
+
 ## [4.15.0](https://github.com/gravity-ui/uikit/compare/v4.14.0...v4.15.0) (2023-06-01)
 
 

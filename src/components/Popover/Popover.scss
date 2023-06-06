@@ -26,11 +26,13 @@ $block: '.#{variables.$ns}popover';
 
         $buttonGap: 5px;
 
-        box-sizing: border-box;
-        min-height: 40px;
-        max-width: var(--yc-popover-max-width);
-        padding: var(--yc-popover-padding);
-        cursor: default;
+        &-popup-content {
+            box-sizing: border-box;
+            min-height: 40px;
+            max-width: var(--yc-popover-max-width);
+            padding: var(--yc-popover-padding);
+            cursor: default;
+        }
 
         &-title {
             @include mixins.text-subheader-3();
@@ -92,7 +94,7 @@ $block: '.#{variables.$ns}popover';
             &_info,
             &_announcement {
                 // Increasing specificity for overrides
-                &#{&} {
+                #{$class}__tooltip-popup-content {
                     color: var(--g-color-text-primary);
                 }
 
@@ -110,7 +112,7 @@ $block: '.#{variables.$ns}popover';
 
             &_announcement {
                 // Increasing specificity for overrides
-                &#{&} {
+                #{$class}__tooltip-popup-content {
                     --yc-popup-background-color: var(--g-color-base-simple-hover-solid);
                     --yc-popup-border-color: var(--g-color-base-simple-hover-solid);
                 }
@@ -118,7 +120,7 @@ $block: '.#{variables.$ns}popover';
 
             &_special {
                 // Increasing specificity for overrides
-                &#{&} {
+                #{$class}__tooltip-popup-content {
                     --yc-popup-background-color: var(--g-color-base-special);
                     --yc-popup-border-color: var(--g-color-base-special);
                     color: var(--g-color-text-light-primary);

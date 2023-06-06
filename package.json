@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "4.14.0",
+    "version": "4.15.1",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
@@ -43,6 +43,9 @@
             ],
             "toaster-singleton-react-18": [
                 "./build/esm/toaster-singleton-react-18.d.ts"
+            ],
+            "i18n": [
+                "./build/esm/components/utils/addComponentKeysets.d.ts"
             ]
         }
     },

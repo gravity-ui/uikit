@@ -53,11 +53,13 @@ export type PageItem = {
     current: boolean;
     page: number;
     simple: boolean;
+    key: number;
 };
 
 export type ButtonItem = {
     type: 'button';
     action: ActionName;
+    disabled: boolean;
 };
 
 export type PaginationItem = EllipsisItem | PageOfItem | PageItem | ButtonItem;

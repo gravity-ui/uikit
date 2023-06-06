@@ -25,6 +25,7 @@ export const PaginationButton = ({
     compact,
 }: Props) => {
     let button: React.ReactNode = null;
+    const {disabled} = item;
 
     switch (item.action) {
         case 'first':
@@ -35,6 +36,7 @@ export const PaginationButton = ({
                     className={className}
                     onClick={() => onUpdate(1, pageSize)}
                     title={compact ? i18n('button_first') : undefined}
+                    disabled={disabled}
                 >
                     <Icon data={ChevronsLeft} size="16" />
                     {compact ? undefined : i18n('button_first')}
@@ -49,6 +51,7 @@ export const PaginationButton = ({
                     className={className}
                     onClick={() => onUpdate(page - 1, pageSize)}
                     title={compact ? i18n('button_previous') : undefined}
+                    disabled={disabled}
                 >
                     <Icon data={ChevronLeft} size="14" />
                     {compact ? undefined : i18n('button_previous')}
@@ -63,6 +66,7 @@ export const PaginationButton = ({
                     className={className}
                     onClick={() => onUpdate(page + 1, pageSize)}
                     title={compact ? i18n('button_next') : undefined}
+                    disabled={disabled}
                 >
                     <Icon data={ChevronRight} size="14" />
                     {compact ? undefined : i18n('button_next')}

@@ -40,7 +40,7 @@ export const Pagination = ({
                     return (
                         showPages && (
                             <PaginationPage
-                                key={item.page}
+                                key={item.key}
                                 size={size}
                                 pageSize={pageSize}
                                 item={item}
@@ -62,7 +62,11 @@ export const Pagination = ({
                 case 'pageOf':
                     return (
                         showPages && (
-                            <PaginationPageOf className={b('pagination-item')} size={size} />
+                            <PaginationPageOf
+                                key={item.type}
+                                className={b('pagination-item')}
+                                size={size}
+                            />
                         )
                     );
                 case 'button':

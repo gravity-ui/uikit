@@ -15,20 +15,11 @@ export function getNumerationList({
 }
 
 function getMobileNumerationList(page: number, numberOfPages: number) {
-    const list: Array<number | 'pageOf'> = [page];
-
-    if (numberOfPages - page >= 1) {
-        list.push('pageOf');
-    }
-
-    list.push(numberOfPages);
-
-    return uniq(list);
+    const list: Array<number | 'pageOf'> = [page, 'pageOf', numberOfPages];
+    return list;
 }
 
 function getDesktopNumerationList(page: number, numberOfPages: number) {
-    const showEllipsisAfter = 5;
-
     const prevPage = Math.max(page - 1, 1);
     let rightPage = Math.min(page + 1, numberOfPages);
 
@@ -39,21 +30,17 @@ function getDesktopNumerationList(page: number, numberOfPages: number) {
         list.push(rightPage);
     }
 
-    if (numberOfPages - rightPage === 2) {
-        if (numberOfPages <= showEllipsisAfter) {
-            rightPage = rightPage + 1;
-            list.push(rightPage);
-        } else {
-            list.push('ellipsis');
-        }
+    if (numberOfPages - rightPage >= 2) {
+        list.push('ellipsis');
     }
 
-    if (numberOfPages - rightPage > 2) {
-        list.push('ellipsis');
+    if (numberOfPages - page === 1) {
+        list.unshift(Math.max(page - 2, 1));
     }
 
     if (page === numberOfPages) {
         list.unshift(Math.max(page - 2, 1));
+        list.unshift(Math.max(page - 3, 1));
     }
 
     list.push(numberOfPages);

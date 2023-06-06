@@ -16,8 +16,6 @@ export function usePagination({
     total,
     mobile,
 }: UsePaginationArgs): UsePaginationReturn {
-    const showFirstButtonAfter = 2;
-
     const numberOfPages = getNumberOfPages(pageSize, total);
     const hasTotal = numberOfPages !== 0;
 
@@ -26,7 +24,7 @@ export function usePagination({
     if (hasTotal) {
         const numerationList = getNumerationList({page, numberOfPages, mobile});
 
-        items = numerationList.map((item) => {
+        items = numerationList.map((item, index) => {
             if (item === 'ellipsis') {
                 return {type: 'ellipsis'};
             }
@@ -39,32 +37,30 @@ export function usePagination({
                 current,
                 page: item,
                 simple: mobile ? current : false,
+                key: mobile ? item + index : item,
             };
         });
     } else {
-        items = [{type: 'page', current: true, page, simple: true}];
+        items = [{type: 'page', current: true, page, simple: true, key: page}];
     }
 
-    if (page > 1) {
-        items.unshift({
-            type: 'button',
-            action: 'previous',
-        });
-    }
+    items.unshift({
+        type: 'button',
+        action: 'previous',
+        disabled: page <= 1,
+    });
 
-    if (page > showFirstButtonAfter) {
-        items.unshift({
-            type: 'button',
-            action: 'first',
-        });
-    }
+    items.unshift({
+        type: 'button',
+        action: 'first',
+        disabled: page <= 1,
+    });
 
-    if (!hasTotal || page !== numberOfPages) {
-        items.push({
-            type: 'button',
-            action: 'next',
-        });
-    }
+    items.push({
+        type: 'button',
+        action: 'next',
+        disabled: hasTotal ? page === numberOfPages : false,
+    });
 
     return {items, numberOfPages};
 }

@@ -60,6 +60,8 @@ export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, classN
             onUpdate={setValue}
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
+            type="number"
+            controlProps={{pattern: '[1-9][0-9]*'}}
         />
     );
 };

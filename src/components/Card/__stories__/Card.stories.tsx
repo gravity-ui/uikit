@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Card} from '../Card';
 import type {CardProps} from '../Card';
@@ -14,12 +14,12 @@ export default {
     component: Card,
 } as Meta;
 
-const DefaultTemplate: Story<CardProps> = (args) => (
+const DefaultTemplate: StoryFn<CardProps> = (args) => (
     <Card {...args} className="card-stories">
         <div className="card-content-stories">card&lsquo;s content</div>
     </Card>
 );
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story<CardProps> = () => <CardShowcase />;
+const ShowcaseTemplate: StoryFn<CardProps> = () => <CardShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

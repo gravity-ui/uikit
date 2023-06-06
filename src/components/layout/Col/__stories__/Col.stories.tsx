@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Container} from '../../Container/Container';
 import {Row} from '../../Row/Row';
@@ -14,7 +14,7 @@ export default {
     component: Col,
 } as Meta;
 
-const StaticTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space = '3', spaceRow}) => (
+const StaticTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '3', spaceRow}) => (
     <LayoutPresenter>
         <Row {...{space, spaceRow}}>
             {new Array(12).fill('1').map((s, i) => (
@@ -53,7 +53,7 @@ Static.args = {
     space: 3,
 };
 
-const DynamicTemplate: Story<{space?: Space; spaceRow?: Space}> = ({space = '2', spaceRow}) => (
+const DynamicTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '2', spaceRow}) => (
     <LayoutPresenter>
         <Container spaceRow="8">
             <Row {...{space, spaceRow}}>
@@ -94,7 +94,7 @@ Dynamic.args = {
     space: '2',
 };
 
-const AllModsTemplate: Story<ColProps & {space?: Space; spaceRow?: Space}> = ({
+const AllModsTemplate: StoryFn<ColProps & {space?: Space; spaceRow?: Space}> = ({
     space = '3',
     spaceRow,
     ...args

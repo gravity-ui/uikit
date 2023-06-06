@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import AutoSizer from 'react-virtualized-auto-sizer';
+import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
 
 import {TextInput} from '../TextInput';
@@ -280,7 +280,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
         return (
             <AutoSizer>
-                {({width, height}) => (
+                {({width, height}: Size) => (
                     <Container
                         ref={this.refContainer}
                         width={width}

@@ -1,7 +1,11 @@
-import type {StorybookConfig} from '@storybook/core-common';
+import type {StorybookConfig} from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
-    stories: ['../src/**/*.stories.@(ts|tsx)'],
+    framework: {
+        name: '@storybook/react-webpack5',
+        options: {fastRefresh: true},
+    },
+    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
     addons: [
         '@storybook/preset-scss',
         {name: '@storybook/addon-essentials', options: {backgrounds: false}},
@@ -9,4 +13,4 @@ const config: StorybookConfig = {
     ],
 };
 
-module.exports = config;
+export default config;

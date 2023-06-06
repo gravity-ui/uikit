@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 import block from 'bem-cn-lite';
 
 import {Button, Checkbox} from '../../../';
@@ -27,7 +27,12 @@ const EXTRA_OUTER_CONTENT = getRandomText(8000);
 const EXTRA_INNER_CONTENT = getRandomText(500);
 const EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT = getRandomText(3000);
 
-export const Showcase: Story<SheetProps> = (args: SheetProps) => {
+export default {
+    title: 'Components/Sheet',
+    component: Sheet,
+} as Meta;
+
+export const Showcase: StoryFn<SheetProps> = (args: SheetProps) => {
     const [visible, setVisible] = React.useState(false);
     const [withExtraOuterContent, setWithExtraOuterContent] = React.useState(false);
     const [withExtraInnerContent, setWithExtraInnerContent] = React.useState(false);

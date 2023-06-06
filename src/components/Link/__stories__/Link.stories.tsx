@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Link} from '../Link';
 import type {LinkProps} from '../Link';
@@ -11,8 +11,8 @@ export default {
     component: Link,
 } as Meta;
 
-const DefaultTemplate: Story<LinkProps> = (args) => <Link {...args}>Link</Link>;
+const DefaultTemplate: StoryFn<LinkProps> = (args) => <Link {...args}>Link</Link>;
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <LinkShowcase />;
+const ShowcaseTemplate: StoryFn = () => <LinkShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

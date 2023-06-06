@@ -41,7 +41,7 @@ export const TEXT_COLORS = [
 ] as const;
 
 export interface ColorTextBaseProps {
-    color?: typeof TEXT_COLORS[number];
+    color?: (typeof TEXT_COLORS)[number];
 }
 
 /**

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 import block from 'bem-cn-lite';
 
 import {Button, Menu} from '../../../';
@@ -11,7 +11,12 @@ import './WithMenuShowcase.scss';
 
 const b = block('sheet-stories-with-menu-showcase');
 
-export const WithMenuShowcase: Story<SheetProps> = (args: SheetProps) => {
+export default {
+    title: 'Components/Sheet',
+    component: Sheet,
+} as Meta;
+
+export const WithMenuShowcase: StoryFn<SheetProps> = (args: SheetProps) => {
     const [visible, setVisible] = React.useState(false);
 
     return (

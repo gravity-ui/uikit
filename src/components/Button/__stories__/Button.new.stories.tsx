@@ -1,16 +1,21 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
 import {Button} from '../Button';
 
-import Docs from './Button.docs.mdx';
-
 export default {
     title: 'Components/Basic/Button',
     id: 'components/Button',
+    args: {
+        view: 'normal',
+        size: 'm',
+        state: 'normal',
+        content: 'Button',
+        icon: 'none',
+    },
     argTypes: {
         view: {
             options: [
@@ -29,38 +34,29 @@ export default {
                 'flat-contrast',
             ],
             control: {type: 'select'},
-            defaultValue: 'normal',
         },
         size: {
             options: ['xs', 's', 'm', 'l', 'xl'],
             control: {type: 'radio'},
-            defaultValue: 'm',
         },
         state: {
             options: ['normal', 'disabled', 'loading', 'selected'],
             control: {type: 'radio'},
-            defaultValue: 'normal',
         },
         width: {
             options: [undefined, 'auto', 'max'],
             control: {type: 'radio'},
-            defaultValue: undefined,
         },
         content: {
             control: {type: 'text'},
-            defaultValue: 'Button',
         },
         icon: {
             options: ['none', 'left', 'right', 'only'],
             control: {type: 'radio'},
-            defaultValue: 'none',
         },
     },
     parameters: {
         order: -100,
-        docs: {
-            page: Docs,
-        },
     },
 } as Meta;
 
@@ -71,7 +67,7 @@ const iconSizeMap: Record<string, number> = {
     xl: 26,
 };
 
-export const Playground: Story = (args) => {
+export const Playground: StoryFn = (args) => {
     const content = [args.content];
     const icon = <Icon data={GearIcon} size={iconSizeMap[args.size]} />;
 

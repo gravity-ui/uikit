@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Switch} from '../Switch';
 import type {SwitchProps} from '../Switch';
@@ -12,10 +12,10 @@ export default {
     component: Switch,
 } as Meta;
 
-const DefaultTemplate: Story<SwitchProps> = (args) => <Switch {...args} />;
+const DefaultTemplate: StoryFn<SwitchProps> = (args) => <Switch {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const SizeTemplate: Story<SwitchProps> = (args) => (
+const SizeTemplate: StoryFn<SwitchProps> = (args) => (
     <React.Fragment>
         m: <Switch {...args} size="m" />
         <span style={{margin: '16px'}} />
@@ -24,7 +24,7 @@ const SizeTemplate: Story<SwitchProps> = (args) => (
 );
 export const Size = SizeTemplate.bind({});
 
-const DisabledTemplate: Story<SwitchProps> = (args) => (
+const DisabledTemplate: StoryFn<SwitchProps> = (args) => (
     <React.Fragment>
         <Switch {...args} defaultChecked disabled content="Disabled checked" />
         <span style={{margin: '16px'}} />
@@ -33,7 +33,7 @@ const DisabledTemplate: Story<SwitchProps> = (args) => (
 );
 export const Disabled = DisabledTemplate.bind({});
 
-const LabelTemplate: Story<SwitchProps> = (args) => (
+const LabelTemplate: StoryFn<SwitchProps> = (args) => (
     <React.Fragment>
         <Switch {...args} size="m" content="content m" />
         <span style={{margin: '16px'}} />
@@ -51,7 +51,7 @@ const LabelTemplate: Story<SwitchProps> = (args) => (
 );
 export const Label = LabelTemplate.bind({});
 
-const ControlledTemplate: Story<SwitchProps> = (args) => (
+const ControlledTemplate: StoryFn<SwitchProps> = (args) => (
     <React.Fragment>
         <Switch {...args} content="Controlled checked" checked />
         <span style={{margin: '16px'}} />
@@ -60,5 +60,5 @@ const ControlledTemplate: Story<SwitchProps> = (args) => (
 );
 export const Controlled = ControlledTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <SwitchShowcase />;
+const ShowcaseTemplate: StoryFn = () => <SwitchShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

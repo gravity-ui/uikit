@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Branding} from '../demo/Branding/Branding';
 import type {BrandingProps} from '../demo/Branding/Branding';
@@ -8,16 +8,18 @@ import type {BrandingProps} from '../demo/Branding/Branding';
 export default {
     title: 'Branding',
     component: Branding,
+    args: {
+        brand: 'red',
+    },
     argTypes: {
         brand: {
             name: 'Color\u00a0scheme',
             type: {name: 'enum', value: ['blue', 'red', 'yellow']},
-            defaultValue: 'red',
         },
     },
 } as Meta<BrandingProps>;
 
-export const Example: Story<BrandingProps> = (args) => <Branding {...args} />;
+export const Example: StoryFn<BrandingProps> = (args) => <Branding {...args} />;
 
 Example.decorators = [
     (Story, ctx) => {

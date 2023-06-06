@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {ClipboardButton} from '../ClipboardButton';
 import type {ClipboardButtonProps} from '../ClipboardButton';
@@ -10,5 +10,5 @@ export default {
     component: ClipboardButton,
 } as Meta;
 
-const DefaultTemplate: Story<ClipboardButtonProps> = (args) => <ClipboardButton {...args} />;
+const DefaultTemplate: StoryFn<ClipboardButtonProps> = (args) => <ClipboardButton {...args} />;
 export const Default = DefaultTemplate.bind({});

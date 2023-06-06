@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {RadioButton} from '../RadioButton';
 import type {RadioButtonOption, RadioButtonProps} from '../RadioButton';
@@ -18,7 +18,7 @@ const options: RadioButtonOption[] = [
     {value: 'Value 3', content: 'Value 3'},
 ];
 
-const DefaultTemplate: Story<RadioButtonProps> = (args) => {
+const DefaultTemplate: StoryFn<RadioButtonProps> = (args) => {
     const [value, setValue] = React.useState<string>(options[0].value);
     return <RadioButton {...args} value={value} onUpdate={setValue} />;
 };
@@ -27,5 +27,5 @@ Default.args = {
     options,
 };
 
-const ShowcaseTemplate: Story = () => <RadioButtonShowcase />;
+const ShowcaseTemplate: StoryFn = () => <RadioButtonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

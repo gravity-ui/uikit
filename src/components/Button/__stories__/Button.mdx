@@ -1,6 +1,5 @@
-import {Source, ArgsTable} from '@storybook/addon-docs';
+import {Meta, ArgsTable} from '@storybook/addon-docs';
 import {DocsSource} from '../../../demo/DocsSource/DocsSource';
-import {Button} from '../Button';
 import {
     ButtonExampleViewAction,
     ButtonExampleViewNormal,
@@ -16,7 +15,11 @@ import {
     ButtonExampleState,
     ButtonExampleSize,
 } from './examples/ButtonExampleView/ButtonExampleView';
+import {Button} from '../Button';
+import * as ButtonStories from './Button.new.stories';
 
+
+<Meta of={ButtonStories}/>
 
 # Button
 

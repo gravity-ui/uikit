@@ -1,6 +1,7 @@
 import React from 'react';
-import {PaginationSize} from '../../types';
+
 import {blockNew} from '../../../utils/cn';
+import type {PaginationSize} from '../../types';
 
 import './PaginationEllipsis.scss';
 

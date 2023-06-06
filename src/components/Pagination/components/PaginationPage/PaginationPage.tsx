@@ -1,7 +1,8 @@
 import React from 'react';
+
 import {Button} from '../../../Button';
-import {PageItem, PaginationSize, PaginationProps} from '../../types';
 import {blockNew} from '../../../utils/cn';
+import type {PageItem, PaginationProps, PaginationSize} from '../../types';
 
 import './PaginationPage.scss';
 

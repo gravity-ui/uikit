@@ -1,9 +1,11 @@
 import React from 'react';
-import {ChevronsLeft, ChevronLeft, ChevronRight} from '@gravity-ui/icons';
+
+import {ChevronLeft, ChevronRight, ChevronsLeft} from '@gravity-ui/icons';
+
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
-import {ButtonItem, PaginationSize, PaginationProps} from '../../types';
 import i18n from '../../i18n';
+import type {ButtonItem, PaginationProps, PaginationSize} from '../../types';
 
 type Props = {
     item: ButtonItem;

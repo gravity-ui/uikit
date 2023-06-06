@@ -1,16 +1,18 @@
 import React from 'react';
+
+import {useMobile} from '../mobile';
 import {blockNew} from '../utils/cn';
-import {PaginationProps} from './types';
+
 import {
-    PaginationPage,
-    PaginationEllipsis,
-    PaginationPageOf,
     PaginationButton,
+    PaginationEllipsis,
     PaginationInput,
+    PaginationPage,
+    PaginationPageOf,
     PaginationPageSizer,
 } from './components';
 import {usePagination} from './hooks/usePagination';
-import {useMobile} from '../mobile';
+import type {PaginationProps} from './types';
 
 import './Pagination.scss';
 

@@ -1,9 +1,10 @@
 import React from 'react';
+
 import {TextInput, TextInputProps} from '../../../TextInput';
-import {PaginationSize, PaginationProps} from '../../types';
-import i18n from '../../i18n';
-import {blockNew} from '../../../utils/cn';
 import {KeyCode} from '../../../constants';
+import {blockNew} from '../../../utils/cn';
+import i18n from '../../i18n';
+import type {PaginationProps, PaginationSize} from '../../types';
 
 import './PaginationInput.scss';
 

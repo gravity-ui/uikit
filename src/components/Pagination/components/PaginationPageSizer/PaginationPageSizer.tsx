@@ -1,6 +1,7 @@
 import React from 'react';
+
 import {Select} from '../../../Select';
-import {PaginationSize, PaginationProps} from '../../types';
+import type {PaginationProps, PaginationSize} from '../../types';
 import {getNumberOfPages} from '../../utils';
 
 type Props = {

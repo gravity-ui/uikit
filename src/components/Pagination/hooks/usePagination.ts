@@ -1,5 +1,5 @@
-import {getNumerationList, getNumberOfPages} from '../utils';
-import {PaginationProps, PaginationItem} from '../types';
+import type {PaginationItem, PaginationProps} from '../types';
+import {getNumberOfPages, getNumerationList} from '../utils';
 
 type UsePaginationArgs = Pick<PaginationProps, 'page' | 'pageSize' | 'total'> & {
     mobile: boolean;

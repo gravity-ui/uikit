@@ -21,10 +21,8 @@ jobs:
       run: npm ci
       shell: bash
     - name: Build Storybook
-      run: npx build-storybook
+      run: npx sb build
       shell: bash
-      env:
-        TS_NODE_PROJECT: .storybook/tsconfig.json
     - name: Upload to S3
       uses: gravity-ui/preview-upload-to-s3-action@v1
       with:

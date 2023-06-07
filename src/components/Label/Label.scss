@@ -10,8 +10,8 @@ $transitionTimingFunction: ease-in-out;
     background-color: #{$bgColor};
 
     @if $BorderColor != none {
-        --outline-size: 1px;
-        outline: var(--outline-size) solid #{$BorderColor};
+        --border-size: 1px;
+        border: var(--border-size) solid #{$BorderColor};
     }
 
     // hover on interactive label (excluding hover on addon)
@@ -39,16 +39,16 @@ $transitionTimingFunction: ease-in-out;
 }
 
 @mixin sizeState($margin, $mainSize, $rAddon, $lAddon, $borderRadius) {
-    --main-size-without-outline: calc(#{$mainSize} - var(--outline-size) * 2);
-    height: var(--main-size-without-outline);
+    height: #{$mainSize};
     & #{$block}__text {
-        line-height: var(--main-size-without-outline);
+        line-height: #{$mainSize};
         margin: 0 #{$margin};
     }
 
     & #{$block}__addon {
-        width: var(--main-size-without-outline);
-        height: var(--main-size-without-outline);
+        --addon-size: calc(#{$mainSize} - var(--border-size) * 2);
+        width: var(--addon-size);
+        height: var(--addon-size);
     }
 
     &#{$block}_has-right-addon #{$block}__text {
@@ -66,7 +66,7 @@ $transitionTimingFunction: ease-in-out;
 
             & #{$block}__addon {
                 &_interactive {
-                    --yc-button-height: var(--main-size-without-outline);
+                    --yc-button-height: #{$mainSize};
                     --yc-button-border-radius: #{$borderRadius};
                 }
             }
@@ -81,11 +81,13 @@ $transitionTimingFunction: ease-in-out;
     transition-property: opacity, color, background-color;
     transition-duration: $transitionDuration;
     transition-timing-function: $transitionTimingFunction;
+    box-sizing: border-box;
 
-    --outline-size: 0px;
+    --border-size: 0px;
 
     &__text {
         display: flex;
+        align-items: baseline;
         width: 100%;
         text-align: center;
         white-space: nowrap;
@@ -207,7 +209,7 @@ $transitionTimingFunction: ease-in-out;
 
         &_clear {
             @include themeState(
-                none,
+                transparent,
                 var(--yc-color-base-simple-hover-solid),
                 var(--yc-color-text-complementary),
                 var(--yc-color-line-generic)

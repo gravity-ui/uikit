@@ -67,7 +67,7 @@ $transitionTimingFunction: ease-in-out;
             & #{$block}__addon {
                 &_interactive {
                     --yc-button-height: #{$mainSize};
-                    --yc-button-border-radius: #{$borderRadius};
+                    --yc-button-border-radius: calc(#{$borderRadius} - var(--border-size));
                 }
             }
         }

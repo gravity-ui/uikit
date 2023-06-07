@@ -1,9 +1,9 @@
 import type {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
+import type {Fetcher} from '../utils/Select/useSelectInfinityFetch/types';
 import type {UseOpenProps} from '../utils/useSelect/types';
 
 import type {Option, OptionGroup} from './tech-components';
-import type {Fetcher} from '../utils/Select/useSelectInfinityFetch/useInfinityFetch';
 
 export type SelectRenderControlProps = {
     onClick: (e: React.MouseEvent<HTMLElement>) => void;

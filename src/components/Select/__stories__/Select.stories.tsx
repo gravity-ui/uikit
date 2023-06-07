@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Select} from '..';
 import type {SelectProps} from '..';
@@ -12,7 +12,7 @@ export default {
     component: Select,
 } as Meta;
 
-const DefaultTemplate: Story<SelectProps> = (args) => (
+const DefaultTemplate: StoryFn<SelectProps> = (args) => (
     <Select {...args}>
         <Select.Option value="val1" content="Value1" />
         <Select.Option value="val2" content="Value2" />
@@ -20,7 +20,7 @@ const DefaultTemplate: Story<SelectProps> = (args) => (
         <Select.Option value="val4" content="Value4" />
     </Select>
 );
-const ShowcaseTemplate: Story<SelectProps> = (args: SelectProps) => <SelectShowcase {...args} />;
+const ShowcaseTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectShowcase {...args} />;
 export const Default = DefaultTemplate.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
 

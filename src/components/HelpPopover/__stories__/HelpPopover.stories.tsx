@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {HelpPopover} from '../HelpPopover';
 import type {HelpPopoverProps} from '../HelpPopover';
@@ -10,7 +10,7 @@ export default {
     component: HelpPopover,
 } as Meta;
 
-const DefaultTemplate: Story<HelpPopoverProps> = (args) => <HelpPopover {...args} />;
+const DefaultTemplate: StoryFn<HelpPopoverProps> = (args) => <HelpPopover {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     content: 'Some content',

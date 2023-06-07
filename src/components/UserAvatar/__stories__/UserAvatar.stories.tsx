@@ -2,7 +2,7 @@ import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {useArgs} from '@storybook/client-api';
-import type {ComponentStory, Meta, Story} from '@storybook/react';
+import type {ComponentStory, Meta, StoryFn} from '@storybook/react';
 
 import {UserAvatar} from '../UserAvatar';
 import type {UserAvatarProps} from '../UserAvatar';
@@ -17,12 +17,12 @@ export default {
     component: UserAvatar,
 } as Meta;
 
-export const Default: Story<UserAvatarProps> = (args) => (
+export const Default: StoryFn<UserAvatarProps> = (args) => (
     <UserAvatar {...args} onClick={() => alert('click')} />
 );
 Default.args = {imgUrl};
 
-export const Size: Story<UserAvatarProps> = (args) => (
+export const Size: StoryFn<UserAvatarProps> = (args) => (
     <div>
         <UserAvatar {...args} size="xs" />
         <UserAvatar {...args} size="s" />

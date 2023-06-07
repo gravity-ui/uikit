@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Loader} from '../Loader';
 import type {LoaderProps} from '../Loader';
@@ -10,10 +10,10 @@ export default {
     component: Loader,
 } as Meta;
 
-const DefaultTemplate: Story<LoaderProps> = (args) => <Loader {...args} />;
+const DefaultTemplate: StoryFn<LoaderProps> = (args) => <Loader {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const SizeTemplate: Story<LoaderProps> = (args) => {
+const SizeTemplate: StoryFn<LoaderProps> = (args) => {
     return (
         <React.Fragment>
             <Loader {...args} size="s" />

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {ComponentMeta, ComponentStory} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {ListItem} from '../components';
 import type {ListItemProps, ListSortHandleAlign} from '../types';
@@ -38,15 +38,13 @@ export default {
             </div>
         ),
     ],
-} as ComponentMeta<typeof ListItem>;
+} as Meta<typeof ListItem>;
 
-const getComponentTemplate =
-    <
-        T extends React.JSXElementConstructor<ListItemProps<any>> = typeof ListItem,
-    >(): ComponentStory<T> =>
+const getComponentTemplate = <
+    T extends React.JSXElementConstructor<ListItemProps<any>> = typeof ListItem,
+>(): StoryFn<T> =>
     // eslint-disable-next-line react/display-name
-    (args) =>
-        <ListItem {...args} />;
+    ((args: any) => <ListItem {...args} />) as any;
 
 const Template = getComponentTemplate();
 

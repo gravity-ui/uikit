@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Table} from '../../Table';
 import {Hotkey} from '../Hotkey';
@@ -11,7 +11,7 @@ export default {
     component: Hotkey,
 } as Meta;
 
-export const Default: Story<HotkeyProps> = (args) => <Hotkey {...args} />;
+export const Default: StoryFn<HotkeyProps> = (args) => <Hotkey {...args} />;
 Default.args = {value: 'mod+a mod+c mod+v'};
 
 const examples = [
@@ -31,7 +31,7 @@ const examples = [
     'mod+-',
 ];
 
-export const Examples: Story = () => (
+export const Examples: StoryFn = () => (
     <Table
         columns={[
             {id: 'val', name: 'Value'},

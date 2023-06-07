@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react/types-6-0';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Stories} from '../Stories';
@@ -41,7 +41,7 @@ const items: StoriesItem[] = [
     },
 ];
 
-const DefaultTemplate: Story<StoriesProps> = (props: StoriesProps) => {
+const DefaultTemplate: StoryFn<StoriesProps> = (props: StoriesProps) => {
     const [visible, setVisible] = React.useState(props.open);
 
     React.useEffect(() => {

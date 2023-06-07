@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
@@ -18,10 +18,10 @@ const fixConsoleErrors = {
     onKeyPress: () => {},
 };
 
-const DefaultTemplate: Story<TextInputProps> = (args) => (
+const DefaultTemplate: StoryFn<TextInputProps> = (args) => (
     <TextInput {...fixConsoleErrors} {...args} />
 );
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <TextInputShowcase />;
+const ShowcaseTemplate: StoryFn = () => <TextInputShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Col} from '../../Col/Col';
 import {Row} from '../../Row/Row';
@@ -13,7 +13,7 @@ export default {
     component: Container,
 } as Meta;
 
-const DefaultTemplate: Story<ContainerProps> = (args) => (
+const DefaultTemplate: StoryFn<ContainerProps> = (args) => (
     <LayoutPresenter title="Change screen size to see different row spacing">
         <Container {...args}>
             <Row space="5">

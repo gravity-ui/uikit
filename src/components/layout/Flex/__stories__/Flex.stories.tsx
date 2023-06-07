@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Container} from '../..';
 import {Button} from '../../../Button/Button';
@@ -16,7 +16,7 @@ export default {
     component: Flex,
 } as Meta;
 
-const DefaultTemplate: Story<FlexProps<'div'>> = (args) => (
+const DefaultTemplate: StoryFn<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Row space="1">
             <Col>
@@ -46,7 +46,7 @@ Default.args = {
     justifyContent: 'center',
 };
 
-const FlexGapTemplate: Story<FlexProps<'div'>> = (args) => (
+const FlexGapTemplate: StoryFn<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Container>
             <Row space="5">
@@ -69,7 +69,7 @@ FlexGap.args = {
     gap: {s: '1', m: '6'},
 };
 
-const GapAndRowGapTemplate: Story<FlexProps<'div'>> = (args) => (
+const GapAndRowGapTemplate: StoryFn<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Container>
             <Row space="5">
@@ -93,7 +93,7 @@ GapAndRowGap.args = {
     gapRow: {s: '6', m: '1'},
 };
 
-const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
+const ChildrenWithBgColorTemplate: StoryFn<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Container>
             <Row space="5">
@@ -111,7 +111,7 @@ const ChildrenWithBgColorTemplate: Story<FlexProps<'div'>> = (args) => (
 export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
 ChildrenWithBgColor.args = {};
 
-const WithNullChildrenTemplate: Story<FlexProps<'div'>> = (args) => (
+const WithNullChildrenTemplate: StoryFn<FlexProps<'div'>> = (args) => (
     <LayoutPresenter title="Change screen size to 's' to see result">
         <Container>
             <Row space="5">

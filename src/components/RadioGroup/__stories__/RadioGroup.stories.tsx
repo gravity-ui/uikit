@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {RadioGroup} from '../RadioGroup';
@@ -19,7 +19,7 @@ const options: RadioGroupOption[] = [
     {value: 'Value 3', content: 'Value 3'},
 ];
 
-const DefaultTemplate: Story<RadioGroupProps> = (args) => {
+const DefaultTemplate: StoryFn<RadioGroupProps> = (args) => {
     const [value, setValue] = React.useState<string>(options[0].value);
     return <RadioGroup {...args} value={value} onUpdate={setValue} />;
 };
@@ -28,7 +28,7 @@ Default.args = {
     options,
 };
 
-export const Direction: Story<RadioGroupProps> = (args) => {
+export const Direction: StoryFn<RadioGroupProps> = (args) => {
     const [value, setValue] = React.useState(args.options?.[0].value);
 
     return (
@@ -59,5 +59,5 @@ Direction.args = {
     options,
 };
 
-const ShowcaseTemplate: Story = () => <RadioGroupShowcase />;
+const ShowcaseTemplate: StoryFn = () => <RadioGroupShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

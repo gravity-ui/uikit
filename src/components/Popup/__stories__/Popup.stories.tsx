@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../TextInput';
@@ -13,7 +13,7 @@ export default {
     component: Popup,
 } as Meta;
 
-export const Default: Story<PopupProps> = (props: PopupProps) => {
+export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
     const anchorRef = React.useRef<HTMLButtonElement>(null);
     const [open, setOpen] = React.useState(false);
 
@@ -39,7 +39,7 @@ export const Default: Story<PopupProps> = (props: PopupProps) => {
     );
 };
 
-export const Placement: Story<PopupProps> = (args) => {
+export const Placement: StoryFn<PopupProps> = (args) => {
     const anchorRef = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(true);
     const contentStyle = {padding: 10};
@@ -89,7 +89,7 @@ Placement.parameters = {
     layout: 'centered',
 };
 
-export const Position: Story<PopupProps> = (args) => {
+export const Position: StoryFn<PopupProps> = (args) => {
     const [left, setLeft] = React.useState(100);
     const [top, setTop] = React.useState(100);
     const anchorRef = useVirtualElementRef({rect: {top, left}});

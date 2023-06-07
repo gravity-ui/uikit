@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Platform} from '../../mobile/constants';
 import {StoreBadge} from '../StoreBadge';
@@ -11,7 +11,7 @@ export default {
     component: StoreBadge,
 } as Meta;
 
-const DefaultTemplate: Story<StoreBadgeProps> = (args) => <StoreBadge {...args} />;
+const DefaultTemplate: StoryFn<StoreBadgeProps> = (args) => <StoreBadge {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     platform: Platform.IOS,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
@@ -10,7 +10,7 @@ export default {
     component: Portal,
 } as Meta;
 
-const DefaultTemplate: Story<PortalProps> = () => (
+const DefaultTemplate: StoryFn<PortalProps> = () => (
     <Portal>
         <span>I am inside the document.body</span>
     </Portal>

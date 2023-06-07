@@ -1,4 +1,4 @@
-import {ArgsTable} from '@storybook/addon-docs';
+import {Meta, ArgsTable} from '@storybook/addon-docs';
 import {DocsSource} from '../../../demo/DocsSource/DocsSource';
 import {
     LinkExampleViewNormal,
@@ -8,6 +8,10 @@ import {
     LinkExampleUsage,
 } from './examples/LinkExampleView/LinkExampleView';
 import {Link} from '../Link';
+import * as LinkStories from './Link.new.stories';
+
+
+<Meta of={LinkStories}/>
 
 # Link
 

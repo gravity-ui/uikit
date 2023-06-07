@@ -1,28 +1,29 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Link} from '../Link';
-
-import Docs from './Link.docs.mdx';
 
 export default {
     title: 'Components/Basic/Link',
     id: 'components/Link',
+    args: {
+        view: 'normal',
+        children: 'Link',
+        href: '#',
+        title: 'title',
+    },
     argTypes: {
         view: {
             options: ['normal', 'primary', 'secondary', 'normal-visitable'],
             control: {type: 'select'},
-            defaultValue: 'normal',
             description: 'test',
         },
         children: {
             control: {type: 'text'},
-            defaultValue: 'Link',
         },
         href: {
             control: {type: 'text'},
-            defaultValue: '#',
         },
         target: {
             control: {type: 'text'},
@@ -34,7 +35,6 @@ export default {
         },
         title: {
             control: {type: 'text'},
-            defaultValue: 'title',
         },
         id: {
             control: {type: 'text'},
@@ -42,13 +42,10 @@ export default {
     },
     parameters: {
         order: -100,
-        docs: {
-            page: Docs,
-        },
     },
 } as Meta;
 
-export const Playground: Story = (args) => {
+export const Playground: StoryFn = (args) => {
     return <Link {...args} />;
 };
 Playground.storyName = 'Link';

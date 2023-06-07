@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Popover, PopoverBehavior} from '../';
 import type {PopoverProps} from '../';
@@ -15,17 +15,27 @@ import './PopoverDemo.scss';
 export default {
     title: 'Components/Popover',
     component: Popover,
+    args: {
+        initialOpen: false,
+        disabled: false,
+        autoclosable: true,
+        openOnHover: true,
+        placement: ['right', 'bottom'],
+        hasArrow: true,
+        hasClose: false,
+        theme: 'info',
+        size: 's',
+        behavior: 'delayed',
+    },
     argTypes: {
         initialOpen: {
             control: 'boolean',
-            defaultValue: false,
         },
         disabled: {
             control: 'boolean',
-            defaultValue: false,
         },
-        autoclosable: {control: 'boolean', defaultValue: true},
-        openOnHover: {control: 'boolean', defaultValue: true},
+        autoclosable: {control: 'boolean'},
+        openOnHover: {control: 'boolean'},
         offset: {control: 'object'},
         placement: {
             control: 'select',
@@ -46,16 +56,14 @@ export default {
                 'auto-start',
                 'auto-end',
             ],
-            defaultValue: ['right', 'bottom'],
         },
-        hasArrow: {control: 'boolean', defaultValue: true},
-        hasClose: {control: 'boolean', defaultValue: false},
+        hasArrow: {control: 'boolean'},
+        hasClose: {control: 'boolean'},
         theme: {
             control: 'select',
             options: ['info', 'special', 'announcement'],
-            defaultValue: 'info',
         },
-        size: {control: 'select', options: ['s', 'l'], defaultValue: 's'},
+        size: {control: 'select', options: ['s', 'l']},
         anchorRef: {},
         children: {control: 'string'},
         title: {control: 'string '},
@@ -75,14 +83,13 @@ export default {
         behavior: {
             control: 'select',
             options: ['immediate', 'delayed', 'delayedClosing'],
-            defaultValue: 'delayed',
         },
         delayOpening: {control: 'number', min: 0},
         delayClosing: {control: 'number', min: 0},
     },
 } as Meta;
 
-const PlaygroundTemplate: Story<PopoverProps> = (args) => (
+const PlaygroundTemplate: StoryFn<PopoverProps> = (args) => (
     <Base {...args}>{args.openOnHover ? 'Move the cursor' : 'Click'} here to show the popover</Base>
 );
 export const Playground = PlaygroundTemplate.bind({});
@@ -90,7 +97,7 @@ Playground.args = {
     content: 'Popover content',
 };
 
-const ThemeTemplate: Story<PopoverProps> = () => (
+const ThemeTemplate: StoryFn<PopoverProps> = () => (
     <div className={cnPopoverDemo('variants')}>
         <Base theme="info" content="Info tooltip" placement="bottom">
             <Button>Info (default)</Button>
@@ -105,7 +112,7 @@ const ThemeTemplate: Story<PopoverProps> = () => (
 );
 export const Theme = ThemeTemplate.bind({});
 
-const SizeTemplate: Story<PopoverProps> = () => (
+const SizeTemplate: StoryFn<PopoverProps> = () => (
     <div className={cnPopoverDemo('variants')}>
         <Base size="s" content="Small tooltip" placement="bottom">
             <Button>Small (s)</Button>
@@ -117,7 +124,7 @@ const SizeTemplate: Story<PopoverProps> = () => (
 );
 export const Size = SizeTemplate.bind({});
 
-const FullFeaturedTemplate: Story<PopoverProps> = (args) => (
+const FullFeaturedTemplate: StoryFn<PopoverProps> = (args) => (
     <div className={cnPopoverDemo()}>
         <Base {...args}>
             <div className={cnPopoverDemo('content')}>
@@ -176,7 +183,7 @@ WithLongActionItems.args = {
     theme: 'info',
 };
 
-const WithCustomAnchorTemplate: Story = () => <WithCustomAnchorExample />;
+const WithCustomAnchorTemplate: StoryFn = () => <WithCustomAnchorExample />;
 export const WithCustomAnchor = WithCustomAnchorTemplate.bind({});
 WithCustomAnchor.args = {
     content: 'Popover content',

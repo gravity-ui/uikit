@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Text, colorText, text} from '../.';
 import type {TextProps} from '../.';
@@ -10,7 +10,7 @@ export default {
     component: Text,
 } as Meta;
 
-const DefaultText: Story<TextProps> = (args) => <Text {...args} />;
+const DefaultText: StoryFn<TextProps> = (args) => <Text {...args} />;
 
 export const Default = DefaultText.bind({});
 
@@ -25,7 +25,7 @@ export const UsingTextUtilities = () => (
     </div>
 );
 
-const EllipsisDefault: Story<TextProps> = (args) => <Text {...args} />;
+const EllipsisDefault: StoryFn<TextProps> = (args) => <Text {...args} />;
 
 export const Ellipsis = EllipsisDefault.bind({});
 
@@ -39,7 +39,7 @@ Ellipsis.args = {
         'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam! Debitis eos unde, blanditiis ipsam adipisci, soluta incidunt architecto quidem, repellat commodi tempore! Enim assumenda nam esse laudantium sequi quaerat maiores, voluptatum quibusdam temporibus nulla perspiciatis! Corrupti error aliquid iure asperiores voluptate. Nisi temporibus nesciunt quasi animi, accusamus officia debitis voluptatum ratione ullam delectus, adipisci, repellendus vitae in amet sit magni iste impedit? Exercitationem rerum impedit sed earum iusto modi et officia aspernatur quibusdam? Fugit.',
 };
 
-const WordBreakDefault: Story<TextProps> = (args) => (
+const WordBreakDefault: StoryFn<TextProps> = (args) => (
     <div
         style={{
             width: 200,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
@@ -20,6 +20,9 @@ const icons = {
 export default {
     title: 'Components/Label',
     component: Label,
+    args: {
+        children: '',
+    },
     argTypes: {
         icon: {
             control: {type: 'select'},
@@ -28,12 +31,11 @@ export default {
         },
         children: {
             control: {type: 'text'},
-            defaultValue: '',
         },
     },
 } as Meta;
 
-const Template: Story<LabelProps> = (args) => <Label {...args} />;
+const Template: StoryFn<LabelProps> = (args) => <Label {...args} />;
 
 export const Default = Template.bind({});
 
@@ -41,7 +43,7 @@ Default.args = {
     children: 'Default',
 };
 
-const ThemeTemplate: Story<LabelProps> = (args) => {
+const ThemeTemplate: StoryFn<LabelProps> = (args) => {
     return (
         <div className="label-stories">
             <Label {...args} theme="normal">
@@ -68,7 +70,7 @@ const ThemeTemplate: Story<LabelProps> = (args) => {
 
 export const Theme = ThemeTemplate.bind({});
 
-const SizeTemplate: Story<LabelProps> = (args) => {
+const SizeTemplate: StoryFn<LabelProps> = (args) => {
     return (
         <div className="label-stories">
             <Label {...args} size="xs">
@@ -86,7 +88,7 @@ const SizeTemplate: Story<LabelProps> = (args) => {
 
 export const Size = SizeTemplate.bind({});
 
-const StyleTemplate: Story<LabelProps> = (args) => {
+const StyleTemplate: StoryFn<LabelProps> = (args) => {
     return (
         <div className="label-stories">
             <Label {...args} style="default">
@@ -101,7 +103,7 @@ const StyleTemplate: Story<LabelProps> = (args) => {
 
 export const Style = StyleTemplate.bind({});
 
-const IconTemplate: Story<LabelProps> = (args) => {
+const IconTemplate: StoryFn<LabelProps> = (args) => {
     return <Label {...args} />;
 };
 
@@ -111,7 +113,7 @@ Icon.args = {
     icon: 'TickIcon',
 };
 
-export const Interactions: Story<LabelProps> = (args) => (
+export const Interactions: StoryFn<LabelProps> = (args) => (
     <div style={{display: 'flex', flexFlow: 'column', gap: 10}}>
         <div>
             <Label {...args}>No interactions</Label>

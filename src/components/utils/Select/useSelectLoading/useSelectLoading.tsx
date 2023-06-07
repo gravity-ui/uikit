@@ -1,13 +1,13 @@
 import React from 'react';
 
-import './CustomLoader.scss';
-import {Loader} from '../../../Loader/Loader';
-import {
+import type {
     SelectBasicProps,
     SelectOption,
     SelectRenderOption,
     SelectRenderOptionViewParams,
 } from '../../../Select/types';
+
+import {SelectLoadingIndicator} from './SelectLoadingIndicator';
 
 const LOADER = 'LOADER';
 const LOADER_PERSISTENT = 'LOADER_PERSISTENT';
@@ -16,17 +16,6 @@ const loaderPersistentOption = {
     value: LOADER_PERSISTENT,
     content: LOADER_PERSISTENT,
     disabled: true,
-};
-
-const CustomLoader = (props: {onRendered?: () => void}) => {
-    React.useEffect(() => {
-        props.onRendered?.();
-    }, []);
-    return (
-        <div className="custom-loader-container">
-            <Loader />
-        </div>
-    );
 };
 
 export type UseSelectLoading = {
@@ -61,9 +50,9 @@ export const useSelectLoading = ({
         (option: SelectOption, viewParams: SelectRenderOptionViewParams) => {
             switch (option.content) {
                 case LOADER:
-                    return <CustomLoader onRendered={handleFetch} />;
+                    return <SelectLoadingIndicator onRendered={handleFetch} />;
                 case LOADER_PERSISTENT:
-                    return <CustomLoader />;
+                    return <SelectLoadingIndicator />;
                 default:
                     return (
                         renderOption?.(option, viewParams) || (option.content as React.ReactElement)

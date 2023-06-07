@@ -60,7 +60,15 @@
         line-height: variables.$tableLineHeight;
         text-align: left;
         overflow-wrap: break-word;
-        min-width: 18px;
+        min-width: 17px;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
 
         &:not(&_word-wrap) {
             @include mixins.overflow-ellipsis();

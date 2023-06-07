@@ -13,11 +13,11 @@ export interface PersonaProps {
     image?: string;
     /**
      * Visual appearance (with or without border)
-     * @deprecated Use `view` prop instead
+     * @deprecated Use `hasBorder` prop instead
      */
     theme?: 'default' | 'clear';
-    /** Visual appearance (with or without border) */
-    view?: 'default' | 'clear';
+    /** Display border */
+    hasBorder?: boolean;
     /** Avatar appearance */
     type?: 'person' | 'email' | 'empty';
     /** Text size */
@@ -33,7 +33,7 @@ export interface PersonaProps {
 export function Persona({
     size = 's',
     theme = 'default',
-    view = theme,
+    hasBorder = theme === 'default',
     type = 'person',
     onClick,
     onClose,
@@ -58,7 +58,7 @@ export function Persona({
     return (
         <PersonaWrap
             size={size}
-            theme={view}
+            theme={hasBorder ? 'default' : 'clear'}
             isEmpty={type === 'empty'}
             onClick={onClick && onClick.bind(null, text)}
             onClose={onClose && onClose.bind(null, text)}

@@ -207,10 +207,10 @@ const section = (args: LabelProps) => {
     return cases.map((label, i) => getLabel({key: i, ...args, ...label}));
 };
 
-const keyValuesTemplate: StoryFn<LabelProps> = (args) => (
+const KeyValuesTemplate: Story<LabelProps> = (args) => (
     <div className="label-stories">
         <div className="grid" style={{gridTemplateColumns: `repeat(${1 + themes.length}, 1fr)`}}>
-            <h1></h1>
+            <div></div>
             {themes.map((theme) => (
                 <h1 key={`${theme}-header`}>{theme}</h1>
             ))}
@@ -228,7 +228,7 @@ const keyValuesTemplate: StoryFn<LabelProps> = (args) => (
     </div>
 );
 
-export const showcase = keyValuesTemplate.bind({});
+export const showcase = KeyValuesTemplate.bind({});
 
 showcase.args = {
     interactive: true,

@@ -207,7 +207,7 @@ const section = (args: LabelProps) => {
     return cases.map((label, i) => getLabel({key: i, ...args, ...label}));
 };
 
-const KeyValuesTemplate: Story<LabelProps> = (args) => (
+const KeyValuesTemplate: StoryFn<LabelProps> = (args) => (
     <div className="label-stories">
         <div className="grid" style={{gridTemplateColumns: `repeat(${1 + themes.length}, 1fr)`}}>
             <div></div>

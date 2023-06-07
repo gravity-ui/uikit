@@ -15,7 +15,9 @@ $transitionTimingFunction: ease-in-out;
     }
 
     // hover on interactive label (excluding hover on addon)
-    &:not(#{$disabled})#{$block}_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {
+    &:not(#{$disabled})#{$block}_is-interactive:hover:not(
+            :has(#{$block}__addon_interactive:hover)
+        ) {
         background-color: #{$bgHoverColor};
     }
 

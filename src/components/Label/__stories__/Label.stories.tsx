@@ -228,8 +228,8 @@ const KeyValuesTemplate: Story<LabelProps> = (args) => (
     </div>
 );
 
-export const showcase = KeyValuesTemplate.bind({});
+export const Showcase = KeyValuesTemplate.bind({});
 
-showcase.args = {
+Showcase.args = {
     interactive: true,
 };

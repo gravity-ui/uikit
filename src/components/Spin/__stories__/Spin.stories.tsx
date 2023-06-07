@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Spin} from '../Spin';
 import type {SpinProps} from '../Spin';
@@ -10,10 +10,10 @@ export default {
     component: Spin,
 } as Meta;
 
-const DefaultTemplate: Story<SpinProps> = (args) => <Spin {...args} />;
+const DefaultTemplate: StoryFn<SpinProps> = (args) => <Spin {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const SizeTemplate: Story<SpinProps> = (args) => (
+const SizeTemplate: StoryFn<SpinProps> = (args) => (
     <div>
         xs: <Spin {...args} size="xs" />
         <span style={{margin: '16px'}} />

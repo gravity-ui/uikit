@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Story} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 import _cloneDeep from 'lodash/cloneDeep';
 
 import {Table} from '../Table';
@@ -20,7 +20,7 @@ threeColumns[0].width = '33%';
 threeColumns[1].width = '33%';
 threeColumns[2].width = '33%';
 
-export const Adaptive: Story<TableProps<any>> = (args) => {
+export const Adaptive: StoryFn<TableProps<any>> = (args) => {
     const data = args.data.slice(0, 2);
     return (
         <div>

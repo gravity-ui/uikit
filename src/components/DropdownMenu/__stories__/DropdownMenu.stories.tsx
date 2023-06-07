@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 import block from 'bem-cn-lite';
 
 import {Icon} from '../../Icon';
@@ -22,14 +22,14 @@ export default {
     args: {},
 } as Meta;
 
-const DefaultTemplate: Story = (args) => <DropdownMenu {...args} />;
+const DefaultTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items: options,
 };
 
 // ----------------------------------------
-// const WithIconsTemplate: Story = (args) => <DropdownMenu {...args} />;
+// const WithIconsTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 // export const WithIcons = WithIconsTemplate.bind({});
 // WithIcons.args = {
 //     items: optionsWithIcons,
@@ -37,14 +37,14 @@ Default.args = {
 // WithIcons.storyName = 'Options with icons';
 
 // ----------------------------------------
-const WithGroupsTemplate: Story = (args) => <DropdownMenu {...args} />;
+const WithGroupsTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const WithGroups = WithGroupsTemplate.bind({});
 WithGroups.args = {
     items: optionsWithGroups,
 };
 WithGroups.storyName = 'Options with groups';
 
-const WithSubmenuTemplate: Story = (args) => <DropdownMenu {...args} />;
+const WithSubmenuTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const WithSubmenu = WithSubmenuTemplate.bind({});
 WithSubmenu.args = {
     items: optionsWithSubItems,
@@ -52,7 +52,7 @@ WithSubmenu.args = {
 WithSubmenu.storyName = 'Submenu';
 
 // ----------------------------------------
-const AssortedTemplate: Story = (args) => <DropdownMenu {...args} />;
+const AssortedTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const Assorted = AssortedTemplate.bind({});
 Assorted.args = {
     items: optionsAssorted,
@@ -60,7 +60,7 @@ Assorted.args = {
 Assorted.storyName = 'Different options for each action';
 
 // ----------------------------------------
-const DisabledTemplate: Story = (args) => <DropdownMenu {...args} />;
+const DisabledTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const Disabled = DisabledTemplate.bind({});
 Disabled.args = {
     items: options,
@@ -68,7 +68,7 @@ Disabled.args = {
 };
 
 // ----------------------------------------
-const CustomIconTemplate: Story = (args) => <DropdownMenu {...args} />;
+const CustomIconTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const CustomIcon = CustomIconTemplate.bind({});
 CustomIcon.args = {
     items: options,
@@ -77,7 +77,7 @@ CustomIcon.args = {
 CustomIcon.storyName = 'Non-standard icon';
 
 // ----------------------------------------
-const SwitcherThemeTemplate: Story = (args) => <DropdownMenu {...args} />;
+const SwitcherThemeTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const SwitcherTheme = SwitcherThemeTemplate.bind({});
 SwitcherTheme.args = {
     items: options,
@@ -86,7 +86,7 @@ SwitcherTheme.args = {
 SwitcherTheme.storyName = 'Icon theme';
 
 // ----------------------------------------
-const TextSwitcherTemplate: Story = (args) => <DropdownMenu {...args} />;
+const TextSwitcherTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const TextSwitcher = TextSwitcherTemplate.bind({});
 TextSwitcher.args = {
     items: options,
@@ -100,7 +100,7 @@ TextSwitcher.parameters = {
 TextSwitcher.storyName = 'Overwritten switcher';
 
 // ----------------------------------------
-const LabelSwitcherTemplate: Story<{statuses: {text: string; style: LabelProps['theme']}[]}> = (
+const LabelSwitcherTemplate: StoryFn<{statuses: {text: string; style: LabelProps['theme']}[]}> = (
     args,
 ) => {
     const [status, setStatus] = React.useState<{text: string; style: LabelProps['theme']}>(
@@ -163,7 +163,7 @@ LabelSwitcher.parameters = {
 LabelSwitcher.storyName = 'Status switch component';
 
 // ----------------------------------------
-const SizeTemplate: Story = (args) => <DropdownMenu {...args} />;
+const SizeTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const Size = SizeTemplate.bind({});
 Size.args = {
     items: options,
@@ -171,7 +171,7 @@ Size.args = {
 };
 
 // ----------------------------------------
-const MenuSizeTemplate: Story = (args) => <DropdownMenu {...args} />;
+const MenuSizeTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const MenuSize = MenuSizeTemplate.bind({});
 MenuSize.args = {
     items: options,

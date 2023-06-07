@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
 import {Breadcrumbs} from '../Breadcrumbs';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
@@ -49,9 +49,9 @@ export default {
             },
         },
     },
-} as unknown as Meta;
+};
 
-const DefaultTemplate: Story<BreadcrumbsProps> = (args) => <Breadcrumbs {...args} />;
+const DefaultTemplate: StoryFn<BreadcrumbsProps> = (args) => <Breadcrumbs {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items,
@@ -59,7 +59,7 @@ Default.args = {
     lastDisplayedItemsCount: 1,
 };
 
-const ShowcaseTemplate: Story<BreadcrumbsProps> = (args) => <BreadcrumbsShowcase {...args} />;
+const ShowcaseTemplate: StoryFn<BreadcrumbsProps> = (args) => <BreadcrumbsShowcase {...args} />;
 export const Showcase = ShowcaseTemplate.bind({});
 Showcase.args = {
     firstDisplayedItemsCount: 0,

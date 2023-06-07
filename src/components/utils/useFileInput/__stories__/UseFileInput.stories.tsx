@@ -1,13 +1,13 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../../Button';
 import {useFileInput} from '../useFileInput';
 
 export default {title: 'Hooks/useFileInput'} as Meta;
 
-const DefaultTemplate: Story = () => {
+const DefaultTemplate: StoryFn = () => {
     const onUpdate = React.useCallback((files: File[]) => console.log(files), []);
     const {controlProps, triggerProps} = useFileInput({onUpdate});
 

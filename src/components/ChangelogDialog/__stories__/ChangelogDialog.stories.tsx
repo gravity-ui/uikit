@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {ChangelogDialog} from '../ChangelogDialog';
@@ -74,7 +74,7 @@ const items: ChangelogItem[] = [
     },
 ];
 
-const DefaultTemplate: Story<ChangelogDialogProps> = (props: ChangelogDialogProps) => {
+const DefaultTemplate: StoryFn<ChangelogDialogProps> = (props: ChangelogDialogProps) => {
     const [visible, setVisible] = React.useState(props.open);
 
     React.useEffect(() => {

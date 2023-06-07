@@ -1,20 +1,20 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Progress} from '../Progress';
-import type {ProgressProps, ProgressTheme} from '../Progress';
+import type {ProgressTheme} from '../Progress';
 
 export default {
     title: 'Components/Progress',
     component: Progress,
 } as Meta;
 
-const Template: Story<ProgressProps> = (args) => <Progress {...args} {...args} />;
+const Template: StoryFn<typeof Progress> = (args) => <Progress {...args} {...args} />;
 
 export const Default = Template.bind({value: 50});
 
-const ThemeTemplate: Story<ProgressProps> = (args) => {
+const ThemeTemplate: StoryFn<typeof Progress> = (args) => {
     return (
         <React.Fragment>
             <Progress {...args} value={80} theme="default" text="default" />
@@ -34,7 +34,7 @@ const ThemeTemplate: Story<ProgressProps> = (args) => {
 
 export const Theme = ThemeTemplate.bind({});
 
-const StackTemplate: Story<ProgressProps> = (args) => {
+const StackTemplate: StoryFn<typeof Progress> = (args) => {
     return (
         <React.Fragment>
             <Progress
@@ -74,7 +74,7 @@ const StackTemplate: Story<ProgressProps> = (args) => {
 
 export const Stack = StackTemplate.bind({});
 
-const ViewTemplate: Story<ProgressProps> = (args) => {
+const ViewTemplate: StoryFn<typeof Progress> = (args) => {
     return (
         <React.Fragment>
             <Progress {...args} value={80} theme="success" view="normal" />
@@ -90,7 +90,7 @@ export const View = ViewTemplate.bind({});
 
 const defaultState: {value: number; theme: ProgressTheme} = {value: 40, theme: 'info'};
 
-const AnimationTemplate: Story<ProgressProps> = (args) => {
+const AnimationTemplate: StoryFn<typeof Progress> = (args) => {
     const [progressState, setProgressState] = React.useState(defaultState);
 
     React.useEffect(() => {

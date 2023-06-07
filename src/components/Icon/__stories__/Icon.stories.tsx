@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {GearIcon} from '../../icons/GearIcon';
 import {Icon} from '../Icon';
@@ -11,7 +11,7 @@ export default {
     component: Icon,
 } as Meta;
 
-const DefaultTemplate: Story<IconProps> = (args) => <Icon {...args} />;
+const DefaultTemplate: StoryFn<IconProps> = (args) => <Icon {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     data: GearIcon,

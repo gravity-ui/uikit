@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type {DecoratorFn} from '@storybook/react';
+import type {Decorator} from '@storybook/react';
 
 import {useTheme} from '../../src';
 
-export const WithTheme: DecoratorFn = (Story, context) => {
+export const WithTheme: Decorator = (Story, context) => {
     const themeValue = context.globals.theme;
     const [theme, setTheme] = useTheme();
 

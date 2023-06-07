@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {actions} from '@storybook/addon-actions';
-import type {Meta, Story} from '@storybook/react/types-6-0';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import type {PromoSheetProps} from '../PromoSheet';
 import {PromoSheet} from '../PromoSheet';
@@ -13,7 +13,7 @@ export default {
 
 const actionsHandlers = actions('onActionClick', 'onClose');
 
-const DefaultTemplate: Story<PromoSheetProps> = (args) => {
+const DefaultTemplate: StoryFn<PromoSheetProps> = (args) => {
     return <PromoSheet {...args} {...actionsHandlers} />;
 };
 

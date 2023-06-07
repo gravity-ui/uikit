@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useArgs} from '@storybook/client-api';
-import type {ComponentMeta, Story} from '@storybook/react';
+import type {ComponentMeta, StoryFn} from '@storybook/react';
 
 import {Tabs} from '../Tabs';
 import type {TabsItemProps, TabsProps} from '../Tabs';
@@ -44,7 +44,7 @@ export default {
     },
 } as ComponentMeta<typeof Tabs>;
 
-const Template: Story<TabsProps & StoryParams> = ({
+const Template: StoryFn<TabsProps & StoryParams> = ({
     withIcon,
     withCounter,
     withLabel,
@@ -75,7 +75,7 @@ WithWrapTo.args = {
     },
 };
 
-export const WithChildren: Story<TabsProps & StoryParams> = ({
+export const WithChildren: StoryFn<TabsProps & StoryParams> = ({
     withIcon,
     withCounter,
     withLabel,

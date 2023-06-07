@@ -12,4 +12,4 @@ jobs:
       with:
         github-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
         npm-token: ${{ secrets.GRAVITY_UI_BOT_NPM_TOKEN }}
-        node-version: 14
+        node-version: 18

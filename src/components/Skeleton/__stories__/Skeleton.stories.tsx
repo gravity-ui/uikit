@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Skeleton} from '../Skeleton';
 import type {SkeletonProps} from '../Skeleton';
@@ -12,8 +12,8 @@ export default {
     component: Skeleton,
 } as Meta;
 
-const DefaultTemplate: Story<SkeletonProps> = (args) => <Skeleton {...args} />;
+const DefaultTemplate: StoryFn<SkeletonProps> = (args) => <Skeleton {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <SkeletonShowcase />;
+const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

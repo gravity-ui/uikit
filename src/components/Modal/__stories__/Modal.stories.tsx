@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Modal} from '../Modal';
@@ -11,7 +11,7 @@ export default {
     component: Modal,
 } as Meta;
 
-export const Default: Story<ModalProps> = (props) => {
+export const Default: StoryFn<ModalProps> = (props) => {
     const [open, setOpen] = React.useState(false);
 
     return (

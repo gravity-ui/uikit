@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
 import {GearIcon} from '../../icons/GearIcon';
@@ -12,14 +12,14 @@ export default {
     component: Menu,
 } as Meta;
 
-export const Default: Story<MenuProps> = (args) => (
+export const Default: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item>First</Menu.Item>
         <Menu.Item>Second</Menu.Item>
     </Menu>
 );
 
-export const ItemActive: Story<MenuProps> = (args) => (
+export const ItemActive: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item active>First</Menu.Item>
         <Menu.Item>Second</Menu.Item>
@@ -27,13 +27,13 @@ export const ItemActive: Story<MenuProps> = (args) => (
     </Menu>
 );
 
-export const ItemIcon: Story<MenuProps> = (args) => (
+export const ItemIcon: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item icon={<Icon data={GearIcon} size={16} />}>Settings</Menu.Item>
     </Menu>
 );
 
-export const ItemDisabled: Story<MenuProps> = (args) => (
+export const ItemDisabled: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item>First</Menu.Item>
         <Menu.Item disabled>Second (unavailable)</Menu.Item>
@@ -41,7 +41,7 @@ export const ItemDisabled: Story<MenuProps> = (args) => (
     </Menu>
 );
 
-export const ItemTheme: Story<MenuProps> = (args) => (
+export const ItemTheme: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item>Normal</Menu.Item>
         <Menu.Item theme="danger">Danger</Menu.Item>
@@ -51,7 +51,7 @@ export const ItemTheme: Story<MenuProps> = (args) => (
     </Menu>
 );
 
-export const ItemLink: Story<MenuProps> = (args) => (
+export const ItemLink: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item href="https://yandex.ru" target="_blank">
             yandex.ru
@@ -65,7 +65,7 @@ export const ItemLink: Story<MenuProps> = (args) => (
     </Menu>
 );
 
-export const Group: Story<MenuProps> = (args) => (
+export const Group: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item>First</Menu.Item>
         <Menu.Group label="Group One">

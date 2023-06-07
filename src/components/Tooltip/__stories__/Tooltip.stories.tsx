@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Story} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Tooltip} from '../Tooltip';
@@ -11,7 +11,7 @@ export default {
     component: Tooltip,
 };
 
-const DefaultTemplate: Story<TooltipProps> = (args) => <Tooltip {...args} />;
+const DefaultTemplate: StoryFn<TooltipProps> = (args) => <Tooltip {...args} />;
 
 export const Default = DefaultTemplate.bind({});
 

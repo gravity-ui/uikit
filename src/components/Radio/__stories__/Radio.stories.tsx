@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Radio} from '../Radio';
 import type {RadioProps} from '../Radio';
@@ -12,8 +12,8 @@ export default {
     component: Radio,
 } as Meta;
 
-const DefaultTemplate: Story<RadioProps> = (args) => <Radio {...args} />;
+const DefaultTemplate: StoryFn<RadioProps> = (args) => <Radio {...args} />;
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <RadioShowcase />;
+const ShowcaseTemplate: StoryFn = () => <RadioShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

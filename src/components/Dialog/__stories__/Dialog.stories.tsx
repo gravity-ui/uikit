@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Dialog} from '../Dialog';
@@ -13,7 +13,7 @@ export default {
     component: Dialog,
 } as Meta<DialogProps>;
 
-const DefaultTemplate: Story<DialogProps> = (args) => {
+const DefaultTemplate: StoryFn<DialogProps> = (args) => {
     const dialogTitleId = 'app-confirmation-dialog-title';
     const [open, setOpen] = React.useState(false);
     return (
@@ -44,5 +44,5 @@ const DefaultTemplate: Story<DialogProps> = (args) => {
 };
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: Story = () => <DialogShowcase />;
+const ShowcaseTemplate: StoryFn = () => <DialogShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

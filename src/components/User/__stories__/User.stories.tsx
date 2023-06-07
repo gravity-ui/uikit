@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {User} from '../User';
 import type {UserProps} from '../User';
@@ -10,7 +10,7 @@ export default {
     component: User,
 } as Meta;
 
-export const Default: Story<UserProps> = (args) => <User {...args} />;
+export const Default: StoryFn<UserProps> = (args) => <User {...args} />;
 Default.args = {
     name: 'Isaac',
     description: 'user@gravity-ui.com',

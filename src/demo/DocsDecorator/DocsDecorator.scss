@@ -8,9 +8,9 @@ $offset-l: 40px;
 $root: '.docs-decorator';
 
 #{$root}#{$root}#{$root}#{$root}#{$root} {
-    .sbdocs-p,
-    .sbdocs-li,
-    .sbdocs-a {
+    p,
+    li,
+    a {
         @include mixins.text-body-2;
     }
 
@@ -22,49 +22,49 @@ $root: '.docs-decorator';
         max-width: 800px;
     }
 
-    .sbdocs-p,
-    .sbdocs-ul,
-    .sbdocs-ol {
+    p,
+    ul,
+    ol {
         margin: $offset-xs 0;
 
-        & + .sbdocs-p,
-        & + .sbdocs-ul,
-        & + .sbdocs-ol {
+        & + p,
+        & + ul,
+        & + ol {
             margin-top: $offset-s;
         }
     }
 
-    .sbdocs-li + .sbdocs-li {
+    li + li {
         margin-top: $offset-xs;
     }
 
-    .sbdocs-ul,
-    .sbdocs-ol {
+    ul,
+    ol {
         padding-left: $offset-m;
     }
 
-    .sbdocs-h1 {
+    h1 {
         @include mixins.text-display-3;
     }
 
-    .sbdocs-h2 {
+    h2 {
         @include mixins.text-display-1;
         border: 0;
         padding: 0;
     }
 
-    .sbdocs-h3 {
+    h3 {
         @include mixins.text-header-2;
     }
 
-    .sbdocs-h1,
-    .sbdocs-h2,
-    .sbdocs-h3 {
+    h1,
+    h2,
+    h3 {
         margin-top: $offset-l;
         margin-bottom: $offset-m;
     }
 
-    .sbdocs-a {
+    a {
         text-decoration: none;
         touch-action: manipulation;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -77,7 +77,7 @@ $root: '.docs-decorator';
         }
     }
 
-    .sbdocs-p code {
+    p code {
         @include mixins.text-code-inline-2;
         line-height: 1;
         padding: 1px 4px;

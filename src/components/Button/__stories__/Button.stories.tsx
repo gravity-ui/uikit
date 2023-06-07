@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {GearIcon} from '../../icons/GearIcon';
@@ -14,10 +14,10 @@ export default {
     component: Button,
 } as Meta;
 
-const DefaultTemplate: Story<ButtonProps> = (args) => <Button {...args}>Button</Button>;
+const DefaultTemplate: StoryFn<ButtonProps> = (args) => <Button {...args}>Button</Button>;
 export const Default = DefaultTemplate.bind({});
 
-const SizeTemplate: Story<ButtonProps> = (args) => (
+const SizeTemplate: StoryFn<ButtonProps> = (args) => (
     <React.Fragment>
         <Button {...args} size="xs">
             Size xs
@@ -42,7 +42,7 @@ const SizeTemplate: Story<ButtonProps> = (args) => (
 );
 export const Size = SizeTemplate.bind({});
 
-const IconTemplate: Story<ButtonProps> = (args) => (
+const IconTemplate: StoryFn<ButtonProps> = (args) => (
     <React.Fragment>
         <Button {...args}>No icon</Button>
         <span style={{margin: '16px'}} />
@@ -83,7 +83,7 @@ const IconTemplate: Story<ButtonProps> = (args) => (
 );
 export const Icon = IconTemplate.bind({});
 
-export const Selected: Story<ButtonProps> = (args) => {
+export const Selected: StoryFn<ButtonProps> = (args) => {
     const [selected, setSelected] = React.useState(true);
 
     return (
@@ -93,7 +93,7 @@ export const Selected: Story<ButtonProps> = (args) => {
     );
 };
 
-export const Link: Story<ButtonProps> = (args) => {
+export const Link: StoryFn<ButtonProps> = (args) => {
     return (
         <Button {...args} view="normal" href={'//ya.ru'} target={'_blank'}>
             {`Open ya.ru`}
@@ -101,7 +101,7 @@ export const Link: Story<ButtonProps> = (args) => {
     );
 };
 
-export const ButtonInRouter: Story<ButtonProps> = (args) => {
+export const ButtonInRouter: StoryFn<ButtonProps> = (args) => {
     return (
         <a href={'https://ya.ru'} target={'_blank'} rel="noreferrer">
             <Button {...args} view="normal" component={'span'}>
@@ -111,7 +111,7 @@ export const ButtonInRouter: Story<ButtonProps> = (args) => {
     );
 };
 
-export const CustomComponent: Story<ButtonProps> = (args) => {
+export const CustomComponent: StoryFn<ButtonProps> = (args) => {
     const ButtonComponent = (props: ButtonProps) => {
         return <button {...props} style={{boxShadow: '2px 2px 2px 2px deepskyblue'}} />;
     };
@@ -122,5 +122,5 @@ export const CustomComponent: Story<ButtonProps> = (args) => {
     );
 };
 
-const ShowcaseTemplate: Story = () => <ButtonShowcase />;
+const ShowcaseTemplate: StoryFn = () => <ButtonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

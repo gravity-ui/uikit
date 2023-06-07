@@ -13,7 +13,7 @@ import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectProps, SelectBasicProps, SelectAsyncProps} from './types';
+import type {SelectAsyncProps, SelectBasicProps, SelectProps} from './types';
 import type {SelectFilterRef} from './types-misc';
 import {
     activateFirstClickableItem,
@@ -26,10 +26,9 @@ import {
     getSelectedOptionsContent,
 } from './utils';
 import type {FlattenOption} from './utils';
+import {SelectAsync} from './wrappers/SelectAsync/SelectAsync';
 
 import './Select.scss';
-import {isFunction} from 'lodash';
-import {SelectAsync} from './wrappers/SelectAsync/SelectAsync';
 
 //https://stackoverflow.com/a/58473012
 type SelectComponent = (<T = any, Pagination = any>(
@@ -277,7 +276,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     T = any,
     Pagination = any,
 >(props: SelectProps<T>, ref: React.Ref<HTMLButtonElement>) {
-    if (isFunction(props.options)) {
+    if (typeof props.options === 'function') {
         return <SelectAsync {...(props as unknown as SelectAsyncProps<T, Pagination>)} ref={ref} />;
     }
 

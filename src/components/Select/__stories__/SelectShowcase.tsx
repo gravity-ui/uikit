@@ -3,8 +3,7 @@ import React from 'react';
 import range from 'lodash/range';
 
 import {Select} from '..';
-import type {SelectProps, SelectOption, SelectAsyncOptionType} from '..';
-
+import type {SelectAsyncOptionType, SelectOption, SelectProps} from '..';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton} from '../../RadioButton';
@@ -21,9 +20,9 @@ import {
     EXAMPLE_GROUP_CHILDREN_OPTIONS,
     EXAMPLE_GROUP_JSON_OPTIONS,
     EXAMPLE_JSON_OPTIONS,
+    EXAMPLE_SELECT_FETCH,
     EXAMPLE_USER_CONTROL,
     EXAMPLE_USER_OPTIONS,
-    EXAMPLE_SELECT_FETCH,
 } from './constants';
 
 import './SelectShowcase.scss';
@@ -176,14 +175,6 @@ export const SelectShowcase = (props: SelectProps) => {
 
     return (
         <div className={b()}>
-            <ExampleItem
-                title="Select with fetch"
-                code={[EXAMPLE_SELECT_FETCH]}
-                selectProps={{
-                    ...props,
-                    options: fetchExample,
-                }}
-            />
             <ExampleItem
                 title="Simple select"
                 code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}
@@ -358,6 +349,14 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val3" content="Value3" />
                 <Select.Option value="val4" content="Value4" />
             </ExampleItem>
+            <ExampleItem
+                title="Select with fetch"
+                code={[EXAMPLE_SELECT_FETCH]}
+                selectProps={{
+                    ...props,
+                    options: fetchExample,
+                }}
+            />
         </div>
     );
 };

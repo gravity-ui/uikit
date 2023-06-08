@@ -24,7 +24,6 @@ $block: '.#{variables.$ns}button';
 
     @include mixins.button-reset();
     display: inline-block;
-    position: relative;
     overflow: visible;
     box-sizing: border-box;
     height: var(--yc-button-height);
@@ -40,13 +39,6 @@ $block: '.#{variables.$ns}button';
     transform: scale(1);
 
     &::before {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
         background-color: var(--yc-button-background-color);
         transition: background-color 0.15s linear;
     }

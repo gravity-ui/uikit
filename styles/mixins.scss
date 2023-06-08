@@ -20,6 +20,18 @@
 }
 
 @mixin button-outline {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
     &:focus::before {
         box-shadow: 0 0 0 2px var(--yc-color-line-misc);
     }

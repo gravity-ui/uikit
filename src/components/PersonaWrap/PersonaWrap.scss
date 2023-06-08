@@ -121,6 +121,7 @@ $block: '.#{variables.$ns}persona';
         @include mixins.button-reset;
         @include mixins.button-outline;
 
+        color: var(--yc-color-text-secondary);
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -129,6 +130,10 @@ $block: '.#{variables.$ns}persona';
 
         &::before {
             border-radius: 50%;
+        }
+
+        &:hover {
+            color: var(--yc-color-text-primary);
         }
     }
 }

@@ -60,7 +60,7 @@ $block: '.#{variables.$ns}persona';
         height: $avatarSize;
         display: inline-flex;
         align-items: center;
-        padding-right: 6px;
+        padding-right: 12px;
 
         #{$block}_closeable & {
             padding-right: 0;

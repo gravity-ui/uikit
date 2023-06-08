@@ -1,9 +1,11 @@
 import React from 'react';
+
 import flatMap from 'lodash/flatMap';
+
 import {useInfinityFetch} from '../../../utils/Select/useSelectInfinityFetch/useInfinityFetch';
 import {useSelectLoading} from '../../../utils/Select/useSelectLoading/useSelectLoading';
 import {SelectBasic} from '../../Select';
-import {SelectAsyncProps} from '../../types';
+import type {SelectAsyncProps} from '../../types';
 
 export const SelectAsync = React.forwardRef<HTMLButtonElement, SelectAsyncProps>(
     function SelectAsync<Option = any, Pagination = any>(

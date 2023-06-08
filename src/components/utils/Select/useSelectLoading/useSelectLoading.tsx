@@ -6,6 +6,7 @@ import type {
     SelectRenderOption,
     SelectRenderOptionViewParams,
 } from '../../../Select/types';
+import {useMountedState} from '../../useMountedState';
 
 import {SelectLoadingIndicator} from './SelectLoadingIndicator';
 
@@ -30,6 +31,7 @@ export const useSelectLoading = ({
     loading,
     filterOption,
 }: UseSelectLoading) => {
+    const isMounted = useMountedState();
     const [isFetching, setIsFetching] = React.useState(false);
     const localOptions = React.useMemo(
         () => (onFetch ? [...options, loaderOption] : options),
@@ -42,9 +44,15 @@ export const useSelectLoading = ({
         const promise = onFetch?.();
         if (promise) {
             setIsFetching(true);
-            promise.finally(() => setIsFetching(false));
+            promise.finally(() => {
+                if (!isMounted()) {
+                    return;
+                }
+
+                setIsFetching(false);
+            });
         }
-    }, [onFetch, isFetching]);
+    }, [onFetch, isFetching, isMounted]);
 
     const handleRenderOption: SelectRenderOption<any> = React.useCallback(
         (option: SelectOption, viewParams: SelectRenderOptionViewParams) => {

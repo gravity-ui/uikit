@@ -118,9 +118,17 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__close {
-        @at-root #{&}#{&} {
-            --yc-button-height: #{$avatarSize};
-            --yc-button-background-color-hover: transparent;
+        @include mixins.button-reset;
+        @include mixins.button-outline;
+
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: $avatarSize;
+        height: $avatarSize;
+
+        &::before {
+            border-radius: 50%;
         }
     }
 }

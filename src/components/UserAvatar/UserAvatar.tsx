@@ -20,18 +20,10 @@ export interface UserAvatarProps {
 
 const b = block('user-avatar');
 
-export function UserAvatar({
-    imgUrl,
-    size = 'm',
-    srcSet,
-    sizes,
-    title,
-    className,
-    onClick,
-}: UserAvatarProps) {
-    return (
+export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
+    ({imgUrl, size = 'm', srcSet, sizes, title, className, onClick}, ref) => (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-        <div title={title} className={b({size}, className)} onClick={onClick}>
+        <div title={title} className={b({size}, className)} onClick={onClick} ref={ref}>
             <img
                 className={b('figure')}
                 width={SIZES[size]}
@@ -42,5 +34,7 @@ export function UserAvatar({
                 alt={''}
             />
         </div>
-    );
-}
+    ),
+);
+
+UserAvatar.displayName = 'UserAvatar';

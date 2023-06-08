@@ -103,15 +103,13 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
     );
     const content = hasContent && (
         <div className={b('text')}>
-            <React.Fragment>
-                <div className={b('content')}>{children}</div>
-                {Boolean(value) && (
-                    <div className={b('value')}>
-                        <div className={b('separator')}>:</div>
-                        <div className={b('key')}>{value}</div>
-                    </div>
-                )}
-            </React.Fragment>
+            <div className={b('content')}>{children}</div>
+            {Boolean(value) && (
+                <div className={b('value')}>
+                    <div className={b('separator')}>:</div>
+                    <div className={b('key')}>{value}</div>
+                </div>
+            )}
         </div>
     );
 

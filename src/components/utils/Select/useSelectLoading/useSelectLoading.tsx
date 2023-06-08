@@ -58,7 +58,7 @@ export const useSelectLoading = ({
         (option: SelectOption, viewParams: SelectRenderOptionViewParams) => {
             switch (option.content) {
                 case LOADER:
-                    return <SelectLoadingIndicator onRendered={handleFetch} />;
+                    return <SelectLoadingIndicator onIntersect={handleFetch} />;
                 case LOADER_PERSISTENT:
                     return <SelectLoadingIndicator />;
                 default:

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {useMountedState} from '../../useMountedState';
+
 import type {Fetcher, PaginationResponse} from './types';
 
 export const useInfinityFetch = <Response, Pagination>({
@@ -7,7 +9,7 @@ export const useInfinityFetch = <Response, Pagination>({
 }: {
     fetcher: Fetcher<Response, Pagination>;
 }) => {
-    const mounted = React.useRef(false);
+    const isMounted = useMountedState();
     const [isLoadingInitial, setIsLoadingInitial] = React.useState(false);
     const [isLoadingInfinity, setIsLoadingInfinity] = React.useState(false);
     const [resps, setResps] = React.useState<PaginationResponse<Response, Pagination>[]>([]);
@@ -21,14 +23,14 @@ export const useInfinityFetch = <Response, Pagination>({
         setIsLoadingInitial(true);
 
         return fetcher().then((resp) => {
-            if (!mounted.current) {
+            if (!isMounted()) {
                 return;
             }
 
             setIsLoadingInitial(false);
             setResps([resp]);
         });
-    }, [fetcher]);
+    }, [fetcher, isMounted]);
 
     const onFetchInfinity = React.useCallback(() => {
         if (!pagination) {
@@ -38,22 +40,17 @@ export const useInfinityFetch = <Response, Pagination>({
         setIsLoadingInfinity(true);
 
         return fetcher(pagination).then((resp) => {
-            if (!mounted.current) {
+            if (!isMounted()) {
                 return;
             }
 
             setIsLoadingInfinity(false);
             setResps([...resps, resp]);
         });
-    }, [fetcher, resps, pagination]);
+    }, [fetcher, resps, pagination, isMounted]);
 
     React.useEffect(() => {
-        mounted.current = true;
         onFetchInitial();
-
-        return () => {
-            mounted.current = false;
-        };
     }, [onFetchInitial]);
 
     return {

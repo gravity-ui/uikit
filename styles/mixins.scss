@@ -19,6 +19,16 @@
     cursor: pointer;
 }
 
+@mixin button-outline {
+    &:focus::before {
+        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+    }
+
+    &:focus:not(:focus-visible)::before {
+        box-shadow: none;
+    }
+}
+
 @mixin expand-interactive-area($h: 4px, $v: $h) {
     position: relative;
 

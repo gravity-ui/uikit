@@ -55,13 +55,7 @@ $block: '.#{variables.$ns}button';
         background-color: var(--yc-button-background-color-hover);
     }
 
-    &:focus::before {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
-    }
-
-    &:focus:not(:focus-visible)::before {
-        box-shadow: none;
-    }
+    @include mixins.button-outline;
 
     &::after {
         content: '';

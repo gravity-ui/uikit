@@ -33,10 +33,11 @@ const Mode = {
     VIEW: 'view',
 };
 
-const generateItems = (count: number): SelectOption[] => {
-    return range(0, count).map((i) => ({
-        value: `val${i + 1}`,
-        content: `Value ${i + 1}`,
+const generateItems = (limit: number, pageNumber = 0): SelectOption[] => {
+    const offset = pageNumber * limit;
+    return range(0, limit).map((i) => ({
+        value: `val${i + offset + 1}`,
+        content: `Value ${i + offset + 1}`,
     }));
 };
 
@@ -58,7 +59,7 @@ const fetchExample: SelectAsyncOptionType<SelectOption[], Pagination> = (
 
     const nextPagination = pageNumber < 3 ? {pageNumber: pageNumber + 1} : null;
     const resp = {
-        response: generateItems(100),
+        response: generateItems(100, pageNumber),
         pagination: nextPagination,
     };
 

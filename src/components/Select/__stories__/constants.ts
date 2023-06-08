@@ -245,6 +245,8 @@ const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyD
 `;
 
 export const EXAMPLE_SELECT_FETCH = `
+const PAGE_SIZE = 100;
+
 const fetchExample: SelectAsyncOptionType<SelectOption[], Pagination> = (
     pagination = {pageNumber: 0},
 ) => {
@@ -252,7 +254,7 @@ const fetchExample: SelectAsyncOptionType<SelectOption[], Pagination> = (
 
     const nextPagination = pageNumber < 3 ? {pageNumber: pageNumber + 1} : null;
     const resp = {
-        response: generateItems(100),
+        response: generateItems(PAGE_SIZE, pageNumber),
         pagination: nextPagination,
     };
 

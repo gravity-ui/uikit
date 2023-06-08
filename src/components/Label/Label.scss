@@ -5,13 +5,13 @@ $disabled: #{$block}_disabled;
 $transitionDuration: 0.15s;
 $transitionTimingFunction: ease-in-out;
 
-@mixin themeState($bgColor, $bgHoverColor, $textColor, $BorderColor: none) {
+@mixin themeState($bgColor, $bgHoverColor, $textColor, $borderColor: none) {
     color: #{$textColor};
     background-color: #{$bgColor};
 
-    @if $BorderColor != none {
+    @if $borderColor != none {
         --border-size: 1px;
-        border: var(--border-size) solid #{$BorderColor};
+        border: var(--border-size) solid #{$borderColor};
     }
 
     // hover on interactive label (excluding hover on addon)

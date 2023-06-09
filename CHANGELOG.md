@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.16.0](https://github.com/gravity-ui/uikit/compare/v4.15.1...v4.16.0) (2023-06-09)
+
+
+### Features
+
+* add new component Pagination ([#655](https://github.com/gravity-ui/uikit/issues/655)) ([5b1ed4e](https://github.com/gravity-ui/uikit/commit/5b1ed4efe10aab39013b50f2feddbea871eb7aec))
+* **Label:** added value prop for "key:value" labels ([#665](https://github.com/gravity-ui/uikit/issues/665)) ([5c979aa](https://github.com/gravity-ui/uikit/commit/5c979aaa29d884693187e55b52bb3ee7fae31ed2))
+* **Persona:** deprecate `theme` in favour of `hasBorder` ([#720](https://github.com/gravity-ui/uikit/issues/720)) ([14eef03](https://github.com/gravity-ui/uikit/commit/14eef03a54386f1e2070f58490a7ff02b5129c6f))
+* **UserAvatar:** forward `ref` ([#723](https://github.com/gravity-ui/uikit/issues/723)) ([e84f7c0](https://github.com/gravity-ui/uikit/commit/e84f7c044a6d0a2b8eddc008af22fefba8cddadb))
+
 ## [4.15.1](https://github.com/gravity-ui/uikit/compare/v4.15.0...v4.15.1) (2023-06-05)
 
 

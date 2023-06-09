@@ -1,0 +1,19 @@
+@use '../../../../../styles/mixins';
+@use '../../../variables';
+
+$block: '.#{variables.$ns-new}pagination-ellipsis';
+
+#{$block} {
+    @include mixins.text-body-1;
+    display: flex;
+    align-items: flex-end;
+    color: var(--yc-color-text-secondary);
+
+    &_size_m {
+        padding-bottom: 5px;
+    }
+
+    &_size_l {
+        padding-bottom: 9px;
+    }
+}

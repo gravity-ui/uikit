@@ -33,6 +33,7 @@
 #/src/components/TextInput @dustyo-O
 /src/components/Toaster @ogonkov
 /src/components/theme @resure
+/src/components/Pagination @jhoncool
 # Allow everyone to publish releases
 /package.json
 /package-lock.json

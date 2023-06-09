@@ -1,0 +1,20 @@
+@use '../../../../../styles/mixins';
+@use '../../../variables';
+
+$block: '.#{variables.$ns-new}pagination-page';
+
+#{$block} {
+    &__simple {
+        @include mixins.text-body-1;
+        display: flex;
+        align-items: center;
+
+        &_size_m {
+            padding: 0 13px;
+        }
+
+        &_size_l {
+            padding: 0 18px;
+        }
+    }
+}

@@ -21,10 +21,13 @@ export const PaginationPage = ({item, size, pageSize, className, onUpdate}: Prop
         return <div className={b('simple', {size}, className)}>{item.page}</div>;
     }
 
+    const view = item.current ? 'normal' : 'flat';
+
     return (
         <Button
             size={size}
-            view={item.current ? 'normal' : 'flat'}
+            key={view}
+            view={view}
             selected={item.current}
             className={className}
             onClick={() => onUpdate(item.page, pageSize)}

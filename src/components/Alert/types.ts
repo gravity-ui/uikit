@@ -1,7 +1,9 @@
 export type AlertTypes = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
 export type AlertView = 'filled' | 'outlined';
 
-export type AlertProps = {
+export interface AlertProps {
+    title?: React.ReactNode;
+    message?: React.ReactNode;
     theme?: 'normal' | 'info' | 'positive' | 'warning' | 'danger';
     /**
      * Override default icons
@@ -12,10 +14,10 @@ export type AlertProps = {
      */
     squared?: boolean;
     /**
-     * Override actions position (default bottom)
+     * Override actions position
      *
      * variants:
-     * - `vertical` - bottom (by default);
+     * - `vertical` - bottom (default);
      * - `horizontal` - right;
      */
     layout?: 'vertical' | 'horizontal';
@@ -50,12 +52,15 @@ export type AlertProps = {
      * ```
      */
     actions?: React.ReactNode | AlertAction[];
+    /**
+     * Center all content in vertical direction,
+     * useful if for some reason you actions takes more space then text
+     * or needed icon to be on the middle of the card
+     */
+    contentCenter?: true;
     style?: React.CSSProperties;
     className?: string;
-} & ( // only `title` or `message` is required
-    | {message: React.ReactNode; title?: React.ReactNode}
-    | {title: React.ReactNode; message?: React.ReactNode}
-);
+}
 
 export interface AlertAction {
     text: string;

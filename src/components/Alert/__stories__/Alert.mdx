@@ -49,6 +49,7 @@ import {Alert} from '@gravity-ui/uikit';
 -   `hasClose`. Define function and close button will be appear
 -   `actions`. Alert actions
 -   `icon` - slot to override default icon
+-   `contentCenter` - center you content in vertical direction. For example you wanna icon component to be placed in center of card or height of your actions in horizontal direction more than content height
 
 ### With plane actions:
 
@@ -127,6 +128,7 @@ import {Alert} from '@gravity-ui/uikit';
 ```tsx
 <Alert
     theme="positive"
+    contentCenter
     icon={<Icon data={HandOk} size={16} />}
     title="Everything is ok, mister!"
     layout="horizontal"

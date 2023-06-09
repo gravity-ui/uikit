@@ -25,6 +25,7 @@ export const Alert = ({
     squared,
     style,
     onClose,
+    contentCenter,
 }: AlertProps) => {
     const _icon = icon || <Alert.Icon type={theme} view={view} />;
     const _actions = Array.isArray(actions) ? (
@@ -40,11 +41,16 @@ export const Alert = ({
             theme={theme}
             view={view}
         >
-            <Flex gap="3">
+            <Flex gap="3" alignItems={contentCenter && 'center'}>
                 {_icon}
                 <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
                     <Flex gap="2" grow className={bAlert('text-content')}>
-                        <Flex direction="column" gap="1" grow>
+                        <Flex
+                            direction="column"
+                            gap="1"
+                            grow
+                            justifyContent={contentCenter && 'center'}
+                        >
                             {typeof title === 'string' ? <Alert.Title text={title} /> : title}
                             {message}
                         </Flex>

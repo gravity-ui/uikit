@@ -95,6 +95,7 @@ export const WithHtmlMessageAndTitle = () => (
 export const HorizontalLayoutAndCustomIcon = () => (
     <Alert
         theme="positive"
+        contentCenter
         icon={<Icon data={HandOk} size={16} />}
         title="Everything is ok, mister!"
         layout="horizontal"

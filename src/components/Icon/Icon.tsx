@@ -101,6 +101,7 @@ export function Icon({
         fill,
         stroke,
         'data-qa': qa,
+        role: 'icon',
         ...a11yHiddenSvgProps,
     };
 

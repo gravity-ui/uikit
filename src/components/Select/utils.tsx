@@ -223,6 +223,9 @@ const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
 const isGroupTitle = (option?: FlattenOption): option is GroupTitleItem => {
     return Boolean(option && 'label' in option);
 };
+const isNotFilterable = (option?: FlattenOption) => {
+    return Boolean(option && 'notFilterable' in option);
+};
 
 export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
@@ -231,7 +234,7 @@ export const getFilteredFlattenOptions = (args: {
 }) => {
     const {options, filter, filterOption} = args;
     const filteredOptions = options.filter((option) => {
-        if (isGroupTitle(option)) {
+        if (isGroupTitle(option) || isNotFilterable(option)) {
             return true;
         }
 

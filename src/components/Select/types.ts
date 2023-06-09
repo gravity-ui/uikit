@@ -91,6 +91,7 @@ export type SelectOption<T = any> = QAProps &
     ControlGroupOption & {
         text?: string;
         data?: T;
+        notFilterable?: boolean;
     };
 
 export type SelectOptionGroup<T = any> = {

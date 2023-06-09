@@ -3,4 +3,18 @@
     .yc-label {
         margin-left: 10px;
     }
+    .grid {
+        display: grid;
+        // grid-template-columns: from js
+        gap: 30px;
+    }
+    .section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        & > * {
+            width: min-content;
+            margin-left: unset;
+        }
+    }
 }

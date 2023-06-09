@@ -55,7 +55,7 @@ export const PaginationButton = ({
                     title={compact ? i18n('button_previous') : undefined}
                     disabled={disabled}
                 >
-                    <Icon data={ChevronLeft} size="14" />
+                    <Icon data={ChevronLeft} size="16" />
                     {compact ? undefined : i18n('button_previous')}
                 </Button>
             );
@@ -70,7 +70,7 @@ export const PaginationButton = ({
                     title={compact ? i18n('button_next') : undefined}
                     disabled={disabled}
                 >
-                    <Icon data={ChevronRight} size="14" />
+                    <Icon data={ChevronRight} size="16" />
                     {compact ? undefined : i18n('button_next')}
                 </Button>
             );

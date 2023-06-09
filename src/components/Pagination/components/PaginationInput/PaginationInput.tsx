@@ -21,6 +21,12 @@ type Props = {
 export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, className}: Props) => {
     const [value, setValue] = React.useState('');
 
+    const handleUpdateValue = (inputValue: string) => {
+        if (inputValue === '' || /^[1-9][0-9]*$/.test(inputValue)) {
+            setValue(inputValue);
+        }
+    };
+
     const handleUpdate = (inputValue: string) => {
         if (!inputValue) {
             return;
@@ -57,11 +63,9 @@ export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, classN
             placeholder={i18n('label_input-placeholder')}
             size={size}
             value={value}
-            onUpdate={setValue}
+            onUpdate={handleUpdateValue}
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
-            type="number"
-            controlProps={{pattern: '[1-9][0-9]*'}}
         />
     );
 };

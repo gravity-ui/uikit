@@ -34,4 +34,3 @@ const ExampleSelect = () => {
 
 - `options`: an array of options to be displayed in the Select component. May include an additional loading option, which is depends on the presence of the `onFetch` prop..
 - `renderOption`: a function to render options for the Select component. Wraps the `renderOption` prop to render the loading component.
-- `filterOption` a function that render persistant loading indicator while `loading`

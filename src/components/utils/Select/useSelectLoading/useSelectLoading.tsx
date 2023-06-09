@@ -12,11 +12,12 @@ import {SelectLoadingIndicator} from './SelectLoadingIndicator';
 
 const LOADER = 'LOADER';
 const LOADER_PERSISTENT = 'LOADER_PERSISTENT';
-const loaderOption = {value: LOADER, content: LOADER, disabled: true};
+const loaderOption = {value: LOADER, content: LOADER, disabled: true, notFilterable: true};
 const loaderPersistentOption = {
     value: LOADER_PERSISTENT,
     content: LOADER_PERSISTENT,
     disabled: true,
+    notFilterable: true,
 };
 
 export type UseSelectLoading = {
@@ -29,7 +30,6 @@ export const useSelectLoading = ({
     renderOption,
     onFetch,
     loading,
-    filterOption,
 }: UseSelectLoading) => {
     const isMounted = useMountedState();
     const [isFetching, setIsFetching] = React.useState(false);
@@ -70,14 +70,8 @@ export const useSelectLoading = ({
         [handleFetch, renderOption],
     );
 
-    const handleFilterOption = React.useMemo(
-        () => (loading ? () => true : filterOption),
-        [loading, filterOption],
-    );
-
     return {
         options: loading ? [loaderPersistentOption] : localOptions,
         renderOption: handleRenderOption,
-        filterOption: handleFilterOption,
     };
 };

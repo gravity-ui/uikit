@@ -1,19 +1,9 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
+@use '../../select-css-variables.scss';
 
 $block: '.#{variables.$ns-new}select-list';
 $popupBlock: '.#{variables.$ns}popup';
-$s-height: '28px';
-$s-left-padding: '10px';
-$s-right-padding: '8px';
-$m-height: '28px';
-$m-left-padding: '13px';
-$m-right-padding: '8px';
-$l-height: '32px';
-$l-left-padding: '18px';
-$l-right-padding: '12px';
-$xl-height: '36px';
-$xl-left-padding: '25px';
 $xl-right-padding: '12px';
 
 #{$block} {
@@ -42,29 +32,34 @@ $xl-right-padding: '12px';
         padding: 0;
 
         #{$block}_size_s &:not(#{&}_empty) {
-            height: #{$s-height};
-            padding: 8px #{$s-right-padding} 4px #{$s-left-padding};
+            height: #{variables.$s-height};
+            padding: #{select-css-variables.$s-hor-padding} #{select-css-variables.$s-hor-padding}
+                4px;
         }
 
         #{$block}_size_m &:not(#{&}_empty) {
-            height: #{$m-height};
-            padding: 8px #{$m-right-padding} 4px #{$m-left-padding};
+            height: #{variables.$m-height};
+            padding: #{select-css-variables.$m-hor-padding} #{select-css-variables.$m-hor-padding}
+                4px;
         }
 
         #{$block}_size_l &:not(#{&}_empty) {
-            height: #{$l-height};
-            padding: 10px #{$l-right-padding} 6px #{$l-left-padding};
+            height: #{variables.$l-height};
+            padding: #{select-css-variables.$l-hor-padding} #{select-css-variables.$l-hor-padding}
+                6px;
         }
 
         #{$block}_size_xl &:not(#{&}_empty) {
-            height: #{$xl-height};
-            padding: 12px #{$xl-right-padding} 8px #{$xl-left-padding};
+            height: #{variables.$xl-height};
+            padding: #{select-css-variables.$xl-hor-padding} #{select-css-variables.$xl-hor-padding}
+                8px;
             font-size: 15px;
         }
 
         #{$block}_mobile &:not(#{&}_empty) {
-            height: #{$l-height};
-            padding: 12px #{$l-right-padding} 8px #{$l-left-padding};
+            height: #{variables.$l-height};
+            padding: #{select-css-variables.$l-hor-padding} #{select-css-variables.$l-hor-padding}
+                8px;
             font-size: 15px;
         }
 
@@ -99,69 +94,61 @@ $xl-right-padding: '12px';
         cursor: pointer;
 
         #{$block}_size_s & {
-            padding: 0 #{$s-right-padding} 0 #{$s-left-padding};
+            padding: 0 #{select-css-variables.$s-hor-padding};
 
             & #{$block}__option-default-label {
-                height: #{$s-height};
-                line-height: #{$s-height};
+                height: #{variables.$s-height};
+                line-height: #{variables.$s-height};
             }
 
-            & #{$block}__tick-icon {
-                padding-left: #{$s-right-padding};
-            }
+            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$s-hor-padding} / 2);
         }
 
         #{$block}_size_m & {
-            padding: 0 #{$m-right-padding} 0 #{$m-left-padding};
+            padding: 0 #{select-css-variables.$m-hor-padding} 0 #{select-css-variables.$m-hor-padding};
 
             & #{$block}__option-default-label {
-                height: #{$m-height};
-                line-height: #{$m-height};
+                height: #{variables.$m-height};
+                line-height: #{variables.$m-height};
             }
 
-            & #{$block}__tick-icon {
-                padding-left: #{$m-right-padding};
-            }
+            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$m-hor-padding} / 2);
         }
 
         #{$block}_size_l & {
-            padding: 0 #{$l-right-padding} 0 #{$l-left-padding};
+            padding: 0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding};
 
             & #{$block}__option-default-label {
-                height: #{$l-height};
-                line-height: #{$l-height};
+                height: #{variables.$l-height};
+                line-height: #{variables.$l-height};
             }
 
-            & #{$block}__tick-icon {
-                padding-left: #{$l-right-padding};
-            }
+            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$l-hor-padding} / 2);
         }
 
         #{$block}_size_xl & {
-            padding: 0 #{$xl-right-padding} 0 #{$xl-left-padding};
+            padding: 0 #{select-css-variables.$xl-hor-padding};
 
             & #{$block}__option-default-label {
-                height: #{$xl-height};
-                line-height: #{$xl-height};
+                height: #{variables.$xl-height};
+                line-height: #{variables.$xl-height};
                 font-size: 15px;
             }
 
-            & #{$block}__tick-icon {
-                padding-left: #{$xl-right-padding};
-            }
+            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$xl-hor-padding} / 2);
         }
 
         #{$block}_mobile & {
-            padding: 0 #{$l-right-padding} 0 #{$l-left-padding};
+            padding: 0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding};
 
             & #{$block}__option-default-label {
-                height: #{$l-height};
-                line-height: #{$l-height};
+                height: #{variables.$l-height};
+                line-height: #{variables.$l-height};
                 font-size: 15px;
             }
 
             & #{$block}__tick-icon {
-                padding-left: #{$l-right-padding};
+                padding-right: calc(#{select-css-variables.$l-hor-padding} / 2);
             }
         }
 
@@ -185,9 +172,9 @@ $xl-right-padding: '12px';
     &__tick-icon {
         box-sizing: content-box;
         flex: 0 0 16px;
-        margin-left: auto;
         visibility: hidden;
         color: var(--yc-color-text-info);
+        padding-right: var(--_--select-tick-icon-padding-right);
 
         &_shown {
             visibility: visible;

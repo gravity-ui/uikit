@@ -11,5 +11,9 @@ export const WithLang: Decorator = (Story, context) => {
         lang: lang as Lang,
     });
 
-    return <Story key={lang} {...context} />;
+    return (
+        <div dir="rtl">
+            <Story key={lang} {...context} />
+        </div>
+    );
 };

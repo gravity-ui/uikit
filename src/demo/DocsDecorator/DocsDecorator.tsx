@@ -17,7 +17,7 @@ export function DocsDecorator({children, context}: DocsDecoratorProps) {
     // @ts-expect-error
     const theme = context.store.globals.globals.theme;
     return (
-        <div className={b()}>
+        <div dir="rtl" className={b()}>
             <DocsContainer context={context} theme={themes[getThemeType(theme)]}>
                 <ThemeProvider theme={theme}>
                     <MobileProvider mobile={false}>{children}</MobileProvider>

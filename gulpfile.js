@@ -6,6 +6,7 @@ const sass = require('gulp-dart-sass');
 const replace = require('gulp-replace');
 const ts = require('gulp-typescript');
 const rimraf = require('rimraf');
+const rtlcss = require('gulp-rtlcss');
 
 const BUILD_DIR = path.resolve('build');
 
@@ -54,7 +55,10 @@ task('copy-i18n', () => {
 });
 
 task('styles-global', () => {
-    return src('styles/styles.scss').pipe(sass().on('error', sass.logError)).pipe(dest('styles'));
+    return src('styles/styles.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(rtlcss())
+        .pipe(dest('styles'));
 });
 
 task('styles-components', () => {

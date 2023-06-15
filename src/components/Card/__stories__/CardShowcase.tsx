@@ -16,11 +16,13 @@ export function CardShowcase() {
             <ShowcaseItem title="size">
                 <Card size="m" view="raised" type="container" className="card-showcase-stories">
                     <div className="card-content-showcase-stories">
-                        size: m
+                        שמאלה
                         <br />
-                        type: container
+                        abc שמאלה def
                         <br />
-                        view: raised
+                        שמאלה abc שמאלה
+                        <br />
+                        right
                     </div>
                 </Card>
                 <Card size="l" view="raised" type="container" className="card-showcase-stories">

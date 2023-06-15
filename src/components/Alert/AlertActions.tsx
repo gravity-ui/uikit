@@ -6,10 +6,15 @@ import {Flex} from '../layout';
 import {bAlert} from './constants';
 import type {AlertActionsProps} from './types';
 
-export const AlertActions = ({items, children, parentLayout = 'vertical'}: AlertActionsProps) => {
+export const AlertActions = ({
+    items,
+    children,
+    parentLayout = 'vertical',
+    className,
+}: AlertActionsProps) => {
     return (
         <Flex
-            className={bAlert('actions', {minContent: parentLayout === 'horizontal'})}
+            className={bAlert('actions', {minContent: parentLayout === 'horizontal'}, className)}
             direction="row"
             gap="3"
             wrap

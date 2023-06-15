@@ -10,9 +10,9 @@ export interface AlertProps {
      */
     icon?: React.ReactNode;
     /**
-     * Zero border radius in card
+     * @default - normal
      */
-    squared?: boolean;
+    corners?: 'normal' | 'none';
     /**
      * Override actions position
      *
@@ -75,10 +75,12 @@ export interface AlertIconProps {
 }
 
 export interface AlertActionsProps {
+    className?: string;
     items?: AlertAction[];
     children?: React.ReactNode | React.ReactNode[];
     parentLayout?: 'vertical' | 'horizontal';
 }
 export interface AlertTitleProps {
+    className?: string;
     text: string;
 }

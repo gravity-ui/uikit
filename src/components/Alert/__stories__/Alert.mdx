@@ -31,7 +31,7 @@ import {Alert} from '@gravity-ui/uikit';
     <Alert title={<Alert.Title className={'some-class'}>some text</Alert.Title>} />
     ```
 -   `message` - body of Alert componet. One of `title` of `message` props are required
--   `squared` - zero border radius in card
+-   `corners` - 'none' | 'normal'
 -   `layout` - override actions position (default bottom). Variants:
 
     -   vertical - bottom (by default);
@@ -46,10 +46,10 @@ import {Alert} from '@gravity-ui/uikit';
     -   positive
     -   warning
     -   danger
--   `hasClose`. Define function and close button will be appear
+-   `hasClose`. Define function and close button will be appearing
 -   `actions`. Alert actions
 -   `icon` - slot to override default icon
--   `contentCenter` - center you content in vertical direction. For example you wanna icon component to be placed in center of card or height of your actions in horizontal direction more than content height
+-   `contentCenter` - сenter your content in vertical direction. For example, you wanna icon component to be placed in center of card or height of your actions in horizontal direction more than content height
 
 ### With plane actions:
 
@@ -75,7 +75,7 @@ import {Alert} from '@gravity-ui/uikit';
 ```tsx
 <Alert
     theme="positive"
-    squared
+    corners="none"
     title="Are you sure?"
     onClose={() => alert('Ok!')}
     view="outlined"
@@ -131,6 +131,7 @@ import {Alert} from '@gravity-ui/uikit';
     contentCenter
     icon={<Icon data={HandOk} size={16} />}
     title="Everything is ok, mister!"
+    onClose={() => alert('Ok!')}
     layout="horizontal"
     actions={<Button view="outlined">Thanks</Button>}
 />

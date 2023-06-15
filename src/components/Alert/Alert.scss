@@ -3,17 +3,19 @@
 $block: '.#{variables.$ns}alert';
 
 #{$block} {
-    &_squared {
-        border-radius: 0px;
+    --yc-alert-border-radius: var(--yc-card-border-radius, 8px);
+
+    border-radius: var(--yc-alert-border-radius);
+
+    &_corners_none {
+        --yc-alert-border-radius: 0px;
     }
 
     &__text-content {
         width: 100%;
     }
 
-    &__actions {
-        &_minContent {
-            width: min-content;
-        }
+    &__actions_minContent {
+        width: min-content;
     }
 }

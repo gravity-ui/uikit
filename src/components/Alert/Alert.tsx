@@ -5,6 +5,7 @@ import {Xmark} from '@gravity-ui/icons';
 import {Button} from '../Button';
 import {Card} from '../Card';
 import {Icon} from '../Icon';
+import {colorText} from '../Text';
 import {Flex, spacing} from '../layout';
 
 import {AlertActions} from './AlertActions';
@@ -13,36 +14,37 @@ import {AlertTitle} from './AlertTitle';
 import {DEFAULT_ICONS_SIZE, bAlert} from './constants';
 import type {AlertProps} from './types';
 
-export const Alert = ({
-    icon,
-    theme = 'normal',
-    view = 'filled',
-    layout = 'vertical',
-    title,
-    message,
-    className,
-    actions,
-    squared,
-    style,
-    onClose,
-    contentCenter,
-}: AlertProps) => {
-    const _icon = icon || <Alert.Icon type={theme} view={view} />;
-    const _actions = Array.isArray(actions) ? (
-        <Alert.Actions items={actions} parentLayout={layout} />
+export const Alert = (props: AlertProps) => {
+    const {
+        theme = 'normal',
+        view = 'filled',
+        layout = 'vertical',
+        message,
+        className,
+        corners,
+        style,
+        onClose,
+        contentCenter,
+    } = props;
+
+    const icon = props.icon || <Alert.Icon type={theme} view={view} />;
+    const title =
+        typeof props.title === 'string' ? <Alert.Title text={props.title} /> : props.title;
+    const actions = Array.isArray(props.actions) ? (
+        <Alert.Actions items={props.actions} parentLayout={layout} />
     ) : (
-        actions
+        props.actions
     );
 
     return (
         <Card
             style={style}
-            className={bAlert({squared}, spacing({py: 4, px: 5}, className))}
+            className={bAlert({corners}, spacing({py: 4, px: 5}, className))}
             theme={theme}
             view={view}
         >
             <Flex gap="3" alignItems={contentCenter && 'center'}>
-                {_icon}
+                {icon}
                 <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
                     <Flex gap="2" grow className={bAlert('text-content')}>
                         <Flex
@@ -51,18 +53,21 @@ export const Alert = ({
                             grow
                             justifyContent={contentCenter && 'center'}
                         >
-                            {typeof title === 'string' ? <Alert.Title text={title} /> : title}
+                            {title}
                             {message}
                         </Flex>
-
-                        {onClose && (
-                            <Button view="flat" onClick={onClose}>
-                                <Icon data={Xmark} size={DEFAULT_ICONS_SIZE} />
-                            </Button>
-                        )}
                     </Flex>
-                    {_actions}
+                    {actions}
                 </Flex>
+                {onClose && (
+                    <Button view="flat" onClick={onClose}>
+                        <Icon
+                            data={Xmark}
+                            size={DEFAULT_ICONS_SIZE}
+                            className={colorText({color: 'secondary'})}
+                        />
+                    </Button>
+                )}
             </Flex>
         </Card>
     );

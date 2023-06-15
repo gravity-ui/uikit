@@ -30,7 +30,7 @@ const stories: AlertProps[] = [
     {
         title: <div dangerouslySetInnerHTML={{__html: '<b>Some html title</b>'}} />,
         message,
-        squared: true,
+        corners: 'none',
         theme: 'danger',
         view: 'outlined',
         onClose: () => alert('Close button pressed'),
@@ -78,6 +78,8 @@ const stories: AlertProps[] = [
         theme: 'warning',
         view: 'filled',
         layout: 'horizontal',
+        corners: 'none',
+        onClose: () => {},
         actions: (
             <Alert.Actions parentLayout="horizontal">
                 <Button view="outlined">{left}</Button>

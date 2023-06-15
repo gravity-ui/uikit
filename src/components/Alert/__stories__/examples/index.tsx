@@ -60,7 +60,7 @@ export const WithPlaneActions = () => (
 export const WithActionsOverride = () => (
     <Alert
         theme="positive"
-        squared
+        corners="none"
         title="Are you sure?"
         onClose={() => alert('Ok!')}
         view="outlined"
@@ -98,6 +98,7 @@ export const HorizontalLayoutAndCustomIcon = () => (
         contentCenter
         icon={<Icon data={HandOk} size={16} />}
         title="Everything is ok, mister!"
+        onClose={() => alert('Ok!')}
         layout="horizontal"
         actions={<Button view="outlined">Thanks</Button>}
     />

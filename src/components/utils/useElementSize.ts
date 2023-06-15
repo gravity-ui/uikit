@@ -1,9 +1,11 @@
 import React from 'react';
 
-import _throttle from 'lodash/throttle';
+import round from 'lodash/round';
+import throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 
 const RESIZE_THROTTLE = 16;
+const ROUND_PRESICION = 2;
 
 interface ElementSize {
     width: number;
@@ -41,19 +43,19 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
                 // https://github.com/mdn/dom-examples/blob/main/resize-observer/resize-observer-text.html#L88
 
                 setSize({
-                    width: Math.round(borderBoxSize.inlineSize),
-                    height: Math.round(borderBoxSize.blockSize),
+                    width: round(borderBoxSize.inlineSize, ROUND_PRESICION),
+                    height: round(borderBoxSize.blockSize, ROUND_PRESICION),
                 });
             } else {
                 const target = entry.target as HTMLElement;
                 setSize({
-                    width: Math.round(target.offsetWidth),
-                    height: Math.round(target.offsetHeight),
+                    width: round(target.offsetWidth, ROUND_PRESICION),
+                    height: round(target.offsetHeight, ROUND_PRESICION),
                 });
             }
         };
 
-        const observer = new ResizeObserver(_throttle(handleResize, RESIZE_THROTTLE));
+        const observer = new ResizeObserver(throttle(handleResize, RESIZE_THROTTLE));
         observer.observe(ref.current);
 
         return () => {

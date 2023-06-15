@@ -1,6 +1,6 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
-@use '../../select-css-variables.scss';
+@use '../../variables.scss' as select-css-variables;
 
 $block: '.#{variables.$ns-new}select-list';
 $popupBlock: '.#{variables.$ns}popup';
@@ -33,33 +33,28 @@ $xl-right-padding: '12px';
 
         #{$block}_size_s &:not(#{&}_empty) {
             height: #{variables.$s-height};
-            padding: #{select-css-variables.$s-hor-padding} #{select-css-variables.$s-hor-padding}
-                4px;
+            padding: 8px #{select-css-variables.$s-hor-padding} 4px;
         }
 
         #{$block}_size_m &:not(#{&}_empty) {
             height: #{variables.$m-height};
-            padding: #{select-css-variables.$m-hor-padding} #{select-css-variables.$m-hor-padding}
-                4px;
+            padding: 8px #{select-css-variables.$m-hor-padding} 4px;
         }
 
         #{$block}_size_l &:not(#{&}_empty) {
             height: #{variables.$l-height};
-            padding: #{select-css-variables.$l-hor-padding} #{select-css-variables.$l-hor-padding}
-                6px;
+            padding: 10px #{select-css-variables.$l-hor-padding} 6px;
         }
 
         #{$block}_size_xl &:not(#{&}_empty) {
             height: #{variables.$xl-height};
-            padding: #{select-css-variables.$xl-hor-padding} #{select-css-variables.$xl-hor-padding}
-                8px;
+            padding: 12px #{select-css-variables.$xl-hor-padding} 8px;
             font-size: 15px;
         }
 
         #{$block}_mobile &:not(#{&}_empty) {
             height: #{variables.$l-height};
-            padding: #{select-css-variables.$l-hor-padding} #{select-css-variables.$l-hor-padding}
-                8px;
+            padding: 12px #{select-css-variables.$l-hor-padding} 8px;
             font-size: 15px;
         }
 

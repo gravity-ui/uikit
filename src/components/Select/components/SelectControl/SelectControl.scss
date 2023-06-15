@@ -1,29 +1,41 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
-@use '../../select-css-variables.scss';
+@use '../../variables.scss' as select-css-variables;
 
 $block: '.#{variables.$ns-new}select-control';
 
 @mixin block_style($size: m) {
     @if $size == 's' {
+        @include mixins.text-body-short;
+
         height: #{variables.$s-height};
         padding: 4px #{select-css-variables.$s-hor-padding};
-        @include mixins.text-body-short;
+        --_--select-border-radius: var(--yc-border-radius-s);
+        --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
     }
     @if $size == 'm' {
+        @include mixins.text-body-short;
+
         height: #{variables.$m-height};
         padding: 6px #{select-css-variables.$m-hor-padding};
-        @include mixins.text-body-short;
+        --_--select-border-radius: var(--yc-border-radius-m);
+        --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
     }
     @if $size == 'l' {
+        @include mixins.text-body-short;
+
         height: #{variables.$l-height};
         padding: 10px #{select-css-variables.$l-hor-padding};
-        @include mixins.text-body-short;
+        --_--select-border-radius: var(--yc-border-radius-l);
+        --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
     }
     @if $size == 'xl' {
+        @include mixins.text-body-2;
+
         height: #{variables.$xl-height};
         padding: 12px #{select-css-variables.$xl-hor-padding};
-        @include mixins.text-body-2;
+        --_--select-border-radius: var(--yc-border-radius-xl);
+        --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
     }
 }
 
@@ -45,26 +57,18 @@ $block: '.#{variables.$ns-new}select-control';
 
     &_size_s {
         @include block_style(s);
-        --_--select-border-radius: var(--yc-border-radius-s);
-        --_--select-options-text-left-padding: #{select-css-variables.$s-hor-padding};
     }
 
     &_size_m {
         @include block_style(m);
-        --_--select-border-radius: var(--yc-border-radius-m);
-        --_--select-options-text-left-padding: #{select-css-variables.$m-hor-padding};
     }
 
     &_size_l {
         @include block_style(l);
-        --_--select-border-radius: var(--yc-border-radius-l);
-        --_--select-options-text-left-padding: #{select-css-variables.$l-hor-padding};
     }
 
     &_size_xl {
         @include block_style(xl);
-        --_--select-border-radius: var(--yc-border-radius-xl);
-        --_--select-options-text-left-padding: #{select-css-variables.$xl-hor-padding};
     }
 
     &_error {
@@ -97,14 +101,19 @@ $block: '.#{variables.$ns-new}select-control';
 
     &__label {
         @include mixins.text-accent;
-        margin-right: 2px;
+        @include mixins.overflow-ellipsis();
+
+        flex-shrink: 0;
+        max-width: 50%;
+        margin-right: 4px;
         white-space: nowrap;
     }
 
     &__placeholder,
     &__option-text {
         @include mixins.overflow-ellipsis();
-        padding-right: var(--_--select-options-text-left-padding);
+
+        padding-right: var(--_--select-options-text-right-padding);
     }
 
     &__placeholder {
@@ -123,6 +132,7 @@ $block: '.#{variables.$ns-new}select-control';
 
     &__error {
         @include mixins.text-body-1();
+
         color: var(--yc-color-text-danger);
         margin-top: 2px;
     }

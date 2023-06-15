@@ -1,6 +1,5 @@
 import React from 'react';
 
-import type {ButtonView} from '../Button';
 import type {List, ListItemData} from '../List';
 import {KeyCode} from '../constants';
 
@@ -255,15 +254,4 @@ export const getFilteredFlattenOptions = (args: {
 
         return acc;
     }, [] as FlattenOption[]);
-};
-
-export const mapToButtonView = (view: NonNullable<SelectProps['view']>): ButtonView => {
-    switch (view) {
-        case 'clear': {
-            return 'flat';
-        }
-        default: {
-            return 'outlined';
-        }
-    }
 };

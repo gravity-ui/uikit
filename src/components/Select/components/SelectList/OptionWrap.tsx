@@ -33,10 +33,10 @@ export const OptionWrap = (props: OptionWrapProps) => {
             data-qa={option.qa}
             className={b('option', {colored: selected && !multiple, disabled: option.disabled})}
         >
-            {optionContent}
             {multiple && (
                 <Icon className={b('tick-icon', {shown: selected && multiple})} data={Tick} />
             )}
+            {optionContent}
         </div>
     );
 };

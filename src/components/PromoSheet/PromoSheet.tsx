@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import {Sheet} from '../Sheet';
 import type {SheetProps} from '../Sheet';
-import {CrossIcon} from '../icons/CrossIcon';
 import {block} from '../utils/cn';
 
 import './PromoSheet.scss';
@@ -114,7 +115,7 @@ export function PromoSheet({
                     onClick={handleCloseClick}
                     extraProps={closeButtonExtraProps}
                 >
-                    <Icon data={CrossIcon} size={16} />
+                    <Icon data={Xmark} size={24} />
                 </Button>
             </header>
             <p className={cn('message')}>{message}</p>

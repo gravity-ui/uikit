@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {Flame} from '@gravity-ui/icons';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {GearIcon} from '../../icons/GearIcon';
 import {TabsItem} from '../TabsItem';
 
 const tabId = 'tab-id';
@@ -108,7 +108,7 @@ test('should render label', () => {
 test('should render icon', () => {
     const iconQaId = 'icon-qa-id';
 
-    const icon = <GearIcon data-qa={iconQaId} width={20} height={20} />;
+    const icon = <Flame data-qa={iconQaId} width={18} height={18} />;
 
     render(<TabsItem id={tabId} title={tabTitle} icon={icon} onClick={jest.fn()} />);
 

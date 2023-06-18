@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon as IconComponent} from '../../Icon/Icon';
-import {GearIcon} from '../../icons/GearIcon';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 
@@ -47,36 +47,36 @@ const IconTemplate: StoryFn<ButtonProps> = (args) => (
         <Button {...args}>No icon</Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <IconComponent data={GearIcon} size={18} />
+            <IconComponent data={Gear} />
             Left
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
             Right
-            <IconComponent data={GearIcon} size={18} />
+            <IconComponent data={Gear} />
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <IconComponent data={GearIcon} size={18} />
+            <IconComponent data={Gear} />
             Both
-            <IconComponent data={GearIcon} size={18} />
+            <IconComponent data={Gear} />
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
             <Button.Icon side="right">
-                <IconComponent data={GearIcon} size={18} />
+                <IconComponent data={Gear} />
             </Button.Icon>
             Both (with Button.Icon)
-            <IconComponent data={GearIcon} size={18} />
+            <IconComponent data={Gear} />
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
-            <IconComponent data={GearIcon} size={18} />
+            <IconComponent data={Gear} />
         </Button>
         <span style={{margin: '16px'}} />
         <Button {...args}>
             <Button.Icon>
-                <IconComponent data={GearIcon} size={18} />
+                <IconComponent data={Gear} />
             </Button.Icon>
         </Button>
     </React.Fragment>

@@ -1,11 +1,11 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import block from 'bem-cn-lite';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
-import {GearIcon} from '../../icons/GearIcon';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 
@@ -110,17 +110,17 @@ function renderViewGrid() {
                 }
 
                 if (icon === 'none') {
-                    props.children = [<Icon key="icon" data={GearIcon} size={18} />, 'Button'];
+                    props.children = [<Icon key="icon" data={Gear} />, 'Button'];
                 } else if (icon === 'right') {
-                    props.children = ['Button', <Icon key="icon" data={GearIcon} size={18} />];
+                    props.children = ['Button', <Icon key="icon" data={Gear} />];
                 } else if (icon === 'both') {
                     props.children = [
-                        <Icon key="icon-1" data={GearIcon} size={18} />,
+                        <Icon key="icon-1" data={Gear} />,
                         'Button',
-                        <Icon key="icon-2" data={GearIcon} size={18} />,
+                        <Icon key="icon-2" data={Gear} />,
                     ];
                 } else if (icon === 'only') {
-                    props.children = <Icon key="icon" data={GearIcon} size={18} />;
+                    props.children = <Icon key="icon" data={Gear} />;
                 } else {
                     props.children = 'Button';
                 }

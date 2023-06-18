@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Ellipsis} from '@gravity-ui/icons';
 import _memoize from 'lodash/memoize';
 
 import {Button} from '../../../Button';
@@ -7,7 +8,6 @@ import {Icon} from '../../../Icon';
 import {Menu} from '../../../Menu';
 import type {MenuItemProps} from '../../../Menu';
 import {Popup} from '../../../Popup';
-import {DotsIcon} from '../../../icons/DotsIcon';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
@@ -133,7 +133,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                         onClick={this.handleActionsButtonClick.bind(this, {item, index})}
                         size={rowActionsSize}
                     >
-                        <Icon data={DotsIcon} />
+                        <Icon data={Ellipsis} />
                     </Button>
                 </div>
             );

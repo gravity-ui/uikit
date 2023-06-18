@@ -95,21 +95,6 @@ const SizeTemplate: StoryFn<LabelProps> = (args) => {
 
 export const Size = SizeTemplate.bind({});
 
-const StyleTemplate: StoryFn<LabelProps> = (args) => {
-    return (
-        <div className="label-stories">
-            <Label {...args} style="default">
-                default
-            </Label>
-            <Label {...args} style="rounded">
-                rounded
-            </Label>
-        </div>
-    );
-};
-
-export const Style = StyleTemplate.bind({});
-
 const IconTemplate: StoryFn<LabelProps> = (args) => {
     return <Label {...args} />;
 };

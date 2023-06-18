@@ -62,8 +62,6 @@ interface LabelDefaultProps {
     type: 'default' | 'copy' | 'close';
     /** Label size */
     size: 'xs' | 's' | 'm';
-    /** Label appearance (with round corners or plain) */
-    style: 'rounded' | 'default';
 }
 
 export interface LabelProps extends LabelOwnProps, Partial<LabelDefaultProps> {}
@@ -73,7 +71,6 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         type = 'default',
         theme = 'normal',
         size = 'xs',
-        style = 'default',
         icon,
         children,
         onClose,
@@ -162,7 +159,6 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                     {
                         theme,
                         size,
-                        style,
                         type,
                         'is-interactive': isInteractive,
                         'has-right-addon': Boolean(actionButton),

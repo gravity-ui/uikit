@@ -22,9 +22,6 @@ export type ToastProps = {
     content?: React.ReactNode;
     type?: ToastType;
     isClosable?: boolean;
-    // FIXME: BREAKING CHANGE.
-    /** @deprecated This prop was part of private API. It is no longer used and Will be deleted */
-    isOverride?: boolean;
     actions?: ToastAction[];
 
     /** Function. Use for toast icon customization. By default type-based behavior is used */

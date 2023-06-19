@@ -4,6 +4,9 @@
 $block: '.#{variables.$ns}toast';
 
 #{$block} {
+    $closeButtonSize: 24px;
+    $closeButtonEdgesSpacing: 16px;
+    $closeButtonTitleSpacing: 8px;
     $containerClass: #{&}__container;
     $iconClass: #{&}__icon;
 
@@ -99,7 +102,7 @@ $block: '.#{variables.$ns}toast';
     &__title {
         @include mixins.text-subheader-3;
         margin: 0;
-        padding-right: 28px;
+        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__title {
@@ -112,7 +115,7 @@ $block: '.#{variables.$ns}toast';
 
     & &__btn-close {
         position: absolute;
-        top: 14px;
-        right: 14px;
+        top: $closeButtonEdgesSpacing;
+        right: $closeButtonEdgesSpacing;
     }
 }

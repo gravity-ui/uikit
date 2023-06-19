@@ -109,7 +109,8 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                 <h3 className={b('title')}>{title}</h3>
                 {isClosable && (
                     <Button
-                        view="flat-secondary"
+                        size={'s'}
+                        view="flat"
                         className={b('btn-close')}
                         onClick={onClose}
                         extraProps={{'aria-label': i18n('label_close-button')}}

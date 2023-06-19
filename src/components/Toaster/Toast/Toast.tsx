@@ -54,6 +54,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                         className={b('action')}
                         onClick={onActionClick}
                         type="button"
+                        size={'l'}
                         view={view}
                     >
                         {label}

@@ -3,7 +3,6 @@ import React from 'react';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _isNumber from 'lodash/isNumber';
-import ResizeObserver from 'resize-observer-polyfill';
 
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';

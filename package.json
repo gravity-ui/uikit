@@ -87,7 +87,6 @@
         "react-transition-group": "^4.4.5",
         "react-virtualized-auto-sizer": "^1.0.20",
         "react-window": "^1.8.9",
-        "resize-observer-polyfill": "^1.5.1",
         "tabbable": "^6.1.2",
         "tslib": "^2.5.3",
         "utility-types": "^3.10.0"

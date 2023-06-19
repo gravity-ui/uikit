@@ -17,14 +17,11 @@ A component that puts all together: **CopyToClipboard** and **ClipboardIcon**.<b
 
 ### ClipboardButtonTooltipProps
 
-| Property     | Type             | Required | Default   | Description                                              |
-| :----------- | :--------------- | :------: | :-------- | :------------------------------------------------------- |
-| disabled     | `boolean`        |    no    | -         | Disable tooltip. Tooltip won't be shown                  |
-| placement    | `PopupPlacement` |    no    | -         | A tooltip position relative to it's anchor               |
-| openDelay    | `number`         |    no    | -         | Delay in ms before showing the popup after hovering      |
-| closeDelay   | `number`         |    no    | -         | Delay in ms before hiding the popup after the hover ends |
-| startCopyTip | `string`         |    no    | `Copy`    | Text shown before copy                                   |
-| endCopyTip   | `string`         |    no    | `Copied!` | Text shown after copy                                    |
+| Property     | Type      | Required | Default   | Description                             |
+| :----------- | :-------- | :------: | :-------- | :-------------------------------------- |
+| disabled     | `boolean` |    no    | -         | Disable tooltip. Tooltip won't be shown |
+| startCopyTip | `string`  |    no    | `Copy`    | Text shown before copy                  |
+| endCopyTip   | `string`  |    no    | `Copied!` | Text shown after copy                   |
 
 ### Examples
 

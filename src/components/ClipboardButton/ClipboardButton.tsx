@@ -7,7 +7,6 @@ import {CopyToClipboard} from '../CopyToClipboard';
 import {CopyToClipboardStatus} from '../CopyToClipboard/types';
 import type {CopyToClipboardBaseProps} from '../CopyToClipboard/types';
 import {Tooltip} from '../Tooltip';
-import type {TooltipProps} from '../Tooltip';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -34,11 +33,13 @@ interface ClipboardButtonComponentProps extends QAProps {
     tooltipProps?: ClipboardButtonTooltipProps;
 }
 
-interface ClipboardButtonTooltipProps extends Omit<TooltipProps, 'content' | 'children'> {
+interface ClipboardButtonTooltipProps {
     /** Text shown before copy */
     startCopyTip?: string;
     /** Text shown after copy */
     endCopyTip?: string;
+    /** Disable tooltip */
+    disabled?: boolean;
 }
 
 const b = block('clipboard-button');
@@ -53,15 +54,11 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     React.useEffect(() => {
         buttonRef?.current?.style.setProperty('--yc-button-height', `${size}px`);
     }, [size]);
-    const {
-        startCopyTip = i18n('startCopy'),
-        endCopyTip = i18n('endCopy'),
-        ...restTooltipProps
-    } = tooltipProps;
+    const {startCopyTip = i18n('startCopy'), endCopyTip = i18n('endCopy'), disabled} = tooltipProps;
 
     return (
         <Tooltip
-            {...restTooltipProps}
+            disabled={disabled}
             content={status === CopyToClipboardStatus.Success ? endCopyTip : startCopyTip}
         >
             <Button

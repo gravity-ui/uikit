@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {GearIcon} from '../../icons';
+import {Flame} from '@gravity-ui/icons';
+
 import type {TabsProps} from '../Tabs';
 
 import type {StoryParams} from './types';
 
-const gearIcon = <GearIcon width={20} height={20} />;
+const gearIcon = <Flame width={18} height={18} />;
 
 export function getTabsMock(args: StoryParams): TabsProps['items'] {
     return [

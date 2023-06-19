@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
+
 import type {PopperPlacement} from '../../../../../components/utils/usePopper';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
 import {List} from '../../../../List';
 import {Popup} from '../../../../Popup';
-import {GearIcon} from '../../../../icons/GearIcon';
 import {block} from '../../../../utils/cn';
 import type {TableColumnSetupItem} from '../withTableSettings';
 
@@ -204,7 +205,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             <div className={b('control')} ref={refControl} onClick={handleControlClick}>
                 {switcher || (
                     <Button disabled={disabled}>
-                        <Icon data={GearIcon} />
+                        <Icon data={Gear} />
                         {i18n('button_switcher')}
                         {renderStatus()}
                     </Button>

@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
-import {CrossIcon} from '../icons/CrossIcon';
 import {block} from '../utils/cn';
 
 import './Label.scss';
@@ -15,9 +16,9 @@ const b = block('label');
 type SizeMapType = {copyIconSize: number; closeIconSize: number; buttonSize: ButtonSize};
 
 const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'xs'},
-    s: {copyIconSize: 12, closeIconSize: 8, buttonSize: 's'},
-    m: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'm'},
+    xs: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'xs'},
+    s: {copyIconSize: 12, closeIconSize: 12, buttonSize: 's'},
+    m: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'm'},
 };
 
 const commonActionButtonProps: ButtonProps = {
@@ -150,7 +151,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                     extraProps={{'aria-label': closeButtonLabel || undefined}}
                     {...commonActionButtonProps}
                 >
-                    <Icon size={closeIconSize} data={CrossIcon} />
+                    <Icon size={closeIconSize} data={Xmark} />
                 </Button>
             );
         }

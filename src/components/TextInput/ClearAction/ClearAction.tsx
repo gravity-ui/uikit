@@ -1,14 +1,15 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {CrossIcon} from '../../icons/CrossIcon';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
 import type {TextInputSize} from '../types';
 
 const b = block('text-input');
-const ICON_SIZE = 10;
+const ICON_SIZE = 16;
 
 type ClearActionProps = {
     size: TextInputSize;
@@ -27,7 +28,7 @@ export const ClearAction = (props: ClearActionProps) => {
             onClick={onClick}
             extraProps={{'aria-label': i18n('label_clear-button')}}
         >
-            <Icon data={CrossIcon} size={ICON_SIZE} />
+            <Icon data={Xmark} size={ICON_SIZE} />
         </Button>
     );
 };

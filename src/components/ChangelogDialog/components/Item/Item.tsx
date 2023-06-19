@@ -1,9 +1,10 @@
 import React from 'react';
 
+import {CirclePlay} from '@gravity-ui/icons';
+
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Label} from '../../../Label';
-import {PlayIcon} from '../../../icons/PlayIcon';
 import {block} from '../../../utils/cn';
 import i18n from '../../i18n';
 import type {ChangelogItem, ChangelogStoryClickHandler} from '../../types';
@@ -54,7 +55,7 @@ export function Item({className, data, onStoryClick}: ItemProps) {
                         }}
                     >
                         {i18n('button_view_story')}
-                        <Icon data={PlayIcon} size={14} />
+                        <Icon data={CirclePlay} />
                     </Button>
                 ) : null}
             </div>

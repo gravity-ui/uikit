@@ -1,9 +1,19 @@
 import React from 'react';
 
+import {
+    ArrowShapeRight,
+    ArrowsRotateRight,
+    CirclePlay,
+    Copy,
+    Paperclip,
+    Pencil,
+    Plus,
+    Xmark,
+} from '@gravity-ui/icons';
+
 import {Button} from '../../..';
 import {DocsExample} from '../../../../../demo/DocsExample/DocsExample';
 import {Icon} from '../../../../Icon';
-import {GearIcon} from '../../../../icons';
 
 export function ButtonExampleViewAction() {
     return (
@@ -13,12 +23,10 @@ export function ButtonExampleViewAction() {
             </Button>
             <Button view="action" size="l">
                 Connect
-                {/* TODO ConnectIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={ArrowShapeRight} size={18} />
             </Button>
             <Button view="action" size="l">
-                {/* TODO EditIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={Pencil} size={18} />
             </Button>
         </DocsExample>
     );
@@ -27,10 +35,10 @@ ButtonExampleViewAction.code = `
 <Button view="action" size="l">Create</Button>
 <Button view="action" size="l">
     Connect
-    <Icon data={GearIcon} size={18} />
+    <Icon data={ArrowShapeRight} size={18} />
 </Button>
 <Button view="action" size="l">
-    <Icon data={GearIcon} size={18} />
+    <Icon data={Pencil} size={18} />
 </Button>
 `.trim();
 
@@ -42,12 +50,10 @@ export function ButtonExampleViewNormal() {
             </Button>
             <Button view="normal" size="l">
                 Start
-                {/* TODO RunIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={CirclePlay} size={18} />
             </Button>
             <Button view="normal" size="l">
-                {/* TODO RefreshIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={ArrowsRotateRight} size={18} />
             </Button>
         </DocsExample>
     );
@@ -56,10 +62,10 @@ ButtonExampleViewNormal.code = `
 <Button view="normal" size="l">Add</Button>
 <Button view="normal" size="l">
     Start
-    <Icon data={GearIcon} size={18} />
+    <Icon data={CirclePlay} size={18} />
 </Button>
 <Button view="normal" size="l">
-    <Icon data={GearIcon} size={18} />
+    <Icon data={ArrowsRotateRight} size={18} />
 </Button>
 `.trim();
 
@@ -71,12 +77,10 @@ export function ButtonExampleViewOutlined() {
             </Button>
             <Button view="outlined" size="l">
                 Attach
-                {/* TODO AttachIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={Paperclip} size={18} />
             </Button>
             <Button view="outlined" size="l">
-                {/* TODO CopyIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={Copy} size={18} />
             </Button>
         </DocsExample>
     );
@@ -85,10 +89,10 @@ ButtonExampleViewOutlined.code = `
 <Button view="outlined" size="l">Cancel</Button>
 <Button view="outlined" size="l">
     Attach
-    <Icon data={GearIcon} size={18} />
+    <Icon data={Paperclip} size={18} />
 </Button>
 <Button view="outlined" size="l">
-    <Icon data={GearIcon} size={18} />
+    <Icon data={Copy} size={18} />
 </Button>
 `.trim();
 
@@ -99,8 +103,7 @@ export function ButtonExampleViewFlat() {
                 Expand
             </Button>
             <Button view="flat" size="l">
-                {/* TODO CloseIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={Xmark} size={18} />
             </Button>
         </DocsExample>
     );
@@ -108,7 +111,7 @@ export function ButtonExampleViewFlat() {
 ButtonExampleViewFlat.code = `
 <Button view="flat" size="l">Expand</Button>
 <Button view="flat" size="l">
-    <Icon data={GearIcon} size={18} />
+    <Icon data={Xmark} size={18} />
 </Button>
 `.trim();
 
@@ -119,8 +122,7 @@ export function ButtonExampleViewRaised() {
                 Create
             </Button>
             <Button view="raised" size="l">
-                {/* TODO PlusIcon */}
-                <Icon data={GearIcon} size={18} />
+                <Icon data={Plus} size={18} />
             </Button>
         </DocsExample>
     );
@@ -128,7 +130,7 @@ export function ButtonExampleViewRaised() {
 ButtonExampleViewRaised.code = `
 <Button view="raised" size="l">Create</Button>
 <Button view="raised" size="l">
-    <Icon data={GearIcon} size={18} />
+    <Icon data={Plus} size={18} />
 </Button>
 `.trim();
 

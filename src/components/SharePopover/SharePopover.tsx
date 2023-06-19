@@ -1,10 +1,11 @@
 import React from 'react';
 
+import {NodesRight} from '@gravity-ui/icons';
+
 import {Icon} from '../Icon';
 import type {SVGIconData} from '../Icon/types';
 import {Popover} from '../Popover';
 import type {PopupPlacement} from '../Popup';
-import {Share} from '../icons';
 import {block} from '../utils/cn';
 
 import {ShareList} from './ShareList/ShareList';
@@ -136,7 +137,7 @@ export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
                 <div className={b('container', switcherClassName)}>
                     <div className={b('icon-container')}>
                         <Icon
-                            data={customIcon ? customIcon : Share}
+                            data={customIcon ? customIcon : NodesRight}
                             size={iconSize}
                             className={b('icon', iconClass)}
                         />

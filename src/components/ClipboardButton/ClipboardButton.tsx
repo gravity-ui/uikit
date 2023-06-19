@@ -1,22 +1,24 @@
 import React from 'react';
 
-import { Button } from '../Button';
-import type { ButtonProps } from '../Button';
-import { ClipboardIcon } from '../ClipboardIcon';
-import { CopyToClipboard } from '../CopyToClipboard';
-import { CopyToClipboardStatus } from '../CopyToClipboard/types';
-import type { CopyToClipboardBaseProps } from '../CopyToClipboard/types';
-import type { QAProps } from '../types';
-import { block } from '../utils/cn';
-import { Tooltip, TooltipProps } from '../Tooltip';
+import {Button} from '../Button';
+import type {ButtonProps} from '../Button';
+import {ClipboardIcon} from '../ClipboardIcon';
+import {CopyToClipboard} from '../CopyToClipboard';
+import {CopyToClipboardStatus} from '../CopyToClipboard/types';
+import type {CopyToClipboardBaseProps} from '../CopyToClipboard/types';
+import {Tooltip} from '../Tooltip';
+import type {TooltipProps} from '../Tooltip';
+import type {QAProps} from '../types';
+import {block} from '../utils/cn';
+
+import i18n from './i18n';
 
 import './ClipboardButton.scss';
-import i18n from './i18n';
 
 export interface ClipboardButtonProps
     extends CopyToClipboardBaseProps,
-    Omit<ClipboardButtonComponentProps, 'status' | 'onClick'>,
-    QAProps {
+        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'>,
+        QAProps {
     /** Time to restore initial state, ms */
     timeout?: number;
 }
@@ -44,7 +46,7 @@ const b = block('clipboard-button');
 const DEFAULT_ICON_SIZE = 24;
 const DEFAULT_TIMEOUT = 1000;
 
-const ClipboardButtonComponent: React.FC<ClipboardButtonComponentProps> = (props) => {
+const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {size = DEFAULT_ICON_SIZE, className, qa, tooltipProps = {}, status, onClick} = props;
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -78,7 +80,7 @@ const ClipboardButtonComponent: React.FC<ClipboardButtonComponentProps> = (props
 };
 
 export function ClipboardButton(props: ClipboardButtonProps) {
-    const { text, timeout = DEFAULT_TIMEOUT, onCopy, options, ...buttonProps } = props;
+    const {text, timeout = DEFAULT_TIMEOUT, onCopy, options, ...buttonProps} = props;
     return (
         <CopyToClipboard text={text} timeout={timeout} onCopy={onCopy} options={options}>
             {(status) => <ClipboardButtonComponent {...buttonProps} status={status} />}

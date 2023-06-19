@@ -42,6 +42,7 @@ $transitionTimingFunction: ease-in-out;
 
 @mixin sizeState($margin, $mainSize, $rAddon, $lAddon, $borderRadius) {
     height: #{$mainSize};
+    border-radius: #{$borderRadius};
     & #{$block}__text {
         line-height: #{$mainSize};
         margin: 0 #{$margin};
@@ -59,20 +60,6 @@ $transitionTimingFunction: ease-in-out;
 
     &#{$block}_has-left-addon #{$block}__text {
         margin-left: #{$lAddon};
-    }
-
-    &#{$block}_style {
-        &_default,
-        &_rounded {
-            border-radius: #{$borderRadius};
-
-            & #{$block}__addon {
-                &_interactive {
-                    --yc-button-height: #{$mainSize};
-                    --yc-button-border-radius: calc(#{$borderRadius} - var(--border-size));
-                }
-            }
-        }
     }
 }
 

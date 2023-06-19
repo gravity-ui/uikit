@@ -9,7 +9,7 @@ import './Progress.scss';
 const b = block('progress');
 
 export type ProgressTheme = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'misc';
-export type ProgressView = 'normal' | 'thin' | 'thinnest';
+export type ProgressSize = 'xs' | 's' | 'm';
 export type ProgressValue = number;
 
 interface Stack {
@@ -37,8 +37,8 @@ interface ProgressDefaultProps {
     text: string;
     /** Theme */
     theme: ProgressTheme;
-    /** View. Text of progress bar is displayed in `normal` view only. */
-    view: ProgressView;
+    /** Size. Text of progress bar is displayed in `m` size only. */
+    size: ProgressSize;
     /** Loading. Аdds loading animation */
     loading?: boolean;
 }
@@ -66,7 +66,7 @@ export class Progress extends React.Component<ProgressProps> {
     static defaultProps: ProgressDefaultProps = {
         text: '',
         theme: 'default',
-        view: 'normal',
+        size: 'm',
         loading: false,
     };
 
@@ -91,10 +91,10 @@ export class Progress extends React.Component<ProgressProps> {
     }
 
     render() {
-        const {view, className} = this.props;
+        const {size, className} = this.props;
 
         return (
-            <div className={b({view}, className)}>
+            <div className={b({size}, className)}>
                 {this.renderText()}
                 {this.renderContent()}
             </div>

@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.17.0](https://github.com/gravity-ui/uikit/compare/v4.16.0...v4.17.0) (2023-06-15)
+
+
+### Features
+
+* **Select:** design improvements (control & options) ([#727](https://github.com/gravity-ui/uikit/issues/727)) ([6526c86](https://github.com/gravity-ui/uikit/commit/6526c869dda259e943132b4e19369326ea76b20d))
+
 ## [4.16.0](https://github.com/gravity-ui/uikit/compare/v4.15.1...v4.16.0) (2023-06-09)
 
 

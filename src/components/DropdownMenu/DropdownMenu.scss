@@ -24,10 +24,6 @@ $block: '.#{variables.$ns}dropdown-menu';
         gap: 16px;
     }
 
-    &__menu-item-chevron {
-        transform: rotate(-90deg);
-    }
-
     &__sub-menu {
         position: relative;
 

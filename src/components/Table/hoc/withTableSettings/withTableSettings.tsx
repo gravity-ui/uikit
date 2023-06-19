@@ -1,12 +1,12 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import _get from 'lodash/get';
 import _isString from 'lodash/isString';
 import _last from 'lodash/last';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
-import {GearIcon} from '../../../icons/GearIcon';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
@@ -164,7 +164,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                 items={columnSetupItems}
                                 switcher={
                                     <Button view="flat" className={b('settings-button')}>
-                                        <Icon data={GearIcon} size={20} />
+                                        <Icon data={Gear} />
                                     </Button>
                                 }
                             />

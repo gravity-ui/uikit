@@ -3,9 +3,10 @@ import React from 'react';
 import {Icon} from '../Icon';
 import {Popover} from '../Popover';
 import type {PopoverProps} from '../Popover';
-import {QuestionMarkIcon} from '../icons/QuestionMarkIcon';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
+
+import {QuestionMarkIcon} from './QuestionMarkIcon';
 
 const b = block('help-popover');
 

@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {GearIcon} from '../../icons/GearIcon';
 import {Button} from '../Button';
 import type {ButtonPin, ButtonProps, ButtonSize, ButtonView} from '../Button';
 
@@ -90,7 +90,7 @@ describe('Button', () => {
 
         render(
             <Button>
-                <GearIcon data-qa={iconQaId} width={20} height={20} />
+                <Gear data-qa={iconQaId} width={20} height={20} />
                 Left
             </Button>,
         );
@@ -125,7 +125,7 @@ describe('Button', () => {
         render(
             <Button>
                 <Button.Icon>
-                    <GearIcon data-qa={iconQaId} width={20} height={20} />
+                    <Gear data-qa={iconQaId} width={20} height={20} />
                 </Button.Icon>
                 Left
             </Button>,

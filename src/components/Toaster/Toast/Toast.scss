@@ -37,21 +37,21 @@ $block: '.#{variables.$ns}toast';
 
     &_info {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-info-light);
+            background-color: var(--yc-color-base-info);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-info-heavy);
+            color: var(--yc-color-text-info);
         }
     }
 
     &_success {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-positive-light);
+            background-color: var(--yc-color-base-positive);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-positive-heavy);
+            color: var(--yc-color-text-positive);
         }
     }
 
@@ -61,17 +61,17 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-warning-heavy);
+            color: var(--yc-color-text-warning);
         }
     }
 
     &_error {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-danger-light);
+            background-color: var(--yc-color-base-danger);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-danger-heavy);
+            color: var(--yc-color-text-danger);
         }
     }
 

@@ -1,9 +1,0 @@
-@use '../variables';
-
-$block: '.#{variables.$ns}stories';
-
-#{$block} {
-    &__modal-content {
-        border-radius: 20px;
-    }
-}

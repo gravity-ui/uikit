@@ -1,11 +1,11 @@
 import React from 'react';
 
+import {CircleInfoFill, TriangleExclamationFill} from '@gravity-ui/icons';
 import block from 'bem-cn-lite';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
-import {Alarm, Info} from '../../icons';
 import {RadioButton} from '../RadioButton';
 import type {RadioButtonOption} from '../RadioButton';
 
@@ -21,8 +21,8 @@ export function RadioButtonShowcase() {
     ];
 
     const iconOptions: RadioButtonOption[] = [
-        {value: 'Value 1', content: <Icon data={Alarm} size={15} />},
-        {value: 'Value 2', content: <Icon data={Info} size={18} />},
+        {value: 'Value 1', content: <Icon data={TriangleExclamationFill} />},
+        {value: 'Value 2', content: <Icon data={CircleInfoFill} />},
     ];
 
     return (

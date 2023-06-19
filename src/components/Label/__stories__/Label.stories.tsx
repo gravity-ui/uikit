@@ -1,11 +1,10 @@
 import React from 'react';
 
+import {Check, Gear} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
-import {GearIcon} from '../../icons/GearIcon';
-import {Tick as TickIcon} from '../../icons/Tick';
 import {Label} from '../Label';
 import type {LabelProps} from '../Label';
 
@@ -13,8 +12,8 @@ import './Label.stories.scss';
 
 const icons = {
     '-': undefined,
-    TickIcon: <IconComponent size={12} data={TickIcon} />,
-    GearIcon: <IconComponent size={12} data={GearIcon} />,
+    TickIcon: <IconComponent size={12} data={Check} />,
+    GearIcon: <IconComponent size={12} data={Gear} />,
 };
 
 export default {

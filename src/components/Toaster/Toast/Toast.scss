@@ -94,6 +94,7 @@ $block: '.#{variables.$ns}toast';
     &__icon-container {
         flex: 0 0 auto;
         padding-right: 8px;
+        padding-top: 2px;
     }
 
     &__title {

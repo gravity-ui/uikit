@@ -1,10 +1,11 @@
 import React from 'react';
 
+import {NodesRight} from '@gravity-ui/icons';
+
 import {Icon} from '../Icon';
 import type {SVGIconData} from '../Icon/types';
 import {Popover} from '../Popover';
 import type {PopupPlacement} from '../Popup';
-import {Share} from '../icons';
 import {block} from '../utils/cn';
 
 import {ShareList} from './ShareList/ShareList';
@@ -43,11 +44,6 @@ export interface SharePopoverProps extends ShareListProps, Partial<SharePopoverD
     customIcon?: SVGIconData;
     /** icon title */
     buttonTitle?: string | React.ReactNode;
-    /**
-     * @deprecated use onClick instead
-     * metrika traking registration handler
-     * */
-    handleMetrika?: () => void;
     /** custom onClick handler */
     onClick?: (event?: React.MouseEvent<HTMLSpanElement>) => void;
     /** custom copy link button title */
@@ -141,7 +137,7 @@ export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
                 <div className={b('container', switcherClassName)}>
                     <div className={b('icon-container')}>
                         <Icon
-                            data={customIcon ? customIcon : Share}
+                            data={customIcon ? customIcon : NodesRight}
                             size={iconSize}
                             className={b('icon', iconClass)}
                         />
@@ -154,11 +150,7 @@ export class SharePopover extends React.PureComponent<SharePopoverInnerProps> {
     }
 
     private handleClick = async (event: React.MouseEvent<HTMLSpanElement>) => {
-        const {url, title, text, useWebShareApi, handleMetrika, onClick} = this.props;
-
-        if (handleMetrika) {
-            handleMetrika();
-        }
+        const {url, title, text, useWebShareApi, onClick} = this.props;
 
         if (onClick) {
             onClick(event);

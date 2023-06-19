@@ -1,10 +1,11 @@
 import React from 'react';
 
+import {ArrowUpRightFromSquare} from '@gravity-ui/icons';
+
 import {Dialog} from '../Dialog';
 import type {DialogProps} from '../Dialog';
 import {Icon} from '../Icon';
 import {Link} from '../Link';
-import {ExternalLinkIcon} from '../icons/ExternalLinkIcon';
 import {block} from '../utils/cn';
 import {useUniqId} from '../utils/useUniqId';
 
@@ -54,7 +55,7 @@ export function ChangelogDialog({
                     <Link href={fullListLink} target="_blank">
                         <span>{i18n('link_full_list')}</span>
                         <span className={b('full-list-link-icon')}>
-                            <Icon data={ExternalLinkIcon} size={14} />
+                            <Icon data={ArrowUpRightFromSquare} />
                         </span>
                     </Link>
                 </Dialog.Body>

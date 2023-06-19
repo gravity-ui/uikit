@@ -53,13 +53,13 @@ export const AlertIcon = ({
     }
 
     return (
-        <Icon
-            data={iconByTheme[view] as IconData}
-            size={size}
+        <div
             className={bAlert(
                 'icon',
                 colorText({color: theme === 'normal' ? undefined : theme}, className),
             )}
-        />
+        >
+            <Icon data={iconByTheme[view] as IconData} size={size} />
+        </div>
     );
 };

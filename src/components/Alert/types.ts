@@ -57,8 +57,10 @@ export interface AlertProps {
      * Center all content in vertical direction,
      * useful if for some reason you actions takes more space then text
      * or needed icon to be on the middle of the card
+     *
+     * @default - 'baseline'
      */
-    centered?: true;
+    align?: 'center' | 'baseline';
     style?: React.CSSProperties;
     className?: string;
 }

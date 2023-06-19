@@ -24,7 +24,7 @@ export const Alert = (props: AlertProps) => {
         corners,
         style,
         onClose,
-        centered,
+        align,
     } = props;
 
     const icon = props.icon || <Alert.Icon theme={theme} view={view} />;
@@ -43,11 +43,11 @@ export const Alert = (props: AlertProps) => {
             theme={theme}
             view={view}
         >
-            <Flex gap="3" alignItems={centered && 'center'}>
+            <Flex gap="3" alignItems={align}>
                 {icon}
                 <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
                     <Flex gap="2" grow className={bAlert('text-content')}>
-                        <Flex direction="column" gap="1" grow justifyContent={centered && 'center'}>
+                        <Flex direction="column" gap="1" grow justifyContent={align}>
                             {title}
                             {message}
                         </Flex>

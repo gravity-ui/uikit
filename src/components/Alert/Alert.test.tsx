@@ -61,7 +61,7 @@ describe('Alert', () => {
         const {container} = render(
             <Alert
                 theme="danger"
-                centered
+                align="center"
                 title={title}
                 layout="horizontal"
                 onClose={jest.fn()}

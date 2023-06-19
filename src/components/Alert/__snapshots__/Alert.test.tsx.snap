@@ -9,29 +9,33 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
       class="yc-flex"
       style="column-gap: 12px; row-gap: 12px; align-items: center;"
     >
-      <svg
-        aria-hidden="true"
-        class="yc-icon yc-alert__icon yc-color-text yc-color-text_color_danger"
-        fill="currentColor"
-        height="18"
-        stroke="none"
-        width="18"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
+      <div
+        class="yc-alert__icon yc-color-text yc-color-text_color_danger"
       >
         <svg
-          fill="none"
-          viewBox="0 0 16 16"
+          aria-hidden="true"
+          class="yc-icon"
+          fill="currentColor"
+          height="18"
+          stroke="none"
+          width="18"
           xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         >
-          <path
-            clip-rule="evenodd"
-            d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM6.53 5.47a.75.75 0 0 0-1.06 1.06L6.94 8 5.47 9.47a.75.75 0 1 0 1.06 1.06L8 9.06l1.47 1.47a.75.75 0 1 0 1.06-1.06L9.06 8l1.47-1.47a.75.75 0 1 0-1.06-1.06L8 6.94 6.53 5.47Z"
-            fill="currentColor"
-            fill-rule="evenodd"
-          />
+          <svg
+            fill="none"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM6.53 5.47a.75.75 0 0 0-1.06 1.06L6.94 8 5.47 9.47a.75.75 0 1 0 1.06 1.06L8 9.06l1.47 1.47a.75.75 0 1 0 1.06-1.06L9.06 8l1.47-1.47a.75.75 0 1 0-1.06-1.06L8 6.94 6.53 5.47Z"
+              fill="currentColor"
+              fill-rule="evenodd"
+            />
+          </svg>
         </svg>
-      </svg>
+      </div>
       <div
         class="yc-flex"
         style="flex-direction: row; flex-grow: 1; column-gap: 20px; row-gap: 20px;"

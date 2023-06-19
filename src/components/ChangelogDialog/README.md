@@ -19,11 +19,11 @@ Component for displaying the changelog. It looks like a list of versions in a mo
 
 | Field       | Type        | Required | Default | Description                 |
 | ----------- | ----------- | -------- | ------- | --------------------------- |
-| date        | `String`    | ✓        |         | Version release date        |
+| date        | `String`    |          |         | Version release date        |
 | isNew       | `Boolean`   |          |         | If `true`, show "New" label |
 | title       | `String`    | ✓        |         | Version title               |
 | image       | `ImageData` |          |         | Version image info          |
-| description | `String`    | ✓        |         | Version description         |
+| description | `ReactNode` |          |         | Version description         |
 | storyId     | `String`    |          |         | Version related story       |
 
 ### ImageData object

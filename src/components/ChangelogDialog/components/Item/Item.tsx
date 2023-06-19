@@ -23,7 +23,7 @@ export function Item({className, data, onStoryClick}: ItemProps) {
     return (
         <article className={b(null, className)}>
             <div className={b('meta')}>
-                <div className={b('date')}>{data.date}</div>
+                {data.date ? <div className={b('date')}>{data.date}</div> : null}
                 {data.isNew ? (
                     <Label className={b('label-new')} theme="info">
                         {i18n('label_new')}

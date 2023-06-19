@@ -59,7 +59,6 @@ export const ToasterProvider = React.forwardRef<ToasterPublicMethods, Props>(
                         {
                             ...toasts[index],
                             ...override,
-                            isOverride: true,
                         },
                         ...toasts.slice(index + 1),
                     ];

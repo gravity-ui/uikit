@@ -21,9 +21,7 @@ $iconWidth: 16px;
 #{$block} {
     --yc-button-background-color: transparent;
     --yc-button-background-color-hover: transparent;
-    --yc-button-icon-space: calc(
-        var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset)
-    );
+    --yc-button-icon-space: calc(var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset));
 
     @include mixins.button-reset();
     display: inline-block;
@@ -235,10 +233,7 @@ $iconWidth: 16px;
         }
 
         &_flat-secondary {
-            @include button-text-color(
-                var(--yc-color-text-secondary),
-                var(--yc-color-text-primary)
-            );
+            @include button-text-color(var(--yc-color-text-secondary), var(--yc-color-text-primary));
         }
 
         &_normal-contrast {
@@ -418,10 +413,7 @@ $iconWidth: 16px;
     }
 
     &_loading::before {
-        @include mixins.loading(
-            var(--yc-button-background-color),
-            var(--yc-button-background-color-hover)
-        );
+        @include mixins.loading(var(--yc-button-background-color), var(--yc-button-background-color-hover));
     }
 
     &_width_auto {

@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import {Flex} from '../layout';
 
 import {Alert} from './Alert';
-import type {AlertTypes} from './types';
+import type {AlertTheme} from './types';
 
 const title = 'Where will you go, hero?';
 const message = 'Choose wisely: the end of the fairy tale depends on your decision';
@@ -61,7 +61,7 @@ describe('Alert', () => {
         const {container} = render(
             <Alert
                 theme="danger"
-                contentCenter
+                centered
                 title={title}
                 layout="horizontal"
                 onClose={jest.fn()}
@@ -72,7 +72,7 @@ describe('Alert', () => {
         expect(container).toMatchSnapshot();
     });
 
-    test.each<AlertTypes>(['danger', 'info', 'positive', 'warning'])(
+    test.each<AlertTheme>(['danger', 'info', 'positive', 'warning'])(
         'render correct icon if not normal theme',
         async (theme) => {
             const {container} = render(

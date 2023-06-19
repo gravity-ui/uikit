@@ -11,15 +11,14 @@ import {
     TriangleExclamationFill,
 } from '@gravity-ui/icons';
 
-import {Icon} from '../Icon';
-import type {SVGIconData} from '../Icon/types';
+import {Icon, IconData} from '../Icon';
 import {colorText} from '../Text';
 
-import {DEFAULT_ICONS_SIZE, bAlert} from './constants';
-import type {AlertIconProps, AlertTypes} from './types';
+import {DEFAULT_ICON_SIZE, bAlert} from './constants';
+import type {AlertIconProps, AlertTheme} from './types';
 
 const typeToIcon: Record<
-    AlertTypes,
+    AlertTheme,
     {filled: React.ElementType; outlined: React.ElementType} | null
 > = {
     danger: {
@@ -43,23 +42,23 @@ const typeToIcon: Record<
 
 export const AlertIcon = ({
     className,
-    type,
+    theme,
     view = 'filled',
-    size = DEFAULT_ICONS_SIZE,
+    size = DEFAULT_ICON_SIZE,
 }: AlertIconProps) => {
-    const a = typeToIcon[type];
+    const iconByTheme = typeToIcon[theme];
 
-    if (!a) {
+    if (!iconByTheme) {
         return null;
     }
 
     return (
         <Icon
-            data={a[view] as SVGIconData}
+            data={iconByTheme[view] as IconData}
             size={size}
             className={bAlert(
                 'icon',
-                colorText({color: type === 'normal' ? undefined : type}, className),
+                colorText({color: theme === 'normal' ? undefined : theme}, className),
             )}
         />
     );

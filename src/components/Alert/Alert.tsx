@@ -11,7 +11,7 @@ import {Flex, spacing} from '../layout';
 import {AlertActions} from './AlertActions';
 import {AlertIcon} from './AlertIcon';
 import {AlertTitle} from './AlertTitle';
-import {DEFAULT_ICONS_SIZE, bAlert} from './constants';
+import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import type {AlertProps} from './types';
 
 export const Alert = (props: AlertProps) => {
@@ -24,10 +24,10 @@ export const Alert = (props: AlertProps) => {
         corners,
         style,
         onClose,
-        contentCenter,
+        centered,
     } = props;
 
-    const icon = props.icon || <Alert.Icon type={theme} view={view} />;
+    const icon = props.icon || <Alert.Icon theme={theme} view={view} />;
     const title =
         typeof props.title === 'string' ? <Alert.Title text={props.title} /> : props.title;
     const actions = Array.isArray(props.actions) ? (
@@ -43,16 +43,11 @@ export const Alert = (props: AlertProps) => {
             theme={theme}
             view={view}
         >
-            <Flex gap="3" alignItems={contentCenter && 'center'}>
+            <Flex gap="3" alignItems={centered && 'center'}>
                 {icon}
                 <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
                     <Flex gap="2" grow className={bAlert('text-content')}>
-                        <Flex
-                            direction="column"
-                            gap="1"
-                            grow
-                            justifyContent={contentCenter && 'center'}
-                        >
+                        <Flex direction="column" gap="1" grow justifyContent={centered && 'center'}>
                             {title}
                             {message}
                         </Flex>
@@ -63,7 +58,7 @@ export const Alert = (props: AlertProps) => {
                     <Button view="flat" onClick={onClose}>
                         <Icon
                             data={Xmark}
-                            size={DEFAULT_ICONS_SIZE}
+                            size={DEFAULT_ICON_SIZE}
                             className={colorText({color: 'secondary'})}
                         />
                     </Button>

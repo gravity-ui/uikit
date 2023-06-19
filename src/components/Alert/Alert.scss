@@ -7,7 +7,7 @@ $block: '.#{variables.$ns}alert';
 
     border-radius: var(--yc-alert-border-radius);
 
-    &_corners_none {
+    &_corners_square {
         --yc-alert-border-radius: 0px;
     }
 

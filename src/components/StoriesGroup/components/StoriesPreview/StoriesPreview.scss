@@ -58,13 +58,6 @@ $block: '.#{variables.$ns}stories-group-preview';
         }
     }
 
-    &__Icon_left {
-        transform: rotate(90deg);
-    }
-    &__Icon_right {
-        transform: rotate(-90deg);
-    }
-
     &__slider-button-wrapper {
         width: 28px;
         height: 28px;

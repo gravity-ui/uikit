@@ -1,12 +1,13 @@
 import React from 'react';
 
+import {ChevronLeft, ChevronRight} from '@gravity-ui/icons';
+
 import {Button} from '../../../Button';
 import type {ButtonProps} from '../../../Button';
 import {Icon} from '../../../Icon/Icon';
 import type {ModalCloseReason} from '../../../Modal';
 import {MediaRenderer} from '../../../Stories/components';
 import type {StoriesItemMedia} from '../../../Stories/types';
-import {Chevron} from '../../../icons/Chevron';
 import {block} from '../../../utils/cn';
 import type {StoriesGroupItem} from '../../types';
 
@@ -133,7 +134,7 @@ const StoriesPreviewListWithSlider = ({
                 <div className={b('slider-button-wrapper')}>
                     {offset !== 0 && (
                         <Button view="raised" pin="circle-circle" onClick={setPreviewOffset}>
-                            <Icon className={b('Icon', {left: true})} data={Chevron} />
+                            <Icon data={ChevronLeft} />
                         </Button>
                     )}
                 </div>
@@ -158,7 +159,7 @@ const StoriesPreviewListWithSlider = ({
                 <div className={b('slider-button-wrapper')}>
                     {offset < groups.length - maxSliderItemsCount && (
                         <Button view="raised" pin="circle-circle" onClick={setNextOffset}>
-                            <Icon className={b('Icon', {right: true})} data={Chevron} />
+                            <Icon data={ChevronRight} />
                         </Button>
                     )}
                 </div>

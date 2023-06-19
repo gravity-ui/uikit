@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {a11yHiddenSvgProps} from '../utils/svg';
+import {a11yHiddenSvgProps} from '../../utils/svg';
 
 export function Twitter(props: React.SVGProps<SVGSVGElement>) {
     return (

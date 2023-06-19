@@ -1,10 +1,11 @@
 import React from 'react';
 
+import {Link} from '@gravity-ui/icons';
+
 import {Button} from '../../Button';
 import {CopyToClipboard, CopyToClipboardStatus} from '../../CopyToClipboard';
 import {Icon} from '../../Icon';
 import type {SVGIconData} from '../../Icon/types';
-import {Link} from '../../icons';
 import {block} from '../../utils/cn';
 import {isOfType} from '../../utils/isOfType';
 import {ShareListItem} from '../ShareListItem/ShareListItem';

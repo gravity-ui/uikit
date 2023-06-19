@@ -97,7 +97,7 @@ $block: '.#{variables.$ns}toast';
     }
 
     &__title {
-        @include mixins.text-subheader-2;
+        @include mixins.text-subheader-3;
         margin: 0;
         padding-right: 28px;
     }

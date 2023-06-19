@@ -1,7 +1,6 @@
 import React from 'react';
 
 import _throttle from 'lodash/throttle';
-import ResizeObserver from 'resize-observer-polyfill';
 
 import type {PopupPlacement} from '../Popup';
 import {block} from '../utils/cn';

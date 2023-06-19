@@ -26,8 +26,6 @@ $block: '.#{variables.$ns}popover';
         min-height: 40px;
         max-width: var(--yc-popover-max-width);
         padding: var(--yc-popover-padding);
-        display: flex;
-        flex-direction: column;
         cursor: default;
 
         &-title {
@@ -37,10 +35,8 @@ $block: '.#{variables.$ns}popover';
         }
 
         &-buttons {
-            align-self: center;
-            display: inline-flex;
+            display: flex;
             flex-wrap: wrap;
-            width: 100%;
             // giving additional -5 margin
             // this is taking into account the margins of buttons
             // to imitate the `gap` property for flexbox
@@ -113,10 +109,6 @@ $block: '.#{variables.$ns}popover';
                 &#{&} {
                     --yc-popup-background-color: var(--yc-color-base-simple-hover-solid);
                     --yc-popup-border-color: var(--yc-color-base-simple-hover-solid);
-                }
-
-                #{$class}__tooltip-buttons {
-                    width: auto;
                 }
             }
 

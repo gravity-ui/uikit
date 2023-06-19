@@ -64,14 +64,18 @@ $transitionTimingFunction: ease-in-out;
     &#{$block}_style {
         &_default,
         &_rounded {
-            border-radius: #{$borderRadius};
-
             & #{$block}__addon {
                 &_interactive {
                     --yc-button-height: #{$mainSize};
                     --yc-button-border-radius: calc(#{$borderRadius} - var(--border-size));
                 }
             }
+        }
+        &_default {
+            border-radius: #{$borderRadius};
+        }
+        &_rounded {
+            border-radius: calc(#{$mainSize} / 2);
         }
     }
 }

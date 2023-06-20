@@ -3,15 +3,15 @@
 $block: '.#{variables.$ns}tooltip';
 
 #{$block} {
+    // [class] for increasing specificity
+    &[class] {
+        --yc-popup-border-width: 0;
+        --yc-popup-background-color: var(--g-color-base-float-heavy);
+    }
+
     &__popup-content {
         // prevent glitch between two nearby tooltip refs
         pointer-events: none;
-
-        // [class] for increasing specificity
-        &[class] {
-            --yc-popup-border-width: 0;
-            --yc-popup-background-color: var(--g-color-base-float-heavy);
-        }
     }
 
     &__content {

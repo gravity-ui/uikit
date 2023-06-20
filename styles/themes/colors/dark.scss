@@ -1,0 +1,21 @@
+@import './private/dark';
+@import './text/dark';
+@import './base/dark';
+@import './line/dark';
+@import './infographics/dark';
+@import './sfx/dark';
+@import './promo/dark';
+@import './brand/dark';
+@import './system';
+
+@mixin g-colors-dark {
+    @include yc-colors-private-dark;
+    @include yc-colors-text-dark;
+    @include yc-colors-base-dark;
+    @include yc-colors-line-dark;
+    @include yc-colors-infographics-dark;
+    @include yc-colors-sfx-dark;
+    @include yc-colors-promo-dark;
+    @include yc-colors-brand-dark;
+    @include yc-colors-system-dark;
+}

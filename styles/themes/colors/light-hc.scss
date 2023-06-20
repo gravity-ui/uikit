@@ -1,0 +1,21 @@
+@import './private/light-hc';
+@import './text/light-hc';
+@import './base/light-hc';
+@import './line/light-hc';
+@import './infographics/light-hc';
+@import './sfx/light-hc';
+@import './promo/light-hc';
+@import './brand/light-hc';
+@import './system';
+
+@mixin g-colors-light-hc {
+    @include yc-colors-private-light-hc;
+    @include yc-colors-text-light-hc;
+    @include yc-colors-base-light-hc;
+    @include yc-colors-line-light-hc;
+    @include yc-colors-infographics-light-hc;
+    @include yc-colors-sfx-light-hc;
+    @include yc-colors-promo-light-hc;
+    @include yc-colors-brand-light-hc;
+    @include yc-colors-system-light-hc;
+}

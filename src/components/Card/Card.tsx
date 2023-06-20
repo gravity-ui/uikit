@@ -16,6 +16,7 @@ export type CardSize = 'm' | 'l';
 
 export interface CardProps {
     children: React.ReactNode;
+    style?: React.CSSProperties;
     className?: string;
     /** Card click handler. Available for type: 'selection', 'action' */
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -44,6 +45,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         onClick,
         disabled,
         selected,
+        style,
     } = props;
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
@@ -61,6 +63,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     return (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
+            style={style}
             ref={ref}
             className={b(
                 {

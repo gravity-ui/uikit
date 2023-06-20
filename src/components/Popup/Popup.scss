@@ -19,19 +19,19 @@ $transition-distance: 10px;
     }
 
     &_exit_active {
-        &[data-popper-placement*='bottom'] #{#{$block}}__content {
+        &[data-popper-placement*='bottom'] #{$block}__content {
             animation-name: #{variables.$ns}popup-bottom;
         }
 
-        &[data-popper-placement*='top'] #{#{$block}}__content {
+        &[data-popper-placement*='top'] #{$block}__content {
             animation-name: #{variables.$ns}popup-top;
         }
 
-        &[data-popper-placement*='left'] #{#{$block}}__content {
+        &[data-popper-placement*='left'] #{$block}__content {
             animation-name: #{variables.$ns}popup-left;
         }
 
-        &[data-popper-placement*='right'] #{#{$block}}__content {
+        &[data-popper-placement*='right'] #{$block}__content {
             animation-name: #{variables.$ns}popup-right;
         }
     }
@@ -39,29 +39,29 @@ $transition-distance: 10px;
     // open state
     &_enter_active,
     &_appear_active {
-        &[data-popper-placement*='bottom'] #{#{$block}}__content {
+        &[data-popper-placement*='bottom'] #{$block}__content {
             animation-name: #{variables.$ns}popup-bottom-open;
         }
 
-        &[data-popper-placement*='top'] #{#{$block}}__content {
+        &[data-popper-placement*='top'] #{$block}__content {
             animation-name: #{variables.$ns}popup-top-open;
         }
 
-        &[data-popper-placement*='left'] #{#{$block}}__content {
+        &[data-popper-placement*='left'] #{$block}__content {
             animation-name: #{variables.$ns}popup-left-open;
         }
 
-        &[data-popper-placement*='right'] #{#{$block}}__content {
+        &[data-popper-placement*='right'] #{$block}__content {
             animation-name: #{variables.$ns}popup-right-open;
         }
     }
 
     // arrow
-    &[data-popper-placement*='bottom'] #{#{$block}}__arrow {
+    &[data-popper-placement*='bottom'] #{$block}__arrow {
         top: -$arrow-offset;
     }
 
-    &[data-popper-placement*='top'] #{#{$block}}__arrow {
+    &[data-popper-placement*='top'] #{$block}__arrow {
         bottom: -$arrow-offset;
 
         &-content {
@@ -69,7 +69,7 @@ $transition-distance: 10px;
         }
     }
 
-    &[data-popper-placement*='left'] #{#{$block}}__arrow {
+    &[data-popper-placement*='left'] #{$block}__arrow {
         right: -$arrow-offset;
 
         &-content {
@@ -77,7 +77,7 @@ $transition-distance: 10px;
         }
     }
 
-    &[data-popper-placement*='right'] #{#{$block}}__arrow {
+    &[data-popper-placement*='right'] #{$block}__arrow {
         left: -$arrow-offset;
 
         &-content {
@@ -102,8 +102,8 @@ $transition-distance: 10px;
         outline: none;
 
         // Corners rounding for content
-        & > :first-child:not(#{#{$block}}__arrow),
-        & > #{#{$block}}__arrow + * {
+        & > :first-child:not(#{$block}__arrow),
+        & > #{$block}__arrow + * {
             border-top-left-radius: inherit;
             border-top-right-radius: inherit;
         }

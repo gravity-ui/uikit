@@ -29,17 +29,12 @@ interface ClipboardButtonComponentProps extends QAProps {
     className?: string;
     status: CopyToClipboardStatus;
     onClick?: ButtonProps['onClick'];
-    /** tooltip component pops */
-    tooltipProps?: ClipboardButtonTooltipProps;
-}
-
-interface ClipboardButtonTooltipProps {
+    /** Disable tooltip. Tooltip won't be shown */
+    hasTooltip?: boolean;
     /** Text shown before copy */
-    startCopyTip?: string;
+    tooltipInitialText?: string;
     /** Text shown after copy */
-    endCopyTip?: string;
-    /** Disable tooltip */
-    disabled?: boolean;
+    tooltipSuccessText?: string;
 }
 
 const b = block('clipboard-button');
@@ -48,18 +43,28 @@ const DEFAULT_ICON_SIZE = 24;
 const DEFAULT_TIMEOUT = 1000;
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
-    const {size = DEFAULT_ICON_SIZE, className, qa, tooltipProps = {}, status, onClick} = props;
+    const {
+        size = DEFAULT_ICON_SIZE,
+        className,
+        qa,
+        hasTooltip = true,
+        tooltipInitialText = i18n('startCopy'),
+        tooltipSuccessText = i18n('endCopy'),
+        status,
+        onClick,
+    } = props;
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
     React.useEffect(() => {
         buttonRef?.current?.style.setProperty('--yc-button-height', `${size}px`);
     }, [size]);
-    const {startCopyTip = i18n('startCopy'), endCopyTip = i18n('endCopy'), disabled} = tooltipProps;
 
     return (
         <Tooltip
-            disabled={disabled}
-            content={status === CopyToClipboardStatus.Success ? endCopyTip : startCopyTip}
+            disabled={!hasTooltip}
+            content={
+                status === CopyToClipboardStatus.Success ? tooltipSuccessText : tooltipInitialText
+            }
         >
             <Button
                 ref={buttonRef}

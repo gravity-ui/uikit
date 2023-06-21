@@ -187,6 +187,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 closeTooltip={closeTooltip}
                 openTooltip={openTooltip}
                 open={isOpen}
+                className={cnPopover('handler')}
                 disabled={disabled}
                 onClick={onClick}
                 closedManually={closedManually}

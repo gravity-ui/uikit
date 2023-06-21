@@ -125,22 +125,15 @@ function renderViewGrid() {
                     props.children = 'Button';
                 }
 
-                let content: React.ReactElement | null = <Button {...props} />;
-
-                if (props.selected && props.view !== 'normal') {
-                    content = null;
-                }
-
                 items.push(
                     <div
                         key={key}
                         style={{
-                            backgroundColor:
-                                view.endsWith('contrast') && content ? contrastColor : '',
+                            backgroundColor: view.endsWith('contrast') ? contrastColor : '',
                         }}
                         className={b('grid-cell')}
                     >
-                        {content}
+                        <Button {...props} />
                     </div>,
                 );
             }

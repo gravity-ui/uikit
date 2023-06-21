@@ -169,8 +169,7 @@ $block: '.#{variables.$ns}popover';
             #{$class}__tooltip-title,
             #{$class}__tooltip-content {
                 padding-right: calc(
-                    var(--yc-popover-close-margin) + var(--yc-popover-close-size) -
-                        var(--yc-popover-padding)
+                    var(--yc-popover-close-margin) + var(--yc-popover-close-size) - var(--yc-popover-padding)
                 );
             }
         }

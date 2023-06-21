@@ -4,7 +4,7 @@ import {Popover} from '../../../Popover';
 import type {PopoverProps} from '../../../types';
 
 export function Base(props: PopoverProps) {
-    const handleClick = async (event: React.MouseEvent<HTMLSpanElement>) => {
+    const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
         props.onClick?.(event);
         return true;
     };

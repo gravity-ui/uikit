@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.19.0](https://github.com/gravity-ui/uikit/compare/v4.18.0...v4.19.0) (2023-06-21)
+
+
+### Features
+
+* **ClipboardButton:** added tooltip to clipboard button ([#667](https://github.com/gravity-ui/uikit/issues/667)) ([0508268](https://github.com/gravity-ui/uikit/commit/0508268f7b00b76ed037b17d21d3dd50d1266bda))
+
+
+### Bug Fixes
+
+* revert "fix: change span to div in popover" ([#750](https://github.com/gravity-ui/uikit/issues/750)) ([e0ff9f5](https://github.com/gravity-ui/uikit/commit/e0ff9f5af019aec0fca1b392556e0efaf9e192f6))
+
 ## [4.18.0](https://github.com/gravity-ui/uikit/compare/v4.17.0...v4.18.0) (2023-06-21)
 
 

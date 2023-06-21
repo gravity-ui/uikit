@@ -6,6 +6,10 @@ const config: StorybookConfig = {
         options: {fastRefresh: true},
     },
     stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
+    docs: {
+        autodocs: true,
+        defaultName: 'Docs',
+    },
     addons: [
         '@storybook/preset-scss',
         {name: '@storybook/addon-essentials', options: {backgrounds: false}},

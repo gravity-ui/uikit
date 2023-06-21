@@ -147,15 +147,6 @@ $iconWidth: 16px;
             --yc-button-background-color-hover: var(--yc-color-base-generic-hover);
 
             @include button-text-color(var(--yc-color-text-primary));
-
-            &#{$block}_selected {
-                --yc-button-background-color: var(--yc-color-base-selection);
-                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
-
-                @include button-text-color(
-                    var(--yc-my-color-brand-text, var(--yc-color-text-special))
-                );
-            }
         }
 
         &_action {
@@ -305,6 +296,42 @@ $iconWidth: 16px;
                 --yc-button-background-color-hover: var(--yc-color-base-light-disabled);
 
                 color: var(--yc-color-text-light-secondary);
+            }
+        }
+    }
+
+    &_view {
+        &_normal,
+        &_action,
+        &_outlined,
+        &_outlined-info,
+        &_raised,
+        &_flat,
+        &_flat-secondary,
+        &_flat-info {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--yc-color-base-selection);
+                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
+
+                @include button-text-color(var(--yc-my-color-brand-text));
+
+                &::before {
+                    border: none;
+                }
+            }
+        }
+
+        &_outlined-danger,
+        &_flat-danger {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--yc-color-base-danger);
+                --yc-button-background-color-hover: var(--yc-color-base-danger-hover);
+
+                @include button-text-color(var(--yc-color-text-danger));
+
+                &::before {
+                    border: none;
+                }
             }
         }
     }

@@ -12,7 +12,7 @@ $block: '.#{variables.$ns}popover';
     }
 
     &__handler {
-        display: inline;
+        display: inline-block;
     }
 
     $class: &;

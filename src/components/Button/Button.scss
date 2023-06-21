@@ -2,6 +2,7 @@
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}button';
+$iconWidth: 16px;
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,
@@ -18,9 +19,11 @@ $block: '.#{variables.$ns}button';
 }
 
 #{$block} {
-    --yc-button-height: 0;
     --yc-button-background-color: transparent;
     --yc-button-background-color-hover: transparent;
+    --yc-button-icon-space: calc(
+        var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset)
+    );
 
     @include mixins.button-reset();
     display: inline-block;
@@ -29,6 +32,8 @@ $block: '.#{variables.$ns}button';
     box-sizing: border-box;
     height: var(--yc-button-height);
     line-height: var(--yc-button-height);
+    min-width: var(--yc-button-min-width);
+    font-size: var(--yc-button-font-size);
     user-select: none;
     text-align: center;
     white-space: nowrap;
@@ -87,122 +92,52 @@ $block: '.#{variables.$ns}button';
     &_size {
         &_xs {
             --yc-button-height: 20px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 6px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 18px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 18px;
-                }
-            }
-
             --yc-button-border-radius: var(--yc-border-radius-xs);
+            --yc-button-min-width: 32px;
+            --yc-button-padding: 6px;
+            --yc-button-icon-size: 12px;
+            --yc-button-icon-offset: 4px;
+            --yc-button-font-size: 13px;
         }
 
         &_s {
             --yc-button-height: 24px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 10px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 22px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 22px;
-                }
-            }
-
             --yc-button-border-radius: var(--yc-border-radius-s);
+            --yc-button-min-width: 48px;
+            --yc-button-padding: 8px;
+            --yc-button-icon-size: 16px;
+            --yc-button-icon-offset: 4px;
+            --yc-button-font-size: 13px;
         }
 
         &_m {
             --yc-button-height: 28px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 13px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 25px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 25px;
-                }
-            }
-
             --yc-button-border-radius: var(--yc-border-radius-m);
+            --yc-button-min-width: 56px;
+            --yc-button-padding: 12px;
+            --yc-button-icon-size: 16px;
+            --yc-button-icon-offset: 8px;
+            --yc-button-font-size: 13px;
         }
 
         &_l {
             --yc-button-height: 36px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 18px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 33px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 33px;
-                }
-            }
-
             --yc-button-border-radius: var(--yc-border-radius-l);
+            --yc-button-min-width: 64px;
+            --yc-button-padding: 16px;
+            --yc-button-icon-size: 16px;
+            --yc-button-icon-offset: 8px;
+            --yc-button-font-size: 13px;
         }
 
         &_xl {
             --yc-button-height: 44px;
-
-            font-size: 15px;
-
-            #{$block}__text {
-                margin: 0 25px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 40px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 40px;
-                }
-            }
-
             --yc-button-border-radius: var(--yc-border-radius-xl);
+            --yc-button-min-width: 80px;
+            --yc-button-padding: 24px;
+            --yc-button-icon-size: 20px;
+            --yc-button-icon-offset: 12px;
+            --yc-button-font-size: 15px;
         }
     }
 
@@ -377,12 +312,14 @@ $block: '.#{variables.$ns}button';
     &__text {
         display: inline-block;
         white-space: nowrap;
+        padding: 0 var(--yc-button-padding);
     }
 
     &__icon {
         display: inline-block;
         position: relative;
-        height: 100%;
+        width: var(--yc-button-icon-size);
+        height: var(--yc-button-height);
         pointer-events: none;
 
         &::after {
@@ -408,12 +345,26 @@ $block: '.#{variables.$ns}button';
         }
 
         &_side_left {
-            left: 0;
+            left: var(--yc-button-padding);
+
+            & ~ #{$block}__text {
+                padding-left: var(--yc-button-icon-space);
+            }
         }
 
         &_side_right {
-            right: 0;
+            right: var(--yc-button-padding);
+
+            & ~ #{$block}__text {
+                padding-right: var(--yc-button-icon-space);
+            }
         }
+    }
+
+    &:has(#{$block}__icon:only-child) {
+        --yc-button-padding: 0;
+        --yc-button-min-width: 0;
+        width: var(--yc-button-height);
     }
 
     &_disabled {

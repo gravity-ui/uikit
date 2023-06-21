@@ -128,25 +128,25 @@ $block: '.#{variables.$ns-new}select-control';
         #{$block}_has-clear:not(#{$block}_has-value) &::after {
             content: '';
             display: inline-block;
-            vertical-align: bottom;
+            vertical-align: middle;
         }
 
-        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_s &::after {
+        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_s &::after {
             width: #{SelectClear.$sHeight};
             height: #{SelectClear.$sHeight};
         }
 
-        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_m &::after {
+        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_m &::after {
             width: #{SelectClear.$mHeight};
             height: #{SelectClear.$mHeight};
         }
 
-        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_l &::after {
+        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_l &::after {
             width: #{SelectClear.$lHeight};
             height: #{SelectClear.$lHeight};
         }
 
-        #{$block}_has-clear:not(#{$block}_has-value)#{$buttonBlock}_size_xl &::after {
+        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_xl &::after {
             width: #{SelectClear.$xlHeight};
             height: #{SelectClear.$xlHeight};
         }

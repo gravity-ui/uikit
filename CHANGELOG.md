@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.18.0](https://github.com/gravity-ui/uikit/compare/v4.17.0...v4.18.0) (2023-06-21)
+
+
+### Features
+
+* **Alert:** added new component Alert ([#724](https://github.com/gravity-ui/uikit/issues/724)) ([17caf7e](https://github.com/gravity-ui/uikit/commit/17caf7ed990344309ddaf143acf26c55a088bb85))
+
+
+### Bug Fixes
+
+* **Button:** use `--yc-color-text-special` var for all themes ([#732](https://github.com/gravity-ui/uikit/issues/732)) ([712e91b](https://github.com/gravity-ui/uikit/commit/712e91b63202ef994f28e4ad5f22ab971bd57bf3))
+* change span to div in popover ([#748](https://github.com/gravity-ui/uikit/issues/748)) ([01d9d5b](https://github.com/gravity-ui/uikit/commit/01d9d5bd548333325bc312b1ea6f7d0d8d317bd8))
+* **Label:** fix rounded style ([#728](https://github.com/gravity-ui/uikit/issues/728)) ([8a57148](https://github.com/gravity-ui/uikit/commit/8a571487e97137029fd21cea074b14372e43660e))
+* **Persona:** avatar background ([#741](https://github.com/gravity-ui/uikit/issues/741)) ([785c412](https://github.com/gravity-ui/uikit/commit/785c412b47a4f6284a5a122ad533f6db6d612f70))
+
 ## [4.17.0](https://github.com/gravity-ui/uikit/compare/v4.16.0...v4.17.0) (2023-06-15)
 
 

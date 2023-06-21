@@ -11,6 +11,10 @@ $block: '.#{variables.$ns}popover';
         cursor: pointer;
     }
 
+    &__handler {
+        display: inline;
+    }
+
     $class: &;
 
     &__tooltip {

@@ -6,9 +6,13 @@ export type TriggerProps = {
      */
     open: boolean;
     /**
+     * Css class for the control
+     */
+    className?: string;
+    /**
      * click handler
      */
-    onClick?: (event: React.MouseEvent<HTMLSpanElement>) => boolean | Promise<boolean>;
+    onClick?: (event: React.MouseEvent<HTMLDivElement>) => boolean | Promise<boolean>;
     /**
      * Disables open state changes
      */
@@ -34,13 +38,14 @@ export type TriggerProps = {
 export const Trigger = ({
     open,
     disabled,
+    className,
     openTooltip,
     closeTooltip,
     closedManually,
     onClick,
     children,
 }: TriggerProps) => {
-    const handleClick = async (event: React.MouseEvent<HTMLSpanElement>) => {
+    const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
         if (disabled) {
             return;
         }
@@ -66,6 +71,10 @@ export const Trigger = ({
         toggleTooltip();
     };
 
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-    return <span onClick={handleClick}>{children}</span>;
+    return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        <div className={className} onClick={handleClick}>
+            {children}
+        </div>
+    );
 };

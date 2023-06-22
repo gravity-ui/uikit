@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import {Icon} from '../../../Icon';
 import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
-import {selectControlBlock} from '../../constants';
+import {selectControlBlock, selectControlButtonBlock} from '../../constants';
 import type {
     SelectProps,
     SelectRenderClearArgs,
@@ -138,7 +138,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 tabIndex={-1}
             >
                 <button
-                    className={selectControlBlock('button', buttonMods, className)}
+                    className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"
                     aria-expanded={open}
                     data-qa={qa}

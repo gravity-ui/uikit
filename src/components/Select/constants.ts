@@ -6,6 +6,8 @@ export const selectBlock = block('select');
 
 export const selectControlBlock = block('select-control');
 
+export const selectControlButtonBlock = block('select-control__button');
+
 export const selectListBlock = block('select-list');
 
 export const selectClearBlock = block('select-clear');

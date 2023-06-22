@@ -13,7 +13,7 @@ import {
     GROUPED_OPTIONS,
     GROUPED_QUICK_SEARCH_OPTIONS,
     QUICK_SEARCH_OPTIONS,
-    SELECT_CONTROL_OPEN_CLASS,
+    SELECT_CONTROL_BUTTON_OPEN_CLASS,
     SELECT_LIST_VIRTUALIZED_CLASS,
     TEST_QA,
     generateOptions,
@@ -60,7 +60,7 @@ describe('Select base actions', () => {
                 setup();
             });
             const selectControl = screen.getByTestId(TEST_QA);
-            expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
             expect(screen.queryByTestId(SelectQa.POPUP)).toBeNull();
         });
         test('should have [type="button"] attribute in root button', async () => {
@@ -78,7 +78,7 @@ describe('Select base actions', () => {
                 setup({defaultOpen: true});
             });
             const selectControl = screen.getByTestId(TEST_QA);
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
             screen.getByTestId(SelectQa.POPUP);
         });
 
@@ -88,29 +88,29 @@ describe('Select base actions', () => {
             });
 
             const selectControl = screen.getByTestId(TEST_QA);
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
 
         test('shoult open/close by open prop', async () => {
             const {rerender, getByTestId} = render(<ControlledSelect open={true} />);
 
             const selectControl = getByTestId(TEST_QA);
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
 
             rerender(<ControlledSelect open={false} />);
 
             const rerenderedSelectControl = getByTestId(TEST_QA);
-            expect(rerenderedSelectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(rerenderedSelectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
         test('should not close when open=true prop passed', async () => {
             setup({open: true});
             const selectControl = screen.getByTestId(TEST_QA);
 
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
 
             await toggleSelectPopup();
 
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
 
         test('should call onOpenChange while closing', async () => {

@@ -6,7 +6,7 @@ import {range} from 'lodash';
 import {Select} from '..';
 import type {SelectOption, SelectOptionGroup, SelectProps} from '..';
 import {MobileProvider} from '../../mobile';
-import {selectControlBlock, selectListBlock} from '../constants';
+import {selectControlBlock, selectControlButtonBlock, selectListBlock} from '../constants';
 
 export const OptionsListType = {
     FLAT: 'flat',
@@ -14,6 +14,7 @@ export const OptionsListType = {
 } as const;
 export const TEST_QA = 'select-test-qa';
 export const SELECT_CONTROL_OPEN_CLASS = selectControlBlock({open: true});
+export const SELECT_CONTROL_BUTTON_OPEN_CLASS = selectControlButtonBlock({open: true});
 export const SELECT_LIST_VIRTUALIZED_CLASS = selectListBlock({virtualized: true});
 export const DEFAULT_OPTIONS = generateOptions([
     ['js', 'JavaScript'],

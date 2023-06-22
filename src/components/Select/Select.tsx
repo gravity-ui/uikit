@@ -9,7 +9,7 @@ import {useOnFocusOutside} from '../utils/useOnFocusOutside';
 import {useSelect} from '../utils/useSelect';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock, selectClearBlock} from './constants';
+import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
@@ -145,16 +145,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     const handleControlKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLElement>) => {
-            const isClearButton = (e.target as HTMLElement).classList.contains(selectClearBlock());
-            if (isClearButton) {
-                // do not prevent default when press tab/shift+tab key on focused clear icon
-                if (![KeyCode.TAB, KeyCode.SHIFT].includes(e.key)) {
-                    e.preventDefault();
-                    clearValue(e);
-                }
-                return;
-            }
-
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
             if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
                 e.preventDefault();
@@ -166,7 +156,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             listRef?.current?.onKeyDown(e);
         },
-        [handleOptionClick, open, clearValue],
+        [handleOptionClick, open],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {

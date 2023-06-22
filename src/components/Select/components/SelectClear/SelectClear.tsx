@@ -17,16 +17,16 @@ export const SelectClear = (props: SelectClearProps) => {
     return (
         // there is key event handler on parent button node with check for current clear node target
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-        <div
+        <button
             className={selectClearBlock({size})}
-            role="button"
+            aria-label="Clear"
             tabIndex={0}
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
             {icon}
-        </div>
+        </button>
     );
 };
 

@@ -4,100 +4,182 @@
 @use '../SelectClear/SelectClear';
 
 $block: '.#{variables.$ns-new}select-control';
+$blockButton: '.#{variables.$ns-new}select-control__button';
 
-@mixin block_style($size: m) {
+@mixin block_control($size: m) {
+    @if $size == 's' {
+        --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-s);
+        height: #{variables.$s-height};
+        padding: 4px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+    }
+    @if $size == 'm' {
+        --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-m);
+        height: #{variables.$m-height};
+        padding: 6px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+    }
+    @if $size == 'l' {
+        --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-l);
+        height: #{variables.$l-height};
+        padding: 10px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+    }
+    @if $size == 'xl' {
+        --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-xl);
+        height: #{variables.$xl-height};
+        padding: 12px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+    }
+}
+
+@mixin block_button_style($size: m) {
     @if $size == 's' {
         @include mixins.text-body-short;
-
-        height: #{variables.$s-height};
-        padding: 4px #{select-css-variables.$s-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-s);
-        --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
     }
     @if $size == 'm' {
         @include mixins.text-body-short;
-
-        height: #{variables.$m-height};
-        padding: 6px #{select-css-variables.$m-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-m);
-        --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
     }
     @if $size == 'l' {
         @include mixins.text-body-short;
-
-        height: #{variables.$l-height};
-        padding: 10px #{select-css-variables.$l-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-l);
-        --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
     }
     @if $size == 'xl' {
         @include mixins.text-body-2;
+    }
+}
 
-        height: #{variables.$xl-height};
-        padding: 12px #{select-css-variables.$xl-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-xl);
-        --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
+@mixin block_clear_reserved_width() {
+    // reserving place for clear icon to fix width changing on displaying clear
+    #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_s & {
+        padding-right: calc(#{SelectClear.$sHeight} + var(--_--select-options-text-right-padding));
+    }
+    #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_m & {
+        padding-right: calc(#{SelectClear.$mHeight} + var(--_--select-options-text-right-padding));
+    }
+    #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_l & {
+        padding-right: calc(#{SelectClear.$lHeight} + var(--_--select-options-text-right-padding));
+    }
+    #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_xl & {
+        padding-right: calc(#{SelectClear.$xlHeight} + var(--_--select-options-text-right-padding));
+    }
+}
+
+@mixin block_clear_reserved_disabled_width() {
+    // reserving place for clear icon to fix width changing on displaying clear for disabled select
+    #{$block}_has-clear#{$block}_size_s #{$blockButton}_disabled & {
+        padding-right: calc(#{SelectClear.$sHeight} + var(--_--select-options-text-right-padding));
+    }
+    #{$block}_has-clear#{$block}_size_m #{$blockButton}_disabled & {
+        padding-right: calc(#{SelectClear.$mHeight} + var(--_--select-options-text-right-padding));
+    }
+    #{$block}_has-clear#{$block}_size_l #{$blockButton}_disabled & {
+        padding-right: calc(#{SelectClear.$lHeight} + var(--_--select-options-text-right-padding));
+    }
+    #{$block}_has-clear#{$block}_size_xl #{$blockButton}_disabled & {
+        padding-right: calc(#{SelectClear.$xlHeight} + var(--_--select-options-text-right-padding));
     }
 }
 
 #{$block} {
     @include mixins.button-reset();
-    @include mixins.pin($block, $block, var(--_--select-border-radius));
 
-    width: 100%;
-    box-sizing: border-box;
+    position: relative;
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--yc-color-line-generic);
-    overflow: hidden;
+    box-sizing: border-box;
     transition: transform 0.1s ease-out, color 0.15s linear, background-color 0.15s linear;
 
-    &_view_clear {
-        border-color: transparent;
-    }
-
     &_size_s {
-        @include block_style(s);
+        @include block_control(s);
     }
 
     &_size_m {
-        @include block_style(m);
+        @include block_control(m);
     }
 
     &_size_l {
-        @include block_style(l);
+        @include block_control(l);
     }
 
     &_size_xl {
-        @include block_style(xl);
+        @include block_control(xl);
     }
 
-    &_error {
-        border-color: var(--yc-color-line-danger);
-    }
+    &__button {
+        @include mixins.button-reset();
 
-    &_disabled {
-        background-color: var(--yc-color-base-generic-accent-disabled);
-        color: var(--yc-color-text-hint);
-        border-color: transparent;
-        pointer-events: none;
-    }
+        overflow: hidden;
 
-    &:active {
-        transform: scale(0.96);
-    }
+        &::before {
+            @include mixins.pin($block, $block, var(--_--select-border-radius));
 
-    &:hover {
-        background-color: var(--yc-color-base-simple-hover);
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--yc-color-line-generic);
+            border-radius: var(--_--select-border-radius);
+        }
 
-        &:not(#{$block}_view_clear):not(#{$block}_error) {
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: var(--_--select-border-radius);
+        }
+
+        &_view_clear {
+            border-color: transparent;
+        }
+
+        &_size_s {
+            @include block_button_style(s);
+        }
+
+        &_size_m {
+            @include block_button_style(m);
+        }
+
+        &_size_l {
+            @include block_button_style(l);
+        }
+
+        &_size_xl {
+            @include block_button_style(xl);
+        }
+
+        &_error::before {
+            border-color: var(--yc-color-line-danger);
+        }
+
+        &:hover::after {
+            background-color: var(--yc-color-base-simple-hover);
+        }
+
+        &_disabled {
+            color: var(--yc-color-text-hint);
+            pointer-events: none;
+
+            &::after {
+                background-color: var(--yc-color-base-generic-accent-disabled);
+            }
+
+            &::before {
+                border-color: transparent;
+            }
+        }
+
+        &:not(&_error):not(&_disabled)::before {
             border-color: var(--yc-color-line-generic-hover);
+        }
+
+        &:not(&_error):focus-visible::before {
+            box-shadow: 0 0 0 2px var(--yc-color-line-misc);
         }
     }
 
-    &:focus-visible:not(#{$block}_error),
-    &_open:not(#{$block}_error) {
-        border-color: var(--yc-color-line-generic-active);
+    &:not(&_disabled):not(&_no-active):active {
+        transform: scale(0.96);
     }
 
     &__label {
@@ -113,42 +195,16 @@ $block: '.#{variables.$ns-new}select-control';
     &__placeholder,
     &__option-text {
         @include mixins.overflow-ellipsis();
+        @include block_clear_reserved_disabled_width();
 
         padding-right: var(--_--select-options-text-right-padding);
-
-        #{$block}_has-clear & {
-            align-self: center;
-        }
     }
 
     &__placeholder {
         color: var(--yc-color-text-hint);
 
-        // reserving place for clear icon to fix width changing on displaying clear
-        #{$block}_has-clear:not(#{$block}_has-value) &::after {
-            content: '';
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_s &::after {
-            width: #{SelectClear.$sHeight};
-            height: #{SelectClear.$sHeight};
-        }
-
-        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_m &::after {
-            width: #{SelectClear.$mHeight};
-            height: #{SelectClear.$mHeight};
-        }
-
-        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_l &::after {
-            width: #{SelectClear.$lHeight};
-            height: #{SelectClear.$lHeight};
-        }
-
-        #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_xl &::after {
-            width: #{SelectClear.$xlHeight};
-            height: #{SelectClear.$xlHeight};
+        #{$blockButton}:not(#{$blockButton}_disabled) & {
+            @include block_clear_reserved_width();
         }
     }
 
@@ -167,10 +223,5 @@ $block: '.#{variables.$ns-new}select-control';
 
         color: var(--yc-color-text-danger);
         margin-top: 2px;
-    }
-
-    &#{$block}_no-active:active {
-        transition: none;
-        transform: none;
     }
 }

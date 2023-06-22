@@ -65,7 +65,25 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
-    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error), 'has-clear': hasClear, 'no-active': isDisabledButtonAnimation, 'has-value': hasValue};
+    const controlMods: CnMods = {
+        open,
+        size,
+        pin,
+        disabled,
+        error: Boolean(error),
+        'has-clear': hasClear,
+        'no-active': isDisabledButtonAnimation,
+        'has-value': hasValue,
+    };
+
+    const buttonMods: CnMods = {
+        open,
+        size,
+        view,
+        pin,
+        disabled,
+        error: Boolean(error),
+    };
 
     const disableButtonAnimation = React.useCallback(() => {
         setIsDisabledButtonAnimation(true);
@@ -113,33 +131,41 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     return (
         <React.Fragment>
-            <button
-                ref={handleControlRef as React.Ref<HTMLButtonElement>}
-                className={selectControlBlock(mods, className)}
-                aria-haspopup="listbox"
-                aria-expanded={open}
-                data-qa={qa}
-                name={name}
-                disabled={disabled}
-                onClick={toggleOpen}
-                onKeyDown={onKeyDown}
-                type="button"
+            <div
+                className={selectControlBlock(controlMods)}
+                ref={handleControlRef}
+                role="group"
+                tabIndex={-1}
             >
-                {label && <span className={selectControlBlock('label')}>{label}</span>}
-                {showPlaceholder && (
-                    <span className={selectControlBlock('placeholder')}>{placeholder}</span>
-                )}
-                {showOptionsText && (
-                    <span className={selectControlBlock('option-text')}>
-                        {selectedOptionsContent}
-                    </span>
-                )}
+                <button
+                    className={selectControlBlock('button', buttonMods, className)}
+                    aria-haspopup="listbox"
+                    aria-expanded={open}
+                    data-qa={qa}
+                    name={name}
+                    disabled={disabled}
+                    onClick={toggleOpen}
+                    onKeyDown={onKeyDown}
+                    tabIndex={0}
+                    type="button"
+                >
+                    {label && <span className={selectControlBlock('label')}>{label}</span>}
+                    {showPlaceholder && (
+                        <span className={selectControlBlock('placeholder')}>{placeholder}</span>
+                    )}
+                    {showOptionsText && (
+                        <span className={selectControlBlock('option-text')}>
+                            {selectedOptionsContent}
+                        </span>
+                    )}
+                </button>
                 {renderClearIcon({})}
                 <Icon
                     className={selectControlBlock('chevron-icon', {disabled})}
                     data={ChevronDown}
+                    aria-hidden="true"
                 />
-            </button>
+            </div>
             {typeof error === 'string' && (
                 <div className={selectControlBlock('error')}>{error}</div>
             )}

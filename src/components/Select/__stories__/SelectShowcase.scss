@@ -37,9 +37,8 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
     &__user-control {
         display: inline-flex;
 
-        #{$block}_has-clear #{$blockSelectClear} {
-            display: inline-block;
-            vertical-align: text-top;
+        #{$block}_has-clear #{$block}__text {
+            vertical-align: top;
         }
     }
 

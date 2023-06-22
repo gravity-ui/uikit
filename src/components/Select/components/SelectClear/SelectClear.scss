@@ -13,6 +13,7 @@ $xlHeight: 44px;
     justify-content: center;
     align-items: center;
     margin-left: auto;
+    z-index: 1;
 
     &:active:focus-visible,
     &:focus-visible {

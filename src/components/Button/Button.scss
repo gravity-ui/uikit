@@ -147,13 +147,22 @@ $iconWidth: 16px;
             --yc-button-background-color-hover: var(--yc-color-base-generic-hover);
 
             @include button-text-color(var(--yc-color-text-primary));
+
+            &#{$block}_selected {
+                --yc-button-background-color: var(--yc-color-base-selection);
+                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
+
+                @include button-text-color(
+                    var(--yc-color-brand-text, var(--yc-color-text-special))
+                );
+            }
         }
 
         &_action {
             --yc-button-background-color: var(--yc-color-base-special);
             --yc-button-background-color-hover: var(--yc-color-base-special-hover);
 
-            @include button-text-color(var(--yc-my-color-brand-text-contrast));
+            @include button-text-color(var(--yc-color-brand-text-contrast));
         }
 
         &_outlined,
@@ -313,7 +322,7 @@ $iconWidth: 16px;
                 --yc-button-background-color: var(--yc-color-base-selection);
                 --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
 
-                @include button-text-color(var(--yc-my-color-brand-text));
+                @include button-text-color(var(--yc-color-brand-text));
 
                 &::before {
                     border: none;

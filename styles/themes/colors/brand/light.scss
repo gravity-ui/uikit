@@ -1,13 +1,13 @@
 @mixin yc-colors-brand-light {
-    --yc-my-color-brand-normal: var(--yc-color-private-blue-550);
-    --yc-my-color-brand-normal-hover: var(--yc-color-private-blue-600);
-    --yc-my-color-brand-light: var(--yc-color-private-blue-300);
-    --yc-my-color-brand-selection: var(--yc-color-private-blue-50);
-    --yc-my-color-brand-selection-hover: var(--yc-color-private-blue-100);
-    --yc-my-color-brand-link: var(--yc-my-color-brand-normal);
-    --yc-my-color-brand-link-hover: var(--yc-color-private-blue-800);
-    --yc-my-color-brand-text: var(--yc-my-color-brand-normal);
-    --yc-my-color-brand-text-contrast: var(--yc-color-text-light-primary);
-    --yc-my-color-brand-link-visited: var(--yc-color-private-purple-550);
-    --yc-my-color-brand-link-visited-hover: var(--yc-color-private-purple-800);
+    --yc-color-brand-normal: var(--yc-color-private-blue-550);
+    --yc-color-brand-normal-hover: var(--yc-color-private-blue-600);
+    --yc-color-brand-light: var(--yc-color-private-blue-300);
+    --yc-color-brand-selection: var(--yc-color-private-blue-50);
+    --yc-color-brand-selection-hover: var(--yc-color-private-blue-100);
+    --yc-color-brand-link: var(--yc-color-brand-normal);
+    --yc-color-brand-link-hover: var(--yc-color-private-blue-800);
+    --yc-color-brand-text: var(--yc-color-brand-normal);
+    --yc-color-brand-text-contrast: var(--yc-color-text-light-primary);
+    --yc-color-brand-link-visited: var(--yc-color-private-purple-550);
+    --yc-color-brand-link-visited-hover: var(--yc-color-private-purple-800);
 }

@@ -88,6 +88,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     align-items: center;
     box-sizing: border-box;
     transition: transform 0.1s ease-out, color 0.15s linear, background-color 0.15s linear;
+    width: 100%;
 
     &_size_s {
         @include block_control(s);
@@ -216,6 +217,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         &_disabled {
             color: var(--yc-color-text-hint);
         }
+    }
+
+    #{SelectClear.$block} + &__chevron-icon {
+        margin-left: 0;
     }
 
     &__error {

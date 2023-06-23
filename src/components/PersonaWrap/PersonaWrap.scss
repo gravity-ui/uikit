@@ -75,7 +75,7 @@ $block: '.#{variables.$ns}persona';
         border-radius: 50%;
         overflow: hidden;
         justify-content: center;
-        background-color: var(--yc-color-base-simple-hover-solid);
+        background-color: var(--yc-color-base-generic-accent);
 
         transition-property: background-color;
         transition-duration: $transitionDuration;

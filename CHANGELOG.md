@@ -1,5 +1,49 @@
 # Changelog
 
+## [4.19.0](https://github.com/gravity-ui/uikit/compare/v4.18.0...v4.19.0) (2023-06-21)
+
+
+### Features
+
+* **ClipboardButton:** added tooltip to clipboard button ([#667](https://github.com/gravity-ui/uikit/issues/667)) ([0508268](https://github.com/gravity-ui/uikit/commit/0508268f7b00b76ed037b17d21d3dd50d1266bda))
+
+
+### Bug Fixes
+
+* revert "fix: change span to div in popover" ([#750](https://github.com/gravity-ui/uikit/issues/750)) ([e0ff9f5](https://github.com/gravity-ui/uikit/commit/e0ff9f5af019aec0fca1b392556e0efaf9e192f6))
+
+## [4.18.0](https://github.com/gravity-ui/uikit/compare/v4.17.0...v4.18.0) (2023-06-21)
+
+
+### Features
+
+* **Alert:** added new component Alert ([#724](https://github.com/gravity-ui/uikit/issues/724)) ([17caf7e](https://github.com/gravity-ui/uikit/commit/17caf7ed990344309ddaf143acf26c55a088bb85))
+
+
+### Bug Fixes
+
+* **Button:** use `--yc-color-text-special` var for all themes ([#732](https://github.com/gravity-ui/uikit/issues/732)) ([712e91b](https://github.com/gravity-ui/uikit/commit/712e91b63202ef994f28e4ad5f22ab971bd57bf3))
+* change span to div in popover ([#748](https://github.com/gravity-ui/uikit/issues/748)) ([01d9d5b](https://github.com/gravity-ui/uikit/commit/01d9d5bd548333325bc312b1ea6f7d0d8d317bd8))
+* **Label:** fix rounded style ([#728](https://github.com/gravity-ui/uikit/issues/728)) ([8a57148](https://github.com/gravity-ui/uikit/commit/8a571487e97137029fd21cea074b14372e43660e))
+* **Persona:** avatar background ([#741](https://github.com/gravity-ui/uikit/issues/741)) ([785c412](https://github.com/gravity-ui/uikit/commit/785c412b47a4f6284a5a122ad533f6db6d612f70))
+
+## [4.17.0](https://github.com/gravity-ui/uikit/compare/v4.16.0...v4.17.0) (2023-06-15)
+
+
+### Features
+
+* **Select:** design improvements (control & options) ([#727](https://github.com/gravity-ui/uikit/issues/727)) ([6526c86](https://github.com/gravity-ui/uikit/commit/6526c869dda259e943132b4e19369326ea76b20d))
+
+## [4.16.0](https://github.com/gravity-ui/uikit/compare/v4.15.1...v4.16.0) (2023-06-09)
+
+
+### Features
+
+* add new component Pagination ([#655](https://github.com/gravity-ui/uikit/issues/655)) ([5b1ed4e](https://github.com/gravity-ui/uikit/commit/5b1ed4efe10aab39013b50f2feddbea871eb7aec))
+* **Label:** added value prop for "key:value" labels ([#665](https://github.com/gravity-ui/uikit/issues/665)) ([5c979aa](https://github.com/gravity-ui/uikit/commit/5c979aaa29d884693187e55b52bb3ee7fae31ed2))
+* **Persona:** deprecate `theme` in favour of `hasBorder` ([#720](https://github.com/gravity-ui/uikit/issues/720)) ([14eef03](https://github.com/gravity-ui/uikit/commit/14eef03a54386f1e2070f58490a7ff02b5129c6f))
+* **UserAvatar:** forward `ref` ([#723](https://github.com/gravity-ui/uikit/issues/723)) ([e84f7c0](https://github.com/gravity-ui/uikit/commit/e84f7c044a6d0a2b8eddc008af22fefba8cddadb))
+
 ## [4.15.1](https://github.com/gravity-ui/uikit/compare/v4.15.0...v4.15.1) (2023-06-05)
 
 

@@ -1,39 +1,119 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
+@use '../../variables.scss' as select-css-variables;
 
 $block: '.#{variables.$ns-new}select-control';
-$buttonBlock: '.#{variables.$ns}button';
+
+@mixin block_style($size: m) {
+    @if $size == 's' {
+        @include mixins.text-body-short;
+
+        height: #{variables.$s-height};
+        padding: 4px #{select-css-variables.$s-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-s);
+        --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
+    }
+    @if $size == 'm' {
+        @include mixins.text-body-short;
+
+        height: #{variables.$m-height};
+        padding: 6px #{select-css-variables.$m-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-m);
+        --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
+    }
+    @if $size == 'l' {
+        @include mixins.text-body-short;
+
+        height: #{variables.$l-height};
+        padding: 10px #{select-css-variables.$l-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-l);
+        --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
+    }
+    @if $size == 'xl' {
+        @include mixins.text-body-2;
+
+        height: #{variables.$xl-height};
+        padding: 12px #{select-css-variables.$xl-hor-padding};
+        --_--select-border-radius: var(--yc-border-radius-xl);
+        --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
+    }
+}
 
 #{$block} {
+    @include mixins.button-reset();
+    @include mixins.pin($block, $block, var(--_--select-border-radius));
+
     width: 100%;
-    text-align: right;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--yc-color-line-generic);
+    overflow: hidden;
+    transition: transform 0.1s ease-out, color 0.15s linear, background-color 0.15s linear;
 
-    &_open:focus::before {
-        box-shadow: none;
+    &_view_clear {
+        border-color: transparent;
     }
 
-    &_open::before {
-        border: 1px solid var(--yc-color-line-generic-active);
+    &_size_s {
+        @include block_style(s);
     }
 
-    &_error::before {
-        border: 1px solid var(--yc-color-line-danger);
+    &_size_m {
+        @include block_style(m);
     }
 
-    & #{$buttonBlock}__text {
-        display: flex;
-        align-items: baseline;
+    &_size_l {
+        @include block_style(l);
+    }
+
+    &_size_xl {
+        @include block_style(xl);
+    }
+
+    &_error {
+        border-color: var(--yc-color-line-danger);
+    }
+
+    &_disabled {
+        background-color: var(--yc-color-base-generic-accent-disabled);
+        color: var(--yc-color-text-hint);
+        border-color: transparent;
+        pointer-events: none;
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
+
+    &:hover {
+        background-color: var(--yc-color-base-simple-hover);
+
+        &:not(#{$block}_view_clear):not(#{$block}_error) {
+            border-color: var(--yc-color-line-generic-hover);
+        }
+    }
+
+    &:focus-visible:not(#{$block}_error),
+    &_open:not(#{$block}_error) {
+        border-color: var(--yc-color-line-generic-active);
     }
 
     &__label {
         @include mixins.text-accent;
-        margin-right: 2px;
+        @include mixins.overflow-ellipsis();
+
+        flex-shrink: 0;
+        max-width: 50%;
+        margin-right: 4px;
         white-space: nowrap;
     }
 
     &__placeholder,
     &__option-text {
         @include mixins.overflow-ellipsis();
+
+        padding-right: var(--_--select-options-text-right-padding);
     }
 
     &__placeholder {
@@ -42,6 +122,7 @@ $buttonBlock: '.#{variables.$ns}button';
 
     &__chevron-icon {
         flex: 0 0 16px;
+        margin-left: auto;
         color: var(--yc-color-text-secondary);
 
         &_disabled {
@@ -51,6 +132,7 @@ $buttonBlock: '.#{variables.$ns}button';
 
     &__error {
         @include mixins.text-body-1();
+
         color: var(--yc-color-text-danger);
         margin-top: 2px;
     }

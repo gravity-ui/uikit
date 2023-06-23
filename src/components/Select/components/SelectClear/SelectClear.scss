@@ -2,10 +2,6 @@
 @use '../../../variables';
 
 $block: '.#{variables.$ns-new}select-clear';
-$sHeight: 24px;
-$mHeight: 28px;
-$lHeight: 36px;
-$xlHeight: 44px;
 
 #{$block} {
     @include mixins.button-reset();
@@ -27,26 +23,26 @@ $xlHeight: 44px;
     }
 
     &_size_s {
-        height: $sHeight;
-        width: $sHeight;
+        height: #{variables.$s-height};
+        width: #{variables.$s-height};
         border-radius: var(--yc-border-radius-s);
     }
 
     &_size_m {
-        height: $mHeight;
-        width: $mHeight;
+        height: #{variables.$m-height};
+        width: #{variables.$m-height};
         border-radius: var(--yc-border-radius-m);
     }
 
     &_size_l {
-        height: $lHeight;
-        width: $lHeight;
+        height: #{variables.$l-height};
+        width: #{variables.$l-height};
         border-radius: var(--yc-border-radius-l);
     }
 
     &_size_xl {
-        height: $xlHeight;
-        width: $xlHeight;
+        height: #{variables.$xl-height};
+        width: #{variables.$xl-height};
         border-radius: var(--yc-border-radius-xl);
     }
 

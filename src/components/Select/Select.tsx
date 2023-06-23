@@ -135,13 +135,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleSelection, multiple],
     );
 
-    const clearValue = React.useCallback(
-        (e?: React.MouseEvent | React.KeyboardEvent<HTMLElement>) => {
-            e?.stopPropagation();
-            handleClearValue();
-        },
-        [handleClearValue],
-    );
+    const clearValue = React.useCallback(() => handleClearValue(), [handleClearValue]);
 
     const handleControlKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLElement>) => {

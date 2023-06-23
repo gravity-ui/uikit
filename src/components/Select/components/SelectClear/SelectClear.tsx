@@ -3,6 +3,7 @@ import React from 'react';
 import {Icon} from '../../../Icon';
 import {CrossIcon} from '../../../icons/CrossIcon';
 import {selectClearBlock} from '../../constants';
+import i18n from '../../i18n';
 import type {SelectClearProps} from '../../types';
 
 import './SelectClear.scss';
@@ -17,7 +18,7 @@ export const SelectClear = (props: SelectClearProps) => {
     return (
         <button
             className={selectClearBlock({size})}
-            aria-label="Clear"
+            aria-label={i18n('label_clear')}
             tabIndex={0}
             onClick={onClick}
             onMouseEnter={onMouseEnter}

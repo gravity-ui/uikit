@@ -32,7 +32,7 @@ type ControlProps = {
     error?: SelectProps['error'];
     disabled?: boolean;
     value: SelectProps['value'];
-    clearValue?: (e: React.MouseEvent) => void;
+    clearValue: () => void;
     hasClear?: boolean;
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
@@ -91,14 +91,11 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const enableButtonAnimation = React.useCallback(() => {
         setIsDisabledButtonAnimation(false);
     }, []);
-    const handleOnClearIconClick = React.useCallback(
-        (e: React.MouseEvent) => {
-            // return animation on clear click
-            setIsDisabledButtonAnimation(false);
-            clearValue?.(e);
-        },
-        [clearValue],
-    );
+    const handleOnClearIconClick = React.useCallback(() => {
+        // return animation on clear click
+        setIsDisabledButtonAnimation(false);
+        clearValue();
+    }, [clearValue]);
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
         const hideOnEmpty = !value?.[0];
@@ -131,12 +128,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     return (
         <React.Fragment>
-            <div
-                className={selectControlBlock(controlMods)}
-                ref={handleControlRef}
-                role="group"
-                tabIndex={-1}
-            >
+            <div className={selectControlBlock(controlMods)} ref={handleControlRef} role="group">
                 <button
                     className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"

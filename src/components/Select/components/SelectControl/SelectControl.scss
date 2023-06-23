@@ -51,32 +51,32 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 @mixin block_clear_reserved_width() {
     // reserving place for clear icon to fix width changing on displaying clear
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_s & {
-        padding-right: calc(#{SelectClear.$sHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$s-height} + var(--_--select-options-text-right-padding));
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_m & {
-        padding-right: calc(#{SelectClear.$mHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$m-height} + var(--_--select-options-text-right-padding));
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_l & {
-        padding-right: calc(#{SelectClear.$lHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$l-height} + var(--_--select-options-text-right-padding));
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_xl & {
-        padding-right: calc(#{SelectClear.$xlHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$xl-height} + var(--_--select-options-text-right-padding));
     }
 }
 
 @mixin block_clear_reserved_disabled_width() {
     // reserving place for clear icon to fix width changing on displaying clear for disabled select
     #{$block}_has-clear#{$block}_size_s #{$blockButton}_disabled & {
-        padding-right: calc(#{SelectClear.$sHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$s-height} + var(--_--select-options-text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_m #{$blockButton}_disabled & {
-        padding-right: calc(#{SelectClear.$mHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$m-height} + var(--_--select-options-text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_l #{$blockButton}_disabled & {
-        padding-right: calc(#{SelectClear.$lHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$l-height} + var(--_--select-options-text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_xl #{$blockButton}_disabled & {
-        padding-right: calc(#{SelectClear.$xlHeight} + var(--_--select-options-text-right-padding));
+        padding-right: calc(#{variables.$xl-height} + var(--_--select-options-text-right-padding));
     }
 }
 

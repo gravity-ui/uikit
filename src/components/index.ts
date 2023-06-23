@@ -4,6 +4,7 @@ export * from './theme';
 
 export * from './ActionTooltip';
 export * from './ArrowToggle';
+export * from './Alert';
 export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';
@@ -22,6 +23,7 @@ export * from './List';
 export * from './Loader';
 export * from './Menu';
 export * from './Modal';
+export * from './Pagination';
 export * from './Persona';
 export * from './Popover';
 export * from './Popup';

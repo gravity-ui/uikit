@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {Button} from '../../../Button';
+import {ChevronDown} from '@gravity-ui/icons';
+
 import {Icon} from '../../../Icon';
-import {Chevron} from '../../../icons/Chevron';
+import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock} from '../../constants';
 import type {SelectProps, SelectRenderControl, SelectRenderControlProps} from '../../types';
-import {mapToButtonView} from '../../utils';
 
 import './SelectControl.scss';
 
@@ -50,6 +50,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
+    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error)};
 
     if (renderControl) {
         return renderControl(
@@ -65,21 +66,16 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     return (
         <React.Fragment>
-            <Button
+            <button
                 ref={handleControlRef as React.Ref<HTMLButtonElement>}
-                className={selectControlBlock({open, error: Boolean(error)}, className)}
-                qa={qa}
-                view={mapToButtonView(view)}
-                size={size}
-                pin={pin}
-                extraProps={{
-                    name,
-                    'aria-haspopup': 'listbox',
-                    'aria-expanded': open ? 'true' : 'false',
-                    onKeyDown,
-                }}
+                className={selectControlBlock(mods, className)}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                data-qa={qa}
+                name={name}
                 disabled={disabled}
                 onClick={toggleOpen}
+                onKeyDown={onKeyDown}
             >
                 {label && <span className={selectControlBlock('label')}>{label}</span>}
                 {showPlaceholder && (
@@ -90,8 +86,11 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                         {selectedOptionsContent}
                     </span>
                 )}
-                <Icon className={selectControlBlock('chevron-icon', {disabled})} data={Chevron} />
-            </Button>
+                <Icon
+                    className={selectControlBlock('chevron-icon', {disabled})}
+                    data={ChevronDown}
+                />
+            </button>
             {typeof error === 'string' && (
                 <div className={selectControlBlock('error')}>{error}</div>
             )}

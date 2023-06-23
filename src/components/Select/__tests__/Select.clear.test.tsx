@@ -17,7 +17,7 @@ describe('Select clear', () => {
     test.each<[string, Partial<SelectProps>]>([
         ['single', {hasClear: true, multiple: false}],
         ['multiple', {hasClear: true, multiple: true}],
-    ])('initial', async () => {
+    ])('hide clear icon with hasClear and no selected value', async () => {
         const {queryByTestId} = setup({hasClear: true});
         expect(queryByTestId(SelectQa.CLEAR)).toBeNull();
     });

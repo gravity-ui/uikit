@@ -135,8 +135,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         [handleSelection, multiple],
     );
 
-    const clearValue = React.useCallback(() => handleClearValue(), [handleClearValue]);
-
     const handleControlKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLElement>) => {
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
@@ -216,7 +214,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <SelectControl
                 toggleOpen={toggleOpen}
                 hasClear={hasClear}
-                clearValue={clearValue}
+                clearValue={handleClearValue}
                 ref={handleControlRef}
                 className={controlClassName}
                 qa={qa}

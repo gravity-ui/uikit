@@ -174,8 +174,9 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             border-color: var(--yc-color-line-generic-hover);
         }
 
+        &_open:not(&_error)::before,
         &:not(&_error):focus-visible::before {
-            box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+            border-color: var(--yc-color-line-generic-active);
         }
     }
 

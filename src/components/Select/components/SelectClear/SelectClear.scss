@@ -11,15 +11,8 @@ $block: '.#{variables.$ns-new}select-clear';
     margin-left: auto;
     z-index: 1;
 
-    &:active:focus-visible,
     &:focus-visible {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
-    }
-
-    &:focus:not(:focus-visible),
-    &:active:focus:not(:focus-visible),
-    &:active {
-        box-shadow: none;
+        border: 1px solid var(--yc-color-line-generic-active);
     }
 
     &_size_s {

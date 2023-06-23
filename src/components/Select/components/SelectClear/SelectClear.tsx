@@ -19,7 +19,7 @@ export const SelectClear = (props: SelectClearProps) => {
         <button
             className={selectClearBlock({size})}
             aria-label={i18n('label_clear')}
-            tabIndex={0}
+            /*tabIndex={0}*/
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}

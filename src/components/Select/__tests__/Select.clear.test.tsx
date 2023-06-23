@@ -56,4 +56,21 @@ describe('Select clear', () => {
         await user.click(getByTestId(SelectQa.CLEAR));
         expect(onUpdate).toHaveBeenCalledWith([]);
     });
+
+    test.each<[string, Partial<SelectProps>]>([
+        ['single', {hasClear: true, multiple: false}],
+        ['multiple', {hasClear: true, multiple: true}],
+    ])('check for correct focus on tab with hasClear and with selected value', async () => {
+        setup({
+            hasClear: true,
+            value: [DEFAULT_OPTIONS[0].value],
+            onUpdate,
+        });
+        const user = userEvent.setup();
+        await user.keyboard('[Tab]');
+        await user.keyboard('[Tab]');
+        // check that after double tab clear icon is focused and press enter will clear the value
+        await user.keyboard('[Enter]');
+        expect(onUpdate).toHaveBeenCalledWith([]);
+    });
 });

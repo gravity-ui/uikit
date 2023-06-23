@@ -69,6 +69,7 @@ export type SelectProps<T = any, Pagination = any> = QAProps &
         multiple?: boolean;
         filterable?: boolean;
         disablePortal?: boolean;
+        loading?: boolean;
         children?:
             | React.ReactElement<SelectOption<T>, typeof Option>
             | React.ReactElement<SelectOption<T>, typeof Option>[]

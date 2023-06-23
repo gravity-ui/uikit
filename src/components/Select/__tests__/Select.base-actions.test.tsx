@@ -63,6 +63,13 @@ describe('Select base actions', () => {
             expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
             expect(screen.queryByTestId(SelectQa.POPUP)).toBeNull();
         });
+        test('should have [type="button"] attribute in root button', async () => {
+            await act(async () => {
+                setup();
+            });
+            const selectControl = screen.getByTestId(TEST_QA);
+            expect(selectControl).toHaveAttribute('type', 'button');
+        });
     });
 
     describe('open', () => {

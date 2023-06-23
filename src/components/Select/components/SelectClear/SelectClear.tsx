@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Icon} from '../../../Icon';
 import {CrossIcon} from '../../../icons/CrossIcon';
-import {selectClearBlock} from '../../constants';
+import {SelectQa, selectClearBlock} from '../../constants';
 import i18n from '../../i18n';
 import type {SelectClearProps} from '../../types';
 
@@ -23,6 +23,7 @@ export const SelectClear = (props: SelectClearProps) => {
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            data-qa={SelectQa.CLEAR}
         >
             {icon}
         </button>

@@ -35,4 +35,5 @@ export const SelectQa = {
     LIST: 'select-list',
     POPUP: 'select-popup',
     SHEET: 'select-sheet',
+    CLEAR: 'select-clear',
 };

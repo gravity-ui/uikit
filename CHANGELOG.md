@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.20.0](https://github.com/gravity-ui/uikit/compare/v4.19.0...v4.20.0) (2023-06-23)
+
+
+### Features
+
+* **Menu:** change extra pseudo classes in markup to padding's ([#703](https://github.com/gravity-ui/uikit/issues/703)) ([24cfc5b](https://github.com/gravity-ui/uikit/commit/24cfc5bf81a48a80afc35f77a831cde39d02d1b5))
+
+
+### Bug Fixes
+
+* **Popover:** no left-side overflow due to negative margins ([#736](https://github.com/gravity-ui/uikit/issues/736)) ([c113920](https://github.com/gravity-ui/uikit/commit/c113920660665dc2b5b813cd609b65bd73dd8b82))
+* **Select:** add [type="button"] to control node ([#762](https://github.com/gravity-ui/uikit/issues/762)) ([adc01f0](https://github.com/gravity-ui/uikit/commit/adc01f04a13b540dc8cb861171d4db3f7246b2ef))
+
 ## [4.19.0](https://github.com/gravity-ui/uikit/compare/v4.18.0...v4.19.0) (2023-06-21)
 
 

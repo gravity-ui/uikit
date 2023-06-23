@@ -143,10 +143,6 @@ FullFeatured.args = {
         text: 'Action',
         onClick: () => alert('Action button was clicked'),
     },
-    tooltipCancelButton: {
-        text: 'Cancel',
-        onClick: () => alert('Cancel button was clicked'),
-    },
     links: [
         {
             text: 'Link with a href',
@@ -175,6 +171,24 @@ WithLongActionItems.args = {
     },
     tooltipCancelButton: {
         text: 'Cancel with moderately long text',
+        onClick: () => alert('Cancel button was clicked'),
+    },
+    className: 'demo-icon-tooltip',
+    openOnHover: false,
+    behavior: PopoverBehavior.Delayed,
+    theme: 'info',
+};
+
+export const WithAlmostLongActionItems = FullFeaturedTemplate.bind({});
+WithAlmostLongActionItems.args = {
+    autoclosable: false,
+    content: 'There are two actions',
+    tooltipActionButton: {
+        text: 'Action with more',
+        onClick: () => alert('Action button was clicked'),
+    },
+    tooltipCancelButton: {
+        text: 'Action with',
         onClick: () => alert('Cancel button was clicked'),
     },
     className: 'demo-icon-tooltip',

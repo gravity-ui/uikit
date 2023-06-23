@@ -76,6 +76,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 disabled={disabled}
                 onClick={toggleOpen}
                 onKeyDown={onKeyDown}
+                type="button"
             >
                 {label && <span className={selectControlBlock('label')}>{label}</span>}
                 {showPlaceholder && (

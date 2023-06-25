@@ -8,8 +8,8 @@ import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {RadioButton} from '../../RadioButton';
 import type {RadioButtonOption} from '../../RadioButton';
-import {TextInput} from '../../TextInput';
 import {Tooltip} from '../../Tooltip';
+import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
 
 import {

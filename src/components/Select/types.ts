@@ -1,4 +1,4 @@
-import type {TextInputPin, TextInputSize, TextInputView} from '../TextInput';
+import type {TextInputPin, TextInputSize, TextInputView} from '../controls';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 import type {UseOpenProps} from '../utils/useSelect/types';
 

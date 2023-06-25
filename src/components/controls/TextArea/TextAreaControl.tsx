@@ -2,78 +2,69 @@ import React from 'react';
 
 import {block} from '../../utils/cn';
 import {useForkRef} from '../../utils/useForkRef';
-import type {TextInputProps} from '../types';
 
-export interface TextAreaControlProps
-    extends Omit<TextInputProps, 'multiline' | 'autoComplete'>,
-        Pick<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'autoComplete'> {}
+import type {TextAreaProps} from './types';
 
-const b = block('text-input');
+type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange'> & {
+    onChange: NonNullable<TextAreaProps['onChange']>;
+    autoComplete?: React.TextareaHTMLAttributes<HTMLTextAreaElement>['autoComplete'];
+};
 
-export function TextAreaControl(props: TextAreaControlProps) {
+const b = block('text-area');
+
+export function TextAreaControl(props: Props) {
     const {
         name,
         id,
         tabIndex,
-        autoFocus,
         autoComplete,
         placeholder,
         value,
         defaultValue,
+        controlRef,
+        controlProps,
+        size,
+        rows,
+        minRows = 1,
+        maxRows,
+        autoFocus,
+        disabled,
         onChange,
         onFocus,
         onBlur,
         onKeyDown,
         onKeyUp,
         onKeyPress,
-        controlRef,
-        controlProps,
-        disabled,
-        rows,
-        minRows = 1,
-        maxRows,
     } = props;
     const innerControlRef = React.useRef<HTMLTextAreaElement>(null);
     const handleRef = useForkRef(controlRef, innerControlRef);
     const textareaRows = rows || minRows;
+    const innerValue = value || innerControlRef?.current?.value;
 
     const resizeHeight = React.useCallback(() => {
         const control = innerControlRef?.current;
 
         if (control && !rows) {
-            const inputValue = value || control.value;
-            const numberOfLines = (inputValue.match(/\n/g) || []).length + 1;
-
             const controlStyles = getComputedStyle(control);
-
             const lineHeight = parseInt(controlStyles.getPropertyValue('line-height'), 10);
-            const borderWidth = parseInt(controlStyles.getPropertyValue('border-top-width'), 10);
             const paddingTop = parseInt(controlStyles.getPropertyValue('padding-top'), 10);
+            const linesWithCarriageReturn = (innerValue?.match(/\n/g) || []).length + 1;
+            const linesByScrollHeight = Math.floor(control.scrollHeight / lineHeight);
 
-            const lines = Math.floor(control.scrollHeight / lineHeight);
-
-            if (maxRows && maxRows < Math.max(lines, numberOfLines)) {
+            if (maxRows && maxRows < Math.max(linesByScrollHeight, linesWithCarriageReturn)) {
                 control.style.height = 'auto';
-                control.style.height = `${
-                    maxRows * lineHeight + 2 * paddingTop + 2 * borderWidth
-                }px`;
+                control.style.height = `${maxRows * lineHeight + 2 * paddingTop}px`;
             } else {
                 control.style.height = 'auto';
-                control.style.height = `${control.scrollHeight + 2 * borderWidth}px`;
+                control.style.height =
+                    linesWithCarriageReturn > 1 || linesByScrollHeight > 1
+                        ? `${control.scrollHeight}px`
+                        : ''; // Set falsy value to use styles from css
             }
         }
-    }, [rows, maxRows, value]);
+    }, [rows, maxRows, innerValue]);
 
-    React.useEffect(resizeHeight, [resizeHeight]);
-
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-        if (onChange) {
-            onChange(event);
-        } else {
-            /** In case uncontrolled component */
-            resizeHeight();
-        }
-    };
+    React.useEffect(resizeHeight, [resizeHeight, size]);
 
     return (
         <textarea
@@ -83,7 +74,7 @@ export function TextAreaControl(props: TextAreaControlProps) {
                 ...(controlProps as React.InputHTMLAttributes<HTMLTextAreaElement>)?.style,
                 height: rows ? 'auto' : undefined,
             }}
-            className={b('control', {type: 'textarea'}, controlProps?.className)}
+            className={b('control', controlProps?.className)}
             name={name}
             id={id}
             tabIndex={tabIndex}
@@ -91,10 +82,11 @@ export function TextAreaControl(props: TextAreaControlProps) {
             value={value}
             defaultValue={defaultValue}
             rows={textareaRows}
+            // TextArea provides this functionality for its user. False by default
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}
-            onChange={handleChange}
+            onChange={onChange}
             onFocus={onFocus}
             onBlur={onBlur}
             onKeyDown={onKeyDown}

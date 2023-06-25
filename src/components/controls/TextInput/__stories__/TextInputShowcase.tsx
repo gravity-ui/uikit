@@ -3,9 +3,9 @@ import React from 'react';
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
 import block from 'bem-cn-lite';
 
-import {Button} from '../../Button';
-import {Checkbox} from '../../Checkbox';
-import {Icon} from '../../Icon';
+import {Button} from '../../../Button';
+import {Checkbox} from '../../../Checkbox';
+import {Icon} from '../../../Icon';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../types';
 
@@ -39,13 +39,6 @@ export function TextInputShowcase() {
 
     const textInputProps: TextInputProps = {
         className: b('input'),
-        onUpdate: setValue,
-        value,
-    };
-
-    const textAreaProps: TextInputProps = {
-        multiline: true,
-        className: b('text-area'),
         onUpdate: setValue,
         value,
     };
@@ -245,58 +238,6 @@ export function TextInputShowcase() {
                         rightContent={
                             <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
-                    />
-                </div>
-            </div>
-
-            <div className={b('text-area-examples')}>
-                <h2 className={b('title')}>TextInput (multiline)</h2>
-
-                <div className={b('size-examples')}>
-                    <h3 className={b('section-header')}>Sizes:</h3>
-
-                    <TextInput {...textAreaProps} placeholder="dynamic height" />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="dynamic height & maxRows = 4"
-                        maxRows={4}
-                    />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="dynamic height & minRows = 2 & maxRows = 4 & clear"
-                        minRows={2}
-                        maxRows={4}
-                        hasClear
-                    />
-                </div>
-
-                <div className={b('state-examples')}>
-                    <h3 className={b('section-header')}>States:</h3>
-
-                    <TextInput {...textAreaProps} placeholder="dynamic height & clear" hasClear />
-                    <div className={b('row')}>
-                        <TextInput
-                            {...textAreaProps}
-                            placeholder="error with message"
-                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
-                        />
-                        <Checkbox
-                            onUpdate={setErrorMessageVisibility}
-                            checked={isErrorMessageVisible}
-                        />
-                    </div>
-                    <TextInput {...textAreaProps} placeholder="disabled" disabled rows={2} />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="rows = 4 & clear"
-                        hasClear
-                        rows={4}
-                    />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="resize vertical"
-                        controlProps={{style: {resize: 'vertical'}}}
-                        rows={4}
                     />
                 </div>
             </div>

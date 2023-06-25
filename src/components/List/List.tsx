@@ -6,7 +6,7 @@ import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
 
-import {TextInput} from '../TextInput';
+import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
 import {block} from '../utils/cn';
 
@@ -74,7 +74,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         filter: '',
     };
 
-    refFilter = React.createRef<HTMLInputElement | HTMLTextAreaElement>();
+    refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
 

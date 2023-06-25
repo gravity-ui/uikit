@@ -1,40 +1,37 @@
-@use '../variables';
-@use '../../../styles/mixins';
+@use '../../../../styles/mixins';
+@use '../../variables';
+@use '../mixins.scss' as control-mixins;
 
-$sHeight: 24px;
-$mHeight: 28px;
-$lHeight: 36px;
-$xlHeight: 44px;
-$borderWidth: 1px;
-
-@mixin block_style($size: s, $type: control) {
+@mixin input-label($size) {
     @if $size == 's' {
-        height: #{$sHeight - $borderWidth * 2};
-        padding: 4px 8px;
         @include mixins.text-body-short;
-    }
-    @if $size == 'm' {
-        height: #{$mHeight - $borderWidth * 2};
-        padding: 6px 8px;
-        @include mixins.text-body-short;
-    }
-    @if $size == 'l' {
-        height: #{$lHeight - $borderWidth * 2};
-        padding: 10px 12px;
-        @include mixins.text-body-short;
-    }
-    @if $size == 'xl' {
-        height: #{$xlHeight - $borderWidth * 2};
-        padding: 12px;
-        @include mixins.text-body-2;
+
+        line-height: #{variables.$s-height - variables.$border-width * 2};
+        padding: 0 4px 0 8px;
     }
 
-    @if $type == 'label' {
-        @include mixins.text-accent;
-        padding-right: 4px;
-        padding-top: 0;
-        padding-bottom: 0;
+    @if $size == 'm' {
+        @include mixins.text-body-short;
+
+        line-height: #{variables.$m-height - variables.$border-width * 2};
+        padding: 0 4px 0 8px;
     }
+
+    @if $size == 'l' {
+        @include mixins.text-body-short;
+
+        line-height: #{variables.$l-height - variables.$border-width * 2};
+        padding: 0 4px 0 12px;
+    }
+
+    @if $size == 'xl' {
+        @include mixins.text-body-2;
+
+        line-height: #{variables.$xl-height - variables.$border-width * 2};
+        padding: 0 4px 0 12px;
+    }
+
+    @include mixins.text-accent;
 }
 
 $block: '.#{variables.$ns}text-input';
@@ -60,29 +57,17 @@ $block: '.#{variables.$ns}text-input';
         padding: 0;
         width: 100%;
         font-weight: normal;
-        font-family: var(--g-font-family-sans);
-        color: var(--g-color-text-primary);
+        font-family: var(--yc-text-body-font-family);
+        color: var(--yc-color-text-primary);
         background-color: transparent;
         border: none;
 
         &::placeholder {
-            color: var(--g-color-text-hint);
+            color: var(--yc-color-text-hint);
         }
 
         &:focus {
             outline: none;
-        }
-
-        &_type {
-            &_textarea {
-                resize: none;
-                // fix-bug(firefox): https://bugzilla.mozilla.org/show_bug.cgi?id=33654
-                overflow-x: hidden;
-
-                &:not(#{$block}__control_autosize) {
-                    height: auto;
-                }
-            }
         }
 
         &[type='number'] {
@@ -101,32 +86,9 @@ $block: '.#{variables.$ns}text-input';
 
     &__error {
         @include mixins.text-body-1();
-        color: var(--g-color-text-danger);
+
+        color: var(--yc-color-text-danger);
         margin-top: 2px;
-    }
-
-    &__clear {
-        /* increase css specificity to rewrite Button styles */
-        &[class] {
-            --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: transparent;
-
-            color: var(--g-color-text-hint);
-
-            &:hover {
-                color: var(--g-color-text-primary);
-            }
-        }
-
-        &_textarea {
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
-
-        &:not(#{&}_textarea) {
-            margin: -1px;
-        }
     }
 
     &__additional-content {
@@ -137,16 +99,11 @@ $block: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             #{$block}__control {
-                @include block_style(s);
-            }
-
-            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
-                padding-right: 26px;
+                @include control-mixins.input-control(s);
             }
 
             #{$block}__label {
-                @include block_style(s, label);
-                line-height: #{$sHeight - $borderWidth * 2};
+                @include input-label(s);
             }
 
             &#{$block}_has-left-content #{$block}__label {
@@ -154,7 +111,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$sHeight - $borderWidth * 2};
+                height: #{variables.$s-height - variables.$border-width * 2};
             }
 
             #{$block}__additional-content_placement_left {
@@ -165,21 +122,16 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 1px;
             }
 
-            --yc-text-input-border-radius: var(--g-border-radius-s);
+            --yc-text-input-border-radius: var(--yc-border-radius-s);
         }
 
         &_m {
             #{$block}__control {
-                @include block_style(m);
-            }
-
-            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
-                padding-right: 26px;
+                @include control-mixins.input-control(m);
             }
 
             #{$block}__label {
-                @include block_style(m, label);
-                line-height: #{$mHeight - $borderWidth * 2};
+                @include input-label(m);
             }
 
             &#{$block}_has-left-content #{$block}__label {
@@ -187,7 +139,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$mHeight - $borderWidth * 2};
+                height: #{variables.$m-height - variables.$border-width * 2};
             }
 
             #{$block}__additional-content_placement_left {
@@ -198,21 +150,16 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 1px;
             }
 
-            --yc-text-input-border-radius: var(--g-border-radius-m);
+            --yc-text-input-border-radius: var(--yc-border-radius-m);
         }
 
         &_l {
             #{$block}__control {
-                @include block_style(l);
-            }
-
-            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
-                padding-right: 36px;
+                @include control-mixins.input-control(l);
             }
 
             #{$block}__label {
-                @include block_style(l, label);
-                line-height: #{$lHeight - $borderWidth * 2};
+                @include input-label(l);
             }
 
             &#{$block}_has-left-content #{$block}__label {
@@ -220,7 +167,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$lHeight - $borderWidth * 2};
+                height: #{variables.$l-height - variables.$border-width * 2};
             }
 
             #{$block}__additional-content_placement_left {
@@ -231,21 +178,16 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 3px;
             }
 
-            --yc-text-input-border-radius: var(--g-border-radius-l);
+            --yc-text-input-border-radius: var(--yc-border-radius-l);
         }
 
         &_xl {
             #{$block}__control {
-                @include block_style(xl);
-            }
-
-            &#{$block}_has-clear #{$block}__control#{$block}__control_type_textarea {
-                padding-right: 36px;
+                @include control-mixins.input-control(xl);
             }
 
             #{$block}__label {
-                @include block_style(xl, label);
-                line-height: #{$xlHeight - $borderWidth * 2};
+                @include input-label(xl);
             }
 
             &#{$block}_has-left-content #{$block}__label {
@@ -253,7 +195,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content {
-                height: #{$xlHeight - $borderWidth * 2};
+                height: #{variables.$xl-height - variables.$border-width * 2};
             }
 
             #{$block}__additional-content_placement_left {
@@ -264,21 +206,21 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 3px;
             }
 
-            --yc-text-input-border-radius: var(--g-border-radius-xl);
+            --yc-text-input-border-radius: var(--yc-border-radius-xl);
         }
     }
 
     &_view {
         &_normal {
             #{$block}__content {
-                border: 1px solid var(--g-color-line-generic);
+                border: 1px solid var(--yc-color-line-generic);
 
                 &:hover {
-                    border-color: var(--g-color-line-generic-hover);
+                    border-color: var(--yc-color-line-generic-hover);
                 }
 
                 &:focus-within {
-                    border-color: var(--g-color-line-generic-active);
+                    border-color: var(--yc-color-line-generic-active);
                 }
             }
         }
@@ -298,17 +240,12 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
-    @include mixins.pin(
-        $block,
-        #{$block}__content,
-        var(--yc-text-input-border-radius),
-        $append: false
-    );
+    @include mixins.pin($block, #{$block}__content, var(--yc-text-input-border-radius), $append: false);
 
     &_disabled {
         #{$block}__content {
-            background-color: var(--g-color-base-generic-accent-disabled);
-            color: var(--g-color-text-hint);
+            background-color: var(--yc-color-base-generic-accent-disabled);
+            color: var(--yc-color-text-hint);
             border-color: transparent;
 
             &:hover {
@@ -317,17 +254,17 @@ $block: '.#{variables.$ns}text-input';
         }
 
         #{$block}__control {
-            color: var(--g-color-text-hint);
+            color: var(--yc-color-text-hint);
         }
 
         #{$block}__label {
-            color: var(--g-color-text-hint);
+            color: var(--yc-color-text-hint);
         }
     }
 
     &_has-scrollbar {
         #{$block}__clear {
-            right: var(--g-scrollbar-width);
+            right: var(--yc-scrollbar-width);
         }
     }
 
@@ -347,22 +284,22 @@ $block: '.#{variables.$ns}text-input';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    border-color: var(--g-color-line-danger);
+                    border-color: var(--yc-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-color: var(--g-color-line-danger);
+                        border-color: var(--yc-color-line-danger);
                     }
                 }
             }
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-bottom: 1px solid var(--g-color-line-danger);
+                    border-bottom: 1px solid var(--yc-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-bottom: 1px solid var(--g-color-line-danger);
+                        border-bottom: 1px solid var(--yc-color-line-danger);
                     }
                 }
             }

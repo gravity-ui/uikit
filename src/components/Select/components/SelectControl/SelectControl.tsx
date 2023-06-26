@@ -1,12 +1,19 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
+import isEmpty from 'lodash/isEmpty';
 
 import {Icon} from '../../../Icon';
 import type {CnMods} from '../../../utils/cn';
 import {useForkRef} from '../../../utils/useForkRef';
-import {selectControlBlock} from '../../constants';
-import type {SelectProps, SelectRenderControl, SelectRenderControlProps} from '../../types';
+import {selectControlBlock, selectControlButtonBlock} from '../../constants';
+import type {
+    SelectProps,
+    SelectRenderClearArgs,
+    SelectRenderControl,
+    SelectRenderControlProps,
+} from '../../types';
+import {SelectClear} from '../SelectClear/SelectClear';
 
 import './SelectControl.scss';
 
@@ -25,11 +32,14 @@ type ControlProps = {
     error?: SelectProps['error'];
     disabled?: boolean;
     value: SelectProps['value'];
+    clearValue: () => void;
+    hasClear?: boolean;
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
     const {
         toggleOpen,
+        clearValue,
         onKeyDown,
         renderControl,
         view,
@@ -45,12 +55,63 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         open,
         disabled,
         value,
+        hasClear,
     } = props;
     const controlRef = React.useRef<HTMLElement>(null);
     const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const mods: CnMods = {open, size, view, pin, disabled, error: Boolean(error)};
+    const hasValue = Array.isArray(value) && !isEmpty(value.filter(Boolean));
+
+    const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
+
+    const controlMods: CnMods = {
+        open,
+        size,
+        pin,
+        disabled,
+        error: Boolean(error),
+        'has-clear': hasClear,
+        'no-active': isDisabledButtonAnimation,
+        'has-value': hasValue,
+    };
+
+    const buttonMods: CnMods = {
+        open,
+        size,
+        view,
+        pin,
+        disabled,
+        error: Boolean(error),
+    };
+
+    const disableButtonAnimation = React.useCallback(() => {
+        setIsDisabledButtonAnimation(true);
+    }, []);
+    const enableButtonAnimation = React.useCallback(() => {
+        setIsDisabledButtonAnimation(false);
+    }, []);
+    const handleOnClearIconClick = React.useCallback(() => {
+        // return animation on clear click
+        setIsDisabledButtonAnimation(false);
+        clearValue();
+    }, [clearValue]);
+
+    const renderClearIcon = (args: SelectRenderClearArgs) => {
+        const hideOnEmpty = !value?.[0];
+        if (!hasClear || !clearValue || hideOnEmpty || disabled) {
+            return null;
+        }
+        return (
+            <SelectClear
+                size={size}
+                onClick={handleOnClearIconClick}
+                onMouseEnter={disableButtonAnimation}
+                onMouseLeave={enableButtonAnimation}
+                renderIcon={args.renderIcon}
+            />
+        );
+    };
 
     if (renderControl) {
         return renderControl(
@@ -59,6 +120,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                 onClick: toggleOpen,
                 ref: handleControlRef,
                 open: Boolean(open),
+                renderClear: (arg) => renderClearIcon(arg),
             },
             {value},
         );
@@ -66,32 +128,35 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     return (
         <React.Fragment>
-            <button
-                ref={handleControlRef as React.Ref<HTMLButtonElement>}
-                className={selectControlBlock(mods, className)}
-                aria-haspopup="listbox"
-                aria-expanded={open}
-                data-qa={qa}
-                name={name}
-                disabled={disabled}
-                onClick={toggleOpen}
-                onKeyDown={onKeyDown}
-                type="button"
-            >
-                {label && <span className={selectControlBlock('label')}>{label}</span>}
-                {showPlaceholder && (
-                    <span className={selectControlBlock('placeholder')}>{placeholder}</span>
-                )}
-                {showOptionsText && (
-                    <span className={selectControlBlock('option-text')}>
-                        {selectedOptionsContent}
-                    </span>
-                )}
+            <div className={selectControlBlock(controlMods)} ref={handleControlRef} role="group">
+                <button
+                    className={selectControlButtonBlock(buttonMods, className)}
+                    aria-haspopup="listbox"
+                    aria-expanded={open}
+                    data-qa={qa}
+                    name={name}
+                    disabled={disabled}
+                    onClick={toggleOpen}
+                    onKeyDown={onKeyDown}
+                    type="button"
+                >
+                    {label && <span className={selectControlBlock('label')}>{label}</span>}
+                    {showPlaceholder && (
+                        <span className={selectControlBlock('placeholder')}>{placeholder}</span>
+                    )}
+                    {showOptionsText && (
+                        <span className={selectControlBlock('option-text')}>
+                            {selectedOptionsContent}
+                        </span>
+                    )}
+                </button>
+                {renderClearIcon({})}
                 <Icon
                     className={selectControlBlock('chevron-icon', {disabled})}
                     data={ChevronDown}
+                    aria-hidden="true"
                 />
-            </button>
+            </div>
             {typeof error === 'string' && (
                 <div className={selectControlBlock('error')}>{error}</div>
             )}

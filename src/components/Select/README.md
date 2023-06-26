@@ -29,6 +29,7 @@
 | multiple                        | `boolean`                               | `false`         | Indicates that multiple options can be selected in the list                                                |
 | filterable                      | `boolean`                               | `false`         | Indicates that select popup have filter section                                                            |
 | disabled                        | `boolean`                               | `false`         | Indicates that the user cannot interact with the control                                                   |
+| hasClear                        | `boolean`                               | `false`         | Enable displaying icon for clear selected options                                                          |
 
 ---
 

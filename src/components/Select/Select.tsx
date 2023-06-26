@@ -72,6 +72,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disabled = false,
         filterable = false,
         disablePortal,
+        hasClear = false,
         onClose,
     } = props;
     const [mobile] = useMobile();
@@ -83,7 +84,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const {value, open, toggleOpen, handleSelection} = useSelect({
+    const {value, open, toggleOpen, handleSelection, handleClearValue} = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
@@ -212,6 +213,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         >
             <SelectControl
                 toggleOpen={toggleOpen}
+                hasClear={hasClear}
+                clearValue={handleClearValue}
                 ref={handleControlRef}
                 className={controlClassName}
                 qa={qa}

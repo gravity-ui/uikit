@@ -32,4 +32,5 @@ Showcase.args = {
     disabled: false,
     placeholder: 'Values',
     label: '',
+    hasClear: false,
 };

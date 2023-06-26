@@ -53,9 +53,15 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
         [multiple, handleSingleSelection, handleMultipleSelection],
     );
 
+    const handleClearValue = React.useCallback(() => {
+        onUpdate?.([]);
+        setInnerValue([]);
+    }, [onUpdate]);
+
     return {
         value,
         handleSelection,
+        handleClearValue,
         /**
          * @deprecated use toggleOpen
          */

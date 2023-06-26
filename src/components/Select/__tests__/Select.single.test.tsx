@@ -5,7 +5,7 @@ import {
     DEFAULT_OPTIONS,
     GROUPED_OPTIONS,
     OptionsListType,
-    SELECT_CONTROL_OPEN_CLASS,
+    SELECT_CONTROL_BUTTON_OPEN_CLASS,
     TEST_QA,
     setup,
 } from './utils';
@@ -31,12 +31,12 @@ describe('Select single mode actions', () => {
             const selectControl = getByTestId(TEST_QA);
             // open select popup
             await user.click(selectControl);
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
             const option = getByText(selectedOption.content as string);
             // select option
             await user.click(option);
             expect(onUpdate).toHaveBeenCalledWith([selectedOption.value]);
-            expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
     });
 
@@ -54,11 +54,11 @@ describe('Select single mode actions', () => {
             await user.keyboard('[Tab]');
             // open select popup
             await user.keyboard(`[${key}]`);
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
             // select active option (first option by default)
             await user.keyboard(`[${key}]`);
             expect(onUpdate).toHaveBeenCalledWith([selectedOption.value]);
-            expect(selectControl).not.toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).not.toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
     });
 
@@ -71,12 +71,12 @@ describe('Select single mode actions', () => {
             const selectControl = getByTestId(TEST_QA);
             // open select popup
             await user.click(selectControl);
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
             const option = getByText(searchText);
             // select option
             await user.click(option);
             expect(onUpdate).not.toBeCalled();
-            expect(selectControl).toHaveClass(SELECT_CONTROL_OPEN_CLASS);
+            expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
     });
 });

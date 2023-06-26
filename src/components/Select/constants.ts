@@ -6,7 +6,11 @@ export const selectBlock = block('select');
 
 export const selectControlBlock = block('select-control');
 
+export const selectControlButtonBlock = block('select-control__button');
+
 export const selectListBlock = block('select-list');
+
+export const selectClearBlock = block('select-clear');
 
 export const SIZE_TO_ITEM_HEIGHT: Record<SelectSize, number> = {
     s: 28,
@@ -31,4 +35,5 @@ export const SelectQa = {
     LIST: 'select-list',
     POPUP: 'select-popup',
     SHEET: 'select-sheet',
+    CLEAR: 'select-clear',
 };

@@ -1,11 +1,13 @@
 import React from 'react';
 
+import {TrashBin} from '@gravity-ui/icons';
 import range from 'lodash/range';
 
 import {Select} from '..';
 import type {SelectOption, SelectProps} from '..';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
+import {Icon} from '../../Icon';
 import {RadioButton} from '../../RadioButton';
 import type {RadioButtonOption} from '../../RadioButton';
 import {TextInput} from '../../TextInput';
@@ -247,12 +249,12 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
             </ExampleItem>
             <ExampleItem
-                title="Select with user control"
+                title="Select with user control and native custom icon"
                 code={[EXAMPLE_USER_CONTROL]}
                 selectProps={{
                     ...props,
                     className: b('user-control'),
-                    renderControl: ({onClick, onKeyDown, ref}) => {
+                    renderControl: ({onClick, onKeyDown, ref, renderClear}) => {
                         return (
                             <Button
                                 ref={ref}
@@ -261,8 +263,14 @@ export const SelectShowcase = (props: SelectProps) => {
                                 extraProps={{
                                     onKeyDown,
                                 }}
+                                className={b({'has-clear': props.hasClear})}
                             >
-                                User control
+                                <span className={b('text')}>User control</span>
+                                {renderClear?.({
+                                    renderIcon: () => (
+                                        <Icon data={TrashBin} className={b('user-clear-icon')} />
+                                    ),
+                                })}
                             </Button>
                         );
                     },

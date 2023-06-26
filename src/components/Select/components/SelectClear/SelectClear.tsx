@@ -1,7 +1,8 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Icon} from '../../../Icon';
-import {CrossIcon} from '../../../icons/CrossIcon';
 import {SelectQa, selectClearBlock} from '../../constants';
 import i18n from '../../i18n';
 import type {SelectClearProps} from '../../types';
@@ -13,7 +14,7 @@ export const SelectClear = (props: SelectClearProps) => {
     const icon = renderIcon ? (
         renderIcon()
     ) : (
-        <Icon className={selectClearBlock('clear')} data={CrossIcon} />
+        <Icon className={selectClearBlock('clear')} data={Xmark} />
     );
     return (
         <button

@@ -4,8 +4,6 @@ import {block} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
-import type {ThemeSettings} from './ThemeSettingsContext';
-import {ThemeValueContext} from './ThemeValueContext';
 import {DEFAULT_DARK_THEME, DEFAULT_LIGHT_THEME, DEFAULT_THEME, ROOT_CLASS_NAME} from './constants';
 import type {RealTheme, Theme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
@@ -30,28 +28,14 @@ export interface ThemeProviderProps
         React.PropsWithChildren<{}> {}
 
 export function ThemeProvider({
-    theme: themeProp = DEFAULT_THEME,
-    systemLightTheme: systemLightThemeProp = DEFAULT_LIGHT_THEME,
-    systemDarkTheme: systemDarkThemeProp = DEFAULT_DARK_THEME,
+    theme = DEFAULT_THEME,
+    systemLightTheme = DEFAULT_LIGHT_THEME,
+    systemDarkTheme = DEFAULT_DARK_THEME,
     nativeScrollbar = false,
     scoped = false,
     rootClassName = '',
     children,
 }: ThemeProviderProps) {
-    const [theme, setTheme] = React.useState<Theme>(themeProp);
-    const [{systemLightTheme, systemDarkTheme}, setThemeSettings] = React.useState<ThemeSettings>({
-        systemLightTheme: systemLightThemeProp,
-        systemDarkTheme: systemDarkThemeProp,
-    });
-
-    React.useLayoutEffect(() => {
-        setTheme(themeProp);
-        setThemeSettings({
-            systemLightTheme: systemLightThemeProp,
-            systemDarkTheme: systemDarkThemeProp,
-        });
-    }, [themeProp, systemLightThemeProp, systemDarkThemeProp]);
-
     const systemTheme = (
         useSystemTheme() === 'light' ? systemLightTheme : systemDarkTheme
     ) as RealTheme;
@@ -67,41 +51,33 @@ export function ThemeProvider({
         () => ({
             theme,
             themeValue,
-            setTheme,
         }),
         [theme, themeValue],
     );
 
-    const themeValueContext = React.useMemo(() => ({themeValue}), [themeValue]);
-
     const themeSettingsContext = React.useMemo(
-        () => ({
-            themeSettings: {systemLightTheme, systemDarkTheme},
-            setThemeSettings,
-        }),
+        () => ({systemLightTheme, systemDarkTheme}),
         [systemLightTheme, systemDarkTheme],
     );
 
     return (
         <ThemeContext.Provider value={contextValue}>
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                <ThemeValueContext.Provider value={themeValueContext}>
-                    {scoped ? (
-                        <div
-                            className={b(
-                                {
-                                    theme: themeValue,
-                                    'native-scrollbar': nativeScrollbar,
-                                },
-                                rootClassName,
-                            )}
-                        >
-                            {children}
-                        </div>
-                    ) : (
-                        children
-                    )}
-                </ThemeValueContext.Provider>
+                {scoped ? (
+                    <div
+                        className={b(
+                            {
+                                theme: themeValue,
+                                'native-scrollbar': nativeScrollbar,
+                            },
+                            rootClassName,
+                        )}
+                    >
+                        {children}
+                    </div>
+                ) : (
+                    children
+                )}
             </ThemeSettingsContext.Provider>
         </ThemeContext.Provider>
     );

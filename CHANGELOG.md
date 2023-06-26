@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.21.0](https://github.com/gravity-ui/uikit/compare/v4.20.0...v4.21.0) (2023-06-26)
+
+
+### Features
+
+* **Select:** add hasClear ([#668](https://github.com/gravity-ui/uikit/issues/668)) ([93a2a00](https://github.com/gravity-ui/uikit/commit/93a2a00881db4d37e0cee72690c5475de7dcae0a))
+
 ## [4.20.0](https://github.com/gravity-ui/uikit/compare/v4.19.0...v4.20.0) (2023-06-23)
 
 

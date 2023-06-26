@@ -20,13 +20,7 @@ export function withTheme<T extends WithThemeProps>(
         context!: React.ContextType<typeof ThemeContext>;
 
         render() {
-            return (
-                <WrappedComponent
-                    {...(this.props as T)}
-                    theme={this.context.theme}
-                    setTheme={this.context.setTheme}
-                />
-            );
+            return <WrappedComponent {...(this.props as T)} theme={this.context.theme} />;
         }
     };
 }

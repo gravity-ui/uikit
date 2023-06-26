@@ -7,13 +7,7 @@ export type ThemeSettings = {
     systemDarkTheme: RealTheme;
 };
 
-export type ThemeSettingsContextProps =
-    | {
-          themeSettings: ThemeSettings;
-          /** @deprecated Set theme settings in your app and pass it to context, instead of managing it via context methods */
-          setThemeSettings: (themeSettings: ThemeSettings) => void;
-      }
-    | undefined;
+export type ThemeSettingsContextProps = ThemeSettings | undefined;
 
 export const ThemeSettingsContext = React.createContext<ThemeSettingsContextProps>(undefined);
 ThemeSettingsContext.displayName = 'ThemeSettingsContext';

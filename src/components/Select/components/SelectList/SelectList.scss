@@ -175,4 +175,11 @@ $xl-right-padding: '12px';
             visibility: visible;
         }
     }
+
+    &__loading-indicator {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
 }

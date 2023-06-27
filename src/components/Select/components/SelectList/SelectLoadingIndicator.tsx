@@ -1,13 +1,11 @@
 import React from 'react';
 
 import {Loader} from '../../../Loader/Loader';
-import {selectBlock} from '../../constants';
-
-import './SelectLoadingIndicator.scss';
+import {selectListBlock} from '../../constants';
 
 export const SelectLoadingIndicator = () => {
     return (
-        <div className={selectBlock('loading-indicator')}>
+        <div className={selectListBlock('loading-indicator')}>
             <Loader />
         </div>
     );

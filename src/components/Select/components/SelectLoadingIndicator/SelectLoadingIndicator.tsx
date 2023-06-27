@@ -5,10 +5,7 @@ import {selectBlock} from '../../constants';
 
 import './SelectLoadingIndicator.scss';
 
-export const SelectLoadingIndicator = (props: {onRendered?: () => void}) => {
-    React.useEffect(() => {
-        props.onRendered?.();
-    }, []);
+export const SelectLoadingIndicator = () => {
     return (
         <div className={selectBlock('loading-indicator')}>
             <Loader />

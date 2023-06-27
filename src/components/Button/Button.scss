@@ -147,15 +147,6 @@ $iconWidth: 16px;
             --yc-button-background-color-hover: var(--yc-color-base-generic-hover);
 
             @include button-text-color(var(--yc-color-text-primary));
-
-            &#{$block}_selected {
-                --yc-button-background-color: var(--yc-color-base-selection);
-                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
-
-                @include button-text-color(
-                    var(--yc-color-brand-text, var(--yc-color-text-special))
-                );
-            }
         }
 
         &_action {

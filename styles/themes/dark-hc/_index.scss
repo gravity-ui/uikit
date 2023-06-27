@@ -1,11 +1,11 @@
-@import './private/dark-hc';
-@import './text/dark-hc';
-@import './base/dark-hc';
-@import './line/dark-hc';
-@import './infographics/dark-hc';
-@import './sfx/dark-hc';
-@import './promo/dark-hc';
-@import './brand/dark-hc';
+@import './private';
+@import './text';
+@import './base';
+@import './line';
+@import './infographics';
+@import './sfx';
+@import './promo';
+@import './brand';
 @import './system';
 
 @mixin g-colors-dark-hc {

@@ -2,7 +2,7 @@
 @import './spacing';
 @import './brand';
 
-@mixin g-shapes {
+@mixin g-common {
     @include yc-typography;
     @include yc-spacing;
     @include yc-brand;

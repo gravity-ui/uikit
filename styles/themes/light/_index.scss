@@ -1,11 +1,11 @@
-@import './private/light';
-@import './text/light';
-@import './base/light';
-@import './line/light';
-@import './infographics/light';
-@import './sfx/light';
-@import './promo/light';
-@import './brand/light';
+@import './private';
+@import './text';
+@import './base';
+@import './line';
+@import './infographics';
+@import './sfx';
+@import './promo';
+@import './brand';
 @import './system';
 
 @mixin g-colors-light {

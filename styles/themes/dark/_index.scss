@@ -1,11 +1,11 @@
-@import './private/dark';
-@import './text/dark';
-@import './base/dark';
-@import './line/dark';
-@import './infographics/dark';
-@import './sfx/dark';
-@import './promo/dark';
-@import './brand/dark';
+@import './private';
+@import './text';
+@import './base';
+@import './line';
+@import './infographics';
+@import './sfx';
+@import './promo';
+@import './brand';
 @import './system';
 
 @mixin g-colors-dark {

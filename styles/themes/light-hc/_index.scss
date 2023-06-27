@@ -1,11 +1,11 @@
-@import './private/light-hc';
-@import './text/light-hc';
-@import './base/light-hc';
-@import './line/light-hc';
-@import './infographics/light-hc';
-@import './sfx/light-hc';
-@import './promo/light-hc';
-@import './brand/light-hc';
+@import './private';
+@import './text';
+@import './base';
+@import './line';
+@import './infographics';
+@import './sfx';
+@import './promo';
+@import './brand';
 @import './system';
 
 @mixin g-colors-light-hc {

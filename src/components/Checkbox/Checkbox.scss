@@ -134,7 +134,7 @@ $block: '.#{variables.$ns}checkbox';
 
         #{$block}__icon {
             visibility: visible;
-            color: var(--yc-my-color-brand-text-contrast);
+            color: var(--yc-color-brand-text-contrast);
             transform: translateX(0);
         }
     }

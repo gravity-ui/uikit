@@ -1,0 +1,21 @@
+@import './private';
+@import './text';
+@import './base';
+@import './line';
+@import './infographics';
+@import './sfx';
+@import './promo';
+@import './brand';
+@import './system';
+
+@mixin g-colors-light {
+    @include yc-colors-private-light;
+    @include yc-colors-text-light;
+    @include yc-colors-base-light;
+    @include yc-colors-line-light;
+    @include yc-colors-infographics-light;
+    @include yc-colors-sfx-light;
+    @include yc-colors-promo-light;
+    @include yc-colors-brand-light;
+    @include yc-colors-system-light;
+}

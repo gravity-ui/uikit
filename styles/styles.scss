@@ -1,8 +1,11 @@
 @import './themes';
+@import './old-variables';
 
 .yc-root {
     background: var(--yc-color-base-background);
     color: var(--yc-color-text-primary);
+
+    @include g-theme-common;
 
     &_theme_light {
         @include g-theme-light;
@@ -19,6 +22,8 @@
     &_theme_dark-hc {
         @include g-theme-dark-hc;
     }
+
+    @include g-variables-fallback;
 }
 
 body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {

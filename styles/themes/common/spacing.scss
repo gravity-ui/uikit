@@ -1,4 +1,4 @@
-@mixin yc-spacing {
+@mixin variables {
     --g-spacing-base: var(--yc-spacing-base, 4px);
 
     --g-spacing-0: var(--yc-spacing-0, calc(var(--g-spacing-base) * 0));

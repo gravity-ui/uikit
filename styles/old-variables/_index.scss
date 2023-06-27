@@ -1,0 +1,7 @@
+@use './typography';
+@use './spacing';
+
+@mixin g-variables-fallback {
+    @include typography.variables;
+    @include spacing.variables;
+}

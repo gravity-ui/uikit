@@ -1,0 +1,17 @@
+@import './typography';
+@import './spacing';
+@import './brand';
+
+@mixin g-common {
+    @include yc-typography;
+    @include yc-spacing;
+    @include yc-brand;
+
+    --yc-scrollbar-width: 12px;
+
+    --yc-border-radius-xs: 5px;
+    --yc-border-radius-s: 5px;
+    --yc-border-radius-m: 6px;
+    --yc-border-radius-l: 8px;
+    --yc-border-radius-xl: 10px;
+}

@@ -1,0 +1,13 @@
+@mixin yc-colors-brand-dark-hc {
+    --yc-color-brand-normal: var(--yc-color-private-blue-450-solid);
+    --yc-color-brand-normal-hover: var(--yc-color-private-blue-650-solid);
+    --yc-color-brand-light: var(--yc-color-private-blue-300);
+    --yc-color-brand-selection: var(--yc-color-private-blue-350);
+    --yc-color-brand-selection-hover: var(--yc-color-private-blue-600-solid);
+    --yc-color-brand-link: var(--yc-color-private-blue-550);
+    --yc-color-brand-link-hover: var(--yc-color-private-blue-750-solid);
+    --yc-color-brand-text: var(--yc-color-private-blue-850-solid);
+    --yc-color-brand-text-contrast: var(--yc-color-text-light-primary);
+    --yc-color-brand-link-visited: var(--yc-color-private-purple-650-solid);
+    --yc-color-brand-link-visited-hover: var(--yc-color-private-purple-800-solid);
+}

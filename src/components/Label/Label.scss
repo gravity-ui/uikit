@@ -126,15 +126,15 @@ $transitionTimingFunction: ease-in-out;
 
     &_size {
         &_xs {
-            @include sizeState(8px, 20px, 22px, 24px, var(--yc-border-radius-xs));
+            @include sizeState(8px, 20px, 22px, 24px, var(--g-border-radius-xs));
         }
 
         &_s {
-            @include sizeState(10px, 24px, 26px, 28px, var(--yc-border-radius-s));
+            @include sizeState(10px, 24px, 26px, 28px, var(--g-border-radius-s));
         }
 
         &_m {
-            @include sizeState(12px, 28px, 32px, 32px, var(--yc-border-radius-m));
+            @include sizeState(12px, 28px, 32px, 32px, var(--g-border-radius-m));
         }
     }
 

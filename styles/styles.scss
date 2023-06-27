@@ -24,8 +24,8 @@
 body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
-        width: var(--yc-scrollbar-width);
-        height: var(--yc-scrollbar-width);
+        width: var(--g-scrollbar-width);
+        height: var(--g-scrollbar-width);
         background: var(--yc-color-scroll-track);
     }
 
@@ -50,7 +50,7 @@ body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
     }
 
     // stylelint-disable-next-line property-no-unknown
-    scrollbar-width: var(--yc-scrollbar-width);
+    scrollbar-width: var(--g-scrollbar-width);
     // stylelint-disable-next-line property-no-unknown
     scrollbar-color: var(--yc-color-scroll-handle) var(--yc-color-scroll-track);
 }

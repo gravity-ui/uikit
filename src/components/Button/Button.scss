@@ -92,7 +92,7 @@ $iconWidth: 16px;
     &_size {
         &_xs {
             --yc-button-height: 20px;
-            --yc-button-border-radius: var(--yc-border-radius-xs);
+            --yc-button-border-radius: var(--g-border-radius-xs);
             --yc-button-min-width: 32px;
             --yc-button-padding: 6px;
             --yc-button-icon-size: 12px;
@@ -102,7 +102,7 @@ $iconWidth: 16px;
 
         &_s {
             --yc-button-height: 24px;
-            --yc-button-border-radius: var(--yc-border-radius-s);
+            --yc-button-border-radius: var(--g-border-radius-s);
             --yc-button-min-width: 48px;
             --yc-button-padding: 8px;
             --yc-button-icon-size: 16px;
@@ -112,7 +112,7 @@ $iconWidth: 16px;
 
         &_m {
             --yc-button-height: 28px;
-            --yc-button-border-radius: var(--yc-border-radius-m);
+            --yc-button-border-radius: var(--g-border-radius-m);
             --yc-button-min-width: 56px;
             --yc-button-padding: 12px;
             --yc-button-icon-size: 16px;
@@ -122,7 +122,7 @@ $iconWidth: 16px;
 
         &_l {
             --yc-button-height: 36px;
-            --yc-button-border-radius: var(--yc-border-radius-l);
+            --yc-button-border-radius: var(--g-border-radius-l);
             --yc-button-min-width: 64px;
             --yc-button-padding: 16px;
             --yc-button-icon-size: 16px;
@@ -132,7 +132,7 @@ $iconWidth: 16px;
 
         &_xl {
             --yc-button-height: 44px;
-            --yc-button-border-radius: var(--yc-border-radius-xl);
+            --yc-button-border-radius: var(--g-border-radius-xl);
             --yc-button-min-width: 80px;
             --yc-button-padding: 24px;
             --yc-button-icon-size: 20px;

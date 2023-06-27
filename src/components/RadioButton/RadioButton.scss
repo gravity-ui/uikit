@@ -133,7 +133,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-s);
+            --yc-radio-button-border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -147,7 +147,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-m);
+            --yc-radio-button-border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -161,7 +161,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-l);
+            --yc-radio-button-border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -175,7 +175,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-xl);
+            --yc-radio-button-border-radius: var(--g-border-radius-xl);
         }
     }
 

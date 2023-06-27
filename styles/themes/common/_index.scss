@@ -7,11 +7,11 @@
     @include yc-spacing;
     @include yc-brand;
 
-    --yc-scrollbar-width: 12px;
+    --g-scrollbar-width: var(--yc-scrollbar-width, 12px);
 
-    --yc-border-radius-xs: 5px;
-    --yc-border-radius-s: 5px;
-    --yc-border-radius-m: 6px;
-    --yc-border-radius-l: 8px;
-    --yc-border-radius-xl: 10px;
+    --g-border-radius-xs: var(--yc-border-radius-xs, 5px);
+    --g-border-radius-s: var(--yc-border-radius-s, 5px);
+    --g-border-radius-m: var(--yc-border-radius-m, 6px);
+    --g-border-radius-l: var(--yc-border-radius-l, 8px);
+    --g-border-radius-xl: var(--yc-border-radius-xl, 10px);
 }

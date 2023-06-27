@@ -10,7 +10,7 @@ $block: '.#{variables.$ns-new}select-control';
 
         height: #{variables.$s-height};
         padding: 4px #{select-css-variables.$s-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-s);
+        --_--select-border-radius: var(--g-border-radius-s);
         --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
     }
     @if $size == 'm' {
@@ -18,7 +18,7 @@ $block: '.#{variables.$ns-new}select-control';
 
         height: #{variables.$m-height};
         padding: 6px #{select-css-variables.$m-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-m);
+        --_--select-border-radius: var(--g-border-radius-m);
         --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
     }
     @if $size == 'l' {
@@ -26,7 +26,7 @@ $block: '.#{variables.$ns-new}select-control';
 
         height: #{variables.$l-height};
         padding: 10px #{select-css-variables.$l-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-l);
+        --_--select-border-radius: var(--g-border-radius-l);
         --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
     }
     @if $size == 'xl' {
@@ -34,7 +34,7 @@ $block: '.#{variables.$ns-new}select-control';
 
         height: #{variables.$xl-height};
         padding: 12px #{select-css-variables.$xl-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-xl);
+        --_--select-border-radius: var(--g-border-radius-xl);
         --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
     }
 }

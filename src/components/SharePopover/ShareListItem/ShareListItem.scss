@@ -1,8 +1,11 @@
 @use '../../variables';
+@use './colors' as *;
 
 $block: '.#{variables.$ns}share-list-item';
 
 #{$block} {
+    @include yc-colors-social;
+
     display: flex;
     align-items: center;
 

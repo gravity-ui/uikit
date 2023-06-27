@@ -6,7 +6,7 @@ $block: '.#{variables.$ns}radio-button';
     box-sizing: border-box;
     display: inline-flex;
     flex-direction: row;
-    font-family: var(--yc-text-body-font-family);
+    font-family: var(--g-font-family-sans);
     font-weight: normal;
     border-radius: var(--yc-radio-button-border-radius);
     background-color: var(--yc-color-base-generic);

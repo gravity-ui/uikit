@@ -51,7 +51,7 @@ export const Typography = () => (
                     return (
                         <ReactCopyToClipboard
                             key={`family-${name}`}
-                            text={`font-family: var(--yc-font-family-${name});`}
+                            text={`font-family: var(--g-font-family-${name});`}
                         >
                             <div className={b('item', {name})}>
                                 <div className={b('caption')}>{name}</div>

@@ -23,8 +23,8 @@ $block: '.#{variables.$ns}promo-sheet';
     &__title {
         margin: 0;
 
-        font-size: var(--yc-text-header-1-font-size);
-        line-height: var(--yc-text-header-1-line-height);
+        font-size: var(--g-text-header-1-font-size);
+        line-height: var(--g-text-header-1-line-height);
     }
 
     &__close-button {
@@ -36,8 +36,8 @@ $block: '.#{variables.$ns}promo-sheet';
     &__message {
         margin: 0 0 var(--yc-promo-sheet-message-margin);
 
-        font-size: var(--yc-text-body-3-font-size);
-        line-height: var(--yc-text-body-3-line-height);
+        font-size: var(--g-text-body-3-font-size);
+        line-height: var(--g-text-body-3-line-height);
     }
 
     &__image-container {

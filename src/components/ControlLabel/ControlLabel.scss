@@ -4,7 +4,7 @@ $block: '.#{variables.$ns}control-label';
 
 #{$block} {
     display: inline-flex;
-    font-family: var(--yc-text-body-font-family);
+    font-family: var(--g-font-family-sans);
     font-weight: normal;
     color: var(--yc-color-text-primary);
     user-select: none;

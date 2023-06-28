@@ -12,10 +12,10 @@ $block: '.#{variables.$ns}card';
 
     &_type_action {
         background-color: var(--g-color-base-float);
-        --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
+        --yc-card-box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
 
         &#{$block}_clickable:hover {
-            --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
+            --yc-card-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
             cursor: pointer;
         }
     }
@@ -108,11 +108,11 @@ $block: '.#{variables.$ns}card';
             background-color: var(--g-color-base-float);
 
             @at-root &#{$block}_size_m {
-                --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
+                --yc-card-box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
             }
             @at-root &#{$block}_size_l {
-                --yc-card-box-shadow: 0px 1px 6px var(--yc-color-sfx-shadow-light),
-                    1px 3px 13px var(--yc-color-sfx-shadow-light);
+                --yc-card-box-shadow: 0px 1px 6px var(--g-color-sfx-shadow-light),
+                    1px 3px 13px var(--g-color-sfx-shadow-light);
             }
         }
     }

@@ -194,15 +194,15 @@ $iconWidth: 16px;
             @include button-text-color(var(--yc-color-text-primary));
 
             &::before {
-                box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
+                box-shadow: 0 3px 5px var(--g-color-sfx-shadow);
             }
 
             &:focus:not(:focus-visible)::before {
-                box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
+                box-shadow: 0 3px 5px var(--g-color-sfx-shadow);
             }
 
             &:active::before {
-                box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
+                box-shadow: 0 1px 2px var(--g-color-sfx-shadow);
             }
 
             &:active:focus::before {
@@ -210,7 +210,7 @@ $iconWidth: 16px;
             }
 
             &:active:focus:not(:focus-visible)::before {
-                box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
+                box-shadow: 0 1px 2px var(--g-color-sfx-shadow);
             }
         }
 

@@ -18,16 +18,16 @@ $block: '.#{variables.$ns}hotkey';
             background-color: var(--g-color-base-generic);
 
             #{$block}__plus {
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
         }
 
         &_dark {
-            color: var(--yc-color-text-light-complementary);
+            color: var(--g-color-text-light-complementary);
             background-color: var(--g-color-base-light-simple-hover);
 
             #{$block}__plus {
-                color: var(--yc-color-text-light-hint);
+                color: var(--g-color-text-light-hint);
             }
         }
     }

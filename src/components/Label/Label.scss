@@ -152,7 +152,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--g-color-base-misc),
                 var(--g-color-base-misc-hover),
-                var(--yc-color-text-misc-heavy)
+                var(--g-color-text-misc-heavy)
             );
         }
 
@@ -160,7 +160,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--g-color-base-positive),
                 var(--g-color-base-positive-hover),
-                var(--yc-color-text-positive-heavy)
+                var(--g-color-text-positive-heavy)
             );
         }
 
@@ -168,7 +168,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--g-color-base-info),
                 var(--g-color-base-info-hover),
-                var(--yc-color-text-info-heavy)
+                var(--g-color-text-info-heavy)
             );
         }
 
@@ -176,7 +176,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--g-color-base-warning),
                 var(--g-color-base-warning-hover),
-                var(--yc-color-text-warning-heavy)
+                var(--g-color-text-warning-heavy)
             );
         }
 
@@ -184,7 +184,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--g-color-base-danger),
                 var(--g-color-base-danger-hover),
-                var(--yc-color-text-danger-heavy)
+                var(--g-color-text-danger-heavy)
             );
         }
 
@@ -192,7 +192,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 var(--g-color-base-neutral),
                 var(--g-color-base-neutral-hover),
-                var(--yc-color-text-complementary)
+                var(--g-color-text-complementary)
             );
         }
 
@@ -200,7 +200,7 @@ $transitionTimingFunction: ease-in-out;
             @include themeState(
                 transparent,
                 var(--g-color-base-simple-hover-solid),
-                var(--yc-color-text-complementary),
+                var(--g-color-text-complementary),
                 var(--g-color-line-generic)
             );
         }

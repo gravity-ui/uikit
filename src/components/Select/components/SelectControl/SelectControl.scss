@@ -77,7 +77,7 @@ $block: '.#{variables.$ns-new}select-control';
 
     &_disabled {
         background-color: var(--g-color-base-generic-accent-disabled);
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
         border-color: transparent;
         pointer-events: none;
     }
@@ -117,23 +117,23 @@ $block: '.#{variables.$ns-new}select-control';
     }
 
     &__placeholder {
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
     }
 
     &__chevron-icon {
         flex: 0 0 16px;
         margin-left: auto;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         &_disabled {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
         }
     }
 
     &__error {
         @include mixins.text-body-1();
 
-        color: var(--yc-color-text-danger);
+        color: var(--g-color-text-danger);
         margin-top: 2px;
     }
 }

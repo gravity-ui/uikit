@@ -101,24 +101,24 @@ $block: '.#{variables.$ns}tabs';
             }
 
             &-title {
-                color: var(--yc-color-text-secondary);
+                color: var(--g-color-text-secondary);
             }
 
             &-icon,
             &-counter {
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
 
             &_active,
             &:hover,
             &:focus {
                 #{$block}__item-title {
-                    color: var(--yc-color-text-primary);
+                    color: var(--g-color-text-primary);
                 }
 
                 #{$block}__item-icon,
                 #{$block}__item-counter {
-                    color: var(--yc-color-text-secondary);
+                    color: var(--g-color-text-secondary);
                 }
             }
 
@@ -132,7 +132,7 @@ $block: '.#{variables.$ns}tabs';
                 pointer-events: none;
 
                 #{$block}__item-title {
-                    color: var(--yc-color-text-hint);
+                    color: var(--g-color-text-hint);
                 }
             }
         }
@@ -151,17 +151,17 @@ $block: '.#{variables.$ns}tabs';
 
             &-title {
                 line-height: var(--yc-tab-item-vertical-height);
-                color: var(--yc-color-text-primary);
+                color: var(--g-color-text-primary);
             }
 
             &-meta {
                 line-height: var(--yc-tab-item-vertical-height);
-                color: var(--yc-color-text-secondary);
+                color: var(--g-color-text-secondary);
             }
 
             &-icon,
             &-counter {
-                color: var(--yc-color-text-secondary);
+                color: var(--g-color-text-secondary);
             }
 
             &:hover,
@@ -182,7 +182,7 @@ $block: '.#{variables.$ns}tabs';
                 pointer-events: none;
 
                 & #{$block}__item-title {
-                    color: var(--yc-color-text-secondary);
+                    color: var(--g-color-text-secondary);
                 }
             }
         }

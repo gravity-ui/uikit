@@ -70,10 +70,10 @@ $root: '.docs-decorator';
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         cursor: pointer;
 
-        color: var(--yc-color-text-link);
+        color: var(--g-color-text-link);
 
         &:hover {
-            color: var(--yc-color-text-link-hover);
+            color: var(--g-color-text-link-hover);
         }
     }
 
@@ -82,7 +82,7 @@ $root: '.docs-decorator';
         line-height: 1;
         padding: 1px 4px;
         background: var(--g-color-base-misc);
-        color: var(--yc-color-text-misc);
+        color: var(--g-color-text-misc);
     }
 
     .docblock-source {

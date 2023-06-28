@@ -70,7 +70,7 @@ $block: '.#{variables.$ns}radio-button';
         &-text {
             display: inline-block;
             white-space: nowrap;
-            color: var(--yc-color-text-complementary);
+            color: var(--g-color-text-complementary);
 
             &_icon {
                 height: 100%;
@@ -82,7 +82,7 @@ $block: '.#{variables.$ns}radio-button';
         &:hover,
         &_checked {
             #{$block}__option-text {
-                color: var(--yc-color-text-primary);
+                color: var(--g-color-text-primary);
             }
         }
 
@@ -95,7 +95,7 @@ $block: '.#{variables.$ns}radio-button';
             pointer-events: none;
 
             #{$block}__option-text {
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
         }
     }

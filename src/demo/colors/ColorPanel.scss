@@ -31,7 +31,7 @@
     &__bg-switcher {
         letter-spacing: 1px;
         font-family: var(--g-font-family-monospace);
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
         position: absolute;
         top: 15px;
         right: 15px;
@@ -47,7 +47,7 @@
 
     &__description {
         @include mixins.text-body-2();
-        color: var(--yc-color-text-complementary);
+        color: var(--g-color-text-complementary);
         margin-top: 3px;
     }
 
@@ -95,7 +95,7 @@
 
         &-var {
             @include mixins.text-code-1();
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
             margin-left: 10px;
             cursor: pointer;
         }

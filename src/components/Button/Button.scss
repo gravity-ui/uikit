@@ -146,7 +146,7 @@ $iconWidth: 16px;
             --yc-button-background-color: var(--g-color-base-generic);
             --yc-button-background-color-hover: var(--g-color-base-generic-hover);
 
-            @include button-text-color(var(--yc-color-text-primary));
+            @include button-text-color(var(--g-color-text-primary));
         }
 
         &_action {
@@ -164,7 +164,7 @@ $iconWidth: 16px;
         }
 
         &_outlined {
-            @include button-text-color(var(--yc-color-text-primary));
+            @include button-text-color(var(--g-color-text-primary));
 
             &::before {
                 border: 1px solid var(--g-color-line-generic);
@@ -172,7 +172,7 @@ $iconWidth: 16px;
         }
 
         &_outlined-info {
-            @include button-text-color(var(--yc-color-text-info));
+            @include button-text-color(var(--g-color-text-info));
 
             &::before {
                 border: 1px solid var(--g-color-line-info);
@@ -180,7 +180,7 @@ $iconWidth: 16px;
         }
 
         &_outlined-danger {
-            @include button-text-color(var(--yc-color-text-danger));
+            @include button-text-color(var(--g-color-text-danger));
 
             &::before {
                 border: 1px solid var(--g-color-line-danger);
@@ -191,7 +191,7 @@ $iconWidth: 16px;
             --yc-button-background-color: var(--g-color-base-float);
             --yc-button-background-color-hover: var(--g-color-base-float-hover);
 
-            @include button-text-color(var(--yc-color-text-primary));
+            @include button-text-color(var(--g-color-text-primary));
 
             &::before {
                 box-shadow: 0 3px 5px var(--g-color-sfx-shadow);
@@ -223,36 +223,33 @@ $iconWidth: 16px;
         }
 
         &_flat {
-            @include button-text-color(var(--yc-color-text-primary));
+            @include button-text-color(var(--g-color-text-primary));
         }
 
         &_flat-info {
-            @include button-text-color(var(--yc-color-text-info));
+            @include button-text-color(var(--g-color-text-info));
         }
 
         &_flat-danger {
-            @include button-text-color(var(--yc-color-text-danger));
+            @include button-text-color(var(--g-color-text-danger));
         }
 
         &_flat-secondary {
-            @include button-text-color(
-                var(--yc-color-text-secondary),
-                var(--yc-color-text-primary)
-            );
+            @include button-text-color(var(--g-color-text-secondary), var(--g-color-text-primary));
         }
 
         &_normal-contrast {
             --yc-button-background-color: var(--g-color-base-light);
             --yc-button-background-color-hover: var(--g-color-base-light-hover);
 
-            @include button-text-color(var(--yc-color-text-dark-primary));
+            @include button-text-color(var(--g-color-text-dark-primary));
         }
 
         &_outlined-contrast {
             --yc-button-background-color: transparent;
             --yc-button-background-color-hover: var(--g-color-base-light-simple-hover);
 
-            @include button-text-color(var(--yc-color-text-light-primary));
+            @include button-text-color(var(--g-color-text-light-primary));
 
             &::before {
                 border: 1px solid var(--g-color-line-light);
@@ -263,7 +260,7 @@ $iconWidth: 16px;
             --yc-button-background-color: transparent;
             --yc-button-background-color-hover: var(--g-color-base-light-simple-hover);
 
-            @include button-text-color(var(--yc-color-text-light-primary));
+            @include button-text-color(var(--g-color-text-light-primary));
         }
 
         &_flat,
@@ -274,7 +271,7 @@ $iconWidth: 16px;
                 --yc-button-background-color: transparent;
                 --yc-button-background-color-hover: transparent;
 
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
         }
 
@@ -284,7 +281,7 @@ $iconWidth: 16px;
                 --yc-button-background-color: transparent;
                 --yc-button-background-color-hover: transparent;
 
-                color: var(--yc-color-text-light-hint);
+                color: var(--g-color-text-light-hint);
             }
         }
 
@@ -295,7 +292,7 @@ $iconWidth: 16px;
                 --yc-button-background-color: var(--g-color-base-light-disabled);
                 --yc-button-background-color-hover: var(--g-color-base-light-disabled);
 
-                color: var(--yc-color-text-light-secondary);
+                color: var(--g-color-text-light-secondary);
             }
         }
     }
@@ -327,7 +324,7 @@ $iconWidth: 16px;
                 --yc-button-background-color: var(--g-color-base-danger);
                 --yc-button-background-color-hover: var(--g-color-base-danger-hover);
 
-                @include button-text-color(var(--yc-color-text-danger));
+                @include button-text-color(var(--g-color-text-danger));
 
                 &::before {
                     border: none;
@@ -404,7 +401,7 @@ $iconWidth: 16px;
             --yc-button-background-color: var(--g-color-base-generic-accent-disabled);
             --yc-button-background-color-hover: var(--g-color-base-generic-accent-disabled);
 
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
 
             &::before,
             &:hover::before {

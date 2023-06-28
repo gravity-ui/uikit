@@ -9,7 +9,7 @@ $progress-xs-height: 4px;
 
 @mixin progress-text {
     font-size: 12px;
-    color: var(--yc-color-text-light-primary);
+    color: var(--g-color-text-light-primary);
     padding: 0 10px;
     box-sizing: border-box;
 }
@@ -24,7 +24,7 @@ $progress-xs-height: 4px;
     background-color: var(--g-color-base-generic);
 
     text-align: center;
-    text-shadow: 0 0 1px var(--yc-color-text-dark-primary);
+    text-shadow: 0 0 1px var(--g-color-text-dark-primary);
 
     &__text {
         @include progress-text;
@@ -54,7 +54,7 @@ $progress-xs-height: 4px;
         height: 100%;
         overflow: hidden;
 
-        color: var(--yc-color-text-light-primary);
+        color: var(--g-color-text-light-primary);
         transition: transform 0.6s ease, width 0.6s ease, background-color 0.6s ease;
 
         &_theme_default {
@@ -93,7 +93,7 @@ $progress-xs-height: 4px;
         margin: 0 auto;
 
         overflow: hidden;
-        color: var(--yc-color-text-light-primary);
+        color: var(--g-color-text-light-primary);
         transition: transform 0.6s ease;
     }
 

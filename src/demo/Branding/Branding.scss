@@ -130,7 +130,7 @@
         --yc-color-brand-selection-hover: var(--yc-color-private-brand-100);
         --yc-color-brand-link: var(--yc-color-brand-normal);
         --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
-        --yc-color-brand-text-contrast: var(--yc-color-text-light-primary);
+        --yc-color-brand-text-contrast: var(--g-color-text-light-primary);
     }
 
     &_theme_dark {
@@ -143,7 +143,7 @@
         --yc-color-brand-selection-hover: var(--yc-color-private-brand-200);
         --yc-color-brand-link: var(--yc-color-brand-normal);
         --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
-        --yc-color-brand-text-contrast: var(--yc-color-text-light-primary);
+        --yc-color-brand-text-contrast: var(--g-color-text-light-primary);
     }
 }
 
@@ -158,7 +158,7 @@
         --yc-color-brand-selection-hover: var(--yc-color-private-brand-200);
         --yc-color-brand-link: var(--yc-color-brand-normal);
         --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
-        --yc-color-brand-text-contrast: var(--yc-color-text-dark-primary);
+        --yc-color-brand-text-contrast: var(--g-color-text-dark-primary);
     }
 
     &_theme_dark {
@@ -171,6 +171,6 @@
         --yc-color-brand-selection-hover: var(--yc-color-private-brand-200);
         --yc-color-brand-link: var(--yc-color-brand-normal);
         --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
-        --yc-color-brand-text-contrast: var(--yc-color-text-dark-primary);
+        --yc-color-brand-text-contrast: var(--g-color-text-dark-primary);
     }
 }

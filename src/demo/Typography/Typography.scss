@@ -15,7 +15,7 @@
         @include mixins.text-subheader-1();
         margin-bottom: 20px;
         text-transform: uppercase;
-        color: var(--yc-color-text-primary);
+        color: var(--g-color-text-primary);
     }
 
     &__block + &__block {
@@ -47,7 +47,7 @@
         @include mixins.text-body-1();
         display: inline-block;
         width: 180px;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
         text-transform: uppercase;
     }
 

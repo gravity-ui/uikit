@@ -18,7 +18,7 @@
         width: 100%;
         margin-bottom: 5px;
         margin-left: var(--yc-list-margin);
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
     }
 
     &__main-container {
@@ -56,7 +56,7 @@
 
     &__group {
         @include mixins.text-accent;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
     }
 
     &__select {

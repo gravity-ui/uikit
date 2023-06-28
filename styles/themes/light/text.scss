@@ -1,41 +1,41 @@
 @mixin yc-colors-text-light {
-    --yc-color-text-primary: var(--yc-color-private-black-850);
-    --yc-color-text-complementary: var(--yc-color-private-black-700);
-    --yc-color-text-secondary: var(--yc-color-private-black-500);
-    --yc-color-text-hint: var(--yc-color-private-black-300);
+    --g-color-text-primary: var(--yc-color-private-black-850);
+    --g-color-text-complementary: var(--yc-color-private-black-700);
+    --g-color-text-secondary: var(--yc-color-private-black-500);
+    --g-color-text-hint: var(--yc-color-private-black-300);
 
-    --yc-color-text-info: var(--yc-color-private-blue-550);
-    --yc-color-text-positive: var(--yc-color-private-green-600);
-    --yc-color-text-warning: var(--yc-color-private-yellow-700);
-    --yc-color-text-danger: var(--yc-color-private-red-500);
-    --yc-color-text-utility: var(--yc-color-private-purple-550);
-    --yc-color-text-misc: var(--yc-color-private-cool-grey-800);
+    --g-color-text-info: var(--yc-color-private-blue-550);
+    --g-color-text-positive: var(--yc-color-private-green-600);
+    --g-color-text-warning: var(--yc-color-private-yellow-700);
+    --g-color-text-danger: var(--yc-color-private-red-500);
+    --g-color-text-utility: var(--yc-color-private-purple-550);
+    --g-color-text-misc: var(--yc-color-private-cool-grey-800);
 
-    --yc-color-text-info-heavy: var(--yc-color-private-blue-550);
-    --yc-color-text-positive-heavy: var(--yc-color-private-green-600);
-    --yc-color-text-warning-heavy: var(--yc-color-private-yellow-800);
-    --yc-color-text-danger-heavy: var(--yc-color-private-red-500);
-    --yc-color-text-utility-heavy: var(--yc-color-private-purple-550);
-    --yc-color-text-misc-heavy: var(--yc-color-private-cool-grey-800);
+    --g-color-text-info-heavy: var(--yc-color-private-blue-550);
+    --g-color-text-positive-heavy: var(--yc-color-private-green-600);
+    --g-color-text-warning-heavy: var(--yc-color-private-yellow-800);
+    --g-color-text-danger-heavy: var(--yc-color-private-red-500);
+    --g-color-text-utility-heavy: var(--yc-color-private-purple-550);
+    --g-color-text-misc-heavy: var(--yc-color-private-cool-grey-800);
 
-    --yc-color-text-special: var(--yc-color-brand-normal);
-    --yc-color-text-link: var(--yc-color-brand-link);
-    --yc-color-text-link-hover: var(--yc-color-brand-link-hover);
-    --yc-color-text-link-visited: var(--yc-color-brand-link-visited);
-    --yc-color-text-link-visited-hover: var(--yc-color-brand-link-visited-hover);
-    --yc-color-text-yandex-red: var(--yc-color-private-red-550);
+    --g-color-text-special: var(--yc-color-brand-normal);
+    --g-color-text-link: var(--yc-color-brand-link);
+    --g-color-text-link-hover: var(--yc-color-brand-link-hover);
+    --g-color-text-link-visited: var(--yc-color-brand-link-visited);
+    --g-color-text-link-visited-hover: var(--yc-color-brand-link-visited-hover);
+    --g-color-text-yandex-red: var(--yc-color-private-red-550);
 
-    --yc-color-text-dark-primary: var(--yc-color-private-black-850);
-    --yc-color-text-dark-complementary: var(--yc-color-private-black-700);
-    --yc-color-text-dark-secondary: var(--yc-color-private-black-500);
+    --g-color-text-dark-primary: var(--yc-color-private-black-850);
+    --g-color-text-dark-complementary: var(--yc-color-private-black-700);
+    --g-color-text-dark-secondary: var(--yc-color-private-black-500);
 
-    --yc-color-text-light-primary: var(--yc-color-private-white-1000);
-    --yc-color-text-light-complementary: var(--yc-color-private-white-850);
-    --yc-color-text-light-secondary: var(--yc-color-private-white-700);
-    --yc-color-text-light-hint: var(--yc-color-private-white-500);
+    --g-color-text-light-primary: var(--yc-color-private-white-1000);
+    --g-color-text-light-complementary: var(--yc-color-private-white-850);
+    --g-color-text-light-secondary: var(--yc-color-private-white-700);
+    --g-color-text-light-hint: var(--yc-color-private-white-500);
 
-    --yc-color-text-inverted-primary: var(--yc-color-private-white-1000);
-    --yc-color-text-inverted-complementary: var(--yc-color-private-white-850);
-    --yc-color-text-inverted-secondary: var(--yc-color-private-white-700);
-    --yc-color-text-inverted-hint: var(--yc-color-private-white-500);
+    --g-color-text-inverted-primary: var(--yc-color-private-white-1000);
+    --g-color-text-inverted-complementary: var(--yc-color-private-white-850);
+    --g-color-text-inverted-secondary: var(--yc-color-private-white-700);
+    --g-color-text-inverted-hint: var(--yc-color-private-white-500);
 }

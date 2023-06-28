@@ -127,14 +127,14 @@ $block: '.#{variables.$ns}persona';
         justify-content: center;
         cursor: pointer;
         padding-right: 6px;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         transition-property: color;
         transition-duration: $transitionDuration;
         transition-timing-function: $transitionTimingFunction;
 
         &:hover {
-            color: var(--yc-color-text-primary);
+            color: var(--g-color-text-primary);
         }
     }
 }

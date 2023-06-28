@@ -11,7 +11,7 @@ $block: '.#{variables.$ns}menu';
     list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
-    color: var(--yc-color-text-primary);
+    color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
     user-select: none;
     outline: none;
@@ -32,7 +32,7 @@ $block: '.#{variables.$ns}menu';
         display: flex;
         align-items: center;
         cursor: pointer;
-        color: var(--yc-color-text-primary);
+        color: var(--g-color-text-primary);
         text-decoration: none;
         outline: none;
         touch-action: manipulation;
@@ -57,7 +57,7 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_disabled {
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
             cursor: default;
             pointer-events: none;
 
@@ -78,14 +78,14 @@ $block: '.#{variables.$ns}menu';
 
         &_theme_danger {
             &:not(#{$block}__item_disabled) {
-                color: var(--yc-color-text-danger);
+                color: var(--g-color-text-danger);
             }
         }
     }
 
     &__group-label {
         @include mixins.text-accent();
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
     }
 
     &__group-list {

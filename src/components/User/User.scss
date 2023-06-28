@@ -16,12 +16,12 @@ $block: '.#{variables.$ns}user';
         max-width: 165px;
 
         #{$block}__name {
-            color: var(--yc-color-text-primary);
+            color: var(--g-color-text-primary);
             @include mixins.overflow-ellipsis();
         }
 
         #{$block}__description {
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
             @include mixins.overflow-ellipsis();
         }
     }

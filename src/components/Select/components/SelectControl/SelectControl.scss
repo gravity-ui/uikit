@@ -170,7 +170,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             }
         }
 
-        &:not(&_error):not(&_disabled)::before {
+        &:not(&_error):not(&_disabled):hover::before {
             border-color: var(--yc-color-line-generic-hover);
         }
 

@@ -4,9 +4,9 @@ const path = require('path');
 const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-dart-sass');
 const replace = require('gulp-replace');
+const rtlcss = require('gulp-rtlcss');
 const ts = require('gulp-typescript');
 const rimraf = require('rimraf');
-const rtlcss = require('gulp-rtlcss');
 
 const BUILD_DIR = path.resolve('build');
 

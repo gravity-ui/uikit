@@ -56,12 +56,12 @@ $base-height-l: 36px;
 
         #{$block}__center {
             @include loaderSize($base-height-s);
-            margin-left: $base-height-s * 0.25;
+            margin-inline-start: $base-height-s * 0.25;
         }
 
         #{$block}__right {
             @include loaderPseudoSize($base-height-s);
-            margin-left: $base-height-s * 0.25;
+            margin-inline-start: $base-height-s * 0.25;
         }
     }
 
@@ -72,12 +72,12 @@ $base-height-l: 36px;
 
         #{$block}__center {
             @include loaderSize($base-height-m);
-            margin-left: $base-height-m * 0.25;
+            margin-inline-start: $base-height-m * 0.25;
         }
 
         #{$block}__right {
             @include loaderPseudoSize($base-height-m);
-            margin-left: $base-height-m * 0.25;
+            margin-inline-start: $base-height-m * 0.25;
         }
     }
 
@@ -88,12 +88,12 @@ $base-height-l: 36px;
 
         #{$block}__center {
             @include loaderSize($base-height-l);
-            margin-left: $base-height-l * 0.25;
+            margin-inline-start: $base-height-l * 0.25;
         }
 
         #{$block}__right {
             @include loaderPseudoSize($base-height-l);
-            margin-left: $base-height-l * 0.25;
+            margin-inline-start: $base-height-l * 0.25;
         }
     }
 }

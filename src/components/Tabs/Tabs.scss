@@ -59,7 +59,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         &-icon {
-            margin-right: 8px;
+            margin-inline-end: 8px;
         }
 
         &-title {
@@ -73,7 +73,7 @@ $block: '.#{variables.$ns}tabs';
 
         &-counter,
         &-label {
-            margin-left: 8px;
+            margin-inline-start: 8px;
         }
 
         &-icon > svg {
@@ -138,7 +138,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         > :not(:last-child) {
-            margin-right: var(--yc-tabs-gap);
+            margin-inline-end: var(--yc-tabs-gap);
         }
     }
 

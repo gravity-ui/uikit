@@ -108,17 +108,15 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__button {
         @include mixins.button-reset();
+        @include mixins.pin($blockButton, '::before', var(--_--select-border-radius));
 
         overflow: hidden;
 
         &::before {
-            @include mixins.pin($block, $block, var(--_--select-border-radius));
-
             content: '';
             position: absolute;
             inset: 0;
             border: 1px solid var(--yc-color-line-generic);
-            border-radius: var(--_--select-border-radius);
         }
 
         &::after {
@@ -126,7 +124,6 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             position: absolute;
             inset: 0;
             z-index: -1;
-            border-radius: var(--_--select-border-radius);
         }
 
         &_view_clear {

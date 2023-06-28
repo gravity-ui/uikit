@@ -119,6 +119,36 @@
     }
 }
 
+.yc-root_brand_blue.yc-root {
+    &_theme_light {
+        @include brand-vars(#5282ff, #fff);
+
+        --g-color-base-brand: var(--g-color-private-brand-800-solid);
+        --g-color-base-brand-hover: var(--g-color-private-brand-900-solid);
+        --g-color-base-selection: var(--g-color-private-brand-50);
+        --g-color-base-selection-hover: var(--g-color-private-brand-100);
+        --g-color-line-brand: var(--g-color-private-brand-800-solid);
+        --g-color-text-brand: var(--g-color-base-brand);
+        --g-color-text-link: var(--g-color-base-brand);
+        --g-color-text-link-hover: var(--g-color-private-brand-1000-solid);
+        --g-color-text-brand-contrast: var(--g-color-text-light-primary);
+    }
+
+    &_theme_dark {
+        @include brand-vars(#577ed6, #2d2c33);
+
+        --g-color-base-brand: var(--g-color-private-brand-700-solid);
+        --g-color-base-brand-hover: var(--g-color-private-brand-800-solid);
+        --g-color-base-selection: var(--g-color-private-brand-100);
+        --g-color-base-selection-hover: var(--g-color-private-brand-200);
+        --g-color-line-brand: var(--g-color-private-brand-700-solid);
+        --g-color-text-brand: var(--g-color-base-brand);
+        --g-color-text-link: var(--g-color-base-brand);
+        --g-color-text-link-hover: var(--g-color-private-brand-1000-solid);
+        --g-color-text-brand-contrast: var(--g-color-text-light-primary);
+    }
+}
+
 .yc-root_brand_red.yc-root {
     &_theme_light {
         @include brand-vars(#f14b4b, #fff);
@@ -127,6 +157,7 @@
         --g-color-base-brand-hover: var(--g-color-private-brand-900-solid);
         --g-color-base-selection: var(--g-color-private-brand-50);
         --g-color-base-selection-hover: var(--g-color-private-brand-100);
+        --g-color-line-brand: var(--g-color-private-brand-800-solid);
         --g-color-text-brand: var(--g-color-base-brand);
         --g-color-text-link: var(--g-color-base-brand);
         --g-color-text-link-hover: var(--g-color-private-brand-1000-solid);
@@ -140,6 +171,7 @@
         --g-color-base-brand-hover: var(--g-color-private-brand-800-solid);
         --g-color-base-selection: var(--g-color-private-brand-100);
         --g-color-base-selection-hover: var(--g-color-private-brand-200);
+        --g-color-line-brand: var(--g-color-private-brand-700-solid);
         --g-color-text-brand: var(--g-color-base-brand);
         --g-color-text-link: var(--g-color-base-brand);
         --g-color-text-link-hover: var(--g-color-private-brand-1000-solid);
@@ -155,8 +187,9 @@
         --g-color-base-brand-hover: var(--g-color-private-brand-900-solid);
         --g-color-base-selection: var(--g-color-private-brand-100);
         --g-color-base-selection-hover: var(--g-color-private-brand-200);
-        --g-color-text-brand: var(--g-color-base-brand);
-        --g-color-text-link: var(--g-color-base-brand);
+        --g-color-line-brand: var(--g-color-private-brand-800-solid);
+        --g-color-text-brand: var(--g-color-private-brand-900-solid);
+        --g-color-text-link: var(--g-color-private-brand-900-solid);
         --g-color-text-link-hover: var(--g-color-private-brand-1000-solid);
         --g-color-text-brand-contrast: var(--g-color-text-dark-primary);
     }
@@ -168,8 +201,9 @@
         --g-color-base-brand-hover: var(--g-color-private-brand-800-solid);
         --g-color-base-selection: var(--g-color-private-brand-100);
         --g-color-base-selection-hover: var(--g-color-private-brand-200);
-        --g-color-text-brand: var(--g-color-base-brand);
-        --g-color-text-link: var(--g-color-base-brand);
+        --g-color-line-brand: var(--g-color-private-brand-700-solid);
+        --g-color-text-brand: var(--g-color-private-brand-900-solid);
+        --g-color-text-link: var(--g-color-private-brand-900-solid);
         --g-color-text-link-hover: var(--g-color-private-brand-1000-solid);
         --g-color-text-brand-contrast: var(--g-color-text-dark-primary);
     }

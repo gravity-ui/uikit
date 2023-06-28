@@ -1,6 +1,8 @@
 import React from 'react';
 
+import {KeyCode} from '../constants';
 import {block} from '../utils/cn';
+import {useForkRef} from '../utils/useForkRef';
 
 import './Card.scss';
 
@@ -47,6 +49,10 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         selected,
         style,
     } = props;
+
+    const cardRef = React.useRef<HTMLDivElement>(null);
+    const handleRef = useForkRef(ref, cardRef);
+
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
     const isTypeContainer = type === 'container';
@@ -60,11 +66,25 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     /* View only with type 'container' and 'selection' */
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
+    const handleClick = isClickable ? onClick : undefined;
+
+    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+        switch (event.key) {
+            case KeyCode.SPACEBAR:
+                event.preventDefault();
+
+                if (isClickable) {
+                    cardRef.current?.click();
+                }
+                break;
+        }
+    };
+
     return (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             style={style}
-            ref={ref}
+            ref={handleRef}
             className={b(
                 {
                     theme: theme || defaultTheme,
@@ -77,7 +97,10 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                 },
                 className,
             )}
-            onClick={isClickable ? onClick : undefined}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+            tabIndex={isClickable ? 0 : -1}
         >
             {children}
         </div>

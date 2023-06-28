@@ -9,14 +9,21 @@ $block: '.#{variables.$ns}card';
     box-shadow: var(--yc-card-box-shadow);
     box-sizing: border-box;
     border-radius: var(--yc-card-border-radius);
+    outline: none;
 
     &_type_action {
         background-color: var(--yc-color-base-float);
         --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
 
-        &#{$block}_clickable:hover {
-            --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
-            cursor: pointer;
+        &#{$block}_clickable {
+            &:hover {
+                --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
+                cursor: pointer;
+            }
+
+            &:focus-within {
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+            }
         }
     }
 
@@ -34,13 +41,19 @@ $block: '.#{variables.$ns}card';
             pointer-events: none;
         }
 
-        &#{$block}_clickable:hover {
-            border-color: transparent;
-            cursor: pointer;
+        &#{$block}_clickable {
+            &:hover {
+                border-color: transparent;
+                cursor: pointer;
 
-            &::before {
-                content: '';
-                border: 2px solid var(--yc-color-line-selection-hover);
+                &::before {
+                    content: '';
+                    border: 2px solid var(--yc-color-line-selection-hover);
+                }
+            }
+
+            &:focus-within {
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
             }
         }
 

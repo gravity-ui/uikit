@@ -4,26 +4,24 @@
 $block: '.#{variables.$ns}share-list-item';
 
 #{$block} {
-    @include yc-colors-social;
-
     display: flex;
     align-items: center;
 
     &__icon_type {
         &_telegram {
-            color: var(--yc-color-telegram);
+            color: var($g-color-telegram);
         }
 
         &_facebook {
-            color: var(--yc-color-facebook);
+            color: var($g-color-facebook);
         }
 
         &_twitter {
-            color: var(--yc-color-twitter);
+            color: var($g-color-twitter);
         }
 
         &_vk {
-            color: var(--yc-color-vk);
+            color: var($g-color-vk);
         }
     }
 

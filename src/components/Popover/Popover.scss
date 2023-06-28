@@ -93,16 +93,16 @@ $block: '.#{variables.$ns}popover';
             &_announcement {
                 // Increasing specificity for overrides
                 &#{&} {
-                    color: var(--yc-color-text-primary);
+                    color: var(--g-color-text-primary);
                 }
 
                 #{$class}__tooltip-content a:not(.yc-button) {
                     @at-root #{$tooltip_block}_force-links-appearance#{&} {
                         text-decoration: none;
-                        color: var(--yc-color-text-link);
+                        color: var(--g-color-text-link);
 
                         &:hover {
-                            color: var(--yc-color-text-link-hover);
+                            color: var(--g-color-text-link-hover);
                         }
                     }
                 }
@@ -111,33 +111,33 @@ $block: '.#{variables.$ns}popover';
             &_announcement {
                 // Increasing specificity for overrides
                 &#{&} {
-                    --yc-popup-background-color: var(--yc-color-base-simple-hover-solid);
-                    --yc-popup-border-color: var(--yc-color-base-simple-hover-solid);
+                    --yc-popup-background-color: var(--g-color-base-simple-hover-solid);
+                    --yc-popup-border-color: var(--g-color-base-simple-hover-solid);
                 }
             }
 
             &_special {
                 // Increasing specificity for overrides
                 &#{&} {
-                    --yc-popup-background-color: var(--yc-color-base-special);
-                    --yc-popup-border-color: var(--yc-color-base-special);
-                    color: var(--yc-color-text-light-primary);
+                    --yc-popup-background-color: var(--g-color-base-special);
+                    --yc-popup-border-color: var(--g-color-base-special);
+                    color: var(--g-color-text-light-primary);
                 }
 
                 #{$class}__tooltip-content a:not(.yc-button) {
                     @include mixins.text-accent;
-                    color: var(--yc-color-text-light-primary);
+                    color: var(--g-color-text-light-primary);
 
                     &:hover {
-                        color: var(--yc-color-text-yandex-red);
+                        color: var(--g-color-text-yandex-red);
                     }
                 }
 
                 .yc-link {
-                    color: var(--yc-color-text-light-primary);
+                    color: var(--g-color-text-light-primary);
 
                     &:hover {
-                        color: var(--yc-color-text-yandex-red);
+                        color: var(--g-color-text-yandex-red);
                     }
                 }
             }

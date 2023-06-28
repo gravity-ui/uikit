@@ -7,7 +7,7 @@ $block: '.#{variables.$ns-new}pagination-ellipsis';
     @include mixins.text-body-1;
     display: flex;
     align-items: flex-end;
-    color: var(--yc-color-text-secondary);
+    color: var(--g-color-text-secondary);
 
     &_size_m {
         padding-bottom: 5px;

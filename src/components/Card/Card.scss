@@ -12,8 +12,8 @@ $block: '.#{variables.$ns}card';
     outline: none;
 
     &_type_action {
-        background-color: var(--yc-color-base-float);
-        --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
+        background-color: var(--g-color-base-float);
+        --yc-card-box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
 
         &::after {
             position: absolute;
@@ -30,12 +30,12 @@ $block: '.#{variables.$ns}card';
             position: relative;
 
             &:hover {
-                --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
+                --yc-card-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
             }
 
             &:focus::after {
                 content: '';
-                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+                box-shadow: 0 0 0 2px var(--g-color-line-misc);
             }
 
             &:focus:not(:focus-visible)::after {
@@ -46,7 +46,7 @@ $block: '.#{variables.$ns}card';
 
     &_type_selection {
         position: relative;
-        border: 1px solid var(--yc-color-line-generic);
+        border: 1px solid var(--g-color-line-generic);
 
         &::before {
             position: absolute;
@@ -76,7 +76,7 @@ $block: '.#{variables.$ns}card';
 
                 &::before {
                     content: '';
-                    border: 2px solid var(--yc-color-line-selection-hover);
+                    border: 2px solid var(--g-color-line-selection-hover);
                 }
 
                 &:focus-visible::before {
@@ -99,7 +99,7 @@ $block: '.#{variables.$ns}card';
 
             &::before {
                 content: '';
-                border: 2px solid var(--yc-color-line-selection-active);
+                border: 2px solid var(--g-color-line-selection-active);
             }
         }
 
@@ -111,58 +111,58 @@ $block: '.#{variables.$ns}card';
     &_type_container {
         &#{$block}_theme_normal {
             &#{$block}_view_outlined {
-                border: 1px solid var(--yc-color-line-generic);
+                border: 1px solid var(--g-color-line-generic);
             }
             &#{$block}_view_filled {
-                background-color: var(--yc-color-base-generic);
+                background-color: var(--g-color-base-generic);
             }
         }
 
         &#{$block}_theme_info {
             &#{$block}_view_outlined {
-                border: 1px solid var(--yc-color-line-info);
+                border: 1px solid var(--g-color-line-info);
             }
             &#{$block}_view_filled {
-                background-color: var(--yc-color-base-info);
+                background-color: var(--g-color-base-info);
             }
         }
 
         &#{$block}_theme_positive {
             &#{$block}_view_outlined {
-                border: 1px solid var(--yc-color-line-positive);
+                border: 1px solid var(--g-color-line-positive);
             }
             &#{$block}_view_filled {
-                background-color: var(--yc-color-base-positive);
+                background-color: var(--g-color-base-positive);
             }
         }
 
         &#{$block}_theme_warning {
             &#{$block}_view_outlined {
-                border: 1px solid var(--yc-color-line-warning);
+                border: 1px solid var(--g-color-line-warning);
             }
             &#{$block}_view_filled {
-                background-color: var(--yc-color-base-warning);
+                background-color: var(--g-color-base-warning);
             }
         }
 
         &#{$block}_theme_danger {
             &#{$block}_view_outlined {
-                border: 1px solid var(--yc-color-line-danger);
+                border: 1px solid var(--g-color-line-danger);
             }
             &#{$block}_view_filled {
-                background-color: var(--yc-color-base-danger);
+                background-color: var(--g-color-base-danger);
             }
         }
 
         &#{$block}_view_raised {
-            background-color: var(--yc-color-base-float);
+            background-color: var(--g-color-base-float);
 
             @at-root &#{$block}_size_m {
-                --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
+                --yc-card-box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
             }
             @at-root &#{$block}_size_l {
-                --yc-card-box-shadow: 0px 1px 6px var(--yc-color-sfx-shadow-light),
-                    1px 3px 13px var(--yc-color-sfx-shadow-light);
+                --yc-card-box-shadow: 0px 1px 6px var(--g-color-sfx-shadow-light),
+                    1px 3px 13px var(--g-color-sfx-shadow-light);
             }
         }
     }

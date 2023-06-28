@@ -5,7 +5,6 @@
 @import './infographics';
 @import './sfx';
 @import './promo';
-@import './brand';
 @import './system';
 
 @mixin g-colors-light {
@@ -16,6 +15,5 @@
     @include yc-colors-infographics-light;
     @include yc-colors-sfx-light;
     @include yc-colors-promo-light;
-    @include yc-colors-brand-light;
     @include yc-colors-system-light;
 }

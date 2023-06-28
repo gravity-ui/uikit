@@ -9,13 +9,12 @@
     --g-color-base-generic-ultralight: var(--g-color-private-black-20-solid);
     --g-color-base-simple-hover: var(--g-color-private-black-50);
     --g-color-base-simple-hover-solid: var(--g-color-private-black-50-solid);
-    --g-color-base-selection: var(--yc-color-brand-selection);
-    --g-color-base-selection-hover: var(--yc-color-brand-selection-hover);
+    --g-color-base-selection: var(--g-color-private-blue-50);
+    --g-color-base-selection-hover: var(--g-color-private-blue-100);
 
-    --g-color-base-special: var(--yc-color-brand-normal);
-    --g-color-base-special-hover: var(--yc-color-brand-normal-hover);
-    --g-color-base-action: var(--g-color-base-special);
-    --g-color-base-action-hover: var(--g-color-base-special-hover);
+    --g-color-base-brand: var(--g-color-private-blue-550);
+    --g-color-base-brand-hover: var(--g-color-private-blue-600);
+    --g-color-base-brand-light: var(--g-color-private-blue-300);
 
     --g-color-base-info: var(--g-color-private-blue-50);
     --g-color-base-info-hover: var(--g-color-private-blue-100);

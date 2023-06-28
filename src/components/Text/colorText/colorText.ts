@@ -21,7 +21,7 @@ export const TEXT_COLORS = [
     'utility-heavy',
     'misc',
     'misc-heavy',
-    'special',
+    'brand',
     'link',
     'link-hover',
     'link-visited',

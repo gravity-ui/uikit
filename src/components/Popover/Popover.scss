@@ -119,8 +119,8 @@ $block: '.#{variables.$ns}popover';
             &_special {
                 // Increasing specificity for overrides
                 &#{&} {
-                    --yc-popup-background-color: var(--g-color-base-special);
-                    --yc-popup-border-color: var(--g-color-base-special);
+                    --yc-popup-background-color: var(--g-color-base-brand);
+                    --yc-popup-border-color: var(--g-color-base-brand);
                     color: var(--g-color-text-light-primary);
                 }
 

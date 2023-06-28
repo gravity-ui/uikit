@@ -5,7 +5,6 @@
 @import './infographics';
 @import './sfx';
 @import './promo';
-@import './brand';
 @import './system';
 
 @mixin g-colors-dark {
@@ -16,6 +15,5 @@
     @include yc-colors-infographics-dark;
     @include yc-colors-sfx-dark;
     @include yc-colors-promo-dark;
-    @include yc-colors-brand-dark;
     @include yc-colors-system-dark;
 }

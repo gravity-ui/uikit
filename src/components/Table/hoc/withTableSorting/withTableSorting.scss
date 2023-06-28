@@ -15,12 +15,12 @@ $block: '.#{variables.$ns}table';
         }
 
         &-indicator {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
             opacity: 0;
         }
 
         &_active &-indicator {
-            color: var(--yc-color-text-primary);
+            color: var(--g-color-text-primary);
             opacity: 1;
         }
 

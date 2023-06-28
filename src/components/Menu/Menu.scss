@@ -11,22 +11,22 @@ $block: '.#{variables.$ns}menu';
     list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
-    color: var(--yc-color-text-primary);
-    background-color: var(--yc-color-base-float);
+    color: var(--g-color-text-primary);
+    background-color: var(--g-color-base-float);
     user-select: none;
     outline: none;
 
     &__list-group-item + &__list-group-item,
     &__list-item + &__list-group-item,
     &__list-group-item + &__list-item {
-        border-top: 1px solid var(--yc-color-line-generic);
+        border-top: 1px solid var(--g-color-line-generic);
     }
 
     &__item {
         display: flex;
         align-items: center;
         cursor: pointer;
-        color: var(--yc-color-text-primary);
+        color: var(--g-color-text-primary);
         text-decoration: none;
         outline: none;
         touch-action: manipulation;
@@ -43,7 +43,7 @@ $block: '.#{variables.$ns}menu';
         &:hover,
         &:focus,
         &_selected {
-            background-color: var(--yc-color-base-simple-hover);
+            background-color: var(--g-color-base-simple-hover);
         }
 
         &:focus:not(:focus-visible):not(:hover):not(&_active) {
@@ -51,7 +51,7 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_disabled {
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
             cursor: default;
             pointer-events: none;
 
@@ -62,24 +62,24 @@ $block: '.#{variables.$ns}menu';
 
         &_active {
             cursor: default;
-            background-color: var(--yc-color-base-selection);
+            background-color: var(--g-color-base-selection);
 
             &:hover,
             &:focus {
-                background-color: var(--yc-color-base-selection);
+                background-color: var(--g-color-base-selection);
             }
         }
 
         &_theme_danger {
             &:not(#{$block}__item_disabled) {
-                color: var(--yc-color-text-danger);
+                color: var(--g-color-text-danger);
             }
         }
     }
 
     &__group-label {
         @include mixins.text-accent();
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
     }
 
     &__group-list {

@@ -6,10 +6,10 @@ $block: '.#{variables.$ns}radio-button';
     box-sizing: border-box;
     display: inline-flex;
     flex-direction: row;
-    font-family: var(--yc-text-body-font-family);
+    font-family: var(--g-font-family-sans);
     font-weight: normal;
     border-radius: var(--yc-radio-button-border-radius);
-    background-color: var(--yc-color-base-generic);
+    background-color: var(--g-color-base-generic);
     position: relative;
 
     --yc-radio-button-inner-border-radius: calc(var(--yc-radio-button-border-radius) - 3px);
@@ -59,7 +59,7 @@ $block: '.#{variables.$ns}radio-button';
             cursor: inherit;
 
             &:focus + #{$block}__option-outline {
-                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+                box-shadow: 0 0 0 2px var(--g-color-line-misc);
             }
 
             &:focus:not(:focus-visible) + #{$block}__option-outline {
@@ -70,7 +70,7 @@ $block: '.#{variables.$ns}radio-button';
         &-text {
             display: inline-block;
             white-space: nowrap;
-            color: var(--yc-color-text-complementary);
+            color: var(--g-color-text-complementary);
 
             &_icon {
                 height: 100%;
@@ -82,7 +82,7 @@ $block: '.#{variables.$ns}radio-button';
         &:hover,
         &_checked {
             #{$block}__option-text {
-                color: var(--yc-color-text-primary);
+                color: var(--g-color-text-primary);
             }
         }
 
@@ -95,7 +95,7 @@ $block: '.#{variables.$ns}radio-button';
             pointer-events: none;
 
             #{$block}__option-text {
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
         }
     }
@@ -118,7 +118,7 @@ $block: '.#{variables.$ns}radio-button';
     &__plate[hidden] ~ &__option_checked::before {
         content: '';
 
-        background-color: var(--yc-color-base-background);
+        background-color: var(--g-color-base-background);
     }
 
     &_size {
@@ -133,7 +133,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-s);
+            --yc-radio-button-border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -147,7 +147,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-m);
+            --yc-radio-button-border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -161,7 +161,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-l);
+            --yc-radio-button-border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -175,7 +175,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--yc-border-radius-xl);
+            --yc-radio-button-border-radius: var(--g-border-radius-xl);
         }
     }
 

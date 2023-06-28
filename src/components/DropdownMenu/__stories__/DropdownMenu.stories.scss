@@ -3,11 +3,11 @@
         width: 150px;
 
         .yc-menu__list-item:nth-child(even) {
-            background-color: var(--yc-color-base-generic);
+            background-color: var(--g-color-base-generic);
         }
 
         .yc-menu__list-item:hover {
-            background-color: var(--yc-color-base-selection);
+            background-color: var(--g-color-base-selection);
         }
     }
 

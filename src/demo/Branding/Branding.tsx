@@ -30,7 +30,7 @@ export function Branding({brand}: BrandingProps) {
     function renderColors(solid = false) {
         return Array.from({length: 11}).map((_, i) => {
             const varAlpha = 1000 - i * (i === 10 ? 95 : 100);
-            const varName = `--yc-color-private-brand-${varAlpha}${solid ? '-solid' : ''}`;
+            const varName = `--g-color-private-brand-${varAlpha}${solid ? '-solid' : ''}`;
 
             return (
                 <div

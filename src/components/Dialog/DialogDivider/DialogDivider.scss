@@ -3,6 +3,6 @@
 $block: '.#{variables.$ns}dialog-divider';
 
 #{$block} {
-    border-top: 1px solid var(--yc-color-line-generic);
+    border-top: 1px solid var(--g-color-line-generic);
     margin: var(--yc-dialog-divider-margin);
 }

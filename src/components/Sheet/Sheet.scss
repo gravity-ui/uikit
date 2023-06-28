@@ -18,7 +18,7 @@ $block: '.#{variables.$ns}sheet';
         left: 0;
         height: 100%;
         width: 100%;
-        background-color: var(--yc-color-sfx-veil);
+        background-color: var(--g-color-sfx-veil);
         opacity: 0;
         will-change: opacity;
 
@@ -54,7 +54,7 @@ $block: '.#{variables.$ns}sheet';
         height: $SHEET_TOP_HEIGHT;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        background-color: var(--yc-color-base-float);
+        background-color: var(--g-color-base-float);
     }
 
     &__sheet-top-resizer {
@@ -65,7 +65,7 @@ $block: '.#{variables.$ns}sheet';
         width: 40px;
         height: 4px;
         border-radius: 4px;
-        background-color: var(--yc-color-line-generic);
+        background-color: var(--g-color-line-generic);
     }
 
     &__sheet-content {
@@ -76,7 +76,7 @@ $block: '.#{variables.$ns}sheet';
         overflow-x: hidden;
         overflow-y: auto;
         overscroll-behavior-y: contain;
-        background-color: var(--yc-color-base-float);
+        background-color: var(--g-color-base-float);
 
         transition: height var(--yc-sheet-transition-duration) ease;
 
@@ -87,7 +87,7 @@ $block: '.#{variables.$ns}sheet';
 
     &__sheet-content-title {
         padding-bottom: 8px;
-        font-size: var(--yc-text-body-2-font-size);
+        font-size: var(--g-text-body-2-font-size);
         line-height: 28px;
         text-align: center;
         overflow: hidden;

@@ -9,19 +9,19 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 @mixin block_control($size: m) {
     @if $size == 's' {
         --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-s);
+        --_--select-border-radius: var(--g-border-radius-s);
         height: #{variables.$s-height};
         padding: 4px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'm' {
         --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-m);
+        --_--select-border-radius: var(--g-border-radius-m);
         height: #{variables.$m-height};
         padding: 6px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'l' {
         --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-l);
+        --_--select-border-radius: var(--g-border-radius-l);
         height: #{variables.$l-height};
         padding: 10px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
     }
@@ -122,7 +122,8 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             content: '';
             position: absolute;
             inset: 0;
-            border: 1px solid var(--yc-color-line-generic);
+            border: 1px solid var(--g-color-line-generic);
+            border-radius: var(--_--select-border-radius);
         }
 
         &::after {
@@ -153,19 +154,19 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_error::before {
-            border-color: var(--yc-color-line-danger);
+            border-color: var(--g-color-line-danger);
         }
 
         &:hover::after {
-            background-color: var(--yc-color-base-simple-hover);
+            background-color: var(--g-color-base-simple-hover);
         }
 
         &_disabled {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
             pointer-events: none;
 
             &::after {
-                background-color: var(--yc-color-base-generic-accent-disabled);
+                background-color: var(--g-color-base-generic-accent-disabled);
             }
 
             &::before {
@@ -174,12 +175,12 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &:not(&_error):not(&_disabled):hover::before {
-            border-color: var(--yc-color-line-generic-hover);
+            border-color: var(--g-color-line-generic-hover);
         }
 
         &_open:not(&_error)::before,
         &:not(&_error):focus-visible::before {
-            border-color: var(--yc-color-line-generic-active);
+            border-color: var(--g-color-line-generic-active);
         }
     }
 
@@ -206,7 +207,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
 
     &__placeholder {
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
 
         #{$blockButton}:not(#{$blockButton}_disabled) & {
             @include block_clear_reserved_width();
@@ -216,10 +217,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     &__chevron-icon {
         flex: 0 0 16px;
         margin-left: auto;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         &_disabled {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
         }
     }
 
@@ -230,7 +231,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     &__error {
         @include mixins.text-body-1();
 
-        color: var(--yc-color-text-danger);
+        color: var(--g-color-text-danger);
         margin-top: 2px;
     }
 }

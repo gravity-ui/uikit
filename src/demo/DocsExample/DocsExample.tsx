@@ -21,7 +21,7 @@ export function DocsExample({
     gap = 'm',
     space = 'm',
     rounded = true,
-    background = 'var(--yc-color-base-background)',
+    background = 'var(--g-color-base-background)',
 }: DocsExampleProps) {
     return (
         <div style={{background}} className={b({distribute, gap, space, rounded})}>

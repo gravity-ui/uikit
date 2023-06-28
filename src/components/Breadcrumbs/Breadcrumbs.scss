@@ -37,7 +37,7 @@ $block: '.#{variables.$ns}breadcrumbs';
     &__divider {
         display: flex;
         align-items: center;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
     }
 
     &__popup_staircase {

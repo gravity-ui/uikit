@@ -1,12 +1,8 @@
-@mixin yc-colors-social {
-    // Social palette
-
-    --yc-color-telegram: #51a4db;
-    --yc-color-facebook: #4968ad;
-    --yc-color-twitter: #4aa0eb;
-    --yc-color-vk: #436eab;
-    --yc-color-youtube: #eb3323;
-    --yc-color-github: #25292e;
-    --yc-color-rss: #f29c39;
-    --yc-color-linkedin: #0a66c2;
-}
+$g-color-telegram: #51a4db;
+$g-color-facebook: #4968ad;
+$g-color-twitter: #4aa0eb;
+$g-color-vk: #436eab;
+$g-color-youtube: #eb3323;
+$g-color-github: #25292e;
+$g-color-rss: #f29c39;
+$g-color-linkedin: #0a66c2;

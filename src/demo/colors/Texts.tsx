@@ -111,11 +111,6 @@ const specials = [
         title: 'Link Visited Hover',
         description: 'Hover for Visited Link.',
     },
-    {
-        name: 'text-yandex-red',
-        title: 'Yandex Red',
-        description: "Username's first letter.",
-    },
 ];
 
 const alwaysDark = [

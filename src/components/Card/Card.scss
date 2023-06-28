@@ -40,7 +40,8 @@ $block: '.#{variables.$ns}card';
 
             &::before {
                 content: '';
-                border: 2px solid var(--g-color-base-brand-light);
+                border: 2px solid var(--g-color-base-brand);
+                opacity: 0.5;
             }
         }
 

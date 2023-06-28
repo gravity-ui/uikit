@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.21.1](https://github.com/gravity-ui/uikit/compare/v4.21.0...v4.21.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* **Select:** fix SelectControl hover and border-radius styles ([#772](https://github.com/gravity-ui/uikit/issues/772)) ([9d6ef59](https://github.com/gravity-ui/uikit/commit/9d6ef59bc722335abb38e21b9f16a50487f29738))
+
 ## [4.21.0](https://github.com/gravity-ui/uikit/compare/v4.20.0...v4.21.0) (2023-06-26)
 
 

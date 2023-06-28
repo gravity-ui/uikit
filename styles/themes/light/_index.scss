@@ -8,12 +8,12 @@
 @import './system';
 
 @mixin g-colors-light {
-    @include yc-colors-private-light;
-    @include yc-colors-text-light;
-    @include yc-colors-base-light;
-    @include yc-colors-line-light;
-    @include yc-colors-infographics-light;
-    @include yc-colors-sfx-light;
-    @include yc-colors-promo-light;
-    @include yc-colors-system-light;
+    @include g-colors-private-light;
+    @include g-colors-text-light;
+    @include g-colors-base-light;
+    @include g-colors-line-light;
+    @include g-colors-infographics-light;
+    @include g-colors-sfx-light;
+    @include g-colors-promo-light;
+    @include g-colors-system-light;
 }

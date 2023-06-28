@@ -15,10 +15,10 @@ $block: '.#{variables.$ns}share-popover';
         flex-wrap: nowrap;
 
         cursor: pointer;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         &:hover {
-            color: var(--yc-color-text-primary);
+            color: var(--g-color-text-primary);
         }
     }
 

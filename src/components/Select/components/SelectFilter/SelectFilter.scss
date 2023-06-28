@@ -10,6 +10,6 @@ $block: '.#{variables.$ns-new}select-filter';
     & &__input,
     & &__input:hover,
     & &__input:focus {
-        border-color: var(--yc-color-line-generic-active);
+        border-color: var(--g-color-line-generic-active);
     }
 }

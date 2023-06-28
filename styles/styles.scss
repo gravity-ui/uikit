@@ -1,8 +1,11 @@
 @import './themes';
+@import './old-variables';
 
 .yc-root {
-    background: var(--yc-color-base-background);
-    color: var(--yc-color-text-primary);
+    background: var(--g-color-base-background);
+    color: var(--g-color-text-primary);
+
+    @include g-theme-common;
 
     &_theme_light {
         @include g-theme-light;
@@ -19,40 +22,42 @@
     &_theme_dark-hc {
         @include g-theme-dark-hc;
     }
+
+    @include g-variables-fallback;
 }
 
 body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
-        width: var(--yc-scrollbar-width);
-        height: var(--yc-scrollbar-width);
-        background: var(--yc-color-scroll-track);
+        width: var(--g-scrollbar-width);
+        height: var(--g-scrollbar-width);
+        background: var(--g-color-scroll-track);
     }
 
     &::-webkit-scrollbar-track,
     *::-webkit-scrollbar-track {
-        background: var(--yc-color-scroll-track);
+        background: var(--g-color-scroll-track);
     }
 
     &::-webkit-scrollbar-corner,
     *::-webkit-scrollbar-corner {
-        background: var(--yc-color-scroll-corner);
+        background: var(--g-color-scroll-corner);
     }
 
     &::-webkit-scrollbar-thumb,
     *::-webkit-scrollbar-thumb {
-        background: var(--yc-color-scroll-handle);
+        background: var(--g-color-scroll-handle);
     }
 
     &::-webkit-scrollbar-thumb:hover,
     *::-webkit-scrollbar-thumb:hover {
-        background: var(--yc-color-scroll-handle-hover);
+        background: var(--g-color-scroll-handle-hover);
     }
 
     // stylelint-disable-next-line property-no-unknown
-    scrollbar-width: var(--yc-scrollbar-width);
+    scrollbar-width: var(--g-scrollbar-width);
     // stylelint-disable-next-line property-no-unknown
-    scrollbar-color: var(--yc-color-scroll-handle) var(--yc-color-scroll-track);
+    scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
 }
 
 @keyframes yc-loading-animation {

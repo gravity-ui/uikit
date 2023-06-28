@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}dialog-header';
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    color: var(--yc-color-text-primary);
+    color: var(--g-color-text-primary);
 
     &__caption {
         @include mixins.text-subheader-3();

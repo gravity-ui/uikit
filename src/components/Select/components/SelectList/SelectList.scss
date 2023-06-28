@@ -68,7 +68,7 @@ $xl-right-padding: '12px';
                 left: 0;
                 width: 100%;
                 height: 1px;
-                background-color: var(--yc-color-line-generic);
+                background-color: var(--g-color-line-generic);
             }
         }
     }
@@ -148,7 +148,7 @@ $xl-right-padding: '12px';
         }
 
         &_colored {
-            background-color: var(--yc-color-base-selection);
+            background-color: var(--g-color-base-selection);
         }
 
         &_disabled {
@@ -160,7 +160,7 @@ $xl-right-padding: '12px';
         @include mixins.overflow-ellipsis();
 
         &_disabled {
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
         }
     }
 
@@ -168,7 +168,7 @@ $xl-right-padding: '12px';
         box-sizing: content-box;
         flex: 0 0 16px;
         visibility: hidden;
-        color: var(--yc-color-text-info);
+        color: var(--g-color-text-info);
         padding-right: var(--_--select-tick-icon-padding-right);
 
         &_shown {

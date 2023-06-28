@@ -3,7 +3,7 @@
 .color-panel {
     position: relative;
     width: 700px;
-    border: 1px solid var(--yc-color-line-generic);
+    border: 1px solid var(--g-color-line-generic);
     border-radius: 6px;
     padding: 15px 20px;
 
@@ -20,7 +20,7 @@
         }
 
         &_special {
-            background: var(--yc-color-base-special);
+            background: var(--g-color-base-special);
         }
 
         &_dark {
@@ -30,8 +30,8 @@
 
     &__bg-switcher {
         letter-spacing: 1px;
-        font-family: var(--yc-font-family-monospace);
-        color: var(--yc-color-text-hint);
+        font-family: var(--g-font-family-monospace);
+        color: var(--g-color-text-hint);
         position: absolute;
         top: 15px;
         right: 15px;
@@ -47,7 +47,7 @@
 
     &__description {
         @include mixins.text-body-2();
-        color: var(--yc-color-text-complementary);
+        color: var(--g-color-text-complementary);
         margin-top: 3px;
     }
 
@@ -73,7 +73,7 @@
             cursor: pointer;
 
             &_bordered {
-                border: 2px solid var(--yc-color-line-generic);
+                border: 2px solid var(--g-color-line-generic);
             }
         }
 
@@ -95,7 +95,7 @@
 
         &-var {
             @include mixins.text-code-1();
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
             margin-left: 10px;
             cursor: pointer;
         }

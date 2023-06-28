@@ -114,8 +114,8 @@
         $color: change-color($brand-color, $alpha: $alpha);
         $solid-color: opaque-color($color, $bg-color);
 
-        --yc-color-private-brand-#{$alpha * 1000}: #{$color};
-        --yc-color-private-brand-#{$alpha * 1000}-solid: #{$solid-color};
+        --g-color-private-brand-#{$alpha * 1000}: #{$color};
+        --g-color-private-brand-#{$alpha * 1000}-solid: #{$solid-color};
     }
 }
 
@@ -123,26 +123,26 @@
     &_theme_light {
         @include brand-vars(#f14b4b, #fff);
 
-        --yc-color-brand-normal: var(--yc-color-private-brand-800-solid);
-        --yc-color-brand-normal-hover: var(--yc-color-private-brand-900-solid);
-        --yc-color-brand-light: var(--yc-color-private-brand-300);
-        --yc-color-brand-selection: var(--yc-color-private-brand-50);
-        --yc-color-brand-selection-hover: var(--yc-color-private-brand-100);
+        --yc-color-brand-normal: var(--g-color-private-brand-800-solid);
+        --yc-color-brand-normal-hover: var(--g-color-private-brand-900-solid);
+        --yc-color-brand-light: var(--g-color-private-brand-300);
+        --yc-color-brand-selection: var(--g-color-private-brand-50);
+        --yc-color-brand-selection-hover: var(--g-color-private-brand-100);
         --yc-color-brand-link: var(--yc-color-brand-normal);
-        --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
+        --yc-color-brand-link-hover: var(--g-color-private-brand-1000-solid);
         --yc-color-brand-text-contrast: var(--g-color-text-light-primary);
     }
 
     &_theme_dark {
         @include brand-vars(#f86b6b, #2d2c33);
 
-        --yc-color-brand-normal: var(--yc-color-private-brand-700-solid);
-        --yc-color-brand-normal-hover: var(--yc-color-private-brand-800-solid);
-        --yc-color-brand-light: var(--yc-color-private-brand-300);
-        --yc-color-brand-selection: var(--yc-color-private-brand-100);
-        --yc-color-brand-selection-hover: var(--yc-color-private-brand-200);
+        --yc-color-brand-normal: var(--g-color-private-brand-700-solid);
+        --yc-color-brand-normal-hover: var(--g-color-private-brand-800-solid);
+        --yc-color-brand-light: var(--g-color-private-brand-300);
+        --yc-color-brand-selection: var(--g-color-private-brand-100);
+        --yc-color-brand-selection-hover: var(--g-color-private-brand-200);
         --yc-color-brand-link: var(--yc-color-brand-normal);
-        --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
+        --yc-color-brand-link-hover: var(--g-color-private-brand-1000-solid);
         --yc-color-brand-text-contrast: var(--g-color-text-light-primary);
     }
 }
@@ -151,26 +151,26 @@
     &_theme_light {
         @include brand-vars(#ffb800, #fff);
 
-        --yc-color-brand-normal: var(--yc-color-private-brand-800-solid);
-        --yc-color-brand-normal-hover: var(--yc-color-private-brand-900-solid);
-        --yc-color-brand-light: var(--yc-color-private-brand-300);
-        --yc-color-brand-selection: var(--yc-color-private-brand-100);
-        --yc-color-brand-selection-hover: var(--yc-color-private-brand-200);
+        --yc-color-brand-normal: var(--g-color-private-brand-800-solid);
+        --yc-color-brand-normal-hover: var(--g-color-private-brand-900-solid);
+        --yc-color-brand-light: var(--g-color-private-brand-300);
+        --yc-color-brand-selection: var(--g-color-private-brand-100);
+        --yc-color-brand-selection-hover: var(--g-color-private-brand-200);
         --yc-color-brand-link: var(--yc-color-brand-normal);
-        --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
+        --yc-color-brand-link-hover: var(--g-color-private-brand-1000-solid);
         --yc-color-brand-text-contrast: var(--g-color-text-dark-primary);
     }
 
     &_theme_dark {
         @include brand-vars(#ffb800, #2d2c33);
 
-        --yc-color-brand-normal: var(--yc-color-private-brand-700-solid);
-        --yc-color-brand-normal-hover: var(--yc-color-private-brand-800-solid);
-        --yc-color-brand-light: var(--yc-color-private-brand-300);
-        --yc-color-brand-selection: var(--yc-color-private-brand-100);
-        --yc-color-brand-selection-hover: var(--yc-color-private-brand-200);
+        --yc-color-brand-normal: var(--g-color-private-brand-700-solid);
+        --yc-color-brand-normal-hover: var(--g-color-private-brand-800-solid);
+        --yc-color-brand-light: var(--g-color-private-brand-300);
+        --yc-color-brand-selection: var(--g-color-private-brand-100);
+        --yc-color-brand-selection-hover: var(--g-color-private-brand-200);
         --yc-color-brand-link: var(--yc-color-brand-normal);
-        --yc-color-brand-link-hover: var(--yc-color-private-brand-1000-solid);
+        --yc-color-brand-link-hover: var(--g-color-private-brand-1000-solid);
         --yc-color-brand-text-contrast: var(--g-color-text-dark-primary);
     }
 }

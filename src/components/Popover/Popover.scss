@@ -115,8 +115,8 @@ $block: '.#{variables.$ns}popover';
             &_announcement {
                 // Increasing specificity for overrides
                 &#{&} {
-                    --yc-popup-background-color: var(--yc-color-base-simple-hover-solid);
-                    --yc-popup-border-color: var(--yc-color-base-simple-hover-solid);
+                    --yc-popup-background-color: var(--g-color-base-simple-hover-solid);
+                    --yc-popup-border-color: var(--g-color-base-simple-hover-solid);
                 }
 
                 #{$class}__tooltip-buttons {
@@ -127,8 +127,8 @@ $block: '.#{variables.$ns}popover';
             &_special {
                 // Increasing specificity for overrides
                 &#{&} {
-                    --yc-popup-background-color: var(--yc-color-base-special);
-                    --yc-popup-border-color: var(--yc-color-base-special);
+                    --yc-popup-background-color: var(--g-color-base-special);
+                    --yc-popup-border-color: var(--g-color-base-special);
                     color: var(--yc-color-text-light-primary);
                 }
 

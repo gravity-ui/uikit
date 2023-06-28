@@ -12,7 +12,7 @@ $block: '.#{variables.$ns}menu';
     overflow-x: hidden;
     overflow-y: auto;
     color: var(--yc-color-text-primary);
-    background-color: var(--yc-color-base-float);
+    background-color: var(--g-color-base-float);
     user-select: none;
     outline: none;
 
@@ -49,7 +49,7 @@ $block: '.#{variables.$ns}menu';
         &:hover,
         &:focus,
         &_selected {
-            background-color: var(--yc-color-base-simple-hover);
+            background-color: var(--g-color-base-simple-hover);
         }
 
         &:focus:not(:focus-visible):not(:hover):not(&_active) {
@@ -68,11 +68,11 @@ $block: '.#{variables.$ns}menu';
 
         &_active {
             cursor: default;
-            background-color: var(--yc-color-base-selection);
+            background-color: var(--g-color-base-selection);
 
             &:hover,
             &:focus {
-                background-color: var(--yc-color-base-selection);
+                background-color: var(--g-color-base-selection);
             }
         }
 

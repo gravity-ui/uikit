@@ -143,15 +143,15 @@ $iconWidth: 16px;
 
     &_view {
         &_normal {
-            --yc-button-background-color: var(--yc-color-base-generic);
-            --yc-button-background-color-hover: var(--yc-color-base-generic-hover);
+            --yc-button-background-color: var(--g-color-base-generic);
+            --yc-button-background-color-hover: var(--g-color-base-generic-hover);
 
             @include button-text-color(var(--yc-color-text-primary));
         }
 
         &_action {
-            --yc-button-background-color: var(--yc-color-base-special);
-            --yc-button-background-color-hover: var(--yc-color-base-special-hover);
+            --yc-button-background-color: var(--g-color-base-special);
+            --yc-button-background-color-hover: var(--g-color-base-special-hover);
 
             @include button-text-color(var(--yc-color-brand-text-contrast));
         }
@@ -160,7 +160,7 @@ $iconWidth: 16px;
         &_outlined-info,
         &_outlined-danger {
             --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
+            --yc-button-background-color-hover: var(--g-color-base-simple-hover);
         }
 
         &_outlined {
@@ -188,8 +188,8 @@ $iconWidth: 16px;
         }
 
         &_raised {
-            --yc-button-background-color: var(--yc-color-base-float);
-            --yc-button-background-color-hover: var(--yc-color-base-float-hover);
+            --yc-button-background-color: var(--g-color-base-float);
+            --yc-button-background-color-hover: var(--g-color-base-float-hover);
 
             @include button-text-color(var(--yc-color-text-primary));
 
@@ -219,7 +219,7 @@ $iconWidth: 16px;
         &_flat-danger,
         &_flat-secondary {
             --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
+            --yc-button-background-color-hover: var(--g-color-base-simple-hover);
         }
 
         &_flat {
@@ -242,15 +242,15 @@ $iconWidth: 16px;
         }
 
         &_normal-contrast {
-            --yc-button-background-color: var(--yc-color-base-light);
-            --yc-button-background-color-hover: var(--yc-color-base-light-hover);
+            --yc-button-background-color: var(--g-color-base-light);
+            --yc-button-background-color-hover: var(--g-color-base-light-hover);
 
             @include button-text-color(var(--yc-color-text-dark-primary));
         }
 
         &_outlined-contrast {
             --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
+            --yc-button-background-color-hover: var(--g-color-base-light-simple-hover);
 
             @include button-text-color(var(--yc-color-text-light-primary));
 
@@ -261,7 +261,7 @@ $iconWidth: 16px;
 
         &_flat-contrast {
             --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
+            --yc-button-background-color-hover: var(--g-color-base-light-simple-hover);
 
             @include button-text-color(var(--yc-color-text-light-primary));
         }
@@ -292,8 +292,8 @@ $iconWidth: 16px;
         &_outlined-contrast {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
-                --yc-button-background-color: var(--yc-color-base-light-disabled);
-                --yc-button-background-color-hover: var(--yc-color-base-light-disabled);
+                --yc-button-background-color: var(--g-color-base-light-disabled);
+                --yc-button-background-color-hover: var(--g-color-base-light-disabled);
 
                 color: var(--yc-color-text-light-secondary);
             }
@@ -310,8 +310,8 @@ $iconWidth: 16px;
         &_flat-secondary,
         &_flat-info {
             &#{$block}_selected {
-                --yc-button-background-color: var(--yc-color-base-selection);
-                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
+                --yc-button-background-color: var(--g-color-base-selection);
+                --yc-button-background-color-hover: var(--g-color-base-selection-hover);
 
                 @include button-text-color(var(--yc-color-brand-text));
 
@@ -324,8 +324,8 @@ $iconWidth: 16px;
         &_outlined-danger,
         &_flat-danger {
             &#{$block}_selected {
-                --yc-button-background-color: var(--yc-color-base-danger);
-                --yc-button-background-color-hover: var(--yc-color-base-danger-hover);
+                --yc-button-background-color: var(--g-color-base-danger);
+                --yc-button-background-color-hover: var(--g-color-base-danger-hover);
 
                 @include button-text-color(var(--yc-color-text-danger));
 
@@ -401,8 +401,8 @@ $iconWidth: 16px;
         pointer-events: none;
 
         &:not(#{$block}_loading) {
-            --yc-button-background-color: var(--yc-color-base-generic-accent-disabled);
-            --yc-button-background-color-hover: var(--yc-color-base-generic-accent-disabled);
+            --yc-button-background-color: var(--g-color-base-generic-accent-disabled);
+            --yc-button-background-color-hover: var(--g-color-base-generic-accent-disabled);
 
             color: var(--yc-color-text-hint);
 

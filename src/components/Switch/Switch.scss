@@ -22,7 +22,7 @@ $block: '.#{variables.$ns}switch';
             right: 0;
             bottom: 0;
 
-            background-color: var(--yc-color-base-generic-medium);
+            background-color: var(--g-color-base-generic-medium);
             transition: background 0.1s linear;
         }
 
@@ -36,7 +36,7 @@ $block: '.#{variables.$ns}switch';
         position: absolute;
         content: '';
         border-radius: 50%;
-        background-color: var(--yc-color-base-background);
+        background-color: var(--g-color-base-background);
         transition: transform 0.15s ease-out;
     }
 
@@ -104,7 +104,7 @@ $block: '.#{variables.$ns}switch';
 
     &:hover {
         #{$block}__indicator::before {
-            background-color: var(--yc-color-base-generic-medium-hover);
+            background-color: var(--g-color-base-generic-medium-hover);
         }
     }
 
@@ -115,18 +115,18 @@ $block: '.#{variables.$ns}switch';
     &_checked,
     &_checked:hover {
         #{$block}__indicator::before {
-            background-color: var(--yc-color-base-special);
+            background-color: var(--g-color-base-special);
         }
     }
 
     &_disabled {
         #{$block}__indicator::before {
-            background-color: var(--yc-color-base-generic-accent-disabled);
+            background-color: var(--g-color-base-generic-accent-disabled);
         }
 
         &#{$block}_checked {
             #{$block}__indicator::before {
-                background-color: var(--yc-color-base-special);
+                background-color: var(--g-color-base-special);
                 opacity: 0.5;
             }
         }

@@ -49,7 +49,7 @@ $block: '.#{variables.$ns}persona';
 
     &_clickable:hover {
         cursor: pointer;
-        background-color: var(--yc-color-base-simple-hover);
+        background-color: var(--g-color-base-simple-hover);
 
         &:after {
             border-color: transparent;
@@ -75,7 +75,7 @@ $block: '.#{variables.$ns}persona';
         border-radius: 50%;
         overflow: hidden;
         justify-content: center;
-        background-color: var(--yc-color-base-simple-hover-solid);
+        background-color: var(--g-color-base-simple-hover-solid);
 
         transition-property: background-color;
         transition-duration: $transitionDuration;
@@ -90,7 +90,7 @@ $block: '.#{variables.$ns}persona';
         }
 
         #{$block}_clickable:hover & {
-            background-color: var(--yc-color-base-generic);
+            background-color: var(--g-color-base-generic);
         }
 
         span {

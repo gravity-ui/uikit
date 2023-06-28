@@ -127,7 +127,7 @@ $block: '.#{variables.$ns}checkbox';
     &_indeterminate {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-special);
+                background-color: var(--g-color-base-special);
                 border: transparent;
             }
         }
@@ -142,7 +142,7 @@ $block: '.#{variables.$ns}checkbox';
     &_disabled {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-generic-accent-disabled);
+                background-color: var(--g-color-base-generic-accent-disabled);
                 border: transparent;
             }
         }
@@ -151,7 +151,7 @@ $block: '.#{variables.$ns}checkbox';
         &#{$block}_indeterminate {
             #{$block}__indicator {
                 &::before {
-                    background-color: var(--yc-color-base-special);
+                    background-color: var(--g-color-base-special);
                     opacity: 0.5;
                 }
             }

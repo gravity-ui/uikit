@@ -2,7 +2,7 @@
 @import './old-variables';
 
 .yc-root {
-    background: var(--yc-color-base-background);
+    background: var(--g-color-base-background);
     color: var(--yc-color-text-primary);
 
     @include g-theme-common;

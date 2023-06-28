@@ -117,7 +117,7 @@ $discMarginLSize: 6px;
     &_checked {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-special);
+                background-color: var(--g-color-base-special);
                 border: transparent;
             }
 
@@ -131,7 +131,7 @@ $discMarginLSize: 6px;
     &_disabled {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-generic-accent-disabled);
+                background-color: var(--g-color-base-generic-accent-disabled);
                 border: transparent;
             }
         }
@@ -139,7 +139,7 @@ $discMarginLSize: 6px;
         &#{$block}_checked {
             #{$block}__indicator {
                 &::before {
-                    background-color: var(--yc-color-base-special);
+                    background-color: var(--g-color-base-special);
                     opacity: 0.5;
                 }
             }

@@ -84,7 +84,7 @@
 
         &_sticky_left,
         &_sticky_right {
-            background: var(--yc-color-base-background);
+            background: var(--g-color-base-background);
         }
 
         &_border_right {
@@ -129,12 +129,12 @@
     }
 
     &__body &__row_interactive:hover {
-        background-color: var(--yc-color-base-simple-hover-solid);
+        background-color: var(--g-color-base-simple-hover-solid);
         cursor: pointer;
 
         #{variables.$block}__cell_sticky_left,
         #{variables.$block}__cell_sticky_right {
-            background: var(--yc-color-base-simple-hover-solid);
+            background: var(--g-color-base-simple-hover-solid);
         }
     }
 

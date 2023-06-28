@@ -76,7 +76,7 @@ $block: '.#{variables.$ns-new}select-control';
     }
 
     &_disabled {
-        background-color: var(--yc-color-base-generic-accent-disabled);
+        background-color: var(--g-color-base-generic-accent-disabled);
         color: var(--yc-color-text-hint);
         border-color: transparent;
         pointer-events: none;
@@ -87,7 +87,7 @@ $block: '.#{variables.$ns-new}select-control';
     }
 
     &:hover {
-        background-color: var(--yc-color-base-simple-hover);
+        background-color: var(--g-color-base-simple-hover);
 
         &:not(#{$block}_view_clear):not(#{$block}_error) {
             border-color: var(--yc-color-line-generic-hover);

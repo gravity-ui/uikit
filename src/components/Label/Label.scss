@@ -150,48 +150,48 @@ $transitionTimingFunction: ease-in-out;
     &_theme {
         &_normal {
             @include themeState(
-                var(--yc-color-base-misc),
-                var(--yc-color-base-misc-hover),
+                var(--g-color-base-misc),
+                var(--g-color-base-misc-hover),
                 var(--yc-color-text-misc-heavy)
             );
         }
 
         &_success {
             @include themeState(
-                var(--yc-color-base-positive),
-                var(--yc-color-base-positive-hover),
+                var(--g-color-base-positive),
+                var(--g-color-base-positive-hover),
                 var(--yc-color-text-positive-heavy)
             );
         }
 
         &_info {
             @include themeState(
-                var(--yc-color-base-info),
-                var(--yc-color-base-info-hover),
+                var(--g-color-base-info),
+                var(--g-color-base-info-hover),
                 var(--yc-color-text-info-heavy)
             );
         }
 
         &_warning {
             @include themeState(
-                var(--yc-color-base-warning),
-                var(--yc-color-base-warning-hover),
+                var(--g-color-base-warning),
+                var(--g-color-base-warning-hover),
                 var(--yc-color-text-warning-heavy)
             );
         }
 
         &_danger {
             @include themeState(
-                var(--yc-color-base-danger),
-                var(--yc-color-base-danger-hover),
+                var(--g-color-base-danger),
+                var(--g-color-base-danger-hover),
                 var(--yc-color-text-danger-heavy)
             );
         }
 
         &_unknown {
             @include themeState(
-                var(--yc-color-base-neutral),
-                var(--yc-color-base-neutral-hover),
+                var(--g-color-base-neutral),
+                var(--g-color-base-neutral-hover),
                 var(--yc-color-text-complementary)
             );
         }
@@ -199,7 +199,7 @@ $transitionTimingFunction: ease-in-out;
         &_clear {
             @include themeState(
                 transparent,
-                var(--yc-color-base-simple-hover-solid),
+                var(--g-color-base-simple-hover-solid),
                 var(--yc-color-text-complementary),
                 var(--yc-color-line-generic)
             );

@@ -15,5 +15,5 @@ $block: '.#{variables.$ns}tooltip';
 // [class] for increasing specificity
 #{$block}[class] {
     --yc-popup-border-width: 0;
-    --yc-popup-background-color: var(--yc-color-base-float-heavy);
+    --yc-popup-background-color: var(--g-color-base-float-heavy);
 }

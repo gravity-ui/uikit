@@ -15,7 +15,7 @@ $block: '.#{variables.$ns}hotkey';
 
     &_view {
         &_light {
-            background-color: var(--yc-color-base-generic);
+            background-color: var(--g-color-base-generic);
 
             #{$block}__plus {
                 color: var(--yc-color-text-hint);
@@ -24,7 +24,7 @@ $block: '.#{variables.$ns}hotkey';
 
         &_dark {
             color: var(--yc-color-text-light-complementary);
-            background-color: var(--yc-color-base-light-simple-hover);
+            background-color: var(--g-color-base-light-simple-hover);
 
             #{$block}__plus {
                 color: var(--yc-color-text-light-hint);

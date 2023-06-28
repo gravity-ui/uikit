@@ -54,7 +54,7 @@ $block: '.#{variables.$ns}sheet';
         height: $SHEET_TOP_HEIGHT;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        background-color: var(--yc-color-base-float);
+        background-color: var(--g-color-base-float);
     }
 
     &__sheet-top-resizer {
@@ -76,7 +76,7 @@ $block: '.#{variables.$ns}sheet';
         overflow-x: hidden;
         overflow-y: auto;
         overscroll-behavior-y: contain;
-        background-color: var(--yc-color-base-float);
+        background-color: var(--g-color-base-float);
 
         transition: height var(--yc-sheet-transition-duration) ease;
 

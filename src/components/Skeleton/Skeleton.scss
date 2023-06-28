@@ -10,7 +10,7 @@ $block: '.#{variables.$ns}skeleton';
     border-radius: 5px;
     overflow: hidden;
 
-    background-color: var(--yc-color-base-generic);
+    background-color: var(--g-color-base-generic);
 
     &::after {
         position: absolute;
@@ -19,7 +19,7 @@ $block: '.#{variables.$ns}skeleton';
         bottom: 0;
         left: 0;
 
-        background-image: linear-gradient(90deg, transparent, var(--yc-color-base-generic));
+        background-image: linear-gradient(90deg, transparent, var(--g-color-base-generic));
         animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
     }

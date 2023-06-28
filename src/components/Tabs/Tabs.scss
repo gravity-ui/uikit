@@ -125,7 +125,7 @@ $block: '.#{variables.$ns}tabs';
             &_active,
             &_active:hover,
             &_active:focus {
-                border-color: var(--yc-color-base-special);
+                border-color: var(--g-color-base-special);
             }
 
             &_disabled {
@@ -166,16 +166,16 @@ $block: '.#{variables.$ns}tabs';
 
             &:hover,
             &:focus {
-                background-color: var(--yc-color-base-generic-hover);
+                background-color: var(--g-color-base-generic-hover);
             }
 
             &_active {
-                background-color: var(--yc-color-base-selection);
+                background-color: var(--g-color-base-selection);
             }
 
             &_active:hover,
             &_active:focus {
-                background-color: var(--yc-color-base-selection-hover);
+                background-color: var(--g-color-base-selection-hover);
             }
 
             &_disabled {

@@ -10,7 +10,7 @@
     &__title {
         @include mixins.text-header-2();
         width: 100%;
-        border-bottom: 1px solid var(--yc-color-line-generic);
+        border-bottom: 1px solid var(--g-color-line-generic);
     }
 
     &__subtitle {
@@ -50,7 +50,7 @@
     &__list-wrap {
         margin-top: 10px;
         padding: 10px 0 0;
-        border: 1px solid var(--yc-color-line-generic);
+        border: 1px solid var(--g-color-line-generic);
         border-radius: 3px;
     }
 

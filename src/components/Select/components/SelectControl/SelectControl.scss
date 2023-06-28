@@ -47,7 +47,7 @@ $block: '.#{variables.$ns-new}select-control';
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--yc-color-line-generic);
+    border: 1px solid var(--g-color-line-generic);
     overflow: hidden;
     transition: transform 0.1s ease-out, color 0.15s linear, background-color 0.15s linear;
 
@@ -72,7 +72,7 @@ $block: '.#{variables.$ns-new}select-control';
     }
 
     &_error {
-        border-color: var(--yc-color-line-danger);
+        border-color: var(--g-color-line-danger);
     }
 
     &_disabled {
@@ -90,13 +90,13 @@ $block: '.#{variables.$ns-new}select-control';
         background-color: var(--g-color-base-simple-hover);
 
         &:not(#{$block}_view_clear):not(#{$block}_error) {
-            border-color: var(--yc-color-line-generic-hover);
+            border-color: var(--g-color-line-generic-hover);
         }
     }
 
     &:focus-visible:not(#{$block}_error),
     &_open:not(#{$block}_error) {
-        border-color: var(--yc-color-line-generic-active);
+        border-color: var(--g-color-line-generic-active);
     }
 
     &__label {

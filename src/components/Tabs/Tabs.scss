@@ -85,7 +85,7 @@ $block: '.#{variables.$ns}tabs';
         display: flex;
         align-items: flex-end;
         flex-wrap: wrap;
-        box-shadow: inset 0 -1px 0 0 var(--yc-color-line-generic);
+        box-shadow: inset 0 -1px 0 0 var(--g-color-line-generic);
         overflow: hidden;
 
         #{$block}__item {

@@ -25,7 +25,7 @@ $block: '.#{variables.$ns}menu';
     &__list-group-item + &__list-group-item,
     &__list-item + &__list-group-item,
     &__list-group-item + &__list-item {
-        border-top: 1px solid var(--yc-color-line-generic);
+        border-top: 1px solid var(--g-color-line-generic);
     }
 
     &__item {

@@ -271,14 +271,14 @@ $block: '.#{variables.$ns}text-input';
     &_view {
         &_normal {
             #{$block}__content {
-                border: 1px solid var(--yc-color-line-generic);
+                border: 1px solid var(--g-color-line-generic);
 
                 &:hover {
-                    border-color: var(--yc-color-line-generic-hover);
+                    border-color: var(--g-color-line-generic-hover);
                 }
 
                 &:focus-within {
-                    border-color: var(--yc-color-line-generic-active);
+                    border-color: var(--g-color-line-generic-active);
                 }
             }
         }
@@ -347,22 +347,22 @@ $block: '.#{variables.$ns}text-input';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    border-color: var(--yc-color-line-danger);
+                    border-color: var(--g-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-color: var(--yc-color-line-danger);
+                        border-color: var(--g-color-line-danger);
                     }
                 }
             }
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-bottom: 1px solid var(--yc-color-line-danger);
+                    border-bottom: 1px solid var(--g-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-bottom: 1px solid var(--yc-color-line-danger);
+                        border-bottom: 1px solid var(--g-color-line-danger);
                     }
                 }
             }

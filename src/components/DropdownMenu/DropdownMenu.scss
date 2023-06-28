@@ -12,7 +12,7 @@ $block: '.#{variables.$ns}dropdown-menu';
     }
 
     &__menu-item_separator {
-        border-top: 1px solid var(--yc-color-line-solid);
+        border-top: 1px solid var(--g-color-line-solid);
         margin: 0.5em 0;
         pointer-events: none;
     }

@@ -3,7 +3,7 @@
 .color-panel {
     position: relative;
     width: 700px;
-    border: 1px solid var(--yc-color-line-generic);
+    border: 1px solid var(--g-color-line-generic);
     border-radius: 6px;
     padding: 15px 20px;
 
@@ -73,7 +73,7 @@
             cursor: pointer;
 
             &_bordered {
-                border: 2px solid var(--yc-color-line-generic);
+                border: 2px solid var(--g-color-line-generic);
             }
         }
 

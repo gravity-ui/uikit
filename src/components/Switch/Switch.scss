@@ -51,7 +51,7 @@ $block: '.#{variables.$ns}switch';
     }
 
     &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+        box-shadow: 0 0 0 2px var(--g-color-line-misc);
     }
 
     &__control:focus:not(:focus-visible) + &__outline {

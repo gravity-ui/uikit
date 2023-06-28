@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}link';
     cursor: pointer;
 
     &:focus {
-        outline: 2px solid var(--yc-color-line-misc);
+        outline: 2px solid var(--g-color-line-misc);
     }
 
     &:focus:not(:focus-visible) {

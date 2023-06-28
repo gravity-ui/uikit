@@ -54,7 +54,7 @@
 
         box-sizing: content-box;
         padding: 11px 10px;
-        border-bottom: 1px solid var(--yc-color-line-generic);
+        border-bottom: 1px solid var(--g-color-line-generic);
 
         line-height: variables.$tableLineHeight;
         text-align: left;
@@ -88,7 +88,7 @@
         }
 
         &_border_right {
-            border-right: 1px solid var(--yc-color-line-generic);
+            border-right: 1px solid var(--g-color-line-generic);
         }
 
         &_edge-padding {

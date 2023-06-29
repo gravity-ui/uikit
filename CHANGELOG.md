@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.21.3](https://github.com/gravity-ui/uikit/compare/v4.21.2...v4.21.3) (2023-06-29)
+
+
+### Bug Fixes
+
+* **Select:** fix qa & selectControl bg hover style ([#781](https://github.com/gravity-ui/uikit/issues/781)) ([f12a08e](https://github.com/gravity-ui/uikit/commit/f12a08eb28a93b48b78b467a082510625a85160f))
+
 ## [4.21.2](https://github.com/gravity-ui/uikit/compare/v4.21.1...v4.21.2) (2023-06-29)
 
 

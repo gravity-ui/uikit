@@ -31,6 +31,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         offset = {},
         tooltipOffset,
         tooltipClassName,
+        tooltipContentClassName,
         theme = 'info',
         size = 's',
         hasArrow = true,
@@ -108,6 +109,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 },
                 tooltipClassName,
             )}
+            contentClassName={cnPopover('tooltip-popup-content', tooltipContentClassName)}
             open={isOpen}
             placement={placement}
             hasArrow={hasArrow}

@@ -3,7 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {TextInput} from '../TextInput';
-import type {TextInputProps} from '../types';
+import type {TextInputProps} from '../TextInput';
 
 import {TextInputShowcase} from './TextInputShowcase';
 

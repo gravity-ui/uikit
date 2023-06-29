@@ -1,35 +1,40 @@
 import React from 'react';
 
-import {block} from '../../utils/cn';
+import {blockNew} from '../../utils/cn';
 import {useElementSize} from '../../utils/useElementSize';
 import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
-import {ClearButton, mapTextInputSizeToButtonSize} from '../utility-components';
-import type {TextInputState} from '../utility-types';
+import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
+import type {
+    BaseInputControlProps,
+    InputControlPin,
+    InputControlSize,
+    InputControlView,
+} from '../types';
+import {getInputControlState, prepareAutoComplete} from '../utils';
 
 import {AdditionalContent} from './AdditionalContent';
 import {TextInputControl} from './TextInputControl';
-import type {TextInputProps} from './types';
 
 import './TextInput.scss';
 
-const b = block('text-input');
+const b = blockNew('text-input');
 
-const getTextInputState = (
-    args: Pick<TextInputProps, 'error'> = {},
-): TextInputState | undefined => {
-    const {error} = args;
-
-    return error ? 'error' : undefined;
+export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
+    controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
+    label?: string;
+    /**
+     * User`s node rendered before label and input
+     */
+    leftContent?: React.ReactNode;
+    /**
+     * User`s node rendered after input and clear button
+     */
+    rightContent?: React.ReactNode;
 };
-
-const prepareAutoComplete = (autoComplete: TextInputProps['autoComplete']): string | undefined => {
-    if (typeof autoComplete === 'boolean') {
-        return autoComplete ? 'on' : 'off';
-    } else {
-        return autoComplete;
-    }
-};
+export type TextInputPin = InputControlPin;
+export type TextInputSize = InputControlSize;
+export type TextInputView = InputControlView;
 
 // eslint-disable-next-line complexity
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(function TextInput(
@@ -64,7 +69,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const leftContentRef = React.useRef<HTMLDivElement>(null);
-    const state = getTextInputState({error});
+    const state = getInputControlState({error});
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;

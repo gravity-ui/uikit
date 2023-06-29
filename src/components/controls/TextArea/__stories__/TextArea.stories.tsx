@@ -3,7 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {TextArea} from '../TextArea';
-import type {TextAreaProps} from '../types';
+import type {TextAreaProps} from '../TextArea';
 
 import {TextAreaShowcase} from './TextAreaShowcase';
 

@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import type {TextInputSize} from '../../controls';
+import type {InputControlSize} from '../../controls';
 import {SelectQa} from '../constants';
 
 import {DEFAULT_OPTIONS, TEST_QA, setup} from './utils';
@@ -48,7 +48,7 @@ describe('Select popup', () => {
             const renderOption = jest.fn();
 
             const {getByTestId} = setup(
-                {size: size as TextInputSize, renderOption, onUpdate, options: DEFAULT_OPTIONS},
+                {size: size as InputControlSize, renderOption, onUpdate, options: DEFAULT_OPTIONS},
                 mobile,
             );
 

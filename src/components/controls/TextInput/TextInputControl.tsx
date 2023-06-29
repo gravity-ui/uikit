@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {block} from '../../utils/cn';
+import {blockNew} from '../../utils/cn';
 
-import type {TextInputProps} from './types';
+import type {TextInputProps} from './TextInput';
 
 type Props = Omit<TextInputProps, 'autoComplete'> & {
     autoComplete?: React.TextareaHTMLAttributes<HTMLInputElement>['autoComplete'];
 };
 
-const b = block('text-input');
+const b = blockNew('text-input');
 
 export function TextInputControl(props: Props) {
     const {

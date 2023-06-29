@@ -4,7 +4,7 @@ import block from 'bem-cn-lite';
 
 import {Checkbox} from '../../../Checkbox';
 import {TextArea} from '../TextArea';
-import type {TextAreaProps} from '../types';
+import type {TextAreaProps} from '../TextArea';
 
 import './TextAreaShowcase.scss';
 

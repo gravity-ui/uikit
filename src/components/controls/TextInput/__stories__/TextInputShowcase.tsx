@@ -6,8 +6,9 @@ import block from 'bem-cn-lite';
 import {Button} from '../../../Button';
 import {Checkbox} from '../../../Checkbox';
 import {Icon} from '../../../Icon';
+import {mapTextInputSizeToButtonSize} from '../../common';
 import {TextInput} from '../TextInput';
-import type {TextInputProps} from '../types';
+import type {TextInputProps} from '../TextInput';
 
 import './TextInputShowcase.scss';
 
@@ -17,15 +18,20 @@ const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
 
 const EyeButton = (props: {
-    size: TextInputProps['size'];
+    size?: TextInputProps['size'];
     opened?: boolean;
     disabled?: boolean;
     onClick: () => void;
 }) => {
-    const {size, disabled, opened, onClick} = props;
+    const {size = 'm', disabled, opened, onClick} = props;
 
     return (
-        <Button size={size} view="flat" disabled={disabled} onClick={onClick}>
+        <Button
+            size={mapTextInputSizeToButtonSize(size)}
+            view="flat"
+            disabled={disabled}
+            onClick={onClick}
+        >
             <Icon data={opened ? Eye : EyeSlash} />
         </Button>
     );
@@ -152,7 +158,7 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                     />
                     <TextInput
@@ -162,7 +168,7 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                     />
                     <TextInput
@@ -173,7 +179,11 @@ export function TextInputShowcase() {
                         label={LABEL}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton
+                                size="xl"
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
                         }
                     />
                 </div>
@@ -189,11 +199,7 @@ export function TextInputShowcase() {
                             type={additionalContentExmpleInputType}
                             leftContent={<Icon data={Key} />}
                             rightContent={
-                                <EyeButton
-                                    size="s"
-                                    opened={hideValue}
-                                    onClick={handleEyeButtonClick}
-                                />
+                                <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                             }
                         />
                         <Checkbox
@@ -207,12 +213,7 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton
-                                size="s"
-                                opened={hideValue}
-                                disabled
-                                onClick={handleEyeButtonClick}
-                            />
+                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
                         }
                         disabled
                     />
@@ -223,7 +224,7 @@ export function TextInputShowcase() {
                         label={LABEL}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                         hasClear
                     />
@@ -236,7 +237,7 @@ export function TextInputShowcase() {
                         label={LONG_LABEL}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                     />
                 </div>

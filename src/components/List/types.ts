@@ -1,4 +1,4 @@
-import type {TextInputSize} from '../controls';
+import type {InputControlSize} from '../controls';
 import type {QAProps} from '../types';
 
 export type ListSortHandleAlign = 'left' | 'right';
@@ -25,7 +25,7 @@ export type ListProps<T = unknown> = QAProps & {
     sortable?: boolean;
     deactivateOnLeave?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
-    size?: TextInputSize;
+    size?: InputControlSize;
     renderItem?: (
         item: ListItemData<T>,
         isItemActive: boolean,

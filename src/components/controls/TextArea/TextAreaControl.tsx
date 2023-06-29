@@ -1,16 +1,16 @@
 import React from 'react';
 
-import {block} from '../../utils/cn';
+import {blockNew} from '../../utils/cn';
 import {useForkRef} from '../../utils/useForkRef';
 
-import type {TextAreaProps} from './types';
+import type {TextAreaProps} from './TextArea';
 
 type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange'> & {
     onChange: NonNullable<TextAreaProps['onChange']>;
     autoComplete?: React.TextareaHTMLAttributes<HTMLTextAreaElement>['autoComplete'];
 };
 
-const b = block('text-area');
+const b = blockNew('text-area');
 
 export function TextAreaControl(props: Props) {
     const {
@@ -64,7 +64,9 @@ export function TextAreaControl(props: Props) {
         }
     }, [rows, maxRows, innerValue]);
 
-    React.useEffect(resizeHeight, [resizeHeight, size]);
+    React.useEffect(() => {
+        resizeHeight();
+    }, [resizeHeight, size]);
 
     return (
         <textarea

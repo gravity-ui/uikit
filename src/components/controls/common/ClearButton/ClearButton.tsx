@@ -5,7 +5,7 @@ import {Xmark} from '@gravity-ui/icons';
 import {Button, ButtonSize} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {blockNew} from '../../../utils/cn';
-import type {TextInputSize} from '../../types';
+import type {InputControlSize} from '../../types';
 
 import i18n from './i18n';
 
@@ -20,7 +20,7 @@ type Props = {
     onClick: (event: React.MouseEvent<HTMLSpanElement>) => void;
 };
 
-export const mapTextInputSizeToButtonSize = (textInputSize: TextInputSize): ButtonSize => {
+export const mapTextInputSizeToButtonSize = (textInputSize: InputControlSize): ButtonSize => {
     switch (textInputSize) {
         case 's': {
             return 'xs';
@@ -43,7 +43,7 @@ export const mapTextInputSizeToButtonSize = (textInputSize: TextInputSize): Butt
 export const ClearButton = (props: Props) => {
     const {size, className, onClick} = props;
 
-    // remove using of Button component after https://github.com/gravity-ui/uikit/issues/645
+    // TODO: remove using of Button component after https://github.com/gravity-ui/uikit/issues/645
     return (
         <Button
             size={size}

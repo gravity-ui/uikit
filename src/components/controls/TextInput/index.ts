@@ -1,2 +1,2 @@
 export {TextInput} from './TextInput';
-export {TextInputProps} from './types';
+export type {TextInputProps, TextInputPin, TextInputSize, TextInputView} from './TextInput';

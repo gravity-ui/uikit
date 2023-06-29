@@ -1,3 +1,3 @@
 export * from './TextArea';
 export * from './TextInput';
-export * from './types';
+export type {InputControlPin, InputControlSize, InputControlState, InputControlView} from './types';

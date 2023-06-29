@@ -19,7 +19,7 @@ describe('TextArea', () => {
             const {container} = render(<TextArea error="Some Error" />);
 
             // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.yc-text-area__error')).toBeInTheDocument();
+            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
             expect(screen.getByText('Some Error')).toBeVisible();
         });
 
@@ -27,7 +27,7 @@ describe('TextArea', () => {
             const {container} = render(<TextArea />);
 
             // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.yc-text-area__error')).not.toBeInTheDocument();
+            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
         });
 
         test('check clear button visibility with hasClear prop', async () => {

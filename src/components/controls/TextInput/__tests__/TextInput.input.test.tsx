@@ -20,7 +20,7 @@ describe('TextInput input', () => {
                 const {container} = render(<TextInput error="Some Error" />);
 
                 // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
+                expect(container.querySelector('.g-text-input__error')).toBeInTheDocument();
                 expect(screen.getByText('Some Error')).toBeVisible();
             });
 
@@ -28,7 +28,7 @@ describe('TextInput input', () => {
                 const {container} = render(<TextInput />);
 
                 // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+                expect(container.querySelector('.g-text-input__error')).not.toBeInTheDocument();
             });
 
             test('check clear button visibility with hasClear prop', async () => {
@@ -115,7 +115,7 @@ describe('TextInput input', () => {
                 const {container} = render(<TextInput label="Label:" />);
 
                 // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                const label = container.querySelector('.yc-text-input__label');
+                const label = container.querySelector('.g-text-input__label');
 
                 expect(label).toBeInTheDocument();
                 expect(label?.tagName.toLowerCase()).toBe('label');

@@ -21,15 +21,13 @@ import './TextInput.scss';
 const b = block('text-input');
 
 export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
+    /** The control's html attributes */
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
+    /** Help text rendered to the left of the input node */
     label?: string;
-    /**
-     * User`s node rendered before label and input
-     */
+    /** User`s node rendered before label and input node */
     leftContent?: React.ReactNode;
-    /**
-     * User`s node rendered after input and clear button
-     */
+    /** User`s node rendered after input node and clear button */
     rightContent?: React.ReactNode;
 };
 export type TextInputPin = InputControlPin;

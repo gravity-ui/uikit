@@ -120,7 +120,13 @@ export function Modal({
                     onTransitionExited?.();
                 }}
             >
-                <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
+                <div
+                    ref={containerRef}
+                    dir="rtl"
+                    style={style}
+                    className={b({open}, className)}
+                    data-qa={qa}
+                >
                     <div className={b('table')}>
                         <div className={b('cell')}>
                             <FocusTrap

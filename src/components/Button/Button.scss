@@ -98,11 +98,13 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-inline-start: 18px;
+                    // TODO: broken in ltr, needs to be switched (start/end) based on direction
+                    // same problem with Label
+                    margin-inline-end: 18px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-inline-end: 18px;
+                    margin-inline-start: 18px;
                 }
             }
 
@@ -122,11 +124,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-inline-start: 22px;
+                    margin-inline-end: 22px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-inline-end: 22px;
+                    margin-inline-start: 22px;
                 }
             }
 
@@ -146,11 +148,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-inline-start: 25px;
+                    margin-inline-end: 25px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-inline-end: 25px;
+                    margin-inline-start: 25px;
                 }
             }
 
@@ -170,11 +172,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-inline-start: 33px;
+                    margin-inline-end: 33px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-inline-end: 33px;
+                    margin-inline-start: 33px;
                 }
             }
 
@@ -194,11 +196,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-inline-start: 40px;
+                    margin-inline-end: 40px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-inline-end: 40px;
+                    margin-inline-start: 40px;
                 }
             }
 

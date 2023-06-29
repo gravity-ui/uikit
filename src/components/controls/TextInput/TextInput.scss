@@ -123,7 +123,7 @@ $block: '.#{variables.$ns-new}text-input';
                 padding-right: 1px;
             }
 
-            --_--text-input-border-radius: var(--yc-border-radius-s);
+            --_--text-input-border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -151,7 +151,7 @@ $block: '.#{variables.$ns-new}text-input';
                 padding-right: 1px;
             }
 
-            --_--text-input-border-radius: var(--yc-border-radius-m);
+            --_--text-input-border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -179,7 +179,7 @@ $block: '.#{variables.$ns-new}text-input';
                 padding-right: 3px;
             }
 
-            --_--text-input-border-radius: var(--yc-border-radius-l);
+            --_--text-input-border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -207,7 +207,7 @@ $block: '.#{variables.$ns-new}text-input';
                 padding-right: 3px;
             }
 
-            --_--text-input-border-radius: var(--yc-border-radius-xl);
+            --_--text-input-border-radius: var(--g-border-radius-xl);
         }
     }
 
@@ -241,16 +241,12 @@ $block: '.#{variables.$ns-new}text-input';
         }
     }
 
-<<<<<<< HEAD
-    @include mixins.pin($block, #{$block}__content, var(--yc-text-input-border-radius), $append: false);
-=======
     @include mixins.pin(
         $block,
         #{$block}__content,
         var(--_--text-input-border-radius),
         $append: false
     );
->>>>>>> fix: amje review fixes
 
     &_disabled {
         #{$block}__content {

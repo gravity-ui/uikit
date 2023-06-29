@@ -78,7 +78,7 @@ $block: '.#{variables.$ns-new}text-area';
                 padding-right: 26px;
             }
 
-            --_--text-area-border-radius: var(--yc-border-radius-s);
+            --_--text-area-border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -90,7 +90,7 @@ $block: '.#{variables.$ns-new}text-area';
                 padding-right: 26px;
             }
 
-            --_--text-area-border-radius: var(--yc-border-radius-m);
+            --_--text-area-border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -102,7 +102,7 @@ $block: '.#{variables.$ns-new}text-area';
                 padding-right: 36px;
             }
 
-            --_--text-area-border-radius: var(--yc-border-radius-l);
+            --_--text-area-border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -114,7 +114,7 @@ $block: '.#{variables.$ns-new}text-area';
                 padding-right: 36px;
             }
 
-            --_--text-area-border-radius: var(--yc-border-radius-xl);
+            --_--text-area-border-radius: var(--g-border-radius-xl);
         }
     }
 

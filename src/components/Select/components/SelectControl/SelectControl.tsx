@@ -128,12 +128,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     return (
         <React.Fragment>
-            <div
-                className={selectControlBlock(controlMods)}
-                ref={handleControlRef}
-                role="group"
-                data-qa={qa}
-            >
+            <div className={selectControlBlock(controlMods)} ref={handleControlRef} role="group">
                 <button
                     className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"
@@ -143,6 +138,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                     onClick={toggleOpen}
                     onKeyDown={onKeyDown}
                     type="button"
+                    data-qa={qa}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (

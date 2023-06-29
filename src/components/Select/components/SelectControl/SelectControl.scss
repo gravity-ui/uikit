@@ -112,6 +112,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
         display: inline-flex;
         overflow: hidden;
+        width: 100%;
 
         &::before {
             content: '';

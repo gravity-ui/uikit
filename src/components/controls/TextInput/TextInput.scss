@@ -58,13 +58,13 @@ $block: '.#{variables.$ns}text-input';
         padding: 0;
         width: 100%;
         font-weight: normal;
-        font-family: var(--yc-text-body-font-family);
-        color: var(--yc-color-text-primary);
+        font-family: var(--g-font-family-sans);
+        color: var(--g-color-text-primary);
         background-color: transparent;
         border: none;
 
         &::placeholder {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
         }
 
         &:focus {
@@ -88,7 +88,7 @@ $block: '.#{variables.$ns}text-input';
     &__error {
         @include mixins.text-body-1();
 
-        color: var(--yc-color-text-danger);
+        color: var(--g-color-text-danger);
         margin-top: 2px;
     }
 
@@ -214,14 +214,14 @@ $block: '.#{variables.$ns}text-input';
     &_view {
         &_normal {
             #{$block}__content {
-                border: 1px solid var(--yc-color-line-generic);
+                border: 1px solid var(--g-color-line-generic);
 
                 &:hover {
-                    border-color: var(--yc-color-line-generic-hover);
+                    border-color: var(--g-color-line-generic-hover);
                 }
 
                 &:focus-within {
-                    border-color: var(--yc-color-line-generic-active);
+                    border-color: var(--g-color-line-generic-active);
                 }
             }
         }
@@ -250,8 +250,8 @@ $block: '.#{variables.$ns}text-input';
 
     &_disabled {
         #{$block}__content {
-            background-color: var(--yc-color-base-generic-accent-disabled);
-            color: var(--yc-color-text-hint);
+            background-color: var(--g-color-base-generic-accent-disabled);
+            color: var(--g-color-text-hint);
             border-color: transparent;
 
             &:hover {
@@ -260,17 +260,17 @@ $block: '.#{variables.$ns}text-input';
         }
 
         #{$block}__control {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
         }
 
         #{$block}__label {
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
         }
     }
 
     &_has-scrollbar {
         #{$block}__clear {
-            right: var(--yc-scrollbar-width);
+            right: var(--g-scrollbar-width);
         }
     }
 
@@ -290,22 +290,22 @@ $block: '.#{variables.$ns}text-input';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    border-color: var(--yc-color-line-danger);
+                    border-color: var(--g-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-color: var(--yc-color-line-danger);
+                        border-color: var(--g-color-line-danger);
                     }
                 }
             }
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-bottom: 1px solid var(--yc-color-line-danger);
+                    border-bottom: 1px solid var(--g-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-bottom: 1px solid var(--yc-color-line-danger);
+                        border-bottom: 1px solid var(--g-color-line-danger);
                     }
                 }
             }

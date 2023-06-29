@@ -76,6 +76,7 @@ export default {
         tooltipCancelButton: {control: 'object'},
         tooltipOffset: {control: 'array'},
         tooltipClassName: {control: 'string '},
+        tooltipContentClassName: {control: 'string '},
         className: {control: 'string '},
         onClick: {action: 'onClick'},
         onOpenChange: {action: 'onOpenChange'},

@@ -26,11 +26,13 @@ $block: '.#{variables.$ns}popover';
 
         $buttonGap: 5px;
 
-        box-sizing: border-box;
-        min-height: 40px;
-        max-width: var(--yc-popover-max-width);
-        padding: var(--yc-popover-padding);
-        cursor: default;
+        &-popup-content {
+            box-sizing: border-box;
+            min-height: 40px;
+            max-width: var(--yc-popover-max-width);
+            padding: var(--yc-popover-padding);
+            cursor: default;
+        }
 
         &-title {
             @include mixins.text-subheader-3();

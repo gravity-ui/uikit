@@ -5,7 +5,7 @@ $block: '.#{variables.$ns}share-popover';
 #{$block} {
     position: relative;
 
-    &__tooltip {
+    &__tooltip-content {
         max-width: none;
         padding: 8px;
     }

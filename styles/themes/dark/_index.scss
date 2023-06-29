@@ -5,17 +5,15 @@
 @import './infographics';
 @import './sfx';
 @import './promo';
-@import './brand';
 @import './system';
 
 @mixin g-colors-dark {
-    @include yc-colors-private-dark;
-    @include yc-colors-text-dark;
-    @include yc-colors-base-dark;
-    @include yc-colors-line-dark;
-    @include yc-colors-infographics-dark;
-    @include yc-colors-sfx-dark;
-    @include yc-colors-promo-dark;
-    @include yc-colors-brand-dark;
-    @include yc-colors-system-dark;
+    @include g-colors-private-dark;
+    @include g-colors-text-dark;
+    @include g-colors-base-dark;
+    @include g-colors-line-dark;
+    @include g-colors-infographics-dark;
+    @include g-colors-sfx-dark;
+    @include g-colors-promo-dark;
+    @include g-colors-system-dark;
 }

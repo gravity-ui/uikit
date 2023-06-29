@@ -125,7 +125,7 @@ $block: '.#{variables.$ns}tabs';
             &_active,
             &_active:hover,
             &_active:focus {
-                border-color: var(--g-color-base-special);
+                border-color: var(--g-color-line-brand);
             }
 
             &_disabled {

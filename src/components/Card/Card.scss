@@ -40,7 +40,8 @@ $block: '.#{variables.$ns}card';
 
             &::before {
                 content: '';
-                border: 2px solid var(--g-color-line-selection-hover);
+                border: 2px solid var(--g-color-line-brand);
+                opacity: 0.5;
             }
         }
 
@@ -49,7 +50,7 @@ $block: '.#{variables.$ns}card';
 
             &::before {
                 content: '';
-                border: 2px solid var(--g-color-line-selection-active);
+                border: 2px solid var(--g-color-line-brand);
             }
         }
 

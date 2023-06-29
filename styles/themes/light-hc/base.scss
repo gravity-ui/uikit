@@ -1,5 +1,5 @@
 @mixin g-colors-base-light-hc {
-    --g-color-base-background: var(--g-color-private-white-1000);
+    --g-color-base-background: var(--g-color-private-white-1000-solid);
     --g-color-base-generic: var(--g-color-private-black-150);
     --g-color-base-generic-hover: var(--g-color-private-black-300);
     --g-color-base-generic-medium: var(--g-color-private-black-250);
@@ -13,7 +13,7 @@
     --g-color-base-selection-hover: var(--g-color-private-blue-450);
 
     --g-color-base-brand: var(--g-color-private-blue-550);
-    --g-color-base-brand-hover: var(--g-color-private-blue-800);
+    --g-color-base-brand-hover: var(--g-color-private-blue-800-solid);
 
     --g-color-base-info: var(--g-color-private-blue-250);
     --g-color-base-info-hover: var(--g-color-private-blue-350);
@@ -40,18 +40,18 @@
     --g-color-base-misc-heavy: var(--g-color-private-cool-grey-450);
     --g-color-base-misc-heavy-hover: var(--g-color-private-cool-grey-550);
 
-    --g-color-base-light: var(--g-color-private-white-1000);
+    --g-color-base-light: var(--g-color-private-white-1000-solid);
     --g-color-base-light-hover: var(--g-color-private-white-850);
     --g-color-base-light-simple-hover: var(--g-color-private-white-300);
     --g-color-base-light-disabled: var(--g-color-private-white-150);
     --g-color-base-light-accent-disabled: var(--g-color-private-white-300);
 
-    --g-color-base-float: var(--g-color-private-white-1000);
+    --g-color-base-float: var(--g-color-private-white-1000-solid);
     --g-color-base-float-hover: var(--g-color-private-black-150-solid);
     --g-color-base-float-heavy: var(--g-color-private-black-700-solid);
-    --g-color-base-float-accent: var(--g-color-private-white-1000);
+    --g-color-base-float-accent: var(--g-color-private-white-1000-solid);
     --g-color-base-float-accent-hover: var(--g-color-private-white-850);
     --g-color-base-float-announcement: var(--g-color-private-cool-grey-150-solid);
 
-    --g-color-base-modal: var(--g-color-private-white-1000);
+    --g-color-base-modal: var(--g-color-private-white-1000-solid);
 }

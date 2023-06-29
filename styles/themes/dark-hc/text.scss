@@ -1,5 +1,5 @@
 @mixin g-colors-text-dark-hc {
-    --g-color-text-primary: var(--g-color-private-white-1000);
+    --g-color-text-primary: var(--g-color-private-white-1000-solid);
     --g-color-text-complementary: var(--g-color-private-white-800);
     --g-color-text-secondary: var(--g-color-private-white-600);
     --g-color-text-hint: var(--g-color-private-white-400);
@@ -20,7 +20,7 @@
 
     --g-color-text-brand: var(--g-color-private-blue-850-solid);
     --g-color-text-brand-contrast: var(--g-color-text-light-primary);
-    --g-color-text-link: var(--g-color-private-blue-550);
+    --g-color-text-link: var(--g-color-private-blue-550-solid);
     --g-color-text-link-hover: var(--g-color-private-blue-750-solid);
     --g-color-text-link-visited: var(--g-color-private-purple-650-solid);
     --g-color-text-link-visited-hover: var(--g-color-private-purple-800-solid);
@@ -28,16 +28,16 @@
     // @deprecated Will be removed
     --g-color-text-yandex-red: var(--g-color-private-red-550);
 
-    --g-color-text-dark-primary: var(--g-color-private-black-1000);
+    --g-color-text-dark-primary: var(--g-color-private-black-1000-solid);
     --g-color-text-dark-complementary: var(--g-color-private-black-800);
     --g-color-text-dark-secondary: var(--g-color-private-black-600);
 
-    --g-color-text-light-primary: var(--g-color-private-white-1000);
+    --g-color-text-light-primary: var(--g-color-private-white-1000-solid);
     --g-color-text-light-complementary: var(--g-color-private-white-800);
     --g-color-text-light-secondary: var(--g-color-private-white-600);
     --g-color-text-light-hint: var(--g-color-private-white-400);
 
-    --g-color-text-inverted-primary: var(--g-color-private-black-1000);
+    --g-color-text-inverted-primary: var(--g-color-private-black-1000-solid);
     --g-color-text-inverted-complementary: var(--g-color-private-black-800);
     --g-color-text-inverted-secondary: var(--g-color-private-black-600);
     --g-color-text-inverted-hint: var(--g-color-private-black-400);

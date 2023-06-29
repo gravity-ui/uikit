@@ -21,12 +21,11 @@ export const TEXT_COLORS = [
     'utility-heavy',
     'misc',
     'misc-heavy',
-    'special',
+    'brand',
     'link',
     'link-hover',
     'link-visited',
     'link-visited-hover',
-    'yandex-red',
     'dark-primary',
     'dark-complementary',
     'dark-secondary',
@@ -46,7 +45,7 @@ export interface ColorTextBaseProps {
 
 /**
  * Utility to generate text colors classes.
- * Storybook: https://preview.yandexcloud.dev/uikit/?path=/story/colors--texts
+ * Storybook: https://preview.gravity-ui.com/uikit/?path=/story/colors--texts
  *
  * ---
  * For example:

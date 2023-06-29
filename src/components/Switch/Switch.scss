@@ -115,7 +115,7 @@ $block: '.#{variables.$ns}switch';
     &_checked,
     &_checked:hover {
         #{$block}__indicator::before {
-            background-color: var(--g-color-base-special);
+            background-color: var(--g-color-base-brand);
         }
     }
 
@@ -126,7 +126,7 @@ $block: '.#{variables.$ns}switch';
 
         &#{$block}_checked {
             #{$block}__indicator::before {
-                background-color: var(--g-color-base-special);
+                background-color: var(--g-color-base-brand);
                 opacity: 0.5;
             }
         }

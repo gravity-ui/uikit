@@ -133,12 +133,12 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
                     className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"
                     aria-expanded={open}
-                    data-qa={qa}
                     name={name}
                     disabled={disabled}
                     onClick={toggleOpen}
                     onKeyDown={onKeyDown}
                     type="button"
+                    data-qa={qa}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (

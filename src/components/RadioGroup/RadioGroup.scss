@@ -10,7 +10,7 @@ $block: '.#{variables.$ns}radio-group';
                     line-height: 20px;
 
                     #{$block}__option:not(:last-child) {
-                        margin-right: 12px;
+                        margin-inline-end: 12px;
                     }
                 }
 
@@ -18,7 +18,7 @@ $block: '.#{variables.$ns}radio-group';
                     line-height: 24px;
 
                     #{$block}__option:not(:last-child) {
-                        margin-right: 15px;
+                        margin-inline-end: 15px;
                     }
                 }
             }

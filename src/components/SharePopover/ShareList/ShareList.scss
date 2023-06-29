@@ -25,7 +25,7 @@ $block: '.#{variables.$ns}share-list';
             }
 
             #{$block}__link + #{$block}__link {
-                margin-left: 4px;
+                margin-inline-start: 4px;
             }
         }
         &_column {

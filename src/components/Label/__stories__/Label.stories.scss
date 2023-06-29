@@ -1,7 +1,7 @@
 .label-stories {
     display: flex;
     .yc-label {
-        margin-left: 10px;
+        margin-inline-start: 10px;
     }
     .grid {
         display: grid;
@@ -14,7 +14,7 @@
         gap: 10px;
         & > * {
             width: min-content;
-            margin-left: unset;
+            margin-inline-start: unset;
         }
     }
 }

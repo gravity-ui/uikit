@@ -10,7 +10,7 @@
         // space
         &_s_#{$space} {
             margin-top: calc(-1 * $value);
-            margin-left: calc(-1 * $value);
+            margin-inline-start: calc(-1 * $value);
 
             & > #{variables.$colBlock} {
                 padding-top: $value;

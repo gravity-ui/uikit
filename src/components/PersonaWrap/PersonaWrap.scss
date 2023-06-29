@@ -82,11 +82,11 @@ $block: '.#{variables.$ns}persona';
         transition-timing-function: $transitionTimingFunction;
 
         #{$block}_size_n & {
-            margin-right: 12px;
+            margin-inline-end: 12px;
         }
 
         #{$block}_size_s & {
-            margin-right: 6px;
+            margin-inline-end: 6px;
         }
 
         #{$block}_clickable:hover & {
@@ -110,12 +110,12 @@ $block: '.#{variables.$ns}persona';
     &__text {
         #{$block}_size_n & {
             @include mixins.text-body-2;
-            margin-right: 10px;
+            margin-inline-end: 10px;
         }
 
         #{$block}_size_s & {
             @include mixins.text-body-1;
-            margin-right: 6px;
+            margin-inline-end: 6px;
         }
     }
 

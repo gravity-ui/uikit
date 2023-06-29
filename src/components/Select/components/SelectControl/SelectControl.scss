@@ -187,7 +187,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
         flex-shrink: 0;
         max-width: 50%;
-        margin-right: 4px;
+        margin-inline-end: 4px;
         white-space: nowrap;
     }
 
@@ -209,7 +209,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__chevron-icon {
         flex: 0 0 16px;
-        margin-left: auto;
+        margin-inline-start: auto;
         color: var(--yc-color-text-secondary);
 
         &_disabled {
@@ -218,7 +218,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
 
     #{SelectClear.$block} + &__chevron-icon {
-        margin-left: 0;
+        margin-inline-start: 0;
     }
 
     &__error {

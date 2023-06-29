@@ -59,8 +59,8 @@ $block: '.#{variables.$ns}list';
             flex-direction: row-reverse;
 
             #{$block}__item-sort-icon {
-                margin-left: 10px;
-                margin-right: 0;
+                margin-inline-start: 10px;
+                margin-inline-end: 0;
             }
         }
     }
@@ -86,7 +86,7 @@ $block: '.#{variables.$ns}list';
         display: flex;
         align-items: center;
         width: 6px;
-        margin-right: 10px;
+        margin-inline-end: 10px;
         flex: 0 0 auto;
         color: var(--yc-color-text-hint);
     }

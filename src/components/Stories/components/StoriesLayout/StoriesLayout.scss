@@ -57,7 +57,7 @@ $textBlockMargin: 16px;
     &__left-pane {
         width: 464px;
         flex-shrink: 0;
-        margin-left: $smallMargin;
+        margin-inline-start: $smallMargin;
         margin-top: $smallMargin;
         margin-bottom: $smallMargin;
         background-color: var(--yc-color-base-background);

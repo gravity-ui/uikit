@@ -6,10 +6,10 @@
             margin: $value;
         }
         &__mr_#{$space} {
-            margin-right: $value;
+            margin-inline-end: $value;
         }
         &__ml_#{$space} {
-            margin-left: $value;
+            margin-inline-start: $value;
         }
         &__mt_#{$space} {
             margin-top: $value;
@@ -18,8 +18,8 @@
             margin-bottom: $value;
         }
         &__mx_#{$space} {
-            margin-right: $value;
-            margin-left: $value;
+            margin-inline-end: $value;
+            margin-inline-start: $value;
         }
         &__my_#{$space} {
             margin-top: $value;

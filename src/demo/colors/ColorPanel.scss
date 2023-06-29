@@ -96,7 +96,7 @@
         &-var {
             @include mixins.text-code-1();
             color: var(--yc-color-text-secondary);
-            margin-left: 10px;
+            margin-inline-start: 10px;
             cursor: pointer;
         }
 

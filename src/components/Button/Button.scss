@@ -98,11 +98,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-left: 18px;
+                    margin-inline-start: 18px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-right: 18px;
+                    margin-inline-end: 18px;
                 }
             }
 
@@ -122,11 +122,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-left: 22px;
+                    margin-inline-start: 22px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-right: 22px;
+                    margin-inline-end: 22px;
                 }
             }
 
@@ -146,11 +146,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-left: 25px;
+                    margin-inline-start: 25px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-right: 25px;
+                    margin-inline-end: 25px;
                 }
             }
 
@@ -170,11 +170,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-left: 33px;
+                    margin-inline-start: 33px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-right: 33px;
+                    margin-inline-end: 33px;
                 }
             }
 
@@ -194,11 +194,11 @@ $block: '.#{variables.$ns}button';
                 width: var(--yc-button-height);
 
                 &_side_left ~ #{$block}__text {
-                    margin-left: 40px;
+                    margin-inline-start: 40px;
                 }
 
                 &_side_right ~ #{$block}__text {
-                    margin-right: 40px;
+                    margin-inline-end: 40px;
                 }
             }
 

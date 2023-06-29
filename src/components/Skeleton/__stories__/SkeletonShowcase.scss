@@ -15,7 +15,7 @@
     }
 
     &__info {
-        margin-left: 10px;
+        margin-inline-start: 10px;
         margin-top: 2px;
     }
 
@@ -46,7 +46,7 @@
             height: 28px;
             width: 28px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-inline-end: 8px;
         }
 
         &-person-name {

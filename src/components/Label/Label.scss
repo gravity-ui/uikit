@@ -54,11 +54,11 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &#{$block}_has-right-addon #{$block}__text {
-        margin-right: #{$rAddon};
+        margin-inline-end: #{$rAddon};
     }
 
     &#{$block}_has-left-addon #{$block}__text {
-        margin-left: #{$lAddon};
+        margin-inline-start: #{$lAddon};
     }
 
     &#{$block}_style {

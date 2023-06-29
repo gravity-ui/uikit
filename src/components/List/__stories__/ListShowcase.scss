@@ -17,7 +17,7 @@
         @include mixins.text-body-3();
         width: 100%;
         margin-bottom: 5px;
-        margin-left: var(--yc-list-margin);
+        margin-inline-start: var(--yc-list-margin);
         color: var(--yc-color-text-secondary);
     }
 
@@ -43,7 +43,7 @@
         margin-bottom: 40px;
 
         &:not(:last-child) {
-            margin-right: 20px;
+            margin-inline-end: 20px;
         }
     }
 
@@ -70,7 +70,7 @@
 
         #{$button} {
             display: none;
-            margin-left: auto;
+            margin-inline-start: auto;
         }
         &:hover {
             #{$button} {

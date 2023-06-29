@@ -107,7 +107,7 @@ $block: '.#{variables.$ns}toast';
     }
 
     &__action {
-        margin-right: 8px;
+        margin-inline-end: 8px;
     }
 
     & &__btn-close {

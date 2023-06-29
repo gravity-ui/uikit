@@ -8,7 +8,7 @@ $block: '.#{variables.$ns}table-column-setup';
     }
 
     &__status {
-        margin-left: 5px;
+        margin-inline-start: 5px;
         color: var(--yc-color-text-secondary);
     }
 

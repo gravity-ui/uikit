@@ -1,8 +1,7 @@
 import {Meta} from '@storybook/addon-docs';
 import * as LayoutStories from './Layout.stories';
 
-
-<Meta of={LayoutStories}/>
+<Meta of={LayoutStories} />
 
 # Layout Components
 
@@ -26,7 +25,6 @@ import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
 > boolean prop here in `Flex` component means that there is spacing between child components with default value taken from LayoutTheme
 
 **All components supports `jsdoc` on hover feature. Just hover over the component or components prop in you favorite editor to see documentation**
-
 
 ### Base concepts:
 
@@ -64,7 +62,7 @@ These `tokens` are also available in project during css custom properties:
 
 ```css
 .example-class {
-    margin-right: var(--yc-spacing-5);
+    margin-inline-end: var(--yc-spacing-5);
 }
 ```
 
@@ -107,7 +105,7 @@ import {spacing} from '@gravity-ui/uikit';
 </>;
 ```
 
-> `mr` - means `margin-right`.
+> `mr` - means `margin-inline-end`.
 
 ## Screen sizes:
 

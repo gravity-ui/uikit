@@ -9,11 +9,11 @@ const b = block('s');
 
 export interface SpacingProps {
     /**
-     * margin-right
+     * margin-inline-end
      */
     mr?: Space;
     /**
-     * margin-left
+     * margin-inline-start
      */
     ml?: Space;
     /**
@@ -25,8 +25,8 @@ export interface SpacingProps {
      */
     mb?: Space;
     /**
-     * margin-left
-     * margin-right
+     * margin-inline-start
+     * margin-inline-end
      */
     mx?: Space;
     /**

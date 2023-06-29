@@ -127,14 +127,14 @@ $block: '.#{variables.$ns}checkbox';
     &_indeterminate {
         #{$block}__indicator {
             &::before {
-                background-color: var(--g-color-base-special);
+                background-color: var(--g-color-base-brand);
                 border: transparent;
             }
         }
 
         #{$block}__icon {
             visibility: visible;
-            color: var(--yc-color-brand-text-contrast);
+            color: var(--g-color-text-brand-contrast);
             transform: translateX(0);
         }
     }
@@ -151,7 +151,7 @@ $block: '.#{variables.$ns}checkbox';
         &#{$block}_indeterminate {
             #{$block}__indicator {
                 &::before {
-                    background-color: var(--g-color-base-special);
+                    background-color: var(--g-color-base-brand);
                     opacity: 0.5;
                 }
             }

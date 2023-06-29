@@ -35,7 +35,7 @@ $discMarginLSize: 6px;
         position: absolute;
 
         border: none;
-        background-color: var(--yc-color-brand-text-contrast);
+        background-color: var(--g-color-text-brand-contrast);
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.1);
@@ -117,7 +117,7 @@ $discMarginLSize: 6px;
     &_checked {
         #{$block}__indicator {
             &::before {
-                background-color: var(--g-color-base-special);
+                background-color: var(--g-color-base-brand);
                 border: transparent;
             }
 
@@ -139,7 +139,7 @@ $discMarginLSize: 6px;
         &#{$block}_checked {
             #{$block}__indicator {
                 &::before {
-                    background-color: var(--g-color-base-special);
+                    background-color: var(--g-color-base-brand);
                     opacity: 0.5;
                 }
             }

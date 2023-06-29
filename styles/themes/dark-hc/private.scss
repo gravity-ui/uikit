@@ -1,6 +1,4 @@
-@mixin yc-colors-private-dark-hc {
-    // Low level - https://figma.com/file/albZah2AMImAQDBhFMohdz
-
+@mixin g-colors-private-dark-hc {
     --g-color-private-white-50: rgba(255, 255, 255, 0.05);
     --g-color-private-white-70: rgba(255, 255, 255, 0.07);
     --g-color-private-white-100: rgba(255, 255, 255, 0.1);
@@ -21,7 +19,6 @@
     --g-color-private-white-850: rgba(255, 255, 255, 0.85);
     --g-color-private-white-900: rgba(255, 255, 255, 0.9);
     --g-color-private-white-950: rgba(255, 255, 255, 0.95);
-    --g-color-private-white-1000: rgba(255, 255, 255, 1);
 
     /*————————— To review opaque —————————*/
     --g-color-private-white-opaque-150: rgba(56, 57, 60, 0.97);
@@ -46,9 +43,10 @@
     --g-color-private-black-850: rgba(0, 0, 0, 0.85);
     --g-color-private-black-900: rgba(0, 0, 0, 0.9);
     --g-color-private-black-950: rgba(0, 0, 0, 0.95);
-    --g-color-private-black-1000: rgba(0, 0, 0, 1);
 
-    --g-color-private-black-rock-850: #2d2c33;
+    --g-color-private-black-1000-solid: rgba(0, 0, 0, 1);
+
+    --g-color-private-black-rock-850: rgba(45, 44, 51, 1);
     --g-color-private-black-rock-950: rgba(34, 35, 38, 1);
 
     /*————————— To review 20-solid  —> should be deleted  —————————*/
@@ -85,9 +83,6 @@
     --g-color-private-blue-400: rgba(98, 146, 255, 0.7);
     --g-color-private-blue-450: rgba(98, 146, 255, 0.8);
     --g-color-private-blue-500: rgba(98, 146, 255, 0.9);
-    --g-color-private-blue-550: rgba(98, 146, 255, 1);
-    --g-color-private-blue-700: rgba(145, 179, 255, 1);
-    --g-color-private-blue-850: rgba(192, 211, 255, 1);
 
     --g-color-private-blue-50-solid: rgba(37, 41, 49, 1);
     --g-color-private-blue-100-solid: rgba(40, 46, 60, 1);
@@ -142,9 +137,6 @@
     --g-color-private-green-900-solid: rgba(206, 233, 205, 1);
     --g-color-private-green-950-solid: rgba(222, 240, 221, 1);
     --g-color-private-green-1000-solid: rgba(239, 248, 238, 1);
-
-    /*—————————  should be deleted and changed with -solid  —————————*/
-    --g-color-private-yellow-700: #e0bd34;
 
     --g-color-private-yellow-50: rgba(255, 203, 0, 0.05);
     --g-color-private-yellow-100: rgba(255, 203, 0, 0.1);

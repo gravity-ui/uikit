@@ -5,6 +5,7 @@ import block from 'bem-cn-lite';
 import {
     Button,
     Checkbox,
+    Link,
     Loader,
     Radio,
     Spin,
@@ -25,6 +26,7 @@ export interface BrandingProps {
 }
 
 export function Branding({brand}: BrandingProps) {
+    const [activeTab, setActiveTab] = React.useState('overview');
     const [selectedIds, setSelectedIds] = React.useState(['1']);
 
     function renderColors(solid = false) {
@@ -67,6 +69,16 @@ export function Branding({brand}: BrandingProps) {
                 <header className={b('section-header')}>Components</header>
                 <div className={b('section-content')}>
                     <div className={b('components')}>
+                        <div className={b('components-title')}>Links</div>
+                        <div className={b('components-content')} style={{maxWidth: 300}}>
+                            <span>
+                                Lorem ipsum dolor sit amet, <Link href="#a">consectetur</Link>{' '}
+                                adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis{' '}
+                                <Link href="#b">nostrud</Link> exercitation ullamco laboris nisi ut
+                                aliquip ex ea commodo consequat.
+                            </span>
+                        </div>
                         <div className={b('components-title')}>Main Button</div>
                         <div className={b('components-content')}>
                             <Button view="action">Action</Button>
@@ -89,6 +101,8 @@ export function Branding({brand}: BrandingProps) {
                         <div className={b('components-title')}>Tabs</div>
                         <div className={b('components-content')}>
                             <Tabs
+                                activeTab={activeTab}
+                                onSelectTab={setActiveTab}
                                 items={[
                                     {id: 'overview', title: 'Overview'},
                                     {id: 'settings', title: 'Settings'},

@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.21.2](https://github.com/gravity-ui/uikit/compare/v4.21.1...v4.21.2) (2023-06-29)
+
+
+### Bug Fixes
+
+* **Select:** fix selectControl block style ([#777](https://github.com/gravity-ui/uikit/issues/777)) ([fb146de](https://github.com/gravity-ui/uikit/commit/fb146de90875cf92ae1aec38f8062cafc3199723))
+
 ## [4.21.1](https://github.com/gravity-ui/uikit/compare/v4.21.0...v4.21.1) (2023-06-28)
 
 

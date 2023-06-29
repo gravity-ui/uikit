@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 
-const b = blockNew('text-input');
+const b = block('text-input');
 
 type Props = {
     placement: 'left' | 'right';

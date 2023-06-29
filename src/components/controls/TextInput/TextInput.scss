@@ -35,7 +35,7 @@
     @include mixins.text-accent;
 }
 
-$block: '.#{variables.$ns-new}text-input';
+$block: '.#{variables.$ns}text-input';
 
 #{$block} {
     display: inline-block;

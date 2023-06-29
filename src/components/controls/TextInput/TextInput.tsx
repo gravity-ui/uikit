@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 import {useElementSize} from '../../utils/useElementSize';
 import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
@@ -18,7 +18,7 @@ import {TextInputControl} from './TextInputControl';
 
 import './TextInput.scss';
 
-const b = blockNew('text-input');
+const b = block('text-input');
 
 export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;

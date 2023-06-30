@@ -5,7 +5,7 @@ import _random from 'lodash/random';
 import _range from 'lodash/range';
 
 import {Button} from '../../Button';
-import {TextInput} from '../../TextInput';
+import {TextInput} from '../../controls';
 import {List} from '../List';
 
 import './ListShowcase.scss';

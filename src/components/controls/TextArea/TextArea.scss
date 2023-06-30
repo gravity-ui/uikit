@@ -1,0 +1,205 @@
+@use '../../../../styles/mixins';
+@use '../../variables';
+@use '../mixins.scss' as control-mixins;
+
+$block: '.#{variables.$ns-new}text-area';
+
+#{$block} {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+
+    &__content {
+        box-sizing: border-box;
+        display: flex;
+        width: 100%;
+    }
+
+    &__control {
+        box-sizing: border-box;
+        display: inline-block;
+        flex-grow: 1;
+        vertical-align: top;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        font-weight: normal;
+        font-family: var(--g-font-family-sans);
+        color: var(--g-color-text-primary);
+        background-color: transparent;
+        border: none;
+        resize: none;
+        // fix-bug(firefox): https://bugzilla.mozilla.org/show_bug.cgi?id=33654
+        overflow-x: hidden;
+
+        &::placeholder {
+            color: var(--g-color-text-hint);
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &[type='number'] {
+            appearance: textfield;
+        }
+    }
+
+    &__error {
+        @include mixins.text-body-1();
+
+        color: var(--g-color-text-danger);
+        margin-top: 2px;
+    }
+
+    &__clear {
+        position: absolute;
+        right: 1px;
+
+        &_size_s,
+        &_size_m {
+            top: 2px;
+        }
+
+        &_size_l,
+        &_size_xl {
+            top: 4px;
+        }
+    }
+
+    &_size {
+        &_s {
+            #{$block}__control {
+                @include control-mixins.input-control(s);
+            }
+
+            &#{$block}_has-clear #{$block}__control {
+                padding-right: 26px;
+            }
+
+            --_--text-area-border-radius: var(--g-border-radius-s);
+        }
+
+        &_m {
+            #{$block}__control {
+                @include control-mixins.input-control(m);
+            }
+
+            &#{$block}_has-clear #{$block}__control {
+                padding-right: 26px;
+            }
+
+            --_--text-area-border-radius: var(--g-border-radius-m);
+        }
+
+        &_l {
+            #{$block}__control {
+                @include control-mixins.input-control(l);
+            }
+
+            &#{$block}_has-clear #{$block}__control {
+                padding-right: 36px;
+            }
+
+            --_--text-area-border-radius: var(--g-border-radius-l);
+        }
+
+        &_xl {
+            #{$block}__control {
+                @include control-mixins.input-control(xl);
+            }
+
+            &#{$block}_has-clear #{$block}__control {
+                padding-right: 36px;
+            }
+
+            --_--text-area-border-radius: var(--g-border-radius-xl);
+        }
+    }
+
+    &_view {
+        &_normal {
+            #{$block}__content {
+                border: 1px solid var(--g-color-line-generic);
+
+                &:hover {
+                    border-color: var(--g-color-line-generic-hover);
+                }
+
+                &:focus-within {
+                    border-color: var(--g-color-line-generic-active);
+                }
+            }
+        }
+
+        &_clear {
+            & #{$block}__content {
+                border: 1px solid transparent;
+                border-left: 0;
+                border-right: 0;
+                border-radius: 0;
+            }
+
+            & #{$block}__control {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+    }
+
+    @include mixins.pin(
+        $block,
+        #{$block}__content,
+        var(--_--text-area-border-radius),
+        $append: false
+    );
+
+    &_disabled {
+        #{$block}__content {
+            background-color: var(--g-color-base-generic-accent-disabled);
+            color: var(--g-color-text-hint);
+            border-color: transparent;
+
+            &:hover {
+                border-color: transparent;
+            }
+        }
+
+        #{$block}__control {
+            color: var(--g-color-text-hint);
+        }
+    }
+
+    &_has-scrollbar {
+        #{$block}__clear {
+            right: var(--g-scrollbar-width);
+        }
+    }
+
+    &_state {
+        &_error {
+            &#{$block}_view_normal {
+                #{$block}__content {
+                    border-color: var(--g-color-line-danger);
+
+                    &:hover,
+                    &:focus-within {
+                        border-color: var(--g-color-line-danger);
+                    }
+                }
+            }
+
+            &#{$block}_view_clear {
+                #{$block}__content {
+                    border-bottom: 1px solid var(--g-color-line-danger);
+
+                    &:hover,
+                    &:focus-within {
+                        border-bottom: 1px solid var(--g-color-line-danger);
+                    }
+                }
+            }
+        }
+    }
+}

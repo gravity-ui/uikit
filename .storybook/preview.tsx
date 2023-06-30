@@ -46,16 +46,16 @@ const preview: Preview = {
         },
         options: {
             storySort: {
-                order: ['Theme', 'Components', ['Basic']],
+                order: ['Components', ['Basic'], 'Branding', ['Overview']],
                 method: 'alphabetical',
             },
         },
     },
     globalTypes: {
         theme: {
-            name: 'Theme',
             defaultValue: 'light',
             toolbar: {
+                title: 'Theme',
                 icon: 'mirror',
                 items: [
                     {value: 'light', right: '☼', title: 'Light'},
@@ -66,9 +66,9 @@ const preview: Preview = {
             },
         },
         lang: {
-            name: 'Language',
             defaultValue: 'en',
             toolbar: {
+                title: 'Language',
                 icon: 'globe',
                 items: [
                     {value: 'en', right: '🇬🇧', title: 'En'},
@@ -77,9 +77,9 @@ const preview: Preview = {
             },
         },
         platform: {
-            name: 'Platform',
             defaultValue: 'desktop',
             toolbar: {
+                title: 'Platform',
                 items: [
                     {value: 'desktop', title: 'Desktop', icon: 'browser'},
                     {value: 'mobile', title: 'Mobile', icon: 'mobile'},

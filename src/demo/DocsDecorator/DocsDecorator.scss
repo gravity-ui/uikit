@@ -77,7 +77,8 @@ $root: '.docs-decorator';
         }
     }
 
-    p code {
+    p code,
+    li code {
         @include mixins.text-code-inline-2;
         line-height: 1;
         padding: 1px 4px;

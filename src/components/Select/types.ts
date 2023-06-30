@@ -47,6 +47,7 @@ export type SelectProps<T = any> = QAProps &
             onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
             value: string;
             ref: React.Ref<HTMLInputElement>;
+            style?: React.CSSProperties;
         }) => React.ReactElement;
         renderOption?: SelectRenderOption<T>;
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;

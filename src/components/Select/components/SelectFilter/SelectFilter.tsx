@@ -18,6 +18,10 @@ type SelectFilterProps = {
     placeholder?: string;
 };
 
+const style = {
+    padding: '4px 4px 0',
+};
+
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
     const {onChange, onKeyDown, renderFilter, size, value, placeholder} = props;
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -30,21 +34,19 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         [],
     );
 
-    return (
-        <div className={b()}>
-            {renderFilter ? (
-                renderFilter({onChange, onKeyDown, value, ref: inputRef})
-            ) : (
-                <TextInput
-                    controlRef={inputRef}
-                    controlProps={{className: b('input'), size: 1}}
-                    size={size}
-                    value={value}
-                    placeholder={placeholder}
-                    onUpdate={onChange}
-                    onKeyDown={onKeyDown}
-                />
-            )}
+    return renderFilter ? (
+        renderFilter({onChange, onKeyDown, value, ref: inputRef, style})
+    ) : (
+        <div className={b()} style={style}>
+            <TextInput
+                controlRef={inputRef}
+                controlProps={{className: b('input'), size: 1}}
+                size={size}
+                value={value}
+                placeholder={placeholder}
+                onUpdate={onChange}
+                onKeyDown={onKeyDown}
+            />
         </div>
     );
 });

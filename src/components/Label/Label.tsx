@@ -15,7 +15,7 @@ const b = block('label');
 type SizeMapType = {copyIconSize: number; closeIconSize: number; buttonSize: ButtonSize};
 
 const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 8, buttonSize: 's'},
+    xs: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'xs'},
     s: {copyIconSize: 12, closeIconSize: 8, buttonSize: 's'},
     m: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'm'},
 };

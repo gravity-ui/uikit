@@ -1,34 +1,35 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import type {TextInputProps} from '../types';
 
-export interface InputControlProps
-    extends Omit<TextInputProps, 'autoComplete'>,
-        Pick<React.InputHTMLAttributes<HTMLInputElement>, 'autoComplete'> {}
+import type {TextInputProps} from './TextInput';
+
+type Props = Omit<TextInputProps, 'autoComplete'> & {
+    autoComplete?: React.TextareaHTMLAttributes<HTMLInputElement>['autoComplete'];
+};
 
 const b = block('text-input');
 
-export function InputControl(props: InputControlProps) {
+export function TextInputControl(props: Props) {
     const {
+        controlProps,
+        controlRef,
         type,
         name,
         id,
         tabIndex,
-        autoFocus,
         autoComplete,
         placeholder,
         value,
         defaultValue,
+        autoFocus,
+        disabled,
         onChange,
         onFocus,
         onBlur,
         onKeyDown,
         onKeyUp,
         onKeyPress,
-        controlProps,
-        controlRef,
-        disabled,
     } = props;
 
     return (
@@ -43,6 +44,7 @@ export function InputControl(props: InputControlProps) {
             placeholder={placeholder}
             value={value}
             defaultValue={defaultValue}
+            // TextInput provides this functionality for its user. False by default
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}

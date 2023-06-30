@@ -42,11 +42,11 @@ export * from './Switch';
 export * from './Table';
 export * from './Tabs';
 export * from './Text';
-export * from './TextInput';
 export * from './Toaster';
 export * from './Tooltip';
 export * from './User';
 export * from './UserAvatar';
+export * from './controls';
 export * from './layout';
 
 export * from './utils/class-transform';

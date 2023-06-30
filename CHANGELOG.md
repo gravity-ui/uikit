@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.22.0](https://github.com/gravity-ui/uikit/compare/v4.21.4...v4.22.0) (2023-06-30)
+
+
+### Features
+
+* **SelectFilter:** pass styles to renderFilter and remove wrapper ([#786](https://github.com/gravity-ui/uikit/issues/786)) ([29a6d3b](https://github.com/gravity-ui/uikit/commit/29a6d3bd640c3c0339fa842795632821fcdc5fc7))
+
 ## [4.21.4](https://github.com/gravity-ui/uikit/compare/v4.21.3...v4.21.4) (2023-06-29)
 
 

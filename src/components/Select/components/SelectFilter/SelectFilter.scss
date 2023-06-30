@@ -3,9 +3,6 @@
 $block: '.#{variables.$ns-new}select-filter';
 
 #{$block} {
-    // display: flex;
-    padding: 4px 4px 0;
-
     // To prevent border blink when the focus is set frequently (in case of option click)
     & &__input,
     & &__input:hover,

@@ -20,7 +20,6 @@ type SelectFilterProps = {
 
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
     const {onChange, onKeyDown, renderFilter, size, value, placeholder} = props;
-    const wrapRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useImperativeHandle(
@@ -32,7 +31,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
     );
 
     return (
-        <div ref={wrapRef} className={b()}>
+        <div className={b()}>
             {renderFilter ? (
                 renderFilter({onChange, onKeyDown, value, ref: inputRef})
             ) : (

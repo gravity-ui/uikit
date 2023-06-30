@@ -3,11 +3,12 @@ import React from 'react';
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
 import block from 'bem-cn-lite';
 
-import {Button} from '../../Button';
-import {Checkbox} from '../../Checkbox';
-import {Icon} from '../../Icon';
+import {Button} from '../../../Button';
+import {Checkbox} from '../../../Checkbox';
+import {Icon} from '../../../Icon';
+import {mapTextInputSizeToButtonSize} from '../../common';
 import {TextInput} from '../TextInput';
-import type {TextInputProps} from '../types';
+import type {TextInputProps} from '../TextInput';
 
 import './TextInputShowcase.scss';
 
@@ -17,15 +18,20 @@ const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
 
 const EyeButton = (props: {
-    size: TextInputProps['size'];
+    size?: TextInputProps['size'];
     opened?: boolean;
     disabled?: boolean;
     onClick: () => void;
 }) => {
-    const {size, disabled, opened, onClick} = props;
+    const {size = 'm', disabled, opened, onClick} = props;
 
     return (
-        <Button size={size} view="flat" disabled={disabled} onClick={onClick}>
+        <Button
+            size={mapTextInputSizeToButtonSize(size)}
+            view="flat"
+            disabled={disabled}
+            onClick={onClick}
+        >
             <Icon data={opened ? Eye : EyeSlash} />
         </Button>
     );
@@ -39,13 +45,6 @@ export function TextInputShowcase() {
 
     const textInputProps: TextInputProps = {
         className: b('input'),
-        onUpdate: setValue,
-        value,
-    };
-
-    const textAreaProps: TextInputProps = {
-        multiline: true,
-        className: b('text-area'),
         onUpdate: setValue,
         value,
     };
@@ -159,7 +158,7 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                     />
                     <TextInput
@@ -169,7 +168,7 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                     />
                     <TextInput
@@ -180,7 +179,11 @@ export function TextInputShowcase() {
                         label={LABEL}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton
+                                size="xl"
+                                opened={hideValue}
+                                onClick={handleEyeButtonClick}
+                            />
                         }
                     />
                 </div>
@@ -196,11 +199,7 @@ export function TextInputShowcase() {
                             type={additionalContentExmpleInputType}
                             leftContent={<Icon data={Key} />}
                             rightContent={
-                                <EyeButton
-                                    size="s"
-                                    opened={hideValue}
-                                    onClick={handleEyeButtonClick}
-                                />
+                                <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                             }
                         />
                         <Checkbox
@@ -214,12 +213,7 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton
-                                size="s"
-                                opened={hideValue}
-                                disabled
-                                onClick={handleEyeButtonClick}
-                            />
+                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
                         }
                         disabled
                     />
@@ -230,7 +224,7 @@ export function TextInputShowcase() {
                         label={LABEL}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                         hasClear
                     />
@@ -243,60 +237,8 @@ export function TextInputShowcase() {
                         label={LONG_LABEL}
                         leftContent={<Icon data={Key} />}
                         rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
-                    />
-                </div>
-            </div>
-
-            <div className={b('text-area-examples')}>
-                <h2 className={b('title')}>TextInput (multiline)</h2>
-
-                <div className={b('size-examples')}>
-                    <h3 className={b('section-header')}>Sizes:</h3>
-
-                    <TextInput {...textAreaProps} placeholder="dynamic height" />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="dynamic height & maxRows = 4"
-                        maxRows={4}
-                    />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="dynamic height & minRows = 2 & maxRows = 4 & clear"
-                        minRows={2}
-                        maxRows={4}
-                        hasClear
-                    />
-                </div>
-
-                <div className={b('state-examples')}>
-                    <h3 className={b('section-header')}>States:</h3>
-
-                    <TextInput {...textAreaProps} placeholder="dynamic height & clear" hasClear />
-                    <div className={b('row')}>
-                        <TextInput
-                            {...textAreaProps}
-                            placeholder="error with message"
-                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
-                        />
-                        <Checkbox
-                            onUpdate={setErrorMessageVisibility}
-                            checked={isErrorMessageVisible}
-                        />
-                    </div>
-                    <TextInput {...textAreaProps} placeholder="disabled" disabled rows={2} />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="rows = 4 & clear"
-                        hasClear
-                        rows={4}
-                    />
-                    <TextInput
-                        {...textAreaProps}
-                        placeholder="resize vertical"
-                        controlProps={{style: {resize: 'vertical'}}}
-                        rows={4}
                     />
                 </div>
             </div>

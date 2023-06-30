@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from '../../../components/Button';
 import {Dialog} from '../../../components/Dialog/Dialog';
 import {Select} from '../../../components/Select';
-import {TextInput} from '../../TextInput';
+import {TextInput} from '../../controls';
 import {Flex} from '../../layout/Flex/Flex';
 
 const darthVader = String.raw`

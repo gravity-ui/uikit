@@ -1,4 +1,4 @@
-import type {TextInputSize} from '../TextInput';
+import type {TextInputSize} from '../controls';
 import type {QAProps} from '../types';
 
 export type ListSortHandleAlign = 'left' | 'right';

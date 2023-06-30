@@ -1,0 +1,30 @@
+@use '../../../styles/mixins';
+@use '../variables.scss';
+@use './variables.scss' as control-variables;
+
+@mixin input-control($size) {
+    @if $size == 's' {
+        @include mixins.text-body-short;
+
+        height: #{variables.$s-height - control-variables.$border-width * 2};
+        padding: 3px 8px;
+    }
+    @if $size == 'm' {
+        @include mixins.text-body-short;
+
+        height: #{variables.$m-height - control-variables.$border-width * 2};
+        padding: 5px 8px;
+    }
+    @if $size == 'l' {
+        @include mixins.text-body-short;
+
+        height: #{variables.$l-height - control-variables.$border-width * 2};
+        padding: 9px 12px;
+    }
+    @if $size == 'xl' {
+        @include mixins.text-body-2;
+
+        height: #{variables.$xl-height - control-variables.$border-width * 2};
+        padding: 11px 12px;
+    }
+}

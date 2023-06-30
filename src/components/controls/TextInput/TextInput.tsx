@@ -1,43 +1,38 @@
 import React from 'react';
 
-import {block, modsClassName} from '../utils/cn';
-import {useElementSize} from '../utils/useElementSize';
-import {useForkRef} from '../utils/useForkRef';
-import {useUniqId} from '../utils/useUniqId';
-
-import {AdditionalContent} from './AdditionalContent/AdditionalContent';
-import {ClearAction} from './ClearAction/ClearAction';
-import {InputControl} from './InputControl/InputControl';
-import {TextAreaControl} from './TextAreaControl/TextAreaControl';
+import {block} from '../../utils/cn';
+import {useElementSize} from '../../utils/useElementSize';
+import {useForkRef} from '../../utils/useForkRef';
+import {useUniqId} from '../../utils/useUniqId';
+import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import type {
-    TextInputPin,
-    TextInputProps,
-    TextInputSize,
-    TextInputState,
-    TextInputView,
-} from './types';
+    BaseInputControlProps,
+    InputControlPin,
+    InputControlSize,
+    InputControlView,
+} from '../types';
+import {getInputControlState, prepareAutoComplete} from '../utils';
+
+import {AdditionalContent} from './AdditionalContent';
+import {TextInputControl} from './TextInputControl';
 
 import './TextInput.scss';
 
-export type {TextInputProps, TextInputView, TextInputSize, TextInputPin};
-
 const b = block('text-input');
 
-const getTextInputState = (
-    args: Pick<TextInputProps, 'error'> = {},
-): TextInputState | undefined => {
-    const {error} = args;
-
-    return error ? 'error' : undefined;
+export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
+    /** The control's html attributes */
+    controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
+    /** Help text rendered to the left of the input node */
+    label?: string;
+    /** User`s node rendered before label and input node */
+    leftContent?: React.ReactNode;
+    /** User`s node rendered after input node and clear button */
+    rightContent?: React.ReactNode;
 };
-
-const prepareAutoComplete = (autoComplete: TextInputProps['autoComplete']): string | undefined => {
-    if (typeof autoComplete === 'boolean') {
-        return autoComplete ? 'on' : 'off';
-    } else {
-        return autoComplete;
-    }
-};
+export type TextInputPin = InputControlPin;
+export type TextInputSize = InputControlSize;
+export type TextInputView = InputControlView;
 
 // eslint-disable-next-line complexity
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(function TextInput(
@@ -53,12 +48,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         defaultValue,
         label,
         disabled = false,
-        multiline = false,
         hasClear = false,
         error,
         autoComplete,
-        onUpdate,
-        onChange,
         id: originalId,
         tabIndex,
         style,
@@ -67,22 +59,23 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         controlProps: originalControlProps,
         leftContent,
         rightContent,
+        onUpdate,
+        onChange,
     } = props;
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const leftContentRef = React.useRef<HTMLDivElement>(null);
-    const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
-    const state = React.useMemo(() => getTextInputState({error}), [error]);
+    const state = getInputControlState({error});
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isLabelVisible = !multiline && Boolean(label);
+    const isLabelVisible = Boolean(label);
     const isErrorMsgVisible = typeof error === 'string';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
-    const isLeftContentVisible = Boolean(leftContent && !multiline);
-    const isRightContentVisible = Boolean(rightContent && !multiline);
+    const isLeftContentVisible = Boolean(leftContent);
+    const isRightContentVisible = Boolean(rightContent);
     const isAutoCompleteOff =
         isLabelVisible && !originalId && !name && typeof autoComplete === 'undefined';
 
@@ -103,7 +96,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         id,
         tabIndex,
         name,
-        onChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        onChange(event: React.ChangeEvent<HTMLInputElement>) {
             const newValue = event.target.value;
             if (!isControlled) {
                 setUncontrolledValue(newValue);
@@ -154,18 +147,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         }
     };
 
-    React.useEffect(() => {
-        const control = innerControlRef.current;
-
-        if (control && multiline) {
-            const currHasVerticalScrollbar = control.scrollHeight > control.clientHeight;
-
-            if (hasVerticalScrollbar !== currHasVerticalScrollbar) {
-                setHasVerticalScrollbar(currHasVerticalScrollbar);
-            }
-        }
-    }, [multiline, inputValue, hasVerticalScrollbar]);
-
     return (
         <span
             ref={ref}
@@ -178,10 +159,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     state,
                     pin: view === 'clear' ? undefined : pin,
                     'has-clear': isClearControlVisible,
-                    'has-left-content': isLeftContentVisible && !multiline,
-                    'has-right-content':
-                        (isClearControlVisible || isRightContentVisible) && !multiline,
-                    'has-scrollbar': hasVerticalScrollbar,
+                    'has-left-content': isLeftContentVisible,
+                    'has-right-content': isClearControlVisible || isRightContentVisible,
                 },
                 className,
             )}
@@ -211,17 +190,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                         {`${label}`}
                     </label>
                 )}
-                {multiline ? (
-                    <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
-                ) : (
-                    <InputControl {...props} {...commonProps} controlRef={handleRef} />
-                )}
+                <TextInputControl {...props} {...commonProps} controlRef={handleRef} />
                 {isClearControlVisible && (
-                    <ClearAction
-                        className={modsClassName(b('clear', {textarea: multiline}))}
-                        size={size}
-                        onClick={handleClear}
-                    />
+                    <ClearButton size={mapTextInputSizeToButtonSize(size)} onClick={handleClear} />
                 )}
                 {isRightContentVisible && (
                     <AdditionalContent placement="right" onClick={handleAdditionalContentClick}>

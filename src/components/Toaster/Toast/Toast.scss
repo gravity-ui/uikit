@@ -4,6 +4,9 @@
 $block: '.#{variables.$ns}toast';
 
 #{$block} {
+    $closeButtonSize: 24px;
+    $closeButtonEdgesSpacing: 16px;
+    $closeButtonTitleSpacing: 8px;
     $containerClass: #{&}__container;
     $iconClass: #{&}__icon;
 
@@ -34,21 +37,21 @@ $block: '.#{variables.$ns}toast';
 
     &_info {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-info-light);
+            background-color: var(--yc-color-base-info);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-info-heavy);
+            color: var(--yc-color-text-info);
         }
     }
 
     &_success {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-positive-light);
+            background-color: var(--yc-color-base-positive);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-positive-heavy);
+            color: var(--yc-color-text-positive);
         }
     }
 
@@ -58,17 +61,17 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-warning-heavy);
+            color: var(--yc-color-text-warning);
         }
     }
 
     &_error {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-danger-light);
+            background-color: var(--yc-color-base-danger);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-danger-heavy);
+            color: var(--yc-color-text-danger);
         }
     }
 
@@ -97,9 +100,9 @@ $block: '.#{variables.$ns}toast';
     }
 
     &__title {
-        @include mixins.text-subheader-2;
+        @include mixins.text-subheader-3;
         margin: 0;
-        padding-right: 28px;
+        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__title {
@@ -112,7 +115,7 @@ $block: '.#{variables.$ns}toast';
 
     & &__btn-close {
         position: absolute;
-        top: 14px;
-        right: 14px;
+        top: $closeButtonEdgesSpacing;
+        right: $closeButtonEdgesSpacing;
     }
 }

@@ -1,6 +1,9 @@
 import React from 'react';
 
+import {Bulb} from '@gravity-ui/icons';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
+import {Button, Icon, Tooltip} from '../../components';
 
 import './ColorPanel.scss';
 
@@ -17,7 +20,7 @@ interface ColorPanelProps {
     boxBorders?: boolean;
 }
 
-const BACKGROUND_LIST = ['normal', 'special', 'dark'];
+const BACKGROUND_LIST = ['normal', 'brand', 'dark'];
 
 export function ColorPanel(props: ColorPanelProps) {
     const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(0);
@@ -30,9 +33,10 @@ export function ColorPanel(props: ColorPanelProps) {
         const boxBorders = props.boxBorders ? 'color-panel__card-box_bordered' : '';
         return colors.map((color) => {
             const varName = `--g-color-${color.name}`;
+            const copyText = `var(${varName})`;
             return (
                 <div className="color-panel__card" key={color.name}>
-                    <ReactCopyToClipboard text={varName}>
+                    <ReactCopyToClipboard text={copyText}>
                         <div
                             className={`color-panel__card-box ${boxBorders}`}
                             style={{background: `var(${varName})`}}
@@ -41,7 +45,7 @@ export function ColorPanel(props: ColorPanelProps) {
                     <div className="color-panel__card-texts">
                         <div className="color-panel__card-headline">
                             <div className="color-panel__card-title">{color.title}</div>
-                            <ReactCopyToClipboard text={varName}>
+                            <ReactCopyToClipboard text={copyText}>
                                 <div className="color-panel__card-var">{varName}</div>
                             </ReactCopyToClipboard>
                         </div>
@@ -54,10 +58,19 @@ export function ColorPanel(props: ColorPanelProps) {
 
     return (
         <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className="color-panel__bg-switcher" onClick={() => rotateBackground()}>
-                BG
-            </div>
+            <Tooltip content="Switch background">
+                <Button
+                    view={
+                        currentBackgroundIndex % BACKGROUND_LIST.length === 0
+                            ? 'outlined'
+                            : 'outlined-contrast'
+                    }
+                    className="color-panel__bg-switcher"
+                    onClick={() => rotateBackground()}
+                >
+                    <Icon data={Bulb} />
+                </Button>
+            </Tooltip>
             <div className="color-panel__title">{props.title}</div>
             <div className="color-panel__description">{props.description}</div>
             <div className="color-panel__colors">{renderColors(props.colors)}</div>

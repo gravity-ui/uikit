@@ -28,7 +28,7 @@
     border-collapse: collapse;
 }
 
-.yc-root_theme_light .color-table tr[data-color-name='white'] {
+.g-root_theme_light .color-table tr[data-color-name='white'] {
     background: #5c5c5c;
 
     .color-table__color-name {
@@ -36,6 +36,6 @@
     }
 }
 
-.yc-root_theme_dark .color-table td.color-table__color_active[data-color-name='black-rock'] {
+.g-root_theme_dark .color-table td.color-table__color_active[data-color-name='black-rock'] {
     border: 1px solid #888;
 }

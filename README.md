@@ -50,7 +50,7 @@ or add specific CSS-classes to the root node:
 <!-- index.html -->
 <html>
   <body>
-    <div id="root" class="yc-root yc-root_theme_light"></div>
+    <div id="root" class="g-root g-root_theme_light"></div>
   </body>
 </html>
 ```

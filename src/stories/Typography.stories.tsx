@@ -8,4 +8,6 @@ export default {
     title: 'Typography',
 } as Meta;
 
-export const Common: StoryFn = () => <Typography />;
+export const Default: StoryFn = () => <Typography />;
+
+Default.storyName = 'Typography';

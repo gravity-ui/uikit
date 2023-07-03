@@ -1,7 +1,7 @@
 @import './themes';
 @import './old-variables';
 
-.yc-root {
+.g-root {
     background: var(--g-color-base-background);
     color: var(--g-color-text-primary);
 
@@ -26,7 +26,7 @@
     @include g-variables-fallback;
 }
 
-body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
+body.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
         width: var(--g-scrollbar-width);

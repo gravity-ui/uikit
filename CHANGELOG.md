@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.22.1](https://github.com/gravity-ui/uikit/compare/v4.22.0...v4.22.1) (2023-07-03)
+
+
+### Bug Fixes
+
+* **Label:** use proper Button size ([#776](https://github.com/gravity-ui/uikit/issues/776)) ([81395ad](https://github.com/gravity-ui/uikit/commit/81395adf0a0defe07bbc51ff5162e58e213e8878))
+* **Select:** fix vertical align for SelectControl ([#790](https://github.com/gravity-ui/uikit/issues/790)) ([0abdc4a](https://github.com/gravity-ui/uikit/commit/0abdc4aa67184bf864a1ecbfdb8589d958353eb6))
+
 ## [4.22.0](https://github.com/gravity-ui/uikit/compare/v4.21.4...v4.22.0) (2023-06-30)
 
 

@@ -24,6 +24,9 @@ $iconWidth: 16px;
     --yc-button-icon-space: calc(
         var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset)
     );
+    --yc-button-icon-position: calc(
+        var(--yc-button-padding) - (var(--yc-button-height) - var(--yc-button-icon-size)) / 2
+    );
 
     @include mixins.button-reset();
     display: inline-block;
@@ -344,7 +347,7 @@ $iconWidth: 16px;
     &__icon {
         display: inline-block;
         position: relative;
-        width: var(--yc-button-icon-size);
+        width: var(--yc-button-height);
         height: var(--yc-button-height);
         pointer-events: none;
 
@@ -371,7 +374,7 @@ $iconWidth: 16px;
         }
 
         &_side_left {
-            left: var(--yc-button-padding);
+            left: var(--yc-button-icon-position);
 
             & ~ #{$block}__text {
                 padding-left: var(--yc-button-icon-space);
@@ -379,7 +382,7 @@ $iconWidth: 16px;
         }
 
         &_side_right {
-            right: var(--yc-button-padding);
+            right: var(--yc-button-icon-position);
 
             & ~ #{$block}__text {
                 padding-right: var(--yc-button-icon-space);

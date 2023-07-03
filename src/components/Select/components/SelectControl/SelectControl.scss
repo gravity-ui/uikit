@@ -112,6 +112,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         @include mixins.pin($blockButton, ('::before', '::after'), var(--_--select-border-radius));
 
         display: inline-flex;
+        align-items: center;
         overflow: hidden;
         width: 100%;
         height: 100%;

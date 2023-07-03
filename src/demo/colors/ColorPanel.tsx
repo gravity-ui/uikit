@@ -29,7 +29,7 @@ export function ColorPanel(props: ColorPanelProps) {
     function renderColors(colors: ColorInfo[]) {
         const boxBorders = props.boxBorders ? 'color-panel__card-box_bordered' : '';
         return colors.map((color) => {
-            const varName = `--yc-color-${color.name}`;
+            const varName = `--g-color-${color.name}`;
             return (
                 <div className="color-panel__card" key={color.name}>
                     <ReactCopyToClipboard text={varName}>

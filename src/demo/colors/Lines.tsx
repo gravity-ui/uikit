@@ -35,21 +35,6 @@ const generic = [
         title: 'Solid',
         description: 'Generic without transparency (to avoid collision artefacts).',
     },
-    {
-        name: 'line-selection-hover',
-        title: 'Selection Hover',
-        description: 'Cards: hover.',
-    },
-    {
-        name: 'line-selection-active',
-        title: 'Selection Active',
-        description: 'Cards: selected.',
-    },
-    {
-        name: 'line-link',
-        title: 'Link',
-        description: 'Border for link alike blocks.',
-    },
 ];
 
 const semantic = [
@@ -78,11 +63,6 @@ const semantic = [
         title: 'Misc',
         description: 'Uncategorized blocks.',
     },
-    {
-        name: 'line-hint',
-        title: 'Hint',
-        description: 'Border for hints.',
-    },
 ];
 
 const alwaysLight = [
@@ -96,12 +76,12 @@ const alwaysLight = [
 export const RenderLines = () => (
     <Showcase title="Lines" description="Strokes, dividers, borders">
         <ColorPanel
-            title="General lines"
+            title="General"
             description="General blocks. Active and selected elements."
             colors={generic}
         />
         <ColorPanel
-            title="Semantic lines"
+            title="Semantic"
             description="Blocks with semantic meaning."
             colors={semantic}
         />

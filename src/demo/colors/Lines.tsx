@@ -31,7 +31,7 @@ const generic = [
         description: 'Hover for Generic Accent.',
     },
     {
-        name: 'line-solid',
+        name: 'line-generic-solid',
         title: 'Solid',
         description: 'Generic without transparency (to avoid collision artefacts).',
     },

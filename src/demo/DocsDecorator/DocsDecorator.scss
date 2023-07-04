@@ -9,8 +9,8 @@ $root: '.docs-decorator';
 
 #{$root}#{$root}#{$root}#{$root}#{$root} {
     p,
-    li,
-    a {
+    li:not([class*='yc-']),
+    a:not([class*='yc-']) {
         @include mixins.text-body-2;
     }
 
@@ -23,8 +23,8 @@ $root: '.docs-decorator';
     }
 
     p,
-    ul,
-    ol {
+    ul:not([class*='yc-']),
+    ol:not([class*='yc-']) {
         margin: $offset-xs 0;
 
         & + p,
@@ -34,12 +34,12 @@ $root: '.docs-decorator';
         }
     }
 
-    li + li {
+    li + li:not([class*='yc-']) {
         margin-top: $offset-xs;
     }
 
-    ul,
-    ol {
+    ul:not([class*='yc-']),
+    ol:not([class*='yc-']) {
         padding-left: $offset-m;
     }
 
@@ -64,7 +64,7 @@ $root: '.docs-decorator';
         margin-bottom: $offset-m;
     }
 
-    a {
+    a:not([class*='yc-']) {
         text-decoration: none;
         touch-action: manipulation;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -78,7 +78,7 @@ $root: '.docs-decorator';
     }
 
     p code,
-    li code {
+    li:not([class*='yc-']) code {
         @include mixins.text-code-inline-2;
         line-height: 1;
         padding: 1px 4px;

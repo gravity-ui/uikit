@@ -12,7 +12,7 @@ $transition-distance: 10px;
 #{$block} {
     // Can be overridden, see Tooltip
     --yc-popup-background-color: var(--g-color-base-float);
-    --yc-popup-border-color: var(--g-color-line-solid);
+    --yc-popup-border-color: var(--g-color-line-generic-solid);
     --yc-popup-border-width: 1px;
 
     z-index: 1000;

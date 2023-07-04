@@ -2,9 +2,8 @@
     --yc-font-family-sans: var(--g-font-family-sans);
     --yc-font-family-monospace: var(--g-font-family-monospace);
 
-    // @deprecated No "--g" equivalent
-    --yc-text-body-font-family: var(--yc-font-family-sans);
-    --yc-text-code-font-family: var(--yc-font-family-monospace);
+    --yc-text-body-font-family: var(--g-text-body-font-family);
+    --yc-text-code-font-family: var(--g-text-code-font-family);
 
     --yc-text-header-font-weight: var(--g-text-header-font-weight);
     --yc-text-subheader-font-weight: var(--g-text-subheader-font-weight);

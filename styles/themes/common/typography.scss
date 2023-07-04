@@ -3,12 +3,19 @@
     --g-font-family-monospace: 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono', 'Liberation Mono',
         'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
 
+    --g-text-body-font-family: var(--g-font-family-sans);
+    --g-text-caption-font-family: var(--g-font-family-sans);
+    --g-text-header-font-family: var(--g-font-family-sans);
+    --g-text-subheader-font-family: var(--g-font-family-sans);
+    --g-text-display-font-family: var(--g-font-family-sans);
+    --g-text-code-font-family: var(--g-font-family-monospace);
+
+    --g-text-body-font-weight: 400;
+    --g-text-caption-font-weight: 400;
     --g-text-header-font-weight: 900;
     --g-text-subheader-font-weight: 900;
     --g-text-display-font-weight: 900;
     --g-text-code-font-weight: 400;
-    --g-text-body-font-weight: 400;
-    --g-text-caption-font-weight: 400;
     --g-text-accent-font-weight: 900;
 
     --g-text-body-1-font-size: 13px;

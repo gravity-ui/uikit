@@ -75,7 +75,7 @@ $block: '.#{variables.$ns}card';
             cursor: pointer;
 
             &:hover {
-                &:not(:focus-visible)::after {
+                &:not(:focus-visible)::before {
                     content: '';
                     border: 2px solid var(--yc-color-line-selection-hover);
                 }

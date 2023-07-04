@@ -81,10 +81,10 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     };
 
     return (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             style={style}
             ref={handleRef}
+            role={isClickable ? 'button' : undefined}
             className={b(
                 {
                     theme: theme || defaultTheme,
@@ -99,8 +99,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
             )}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-            tabIndex={isClickable ? 0 : -1}
+            tabIndex={isClickable ? 0 : undefined}
         >
             {children}
         </div>

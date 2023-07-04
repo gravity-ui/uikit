@@ -15,12 +15,12 @@ $block: '.#{variables.$ns}card';
         background-color: var(--yc-color-base-float);
         --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
 
-        &::before {
+        &::after {
             position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             border-radius: var(--yc-card-border-radius);
             pointer-events: none;
         }
@@ -33,11 +33,16 @@ $block: '.#{variables.$ns}card';
                 --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
             }
 
+            &:focus,
             &:focus-visible {
-                &::before {
+                &::after {
                     content: '';
-                    border: 2px solid var(--yc-color-line-misc);
+                    box-shadow: 0 0 0 2px var(--yc-color-line-misc);
                 }
+            }
+
+            &:focus:not(:focus-visible)::after {
+                box-shadow: none;
             }
         }
     }
@@ -56,25 +61,36 @@ $block: '.#{variables.$ns}card';
             pointer-events: none;
         }
 
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: var(--yc-card-border-radius);
+            pointer-events: none;
+        }
+
         &#{$block}_clickable {
             cursor: pointer;
 
             &:hover {
-                border: none;
-
-                &:not(:focus-visible)::before {
+                &:not(:focus-visible)::after {
                     content: '';
                     border: 2px solid var(--yc-color-line-selection-hover);
                 }
             }
 
+            &:focus,
             &:focus-visible {
-                border: none;
-
-                &::before {
+                &::after {
                     content: '';
-                    border: 2px solid var(--yc-color-line-misc);
+                    box-shadow: 0 0 0 2px var(--yc-color-line-misc);
                 }
+            }
+
+            &:focus:not(:focus-visible)::after {
+                box-shadow: none;
             }
         }
 

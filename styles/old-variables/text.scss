@@ -23,7 +23,8 @@
     --yc-color-text-link-hover: var(--g-color-text-link-hover);
     --yc-color-text-link-visited: var(--g-color-text-link-visited);
     --yc-color-text-link-visited-hover: var(--g-color-text-link-visited-hover);
-    --yc-color-text-yandex-red: var(--g-color-text-yandex-red);
+    // @deprecated No "--g" equivalent
+    --yc-color-text-yandex-red: var(--g-color-private-red-550);
 
     --yc-color-text-dark-primary: var(--g-color-text-dark-primary);
     --yc-color-text-dark-complementary: var(--g-color-text-dark-complementary);

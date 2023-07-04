@@ -74,7 +74,6 @@
     --g-color-private-blue-400: rgba(82, 130, 255, 0.7);
     --g-color-private-blue-450: rgba(82, 130, 255, 0.8);
     --g-color-private-blue-500: rgba(82, 130, 255, 0.9);
-    --g-color-private-blue-550: rgba(82, 130, 255, 1);
 
     --g-color-private-blue-50-solid: rgba(246, 249, 255, 1);
     --g-color-private-blue-100-solid: rgba(238, 243, 255, 1);
@@ -107,7 +106,6 @@
     --g-color-private-green-400: rgba(59, 201, 53, 0.7);
     --g-color-private-green-450: rgba(59, 201, 53, 0.8);
     --g-color-private-green-500: rgba(59, 201, 53, 0.9);
-    --g-color-private-green-550: rgba(59, 201, 53, 1);
 
     --g-color-private-green-50-solid: rgba(245, 252, 245, 1);
     --g-color-private-green-100-solid: rgba(235, 250, 235, 1);
@@ -140,7 +138,6 @@
     --g-color-private-yellow-400: rgba(255, 219, 77, 0.7);
     --g-color-private-yellow-450: rgba(255, 219, 77, 0.8);
     --g-color-private-yellow-500: rgba(255, 219, 77, 0.9);
-    --g-color-private-yellow-550: rgba(255, 219, 77, 1);
 
     --g-color-private-yellow-50-solid: rgba(255, 253, 246, 1);
     --g-color-private-yellow-100-solid: rgba(255, 251, 237, 1);
@@ -163,6 +160,38 @@
     --g-color-private-yellow-950-solid: rgba(78, 72, 46, 1);
     --g-color-private-yellow-1000-solid: rgba(56, 53, 42, 1);
 
+    --g-color-private-orange-50: rgba(255, 119, 0, 0.05);
+    --g-color-private-orange-100: rgba(255, 119, 0, 0.1);
+    --g-color-private-orange-150: rgba(255, 119, 0, 0.2);
+    --g-color-private-orange-200: rgba(255, 119, 0, 0.3);
+    --g-color-private-orange-250: rgba(255, 119, 0, 0.4);
+    --g-color-private-orange-300: rgba(255, 119, 0, 0.5);
+    --g-color-private-orange-350: rgba(255, 119, 0, 0.6);
+    --g-color-private-orange-400: rgba(255, 119, 0, 0.7);
+    --g-color-private-orange-450: rgba(255, 119, 0, 0.8);
+    --g-color-private-orange-500: rgba(255, 119, 0, 0.9);
+
+    --g-color-private-orange-50-solid: rgba(255, 248, 242, 1);
+    --g-color-private-orange-100-solid: rgba(255, 241, 229, 1);
+    --g-color-private-orange-150-solid: rgba(255, 228, 204, 1);
+    --g-color-private-orange-200-solid: rgba(255, 214, 179, 1);
+    --g-color-private-orange-250-solid: rgba(255, 201, 153, 1);
+    --g-color-private-orange-300-solid: rgba(255, 187, 128, 1);
+    --g-color-private-orange-350-solid: rgba(255, 173, 102, 1);
+    --g-color-private-orange-400-solid: rgba(255, 160, 76, 1);
+    --g-color-private-orange-450-solid: rgba(255, 146, 51, 1);
+    --g-color-private-orange-500-solid: rgba(255, 133, 26, 1);
+    --g-color-private-orange-550-solid: rgba(255, 119, 0, 1);
+    --g-color-private-orange-600-solid: rgba(233, 111, 4, 1);
+    --g-color-private-orange-650-solid: rgba(211, 102, 8, 1);
+    --g-color-private-orange-700-solid: rgba(189, 94, 11, 1);
+    --g-color-private-orange-750-solid: rgba(167, 85, 15, 1);
+    --g-color-private-orange-800-solid: rgba(144, 77, 19, 1);
+    --g-color-private-orange-850-solid: rgba(122, 69, 23, 1);
+    --g-color-private-orange-900-solid: rgba(100, 60, 27, 1);
+    --g-color-private-orange-950-solid: rgba(78, 52, 30, 1);
+    --g-color-private-orange-1000-solid: rgba(56, 43, 34, 1);
+
     --g-color-private-red-50: rgba(255, 4, 0, 0.05);
     --g-color-private-red-100: rgba(255, 4, 0, 0.1);
     --g-color-private-red-150: rgba(255, 4, 0, 0.2);
@@ -173,7 +202,6 @@
     --g-color-private-red-400: rgba(255, 4, 0, 0.7);
     --g-color-private-red-450: rgba(255, 4, 0, 0.8);
     --g-color-private-red-500: rgba(255, 4, 0, 0.9);
-    --g-color-private-red-550: rgba(255, 4, 0, 1);
 
     --g-color-private-red-50-solid: rgba(255, 243, 242, 1);
     --g-color-private-red-100-solid: rgba(255, 230, 229, 1);
@@ -206,7 +234,6 @@
     --g-color-private-purple-400: rgba(154, 50, 166, 0.7);
     --g-color-private-purple-450: rgba(154, 50, 166, 0.8);
     --g-color-private-purple-500: rgba(154, 50, 166, 0.9);
-    --g-color-private-purple-550: rgba(154, 50, 166, 1);
 
     --g-color-private-purple-50-solid: rgba(250, 245, 251, 1);
     --g-color-private-purple-100-solid: rgba(245, 234, 246, 1);
@@ -239,7 +266,6 @@
     --g-color-private-cool-grey-400: rgba(107, 132, 153, 0.7);
     --g-color-private-cool-grey-450: rgba(107, 132, 153, 0.8);
     --g-color-private-cool-grey-500: rgba(107, 132, 153, 0.9);
-    --g-color-private-cool-grey-550: rgba(107, 132, 153, 1);
 
     --g-color-private-cool-grey-50-solid: rgba(248, 249, 250, 1);
     --g-color-private-cool-grey-100-solid: rgba(240, 243, 245, 1);
@@ -261,37 +287,4 @@
     --g-color-private-cool-grey-900-solid: rgba(56, 64, 73, 1);
     --g-color-private-cool-grey-950-solid: rgba(49, 54, 61, 1);
     --g-color-private-cool-grey-1000-solid: rgba(41, 45, 49, 1);
-
-    --g-color-private-orange-50: rgba(255, 119, 0, 0.05);
-    --g-color-private-orange-100: rgba(255, 119, 0, 0.1);
-    --g-color-private-orange-150: rgba(255, 119, 0, 0.2);
-    --g-color-private-orange-200: rgba(255, 119, 0, 0.3);
-    --g-color-private-orange-250: rgba(255, 119, 0, 0.4);
-    --g-color-private-orange-300: rgba(255, 119, 0, 0.5);
-    --g-color-private-orange-350: rgba(255, 119, 0, 0.6);
-    --g-color-private-orange-400: rgba(255, 119, 0, 0.7);
-    --g-color-private-orange-450: rgba(255, 119, 0, 0.8);
-    --g-color-private-orange-500: rgba(255, 119, 0, 0.9);
-    --g-color-private-orange-550: rgba(255, 119, 0, 1);
-
-    --g-color-private-orange-50-solid: rgba(255, 248, 242, 1);
-    --g-color-private-orange-100-solid: rgba(255, 241, 229, 1);
-    --g-color-private-orange-150-solid: rgba(255, 228, 204, 1);
-    --g-color-private-orange-200-solid: rgba(255, 214, 179, 1);
-    --g-color-private-orange-250-solid: rgba(255, 201, 153, 1);
-    --g-color-private-orange-300-solid: rgba(255, 187, 128, 1);
-    --g-color-private-orange-350-solid: rgba(255, 173, 102, 1);
-    --g-color-private-orange-400-solid: rgba(255, 160, 76, 1);
-    --g-color-private-orange-450-solid: rgba(255, 146, 51, 1);
-    --g-color-private-orange-500-solid: rgba(255, 133, 26, 1);
-    --g-color-private-orange-550-solid: rgba(255, 119, 0, 1);
-    --g-color-private-orange-600-solid: rgba(233, 111, 4, 1);
-    --g-color-private-orange-650-solid: rgba(211, 102, 8, 1);
-    --g-color-private-orange-700-solid: rgba(189, 94, 11, 1);
-    --g-color-private-orange-750-solid: rgba(167, 85, 15, 1);
-    --g-color-private-orange-800-solid: rgba(144, 77, 19, 1);
-    --g-color-private-orange-850-solid: rgba(122, 69, 23, 1);
-    --g-color-private-orange-900-solid: rgba(100, 60, 27, 1);
-    --g-color-private-orange-950-solid: rgba(78, 52, 30, 1);
-    --g-color-private-orange-1000-solid: rgba(56, 43, 34, 1);
 }

@@ -1,0 +1,99 @@
+import React from 'react';
+
+import block from 'bem-cn-lite';
+import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
+import './ColorTable.scss';
+
+export interface ColorTableProps {
+    theme: string;
+}
+
+const b = block('color-table');
+
+const CHECKMATE_BACKGROUND =
+    'linear-gradient(45deg, var(--g-color-base-generic-medium) 25%, transparent 25%, transparent 75%, var(--g-color-base-generic-medium) 75%, var(--g-color-base-generic-medium)) 0 0 / 20px 20px, linear-gradient(45deg, var(--g-color-base-generic-medium) 25%, transparent 25%, transparent 75%, var(--g-color-base-generic-medium) 75%, var(--g-color-base-generic-medium)) 10px 10px / 20px 20px';
+
+const steps: number[] = [];
+for (let i = 50; i <= 1000; i += 50) {
+    steps.push(i);
+}
+const themes = ['light', 'light-hc', 'dark', 'dark-hc'];
+const tones = ['white', 'black', 'blue', 'green', 'yellow', 'orange', 'purple', 'cool-grey'];
+const colors: Record<string, Record<string, number[]>> = {};
+
+for (const theme of themes) {
+    for (const tone of tones) {
+        colors[theme] = colors[theme] || {};
+
+        colors[theme][tone] = [...steps];
+        colors[theme][tone + '-solid'] = [...steps];
+    }
+}
+
+function getVarName(colorName: string, step: number) {
+    if (colorName.includes('solid')) {
+        return `--g-color-private-${colorName.replace('-solid', '')}-${step}-solid`;
+    } else {
+        return `--g-color-private-${colorName}-${step}`;
+    }
+}
+
+function isVarExist(varName: string, style?: CSSStyleDeclaration) {
+    return Boolean(style && style.getPropertyValue(varName));
+}
+
+export function ColorTable({theme}: ColorTableProps) {
+    const [bodyStyle, setBodyStyle] = React.useState<CSSStyleDeclaration>();
+
+    React.useEffect(() => {
+        setBodyStyle(window.getComputedStyle(document.body));
+    }, [theme]);
+
+    return (
+        <table className={b()}>
+            <thead>
+                <tr className={b('row')}>
+                    {[null, ...steps].map((step) => (
+                        <td key={step} className={b('step-name')}>
+                            {step}
+                        </td>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {Object.keys(colors[theme]).map((colorName) => {
+                    return (
+                        <tr key={colorName} className={b('row')} data-color-name={colorName}>
+                            <td className={b('color-name')}>{colorName}</td>
+                            {steps.map((step) => {
+                                const varName = getVarName(colorName, step);
+                                const varExist = isVarExist(varName, bodyStyle);
+
+                                const style = {
+                                    background: varExist ? `var(${varName})` : CHECKMATE_BACKGROUND,
+                                };
+
+                                const content = (
+                                    <td
+                                        className={b('color', {exist: varExist})}
+                                        style={style}
+                                        data-color-name={colorName}
+                                    />
+                                );
+
+                                return varExist ? (
+                                    <ReactCopyToClipboard text={`var(${varName})`} key={step}>
+                                        {content}
+                                    </ReactCopyToClipboard>
+                                ) : (
+                                    content
+                                );
+                            })}
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+    );
+}

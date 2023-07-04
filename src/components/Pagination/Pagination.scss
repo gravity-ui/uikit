@@ -7,10 +7,12 @@ $block: '.#{variables.$ns-new}pagination';
 
     &__pagination-item {
         margin-right: 4px;
+        flex-shrink: 0;
     }
 
     &__input,
     &__page-sizer {
         margin: 0 4px;
+        flex-shrink: 0;
     }
 }

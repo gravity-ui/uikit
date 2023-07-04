@@ -55,6 +55,19 @@ const basic = [
         title: 'Simple Hover Solid',
         description: 'Hover for transparent objects (works over light backgrounds).',
     },
+];
+
+const specials = [
+    {
+        name: 'base-brand',
+        title: 'Brand',
+        description: 'Background for accented object.',
+    },
+    {
+        name: 'base-brand-hover',
+        title: 'Brand Hover',
+        description: 'Hover for Brand.',
+    },
     {
         name: 'base-selection',
         title: 'Selection',
@@ -64,39 +77,6 @@ const basic = [
         name: 'base-selection-hover',
         title: 'Selection Hover',
         description: 'Hover for Selection.',
-    },
-    {
-        name: 'base-selection-solid',
-        title: 'Selection Solid',
-        description: 'Highlight selected objects in menus, calendars, etc.',
-    },
-    {
-        name: 'base-selection-hover-solid',
-        title: 'Selection Hover Solid',
-        description: 'Hover for Selection Solid.',
-    },
-];
-
-const specials = [
-    {
-        name: 'base-special',
-        title: 'Special',
-        description: 'Background for accented object.',
-    },
-    {
-        name: 'base-special-hover',
-        title: 'Special Hover',
-        description: 'Hover for Special.',
-    },
-    {
-        name: 'base-action',
-        title: 'Action',
-        description: 'Background for actions.',
-    },
-    {
-        name: 'base-action-hover',
-        title: 'Action Hover',
-        description: 'Hover for Action.',
     },
 ];
 
@@ -283,29 +263,25 @@ const floats = [
 export const RenderBackgrounds = () => (
     <Showcase title="Backgrounds and underlays" description="Blocks, zones, elements">
         <ColorPanel
-            title="Basic elements on the page"
-            description="Simple blocks, hovers."
+            title="Basic"
+            description="Basic elements on the page. Simple blocks, hovers."
             colors={basic}
             boxBorders={true}
         />
         <ColorPanel
-            title="Brand support"
-            description="Blue buttons, controls and backgrounds."
+            title="Brand"
+            description="Brand buttons, controls and backgrounds."
             colors={specials}
             boxBorders={true}
         />
+        <ColorPanel title="Semantic" description="Colored blocks, states, etc." colors={semantic} />
         <ColorPanel
-            title="Semantic palette"
-            description="Colored blocks, states, etc."
-            colors={semantic}
-        />
-        <ColorPanel
-            title="Medium semantic palette"
+            title="Medium semantic"
             description="More explicit than Semantic palette."
             colors={semanticMedium}
         />
         <ColorPanel
-            title="Heavy semantic palette"
+            title="Heavy semantic"
             description="Even more explicit than Semantic palette."
             colors={semanticHeavy}
         />
@@ -316,7 +292,7 @@ export const RenderBackgrounds = () => (
             boxBorders={true}
         />
         <ColorPanel
-            title="Backgrounds"
+            title="Floats"
             description="Backgrounds for popups and floating elements."
             colors={floats}
             boxBorders={true}

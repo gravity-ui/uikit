@@ -4,7 +4,6 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
 <div>
   <div
     class="yc-card yc-card_theme_danger yc-card_view_filled yc-card_type_container yc-card_size_m yc-alert yc-s__py_4 yc-s__px_5"
-    tabindex="-1"
   >
     <div
       class="yc-flex"

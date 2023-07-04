@@ -2,6 +2,7 @@ import React from 'react';
 
 import {act, fireEvent, render, screen} from '@testing-library/react';
 
+import {Modal} from '../../../components/Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
@@ -300,5 +301,115 @@ describe('api.has', () => {
             jest.advanceTimersByTime(toastTimeout);
         });
         expect(providerAPI.has(toastProps.name)).toBe(false);
+    });
+});
+
+describe('interaction with Modal while closing Toaster', () => {
+    const MODAL_CONTENT = 'qwerty-modal';
+
+    const ModalAPI = ({onMount}: {onMount: (openModalFun: () => void) => any}) => {
+        const [open, setOpenFlag] = React.useState(true);
+        const closeModal = () => setOpenFlag(false);
+
+        React.useEffect(() => {
+            onMount(() => setOpenFlag(true));
+        }, []);
+
+        return (
+            <Modal open={open} onOutsideClick={closeModal}>
+                {MODAL_CONTENT}
+            </Modal>
+        );
+    };
+
+    function setup() {
+        let providerAPI: undefined | ToasterPublicMethods;
+        let openModal: undefined | (() => void);
+
+        render(
+            <ToasterProvider>
+                <ToastAPI
+                    onMount={(api) => {
+                        providerAPI = api;
+                    }}
+                />
+                <ModalAPI
+                    onMount={(_openModal) => {
+                        openModal = _openModal;
+                    }}
+                />
+                <ToasterComponent />
+            </ToasterProvider>,
+        );
+
+        if (!providerAPI || !openModal) {
+            throw new Error('Failed to setup test');
+        }
+
+        return {providerAPI, openModal};
+    }
+
+    it('Toaster was opened after Modal', async () => {
+        const {providerAPI, openModal} = setup();
+
+        act(openModal);
+
+        const modal = await screen.findByText(MODAL_CONTENT);
+        expect(modal).toBeInTheDocument();
+
+        act(() => {
+            providerAPI.add({...toastProps, isClosable: true});
+        });
+
+        const toast = getToast();
+        expect(toast).toBeInTheDocument();
+
+        fireEvent.click(toast);
+
+        expect(modal).toBeInTheDocument();
+
+        // eslint-disable-next-line
+        const closeToastButton = toast.querySelector('button');
+        if (!closeToastButton) {
+            throw new Error('Toast Close Button expected to be in document.');
+        }
+
+        fireEvent.click(closeToastButton);
+        tick(toast, 0);
+
+        expect(toast).not.toBeInTheDocument();
+        expect(modal).toBeInTheDocument();
+    });
+
+    it('Toaster was opened before Modal', async () => {
+        const {providerAPI, openModal} = setup();
+
+        act(() => {
+            providerAPI.add({...toastProps, isClosable: true});
+        });
+
+        const toast = getToast();
+        expect(toast).toBeInTheDocument();
+
+        act(openModal);
+
+        const modal = await screen.findByText(MODAL_CONTENT);
+        expect(modal).toBeInTheDocument();
+
+        fireEvent.click(toast);
+
+        expect(modal).toBeInTheDocument();
+
+        // eslint-disable-next-line
+        const closeToastButton = toast.querySelector('button');
+        if (!closeToastButton) {
+            throw new Error('Toast Close Button expected to be in document.');
+        }
+
+        fireEvent.click(closeToastButton);
+        tick(toast, 0);
+
+        expect(toast).not.toBeInTheDocument();
+        expect(modal).toBeInTheDocument();
     });
 });

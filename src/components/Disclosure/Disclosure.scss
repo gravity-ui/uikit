@@ -1,0 +1,81 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}disclosure';
+$trigger: #{$block}__trigger;
+$gap: 8px;
+
+#{$block} {
+    #{$trigger} {
+        @include mixins.button-reset();
+        display: flex;
+        flex-flow: row nowrap;
+        flex-shrink: 0;
+        align-items: center;
+        &_disabled {
+            color: var(--yc-color-text-secondary);
+        }
+    }
+    &__toggler {
+        margin: 0 $gap 0 0;
+        &_arrow {
+            &_right {
+                order: 2;
+                margin: 0 0 0 $gap;
+            }
+        }
+    }
+    &_size {
+        &_m {
+            #{$trigger} {
+                @include mixins.text-body-1();
+            }
+        }
+
+        &_l {
+            #{$trigger} {
+                @include mixins.text-body-2();
+            }
+        }
+
+        &_xl {
+            #{$trigger} {
+                @include mixins.text-subheader-3();
+            }
+        }
+    }
+    &__content {
+        display: none;
+        &_visible {
+            display: block;
+        }
+    }
+    &_enter_active {
+        animation-name: #{variables.$ns}disclosure-expanded;
+        animation-duration: 0.5s;
+    }
+    &_exit_active {
+        display: block;
+        animation-name: #{variables.$ns}disclosure-collapsed;
+        animation-duration: 0.1s;
+        opacity: 0;
+    }
+}
+
+@keyframes #{variables.$ns}disclosure-expanded {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes #{variables.$ns}disclosure-collapsed {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

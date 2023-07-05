@@ -33,12 +33,9 @@ $block: '.#{variables.$ns}card';
                 --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
             }
 
-            &:focus,
-            &:focus-visible {
-                &::after {
-                    content: '';
-                    box-shadow: 0 0 0 2px var(--yc-color-line-misc);
-                }
+            &:focus::after {
+                content: '';
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
             }
 
             &:focus:not(:focus-visible)::after {
@@ -75,18 +72,17 @@ $block: '.#{variables.$ns}card';
             cursor: pointer;
 
             &:hover {
+                border-color: transparent;
+
                 &:not(:focus-visible)::before {
                     content: '';
                     border: 2px solid var(--yc-color-line-selection-hover);
                 }
             }
 
-            &:focus,
-            &:focus-visible {
-                &::after {
-                    content: '';
-                    box-shadow: 0 0 0 2px var(--yc-color-line-misc);
-                }
+            &:focus::after {
+                content: '';
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
             }
 
             &:focus:not(:focus-visible)::after {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {useActionHandlers} from '../utils/useActionHandlers';
 
@@ -15,7 +16,7 @@ export type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 
-export interface CardProps {
+export interface CardProps extends QAProps {
     children: React.ReactNode;
     style?: React.CSSProperties;
     className?: string;
@@ -47,6 +48,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         disabled,
         selected,
         style,
+        qa,
     } = props;
 
     const isTypeAction = type === 'action';
@@ -85,6 +87,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
             onClick={handleClick}
             onKeyDown={onKeyDown}
             tabIndex={isClickable ? 0 : undefined}
+            data-qa={qa}
         >
             {children}
         </div>

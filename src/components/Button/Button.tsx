@@ -144,7 +144,6 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
             },
             className,
         ),
-        'aria-pressed': selected,
         'data-qa': qa,
     };
 
@@ -173,6 +172,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
                 ref={ref as React.Ref<HTMLButtonElement>}
                 type={type}
                 disabled={disabled || loading}
+                aria-pressed={selected}
             >
                 {prepareChildren(children)}
             </button>

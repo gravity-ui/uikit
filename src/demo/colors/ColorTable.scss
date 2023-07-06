@@ -1,6 +1,8 @@
 @use '../../../styles/mixins';
 
-.color-table {
+$block: '.color-table';
+
+#{$block} {
     @include mixins.text-body-2();
 
     border-collapse: collapse;
@@ -29,6 +31,8 @@
         width: 40px;
         min-width: 40px;
         height: 40px;
+        text-align: center;
+        color: var(--g-color-text-hint);
 
         &_exist {
             cursor: copy;
@@ -38,10 +42,18 @@
     @at-root .g-root[class*='theme_light'] &__row[data-color-name^='white'] {
         background: #5c5c5c;
         color: var(--g-color-text-light-secondary);
+
+        #{$block}__color {
+            color: var(--g-color-text-light-hint);
+        }
     }
 
     @at-root .g-root[class*='theme_dark'] &__row[data-color-name^='black'] {
         background: var(--g-color-base-light);
         color: var(--g-color-text-dark-secondary);
+
+        #{$block}__color {
+            color: var(--g-color-text-dark-hint);
+        }
     }
 }

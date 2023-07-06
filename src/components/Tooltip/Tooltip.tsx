@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
+import {KeyCode} from '../constants';
 import type {DOMProps} from '../types';
 import {block} from '../utils/cn';
 import {useBoolean} from '../utils/useBoolean';
@@ -105,7 +106,7 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
         }
 
         function handleKeyDown(e: KeyboardEvent) {
-            if (e.key === 'Escape') {
+            if (e.key === KeyCode.ESCAPE) {
                 clearTimeout(timeoutRef.current);
                 hideTooltip();
             }

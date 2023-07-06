@@ -81,7 +81,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         view = 'normal',
         size = 'm',
         pin = 'round-round',
-        selected = false,
+        selected,
         disabled = false,
         loading = false,
         width,

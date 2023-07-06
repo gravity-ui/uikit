@@ -246,3 +246,89 @@ export function ButtonExampleSize() {
         </DocsExample>
     );
 }
+
+export function ButtonExampleWidth() {
+    return (
+        <DocsExample gap="l" space="l">
+            <div style={{width: 100, border: '2px dashed gray'}}>
+                <p>
+                    <Button>none</Button>
+                </p>
+                <p>
+                    <Button>none none none</Button>
+                </p>
+                <p>
+                    <Button width="auto">auto</Button>
+                </p>
+                <p>
+                    <Button width="auto">auto auto auto</Button>
+                </p>
+                <p>
+                    <Button width="max">max</Button>
+                </p>
+                <p>
+                    <Button width="max">max max max</Button>
+                </p>
+            </div>
+        </DocsExample>
+    );
+}
+
+export function ButtonExampleEachPin() {
+    return (
+        <DocsExample gap="l" space="l">
+            <Button view="action" pin="brick-brick">
+                brick
+            </Button>
+            <Button view="action" pin="brick-round">
+                round
+            </Button>
+            <Button view="action" pin="brick-circle">
+                circle
+            </Button>
+            <Button view="outlined-info" pin="brick-clear">
+                clear
+            </Button>
+        </DocsExample>
+    );
+}
+
+export function ButtonExampleCombinedPins() {
+    return (
+        <DocsExample gap="l" space="l">
+            <div>
+                <Button view="outlined-danger" pin="circle-clear">
+                    right
+                </Button>
+                <Button view="outlined-danger" pin="clear-circle">
+                    left
+                </Button>
+            </div>
+            <div>
+                <Button view="outlined-info" pin="round-clear">
+                    right
+                </Button>
+                <Button view="action" pin="brick-brick">
+                    center
+                </Button>
+                <Button view="outlined-info" pin="clear-round">
+                    left
+                </Button>
+            </div>
+            <div>
+                <Button view="outlined" pin="brick-clear">
+                    1
+                </Button>
+                <Button view="outlined" pin="clear-clear">
+                    2
+                </Button>
+                <Button view="outlined" pin="clear-clear">
+                    3
+                </Button>
+                <Button view="outlined" pin="clear-brick">
+                    4+
+                </Button>
+            </div>
+        </DocsExample>
+    );
+}

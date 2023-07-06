@@ -14,6 +14,9 @@ import {
     ButtonExampleViewSpecial,
     ButtonExampleState,
     ButtonExampleSize,
+    ButtonExampleWidth,
+    ButtonExampleEachPin,
+    ButtonExampleCombinedPins
 } from './examples/ButtonExampleView/ButtonExampleView';
 import {Button} from '../Button';
 import * as ButtonStories from './Button.new.stories';
@@ -50,6 +53,10 @@ import {Button} from '@gravity-ui/uikit';
 [Size](#size)
 
 [Properties](#properties)
+
+[Width](#width)
+
+[Pin](#pin)
 
 ## Description
 Buttons act as a trigger for certain actions. While this is their main purpose, in very rare cases,
@@ -159,6 +166,28 @@ M – Basic size, used in most components.
 L – Basic actions performed in a page's header, modal windows, or pop-ups.
 
 XL – Used on promo and landing pages.
+
+## Width
+
+none - Standart mode
+
+auto - Limits the maximum width of the component, hides overflowing content behind elipses when overflowing
+
+max - Fixes the width by the width of the parent, also hides overflowing content
+
+<ButtonExampleWidth/>
+
+## Pin
+
+That property allows you to controll right and left edges of button
+
+Examples for right edge:
+
+<ButtonExampleEachPin/>
+
+Some combinations:
+
+<ButtonExampleCombinedPins/>
 
 ## Properties
 <ArgsTable of={Button}/>

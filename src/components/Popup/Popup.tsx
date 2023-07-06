@@ -43,6 +43,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     contentClassName?: string;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
+    role?: React.AriaRole;
+    id?: string;
 }
 
 const b = block('popup');
@@ -75,6 +77,8 @@ export function Popup({
     qa,
     restoreFocus,
     restoreFocusRef,
+    role,
+    id,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -131,6 +135,8 @@ export function Popup({
                     {...containerProps}
                     className={b({open}, className)}
                     data-qa={qa}
+                    id={id}
+                    role={role}
                 >
                     {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <div

@@ -1,5 +1,7 @@
 import type {VirtualElement} from '@popperjs/core';
 
+import {KeyCode} from '../constants';
+
 import {eventBroker} from './event-broker';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
@@ -73,7 +75,7 @@ class LayerManager {
     }
 
     private handleDocumentKeyDown = (event: KeyboardEvent) => {
-        if (event.code === 'Escape') {
+        if (event.code === KeyCode.ESCAPE) {
             const topLayer = this.getTopLayer();
 
             if (!topLayer.disableEscapeKeyDown) {

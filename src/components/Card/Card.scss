@@ -74,9 +74,13 @@ $block: '.#{variables.$ns}card';
             &:hover {
                 border-color: transparent;
 
-                &:not(:focus-visible)::before {
+                &::before {
                     content: '';
                     border: 2px solid var(--yc-color-line-selection-hover);
+                }
+
+                &:focus-visible::before {
+                    border-color: transparent;
                 }
             }
 

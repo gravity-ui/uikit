@@ -164,6 +164,8 @@ describe('RadioButton', () => {
         });
 
         test('call onChange/onUpdate', async () => {
+            const user = userEvent.setup();
+
             const handleOnChange = jest.fn();
             const handleOnUpdate = jest.fn();
             renderRadioButton({onChange: handleOnChange, onUpdate: handleOnUpdate});
@@ -172,7 +174,8 @@ describe('RadioButton', () => {
             const radios = within(component).getAllByRole('radio');
             const secondRadio = radios[1];
 
-            secondRadio.click();
+            await user.click(secondRadio);
+
             expect(handleOnChange).toHaveBeenCalledTimes(1);
             expect(handleOnUpdate).toHaveBeenCalledTimes(1);
             expect(handleOnUpdate).toHaveBeenCalledWith(options[1].value);

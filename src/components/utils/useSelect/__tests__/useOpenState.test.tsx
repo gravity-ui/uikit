@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react';
+import {act, renderHook} from '@testing-library/react';
 
 import type {UseOpenProps} from '../types';
 import {useOpenState} from '../useOpenState';
@@ -27,12 +27,16 @@ describe('useOpenState', () => {
 
             expect(result.current.open).toBe(false);
 
-            result.current.toggleOpen(true);
+            act(() => {
+                result.current.toggleOpen(true);
+            });
             rerender({});
 
             expect(result.current.open).toBe(true);
 
-            result.current.toggleOpen(false);
+            act(() => {
+                result.current.toggleOpen(false);
+            });
             rerender({});
 
             expect(result.current.open).toBe(false);
@@ -42,12 +46,16 @@ describe('useOpenState', () => {
 
             expect(result.current.open).toBe(false);
 
-            result.current.toggleOpen();
+            act(() => {
+                result.current.toggleOpen();
+            });
             rerender({});
 
             expect(result.current.open).toBe(true);
 
-            result.current.toggleOpen();
+            act(() => {
+                result.current.toggleOpen();
+            });
             rerender({});
 
             expect(result.current.open).toBe(false);
@@ -59,12 +67,16 @@ describe('useOpenState', () => {
             const props = {onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.toggleOpen();
+            act(() => {
+                result.current.toggleOpen();
+            });
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledWith(true);
 
-            result.current.toggleOpen();
+            act(() => {
+                result.current.toggleOpen();
+            });
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -74,14 +86,20 @@ describe('useOpenState', () => {
             const props = {onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.toggleOpen(false);
+            act(() => {
+                result.current.toggleOpen(false);
+            });
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledTimes(0);
 
-            result.current.toggleOpen(true);
+            act(() => {
+                result.current.toggleOpen(true);
+            });
             rerender(props);
-            result.current.toggleOpen(true);
+            act(() => {
+                result.current.toggleOpen(true);
+            });
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledTimes(1);
@@ -108,13 +126,17 @@ describe('useOpenState', () => {
         test('toggleOpen do not work', () => {
             const {result, rerender} = renderUseOpenStateHook({open: true});
 
-            result.current.toggleOpen(false);
+            act(() => {
+                result.current.toggleOpen(false);
+            });
 
             expect(result.current.open).toBe(true);
 
             rerender({open: false});
 
-            result.current.toggleOpen(true);
+            act(() => {
+                result.current.toggleOpen(true);
+            });
 
             expect(result.current.open).toBe(false);
         });
@@ -124,7 +146,9 @@ describe('useOpenState', () => {
             const props = {open: true, onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.toggleOpen(false);
+            act(() => {
+                result.current.toggleOpen(false);
+            });
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -135,13 +159,17 @@ describe('useOpenState', () => {
             const props = {open: true, onOpenChange};
             const {result, rerender} = renderUseOpenStateHook(props);
 
-            result.current.toggleOpen(true);
+            act(() => {
+                result.current.toggleOpen(true);
+            });
             rerender(props);
 
             expect(onOpenChange).toHaveBeenCalledTimes(0);
 
             rerender({...props, open: false});
-            result.current.toggleOpen(false);
+            act(() => {
+                result.current.toggleOpen(false);
+            });
 
             expect(onOpenChange).toHaveBeenCalledTimes(0);
         });

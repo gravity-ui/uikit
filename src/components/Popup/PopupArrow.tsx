@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {useDirection} from '@radix-ui/react-direction';
+
 import {block} from '../utils/cn';
 
 import './Popup.scss';
@@ -13,6 +15,12 @@ interface PopupArrowProps {
 }
 
 export function PopupArrow({styles, attributes, setArrowRef}: PopupArrowProps) {
+    const dir = useDirection();
+
+    const isRTL = dir === 'rtl';
+    const right = {right: true};
+    const left = {left: true};
+
     return (
         <div
             data-popper-arrow
@@ -23,10 +31,10 @@ export function PopupArrow({styles, attributes, setArrowRef}: PopupArrowProps) {
         >
             <div className={b('arrow-content')}>
                 <div className={b('arrow-circle-wrapper')}>
-                    <div className={b('arrow-circle', {left: true})}></div>
+                    <div className={b('arrow-circle', isRTL ? right : left)}></div>
                 </div>
                 <div className={b('arrow-circle-wrapper')}>
-                    <div className={b('arrow-circle', {right: true})}></div>
+                    <div className={b('arrow-circle', isRTL ? left : right)}></div>
                 </div>
             </div>
         </div>

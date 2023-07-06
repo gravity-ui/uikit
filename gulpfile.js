@@ -4,7 +4,7 @@ const path = require('path');
 const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-dart-sass');
 const replace = require('gulp-replace');
-const rtlcss = require('gulp-rtlcss');
+// const rtlcss = require('gulp-rtlcss');
 const ts = require('gulp-typescript');
 const rimraf = require('rimraf');
 
@@ -55,10 +55,12 @@ task('copy-i18n', () => {
 });
 
 task('styles-global', () => {
-    return src('styles/styles.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(rtlcss())
-        .pipe(dest('styles'));
+    return (
+        src('styles/styles.scss')
+            .pipe(sass().on('error', sass.logError))
+            // .pipe(rtlcss())
+            .pipe(dest('styles'))
+    );
 });
 
 task('styles-components', () => {

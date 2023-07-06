@@ -3,6 +3,7 @@ import '../styles/styles.scss';
 
 import React from 'react';
 
+import {DirectionProvider} from '@radix-ui/react-direction';
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
 import type {Decorator, Preview} from '@storybook/react';
 
@@ -22,7 +23,11 @@ const withContextProvider: Decorator = (Story, context) => {
         <React.StrictMode>
             <ThemeProvider theme={context.globals.theme}>
                 <MobileProvider>
-                    <Story {...context} />
+                    <DirectionProvider dir="rtl">
+                        <div dir="rtl">
+                            <Story {...context} />
+                        </div>
+                    </DirectionProvider>
                 </MobileProvider>
             </ThemeProvider>
         </React.StrictMode>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {useDirection} from '@radix-ui/react-direction';
 import {CSSTransition} from 'react-transition-group';
 
 import {Portal} from '../Portal';
@@ -77,6 +78,8 @@ export function Popup({
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
+    const dir = useDirection();
+
     useLayer({
         open,
         disableEscapeKeyDown,
@@ -129,6 +132,7 @@ export function Popup({
                     {...attributes.popper}
                     {...containerProps}
                     className={bWrapper({open})}
+                    dir={dir}
                 >
                     {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <div

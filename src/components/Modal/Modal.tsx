@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {useDirection} from '@radix-ui/react-direction';
 import {CSSTransition} from 'react-transition-group';
 
 import {Portal} from '../Portal';
@@ -73,6 +74,8 @@ export function Modal({
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [inTransition, setInTransition] = React.useState(false);
 
+    const dir = useDirection();
+
     useBodyScrollLock({enabled: !disableBodyScrollLock && (open || inTransition)});
     const containerProps = useRestoreFocus({
         enabled: open || inTransition,
@@ -122,7 +125,7 @@ export function Modal({
             >
                 <div
                     ref={containerRef}
-                    dir="rtl"
+                    dir={dir}
                     style={style}
                     className={b({open}, className)}
                     data-qa={qa}

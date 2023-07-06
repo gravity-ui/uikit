@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {useDirection} from '@radix-ui/react-direction';
+
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {CrossIcon} from '../../icons/CrossIcon';
@@ -17,8 +19,9 @@ export interface ButtonCloseProps {
 }
 
 export function ButtonClose({onClose}: ButtonCloseProps) {
+    const dir = useDirection();
     return (
-        <div className={b()}>
+        <div className={b(dir === 'rtl' ? {rtl: true} : {ltr: true})}>
             <Button
                 view="flat"
                 size="l"

@@ -144,6 +144,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
             },
             className,
         ),
+        'aria-pressed': selected,
         'data-qa': qa,
     };
 

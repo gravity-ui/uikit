@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {KeyCode} from '../constants';
 import {block} from '../utils/cn';
-import {useForkRef} from '../utils/useForkRef';
+import {useActionHandlers} from '../utils/useActionHandlers';
 
 import './Card.scss';
 
@@ -50,9 +49,6 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         style,
     } = props;
 
-    const cardRef = React.useRef<HTMLDivElement>(null);
-    const handleRef = useForkRef(ref, cardRef);
-
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
     const isTypeContainer = type === 'container';
@@ -67,23 +63,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
     const handleClick = isClickable ? onClick : undefined;
-
-    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-        switch (event.key) {
-            case KeyCode.SPACEBAR:
-                event.preventDefault();
-
-                if (isClickable) {
-                    cardRef.current?.click();
-                }
-                break;
-        }
-    };
+    const {onKeyDown} = useActionHandlers(handleClick);
 
     return (
         <div
             style={style}
-            ref={handleRef}
+            ref={ref}
             role={isClickable ? 'button' : undefined}
             className={b(
                 {
@@ -98,7 +83,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                 className,
             )}
             onClick={handleClick}
-            onKeyDown={handleKeyDown}
+            onKeyDown={onKeyDown}
             tabIndex={isClickable ? 0 : undefined}
         >
             {children}

@@ -1,6 +1,8 @@
 import React from 'react';
 
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
+import {useActionHandlers} from '../utils/useActionHandlers';
 
 import './Card.scss';
 
@@ -14,7 +16,7 @@ export type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 
-export interface CardProps {
+export interface CardProps extends QAProps {
     children: React.ReactNode;
     style?: React.CSSProperties;
     className?: string;
@@ -46,7 +48,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         disabled,
         selected,
         style,
+        qa,
     } = props;
+
     const isTypeAction = type === 'action';
     const isTypeSelection = type === 'selection';
     const isTypeContainer = type === 'container';
@@ -60,11 +64,14 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     /* View only with type 'container' and 'selection' */
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
+    const handleClick = isClickable ? onClick : undefined;
+    const {onKeyDown} = useActionHandlers(handleClick);
+
     return (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
             style={style}
             ref={ref}
+            role={isClickable ? 'button' : undefined}
             className={b(
                 {
                     theme: theme || defaultTheme,
@@ -77,7 +84,10 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                 },
                 className,
             )}
-            onClick={isClickable ? onClick : undefined}
+            onClick={handleClick}
+            onKeyDown={onKeyDown}
+            tabIndex={isClickable ? 0 : undefined}
+            data-qa={qa}
         >
             {children}
         </div>

@@ -81,7 +81,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         view = 'normal',
         size = 'm',
         pin = 'round-round',
-        selected = false,
+        selected,
         disabled = false,
         loading = false,
         width,
@@ -172,6 +172,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
                 ref={ref as React.Ref<HTMLButtonElement>}
                 type={type}
                 disabled={disabled || loading}
+                aria-pressed={selected}
             >
                 {prepareChildren(children)}
             </button>

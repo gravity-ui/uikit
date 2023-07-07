@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {act, fireEvent, render, screen} from '@testing-library/react';
+import {act, fireEvent, render, screen, within} from '@testing-library/react';
 
 import {Modal} from '../../../components/Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
@@ -368,8 +368,7 @@ describe('interaction with Modal while closing Toaster', () => {
 
         expect(modal).toBeInTheDocument();
 
-        // eslint-disable-next-line
-        const closeToastButton = toast.querySelector('button');
+        const closeToastButton = await within(toast).findByRole('button');
         if (!closeToastButton) {
             throw new Error('Toast Close Button expected to be in document.');
         }
@@ -400,8 +399,7 @@ describe('interaction with Modal while closing Toaster', () => {
 
         expect(modal).toBeInTheDocument();
 
-        // eslint-disable-next-line
-        const closeToastButton = toast.querySelector('button');
+        const closeToastButton = await within(toast).findByRole('button');
         if (!closeToastButton) {
             throw new Error('Toast Close Button expected to be in document.');
         }

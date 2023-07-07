@@ -19,7 +19,7 @@ for (let i = 50; i <= 1000; i += 50) {
     steps.push(i);
 }
 const themes = ['light', 'light-hc', 'dark', 'dark-hc'];
-const tones = ['white', 'black', 'blue', 'green', 'yellow', 'orange', 'purple', 'cool-grey'];
+const tones = ['white', 'black', 'blue', 'green', 'yellow', 'orange', 'red', 'purple', 'cool-grey'];
 const colors: Record<string, Record<string, number[]>> = {};
 
 for (const theme of themes) {

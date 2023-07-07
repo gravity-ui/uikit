@@ -218,6 +218,50 @@ ButtonExampleViewSpecial.code = `
 <Button view="flat-contrast" size="l">Flat</Button>
 `.trim();
 
+export function ButtonExampleIcons() {
+    return (
+        <DocsExample gap="l" space="l">
+            <Button view="outlined" size="l">
+                <Icon data={Gear} size={18} />
+                Left
+            </Button>
+            <Button view="outlined" size="l">
+                Right
+                <Icon data={Gear} size={18} />
+            </Button>
+            <Button view="outlined" size="l">
+                <Icon data={Gear} size={18} />
+                Both
+                <Icon data={Gear} size={18} />
+            </Button>
+            <div style={{display: 'flex', gap: '16px', alignItems: 'center'}}>
+                No text:
+                <Button view="outlined" size="l">
+                    <Icon data={Gear} size={18} />
+                </Button>
+            </div>
+        </DocsExample>
+    );
+}
+ButtonExampleIcons.code = `
+<Button view="outlined" size="l">
+    <Icon data={Gear} size={18} />
+    Left
+</Button>
+<Button view="outlined" size="l">
+    Right
+    <Icon data={Gear} size={18} />
+</Button>
+<Button view="outlined" size="l">
+    <Icon data={Gear} size={18} />
+    Both
+    <Icon data={Gear} size={18} />
+</Button>
+<Button view="outlined" size="l">
+    <Icon data={Gear} size={18} />
+</Button>
+`.trim();
+
 export function ButtonExampleState() {
     return (
         <DocsExample gap="l" space="l">

@@ -172,6 +172,13 @@ export function ButtonExampleSize() {
         </DocsExample>
     );
 }
+ButtonExampleSize.code = `
+<Button size="xs">XS-size</Button>
+<Button size="s">S-size</Button>
+<Button size="m">M-size</Button>
+<Button size="l">L-size</Button>
+<Button size="xl">XL-size</Button>
+`.trim();
 
 export function ButtonExampleWidth() {
     return (
@@ -199,6 +206,14 @@ export function ButtonExampleWidth() {
         </DocsExample>
     );
 }
+ButtonExampleWidth.code = `
+<Button>none</Button>
+<Button>none none none</Button>
+<Button width="auto">auto</Button>
+<Button width="auto">auto auto auto</Button>
+<Button width="max">max</Button>
+<Button width="max">max max max</Button>
+`.trim();
 
 export function ButtonExampleEachPin() {
     return (
@@ -218,6 +233,20 @@ export function ButtonExampleEachPin() {
         </DocsExample>
     );
 }
+ButtonExampleEachPin.code = `
+<Button view="action" pin="brick-brick">
+    brick  
+</Button>
+<Button view="action" pin="brick-round">
+    round
+</Button>
+<Button view="action" pin="brick-circle">
+    circle
+</Button>
+<Button view="outlined-info" pin="brick-clear">
+    clear
+</Button>
+`.trim();
 
 export function ButtonExampleCombinedPins() {
     return (
@@ -258,3 +287,20 @@ export function ButtonExampleCombinedPins() {
         </DocsExample>
     );
 }
+ButtonExampleCombinedPins.code = `
+<div>
+    <Button view="outlined-danger" pin="circle-clear">right</Button>
+    <Button view="outlined-danger" pin="clear-circle">left</Button>
+</div>
+<div>
+    <Button view="outlined-info" pin="round-clear">right</Button>
+    <Button view="action" pin="brick-brick">center</Button>
+    <Button view="outlined-info" pin="clear-round">left</Button>
+</div>
+<div>
+    <Button view="outlined" pin="brick-clear">1</Button>
+    <Button view="outlined" pin="clear-clear">2</Button>
+    <Button view="outlined" pin="clear-clear">3</Button>
+    <Button view="outlined" pin="clear-brick">4+</Button>
+</div>
+`.trim();

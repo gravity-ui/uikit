@@ -103,10 +103,15 @@ export const StoriesLayout = (props: StoriesLayoutProps) => {
                     </div>
                     <div className={b('right-pane')}>
                         <ButtonClose onClose={props.handleButtonClose} />
-                        {currentStory?.media && (
-                            <div className={b('media-block')}>
-                                <MediaRenderer media={currentStory.media} />
-                            </div>
+                        {props.items.map(({media}, i) =>
+                            media ? (
+                                <div
+                                    className={b('media-block', {visible: i === props.storyIndex})}
+                                    key={i}
+                                >
+                                    <MediaRenderer media={media} />
+                                </div>
+                            ) : null,
                         )}
                     </div>
                 </div>

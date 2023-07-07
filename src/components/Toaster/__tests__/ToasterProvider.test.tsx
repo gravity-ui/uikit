@@ -304,7 +304,7 @@ describe('api.has', () => {
     });
 });
 
-describe('interaction with Modal while closing Toaster', () => {
+describe('modal remains open after toaster close', () => {
     const MODAL_CONTENT = 'qwerty-modal';
 
     const ModalAPI = ({onMount}: {onMount: (openModalFun: () => void) => any}) => {

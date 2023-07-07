@@ -15,6 +15,7 @@ export type RadioSize = ControlLabelSize;
 export interface RadioProps extends ControlProps, DOMProps, QAProps {
     value: string;
     size?: RadioSize;
+    // TODO: Remove the extra prop "content", leaving only "children"
     content?: React.ReactNode;
     children?: React.ReactNode;
     title?: string;

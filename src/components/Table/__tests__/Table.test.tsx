@@ -2,6 +2,7 @@ import React from 'react';
 
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {TEST_CLASS_NAME} from '@uikit/__fixtures__/consts';
 
 import {Table} from '../Table';
 
@@ -105,12 +106,10 @@ describe('Table', () => {
     });
 
     test('add className', () => {
-        const className = 'my-class';
-
-        render(<Table data={data} columns={columns} className={className} qa={qaId} />);
+        render(<Table data={data} columns={columns} className={TEST_CLASS_NAME} qa={qaId} />);
         const table = screen.getByTestId(qaId);
 
-        expect(table).toHaveClass(className);
+        expect(table).toHaveClass(TEST_CLASS_NAME);
     });
 
     test('render table with horizontal sticky scroll', () => {

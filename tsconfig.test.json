@@ -3,6 +3,11 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "module": "CommonJS",
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "@uikit/*": [
+        "./*"
+      ]
+    },
   }
 }

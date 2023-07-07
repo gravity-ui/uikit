@@ -159,5 +159,12 @@
         "*.md": [
             "prettier --write"
         ]
+    },
+    "uikit": {
+        "baseSourceDir": ".",
+        "sourceDirs": ["."],
+        "aliases": {
+            "@uikit": ""
+        }
     }
 }

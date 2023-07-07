@@ -18,6 +18,7 @@ module.exports = {
     setupFilesAfterEnv: ['<rootDir>/test-utils/setup-tests-after.ts'],
     moduleNameMapper: {
         '\\.(css|less|scss|sass)$': 'jest-transform-css',
+        '^@uikit(.*)$': '<rootDir>/$1',
     },
     testMatch: ['**/*.test.[jt]s?(x)'],
 };

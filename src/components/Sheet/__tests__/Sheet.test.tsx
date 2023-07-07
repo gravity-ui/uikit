@@ -1,28 +1,29 @@
 import React from 'react';
 
 import {render, screen} from '@testing-library/react';
+import {TEST_CHILDREN} from '@uikit/__fixtures__/consts';
 
 import {Sheet} from '../Sheet';
 import {sheetBlock} from '../constants';
 
-test('Renders content when visible', () => {
-    const sheetContent = 'Sheet content';
-    render(<Sheet visible>{sheetContent}</Sheet>);
+describe('Sheet', () => {
+    test('Renders content when visible', () => {
+        render(<Sheet visible>{TEST_CHILDREN}</Sheet>);
 
-    expect(screen.getByText(sheetContent)).toBeInTheDocument();
-});
+        expect(screen.getByText(TEST_CHILDREN)).toBeInTheDocument();
+    });
 
-test('Do not renders content when invisible', () => {
-    const sheetContent = 'Sheet content';
-    render(<Sheet visible={false}>${sheetContent}</Sheet>);
+    test('Do not renders content when invisible', () => {
+        render(<Sheet visible={false}>${TEST_CHILDREN}</Sheet>);
 
-    expect(screen.queryByText(sheetContent)).not.toBeInTheDocument();
-});
+        expect(screen.queryByText(TEST_CHILDREN)).not.toBeInTheDocument();
+    });
 
-test('Do not renders top bar when hideTopBar property is set', () => {
-    const {container} = render(<Sheet visible hideTopBar></Sheet>);
+    test('Do not renders top bar when hideTopBar property is set', () => {
+        const {container} = render(<Sheet visible hideTopBar></Sheet>);
 
-    // Element is accessible only by selector
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    expect(container.querySelector(sheetBlock('sheet-top'))).not.toBeInTheDocument();
+        // Element is accessible only by selector
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        expect(container.querySelector(sheetBlock('sheet-top'))).not.toBeInTheDocument();
+    });
 });

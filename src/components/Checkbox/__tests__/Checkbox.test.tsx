@@ -2,6 +2,7 @@ import React from 'react';
 
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {TEST_CHILDREN, TEST_CLASS_NAME, TEST_STYLE} from '@uikit/__fixtures__/consts';
 
 import {Checkbox} from '../Checkbox';
 import type {CheckboxSize} from '../Checkbox';
@@ -56,43 +57,35 @@ describe('Checkbox', () => {
     });
 
     test('show given content', () => {
-        const content = 'Some content';
-
-        render(<Checkbox content={content} />);
-        const text = screen.getByText(content);
+        render(<Checkbox content={TEST_CHILDREN} />);
+        const text = screen.getByText(TEST_CHILDREN);
 
         expect(text).toBeVisible();
     });
 
     test('show given children', () => {
-        const childrenText = 'Children content';
-
         render(
             <Checkbox>
-                <span>{childrenText}</span>
+                <span>{TEST_CHILDREN}</span>
             </Checkbox>,
         );
-        const text = screen.getByText(childrenText);
+        const text = screen.getByText(TEST_CHILDREN);
 
         expect(text).toBeVisible();
     });
 
     test('add className', () => {
-        const className = 'my-class';
-
-        render(<Checkbox className={className} qa={qaId} />);
+        render(<Checkbox className={TEST_CLASS_NAME} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(className);
+        expect(component).toHaveClass(TEST_CLASS_NAME);
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
-
-        render(<Checkbox style={style} qa={qaId} />);
+        render(<Checkbox style={TEST_STYLE} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveStyle(style);
+        expect(component).toHaveStyle(TEST_STYLE);
     });
 
     test('use defaultChecked attribute', () => {

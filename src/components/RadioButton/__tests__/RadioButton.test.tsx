@@ -2,6 +2,7 @@ import React from 'react';
 
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {TEST_CLASS_NAME, TEST_STYLE} from '@uikit/__fixtures__/consts';
 
 import {RadioButton} from '../';
 import type {RadioButtonOption, RadioButtonProps, RadioButtonSize, RadioButtonWidth} from '../';
@@ -191,21 +192,17 @@ describe('RadioButton', () => {
 
     describe('styles', () => {
         test('add style attribute', () => {
-            const style = {color: 'red'};
-
-            renderRadioButton({style});
+            renderRadioButton({style: TEST_STYLE});
             const component = screen.getByTestId(qaId);
 
-            expect(component).toHaveStyle(style);
+            expect(component).toHaveStyle(TEST_STYLE);
         });
 
         test('add className attribute', () => {
-            const className = 'my-class';
-
-            renderRadioButton({className});
+            renderRadioButton({className: TEST_CLASS_NAME});
             const component = screen.getByTestId(qaId);
 
-            expect(component).toHaveClass(className);
+            expect(component).toHaveClass(TEST_CLASS_NAME);
         });
 
         test.each(new Array<RadioButtonWidth>('auto', 'max'))(

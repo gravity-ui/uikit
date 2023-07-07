@@ -2,6 +2,7 @@ import React from 'react';
 
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {TEST_CHILDREN, TEST_CLASS_NAME, TEST_TITLE} from '@uikit/__fixtures__/consts';
 
 import {Radio} from '../Radio';
 import type {RadioSize} from '../Radio';
@@ -43,43 +44,35 @@ describe('Radio', () => {
     });
 
     test('set given title to label', () => {
-        const title = 'Some title';
-
-        render(<Radio value={value} title={title} />);
-        const label = screen.getByTitle(title);
+        render(<Radio value={value} title={TEST_TITLE} />);
+        const label = screen.getByTitle(TEST_TITLE);
 
         expect(label).toBeVisible();
     });
 
     test('show given content', () => {
-        const content = 'Some content';
-
-        render(<Radio value={value} content={content} />);
-        const text = screen.getByText(content);
+        render(<Radio value={value} content={TEST_CHILDREN} />);
+        const text = screen.getByText(TEST_CHILDREN);
 
         expect(text).toBeVisible();
     });
 
     test('show given children', () => {
-        const childrenText = 'Children content';
-
         render(
             <Radio value={value}>
-                <span>{childrenText}</span>
+                <span>{TEST_CHILDREN}</span>
             </Radio>,
         );
-        const text = screen.getByText(childrenText);
+        const text = screen.getByText(TEST_CHILDREN);
 
         expect(text).toBeVisible();
     });
 
     test('add className', () => {
-        const className = 'my-class';
-
-        render(<Radio value={value} className={className} qa={qaId} />);
+        render(<Radio value={value} className={TEST_CLASS_NAME} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(className);
+        expect(component).toHaveClass(TEST_CLASS_NAME);
     });
 
     test('add style', () => {

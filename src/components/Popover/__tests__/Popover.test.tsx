@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {act, fireEvent, render, screen} from '@testing-library/react';
+import {TEST_CONTENT_TEXT, TEST_TRIGGER_TEXT} from '@uikit/__fixtures__/consts';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
 import {Popover} from '../Popover';
@@ -9,18 +10,15 @@ import type {PopoverProps} from '../types';
 
 setupTimersMock();
 
-const defaultTooltipContent = 'Tooltip';
-const defaultTriggerText = 'Trigger';
-
 const renderPopover = (props?: Partial<PopoverProps>) => (
     <Popover
-        content={defaultTooltipContent}
+        content={TEST_CONTENT_TEXT}
         behavior={PopoverBehavior.Delayed}
         qa="popover"
         openOnHover={false}
         {...props}
     >
-        {defaultTriggerText}
+        {TEST_TRIGGER_TEXT}
     </Popover>
 );
 
@@ -43,263 +41,265 @@ const checkIfPopoverClosed = () => {
     }
 };
 
-test('Renders with opened tooltip if initialOpen', () => {
-    render(
-        renderPopover({
-            initialOpen: true,
-        }),
-    );
+describe('Popover', () => {
+    test('Renders with opened tooltip if initialOpen', () => {
+        render(
+            renderPopover({
+                initialOpen: true,
+            }),
+        );
 
-    checkIfPopoverOpened();
-});
-
-test('Can be opened/closed on hover/unhover', async () => {
-    render(
-        renderPopover({
-            openOnHover: true,
-            autoclosable: true,
-        }),
-    );
-
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.mouseEnter(popoverTrigger);
-    act(() => {
-        waitForTooltipOpenedStateChange(true);
+        checkIfPopoverOpened();
     });
 
-    checkIfPopoverOpened();
+    test('Can be opened/closed on hover/unhover', async () => {
+        render(
+            renderPopover({
+                openOnHover: true,
+                autoclosable: true,
+            }),
+        );
 
-    fireEvent.mouseLeave(popoverTrigger);
-    act(() => {
-        waitForTooltipOpenedStateChange(false);
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.mouseEnter(popoverTrigger);
+        act(() => {
+            waitForTooltipOpenedStateChange(true);
+        });
+
+        checkIfPopoverOpened();
+
+        fireEvent.mouseLeave(popoverTrigger);
+        act(() => {
+            waitForTooltipOpenedStateChange(false);
+        });
+
+        checkIfPopoverClosed();
     });
 
-    checkIfPopoverClosed();
-});
+    test("Doesn't close if the cursor is on the tooltip", () => {
+        render(
+            renderPopover({
+                openOnHover: true,
+                autoclosable: true,
+            }),
+        );
 
-test("Doesn't close if the cursor is on the tooltip", () => {
-    render(
-        renderPopover({
-            openOnHover: true,
-            autoclosable: true,
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.mouseEnter(popoverTrigger);
+        act(() => {
+            waitForTooltipOpenedStateChange(true);
+        });
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.mouseEnter(popoverTrigger);
-    act(() => {
-        waitForTooltipOpenedStateChange(true);
+        const tooltip = screen.getByText(TEST_CONTENT_TEXT);
+        fireEvent.mouseLeave(popoverTrigger);
+        fireEvent.mouseEnter(tooltip);
+        act(() => {
+            waitForTooltipOpenedStateChange(false);
+        });
+
+        checkIfPopoverOpened();
     });
 
-    const tooltip = screen.getByText(defaultTooltipContent);
-    fireEvent.mouseLeave(popoverTrigger);
-    fireEvent.mouseEnter(tooltip);
-    act(() => {
-        waitForTooltipOpenedStateChange(false);
+    test("Doesn't close on unhover if not autoclosable", () => {
+        render(
+            renderPopover({
+                openOnHover: true,
+                autoclosable: false,
+            }),
+        );
+
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.mouseEnter(popoverTrigger);
+        act(() => {
+            waitForTooltipOpenedStateChange(true);
+        });
+        fireEvent.mouseLeave(popoverTrigger);
+        act(() => {
+            waitForTooltipOpenedStateChange(false);
+        });
+
+        checkIfPopoverOpened();
     });
 
-    checkIfPopoverOpened();
-});
+    test('Can be opened/closed on click', () => {
+        render(
+            renderPopover({
+                openOnHover: false,
+                autoclosable: false,
+            }),
+        );
 
-test("Doesn't close on unhover if not autoclosable", () => {
-    render(
-        renderPopover({
-            openOnHover: true,
-            autoclosable: false,
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.mouseEnter(popoverTrigger);
-    act(() => {
-        waitForTooltipOpenedStateChange(true);
-    });
-    fireEvent.mouseLeave(popoverTrigger);
-    act(() => {
-        waitForTooltipOpenedStateChange(false);
+        checkIfPopoverOpened();
+
+        fireEvent.click(popoverTrigger);
+
+        checkIfPopoverClosed();
     });
 
-    checkIfPopoverOpened();
-});
+    test("Can't be opened by click if onClick returns false", () => {
+        render(
+            renderPopover({
+                openOnHover: false,
+                onClick: async () => {
+                    return false;
+                },
+            }),
+        );
 
-test('Can be opened/closed on click', () => {
-    render(
-        renderPopover({
-            openOnHover: false,
-            autoclosable: false,
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        checkIfPopoverClosed();
+    });
 
-    checkIfPopoverOpened();
+    test("Can't be opened if disabled", () => {
+        render(
+            renderPopover({
+                disabled: true,
+            }),
+        );
 
-    fireEvent.click(popoverTrigger);
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    checkIfPopoverClosed();
-});
+        checkIfPopoverClosed();
+    });
 
-test("Can't be opened by click if onClick returns false", () => {
-    render(
-        renderPopover({
-            openOnHover: false,
-            onClick: async () => {
-                return false;
-            },
-        }),
-    );
+    test('Can be closed on click', () => {
+        render(
+            renderPopover({
+                hasClose: true,
+            }),
+        );
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    checkIfPopoverClosed();
-});
+        const closeButton = screen.getByRole('button', {name: 'Close'});
+        fireEvent.click(closeButton);
 
-test("Can't be opened if disabled", () => {
-    render(
-        renderPopover({
-            disabled: true,
-        }),
-    );
+        checkIfPopoverClosed();
+    });
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+    test('Calls close button click handler on close button click', () => {
+        const onCloseClick = jest.fn();
 
-    checkIfPopoverClosed();
-});
+        render(
+            renderPopover({
+                hasClose: true,
+                onCloseClick,
+            }),
+        );
 
-test('Can be closed on click', () => {
-    render(
-        renderPopover({
-            hasClose: true,
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        const closeButton = screen.getByRole('button', {name: 'Close'});
+        fireEvent.click(closeButton);
 
-    const closeButton = screen.getByRole('button', {name: 'Close'});
-    fireEvent.click(closeButton);
+        expect(onCloseClick).toHaveBeenCalledTimes(1);
+    });
 
-    checkIfPopoverClosed();
-});
+    test('Calls opened state change callback on open/close', () => {
+        const onOpenChange = jest.fn();
 
-test('Calls close button click handler on close button click', () => {
-    const onCloseClick = jest.fn();
+        render(
+            renderPopover({
+                onOpenChange,
+            }),
+        );
 
-    render(
-        renderPopover({
-            hasClose: true,
-            onCloseClick,
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        onOpenChange.mockClear();
 
-    const closeButton = screen.getByRole('button', {name: 'Close'});
-    fireEvent.click(closeButton);
+        fireEvent.click(popoverTrigger);
 
-    expect(onCloseClick).toHaveBeenCalledTimes(1);
-});
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
 
-test('Calls opened state change callback on open/close', () => {
-    const onOpenChange = jest.fn();
+    test('Renders with html content', () => {
+        render(
+            renderPopover({
+                htmlContent: '<b>html</b> content',
+            }),
+        );
 
-    render(
-        renderPopover({
-            onOpenChange,
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        expect(screen.getByText('html')).toBeInTheDocument();
+    });
 
-    expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(true);
-    onOpenChange.mockClear();
+    test('Renders with links', () => {
+        const onLinkClick = jest.fn();
 
-    fireEvent.click(popoverTrigger);
+        const linkWithHrefConfig = {
+            text: 'Link with a href',
+            href: 'https://yandex.ru',
+        };
+        const linkWithClickHandlerConfig = {
+            text: 'Link with an onClick handler',
+            onClick: onLinkClick,
+        };
 
-    expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(false);
-});
+        render(
+            renderPopover({
+                links: [linkWithHrefConfig, linkWithClickHandlerConfig],
+            }),
+        );
 
-test('Renders with html content', () => {
-    render(
-        renderPopover({
-            htmlContent: '<b>html</b> content',
-        }),
-    );
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        const linkWithHref = screen.getByText(linkWithHrefConfig.text);
+        const linkWithClickHandler = screen.getByText(linkWithClickHandlerConfig.text);
+        expect(linkWithHref).toBeInTheDocument();
+        expect(linkWithClickHandler).toBeInTheDocument();
 
-    expect(screen.getByText('html')).toBeInTheDocument();
-});
+        fireEvent.click(linkWithClickHandler);
+        expect(onLinkClick).toHaveBeenCalledTimes(1);
+    });
 
-test('Renders with links', () => {
-    const onLinkClick = jest.fn();
+    test('Renders with buttons', () => {
+        const onActionButtonClick = jest.fn();
+        const onCancelButtonClick = jest.fn();
 
-    const linkWithHrefConfig = {
-        text: 'Link with a href',
-        href: 'https://yandex.ru',
-    };
-    const linkWithClickHandlerConfig = {
-        text: 'Link with an onClick handler',
-        onClick: onLinkClick,
-    };
+        const actionButtonConfig = {
+            text: 'Action',
+            onClick: onActionButtonClick,
+        };
+        const cancelButtonConfig = {
+            text: 'Cancel',
+            onClick: onCancelButtonClick,
+        };
 
-    render(
-        renderPopover({
-            links: [linkWithHrefConfig, linkWithClickHandlerConfig],
-        }),
-    );
+        render(
+            renderPopover({
+                tooltipActionButton: actionButtonConfig,
+                tooltipCancelButton: cancelButtonConfig,
+            }),
+        );
 
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
+        const popoverTrigger = screen.getByText(TEST_TRIGGER_TEXT);
+        fireEvent.click(popoverTrigger);
 
-    const linkWithHref = screen.getByText(linkWithHrefConfig.text);
-    const linkWithClickHandler = screen.getByText(linkWithClickHandlerConfig.text);
-    expect(linkWithHref).toBeInTheDocument();
-    expect(linkWithClickHandler).toBeInTheDocument();
+        const actionButton = screen.getByRole('button', {name: actionButtonConfig.text});
+        const cancelButton = screen.getByRole('button', {name: cancelButtonConfig.text});
 
-    fireEvent.click(linkWithClickHandler);
-    expect(onLinkClick).toHaveBeenCalledTimes(1);
-});
+        expect(actionButton).toBeInTheDocument();
+        expect(cancelButton).toBeInTheDocument();
 
-test('Renders with buttons', () => {
-    const onActionButtonClick = jest.fn();
-    const onCancelButtonClick = jest.fn();
-
-    const actionButtonConfig = {
-        text: 'Action',
-        onClick: onActionButtonClick,
-    };
-    const cancelButtonConfig = {
-        text: 'Cancel',
-        onClick: onCancelButtonClick,
-    };
-
-    render(
-        renderPopover({
-            tooltipActionButton: actionButtonConfig,
-            tooltipCancelButton: cancelButtonConfig,
-        }),
-    );
-
-    const popoverTrigger = screen.getByText(defaultTriggerText);
-    fireEvent.click(popoverTrigger);
-
-    const actionButton = screen.getByRole('button', {name: actionButtonConfig.text});
-    const cancelButton = screen.getByRole('button', {name: cancelButtonConfig.text});
-
-    expect(actionButton).toBeInTheDocument();
-    expect(cancelButton).toBeInTheDocument();
-
-    fireEvent.click(actionButton);
-    expect(onActionButtonClick).toHaveBeenCalledTimes(1);
-    fireEvent.click(cancelButton);
-    expect(onCancelButtonClick).toHaveBeenCalledTimes(1);
+        fireEvent.click(actionButton);
+        expect(onActionButtonClick).toHaveBeenCalledTimes(1);
+        fireEvent.click(cancelButton);
+        expect(onCancelButtonClick).toHaveBeenCalledTimes(1);
+    });
 });

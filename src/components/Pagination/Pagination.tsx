@@ -27,6 +27,7 @@ export const Pagination = ({
     pageSizeOptions,
     showPages = true,
     showInput = false,
+    className,
 }: PaginationProps) => {
     const [mobile] = useMobile();
 
@@ -91,7 +92,7 @@ export const Pagination = ({
         .filter(Boolean);
 
     return (
-        <div className={b()}>
+        <div className={b('container', {}, className)}>
             {pagination}
             {showInput && (
                 <PaginationInput

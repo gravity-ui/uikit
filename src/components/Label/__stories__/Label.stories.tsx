@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
+import block from 'bem-cn-lite';
 
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
@@ -9,7 +10,11 @@ import {Tick as TickIcon} from '../../icons/Tick';
 import {Label} from '../Label';
 import type {LabelProps} from '../Label';
 
+import {LabelShowcase} from './LabelShowcase';
+
 import './Label.stories.scss';
+
+const b = block('label-stories');
 
 const icons = {
     '-': undefined,
@@ -49,7 +54,7 @@ Default.args = {
 
 const ThemeTemplate: StoryFn<LabelProps> = (args) => {
     return (
-        <div className="label-stories">
+        <div className={b()}>
             <Label {...args} theme="normal">
                 normal
             </Label>
@@ -79,7 +84,7 @@ export const Theme = ThemeTemplate.bind({});
 
 const SizeTemplate: StoryFn<LabelProps> = (args) => {
     return (
-        <div className="label-stories">
+        <div className={b()}>
             <Label {...args} size="xs">
                 xs
             </Label>
@@ -97,7 +102,7 @@ export const Size = SizeTemplate.bind({});
 
 const StyleTemplate: StoryFn<LabelProps> = (args) => {
     return (
-        <div className="label-stories">
+        <div className={b()}>
             <Label {...args} style="default">
                 default
             </Label>
@@ -181,55 +186,8 @@ export const Interactions: StoryFn<LabelProps> = (args) => (
     </div>
 );
 
-type WithKey<T> = T & {key: React.Key};
-
-const themes = ['normal', 'info', 'danger', 'warning', 'success', 'unknown', 'clear'] as const;
-const sizes = ['xs', 's', 'm'] as const;
-
-const getLabel = ({...args}: WithKey<LabelProps>) => <Label {...args}></Label>;
-
-const section = (args: LabelProps) => {
-    const cases: LabelProps[] = [
-        {children: 'Label', icon: icons['TickIcon'], type: 'default'},
-        {children: 'Label', type: 'default'},
-        {children: 'Label', icon: icons['TickIcon'], type: 'copy'},
-        {children: 'Label', type: 'copy'},
-        {children: 'Label', icon: icons['TickIcon'], type: 'close'},
-        {children: 'Label', type: 'close'},
-        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'default'},
-        {children: 'Key', value: 'Value', type: 'default'},
-        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'copy'},
-        {children: 'Key', value: 'Value', type: 'copy'},
-        {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'close'},
-        {children: 'Key', value: 'Value', type: 'close'},
-        {icon: icons['TickIcon']},
-    ];
-    return cases.map((label, i) => getLabel({key: i, ...args, ...label}));
-};
-
-const KeyValuesTemplate: StoryFn<LabelProps> = (args) => (
-    <div className="label-stories">
-        <div className="grid" style={{gridTemplateColumns: `repeat(${1 + themes.length}, 1fr)`}}>
-            <div></div>
-            {themes.map((theme) => (
-                <h1 key={`${theme}-header`}>{theme}</h1>
-            ))}
-            {sizes.map((size) => (
-                <React.Fragment key={size}>
-                    <h1>{size}</h1>
-                    {themes.map((theme) => (
-                        <div key={theme} className="section">
-                            {section({theme, size, ...args})}
-                        </div>
-                    ))}
-                </React.Fragment>
-            ))}
-        </div>
-    </div>
-);
-
-export const Showcase = KeyValuesTemplate.bind({});
-
+const ShowcaseTemplate: StoryFn = () => <LabelShowcase />;
+export const Showcase = ShowcaseTemplate.bind({});
 Showcase.args = {
     interactive: true,
 };

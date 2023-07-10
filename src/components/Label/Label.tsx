@@ -119,7 +119,9 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
             event.stopPropagation();
         }
 
-        if (onClose) onClose(event);
+        if (onClose) {
+            onClose(event);
+        }
     };
 
     const renderLabel = (status?: CopyToClipboardStatus) => {

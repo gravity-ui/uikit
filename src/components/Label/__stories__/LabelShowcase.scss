@@ -1,0 +1,15 @@
+.label-showcase {
+    .grid {
+        display: grid;
+        gap: 30px;
+    }
+    .section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        & > * {
+            width: min-content;
+            margin-left: unset;
+        }
+    }
+}

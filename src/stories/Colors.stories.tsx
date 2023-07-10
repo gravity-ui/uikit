@@ -7,7 +7,6 @@ import {RenderEffects} from '../demo/colors/Effects';
 import {RenderLines} from '../demo/colors/Lines';
 import {RenderMisc} from '../demo/colors/Misc';
 import {RenderPrivate} from '../demo/colors/Private';
-import {RenderPromo} from '../demo/colors/Promo';
 import {RenderTexts} from '../demo/colors/Texts';
 
 export default {
@@ -19,5 +18,4 @@ export const Backgrounds: StoryFn = () => <RenderBackgrounds />;
 export const Lines: StoryFn = () => <RenderLines />;
 export const Effects: StoryFn = () => <RenderEffects />;
 export const Misc: StoryFn = () => <RenderMisc />;
-export const Promo: StoryFn = () => <RenderPromo />;
 export const Private: StoryFn = (_, context) => <RenderPrivate theme={context.globals.theme} />;

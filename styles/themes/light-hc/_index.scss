@@ -3,7 +3,6 @@
 @import './base';
 @import './line';
 @import './sfx';
-@import './promo';
 @import './system';
 
 @mixin g-colors-light-hc {
@@ -12,6 +11,5 @@
     @include g-colors-base-light-hc;
     @include g-colors-line-light-hc;
     @include g-colors-sfx-light-hc;
-    @include g-colors-promo-light-hc;
     @include g-colors-system-light-hc;
 }

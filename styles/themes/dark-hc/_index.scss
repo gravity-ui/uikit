@@ -3,7 +3,6 @@
 @import './base';
 @import './line';
 @import './sfx';
-@import './promo';
 @import './system';
 
 @mixin g-colors-dark-hc {
@@ -12,6 +11,5 @@
     @include g-colors-base-dark-hc;
     @include g-colors-line-dark-hc;
     @include g-colors-sfx-dark-hc;
-    @include g-colors-promo-dark-hc;
     @include g-colors-system-dark-hc;
 }

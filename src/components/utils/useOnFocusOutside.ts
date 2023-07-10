@@ -13,6 +13,8 @@ interface UseOnFocusOutsideProps {
 }
 
 /**
+ * @deprecated use useFocusWithin instead
+ *
  * Calls callback on focus element outside of some React sub-tree
  *
  * @param {Object} props

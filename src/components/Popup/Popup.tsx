@@ -134,6 +134,7 @@ export function Popup({
                     {...attributes.popper}
                     {...containerProps}
                     className={b({open}, className)}
+                    tabIndex={-1}
                     data-qa={qa}
                     id={id}
                     role={role}

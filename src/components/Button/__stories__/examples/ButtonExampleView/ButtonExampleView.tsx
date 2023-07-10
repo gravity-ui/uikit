@@ -75,7 +75,7 @@ ButtonExampleViewFlat.code = `
 
 export function ButtonExampleViewSpecial() {
     return (
-        <DocsExample background="var(--yc-color-infographics-info-heavy)">
+        <DocsExample background="var(--g-color-base-brand)">
             <Button view="normal-contrast" size="l">
                 Normal
             </Button>

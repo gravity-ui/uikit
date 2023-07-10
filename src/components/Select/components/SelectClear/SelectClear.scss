@@ -12,7 +12,7 @@ $block: '.#{variables.$ns-new}select-clear';
     z-index: 1;
 
     &:focus-visible {
-        border: 1px solid var(--yc-color-line-generic-active);
+        border: 1px solid var(--g-color-line-generic-active);
     }
 
     &_size_s {
@@ -43,10 +43,10 @@ $block: '.#{variables.$ns-new}select-clear';
         --yc-button-background-color: transparent;
         --yc-button-background-color-hover: transparent;
 
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         #{$block}:hover & {
-            color: var(--yc-color-text-primary);
+            color: var(--g-color-text-primary);
         }
     }
 }

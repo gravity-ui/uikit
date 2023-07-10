@@ -324,8 +324,8 @@ $iconWidth: 16px;
         &_outlined-danger,
         &_flat-danger {
             &#{$block}_selected {
-                --yc-button-background-color: var(--g-color-base-danger);
-                --yc-button-background-color-hover: var(--g-color-base-danger-hover);
+                --yc-button-background-color: var(--g-color-base-danger-light);
+                --yc-button-background-color-hover: var(--g-color-base-danger-light-hover);
 
                 @include button-text-color(var(--g-color-text-danger));
 

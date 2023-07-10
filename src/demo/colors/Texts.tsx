@@ -134,6 +134,11 @@ const alwaysDark = [
         title: 'Dark Secondary',
         description: 'Secondary text over light background.',
     },
+    {
+        name: 'text-dark-hint',
+        title: 'Dark Hint',
+        description: 'Minimal contrast.',
+    },
 ];
 
 const alwaysLight = [

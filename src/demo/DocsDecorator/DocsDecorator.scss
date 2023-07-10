@@ -82,7 +82,7 @@ $root: '.docs-decorator';
         @include mixins.text-code-inline-2;
         line-height: 1;
         padding: 1px 4px;
-        background: var(--g-color-base-misc);
+        background: var(--g-color-base-misc-light);
         color: var(--g-color-text-misc);
     }
 

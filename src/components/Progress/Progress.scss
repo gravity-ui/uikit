@@ -58,27 +58,27 @@ $progress-xs-height: 4px;
         transition: transform 0.6s ease, width 0.6s ease, background-color 0.6s ease;
 
         &_theme_default {
-            background-color: var(--yc-color-infographics-neutral-medium);
+            background-color: var(--g-color-base-neutral-medium);
         }
 
         &_theme_success {
-            background-color: var(--yc-color-infographics-positive-medium);
+            background-color: var(--g-color-base-positive-medium);
         }
 
         &_theme_warning {
-            background-color: var(--yc-color-infographics-warning-medium);
+            background-color: var(--g-color-base-warning-medium);
         }
 
         &_theme_danger {
-            background-color: var(--yc-color-infographics-danger-medium);
+            background-color: var(--g-color-base-danger-medium);
         }
 
         &_theme_info {
-            background-color: var(--yc-color-infographics-info-medium);
+            background-color: var(--g-color-base-info-medium);
         }
 
         &_theme_misc {
-            background-color: var(--yc-color-infographics-misc-medium);
+            background-color: var(--g-color-base-misc-medium);
         }
 
         &_loading {

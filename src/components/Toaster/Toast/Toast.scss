@@ -37,41 +37,41 @@ $block: '.#{variables.$ns}toast';
 
     &_info {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-info);
+            background-color: var(--g-color-base-info-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-info);
+            color: var(--g-color-text-info);
         }
     }
 
     &_success {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-positive);
+            background-color: var(--g-color-base-positive-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-positive);
+            color: var(--g-color-text-positive);
         }
     }
 
     &_warning {
         & #{$containerClass}:before {
-            background-color: var(--g-color-base-warning);
+            background-color: var(--g-color-base-warning-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-warning);
+            color: var(--g-color-text-warning);
         }
     }
 
     &_error {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-danger);
+            background-color: var(--g-color-base-danger-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-danger);
+            color: var(--g-color-text-danger);
         }
     }
 

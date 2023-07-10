@@ -2,9 +2,7 @@
 @import './text';
 @import './base';
 @import './line';
-@import './infographics';
 @import './sfx';
-@import './promo';
 @import './system';
 
 @mixin g-colors-light {
@@ -12,8 +10,6 @@
     @include g-colors-text-light;
     @include g-colors-base-light;
     @include g-colors-line-light;
-    @include g-colors-infographics-light;
     @include g-colors-sfx-light;
-    @include g-colors-promo-light;
     @include g-colors-system-light;
 }

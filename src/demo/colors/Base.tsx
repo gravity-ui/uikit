@@ -80,70 +80,80 @@ const specials = [
     },
 ];
 
-const semantic = [
+const semanticLight = [
     {
-        name: 'base-info',
-        title: 'Info',
+        name: 'base-info-light',
+        title: 'Info Light',
         description: 'Info semantic background.',
     },
     {
-        name: 'base-info-hover',
-        title: 'Info Hover',
+        name: 'base-info-light-hover',
+        title: 'Info Light Hover',
         description: 'Hover for Info.',
     },
     {
-        name: 'base-positive',
-        title: 'Positive',
+        name: 'base-positive-light',
+        title: 'Positive Light',
         description: 'Positive semantic background.',
     },
     {
-        name: 'base-positive-hover',
-        title: 'Positive Hover',
+        name: 'base-positive-light-hover',
+        title: 'Positive Light Hover',
         description: 'Hover for Positive.',
     },
     {
-        name: 'base-warning',
-        title: 'Warning.',
+        name: 'base-warning-light',
+        title: 'Warning Light.',
         description: 'Warning semantic background.',
     },
     {
-        name: 'base-warning-hover',
-        title: 'Warning Hover',
+        name: 'base-warning-light-hover',
+        title: 'Warning Light Hover',
         description: 'Hover for Warning.',
     },
     {
-        name: 'base-danger',
-        title: 'Danger',
+        name: 'base-danger-light',
+        title: 'Danger Light',
         description: 'Negative semantic background.',
     },
     {
-        name: 'base-danger-hover',
-        title: 'Danger Hover',
+        name: 'base-danger-light-hover',
+        title: 'Danger Light Hover',
         description: 'Hover for Danger.',
     },
     {
-        name: 'base-misc',
-        title: 'Misc',
+        name: 'base-misc-light',
+        title: 'Misc Light',
         description: 'Uncategorized semantic background.',
     },
     {
-        name: 'base-misc-hover',
-        title: 'Misc Hover',
+        name: 'base-misc-light-hover',
+        title: 'Misc Light Hover',
         description: 'Hover for Misc.',
     },
     {
-        name: 'base-neutral',
-        title: 'Neutral',
+        name: 'base-neutral-light',
+        title: 'Neutral Light',
         description: 'Neutral semantic background.',
     },
     {
-        name: 'base-neutral-hover',
-        title: 'Neutral Hover',
+        name: 'base-neutral-light-hover',
+        title: 'Neutral Light Hover',
         description: 'Hover for Neutral.',
     },
 ];
 
 const semanticMedium = [
+    {
+        name: 'base-info-medium',
+        title: 'Info Medium',
+        description: 'Info semantic background, medium accent.',
+    },
+    {
+        name: 'base-info-medium-hover',
+        title: 'Info Medium Hover',
+        description: 'Hover for Info Medium.',
+    },
     {
         name: 'base-positive-medium',
         title: 'Positive Medium',
@@ -154,6 +164,46 @@ const semanticMedium = [
         title: 'Positive Medium Hover',
         description: 'Hover for Positive Medium.',
     },
+    {
+        name: 'base-warning-medium',
+        title: 'Warning Medium',
+        description: 'Warning semantic background, medium accent.',
+    },
+    {
+        name: 'base-warning-medium-hover',
+        title: 'Warning Medium Hover',
+        description: 'Hover for Warning Medium.',
+    },
+    {
+        name: 'base-danger-medium',
+        title: 'Danger Medium',
+        description: 'Danger semantic background, medium accent.',
+    },
+    {
+        name: 'base-danger-medium-hover',
+        title: 'Danger Medium Hover',
+        description: 'Hover for Danger Medium.',
+    },
+    {
+        name: 'base-misc-medium',
+        title: 'Misc Medium',
+        description: 'Uncategorized semantic background, medium accent.',
+    },
+    {
+        name: 'base-misc-medium-hover',
+        title: 'Misc Medium Hover',
+        description: 'Hover for Misc Medium.',
+    },
+    {
+        name: 'base-neutral-medium',
+        title: 'Neutral Medium',
+        description: 'Neutral semantic background, medium accent.',
+    },
+    {
+        name: 'base-neutral-medium-hover',
+        title: 'Neutral Medium Hover',
+        description: 'Hover for Neutral Medium.',
+    },
 ];
 
 const semanticHeavy = [
@@ -163,9 +213,19 @@ const semanticHeavy = [
         description: 'Info semantic background, strong accent.',
     },
     {
+        name: 'base-info-heavy-hover',
+        title: 'Info Heavy Hover',
+        description: 'Hover for Info Heavy.',
+    },
+    {
         name: 'base-positive-heavy',
         title: 'Positive Heavy',
         description: 'Positive semantic background, strong accent.',
+    },
+    {
+        name: 'base-positive-heavy-hover',
+        title: 'Positive Heavy Hover',
+        description: 'Hover for Positive Heavy.',
     },
     {
         name: 'base-warning-heavy',
@@ -196,6 +256,16 @@ const semanticHeavy = [
         name: 'base-misc-heavy-hover',
         title: 'Misc Heavy Hover',
         description: 'Hover for Misc Heavy.',
+    },
+    {
+        name: 'base-neutral-heavy',
+        title: 'Neutral Heavy',
+        description: 'Neutral semantic background, strong accent.',
+    },
+    {
+        name: 'base-neutral-heavy-hover',
+        title: 'Neutral Heavy Hover',
+        description: 'Hover for Neutral Heavy.',
     },
 ];
 
@@ -274,7 +344,11 @@ export const RenderBackgrounds = () => (
             colors={specials}
             boxBorders={true}
         />
-        <ColorPanel title="Semantic" description="Colored blocks, states, etc." colors={semantic} />
+        <ColorPanel
+            title="Light Semantic"
+            description="Colored blocks, states, etc."
+            colors={semanticLight}
+        />
         <ColorPanel
             title="Medium semantic"
             description="More explicit than Semantic palette."

@@ -126,7 +126,7 @@ export function ListShowcase() {
                         style={{
                             position: 'relative',
                             zIndex: 2000,
-                            background: 'var(--yc-color-base)',
+                            background: 'var(--g-color-base-background)',
                         }}
                     >
                         <div className={b('subtitle')}>{'Non virtualized sortable list'}</div>

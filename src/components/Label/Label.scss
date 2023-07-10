@@ -150,48 +150,48 @@ $transitionTimingFunction: ease-in-out;
     &_theme {
         &_normal {
             @include themeState(
-                var(--g-color-base-misc),
-                var(--g-color-base-misc-hover),
+                var(--g-color-base-misc-light),
+                var(--g-color-base-misc-light-hover),
                 var(--g-color-text-misc-heavy)
             );
         }
 
         &_success {
             @include themeState(
-                var(--g-color-base-positive),
-                var(--g-color-base-positive-hover),
+                var(--g-color-base-positive-light),
+                var(--g-color-base-positive-light-hover),
                 var(--g-color-text-positive-heavy)
             );
         }
 
         &_info {
             @include themeState(
-                var(--g-color-base-info),
-                var(--g-color-base-info-hover),
+                var(--g-color-base-info-light),
+                var(--g-color-base-info-light-hover),
                 var(--g-color-text-info-heavy)
             );
         }
 
         &_warning {
             @include themeState(
-                var(--g-color-base-warning),
-                var(--g-color-base-warning-hover),
+                var(--g-color-base-warning-light),
+                var(--g-color-base-warning-light-hover),
                 var(--g-color-text-warning-heavy)
             );
         }
 
         &_danger {
             @include themeState(
-                var(--g-color-base-danger),
-                var(--g-color-base-danger-hover),
+                var(--g-color-base-danger-light),
+                var(--g-color-base-danger-light-hover),
                 var(--g-color-text-danger-heavy)
             );
         }
 
         &_unknown {
             @include themeState(
-                var(--g-color-base-neutral),
-                var(--g-color-base-neutral-hover),
+                var(--g-color-base-neutral-light),
+                var(--g-color-base-neutral-light-hover),
                 var(--g-color-text-complementary)
             );
         }

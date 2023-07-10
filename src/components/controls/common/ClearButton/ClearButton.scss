@@ -7,9 +7,9 @@ $block: '.#{variables.$ns-new}clear-button';
     --yc-button-background-color-hover: transparent;
 
     margin: auto 0;
-    color: var(--yc-color-text-hint);
+    color: var(--g-color-text-hint);
 
     &:hover {
-        color: var(--yc-color-text-primary);
+        color: var(--g-color-text-primary);
     }
 }

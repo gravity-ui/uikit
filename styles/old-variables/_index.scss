@@ -5,6 +5,7 @@
 @use './sfx';
 @use './system';
 @use './text';
+@use './infographics';
 
 @mixin g-variables-fallback {
     @include typography.variables;
@@ -14,4 +15,5 @@
     @include sfx.variables;
     @include system.variables;
     @include text.variables;
+    @include infographics.variables;
 }

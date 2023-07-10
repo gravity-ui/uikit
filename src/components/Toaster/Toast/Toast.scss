@@ -34,21 +34,21 @@ $block: '.#{variables.$ns}toast';
 
     &_info {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-info-light);
+            background-color: var(--g-color-base-info-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-info-heavy);
+            color: var(--g-color-base-info-heavy);
         }
     }
 
     &_success {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-positive-light);
+            background-color: var(--g-color-base-positive-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-positive-heavy);
+            color: var(--g-color-base-positive-heavy);
         }
     }
 
@@ -58,17 +58,17 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-warning-heavy);
+            color: var(--g-color-base-warning-heavy);
         }
     }
 
     &_error {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-infographics-danger-light);
+            background-color: var(--g-color-base-danger-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-infographics-danger-heavy);
+            color: var(--g-color-base-danger-heavy);
         }
     }
 

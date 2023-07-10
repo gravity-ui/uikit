@@ -2,7 +2,6 @@
 @import './text';
 @import './base';
 @import './line';
-@import './infographics';
 @import './sfx';
 @import './promo';
 @import './system';
@@ -12,7 +11,6 @@
     @include g-colors-text-light-hc;
     @include g-colors-base-light-hc;
     @include g-colors-line-light-hc;
-    @include g-colors-infographics-light-hc;
     @include g-colors-sfx-light-hc;
     @include g-colors-promo-light-hc;
     @include g-colors-system-light-hc;

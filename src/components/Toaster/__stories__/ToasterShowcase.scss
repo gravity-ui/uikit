@@ -7,19 +7,19 @@
 
     &__icon {
         &_info {
-            color: var(--yc-color-infographics-info-heavy);
+            color: var(--g-color-base-info-heavy);
         }
 
         &_success {
-            color: var(--yc-color-infographics-positive-heavy);
+            color: var(--g-color-base-positive-heavy);
         }
 
         &_warning {
-            color: var(--yc-color-infographics-warning-heavy);
+            color: var(--g-color-base-warning-heavy);
         }
 
         &_error {
-            color: var(--yc-color-infographics-danger-heavy);
+            color: var(--g-color-base-danger-heavy);
         }
     }
 }

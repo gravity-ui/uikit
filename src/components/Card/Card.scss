@@ -74,7 +74,7 @@ $block: '.#{variables.$ns}card';
                 border: 1px solid var(--g-color-line-info);
             }
             &#{$block}_view_filled {
-                background-color: var(--g-color-base-info);
+                background-color: var(--g-color-base-info-light);
             }
         }
 
@@ -83,7 +83,7 @@ $block: '.#{variables.$ns}card';
                 border: 1px solid var(--g-color-line-positive);
             }
             &#{$block}_view_filled {
-                background-color: var(--g-color-base-positive);
+                background-color: var(--g-color-base-positive-light);
             }
         }
 
@@ -92,7 +92,7 @@ $block: '.#{variables.$ns}card';
                 border: 1px solid var(--g-color-line-warning);
             }
             &#{$block}_view_filled {
-                background-color: var(--g-color-base-warning);
+                background-color: var(--g-color-base-warning-light);
             }
         }
 
@@ -101,7 +101,7 @@ $block: '.#{variables.$ns}card';
                 border: 1px solid var(--g-color-line-danger);
             }
             &#{$block}_view_filled {
-                background-color: var(--g-color-base-danger);
+                background-color: var(--g-color-base-danger-light);
             }
         }
 

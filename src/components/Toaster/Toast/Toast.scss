@@ -54,7 +54,7 @@ $block: '.#{variables.$ns}toast';
 
     &_warning {
         & #{$containerClass}:before {
-            background-color: var(--g-color-base-warning);
+            background-color: var(--g-color-base-warning-light);
         }
 
         & #{$iconClass} {

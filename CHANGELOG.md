@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.23.0](https://github.com/gravity-ui/uikit/compare/v4.22.1...v4.23.0) (2023-07-07)
+
+
+### Features
+
+* **Button:** use `aria-pressed` attribute for selected ([#799](https://github.com/gravity-ui/uikit/issues/799)) ([36490a9](https://github.com/gravity-ui/uikit/commit/36490a95ab7c17b04087410da45b7ade0c1cdb22))
+* **Card:** added accessibility via keyboard ([#771](https://github.com/gravity-ui/uikit/issues/771)) ([24113e3](https://github.com/gravity-ui/uikit/commit/24113e312d094a0d0668fb3f9334dc2b2c459959))
+* **Toaster:** new look ([#746](https://github.com/gravity-ui/uikit/issues/746)) ([5a9054e](https://github.com/gravity-ui/uikit/commit/5a9054ebba053d656b677c979fb1b99b77cb5113))
+
 ## [4.22.1](https://github.com/gravity-ui/uikit/compare/v4.22.0...v4.22.1) (2023-07-03)
 
 

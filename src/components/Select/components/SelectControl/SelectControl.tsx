@@ -5,7 +5,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import {Icon} from '../../../Icon';
 import type {CnMods} from '../../../utils/cn';
-import {useForkRef} from '../../../utils/useForkRef';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
 import type {
     SelectProps,
@@ -36,7 +35,7 @@ type ControlProps = {
     hasClear?: boolean;
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
-export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props, ref) => {
+export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
         toggleOpen,
         clearValue,
@@ -57,8 +56,6 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
         value,
         hasClear,
     } = props;
-    const controlRef = React.useRef<HTMLElement>(null);
-    const handleControlRef = useForkRef<HTMLElement>(ref, controlRef);
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const hasValue = Array.isArray(value) && !isEmpty(value.filter(Boolean));
@@ -118,7 +115,7 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
             {
                 onKeyDown,
                 onClick: toggleOpen,
-                ref: handleControlRef,
+                ref,
                 open: Boolean(open),
                 renderClear: (arg) => renderClearIcon(arg),
             },
@@ -128,8 +125,9 @@ export const SelectControl = React.forwardRef<HTMLElement, ControlProps>((props,
 
     return (
         <React.Fragment>
-            <div className={selectControlBlock(controlMods)} ref={handleControlRef} role="group">
+            <div className={selectControlBlock(controlMods)} role="group">
                 <button
+                    ref={ref}
                     className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"
                     aria-expanded={open}

@@ -4,8 +4,8 @@ import type {List} from '../List';
 import {KeyCode} from '../constants';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
+import {useFocusWithin} from '../utils/interactions';
 import {useForkRef} from '../utils/useForkRef';
-import {useOnFocusOutside} from '../utils/useOnFocusOutside';
 import {useSelect} from '../utils/useSelect';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
@@ -201,14 +201,23 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     }
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
-    const {onFocus, onBlur} = useOnFocusOutside({enabled: open, onFocusOutside: handleClose});
+    const {onFocus, onBlur} = props;
+    const {focusWithinProps} = useFocusWithin({
+        onFocusWithin: onFocus,
+        onBlurWithin: React.useCallback(
+            (e: React.FocusEvent) => {
+                onBlur?.(e);
+                handleClose();
+            },
+            [handleClose, onBlur],
+        ),
+    });
 
     return (
         <div
             ref={controlWrapRef}
             className={selectBlock(mods, className)}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            {...focusWithinProps}
             style={inlineStyles}
         >
             <SelectControl

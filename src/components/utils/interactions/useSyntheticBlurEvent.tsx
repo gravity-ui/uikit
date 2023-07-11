@@ -47,7 +47,9 @@ export function useSyntheticBlurEvent(onBlur?: React.FocusEventHandler) {
                         stateRef.current.observer = null;
                     }
                 };
-                //@ts-expect-error
+
+                // TS can't resolve correct definition for addEventListener when target is union type
+                // @ts-expect-error
                 target.addEventListener('focusout', handleBlur, {once: true});
 
                 const observer = new MutationObserver(() => {

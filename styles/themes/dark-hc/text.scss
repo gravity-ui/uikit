@@ -1,8 +1,8 @@
 @mixin g-colors-text-dark-hc {
-    --g-color-text-primary: var(--g-color-private-white-1000-solid);
-    --g-color-text-complementary: var(--g-color-private-white-800);
-    --g-color-text-secondary: var(--g-color-private-white-600);
-    --g-color-text-hint: var(--g-color-private-white-400);
+    --g-color-text-primary: var(--g-color-text-light-primary);
+    --g-color-text-complementary: var(--g-color-text-light-complementary);
+    --g-color-text-secondary: var(--g-color-text-light-secondary);
+    --g-color-text-hint: var(--g-color-text-light-hint);
 
     --g-color-text-info: var(--g-color-private-blue-650-solid);
     --g-color-text-positive: var(--g-color-private-green-650-solid);

@@ -102,9 +102,8 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     };
 
     const icon = renderIcon ? renderIcon(props) : renderIconByType({type});
-
     return (
-        <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps}>
+        <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
             {icon && <div className={b('icon-container')}>{icon}</div>}
             <div className={b('container')}>
                 <h3 className={b('title')}>{title}</h3>

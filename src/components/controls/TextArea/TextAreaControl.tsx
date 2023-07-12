@@ -12,6 +12,19 @@ type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange'> & {
 
 const b = blockNew('text-area');
 
+const calculateLinesByScrollHeight = (args: {
+    height: number;
+    paddingTop: number;
+    paddingBottom: number;
+    lineHeight: number;
+}) => {
+    const {height, lineHeight} = args;
+    const paddingTop = Number.isNaN(args.paddingTop) ? 0 : args.paddingTop;
+    const paddingBottom = Number.isNaN(args.paddingBottom) ? 0 : args.paddingBottom;
+
+    return (height - paddingTop - paddingBottom) / lineHeight;
+};
+
 export function TextAreaControl(props: Props) {
     const {
         name,
@@ -48,25 +61,28 @@ export function TextAreaControl(props: Props) {
             const controlStyles = getComputedStyle(control);
             const lineHeight = parseInt(controlStyles.getPropertyValue('line-height'), 10);
             const paddingTop = parseInt(controlStyles.getPropertyValue('padding-top'), 10);
+            const paddingBottom = parseInt(controlStyles.getPropertyValue('padding-bottom'), 10);
             const linesWithCarriageReturn = (innerValue?.match(/\n/g) || []).length + 1;
-            const linesByScrollHeight = Math.floor(control.scrollHeight / lineHeight);
+            const linesByScrollHeight = calculateLinesByScrollHeight({
+                height: control.scrollHeight,
+                paddingTop,
+                paddingBottom,
+                lineHeight,
+            });
+
+            control.style.height = 'auto';
 
             if (maxRows && maxRows < Math.max(linesByScrollHeight, linesWithCarriageReturn)) {
-                control.style.height = 'auto';
                 control.style.height = `${maxRows * lineHeight + 2 * paddingTop}px`;
-            } else {
-                control.style.height = 'auto';
-                control.style.height =
-                    linesWithCarriageReturn > 1 || linesByScrollHeight > 1
-                        ? `${control.scrollHeight}px`
-                        : ''; // Set falsy value to use styles from css
+            } else if (linesWithCarriageReturn > 1 || linesByScrollHeight > 1) {
+                control.style.height = `${control.scrollHeight}px`;
             }
         }
     }, [rows, maxRows, innerValue]);
 
     React.useEffect(() => {
         resizeHeight();
-    }, [resizeHeight, size]);
+    }, [resizeHeight, size, value]);
 
     return (
         <textarea

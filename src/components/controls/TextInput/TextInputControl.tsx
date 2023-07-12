@@ -34,8 +34,8 @@ export function TextInputControl(props: Props) {
 
     return (
         <input
-            {...(controlProps as React.InputHTMLAttributes<HTMLInputElement>)}
-            ref={controlRef as React.Ref<HTMLInputElement>}
+            {...controlProps}
+            ref={controlRef}
             className={b('control', {type: 'input'}, controlProps?.className)}
             type={type}
             name={name}

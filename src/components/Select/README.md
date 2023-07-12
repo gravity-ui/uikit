@@ -30,6 +30,8 @@
 | filterable                      | `boolean`                               | `false`         | Indicates that select popup have filter section                                                            |
 | disabled                        | `boolean`                               | `false`         | Indicates that the user cannot interact with the control                                                   |
 | hasClear                        | `boolean`                               | `false`         | Enable displaying icon for clear selected options                                                          |
+| onFocus                         | `function`                              | `-`             | Handler that is called when the element receives focus.                                                    |
+| onBlur                          | `function`                              | `-`             | Handler that is called when the element loses focus.                                                       |
 
 ---
 

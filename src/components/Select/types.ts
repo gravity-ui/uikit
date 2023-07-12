@@ -74,6 +74,8 @@ export type SelectProps<T = any> = QAProps &
         filterable?: boolean;
         disablePortal?: boolean;
         hasClear?: boolean;
+        onFocus?: (e: React.FocusEvent) => void;
+        onBlur?: (e: React.FocusEvent) => void;
         children?:
             | React.ReactElement<SelectOption<T>, typeof Option>
             | React.ReactElement<SelectOption<T>, typeof Option>[]

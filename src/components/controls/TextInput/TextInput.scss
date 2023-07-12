@@ -87,6 +87,10 @@ $block: '.#{variables.$ns}text-input';
         z-index: 1;
     }
 
+    &__clear {
+        flex-shrink: 0;
+    }
+
     &__error {
         @include mixins.text-body-1();
 

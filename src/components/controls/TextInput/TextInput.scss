@@ -65,6 +65,8 @@ $block: '.#{variables.$ns}text-input';
 
         &::placeholder {
             color: var(--g-color-text-hint);
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         &:focus {

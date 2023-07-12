@@ -35,6 +35,8 @@ $block: '.#{variables.$ns-new}text-area';
 
         &::placeholder {
             color: var(--g-color-text-hint);
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         &:focus {

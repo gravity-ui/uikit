@@ -180,7 +180,7 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
             <div className={b('result')}>
                 <Card view="filled" theme="normal" className={b('result-card')}>
                     <div className={b('result-text')}>{resultText}</div>
-                    <ClipboardButton text={resultText} size={28} className={b('result-copy')} />
+                    <ClipboardButton text={resultText} size={16} className={b('result-copy')} />
                 </Card>
             </div>
         </div>

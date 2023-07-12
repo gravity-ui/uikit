@@ -192,7 +192,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 )}
                 <TextInputControl {...props} {...commonProps} controlRef={handleRef} />
                 {isClearControlVisible && (
-                    <ClearButton size={mapTextInputSizeToButtonSize(size)} onClick={handleClear} />
+                    <ClearButton
+                        size={mapTextInputSizeToButtonSize(size)}
+                        onClick={handleClear}
+                        className={b('clear')}
+                    />
                 )}
                 {isRightContentVisible && (
                     <AdditionalContent placement="right" onClick={handleAdditionalContentClick}>

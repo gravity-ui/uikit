@@ -1,5 +1,5 @@
 @mixin g-colors-base-dark-hc {
-    --g-color-base-background: var(--g-color-private-black-rock-950);
+    --g-color-base-background: rgb(18, 17, 18);
     --g-color-base-generic: var(--g-color-private-white-100);
     --g-color-base-generic-hover: var(--g-color-private-white-250);
     --g-color-base-generic-medium: var(--g-color-private-white-250);
@@ -10,10 +10,10 @@
     --g-color-base-simple-hover: var(--g-color-private-white-250);
     --g-color-base-simple-hover-solid: var(--g-color-private-white-250-solid);
 
-    --g-color-base-selection: var(--g-color-private-blue-350);
-    --g-color-base-selection-hover: var(--g-color-private-blue-600-solid);
-    --g-color-base-brand: var(--g-color-private-blue-450-solid);
-    --g-color-base-brand-hover: var(--g-color-private-blue-650-solid);
+    --g-color-base-brand: var(--g-color-private-yellow-550-solid);
+    --g-color-base-brand-hover: var(--g-color-private-yellow-700-solid);
+    --g-color-base-selection: var(--g-color-private-yellow-150);
+    --g-color-base-selection-hover: var(--g-color-private-yellow-200);
 
     --g-color-base-info-light: var(--g-color-private-blue-250);
     --g-color-base-info-light-hover: var(--g-color-private-blue-400);
@@ -72,5 +72,5 @@
 
     --g-color-base-float-announcement: var(--g-color-private-white-200-solid);
 
-    --g-color-base-modal: var(--g-color-private-black-rock-850);
+    --g-color-base-modal: var(--g-color-base-background);
 }

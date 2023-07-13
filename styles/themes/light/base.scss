@@ -10,20 +10,20 @@
     --g-color-base-simple-hover: var(--g-color-private-black-50);
     --g-color-base-simple-hover-solid: var(--g-color-private-black-50-solid);
 
-    --g-color-base-selection: var(--g-color-private-blue-50);
-    --g-color-base-selection-hover: var(--g-color-private-blue-100);
-    --g-color-base-brand: var(--g-color-private-blue-550-solid);
-    --g-color-base-brand-hover: var(--g-color-private-blue-600-solid);
+    --g-color-base-brand: var(--g-color-private-yellow-550-solid);
+    --g-color-base-brand-hover: var(--g-color-private-yellow-600-solid);
+    --g-color-base-selection: var(--g-color-private-yellow-100);
+    --g-color-base-selection-hover: var(--g-color-private-yellow-200);
 
     --g-color-base-info-light: var(--g-color-private-blue-100);
-    --g-color-base-info-light-hover: var(--g-color-private-blue-150);
+    --g-color-base-info-light-hover: var(--g-color-private-blue-200);
     --g-color-base-info-medium: var(--g-color-private-blue-200);
     --g-color-base-info-medium-hover: var(--g-color-private-blue-300);
     --g-color-base-info-heavy: var(--g-color-private-blue-600-solid);
     --g-color-base-info-heavy-hover: var(--g-color-private-blue-700-solid);
 
     --g-color-base-positive-light: var(--g-color-private-green-100);
-    --g-color-base-positive-light-hover: var(--g-color-private-green-150);
+    --g-color-base-positive-light-hover: var(--g-color-private-green-200);
     --g-color-base-positive-medium: var(--g-color-private-green-200);
     --g-color-base-positive-medium-hover: var(--g-color-private-green-300);
     --g-color-base-positive-heavy: var(--g-color-private-green-600-solid);
@@ -37,7 +37,7 @@
     --g-color-base-warning-heavy-hover: var(--g-color-private-yellow-650-solid);
 
     --g-color-base-danger-light: var(--g-color-private-red-100);
-    --g-color-base-danger-light-hover: var(--g-color-private-red-150);
+    --g-color-base-danger-light-hover: var(--g-color-private-red-200);
     --g-color-base-danger-medium: var(--g-color-private-red-200);
     --g-color-base-danger-medium-hover: var(--g-color-private-red-300);
     --g-color-base-danger-heavy: var(--g-color-private-red-600-solid);
@@ -51,7 +51,7 @@
     --g-color-base-neutral-heavy-hover: var(--g-color-private-black-550);
 
     --g-color-base-misc-light: var(--g-color-private-cool-grey-100);
-    --g-color-base-misc-light-hover: var(--g-color-private-cool-grey-150);
+    --g-color-base-misc-light-hover: var(--g-color-private-cool-grey-200);
     --g-color-base-misc-medium: var(--g-color-private-cool-grey-200);
     --g-color-base-misc-medium-hover: var(--g-color-private-cool-grey-300);
     --g-color-base-misc-heavy: var(--g-color-private-cool-grey-600-solid);
@@ -69,5 +69,5 @@
     --g-color-base-float-accent: var(--g-color-private-white-1000-solid);
     --g-color-base-float-accent-hover: var(--g-color-private-white-850);
     --g-color-base-float-announcement: var(--g-color-private-cool-grey-50-solid);
-    --g-color-base-modal: var(--g-color-private-white-1000-solid);
+    --g-color-base-modal: var(--g-color-base-background);
 }

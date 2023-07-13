@@ -3,7 +3,6 @@ import {DocsSource} from '../../../demo/DocsSource/DocsSource';
 import {
     LabelExampleViewTheme,
     LabelExampleViewType,
-    LabelExampleViewStyle,
     LabelExampleViewIcon,
     LabelExampleValue,
     LabelExampleState,
@@ -27,7 +26,6 @@ import {Label} from '@gravity-ui/uikit';
 
 -   [Theme](#theme)
 -   [Type](#type)
--   [Style](#style)
 -   [Icon](#icon)
 
 [Label value](#label-value)
@@ -50,7 +48,6 @@ Label can be displayed with multiple styled combination
 
 -   theme (`normal`, `info`, `danger`, `warning`, `success`, `unknown`, `clear`)
 -   type (`default`, `copy`, `close`)
--   style (`default`, `rounded`)
 
 ### Theme
 
@@ -65,13 +62,6 @@ Used for add close or copy button after label for user interaction. Button of co
 
 <DocsSource language="tsx" code={LabelExampleViewType.code} />
 <LabelExampleViewType />
-
-### Style
-
-Used for specify rounded border label style.
-
-<DocsSource language="tsx" code={LabelExampleViewStyle.code} />
-<LabelExampleViewStyle />
 
 ### Icon
 
@@ -89,7 +79,7 @@ Label with value property for display key-value pairs. Can be useful for display
 
 ## States
 
-<DocsSource language="tsx" code={LabelExampleSize.code} />
+<DocsSource language="tsx" code={LabelExampleState.code} />
 <LabelExampleState />
 
 1. Default – The main state of a label without interactive.

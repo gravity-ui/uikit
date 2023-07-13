@@ -69,33 +69,6 @@ LabelExampleViewType.code = `
 <Label type="copy" copyText="Copy" onCopy={() => alert('On click copy')}  size="s">Click on copy</Label>
 `.trim();
 
-export function LabelExampleViewStyle() {
-    return (
-        <Unstyled>
-            <DocsExample>
-                <Label style="default" size="xs">
-                    Default style
-                </Label>
-                <Label style="rounded" size="xs">
-                    Rounded style XS
-                </Label>
-                <Label style="rounded" size="s">
-                    Rounded style S
-                </Label>
-                <Label style="rounded" size="m">
-                    Rounded style M
-                </Label>
-            </DocsExample>
-        </Unstyled>
-    );
-}
-LabelExampleViewStyle.code = `
-<Label style="default" size="xs">Default style</Label>
-<Label style="rounded" size="xs">Rounded style XS</Label>
-<Label style="rounded" size="s">Rounded style S</Label>
-<Label style="rounded" size="m">Rounded style M</Label>
-`.trim();
-
 export function LabelExampleViewIcon() {
     return (
         <Unstyled>
@@ -161,7 +134,7 @@ export function LabelExampleState() {
         </Unstyled>
     );
 }
-LabelExampleSize.code = `
+LabelExampleState.code = `
 <Label size="s">Default</Label>
 <Label size="s" disabled>Disabled</Label>
 <Label size="s" interactive>Interactive</Label>

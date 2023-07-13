@@ -12,7 +12,6 @@ export default {
         theme: 'normal',
         type: 'default',
         size: 's',
-        style: 'default',
         disabled: false,
         interactive: false,
     },
@@ -27,10 +26,6 @@ export default {
         },
         size: {
             options: ['xs', 's', 'm'],
-            control: {type: 'radio'},
-        },
-        style: {
-            options: ['default', 'rounded'],
             control: {type: 'radio'},
         },
         disabled: {

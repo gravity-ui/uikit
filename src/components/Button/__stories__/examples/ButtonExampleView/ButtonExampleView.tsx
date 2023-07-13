@@ -219,32 +219,32 @@ export function ButtonExampleEachPin() {
     return (
         <DocsExample gap="l" space="l">
             <Button view="action" pin="brick-brick">
-                brick
+                brick-brick
             </Button>
             <Button view="action" pin="brick-round">
-                round
+                brick-round
             </Button>
             <Button view="action" pin="brick-circle">
-                circle
+                brick-circle
             </Button>
             <Button view="outlined-info" pin="brick-clear">
-                clear
+                brick-clear
             </Button>
         </DocsExample>
     );
 }
 ButtonExampleEachPin.code = `
 <Button view="action" pin="brick-brick">
-    brick  
+    brick-brick  
 </Button>
 <Button view="action" pin="brick-round">
-    round
+brick-round
 </Button>
 <Button view="action" pin="brick-circle">
-    circle
+brick-circle
 </Button>
 <Button view="outlined-info" pin="brick-clear">
-    clear
+brick-clear
 </Button>
 `.trim();
 

@@ -5,8 +5,8 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {Tick as TickIcon} from '../../icons/Tick';
-import {Disclosure} from '../Disclosure';
-import type {DisclosureProps} from '../Disclosure';
+import type {DisclosureProps} from '../index';
+import {Disclosure} from '../index';
 
 import './Disclosure.stories.scss';
 
@@ -28,7 +28,7 @@ export const Default = DefaultTemplate.bind({});
 
 const SizeTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
-        <div className="label-stories">
+        <div className="disclosure-stories">
             <Disclosure {...args} size="m">
                 m
             </Disclosure>
@@ -46,7 +46,7 @@ export const Size = SizeTemplate.bind({});
 
 const ArrowPositionTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
-        <div className="label-stories">
+        <div className="disclosure-stories">
             <Disclosure {...args} arrowPosition="left" />
             <Disclosure {...args} arrowPosition="right" />
         </div>
@@ -57,7 +57,7 @@ export const ArrowPosition = ArrowPositionTemplate.bind({});
 
 const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
-        <div className="label-stories">
+        <div className="disclosure-stories">
             <Disclosure {...args}>
                 <Disclosure.Summary>
                     {(props) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
+import {blockNew} from '../utils/cn';
 import {isOfType} from '../utils/isOfType';
 
 import {DisclosureProvider} from './DisclosureContext';
@@ -9,7 +9,7 @@ import {DefaultDisclosureSummary, DisclosureSummary} from './DisclosureSummary/D
 
 import './Disclosure.scss';
 
-export const b = block('disclosure');
+export const b = blockNew('disclosure');
 
 export type DisclosureSize = 'm' | 'l' | 'xl';
 export type DisclosureArrowPosition = 'left' | 'right';

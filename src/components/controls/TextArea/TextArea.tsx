@@ -10,7 +10,7 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {getInputControlState, prepareAutoComplete} from '../utils';
+import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -47,6 +47,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         disabled = false,
         hasClear = false,
         error,
+        errorMessage,
+        validationState,
         autoComplete,
         id: originalId,
         tabIndex,
@@ -57,16 +59,23 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         onUpdate,
         onChange,
     } = props;
+
+    const {errorMessageProp, validationStateProp} = errorPropsMapper({
+        error,
+        errorMessage,
+        validationState,
+    });
+
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
-    const state = getInputControlState({error});
+    const state = getInputControlState(validationStateProp);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const innerId = useUniqId();
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isErrorMsgVisible = typeof error === 'string';
+    const isErrorMsgVisible = Boolean(errorMessageProp);
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
@@ -156,7 +165,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                     />
                 )}
             </span>
-            {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
+            {isErrorMsgVisible && <div className={b('error')}>{errorMessageProp}</div>}
         </span>
     );
 });

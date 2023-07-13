@@ -16,21 +16,6 @@ describe('TextInput input', () => {
                 expect(input.tagName.toLowerCase()).toBe('input');
             });
 
-            test('render error message with error prop', () => {
-                const {container} = render(<TextInput error="Some Error" />);
-
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
-                expect(screen.getByText('Some Error')).toBeVisible();
-            });
-
-            test('do not show error without error prop', () => {
-                const {container} = render(<TextInput />);
-
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
-            });
-
             test('check clear button visibility with hasClear prop', async () => {
                 render(<TextInput hasClear />);
                 const user = userEvent.setup();
@@ -82,6 +67,94 @@ describe('TextInput input', () => {
                 }
 
                 expect(onChangeFn).toBeCalled();
+            });
+        });
+
+        describe('error', () => {
+            test('render error message with error prop', () => {
+                const {container} = render(<TextInput error="Some Error" />);
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
+                expect(screen.getByText('Some Error')).toBeVisible();
+            });
+
+            test('render error message with errorMessage prop', () => {
+                const {container} = render(
+                    <TextInput errorMessage="Some Error with errorMessage prop" />,
+                );
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
+                expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
+            });
+
+            test('render error icon if tooltip option is selected for errorPlacement prop', () => {
+                const {container} = render(
+                    <TextInput errorMessage="Some Error" errorPlacement="tooltip" />,
+                );
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error-icon')).toBeInTheDocument();
+            });
+
+            test('do not show error without error/errorMessage prop', () => {
+                const {container} = render(<TextInput />);
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+            });
+
+            test('do not show error message if error prop value is an empty string', () => {
+                const {container} = render(<TextInput error={''} />);
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+            });
+
+            test('do not show error message if errorMessage prop value is an empty string', () => {
+                const {container} = render(<TextInput errorMessage={''} />);
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+            });
+
+            test('do not show error icon if error prop is an empty string', () => {
+                const {container} = render(<TextInput error={''} errorPlacement="tooltip" />);
+
+                expect(
+                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                    container.querySelector('yc-text-input__error-icon'),
+                ).not.toBeInTheDocument();
+            });
+
+            test('do not show error icon if errorMessage prop is an empty string', () => {
+                const {container} = render(
+                    <TextInput errorMessage={''} errorPlacement="tooltip" />,
+                );
+
+                expect(
+                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                    container.querySelector('yc-text-input__error-icon'),
+                ).not.toBeInTheDocument();
+            });
+
+            test('visually, input should be in error state (red border) if error prop is received', () => {
+                const {container} = render(<TextInput error={'Some error'} />);
+
+                expect(
+                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                    container.querySelector('.yc-text-input_state_error'),
+                ).toBeInTheDocument();
+            });
+
+            test('visually, input should be in error state (red border) even if received error prop is an empty string', () => {
+                const {container} = render(<TextInput error={''} />);
+
+                expect(
+                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                    container.querySelector('.yc-text-input_state_error'),
+                ).toBeInTheDocument();
             });
         });
 

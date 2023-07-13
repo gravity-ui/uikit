@@ -98,6 +98,10 @@ $block: '.#{variables.$ns}text-input';
         margin-top: 2px;
     }
 
+    &__error-icon {
+        color: var(--g-color-text-danger);
+    }
+
     &__additional-content {
         display: flex;
         align-items: center;
@@ -129,6 +133,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 1px;
             }
 
+            #{$block}__error-icon {
+                padding: 5px 5px 5px 0;
+            }
+
             --_--text-input-border-radius: var(--g-border-radius-s);
         }
 
@@ -155,6 +163,10 @@ $block: '.#{variables.$ns}text-input';
 
             #{$block}__additional-content_placement_right {
                 padding-right: 1px;
+            }
+
+            #{$block}__error-icon {
+                padding: 5px 5px 5px 0;
             }
 
             --_--text-input-border-radius: var(--g-border-radius-m);
@@ -185,6 +197,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 3px;
             }
 
+            #{$block}__error-icon {
+                padding: 9px 9px 9px 0;
+            }
+
             --_--text-input-border-radius: var(--g-border-radius-l);
         }
 
@@ -211,6 +227,10 @@ $block: '.#{variables.$ns}text-input';
 
             #{$block}__additional-content_placement_right {
                 padding-right: 3px;
+            }
+
+            #{$block}__error-icon {
+                padding: 13px 13px 13px 0;
             }
 
             --_--text-input-border-radius: var(--g-border-radius-xl);

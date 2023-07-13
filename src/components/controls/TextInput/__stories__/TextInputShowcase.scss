@@ -29,6 +29,16 @@
         padding: 20px;
     }
 
+    &__text-input-error-examples {
+        grid-area: text-area;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes additional-content' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
     &__title {
         grid-area: title;
         margin: 0;
@@ -45,6 +55,10 @@
 
     &__state-examples {
         grid-area: states;
+    }
+
+    &__additional-content-examples {
+        grid-area: additional-content;
     }
 
     &__row {

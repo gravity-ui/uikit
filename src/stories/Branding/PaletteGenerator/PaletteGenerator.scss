@@ -1,0 +1,98 @@
+@use '../../../../styles/mixins';
+
+.palette-generator {
+    @include mixins.text-body-2;
+
+    &__title {
+        @include mixins.text-display-1;
+        margin-bottom: 16px;
+
+        &:not(:first-child) {
+            margin-top: 32px;
+        }
+    }
+
+    &__parameters {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        align-items: center;
+        gap: 10px 20px;
+
+        &-name {
+            @include mixins.text-subheader-3;
+        }
+    }
+
+    &__color-picker {
+        flex-shrink: 0;
+        display: inline-block;
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        border: 2px solid var(--g-color-line-generic);
+        background-clip: content-box;
+        cursor: pointer;
+
+        &-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &-input {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+
+    &__palette {
+        &-grid {
+            display: grid;
+            grid-template-columns: min-content 80px 80px;
+            grid-auto-rows: 40px;
+        }
+
+        &-item {
+            &-number {
+                align-self: center;
+                justify-self: end;
+                padding-right: 10px;
+            }
+
+            &-color {
+                position: relative;
+
+                &-inner {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+
+    &__result-card {
+        position: relative;
+        width: 500px;
+        padding: 16px;
+    }
+
+    &__result-copy {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+    }
+
+    &__result-text {
+        @include mixins.text-code-1;
+        white-space: pre;
+    }
+}

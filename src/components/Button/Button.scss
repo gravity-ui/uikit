@@ -324,7 +324,7 @@ $iconWidth: 16px;
                 --yc-button-background-color: var(--g-color-base-selection);
                 --yc-button-background-color-hover: var(--g-color-base-selection-hover);
 
-                @include button-text-color(var(--g-color-text-brand));
+                @include button-text-color(var(--g-color-text-brand-heavy));
 
                 &::before {
                     border: none;

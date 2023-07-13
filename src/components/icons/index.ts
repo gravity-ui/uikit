@@ -1,6 +1,5 @@
 export * from './Alarm';
 export * from './Chevron';
-export * from './ChevronDownIcon';
 export * from './CrossIcon';
 export * from './DotsIcon';
 export * from './ExternalLinkIcon';

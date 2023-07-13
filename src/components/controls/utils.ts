@@ -11,7 +11,36 @@ export const prepareAutoComplete = (
 };
 
 export const getInputControlState = (
-    args: Pick<BaseInputControlProps, 'error'> = {},
+    validationStateProp: 'invalid' | undefined,
 ): InputControlState | undefined => {
-    return args.error ? 'error' : undefined;
+    return validationStateProp === 'invalid' ? 'error' : undefined;
+};
+
+export const errorPropsMapper = (
+    errorProps: Pick<
+        BaseInputControlProps,
+        'error' | 'errorMessage' | 'errorPlacement' | 'validationState'
+    >,
+) => {
+    const {error, errorMessage, errorPlacement, validationState} = errorProps;
+
+    let errorMessageProp: BaseInputControlProps['errorMessage'];
+    if (typeof error === 'string') {
+        errorMessageProp = error;
+    }
+    if (errorMessage || errorMessage === '') {
+        errorMessageProp = errorMessage;
+    }
+
+    let validationStateProp: BaseInputControlProps['validationState'];
+    if (
+        validationState === 'invalid' ||
+        Boolean(error) ||
+        errorMessageProp ||
+        errorMessageProp === ''
+    ) {
+        validationStateProp = 'invalid';
+    }
+
+    return {errorMessageProp, errorPlacementProp: errorPlacement, validationStateProp};
 };

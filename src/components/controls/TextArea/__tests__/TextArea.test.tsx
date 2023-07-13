@@ -15,21 +15,6 @@ describe('TextArea', () => {
             expect(input.tagName.toLowerCase()).toBe('textarea');
         });
 
-        test('render error message with error prop', () => {
-            const {container} = render(<TextArea error="Some Error" />);
-
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
-            expect(screen.getByText('Some Error')).toBeVisible();
-        });
-
-        test('do not show error without error prop', () => {
-            const {container} = render(<TextArea />);
-
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
-        });
-
         test('check clear button visibility with hasClear prop', async () => {
             render(<TextArea hasClear />);
             const user = userEvent.setup();
@@ -81,6 +66,65 @@ describe('TextArea', () => {
             }
 
             expect(onChangeFn).toBeCalled();
+        });
+    });
+
+    describe('error', () => {
+        test('render error message with error prop', () => {
+            const {container} = render(<TextArea error="Some Error" />);
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
+            expect(screen.getByText('Some Error')).toBeVisible();
+        });
+
+        test('render error message with errorMessage prop', () => {
+            const {container} = render(
+                <TextArea errorMessage="Some Error with errorMessage prop" />,
+            );
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
+            expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
+        });
+
+        test('do not show error without error/errorMessage prop', () => {
+            const {container} = render(<TextArea />);
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+        });
+
+        test('do not show error message if error prop value is an empty string', () => {
+            const {container} = render(<TextArea error={''} />);
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+        });
+
+        test('do not show error message if errorMessage prop value is an empty string', () => {
+            const {container} = render(<TextArea errorMessage={''} />);
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+        });
+
+        test('visually, area should be in error state (red border) if error prop is received', () => {
+            const {container} = render(<TextArea error={'Some error'} />);
+
+            expect(
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                container.querySelector('.g-text-area_state_error'),
+            ).toBeInTheDocument();
+        });
+
+        test('visually, area should be in error state (red border) even if received error prop is an empty string', () => {
+            const {container} = render(<TextArea error={''} />);
+
+            expect(
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                container.querySelector('.g-text-area_state_error'),
+            ).toBeInTheDocument();
         });
     });
 

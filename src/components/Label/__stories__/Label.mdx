@@ -1,0 +1,102 @@
+import {Meta, ArgsTable} from '@storybook/addon-docs';
+import {DocsSource} from '../../../demo/DocsSource/DocsSource';
+import {
+    LabelExampleViewTheme,
+    LabelExampleViewType,
+    LabelExampleViewIcon,
+    LabelExampleValue,
+    LabelExampleState,
+    LabelExampleSize,
+} from './examples/LabelExampleView/LabelExampleView';
+import {Label} from '../Label';
+
+import * as LabelStories from './Label.new.stories';
+
+<Meta of={LabelStories} />
+
+# Label
+
+```ts
+import {Label} from '@gravity-ui/uikit';
+```
+
+[Description](#description)
+
+[Appearance](#appearance)
+
+-   [Theme](#theme)
+-   [Type](#type)
+-   [Icon](#icon)
+
+[Label value](#label-value)
+
+[States](#states)
+
+[Size](#size)
+
+[Properties](#properties)
+
+## Description
+
+Label component can be used for display some marking information. Label with close button or copy button may be usefull for for various simple actions.
+
+Label component is best designed to display one line text information with different color indication of its importance.
+
+## Appearance
+
+Label can be displayed with multiple styled combination
+
+-   theme (`normal`, `info`, `danger`, `warning`, `success`, `unknown`, `clear`)
+-   type (`default`, `copy`, `close`)
+
+### Theme
+
+Used for specify theme of the label. Info, Warning, Danger and Success are standard types for display varios statuses.
+
+<DocsSource language="tsx" code={LabelExampleViewTheme.code} />
+<LabelExampleViewTheme />
+
+### Type
+
+Used for add close or copy button after label for user interaction. Button of copy type automatically copy `copyText` property value to clipboard.
+
+<DocsSource language="tsx" code={LabelExampleViewType.code} />
+<LabelExampleViewType />
+
+### Icon
+
+Used for add prefix icon for the label, works combined with all other properties.
+
+<DocsSource language="tsx" code={LabelExampleViewIcon.code} />
+<LabelExampleViewIcon />
+
+## Label value
+
+Label with value property for display key-value pairs. Can be useful for display object properties or tags.
+
+<DocsSource language="tsx" code={LabelExampleValue.code} />
+<LabelExampleValue />
+
+## States
+
+<DocsSource language="tsx" code={LabelExampleState.code} />
+<LabelExampleState />
+
+1. Default – The main state of a label without interactive.
+2. Disabled – The state when a label is indicated some property in unavailable.
+3. Interactive – The state of a label with hover effect.
+
+## Size
+
+<DocsSource language="tsx" code={LabelExampleSize.code} />
+<LabelExampleSize />
+
+XS – Used for small labels with simple to highlight a some small attribute.
+
+S – Basic size, used in most components.
+
+M – Used when standard labels are too small.
+
+## Properties
+
+<ArgsTable of={Label} />

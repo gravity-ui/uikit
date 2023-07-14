@@ -2,8 +2,8 @@
 
 React hook used to navigate through the items in a list
 
-`ArrowDown`, `ArrowRight` will increase currently active item index
-`ArrowUp`, `ArrowLeft` will reduce currently active item index
+`ArrowDown` will increase currently active item index
+`ArrowUp` will reduce currently active item index
 `PageDown` will increase currently active item index by pageSize (works if `pageSize` passed)
 `PageUp` will reduce currently active item index by pageSize (works if `pageSize` passed)
 `Home` will navigate to the start of the list if `processHomeKey` (disable if you want to move the cursor to the start of active input on `Home` key, for example)

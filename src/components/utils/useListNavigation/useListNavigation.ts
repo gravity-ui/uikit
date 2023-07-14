@@ -60,8 +60,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
             }
 
             switch (event.key) {
-                case 'ArrowDown':
-                case 'ArrowRight': {
+                case 'ArrowDown': {
                     event.preventDefault();
 
                     // Go 1 step forward
@@ -71,8 +70,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     break;
                 }
-                case 'ArrowUp':
-                case 'ArrowLeft': {
+                case 'ArrowUp': {
                     event.preventDefault();
 
                     // Go 1 step back

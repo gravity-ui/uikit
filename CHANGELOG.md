@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.24.0](https://github.com/gravity-ui/uikit/compare/v4.23.0...v4.24.0) (2023-07-14)
+
+
+### Features
+
+* **ArrowToggle:** use icon from gravity-ui/icons ([#811](https://github.com/gravity-ui/uikit/issues/811)) ([7113923](https://github.com/gravity-ui/uikit/commit/7113923f2d7c9a7541ede0a74b6ed75b382243f6))
+
+
+### Bug Fixes
+
+* **Hotkey:** setting a key property of a span in Hotkey's content ([#813](https://github.com/gravity-ui/uikit/issues/813)) ([d7aa609](https://github.com/gravity-ui/uikit/commit/d7aa6099529e351b79aedadcad54b3f4c273599e))
+* **LayerManager:** ignore clicks on Toast ([#792](https://github.com/gravity-ui/uikit/issues/792)) ([ba7d7b0](https://github.com/gravity-ui/uikit/commit/ba7d7b0662a46f3ea9e52ddc126c53449c69685c))
+* **useListNavigation:** remove navigation with right and left arrows ([#817](https://github.com/gravity-ui/uikit/issues/817)) ([0aab910](https://github.com/gravity-ui/uikit/commit/0aab9102db6af9265363f135b1d445b1efc48a58))
+
 ## [4.23.0](https://github.com/gravity-ui/uikit/compare/v4.22.1...v4.23.0) (2023-07-07)
 
 

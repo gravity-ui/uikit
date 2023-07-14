@@ -49,7 +49,9 @@ export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey
             if (!isFirstKey) {
                 content.push(
                     Spaces.BetweenKeys,
-                    <span className={b('plus')}>+</span>,
+                    <span key={`${key}_${groupIdx}_${keyIdx}_plus`} className={b('plus')}>
+                        +
+                    </span>,
                     Spaces.BetweenKeys,
                 );
             }

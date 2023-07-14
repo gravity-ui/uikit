@@ -42,6 +42,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     container?: HTMLElement;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
+    wrapperClassName?: string;
 }
 
 const b = block('popup');
@@ -74,6 +75,7 @@ export function Popup({
     qa,
     restoreFocus,
     restoreFocusRef,
+    wrapperClassName,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -128,7 +130,7 @@ export function Popup({
                     style={styles.popper}
                     {...attributes.popper}
                     {...containerProps}
-                    className={bWrapper({open})}
+                    className={bWrapper({open}, wrapperClassName)}
                 >
                     {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <div

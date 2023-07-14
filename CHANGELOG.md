@@ -1,5 +1,74 @@
 # Changelog
 
+## [5.0.0](https://github.com/gravity-ui/uikit/compare/v4.24.0...v5.0.0) (2023-07-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* new brand color ([#815](https://github.com/gravity-ui/uikit/issues/815))
+* update colors ([#794](https://github.com/gravity-ui/uikit/issues/794))
+* remove moved components ([#795](https://github.com/gravity-ui/uikit/issues/795))
+* **TextInput:** separate into 2 components TextInput & TextArea ([#764](https://github.com/gravity-ui/uikit/issues/764))
+* customization refactor ([#773](https://github.com/gravity-ui/uikit/issues/773))
+* remove popup wrapper class, use content classes for popover… ([#711](https://github.com/gravity-ui/uikit/issues/711))
+* update `xs` border radius ([#775](https://github.com/gravity-ui/uikit/issues/775))
+* rename CSS vars ([#767](https://github.com/gravity-ui/uikit/issues/767))
+* themization update ([#758](https://github.com/gravity-ui/uikit/issues/758))
+* refactor theme context data flow ([#745](https://github.com/gravity-ui/uikit/issues/745))
+* **Button:** add selected state for all views ([#755](https://github.com/gravity-ui/uikit/issues/755))
+* **Button:** update paddings ([#636](https://github.com/gravity-ui/uikit/issues/636))
+* **Progress:** rename `view` prop to `size` ([#747](https://github.com/gravity-ui/uikit/issues/747))
+* remove `resize-observer-polyfill` ([#744](https://github.com/gravity-ui/uikit/issues/744))
+* **Label:** remove `style` prop ([#733](https://github.com/gravity-ui/uikit/issues/733))
+* removed migrated components ([#743](https://github.com/gravity-ui/uikit/issues/743))
+* **Toaster:** remove deprecated `isOverride` prop ([#734](https://github.com/gravity-ui/uikit/issues/734))
+* use icons from Gravity ([#735](https://github.com/gravity-ui/uikit/issues/735))
+* **SharePopover:** remove deprecated `handleMetrika` prop ([#739](https://github.com/gravity-ui/uikit/issues/739))
+
+### Features
+
+* add hook useFocusWithin ([#804](https://github.com/gravity-ui/uikit/issues/804)) ([0ec0195](https://github.com/gravity-ui/uikit/commit/0ec0195d1a5122d56543865328497dec4782fe58))
+* basic branding docs ([#789](https://github.com/gravity-ui/uikit/issues/789)) ([9535094](https://github.com/gravity-ui/uikit/commit/95350947efd57df45072eac4fa60738fceb741e5))
+* **Button:** add selected state for all views ([#755](https://github.com/gravity-ui/uikit/issues/755)) ([8658b39](https://github.com/gravity-ui/uikit/commit/8658b395a612b091e525ff3222ebcef137155865))
+* **Button:** added new views ([#805](https://github.com/gravity-ui/uikit/issues/805)) ([1ffc818](https://github.com/gravity-ui/uikit/commit/1ffc81871f3a7ee326f28410bd8a657865f88016))
+* **Button:** update paddings ([#636](https://github.com/gravity-ui/uikit/issues/636)) ([eb36999](https://github.com/gravity-ui/uikit/commit/eb36999362feb834e86945359da914505ecfeecc))
+* customization refactor ([#773](https://github.com/gravity-ui/uikit/issues/773)) ([3c1a33e](https://github.com/gravity-ui/uikit/commit/3c1a33e88c98dba3cd698eaa3fc01323e618567a))
+* **Label:** remove `style` prop ([#733](https://github.com/gravity-ui/uikit/issues/733)) ([bc906e4](https://github.com/gravity-ui/uikit/commit/bc906e4923e734eff796aa917c5a8bf8c3ecb1a4))
+* new brand color ([#815](https://github.com/gravity-ui/uikit/issues/815)) ([42e75ef](https://github.com/gravity-ui/uikit/commit/42e75eff24b6af9b12264a50e3406e7fafc85139))
+* **Progress:** rename `view` prop to `size` ([#747](https://github.com/gravity-ui/uikit/issues/747)) ([f2a567e](https://github.com/gravity-ui/uikit/commit/f2a567e6069b3b61065489b40eb646cd9e12276c))
+* remove `resize-observer-polyfill` ([#744](https://github.com/gravity-ui/uikit/issues/744)) ([f73e221](https://github.com/gravity-ui/uikit/commit/f73e22104bd4c76a7f951d3592096d5a862e46e5))
+* removed migrated components ([#743](https://github.com/gravity-ui/uikit/issues/743)) ([75fea15](https://github.com/gravity-ui/uikit/commit/75fea15f2a0b18cf0c3b17aedf0f964dc8207fdf))
+* rename CSS vars ([#767](https://github.com/gravity-ui/uikit/issues/767)) ([ff74eaa](https://github.com/gravity-ui/uikit/commit/ff74eaa1b232554610cf0f2ddb4c36717b5f4fe3))
+* **SharePopover:** remove deprecated `handleMetrika` prop ([#739](https://github.com/gravity-ui/uikit/issues/739)) ([08fe894](https://github.com/gravity-ui/uikit/commit/08fe8941ecbd6512bb8e51f457d540071aa5c433))
+* **TextInput:** separate into 2 components TextInput & TextArea ([#764](https://github.com/gravity-ui/uikit/issues/764)) ([e9aff63](https://github.com/gravity-ui/uikit/commit/e9aff632b924307e7700e76855ba15abc905be3b))
+* **Toaster:** remove deprecated `isOverride` prop ([#734](https://github.com/gravity-ui/uikit/issues/734)) ([be97e59](https://github.com/gravity-ui/uikit/commit/be97e59adec6cde04c013073b3a3eeab0ec257cd))
+* **Tooltip:** show/hide tooltip on focus/blur ([#797](https://github.com/gravity-ui/uikit/issues/797)) ([7f67a36](https://github.com/gravity-ui/uikit/commit/7f67a36cba7105c9dafc6369dd2fa1f4e15a0421))
+* update `xs` border radius ([#775](https://github.com/gravity-ui/uikit/issues/775)) ([70dece4](https://github.com/gravity-ui/uikit/commit/70dece4300261d8a4d19f0ed90424d454fc0590c))
+* update colors ([#794](https://github.com/gravity-ui/uikit/issues/794)) ([6c67fef](https://github.com/gravity-ui/uikit/commit/6c67fef7176f19322c472203e38428e34ffd4663))
+* use icons from Gravity ([#735](https://github.com/gravity-ui/uikit/issues/735)) ([6c5d098](https://github.com/gravity-ui/uikit/commit/6c5d098b1a35ea4f661b34446e759d9867a1f786))
+
+
+### Bug Fixes
+
+* brand colors ([c4f91a1](https://github.com/gravity-ui/uikit/commit/c4f91a1c1ef28e7619375a78b600fa3d889b243b))
+* **Button:** remove min-width ([8a0a58a](https://github.com/gravity-ui/uikit/commit/8a0a58a0e0c0b73acf111293c76776188fca47e2))
+* change display from inline to inline-block ([#756](https://github.com/gravity-ui/uikit/issues/756)) ([49418ab](https://github.com/gravity-ui/uikit/commit/49418ab9eadb66a0fbfbbf45519f2daa06506cf4))
+* change span to div in Trigger, the problem with semantic error ([#754](https://github.com/gravity-ui/uikit/issues/754)) ([8309193](https://github.com/gravity-ui/uikit/commit/83091938dc17daa4705ed7aead10b000c52031eb))
+* rebase issues ([9e08632](https://github.com/gravity-ui/uikit/commit/9e0863215ad9ca924823c0d2df229ac76de116d3))
+* **TextArea:** fix minRows property behaviour on initial render ([#814](https://github.com/gravity-ui/uikit/issues/814)) ([fe3e5d0](https://github.com/gravity-ui/uikit/commit/fe3e5d0bf917660e3f11fa8778a1b6b6ab0feeb8))
+* **TextInput:** do not shrink clear button size ([#810](https://github.com/gravity-ui/uikit/issues/810)) ([82808d8](https://github.com/gravity-ui/uikit/commit/82808d86116c7124aac61272ecaf2418057f8866))
+* variables ([#808](https://github.com/gravity-ui/uikit/issues/808)) ([042a982](https://github.com/gravity-ui/uikit/commit/042a9825008089a639e3399a7a8a6f890afca33d))
+* various fixes ([#793](https://github.com/gravity-ui/uikit/issues/793)) ([f80682e](https://github.com/gravity-ui/uikit/commit/f80682e69721c8cc60fe68aa2f4c62d8d110b758))
+* wrong deprecated color ([a68ffb2](https://github.com/gravity-ui/uikit/commit/a68ffb2de5de9aef5b314d813b61896bd65aa6c1))
+
+
+### refactor
+
+* refactor theme context data flow ([#745](https://github.com/gravity-ui/uikit/issues/745)) ([4a12982](https://github.com/gravity-ui/uikit/commit/4a1298204d14006ae8ec7a57077549b90a852c62))
+* remove moved components ([#795](https://github.com/gravity-ui/uikit/issues/795)) ([20ed66d](https://github.com/gravity-ui/uikit/commit/20ed66d7c164908a35e47687077fc88ed1ae3b0c))
+* remove popup wrapper class, use content classes for popover… ([#711](https://github.com/gravity-ui/uikit/issues/711)) ([e5346f9](https://github.com/gravity-ui/uikit/commit/e5346f90b74f61d67bffe4ed4c72842cecdd48cb))
+* themization update ([#758](https://github.com/gravity-ui/uikit/issues/758)) ([265af0c](https://github.com/gravity-ui/uikit/commit/265af0c06773dbcb2e1148dc4b6f5159ad3b70b6))
+
 ## [4.24.0](https://github.com/gravity-ui/uikit/compare/v4.23.0...v4.24.0) (2023-07-14)
 
 

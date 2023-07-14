@@ -1,11 +1,11 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import {Unstyled} from '@storybook/blocks';
 
 import {Label} from '../../..';
 import {DocsExample} from '../../../../../demo/DocsExample/DocsExample';
 import {Icon} from '../../../../Icon';
-import {GearIcon} from '../../../../icons';
 
 export function LabelExampleViewTheme() {
     return (
@@ -73,16 +73,16 @@ export function LabelExampleViewIcon() {
     return (
         <Unstyled>
             <DocsExample>
-                <Label size="s" icon={<Icon size={16} data={GearIcon} />}>
+                <Label size="s" icon={<Icon size={16} data={Gear} />}>
                     Default with Icon
                 </Label>
-                <Label theme="info" size="s" icon={<Icon size={16} data={GearIcon} />}>
+                <Label theme="info" size="s" icon={<Icon size={16} data={Gear} />}>
                     Info with icon
                 </Label>
-                <Label type="close" size="s" icon={<Icon size={16} data={GearIcon} />}>
+                <Label type="close" size="s" icon={<Icon size={16} data={Gear} />}>
                     Close action and icon
                 </Label>
-                <Label size="m" icon={<Icon size={18} data={GearIcon} />}>
+                <Label size="m" icon={<Icon size={18} data={Gear} />}>
                     M-size icon
                 </Label>
             </DocsExample>

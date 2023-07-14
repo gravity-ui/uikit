@@ -89,6 +89,10 @@ class LayerManager {
     };
 
     private handleDocumentClick = (event: MouseEvent) => {
+        if (this.isToastClick(event)) {
+            return;
+        }
+
         let layer: LayerConfig;
         let mouseDownTarget: HTMLElement | null = null;
         if (this.mouseDownLayerTarget) {
@@ -140,6 +144,14 @@ class LayerManager {
         }
 
         return false;
+    }
+
+    private isToastClick(event: MouseEvent) {
+        const composedPath = typeof event.composedPath === 'function' ? event.composedPath() : [];
+
+        return composedPath.some((el) => {
+            return Boolean((el as HTMLElement)?.dataset?.toast);
+        });
     }
 }
 

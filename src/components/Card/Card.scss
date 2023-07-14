@@ -9,14 +9,38 @@ $block: '.#{variables.$ns}card';
     box-shadow: var(--yc-card-box-shadow);
     box-sizing: border-box;
     border-radius: var(--yc-card-border-radius);
+    outline: none;
 
     &_type_action {
         background-color: var(--yc-color-base-float);
         --yc-card-box-shadow: 0px 1px 5px var(--yc-color-sfx-shadow);
 
-        &#{$block}_clickable:hover {
-            --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: var(--yc-card-border-radius);
+            pointer-events: none;
+        }
+
+        &#{$block}_clickable {
             cursor: pointer;
+            position: relative;
+
+            &:hover {
+                --yc-card-box-shadow: 0px 3px 10px var(--yc-color-sfx-shadow);
+            }
+
+            &:focus::after {
+                content: '';
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+            }
+
+            &:focus:not(:focus-visible)::after {
+                box-shadow: none;
+            }
         }
     }
 
@@ -34,13 +58,39 @@ $block: '.#{variables.$ns}card';
             pointer-events: none;
         }
 
-        &#{$block}_clickable:hover {
-            border-color: transparent;
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: var(--yc-card-border-radius);
+            pointer-events: none;
+        }
+
+        &#{$block}_clickable {
             cursor: pointer;
 
-            &::before {
+            &:hover {
+                border-color: transparent;
+
+                &::before {
+                    content: '';
+                    border: 2px solid var(--yc-color-line-selection-hover);
+                }
+
+                &:focus-visible::before {
+                    border-color: transparent;
+                }
+            }
+
+            &:focus::after {
                 content: '';
-                border: 2px solid var(--yc-color-line-selection-hover);
+                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+            }
+
+            &:focus:not(:focus-visible)::after {
+                box-shadow: none;
             }
         }
 

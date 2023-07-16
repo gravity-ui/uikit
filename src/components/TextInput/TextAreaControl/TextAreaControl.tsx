@@ -50,15 +50,15 @@ export function TextAreaControl(props: TextAreaControlProps) {
             const borderWidth = parseInt(controlStyles.getPropertyValue('border-top-width'), 10);
             const paddingTop = parseInt(controlStyles.getPropertyValue('padding-top'), 10);
 
+            control.style.height = 'auto';
+
             const lines = Math.floor(control.scrollHeight / lineHeight);
 
             if (maxRows && maxRows < Math.max(lines, numberOfLines)) {
-                control.style.height = 'auto';
                 control.style.height = `${
                     maxRows * lineHeight + 2 * paddingTop + 2 * borderWidth
                 }px`;
             } else {
-                control.style.height = 'auto';
                 control.style.height = `${control.scrollHeight + 2 * borderWidth}px`;
             }
         }

@@ -85,7 +85,7 @@ $block: '.#{variables.$ns}tabs';
         display: flex;
         align-items: flex-end;
         flex-wrap: wrap;
-        box-shadow: inset 0 -1px 0 0 var(--yc-color-line-generic);
+        box-shadow: inset 0 -1px 0 0 var(--g-color-line-generic);
         overflow: hidden;
 
         #{$block}__item {
@@ -101,38 +101,38 @@ $block: '.#{variables.$ns}tabs';
             }
 
             &-title {
-                color: var(--yc-color-text-secondary);
+                color: var(--g-color-text-secondary);
             }
 
             &-icon,
             &-counter {
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
 
             &_active,
             &:hover,
             &:focus {
                 #{$block}__item-title {
-                    color: var(--yc-color-text-primary);
+                    color: var(--g-color-text-primary);
                 }
 
                 #{$block}__item-icon,
                 #{$block}__item-counter {
-                    color: var(--yc-color-text-secondary);
+                    color: var(--g-color-text-secondary);
                 }
             }
 
             &_active,
             &_active:hover,
             &_active:focus {
-                border-color: var(--yc-color-base-special);
+                border-color: var(--g-color-line-brand);
             }
 
             &_disabled {
                 pointer-events: none;
 
                 #{$block}__item-title {
-                    color: var(--yc-color-text-hint);
+                    color: var(--g-color-text-hint);
                 }
             }
         }
@@ -151,38 +151,38 @@ $block: '.#{variables.$ns}tabs';
 
             &-title {
                 line-height: var(--yc-tab-item-vertical-height);
-                color: var(--yc-color-text-primary);
+                color: var(--g-color-text-primary);
             }
 
             &-meta {
                 line-height: var(--yc-tab-item-vertical-height);
-                color: var(--yc-color-text-secondary);
+                color: var(--g-color-text-secondary);
             }
 
             &-icon,
             &-counter {
-                color: var(--yc-color-text-secondary);
+                color: var(--g-color-text-secondary);
             }
 
             &:hover,
             &:focus {
-                background-color: var(--yc-color-base-generic-hover);
+                background-color: var(--g-color-base-generic-hover);
             }
 
             &_active {
-                background-color: var(--yc-color-base-selection);
+                background-color: var(--g-color-base-selection);
             }
 
             &_active:hover,
             &_active:focus {
-                background-color: var(--yc-color-base-selection-hover);
+                background-color: var(--g-color-base-selection-hover);
             }
 
             &_disabled {
                 pointer-events: none;
 
                 & #{$block}__item-title {
-                    color: var(--yc-color-text-secondary);
+                    color: var(--g-color-text-secondary);
                 }
             }
         }

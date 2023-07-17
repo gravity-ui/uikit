@@ -8,7 +8,7 @@
     margin: 0;
     padding: 0;
 
-    font-family: var(--yc-text-body-font-family);
+    font-family: var(--g-font-family-sans);
     font-size: inherit;
     font-weight: 400;
 
@@ -141,139 +141,139 @@
 // Typography
 
 @mixin text-body-1() {
-    font-size: var(--yc-text-body-1-font-size);
-    line-height: var(--yc-text-body-1-line-height);
-    font-weight: var(--yc-text-body-font-weight);
+    font-size: var(--g-text-body-1-font-size);
+    line-height: var(--g-text-body-1-line-height);
+    font-weight: var(--g-text-body-font-weight);
 }
 
 @mixin text-body-2() {
-    font-size: var(--yc-text-body-2-font-size);
-    line-height: var(--yc-text-body-2-line-height);
-    font-weight: var(--yc-text-body-font-weight);
+    font-size: var(--g-text-body-2-font-size);
+    line-height: var(--g-text-body-2-line-height);
+    font-weight: var(--g-text-body-font-weight);
 }
 
 @mixin text-body-3() {
-    font-size: var(--yc-text-body-3-font-size);
-    line-height: var(--yc-text-body-3-line-height);
-    font-weight: var(--yc-text-body-font-weight);
+    font-size: var(--g-text-body-3-font-size);
+    line-height: var(--g-text-body-3-line-height);
+    font-weight: var(--g-text-body-font-weight);
 }
 
 @mixin text-body-short() {
-    font-size: var(--yc-text-body-short-font-size);
-    line-height: var(--yc-text-body-short-line-height);
-    font-weight: var(--yc-text-body-font-weight);
+    font-size: var(--g-text-body-short-font-size);
+    line-height: var(--g-text-body-short-line-height);
+    font-weight: var(--g-text-body-font-weight);
 }
 
 @mixin text-caption-1() {
-    font-size: var(--yc-text-caption-1-font-size);
-    line-height: var(--yc-text-caption-1-line-height);
-    font-weight: var(--yc-text-caption-font-weight);
+    font-size: var(--g-text-caption-1-font-size);
+    line-height: var(--g-text-caption-1-line-height);
+    font-weight: var(--g-text-caption-font-weight);
 }
 
 @mixin text-caption-2() {
-    font-size: var(--yc-text-caption-2-font-size);
-    line-height: var(--yc-text-caption-2-line-height);
-    font-weight: var(--yc-text-caption-font-weight);
+    font-size: var(--g-text-caption-2-font-size);
+    line-height: var(--g-text-caption-2-line-height);
+    font-weight: var(--g-text-caption-font-weight);
 }
 
 @mixin text-header-1() {
-    font-size: var(--yc-text-header-1-font-size);
-    line-height: var(--yc-text-header-1-line-height);
-    font-weight: var(--yc-text-header-font-weight);
+    font-size: var(--g-text-header-1-font-size);
+    line-height: var(--g-text-header-1-line-height);
+    font-weight: var(--g-text-header-font-weight);
 }
 
 @mixin text-header-2() {
-    font-size: var(--yc-text-header-2-font-size);
-    line-height: var(--yc-text-header-2-line-height);
-    font-weight: var(--yc-text-header-font-weight);
+    font-size: var(--g-text-header-2-font-size);
+    line-height: var(--g-text-header-2-line-height);
+    font-weight: var(--g-text-header-font-weight);
 }
 
 @mixin text-subheader-1() {
-    font-size: var(--yc-text-subheader-1-font-size);
-    line-height: var(--yc-text-subheader-1-line-height);
-    font-weight: var(--yc-text-subheader-font-weight);
+    font-size: var(--g-text-subheader-1-font-size);
+    line-height: var(--g-text-subheader-1-line-height);
+    font-weight: var(--g-text-subheader-font-weight);
 }
 
 @mixin text-subheader-2() {
-    font-size: var(--yc-text-subheader-2-font-size);
-    line-height: var(--yc-text-subheader-2-line-height);
-    font-weight: var(--yc-text-subheader-font-weight);
+    font-size: var(--g-text-subheader-2-font-size);
+    line-height: var(--g-text-subheader-2-line-height);
+    font-weight: var(--g-text-subheader-font-weight);
 }
 
 @mixin text-subheader-3() {
-    font-size: var(--yc-text-subheader-3-font-size);
-    line-height: var(--yc-text-subheader-3-line-height);
-    font-weight: var(--yc-text-subheader-font-weight);
+    font-size: var(--g-text-subheader-3-font-size);
+    line-height: var(--g-text-subheader-3-line-height);
+    font-weight: var(--g-text-subheader-font-weight);
 }
 
 @mixin text-display-1() {
-    font-size: var(--yc-text-display-1-font-size);
-    line-height: var(--yc-text-display-1-line-height);
-    font-weight: var(--yc-text-display-font-weight);
+    font-size: var(--g-text-display-1-font-size);
+    line-height: var(--g-text-display-1-line-height);
+    font-weight: var(--g-text-display-font-weight);
 }
 
 @mixin text-display-2() {
-    font-size: var(--yc-text-display-2-font-size);
-    line-height: var(--yc-text-display-2-line-height);
-    font-weight: var(--yc-text-display-font-weight);
+    font-size: var(--g-text-display-2-font-size);
+    line-height: var(--g-text-display-2-line-height);
+    font-weight: var(--g-text-display-font-weight);
 }
 
 @mixin text-display-3() {
-    font-size: var(--yc-text-display-3-font-size);
-    line-height: var(--yc-text-display-3-line-height);
-    font-weight: var(--yc-text-display-font-weight);
+    font-size: var(--g-text-display-3-font-size);
+    line-height: var(--g-text-display-3-line-height);
+    font-weight: var(--g-text-display-font-weight);
 }
 
 @mixin text-display-4() {
-    font-size: var(--yc-text-display-4-font-size);
-    line-height: var(--yc-text-display-4-line-height);
-    font-weight: var(--yc-text-display-font-weight);
+    font-size: var(--g-text-display-4-font-size);
+    line-height: var(--g-text-display-4-line-height);
+    font-weight: var(--g-text-display-font-weight);
 }
 
 @mixin text-code-1() {
-    font-family: var(--yc-text-code-font-family);
-    font-size: var(--yc-text-code-1-font-size);
-    line-height: var(--yc-text-code-1-line-height);
-    font-weight: var(--yc-text-code-font-weight);
+    font-family: var(--g-font-family-monospace);
+    font-size: var(--g-text-code-1-font-size);
+    line-height: var(--g-text-code-1-line-height);
+    font-weight: var(--g-text-code-font-weight);
 }
 
 @mixin text-code-2() {
-    font-family: var(--yc-text-code-font-family);
-    font-size: var(--yc-text-code-2-font-size);
-    line-height: var(--yc-text-code-2-line-height);
-    font-weight: var(--yc-text-code-font-weight);
+    font-family: var(--g-font-family-monospace);
+    font-size: var(--g-text-code-2-font-size);
+    line-height: var(--g-text-code-2-line-height);
+    font-weight: var(--g-text-code-font-weight);
 }
 
 @mixin text-code-3() {
-    font-family: var(--yc-text-code-font-family);
-    font-size: var(--yc-text-code-3-font-size);
-    line-height: var(--yc-text-code-3-line-height);
-    font-weight: var(--yc-text-code-font-weight);
+    font-family: var(--g-font-family-monospace);
+    font-size: var(--g-text-code-3-font-size);
+    line-height: var(--g-text-code-3-line-height);
+    font-weight: var(--g-text-code-font-weight);
 }
 
 @mixin text-code-inline-1() {
-    font-family: var(--yc-text-code-font-family);
-    font-size: var(--yc-text-code-inline-1-font-size);
-    line-height: var(--yc-text-code-inline-1-line-height);
-    font-weight: var(--yc-text-code-font-weight);
+    font-family: var(--g-font-family-monospace);
+    font-size: var(--g-text-code-inline-1-font-size);
+    line-height: var(--g-text-code-inline-1-line-height);
+    font-weight: var(--g-text-code-font-weight);
 }
 
 @mixin text-code-inline-2() {
-    font-family: var(--yc-text-code-font-family);
-    font-size: var(--yc-text-code-inline-2-font-size);
-    line-height: var(--yc-text-code-inline-2-line-height);
-    font-weight: var(--yc-text-code-inline-font-weight);
+    font-family: var(--g-font-family-monospace);
+    font-size: var(--g-text-code-inline-2-font-size);
+    line-height: var(--g-text-code-inline-2-line-height);
+    font-weight: var(--g-text-code-font-weight);
 }
 
 @mixin text-code-inline-3() {
-    font-family: var(--yc-text-code-font-family);
-    font-size: var(--yc-text-code-inline-3-font-size);
-    line-height: var(--yc-text-code-inline-3-line-height);
-    font-weight: var(--yc-text-code-font-weight);
+    font-family: var(--g-font-family-monospace);
+    font-size: var(--g-text-code-inline-3-font-size);
+    line-height: var(--g-text-code-inline-3-line-height);
+    font-weight: var(--g-text-code-font-weight);
 }
 
 @mixin text-accent() {
-    font-weight: var(--yc-text-accent-font-weight);
+    font-weight: var(--g-text-accent-font-weight);
 }
 
 @mixin loading($loading-color-1: rgba(255, 255, 255, 0.3), $loading-color-2: transparent) {

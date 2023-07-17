@@ -1,8 +1,9 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {CrossIcon} from '../../icons/CrossIcon';
 import {block} from '../../utils/cn';
 
 import './ButtonClose.scss';
@@ -25,7 +26,7 @@ export function ButtonClose({onClose}: ButtonCloseProps) {
                 className={b('btn')}
                 onClick={(event) => onClose(event, {isOutsideClick: false})}
             >
-                <Icon data={CrossIcon} size={12} />
+                <Icon data={Xmark} size={20} />
             </Button>
         </div>
     );

@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {Ellipsis} from '@gravity-ui/icons';
+
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
 import type {MenuProps} from '../Menu';
 import type {PopupProps} from '../Popup';
-import {DotsIcon} from '../icons';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
@@ -86,7 +87,7 @@ export type ControlledDropdownMenuProps<T> = DropdownMenuProps<T> & {
 const DropdownMenu = <T,>({
     items = [],
     size = 'm',
-    icon = <Icon data={DotsIcon} />,
+    icon = <Icon data={Ellipsis} />,
     open,
     onOpenToggle,
     hideOnScroll = true,

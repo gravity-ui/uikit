@@ -1,12 +1,12 @@
 import React from 'react';
 
+import {Pencil} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 import _cloneDeep from 'lodash/cloneDeep';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../Icon';
-import {GearIcon} from '../../icons';
 import {Table} from '../Table';
 import type {TableProps} from '../Table';
 
@@ -99,7 +99,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
         },
         {
             text: 'with icon',
-            icon: <Icon data={GearIcon} size={14} />,
+            icon: <Icon data={Pencil} size={14} />,
             handler: () => {},
         },
         {

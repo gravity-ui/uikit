@@ -19,7 +19,7 @@ $discMarginLSize: 6px;
             bottom: 0;
 
             background-color: transparent;
-            border: 1px solid var(--yc-color-line-generic-accent);
+            border: 1px solid var(--g-color-line-generic-accent);
             border-radius: 50%;
             transition: background 0.1s linear;
         }
@@ -35,7 +35,7 @@ $discMarginLSize: 6px;
         position: absolute;
 
         border: none;
-        background-color: var(--yc-my-color-brand-text-contrast);
+        background-color: var(--g-color-text-brand-contrast);
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.1);
@@ -69,7 +69,7 @@ $discMarginLSize: 6px;
     }
 
     &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+        box-shadow: 0 0 0 2px var(--g-color-line-misc);
     }
 
     &__control:focus:not(:focus-visible) + &__outline {
@@ -109,7 +109,7 @@ $discMarginLSize: 6px;
     &:hover {
         #{$block}__indicator {
             &::before {
-                border-color: var(--yc-color-line-generic-accent-hover);
+                border-color: var(--g-color-line-generic-accent-hover);
             }
         }
     }
@@ -117,7 +117,7 @@ $discMarginLSize: 6px;
     &_checked {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-special);
+                background-color: var(--g-color-base-brand);
                 border: transparent;
             }
 
@@ -131,7 +131,7 @@ $discMarginLSize: 6px;
     &_disabled {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-generic-accent-disabled);
+                background-color: var(--g-color-base-generic-accent-disabled);
                 border: transparent;
             }
         }
@@ -139,7 +139,7 @@ $discMarginLSize: 6px;
         &#{$block}_checked {
             #{$block}__indicator {
                 &::before {
-                    background-color: var(--yc-color-base-special);
+                    background-color: var(--g-color-base-brand);
                     opacity: 0.5;
                 }
             }

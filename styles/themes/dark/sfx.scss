@@ -1,0 +1,7 @@
+@mixin g-colors-sfx-dark {
+    --g-color-sfx-veil: var(--g-color-private-black-600);
+    --g-color-sfx-shadow: var(--g-color-private-black-200);
+    --g-color-sfx-shadow-heavy: var(--g-color-private-black-500);
+    --g-color-sfx-shadow-light: var(--g-color-private-black-200);
+    --g-color-sfx-fade: var(--g-color-private-white-250);
+}

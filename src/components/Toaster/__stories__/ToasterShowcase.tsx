@@ -1,13 +1,13 @@
 import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
+import {CircleCheckFill, CircleInfoFill, TriangleExclamationFill} from '@gravity-ui/icons';
 
 import {ToasterComponent, useToaster} from '..';
 import type {ToastProps} from '..';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
-import {Alarm, Info, Success} from '../../icons';
 import {block} from '../../utils/cn';
 
 import './ToasterShowcase.scss';
@@ -168,7 +168,7 @@ export const ToasterDemo = ({
         const content = (
             <div style={{display: 'flex'}}>
                 <div style={{maxWidth: '86px', maxHeight: '86px', marginRight: '16px'}}>
-                    <Icon size={86} data={Success} />
+                    <Icon size={86} data={CircleCheckFill} />
                 </div>
                 <div
                     style={{
@@ -266,28 +266,28 @@ export const ToasterDemo = ({
 
     const infoToastBtn = (
         <Button view="outlined" size="l" onClick={createInfoToast} style={btnStyle}>
-            <Icon className={b('icon', {info: true})} data={Info} />
+            <Icon className={b('icon', {info: true})} data={CircleInfoFill} />
             Create info toast
         </Button>
     );
 
     const successToastBtn = (
         <Button view="outlined" size="l" onClick={createSuccessToast} style={btnStyle}>
-            <Icon className={b('icon', {success: true})} data={Success} />
+            <Icon className={b('icon', {success: true})} data={CircleCheckFill} />
             Create success toast
         </Button>
     );
 
     const warningToastBtn = (
         <Button view="outlined" size="l" onClick={createWarningToast} style={btnStyle}>
-            <Icon className={b('icon', {warning: true})} data={Alarm} />
+            <Icon className={b('icon', {warning: true})} data={TriangleExclamationFill} />
             Create warning toast
         </Button>
     );
 
     const errorToastBtn = (
         <Button view="outlined" size="l" onClick={createErrorToast} style={btnStyle}>
-            <Icon className={b('icon', {error: true})} data={Alarm} />
+            <Icon className={b('icon', {error: true})} data={TriangleExclamationFill} />
             Create error toast
         </Button>
     );

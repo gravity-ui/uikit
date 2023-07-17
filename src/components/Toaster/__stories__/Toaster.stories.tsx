@@ -60,7 +60,6 @@ export default {
         content: disabledControl,
         type: disabledControl,
         isClosable: disabledControl,
-        isOverride: disabledControl,
         actions: disabledControl,
         removeCallback: disabledControl,
         createSameName: booleanControl('Same name'),

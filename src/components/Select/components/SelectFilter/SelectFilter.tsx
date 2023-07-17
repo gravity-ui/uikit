@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {TextInput} from '../../../TextInput';
+import {TextInput} from '../../../controls';
 import {blockNew as block} from '../../../utils/cn';
 import type {SelectProps} from '../../types';
 import type {SelectFilterRef} from '../../types-misc';

@@ -38,7 +38,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             </Sheet>
         ) : (
             <Popup
-                className={b(null, className)}
+                contentClassName={b(null, className)}
                 qa={SelectQa.POPUP}
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}

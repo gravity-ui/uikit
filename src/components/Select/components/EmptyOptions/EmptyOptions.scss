@@ -4,7 +4,7 @@ $block: '.#{variables.$ns-new}select-empty-placeholder';
 
 #{$block} {
     margin: 4px;
-    color: var(--yc-color-text-hint);
+    color: var(--g-color-text-hint);
 
     &_empty {
         margin-top: 0;

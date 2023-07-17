@@ -54,7 +54,7 @@
 
         box-sizing: content-box;
         padding: 11px 10px;
-        border-bottom: 1px solid var(--yc-color-line-generic);
+        border-bottom: 1px solid var(--g-color-line-generic);
 
         line-height: variables.$tableLineHeight;
         text-align: left;
@@ -84,11 +84,11 @@
 
         &_sticky_left,
         &_sticky_right {
-            background: var(--yc-color-base-background);
+            background: var(--g-color-base-background);
         }
 
         &_border_right {
-            border-right: 1px solid var(--yc-color-line-generic);
+            border-right: 1px solid var(--g-color-line-generic);
         }
 
         &_edge-padding {
@@ -129,12 +129,12 @@
     }
 
     &__body &__row_interactive:hover {
-        background-color: var(--yc-color-base-simple-hover-solid);
+        background-color: var(--g-color-base-simple-hover-solid);
         cursor: pointer;
 
         #{variables.$block}__cell_sticky_left,
         #{variables.$block}__cell_sticky_right {
-            background: var(--yc-color-base-simple-hover-solid);
+            background: var(--g-color-base-simple-hover-solid);
         }
     }
 
@@ -143,10 +143,10 @@
     }
 
     &_with-primary &__body &__cell {
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         &_primary {
-            color: var(--yc-color-text-primary);
+            color: var(--g-color-text-primary);
         }
     }
 

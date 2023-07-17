@@ -3,17 +3,19 @@
 $block: '.#{variables.$ns}tooltip';
 
 #{$block} {
-    // prevent glitch between two nearby tooltip refs
-    pointer-events: none;
+    // [class] for increasing specificity
+    &[class] {
+        --yc-popup-border-width: 0;
+        --yc-popup-background-color: var(--g-color-base-float-heavy);
+    }
+
+    &__popup-content {
+        // prevent glitch between two nearby tooltip refs
+        pointer-events: none;
+    }
 
     &__content {
         padding: 6px 12px;
-        color: var(--yc-color-text-light-primary);
+        color: var(--g-color-text-light-primary);
     }
-}
-
-// [class] for increasing specificity
-#{$block}[class] {
-    --yc-popup-border-width: 0;
-    --yc-popup-background-color: var(--yc-color-base-float-heavy);
 }

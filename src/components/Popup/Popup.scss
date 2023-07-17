@@ -1,7 +1,6 @@
 @use '../variables';
 
 $block: '.#{variables.$ns}popup';
-$blockWrapper: '.#{variables.$ns}popup-wrapper';
 
 $arrow-size: 18px;
 $arrow-offset: 9px;
@@ -12,30 +11,108 @@ $transition-distance: 10px;
 
 #{$block} {
     // Can be overridden, see Tooltip
-    --yc-popup-background-color: var(--yc-color-base-float);
-    --yc-popup-border-color: var(--yc-color-line-solid);
+    --yc-popup-background-color: var(--g-color-base-float);
+    --yc-popup-border-color: var(--g-color-line-generic-solid);
     --yc-popup-border-width: 1px;
 
-    position: relative;
-    animation-duration: 0.1s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
-    border-radius: 4px;
-    background-color: var(--yc-popup-background-color);
-    box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
-        0 8px 20px var(--yc-popup-border-width) var(--yc-color-sfx-shadow);
+    z-index: 1000;
+    visibility: hidden;
     outline: none;
 
-    // Corners rounding for content
-    & > :first-child:not(&__arrow),
-    & > &__arrow + * {
-        border-top-left-radius: inherit;
-        border-top-right-radius: inherit;
+    &_open,
+    &_exit_active {
+        visibility: visible;
     }
 
-    & > :last-child {
-        border-bottom-left-radius: inherit;
-        border-bottom-right-radius: inherit;
+    &_exit_active {
+        &[data-popper-placement*='bottom'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-bottom;
+        }
+
+        &[data-popper-placement*='top'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-top;
+        }
+
+        &[data-popper-placement*='left'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-left;
+        }
+
+        &[data-popper-placement*='right'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-right;
+        }
+    }
+
+    // open state
+    &_enter_active,
+    &_appear_active {
+        &[data-popper-placement*='bottom'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-bottom-open;
+        }
+
+        &[data-popper-placement*='top'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-top-open;
+        }
+
+        &[data-popper-placement*='left'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-left-open;
+        }
+
+        &[data-popper-placement*='right'] #{$block}__content {
+            animation-name: #{variables.$ns}popup-right-open;
+        }
+    }
+
+    // arrow
+    &[data-popper-placement*='bottom'] #{$block}__arrow {
+        top: -$arrow-offset;
+    }
+
+    &[data-popper-placement*='top'] #{$block}__arrow {
+        bottom: -$arrow-offset;
+
+        &-content {
+            transform: rotate(180deg);
+        }
+    }
+
+    &[data-popper-placement*='left'] #{$block}__arrow {
+        right: -$arrow-offset;
+
+        &-content {
+            transform: rotate(90deg);
+        }
+    }
+
+    &[data-popper-placement*='right'] #{$block}__arrow {
+        left: -$arrow-offset;
+
+        &-content {
+            transform: rotate(-90deg);
+        }
+    }
+
+    &__content {
+        position: relative;
+        animation-duration: 0.1s;
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+        border-radius: 4px;
+        background-color: var(--yc-popup-background-color);
+        box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
+            0 8px 20px var(--yc-popup-border-width) var(--g-color-sfx-shadow);
+        outline: none;
+
+        // Corners rounding for content
+        & > :first-child:not(#{$block}__arrow),
+        & > #{$block}__arrow + * {
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+
+        & > :last-child {
+            border-bottom-left-radius: inherit;
+            border-bottom-right-radius: inherit;
+        }
     }
 
     &__arrow-content {
@@ -72,83 +149,6 @@ $transition-distance: 10px;
         &_right {
             left: -5px;
             bottom: -4px;
-        }
-    }
-}
-
-#{$blockWrapper} {
-    z-index: 1000;
-    visibility: hidden;
-
-    &_open,
-    &_exit_active {
-        visibility: visible;
-    }
-
-    &_exit_active {
-        &[data-popper-placement*='bottom'] #{$block} {
-            animation-name: #{variables.$ns}popup-bottom;
-        }
-
-        &[data-popper-placement*='top'] #{$block} {
-            animation-name: #{variables.$ns}popup-top;
-        }
-
-        &[data-popper-placement*='left'] #{$block} {
-            animation-name: #{variables.$ns}popup-left;
-        }
-
-        &[data-popper-placement*='right'] #{$block} {
-            animation-name: #{variables.$ns}popup-right;
-        }
-    }
-
-    // open state
-    &_enter_active,
-    &_appear_active {
-        &[data-popper-placement*='bottom'] #{$block} {
-            animation-name: #{variables.$ns}popup-bottom-open;
-        }
-
-        &[data-popper-placement*='top'] #{$block} {
-            animation-name: #{variables.$ns}popup-top-open;
-        }
-
-        &[data-popper-placement*='left'] #{$block} {
-            animation-name: #{variables.$ns}popup-left-open;
-        }
-
-        &[data-popper-placement*='right'] #{$block} {
-            animation-name: #{variables.$ns}popup-right-open;
-        }
-    }
-
-    // arrow
-    &[data-popper-placement*='bottom'] #{#{$block}}__arrow {
-        top: -$arrow-offset;
-    }
-
-    &[data-popper-placement*='top'] #{#{$block}}__arrow {
-        bottom: -$arrow-offset;
-
-        &-content {
-            transform: rotate(180deg);
-        }
-    }
-
-    &[data-popper-placement*='left'] #{#{$block}}__arrow {
-        right: -$arrow-offset;
-
-        &-content {
-            transform: rotate(90deg);
-        }
-    }
-
-    &[data-popper-placement*='right'] #{#{$block}}__arrow {
-        left: -$arrow-offset;
-
-        &-content {
-            transform: rotate(-90deg);
         }
     }
 }

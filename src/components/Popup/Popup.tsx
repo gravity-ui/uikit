@@ -40,12 +40,14 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
     disablePortal?: boolean;
     container?: HTMLElement;
+    contentClassName?: string;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
+    role?: React.AriaRole;
+    id?: string;
 }
 
 const b = block('popup');
-const bWrapper = block('popup-wrapper');
 const ARROW_SIZE = 8;
 
 export function Popup({
@@ -60,6 +62,7 @@ export function Popup({
     disableLayer,
     style,
     className,
+    contentClassName,
     modifiers = [],
     children,
     onEscapeKeyDown,
@@ -74,6 +77,8 @@ export function Popup({
     qa,
     restoreFocus,
     restoreFocusRef,
+    role,
+    id,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -118,7 +123,7 @@ export function Popup({
                 addEndListener={(done) =>
                     containerRef.current?.addEventListener('animationend', done)
                 }
-                classNames={getCSSTransitionClassNames(bWrapper)}
+                classNames={getCSSTransitionClassNames(b)}
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
                 appear={true}
@@ -128,16 +133,19 @@ export function Popup({
                     style={styles.popper}
                     {...attributes.popper}
                     {...containerProps}
-                    className={bWrapper({open})}
+                    className={b({open}, className)}
+                    tabIndex={-1}
+                    data-qa={qa}
+                    id={id}
+                    role={role}
                 >
                     {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <div
                         onClick={onClick}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
-                        className={b({open}, className)}
+                        className={b('content', contentClassName)}
                         style={style}
-                        data-qa={qa}
                     >
                         {hasArrow && (
                             <PopupArrow

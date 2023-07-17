@@ -1,0 +1,20 @@
+@mixin variables {
+    --yc-color-line-generic: var(--g-color-line-generic);
+    --yc-color-line-generic-hover: var(--g-color-line-generic-hover);
+    --yc-color-line-generic-active: var(--g-color-line-generic-active);
+    --yc-color-line-generic-accent: var(--g-color-line-generic-accent);
+    --yc-color-line-generic-accent-hover: var(--g-color-line-generic-accent-hover);
+    --yc-color-line-solid: var(--g-color-line-generic-solid);
+    --yc-color-line-selection-hover: var(--g-color-private-blue-300);
+    --yc-color-line-selection-active: var(--g-color-line-brand);
+    --yc-color-line-link: var(--g-color-line-brand);
+
+    --yc-color-line-info: var(--g-color-line-info);
+    --yc-color-line-positive: var(--g-color-line-positive);
+    --yc-color-line-warning: var(--g-color-line-warning);
+    --yc-color-line-danger: var(--g-color-line-danger);
+    --yc-color-line-misc: var(--g-color-line-misc);
+    --yc-color-line-hint: var(--g-color-line-brand);
+
+    --yc-color-line-light: var(--g-color-line-light);
+}

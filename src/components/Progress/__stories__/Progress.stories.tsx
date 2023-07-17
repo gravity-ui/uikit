@@ -74,19 +74,19 @@ const StackTemplate: StoryFn<typeof Progress> = (args) => {
 
 export const Stack = StackTemplate.bind({});
 
-const ViewTemplate: StoryFn<typeof Progress> = (args) => {
+const SizeTemplate: StoryFn<typeof Progress> = (args) => {
     return (
         <React.Fragment>
-            <Progress {...args} value={80} theme="success" view="normal" />
+            <Progress {...args} value={80} theme="success" size="m" />
             <br />
-            <Progress {...args} value={60} theme="warning" view="thin" />
+            <Progress {...args} value={60} theme="warning" size="s" />
             <br />
-            <Progress {...args} value={70} theme="danger" view="thinnest" />
+            <Progress {...args} value={70} theme="danger" size="xs" />
         </React.Fragment>
     );
 };
 
-export const View = ViewTemplate.bind({});
+export const Size = SizeTemplate.bind({});
 
 const defaultState: {value: number; theme: ProgressTheme} = {value: 40, theme: 'info'};
 

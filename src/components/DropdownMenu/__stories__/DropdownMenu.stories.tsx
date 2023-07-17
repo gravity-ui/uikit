@@ -1,12 +1,12 @@
 import React from 'react';
 
+import {Bars} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 import block from 'bem-cn-lite';
 
 import {Icon} from '../../Icon';
 import {Label} from '../../Label';
 import type {LabelProps} from '../../Label';
-import {GearIcon} from '../../icons/GearIcon';
 import {DropdownMenu} from '../DropdownMenu';
 import type {DropdownMenuItem} from '../DropdownMenu';
 
@@ -72,7 +72,7 @@ const CustomIconTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
 export const CustomIcon = CustomIconTemplate.bind({});
 CustomIcon.args = {
     items: options,
-    icon: <Icon data={GearIcon} />,
+    icon: <Icon data={Bars} />,
 };
 CustomIcon.storyName = 'Non-standard icon';
 

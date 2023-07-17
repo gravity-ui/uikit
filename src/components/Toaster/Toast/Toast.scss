@@ -22,8 +22,8 @@ $block: '.#{variables.$ns}toast';
     padding: var(--yc-toaster-padding);
     font-size: 13px;
     border-radius: 8px;
-    box-shadow: 0px 0px 15px var(--yc-color-sfx-shadow);
-    background-color: var(--yc-color-base-background);
+    box-shadow: 0px 0px 15px var(--g-color-sfx-shadow);
+    background-color: var(--g-color-base-background);
     overflow: hidden;
     z-index: 0;
 
@@ -32,46 +32,46 @@ $block: '.#{variables.$ns}toast';
     }
 
     &_default {
-        background-color: var(--yc-color-base-float);
+        background-color: var(--g-color-base-float);
     }
 
     &_info {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-info);
+            background-color: var(--g-color-base-info-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-info);
+            color: var(--g-color-text-info);
         }
     }
 
     &_success {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-positive);
+            background-color: var(--g-color-base-positive-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-positive);
+            color: var(--g-color-text-positive);
         }
     }
 
     &_warning {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-warning);
+            background-color: var(--g-color-base-warning-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-warning);
+            color: var(--g-color-text-warning);
         }
     }
 
     &_error {
         & #{$containerClass}:before {
-            background-color: var(--yc-color-base-danger);
+            background-color: var(--g-color-base-danger-light);
         }
 
         & #{$iconClass} {
-            color: var(--yc-color-text-danger);
+            color: var(--g-color-text-danger);
         }
     }
 
@@ -97,6 +97,7 @@ $block: '.#{variables.$ns}toast';
     &__icon-container {
         flex: 0 0 auto;
         padding-right: 8px;
+        padding-top: 2px;
     }
 
     &__title {

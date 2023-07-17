@@ -1,0 +1,58 @@
+@mixin variables {
+    --yc-color-base-background: var(--g-color-base-background);
+    --yc-color-base-generic: var(--g-color-base-generic);
+    --yc-color-base-generic-hover: var(--g-color-base-generic-hover);
+    --yc-color-base-generic-medium: var(--g-color-base-generic-medium);
+    --yc-color-base-generic-medium-hover: var(--g-color-base-generic-medium-hover);
+    --yc-color-base-generic-accent: var(--g-color-base-generic-accent);
+    --yc-color-base-generic-accent-disabled: var(--g-color-base-generic-accent-disabled);
+    --yc-color-base-generic-ultralight: var(--g-color-base-generic-ultralight);
+    --yc-color-base-simple-hover: var(--g-color-base-simple-hover);
+    --yc-color-base-simple-hover-solid: var(--g-color-base-simple-hover-solid);
+    --yc-color-base-selection: var(--g-color-base-selection);
+    --yc-color-base-selection-hover: var(--g-color-base-selection-hover);
+
+    --yc-color-base-special: var(--g-color-base-brand);
+    --yc-color-base-special-hover: var(--g-color-base-brand-hover);
+    --yc-color-base-action: var(--g-color-base-brand);
+    --yc-color-base-action-hover: var(--g-color-base-brand-hover);
+
+    --yc-color-base-info: var(--g-color-base-info-light);
+    --yc-color-base-info-hover: var(--g-color-base-info-light-hover);
+    --yc-color-base-positive: var(--g-color-base-positive-light);
+    --yc-color-base-positive-hover: var(--g-color-base-positive-light-hover);
+    --yc-color-base-warning: var(--g-color-base-warning-light);
+    --yc-color-base-warning-hover: var(--g-color-base-warning-light-hover);
+    --yc-color-base-danger: var(--g-color-base-danger-light);
+    --yc-color-base-danger-hover: var(--g-color-base-danger-light-hover);
+    --yc-color-base-misc: var(--g-color-base-misc-light);
+    --yc-color-base-misc-hover: var(--g-color-base-misc-light-hover);
+    --yc-color-base-neutral: var(--g-color-base-neutral-light);
+    --yc-color-base-neutral-hover: var(--g-color-base-neutral-light-hover);
+
+    --yc-color-base-positive-medium: var(--g-color-base-positive-medium);
+    --yc-color-base-positive-medium-hover: var(--g-color-base-positive-medium-hover);
+
+    --yc-color-base-info-heavy: var(--g-color-base-info-heavy);
+    --yc-color-base-positive-heavy: var(--g-color-base-positive-heavy);
+    --yc-color-base-warning-heavy: var(--g-color-base-warning-heavy);
+    --yc-color-base-warning-heavy-hover: var(--g-color-base-warning-heavy-hover);
+    --yc-color-base-danger-heavy: var(--g-color-base-danger-heavy);
+    --yc-color-base-danger-heavy-hover: var(--g-color-base-danger-heavy-hover);
+    --yc-color-base-misc-heavy: var(--g-color-base-misc-heavy);
+    --yc-color-base-misc-heavy-hover: var(--g-color-base-misc-heavy-hover);
+
+    --yc-color-base-light: var(--g-color-base-light);
+    --yc-color-base-light-hover: var(--g-color-base-light-hover);
+    --yc-color-base-light-simple-hover: var(--g-color-base-light-simple-hover);
+    --yc-color-base-light-disabled: var(--g-color-base-light-disabled);
+    --yc-color-base-light-accent-disabled: var(--g-color-base-light-accent-disabled);
+
+    --yc-color-base-float: var(--g-color-base-float);
+    --yc-color-base-float-hover: var(--g-color-base-float-hover);
+    --yc-color-base-float-heavy: var(--g-color-base-float-heavy);
+    --yc-color-base-float-accent: var(--g-color-base-float-accent);
+    --yc-color-base-float-accent-hover: var(--g-color-base-float-accent-hover);
+    --yc-color-base-float-announcement: var(--g-color-base-float-announcement);
+    --yc-color-base-modal: var(--g-color-base-modal);
+}

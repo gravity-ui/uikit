@@ -1,144 +1,63 @@
-@import './colors/private/light';
-@import './colors/private/dark';
-@import './colors/private/light-hc';
-@import './colors/private/dark-hc';
-@import './colors/text/light';
-@import './colors/text/dark';
-@import './colors/text/light-hc';
-@import './colors/text/dark-hc';
-@import './colors/base/light';
-@import './colors/base/dark';
-@import './colors/base/light-hc';
-@import './colors/base/dark-hc';
-@import './colors/line/light';
-@import './colors/line/dark';
-@import './colors/line/light-hc';
-@import './colors/line/dark-hc';
-@import './colors/infographics/light';
-@import './colors/infographics/dark';
-@import './colors/infographics/light-hc';
-@import './colors/infographics/dark-hc';
-@import './colors/sfx/light';
-@import './colors/sfx/dark';
-@import './colors/sfx/light-hc';
-@import './colors/sfx/dark-hc';
-@import './colors/promo/light';
-@import './colors/promo/dark';
-@import './colors/promo/light-hc';
-@import './colors/promo/dark-hc';
-@import './colors/social';
-@import './colors/system';
-@import './typography';
-@import './brand';
-@import './spacing';
+@import './themes';
+@import './old-variables';
 
-.yc-root {
-    @include yc-typography;
-    @include yc-brand;
-    @include yc-colors-social;
-    @include yc-spacing;
+.g-root {
+    background: var(--g-color-base-background);
+    color: var(--g-color-text-primary);
 
-    --yc-scrollbar-width: var(--yc-my-scrollbar-width);
-
-    --yc-border-radius-xs: var(--yc-my-border-radius-xs);
-    --yc-border-radius-s: var(--yc-my-border-radius-s);
-    --yc-border-radius-m: var(--yc-my-border-radius-m);
-    --yc-border-radius-l: var(--yc-my-border-radius-l);
-    --yc-border-radius-xl: var(--yc-my-border-radius-xl);
+    @include g-theme-common;
 
     &_theme_light {
-        @include yc-colors-private-light;
-        @include yc-colors-brand-light;
-        @include yc-colors-text-light;
-        @include yc-colors-base-light;
-        @include yc-colors-line-light;
-        @include yc-colors-infographics-light;
-        @include yc-colors-sfx-light;
-        @include yc-colors-promo-light;
-        @include yc-colors-system-light;
-
-        background: var(--yc-color-base-background);
-        color: var(--yc-color-text-primary);
+        @include g-theme-light;
     }
 
     &_theme_dark {
-        @include yc-colors-private-dark;
-        @include yc-colors-brand-dark;
-        @include yc-colors-text-dark;
-        @include yc-colors-base-dark;
-        @include yc-colors-line-dark;
-        @include yc-colors-infographics-dark;
-        @include yc-colors-sfx-dark;
-        @include yc-colors-promo-dark;
-        @include yc-colors-system-dark;
-
-        background: var(--yc-color-base-background);
-        color: var(--yc-color-text-primary);
+        @include g-theme-dark;
     }
 
     &_theme_light-hc {
-        @include yc-colors-private-light-hc;
-        @include yc-colors-brand-light-hc;
-        @include yc-colors-text-light-hc;
-        @include yc-colors-base-light-hc;
-        @include yc-colors-line-light-hc;
-        @include yc-colors-infographics-light-hc;
-        @include yc-colors-sfx-light-hc;
-        @include yc-colors-promo-light-hc;
-        @include yc-colors-system-light-hc;
-
-        background: var(--yc-color-base-background);
-        color: var(--yc-color-text-primary);
+        @include g-theme-light-hc;
     }
 
     &_theme_dark-hc {
-        @include yc-colors-private-dark-hc;
-        @include yc-colors-brand-dark-hc;
-        @include yc-colors-text-dark-hc;
-        @include yc-colors-base-dark-hc;
-        @include yc-colors-line-dark-hc;
-        @include yc-colors-infographics-dark-hc;
-        @include yc-colors-sfx-dark-hc;
-        @include yc-colors-promo-dark-hc;
-        @include yc-colors-system-dark-hc;
-
-        background: var(--yc-color-base-background);
-        color: var(--yc-color-text-primary);
+        @include g-theme-dark-hc;
     }
+
+    @include g-variables-fallback;
 }
 
-body.yc-root:not(.yc-root_mobile):not(.yc-root_native-scrollbar) {
+body.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
-        width: var(--yc-scrollbar-width);
-        height: var(--yc-scrollbar-width);
-        background: var(--yc-color-scroll-track);
+        width: var(--g-scrollbar-width);
+        height: var(--g-scrollbar-width);
+        background: var(--g-color-scroll-track);
     }
 
     &::-webkit-scrollbar-track,
     *::-webkit-scrollbar-track {
-        background: var(--yc-color-scroll-track);
+        background: var(--g-color-scroll-track);
     }
 
     &::-webkit-scrollbar-corner,
     *::-webkit-scrollbar-corner {
-        background: var(--yc-color-scroll-corner);
+        background: var(--g-color-scroll-corner);
     }
 
     &::-webkit-scrollbar-thumb,
     *::-webkit-scrollbar-thumb {
-        background: var(--yc-color-scroll-handle);
+        background: var(--g-color-scroll-handle);
     }
 
     &::-webkit-scrollbar-thumb:hover,
     *::-webkit-scrollbar-thumb:hover {
-        background: var(--yc-color-scroll-handle-hover);
+        background: var(--g-color-scroll-handle-hover);
     }
 
     // stylelint-disable-next-line property-no-unknown
-    scrollbar-width: var(--yc-scrollbar-width);
+    scrollbar-width: var(--g-scrollbar-width);
     // stylelint-disable-next-line property-no-unknown
-    scrollbar-color: var(--yc-color-scroll-handle) var(--yc-color-scroll-track);
+    scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
 }
 
 @keyframes yc-loading-animation {

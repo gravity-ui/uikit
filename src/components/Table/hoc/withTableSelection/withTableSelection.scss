@@ -6,36 +6,36 @@
     }
 
     &__row_selected {
-        background: var(--yc-color-base-selection);
+        background: var(--g-color-base-selection);
 
         #{variables.$block}__cell_sticky_left,
         #{variables.$block}__cell_sticky_right {
             background: linear-gradient(
                     to right,
-                    var(--yc-color-base-selection),
-                    var(--yc-color-base-selection)
+                    var(--g-color-base-selection),
+                    var(--g-color-base-selection)
                 ),
                 linear-gradient(
                     to right,
-                    var(--yc-color-base-background),
-                    var(--yc-color-base-background)
+                    var(--g-color-base-background),
+                    var(--g-color-base-background)
                 );
         }
 
         &#{variables.$block}__row_interactive:hover {
-            background: var(--yc-color-base-selection-hover);
+            background: var(--g-color-base-selection-hover);
 
             #{variables.$block}__cell_sticky_left,
             #{variables.$block}__cell_sticky_right {
                 background: linear-gradient(
                         to right,
-                        var(--yc-color-base-selection-hover),
-                        var(--yc-color-base-selection-hover)
+                        var(--g-color-base-selection-hover),
+                        var(--g-color-base-selection-hover)
                     ),
                     linear-gradient(
                         to right,
-                        var(--yc-color-base-background),
-                        var(--yc-color-base-background)
+                        var(--g-color-base-background),
+                        var(--g-color-base-background)
                     );
             }
         }

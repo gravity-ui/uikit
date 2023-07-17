@@ -1,0 +1,19 @@
+@use './typography';
+@use './spacing';
+@use './base';
+@use './line';
+@use './sfx';
+@use './system';
+@use './text';
+@use './infographics';
+
+@mixin g-variables-fallback {
+    @include typography.variables;
+    @include spacing.variables;
+    @include base.variables;
+    @include line.variables;
+    @include sfx.variables;
+    @include system.variables;
+    @include text.variables;
+    @include infographics.variables;
+}

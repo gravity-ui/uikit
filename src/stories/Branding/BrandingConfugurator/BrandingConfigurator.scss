@@ -1,0 +1,76 @@
+@use '../../../../styles/mixins';
+
+.branding-configurator {
+    @include mixins.text-body-2;
+
+    &__title {
+        @include mixins.text-display-1;
+        margin-bottom: 16px;
+
+        &:not(:first-child) {
+            margin-top: 32px;
+        }
+    }
+
+    &__palette {
+        display: flex;
+        align-items: center;
+    }
+
+    &__random-color {
+        flex-shrink: 0;
+        margin-left: 10px;
+    }
+
+    &__colors {
+        display: flex;
+        gap: 10px;
+        margin-left: 40px;
+    }
+
+    &__color {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border-radius: 5px;
+        border: 2px solid var(--g-color-line-generic);
+        background-clip: content-box;
+    }
+
+    &__components {
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-auto-rows: auto;
+        gap: 40px;
+
+        &-title {
+            @include mixins.text-body-3();
+        }
+
+        &-content {
+            display: flex;
+            align-items: center;
+
+            & > *:not(:last-child) {
+                margin-right: 24px;
+            }
+        }
+    }
+
+    &__result-card {
+        position: relative;
+        width: 500px;
+        padding: 16px;
+    }
+
+    &__result-copy {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+    }
+
+    &__result-text {
+        @include mixins.text-code-1;
+        white-space: pre;
+    }
+}

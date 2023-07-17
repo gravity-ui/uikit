@@ -2,7 +2,6 @@ import React from 'react';
 
 import round from 'lodash/round';
 import throttle from 'lodash/throttle';
-import ResizeObserver from 'resize-observer-polyfill';
 
 const RESIZE_THROTTLE = 16;
 const ROUND_PRESICION = 2;

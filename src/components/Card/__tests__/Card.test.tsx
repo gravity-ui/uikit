@@ -210,16 +210,22 @@ describe('Card', () => {
     test('ignore onClick if type!="container"', async () => {
         const user = userEvent.setup();
         const handleOnClick = jest.fn();
+        const outerHandler = jest.fn();
         render(
-            <Card type="container" onClick={handleOnClick} qa={qaId}>
-                {cardText}
-            </Card>,
+            <div onClick={outerHandler} onKeyDown={outerHandler}>
+                <Card type="container" onClick={handleOnClick} qa={qaId}>
+                    {cardText}
+                </Card>
+            </div>,
         );
 
         const card = screen.getByText(cardText);
 
         await user.click(card);
-        expect(handleOnClick).toHaveBeenCalledTimes(0);
+        await user.keyboard('[Space]');
+        await user.keyboard('[Enter]');
+        expect(handleOnClick).not.toHaveBeenCalled();
+        expect(outerHandler).toHaveBeenCalled();
     });
 
     describe('should respond to clicks correctly', () => {

@@ -36,8 +36,8 @@
     --g-color-text-light-secondary: var(--g-color-private-white-600);
     --g-color-text-light-hint: var(--g-color-private-white-400);
 
-    --g-color-text-inverted-primary: var(--g-color-private-black-1000-solid);
-    --g-color-text-inverted-complementary: var(--g-color-private-black-800);
-    --g-color-text-inverted-secondary: var(--g-color-private-black-600);
-    --g-color-text-inverted-hint: var(--g-color-private-black-400);
+    --g-color-text-inverted-primary: var(--g-color-text-dark-primary);
+    --g-color-text-inverted-complementary: var(--g-color-text-dark-complementary);
+    --g-color-text-inverted-secondary: var(--g-color-text-dark-secondary);
+    --g-color-text-inverted-hint: var(--g-color-text-dark-hint);
 }

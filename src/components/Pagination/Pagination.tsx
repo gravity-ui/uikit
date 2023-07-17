@@ -92,7 +92,7 @@ export const Pagination = ({
         .filter(Boolean);
 
     return (
-        <div className={b('', {}, className)}>
+        <div className={b(null, className)}>
             {pagination}
             {showInput && (
                 <PaginationInput

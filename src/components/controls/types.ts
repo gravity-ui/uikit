@@ -32,7 +32,7 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         /** Indicates that the user cannot interact with the control */
         disabled?: boolean;
         /** Shows error state and optional message if property identified as a string
-         * @deprecated use `errorMessage` instead
+         * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
          */
         error?: string | boolean;
         /** Determines content of the error message */

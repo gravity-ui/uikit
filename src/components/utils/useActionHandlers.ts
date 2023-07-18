@@ -16,10 +16,8 @@ export function useActionHandlers<T>(callback?: AnyFunction): UseActionHandlersR
     const onKeyDown = React.useCallback(
         (event: React.KeyboardEvent<T>) => {
             if (callback && ['Enter', ' ', 'Spacebar'].includes(event.key)) {
-                return callback(event);
+                callback(event);
             }
-
-            return undefined;
         },
         [callback],
     );

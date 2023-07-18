@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/gravity-ui/uikit/compare/v5.0.1...v5.0.2) (2023-07-18)
+
+
+### Bug Fixes
+
+* **Card:** prevent keyboard handler form abort ([#825](https://github.com/gravity-ui/uikit/issues/825)) ([273d316](https://github.com/gravity-ui/uikit/commit/273d3161e22cf8f1b1f269861dcf0e01b0e2a8a1))
+
 ## [5.0.1](https://github.com/gravity-ui/uikit/compare/v5.0.0...v5.0.1) (2023-07-17)
 
 

@@ -17,6 +17,7 @@ type SelectListProps = {
     onOptionClick: (option: FlattenOption) => void;
     renderOption?: SelectProps['renderOption'];
     getOptionHeight?: SelectProps['getOptionHeight'];
+    getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: NonNullable<SelectProps['size']>;
     value: NonNullable<SelectProps['value']>;
     flattenOptions: FlattenOption[];
@@ -32,6 +33,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         onOptionClick,
         renderOption,
         getOptionHeight,
+        getOptionGroupHeight,
         size,
         flattenOptions,
         value,
@@ -48,15 +50,23 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     const optionsHeight = getOptionsHeight({
         options: items,
         getOptionHeight,
+        getOptionGroupHeight,
         size,
         mobile,
     });
 
     const getItemHeight = React.useCallback(
         (option: FlattenOption, index: number) => {
-            return getPopupItemHeight({getOptionHeight, size, option, index, mobile});
+            return getPopupItemHeight({
+                getOptionHeight,
+                getOptionGroupHeight,
+                size,
+                option,
+                index,
+                mobile,
+            });
         },
-        [getOptionHeight, mobile, size],
+        [getOptionHeight, getOptionGroupHeight, mobile, size],
     );
 
     const renderItem = React.useCallback(

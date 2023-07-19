@@ -1,5 +1,5 @@
 | Property                        | Type                                    | Default         | Description                                                                                                                   |
-| :------------------------------ | :-------------------------------------- | :-------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| :------------------------------ | :-------------------------------------- | :-------------- |:------------------------------------------------------------------------------------------------------------------------------|
 | onUpdate                        | `function`                              | `-`             | Fires when an alteration to the Select value is committed by the user                                                         |
 | onOpenChange                    | `function`                              | `-`             | Fires every time after changing popup visibility                                                                              |
 | onFilterChange                  | `function`                              | `-`             | Fires every time after changing filter                                                                                        |
@@ -10,6 +10,7 @@
 | renderSelectedOption            | `function`                              | `-`             | Used to render user selected options                                                                                          |
 | renderEmptyOptions              | `function`                              | `-`             | Used to render node for an empty options list                                                                                 |
 | getOptionHeight                 | `function`                              | `-`             | Used to set height of customized user options                                                                                 |
+| getOptionGroupHeight            | `function`                              | `-`             | Used to set height of customized user option group                                                                            |
 | [options](#options)             | `(SelectOption \| SelectOptionGroup)[]` | `-`             | Options to select                                                                                                             |
 | view                            | `string`                                | `'normal'`      | Control [view](https://github.com/gravity-ui/uikit/blob/main/src/components/TextInput/types.ts#L4)                            |
 | size                            | `string`                                | `'m'`           | Control/options [size](https://github.com/gravity-ui/uikit/blob/main/src/components/TextInput/types.ts#L6)                    |

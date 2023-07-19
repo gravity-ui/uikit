@@ -53,6 +53,7 @@ export type SelectProps<T = any> = QAProps &
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         getOptionHeight?: (option: SelectOption<T>) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;

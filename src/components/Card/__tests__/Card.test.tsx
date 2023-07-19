@@ -222,6 +222,22 @@ describe('Card', () => {
         expect(handleOnClick).toHaveBeenCalledTimes(0);
     });
 
+    test('should not prevent keyboard events without handler', async () => {
+        render(
+            <Card>
+                <label>
+                    Foobar <input />
+                </label>
+            </Card>,
+        );
+
+        const input = screen.getByLabelText('Foobar');
+
+        await userEvent.type(input, 'Test text with spaces');
+
+        expect(input).toHaveValue('Test text with spaces');
+    });
+
     describe('should respond to clicks correctly', () => {
         test('reacts to keystrokes if focused', async () => {
             const user = userEvent.setup();

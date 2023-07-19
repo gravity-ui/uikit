@@ -65,7 +65,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
     const handleClick = isClickable ? onClick : undefined;
-    const {onKeyDown} = useActionHandlers(handleClick);
+    const {onKeyDown} = useActionHandlers(onClick);
 
     return (
         <div
@@ -85,7 +85,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                 className,
             )}
             onClick={handleClick}
-            onKeyDown={onKeyDown}
+            onKeyDown={isClickable ? onKeyDown : undefined}
             tabIndex={isClickable ? 0 : undefined}
             data-qa={qa}
         >

@@ -336,6 +336,23 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         );
     }
 
+    private renderColgroup() {
+        const {columns} = this.props;
+        const {columnsStyles} = this.state;
+
+        if (!columnsStyles.length) {
+            return null;
+        }
+
+        return (
+            <colgroup>
+                {columnsStyles.map(({width}, index) => (
+                    <col style={{width}} key={columns[index].id} />
+                ))}
+            </colgroup>
+        );
+    }
+
     private renderHead() {
         const {columns, edgePadding, wordWrap} = this.props;
         const {columnsStyles} = this.state;
@@ -386,6 +403,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     private renderTable() {
         return (
             <table ref={this.tableRef} className={b('table')}>
+                {this.renderColgroup()}
                 {this.renderHead()}
                 {this.renderBody()}
             </table>

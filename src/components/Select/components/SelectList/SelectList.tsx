@@ -4,7 +4,7 @@ import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
 import type {FlattenOption} from '../../utils';
-import {getOptionsHeight, getPopupItemHeight} from '../../utils';
+import {GroupTitleItem, getOptionsHeight, getPopupItemHeight} from '../../utils';
 
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
@@ -16,6 +16,7 @@ type SelectListProps = {
     mobile: boolean;
     onOptionClick: (option: FlattenOption) => void;
     renderOption?: SelectProps['renderOption'];
+    renderOptionGroup?: SelectProps['renderOptionGroup'];
     getOptionHeight?: SelectProps['getOptionHeight'];
     getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: NonNullable<SelectProps['size']>;
@@ -32,6 +33,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     const {
         onOptionClick,
         renderOption,
+        renderOptionGroup,
         getOptionHeight,
         getOptionGroupHeight,
         size,
@@ -72,15 +74,25 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
     const renderItem = React.useCallback(
         (option: FlattenOption, _isItemActive: boolean, itemIndex: number) => {
             if ('label' in option) {
-                return <GroupLabel label={option.label} />;
+                const wrappedRenderOptionGroup = renderOptionGroup
+                    ? (optionLocal: GroupTitleItem) => {
+                          return renderOptionGroup(optionLocal, {
+                              itemHeight: getItemHeight(optionLocal, itemIndex),
+                          });
+                      }
+                    : undefined;
+
+                return <GroupLabel option={option} renderOptionGroup={wrappedRenderOptionGroup} />;
             }
             if (option.value === loadingOption.value) {
                 return <SelectLoadingIndicator />;
             }
 
             const wrappedRenderOption = renderOption
-                ? (option: SelectOption) => {
-                      return renderOption(option, {itemHeight: getItemHeight(option, itemIndex)});
+                ? (optionLocal: SelectOption) => {
+                      return renderOption(optionLocal, {
+                          itemHeight: getItemHeight(optionLocal, itemIndex),
+                      });
                   }
                 : undefined;
 
@@ -93,7 +105,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                 />
             );
         },
-        [renderOption, value, multiple, getItemHeight],
+        [renderOption, renderOptionGroup, value, multiple, getItemHeight],
     );
 
     return (

@@ -1,5 +1,5 @@
 | Property                        | Type                                    | Default         | Description                                                                                                                   |
-| :------------------------------ | :-------------------------------------- | :-------------- |:------------------------------------------------------------------------------------------------------------------------------|
+| :------------------------------ | :-------------------------------------- | :-------------- | :---------------------------------------------------------------------------------------------------------------------------- |
 | onUpdate                        | `function`                              | `-`             | Fires when an alteration to the Select value is committed by the user                                                         |
 | onOpenChange                    | `function`                              | `-`             | Fires every time after changing popup visibility                                                                              |
 | onFilterChange                  | `function`                              | `-`             | Fires every time after changing filter                                                                                        |
@@ -7,6 +7,7 @@
 | [renderControl](#rendercontrol) | `function`                              | `-`             | Used to render user control                                                                                                   |
 | [renderFilter](#renderfilter)   | `function`                              | `-`             | Used to render user filter section                                                                                            |
 | renderOption                    | `function`                              | `-`             | Used to render user options                                                                                                   |
+| renderOptionGroup               | `function`                              | `-`             | Used to render user option groups                                                                                             |
 | renderSelectedOption            | `function`                              | `-`             | Used to render user selected options                                                                                          |
 | renderEmptyOptions              | `function`                              | `-`             | Used to render node for an empty options list                                                                                 |
 | getOptionHeight                 | `function`                              | `-`             | Used to set height of customized user options                                                                                 |

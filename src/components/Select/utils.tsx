@@ -8,7 +8,7 @@ import type {Option, OptionGroup} from './tech-components';
 import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
 
 // "disable" property needs to deactivate group title item in List
-type GroupTitleItem = {label: string; disabled: true};
+export type GroupTitleItem = {label: string; disabled: true};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
 
@@ -46,7 +46,7 @@ export const getPopupItemHeight = (args: {
         return getOptionGroupHeight ? getOptionGroupHeight(option, index) : itemHeight + marginTop;
     }
 
-    return getOptionHeight ? getOptionHeight(option) : itemHeight;
+    return getOptionHeight ? getOptionHeight(option, index) : itemHeight;
 };
 
 export const getOptionsHeight = (args: {

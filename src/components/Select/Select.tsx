@@ -45,6 +45,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderControl,
         renderFilter,
         renderOption,
+        renderOptionGroup,
         renderSelectedOption,
         renderEmptyOptions,
         getOptionHeight,
@@ -275,6 +276,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         virtualized={virtualized}
                         onOptionClick={handleOptionClick}
                         renderOption={renderOption}
+                        renderOptionGroup={renderOptionGroup}
                         getOptionHeight={getOptionHeight}
                         getOptionGroupHeight={getOptionGroupHeight}
                         loading={props.loading}

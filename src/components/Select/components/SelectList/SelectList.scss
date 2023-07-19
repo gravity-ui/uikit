@@ -24,13 +24,16 @@ $xl-right-padding: '12px';
         max-height: calc(90vh - 20px);
     }
 
-    &__group-label {
+    &__group-label,
+    &__group-label-custom {
         box-sizing: border-box;
         position: relative;
         width: 100%;
         height: auto;
         padding: 0;
+    }
 
+    &__group-label {
         #{$block}_size_s &:not(#{&}_empty) {
             height: #{variables.$s-height};
             padding: 8px #{select-css-variables.$s-hor-padding} 4px;

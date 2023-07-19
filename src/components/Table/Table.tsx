@@ -351,7 +351,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                             <th
                                 key={id}
                                 ref={this.state.columnHeaderRefs[index]}
-                                style={columnsStyles[index]}
+                                style={this.getCellStyles(columnsStyles[index])}
                                 className={b(
                                     'cell',
                                     {
@@ -445,7 +445,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     return (
                         <td
                             key={id}
-                            style={columnsStyles[colIndex]}
+                            style={this.getCellStyles(columnsStyles[colIndex])}
                             className={b(
                                 'cell',
                                 {
@@ -533,6 +533,13 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         }, 0);
 
         return style;
+    }
+
+    private getCellStyles({
+        width: _width,
+        ...styles
+    }: React.CSSProperties): React.CSSProperties | undefined {
+        return Object.keys(styles).length ? styles : undefined;
     }
 
     private handleScrollContainerMouseenter = () => {

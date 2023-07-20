@@ -4,9 +4,10 @@ import {CSSTransition} from 'react-transition-group';
 
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
-import {useParentFocusTrap} from '../utils/FocusTrap';
+import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
+import {useActionHandlers} from '../utils/useActionHandlers';
 import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
@@ -38,6 +39,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+    onFocus?: React.FocusEventHandler<HTMLDivElement>;
+    onBlur?: React.FocusEventHandler<HTMLDivElement>;
     disablePortal?: boolean;
     container?: HTMLElement;
     contentClassName?: string;
@@ -45,6 +48,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     restoreFocusRef?: React.RefObject<HTMLElement>;
     role?: React.AriaRole;
     id?: string;
+    focusTrap?: boolean;
+    autofocus?: boolean;
 }
 
 const b = block('popup');
@@ -71,6 +76,8 @@ export function Popup({
     onClick,
     onMouseEnter,
     onMouseLeave,
+    onFocus,
+    onBlur,
     disablePortal,
     container,
     strategy,
@@ -79,6 +86,8 @@ export function Popup({
     restoreFocusRef,
     role,
     id,
+    focusTrap = false,
+    autofocus = false,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -115,6 +124,8 @@ export function Popup({
         restoreFocusRef,
     });
 
+    const {onKeyDown} = useActionHandlers(onClick);
+
     return (
         <Portal container={container} disablePortal={disablePortal}>
             <CSSTransition
@@ -139,23 +150,29 @@ export function Popup({
                     id={id}
                     role={role}
                 >
-                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                    <div
-                        onClick={onClick}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                        className={b('content', contentClassName)}
-                        style={style}
-                    >
-                        {hasArrow && (
-                            <PopupArrow
-                                styles={styles.arrow}
-                                attributes={attributes.arrow}
-                                setArrowRef={setArrowRef}
-                            />
-                        )}
-                        {children}
-                    </div>
+                    <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autofocus}>
+                        {/* The event handlers should only be used to capture bubbled events */}
+                        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+                        <div
+                            onClick={onClick}
+                            onKeyDown={onKeyDown}
+                            onMouseEnter={onMouseEnter}
+                            onMouseLeave={onMouseLeave}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            className={b('content', contentClassName)}
+                            style={style}
+                        >
+                            {hasArrow && (
+                                <PopupArrow
+                                    styles={styles.arrow}
+                                    attributes={attributes.arrow}
+                                    setArrowRef={setArrowRef}
+                                />
+                            )}
+                            {children}
+                        </div>
+                    </FocusTrap>
                 </div>
             </CSSTransition>
         </Portal>

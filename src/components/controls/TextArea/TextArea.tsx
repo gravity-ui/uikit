@@ -12,7 +12,6 @@ import type {
 } from '../types';
 import {
     CONTROL_ERROR_MESSAGE_QA,
-    CONTROL_QA,
     errorPropsMapper,
     getInputControlState,
     prepareAutoComplete,
@@ -60,6 +59,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         tabIndex,
         style,
         className,
+        qa,
         controlProps,
         onUpdate,
         onChange,
@@ -158,7 +158,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                 },
                 className,
             )}
-            data-qa={CONTROL_QA}
+            data-qa={qa}
         >
             <span className={b('content')}>
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />

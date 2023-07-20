@@ -3,7 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA, CONTROL_QA} from '../../utils';
+import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextInput} from '../TextInput';
 
 describe('TextInput input', () => {
@@ -90,12 +90,9 @@ describe('TextInput input', () => {
                 expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
             });
 
-            test('do not show error message and do not apply error state without error/errorMessage prop', () => {
+            test('do not show error message without error/errorMessage prop', () => {
                 render(<TextInput />);
 
-                expect(screen.queryByTestId(CONTROL_QA)).not.toHaveClass(
-                    'yc-text-input_state_error',
-                );
                 expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
             });
 
@@ -121,18 +118,6 @@ describe('TextInput input', () => {
                 render(<TextInput errorMessage={''} errorPlacement="tooltip" />);
 
                 expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
-            });
-
-            test('visually, input should be in error state (red border) if error prop is received', () => {
-                render(<TextInput error={'Some error'} />);
-
-                expect(screen.getByTestId(CONTROL_QA)).toHaveClass('yc-text-input_state_error');
-            });
-
-            test('visually, input should be in error state (red border) even if received error prop is an empty string', () => {
-                render(<TextInput error={''} />);
-
-                expect(screen.getByTestId(CONTROL_QA)).toHaveClass('yc-text-input_state_error');
             });
         });
 

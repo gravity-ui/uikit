@@ -1,6 +1,5 @@
 import type {BaseInputControlProps, InputControlState} from './types';
 
-export const CONTROL_QA = 'control-qa';
 export const CONTROL_ERROR_MESSAGE_QA = 'control-error-message-qa';
 export const CONTROL_ERROR_ICON_QA = 'control-error-icon-qa';
 

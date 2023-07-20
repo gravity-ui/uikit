@@ -17,7 +17,6 @@ import type {
 } from '../types';
 import {
     CONTROL_ERROR_ICON_QA,
-    CONTROL_QA,
     errorPropsMapper,
     getInputControlState,
     prepareAutoComplete,
@@ -68,6 +67,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         tabIndex,
         style,
         className,
+        qa,
         controlProps: originalControlProps,
         leftContent,
         rightContent,
@@ -185,7 +185,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 },
                 className,
             )}
-            data-qa={CONTROL_QA}
+            data-qa={qa}
         >
             <span className={b('content')}>
                 {isLeftContentVisible && (

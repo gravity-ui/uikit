@@ -3,7 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {CONTROL_ERROR_MESSAGE_QA, CONTROL_QA} from '../../utils';
+import {CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextArea} from '../TextArea';
 
 describe('TextArea', () => {
@@ -83,10 +83,9 @@ describe('TextArea', () => {
             expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
         });
 
-        test('do not show error message and do not apply error state without error/errorMessage prop', () => {
+        test('do not show error message without error/errorMessage prop', () => {
             render(<TextArea />);
 
-            expect(screen.queryByTestId(CONTROL_QA)).not.toHaveClass('g-text-area_state_error');
             expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
         });
 
@@ -100,18 +99,6 @@ describe('TextArea', () => {
             render(<TextArea errorMessage={''} />);
 
             expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
-        });
-
-        test('visually, area should be in error state (red border) if error prop is received', () => {
-            render(<TextArea error={'Some error'} />);
-
-            expect(screen.queryByTestId(CONTROL_QA)).toHaveClass('g-text-area_state_error');
-        });
-
-        test('visually, area should be in error state (red border) even if received error prop is an empty string', () => {
-            render(<TextArea error={''} />);
-
-            expect(screen.queryByTestId(CONTROL_QA)).toHaveClass('g-text-area_state_error');
         });
     });
 

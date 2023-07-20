@@ -158,3 +158,7 @@ class LayerManager {
 }
 
 export const layerManager = new LayerManager();
+
+export const getLayersCount = () => {
+    return layerManager.getLayersCount();
+};

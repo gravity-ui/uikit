@@ -65,3 +65,4 @@ export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/interactions';
 export * from './utils/xpath';
 export * from './utils/useFileInput/useFileInput';
+export {getLayersCount} from './utils/LayerManager';

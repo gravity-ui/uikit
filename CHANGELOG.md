@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.1.0](https://github.com/gravity-ui/uikit/compare/v5.0.2...v5.1.0) (2023-07-20)
+
+
+### Features
+
+* **LayerManager:** export getLayersCount ([#830](https://github.com/gravity-ui/uikit/issues/830)) ([2ce4304](https://github.com/gravity-ui/uikit/commit/2ce43049d039e65c8927ec87e058c6472888e5c9))
+
+
+### Bug Fixes
+
+* **Table:** remove redundant height with enabled sorting ([#826](https://github.com/gravity-ui/uikit/issues/826)) ([c5c09b6](https://github.com/gravity-ui/uikit/commit/c5c09b63af641513e4ddfaee0740ad13fdcaa6a7))
+
 ## [5.0.2](https://github.com/gravity-ui/uikit/compare/v5.0.1...v5.0.2) (2023-07-18)
 
 

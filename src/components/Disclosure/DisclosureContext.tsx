@@ -5,13 +5,13 @@ import {useUniqId} from '../utils/useUniqId';
 import type {DisclosureProps} from './Disclosure';
 
 interface DisclosureProviderProps
-    extends Required<Omit<DisclosureProps, 'className' | 'expanded'>> {
+    extends Required<Omit<DisclosureProps, 'className' | 'expanded' | 'qa'>> {
     expanded: DisclosureProps['expanded'];
 }
 
 export const DisclosureAttributesContext = React.createContext<
     | (Required<
-          Omit<DisclosureProps, 'defaultExpanded' | 'className' | 'children' | 'onChange'>
+          Omit<DisclosureProps, 'defaultExpanded' | 'className' | 'children' | 'onChange' | 'qa'>
       > & {
           expanded: boolean;
           ariaControls: string;

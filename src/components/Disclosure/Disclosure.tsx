@@ -1,5 +1,6 @@
 import React from 'react';
 
+import type {QAProps} from '../types';
 import {isOfType} from '../utils/isOfType';
 
 import {DisclosureProvider} from './DisclosureContext';
@@ -16,9 +17,9 @@ export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;
 }
 
-export interface DisclosureProps {
+export interface DisclosureProps extends QAProps {
     /** Disclosure size */
-    size: DisclosureSize;
+    size?: DisclosureSize;
     /** Disabled state */
     disabled?: boolean;
     /** Default opening state */
@@ -55,6 +56,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             children,
             onChange = () => {},
             expanded,
+            qa,
         } = props;
 
         const [summaryContent, detailsContent] = prepareChildren(children);
@@ -69,7 +71,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
                 arrowPosition={arrowPosition}
                 onChange={onChange}
             >
-                <section ref={ref} className={b({size}, className)}>
+                <section ref={ref} className={b({size}, className)} data-qa={qa}>
                     {summaryContent}
                     {detailsContent}
                 </section>

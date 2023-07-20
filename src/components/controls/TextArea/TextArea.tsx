@@ -10,7 +10,13 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
+import {
+    CONTROL_ERROR_MESSAGE_QA,
+    CONTROL_QA,
+    errorPropsMapper,
+    getInputControlState,
+    prepareAutoComplete,
+} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -54,7 +60,6 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         tabIndex,
         style,
         className,
-        qa,
         controlProps,
         onUpdate,
         onChange,
@@ -153,7 +158,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                 },
                 className,
             )}
-            data-qa={qa}
+            data-qa={CONTROL_QA}
         >
             <span className={b('content')}>
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
@@ -165,7 +170,11 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                     />
                 )}
             </span>
-            {isErrorMsgVisible && <div className={b('error')}>{errorMessageProp}</div>}
+            {isErrorMsgVisible && (
+                <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
+                    {errorMessageProp}
+                </div>
+            )}
         </span>
     );
 });

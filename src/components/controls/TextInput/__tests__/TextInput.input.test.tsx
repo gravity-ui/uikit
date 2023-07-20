@@ -3,6 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA, CONTROL_QA} from '../../utils';
 import {TextInput} from '../TextInput';
 
 describe('TextInput input', () => {
@@ -71,90 +72,67 @@ describe('TextInput input', () => {
         });
 
         describe('error', () => {
-            test('render error message with error prop', () => {
-                const {container} = render(<TextInput error="Some Error" />);
+            test('render error message with error prop (if it is not an empty string)', () => {
+                render(<TextInput error="Some Error" />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
                 expect(screen.getByText('Some Error')).toBeVisible();
             });
 
-            test('render error message with errorMessage prop', () => {
-                const {container} = render(
-                    <TextInput errorMessage="Some Error with errorMessage prop" />,
-                );
+            test('render error message with errorMessage prop (if it is not an empty string)', () => {
+                render(<TextInput errorMessage="Some Error with errorMessage prop" />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
                 expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
             });
 
             test('render error icon if tooltip option is selected for errorPlacement prop', () => {
-                const {container} = render(
-                    <TextInput errorMessage="Some Error" errorPlacement="tooltip" />,
-                );
+                render(<TextInput errorMessage="Some Error" errorPlacement="tooltip" />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error-icon')).toBeInTheDocument();
+                expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
             });
 
-            test('do not show error without error/errorMessage prop', () => {
-                const {container} = render(<TextInput />);
+            test('do not show error message and do not apply error state without error/errorMessage prop', () => {
+                render(<TextInput />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+                expect(screen.queryByTestId(CONTROL_QA)).not.toHaveClass(
+                    'yc-text-input_state_error',
+                );
+                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
             });
 
             test('do not show error message if error prop value is an empty string', () => {
-                const {container} = render(<TextInput error={''} />);
+                render(<TextInput error={''} />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
             });
 
             test('do not show error message if errorMessage prop value is an empty string', () => {
-                const {container} = render(<TextInput errorMessage={''} />);
+                render(<TextInput errorMessage={''} />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
             });
 
             test('do not show error icon if error prop is an empty string', () => {
-                const {container} = render(<TextInput error={''} errorPlacement="tooltip" />);
+                render(<TextInput error={''} errorPlacement="tooltip" />);
 
-                expect(
-                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                    container.querySelector('yc-text-input__error-icon'),
-                ).not.toBeInTheDocument();
+                expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
             });
 
             test('do not show error icon if errorMessage prop is an empty string', () => {
-                const {container} = render(
-                    <TextInput errorMessage={''} errorPlacement="tooltip" />,
-                );
+                render(<TextInput errorMessage={''} errorPlacement="tooltip" />);
 
-                expect(
-                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                    container.querySelector('yc-text-input__error-icon'),
-                ).not.toBeInTheDocument();
+                expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
             });
 
             test('visually, input should be in error state (red border) if error prop is received', () => {
-                const {container} = render(<TextInput error={'Some error'} />);
+                render(<TextInput error={'Some error'} />);
 
-                expect(
-                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                    container.querySelector('.yc-text-input_state_error'),
-                ).toBeInTheDocument();
+                expect(screen.getByTestId(CONTROL_QA)).toHaveClass('yc-text-input_state_error');
             });
 
             test('visually, input should be in error state (red border) even if received error prop is an empty string', () => {
-                const {container} = render(<TextInput error={''} />);
+                render(<TextInput error={''} />);
 
-                expect(
-                    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                    container.querySelector('.yc-text-input_state_error'),
-                ).toBeInTheDocument();
+                expect(screen.getByTestId(CONTROL_QA)).toHaveClass('yc-text-input_state_error');
             });
         });
 

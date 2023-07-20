@@ -1,5 +1,9 @@
 import type {BaseInputControlProps, InputControlState} from './types';
 
+export const CONTROL_QA = 'control-qa';
+export const CONTROL_ERROR_MESSAGE_QA = 'control-error-message-qa';
+export const CONTROL_ERROR_ICON_QA = 'control-error-icon-qa';
+
 export const prepareAutoComplete = (
     autoComplete: BaseInputControlProps['autoComplete'],
 ): string | undefined => {
@@ -11,7 +15,7 @@ export const prepareAutoComplete = (
 };
 
 export const getInputControlState = (
-    validationStateProp: 'invalid' | undefined,
+    validationStateProp: BaseInputControlProps['validationState'],
 ): InputControlState | undefined => {
     return validationStateProp === 'invalid' ? 'error' : undefined;
 };
@@ -24,7 +28,7 @@ export const errorPropsMapper = (
 ) => {
     const {error, errorMessage, errorPlacement, validationState} = errorProps;
 
-    let errorMessageProp: typeof errorMessage;
+    let errorMessageProp: BaseInputControlProps['errorMessage'];
     if (typeof error === 'string') {
         errorMessageProp = error;
     }
@@ -32,7 +36,7 @@ export const errorPropsMapper = (
         errorMessageProp = errorMessage;
     }
 
-    let validationStateProp: typeof validationState;
+    let validationStateProp: BaseInputControlProps['validationState'];
     if (
         validationState === 'invalid' ||
         Boolean(error) ||

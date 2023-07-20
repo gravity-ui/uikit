@@ -3,6 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {CONTROL_ERROR_MESSAGE_QA, CONTROL_QA} from '../../utils';
 import {TextArea} from '../TextArea';
 
 describe('TextArea', () => {
@@ -70,61 +71,47 @@ describe('TextArea', () => {
     });
 
     describe('error', () => {
-        test('render error message with error prop', () => {
-            const {container} = render(<TextArea error="Some Error" />);
+        test('render error message with error prop (if it is not an empty string)', () => {
+            render(<TextArea error="Some Error" />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
             expect(screen.getByText('Some Error')).toBeVisible();
         });
 
-        test('render error message with errorMessage prop', () => {
-            const {container} = render(
-                <TextArea errorMessage="Some Error with errorMessage prop" />,
-            );
+        test('render error message with errorMessage prop (if it is not an empty string)', () => {
+            render(<TextArea errorMessage="Some Error with errorMessage prop" />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
             expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
         });
 
-        test('do not show error without error/errorMessage prop', () => {
-            const {container} = render(<TextArea />);
+        test('do not show error message and do not apply error state without error/errorMessage prop', () => {
+            render(<TextArea />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+            expect(screen.queryByTestId(CONTROL_QA)).not.toHaveClass('g-text-area_state_error');
+            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
         });
 
         test('do not show error message if error prop value is an empty string', () => {
-            const {container} = render(<TextArea error={''} />);
+            render(<TextArea error={''} />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
         });
 
         test('do not show error message if errorMessage prop value is an empty string', () => {
-            const {container} = render(<TextArea errorMessage={''} />);
+            render(<TextArea errorMessage={''} />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
         });
 
         test('visually, area should be in error state (red border) if error prop is received', () => {
-            const {container} = render(<TextArea error={'Some error'} />);
+            render(<TextArea error={'Some error'} />);
 
-            expect(
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                container.querySelector('.g-text-area_state_error'),
-            ).toBeInTheDocument();
+            expect(screen.queryByTestId(CONTROL_QA)).toHaveClass('g-text-area_state_error');
         });
 
         test('visually, area should be in error state (red border) even if received error prop is an empty string', () => {
-            const {container} = render(<TextArea error={''} />);
+            render(<TextArea error={''} />);
 
-            expect(
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                container.querySelector('.g-text-area_state_error'),
-            ).toBeInTheDocument();
+            expect(screen.queryByTestId(CONTROL_QA)).toHaveClass('g-text-area_state_error');
         });
     });
 

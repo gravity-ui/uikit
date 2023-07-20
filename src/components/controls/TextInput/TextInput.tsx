@@ -15,7 +15,13 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
+import {
+    CONTROL_ERROR_ICON_QA,
+    CONTROL_QA,
+    errorPropsMapper,
+    getInputControlState,
+    prepareAutoComplete,
+} from '../utils';
 
 import {AdditionalContent} from './AdditionalContent';
 import {TextInputControl} from './TextInputControl';
@@ -62,7 +68,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         tabIndex,
         style,
         className,
-        qa,
         controlProps: originalControlProps,
         leftContent,
         rightContent,
@@ -180,7 +185,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 },
                 className,
             )}
-            data-qa={qa}
+            data-qa={CONTROL_QA}
         >
             <span className={b('content')}>
                 {isLeftContentVisible && (
@@ -221,11 +226,13 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 )}
                 {isErrorIconVisible && (
                     <Popover content={errorMessageProp}>
-                        <Icon
-                            data={TriangleExclamation}
-                            className={b('error-icon')}
-                            size={size === 's' ? 12 : 16}
-                        />
+                        <span data-qa={CONTROL_ERROR_ICON_QA}>
+                            <Icon
+                                data={TriangleExclamation}
+                                className={b('error-icon')}
+                                size={size === 's' ? 12 : 16}
+                            />
+                        </span>
                     </Popover>
                 )}
             </span>

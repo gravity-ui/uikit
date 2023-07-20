@@ -3,8 +3,8 @@ import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
 import {getCSSTransitionClassNames} from '../../utils/transition';
-import {b} from '../Disclosure';
 import {useDisclosureAttributes} from '../DisclosureContext';
+import {b} from '../cn';
 
 export interface DisclosureDetailsProps {
     children: React.ReactNode;

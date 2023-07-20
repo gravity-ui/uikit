@@ -1,15 +1,13 @@
 import React from 'react';
 
-import {blockNew} from '../utils/cn';
 import {isOfType} from '../utils/isOfType';
 
 import {DisclosureProvider} from './DisclosureContext';
 import {DisclosureDetails} from './DisclosureDetails/DisclosureDetails';
 import {DefaultDisclosureSummary, DisclosureSummary} from './DisclosureSummary/DisclosureSummary';
+import {b} from './cn';
 
 import './Disclosure.scss';
-
-export const b = blockNew('disclosure');
 
 export type DisclosureSize = 'm' | 'l' | 'xl';
 export type DisclosureArrowPosition = 'left' | 'right';
@@ -25,6 +23,8 @@ export interface DisclosureProps {
     disabled?: boolean;
     /** Default opening state */
     defaultExpanded?: boolean;
+    /** Controlled opening state */
+    expanded?: boolean;
     /** Control position */
     arrowPosition?: DisclosureArrowPosition;
     /** Content summary */
@@ -36,7 +36,7 @@ export interface DisclosureProps {
     /** Keep content in DOM */
     keepMounted?: boolean;
     /** Callback fired when the expand/collapse state is changed  */
-    onChange?: (event: React.SyntheticEvent, expanded: boolean) => void;
+    onChange?: (params: {event: React.SyntheticEvent; expanded?: boolean}) => void;
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
@@ -45,7 +45,7 @@ const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
 export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureComposition =
     React.forwardRef<HTMLDivElement, DisclosureProps>(function Disclosure(props, ref) {
         const {
-            size = 'xl',
+            size = 'm',
             disabled = false,
             defaultExpanded = false,
             arrowPosition = 'left',
@@ -54,6 +54,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             keepMounted = true,
             children,
             onChange = () => {},
+            expanded,
         } = props;
 
         const [summaryContent, detailsContent] = prepareChildren(children);
@@ -61,6 +62,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             <DisclosureProvider
                 disabled={disabled}
                 defaultExpanded={defaultExpanded}
+                expanded={expanded}
                 keepMounted={keepMounted}
                 size={size}
                 summary={summary}

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {ArrowToggle} from '../../ArrowToggle';
-import {DisclosureSize, b} from '../Disclosure';
+import type {DisclosureSize} from '../Disclosure';
 import {useDisclosureAttributes, useToggleDisclosure} from '../DisclosureContext';
+import {b} from '../cn';
 
 const ComponentSizeToIconSizeMap: Record<DisclosureSize, number> = {
     m: 14,
@@ -50,7 +51,7 @@ export function DefaultDisclosureSummary({
             <ArrowToggle
                 size={ComponentSizeToIconSizeMap[size]}
                 direction={expanded ? 'top' : 'bottom'}
-                className={b('toggler', {arrow: arrowPosition})}
+                className={b('toggler', {right: arrowPosition === 'right'})}
             />
             {summary}
         </button>

@@ -1,10 +1,10 @@
 import React from 'react';
 
+import {Check} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import {Tick as TickIcon} from '../../icons/Tick';
 import type {DisclosureProps} from '../index';
 import {Disclosure} from '../index';
 
@@ -16,7 +16,7 @@ export default {
     args: {
         children: 'Default content',
         summary: 'Default summary',
-        size: 'xl',
+        size: 'm',
         disabled: false,
         arrowPosition: 'left',
     },
@@ -62,9 +62,9 @@ const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
                 <Disclosure.Summary>
                     {(props) => (
                         <Button {...props}>
-                            <Icon data={TickIcon} size={14} />
+                            <Icon data={Check} size={14} />
                             Custom summary
-                            <Icon data={TickIcon} size={14} />
+                            <Icon data={Check} size={14} />
                         </Button>
                     )}
                 </Disclosure.Summary>

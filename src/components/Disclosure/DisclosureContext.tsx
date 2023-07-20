@@ -4,7 +4,10 @@ import {useUniqId} from '../utils/useUniqId';
 
 import type {DisclosureProps} from './Disclosure';
 
-interface DisclosureProviderProps extends Required<Omit<DisclosureProps, 'className'>> {}
+interface DisclosureProviderProps
+    extends Required<Omit<DisclosureProps, 'className' | 'expanded'>> {
+    expanded: DisclosureProps['expanded'];
+}
 
 export const DisclosureAttributesContext = React.createContext<
     | (Required<
@@ -21,12 +24,22 @@ export const DisclosureToggleContext = React.createContext<
 >(undefined);
 
 export function DisclosureProvider(props: DisclosureProviderProps) {
-    const {size, disabled, defaultExpanded, arrowPosition, summary, keepMounted, onChange} = props;
+    const {
+        size,
+        disabled,
+        defaultExpanded,
+        arrowPosition,
+        summary,
+        keepMounted,
+        onChange,
+        expanded: controlledExpanded,
+    } = props;
     const [expanded, setExpanded] = React.useState(() => Boolean(defaultExpanded));
+    const controlledMode = controlledExpanded !== undefined;
 
     const handleToggle = (event: React.SyntheticEvent) => {
         setExpanded((prev) => !prev);
-        onChange(event, !expanded);
+        onChange({event, expanded: controlledMode ? undefined : !expanded});
     };
 
     const ariaControls = useUniqId();
@@ -40,7 +53,7 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
                 summary,
                 arrowPosition,
                 keepMounted,
-                expanded,
+                expanded: controlledMode ? controlledExpanded : expanded,
                 ariaControls,
                 ariaLabelledby,
             }}
@@ -56,7 +69,7 @@ export function useDisclosureAttributes() {
     const state = React.useContext(DisclosureAttributesContext);
 
     if (state === undefined) {
-        throw new Error('useIsDisclosureExpanded must be used within DisclosureProvider');
+        throw new Error('useDisclosureAttributes must be used within DisclosureProvider');
     }
 
     return state;

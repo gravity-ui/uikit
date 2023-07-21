@@ -17,6 +17,7 @@ export enum IndexType {
     Start = 1,
     End,
     InProccess,
+    Single,
 }
 
 export type StoriesLayoutProps = {
@@ -32,16 +33,16 @@ export type StoriesLayoutProps = {
     action?: ButtonProps;
 };
 
+// StoriesGroup component also use it
 export const StoriesLayout = (props: StoriesLayoutProps) => {
     const currentStory = props.items[props.storyIndex];
-    const hasSteps = props.items.length > 1;
 
     return (
         <div className={b('wrap-outer')}>
             <div className={b('wrap-inner')}>
                 <div className={b('container')}>
                     <div className={b('left-pane')}>
-                        {hasSteps && (
+                        {props.items.length > 1 && (
                             <div className={b('counter')}>
                                 {i18n('label_counter', {
                                     current: props.storyIndex + 1,
@@ -71,34 +72,44 @@ export const StoriesLayout = (props: StoriesLayoutProps) => {
                             )}
                         </div>
                         <div className={b('controls-block')}>
-                            {hasSteps && IndexType.Start !== props.indexType && (
-                                <Button
-                                    onClick={props.handleGotoPrevious}
-                                    view="outlined"
-                                    size="l"
-                                    width="max"
-                                >
-                                    {i18n('label_back')}
-                                </Button>
-                            )}
-                            {IndexType.InProccess !== props.indexType && (
+                            {IndexType.Single === props.indexType ? (
                                 <Button onClick={props.handleButtonClose} size="l" width="max">
                                     {i18n('label_close')}
                                 </Button>
+                            ) : (
+                                <React.Fragment>
+                                    {IndexType.Start !== props.indexType && (
+                                        <Button
+                                            onClick={props.handleGotoPrevious}
+                                            view="outlined"
+                                            size="l"
+                                            width="max"
+                                        >
+                                            {i18n('label_back')}
+                                        </Button>
+                                    )}
+                                    {IndexType.InProccess !== props.indexType && (
+                                        <Button
+                                            onClick={props.handleButtonClose}
+                                            size="l"
+                                            width="max"
+                                        >
+                                            {i18n('label_close')}
+                                        </Button>
+                                    )}
+                                    {IndexType.End !== props.indexType && (
+                                        <Button
+                                            onClick={props.handleGotoNext}
+                                            view="action"
+                                            size="l"
+                                            width="max"
+                                        >
+                                            {i18n('label_next')}
+                                        </Button>
+                                    )}
+                                </React.Fragment>
                             )}
-                            {hasSteps && IndexType.End !== props.indexType && (
-                                <Button
-                                    onClick={props.handleGotoNext}
-                                    view="action"
-                                    size="l"
-                                    width="max"
-                                >
-                                    {i18n('label_next')}
-                                </Button>
-                            )}
-                            {(!hasSteps || IndexType.End === props.indexType) && props.action && (
-                                <Button size="l" width="max" {...props.action} />
-                            )}
+                            {props.action && <Button size="l" width="max" {...props.action} />}
                         </div>
                     </div>
                     <div className={b('right-pane')}>

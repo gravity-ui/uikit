@@ -93,6 +93,7 @@ export function Stories({
     }
 
     const indexType =
+        (items.length === 1 && IndexType.Single) ||
         (storyIndex === 0 && IndexType.Start) ||
         (storyIndex === items.length - 1 && IndexType.End) ||
         IndexType.InProccess;

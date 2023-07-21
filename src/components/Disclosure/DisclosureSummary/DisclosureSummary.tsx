@@ -42,7 +42,7 @@ export function DefaultDisclosureSummary({
         <button
             type="button"
             aria-expanded={expanded}
-            className={b('trigger', {disabled})}
+            className={b('trigger', {disabled, 'arrow-right': arrowPosition === 'right'})}
             aria-controls={ariaControls}
             id={id}
             onClick={onClick}
@@ -51,7 +51,6 @@ export function DefaultDisclosureSummary({
             <ArrowToggle
                 size={ComponentSizeToIconSizeMap[size]}
                 direction={expanded ? 'top' : 'bottom'}
-                className={b('toggler', {right: arrowPosition === 'right'})}
             />
             {summary}
         </button>

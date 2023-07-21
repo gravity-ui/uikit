@@ -2,20 +2,9 @@
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}disclosure';
-$trigger: #{$block}__trigger;
 $gap: 8px;
 
 #{$block} {
-    &_enter_active {
-        animation-name: #{variables.$ns}disclosure-expanded;
-        animation-duration: 0.5s;
-    }
-    &_exit_active {
-        display: block;
-        animation-name: #{variables.$ns}disclosure-collapsed;
-        animation-duration: 0.1s;
-        opacity: 0;
-    }
     &_size_m {
         @include mixins.text-body-1();
     }
@@ -29,21 +18,19 @@ $gap: 8px;
         @include mixins.button-reset();
         display: flex;
         flex-flow: row nowrap;
+        gap: $gap;
         flex-shrink: 0;
         align-items: center;
         font-size: inherit;
         line-height: inherit;
         font-weight: inherit;
     }
+    &__trigger_arrow-right {
+        flex-direction: row-reverse;
+    }
     &__trigger_disabled {
         color: var(--yc-color-text-secondary);
-    }
-    &__toggler {
-        margin: 0 $gap 0 0;
-    }
-    &__toggler_right {
-        order: 2;
-        margin: 0 0 0 $gap;
+        cursor: auto;
     }
     &__content {
         display: none;
@@ -51,11 +38,21 @@ $gap: 8px;
     &__content_visible {
         display: block;
     }
+    &__content#{$block}_exit_active {
+        display: block;
+        animation-name: #{variables.$ns}disclosure-collapsed;
+        animation-duration: 0.1s;
+        opacity: 0;
+    }
+    &__content#{$block}_enter_active {
+        animation-name: #{variables.$ns}disclosure-expanded;
+        animation-duration: 0.2s;
+    }
 }
 
 @keyframes #{variables.$ns}disclosure-expanded {
     0% {
-        opacity: 0;
+        opacity: 0.4;
     }
     100% {
         opacity: 1;

@@ -37,7 +37,7 @@ export interface DisclosureProps extends QAProps {
     /** Keep content in DOM */
     keepMounted?: boolean;
     /** Callback fired when the expand/collapse state is changed  */
-    onChange?: (params: {event: React.SyntheticEvent; expanded?: boolean}) => void;
+    onChange?: (expanded: boolean, event?: React.SyntheticEvent) => void;
 }
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);

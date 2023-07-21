@@ -39,7 +39,8 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
 
     const handleToggle = (event: React.SyntheticEvent) => {
         setExpanded((prev) => !prev);
-        onChange({event, expanded: controlledMode ? undefined : !expanded});
+        const newValue = controlledMode ? !controlledExpanded : !expanded;
+        onChange(newValue, event);
     };
 
     const ariaControls = useUniqId();

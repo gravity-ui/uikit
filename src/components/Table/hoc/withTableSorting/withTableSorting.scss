@@ -6,7 +6,8 @@ $block: '.#{variables.$ns}table';
     &__sort {
         display: inline-flex;
         align-items: center;
-        vertical-align: middle;
+        // `top` to avoid redundant height to appear
+        vertical-align: top;
         cursor: pointer;
         user-select: none;
 

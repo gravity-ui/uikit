@@ -66,3 +66,4 @@ export * from './utils/interactions';
 export * from './utils/xpath';
 export * from './utils/useFileInput/useFileInput';
 export {useActionHandlers} from './utils/useActionHandlers';
+export {getLayersCount} from './utils/LayerManager';

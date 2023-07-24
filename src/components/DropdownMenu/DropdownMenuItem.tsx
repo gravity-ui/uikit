@@ -101,7 +101,9 @@ export const DropdownMenuItem = <T,>({
                 onClick={handleMenuItemClick}
             >
                 <div className={cnDropdownMenu('menu-item-content')}>
-                    <div>{text || children}</div>
+                    <div className={cnDropdownMenu('menu-item-content-children')}>
+                        {text || children}
+                    </div>
                     {hasSubmenu && <Icon data={ChevronRight} size={10} />}
                 </div>
             </Menu.Item>

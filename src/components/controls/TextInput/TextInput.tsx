@@ -21,6 +21,8 @@ import './TextInput.scss';
 const b = block('text-input');
 
 export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
+    /** User`s callback invoked after clear button handler */
+    afterClear?: () => void;
     /** The control's html attributes */
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     /** Help text rendered to the left of the input node */
@@ -59,6 +61,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         controlProps: originalControlProps,
         leftContent,
         rightContent,
+        afterClear,
         onUpdate,
         onChange,
     } = props;
@@ -135,6 +138,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
         if (!isControlled) {
             setUncontrolledValue('');
+        }
+
+        if (afterClear) {
+            afterClear();
         }
     };
 

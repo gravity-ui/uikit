@@ -1,65 +1,65 @@
-import React from 'react';
+// import React from 'react';
 
-import type popper from '@popperjs/core';
-import {usePopper as useReactPopper} from 'react-popper';
-import type {Modifier} from 'react-popper';
+import type popper from '@floating-ui/react';
+import {arrow, offset, useFloating} from '@floating-ui/react';
 
-export type PopperPlacement = popper.Placement | popper.Placement[];
 export type PopperOffset = [number, number];
-export type PopperModifiers = Modifier<unknown, Record<string, unknown>>[];
-export type PopperAnchorRef = React.RefObject<Element | popper.VirtualElement>;
+export type PopperAnchorRef = popper.ReferenceType | null;
+export type PopperArrowRef = popper.ArrowOptions['element'];
+export type PopperPlacement = popper.Placement;
+export type PopperMiddleware = popper.Middleware;
 
 export interface PopperProps {
-    anchorRef?: PopperAnchorRef;
+    open: boolean;
+    anchorRef: PopperAnchorRef;
+
+    arrowRef?: PopperArrowRef;
     placement?: PopperPlacement;
-    offset?: [number, number];
-    modifiers?: PopperModifiers;
-    strategy?: popper.PositioningStrategy;
+    offsetOptions?: popper.OffsetOptions;
+    middleware: PopperMiddleware[];
+    strategy?: popper.Strategy;
     altBoundary?: boolean;
 }
 
-const DEFAULT_PLACEMENT: PopperPlacement = [
-    'bottom-start',
-    'bottom',
-    'bottom-end',
-    'top-start',
-    'top',
-    'top-end',
-    'right-start',
-    'right',
-    'right-end',
-    'left-start',
-    'left',
-    'left-end',
-];
-
 export function usePopper({
     anchorRef,
-    placement = DEFAULT_PLACEMENT,
-    offset,
-    modifiers = [],
+    open,
+    arrowRef = null,
+    placement,
+    offsetOptions,
+    middleware = [],
     strategy,
-    altBoundary,
-}: PopperProps) {
-    const [popperElement, setPopperElement] = React.useState<HTMLElement | null>(null);
-    const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
-    const placements = Array.isArray(placement) ? placement : [placement];
+}: // altBoundary,
+PopperProps) {
+    // const [popperElement, setPopperElement] = React.useState<HTMLElement | null>(null);
+    // const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
+    // const placements = Array.isArray(placement) ? placement : [placement];
 
-    const {attributes, styles} = useReactPopper(anchorRef?.current, popperElement, {
+    const {refs, context} = useFloating({
+        elements: {
+            reference: anchorRef,
+        },
+        open,
         strategy,
-        modifiers: [
-            {name: 'arrow', options: {element: arrowElement}},
-            {name: 'offset', options: {offset, altBoundary}},
-            {name: 'flip', options: {fallbackPlacements: placements.slice(1), altBoundary}},
-            ...modifiers,
-        ],
-        placement: placements[0],
+        placement,
+        middleware: [arrow({element: arrowRef}), offset(offsetOptions), ...middleware],
     });
 
+    // const {attributes, styles} = useReactPopper(anchorRef?.current, popperElement, {
+    //     strategy,
+    //     modifiers: [
+    //         {name: 'arrow', options: {element: arrowElement}},
+    //         {name: 'offset', options: {offset, altBoundary}},
+    //         {name: 'flip', options: {fallbackPlacements: placements.slice(1), altBoundary}},
+    //         ...modifiers,
+    //     ],
+    //     placement: placements[0],
+    // });
+
     return {
-        attributes,
-        styles,
-        setPopperRef: setPopperElement,
-        setArrowRef: setArrowElement,
+        refs,
+        context,
+        // setPopperRef: setPopperElement,
+        // setArrowRef: setArrowElement,
     };
 }

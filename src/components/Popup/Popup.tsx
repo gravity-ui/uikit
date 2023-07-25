@@ -11,13 +11,7 @@ import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
 import {usePopper} from '../utils/usePopper';
-import type {
-    PopperAnchorRef,
-    PopperModifiers,
-    PopperOffset,
-    PopperPlacement,
-    PopperProps,
-} from '../utils/usePopper';
+import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
 import {PopupArrow} from './PopupArrow';
@@ -28,13 +22,11 @@ export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
 export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
-    open?: boolean;
+    open: boolean;
     children?: React.ReactNode;
     keepMounted?: boolean;
     hasArrow?: boolean;
     disableLayer?: boolean;
-    offset?: PopperOffset;
-    modifiers?: PopperModifiers;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
@@ -48,12 +40,13 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 }
 
 const b = block('popup');
-const ARROW_SIZE = 8;
+// const ARROW_SIZE = 8;
 
 export function Popup({
     keepMounted = false,
     hasArrow = false,
-    offset = [0, 4],
+    // offset = [0, 4],
+    offsetOptions = {},
     open,
     placement,
     anchorRef,
@@ -63,7 +56,7 @@ export function Popup({
     style,
     className,
     contentClassName,
-    modifiers = [],
+    middleware = [],
     children,
     onEscapeKeyDown,
     onOutsideClick,
@@ -81,6 +74,31 @@ export function Popup({
     id,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const arrowRef = React.useRef<HTMLDivElement>(null);
+
+    // const {attributes, styles, setPopperRef, setArrowRef} = usePopper({
+    //     anchorRef,
+    //     placement,
+    //     // Take arrow size into offset account
+    //     offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
+    //     strategy,
+    //     altBoundary: disablePortal,
+    //     modifiers: [
+    //         // Properly display arrow within rounded container
+    //         {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
+    //         // Prevent border hiding
+    //         {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
+    //         ...modifiers,
+    //     ],
+    // });
+    const {refs, context} = usePopper({
+        anchorRef,
+        open,
+        placement,
+        offsetOptions,
+        strategy,
+        middleware,
+    });
 
     useLayer({
         open,
@@ -89,31 +107,22 @@ export function Popup({
         onEscapeKeyDown,
         onOutsideClick,
         onClose,
-        contentRefs: [anchorRef, containerRef],
+        contentRefs: [refs.reference, containerRef],
         enabled: !disableLayer,
     });
 
-    const {attributes, styles, setPopperRef, setArrowRef} = usePopper({
-        anchorRef,
-        placement,
-        // Take arrow size into offset account
-        offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
-        strategy,
-        altBoundary: disablePortal,
-        modifiers: [
-            // Properly display arrow within rounded container
-            {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
-            // Prevent border hiding
-            {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
-            ...modifiers,
-        ],
-    });
-    const handleRef = useForkRef<HTMLDivElement>(setPopperRef, containerRef, useParentFocusTrap());
+    const handleRef = useForkRef<HTMLDivElement>(
+        refs.setFloating,
+        containerRef,
+        useParentFocusTrap(),
+    );
 
     const containerProps = useRestoreFocus({
         enabled: Boolean(restoreFocus && open),
         restoreFocusRef,
     });
+
+    console.log(refs, context);
 
     return (
         <Portal container={container} disablePortal={disablePortal}>
@@ -130,8 +139,8 @@ export function Popup({
             >
                 <div
                     ref={handleRef}
-                    style={styles.popper}
-                    {...attributes.popper}
+                    style={context.floatingStyles}
+                    // {...attributes.popper}
                     {...containerProps}
                     className={b({open}, className)}
                     tabIndex={-1}
@@ -149,9 +158,9 @@ export function Popup({
                     >
                         {hasArrow && (
                             <PopupArrow
-                                styles={styles.arrow}
-                                attributes={attributes.arrow}
-                                setArrowRef={setArrowRef}
+                                // styles={styles.arrow}
+                                // attributes={attributes.arrow}
+                                setArrowRef={arrowRef}
                             />
                         )}
                         {children}

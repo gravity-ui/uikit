@@ -14,7 +14,8 @@ export default {
 } as Meta;
 
 export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
-    const anchorRef = React.useRef<HTMLButtonElement>(null);
+    // const anchorRef = React.useRef<HTMLButtonElement>(null);
+    const [anchorRef, setAnchorRef] = React.useState<HTMLElement | null>(null);
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -31,7 +32,7 @@ export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
                     justifyContent: 'center',
                 }}
             >
-                <Button ref={anchorRef} onClick={() => setOpen(!open)}>
+                <Button ref={setAnchorRef} onClick={() => setOpen(!open)}>
                     {open ? 'Hide' : 'Show'}
                 </Button>
             </div>
@@ -40,10 +41,11 @@ export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
 };
 
 export const Placement: StoryFn<PopupProps> = (args) => {
-    const anchorRef = React.useRef<HTMLDivElement>(null);
+    // const anchorRef = React.useRef<HTMLDivElement>(null);
+    const [anchorRef, setAnchorRef] = React.useState<HTMLElement | null>(null);
     const [open, setOpen] = React.useState(true);
     const contentStyle = {padding: 10};
-    const placements: PopupPlacement = [
+    const placements: PopupPlacement[] = [
         'top-start',
         'top',
         'top-end',
@@ -60,7 +62,7 @@ export const Placement: StoryFn<PopupProps> = (args) => {
 
     return (
         <div
-            ref={anchorRef}
+            ref={setAnchorRef}
             style={{
                 width: 300,
                 height: 200,
@@ -92,7 +94,9 @@ Placement.parameters = {
 export const Position: StoryFn<PopupProps> = (args) => {
     const [left, setLeft] = React.useState(100);
     const [top, setTop] = React.useState(100);
-    const anchorRef = useVirtualElementRef({rect: {top, left}});
+    // const anchorRef = useVirtualElementRef({rect: {top, left}});
+
+    const [anchorRef] = React.useState(useVirtualElementRef({rect: {top, left}}));
     return (
         <div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -121,7 +125,7 @@ export const Position: StoryFn<PopupProps> = (args) => {
                     style={{width: 100}}
                 />
             </label>
-            <Popup {...args} open anchorRef={anchorRef}>
+            <Popup {...args} open anchorRef={anchorRef.current}>
                 <div style={{padding: 10}}>Popup content</div>
             </Popup>
         </div>

@@ -4,10 +4,10 @@ import {CSSTransition} from 'react-transition-group';
 
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
-import {useParentFocusTrap} from '../utils/FocusTrap';
+// import {useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
-import {useForkRef} from '../utils/useForkRef';
+// import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
 import {usePopper} from '../utils/usePopper';
@@ -76,22 +76,7 @@ export function Popup({
     const containerRef = React.useRef<HTMLDivElement>(null);
     const arrowRef = React.useRef<HTMLDivElement>(null);
 
-    // const {attributes, styles, setPopperRef, setArrowRef} = usePopper({
-    //     anchorRef,
-    //     placement,
-    //     // Take arrow size into offset account
-    //     offset: hasArrow ? [offset[0], offset[1] + ARROW_SIZE] : offset,
-    //     strategy,
-    //     altBoundary: disablePortal,
-    //     modifiers: [
-    //         // Properly display arrow within rounded container
-    //         {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
-    //         // Prevent border hiding
-    //         {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
-    //         ...modifiers,
-    //     ],
-    // });
-    const {refs, context} = usePopper({
+    const {refs, context, interactions} = usePopper({
         anchorRef,
         open,
         placement,
@@ -101,7 +86,7 @@ export function Popup({
     });
 
     useLayer({
-        open,
+        open: context.open,
         disableEscapeKeyDown,
         disableOutsideClick,
         onEscapeKeyDown,
@@ -111,14 +96,14 @@ export function Popup({
         enabled: !disableLayer,
     });
 
-    const handleRef = useForkRef<HTMLDivElement>(
-        refs.setFloating,
-        containerRef,
-        useParentFocusTrap(),
-    );
+    // const handleRef = useForkRef<HTMLDivElement>(
+    //     refs.setFloating,
+    //     containerRef,
+    //     useParentFocusTrap(),
+    // );
 
     const containerProps = useRestoreFocus({
-        enabled: Boolean(restoreFocus && open),
+        enabled: Boolean(restoreFocus && context.open),
         restoreFocusRef,
     });
 
@@ -126,7 +111,7 @@ export function Popup({
         <Portal container={container} disablePortal={disablePortal}>
             <CSSTransition
                 nodeRef={containerRef}
-                in={open}
+                in={context.open}
                 addEndListener={(done) =>
                     containerRef.current?.addEventListener('animationend', done)
                 }
@@ -136,11 +121,12 @@ export function Popup({
                 appear={true}
             >
                 <div
-                    ref={handleRef}
+                    ref={refs.setFloating}
                     style={context.floatingStyles}
                     // {...attributes.popper}
                     {...containerProps}
-                    className={b({open}, className)}
+                    {...interactions.getFloatingProps()}
+                    className={b({open: context.open}, className)}
                     tabIndex={-1}
                     data-qa={qa}
                     id={id}

@@ -1,66 +1,93 @@
-// import React from 'react';
+import React from 'react';
 
 import type popper from '@floating-ui/react';
-import {arrow, autoUpdate, offset, useFloating} from '@floating-ui/react';
+import {
+    arrow,
+    autoUpdate,
+    offset,
+    useDismiss,
+    useFloating,
+    useFocus,
+    useHover,
+    useInteractions,
+    useRole,
+} from '@floating-ui/react';
 
 export type PopperOffset = [number, number];
 export type PopperAnchorRef = popper.ReferenceType | null;
 export type PopperArrowRef = popper.ArrowOptions['element'];
-export type PopperPlacement = popper.Placement;
+export type PopperPlacement = popper.Placement | 'auto';
 export type PopperMiddleware = popper.Middleware;
 
 export interface PopperProps {
-    open: boolean;
     anchorRef: PopperAnchorRef;
 
-    arrowRef?: PopperArrowRef;
+    initialOpen?: boolean;
     placement?: PopperPlacement;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    arrowRef?: PopperArrowRef;
     offsetOptions?: popper.OffsetOptions;
-    middleware: PopperMiddleware[];
+    middleware?: PopperMiddleware[];
     strategy?: popper.Strategy;
-    altBoundary?: boolean;
+
+    // open: boolean;
+    // placement?: PopperPlacement;
+    // altBoundary?: boolean;
 }
 
 export function usePopper({
     anchorRef,
     // open,
-    arrowRef = null,
-    placement,
-    offsetOptions,
-    middleware = [],
     strategy,
+    initialOpen = false,
+    arrowRef = null,
+    placement = 'auto',
+    middleware = [],
+    offsetOptions,
+    open: controlledOpen,
+    onOpenChange: setControlledOpen,
 }: // altBoundary,
 PopperProps) {
-    // const [popperElement, setPopperElement] = React.useState<HTMLElement | null>(null);
-    // const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
-    // const placements = Array.isArray(placement) ? placement : [placement];
+    const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
 
-    const {refs, context} = useFloating({
-        // open,
+    const open = controlledOpen ?? uncontrolledOpen;
+    const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+    const floatingData = useFloating({
+        open,
+        onOpenChange: setOpen,
         strategy,
-        placement,
+        placement: placement === 'auto' ? undefined : placement,
+        whileElementsMounted: autoUpdate,
         elements: {
             reference: anchorRef,
         },
         middleware: [arrow({element: arrowRef}), offset(offsetOptions), ...middleware],
-        whileElementsMounted: autoUpdate,
     });
 
-    // const {attributes, styles} = useReactPopper(anchorRef?.current, popperElement, {
-    //     strategy,
-    //     modifiers: [
-    //         {name: 'arrow', options: {element: arrowElement}},
-    //         {name: 'offset', options: {offset, altBoundary}},
-    //         {name: 'flip', options: {fallbackPlacements: placements.slice(1), altBoundary}},
-    //         ...modifiers,
-    //     ],
-    //     placement: placements[0],
-    // });
+    const context = floatingData.context;
 
-    return {
-        refs,
+    const hover = useHover(context, {
+        // move: false,
+        enabled: controlledOpen === undefined,
+    });
+    const focus = useFocus(context, {
+        enabled: controlledOpen === undefined,
+    });
+    const dismiss = useDismiss(context);
+    const role = useRole(
         context,
-        // setPopperRef: setPopperElement,
-        // setArrowRef: setArrowElement,
-    };
+        // , {role: 'tooltip'}
+    );
+
+    const interactions = useInteractions([hover, focus, dismiss, role]);
+
+    return React.useMemo(
+        () => ({
+            interactions,
+            ...floatingData,
+        }),
+        [floatingData, interactions],
+    );
 }

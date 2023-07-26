@@ -6,7 +6,7 @@ import {Modal} from '../../../components/Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
-import {getToast} from '../__mocks__/getToast';
+import {getToast, getToastAction} from '../__mocks__/getToast';
 import {tick} from '../__mocks__/tick';
 import {useToaster} from '../hooks/useToaster';
 import type {ToasterPublicMethods} from '../types';
@@ -167,6 +167,94 @@ it('should preserve toast on hover', function () {
 
     // Time is over, toast should be removed
     expect(toast).not.toBeInTheDocument();
+});
+
+it('should not hide toast on action click without hide on click', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            autoHiding: toastTimeout,
+            actions: [
+                {
+                    label: 'Toast Button',
+                    onClick() {},
+                    removeAfterClick: false,
+                },
+            ],
+        });
+    });
+
+    const toast = getToast();
+    const toastAction = getToastAction();
+
+    fireEvent.click(toastAction);
+
+    fireAnimationEndEvent(toast, 'toast-hide-end');
+
+    tick(toast, toastTimeout / 2);
+
+    expect(toast).toBeInTheDocument();
+});
+
+it('should hide toast on action click with hide on click', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            autoHiding: toastTimeout,
+            actions: [
+                {
+                    label: 'Toast Button',
+                    onClick() {},
+                    removeAfterClick: true,
+                },
+            ],
+        });
+    });
+
+    const toast = getToast();
+    const toastAction = getToastAction();
+
+    fireEvent.click(toastAction);
+
+    expect(toast).toBeInTheDocument();
+
+    fireAnimationEndEvent(toast, 'toast-hide-end');
+
+    expect(toast).not.toBeInTheDocument();
+});
+
+it('should show loading state on toast action after click with loading option', function () {
+    const providerAPI = setup();
+
+    act(() => {
+        providerAPI.add({
+            ...toastProps,
+            autoHiding: toastTimeout,
+            actions: [
+                {
+                    label: 'Toast Button',
+                    onClick() {},
+                    removeAfterClick: false,
+                    loadingAfterClick: true,
+                },
+            ],
+        });
+    });
+
+    const toast = getToast();
+    const toastAction = getToastAction();
+
+    fireEvent.click(toastAction);
+
+    fireAnimationEndEvent(toast, 'toast-hide-end');
+
+    expect(toast).toBeInTheDocument();
+
+    expect(toastAction).toHaveClass('yc-button_loading');
 });
 
 describe('api.update', () => {

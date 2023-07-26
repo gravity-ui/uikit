@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
+import type {PopperAnchorRef} from 'src/components/utils/usePopper';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
@@ -15,7 +16,7 @@ export default {
 
 export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
     // const anchorRef = React.useRef<HTMLButtonElement>(null);
-    const [anchorRef, setAnchorRef] = React.useState<HTMLElement | null>(null);
+    const [anchorRef, setAnchorRef] = React.useState<PopperAnchorRef>(null);
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -42,7 +43,7 @@ export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
 
 export const Placement: StoryFn<PopupProps> = (args) => {
     // const anchorRef = React.useRef<HTMLDivElement>(null);
-    const [anchorRef, setAnchorRef] = React.useState<HTMLElement | null>(null);
+    const [anchorRef, setAnchorRef] = React.useState<PopperAnchorRef>(null);
     const [open, setOpen] = React.useState(true);
     const contentStyle = {padding: 10};
     const placements: PopupPlacement[] = [
@@ -95,8 +96,8 @@ export const Position: StoryFn<PopupProps> = (args) => {
     const [left, setLeft] = React.useState(100);
     const [top, setTop] = React.useState(100);
     // const anchorRef = useVirtualElementRef({rect: {top, left}});
-
     const [anchorRef] = React.useState(useVirtualElementRef({rect: {top, left}}));
+
     return (
         <div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}

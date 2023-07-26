@@ -1,7 +1,7 @@
 // import React from 'react';
 
 import type popper from '@floating-ui/react';
-import {arrow, offset, useFloating} from '@floating-ui/react';
+import {arrow, autoUpdate, offset, useFloating} from '@floating-ui/react';
 
 export type PopperOffset = [number, number];
 export type PopperAnchorRef = popper.ReferenceType | null;
@@ -23,7 +23,7 @@ export interface PopperProps {
 
 export function usePopper({
     anchorRef,
-    open,
+    // open,
     arrowRef = null,
     placement,
     offsetOptions,
@@ -36,13 +36,14 @@ PopperProps) {
     // const placements = Array.isArray(placement) ? placement : [placement];
 
     const {refs, context} = useFloating({
+        // open,
+        strategy,
+        placement,
         elements: {
             reference: anchorRef,
         },
-        open,
-        strategy,
-        placement,
         middleware: [arrow({element: arrowRef}), offset(offsetOptions), ...middleware],
+        whileElementsMounted: autoUpdate,
     });
 
     // const {attributes, styles} = useReactPopper(anchorRef?.current, popperElement, {

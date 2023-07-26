@@ -122,8 +122,6 @@ export function Popup({
         restoreFocusRef,
     });
 
-    console.log(refs, context);
-
     return (
         <Portal container={container} disablePortal={disablePortal}>
             <CSSTransition

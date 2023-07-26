@@ -19,7 +19,7 @@ describe('Checkbox', () => {
     });
 
     test.each(new Array<CheckboxSize>('m', 'l'))('render with given "%s" size', (size) => {
-        render(<Checkbox size={size} qa={qaId} />);
+        render(<Checkbox size={size} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(`yc-checkbox_size_${size}`);
@@ -80,7 +80,7 @@ describe('Checkbox', () => {
     test('add className', () => {
         const className = 'my-class';
 
-        render(<Checkbox className={className} qa={qaId} />);
+        render(<Checkbox className={className} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(className);
@@ -89,7 +89,7 @@ describe('Checkbox', () => {
     test('add style', () => {
         const style = {color: 'red'};
 
-        render(<Checkbox style={style} qa={qaId} />);
+        render(<Checkbox style={style} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveStyle(style);
@@ -132,7 +132,7 @@ describe('Checkbox', () => {
     test('use passed ref for component', () => {
         const ref = React.createRef<HTMLLabelElement>();
 
-        render(<Checkbox ref={ref} qa={qaId} />);
+        render(<Checkbox ref={ref} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(component);

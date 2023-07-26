@@ -31,7 +31,7 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
     props,
     ref,
 ) {
-    const {size = 'm', width, style, className, qa, children} = props;
+    const {size = 'm', width, style, className, 'data-qa': dataQa, children} = props;
     let options = props.options;
 
     if (!options) {
@@ -92,7 +92,7 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
             ref={ref}
             style={style}
             className={b({size, width}, className)}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             <div
                 ref={plateRef}

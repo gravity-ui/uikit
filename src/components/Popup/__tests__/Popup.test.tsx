@@ -18,14 +18,14 @@ describe('Popup', () => {
 
     test('should pass arbitraty className to wrapper', () => {
         const arbitratyClassName = 'arbitratyClassName';
-        render(<Popup open qa={qaId} className={arbitratyClassName}></Popup>);
+        render(<Popup open data-qa={qaId} className={arbitratyClassName}></Popup>);
         const popup = screen.getByTestId(qaId);
         expect(popup).toHaveClass(arbitratyClassName);
     });
 
     test('should pass arbitraty className to content', () => {
         const arbitratyClassName = 'arbitratyClassName';
-        render(<Popup open qa={qaId} contentClassName={arbitratyClassName}></Popup>);
+        render(<Popup open data-qa={qaId} contentClassName={arbitratyClassName}></Popup>);
         const popup = screen.getByTestId(qaId);
         /* eslint-disable-next-line testing-library/no-node-access */
         expect(popup.firstChild).toHaveClass(arbitratyClassName);

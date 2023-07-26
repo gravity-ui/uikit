@@ -16,7 +16,7 @@ const renderPopover = (props?: Partial<PopoverProps>) => (
     <Popover
         content={defaultTooltipContent}
         behavior={PopoverBehavior.Delayed}
-        qa="popover"
+        data-qa="popover"
         openOnHover={false}
         {...props}
     >

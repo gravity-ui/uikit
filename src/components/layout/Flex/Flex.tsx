@@ -138,7 +138,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         gapRow,
         className,
         space,
-        qa,
+        'data-qa': dataQa,
         ...restProps
     } = props;
 
@@ -215,7 +215,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
             }}
             title={title}
             ref={ref}
-            data-qa={qa}
+            data-qa={dataQa}
             {...restProps}
         >
             {space

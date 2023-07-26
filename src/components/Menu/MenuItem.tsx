@@ -39,7 +39,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         theme,
         extraProps,
         children,
-        qa,
+        'data-qa': dataQa,
     },
     ref,
 ) {
@@ -58,7 +58,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         style,
         tabIndex: disabled ? -1 : 0,
         className: b('item', {disabled, active, selected, theme}, className),
-        qa,
+        'data-qa': dataQa,
     };
     const content = [
         icon && (

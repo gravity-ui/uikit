@@ -67,7 +67,7 @@ export function Modal({
     'aria-labelledby': ariaLabelledBy,
     'aria-label': ariaLabel,
     container,
-    qa,
+    'data-qa': dataQa,
 }: ModalProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -120,7 +120,12 @@ export function Modal({
                     onTransitionExited?.();
                 }}
             >
-                <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
+                <div
+                    ref={containerRef}
+                    style={style}
+                    className={b({open}, className)}
+                    data-qa={dataQa}
+                >
                     <div className={b('table')}>
                         <div className={b('cell')}>
                             <FocusTrap

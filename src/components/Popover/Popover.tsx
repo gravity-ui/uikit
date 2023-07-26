@@ -51,7 +51,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         onClick,
         anchorRef,
         strategy,
-        qa,
+        'data-qa': dataQa,
     },
     ref,
 ) {
@@ -115,7 +115,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             hasArrow={hasArrow}
             offset={tooltipOffset}
             onClose={anchorRef ? undefined : closeTooltip}
-            qa={qa ? `${qa}-tooltip` : ''}
+            data-qa={dataQa ? `${dataQa}-tooltip` : ''}
         >
             <React.Fragment>
                 {title && <h3 className={cnPopover('tooltip-title')}>{title}</h3>}
@@ -184,7 +184,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 top: offset.top,
                 left: offset.left,
             }}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             <Trigger
                 closeTooltip={closeTooltip}

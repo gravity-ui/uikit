@@ -14,7 +14,7 @@ describe('Link', () => {
     });
 
     test('Link is span', () => {
-        render(<Link qa="test" />);
+        render(<Link data-qa="test" />);
 
         // btw there should be role attribute at span
         const link = screen.getByTestId('test');

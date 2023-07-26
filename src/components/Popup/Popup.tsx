@@ -74,7 +74,7 @@ export function Popup({
     disablePortal,
     container,
     strategy,
-    qa,
+    'data-qa': dataQa,
     restoreFocus,
     restoreFocusRef,
     role,
@@ -135,7 +135,7 @@ export function Popup({
                     {...containerProps}
                     className={b({open}, className)}
                     tabIndex={-1}
-                    data-qa={qa}
+                    data-qa={dataQa}
                     id={id}
                     role={role}
                 >

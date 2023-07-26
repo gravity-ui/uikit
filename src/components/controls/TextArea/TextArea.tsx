@@ -52,7 +52,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         tabIndex,
         style,
         className,
-        qa,
+        'data-qa': dataQa,
         controlProps,
         onUpdate,
         onChange,
@@ -144,7 +144,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                 },
                 className,
             )}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             <span className={b('content')}>
                 <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />

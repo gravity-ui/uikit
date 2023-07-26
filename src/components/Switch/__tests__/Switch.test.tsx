@@ -29,7 +29,7 @@ describe('Switch', () => {
     test('use passed ref', () => {
         const ref = React.createRef<HTMLLabelElement>();
 
-        render(<Switch ref={ref} qa={qaId} />);
+        render(<Switch ref={ref} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(component);
@@ -47,7 +47,7 @@ describe('Switch', () => {
     test('use passed style', () => {
         const style = {color: 'red'};
 
-        render(<Switch style={style} qa={qaId} />);
+        render(<Switch style={style} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveStyle(style);
@@ -56,7 +56,7 @@ describe('Switch', () => {
     test('use passed className', () => {
         const className = 'class-name';
 
-        render(<Switch className={className} qa={qaId} />);
+        render(<Switch className={className} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(className);

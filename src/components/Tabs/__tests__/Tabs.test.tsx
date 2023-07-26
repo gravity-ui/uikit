@@ -35,7 +35,7 @@ test('should not render tabs if no items', () => {
 });
 
 test.each(new Array<TabsSize>('m', 'l', 'xl'))('should render with given "%s" size', (size) => {
-    render(<Tabs items={[]} size={size} qa={qaId} />);
+    render(<Tabs items={[]} size={size} data-qa={qaId} />);
     const component = screen.getByTestId(qaId);
 
     expect(component).toHaveClass(`yc-tabs_size_${size}`);
@@ -44,7 +44,7 @@ test.each(new Array<TabsSize>('m', 'l', 'xl'))('should render with given "%s" si
 test.each(new Array<TabsDirection>(TabsDirection.Horizontal, TabsDirection.Vertical))(
     'render with given "%s" direction',
     (direction) => {
-        render(<Tabs items={[]} direction={direction} qa={qaId} />);
+        render(<Tabs items={[]} direction={direction} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(`yc-tabs_direction_${direction}`);
@@ -54,7 +54,7 @@ test.each(new Array<TabsDirection>(TabsDirection.Horizontal, TabsDirection.Verti
 test('should passed className', () => {
     const className = 'class-name';
 
-    render(<Tabs items={[]} className={className} qa={qaId} />);
+    render(<Tabs items={[]} className={className} data-qa={qaId} />);
     const component = screen.getByTestId(qaId);
 
     expect(component).toHaveClass(className);

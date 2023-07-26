@@ -21,7 +21,16 @@ export interface RadioProps extends ControlProps, DOMProps, QAProps {
 }
 
 export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio(props, ref) {
-    const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
+    const {
+        size = 'm',
+        disabled = false,
+        content,
+        children,
+        title,
+        style,
+        className,
+        'data-qa': dataQa,
+    } = props;
     const {checked, inputProps} = useRadio(props);
     const text = content || children;
 
@@ -48,7 +57,7 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
                 },
                 className,
             )}
-            qa={qa}
+            data-qa={dataQa}
             control={control}
         >
             {text}

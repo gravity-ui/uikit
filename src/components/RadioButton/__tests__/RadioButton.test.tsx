@@ -17,13 +17,15 @@ const options: RadioButtonOption[] = [
 ];
 
 const renderRadioButton = (props: RadioButtonProps = {}) => {
-    render(<RadioButton defaultValue={options[0].value} options={options} qa={qaId} {...props} />);
+    render(
+        <RadioButton defaultValue={options[0].value} options={options} data-qa={qaId} {...props} />,
+    );
 };
 
 describe('RadioButton', () => {
     test('use passed ref for component', () => {
         const ref = React.createRef<HTMLDivElement>();
-        render(<RadioButton ref={ref} qa={qaId} />);
+        render(<RadioButton ref={ref} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(component);
@@ -50,7 +52,7 @@ describe('RadioButton', () => {
 
         test('show given children passed as nested components', async () => {
             render(
-                <RadioButton qa={qaId} defaultValue={options[0].value}>
+                <RadioButton data-qa={qaId} defaultValue={options[0].value}>
                     {options.map((opt) => (
                         <RadioButton.Option key={opt.value} {...opt} />
                     ))}
@@ -97,7 +99,7 @@ describe('RadioButton', () => {
                 <RadioButton
                     defaultValue={customOptions[0].value}
                     options={customOptions}
-                    qa={qaId}
+                    data-qa={qaId}
                 />,
             );
             const component = screen.getByTestId(qaId);

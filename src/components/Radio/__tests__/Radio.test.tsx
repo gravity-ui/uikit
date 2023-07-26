@@ -22,7 +22,7 @@ describe('Radio', () => {
     });
 
     test.each(new Array<RadioSize>('m', 'l'))('render with given "%s" size', (size) => {
-        render(<Radio value={value} size={size} qa={qaId} />);
+        render(<Radio value={value} size={size} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(`yc-radio_size_${size}`);
@@ -76,7 +76,7 @@ describe('Radio', () => {
     test('add className', () => {
         const className = 'my-class';
 
-        render(<Radio value={value} className={className} qa={qaId} />);
+        render(<Radio value={value} className={className} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveClass(className);
@@ -85,7 +85,7 @@ describe('Radio', () => {
     test('add style', () => {
         const style = {color: 'red'};
 
-        render(<Radio value={value} style={style} qa={qaId} />);
+        render(<Radio value={value} style={style} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toHaveStyle(style);
@@ -126,7 +126,7 @@ describe('Radio', () => {
     test('use passed ref for component', () => {
         const ref = React.createRef<HTMLLabelElement>();
 
-        render(<Radio value={value} ref={ref} qa={qaId} />);
+        render(<Radio value={value} ref={ref} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(component);

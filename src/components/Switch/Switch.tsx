@@ -20,7 +20,16 @@ export interface SwitchProps extends ControlProps, DOMProps, QAProps {
 }
 
 export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function Switch(props, ref) {
-    const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
+    const {
+        size = 'm',
+        disabled = false,
+        content,
+        children,
+        title,
+        style,
+        className,
+        'data-qa': dataQa,
+    } = props;
     const {checked, inputProps} = useCheckbox(props);
     const text = content || children;
 
@@ -48,7 +57,7 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
                 className,
             )}
             labelClassName={b('text')}
-            qa={qa}
+            data-qa={dataQa}
             control={control}
         >
             {text}

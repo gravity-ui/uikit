@@ -42,12 +42,12 @@ export class EventBroker {
         );
     }
 
-    withEventPublisher(componentId: string, qa?: string) {
-        return (eventBrokerData: Omit<EventBrokerData, 'componentId' | 'qa'>) => {
+    withEventPublisher(componentId: string, dataQa?: string) {
+        return (eventBrokerData: Omit<EventBrokerData, 'componentId' | 'data-qa'>) => {
             this.publish({
                 ...eventBrokerData,
                 componentId,
-                qa,
+                'data-qa': dataQa,
             });
         };
     }

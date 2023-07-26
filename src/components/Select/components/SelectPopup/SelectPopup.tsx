@@ -29,7 +29,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
     ) =>
         mobile ? (
             <Sheet
-                qa={SelectQa.SHEET}
+                data-qa={SelectQa.SHEET}
                 className={className}
                 visible={Boolean(open)}
                 onClose={handleClose}
@@ -39,7 +39,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
         ) : (
             <Popup
                 contentClassName={b(null, className)}
-                qa={SelectQa.POPUP}
+                data-qa={SelectQa.POPUP}
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
                 offset={[BORDER_WIDTH, BORDER_WIDTH]}

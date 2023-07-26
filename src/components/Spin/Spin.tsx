@@ -14,10 +14,10 @@ export interface SpinProps extends DOMProps, QAProps {
 }
 
 export const Spin = React.forwardRef<HTMLDivElement, SpinProps>(function Spin(props, ref) {
-    const {size = 'm', style, className, qa} = props;
+    const {size = 'm', style, className, 'data-qa': dataQa} = props;
 
     return (
-        <div ref={ref} style={style} className={b({size}, className)} data-qa={qa}>
+        <div ref={ref} style={style} className={b({size}, className)} data-qa={dataQa}>
             <div className={b('inner')} />
         </div>
     );

@@ -4,7 +4,7 @@ export interface DOMProps {
 }
 
 export interface QAProps {
-    qa?: string;
+    'data-qa'?: string;
 }
 
 // Checkbox, Radio and Switch

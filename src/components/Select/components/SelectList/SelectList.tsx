@@ -77,7 +77,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         <List
             ref={ref}
             className={selectListBlock({size, virtualized, mobile})}
-            qa={SelectQa.LIST}
+            data-qa={SelectQa.LIST}
             itemClassName={selectListBlock('item')}
             itemHeight={getItemHeight}
             itemsHeight={virtualized ? optionsHeight : undefined}

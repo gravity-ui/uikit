@@ -111,11 +111,11 @@ export class Sheet extends React.Component<SheetProps, SheetState> {
             visible,
             allowHideOnContentScroll,
             hideTopBar,
-            qa,
+            'data-qa': dataQa,
         } = this.props;
 
         return (
-            <div data-qa={qa} className={sheetBlock(null, className)}>
+            <div data-qa={dataQa} className={sheetBlock(null, className)}>
                 <SheetContentContainer
                     id={id}
                     content={children}

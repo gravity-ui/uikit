@@ -100,7 +100,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     render() {
-        const {emptyPlaceholder, virtualized, className, itemsClassName, qa} = this.props;
+        const {
+            emptyPlaceholder,
+            virtualized,
+            className,
+            itemsClassName,
+            'data-qa': dataQa,
+        } = this.props;
 
         const {items} = this.state;
 
@@ -110,7 +116,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                     <div
                         className={b({mobile}, className)}
-                        data-qa={qa}
+                        data-qa={dataQa}
                         tabIndex={-1}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}

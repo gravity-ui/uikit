@@ -38,7 +38,7 @@ export function Icon({
     className,
     fill = 'currentColor',
     stroke = 'none',
-    qa,
+    'data-qa': dataQa,
 }: IconProps) {
     // This component supports four different ways to load and use icons:
     // - svg-react-loader
@@ -100,7 +100,7 @@ export function Icon({
         className: b(null, className),
         fill,
         stroke,
-        'data-qa': qa,
+        'data-qa': dataQa,
         ...a11yHiddenSvgProps,
     };
 

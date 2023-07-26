@@ -38,7 +38,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(func
         style,
         className,
         optionClassName,
-        qa,
+        'data-qa': dataQa,
         children,
     } = props;
     let options = props.options;
@@ -61,7 +61,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(func
             ref={ref}
             style={style}
             className={b({size, direction}, className)}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             {optionsProps.map((optionProps) => (
                 <Radio

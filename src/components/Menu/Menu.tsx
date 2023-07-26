@@ -29,7 +29,7 @@ interface MenuComponent
 
 // TODO: keyboard navigation, Up/Down arrows and Enter
 export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(
-    {size = 'm', children, style, className, qa},
+    {size = 'm', children, style, className, 'data-qa': dataQa},
     ref,
 ) {
     return (
@@ -39,7 +39,7 @@ export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(
             // tabIndex={0}
             style={style}
             className={b({size}, className)}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             {children}
         </ul>

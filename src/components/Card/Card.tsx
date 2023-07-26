@@ -48,7 +48,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         disabled,
         selected,
         style,
-        qa,
+        'data-qa': dataQa,
     } = props;
 
     const isTypeAction = type === 'action';
@@ -87,7 +87,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
             onClick={handleClick}
             onKeyDown={isClickable ? onKeyDown : undefined}
             tabIndex={isClickable ? 0 : undefined}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             {children}
         </div>

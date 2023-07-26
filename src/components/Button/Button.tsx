@@ -108,7 +108,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         id,
         style,
         className,
-        qa,
+        'data-qa': dataQa,
     },
     ref,
 ) {
@@ -150,7 +150,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
             },
             className,
         ),
-        'data-qa': qa,
+        'data-qa': dataQa,
     };
 
     if (typeof href === 'string' || component) {

@@ -46,7 +46,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {
         size = DEFAULT_ICON_SIZE,
         className,
-        qa,
+        'data-qa': dataQa,
         hasTooltip = true,
         tooltipInitialText = i18n('startCopy'),
         tooltipSuccessText = i18n('endCopy'),
@@ -70,7 +70,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
                 ref={buttonRef}
                 view="flat"
                 className={b(null, className)}
-                qa={qa}
+                data-qa={dataQa}
                 onClick={onClick}
             >
                 <Button.Icon>

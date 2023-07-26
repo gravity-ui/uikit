@@ -25,7 +25,7 @@ type ControlProps = {
     selectedOptionsContent: React.ReactNode;
     name?: string;
     className?: string;
-    qa?: string;
+    'data-qa'?: string;
     label?: string;
     placeholder?: SelectProps['placeholder'];
     error?: SelectProps['error'];
@@ -46,7 +46,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         pin,
         selectedOptionsContent,
         className,
-        qa,
+        'data-qa': dataQa,
         name,
         label,
         placeholder,
@@ -136,7 +136,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     onClick={toggleOpen}
                     onKeyDown={onKeyDown}
                     type="button"
-                    data-qa={qa}
+                    data-qa={dataQa}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (

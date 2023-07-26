@@ -75,7 +75,7 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
             className,
             onSelectTab,
             wrapTo,
-            qa,
+            'data-qa': dataQa,
         },
         ref,
     ) => {
@@ -102,7 +102,12 @@ const TabsComponent = React.forwardRef<HTMLDivElement, TabsProps>(
         }, [items, onSelectTab, wrapTo]);
 
         return (
-            <div role="tablist" className={b({direction, size}, className)} data-qa={qa} ref={ref}>
+            <div
+                role="tablist"
+                className={b({direction, size}, className)}
+                data-qa={dataQa}
+                ref={ref}
+            >
                 <TabsContext.Provider value={tabsContextValue}>
                     {children || tabs}
                 </TabsContext.Provider>

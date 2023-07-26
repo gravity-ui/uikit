@@ -53,7 +53,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         className,
         controlClassName,
         popupClassName,
-        qa,
+        'data-qa': dataQa,
         value: propsValue,
         defaultValue,
         defaultOpen,
@@ -226,7 +226,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 clearValue={handleClearValue}
                 ref={handleControlRef}
                 className={controlClassName}
-                qa={qa}
+                data-qa={dataQa}
                 name={name}
                 view={view}
                 size={size}

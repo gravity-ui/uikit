@@ -31,7 +31,7 @@ export interface HotkeyProps extends DOMProps, QAProps {
 }
 
 export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey(props, ref) {
-    const {value, platform, view = 'light', qa, style, className} = props;
+    const {value, platform, view = 'light', 'data-qa': dataQa, style, className} = props;
 
     const groups = parseHotkeys(value, {platform});
     const content: React.ReactNode[] = [];
@@ -62,7 +62,7 @@ export const Hotkey = React.forwardRef<HTMLElement, HotkeyProps>(function Hotkey
     if (content.length === 0) return null;
 
     return (
-        <kbd ref={ref} style={style} data-qa={qa} className={b({view}, className)}>
+        <kbd ref={ref} style={style} data-qa={dataQa} className={b({view}, className)}>
             {content}
         </kbd>
     );

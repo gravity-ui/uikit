@@ -12,14 +12,14 @@ export interface MenuGroupProps extends DOMProps, QAProps {
 }
 
 export const MenuGroup = React.forwardRef<HTMLLIElement, MenuGroupProps>(function MenuGroup(
-    {label, children, style, className, qa},
+    {label, children, style, className, 'data-qa': dataQa},
     ref,
 ) {
     const labelId = useUniqId();
 
     return (
         <li ref={ref} className={b('list-group-item')}>
-            <div style={style} className={b('group', className)} data-qa={qa}>
+            <div style={style} className={b('group', className)} data-qa={dataQa}>
                 {label && (
                     <div id={labelId} className={b('group-label')}>
                         {label}

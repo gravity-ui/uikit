@@ -54,7 +54,7 @@ describe('Button', () => {
     test.each(new Array<ButtonSize>('xs', 's', 'm', 'l', 'xl'))(
         'render with given "%s" size',
         (size) => {
-            render(<Button size={size} qa={qaId} />);
+            render(<Button size={size} data-qa={qaId} />);
             const button = screen.getByTestId(qaId);
 
             expect(button).toHaveClass(`yc-button_size_${size}`);
@@ -62,14 +62,14 @@ describe('Button', () => {
     );
 
     test.each(new Array<ButtonView>(...buttonViews))('render with given "%s" view', (view) => {
-        render(<Button view={view} qa={qaId} />);
+        render(<Button view={view} data-qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
         expect(button).toHaveClass(`yc-button_view_${view}`);
     });
 
     test.each(new Array<ButtonPin>(...buttonPins))('render with given "%s" pin', (pin) => {
-        render(<Button pin={pin} qa={qaId} />);
+        render(<Button pin={pin} data-qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
         expect(button).toHaveClass(`yc-button_pin_${pin}`);
@@ -78,7 +78,7 @@ describe('Button', () => {
     test.each(new Array<'button' | 'submit' | 'reset'>('button', 'submit', 'reset'))(
         'render with given "%s" type',
         (type) => {
-            render(<Button type={type} qa={qaId} />);
+            render(<Button type={type} data-qa={qaId} />);
             const button = screen.getByTestId(qaId);
 
             expect(button).toHaveAttribute('type', `${type}`);
@@ -230,7 +230,7 @@ describe('Button', () => {
     test('add className', () => {
         const className = 'my-class';
 
-        render(<Button className={className} qa={qaId} />);
+        render(<Button className={className} data-qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
         expect(button).toHaveClass(className);
@@ -239,7 +239,7 @@ describe('Button', () => {
     test('add style', () => {
         const style = {color: 'red'};
 
-        render(<Button style={style} qa={qaId} />);
+        render(<Button style={style} data-qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
         expect(button).toHaveStyle(style);
@@ -261,7 +261,7 @@ describe('Button', () => {
     test('use passed ref for component', () => {
         const ref = React.createRef<HTMLLabelElement>();
 
-        render(<Button ref={ref} qa={qaId} />);
+        render(<Button ref={ref} data-qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(button);

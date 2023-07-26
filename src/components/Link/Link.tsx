@@ -41,7 +41,7 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
         id,
         style,
         className,
-        qa,
+        'data-qa': dataQa,
     },
     ref,
 ) {
@@ -63,7 +63,7 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
         id,
         style,
         className: b({view}, className),
-        'data-qa': qa,
+        'data-qa': dataQa,
     };
 
     if (typeof href === 'string') {

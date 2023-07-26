@@ -55,7 +55,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         tabIndex,
         style,
         className,
-        qa,
+        'data-qa': dataQa,
         controlProps: originalControlProps,
         leftContent,
         rightContent,
@@ -164,7 +164,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 },
                 className,
             )}
-            data-qa={qa}
+            data-qa={dataQa}
         >
             <span className={b('content')}>
                 {isLeftContentVisible && (

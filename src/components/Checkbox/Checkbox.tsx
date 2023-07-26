@@ -35,7 +35,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
         title,
         style,
         className,
-        qa,
+        'data-qa': dataQa,
     } = props;
     const {checked, inputProps} = useCheckbox(props);
     const text = content || children;
@@ -70,7 +70,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
                 },
                 className,
             )}
-            qa={qa}
+            data-qa={dataQa}
             control={control}
         >
             {text}

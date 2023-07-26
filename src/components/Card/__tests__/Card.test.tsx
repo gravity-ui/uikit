@@ -20,7 +20,7 @@ const cardViews: CardView[] = ['outlined', 'clear', 'outlined', 'filled', 'raise
 
 describe('Card', () => {
     test('render card by default', () => {
-        render(<Card qa={qaId}>{cardText}</Card>);
+        render(<Card data-qa={qaId}>{cardText}</Card>);
         const card = screen.getByText(cardText);
 
         expect(card).toBeVisible();
@@ -28,7 +28,7 @@ describe('Card', () => {
 
     test.each(cardThemes)('render with given "%s" theme', (theme) => {
         render(
-            <Card theme={theme} qa={qaId}>
+            <Card theme={theme} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -39,7 +39,7 @@ describe('Card', () => {
 
     test.each(cardSizes)('render with given "%s" size', (size) => {
         render(
-            <Card size={size} qa={qaId}>
+            <Card size={size} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -50,7 +50,7 @@ describe('Card', () => {
 
     test.each(cardViews)('render with given "%s" view', (view) => {
         render(
-            <Card view={view} qa={qaId}>
+            <Card view={view} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -61,7 +61,7 @@ describe('Card', () => {
 
     test.each(cardTypes)('render with given "%s" type', (type) => {
         render(
-            <Card type={type} qa={qaId}>
+            <Card type={type} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -72,7 +72,7 @@ describe('Card', () => {
 
     test('selected when selected=true prop is given', () => {
         render(
-            <Card selected={true} qa={qaId}>
+            <Card selected={true} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -84,7 +84,7 @@ describe('Card', () => {
 
     test('not selected when selected=false prop is given', () => {
         render(
-            <Card selected={false} qa={qaId}>
+            <Card selected={false} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -96,7 +96,7 @@ describe('Card', () => {
 
     test('disabled when disabled=true prop is given', () => {
         render(
-            <Card disabled={true} qa={qaId}>
+            <Card disabled={true} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -107,7 +107,7 @@ describe('Card', () => {
 
     test('not disabled when disabled=false prop is given', () => {
         render(
-            <Card disabled={false} qa={qaId}>
+            <Card disabled={false} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -142,7 +142,7 @@ describe('Card', () => {
         const className = 'my-class';
 
         render(
-            <Card className={className} qa={qaId}>
+            <Card className={className} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -155,7 +155,7 @@ describe('Card', () => {
         const style = {color: 'red'};
 
         render(
-            <Card style={style} qa={qaId}>
+            <Card style={style} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -168,7 +168,7 @@ describe('Card', () => {
         const ref = React.createRef<HTMLDivElement>();
 
         render(
-            <Card ref={ref} qa={qaId}>
+            <Card ref={ref} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -181,7 +181,7 @@ describe('Card', () => {
         const user = userEvent.setup();
         const handleOnClick = jest.fn();
         render(
-            <Card type="action" onClick={handleOnClick} qa={qaId}>
+            <Card type="action" onClick={handleOnClick} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -196,7 +196,7 @@ describe('Card', () => {
         const user = userEvent.setup();
         const handleOnClick = jest.fn();
         render(
-            <Card type="selection" onClick={handleOnClick} qa={qaId}>
+            <Card type="selection" onClick={handleOnClick} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -211,7 +211,7 @@ describe('Card', () => {
         const user = userEvent.setup();
         const handleOnClick = jest.fn();
         render(
-            <Card type="container" onClick={handleOnClick} qa={qaId}>
+            <Card type="container" onClick={handleOnClick} data-qa={qaId}>
                 {cardText}
             </Card>,
         );
@@ -243,7 +243,7 @@ describe('Card', () => {
             const user = userEvent.setup();
             const handleOnClick = jest.fn();
             render(
-                <Card type="action" onClick={handleOnClick} qa={qaId}>
+                <Card type="action" onClick={handleOnClick} data-qa={qaId}>
                     {cardText}
                 </Card>,
             );
@@ -261,7 +261,7 @@ describe('Card', () => {
             const user = userEvent.setup();
             const handleOnClick = jest.fn();
             render(
-                <Card type="action" onClick={handleOnClick} qa={qaId}>
+                <Card type="action" onClick={handleOnClick} data-qa={qaId}>
                     {cardText}
                 </Card>,
             );
@@ -280,7 +280,7 @@ describe('Card', () => {
         test('has the role of a button if type="action"', async () => {
             const handleOnClick = jest.fn();
             render(
-                <Card type="action" onClick={handleOnClick} qa={qaId}>
+                <Card type="action" onClick={handleOnClick} data-qa={qaId}>
                     {cardText}
                 </Card>,
             );
@@ -294,7 +294,7 @@ describe('Card', () => {
             const user = userEvent.setup();
             const handleOnClick = jest.fn();
             render(
-                <Card type="action" onClick={handleOnClick} qa={qaId}>
+                <Card type="action" onClick={handleOnClick} data-qa={qaId}>
                     {cardText}
                 </Card>,
             );
@@ -314,8 +314,8 @@ describe('Card', () => {
 
             render(
                 <React.Fragment>
-                    <Button qa={noopButtonQaId}>Some noop button</Button>
-                    <Card type="action" onClick={handleOnClick} qa={qaId}>
+                    <Button data-qa={noopButtonQaId}>Some noop button</Button>
+                    <Card type="action" onClick={handleOnClick} data-qa={qaId}>
                         {cardText}
                     </Card>
                 </React.Fragment>,

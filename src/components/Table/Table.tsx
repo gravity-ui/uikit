@@ -304,7 +304,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     render() {
-        const {columns, stickyHorizontalScroll, className, qa} = this.props;
+        const {columns, stickyHorizontalScroll, className, 'data-qa': dataQa} = this.props;
         const withPrimary = columns.some(({primary}) => primary);
 
         return (
@@ -316,7 +316,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                     },
                     className,
                 )}
-                data-qa={qa}
+                data-qa={dataQa}
             >
                 {stickyHorizontalScroll ? (
                     <React.Fragment>

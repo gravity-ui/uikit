@@ -91,7 +91,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
             onTransitionExited,
             'aria-label': ariaLabel,
             'aria-labelledby': ariaLabelledBy,
-            qa,
+            'data-qa': dataQa,
         } = this.props;
 
         return (
@@ -116,7 +116,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}
                 container={container}
-                qa={qa}
+                data-qa={dataQa}
             >
                 <div className={b({size, 'has-close': hasCloseButton}, className)}>
                     {children}

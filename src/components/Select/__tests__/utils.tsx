@@ -43,7 +43,7 @@ export const ControlledSelect = (props: Partial<SelectProps>) => {
     return (
         <Select
             {...restProps}
-            qa={TEST_QA}
+            data-qa={TEST_QA}
             options={options}
             value={stateValue}
             onUpdate={handleUpdate}

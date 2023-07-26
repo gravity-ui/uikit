@@ -107,14 +107,16 @@ describe('Table', () => {
     test('add className', () => {
         const className = 'my-class';
 
-        render(<Table data={data} columns={columns} className={className} qa={qaId} />);
+        render(<Table data={data} columns={columns} className={className} data-qa={qaId} />);
         const table = screen.getByTestId(qaId);
 
         expect(table).toHaveClass(className);
     });
 
     test('render table with horizontal sticky scroll', () => {
-        render(<Table data={data} columns={columns} stickyHorizontalScroll={true} qa={qaId} />);
+        render(
+            <Table data={data} columns={columns} stickyHorizontalScroll={true} data-qa={qaId} />,
+        );
         const table = screen.getByTestId(qaId);
 
         expect(table).toHaveClass('yc-table_with-sticky-scroll');

@@ -16,7 +16,7 @@ const options: RadioGroupOption[] = [
 
 describe('RadioGroup', () => {
     test('render RadioGroup by default', () => {
-        render(<RadioGroup defaultValue={options[0].value} options={options} qa={qaId} />);
+        render(<RadioGroup defaultValue={options[0].value} options={options} data-qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
         expect(component).toBeVisible();
@@ -24,7 +24,12 @@ describe('RadioGroup', () => {
 
     test.each(new Array<RadioGroupSize>('m', 'l'))('render with given "%s" size', (size) => {
         render(
-            <RadioGroup defaultValue={options[0].value} options={options} size={size} qa={qaId} />,
+            <RadioGroup
+                defaultValue={options[0].value}
+                options={options}
+                size={size}
+                data-qa={qaId}
+            />,
         );
         const component = screen.getByTestId(qaId);
 
@@ -37,7 +42,7 @@ describe('RadioGroup', () => {
                 defaultValue={options[0].value}
                 options={options}
                 disabled={true}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
@@ -54,7 +59,7 @@ describe('RadioGroup', () => {
                 defaultValue={options[0].value}
                 options={options}
                 disabled={false}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
@@ -76,7 +81,7 @@ describe('RadioGroup', () => {
                 defaultValue={customOptions[0].value}
                 options={customOptions}
                 disabled={false}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
@@ -98,7 +103,7 @@ describe('RadioGroup', () => {
                 defaultValue={options[0].value}
                 options={options}
                 disabled={false}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const text = screen.getByText(options[0].content as string);
@@ -115,7 +120,7 @@ describe('RadioGroup', () => {
                 options={options}
                 className={className}
                 disabled={false}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
@@ -132,7 +137,7 @@ describe('RadioGroup', () => {
                 options={options}
                 style={style}
                 disabled={false}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
@@ -147,7 +152,7 @@ describe('RadioGroup', () => {
                 defaultValue={options[0].value}
                 options={options}
                 disabled={false}
-                qa={qaId}
+                data-qa={qaId}
             />,
         );
         const component = screen.getByTestId(qaId);
@@ -188,7 +193,7 @@ describe('RadioGroup', () => {
                     defaultValue={options[0].value}
                     options={options}
                     direction={direction}
-                    qa={qaId}
+                    data-qa={qaId}
                 />,
             );
             const component = screen.getByTestId(qaId);

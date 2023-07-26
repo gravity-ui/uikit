@@ -27,6 +27,8 @@ export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     minRows?: number;
     /** The number of maximum visible text lines for the control. Ignored if `rows` is specified */
     maxRows?: number;
+    /** User`s callback invoked after clear button handler */
+    onClear?: () => void;
 };
 export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;
@@ -54,6 +56,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         className,
         qa,
         controlProps,
+        onClear,
         onUpdate,
         onChange,
     } = props;
@@ -113,6 +116,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
 
         if (!isControlled) {
             setUncontrolledValue('');
+        }
+
+        if (onClear) {
+            onClear();
         }
     };
 

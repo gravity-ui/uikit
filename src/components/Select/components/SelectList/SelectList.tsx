@@ -5,10 +5,10 @@ import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
 import type {FlattenOption} from '../../utils';
 import {getOptionsHeight, getPopupItemHeight} from '../../utils';
-import {SelectLoadingIndicator} from '../SelectLoadingIndicator/SelectLoadingIndicator';
 
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
+import {SelectLoadingIndicator} from './SelectLoadingIndicator';
 
 import './SelectList.scss';
 

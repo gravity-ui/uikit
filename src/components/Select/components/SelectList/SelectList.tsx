@@ -25,7 +25,7 @@ type SelectListProps = {
     loading?: boolean;
 };
 
-const loadingOption = {value: 'LOADING', disabled: true};
+const loadingOption = {value: '__SELECT_LIST_ITEM_LOADING__', disabled: true};
 
 export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>((props, ref) => {
     const {

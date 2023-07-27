@@ -7,7 +7,6 @@ $arrow-offset: 9px;
 $arrow-border: 5px;
 $arrow-circle-width: 28px;
 $arrow-circle-height: 30px;
-$transition-distance: 10px;
 
 #{$block} {
     // Can be overridden, see Tooltip
@@ -16,55 +15,7 @@ $transition-distance: 10px;
     --yc-popup-border-width: 1px;
 
     z-index: 1000;
-    // visibility: hidden;
     outline: none;
-
-    // animation-duration: 0.1s;
-    // animation-timing-function: ease-out;
-    // animation-fill-mode: forwards;
-
-    &_open,
-    &_exit_active {
-        // visibility: visible;
-    }
-
-    // &_exit_active {
-    //     &[data-placement*='bottom'] {
-    //         animation-name: #{variables.$ns}popup-bottom;
-    //     }
-
-    //     &[data-placement*='top'] {
-    //         animation-name: #{variables.$ns}popup-top;
-    //     }
-
-    //     &[data-placement*='left'] {
-    //         animation-name: #{variables.$ns}popup-left;
-    //     }
-
-    //     &[data-placement*='right'] {
-    //         animation-name: #{variables.$ns}popup-right;
-    //     }
-    // }
-
-    // // open state
-    // &_enter_active,
-    // &_appear_active {
-    //     &[data-placement*='bottom'] {
-    //         animation-name: #{variables.$ns}popup-bottom-open;
-    //     }
-
-    //     &[data-placement*='top'] {
-    //         animation-name: #{variables.$ns}popup-top-open;
-    //     }
-
-    //     &[data-placement*='left'] {
-    //         animation-name: #{variables.$ns}popup-left-open;
-    //     }
-
-    //     &[data-placement*='right'] {
-    //         animation-name: #{variables.$ns}popup-right-open;
-    //     }
-    // }
 
     // arrow
     &[data-placement*='bottom'] #{$block}__arrow {
@@ -97,9 +48,6 @@ $transition-distance: 10px;
 
     &__content {
         position: relative;
-        // animation-duration: 0.1s;
-        // animation-timing-function: ease-out;
-        // animation-fill-mode: forwards;
         border-radius: 4px;
         background-color: var(--yc-popup-background-color);
         box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
@@ -154,93 +102,5 @@ $transition-distance: 10px;
             left: -5px;
             bottom: -4px;
         }
-    }
-}
-
-@keyframes #{variables.$ns}popup-bottom {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY($transition-distance);
-    }
-}
-
-@keyframes #{variables.$ns}popup-bottom-open {
-    0% {
-        opacity: 0;
-        transform: translateY($transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes #{variables.$ns}popup-top {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-$transition-distance);
-    }
-}
-
-@keyframes #{variables.$ns}popup-top-open {
-    0% {
-        opacity: 0;
-        transform: translateY(-$transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes #{variables.$ns}popup-left {
-    0% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-$transition-distance);
-    }
-}
-
-@keyframes #{variables.$ns}popup-left-open {
-    0% {
-        opacity: 0;
-        transform: translateX(-$transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes #{variables.$ns}popup-right {
-    0% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX($transition-distance);
-    }
-}
-
-@keyframes #{variables.$ns}popup-right-open {
-    0% {
-        opacity: 0;
-        transform: translateX($transition-distance);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
     }
 }

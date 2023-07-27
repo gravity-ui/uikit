@@ -160,7 +160,7 @@ export function Popup({
                     ref={refs.setFloating}
                     style={context.floatingStyles}
                     // {...attributes.popper}
-                    className={b({}, className)}
+                    className={b(null, className)}
                     data-placement={popperPlacement}
                     tabIndex={-1}
                     data-qa={qa}

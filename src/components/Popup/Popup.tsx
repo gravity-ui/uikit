@@ -75,7 +75,13 @@ export function Popup({
 }: PopupProps) {
     const [arrowRef, setArrowRef] = React.useState<PopperArrowRef>(null);
 
-    const {refs, context, interactions, transition} = usePopper({
+    const {
+        refs,
+        context,
+        interactions,
+        transition,
+        placement: popperPlacement,
+    } = usePopper({
         anchorRef,
         arrowRef,
         open,
@@ -86,7 +92,7 @@ export function Popup({
     });
 
     useLayer({
-        open: context.open,
+        open: transition.isMounted,
         disableEscapeKeyDown,
         disableOutsideClick,
         onEscapeKeyDown,
@@ -99,7 +105,7 @@ export function Popup({
     // const handleRef = useForkRef<HTMLDivElement>(refs.setFloating, useParentFocusTrap());
 
     const containerProps = useRestoreFocus({
-        enabled: Boolean(restoreFocus && context.open),
+        enabled: Boolean(restoreFocus && transition.isMounted),
         restoreFocusRef,
     });
 
@@ -116,13 +122,14 @@ export function Popup({
                 className={b(
                     {
                         open: transition.isMounted,
-                        enter_active: transition.status === 'open',
-                        // enter_done: transition.status === 'open',
-                        exit_active: transition.status === 'close',
-                        exit_done: transition.status === 'unmounted',
+                        // enter_active: transition.status === 'open',
+                        // // enter_done: transition.status === 'open',
+                        // exit_active: transition.status === 'close',
+                        // exit_done: transition.status === 'unmounted',
                     },
                     className,
                 )}
+                data-placement={popperPlacement}
                 tabIndex={-1}
                 data-qa={qa}
                 id={id}

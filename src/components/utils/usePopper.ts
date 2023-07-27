@@ -11,7 +11,6 @@ import {
     useHover,
     useInteractions,
     useRole,
-    useTransitionStatus,
 } from '@floating-ui/react';
 
 export type PopperOffset = [number, number];
@@ -81,14 +80,11 @@ PopperProps) {
 
     const interactions = useInteractions([hover, focus, dismiss, role]);
 
-    const transition = useTransitionStatus(context);
-
     return React.useMemo(
         () => ({
             interactions,
-            transition,
             ...floatingData,
         }),
-        [floatingData, interactions, transition],
+        [floatingData, interactions],
     );
 }

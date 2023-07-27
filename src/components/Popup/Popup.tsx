@@ -2,6 +2,8 @@ import React from 'react';
 
 // import {FloatingFocusManager} from '@floating-ui/react';
 
+import {Side, UseTransitionStylesProps, useTransitionStyles} from '@floating-ui/react';
+
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 // import {useParentFocusTrap} from '../utils/FocusTrap';
@@ -17,7 +19,6 @@ import {useRestoreFocus} from '../utils/useRestoreFocus';
 import {PopupArrow} from './PopupArrow';
 
 import './Popup.scss';
-
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
@@ -41,6 +42,32 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 
 const b = block('popup');
 // const ARROW_SIZE = 8;
+
+type PopupTranslateOptions = Record<
+    Side,
+    Record<keyof Pick<UseTransitionStylesProps, 'initial' | 'open'>, string>
+>;
+
+const TRANSITION_DISTANCE = '10px';
+
+const TRANSLATE_OPTIONS: PopupTranslateOptions = {
+    bottom: {
+        initial: `translateY(0)`,
+        open: `translateY(${TRANSITION_DISTANCE})`,
+    },
+    top: {
+        initial: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateY(${TRANSITION_DISTANCE})`,
+    },
+    right: {
+        initial: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateY(${TRANSITION_DISTANCE})`,
+    },
+    left: {
+        initial: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateY(${TRANSITION_DISTANCE})`,
+    },
+};
 
 export function Popup({
     // keepMounted = false,
@@ -79,7 +106,6 @@ export function Popup({
         refs,
         context,
         interactions,
-        transition,
         placement: popperPlacement,
     } = usePopper({
         anchorRef,
@@ -91,8 +117,24 @@ export function Popup({
         middleware,
     });
 
+    const {isMounted, styles} = useTransitionStyles(context, {
+        duration: 100,
+        initial: ({side}) => ({
+            transform: TRANSLATE_OPTIONS[side].initial,
+            opacity: 0,
+        }),
+        open: ({side}) => ({
+            transform: TRANSLATE_OPTIONS[side].open,
+            opacity: 1,
+        }),
+        close: ({side}) => ({
+            transform: TRANSLATE_OPTIONS[side].initial,
+            opacity: 0,
+        }),
+    });
+
     useLayer({
-        open: transition.isMounted,
+        open: isMounted,
         disableEscapeKeyDown,
         disableOutsideClick,
         onEscapeKeyDown,
@@ -105,7 +147,7 @@ export function Popup({
     // const handleRef = useForkRef<HTMLDivElement>(refs.setFloating, useParentFocusTrap());
 
     const containerProps = useRestoreFocus({
-        enabled: Boolean(restoreFocus && transition.isMounted),
+        enabled: Boolean(restoreFocus && isMounted),
         restoreFocusRef,
     });
 
@@ -113,46 +155,40 @@ export function Popup({
         <Portal container={container} disablePortal={disablePortal}>
             {/* <FloatingFocusManager context={context} modal={false}> */}
             {/* mounted by default, because it was managed by csstransition */}
-            <div
-                ref={refs.setFloating}
-                style={context.floatingStyles}
-                // {...attributes.popper}
-                {...containerProps}
-                {...interactions.getFloatingProps()}
-                className={b(
-                    {
-                        open: transition.isMounted,
-                        // enter_active: transition.status === 'open',
-                        // // enter_done: transition.status === 'open',
-                        // exit_active: transition.status === 'close',
-                        // exit_done: transition.status === 'unmounted',
-                    },
-                    className,
-                )}
-                data-placement={popperPlacement}
-                tabIndex={-1}
-                data-qa={qa}
-                id={id}
-                role={role}
-            >
-                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+            {isMounted && (
                 <div
-                    onClick={onClick}
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    className={b('content', contentClassName)}
-                    style={style}
+                    ref={refs.setFloating}
+                    style={context.floatingStyles}
+                    // {...attributes.popper}
+                    className={b({}, className)}
+                    data-placement={popperPlacement}
+                    tabIndex={-1}
+                    data-qa={qa}
+                    id={id}
+                    role={role}
+                    {...containerProps}
+                    {...interactions.getFloatingProps()}
                 >
-                    {hasArrow && (
-                        <PopupArrow
-                            // styles={styles.arrow}
-                            // attributes={attributes.arrow}
-                            setArrowRef={setArrowRef}
-                        />
-                    )}
-                    {children}
+                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+                    <div
+                        onClick={onClick}
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
+                        className={b('content', contentClassName)}
+                        style={{...styles, ...style}}
+                    >
+                        {hasArrow && (
+                            <PopupArrow
+                                // styles={styles.arrow}
+                                // attributes={attributes.arrow}
+                                setArrowRef={setArrowRef}
+                            />
+                        )}
+                        {children}
+                    </div>
                 </div>
-            </div>
+            )}
+
             {/* </FloatingFocusManager> */}
         </Portal>
     );

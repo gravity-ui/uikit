@@ -263,7 +263,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         renderFilter={renderFilter}
                     />
                 )}
-                {filteredFlattenOptions.length ? (
+                {filteredFlattenOptions.length || props.loading ? (
                     <SelectList
                         ref={listRef}
                         size={size}
@@ -275,6 +275,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         onOptionClick={handleOptionClick}
                         renderOption={renderOption}
                         getOptionHeight={getOptionHeight}
+                        loading={props.loading}
                     />
                 ) : (
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />

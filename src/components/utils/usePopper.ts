@@ -11,6 +11,7 @@ import {
     useHover,
     useInteractions,
     useRole,
+    useTransitionStatus,
 } from '@floating-ui/react';
 
 export type PopperOffset = [number, number];
@@ -31,14 +32,11 @@ export interface PopperProps {
     middleware?: PopperMiddleware[];
     strategy?: popper.Strategy;
 
-    // open: boolean;
-    // placement?: PopperPlacement;
     // altBoundary?: boolean;
 }
 
 export function usePopper({
     anchorRef,
-    // open,
     strategy,
     initialOpen = false,
     arrowRef = null,
@@ -83,11 +81,14 @@ PopperProps) {
 
     const interactions = useInteractions([hover, focus, dismiss, role]);
 
+    const transition = useTransitionStatus(context);
+
     return React.useMemo(
         () => ({
             interactions,
+            transition,
             ...floatingData,
         }),
-        [floatingData, interactions],
+        [floatingData, interactions, transition],
     );
 }

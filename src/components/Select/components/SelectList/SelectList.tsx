@@ -3,11 +3,12 @@ import React from 'react';
 import {List} from '../../../List';
 import {SelectQa, selectListBlock} from '../../constants';
 import type {SelectOption, SelectProps} from '../../types';
-import {getOptionsHeight, getPopupItemHeight} from '../../utils';
 import type {FlattenOption} from '../../utils';
+import {getOptionsHeight, getPopupItemHeight} from '../../utils';
 
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
+import {SelectLoadingIndicator} from './SelectLoadingIndicator';
 
 import './SelectList.scss';
 
@@ -21,7 +22,10 @@ type SelectListProps = {
     flattenOptions: FlattenOption[];
     multiple?: boolean;
     virtualized?: boolean;
+    loading?: boolean;
 };
+
+const loadingOption = {value: '__SELECT_LIST_ITEM_LOADING__', disabled: true};
 
 export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>((props, ref) => {
     const {
@@ -34,9 +38,15 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         multiple,
         virtualized,
         mobile,
+        loading,
     } = props;
+    const items = React.useMemo(
+        () => (loading ? [...flattenOptions, loadingOption] : flattenOptions),
+        [flattenOptions, loading],
+    );
+
     const optionsHeight = getOptionsHeight({
-        options: flattenOptions,
+        options: items,
         getOptionHeight,
         size,
         mobile,
@@ -53,6 +63,9 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         (option: FlattenOption, _isItemActive: boolean, itemIndex: number) => {
             if ('label' in option) {
                 return <GroupLabel label={option.label} />;
+            }
+            if (option.value === loadingOption.value) {
+                return <SelectLoadingIndicator />;
             }
 
             const wrappedRenderOption = renderOption
@@ -81,7 +94,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             itemClassName={selectListBlock('item')}
             itemHeight={getItemHeight}
             itemsHeight={virtualized ? optionsHeight : undefined}
-            items={flattenOptions}
+            items={items}
             filterable={false}
             virtualized={virtualized}
             renderItem={renderItem}

@@ -74,6 +74,7 @@ export type SelectProps<T = any> = QAProps &
         filterable?: boolean;
         disablePortal?: boolean;
         hasClear?: boolean;
+        loading?: boolean;
         children?:
             | React.ReactElement<SelectOption<T>, typeof Option>
             | React.ReactElement<SelectOption<T>, typeof Option>[]

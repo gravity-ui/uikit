@@ -43,29 +43,30 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 const b = block('popup');
 // const ARROW_SIZE = 8;
 
+const DEFAULT_DISTANCE = '4px';
+const TRANSITION_DISTANCE = '10px';
+
 type PopupTranslateOptions = Record<
     Side,
     Record<keyof Pick<UseTransitionStylesProps, 'initial' | 'open'>, string>
 >;
 
-const TRANSITION_DISTANCE = '10px';
-
 const TRANSLATE_OPTIONS: PopupTranslateOptions = {
     bottom: {
-        initial: `translateY(0)`,
-        open: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateY(${DEFAULT_DISTANCE})`,
+        initial: `translateY(${TRANSITION_DISTANCE})`,
     },
     top: {
-        initial: `translateY(${TRANSITION_DISTANCE})`,
-        open: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateY(-${DEFAULT_DISTANCE})`,
+        initial: `translateY(-${TRANSITION_DISTANCE})`,
     },
     right: {
-        initial: `translateY(${TRANSITION_DISTANCE})`,
-        open: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateX(${DEFAULT_DISTANCE})`,
+        initial: `translateX(${TRANSITION_DISTANCE})`,
     },
     left: {
-        initial: `translateY(${TRANSITION_DISTANCE})`,
-        open: `translateY(${TRANSITION_DISTANCE})`,
+        open: `translateX(-${DEFAULT_DISTANCE})`,
+        initial: `translate(-${TRANSITION_DISTANCE})`,
     },
 };
 

@@ -3,14 +3,13 @@ import '../styles/styles.scss';
 
 import React from 'react';
 
-import {DirectionProvider} from '@radix-ui/react-direction';
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
 import type {Decorator, Preview} from '@storybook/react';
 
 import {Lang, MobileProvider, ThemeProvider, configure} from '../src';
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
 
-import {WithLang} from './decorators/withLang';
+import {WithDirection, WithLang} from './decorators/withLang';
 import {WithMobile} from './decorators/withMobile';
 import {themes} from './theme';
 
@@ -23,11 +22,7 @@ const withContextProvider: Decorator = (Story, context) => {
         <React.StrictMode>
             <ThemeProvider theme={context.globals.theme}>
                 <MobileProvider>
-                    <DirectionProvider dir="rtl">
-                        <div dir="rtl">
-                            <Story {...context} />
-                        </div>
-                    </DirectionProvider>
+                    <Story {...context} />
                 </MobileProvider>
             </ThemeProvider>
         </React.StrictMode>
@@ -35,7 +30,7 @@ const withContextProvider: Decorator = (Story, context) => {
 };
 
 const preview: Preview = {
-    decorators: [WithMobile, WithLang, withContextProvider],
+    decorators: [WithMobile, WithLang, WithDirection, withContextProvider],
     parameters: {
         docs: {
             theme: themes.light,
@@ -78,6 +73,17 @@ const preview: Preview = {
                 items: [
                     {value: 'en', right: '🇬🇧', title: 'En'},
                     {value: 'ru', right: '🇷🇺', title: 'Ru'},
+                ],
+            },
+        },
+        direction: {
+            name: 'Direction',
+            defaultValue: 'rtl',
+            toolbar: {
+                icon: 'transfer',
+                items: [
+                    {value: 'ltr', right: '->', title: 'left to right'},
+                    {value: 'rtl', right: '<-', title: 'right to left'},
                 ],
             },
         },

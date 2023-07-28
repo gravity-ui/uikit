@@ -85,17 +85,14 @@ export const getSelectedOptionsContent = (
         return null;
     }
 
-    const selectedOptions = flattenOptions.reduce((acc, option) => {
-        if ('label' in option) {
-            return acc;
-        }
+    const flattenSimpleOptions = flattenOptions.filter(
+        (opt) => !('label' in opt),
+    ) as SelectOption[];
 
-        const optionSelected = value.includes(option.value);
+    const selectedOptions = value.reduce((acc, val) => {
+        const selectedOption = flattenSimpleOptions.find((opt) => opt.value === val);
 
-        if (optionSelected) {
-            acc.push(option);
-        }
-
+        acc.push(selectedOption || {value: val});
         return acc;
     }, [] as SelectOption[]);
 

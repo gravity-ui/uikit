@@ -42,7 +42,7 @@ Extends [`QAProps`](../types.ts).
 | tooltipId               | `String`           |          |                                          |                     | The html id attribute of the popover portal                                                                                                                                    |
 | focusTrap               | `Boolean`          |          |                                          | `false`             | Prevent focus from leaving the popover while open                                                                                                                              |
 | autofocus               | `Boolean`          |          |                                          | `false`             | If true, focus will be transferred to the first element when the popover opens                                                                                                 |
-| restoreFocusRef         | `React.RefObject`  |          |                                          |                     | Focused element when the popover closes open                                                                                                                                   |
+| restoreFocusRef         | `React.RefObject`  |          |                                          |                     | Focused element when the popover closes                                                                                                                                        |
 
 ### Instance properties
 

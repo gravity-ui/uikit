@@ -11,7 +11,7 @@ interface DisclosureProviderProps
 
 export const DisclosureAttributesContext = React.createContext<
     | (Required<
-          Omit<DisclosureProps, 'defaultExpanded' | 'className' | 'children' | 'onChange' | 'qa'>
+          Omit<DisclosureProps, 'defaultExpanded' | 'className' | 'children' | 'onUpdate' | 'qa'>
       > & {
           expanded: boolean;
           ariaControls: string;
@@ -31,16 +31,16 @@ export function DisclosureProvider(props: DisclosureProviderProps) {
         arrowPosition,
         summary,
         keepMounted,
-        onChange,
+        onUpdate,
         expanded: controlledExpanded,
     } = props;
     const [expanded, setExpanded] = React.useState(() => Boolean(defaultExpanded));
     const controlledMode = controlledExpanded !== undefined;
 
-    const handleToggle = (event: React.SyntheticEvent) => {
+    const handleToggle = () => {
         setExpanded((prev) => !prev);
         const newValue = controlledMode ? !controlledExpanded : !expanded;
-        onChange(newValue, event);
+        onUpdate(newValue);
     };
 
     const ariaControls = useUniqId();

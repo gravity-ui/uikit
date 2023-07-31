@@ -4,18 +4,18 @@ Disclosure component that shows and hides enclosed content.
 
 ### PropTypes
 
-| Property        | Type                                                                  | Required | Default | Description                                              |
-| :-------------- | :-------------------------------------------------------------------- | :------: | :------ | :------------------------------------------------------- | ---------------- | --------------- |
-| size            | `'m'                                                                  |   'l'    | 'xl'`   |                                                          | `m`              | Disclosure size |
-| className       | `String`                                                              |          |         | CSS class name of root element                           |
-| disabled        | `Boolean`                                                             |          | `false` | Disabled state                                           |
-| defaultExpanded | `Boolean`                                                             |          | `false` | Default opening state                                    |
-| expanded        | `Boolean`                                                             |          |         | Controlled opening state                                 |
-| arrowPosition   | `'left'                                                               | 'right'` |         | `left`                                                   | Control position |
-| summary         | `String`                                                              |          |         | Content summary                                          |
-| keepMounted     | `Boolean`                                                             |          |         | Keep content in DOM                                      |
-| onChange        | `(params: {event: React.SyntheticEvent; expanded?: boolean}) => void` |          |         | Callback fired when the expand/collapse state is changed |
-| children        | `React.ReactNode`                                                     |          |         | Content                                                  |
+| Property        | Type                          | Required | Default | Description                                              |
+| :-------------- | :---------------------------- | :------: | :------ | :------------------------------------------------------- | ---------------- | --------------- |
+| size            | `'m'                          |   'l'    | 'xl'`   |                                                          | `m`              | Disclosure size |
+| className       | `String`                      |          |         | CSS class name of root element                           |
+| disabled        | `Boolean`                     |          | `false` | Disabled state                                           |
+| defaultExpanded | `Boolean`                     |          | `false` | Default opening state                                    |
+| expanded        | `Boolean`                     |          |         | Controlled opening state                                 |
+| arrowPosition   | `'left'                       | 'right'` |         | `left`                                                   | Control position |
+| summary         | `String`                      |          |         | Content summary                                          |
+| keepMounted     | `Boolean`                     |          |         | Keep content in DOM                                      |
+| onUpdate        | `(expanded: boolean) => void` |          |         | Callback fired when the expand/collapse state is changed |
+| children        | `React.ReactNode`             |          |         | Content                                                  |
 
 ### Examples
 

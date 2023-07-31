@@ -24,12 +24,18 @@ $gap: 8px;
         font-size: inherit;
         line-height: inherit;
         font-weight: inherit;
+        &:focus {
+            outline: 2px solid var(--g-color-line-misc);
+        }
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
     }
     &__trigger_arrow-right {
         flex-direction: row-reverse;
     }
     &__trigger_disabled {
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
         cursor: auto;
     }
     &__content {

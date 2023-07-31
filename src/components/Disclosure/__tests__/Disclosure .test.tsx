@@ -63,16 +63,16 @@ describe.only('Disclosure', () => {
 
         expect(disclosure).toHaveAttribute('aria-expanded', 'true');
     });
-    test('call onChange when clicked', async () => {
-        const onChangeFn = jest.fn();
+    test('call onUpdate when clicked', async () => {
+        const onUpdateFn = jest.fn();
         const user = userEvent.setup();
 
-        render(<Disclosure onChange={onChangeFn} />);
+        render(<Disclosure onUpdate={onUpdateFn} />);
         const disclosure = screen.getByRole('button');
 
         await user.click(disclosure);
 
-        expect(onChangeFn).toBeCalled();
+        expect(onUpdateFn).toBeCalled();
     });
     test('content is visible when expanded', () => {
         const content = 'Some content';

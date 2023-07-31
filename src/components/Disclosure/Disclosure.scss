@@ -1,0 +1,75 @@
+@use '../variables';
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns-new}disclosure';
+$gap: 8px;
+
+#{$block} {
+    &_size_m {
+        @include mixins.text-body-1();
+    }
+    &_size_l {
+        @include mixins.text-body-2();
+    }
+    &_size_xl {
+        @include mixins.text-subheader-3();
+    }
+    &__trigger {
+        @include mixins.button-reset();
+        display: flex;
+        flex-flow: row nowrap;
+        gap: $gap;
+        flex-shrink: 0;
+        align-items: center;
+        font-size: inherit;
+        line-height: inherit;
+        font-weight: inherit;
+        &:focus {
+            outline: 2px solid var(--g-color-line-misc);
+        }
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+    }
+    &__trigger_arrow-right {
+        flex-direction: row-reverse;
+    }
+    &__trigger_disabled {
+        color: var(--g-color-text-secondary);
+        cursor: auto;
+    }
+    &__content {
+        display: none;
+    }
+    &__content_visible {
+        display: block;
+    }
+    &__content#{$block}_exit_active {
+        display: block;
+        animation-name: #{variables.$ns}disclosure-collapsed;
+        animation-duration: 0.1s;
+        opacity: 0;
+    }
+    &__content#{$block}_enter_active {
+        animation-name: #{variables.$ns}disclosure-expanded;
+        animation-duration: 0.2s;
+    }
+}
+
+@keyframes #{variables.$ns}disclosure-expanded {
+    0% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes #{variables.$ns}disclosure-collapsed {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

@@ -1,0 +1,41 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}toc-item';
+
+#{$block} {
+    $class: &;
+
+    &__section {
+        cursor: pointer;
+
+        & > #{$class}__section-link {
+            border-left-color: var(--g-color-line-generic);
+        }
+
+        &-link {
+            display: flex;
+            align-items: center;
+            padding: 6px 6px 6px 12px;
+            min-height: 28px;
+
+            color: var(--g-color-text-secondary);
+            border-left: 2px solid transparent;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--g-color-text-complementary);
+            }
+        }
+
+        &_child {
+            #{$class}__section-link {
+                padding-left: 25px;
+            }
+        }
+
+        &_active > #{$class}__section-link {
+            color: var(--g-color-text-primary);
+            border-left-color: var(--g-color-line-brand);
+        }
+    }
+}

@@ -1,0 +1,17 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}toc';
+
+#{$block} {
+    &__title {
+        font-size: var(--g-text-body-2-font-size);
+        font-weight: 500;
+        color: var(--g-color-text-primary);
+        margin-bottom: 12px;
+    }
+
+    &__sections {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}

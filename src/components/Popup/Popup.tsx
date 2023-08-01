@@ -1,8 +1,15 @@
 import React from 'react';
 
-// import {FloatingFocusManager} from '@floating-ui/react';
-
-import {Side, UseTransitionStylesProps, useTransitionStyles} from '@floating-ui/react';
+import {
+    // FloatingFocusManager
+    FloatingArrow,
+    MiddlewareState,
+    Side,
+    UseTransitionStylesProps,
+    arrow,
+    offset,
+    useTransitionStyles,
+} from '@floating-ui/react';
 
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
@@ -12,11 +19,9 @@ import {block} from '../utils/cn';
 // import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
-import {PopperArrowRef, usePopper} from '../utils/usePopper';
+import {PopperArrowRef, PopperOffsetOptions, usePopper} from '../utils/usePopper';
 import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
-
-import {PopupArrow} from './PopupArrow';
 
 import './Popup.scss';
 export type PopupPlacement = PopperPlacement;
@@ -38,10 +43,10 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     restoreFocusRef?: React.RefObject<HTMLElement>;
     role?: React.AriaRole;
     id?: string;
+    offsetOptions?: PopperOffsetOptions;
 }
 
 const b = block('popup');
-// const ARROW_SIZE = 8;
 
 const DEFAULT_DISTANCE = '4px';
 const TRANSITION_DISTANCE = '10px';
@@ -70,11 +75,12 @@ const TRANSLATE_OPTIONS: PopupTranslateOptions = {
     },
 };
 
+const ARROW_SIZE = 8;
+
 export function Popup({
     // keepMounted = false,
     hasArrow = false,
-    // offset = [0, 4],
-    offsetOptions = {},
+    offsetOptions = 0,
     open,
     placement,
     anchorRef,
@@ -103,6 +109,30 @@ export function Popup({
 }: PopupProps) {
     const [arrowRef, setArrowRef] = React.useState<PopperArrowRef>(null);
 
+    const deriveOffset = React.useCallback(
+        (state: MiddlewareState) => {
+            if (typeof offsetOptions === 'number') {
+                return hasArrow ? offsetOptions + ARROW_SIZE : offsetOptions;
+            }
+
+            if (typeof offsetOptions === 'function') {
+                const offsetValue = offsetOptions(state);
+
+                return typeof offsetValue === 'number'
+                    ? offsetValue + (Number(hasArrow) && ARROW_SIZE)
+                    : {
+                          ...offsetValue,
+                          mainAxis: (offsetValue.mainAxis ?? 0) + (Number(hasArrow) && ARROW_SIZE),
+                      };
+            }
+
+            return hasArrow
+                ? {...offsetOptions, mainAxis: (offsetOptions.mainAxis ?? 0) + ARROW_SIZE}
+                : offsetOptions;
+        },
+        [offsetOptions, hasArrow],
+    );
+
     const {
         refs,
         context,
@@ -110,12 +140,10 @@ export function Popup({
         placement: popperPlacement,
     } = usePopper({
         anchorRef,
-        arrowRef,
         open,
         placement,
-        offsetOptions,
         strategy,
-        middleware,
+        middleware: [arrow({element: arrowRef}), offset(deriveOffset), ...middleware],
     });
 
     const {isMounted, styles} = useTransitionStyles(context, {
@@ -154,9 +182,8 @@ export function Popup({
 
     return (
         <Portal container={container} disablePortal={disablePortal}>
-            {/* <FloatingFocusManager context={context} modal={false}> */}
-            {/* mounted by default, because it was managed by csstransition */}
             {isMounted && (
+                // <FloatingFocusManager context={context} modal={false}>
                 <div
                     ref={refs.setFloating}
                     style={context.floatingStyles}
@@ -179,18 +206,22 @@ export function Popup({
                         style={{...styles, ...style}}
                     >
                         {hasArrow && (
-                            <PopupArrow
-                                // styles={styles.arrow}
-                                // attributes={attributes.arrow}
-                                setArrowRef={setArrowRef}
+                            // <PopupArrow
+                            //     // styles={styles.arrow}
+                            //     // attributes={attributes.arrow}
+                            //     setArrowRef={setArrowRef}
+                            // />
+                            <FloatingArrow
+                                ref={setArrowRef}
+                                context={context}
+                                // className={b('arrow')}
                             />
                         )}
                         {children}
                     </div>
                 </div>
+                // </FloatingFocusManager>
             )}
-
-            {/* </FloatingFocusManager> */}
         </Portal>
     );
 }

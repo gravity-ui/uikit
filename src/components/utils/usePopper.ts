@@ -2,9 +2,7 @@ import React from 'react';
 
 import type popper from '@floating-ui/react';
 import {
-    arrow,
     autoUpdate,
-    offset,
     useDismiss,
     useFloating,
     useFocus,
@@ -13,23 +11,21 @@ import {
     useRole,
 } from '@floating-ui/react';
 
-export type PopperOffset = [number, number];
 export type PopperAnchorRef = popper.ReferenceType | null;
 export type PopperArrowRef = popper.ArrowOptions['element'];
 export type PopperPlacement = popper.Placement | 'auto';
 export type PopperMiddleware = popper.Middleware;
+export type PopperOffsetOptions = popper.OffsetOptions;
 
 export interface PopperProps {
     anchorRef: PopperAnchorRef;
 
     initialOpen?: boolean;
-    placement?: PopperPlacement;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
-    arrowRef?: PopperArrowRef;
-    offsetOptions?: popper.OffsetOptions;
     middleware?: PopperMiddleware[];
     strategy?: popper.Strategy;
+    placement?: PopperPlacement;
 
     // altBoundary?: boolean;
 }
@@ -38,10 +34,8 @@ export function usePopper({
     anchorRef,
     strategy,
     initialOpen = false,
-    arrowRef = null,
     placement = 'auto',
     middleware = [],
-    offsetOptions,
     open: controlledOpen,
     onOpenChange: setControlledOpen,
 }: // altBoundary,
@@ -60,7 +54,7 @@ PopperProps) {
         elements: {
             reference: anchorRef,
         },
-        middleware: [arrow({element: arrowRef}), offset(offsetOptions), ...middleware],
+        middleware,
     });
 
     const context = floatingData.context;

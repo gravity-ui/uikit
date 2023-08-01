@@ -55,7 +55,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         disablePortal = false,
         tooltipId,
         focusTrap,
-        autofocus,
+        autoFocus,
         restoreFocusRef,
     },
     ref,
@@ -125,7 +125,8 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             qa={qa ? `${qa}-tooltip` : ''}
             disablePortal={disablePortal}
             focusTrap={focusTrap}
-            autofocus={autofocus}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus={autoFocus}
             restoreFocus={true}
             restoreFocusRef={restoreFocusRef || controlRef}
         >

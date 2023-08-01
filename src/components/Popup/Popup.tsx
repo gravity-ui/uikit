@@ -49,7 +49,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     role?: React.AriaRole;
     id?: string;
     focusTrap?: boolean;
-    autofocus?: boolean;
+    autoFocus?: boolean;
 }
 
 const b = block('popup');
@@ -87,7 +87,7 @@ export function Popup({
     role,
     id,
     focusTrap = false,
-    autofocus = false,
+    autoFocus = false,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -150,7 +150,7 @@ export function Popup({
                     id={id}
                     role={role}
                 >
-                    <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autofocus}>
+                    <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
                         {/* The event handlers should only be used to capture bubbled events */}
                         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
                         <div

@@ -67,7 +67,7 @@ export type PopoverExternalProps = {
     /** Prevent focus from leaving the popover while open */
     focusTrap?: boolean;
     /** If true, focus will be transferred to the first element when the popover opens */
-    autofocus?: boolean;
+    autoFocus?: boolean;
     /** Focused element when the popover closes */
     restoreFocusRef?: React.RefObject<HTMLElement>;
 };

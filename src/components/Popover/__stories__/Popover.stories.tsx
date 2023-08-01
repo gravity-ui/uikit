@@ -213,12 +213,7 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
 
     return (
         <div className={cnPopoverDemo('variants')}>
-            <Base
-                content="Accessible tooltip"
-                placement="top"
-                tooltipId="tooltipId"
-                onOpenChange={setOpenTooltip}
-            >
+            <Base content="Accessible tooltip" tooltipId="tooltipId" onOpenChange={setOpenTooltip}>
                 <Button
                     extraProps={{
                         'aria-controls': 'tooltipId',
@@ -231,7 +226,6 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
             </Base>
             <Base
                 content="Accessible popover with actions"
-                placement="top"
                 tooltipId="popoverId"
                 onOpenChange={setOpenPopover}
                 tooltipActionButton={{
@@ -245,7 +239,8 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
                 autoclosable={false}
                 openOnHover={false}
                 focusTrap={true}
-                autofocus={true}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={true}
                 restoreFocusRef={ref}
             >
                 <Button

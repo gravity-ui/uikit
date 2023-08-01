@@ -73,16 +73,16 @@ export function LabelExampleViewIcon() {
     return (
         <Unstyled>
             <DocsExample>
-                <Label size="s" icon={<Icon size={16} data={Gear} />}>
+                <Label size="s" icon={<Icon size={14} data={Gear} />}>
                     Default with Icon
                 </Label>
-                <Label theme="info" size="s" icon={<Icon size={16} data={Gear} />}>
+                <Label theme="info" size="s" icon={<Icon size={14} data={Gear} />}>
                     Info with icon
                 </Label>
-                <Label type="close" size="s" icon={<Icon size={16} data={Gear} />}>
+                <Label type="close" size="s" icon={<Icon size={14} data={Gear} />}>
                     Close action and icon
                 </Label>
-                <Label size="m" icon={<Icon size={18} data={Gear} />}>
+                <Label size="m" icon={<Icon size={16} data={Gear} />}>
                     M-size icon
                 </Label>
             </DocsExample>
@@ -90,10 +90,10 @@ export function LabelExampleViewIcon() {
     );
 }
 LabelExampleViewIcon.code = `
-<Label size="s" icon={<Icon size={16} data={GearIcon} />}>Default with icon</Label>
-<Label theme="info" size="s" icon={<Icon size={16} data={GearIcon} />}>Info with icon</Label>
-<Label type="close" size="s" icon={<Icon size={16} data={GearIcon} />}>Close action and icon</Label>
-<Label size="m" icon={<Icon data={GearIcon} />}>M-size icon</Label>
+<Label size="s" icon={<Icon size={14} data={GearIcon} />}>Default with icon</Label>
+<Label theme="info" size="s" icon={<Icon size={14} data={GearIcon} />}>Info with icon</Label>
+<Label type="close" size="s" icon={<Icon size={14} data={GearIcon} />}>Close action and icon</Label>
+<Label size="m" icon={<Icon size={16} data={GearIcon} />}>M-size icon</Label>
 `.trim();
 
 export function LabelExampleValue() {

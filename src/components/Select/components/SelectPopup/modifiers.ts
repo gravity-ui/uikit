@@ -1,8 +1,12 @@
 import type {Modifier} from '@popperjs/core';
 
-import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE} from '../../constants';
+import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE, POPUP_WIDTH_MODE} from '../../constants';
 
 import type {SelectPopupProps} from './types';
+
+const adjustBorderWidth = (width: number) => {
+    return width - BORDER_WIDTH * 2;
+};
 
 const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
     if (virtualized) {
@@ -11,13 +15,30 @@ const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
             : POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE;
     }
 
-    return referenceWidth - BORDER_WIDTH * 2;
+    return adjustBorderWidth(referenceWidth);
+};
+
+const getPopupWidth = (
+    width: string | number = POPUP_WIDTH_MODE.OUTFIT,
+    controlWidth: number,
+    virtualized?: boolean,
+) => {
+    let popupWidth = controlWidth;
+    if (typeof width === 'number') {
+        popupWidth = width;
+    } else if (width === POPUP_WIDTH_MODE.FIT) {
+        popupWidth = adjustBorderWidth(controlWidth);
+    } else if (width === POPUP_WIDTH_MODE.OUTFIT) {
+        popupWidth = getMinWidth(controlWidth, virtualized);
+    }
+
+    return `${popupWidth}px`;
 };
 
 export const getModifiers = (
     args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
 ) => {
-    const {width, disablePortal, virtualized} = args;
+    const {width = POPUP_WIDTH_MODE.OUTFIT, disablePortal, virtualized} = args;
 
     // set popper width styles according anchor rect
     const sameWidth: Modifier<'sameWidth', {}> = {
@@ -27,15 +48,23 @@ export const getModifiers = (
         requires: ['computeStyles'],
         fn: ({state}) => {
             // prevents styles applying after popup being opened (in case of multiple selection)
-            if (!state.attributes.popper['data-width-set']) {
-                const minWidth = getMinWidth(state.rects.reference.width, virtualized);
-                state.attributes.popper['data-width-set'] = true;
-                state.styles.popper.minWidth = `${minWidth}px`;
-            }
+            if (state.styles.popper.minWidth || state.styles.popper.width) return;
 
-            if (typeof width === 'number') {
-                state.styles.popper.width = `${width}px`;
-            }
+            const styleField = width === POPUP_WIDTH_MODE.OUTFIT ? 'minWidth' : 'width';
+            const popupWidth = getPopupWidth(width, state.rects.reference.width, virtualized);
+            state.styles.popper[styleField] = popupWidth;
+        },
+        effect: ({state}) => {
+            // prevents styles applying after popup being opened (in case of multiple selection)
+            if (state.elements.popper.style.minWidth || state.elements.popper.style.width) return;
+
+            const styleField = width === POPUP_WIDTH_MODE.OUTFIT ? 'minWidth' : 'width';
+            const popupWidth = getPopupWidth(
+                width,
+                (state.elements.reference as HTMLElement).offsetWidth,
+                virtualized,
+            );
+            state.elements.popper.style[styleField] = popupWidth;
         },
     };
 

@@ -37,3 +37,8 @@ export const SelectQa = {
     SHEET: 'select-sheet',
     CLEAR: 'select-clear',
 };
+
+export const POPUP_WIDTH_MODE = {
+    FIT: 'fit',
+    OUTFIT: 'outfit',
+} as const;

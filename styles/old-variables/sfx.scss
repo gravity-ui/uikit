@@ -1,0 +1,7 @@
+@mixin variables {
+    --yc-color-sfx-veil: var(--g-color-sfx-veil);
+    --yc-color-sfx-shadow: var(--g-color-sfx-shadow);
+    --yc-color-sfx-shadow-heavy: var(--g-color-sfx-shadow-heavy);
+    --yc-color-sfx-shadow-light: var(--g-color-sfx-shadow-light);
+    --yc-color-sfx-fade: var(--g-color-sfx-fade);
+}

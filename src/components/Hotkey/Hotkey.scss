@@ -10,24 +10,24 @@ $block: '.#{variables.$ns}hotkey';
     &,
     kbd {
         @include mixins.text-body-1();
-        font-family: var(--yc-text-body-font-family);
+        font-family: var(--g-font-family-sans);
     }
 
     &_view {
         &_light {
-            background-color: var(--yc-color-base-generic);
+            background-color: var(--g-color-base-generic);
 
             #{$block}__plus {
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
         }
 
         &_dark {
-            color: var(--yc-color-text-light-complementary);
-            background-color: var(--yc-color-base-light-simple-hover);
+            color: var(--g-color-text-light-complementary);
+            background-color: var(--g-color-base-light-simple-hover);
 
             #{$block}__plus {
-                color: var(--yc-color-text-light-hint);
+                color: var(--g-color-text-light-hint);
             }
         }
     }

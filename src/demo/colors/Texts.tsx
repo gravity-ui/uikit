@@ -4,7 +4,7 @@ import {Showcase} from '../Showcase';
 
 import {ColorPanel} from './ColorPanel';
 
-const basic = [
+const main = [
     {
         name: 'text-primary',
         title: 'Primary',
@@ -90,7 +90,12 @@ const semantic = [
     },
 ];
 
-const specials = [
+const brand = [
+    {
+        name: 'text-brand',
+        title: 'Brand',
+        description: 'Brand text.',
+    },
     {
         name: 'text-link',
         title: 'Link',
@@ -111,11 +116,6 @@ const specials = [
         title: 'Link Visited Hover',
         description: 'Hover for Visited Link.',
     },
-    {
-        name: 'text-yandex-red',
-        title: 'Yandex Red',
-        description: "Username's first letter.",
-    },
 ];
 
 const alwaysDark = [
@@ -133,6 +133,11 @@ const alwaysDark = [
         name: 'text-dark-secondary',
         title: 'Dark Secondary',
         description: 'Secondary text over light background.',
+    },
+    {
+        name: 'text-dark-hint',
+        title: 'Dark Hint',
+        description: 'Minimal contrast.',
     },
 ];
 
@@ -184,27 +189,23 @@ const inverted = [
 
 export const RenderTexts = () => (
     <Showcase title="Texts" description="Everything you need for writing texts.">
-        <ColorPanel title="Main palette" description="Majority of all texts." colors={basic} />
+        <ColorPanel title="Main" description="Majority of all texts." colors={main} />
+        <ColorPanel title="Semantic" description="Texts with semantic meaning." colors={semantic} />
+        <ColorPanel title="Brand" description="Links and usernames." colors={brand} />
         <ColorPanel
-            title="Semantic palette"
-            description="Texts with semantic meaning."
-            colors={semantic}
-        />
-        <ColorPanel title="Specific" description="Links and usernames." colors={specials} />
-        <ColorPanel
-            title="Extra: always dark"
+            title="Always dark"
             description="Dark text in both themes."
             colors={alwaysDark}
             boxBorders={true}
         />
         <ColorPanel
-            title="Extra: always light"
+            title="Always light"
             description="Texts over special backgrounds (blue, red, etc.)."
             colors={alwaysLight}
             boxBorders={true}
         />
         <ColorPanel
-            title="Extra: main color inversion"
+            title="Main inversion"
             description="Use with backgrounds that flip contrast (from low to high and vice versa)."
             colors={inverted}
             boxBorders={true}

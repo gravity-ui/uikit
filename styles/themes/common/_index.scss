@@ -1,0 +1,15 @@
+@use './typography';
+@use './spacing';
+
+@mixin g-theme-common {
+    @include typography.variables;
+    @include spacing.variables;
+
+    --g-scrollbar-width: 12px;
+
+    --g-border-radius-xs: 3px;
+    --g-border-radius-s: 5px;
+    --g-border-radius-m: 6px;
+    --g-border-radius-l: 8px;
+    --g-border-radius-xl: 10px;
+}

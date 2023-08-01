@@ -1,19 +1,16 @@
 import {Meta, ArgsTable} from '@storybook/addon-docs';
 import {DocsSource} from '../../../demo/DocsSource/DocsSource';
 import {
-    ButtonExampleViewAction,
-    ButtonExampleViewNormal,
+    ButtonExampleViewRegular,
     ButtonExampleViewOutlined,
     ButtonExampleViewFlat,
-    ButtonExampleViewRaised,
-    ButtonExampleViewOutlinedDanger,
-    ButtonExampleViewFlatDanger,
-    ButtonExampleViewOutlinedInfo,
-    ButtonExampleViewFlatInfo,
-    ButtonExampleViewFlatSecondary,
     ButtonExampleViewSpecial,
+    ButtonExampleIcons,
     ButtonExampleState,
     ButtonExampleSize,
+    ButtonExampleWidth,
+    ButtonExampleEachPin,
+    ButtonExampleCombinedPins
 } from './examples/ButtonExampleView/ButtonExampleView';
 import {Button} from '../Button';
 import * as ButtonStories from './Button.new.stories';
@@ -31,25 +28,24 @@ import {Button} from '@gravity-ui/uikit';
 
 [Appearance](#appearance)
 
-- [Action](#action)
-- [Normal](#normal)
+- [Regular](#regular)
 - [Outline](#outline)
 - [Flat](#flat)
-- [Raised](#raised)
-- [Outlined-info](#outlined-info)
-- [Flat-info](#flat-info)
-- [Outlined-danger](#outlined-danger)
-- [Flat-danger](#flat-danger)
-- [Flat-secondary](#flat-secondary)
 - [Special](#special)
 
 [Button text](#button-text)
+
+[Icons](#icons)
 
 [States](#states)
 
 [Size](#size)
 
 [Properties](#properties)
+
+[Width](#width)
+
+[Pin](#pin)
 
 ## Description
 Buttons act as a trigger for certain actions. While this is their main purpose, in very rare cases,
@@ -64,68 +60,41 @@ To design the UI of cloud services, we use 5 basic (`action`, `normal`, `outline
 and 3 special (`normal-contrast`, `outline-contrast`, `flat-contrast`) types of buttons.
 The button's appearance is controlled by the `view` property.
 
-### Action
-This is the most prominent button, used for the primary action on a screen, which requires the most attention.
-We recommend only using one such button per page (excluding dialog boxes).
+### Regular
 
-<DocsSource language="tsx" code={ButtonExampleViewAction.code} />
-<ButtonExampleViewAction/>
-
-### Normal
-This is the main type of button (used by default). It is designed for secondary actions or when you have to maintain
+Normal - This is the main type of button (used by default). It is designed for secondary actions or when you have to maintain
 the importance of an action without drawing too much attention to it.
 
-<DocsSource language="tsx" code={ButtonExampleViewNormal.code}/>
-<ButtonExampleViewNormal/>
+Action - This is the most prominent button, used for the primary action on a screen, which requires the most attention.
+We recommend only using one such button per page (excluding dialog boxes).
 
-### Outline
-Used for secondary actions that require less attention on a page. It can be used both with the main button and without it (only with an accented one).
+Raised - The button placed above the content, usually with a fixed location.
+
+<DocsSource language="tsx" code={ButtonExampleViewRegular.code}/>
+<ButtonExampleViewRegular/>
+
+### Outlined
+Outlined - Used for secondary actions that require less attention on a page. It can be used both with the main button and without it (only with an accented one).
+
+Outlined-info - Used to indicate where to go to a different service or external resource.
+
+Outline-danger - Danger buttons are used to indicate dangerous actions such as delete, stop, restart, or escape.
+`outline-danger` is used when there is enough space to place a full-featured button on a page or in a modal window.
 
 <DocsSource language="tsx" code={ButtonExampleViewOutlined.code}/>
 <ButtonExampleViewOutlined/>
 
 ### Flat
-Used for auxiliary actions that require the least attention on a page. It is often used in a list of buttons or action icons (with no text) in an editor.
+Flat - Used for auxiliary actions that require the least attention on a page. It is often used in a list of buttons or action icons (with no text) in an editor.
+
+Flat-info - Used to indicate where to go to a different service or external resource.
+
+Flat-danger - Used to indicate a destructive action in a general list of actions on an object or in a drop-down menu.
+
+Flat-secondary - This button is less accented than a `flat` button. It's often used as the secondary button in dialog boxes and modal windows.
 
 <DocsSource language="tsx" code={ButtonExampleViewFlat.code}/>
 <ButtonExampleViewFlat/>
-
-### Raised
-The button placed above the content, usually with a fixed location.
-
-<DocsSource language="tsx" code={ButtonExampleViewRaised.code}/>
-<ButtonExampleViewRaised/>
-
-### Outlined-info
-Used to indicate where to go to a different service or external resource.
-
-<DocsSource language="tsx" code={ButtonExampleViewOutlinedInfo.code}/>
-<ButtonExampleViewOutlinedInfo/>
-
-### Flat-info
-Used to indicate where to go to a different service or external resource.
-
-<DocsSource language="tsx" code={ButtonExampleViewFlatInfo.code}/>
-<ButtonExampleViewFlatInfo/>
-
-### Outline-danger
-Danger buttons are used to indicate dangerous actions such as delete, stop, restart, or escape.
-`outline-danger` is used when there is enough space to place a full-featured button on a page or in a modal window.
-
-<DocsSource language="tsx" code={ButtonExampleViewOutlinedDanger.code}/>
-<ButtonExampleViewOutlinedDanger/>
-
-### Flat-danger
-Used to indicate a destructive action in a general list of actions on an object or in a drop-down menu.
-
-<DocsSource language="tsx" code={ButtonExampleViewFlatDanger.code}/>
-<ButtonExampleViewFlatDanger/>
-
-### Flat-secondary
-This button is less accented than a `flat` button. It's often used as the secondary button in dialog boxes and modal windows.
-
-<DocsSource language="tsx" code={ButtonExampleViewFlatSecondary.code}/>
-<ButtonExampleViewFlatSecondary/>
 
 ### Special
 Buttons `normal-contrast`, `outline-contrast`, `flat-contrast` used to highlight actions against a complex background (for example, in a banner or against a color background).
@@ -141,16 +110,26 @@ The name of a button should uniquely identify what happens if you click it. If i
 - Actions on a page or in a modal window should be consistent with their headers (such as Create virtual disk, Create, or Cancel).
 - If it's a link, it should answer the question "What?" or "What does it do?".
 
+
+## Icons
+
+<DocsSource language="tsx" code={ButtonExampleIcons.code}/>
+<ButtonExampleIcons/>
+
 ## States
+<DocsSource language="tsx" code={ButtonExampleState.code}/>
 <ButtonExampleState/>
 
-1. Default – The main state of a button that a user can interact with.
-2. Disabled – The state when a button is unavailable for some reason.
-3. Loading – The state when the user has performed an action and is waiting for a system response.
-4. Selected – The state when the user can switch between "Enable" and "Disable".
+Default – The main state of a button that a user can interact with.
+Disabled – The state when a button is unavailable for some reason.
+Loading – The state when the user has performed an action and is waiting for a system response.
+Selected – The state when the user can switch between "Enable" and "Disable".
 
 ## Size
+<DocsSource language="tsx" code={ButtonExampleSize.code}/>
 <ButtonExampleSize/>
+
+XS – Smallest size, used inside controls with size S
 
 S – Used when standard buttons are too big (tables, small cards).
 
@@ -159,6 +138,31 @@ M – Basic size, used in most components.
 L – Basic actions performed in a page's header, modal windows, or pop-ups.
 
 XL – Used on promo and landing pages.
+
+## Width
+
+none - Standart mode
+
+auto - Limits the maximum width of the component, hides overflowing content by ellipsis.
+
+max - Fixes the width by the width of the parent, also hides overflowing content
+
+<DocsSource language="tsx" code={ButtonExampleWidth.code}/>
+<ButtonExampleWidth/>
+
+## Pin
+
+That property allows you to controll right and left edges of button
+
+Examples for right edge:
+
+<DocsSource language="tsx" code={ButtonExampleEachPin.code}/>
+<ButtonExampleEachPin/>
+
+Some combinations:
+
+<DocsSource language="tsx" code={ButtonExampleCombinedPins.code}/>
+<ButtonExampleCombinedPins/>
 
 ## Properties
 <ArgsTable of={Button}/>

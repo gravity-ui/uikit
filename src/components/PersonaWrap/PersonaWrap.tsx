@@ -1,7 +1,8 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Icon} from '../Icon';
-import {CrossIcon} from '../icons';
 import {block} from '../utils/cn';
 
 import './PersonaWrap.scss';
@@ -41,7 +42,7 @@ export function PersonaWrap({
             {onClose && (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                 <div className={b('close')} onClick={onClose}>
-                    <Icon data={CrossIcon} size={8} />
+                    <Icon data={Xmark} size={12} />
                 </div>
             )}
         </div>

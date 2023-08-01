@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
-import {CrossIcon} from '../icons/CrossIcon';
 import {block} from '../utils/cn';
 
 import './Label.scss';
@@ -15,9 +16,9 @@ const b = block('label');
 type SizeMapType = {copyIconSize: number; closeIconSize: number; buttonSize: ButtonSize};
 
 const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'xs'},
-    s: {copyIconSize: 12, closeIconSize: 8, buttonSize: 's'},
-    m: {copyIconSize: 12, closeIconSize: 8, buttonSize: 'm'},
+    xs: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'xs'},
+    s: {copyIconSize: 12, closeIconSize: 12, buttonSize: 's'},
+    m: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'm'},
 };
 
 const commonActionButtonProps: ButtonProps = {
@@ -62,8 +63,6 @@ interface LabelDefaultProps {
     type: 'default' | 'copy' | 'close';
     /** Label size */
     size: 'xs' | 's' | 'm';
-    /** Label appearance (with round corners or plain) */
-    style: 'rounded' | 'default';
 }
 
 export interface LabelProps extends LabelOwnProps, Partial<LabelDefaultProps> {}
@@ -73,7 +72,6 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         type = 'default',
         theme = 'normal',
         size = 'xs',
-        style = 'default',
         icon,
         children,
         onClose,
@@ -119,7 +117,9 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
             event.stopPropagation();
         }
 
-        if (onClose) onClose(event);
+        if (onClose) {
+            onClose(event);
+        }
     };
 
     const renderLabel = (status?: CopyToClipboardStatus) => {
@@ -148,7 +148,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                     extraProps={{'aria-label': closeButtonLabel || undefined}}
                     {...commonActionButtonProps}
                 >
-                    <Icon size={closeIconSize} data={CrossIcon} />
+                    <Icon size={closeIconSize} data={Xmark} />
                 </Button>
             );
         }
@@ -162,7 +162,6 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                     {
                         theme,
                         size,
-                        style,
                         type,
                         'is-interactive': isInteractive,
                         'has-right-addon': Boolean(actionButton),

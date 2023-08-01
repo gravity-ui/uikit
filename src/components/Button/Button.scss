@@ -2,6 +2,7 @@
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}button';
+$iconWidth: 16px;
 
 @mixin button-text-color($color, $hoverColor: $color) {
     &,
@@ -18,9 +19,15 @@ $block: '.#{variables.$ns}button';
 }
 
 #{$block} {
-    --yc-button-height: 0;
     --yc-button-background-color: transparent;
-    --yc-button-background-color-hover: transparent;
+    --yc-button-background-color-hover: var(--g-color-base-simple-hover);
+    --yc-button-outline-color: var(--g-color-line-misc);
+    --yc-button-icon-space: calc(
+        var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset)
+    );
+    --yc-button-icon-position: calc(
+        var(--yc-button-padding) - (var(--yc-button-height) - var(--yc-button-icon-size)) / 2
+    );
 
     @include mixins.button-reset();
     display: inline-block;
@@ -29,6 +36,7 @@ $block: '.#{variables.$ns}button';
     box-sizing: border-box;
     height: var(--yc-button-height);
     line-height: var(--yc-button-height);
+    font-size: var(--yc-button-font-size);
     user-select: none;
     text-align: center;
     white-space: nowrap;
@@ -56,11 +64,11 @@ $block: '.#{variables.$ns}button';
     }
 
     &:focus::before {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+        outline: 2px solid var(--yc-button-outline-color);
     }
 
     &:focus:not(:focus-visible)::before {
-        box-shadow: none;
+        outline: none;
     }
 
     &::after {
@@ -87,266 +95,197 @@ $block: '.#{variables.$ns}button';
     &_size {
         &_xs {
             --yc-button-height: 20px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 6px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 18px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 18px;
-                }
-            }
-
-            --yc-button-border-radius: var(--yc-border-radius-xs);
+            --yc-button-border-radius: var(--g-border-radius-xs);
+            --yc-button-padding: 6px;
+            --yc-button-icon-size: 12px;
+            --yc-button-icon-offset: 4px;
+            --yc-button-font-size: 13px;
         }
 
         &_s {
             --yc-button-height: 24px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 10px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 22px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 22px;
-                }
-            }
-
-            --yc-button-border-radius: var(--yc-border-radius-s);
+            --yc-button-border-radius: var(--g-border-radius-s);
+            --yc-button-padding: 8px;
+            --yc-button-icon-size: 16px;
+            --yc-button-icon-offset: 4px;
+            --yc-button-font-size: 13px;
         }
 
         &_m {
             --yc-button-height: 28px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 13px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 25px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 25px;
-                }
-            }
-
-            --yc-button-border-radius: var(--yc-border-radius-m);
+            --yc-button-border-radius: var(--g-border-radius-m);
+            --yc-button-padding: 12px;
+            --yc-button-icon-size: 16px;
+            --yc-button-icon-offset: 8px;
+            --yc-button-font-size: 13px;
         }
 
         &_l {
             --yc-button-height: 36px;
-
-            font-size: 13px;
-
-            #{$block}__text {
-                margin: 0 18px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 33px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 33px;
-                }
-            }
-
-            --yc-button-border-radius: var(--yc-border-radius-l);
+            --yc-button-border-radius: var(--g-border-radius-l);
+            --yc-button-padding: 16px;
+            --yc-button-icon-size: 16px;
+            --yc-button-icon-offset: 8px;
+            --yc-button-font-size: 13px;
         }
 
         &_xl {
             --yc-button-height: 44px;
-
-            font-size: 15px;
-
-            #{$block}__text {
-                margin: 0 25px;
-            }
-
-            #{$block}__icon {
-                width: var(--yc-button-height);
-
-                &_side_left ~ #{$block}__text {
-                    margin-left: 40px;
-                }
-
-                &_side_right ~ #{$block}__text {
-                    margin-right: 40px;
-                }
-            }
-
-            --yc-button-border-radius: var(--yc-border-radius-xl);
+            --yc-button-border-radius: var(--g-border-radius-xl);
+            --yc-button-padding: 24px;
+            --yc-button-icon-size: 20px;
+            --yc-button-icon-offset: 12px;
+            --yc-button-font-size: 15px;
         }
     }
 
     &_view {
         &_normal {
-            --yc-button-background-color: var(--yc-color-base-generic);
-            --yc-button-background-color-hover: var(--yc-color-base-generic-hover);
+            --yc-button-background-color: var(--g-color-base-generic);
+            --yc-button-background-color-hover: var(--g-color-base-generic-hover);
 
-            @include button-text-color(var(--yc-color-text-primary));
-
-            &#{$block}_selected {
-                --yc-button-background-color: var(--yc-color-base-selection);
-                --yc-button-background-color-hover: var(--yc-color-base-selection-hover);
-
-                @include button-text-color(var(--yc-color-text-special));
-            }
+            @include button-text-color(var(--g-color-text-primary));
         }
 
         &_action {
-            --yc-button-background-color: var(--yc-color-base-special);
-            --yc-button-background-color-hover: var(--yc-color-base-special-hover);
+            --yc-button-background-color: var(--g-color-base-brand);
+            --yc-button-background-color-hover: var(--g-color-base-brand-hover);
 
-            @include button-text-color(var(--yc-my-color-brand-text-contrast));
-        }
-
-        &_outlined,
-        &_outlined-info,
-        &_outlined-danger {
-            --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
+            @include button-text-color(var(--g-color-text-brand-contrast));
         }
 
         &_outlined {
-            @include button-text-color(var(--yc-color-text-primary));
+            @include button-text-color(var(--g-color-text-primary));
 
             &::before {
-                border: 1px solid var(--yc-color-line-generic);
+                border: 1px solid var(--g-color-line-generic);
             }
         }
 
         &_outlined-info {
-            @include button-text-color(var(--yc-color-text-info));
+            @include button-text-color(var(--g-color-text-info));
 
             &::before {
-                border: 1px solid var(--yc-color-line-info);
+                border: 1px solid var(--g-color-line-info);
+            }
+        }
+
+        &_outlined-success {
+            @include button-text-color(var(--g-color-text-positive));
+
+            &::before {
+                border: 1px solid var(--g-color-line-positive);
+            }
+        }
+
+        &_outlined-warning {
+            @include button-text-color(var(--g-color-text-warning));
+
+            &::before {
+                border: 1px solid var(--g-color-line-warning);
             }
         }
 
         &_outlined-danger {
-            @include button-text-color(var(--yc-color-text-danger));
+            @include button-text-color(var(--g-color-text-danger));
 
             &::before {
-                border: 1px solid var(--yc-color-line-danger);
+                border: 1px solid var(--g-color-line-danger);
+            }
+        }
+
+        &_outlined-action {
+            @include button-text-color(var(--g-color-text-brand));
+
+            &::before {
+                border: 1px solid var(--g-color-line-brand);
             }
         }
 
         &_raised {
-            --yc-button-background-color: var(--yc-color-base-float);
-            --yc-button-background-color-hover: var(--yc-color-base-float-hover);
+            --yc-button-background-color: var(--g-color-base-float);
+            --yc-button-background-color-hover: var(--g-color-base-float-hover);
 
-            @include button-text-color(var(--yc-color-text-primary));
+            @include button-text-color(var(--g-color-text-primary));
 
             &::before {
-                box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
-            }
-
-            &:focus:not(:focus-visible)::before {
-                box-shadow: 0 3px 5px var(--yc-color-sfx-shadow);
+                box-shadow: 0 3px 5px var(--g-color-sfx-shadow);
             }
 
             &:active::before {
-                box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
+                box-shadow: 0 1px 2px var(--g-color-sfx-shadow);
             }
-
-            &:active:focus::before {
-                box-shadow: 0 0 0 2px var(--yc-color-line-misc);
-            }
-
-            &:active:focus:not(:focus-visible)::before {
-                box-shadow: 0 1px 2px var(--yc-color-sfx-shadow);
-            }
-        }
-
-        &_flat,
-        &_flat-info,
-        &_flat-danger,
-        &_flat-secondary {
-            --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-simple-hover);
         }
 
         &_flat {
-            @include button-text-color(var(--yc-color-text-primary));
-        }
-
-        &_flat-info {
-            @include button-text-color(var(--yc-color-text-info));
-        }
-
-        &_flat-danger {
-            @include button-text-color(var(--yc-color-text-danger));
+            @include button-text-color(var(--g-color-text-primary));
         }
 
         &_flat-secondary {
-            @include button-text-color(
-                var(--yc-color-text-secondary),
-                var(--yc-color-text-primary)
-            );
+            @include button-text-color(var(--g-color-text-secondary), var(--g-color-text-primary));
+        }
+
+        &_flat-info {
+            @include button-text-color(var(--g-color-text-info));
+        }
+
+        &_flat-success {
+            @include button-text-color(var(--g-color-text-positive));
+        }
+
+        &_flat-warning {
+            @include button-text-color(var(--g-color-text-warning));
+        }
+
+        &_flat-danger {
+            @include button-text-color(var(--g-color-text-danger));
+        }
+
+        &_flat-action {
+            @include button-text-color(var(--g-color-text-brand));
         }
 
         &_normal-contrast {
-            --yc-button-background-color: var(--yc-color-base-light);
-            --yc-button-background-color-hover: var(--yc-color-base-light-hover);
+            --yc-button-background-color: var(--g-color-base-light);
+            --yc-button-background-color-hover: var(--g-color-base-light-hover);
+            --yc-button-outline-color: var(--g-color-line-light);
 
-            @include button-text-color(var(--yc-color-text-dark-primary));
+            @include button-text-color(var(--g-color-text-dark-primary));
         }
 
         &_outlined-contrast {
             --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
+            --yc-button-background-color-hover: var(--g-color-base-light-simple-hover);
+            --yc-button-outline-color: var(--g-color-line-light);
 
-            @include button-text-color(var(--yc-color-text-light-primary));
+            @include button-text-color(var(--g-color-text-light-primary));
 
             &::before {
-                border: 1px solid var(--yc-color-line-light);
+                border: 1px solid var(--g-color-line-light);
             }
         }
 
         &_flat-contrast {
             --yc-button-background-color: transparent;
-            --yc-button-background-color-hover: var(--yc-color-base-light-simple-hover);
+            --yc-button-background-color-hover: var(--g-color-base-light-simple-hover);
+            --yc-button-outline-color: var(--g-color-line-light);
 
-            @include button-text-color(var(--yc-color-text-light-primary));
+            @include button-text-color(var(--g-color-text-light-primary));
         }
 
         &_flat,
+        &_flat-secondary,
         &_flat-info,
-        &_flat-danger {
+        &_flat-success,
+        &_flat-warning,
+        &_flat-danger,
+        &_flat-action {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
                 --yc-button-background-color: transparent;
                 --yc-button-background-color-hover: transparent;
 
-                color: var(--yc-color-text-hint);
+                color: var(--g-color-text-hint);
             }
         }
 
@@ -356,7 +295,7 @@ $block: '.#{variables.$ns}button';
                 --yc-button-background-color: transparent;
                 --yc-button-background-color-hover: transparent;
 
-                color: var(--yc-color-text-light-hint);
+                color: var(--g-color-text-light-hint);
             }
         }
 
@@ -364,10 +303,88 @@ $block: '.#{variables.$ns}button';
         &_outlined-contrast {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
-                --yc-button-background-color: var(--yc-color-base-light-disabled);
-                --yc-button-background-color-hover: var(--yc-color-base-light-disabled);
+                --yc-button-background-color: var(--g-color-base-light-disabled);
+                --yc-button-background-color-hover: var(--g-color-base-light-disabled);
 
-                color: var(--yc-color-text-light-secondary);
+                color: var(--g-color-text-light-secondary);
+            }
+        }
+    }
+
+    &_view {
+        &_normal,
+        &_action,
+        &_outlined,
+        &_outlined-action,
+        &_raised,
+        &_flat,
+        &_flat-secondary,
+        &_flat-action {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--g-color-base-selection);
+                --yc-button-background-color-hover: var(--g-color-base-selection-hover);
+
+                @include button-text-color(var(--g-color-text-brand-heavy));
+
+                &::before {
+                    border: none;
+                }
+            }
+        }
+
+        &_outlined-info,
+        &_flat-info {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--g-color-base-info-light);
+                --yc-button-background-color-hover: var(--g-color-base-info-light-hover);
+
+                @include button-text-color(var(--g-color-text-info-heavy));
+
+                &::before {
+                    border: none;
+                }
+            }
+        }
+
+        &_outlined-success,
+        &_flat-success {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--g-color-base-positive-light);
+                --yc-button-background-color-hover: var(--g-color-base-positive-light-hover);
+
+                @include button-text-color(var(--g-color-text-positive-heavy));
+
+                &::before {
+                    border: none;
+                }
+            }
+        }
+
+        &_outlined-warning,
+        &_flat-warning {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--g-color-base-warning-light);
+                --yc-button-background-color-hover: var(--g-color-base-warning-light-hover);
+
+                @include button-text-color(var(--g-color-text-warning-heavy));
+
+                &::before {
+                    border: none;
+                }
+            }
+        }
+
+        &_outlined-danger,
+        &_flat-danger {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--g-color-base-danger-light);
+                --yc-button-background-color-hover: var(--g-color-base-danger-light-hover);
+
+                @include button-text-color(var(--g-color-text-danger-heavy));
+
+                &::before {
+                    border: none;
+                }
             }
         }
     }
@@ -377,12 +394,14 @@ $block: '.#{variables.$ns}button';
     &__text {
         display: inline-block;
         white-space: nowrap;
+        padding: 0 var(--yc-button-padding);
     }
 
     &__icon {
         display: inline-block;
         position: relative;
-        height: 100%;
+        width: var(--yc-button-height);
+        height: var(--yc-button-height);
         pointer-events: none;
 
         &::after {
@@ -408,12 +427,25 @@ $block: '.#{variables.$ns}button';
         }
 
         &_side_left {
-            left: 0;
+            left: var(--yc-button-icon-position);
+
+            & ~ #{$block}__text {
+                padding-left: var(--yc-button-icon-space);
+            }
         }
 
         &_side_right {
-            right: 0;
+            right: var(--yc-button-icon-position);
+
+            & ~ #{$block}__text {
+                padding-right: var(--yc-button-icon-space);
+            }
         }
+    }
+
+    &:has(#{$block}__icon:only-child) {
+        --yc-button-padding: 0;
+        width: var(--yc-button-height);
     }
 
     &_disabled {
@@ -421,10 +453,10 @@ $block: '.#{variables.$ns}button';
         pointer-events: none;
 
         &:not(#{$block}_loading) {
-            --yc-button-background-color: var(--yc-color-base-generic-accent-disabled);
-            --yc-button-background-color-hover: var(--yc-color-base-generic-accent-disabled);
+            --yc-button-background-color: var(--g-color-base-generic-accent-disabled);
+            --yc-button-background-color-hover: var(--g-color-base-generic-accent-disabled);
 
-            color: var(--yc-color-text-hint);
+            color: var(--g-color-text-hint);
 
             &::before,
             &:hover::before {

@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}table-column-setup';
 
     &__status {
         margin-left: 5px;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
     }
 
     &__tick-wrap {
@@ -27,7 +27,7 @@ $block: '.#{variables.$ns}table-column-setup';
     }
 
     &__tick {
-        color: var(--yc-color-base-special);
+        color: var(--g-color-base-brand);
     }
 
     &__lock-wrap {
@@ -35,7 +35,7 @@ $block: '.#{variables.$ns}table-column-setup';
         left: 10px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--yc-color-text-hint);
+        color: var(--g-color-text-hint);
     }
 
     &__title {

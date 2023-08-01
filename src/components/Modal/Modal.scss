@@ -14,7 +14,7 @@ $block: '.#{variables.$ns}modal';
     visibility: hidden;
     margin: -9999px 0 0 -9999px;
 
-    background-color: var(--yc-color-sfx-veil);
+    background-color: var(--g-color-sfx-veil);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -35,7 +35,7 @@ $block: '.#{variables.$ns}modal';
         display: inline-block;
         margin: var(--yc-modal-margin);
         text-align: left;
-        background-color: var(--yc-color-base-modal);
+        background-color: var(--g-color-base-modal);
         border-radius: var(--yc-modal-border-radius);
     }
 

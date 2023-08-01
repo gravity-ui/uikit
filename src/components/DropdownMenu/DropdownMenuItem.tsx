@@ -1,9 +1,10 @@
 import React from 'react';
 
+import {ChevronRight} from '@gravity-ui/icons';
+
 import {Icon} from '../Icon';
 import {Menu} from '../Menu';
 import type {PopupProps} from '../Popup';
-import {Chevron} from '../icons';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
@@ -101,13 +102,7 @@ export const DropdownMenuItem = <T,>({
             >
                 <div className={cnDropdownMenu('menu-item-content')}>
                     <div>{text || children}</div>
-                    {hasSubmenu && (
-                        <Icon
-                            data={Chevron}
-                            className={cnDropdownMenu('menu-item-chevron')}
-                            size={8}
-                        />
-                    )}
+                    {hasSubmenu && <Icon data={ChevronRight} size={10} />}
                 </div>
             </Menu.Item>
             {hasSubmenu && subMenuItems && (

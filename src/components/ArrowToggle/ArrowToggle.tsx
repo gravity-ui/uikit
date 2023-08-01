@@ -1,7 +1,8 @@
 import React from 'react';
 
+import {ChevronDown} from '@gravity-ui/icons';
+
 import {Icon} from '../Icon';
-import {ChevronDownIcon} from '../icons/ChevronDownIcon';
 import {block} from '../utils/cn';
 
 import './ArrowToggle.scss';
@@ -17,7 +18,7 @@ const b = block('arrow-toggle');
 export function ArrowToggle({size = 16, direction = 'bottom', className}: ArrowToggleProps) {
     return (
         <span style={{width: size, height: size}} className={b({direction}, className)}>
-            <Icon data={ChevronDownIcon} size={size} />
+            <Icon data={ChevronDown} size={size} />
         </span>
     );
 }

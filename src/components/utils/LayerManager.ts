@@ -1,5 +1,7 @@
 import type {VirtualElement} from '@popperjs/core';
 
+import {KeyCode} from '../constants';
+
 import {eventBroker} from './event-broker';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
@@ -73,7 +75,7 @@ class LayerManager {
     }
 
     private handleDocumentKeyDown = (event: KeyboardEvent) => {
-        if (event.code === 'Escape') {
+        if (event.code === KeyCode.ESCAPE) {
             const topLayer = this.getTopLayer();
 
             if (!topLayer.disableEscapeKeyDown) {
@@ -89,6 +91,10 @@ class LayerManager {
     };
 
     private handleDocumentClick = (event: MouseEvent) => {
+        if (this.isToastClick(event)) {
+            return;
+        }
+
         let layer: LayerConfig;
         let mouseDownTarget: HTMLElement | null = null;
         if (this.mouseDownLayerTarget) {
@@ -141,6 +147,18 @@ class LayerManager {
 
         return false;
     }
+
+    private isToastClick(event: MouseEvent) {
+        const composedPath = typeof event.composedPath === 'function' ? event.composedPath() : [];
+
+        return composedPath.some((el) => {
+            return Boolean((el as HTMLElement)?.dataset?.toast);
+        });
+    }
 }
 
 export const layerManager = new LayerManager();
+
+export const getLayersCount = () => {
+    return layerManager.getLayersCount();
+};

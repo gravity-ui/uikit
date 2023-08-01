@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
-import {GearIcon} from '../../icons/GearIcon';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
 
@@ -29,7 +29,7 @@ export const ItemActive: StoryFn<MenuProps> = (args) => (
 
 export const ItemIcon: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item icon={<Icon data={GearIcon} size={16} />}>Settings</Menu.Item>
+        <Menu.Item icon={<Icon data={Gear} size={16} />}>Settings</Menu.Item>
     </Menu>
 );
 

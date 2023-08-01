@@ -3,24 +3,31 @@
 .color-panel {
     position: relative;
     width: 700px;
-    border: 1px solid var(--yc-color-line-generic);
+    border: 1px solid var(--g-color-line-generic);
     border-radius: 6px;
     padding: 15px 20px;
+    transition: 0.15s linear;
+    transition-property: color, background-color;
 
     &_bg {
-        &_special,
+        &_brand,
         &_dark {
             .color-panel__title,
-            .color-panel__description,
-            .color-panel__colors,
-            .color-panel__bg-switcher,
+            .color-panel__colors {
+                color: var(--g-color-text-light-primary);
+            }
+
+            .color-panel__description {
+                color: var(--g-color-text-light-complementary);
+            }
+
             .color-panel__card-var {
-                color: #ddd;
+                color: var(--g-color-text-light-secondary);
             }
         }
 
-        &_special {
-            background: var(--yc-color-base-special);
+        &_brand {
+            background: var(--g-color-base-brand);
         }
 
         &_dark {
@@ -29,16 +36,9 @@
     }
 
     &__bg-switcher {
-        letter-spacing: 1px;
-        font-family: var(--yc-font-family-monospace);
-        color: var(--yc-color-text-hint);
         position: absolute;
         top: 15px;
         right: 15px;
-        cursor: pointer;
-        &:hover {
-            font-weight: 600;
-        }
     }
 
     &__title {
@@ -47,7 +47,7 @@
 
     &__description {
         @include mixins.text-body-2();
-        color: var(--yc-color-text-complementary);
+        color: var(--g-color-text-complementary);
         margin-top: 3px;
     }
 
@@ -73,7 +73,7 @@
             cursor: pointer;
 
             &_bordered {
-                border: 2px solid var(--yc-color-line-generic);
+                border: 2px solid var(--g-color-line-generic);
             }
         }
 
@@ -95,13 +95,17 @@
 
         &-var {
             @include mixins.text-code-1();
-            color: var(--yc-color-text-secondary);
+            color: var(--g-color-text-secondary);
             margin-left: 10px;
-            cursor: pointer;
         }
 
         &-description {
             @include mixins.text-body-2();
+        }
+
+        &-box,
+        &-var {
+            cursor: copy;
         }
     }
 }

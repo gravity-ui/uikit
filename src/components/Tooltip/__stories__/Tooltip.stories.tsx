@@ -1,21 +1,31 @@
 import React from 'react';
 
-import type {StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Tooltip} from '../Tooltip';
-import type {TooltipProps} from '../Tooltip';
 
-export default {
+const meta: Meta<typeof Tooltip> = {
     title: 'Components/Tooltip',
     component: Tooltip,
 };
 
-const DefaultTemplate: StoryFn<TooltipProps> = (args) => <Tooltip {...args} />;
+export default meta;
 
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Tooltip>;
 
-Default.args = {
-    content: 'Hello world!',
-    children: <Button>Hover to see tooltip</Button>,
+export const Default: Story = {
+    render: (args) => {
+        return (
+            <Tooltip {...args}>
+                <Button extraProps={{'aria-describedby': args.id}}>
+                    Hover or focus to see tooltip
+                </Button>
+            </Tooltip>
+        );
+    },
+    args: {
+        id: 'tooltip-id',
+        content: 'Hello world!',
+    },
 };

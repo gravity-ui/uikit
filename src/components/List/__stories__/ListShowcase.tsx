@@ -5,7 +5,7 @@ import _random from 'lodash/random';
 import _range from 'lodash/range';
 
 import {Button} from '../../Button';
-import {TextInput} from '../../TextInput';
+import {TextInput} from '../../controls';
 import {List} from '../List';
 
 import './ListShowcase.scss';
@@ -126,7 +126,7 @@ export function ListShowcase() {
                         style={{
                             position: 'relative',
                             zIndex: 2000,
-                            background: 'var(--yc-color-base)',
+                            background: 'var(--g-color-base-background)',
                         }}
                     >
                         <div className={b('subtitle')}>{'Non virtualized sortable list'}</div>

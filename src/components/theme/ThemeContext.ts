@@ -1,17 +1,16 @@
 import React from 'react';
 
-import {DEFAULT_THEME} from './constants';
-import type {Theme} from './types';
+import {DEFAULT_LIGHT_THEME, DEFAULT_THEME} from './constants';
+import type {RealTheme, Theme} from './types';
 
 export interface ThemeContextProps {
     theme: Theme;
-    /** @deprecated Set theme in your app and pass it to context, instead of managing it via context methods */
-    setTheme: (newTheme: Theme) => void;
+    themeValue: RealTheme;
 }
 
 const initialValue: ThemeContextProps = {
     theme: DEFAULT_THEME,
-    setTheme: () => {},
+    themeValue: DEFAULT_LIGHT_THEME,
 };
 
 export const ThemeContext = React.createContext(initialValue);

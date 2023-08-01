@@ -17,7 +17,7 @@ $block: '.#{variables.$ns}checkbox';
             bottom: 0;
 
             background-color: transparent;
-            border: 1px solid var(--yc-color-line-generic-accent);
+            border: 1px solid var(--g-color-line-generic-accent);
             border-radius: 4px;
             transition: background 0.1s linear;
         }
@@ -72,7 +72,7 @@ $block: '.#{variables.$ns}checkbox';
     }
 
     &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--yc-color-line-misc);
+        box-shadow: 0 0 0 2px var(--g-color-line-misc);
     }
 
     &__control:focus:not(:focus-visible) + &__outline {
@@ -118,7 +118,7 @@ $block: '.#{variables.$ns}checkbox';
     &:hover {
         #{$block}__indicator {
             &::before {
-                border-color: var(--yc-color-line-generic-accent-hover);
+                border-color: var(--g-color-line-generic-accent-hover);
             }
         }
     }
@@ -127,14 +127,14 @@ $block: '.#{variables.$ns}checkbox';
     &_indeterminate {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-special);
+                background-color: var(--g-color-base-brand);
                 border: transparent;
             }
         }
 
         #{$block}__icon {
             visibility: visible;
-            color: var(--yc-my-color-brand-text-contrast);
+            color: var(--g-color-text-brand-contrast);
             transform: translateX(0);
         }
     }
@@ -142,7 +142,7 @@ $block: '.#{variables.$ns}checkbox';
     &_disabled {
         #{$block}__indicator {
             &::before {
-                background-color: var(--yc-color-base-generic-accent-disabled);
+                background-color: var(--g-color-base-generic-accent-disabled);
                 border: transparent;
             }
         }
@@ -151,7 +151,7 @@ $block: '.#{variables.$ns}checkbox';
         &#{$block}_indeterminate {
             #{$block}__indicator {
                 &::before {
-                    background-color: var(--yc-color-base-special);
+                    background-color: var(--g-color-base-brand);
                     opacity: 0.5;
                 }
             }

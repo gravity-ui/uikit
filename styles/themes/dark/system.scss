@@ -1,0 +1,9 @@
+@mixin g-colors-system-dark {
+    --g-color-scroll-track: var(--g-color-base-background);
+    --g-color-scroll-handle: var(--g-color-private-white-150);
+    --g-color-scroll-handle-hover: var(--g-color-private-white-250);
+    --g-color-scroll-corner: var(--g-color-private-white-150);
+
+    --g-color-infographics-axis: var(--g-color-private-white-150-solid);
+    --g-color-infographics-tooltip-bg: var(--g-color-private-white-opaque-150);
+}

@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}link';
     cursor: pointer;
 
     &:focus {
-        outline: 2px solid var(--yc-color-line-misc);
+        outline: 2px solid var(--g-color-line-misc);
     }
 
     &:focus:not(:focus-visible) {
@@ -17,42 +17,42 @@ $block: '.#{variables.$ns}link';
     }
 
     &_view_normal {
-        color: var(--yc-color-text-link);
+        color: var(--g-color-text-link);
 
         &:hover {
-            color: var(--yc-color-text-link-hover);
+            color: var(--g-color-text-link-hover);
         }
     }
 
     &_view_primary {
-        color: var(--yc-color-text-primary);
+        color: var(--g-color-text-primary);
 
         &:hover {
-            color: var(--yc-color-text-link-hover);
+            color: var(--g-color-text-link-hover);
         }
     }
 
     &_view_secondary {
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
 
         &:hover {
-            color: var(--yc-color-text-link-hover);
+            color: var(--g-color-text-link-hover);
         }
     }
 
     &_view_normal-visitable {
-        color: var(--yc-color-text-link);
+        color: var(--g-color-text-link);
 
         &:visited {
-            color: var(--yc-color-text-link-visited);
+            color: var(--g-color-text-link-visited);
         }
 
         &:hover {
-            color: var(--yc-color-text-link-hover);
+            color: var(--g-color-text-link-hover);
         }
 
         &:visited:hover {
-            color: var(--yc-color-text-link-visited-hover);
+            color: var(--g-color-text-link-visited-hover);
         }
     }
 }

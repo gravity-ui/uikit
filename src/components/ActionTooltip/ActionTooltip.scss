@@ -16,7 +16,7 @@ $block: '.#{variables.$ns}action-tooltip';
     }
 
     &__title {
-        color: var(--yc-color-text-light-primary);
+        color: var(--g-color-text-light-primary);
     }
 
     &__hotkey {
@@ -25,6 +25,6 @@ $block: '.#{variables.$ns}action-tooltip';
 
     &__description {
         margin-top: 4px;
-        color: var(--yc-color-text-light-secondary);
+        color: var(--g-color-text-light-secondary);
     }
 }

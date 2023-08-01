@@ -1,8 +1,9 @@
 import React from 'react';
 
+import {Envelope} from '@gravity-ui/icons';
+
 import {Icon} from '../Icon';
 import {PersonaWrap} from '../PersonaWrap';
-import {Mail} from '../icons';
 
 import {getTwoLetters} from './getTwoLetters';
 
@@ -48,7 +49,7 @@ export function Persona({
             avatar = image ? <img alt={''} src={image} /> : <span>{getTwoLetters(text)}</span>;
             break;
         case 'email':
-            avatar = <Icon data={Mail} size={14} />;
+            avatar = <Icon data={Envelope} size={14} />;
             break;
         case 'empty':
             avatar = null;

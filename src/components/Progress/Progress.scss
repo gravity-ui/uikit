@@ -3,13 +3,13 @@
 
 $block: '.#{variables.$ns}progress';
 
-$progress-height: 20px;
-$progress-thin-height: 10px;
-$progress-thinnest-height: 4px;
+$progress-m-height: 20px;
+$progress-s-height: 10px;
+$progress-xs-height: 4px;
 
 @mixin progress-text {
     font-size: 12px;
-    color: var(--yc-color-text-light-primary);
+    color: var(--g-color-text-light-primary);
     padding: 0 10px;
     box-sizing: border-box;
 }
@@ -17,24 +17,19 @@ $progress-thinnest-height: 4px;
 #{$block} {
     position: relative;
 
-    height: $progress-height;
     margin: 0 auto;
     overflow: hidden;
 
     border-radius: 3px;
-    background-color: var(--yc-color-base-generic);
+    background-color: var(--g-color-base-generic);
 
     text-align: center;
-    text-shadow: 0 0 1px var(--yc-color-text-dark-primary);
-    line-height: $progress-height;
+    text-shadow: 0 0 1px var(--g-color-text-dark-primary);
 
     &__text {
         @include progress-text;
 
         position: relative;
-
-        height: $progress-height;
-        margin-bottom: -$progress-height;
     }
 
     &__text-inner {
@@ -59,31 +54,31 @@ $progress-thinnest-height: 4px;
         height: 100%;
         overflow: hidden;
 
-        color: var(--yc-color-text-light-primary);
+        color: var(--g-color-text-light-primary);
         transition: transform 0.6s ease, width 0.6s ease, background-color 0.6s ease;
 
         &_theme_default {
-            background-color: var(--yc-color-infographics-neutral-medium);
+            background-color: var(--g-color-base-neutral-medium);
         }
 
         &_theme_success {
-            background-color: var(--yc-color-infographics-positive-medium);
+            background-color: var(--g-color-base-positive-medium);
         }
 
         &_theme_warning {
-            background-color: var(--yc-color-infographics-warning-medium);
+            background-color: var(--g-color-base-warning-medium);
         }
 
         &_theme_danger {
-            background-color: var(--yc-color-infographics-danger-medium);
+            background-color: var(--g-color-base-danger-medium);
         }
 
         &_theme_info {
-            background-color: var(--yc-color-infographics-info-medium);
+            background-color: var(--g-color-base-info-medium);
         }
 
         &_theme_misc {
-            background-color: var(--yc-color-infographics-misc-medium);
+            background-color: var(--g-color-base-misc-medium);
         }
 
         &_loading {
@@ -95,38 +90,52 @@ $progress-thinnest-height: 4px;
         position: relative;
 
         width: 100%;
-        height: $progress-height;
         margin: 0 auto;
 
-        line-height: $progress-height;
-
         overflow: hidden;
-        color: var(--yc-color-text-light-primary);
+        color: var(--g-color-text-light-primary);
         transition: transform 0.6s ease;
     }
 
-    &_view_thin {
-        height: $progress-thin-height;
-        line-height: $progress-thin-height;
+    &_size_m {
+        height: $progress-m-height;
+        line-height: $progress-m-height;
 
         #{$block}__stack {
-            height: $progress-thin-height;
-            line-height: $progress-thin-height;
+            height: $progress-m-height;
+            line-height: $progress-m-height;
+        }
+
+        #{$block}__text {
+            height: $progress-m-height;
+            margin-bottom: -$progress-m-height;
         }
     }
 
-    &_view_thinnest {
-        height: $progress-thinnest-height;
-        line-height: $progress-thinnest-height;
+    &_size_s {
+        height: $progress-s-height;
+        line-height: $progress-s-height;
 
         #{$block}__stack {
-            height: $progress-thinnest-height;
-            line-height: $progress-thinnest-height;
+            height: $progress-s-height;
+            line-height: $progress-s-height;
         }
     }
 
-    &_view_thin &__text,
-    &_view_thinnest &__text {
+    &_size_xs {
+        height: $progress-xs-height;
+        line-height: $progress-xs-height;
+
+        #{$block}__stack {
+            height: $progress-xs-height;
+            line-height: $progress-xs-height;
+        }
+    }
+
+    &_size_s &__text,
+    &_size_s &__text-inner,
+    &_size_xs &__text,
+    &_size_xs &__text-inner {
         display: none;
     }
 }

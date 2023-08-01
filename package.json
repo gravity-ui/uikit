@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "4.22.1",
+    "version": "5.1.0",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
@@ -87,7 +87,6 @@
         "react-transition-group": "^4.4.5",
         "react-virtualized-auto-sizer": "^1.0.20",
         "react-window": "^1.8.9",
-        "resize-observer-polyfill": "^1.5.1",
         "tabbable": "^6.1.2",
         "tslib": "^2.5.3",
         "utility-types": "^3.10.0"
@@ -111,6 +110,7 @@
         "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^14.4.3",
         "@types/blueimp-md5": "^2.18.0",
+        "@types/chroma-js": "^2.4.0",
         "@types/jest": "^29.5.2",
         "@types/lodash": "^4.14.195",
         "@types/react": "^18.2.8",
@@ -119,6 +119,7 @@
         "@types/react-transition-group": "^4.4.6",
         "@types/react-virtualized-auto-sizer": "^1.0.1",
         "@types/react-window": "^1.8.5",
+        "chroma-js": "^2.4.2",
         "cross-env": "^7.0.3",
         "eslint": "^8.42.0",
         "eslint-plugin-testing-library": "^5.11.0",

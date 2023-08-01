@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
-import {GearIcon} from '../../icons/GearIcon';
 import {Button} from '../Button';
 
 export default {
@@ -23,12 +23,18 @@ export default {
                 'action',
                 'outlined',
                 'outlined-info',
+                'outlined-success',
+                'outlined-warning',
                 'outlined-danger',
+                'outlined-action',
                 'raised',
                 'flat',
-                'flat-info',
-                'flat-danger',
                 'flat-secondary',
+                'flat-info',
+                'flat-success',
+                'flat-warning',
+                'flat-danger',
+                'flat-action',
                 'normal-contrast',
                 'outlined-contrast',
                 'flat-contrast',
@@ -69,7 +75,7 @@ const iconSizeMap: Record<string, number> = {
 
 export const Playground: StoryFn = (args) => {
     const content = [args.content];
-    const icon = <Icon data={GearIcon} size={iconSizeMap[args.size]} />;
+    const icon = <Icon data={Gear} size={iconSizeMap[args.size]} />;
 
     if (args.icon === 'left') {
         content.unshift(icon);

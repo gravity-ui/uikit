@@ -1,9 +1,10 @@
 import React from 'react';
 
+import {Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {Popup} from '../Popup';
-import {PreviewCloseIcon} from '../icons';
 import type {QAProps} from '../types';
 
 import {cnPopover} from './Popover.classname';
@@ -30,6 +31,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         offset = {},
         tooltipOffset,
         tooltipClassName,
+        tooltipContentClassName,
         theme = 'info',
         size = 's',
         hasArrow = true,
@@ -107,6 +109,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 },
                 tooltipClassName,
             )}
+            contentClassName={cnPopover('tooltip-popup-content', tooltipContentClassName)}
             open={isOpen}
             placement={placement}
             hasArrow={hasArrow}
@@ -138,7 +141,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                                 'aria-label': 'Close',
                             }}
                         >
-                            <Icon data={PreviewCloseIcon} size={24} />
+                            <Icon data={Xmark} size={16} />
                         </Button>
                     </div>
                 )}
@@ -187,6 +190,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 closeTooltip={closeTooltip}
                 openTooltip={openTooltip}
                 open={isOpen}
+                className={cnPopover('handler')}
                 disabled={disabled}
                 onClick={onClick}
                 closedManually={closedManually}

@@ -1,0 +1,22 @@
+@import './common';
+
+@import './dark';
+@import './dark-hc';
+@import './light';
+@import './light-hc';
+
+@mixin g-theme-dark {
+    @include g-colors-dark();
+}
+
+@mixin g-theme-dark-hc {
+    @include g-colors-dark-hc();
+}
+
+@mixin g-theme-light {
+    @include g-colors-light();
+}
+
+@mixin g-theme-light-hc {
+    @include g-colors-light-hc();
+}

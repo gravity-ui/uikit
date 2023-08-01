@@ -1,9 +1,10 @@
 import React from 'react';
 
+import {CircleCheckFill, CircleInfoFill, TriangleExclamationFill, Xmark} from '@gravity-ui/icons';
+
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import type {IconProps} from '../../Icon';
-import {Alarm, CrossIcon, Info, Success} from '../../icons';
 import {block} from '../../utils/cn';
 import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import i18n from '../i18n';
@@ -13,12 +14,11 @@ import './Toast.scss';
 
 const b = block('toast');
 const DEFAULT_TIMEOUT = 5000;
-const CROSS_ICON_SIZE = 12;
 const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
-    info: Info,
-    success: Success,
-    warning: Alarm,
-    error: Alarm,
+    info: CircleInfoFill,
+    success: CircleCheckFill,
+    warning: TriangleExclamationFill,
+    error: TriangleExclamationFill,
 };
 
 interface ToastInnerProps {
@@ -74,7 +74,7 @@ function renderIconByType({type}: RenderIconProps) {
         return null;
     }
 
-    return <Icon data={TITLE_ICONS[type]} className={b('icon', {[type]: true})} />;
+    return <Icon data={TITLE_ICONS[type]} size={20} className={b('icon', {[type]: true})} />;
 }
 
 export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast(props, ref) {
@@ -102,9 +102,8 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     };
 
     const icon = renderIcon ? renderIcon(props) : renderIconByType({type});
-
     return (
-        <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps}>
+        <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
             {icon && <div className={b('icon-container')}>{icon}</div>}
             <div className={b('container')}>
                 <h3 className={b('title')}>{title}</h3>
@@ -116,7 +115,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                         onClick={onClose}
                         extraProps={{'aria-label': i18n('label_close-button')}}
                     >
-                        <Icon data={CrossIcon} size={CROSS_ICON_SIZE} />
+                        <Icon data={Xmark} />
                     </Button>
                 )}
                 {Boolean(content) && <div className={b('content')}>{content}</div>}

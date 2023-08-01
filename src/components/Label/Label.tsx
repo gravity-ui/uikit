@@ -17,8 +17,8 @@ type SizeMapType = {copyIconSize: number; closeIconSize: number; buttonSize: But
 
 const sizeMap: Record<string, SizeMapType> = {
     xs: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'xs'},
-    s: {copyIconSize: 12, closeIconSize: 12, buttonSize: 's'},
-    m: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'm'},
+    s: {copyIconSize: 14, closeIconSize: 14, buttonSize: 's'},
+    m: {copyIconSize: 16, closeIconSize: 16, buttonSize: 'm'},
 };
 
 const commonActionButtonProps: ButtonProps = {

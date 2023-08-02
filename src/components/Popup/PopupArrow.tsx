@@ -10,10 +10,10 @@ const b = block('popup');
 
 interface PopupArrowProps {
     data: MiddlewareData['arrow'];
-    arrowRef: React.MutableRefObject<HTMLDivElement | null>;
+    setArrowRef: (ref: HTMLDivElement) => void;
 }
 
-export function PopupArrow({data, arrowRef}: PopupArrowProps) {
+export function PopupArrow({data, setArrowRef}: PopupArrowProps) {
     const styles = React.useMemo(() => {
         if (!data) return {};
 
@@ -24,7 +24,7 @@ export function PopupArrow({data, arrowRef}: PopupArrowProps) {
     }, [data]);
 
     return (
-        <div data-popper-arrow ref={arrowRef} className={b('arrow')} style={styles}>
+        <div data-popper-arrow ref={setArrowRef} className={b('arrow')} style={styles}>
             <div className={b('arrow-content')}>
                 <div className={b('arrow-circle-wrapper')}>
                     <div className={b('arrow-circle', {left: true})}></div>

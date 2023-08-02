@@ -1,16 +1,5 @@
 import React from 'react';
 
-import {
-    // FloatingFocusManager
-    MiddlewareState,
-    Side,
-    UseTransitionStylesProps,
-    arrow,
-    flip,
-    offset,
-    useTransitionStyles,
-} from '@floating-ui/react';
-
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 // import {useParentFocusTrap} from '../utils/FocusTrap';
@@ -19,7 +8,7 @@ import {block} from '../utils/cn';
 // import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
-import {PopperOffsetOptions, usePopper} from '../utils/usePopper';
+import {usePopper} from '../utils/usePopper';
 import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
@@ -30,7 +19,11 @@ import './Popup.scss';
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
-export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
+export interface PopupProps
+    extends DOMProps,
+        LayerExtendableProps,
+        Omit<PopperProps, 'arrowRef'>,
+        QAProps {
     open: boolean;
     children?: React.ReactNode;
     keepMounted?: boolean;
@@ -44,55 +37,14 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     contentClassName?: string;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
-    role?: React.AriaRole;
     id?: string;
-    offsetOptions?: PopperOffsetOptions;
 }
 
 const b = block('popup');
 
-const ARROW_SIZE = 8;
-const DEFAULT_DISTANCE = 10;
-const TRANSITION_DISTANCE = 4;
-
-type PopupTranslateOptions = Record<
-    Side,
-    Record<keyof Pick<UseTransitionStylesProps, 'initial' | 'open'>, string>
->;
-
-const getTransform = (side: Side, hasArrow: boolean) => {
-    const initialDistance = hasArrow ? DEFAULT_DISTANCE + ARROW_SIZE : DEFAULT_DISTANCE;
-    const transitionDistance = hasArrow ? TRANSITION_DISTANCE + ARROW_SIZE : TRANSITION_DISTANCE;
-
-    const TRANSLATE_OPTIONS: PopupTranslateOptions = {
-        bottom: {
-            open: `translateY(${transitionDistance}px)`,
-            initial: `translateY(${initialDistance}px)`,
-        },
-        top: {
-            open: `translateY(-${transitionDistance}px)`,
-            initial: `translateY(-${initialDistance}px)`,
-        },
-        right: {
-            open: `translateX(${transitionDistance}px)`,
-            initial: `translateX(${initialDistance}px)`,
-        },
-        left: {
-            open: `translateX(-${DEFAULT_DISTANCE})`,
-            initial: `translate(-${initialDistance}px)`,
-        },
-    };
-
-    return TRANSLATE_OPTIONS[side];
-};
-
 export function Popup({
-    keepMounted = false,
     hasArrow = false,
-    offsetOptions = 0,
-    open,
-    placement,
-    anchorRef,
+    keepMounted = false,
     disableEscapeKeyDown,
     disableOutsideClick,
     disableLayer,
@@ -109,67 +61,27 @@ export function Popup({
     onMouseLeave,
     disablePortal,
     container,
-    strategy,
     qa,
     restoreFocus,
     restoreFocusRef,
-    role,
     id,
+    ...popupProps
 }: PopupProps) {
-    const arrowRef = React.useRef<HTMLDivElement | null>(null);
-
-    const deriveOffset = React.useCallback(
-        (state: MiddlewareState) => {
-            if (typeof offsetOptions === 'number') {
-                return hasArrow ? offsetOptions + ARROW_SIZE : offsetOptions;
-            }
-
-            if (typeof offsetOptions === 'function') {
-                const offsetValue = offsetOptions(state);
-
-                return typeof offsetValue === 'number'
-                    ? offsetValue + (Number(hasArrow) && ARROW_SIZE)
-                    : {
-                          ...offsetValue,
-                          mainAxis: (offsetValue.mainAxis ?? 0) + (Number(hasArrow) && ARROW_SIZE),
-                      };
-            }
-
-            return hasArrow
-                ? {...offsetOptions, mainAxis: (offsetOptions.mainAxis ?? 0) + ARROW_SIZE}
-                : offsetOptions;
-        },
-        [offsetOptions, hasArrow],
-    );
+    const [arrowRef, setArrowRef] = React.useState<HTMLDivElement | null>(null);
 
     const {
         refs,
         context,
-        interactions,
+        interactions: {getFloatingProps},
         placement: popperPlacement,
         middlewareData: {arrow: arrowData},
+        transition: {isMounted, styles},
     } = usePopper({
-        anchorRef,
-        open,
-        placement,
-        strategy,
-        middleware: [offset(deriveOffset), flip(), arrow({element: arrowRef}), ...middleware],
-    });
-
-    const {isMounted, styles} = useTransitionStyles(context, {
-        duration: 100,
-        initial: ({side}) => ({
-            transform: getTransform(side, hasArrow).initial,
-            opacity: 0,
-        }),
-        open: ({side}) => ({
-            transform: getTransform(side, hasArrow).open,
-            opacity: 1,
-        }),
-        close: ({side}) => ({
-            transform: getTransform(side, hasArrow).initial,
-            opacity: 0,
-        }),
+        arrowRef,
+        middleware,
+        altBoundary: disablePortal,
+        hasArrow,
+        ...popupProps,
     });
 
     useLayer({
@@ -203,9 +115,8 @@ export function Popup({
                     tabIndex={-1}
                     data-qa={qa}
                     id={id}
-                    role={role}
                     {...containerProps}
-                    {...interactions.getFloatingProps()}
+                    {...getFloatingProps()}
                 >
                     {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <div
@@ -215,7 +126,7 @@ export function Popup({
                         className={b('content', contentClassName)}
                         style={{...styles, ...style}}
                     >
-                        {hasArrow && <PopupArrow data={arrowData} arrowRef={arrowRef} />}
+                        {hasArrow && <PopupArrow data={arrowData} setArrowRef={setArrowRef} />}
                         {children}
                     </div>
                 </div>

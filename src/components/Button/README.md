@@ -1,3 +1,9 @@
+<!--GITHUB_BLOCK-->
+
+# Button
+
+<!--/GITHUB_BLOCK-->
+
 ```tsx
 import {Button} from '@gravity-ui/uikit';
 ```

@@ -1,3 +1,9 @@
+<!--GITHUB_BLOCK-->
+
+# Label
+
+<!--/GITHUB_BLOCK-->
+
 ```tsx
 import {Label} from '@gravity-ui/uikit';
 ```

@@ -29,6 +29,7 @@ export interface PersonaProps {
     onClick?: (text: string) => void;
     /** Custom CSS class for root element */
     className?: string;
+    style?: React.CSSProperties;
 }
 
 export function Persona({
@@ -41,6 +42,7 @@ export function Persona({
     text,
     image,
     className,
+    style,
 }: PersonaProps) {
     let avatar: React.ReactNode | null;
 
@@ -65,6 +67,7 @@ export function Persona({
             onClose={onClose && onClose.bind(null, text)}
             avatar={avatar}
             className={className}
+            style={style}
         >
             {text}
         </PersonaWrap>

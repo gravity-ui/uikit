@@ -2,13 +2,10 @@ import React from 'react';
 
 import type popper from '@floating-ui/react';
 import {
-    Middleware,
-    MiddlewareState,
     Side,
     UseTransitionStylesProps,
     arrow,
     autoUpdate,
-    detectOverflow,
     flip,
     offset,
     useDismiss,
@@ -96,20 +93,6 @@ export function usePopper({
     const open = controlledOpen ?? uncontrolledOpen;
     const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-    const overflowMiddleware: Middleware = React.useMemo(
-        () => ({
-            name: 'overflowMiddleware',
-            async fn(state: MiddlewareState) {
-                const overflow = await detectOverflow(state, {altBoundary});
-
-                console.log(overflow);
-
-                return {};
-            },
-        }),
-        [altBoundary],
-    );
-
     const floatingData = useFloating({
         open,
         onOpenChange: setOpen,
@@ -120,9 +103,8 @@ export function usePopper({
             reference: anchorRef,
         },
         middleware: [
-            overflowMiddleware,
             offset(offsetOptions),
-            flip(),
+            flip((state) => ({...state, altBoundary})),
             arrow({element: arrowRef}),
             ...middleware,
         ],

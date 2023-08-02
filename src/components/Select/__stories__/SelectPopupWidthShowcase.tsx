@@ -8,7 +8,7 @@ const shortVirtualized = Array.from({length: 100}, (_, i) => `V${i}`).map((value
     value,
     content: value,
 }));
-const extralongVirtualized = Array.from({length: 100}, (v, i) =>
+const extralongVirtualized = Array.from({length: 100}, (_, i) =>
     Array.from({length: 50}, () => 'Value').join(String(i)),
 ).map((value) => ({
     value,

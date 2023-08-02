@@ -1,4 +1,4 @@
-```ts
+```tsx
 import {Label} from '@gravity-ui/uikit';
 ```
 
@@ -43,7 +43,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Label theme="normal" size="s">Normal</Label>
 <Label theme="info" size="s">Info</Label>
 <Label theme="warning" size="s">Warning</Label>
@@ -75,7 +75,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Label type="default" onClick={() => alert('On click label')} size="s">Click on label</Label>
 <Label type="close" onClose={() => alert('On click close')} size="s">Click on close</Label>
 <Label type="copy" copyText="Copy" onCopy={() => alert('On click copy')} size="s">Click on copy</Label>
@@ -129,7 +129,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Label size="s" icon={<Icon size={16} data={GearIcon} />}>Default with icon</Label>
 <Label theme="info" size="s" icon={<Icon size={16} data={GearIcon} />}>Info with icon</Label>
 <Label type="close" size="s" icon={<Icon size={16} data={GearIcon} />}>Close action and icon</Label>
@@ -158,7 +158,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Label size="xs" value="Value">Key</Label>
 <Label size="s" value="Value">Key</Label>
 <Label size="m" value="Value">Key</Label>
@@ -184,7 +184,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Label size="s">Default</Label>
 <Label size="s" disabled>Disabled</Label>
 <Label size="s" interactive>Interactive</Label>
@@ -214,7 +214,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Label size="xs">XS-size</Label>
 <Label size="s">S-size</Label>
 <Label size="m">M-size</Label>

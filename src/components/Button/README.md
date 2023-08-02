@@ -1,4 +1,4 @@
-```ts
+```tsx
 import {Button} from '@gravity-ui/uikit';
 ```
 
@@ -42,7 +42,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button view="normal" size="l">Normal</Button>
 <Button view="action" size="l">Action</Button>
 <Button view="raised" size="l">Raised</Button>
@@ -125,7 +125,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button view="flat" size="l">Flat</Button>
 <Button view="flat-info" size="l">Flat info</Button>
 <Button view="flat-danger" size="l">Flat danger</Button>
@@ -162,7 +162,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button view="normal-contrast" size="l">Normal</Button>
 <Button view="outlined-contrast" size="l">Outlined</Button>
 <Button view="flat-contrast" size="l">Flat</Button>
@@ -236,7 +236,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button view="outlined" size="l">
     <Icon data={Gear} size={18} />
     Left
@@ -284,7 +284,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button size="l">Default</Button>
 <Button size="l" disabled>Disabled</Button>
 <Button size="l" loading>Loading</Button>
@@ -320,7 +320,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button size="xs">XS-size</Button>
 <Button size="s">S-size</Button>
 <Button size="m">M-size</Button>
@@ -384,7 +384,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button>none</Button>
 <Button>none none none</Button>
 <Button width="auto">auto</Button>
@@ -435,7 +435,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <Button view="action" pin="brick-brick">
     brick-brick
 </Button>
@@ -512,7 +512,7 @@ LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
-```ts
+```tsx
 <div>
     <Button view="outlined-danger" pin="circle-clear">right</Button>
     <Button view="outlined-danger" pin="clear-circle">left</Button>

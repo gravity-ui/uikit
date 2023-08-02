@@ -7,7 +7,6 @@ import type {DOMProps, QAProps} from '../types';
 import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
-import {useActionHandlers} from '../utils/useActionHandlers';
 import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
@@ -36,6 +35,7 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     disableLayer?: boolean;
     offset?: PopperOffset;
     modifiers?: PopperModifiers;
+    /** @deprecated Add onClick handler to children */
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
@@ -124,8 +124,6 @@ export function Popup({
         restoreFocusRef,
     });
 
-    const {onKeyDown} = useActionHandlers(onClick);
-
     return (
         <Portal container={container} disablePortal={disablePortal}>
             <CSSTransition
@@ -151,11 +149,10 @@ export function Popup({
                     role={role}
                 >
                     <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
-                        {/* The event handlers should only be used to capture bubbled events */}
-                        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+                        {/* The onClick event handler is deprecated and should be removed */}
+                        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
                         <div
                             onClick={onClick}
-                            onKeyDown={onKeyDown}
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
                             onFocus={onFocus}

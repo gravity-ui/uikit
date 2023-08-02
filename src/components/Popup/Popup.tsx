@@ -19,7 +19,7 @@ import {block} from '../utils/cn';
 // import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
-import {PopperArrowRef, PopperOffsetOptions, usePopper} from '../utils/usePopper';
+import {PopperOffsetOptions, usePopper} from '../utils/usePopper';
 import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
@@ -107,7 +107,7 @@ export function Popup({
     role,
     id,
 }: PopupProps) {
-    const [arrowRef, setArrowRef] = React.useState<PopperArrowRef>(null);
+    const arrowRef = React.useRef<SVGSVGElement | null>(null);
 
     const deriveOffset = React.useCallback(
         (state: MiddlewareState) => {
@@ -212,9 +212,9 @@ export function Popup({
                             //     setArrowRef={setArrowRef}
                             // />
                             <FloatingArrow
-                                ref={setArrowRef}
+                                ref={arrowRef}
                                 context={context}
-                                // className={b('arrow')}
+                                className={b('arrow')}
                             />
                         )}
                         {children}

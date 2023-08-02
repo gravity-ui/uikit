@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {block} from '../utils/cn';
-import type {PopperArrowRef} from '../utils/usePopper';
 
 import './Popup.scss';
 
@@ -10,7 +9,7 @@ const b = block('popup');
 interface PopupArrowProps {
     // styles: React.CSSProperties;
     // attributes?: Record<string, unknown>;
-    setArrowRef: (arrowRef: PopperArrowRef) => void;
+    setArrowRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export function PopupArrow({

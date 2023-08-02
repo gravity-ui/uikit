@@ -12,7 +12,6 @@ import {
 } from '@floating-ui/react';
 
 export type PopperAnchorRef = popper.ReferenceType | null;
-export type PopperArrowRef = popper.ArrowOptions['element'];
 export type PopperPlacement = popper.Placement | 'auto';
 export type PopperMiddleware = popper.Middleware;
 export type PopperOffsetOptions = popper.OffsetOptions;

@@ -24,6 +24,7 @@ export type PopupTranslateOptions = Record<
 export type PopperAnchorRef = popper.ReferenceType | null;
 export type PopperArrowRef = popper.ArrowOptions['element'];
 export type PopperPlacement = popper.Placement | 'auto';
+export type PopperFlipOptions = popper.FlipOptions;
 export type PopperMiddleware = popper.Middleware;
 export type PopperOffsetOptions = popper.OffsetOptions;
 export type PopperRole = popper.UseRoleProps['role'];
@@ -42,6 +43,7 @@ export interface PopperProps {
     placement?: PopperPlacement;
     offsetOptions?: PopperOffsetOptions;
     altBoundary?: boolean;
+    flipOptons?: PopperFlipOptions;
 }
 
 const ARROW_SIZE = 8;
@@ -76,8 +78,9 @@ const getTransform = (side: Side, hasArrow = false) => {
 
 export function usePopper({
     anchorRef,
-    arrowRef = null,
     strategy,
+    arrowRef = null,
+    flipOptons = {},
     role: popperRole,
     offsetOptions = 0,
     hasArrow = false,
@@ -104,7 +107,12 @@ export function usePopper({
         },
         middleware: [
             offset(offsetOptions),
-            flip((state) => ({...state, altBoundary})),
+            flip((state) => ({
+                altBoundary,
+                fallbackPlacements: ['bottom', 'top'],
+                ...state,
+                ...flipOptons,
+            })),
             arrow({element: arrowRef}),
             ...middleware,
         ],

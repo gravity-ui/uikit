@@ -38,6 +38,10 @@ export type PaginationProps = {
      * Default true.
      */
     showPages?: boolean;
+    /**
+     * ClassName of element
+     */
+    className?: string;
 };
 
 type EllipsisItem = {

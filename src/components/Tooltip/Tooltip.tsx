@@ -25,7 +25,7 @@ interface TooltipDelayProps {
 }
 
 const b = block('tooltip');
-const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
+const DEFAULT_PLACEMENT: PopupPlacement = 'auto';
 
 export const Tooltip = (props: TooltipProps) => {
     const {children, content, disabled, placement = DEFAULT_PLACEMENT} = props;
@@ -41,7 +41,7 @@ export const Tooltip = (props: TooltipProps) => {
                 style={props.style}
                 open={tooltipVisible && !disabled}
                 placement={placement}
-                anchorRef={{current: anchorElement}}
+                anchorRef={anchorElement}
                 disableEscapeKeyDown
                 disableOutsideClick
                 disableLayer

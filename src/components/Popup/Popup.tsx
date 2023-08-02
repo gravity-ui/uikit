@@ -78,7 +78,7 @@ const TRANSLATE_OPTIONS: PopupTranslateOptions = {
 const ARROW_SIZE = 8;
 
 export function Popup({
-    // keepMounted = false,
+    keepMounted = false,
     hasArrow = false,
     offsetOptions = 0,
     open,
@@ -182,7 +182,7 @@ export function Popup({
 
     return (
         <Portal container={container} disablePortal={disablePortal}>
-            {isMounted && (
+            {(keepMounted || isMounted) && (
                 // <FloatingFocusManager context={context} modal={false}>
                 <div
                     ref={refs.setFloating}

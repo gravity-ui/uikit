@@ -21,13 +21,7 @@ export const Default: StoryFn<PopupProps> = (props: PopupProps) => {
 
     return (
         <React.Fragment>
-            <Popup
-                {...props}
-                hasArrow
-                open={open}
-                anchorRef={anchorRef}
-                onClose={() => setOpen(false)}
-            >
+            <Popup {...props} open={open} anchorRef={anchorRef} onClose={() => setOpen(false)}>
                 <div style={{padding: 10}}>Popup content</div>
             </Popup>
             <div

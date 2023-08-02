@@ -2,11 +2,11 @@ import React from 'react';
 
 import {
     // FloatingFocusManager
-    FloatingArrow,
     MiddlewareState,
     Side,
     UseTransitionStylesProps,
     arrow,
+    flip,
     offset,
     useTransitionStyles,
 } from '@floating-ui/react';
@@ -23,7 +23,10 @@ import {PopperOffsetOptions, usePopper} from '../utils/usePopper';
 import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
+import {PopupArrow} from './PopupArrow';
+
 import './Popup.scss';
+
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
@@ -48,34 +51,40 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
 
 const b = block('popup');
 
-const DEFAULT_DISTANCE = '4px';
-const TRANSITION_DISTANCE = '10px';
+const ARROW_SIZE = 8;
+const DEFAULT_DISTANCE = 10;
+const TRANSITION_DISTANCE = 4;
 
 type PopupTranslateOptions = Record<
     Side,
     Record<keyof Pick<UseTransitionStylesProps, 'initial' | 'open'>, string>
 >;
 
-const TRANSLATE_OPTIONS: PopupTranslateOptions = {
-    bottom: {
-        open: `translateY(${DEFAULT_DISTANCE})`,
-        initial: `translateY(${TRANSITION_DISTANCE})`,
-    },
-    top: {
-        open: `translateY(-${DEFAULT_DISTANCE})`,
-        initial: `translateY(-${TRANSITION_DISTANCE})`,
-    },
-    right: {
-        open: `translateX(${DEFAULT_DISTANCE})`,
-        initial: `translateX(${TRANSITION_DISTANCE})`,
-    },
-    left: {
-        open: `translateX(-${DEFAULT_DISTANCE})`,
-        initial: `translate(-${TRANSITION_DISTANCE})`,
-    },
-};
+const getTransform = (side: Side, hasArrow: boolean) => {
+    const initialDistance = hasArrow ? DEFAULT_DISTANCE + ARROW_SIZE : DEFAULT_DISTANCE;
+    const transitionDistance = hasArrow ? TRANSITION_DISTANCE + ARROW_SIZE : TRANSITION_DISTANCE;
 
-const ARROW_SIZE = 8;
+    const TRANSLATE_OPTIONS: PopupTranslateOptions = {
+        bottom: {
+            open: `translateY(${transitionDistance}px)`,
+            initial: `translateY(${initialDistance}px)`,
+        },
+        top: {
+            open: `translateY(-${transitionDistance}px)`,
+            initial: `translateY(-${initialDistance}px)`,
+        },
+        right: {
+            open: `translateX(${transitionDistance}px)`,
+            initial: `translateX(${initialDistance}px)`,
+        },
+        left: {
+            open: `translateX(-${DEFAULT_DISTANCE})`,
+            initial: `translate(-${initialDistance}px)`,
+        },
+    };
+
+    return TRANSLATE_OPTIONS[side];
+};
 
 export function Popup({
     keepMounted = false,
@@ -107,7 +116,7 @@ export function Popup({
     role,
     id,
 }: PopupProps) {
-    const arrowRef = React.useRef<SVGSVGElement | null>(null);
+    const arrowRef = React.useRef<HTMLDivElement | null>(null);
 
     const deriveOffset = React.useCallback(
         (state: MiddlewareState) => {
@@ -138,26 +147,27 @@ export function Popup({
         context,
         interactions,
         placement: popperPlacement,
+        middlewareData: {arrow: arrowData},
     } = usePopper({
         anchorRef,
         open,
         placement,
         strategy,
-        middleware: [arrow({element: arrowRef}), offset(deriveOffset), ...middleware],
+        middleware: [offset(deriveOffset), flip(), arrow({element: arrowRef}), ...middleware],
     });
 
     const {isMounted, styles} = useTransitionStyles(context, {
         duration: 100,
         initial: ({side}) => ({
-            transform: TRANSLATE_OPTIONS[side].initial,
+            transform: getTransform(side, hasArrow).initial,
             opacity: 0,
         }),
         open: ({side}) => ({
-            transform: TRANSLATE_OPTIONS[side].open,
+            transform: getTransform(side, hasArrow).open,
             opacity: 1,
         }),
         close: ({side}) => ({
-            transform: TRANSLATE_OPTIONS[side].initial,
+            transform: getTransform(side, hasArrow).initial,
             opacity: 0,
         }),
     });
@@ -205,18 +215,7 @@ export function Popup({
                         className={b('content', contentClassName)}
                         style={{...styles, ...style}}
                     >
-                        {hasArrow && (
-                            // <PopupArrow
-                            //     // styles={styles.arrow}
-                            //     // attributes={attributes.arrow}
-                            //     setArrowRef={setArrowRef}
-                            // />
-                            <FloatingArrow
-                                ref={arrowRef}
-                                context={context}
-                                className={b('arrow')}
-                            />
-                        )}
+                        {hasArrow && <PopupArrow data={arrowData} arrowRef={arrowRef} />}
                         {children}
                     </div>
                 </div>

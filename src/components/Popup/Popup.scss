@@ -17,6 +17,39 @@ $arrow-circle-height: 30px;
     z-index: 1000;
     outline: none;
 
+    // arrow
+    #{$block}__arrow {
+        position: absolute;
+    }
+
+    &[data-placement*='bottom'] #{$block}__arrow {
+        top: -$arrow-offset;
+    }
+
+    &[data-placement*='top'] #{$block}__arrow {
+        bottom: -$arrow-offset;
+
+        &-content {
+            transform: rotate(180deg);
+        }
+    }
+
+    &[data-placement*='left'] #{$block}__arrow {
+        right: -$arrow-offset;
+
+        &-content {
+            transform: rotate(90deg);
+        }
+    }
+
+    &[data-placement*='right'] #{$block}__arrow {
+        left: -$arrow-offset;
+
+        &-content {
+            transform: rotate(-90deg);
+        }
+    }
+
     &__content {
         position: relative;
         border-radius: 4px;
@@ -38,7 +71,6 @@ $arrow-circle-height: 30px;
         }
     }
 
-    // arrow
     &__arrow-content {
         width: $arrow-size;
         height: $arrow-size;

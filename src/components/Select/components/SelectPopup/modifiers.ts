@@ -46,25 +46,33 @@ export const getModifiers = (
         enabled: true,
         phase: 'beforeWrite',
         requires: ['computeStyles'],
-        fn: ({state}) => {
+        fn: ({state, name}) => {
             // prevents styles applying after popup being opened (in case of multiple selection)
-            if (state.styles.popper.minWidth || state.styles.popper.width) return;
+            if (state.modifiersData[`${name}#persistent`]?.skip) {
+                return;
+            }
 
-            const styleField = width === POPUP_WIDTH_MODE.OUTFIT ? 'minWidth' : 'width';
             const popupWidth = getPopupWidth(width, state.rects.reference.width, virtualized);
-            state.styles.popper[styleField] = popupWidth;
+            if (width === POPUP_WIDTH_MODE.OUTFIT) {
+                state.styles.popper.minWidth = popupWidth;
+                state.styles.popper.width = undefined;
+            } else {
+                state.styles.popper.minWidth = popupWidth;
+                state.styles.popper.width = popupWidth;
+            }
+
+            state.styles.popper.maxWidth = `max(90vw, ${adjustBorderWidth(
+                state.rects.reference.width,
+            )}px)`;
+
+            state.modifiersData[`${name}#persistent`] = {
+                skip: typeof width !== 'number',
+            };
         },
         effect: ({state}) => {
-            // prevents styles applying after popup being opened (in case of multiple selection)
-            if (state.elements.popper.style.minWidth || state.elements.popper.style.width) return;
-
-            const styleField = width === POPUP_WIDTH_MODE.OUTFIT ? 'minWidth' : 'width';
-            const popupWidth = getPopupWidth(
-                width,
-                (state.elements.reference as HTMLElement).offsetWidth,
-                virtualized,
-            );
-            state.elements.popper.style[styleField] = popupWidth;
+            state.elements.popper.style.maxWidth = `max(90vw, ${
+                (state.elements.reference as HTMLElement).offsetWidth
+            }px)`;
         },
     };
 

@@ -24,6 +24,10 @@ $block: '.#{variables.$ns}dropdown-menu';
         gap: 16px;
     }
 
+    &__menu-item-content-children {
+        flex: auto;
+    }
+
     &__sub-menu {
         position: relative;
 

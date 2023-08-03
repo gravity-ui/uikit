@@ -34,6 +34,11 @@ export type SelectRenderOption<T> = (
     options: SelectRenderOptionViewParams,
 ) => React.ReactElement;
 
+export type SelectRenderOptionGroup<T> = (
+    option: Pick<SelectOptionGroup<T>, 'label'>,
+    options: SelectRenderOptionViewParams,
+) => React.ReactElement;
+
 export type SelectSize = InputControlSize;
 
 export type SelectProps<T = any> = QAProps &
@@ -50,9 +55,11 @@ export type SelectProps<T = any> = QAProps &
             style: React.CSSProperties;
         }) => React.ReactElement;
         renderOption?: SelectRenderOption<T>;
+        renderOptionGroup?: SelectRenderOptionGroup<T>;
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
-        getOptionHeight?: (option: SelectOption<T>) => number;
+        getOptionHeight?: (option: SelectOption<T>, index: number) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;

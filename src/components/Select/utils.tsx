@@ -8,7 +8,7 @@ import type {Option, OptionGroup} from './tech-components';
 import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
 
 // "disable" property needs to deactivate group title item in List
-type GroupTitleItem = {label: string; disabled: true};
+export type GroupTitleItem = {label: string; disabled: true};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
 
@@ -29,12 +29,13 @@ export const getFlattenOptions = (
 
 export const getPopupItemHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
+    getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: SelectSize;
     option: FlattenOption;
     index: number;
     mobile: boolean;
 }) => {
-    const {getOptionHeight, size, option, index, mobile} = args;
+    const {getOptionHeight, getOptionGroupHeight, size, option, index, mobile} = args;
 
     let itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
 
@@ -42,21 +43,25 @@ export const getPopupItemHeight = (args: {
         const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;
         itemHeight = option.label === '' ? 0 : itemHeight;
 
-        return itemHeight + marginTop;
+        return getOptionGroupHeight ? getOptionGroupHeight(option, index) : itemHeight + marginTop;
     }
 
-    return getOptionHeight ? getOptionHeight(option) : itemHeight;
+    return getOptionHeight ? getOptionHeight(option, index) : itemHeight;
 };
 
 export const getOptionsHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
+    getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: NonNullable<SelectProps['size']>;
     options: FlattenOption[];
     mobile: boolean;
 }) => {
-    const {getOptionHeight, size, options, mobile} = args;
+    const {getOptionHeight, getOptionGroupHeight, size, options, mobile} = args;
     return options.reduce((height, option, index) => {
-        return height + getPopupItemHeight({getOptionHeight, size, option, index, mobile});
+        return (
+            height +
+            getPopupItemHeight({getOptionHeight, getOptionGroupHeight, size, option, index, mobile})
+        );
     }, 0);
 };
 

@@ -4,6 +4,10 @@ import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE} from '../../constants'
 
 import type {SelectPopupProps} from './types';
 
+const adjustBorderWidth = (width: number) => {
+    return width - BORDER_WIDTH * 2;
+};
+
 const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
     if (virtualized) {
         return referenceWidth > POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE
@@ -11,13 +15,30 @@ const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
             : POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE;
     }
 
-    return referenceWidth - BORDER_WIDTH * 2;
+    return adjustBorderWidth(referenceWidth);
+};
+
+const getPopupWidth = (
+    width: SelectPopupProps['width'] = 'outfit',
+    controlWidth: number,
+    virtualized?: boolean,
+) => {
+    let popupWidth = controlWidth;
+    if (typeof width === 'number') {
+        popupWidth = width;
+    } else if (width === 'fit') {
+        popupWidth = adjustBorderWidth(controlWidth);
+    } else if (width === 'outfit') {
+        popupWidth = getMinWidth(controlWidth, virtualized);
+    }
+
+    return `${popupWidth}px`;
 };
 
 export const getModifiers = (
     args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
 ) => {
-    const {width, disablePortal, virtualized} = args;
+    const {width = 'outfit', disablePortal, virtualized} = args;
 
     // set popper width styles according anchor rect
     const sameWidth: Modifier<'sameWidth', {}> = {
@@ -25,17 +46,33 @@ export const getModifiers = (
         enabled: true,
         phase: 'beforeWrite',
         requires: ['computeStyles'],
-        fn: ({state}) => {
+        fn: ({state, name}) => {
             // prevents styles applying after popup being opened (in case of multiple selection)
-            if (!state.attributes.popper['data-width-set']) {
-                const minWidth = getMinWidth(state.rects.reference.width, virtualized);
-                state.attributes.popper['data-width-set'] = true;
-                state.styles.popper.minWidth = `${minWidth}px`;
+            if (state.modifiersData[`${name}#persistent`]?.skip) {
+                return;
             }
 
-            if (typeof width === 'number') {
-                state.styles.popper.width = `${width}px`;
+            const popupWidth = getPopupWidth(width, state.rects.reference.width, virtualized);
+            if (width === 'outfit') {
+                state.styles.popper.minWidth = popupWidth;
+                state.styles.popper.width = undefined;
+            } else {
+                state.styles.popper.minWidth = popupWidth;
+                state.styles.popper.width = popupWidth;
             }
+
+            state.styles.popper.maxWidth = `max(90vw, ${adjustBorderWidth(
+                state.rects.reference.width,
+            )}px)`;
+
+            state.modifiersData[`${name}#persistent`] = {
+                skip: typeof width !== 'number',
+            };
+        },
+        effect: ({state}) => {
+            state.elements.popper.style.maxWidth = `max(90vw, ${
+                (state.elements.reference as HTMLElement).offsetWidth
+            }px)`;
         },
     };
 

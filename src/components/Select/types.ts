@@ -65,7 +65,7 @@ export type SelectProps<T = any> = QAProps &
         size?: SelectSize;
         pin?: InputControlPin;
         width?: 'auto' | 'max' | number;
-        popupWidth?: number;
+        popupWidth?: 'outfit' | 'fit' | number;
         virtualizationThreshold?: number;
         className?: string;
         controlClassName?: string;

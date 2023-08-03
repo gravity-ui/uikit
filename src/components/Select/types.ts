@@ -4,7 +4,6 @@ import type {InputControlPin, InputControlSize, InputControlView} from '../contr
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 import type {UseOpenProps} from '../utils/useSelect/types';
 
-import type {SelectPopupProps} from './components/SelectPopup/types';
 import type {Option, OptionGroup} from './tech-components';
 
 export type SelectRenderClearArgs = {
@@ -59,7 +58,7 @@ export type SelectProps<T = any> = QAProps &
         size?: SelectSize;
         pin?: InputControlPin;
         width?: 'auto' | 'max' | number;
-        popupWidth?: SelectPopupProps['width'];
+        popupWidth?: 'outfit' | 'fit' | number;
         virtualizationThreshold?: number;
         className?: string;
         controlClassName?: string;

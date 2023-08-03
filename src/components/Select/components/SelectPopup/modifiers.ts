@@ -1,6 +1,6 @@
 import type {Modifier} from '@popperjs/core';
 
-import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE, POPUP_WIDTH_MODE} from '../../constants';
+import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE} from '../../constants';
 
 import type {SelectPopupProps} from './types';
 
@@ -19,16 +19,16 @@ const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
 };
 
 const getPopupWidth = (
-    width: string | number = POPUP_WIDTH_MODE.OUTFIT,
+    width: SelectPopupProps['width'] = 'outfit',
     controlWidth: number,
     virtualized?: boolean,
 ) => {
     let popupWidth = controlWidth;
     if (typeof width === 'number') {
         popupWidth = width;
-    } else if (width === POPUP_WIDTH_MODE.FIT) {
+    } else if (width === 'fit') {
         popupWidth = adjustBorderWidth(controlWidth);
-    } else if (width === POPUP_WIDTH_MODE.OUTFIT) {
+    } else if (width === 'outfit') {
         popupWidth = getMinWidth(controlWidth, virtualized);
     }
 
@@ -38,7 +38,7 @@ const getPopupWidth = (
 export const getModifiers = (
     args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
 ) => {
-    const {width = POPUP_WIDTH_MODE.OUTFIT, disablePortal, virtualized} = args;
+    const {width = 'outfit', disablePortal, virtualized} = args;
 
     // set popper width styles according anchor rect
     const sameWidth: Modifier<'sameWidth', {}> = {
@@ -53,7 +53,7 @@ export const getModifiers = (
             }
 
             const popupWidth = getPopupWidth(width, state.rects.reference.width, virtualized);
-            if (width === POPUP_WIDTH_MODE.OUTFIT) {
+            if (width === 'outfit') {
                 state.styles.popper.minWidth = popupWidth;
                 state.styles.popper.width = undefined;
             } else {

@@ -16,6 +16,7 @@ export interface BreadcrumbsItem {
     action: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
     href?: string;
     items?: BreadcrumbsItem[];
+    htmlTitle?: string
 }
 
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> {

@@ -59,8 +59,6 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         size?: InputControlSize;
         /** The control's `tabindex` attribute */
         tabIndex?: number;
-        /** The control's [type](https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML5_input_types) */
-        type?: string;
         /** The control's value */
         value?: string;
         /** The control's view. `'normal'` by default */

@@ -17,6 +17,7 @@ export function useRestoreFocus({enabled, restoreFocusRef, focusTrapped}: UseRes
         if (enabled && initialActiveElementRef.current === null) {
             initialActiveElementRef.current = event.relatedTarget as HTMLElement | null;
             lastActiveElementRef.current = initialActiveElementRef.current;
+            ref.current = (restoreFocusRef?.current || initialActiveElementRef.current) ?? null;
         }
     };
 
@@ -51,7 +52,11 @@ export function useRestoreFocus({enabled, restoreFocusRef, focusTrapped}: UseRes
     }, [enabled, focusTrapped]);
 
     React.useEffect(() => {
-        ref.current = (restoreFocusRef?.current || initialActiveElementRef.current) ?? null;
+        if (enabled) {
+            ref.current = (restoreFocusRef?.current || initialActiveElementRef.current) ?? null;
+        } else {
+            ref.current = null;
+        }
     });
 
     React.useEffect(() => {

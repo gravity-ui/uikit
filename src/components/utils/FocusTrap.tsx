@@ -15,15 +15,22 @@ const focusTrapContext = React.createContext<FocusTrapContext | undefined>(undef
 
 interface FocusTrapProps {
     enabled?: boolean;
+    /** @deprecated Use autoFocus instead */
     disableAutoFocus?: boolean;
+    autoFocus?: boolean;
     children: React.ReactElement;
 }
-export function FocusTrap({children, enabled = true, disableAutoFocus}: FocusTrapProps) {
+export function FocusTrap({
+    children,
+    enabled = true,
+    disableAutoFocus,
+    autoFocus = true,
+}: FocusTrapProps) {
     const nodeRef = React.useRef<HTMLElement | null>(null);
 
-    const setAutoFocusRef = React.useRef(!disableAutoFocus);
+    const setAutoFocusRef = React.useRef(!disableAutoFocus && autoFocus);
     React.useEffect(() => {
-        setAutoFocusRef.current = !disableAutoFocus;
+        setAutoFocusRef.current = !disableAutoFocus && autoFocus;
     });
 
     const focusTrapRef = React.useRef<FocusTrapInstance>();

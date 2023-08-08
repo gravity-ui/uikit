@@ -52,6 +52,11 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         anchorRef,
         strategy,
         qa,
+        disablePortal = false,
+        tooltipId,
+        focusTrap,
+        autoFocus,
+        restoreFocusRef,
     },
     ref,
 ) {
@@ -97,6 +102,8 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
 
     const tooltip = (
         <Popup
+            id={tooltipId}
+            role={openOnHover ? 'tooltip' : 'dialog'}
             strategy={strategy}
             anchorRef={anchorRef || controlRef}
             className={cnPopover(
@@ -116,6 +123,12 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             offset={tooltipOffset}
             onClose={anchorRef ? undefined : closeTooltip}
             qa={qa ? `${qa}-tooltip` : ''}
+            disablePortal={disablePortal}
+            focusTrap={focusTrap}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus={autoFocus}
+            restoreFocus={true}
+            restoreFocusRef={restoreFocusRef || controlRef}
         >
             <React.Fragment>
                 {title && <h3 className={cnPopover('tooltip-title')}>{title}</h3>}
@@ -180,6 +193,8 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             className={cnPopover({disabled}, className)}
             onMouseEnter={openOnHover ? onMouseEnter : undefined}
             onMouseLeave={openOnHover ? onMouseLeave : undefined}
+            onFocus={openOnHover ? onMouseEnter : undefined}
+            onBlur={openOnHover ? onMouseLeave : undefined}
             style={{
                 top: offset.top,
                 left: offset.left,

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {useActionHandlers} from '../../../utils/useActionHandlers';
+
 export type TriggerProps = {
     /**
      * Tooltip's opened state
@@ -71,9 +73,16 @@ export const Trigger = ({
         toggleTooltip();
     };
 
+    const {onKeyDown} = useActionHandlers(handleClick);
+
     return (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-        <div className={className} onClick={handleClick}>
+        // The event handler should only be used to capture bubbled events
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+            className={className}
+            onClick={handleClick}
+            onKeyDown={onClick ? onKeyDown : undefined}
+        >
             {children}
         </div>
     );

@@ -112,7 +112,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
-            if (!option || 'label' in option) {
+            if (!option || option?.disabled || 'label' in option) {
                 return;
             }
 

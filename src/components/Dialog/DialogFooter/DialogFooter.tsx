@@ -12,6 +12,7 @@ const b = block('dialog-footer');
 type ButtonPreset = 'default' | 'success' | 'danger';
 
 interface DialogFooterOwnProps {
+    className?: string;
     onClickButtonApply?: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
     onClickButtonCancel?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     textButtonCancel?: string;
@@ -82,6 +83,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
 
     render() {
         const {
+            className,
             onClickButtonCancel,
             onClickButtonApply,
             loading,
@@ -97,7 +99,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
         } = this.props;
 
         const buttonCancel = (
-            <div className={b('button', {action: 'cancel'})}>
+            <div className={b('button', {action: 'cancel'}, className)}>
                 <Button
                     view={textButtonApply ? 'flat' : 'normal'}
                     size="l"

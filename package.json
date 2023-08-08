@@ -74,15 +74,14 @@
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
+        "@floating-ui/react": "^0.24.8",
         "@gravity-ui/i18n": "^1.1.0",
         "@gravity-ui/icons": "^2.2.0",
-        "@popperjs/core": "^2.11.8",
         "bem-cn-lite": "^4.1.0",
         "blueimp-md5": "^2.19.0",
         "focus-trap": "^7.4.3",
         "lodash": "^4.17.21",
         "react-copy-to-clipboard": "^5.1.0",
-        "react-popper": "^2.3.0",
         "react-sortable-hoc": "2.0.0",
         "react-transition-group": "^4.4.5",
         "react-virtualized-auto-sizer": "^1.0.20",

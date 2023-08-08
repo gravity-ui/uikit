@@ -1,65 +1,159 @@
 import React from 'react';
 
-import type popper from '@popperjs/core';
-import {usePopper as useReactPopper} from 'react-popper';
-import type {Modifier} from 'react-popper';
+import type popper from '@floating-ui/react';
+import {
+    Side,
+    UseTransitionStylesProps,
+    arrow,
+    autoUpdate,
+    flip,
+    offset,
+    useDismiss,
+    useFloating,
+    useFocus,
+    useHover,
+    useInteractions,
+    useRole,
+    useTransitionStyles,
+} from '@floating-ui/react';
 
-export type PopperPlacement = popper.Placement | popper.Placement[];
-export type PopperOffset = [number, number];
-export type PopperModifiers = Modifier<unknown, Record<string, unknown>>[];
-export type PopperAnchorRef = React.RefObject<Element | popper.VirtualElement>;
+export type PopupTranslateOptions = Record<
+    Side,
+    Record<keyof Pick<UseTransitionStylesProps, 'initial' | 'open'>, string>
+>;
+export type PopperAnchorRef = popper.ReferenceType | null;
+export type PopperArrowRef = popper.ArrowOptions['element'];
+export type PopperPlacement = popper.Placement | 'auto';
+export type PopperFlipOptions = popper.FlipOptions;
+export type PopperMiddleware = popper.Middleware;
+export type PopperOffsetOptions = popper.OffsetOptions;
+export type PopperRole = popper.UseRoleProps['role'];
 
 export interface PopperProps {
-    anchorRef?: PopperAnchorRef;
+    anchorRef: PopperAnchorRef;
+    arrowRef?: PopperArrowRef;
+
+    role?: popper.UseRoleProps['role'];
+    hasArrow?: boolean;
+    initialOpen?: boolean;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    middleware?: PopperMiddleware[];
+    strategy?: popper.Strategy;
     placement?: PopperPlacement;
-    offset?: [number, number];
-    modifiers?: PopperModifiers;
-    strategy?: popper.PositioningStrategy;
+    offsetOptions?: PopperOffsetOptions;
     altBoundary?: boolean;
+    flipOptons?: PopperFlipOptions;
 }
 
-const DEFAULT_PLACEMENT: PopperPlacement = [
-    'bottom-start',
-    'bottom',
-    'bottom-end',
-    'top-start',
-    'top',
-    'top-end',
-    'right-start',
-    'right',
-    'right-end',
-    'left-start',
-    'left',
-    'left-end',
-];
+const ARROW_SIZE = 8;
+const DEFAULT_DISTANCE = 10;
+const TRANSITION_DISTANCE = 4;
+
+const getTransform = (side: Side, hasArrow = false) => {
+    const initialDistance = hasArrow ? DEFAULT_DISTANCE + ARROW_SIZE : DEFAULT_DISTANCE;
+    const transitionDistance = hasArrow ? TRANSITION_DISTANCE + ARROW_SIZE : TRANSITION_DISTANCE;
+
+    const TRANSLATE_OPTIONS: PopupTranslateOptions = {
+        bottom: {
+            open: `translateY(${transitionDistance}px)`,
+            initial: `translateY(${initialDistance}px)`,
+        },
+        top: {
+            open: `translateY(-${transitionDistance}px)`,
+            initial: `translateY(-${initialDistance}px)`,
+        },
+        right: {
+            open: `translateX(${transitionDistance}px)`,
+            initial: `translateX(${initialDistance}px)`,
+        },
+        left: {
+            open: `translateX(-${DEFAULT_DISTANCE})`,
+            initial: `translate(-${initialDistance}px)`,
+        },
+    };
+
+    return TRANSLATE_OPTIONS[side];
+};
 
 export function usePopper({
     anchorRef,
-    placement = DEFAULT_PLACEMENT,
-    offset,
-    modifiers = [],
     strategy,
-    altBoundary,
+    arrowRef = null,
+    flipOptons = {},
+    role: popperRole,
+    offsetOptions = 0,
+    hasArrow = false,
+    initialOpen = false,
+    placement = 'auto',
+    middleware = [],
+    altBoundary = false,
+    open: controlledOpen,
+    onOpenChange: setControlledOpen,
 }: PopperProps) {
-    const [popperElement, setPopperElement] = React.useState<HTMLElement | null>(null);
-    const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
-    const placements = Array.isArray(placement) ? placement : [placement];
+    const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
 
-    const {attributes, styles} = useReactPopper(anchorRef?.current, popperElement, {
+    const open = controlledOpen ?? uncontrolledOpen;
+    const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+    const floatingData = useFloating({
+        open,
+        onOpenChange: setOpen,
         strategy,
-        modifiers: [
-            {name: 'arrow', options: {element: arrowElement}},
-            {name: 'offset', options: {offset, altBoundary}},
-            {name: 'flip', options: {fallbackPlacements: placements.slice(1), altBoundary}},
-            ...modifiers,
+        placement: placement === 'auto' ? undefined : placement,
+        whileElementsMounted: autoUpdate,
+        elements: {
+            reference: anchorRef,
+        },
+        middleware: [
+            offset(offsetOptions),
+            flip((state) => ({
+                altBoundary,
+                fallbackPlacements: ['bottom', 'top'],
+                ...state,
+                ...flipOptons,
+            })),
+            arrow({element: arrowRef}),
+            ...middleware,
         ],
-        placement: placements[0],
     });
 
-    return {
-        attributes,
-        styles,
-        setPopperRef: setPopperElement,
-        setArrowRef: setArrowElement,
-    };
+    const context = floatingData.context;
+
+    const transition = useTransitionStyles(context, {
+        duration: 100,
+        initial: ({side}) => ({
+            transform: getTransform(side, hasArrow).initial,
+            opacity: 0,
+        }),
+        open: ({side}) => ({
+            transform: getTransform(side, hasArrow).open,
+            opacity: 1,
+        }),
+        close: ({side}) => ({
+            transform: getTransform(side, hasArrow).initial,
+            opacity: 0,
+        }),
+    });
+
+    const hover = useHover(context, {
+        // move: false,
+        enabled: controlledOpen === undefined,
+    });
+    const focus = useFocus(context, {
+        enabled: controlledOpen === undefined,
+    });
+    const dismiss = useDismiss(context);
+    const role = useRole(context, {role: popperRole});
+
+    const interactions = useInteractions([hover, focus, dismiss, role]);
+
+    return React.useMemo(
+        () => ({
+            interactions,
+            transition,
+            ...floatingData,
+        }),
+        [floatingData, interactions, transition],
+    );
 }

@@ -16,39 +16,37 @@ $block: '.#{variables.$ns}link';
         outline: 0;
     }
 
-    &_view_normal {
-        color: var(--g-color-text-link);
-
-        &:hover {
-            color: var(--g-color-text-link-hover);
-        }
-    }
-
-    &_view_primary {
-        color: var(--g-color-text-primary);
-
-        &:hover {
-            color: var(--g-color-text-link-hover);
-        }
-    }
-
-    &_view_secondary {
-        color: var(--g-color-text-secondary);
-
-        &:hover {
-            color: var(--g-color-text-link-hover);
-        }
-    }
-
+    &_view_normal,
     &_view_normal-visitable {
         color: var(--g-color-text-link);
+    }
 
-        &:visited {
-            color: var(--g-color-text-link-visited);
-        }
+    &_view_primary,
+    &_view_primary-visitable {
+        color: var(--g-color-text-primary);
+    }
 
+    &_view_secondary,
+    &_view_secondary-visitable {
+        color: var(--g-color-text-secondary);
+    }
+
+    &_view_normal,
+    &_view_primary,
+    &_view_secondary,
+    &_view_normal-visitable,
+    &_view_primary-visitable,
+    &_view_secondary-visitable {
         &:hover {
             color: var(--g-color-text-link-hover);
+        }
+    }
+
+    &_view_normal-visitable,
+    &_view_primary-visitable,
+    &_view_secondary-visitable {
+        &:visited {
+            color: var(--g-color-text-link-visited);
         }
 
         &:visited:hover {

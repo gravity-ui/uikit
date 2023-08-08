@@ -28,6 +28,14 @@ export function LinkShowcase() {
                             name: 'View normal-visitable',
                             value: 'normal-visitable',
                         },
+                        {
+                            name: 'View primary-visitable',
+                            value: 'primary-visitable',
+                        },
+                        {
+                            name: 'View secondary-visitable',
+                            value: 'secondary-visitable',
+                        },
                     ],
                     href: [
                         {

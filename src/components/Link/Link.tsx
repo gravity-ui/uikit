@@ -6,7 +6,13 @@ import {eventBroker} from '../utils/event-broker';
 
 import './Link.scss';
 
-export type LinkView = 'normal' | 'primary' | 'secondary' | 'normal-visitable';
+export type LinkView =
+    | 'normal'
+    | 'primary'
+    | 'secondary'
+    | 'normal-visitable'
+    | 'primary-visitable'
+    | 'secondary-visitable';
 
 export interface LinkProps extends DOMProps, QAProps {
     view?: LinkView;

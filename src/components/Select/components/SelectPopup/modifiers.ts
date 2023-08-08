@@ -69,7 +69,25 @@ export const getModifiers = (
                 skip: typeof width !== 'number',
             };
         },
-        effect: ({state}) => {
+        effect: ({state, name}) => {
+            // All this code is workaround. Check https://popper.js.org/docs/v2/modifiers/community-modifiers/
+
+            // prevents styles applying after popup being opened (in case of multiple selection)
+            if (state.modifiersData[`${name}#persistent`]?.skip) {
+                return;
+            }
+            const popupWidth = getPopupWidth(
+                width,
+                (state.elements.reference as HTMLElement).offsetWidth,
+                virtualized,
+            );
+            if (width === 'outfit') {
+                state.elements.popper.style.minWidth = popupWidth;
+            } else {
+                state.elements.popper.style.minWidth = popupWidth;
+                state.elements.popper.style.width = popupWidth;
+            }
+
             state.elements.popper.style.maxWidth = `max(90vw, ${
                 (state.elements.reference as HTMLElement).offsetWidth
             }px)`;

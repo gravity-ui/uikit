@@ -51,7 +51,10 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 </div>
             </div>
 
-            <Flex gap={10}>
+            <Flex justifyContent={'center'} style={{marginTop: '20px'}}>
+                Enclosed with 100px margin container
+            </Flex>
+            <Flex gap={10} style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
                 <div>
                     Extra long values. FIT
                     <div>

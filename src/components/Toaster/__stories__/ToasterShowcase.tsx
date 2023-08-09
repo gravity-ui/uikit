@@ -166,6 +166,7 @@ export const ToasterDemo = ({
 
     const createWithoutTitleToast = () => {
         const toastProps = getToastProps({
+            type: 'info',
             name: 'without-title',
         });
 

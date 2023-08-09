@@ -164,6 +164,16 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
+    const createWithoutTitleToast = () => {
+        const toastProps = getToastProps({
+            name: 'without-title',
+        });
+
+        toaster.add(toastProps);
+
+        setState((state) => ({...state, lastToastName: toastProps.name}));
+    };
+
     const createCustomToast = () => {
         const content = (
             <div style={{display: 'flex'}}>
@@ -292,6 +302,12 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const withoutTitleToastBtn = (
+        <Button view="outlined" size="l" onClick={createWithoutTitleToast} style={btnStyle}>
+            Create toast without title
+        </Button>
+    );
+
     const customToastBtn = (
         <Button view="outlined" size="l" onClick={createCustomToast} style={btnStyle}>
             Create custom toast
@@ -325,6 +341,7 @@ export const ToasterDemo = ({
             <p>{successToastBtn}</p>
             <p>{warningToastBtn}</p>
             <p>{errorToastBtn}</p>
+            <p>{withoutTitleToastBtn}</p>
             <p>{customToastBtn}</p>
             <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>

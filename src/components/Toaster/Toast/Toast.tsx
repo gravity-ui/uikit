@@ -106,7 +106,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
             {icon && <div className={b('icon-container')}>{icon}</div>}
             <div className={b('container')}>
-                <h3 className={b('title')}>{title}</h3>
+                {title && <h3 className={b('title')}>{title}</h3>}
                 {isClosable && (
                     <Button
                         size={'s'}
@@ -118,7 +118,9 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                         <Icon data={Xmark} />
                     </Button>
                 )}
-                {Boolean(content) && <div className={b('content')}>{content}</div>}
+                {Boolean(content) && (
+                    <div className={b('content', {'without-title': !title})}>{content}</div>
+                )}
                 {renderActions({actions, onClose})}
             </div>
         </div>

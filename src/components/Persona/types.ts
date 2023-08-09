@@ -1,8 +1,8 @@
-export type PersonaText = string | {value: string; view: React.ReactNode};
+export type PersonaText = string | {value: string; content: React.ReactNode};
 
 export type PersonaProps = {
     /** Visible text node */
-    text: string | {value: string; view: React.ReactNode};
+    text: PersonaText;
     /** Image source */
     image?: string;
     /**

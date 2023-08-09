@@ -12,7 +12,7 @@ export const extractTextValue = (text: PersonaText = '') => {
 
 export const extractTextView = (text: PersonaText = '') => {
     if (text && typeof text === 'object') {
-        return text.view;
+        return text.content;
     }
 
     return text;

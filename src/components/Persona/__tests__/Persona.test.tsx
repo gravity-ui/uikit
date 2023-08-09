@@ -9,10 +9,10 @@ import type {PersonaProps} from '../types';
 import {extractTextValue, getTwoLetters} from '../utils';
 
 const MOCKED_TEXT = 'text';
-const MOCKED_TEXT_NODE_VIEW_VALUE = 'Some view';
+const MOCKED_TEXT_NODE_CONTENT_VALUE = 'Some view';
 const MOCKED_TEXT_NODE: PersonaProps['text'] = {
     value: MOCKED_TEXT,
-    view: <div>{MOCKED_TEXT_NODE_VIEW_VALUE}</div>,
+    content: <div>{MOCKED_TEXT_NODE_CONTENT_VALUE}</div>,
 };
 
 describe('Persona', () => {
@@ -54,7 +54,7 @@ describe('Persona', () => {
         });
         test('should render text as react node', () => {
             render(<Persona text={MOCKED_TEXT_NODE} />);
-            screen.getByText(MOCKED_TEXT_NODE_VIEW_VALUE);
+            screen.getByText(MOCKED_TEXT_NODE_CONTENT_VALUE);
         });
     });
 });

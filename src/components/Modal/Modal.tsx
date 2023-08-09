@@ -18,8 +18,12 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     open?: boolean;
     keepMounted?: boolean;
     disableBodyScrollLock?: boolean;
+    /** @deprecated Use focusTrap instead */
     disableFocusTrap?: boolean;
+    /** @deprecated Use autoFocus instead */
     disableAutoFocus?: boolean;
+    focusTrap?: boolean;
+    autoFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
     /**
@@ -51,6 +55,8 @@ export function Modal({
     disableOutsideClick,
     disableFocusTrap,
     disableAutoFocus,
+    focusTrap = true,
+    autoFocus = true,
     restoreFocusRef,
     onEscapeKeyDown,
     onEnterKeyDown,
@@ -124,8 +130,9 @@ export function Modal({
                     <div className={b('table')}>
                         <div className={b('cell')}>
                             <FocusTrap
-                                enabled={!disableFocusTrap && open && !inTransition}
-                                disableAutoFocus={disableAutoFocus}
+                                enabled={!disableFocusTrap && focusTrap && open && !inTransition}
+                                // eslint-disable-next-line jsx-a11y/no-autofocus
+                                autoFocus={!disableAutoFocus && autoFocus}
                             >
                                 <div
                                     ref={contentRef}

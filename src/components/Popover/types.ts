@@ -60,6 +60,16 @@ export type PopoverExternalProps = {
     onOpenChange?: (open: boolean) => void;
     /** Close button click handler */
     onCloseClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    /** Disable rendering of the popover in a portal */
+    disablePortal?: boolean;
+    /** The html id attribute of the popover */
+    tooltipId?: string;
+    /** Prevent focus from leaving the popover while open */
+    focusTrap?: boolean;
+    /** If true, focus will be transferred to the first element when the popover opens */
+    autoFocus?: boolean;
+    /** Focused element when the popover closes */
+    restoreFocusRef?: React.RefObject<HTMLElement>;
 };
 
 export type PopoverBehaviorProps = {

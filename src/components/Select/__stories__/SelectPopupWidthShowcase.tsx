@@ -29,29 +29,32 @@ export const SelectPopupWidthShowcase = (args: any) => {
             <Select {...args} className="select-width-300" options={short} />
             <Select {...args} options={short} width={'max'} />
 
-            <h2>Modes outfit/fit</h2>
+            <h2>Modes default/fit</h2>
             <Flex gap={10}>
                 <div>
-                    Extra long values. OUTFIT !default (apply max-width: 90vw)
+                    Extra long values. DEFAULT (apply max-width: 90vw)
                     <div>
                         <Select {...args} className="select-width-300" options={extralong} />
                     </div>
                 </div>
                 <div>
-                    Short values. OUTFIT !default
+                    Short values. DEFAULT
                     <div>
                         <Select {...args} className="select-width-50" options={short} />
                     </div>
                 </div>
             </Flex>
             <div>
-                Extra long values. OUTFIT !default Fullscreen
+                Extra long values. DEFAULT Fullscreen
                 <div>
                     <Select {...args} width={'max'} options={extralong} />
                 </div>
             </div>
 
-            <Flex gap={10}>
+            <Flex justifyContent={'center'} style={{marginTop: '20px'}}>
+                Enclosed with 100px margin container
+            </Flex>
+            <Flex gap={10} style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
                 <div>
                     Extra long values. FIT
                     <div>
@@ -87,7 +90,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
 
             <Flex gap={10}>
                 <div>
-                    Extra long values. OUTFIT !default.
+                    Extra long values. DEFAULT.
                     <Text color="danger-heavy"> Not works for virtualized.</Text>
                     <div>
                         <Select
@@ -98,7 +101,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                     </div>
                 </div>
                 <div>
-                    Short values. OUTFIT !default. Virtualized (use default width: 100px)
+                    Short values. DEFAULT. Virtualized (use predefined width: 100px)
                     <div>
                         <Select {...args} className="select-width-50" options={shortVirtualized} />
                     </div>

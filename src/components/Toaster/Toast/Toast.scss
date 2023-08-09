@@ -26,6 +26,7 @@ $block: '.#{variables.$ns}toast';
     background-color: var(--g-color-base-background);
     overflow: hidden;
     z-index: 0;
+    min-height: 54px;
 
     &_mobile {
         width: 100%;

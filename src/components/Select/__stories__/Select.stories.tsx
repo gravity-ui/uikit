@@ -27,7 +27,7 @@ const SelectPopupWidthShowcaseTemplate: StoryFn<SelectProps> = (args) => (
 );
 export const Default = DefaultTemplate.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
-export const PopupWidthShowcase = SelectPopupWidthShowcaseTemplate.bind({});
+export const PopupWidth = SelectPopupWidthShowcaseTemplate.bind({});
 
 Showcase.args = {
     view: 'normal',

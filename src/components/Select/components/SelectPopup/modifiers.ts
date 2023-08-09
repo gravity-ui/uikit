@@ -19,7 +19,7 @@ const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
 };
 
 const getPopupWidth = (
-    width: SelectPopupProps['width'] = 'outfit',
+    width: SelectPopupProps['width'],
     controlWidth: number,
     virtualized?: boolean,
 ) => {
@@ -28,7 +28,7 @@ const getPopupWidth = (
         popupWidth = width;
     } else if (width === 'fit') {
         popupWidth = adjustBorderWidth(controlWidth);
-    } else if (width === 'outfit') {
+    } else {
         popupWidth = getMinWidth(controlWidth, virtualized);
     }
 
@@ -38,7 +38,7 @@ const getPopupWidth = (
 export const getModifiers = (
     args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
 ) => {
-    const {width = 'outfit', disablePortal, virtualized} = args;
+    const {width, disablePortal, virtualized} = args;
 
     // set popper width styles according anchor rect
     const sameWidth: Modifier<'sameWidth', {}> = {
@@ -53,7 +53,7 @@ export const getModifiers = (
             }
 
             const popupWidth = getPopupWidth(width, state.rects.reference.width, virtualized);
-            if (width === 'outfit') {
+            if (typeof width !== 'number' && width !== 'fit') {
                 state.styles.popper.minWidth = popupWidth;
                 state.styles.popper.width = undefined;
             } else {
@@ -81,7 +81,8 @@ export const getModifiers = (
                 (state.elements.reference as HTMLElement).offsetWidth,
                 virtualized,
             );
-            if (width === 'outfit') {
+
+            if (typeof width !== 'number' && width !== 'fit') {
                 state.elements.popper.style.minWidth = popupWidth;
             } else {
                 state.elements.popper.style.minWidth = popupWidth;

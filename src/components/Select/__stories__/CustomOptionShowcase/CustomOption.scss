@@ -1,0 +1,19 @@
+.select-option {
+    width: 100%;
+
+    &__text {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__action-button {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    &:hover &__action-button {
+        visibility: visible;
+        pointer-events: all;
+    }
+}

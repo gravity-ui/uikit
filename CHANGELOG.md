@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.0](https://github.com/gravity-ui/uikit/compare/v5.3.0...v5.4.0) (2023-08-10)
+
+
+### Features
+
+* **Toaster:** make title optional ([#879](https://github.com/gravity-ui/uikit/issues/879)) ([37a434d](https://github.com/gravity-ui/uikit/commit/37a434d35bf806e861765ae0da70c5a129b558ad))
+
 ## [5.3.0](https://github.com/gravity-ui/uikit/compare/v5.2.0...v5.3.0) (2023-08-10)
 
 

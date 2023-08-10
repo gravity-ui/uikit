@@ -40,10 +40,9 @@ const disabledControl = {
     },
 };
 
-function booleanControl(label: string, defaultValue = false) {
+function booleanControl(label: string) {
     return {
         name: label,
-        defaultValue,
         control: 'boolean',
     };
 }
@@ -63,13 +62,19 @@ export default {
         actions: disabledControl,
         removeCallback: disabledControl,
         createSameName: booleanControl('Same name'),
-        showCloseIcon: booleanControl('Show close icon', true),
+        showCloseIcon: booleanControl('Show close icon'),
         setTimeout: booleanControl('Set custom timeout'),
-        allowAutoHiding: booleanControl('Allow auto hiding', true),
+        allowAutoHiding: booleanControl('Allow auto hiding'),
+        setTitle: booleanControl('Add title'),
         setContent: booleanControl('Add content'),
         setActions: booleanControl('Add action'),
         action1View: viewSelect('Action 1 view'),
         action2View: viewSelect('Action 2 view'),
+    },
+    args: {
+        setTitle: true,
+        showCloseIcon: true,
+        allowAutoHiding: true,
     },
     decorators: [
         function withToasters(Story) {

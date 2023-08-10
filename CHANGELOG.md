@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.3.0](https://github.com/gravity-ui/uikit/compare/v5.2.0...v5.3.0) (2023-08-10)
+
+
+### Features
+
+* use useId from React 18 to generate uniq ids ([#883](https://github.com/gravity-ui/uikit/issues/883)) ([2b83656](https://github.com/gravity-ui/uikit/commit/2b836560d6c35601b9c9f2507e377975cfac4d07))
+
+
+### Bug Fixes
+
+* add Disclosure to imports ([#886](https://github.com/gravity-ui/uikit/issues/886)) ([a1d052e](https://github.com/gravity-ui/uikit/commit/a1d052e09039412f00ed4c44a83a81fbe7afcd44))
+
 ## [5.2.0](https://github.com/gravity-ui/uikit/compare/v5.1.0...v5.2.0) (2023-08-10)
 
 

@@ -122,7 +122,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                     </Button>
                 )}
                 {hasContent && (
-                    <div className={b('content', {'without-title': !title})}>{content}</div>
+                    <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
                 )}
                 {renderActions({actions, onClose})}
             </div>

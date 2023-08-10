@@ -8,6 +8,7 @@
 #/src/components/ClipboardIcon @damask
 #/src/components/CopyToClipboard @damask
 /src/components/Dialog @Volodomor
+/src/components/Disclosure @Raubzeug
 /src/components/DropdownMenu @axtk
 /src/components/Hotkey @d3m1d0v
 /src/components/Icon @amje

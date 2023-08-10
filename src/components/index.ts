@@ -13,6 +13,7 @@ export * from './ClipboardButton';
 export * from './ClipboardIcon';
 export * from './CopyToClipboard';
 export * from './Dialog';
+export * from './Disclosure';
 export * from './DropdownMenu';
 export * from './Hotkey';
 export * from './Icon';

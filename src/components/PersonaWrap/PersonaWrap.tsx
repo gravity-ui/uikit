@@ -19,6 +19,7 @@ export interface PersonaWrapProps {
     onClick?: (event: React.MouseEvent) => void;
     className?: string;
     style?: React.CSSProperties;
+    closeButtonAriaAttributes?: React.AriaAttributes;
 }
 
 export function PersonaWrap({
@@ -31,6 +32,7 @@ export function PersonaWrap({
     avatar,
     children,
     style,
+    closeButtonAriaAttributes,
 }: PersonaWrapProps) {
     const clickable = Boolean(onClick);
     const closeable = Boolean(onClose);
@@ -46,7 +48,7 @@ export function PersonaWrap({
             </div>
             {onClose && (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                <div className={b('close')} onClick={onClose}>
+                <div className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
                     <Icon data={Xmark} size={12} />
                 </div>
             )}

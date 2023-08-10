@@ -111,7 +111,7 @@ $block: '.#{variables.$ns}toast';
     }
 
     &__content_without-title {
-        padding-right: 32px;
+        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__action {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {NAMESPACE_NEW} from './cn';
 import {getUniqId} from './common';
 
 function useUniqIdFallback() {
@@ -10,5 +11,9 @@ function useUniqIdFallback() {
     return idRef.current;
 }
 
+function useIdNative() {
+    return `${NAMESPACE_NEW}${React.useId()}`;
+}
+
 export const useUniqId: () => string =
-    typeof React.useId === 'function' ? React.useId : useUniqIdFallback;
+    typeof React.useId === 'function' ? useIdNative : useUniqIdFallback;

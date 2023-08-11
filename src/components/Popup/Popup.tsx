@@ -143,7 +143,6 @@ export function Popup({
                     {...attributes.popper}
                     {...containerProps}
                     className={b({open}, className)}
-                    tabIndex={-1}
                     data-qa={qa}
                     id={id}
                     role={role}
@@ -159,6 +158,7 @@ export function Popup({
                             onBlur={onBlur}
                             className={b('content', contentClassName)}
                             style={style}
+                            tabIndex={-1}
                         >
                             {hasArrow && (
                                 <PopupArrow

@@ -56,3 +56,5 @@ export function DefaultDisclosureSummary({
         </button>
     );
 }
+
+DisclosureSummary.displayName = 'DisclosureSummary';

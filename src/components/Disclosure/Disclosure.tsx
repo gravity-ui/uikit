@@ -112,3 +112,4 @@ function prepareChildren(children: React.ReactNode) {
 }
 
 Disclosure.Summary = DisclosureSummary;
+Disclosure.displayName = 'Disclosure';

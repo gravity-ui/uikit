@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.4.1](https://github.com/gravity-ui/uikit/compare/v5.4.0...v5.4.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* **Disclosure:** add displayName ([#891](https://github.com/gravity-ui/uikit/issues/891)) ([81a71ae](https://github.com/gravity-ui/uikit/commit/81a71ae1da5d299af65aca156f98595bf16e789c))
+* **focusTrap:** do not create focusTrap during render ([#888](https://github.com/gravity-ui/uikit/issues/888)) ([2a6bb83](https://github.com/gravity-ui/uikit/commit/2a6bb8346784e9405ed19c01b9ef5d7f86cc080b))
+* **Popup:** set tabIndex on focusTrap root element ([#889](https://github.com/gravity-ui/uikit/issues/889)) ([4941880](https://github.com/gravity-ui/uikit/commit/49418800125bb5640e49cac21a3dd8b5c11cb6d5))
+* **Tooltip:** set default open delay, focus/blur ignores delay ([#892](https://github.com/gravity-ui/uikit/issues/892)) ([625f4f4](https://github.com/gravity-ui/uikit/commit/625f4f4d0b3bc7ee2847753d85f6e020f2e158ea))
+
 ## [5.4.0](https://github.com/gravity-ui/uikit/compare/v5.3.0...v5.4.0) (2023-08-10)
 
 

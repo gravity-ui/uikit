@@ -34,16 +34,6 @@ export function FocusTrap({
     });
 
     const focusTrapRef = React.useRef<FocusTrapInstance>();
-    if (!focusTrapRef.current) {
-        focusTrapRef.current = createFocusTrap([], {
-            initialFocus: () => setAutoFocusRef.current && getFocusElement(nodeRef.current),
-            fallbackFocus: () => nodeRef.current!,
-            returnFocusOnDeactivate: false,
-            escapeDeactivates: false,
-            clickOutsideDeactivates: false,
-            allowOutsideClick: true,
-        });
-    }
 
     const containersRef = React.useRef<Record<string, HTMLElement>>({});
     const updateContainerElements = React.useCallback(() => {
@@ -75,8 +65,18 @@ export function FocusTrap({
         (node: HTMLElement | null) => {
             if (enabled && node) {
                 nodeRef.current = node;
+                if (!focusTrapRef.current) {
+                    focusTrapRef.current = createFocusTrap([], {
+                        initialFocus: () => setAutoFocusRef.current && getFocusElement(node),
+                        fallbackFocus: () => node,
+                        returnFocusOnDeactivate: false,
+                        escapeDeactivates: false,
+                        clickOutsideDeactivates: false,
+                        allowOutsideClick: true,
+                    });
+                }
                 updateContainerElements();
-                focusTrapRef.current?.activate();
+                focusTrapRef.current.activate();
             } else {
                 focusTrapRef.current?.deactivate();
                 nodeRef.current = null;
@@ -119,11 +119,7 @@ export function useParentFocusTrap() {
     }, [actions, id]);
 }
 
-function getFocusElement(root: HTMLElement | null) {
-    if (root === null) {
-        throw new Error('');
-    }
-
+function getFocusElement(root: HTMLElement) {
     if (
         !(document.activeElement instanceof HTMLElement) ||
         !root.contains(document.activeElement)

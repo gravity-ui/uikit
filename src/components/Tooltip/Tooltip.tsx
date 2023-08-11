@@ -64,7 +64,10 @@ export const Tooltip = (props: TooltipProps) => {
     );
 };
 
-function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: TooltipDelayProps) {
+function useTooltipVisible(
+    anchor: HTMLElement | null,
+    {openDelay = 250, closeDelay}: TooltipDelayProps,
+) {
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
     const timeoutRef = React.useRef<number>();
     const isFocusWithinRef = React.useRef(false);
@@ -74,12 +77,12 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
             return undefined;
         }
 
-        function handleHover() {
+        function handleMouseEnter() {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = window.setTimeout(showTooltip, openDelay);
         }
 
-        function handleBlur() {
+        function handleMouseLeave() {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = window.setTimeout(hideTooltip, closeDelay);
         }
@@ -88,7 +91,7 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
             if (!isFocusWithinRef.current && document.activeElement === e.target) {
                 isFocusWithinRef.current = true;
                 clearTimeout(timeoutRef.current);
-                timeoutRef.current = window.setTimeout(showTooltip, openDelay);
+                showTooltip();
             }
         }
 
@@ -99,9 +102,7 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
             ) {
                 isFocusWithinRef.current = false;
                 clearTimeout(timeoutRef.current);
-                timeoutRef.current = window.setTimeout(() => {
-                    hideTooltip();
-                }, closeDelay);
+                hideTooltip();
             }
         }
 
@@ -112,14 +113,14 @@ function useTooltipVisible(anchor: HTMLElement | null, {openDelay, closeDelay}: 
             }
         }
 
-        anchor.addEventListener('mouseenter', handleHover);
-        anchor.addEventListener('mouseleave', handleBlur);
+        anchor.addEventListener('mouseenter', handleMouseEnter);
+        anchor.addEventListener('mouseleave', handleMouseLeave);
         anchor.addEventListener('focus', handleFocusWithin);
         anchor.addEventListener('blur', handleBlurWithin);
         anchor.addEventListener('keydown', handleKeyDown);
         return () => {
-            anchor.removeEventListener('mouseenter', handleHover);
-            anchor.removeEventListener('mouseleave', handleBlur);
+            anchor.removeEventListener('mouseenter', handleMouseEnter);
+            anchor.removeEventListener('mouseleave', handleMouseLeave);
             anchor.removeEventListener('focus', handleFocusWithin);
             anchor.removeEventListener('blur', handleBlurWithin);
             anchor.removeEventListener('keydown', handleKeyDown);

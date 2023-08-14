@@ -24,6 +24,7 @@ UIKit comes with base styling and theme. In order to everything look nice includ
 ```js
 // index.js
 
+import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 
 // ...

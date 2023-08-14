@@ -5,6 +5,7 @@ import {
     LinkExampleViewPrimary,
     LinkExampleViewSecondary,
     LinkExampleHref,
+    LinkExampleVisitable,
     LinkExampleUsage,
 } from './examples/LinkExampleView/LinkExampleView';
 import {Link} from '../Link';
@@ -61,6 +62,10 @@ Like primary links, they are used when it is natively clear to the user that an 
 `href` property is optional. If it is absent, then Link wil act like Button.
 <DocsSource language="tsx" code={LinkExampleHref.code}/>
 <LinkExampleHref/>
+
+## Visitable
+`visitable` property is optional. Can be `true` or `false`. If `true` the link with `href` attribute will be marked with color when the link is visited.
+<LinkExampleVisitable/>
 
 ## Usage
 Сan be used as an independent text element, or as part of the text

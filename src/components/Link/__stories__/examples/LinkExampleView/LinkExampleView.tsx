@@ -62,6 +62,23 @@ LinkExampleHref.code = `
 <Link>Link without href</Link>
 `.trim();
 
+export function LinkExampleVisitable() {
+    return (
+        <DocsExample>
+            <Link href="#" visitable>
+                Visitable link
+            </Link>
+            <Link href="#" visitable={false}>
+                Non visitable link
+            </Link>
+        </DocsExample>
+    );
+}
+LinkExampleVisitable.code = `
+<Link href="#" visitable>Visitable link</Link>
+<Link href="#" visitable={false}>Non visitable link</Link>
+`.trim();
+
 export function LinkExampleUsage() {
     return (
         <ul>

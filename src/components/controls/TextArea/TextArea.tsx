@@ -52,8 +52,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         disabled = false,
         hasClear = false,
         error,
-        errorMessage,
-        validationState,
+        errorMessage: errorMessageProp,
+        validationState: validationStateProp,
         autoComplete,
         id: originalId,
         tabIndex,
@@ -65,22 +65,22 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         onChange,
     } = props;
 
-    const {errorMessageProp, validationStateProp} = errorPropsMapper({
+    const {errorMessage, validationState} = errorPropsMapper({
         error,
-        errorMessage,
-        validationState,
+        errorMessage: errorMessageProp,
+        validationState: validationStateProp,
     });
 
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
-    const state = getInputControlState(validationStateProp);
+    const state = getInputControlState(validationState);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const innerId = useUniqId();
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isErrorMsgVisible = Boolean(errorMessageProp);
+    const isErrorMsgVisible = Boolean(errorMessage);
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
@@ -172,7 +172,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             </span>
             {isErrorMsgVisible && (
                 <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
-                    {errorMessageProp}
+                    {errorMessage}
                 </div>
             )}
         </span>

@@ -85,7 +85,7 @@ describe('TextInput input', () => {
             });
 
             test('render error icon if tooltip option is selected for errorPlacement prop', () => {
-                render(<TextInput errorMessage="Some Error" errorPlacement="tooltip" />);
+                render(<TextInput errorMessage="Some Error" errorPlacement="inside" />);
 
                 expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
             });
@@ -109,13 +109,13 @@ describe('TextInput input', () => {
             });
 
             test('do not show error icon if error prop is an empty string', () => {
-                render(<TextInput error={''} errorPlacement="tooltip" />);
+                render(<TextInput error={''} errorPlacement="inside" />);
 
                 expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
             });
 
             test('do not show error icon if errorMessage prop is an empty string', () => {
-                render(<TextInput errorMessage={''} errorPlacement="tooltip" />);
+                render(<TextInput errorMessage={''} errorPlacement="inside" />);
 
                 expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
             });

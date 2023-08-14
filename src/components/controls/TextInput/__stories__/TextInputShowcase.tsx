@@ -316,27 +316,27 @@ export function TextInputShowcase() {
                         size="s"
                         placeholder="s"
                         error={'A validation error has occurred'}
-                        errorPlacement="tooltip"
+                        errorPlacement="inside"
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="m"
                         errorMessage={'A validation error has occurred'}
-                        errorPlacement="tooltip"
+                        errorPlacement="inside"
                     />
                     <TextInput
                         {...textInputProps}
                         size="l"
                         placeholder="l"
                         errorMessage={'A validation error has occurred'}
-                        errorPlacement="tooltip"
+                        errorPlacement="inside"
                     />
                     <TextInput
                         {...textInputProps}
                         size="xl"
                         placeholder="xl"
                         errorMessage={'A validation error has occurred'}
-                        errorPlacement="tooltip"
+                        errorPlacement="inside"
                     />
                 </div>
 
@@ -345,7 +345,7 @@ export function TextInputShowcase() {
                     <TextInput
                         {...textInputProps}
                         errorMessage={'A validation error has occurred'}
-                        errorPlacement="tooltip"
+                        errorPlacement="inside"
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
@@ -358,7 +358,7 @@ export function TextInputShowcase() {
                     <TextInput
                         {...textInputProps}
                         errorMessage={'A validation error has occurred'}
-                        errorPlacement="tooltip"
+                        errorPlacement="inside"
                         placeholder="default value"
                         value={undefined}
                         defaultValue="defaultValue"

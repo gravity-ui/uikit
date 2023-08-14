@@ -61,9 +61,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         disabled = false,
         hasClear = false,
         error,
-        errorMessage,
-        errorPlacement = 'text',
-        validationState,
+        errorMessage: errorMessageProp,
+        errorPlacement: errorPlacementProp = 'outside',
+        validationState: validationStateProp,
         autoComplete,
         id: originalId,
         tabIndex,
@@ -77,11 +77,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         onChange,
     } = props;
 
-    const {errorMessageProp, errorPlacementProp, validationStateProp} = errorPropsMapper({
+    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
         error,
-        errorMessage,
-        errorPlacement,
-        validationState,
+        errorMessage: errorMessageProp,
+        errorPlacement: errorPlacementProp,
+        validationState: validationStateProp,
     });
 
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
@@ -89,13 +89,13 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const leftContentRef = React.useRef<HTMLDivElement>(null);
-    const state = getInputControlState(validationStateProp);
+    const state = getInputControlState(validationState);
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
     const isLabelVisible = Boolean(label);
-    const isErrorMsgVisible = Boolean(errorMessageProp) && errorPlacementProp === 'text';
-    const isErrorIconVisible = Boolean(errorMessageProp) && errorPlacementProp === 'tooltip';
+    const isErrorMsgVisible = Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible = Boolean(errorMessage) && errorPlacement === 'inside';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const isLeftContentVisible = Boolean(leftContent);
     const isRightContentVisible = Boolean(rightContent);
@@ -227,7 +227,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     </AdditionalContent>
                 )}
                 {isErrorIconVisible && (
-                    <Popover content={errorMessageProp}>
+                    <Popover content={errorMessage}>
                         <span data-qa={CONTROL_ERROR_ICON_QA}>
                             <Icon
                                 data={TriangleExclamation}
@@ -238,7 +238,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     </Popover>
                 )}
             </span>
-            {isErrorMsgVisible && <div className={b('error')}>{errorMessageProp}</div>}
+            {isErrorMsgVisible && <div className={b('error')}>{errorMessage}</div>}
         </span>
     );
 });

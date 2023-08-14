@@ -25,25 +25,30 @@ export const errorPropsMapper = (
         'error' | 'errorMessage' | 'errorPlacement' | 'validationState'
     >,
 ) => {
-    const {error, errorMessage, errorPlacement, validationState} = errorProps;
+    const {
+        error: errorProp,
+        errorMessage: errorMessageProp,
+        errorPlacement,
+        validationState: validationStateProp,
+    } = errorProps;
 
-    let errorMessageProp: BaseInputControlProps['errorMessage'];
-    if (typeof error === 'string') {
-        errorMessageProp = error;
+    let errorMessage: BaseInputControlProps['errorMessage'];
+    if (typeof errorProps === 'string') {
+        errorMessage = errorProps;
     }
-    if (errorMessage || errorMessage === '') {
-        errorMessageProp = errorMessage;
+    if (errorMessageProp || errorMessageProp === '') {
+        errorMessage = errorMessageProp;
     }
 
-    let validationStateProp: BaseInputControlProps['validationState'];
+    let validationState: BaseInputControlProps['validationState'];
     if (
-        validationState === 'invalid' ||
-        Boolean(error) ||
-        errorMessageProp ||
-        errorMessageProp === ''
+        validationStateProp === 'invalid' ||
+        Boolean(errorProp) ||
+        errorMessage ||
+        errorMessage === ''
     ) {
-        validationStateProp = 'invalid';
+        validationState = 'invalid';
     }
 
-    return {errorMessageProp, errorPlacementProp: errorPlacement, validationStateProp};
+    return {errorMessage, errorPlacement, validationState};
 };

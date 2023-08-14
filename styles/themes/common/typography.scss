@@ -1,5 +1,5 @@
 @mixin variables {
-    --g-font-family-sans: 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
+    --g-font-family-sans: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     --g-font-family-monospace: 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono', 'Liberation Mono',
         'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
 
@@ -12,11 +12,11 @@
 
     --g-text-body-font-weight: 400;
     --g-text-caption-font-weight: 400;
-    --g-text-header-font-weight: 900;
-    --g-text-subheader-font-weight: 900;
-    --g-text-display-font-weight: 900;
+    --g-text-header-font-weight: 600;
+    --g-text-subheader-font-weight: 600;
+    --g-text-display-font-weight: 600;
     --g-text-code-font-weight: 400;
-    --g-text-accent-font-weight: 900;
+    --g-text-accent-font-weight: 600;
 
     --g-text-body-1-font-size: 13px;
     --g-text-body-1-line-height: 18px;

@@ -4,8 +4,8 @@ $block: '.#{variables.$ns}control-label';
 
 #{$block} {
     display: inline-flex;
-    font-family: var(--g-font-family-sans);
-    font-weight: normal;
+    font-family: var(--g-text-body-font-family);
+    font-weight: var(--g-text-body-font-weight);
     color: var(--g-color-text-primary);
     user-select: none;
     touch-action: manipulation;

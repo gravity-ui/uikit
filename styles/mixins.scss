@@ -8,9 +8,9 @@
     margin: 0;
     padding: 0;
 
-    font-family: var(--g-font-family-sans);
+    font-family: var(--g-text-body-font-family);
     font-size: inherit;
-    font-weight: 400;
+    font-weight: var(--g-text-body-font-weight);
 
     color: inherit;
     background: none;

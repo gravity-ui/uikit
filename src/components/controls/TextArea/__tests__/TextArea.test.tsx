@@ -82,6 +82,21 @@ describe('TextArea', () => {
 
             expect(onChangeFn).toBeCalled();
         });
+
+        test('call onClear after click to clean button', async () => {
+            const onClearFn = jest.fn();
+            const user = userEvent.setup();
+            render(<TextArea hasClear onClear={onClearFn} />);
+            const input = screen.getByRole('textbox');
+            await user.type(input, 'abc');
+            const clear = screen.getByRole('button', {name: 'Clear input value'});
+
+            if (clear) {
+                await user.click(clear);
+            }
+
+            expect(onClearFn).toBeCalled();
+        });
     });
 
     describe('autocomplete', () => {

@@ -29,6 +29,8 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     label?: string;
     /** User`s node rendered before label and input node */
     leftContent?: React.ReactNode;
+    /** User`s callback invoked after clear button handler */
+    onClear?: () => void;
     /** User`s node rendered after input node and clear button */
     rightContent?: React.ReactNode;
 };
@@ -61,6 +63,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         controlProps: originalControlProps,
         leftContent,
         rightContent,
+        onClear,
         onUpdate,
         onChange,
     } = props;
@@ -137,6 +140,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
 
         if (!isControlled) {
             setUncontrolledValue('');
+        }
+
+        if (onClear) {
+            onClear();
         }
     };
 

@@ -10,8 +10,7 @@ export type LinkView = 'normal' | 'primary' | 'secondary' | 'normal-visitable';
 
 export interface LinkProps extends DOMProps, QAProps {
     /**
-     * Link view
-     * @deprecated 'normal-visitable' view is deprecated, use 'visitable' prop instead
+     * 'normal-visitable' view is deprecated, use 'visitable' prop instead
      */
     view?: LinkView;
     visitable?: boolean;

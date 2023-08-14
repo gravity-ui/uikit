@@ -39,6 +39,16 @@ export function LinkShowcase() {
                             value: undefined,
                         },
                     ],
+                    visitable: [
+                        {
+                            name: 'Not visitable',
+                            value: false,
+                        },
+                        {
+                            name: 'Visitable',
+                            value: true,
+                        },
+                    ],
                     target: [
                         {
                             name: 'blank',

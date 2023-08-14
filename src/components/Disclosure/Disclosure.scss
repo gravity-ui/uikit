@@ -24,9 +24,8 @@ $gap: 8px;
         font-size: inherit;
         line-height: inherit;
         font-weight: inherit;
-        &:focus {
-            outline: 2px solid var(--g-color-line-misc);
-        }
+
+        @include mixins.focusable();
         &:focus:not(:focus-visible) {
             outline: none;
         }

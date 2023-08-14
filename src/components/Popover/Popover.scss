@@ -1,4 +1,4 @@
-@use '../../../styles/mixins.scss';
+@use '../../../styles/mixins';
 @use '../variables';
 
 $block: '.#{variables.$ns}popover';
@@ -13,6 +13,8 @@ $block: '.#{variables.$ns}popover';
 
     &__handler {
         display: inline-block;
+
+        @include mixins.focusable();
     }
 
     $class: &;

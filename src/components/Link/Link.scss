@@ -1,4 +1,5 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}link';
 
@@ -8,9 +9,7 @@ $block: '.#{variables.$ns}link';
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     cursor: pointer;
 
-    &:focus {
-        outline: 2px solid var(--g-color-line-misc);
-    }
+    @include mixins.focusable();
 
     &:focus:not(:focus-visible) {
         outline: 0;

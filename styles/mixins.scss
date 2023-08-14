@@ -290,3 +290,10 @@
     // stylelint-disable-next-line no-unknown-animations
     animation: yc-loading-animation 0.5s linear infinite;
 }
+
+@mixin focusable() {
+    &:focus {
+        outline: 2px solid var(--g-color-line-misc);
+        border-radius: 2px;
+    }
+}

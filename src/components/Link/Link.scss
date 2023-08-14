@@ -21,30 +21,24 @@ $block: '.#{variables.$ns}link';
         color: var(--g-color-text-link);
     }
 
-    &_view_primary,
-    &_view_primary-visitable {
+    &_view_primary {
         color: var(--g-color-text-primary);
     }
 
-    &_view_secondary,
-    &_view_secondary-visitable {
+    &_view_secondary {
         color: var(--g-color-text-secondary);
     }
 
     &_view_normal,
     &_view_primary,
-    &_view_secondary,
-    &_view_normal-visitable,
-    &_view_primary-visitable,
-    &_view_secondary-visitable {
+    &_view_secondary {
         &:hover {
             color: var(--g-color-text-link-hover);
         }
     }
 
-    &_view_normal-visitable,
-    &_view_primary-visitable,
-    &_view_secondary-visitable {
+    &_visitable,
+    &_view_normal-visitable {
         &:visited {
             color: var(--g-color-text-link-visited);
         }

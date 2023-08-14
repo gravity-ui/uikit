@@ -28,14 +28,6 @@ export function LinkShowcase() {
                             name: 'View normal-visitable',
                             value: 'normal-visitable',
                         },
-                        {
-                            name: 'View primary-visitable',
-                            value: 'primary-visitable',
-                        },
-                        {
-                            name: 'View secondary-visitable',
-                            value: 'secondary-visitable',
-                        },
                     ],
                     href: [
                         {
@@ -45,6 +37,16 @@ export function LinkShowcase() {
                         {
                             name: 'Without href',
                             value: undefined,
+                        },
+                    ],
+                    visitable: [
+                        {
+                            name: 'Not visitable',
+                            value: false,
+                        },
+                        {
+                            name: 'Visitable',
+                            value: true,
                         },
                     ],
                     target: [

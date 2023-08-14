@@ -6,16 +6,15 @@ import {eventBroker} from '../utils/event-broker';
 
 import './Link.scss';
 
-export type LinkView =
-    | 'normal'
-    | 'primary'
-    | 'secondary'
-    | 'normal-visitable'
-    | 'primary-visitable'
-    | 'secondary-visitable';
+export type LinkView = 'normal' | 'primary' | 'secondary' | 'normal-visitable';
 
 export interface LinkProps extends DOMProps, QAProps {
+    /**
+     * Link view
+     * @deprecated 'normal-visitable' view is deprecated, use 'visitable' prop instead
+     */
     view?: LinkView;
+    visitable?: boolean;
     title?: string;
     href?: string;
     target?: string;
@@ -35,6 +34,7 @@ const b = block('link');
 export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
     {
         view = 'normal',
+        visitable,
         href,
         target,
         rel,
@@ -68,7 +68,7 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
         onBlur,
         id,
         style,
-        className: b({view}, className),
+        className: b({view, visitable}, className),
         'data-qa': qa,
     };
 

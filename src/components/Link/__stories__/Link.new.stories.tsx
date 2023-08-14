@@ -15,14 +15,7 @@ export default {
     },
     argTypes: {
         view: {
-            options: [
-                'normal',
-                'primary',
-                'secondary',
-                'normal-visitable',
-                'primary-visitable',
-                'secondary-visitable',
-            ],
+            options: ['normal', 'primary', 'secondary', 'normal-visitable'],
             control: {type: 'select'},
             description: 'test',
         },

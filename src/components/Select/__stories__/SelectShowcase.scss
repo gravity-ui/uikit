@@ -3,6 +3,14 @@
 $block: '.#{variables.$ns}select-showcase';
 $blockSelectClear: '.#{variables.$ns-new}select-clear';
 
+.select-width-50 {
+    width: 50px;
+}
+
+.select-width-300 {
+    width: 300px;
+}
+
 #{$block} {
     display: flex;
     flex-direction: column;

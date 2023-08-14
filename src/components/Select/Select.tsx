@@ -45,9 +45,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderControl,
         renderFilter,
         renderOption,
+        renderOptionGroup,
         renderSelectedOption,
         renderEmptyOptions,
         getOptionHeight,
+        getOptionGroupHeight,
         filterOption,
         name,
         className,
@@ -112,7 +114,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
-            if (!option || 'label' in option) {
+            if (!option || option?.disabled || 'label' in option) {
                 return;
             }
 
@@ -263,7 +265,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         renderFilter={renderFilter}
                     />
                 )}
-                {filteredFlattenOptions.length ? (
+                {filteredFlattenOptions.length || props.loading ? (
                     <SelectList
                         ref={listRef}
                         size={size}
@@ -274,7 +276,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         virtualized={virtualized}
                         onOptionClick={handleOptionClick}
                         renderOption={renderOption}
+                        renderOptionGroup={renderOptionGroup}
                         getOptionHeight={getOptionHeight}
+                        getOptionGroupHeight={getOptionGroupHeight}
+                        loading={props.loading}
                     />
                 ) : (
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />

@@ -12,10 +12,14 @@ import './LabelShowcase.scss';
 const b = block('label-showcase');
 type WithKey<T> = T & {key: React.Key};
 
-const icons = {
-    '-': undefined,
-    TickIcon: <IconComponent size={12} data={Check} />,
-    GearIcon: <IconComponent size={12} data={Gear} />,
+const icons = (id: 'TickIcon' | 'GearIcon' | '-', size: 'xs' | 's' | 'm' = 'xs') => {
+    const sizes = {xs: 12, s: 14, m: 16} as const;
+
+    return {
+        '-': undefined,
+        TickIcon: <IconComponent size={sizes[size]} data={Check} />,
+        GearIcon: <IconComponent size={sizes[size]} data={Gear} />,
+    }[id];
 };
 
 export function LabelShowcase(args: LabelProps) {
@@ -26,19 +30,42 @@ export function LabelShowcase(args: LabelProps) {
 
     const section = (props: LabelProps) => {
         const cases: LabelProps[] = [
-            {children: 'Label', icon: icons['TickIcon'], type: 'default'},
+            {children: 'Label', icon: icons('TickIcon', props.size), type: 'default'},
             {children: 'Label', type: 'default'},
-            {children: 'Label', icon: icons['TickIcon'], type: 'copy'},
+            {
+                children: 'Label',
+                icon: icons('TickIcon', props.size),
+                type: 'copy',
+            },
             {children: 'Label', type: 'copy'},
-            {children: 'Label', icon: icons['TickIcon'], type: 'close'},
+            {
+                children: 'Label',
+                icon: icons('TickIcon', props.size),
+                type: 'close',
+            },
             {children: 'Label', type: 'close'},
-            {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'default'},
+            {
+                children: 'Key',
+                value: 'Value',
+                icon: icons('TickIcon', props.size),
+                type: 'default',
+            },
             {children: 'Key', value: 'Value', type: 'default'},
-            {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'copy'},
+            {
+                children: 'Key',
+                value: 'Value',
+                icon: icons('TickIcon', props.size),
+                type: 'copy',
+            },
             {children: 'Key', value: 'Value', type: 'copy'},
-            {children: 'Key', value: 'Value', icon: icons['TickIcon'], type: 'close'},
+            {
+                children: 'Key',
+                value: 'Value',
+                icon: icons('TickIcon', props.size),
+                type: 'close',
+            },
             {children: 'Key', value: 'Value', type: 'close'},
-            {icon: icons['TickIcon']},
+            {icon: icons('TickIcon', props.size)},
         ];
         return cases.map((label, i) => getLabel({key: i, ...props, ...label}));
     };

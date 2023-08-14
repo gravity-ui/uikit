@@ -204,13 +204,23 @@ export const SelectShowcase = (props: SelectProps) => {
                             </div>
                         );
                     },
+                    renderOptionGroup: (optionGroup) => {
+                        return (
+                            <div style={{height: 32, lineHeight: '32px'}}>{optionGroup.label}</div>
+                        );
+                    },
                     getOptionHeight: () => 22,
+                    getOptionGroupHeight: () => 32,
                 }}
             >
                 <Select.Option value="val1" content="Value1" data={{color: 'green'}} />
                 <Select.Option value="val2" content="Value2" data={{color: 'red'}} />
                 <Select.Option value="val3" content="Value3" data={{color: 'pink'}} />
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
+                <Select.OptionGroup label="Group">
+                    <Select.Option value="val5" content="Value3" data={{color: 'orange'}} />
+                    <Select.Option value="val6" content="Value4" data={{color: 'yellow'}} />
+                </Select.OptionGroup>
             </ExampleItem>
             <ExampleItem
                 title="Select with user selected options"

@@ -91,6 +91,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     width: 100%;
     z-index: 0;
 
+    &_disabled {
+        cursor: default;
+    }
+
     &_size_s {
         @include block_control(s);
     }

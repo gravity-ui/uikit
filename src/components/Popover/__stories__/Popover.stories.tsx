@@ -87,6 +87,8 @@ export default {
         },
         delayOpening: {control: 'number', min: 0},
         delayClosing: {control: 'number', min: 0},
+        disablePortal: {control: 'boolean'},
+        tooltipId: {control: 'string'},
     },
 } as Meta;
 
@@ -201,5 +203,61 @@ WithAlmostLongActionItems.args = {
 const WithCustomAnchorTemplate: StoryFn = () => <WithCustomAnchorExample />;
 export const WithCustomAnchor = WithCustomAnchorTemplate.bind({});
 WithCustomAnchor.args = {
+    content: 'Popover content',
+};
+
+const AccessibleTemplate: StoryFn<PopoverProps> = () => {
+    const [openTooltip, setOpenTooltip] = React.useState(false);
+    const [openPopover, setOpenPopover] = React.useState(false);
+    const ref = React.useRef<HTMLButtonElement>(null);
+
+    return (
+        <div className={cnPopoverDemo('variants')}>
+            <Base content="Accessible tooltip" tooltipId="tooltipId" onOpenChange={setOpenTooltip}>
+                <Button
+                    extraProps={{
+                        'aria-controls': 'tooltipId',
+                        'aria-describedby': 'tooltipId',
+                        'aria-expanded': openTooltip,
+                    }}
+                >
+                    Tooltip
+                </Button>
+            </Base>
+            <Base
+                content="Accessible popover with actions"
+                tooltipId="popoverId"
+                onOpenChange={setOpenPopover}
+                tooltipActionButton={{
+                    text: 'Action with more',
+                    onClick: () => alert('Action button was clicked'),
+                }}
+                tooltipCancelButton={{
+                    text: 'Action with',
+                    onClick: () => alert('Cancel button was clicked'),
+                }}
+                autoclosable={false}
+                openOnHover={false}
+                focusTrap={true}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={true}
+                restoreFocusRef={ref}
+            >
+                <Button
+                    ref={ref}
+                    extraProps={{
+                        'aria-controls': 'popoverId',
+                        'aria-describedby': 'popoverId',
+                        'aria-expanded': openPopover,
+                    }}
+                >
+                    Popover
+                </Button>
+            </Base>
+        </div>
+    );
+};
+export const Accessible = AccessibleTemplate.bind({});
+Accessible.args = {
     content: 'Popover content',
 };

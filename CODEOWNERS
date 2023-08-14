@@ -8,6 +8,7 @@
 #/src/components/ClipboardIcon @damask
 #/src/components/CopyToClipboard @damask
 /src/components/Dialog @Volodomor
+/src/components/Disclosure @Raubzeug
 /src/components/DropdownMenu @axtk
 /src/components/Hotkey @d3m1d0v
 /src/components/Icon @amje
@@ -25,7 +26,7 @@
 /src/components/Sheet @korvin89
 /src/components/Skeleton @amje
 /src/components/Stories @DarkGenius
-#/src/components/Switch @trabemz
+/src/components/Switch @zamkovskaya
 /src/components/Table @krozhkov
 /src/components/Tabs @sofiushko
 /src/components/Text @IsaevAlexandr

@@ -36,6 +36,7 @@ interface Props {
     showCloseIcon: boolean;
     setTimeout: boolean;
     allowAutoHiding: boolean;
+    setTitle: boolean;
     setContent: boolean;
     setActions: boolean;
     action1View: ButtonView;
@@ -49,6 +50,7 @@ export const ToasterDemo = ({
     showCloseIcon,
     setTimeout,
     allowAutoHiding,
+    setTitle,
     setContent,
     setActions,
     action1View,
@@ -75,11 +77,16 @@ export const ToasterDemo = ({
         content?: React.ReactNode;
     }): ToastProps {
         let content: React.ReactNode = null;
+        let title;
 
         if (extra.content) {
             content = extra.content;
         } else if (setContent) {
             content = CONTENT;
+        }
+
+        if (extra.title && setTitle) {
+            title = extra.title;
         }
 
         let timeout = allowAutoHiding ? 5000 : false;
@@ -92,7 +99,7 @@ export const ToasterDemo = ({
             content,
             name: getToastName(extra.name),
             className: extra.className,
-            title: extra.title,
+            title,
             type: extra.type,
             isClosable: showCloseIcon,
             autoHiding: timeout,

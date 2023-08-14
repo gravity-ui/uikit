@@ -36,3 +36,5 @@ export function DisclosureDetails({children}: DisclosureDetailsProps) {
         </CSSTransition>
     );
 }
+
+DisclosureDetails.displayName = 'DisclosureDetails';

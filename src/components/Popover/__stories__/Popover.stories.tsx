@@ -206,19 +206,20 @@ WithCustomAnchor.args = {
     content: 'Popover content',
 };
 
+const tooltipId = 'tooltipId';
+const popoverId = 'popoverId';
+
 const AccessibleTemplate: StoryFn<PopoverProps> = () => {
-    const [openTooltip, setOpenTooltip] = React.useState(false);
     const [openPopover, setOpenPopover] = React.useState(false);
     const ref = React.useRef<HTMLButtonElement>(null);
 
     return (
         <div className={cnPopoverDemo('variants')}>
-            <Base content="Accessible tooltip" tooltipId="tooltipId" onOpenChange={setOpenTooltip}>
+            <Base content="Accessible tooltip" tooltipId={tooltipId}>
                 <Button
                     extraProps={{
-                        'aria-controls': 'tooltipId',
-                        'aria-describedby': 'tooltipId',
-                        'aria-expanded': openTooltip,
+                        'aria-controls': tooltipId,
+                        'aria-describedby': tooltipId,
                     }}
                 >
                     Tooltip
@@ -226,7 +227,7 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
             </Base>
             <Base
                 content="Accessible popover with actions"
-                tooltipId="popoverId"
+                tooltipId={popoverId}
                 onOpenChange={setOpenPopover}
                 tooltipActionButton={{
                     text: 'Action with more',
@@ -246,8 +247,8 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
                 <Button
                     ref={ref}
                     extraProps={{
-                        'aria-controls': 'popoverId',
-                        'aria-describedby': 'popoverId',
+                        'aria-controls': popoverId,
+                        'aria-describedby': popoverId,
                         'aria-expanded': openPopover,
                     }}
                 >

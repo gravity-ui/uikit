@@ -102,8 +102,6 @@ export type PopoverDefaultProps = {
     autoclosable: boolean;
     /** Whether the tooltip opens when hovered */
     openOnHover: boolean;
-    /** Whether the tooltip opens when focused */
-    openOnFocus: boolean;
     /** Control's offset */
     offset: {
         top?: number;

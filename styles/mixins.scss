@@ -294,6 +294,5 @@
 @mixin focusable() {
     &:focus {
         outline: 2px solid var(--g-color-line-misc);
-        border-radius: 2px;
     }
 }

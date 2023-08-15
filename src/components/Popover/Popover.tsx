@@ -24,7 +24,6 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         disabled = false,
         autoclosable = true,
         openOnHover = true,
-        openOnFocus = true,
         delayOpening,
         delayClosing,
         behavior = PopoverBehavior.Delayed,
@@ -104,7 +103,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
     const tooltip = (
         <Popup
             id={tooltipId}
-            role={openOnHover || openOnFocus ? 'tooltip' : 'dialog'}
+            role={openOnHover ? 'tooltip' : 'dialog'}
             strategy={strategy}
             anchorRef={anchorRef || controlRef}
             className={cnPopover(
@@ -194,8 +193,8 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             className={cnPopover({disabled}, className)}
             onMouseEnter={openOnHover ? onMouseEnter : undefined}
             onMouseLeave={openOnHover ? onMouseLeave : undefined}
-            onFocus={openOnFocus ? onMouseEnter : undefined}
-            onBlur={openOnFocus ? onMouseLeave : undefined}
+            onFocus={openOnHover ? onMouseEnter : undefined}
+            onBlur={openOnHover ? onMouseLeave : undefined}
             style={{
                 top: offset.top,
                 left: offset.left,

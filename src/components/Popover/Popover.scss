@@ -13,8 +13,6 @@ $block: '.#{variables.$ns}popover';
 
     &__handler {
         display: inline-block;
-
-        @include mixins.focusable();
     }
 
     $class: &;

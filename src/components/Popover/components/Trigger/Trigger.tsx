@@ -77,13 +77,11 @@ export const Trigger = ({
 
     return (
         // The event handler should only be used to capture bubbled events
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             className={className}
             onClick={handleClick}
             onKeyDown={onClick ? onKeyDown : undefined}
-            role={'button'}
-            aria-expanded={open}
-            tabIndex={0}
         >
             {children}
         </div>

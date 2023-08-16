@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {useActionHandlers} from '../../../utils/useActionHandlers';
+import type {PopoverExternalProps} from '../../types';
 
-export type TriggerProps = {
+export interface TriggerProps extends Pick<PopoverExternalProps, 'enableClickEmulationByKeyboard'> {
     /**
      * Tooltip's opened state
      */
@@ -35,7 +36,7 @@ export type TriggerProps = {
      * Tooltip's trigger content
      */
     children?: React.ReactNode;
-};
+}
 
 export const Trigger = ({
     open,
@@ -46,6 +47,7 @@ export const Trigger = ({
     closedManually,
     onClick,
     children,
+    enableClickEmulationByKeyboard,
 }: TriggerProps) => {
     const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
         if (disabled) {
@@ -81,7 +83,7 @@ export const Trigger = ({
         <div
             className={className}
             onClick={handleClick}
-            onKeyDown={onClick ? onKeyDown : undefined}
+            onKeyDown={onClick && enableClickEmulationByKeyboard ? onKeyDown : undefined}
         >
             {children}
         </div>

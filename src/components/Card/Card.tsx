@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {EKeyCode} from '../constants';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {useActionHandlers} from '../utils/useActionHandlers';
@@ -66,11 +65,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
     const handleClick = isClickable ? onClick : undefined;
-    const {onKeyDown} = useActionHandlers(onClick, [
-        EKeyCode.ENTER,
-        EKeyCode.SPACEBAR,
-        EKeyCode.SPACEBAR_OLD,
-    ]);
+    const {onKeyDown} = useActionHandlers(onClick);
 
     return (
         <div

@@ -17,7 +17,7 @@ interface UseActionHandlersResult<T> {
  */
 export function useActionHandlers<T>(
     callback?: AnyFunction,
-    keyCodes: EKeyCode[] = [],
+    keyCodes: EKeyCode[] = [EKeyCode.ENTER, EKeyCode.SPACEBAR, EKeyCode.SPACEBAR_OLD],
 ): UseActionHandlersResult<T> {
     const keyCodesValues = React.useMemo(() => keyCodes.map((key) => KeyCode[key]), [keyCodes]);
 

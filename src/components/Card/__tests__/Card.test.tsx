@@ -4,7 +4,6 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {Button} from '../../Button';
-import {EKeyCode} from '../../constants';
 import type {CardSize, CardTheme, CardType, CardView} from '../Card';
 import {Card} from '../Card';
 
@@ -244,12 +243,7 @@ describe('Card', () => {
             const user = userEvent.setup();
             const handleOnClick = jest.fn();
             render(
-                <Card
-                    type="action"
-                    onClick={handleOnClick}
-                    qa={qaId}
-                    clickEmulationKeys={[EKeyCode.ENTER, EKeyCode.SPACEBAR, EKeyCode.SPACEBAR_OLD]}
-                >
+                <Card type="action" onClick={handleOnClick} qa={qaId}>
                     {cardText}
                 </Card>,
             );

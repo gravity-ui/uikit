@@ -1,5 +1,6 @@
 import React from 'react';
 
+import type {EKeyCode} from '../constants';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {useActionHandlers} from '../utils/useActionHandlers';
@@ -34,6 +35,10 @@ export interface CardProps extends QAProps {
     theme?: CardTheme;
     /** Card's size affects on available properties*/
     size?: CardSize;
+    /**
+     * Specify keys that will emulate click event
+     */
+    clickEmulationKeys?: EKeyCode[];
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
@@ -49,6 +54,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         selected,
         style,
         qa,
+        clickEmulationKeys = [],
     } = props;
 
     const isTypeAction = type === 'action';
@@ -65,7 +71,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const defaultView = isTypeContainer || isTypeSelection ? 'outlined' : undefined;
 
     const handleClick = isClickable ? onClick : undefined;
-    const {onKeyDown} = useActionHandlers(onClick);
+    const {onKeyDown} = useActionHandlers(onClick, clickEmulationKeys);
 
     return (
         <div

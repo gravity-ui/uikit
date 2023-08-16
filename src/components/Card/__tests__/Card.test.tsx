@@ -243,7 +243,12 @@ describe('Card', () => {
             const user = userEvent.setup();
             const handleOnClick = jest.fn();
             render(
-                <Card type="action" onClick={handleOnClick} qa={qaId}>
+                <Card
+                    type="action"
+                    onClick={handleOnClick}
+                    qa={qaId}
+                    clickEmulationKeys={[EKeyCode.ENTER, EKeyCode.SPACEBAR, EKeyCode.SPACEBAR_OLD]}
+                >
                     {cardText}
                 </Card>,
             );

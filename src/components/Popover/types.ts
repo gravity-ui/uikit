@@ -71,7 +71,7 @@ export type PopoverExternalProps = {
     /** Focused element when the popover closes */
     restoreFocusRef?: React.RefObject<HTMLElement>;
     /**
-     * Enables click event emulation on Enter/Spacebar press. Default is `true`
+     * Enables click event emulation on Enter/Spacebar press. Default is `false`
      */
     enableClickEmulationByKeyboard?: boolean;
 };

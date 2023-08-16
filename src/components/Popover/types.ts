@@ -1,4 +1,5 @@
 import type {PopupAnchorRef, PopupProps} from '../Popup';
+import type {EKeyCode} from '../constants';
 
 import type {ButtonsProps} from './components/Buttons/Buttons';
 import type {ContentProps} from './components/Content/Content';
@@ -71,9 +72,9 @@ export interface PopoverExternalProps {
     /** Focused element when the popover closes */
     restoreFocusRef?: React.RefObject<HTMLElement>;
     /**
-     * Enables click event emulation on Enter/Spacebar press. Default is `false`
+     * Specify keys that will emulate click event
      */
-    enableClickEmulationByKeyboard?: boolean;
+    clickEmulationKeys?: EKeyCode[];
 }
 
 export type PopoverBehaviorProps = {

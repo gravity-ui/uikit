@@ -57,7 +57,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         focusTrap,
         autoFocus,
         restoreFocusRef,
-        enableClickEmulationByKeyboard = true,
+        enableClickEmulationByKeyboard = false,
     },
     ref,
 ) {

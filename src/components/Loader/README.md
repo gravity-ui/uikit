@@ -36,11 +36,11 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-S – Small size, used when standard loader are too big.
+S – Small size, used when standard loader is too big.
 
 M – Medium (basic size), used in most cases.
 
-L – Large size, used when standard loader are too small.
+L – Large size, used when standard loader is too small.
 
 ## Properties
 

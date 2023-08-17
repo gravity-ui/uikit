@@ -214,7 +214,7 @@ describe('TextInput input', () => {
                 const noteTextElement = container.querySelector(`#${getControlNoteId(inputId)}`);
 
                 expect(input.getAttribute('aria-describedby')).toBe(
-                    `${getControlErrorTextId(inputId)} ${getControlNoteId(inputId)}`,
+                    `${getControlNoteId(inputId)} ${getControlErrorTextId(inputId)}`,
                 );
                 expect(errorTextElement?.textContent).toBe(errorText);
                 expect(noteTextElement?.textContent).toBe(noteText);

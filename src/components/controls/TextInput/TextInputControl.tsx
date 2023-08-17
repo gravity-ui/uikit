@@ -38,11 +38,12 @@ export function TextInputControl(props: Props) {
     const describedBy = React.useMemo(() => {
         const result = [];
         if (id) {
-            if (error) {
-                result.push(getControlErrorTextId(id));
-            }
             if (note) {
                 result.push(getControlNoteId(id));
+            }
+
+            if (error) {
+                result.push(getControlErrorTextId(id));
             }
         }
         return result.join(' ');

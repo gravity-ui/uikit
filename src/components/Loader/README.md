@@ -8,7 +8,7 @@
 import {Loader} from '@gravity-ui/uikit';
 ```
 
-The Loader component used to display loading state (flashing bars).
+The Loader component indicates loading state (flashing bars).
 
 ### Size
 

@@ -5,7 +5,7 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {Button} from '@gravity-ui/uikit';
+import {Loader} from '@gravity-ui/uikit';
 ```
 
 The Loader component used to display loading state (flashing bars).

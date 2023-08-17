@@ -42,17 +42,17 @@ export interface TextBaseProps {
      *      - 1: font-size: 9px; line-height: 12px;
      *      - 2: font-size: 11px; line-height: 16px;
      * - header:
-     *      - 1: font-size: 20px; line-height: 24px; font-weight: 900;
-     *      - 2: font-size: 24px; line-height: 28px; font-weight: 900;
+     *      - 1: font-size: 20px; line-height: 24px; font-weight: 600;
+     *      - 2: font-size: 24px; line-height: 28px; font-weight: 600;
      * - subheader:
-     *      - 1: font-size: 13px; line-height: 18px; font-weight: 900;
-     *      - 2: font-size: 15px; line-height: 20px; font-weight: 900;
-     *      - 2: font-size: 17px; line-height: 24px; font-weight: 900;
+     *      - 1: font-size: 13px; line-height: 18px; font-weight: 600;
+     *      - 2: font-size: 15px; line-height: 20px; font-weight: 600;
+     *      - 2: font-size: 17px; line-height: 24px; font-weight: 600;
      * - display:
-     *      - 1: font-size: 28px; line-height: 36px; font-weight: 900;
-     *      - 2: font-size: 32px; line-height: 40px; font-weight: 900;
-     *      - 3: font-size: 40px; line-height: 48px; font-weight: 900;
-     *      - 4: font-size: 48px; line-height: 52px; font-weight: 900;
+     *      - 1: font-size: 28px; line-height: 36px; font-weight: 600;
+     *      - 2: font-size: 32px; line-height: 40px; font-weight: 600;
+     *      - 3: font-size: 40px; line-height: 48px; font-weight: 600;
+     *      - 4: font-size: 48px; line-height: 52px; font-weight: 600;
      * - code:
      *      - 1: font-size: 12px; line-height: 18px; font-weight: 400; font-family: var(--yc-font-family-monospace);
      *      - 2: font-size: 14px; line-height: 20px; font-weight: 400; font-family: var(--yc-font-family-monospace);

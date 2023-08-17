@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/order
+import '../styles/fonts.scss';
+// eslint-disable-next-line import/order
 import '../styles/styles.scss';
 
 import React from 'react';

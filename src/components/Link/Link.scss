@@ -16,8 +16,7 @@ $block: '.#{variables.$ns}link';
         outline: 0;
     }
 
-    &_view_normal,
-    &_view_normal-visitable {
+    &_view_normal {
         color: var(--g-color-text-link);
     }
 
@@ -37,8 +36,7 @@ $block: '.#{variables.$ns}link';
         }
     }
 
-    &_visitable,
-    &_view_normal-visitable {
+    &_visitable {
         &:visited {
             color: var(--g-color-text-link-visited);
         }

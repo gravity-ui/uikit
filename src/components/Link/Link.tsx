@@ -6,12 +6,9 @@ import {eventBroker} from '../utils/event-broker';
 
 import './Link.scss';
 
-export type LinkView = 'normal' | 'primary' | 'secondary' | 'normal-visitable';
+export type LinkView = 'normal' | 'primary' | 'secondary';
 
 export interface LinkProps extends DOMProps, QAProps {
-    /**
-     * 'normal-visitable' view is deprecated, use 'visitable' prop instead
-     */
     view?: LinkView;
     visitable?: boolean;
     title?: string;

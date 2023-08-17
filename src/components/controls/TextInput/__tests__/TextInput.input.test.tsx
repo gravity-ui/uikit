@@ -4,6 +4,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
+import {getControlErrorTextId} from '../../utils';
 import {TextInput} from '../TextInput';
 
 describe('TextInput input', () => {
@@ -194,6 +195,21 @@ describe('TextInput input', () => {
                 expect(label).toBeInTheDocument();
                 expect(label?.tagName.toLowerCase()).toBe('label');
                 expect(screen.getByText('Label:')).toBeVisible();
+            });
+
+            test('render input with error message', () => {
+                const inputId = 'input-id';
+                const errorText = 'Some error text';
+                const {container} = render(<TextInput error={errorText} id={inputId} />);
+
+                const input = screen.getByRole('textbox');
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                const errorTextElement = container.querySelector(
+                    `#${getControlErrorTextId(inputId)}`,
+                );
+
+                expect(input.getAttribute('aria-describedby')).toBe(getControlErrorTextId(inputId));
+                expect(errorTextElement?.textContent).toBe(errorText);
             });
         });
 

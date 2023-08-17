@@ -1,30 +1,40 @@
-## Loader
+# Loader
 
-Component for rendering loading state (flashing bars)
+The Loader component used to display loading state (flashing bars).
 
-## Examples
+### Size
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<Loader size="s" />
+<Loader size="m" />
+<Loader size="l" />
+`}
+>
+    <UIKit.Loader size="s" />
+    <UIKit.Loader size="m" />
+    <UIKit.Loader size="l" />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
 
 ```tsx
-import React from 'react';
-import {Loader} from '@gravity-ui/uikit';
-
-const loader = <Loader size="l" />;
+<Loader size="s" />
+<Loader size="m" />
+<Loader size="l" />
 ```
 
-## Typings
+<!--/GITHUB_BLOCK-->
 
-```ts
-type LoaderSize = 's' | 'm' | 'l';
+S – Small size, used when standard loader are too big.
+M – Medium (basic size), used in most cases.
+L – Large size, used when standard loader are too small.
 
-interface LoaderProps {
-  /**
-   * Loader size
-   * @default 'm'
-   */
-  size?: LoaderSize;
-  /**
-   * Custom CSS class
-   */
-  className?: string;
-}
-```
+## Properties
+
+| Property  | Description                                | Default |
+| :-------- | :----------------------------------------- | :------ |
+| size      | Loader size: `"s"` `"m"` `"l"`             | `"s"`   |
+| className | Custom CSS class for root element `string` |         |

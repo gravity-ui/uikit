@@ -50,7 +50,9 @@ export function MobileProvider({
         [useHistory],
     );
 
-    document.body.classList.toggle(rootMobileClassName, mobileValue);
+    React.useEffect(() => {
+        document.body.classList.toggle(rootMobileClassName, mobileValue);
+    }, [rootMobileClassName, mobileValue]);
 
     const state: MobileContextProps = React.useMemo(() => {
         return {

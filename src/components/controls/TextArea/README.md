@@ -28,3 +28,4 @@
 | type         | `string`                                            | `-`             | The control's type                                                                                                                  |
 | value        | `string`                                            | `-`             | The control's value                                                                                                                 |
 | view         | `'normal' \| 'clear'`                               | `'normal'`      | The control's view. `'normal'` by default                                                                                           |
+| note         | `React.ReactNode`                                   | `-`             | An optional element displayed under the lower right corner of the control and sharing the place with the error container            |

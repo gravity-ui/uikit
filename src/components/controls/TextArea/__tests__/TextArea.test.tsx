@@ -16,11 +16,15 @@ describe('TextArea', () => {
         });
 
         test('render error message with error prop', () => {
-            const {container} = render(<TextArea error="Some Error" />);
+            render(<TextArea error="Some Error" />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
             expect(screen.getByText('Some Error')).toBeVisible();
+        });
+
+        test('render note container with note prop', () => {
+            render(<TextArea error="Some Error" note={<div>Additional</div>} />);
+
+            expect(screen.getByText('Additional')).toBeVisible();
         });
 
         test('do not show error without error prop', () => {

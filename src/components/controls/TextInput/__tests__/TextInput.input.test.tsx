@@ -17,11 +17,15 @@ describe('TextInput input', () => {
             });
 
             test('render error message with error prop', () => {
-                const {container} = render(<TextInput error="Some Error" />);
+                render(<TextInput error="Some Error" />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).toBeInTheDocument();
                 expect(screen.getByText('Some Error')).toBeVisible();
+            });
+
+            test('render note container with note prop', () => {
+                render(<TextInput note={<div>Additional</div>} />);
+
+                expect(screen.getByText('Additional')).toBeVisible();
             });
 
             test('do not show error without error prop', () => {

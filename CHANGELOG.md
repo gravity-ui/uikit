@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.5.0](https://github.com/gravity-ui/uikit/compare/v5.4.1...v5.5.0) (2023-08-17)
+
+
+### Features
+
+* **Link:** add visitable prop ([#872](https://github.com/gravity-ui/uikit/issues/872)) ([62903e5](https://github.com/gravity-ui/uikit/commit/62903e50e18d3ce17faa148b966dae757f57d735))
+* **Select:** add onLoadMore prop ([#901](https://github.com/gravity-ui/uikit/issues/901)) ([e191c0b](https://github.com/gravity-ui/uikit/commit/e191c0b5a2fb59ca915066bffd080660d472d48a))
+* **TextArea|TextInput:** add note prop into TextArea and TextInput ([#895](https://github.com/gravity-ui/uikit/issues/895)) ([ad959e4](https://github.com/gravity-ui/uikit/commit/ad959e4d0f518f2655713099e43b91b4cb74f286))
+* use "Inter" as main font ([#893](https://github.com/gravity-ui/uikit/issues/893)) ([13ed356](https://github.com/gravity-ui/uikit/commit/13ed356b1f8eaf82816f0f6e0ec3f6437b364c41))
+
+
+### Bug Fixes
+
+* **Toaster:** add min-height ([#882](https://github.com/gravity-ui/uikit/issues/882)) ([a254e1b](https://github.com/gravity-ui/uikit/commit/a254e1ba09f0da2d0ba724aac6cf2fde588844f5))
+
 ## [5.4.1](https://github.com/gravity-ui/uikit/compare/v5.4.0...v5.4.1) (2023-08-11)
 
 

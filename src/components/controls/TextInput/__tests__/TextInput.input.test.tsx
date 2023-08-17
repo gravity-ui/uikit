@@ -197,7 +197,7 @@ describe('TextInput input', () => {
                 expect(screen.getByText('Label:')).toBeVisible();
             });
 
-            test('render input with error message', () => {
+            test('render described input with error message', () => {
                 const inputId = 'input-id';
                 const errorText = 'Some error text';
                 const {container} = render(<TextInput error={errorText} id={inputId} />);

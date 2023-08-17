@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {getControlErrorTextId} from '../utils';
+import {getControlErrorTextId, getControlNoteId} from '../utils';
 
 import type {TextInputProps} from './TextInput';
 
@@ -32,11 +32,21 @@ export function TextInputControl(props: Props) {
         onKeyUp,
         onKeyPress,
         error,
+        note,
     } = props;
 
     const describedBy = React.useMemo(() => {
-        return error ? getControlErrorTextId(id) : undefined;
-    }, [error, id]);
+        const result = [];
+        if (id) {
+            if (error) {
+                result.push(getControlErrorTextId(id));
+            }
+            if (note) {
+                result.push(getControlNoteId(id));
+            }
+        }
+        return result.join(' ');
+    }, [error, note, id]);
 
     return (
         <input

@@ -4,7 +4,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
-import {getControlErrorTextId} from '../../utils';
+import {getControlErrorTextId, getControlNoteId} from '../../utils';
 import {TextInput} from '../TextInput';
 
 describe('TextInput input', () => {
@@ -197,19 +197,27 @@ describe('TextInput input', () => {
                 expect(screen.getByText('Label:')).toBeVisible();
             });
 
-            test('render described input with error message', () => {
+            test('render described input with error message and note', () => {
                 const inputId = 'input-id';
                 const errorText = 'Some error text';
-                const {container} = render(<TextInput error={errorText} id={inputId} />);
+                const noteText = 'Note text';
+                const {container} = render(
+                    <TextInput error={errorText} id={inputId} note={noteText} />,
+                );
 
                 const input = screen.getByRole('textbox');
                 // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
                 const errorTextElement = container.querySelector(
                     `#${getControlErrorTextId(inputId)}`,
                 );
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                const noteTextElement = container.querySelector(`#${getControlNoteId(inputId)}`);
 
-                expect(input.getAttribute('aria-describedby')).toBe(getControlErrorTextId(inputId));
+                expect(input.getAttribute('aria-describedby')).toBe(
+                    `${getControlErrorTextId(inputId)} ${getControlNoteId(inputId)}`,
+                );
                 expect(errorTextElement?.textContent).toBe(errorText);
+                expect(noteTextElement?.textContent).toBe(noteText);
             });
         });
 

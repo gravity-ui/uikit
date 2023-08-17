@@ -250,7 +250,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                             {errorMessage}
                         </div>
                     )}
-                    {note && <div className={b('note')}>{note}</div>}
+                    {note && (
+                        <div className={b('note')} id={getControlNoteId(id)}>
+                            {note}
+                        </div>
+                    )}
                 </div>
             )}
         </span>

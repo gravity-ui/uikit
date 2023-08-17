@@ -8,7 +8,7 @@
 import {Spin} from '@gravity-ui/uikit';
 ```
 
-The Spin component indicates loading state (rotating semicircle) in inline scenarios.
+The Spin component indicates loading state (rotating semicircle) in inline scenarios. Unlike Loader this component used to display loading state in inline scenarios. For example in Button or Label.
 
 ### Size
 

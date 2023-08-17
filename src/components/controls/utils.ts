@@ -47,3 +47,7 @@ export const errorPropsMapper = (
 
     return {errorMessage, errorPlacement, validationState};
 };
+
+export const getControlErrorTextId = (controlId?: string) => {
+    return controlId ? `${controlId}-error-text` : undefined;
+};

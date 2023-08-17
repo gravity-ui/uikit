@@ -245,7 +245,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             </span>
             {(isErrorMsgVisible || note) && (
                 <div className={b('outer-additional-content')}>
-                    {isErrorMsgVisible && <div className={b('error')}>{errorMessage}</div>}
+                    {isErrorMsgVisible && (
+                        <div className={b('error')} id={getControlErrorTextId(id)}>
+                            {errorMessage}
+                        </div>
+                    )}
                     {note && <div className={b('note')}>{note}</div>}
                 </div>
             )}

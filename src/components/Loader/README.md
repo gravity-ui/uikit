@@ -1,4 +1,12 @@
+<!--GITHUB_BLOCK-->
+
 # Loader
+
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {Button} from '@gravity-ui/uikit';
+```
 
 The Loader component used to display loading state (flashing bars).
 
@@ -29,7 +37,9 @@ LANDING_BLOCK-->
 <!--/GITHUB_BLOCK-->
 
 S – Small size, used when standard loader are too big.
+
 M – Medium (basic size), used in most cases.
+
 L – Large size, used when standard loader are too small.
 
 ## Properties

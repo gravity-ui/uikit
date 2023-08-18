@@ -445,7 +445,10 @@ $iconWidth: 16px;
 
     &:has(#{$block}__icon:only-child) {
         --yc-button-padding: 0;
-        width: var(--yc-button-height);
+
+        &:not(#{$block}_width_max) {
+            width: var(--yc-button-height);
+        }
     }
 
     &_disabled {

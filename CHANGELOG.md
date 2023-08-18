@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.5.1](https://github.com/gravity-ui/uikit/compare/v5.5.0...v5.5.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* **Button:** fix maxWidth property in case of using button only with icon node ([#914](https://github.com/gravity-ui/uikit/issues/914)) ([15dde1a](https://github.com/gravity-ui/uikit/commit/15dde1abaa497ad270626e3702e684c7be921a89))
+* **MobileProvider:** fix SSR compatibility ([#897](https://github.com/gravity-ui/uikit/issues/897)) ([9c6f5a7](https://github.com/gravity-ui/uikit/commit/9c6f5a7f770225228f88bd9b7a1dfcf059a73f05))
+
 ## [5.5.0](https://github.com/gravity-ui/uikit/compare/v5.4.1...v5.5.0) (2023-08-17)
 
 

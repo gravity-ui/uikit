@@ -437,6 +437,10 @@ $iconWidth: 16px;
         #{$block}:active & {
             transform: scale(0.96);
         }
+
+        #{$block}_disabled:active & {
+            transform: scale(1);
+        }
     }
 
     &:has(#{$block}__icon:only-child) {

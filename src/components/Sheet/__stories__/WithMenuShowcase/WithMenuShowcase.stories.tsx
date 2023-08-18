@@ -1,15 +1,15 @@
 import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
-import block from 'bem-cn-lite';
 
 import {Button, Menu} from '../../../';
+import {cn} from '../../../utils/cn';
 import {Sheet} from '../../Sheet';
 import type {SheetProps} from '../../Sheet';
 
 import './WithMenuShowcase.scss';
 
-const b = block('sheet-stories-with-menu-showcase');
+const b = cn('sheet-stories-with-menu-showcase');
 
 export default {
     title: 'Components/Sheet',

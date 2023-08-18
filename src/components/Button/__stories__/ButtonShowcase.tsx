@@ -1,17 +1,17 @@
 import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
+import {cn} from '../../utils/cn';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 
 import './ButtonShowcase.scss';
 
-const b = block('button-showcase');
+const b = cn('button-showcase');
 
 export function ButtonShowcase() {
     return (

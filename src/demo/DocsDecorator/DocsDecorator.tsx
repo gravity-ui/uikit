@@ -2,16 +2,16 @@ import React from 'react';
 
 import {DocsContainer} from '@storybook/addon-docs';
 import type {DocsContainerProps} from '@storybook/addon-docs';
-import block from 'bem-cn-lite';
 
 import {MobileProvider, ThemeProvider, getThemeType} from '../..';
 import {themes} from '../../../.storybook/theme';
+import {cn} from '../../components/utils/cn';
 
 import './DocsDecorator.scss';
 
 export interface DocsDecoratorProps extends React.PropsWithChildren<DocsContainerProps> {}
 
-const b = block('docs-decorator');
+const b = cn('docs-decorator');
 
 export function DocsDecorator({children, context}: DocsDecoratorProps) {
     // @ts-expect-error

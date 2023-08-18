@@ -1,7 +1,8 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
+
+import {cn} from '../../components/utils/cn';
 
 import './TextPanel.scss';
 
@@ -18,7 +19,7 @@ interface TextPanelProps {
     variant?: boolean;
 }
 
-const b = block('text-panel');
+const b = cn('text-panel');
 const SAMPLE_TEXT = 'Yet another sample text';
 
 export function TextPanel(props: TextPanelProps) {

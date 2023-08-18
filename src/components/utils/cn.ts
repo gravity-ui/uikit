@@ -1,19 +1,15 @@
-import bemBlock from 'bem-cn-lite';
-
-export type CnBlock = ReturnType<typeof bemBlock>;
+import {withNaming} from '@bem-react/classname';
 
 export type CnMods = Record<string, string | boolean | undefined>;
 
 export const NAMESPACE = 'yc-';
 export const NAMESPACE_NEW = 'g-';
 
-export function block(name: string): CnBlock {
-    return bemBlock(`${NAMESPACE}${name}`);
-}
+export const cn = withNaming({e: '__', m: '_'});
+export const block = withNaming({n: NAMESPACE, e: '__', m: '_'});
+export const blockNew = withNaming({n: NAMESPACE_NEW, e: '__', m: '_'});
 
-export function blockNew(name: string): CnBlock {
-    return bemBlock(`${NAMESPACE_NEW}${name}`);
-}
+export type CnBlock = ReturnType<typeof cn>;
 
 /**
  * Extracts modifiers part from className

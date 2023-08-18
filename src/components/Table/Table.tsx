@@ -58,6 +58,8 @@ export interface TableProps<I> extends QAProps {
     columns: TableColumnConfig<I>[];
     /** Vertical alignment of contents  */
     verticalAlign?: 'top' | 'middle';
+    /** Break long text to lines instead of cutting with hellip */
+    wordWrap?: boolean;
     /**
      * Horizontal sticky scroll.
      * Note: table cannot be with fixed height and with sticky scroll at the same time.
@@ -333,7 +335,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     private renderHead() {
-        const {columns, edgePadding} = this.props;
+        const {columns, edgePadding, wordWrap} = this.props;
         const {columnsStyles} = this.state;
 
         return (
@@ -355,6 +357,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                                         primary,
                                         sticky,
                                         ['edge-padding']: edgePadding,
+                                        ['word-wrap']: wordWrap,
                                     },
                                     className,
                                 )}
@@ -398,6 +401,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             getRowClassNames,
             verticalAlign,
             edgePadding,
+            wordWrap,
         } = this.props;
         const {columnsStyles} = this.state;
 
@@ -447,6 +451,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                                     primary,
                                     sticky,
                                     ['edge-padding']: edgePadding,
+                                    ['word-wrap']: wordWrap,
                                 },
                                 className,
                             )}

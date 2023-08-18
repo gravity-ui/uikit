@@ -44,8 +44,6 @@ $iconWidth: 16px;
     background: transparent;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    transition: transform 0.1s ease-out, color 0.15s linear;
-    transform: scale(1);
 
     &::before {
         content: '';
@@ -79,17 +77,6 @@ $iconWidth: 16px;
         left: 0;
         right: 0;
         bottom: 0;
-        transform: scale(1);
-        transition: none;
-    }
-
-    &:active {
-        transition: none;
-        transform: scale(0.96);
-    }
-
-    &:active::after {
-        transform: scale(1.042);
     }
 
     &_size {
@@ -443,6 +430,15 @@ $iconWidth: 16px;
         }
     }
 
+    &__text,
+    &__icon {
+        transition: transform 0.1s ease-out, color 0.15s linear;
+
+        #{$block}:active & {
+            transform: scale(0.96);
+        }
+    }
+
     &:has(#{$block}__icon:only-child) {
         --yc-button-padding: 0;
         width: var(--yc-button-height);
@@ -462,10 +458,6 @@ $iconWidth: 16px;
             &:hover::before {
                 border: none;
             }
-        }
-
-        &:active {
-            transform: scale(1);
         }
     }
 

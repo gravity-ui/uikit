@@ -7,27 +7,26 @@ import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 import {BreadcrumbsShowcase} from './BreadcrumbsShowcase';
 
-const action = () => {};
 const items = [
     {
         text: 'Region',
-        action,
+        href: '#',
     },
     {
         text: 'Country',
-        action,
+        href: '#',
     },
     {
         text: 'City',
-        action,
+        href: '#',
     },
     {
         text: 'District',
-        action,
+        href: '#',
     },
     {
         text: 'Street',
-        action,
+        href: '#',
     },
 ];
 

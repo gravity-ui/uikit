@@ -24,6 +24,8 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
 }: Props<T>) {
     const {text, href, action} = data;
 
+    const item = renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text;
+
     if (isPrevCurrent || !isCurrent) {
         return (
             <Link
@@ -34,14 +36,14 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
                 onClick={action}
                 className={b('item', {'prev-current': isPrevCurrent})}
             >
-                {renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text}
+                {item}
             </Link>
         );
     }
 
     return (
         <div title={text} className={b('item', {current: true})}>
-            {renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text}
+            {item}
         </div>
     );
 }

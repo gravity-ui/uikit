@@ -242,30 +242,25 @@ test('Renders with html content', () => {
 test('Renders with links', () => {
     const onLinkClick = jest.fn();
 
-    const linkWithHrefConfig = {
+    const linkConfig = {
         text: 'Link with a href',
         href: 'https://yandex.ru',
-    };
-    const linkWithClickHandlerConfig = {
-        text: 'Link with an onClick handler',
         onClick: onLinkClick,
     };
 
     render(
         renderPopover({
-            links: [linkWithHrefConfig, linkWithClickHandlerConfig],
+            links: [linkConfig],
         }),
     );
 
     const popoverTrigger = screen.getByText(defaultTriggerText);
     fireEvent.click(popoverTrigger);
 
-    const linkWithHref = screen.getByText(linkWithHrefConfig.text);
-    const linkWithClickHandler = screen.getByText(linkWithClickHandlerConfig.text);
-    expect(linkWithHref).toBeInTheDocument();
-    expect(linkWithClickHandler).toBeInTheDocument();
+    const link = screen.getByText(linkConfig.text);
+    expect(link).toBeInTheDocument();
 
-    fireEvent.click(linkWithClickHandler);
+    fireEvent.click(link);
     expect(onLinkClick).toHaveBeenCalledTimes(1);
 });
 

@@ -13,8 +13,8 @@ import './Breadcrumbs.scss';
 
 export interface BreadcrumbsItem {
     text: string;
-    action: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
-    href?: string;
+    action?: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
+    href: string;
     items?: BreadcrumbsItem[];
 }
 

@@ -8,7 +8,7 @@ export function LinkShowcase() {
     return (
         <Showcase title="Link">
             <ShowcaseGrid
-                rowKey="href"
+                rowKey="target"
                 component={Link}
                 propsCombinations={{
                     view: [
@@ -27,16 +27,6 @@ export function LinkShowcase() {
                         {
                             name: 'View normal-visitable',
                             value: 'normal-visitable',
-                        },
-                    ],
-                    href: [
-                        {
-                            name: 'With href',
-                            value: '#',
-                        },
-                        {
-                            name: 'Without href',
-                            value: undefined,
                         },
                     ],
                     visitable: [
@@ -61,6 +51,7 @@ export function LinkShowcase() {
                     ],
                 }}
                 staticProps={{
+                    href: '/',
                     children: 'Link',
                 }}
             />

@@ -12,26 +12,27 @@ const b = block('breadcrumbs-showcase');
 const breadcrumbsItems = [
     {
         text: 'Region',
+        href: '#',
     },
     {
         text: 'Country',
+        href: '#',
     },
     {
         text: 'City',
+        href: '#',
     },
     {
         text: 'District',
+        href: '#',
     },
     {
         text: 'Street',
+        href: '#',
     },
 ];
 
-interface BreadcrumbsWrapperProps extends Omit<BreadcrumbsProps, 'items'> {
-    items: Array<{text: string}>;
-}
-
-class BreadcrumbsWrapper extends React.Component<BreadcrumbsWrapperProps> {
+class BreadcrumbsWrapper extends React.Component<BreadcrumbsProps> {
     state = {
         currentItemIndex: this.props.items.length - 1,
     };
@@ -46,6 +47,7 @@ class BreadcrumbsWrapper extends React.Component<BreadcrumbsWrapperProps> {
 
         return items.slice(0, currentItemIndex + 1).map((item, index) => ({
             text: item.text,
+            href: item.href,
             action: () => {
                 this.setState({
                     currentItemIndex: index,
@@ -83,7 +85,7 @@ export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
                 <Breadcrumbs
                     {...props}
                     renderItemDivider={() => '>'}
-                    items={breadcrumbsItems.map(({text}) => ({text, action: () => {}}))}
+                    items={breadcrumbsItems.map((item) => ({...item, action: () => {}}))}
                 />
             </div>
         </div>

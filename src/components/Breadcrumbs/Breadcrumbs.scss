@@ -25,6 +25,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_more {
             vertical-align: top;
+            cursor: pointer;
         }
     }
 

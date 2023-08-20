@@ -15,22 +15,20 @@ export interface LinkProps extends DOMProps, QAProps {
     view?: LinkView;
     visitable?: boolean;
     title?: string;
-    href?: string;
+    href: string;
     target?: string;
     rel?: string;
     id?: string;
     children?: React.ReactNode;
-    onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLSpanElement>;
-    onFocus?: React.FocusEventHandler<HTMLAnchorElement | HTMLSpanElement>;
-    onBlur?: React.FocusEventHandler<HTMLAnchorElement | HTMLSpanElement>;
-    extraProps?:
-        | React.AnchorHTMLAttributes<HTMLAnchorElement>
-        | React.HTMLAttributes<HTMLSpanElement>;
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+    onFocus?: React.FocusEventHandler<HTMLAnchorElement>;
+    onBlur?: React.FocusEventHandler<HTMLAnchorElement>;
+    extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
 }
 
 const b = block('link');
 
-export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     {
         view = 'normal',
         visitable,
@@ -60,7 +58,6 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
 
     const commonProps = {
         title,
-        children,
         onClick,
         onClickCapture: handleClickCapture,
         onFocus,
@@ -71,29 +68,11 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
         'data-qa': qa,
     };
 
-    if (typeof href === 'string') {
-        const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
+    const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
-        return (
-            // eslint-disable-next-line jsx-a11y/anchor-has-content
-            <a
-                {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-                {...commonProps}
-                ref={ref as React.Ref<HTMLAnchorElement>}
-                href={href}
-                target={target}
-                rel={relProp}
-            />
-        );
-    } else {
-        return (
-            <span
-                {...(extraProps as React.HTMLAttributes<HTMLSpanElement>)}
-                {...commonProps}
-                ref={ref as React.Ref<HTMLSpanElement>}
-                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                tabIndex={0}
-            />
-        );
-    }
+    return (
+        <a {...extraProps} {...commonProps} ref={ref} href={href} target={target} rel={relProp}>
+            {children}
+        </a>
+    );
 });

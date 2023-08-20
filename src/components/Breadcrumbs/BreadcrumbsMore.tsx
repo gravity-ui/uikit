@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {DropdownMenu} from '../DropdownMenu';
-import {Link} from '../Link';
+import {Text} from '../Text';
 import {block} from '../utils/cn';
 
 import type {BreadcrumbsProps} from './Breadcrumbs';
@@ -13,9 +13,9 @@ const b = block('breadcrumbs');
 
 function Switcher() {
     return (
-        <Link view="secondary" title={i18n('label_more')} className={b('item', {more: true})}>
+        <Text color="secondary" title={i18n('label_more')} className={b('item', {more: true})}>
             ...
-        </Link>
+        </Text>
     );
 }
 

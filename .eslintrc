@@ -18,7 +18,10 @@
                 "selector": "TSTypeReference>TSQualifiedName[left.name='React'][right.name='FC']",
                 "message": "Don't use React.FC"
             }
-        ]
+        ],
+        "jsx-a11y/anchor-is-valid": [ "error", {
+            "components": [ "Link" ]
+        }]
     },
     "overrides": [
         {

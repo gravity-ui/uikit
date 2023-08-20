@@ -27,6 +27,7 @@ import {Link} from '@gravity-ui/uikit';
 - [Normal](#normal)
 - [Primary](#primary)
 - [Secondary](#secondary)
+- [Visitable](#visitable)
 
 [Href](#href)
 
@@ -38,7 +39,7 @@ Link - is a part of the text, that, when clicked, takes the user to another part
 The main difference from the [Buttons](/docs/components-button) is the navigation function. Links more often lead to other pages or open new browser tabs.
 
 ## Appearance
-There can be three types: `normal`(the usual blue), `primary`(black), `secondary`(gray). it is controlled by the view property.
+There can be three types: `normal`(the usual brown), `primary`(black), `secondary`(gray). it is controlled by the `view` property. It is also possible to display visited state using the `visitable` property.
 
 ### Normal
 The most familiar and well-established pattern of use for users. It is used to visually highlight an element inside a text, table, and as part of navigation. It is used to navigate to pages inside the service and to external sources, including documentation. Also, they are used on error pages and zero states.
@@ -58,14 +59,16 @@ Like primary links, they are used when it is natively clear to the user that an 
 <DocsSource language="tsx" code={LinkExampleViewSecondary.code}/>
 <LinkExampleViewSecondary/>
 
+### Visitable
+Used to show that the link has already been visited.
+
+<DocsSource language="tsx" code={LinkExampleVisitable.code}/>
+<LinkExampleVisitable/>
+
 ## Href
 `href` property is optional. If it is absent, then Link wil act like Button.
 <DocsSource language="tsx" code={LinkExampleHref.code}/>
 <LinkExampleHref/>
-
-## Visitable
-`visitable` property is optional. Can be `true` or `false`. If `true` the link with `href` attribute will be marked with color when the link is visited.
-<LinkExampleVisitable/>
 
 ## Usage
 Сan be used as an independent text element, or as part of the text

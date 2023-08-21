@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 
 import type {PersonaText} from './types';
 
@@ -20,5 +20,5 @@ export const extractTextView = (text: PersonaText = '') => {
 
 export function getTwoLetters(text: string) {
     const words = text.split(' ');
-    return [_.get(words, '[0][0]'), _.get(words, '[1][0]')].filter(Boolean).join('');
+    return [get(words, '[0][0]'), get(words, '[1][0]')].filter(Boolean).join('');
 }

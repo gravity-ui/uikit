@@ -280,6 +280,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         getOptionHeight={getOptionHeight}
                         getOptionGroupHeight={getOptionGroupHeight}
                         loading={props.loading}
+                        onLoadMore={props.onLoadMore}
                     />
                 ) : (
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />

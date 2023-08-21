@@ -1,4 +1,5 @@
 * @amje @ValeraS @korvin89
+/src/components/Alert @IsaevAlexandr
 /src/components/ArrowToggle @Marginy605
 /src/components/Breadcrumbs @vrozaev
 /src/components/Button @amje
@@ -22,6 +23,8 @@
 /src/components/Popup @amje
 /src/components/Portal @amje
 /src/components/Progress @mfyodorov
+/src/components/User @DaffPunks
+/src/components/UserAvatar @DaffPunks
 /src/components/Select @korvin89
 /src/components/Sheet @korvin89
 /src/components/Skeleton @amje

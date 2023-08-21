@@ -40,6 +40,8 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     leftContent?: React.ReactNode;
     /** User`s node rendered after input node and clear button */
     rightContent?: React.ReactNode;
+    /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
+    note?: React.ReactNode;
 };
 export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
@@ -73,6 +75,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         controlProps: originalControlProps,
         leftContent,
         rightContent,
+        note,
         onUpdate,
         onChange,
     } = props;
@@ -238,7 +241,12 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     </Popover>
                 )}
             </span>
-            {isErrorMsgVisible && <div className={b('error')}>{errorMessage}</div>}
+            {(isErrorMsgVisible || note) && (
+                <div className={b('outer-additional-content')}>
+                    {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
+                    {note && <div className={b('note')}>{note}</div>}
+                </div>
+            )}
         </span>
     );
 });

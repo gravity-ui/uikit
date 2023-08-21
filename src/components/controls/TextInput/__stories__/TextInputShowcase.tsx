@@ -6,6 +6,7 @@ import block from 'bem-cn-lite';
 import {Button} from '../../../Button';
 import {Checkbox} from '../../../Checkbox';
 import {Icon} from '../../../Icon';
+import {Text} from '../../../Text';
 import {mapTextInputSizeToButtonSize} from '../../common';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
@@ -87,6 +88,12 @@ export function TextInputShowcase() {
                         value={undefined}
                         defaultValue="defaultValue"
                     />
+                    <TextInput
+                        {...textInputProps}
+                        value={undefined}
+                        placeholder="with note"
+                        note={<Text color="secondary">Additional</Text>}
+                    />
                 </div>
             </div>
 
@@ -132,6 +139,13 @@ export function TextInputShowcase() {
                         label={LONG_LABEL}
                         value={undefined}
                         defaultValue="defaultValue"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="with note"
+                        label={LABEL}
+                        note={<Text color="secondary">Additional</Text>}
+                        hasClear
                     />
                 </div>
             </div>
@@ -239,6 +253,18 @@ export function TextInputShowcase() {
                         rightContent={
                             <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="with note"
+                        type={additionalContentExmpleInputType}
+                        label={LABEL}
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
+                        note={<Text color="secondary">Additional</Text>}
+                        hasClear
                     />
                 </div>
             </div>

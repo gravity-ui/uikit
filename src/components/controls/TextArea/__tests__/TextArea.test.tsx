@@ -16,6 +16,25 @@ describe('TextArea', () => {
             expect(input.tagName.toLowerCase()).toBe('textarea');
         });
 
+        test('render error message with error prop', () => {
+            render(<TextArea error="Some Error" />);
+
+            expect(screen.getByText('Some Error')).toBeVisible();
+        });
+
+        test('render note container with note prop', () => {
+            render(<TextArea error="Some Error" note={<div>Additional</div>} />);
+
+            expect(screen.getByText('Additional')).toBeVisible();
+        });
+
+        test('do not show error without error prop', () => {
+            const {container} = render(<TextArea />);
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            expect(container.querySelector('.g-text-area__error')).not.toBeInTheDocument();
+        });
+
         test('check clear button visibility with hasClear prop', async () => {
             render(<TextArea hasClear />);
             const user = userEvent.setup();

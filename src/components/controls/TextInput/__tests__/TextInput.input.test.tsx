@@ -17,6 +17,25 @@ describe('TextInput input', () => {
                 expect(input.tagName.toLowerCase()).toBe('input');
             });
 
+            test('render error message with error prop', () => {
+                render(<TextInput error="Some Error" />);
+
+                expect(screen.getByText('Some Error')).toBeVisible();
+            });
+
+            test('render note container with note prop', () => {
+                render(<TextInput note={<div>Additional</div>} />);
+
+                expect(screen.getByText('Additional')).toBeVisible();
+            });
+
+            test('do not show error without error prop', () => {
+                const {container} = render(<TextInput />);
+
+                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+            });
+
             test('check clear button visibility with hasClear prop', async () => {
                 render(<TextInput hasClear />);
                 const user = userEvent.setup();

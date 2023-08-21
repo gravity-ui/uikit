@@ -32,6 +32,8 @@ export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     minRows?: number;
     /** The number of maximum visible text lines for the control. Ignored if `rows` is specified */
     maxRows?: number;
+    /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
+    note?: React.ReactNode;
 };
 export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;
@@ -61,6 +63,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         className,
         qa,
         controlProps,
+        note,
         onUpdate,
         onChange,
     } = props;
@@ -170,9 +173,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                     />
                 )}
             </span>
-            {isErrorMsgVisible && (
-                <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
-                    {errorMessage}
+            {(isErrorMsgVisible || note) && (
+                <div className={b('outer-additional-content')}>
+                    {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
+                    {note && <div className={b('note')}>{note}</div>}
                 </div>
             )}
         </span>

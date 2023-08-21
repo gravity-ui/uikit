@@ -1,0 +1,47 @@
+import {Meta, ArgsTable} from '@storybook/addon-docs';
+import {DocsSource} from '../../../demo/DocsSource/DocsSource';
+import {
+    ArrowToggleExampleViewDirection,
+    ArrowToggleExampleViewInteractive,
+    ArrowToggleExampleViewSize,
+} from './examples/ArrowToggleView';
+import {ArrowToggle} from '../ArrowToggle';
+import * as ArrowToggleStories from './ArrowToggle.new.stories';
+
+
+<Meta of={ArrowToggleStories}/>
+
+# ArrowToggle
+
+```ts
+import {ArrowToggle} from '@gravity-ui/uikit';
+```
+
+[Description](#description)
+
+[Appearance](#appearance)
+
+[Size](#size)
+
+[Properties](#properties)
+
+## Description
+ArrowToggle is a component consists of chevron icon. It supports direction toggling.
+
+## Appearance
+There is 4 directions of component: `top`, `right`, `bottom`, `left`.
+
+<DocsSource language="tsx" code={ArrowToggleExampleViewDirection.code}/>
+<ArrowToggleExampleViewDirection />
+
+## Size
+<DocsSource language="tsx" code={ArrowToggleExampleViewSize.code}/>
+<ArrowToggleExampleViewSize />
+
+## Interactive
+There is an example of usage ArrowToggle component with toggling icon
+<DocsSource language="tsx" code={ArrowToggleExampleViewInteractive.code}/>
+<ArrowToggleExampleViewInteractive />
+
+## Properties
+<ArgsTable of={ArrowToggle}/>

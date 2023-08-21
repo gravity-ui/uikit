@@ -253,6 +253,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disablePortal={disablePortal}
                 virtualized={virtualized}
                 mobile={mobile}
+                focusTrap={filterable}
             >
                 {filterable && (
                     <SelectFilter

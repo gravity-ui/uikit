@@ -1,0 +1,29 @@
+@use '../variables';
+
+$block: '.#{variables.$ns-new}image-stack';
+
+#{$block} {
+    $border-width: 1px;
+
+    display: inline-flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+
+    margin: 0;
+    padding: 0;
+
+    &__item {
+        list-style: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E");
+        z-index: 0;
+        border: solid $border-width var(--g-color-line-generic-solid);
+        border-radius: 100%;
+
+        &:not(:first-child) {
+            margin-inline-end: calc(-1 * (var(--g-spacing-1) + #{$border-width}));
+        }
+    }
+
+    &__item-children {
+        vertical-align: top;
+    }
+}

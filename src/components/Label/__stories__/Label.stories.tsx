@@ -2,10 +2,10 @@ import React from 'react';
 
 import {Check, Gear} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
-import block from 'bem-cn-lite';
 
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
+import {cn} from '../../utils/cn';
 import {Label} from '../Label';
 import type {LabelProps} from '../Label';
 
@@ -13,7 +13,7 @@ import {LabelShowcase} from './LabelShowcase';
 
 import './Label.stories.scss';
 
-const b = block('label-stories');
+const b = cn('label-stories');
 
 const icons = {
     '-': undefined,

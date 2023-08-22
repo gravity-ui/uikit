@@ -44,7 +44,7 @@ export const ItemDisabled: StoryFn<MenuProps> = (args) => (
 export const ItemSelected: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item>First</Menu.Item>
-        <Menu.Item>Second (unavailable)</Menu.Item>
+        <Menu.Item>Second</Menu.Item>
         <Menu.Item selected>Third</Menu.Item>
     </Menu>
 );

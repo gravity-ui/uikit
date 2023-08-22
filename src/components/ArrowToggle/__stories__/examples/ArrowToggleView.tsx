@@ -7,39 +7,23 @@ import {ArrowToggle, ArrowToggleProps} from '../../index';
 export function ArrowToggleExampleViewDirection() {
     return (
         <DocsExample gap="l" space="l">
-            <ArrowToggle direction="top" /> top
-            <ArrowToggle direction="right" /> right
-            <ArrowToggle direction="bottom" /> bottom
-            <ArrowToggle direction="left" /> left
+            <ArrowToggle direction="right" />
         </DocsExample>
     );
 }
 ArrowToggleExampleViewDirection.code = `
-<ArrowToggle direction="top" /> top
-<ArrowToggle direction="right" /> right
-<ArrowToggle direction="bottom" /> bottom
-<ArrowToggle direction="left" /> left
+<ArrowToggle direction="right" />
 `.trim();
 
 export function ArrowToggleExampleViewSize() {
     return (
         <DocsExample gap="l" space="l">
-            <ArrowToggle size={10} /> 10
-            <ArrowToggle size={20} /> 20
-            <ArrowToggle size={30} /> 30
-            <ArrowToggle size={40} /> 40
-            <ArrowToggle size={50} /> 50
-            <ArrowToggle size={100} /> 100
+            <ArrowToggle size={20} />
         </DocsExample>
     );
 }
 ArrowToggleExampleViewSize.code = `
-<ArrowToggle size={10} /> 10
-<ArrowToggle size={20} /> 20
-<ArrowToggle size={30} /> 30
-<ArrowToggle size={40} /> 40
-<ArrowToggle size={50} /> 50
-<ArrowToggle size={100} /> 100
+<ArrowToggle size={20} />
 `.trim();
 
 export function ArrowToggleExampleViewInteractive() {

@@ -4,21 +4,17 @@
 
 <!--/GITHUB_BLOCK-->
 
-```tsx
-import {TextArea} from '@gravity-ui/uikit';
-```
-
 ## Description
 
-TextArea allow users to enter text into a UI.
+`TextArea` allow users to enter text into a UI.
 
 ## Appearance
 
-The TextArea's appearance is controlled by the `view` and `pin` properties.
+The `TextArea`'s appearance is controlled by the `view` and `pin` properties.
 
 ### View
 
-`normal` - this is the main view of TextArea (used by default).
+`normal` - this is the main view of `TextArea` (used by default).
 
 <!--LANDING_BLOCK
 <ExampleBlock code={`<TextArea placeholder="Placeholder" />`}>
@@ -26,7 +22,7 @@ The TextArea's appearance is controlled by the `view` and `pin` properties.
 </ExampleBlock>
 LANDING_BLOCK-->
 
-`clear` - this view could be used in case of using custom wrapper for TextArea.
+`clear` - this view could be used in case of using custom wrapper for `TextArea`.
 
 <!--LANDING_BLOCK
 <ExampleBlock code={`<TextArea view="clear" placeholder="Placeholder" />`}>
@@ -45,7 +41,7 @@ LANDING_BLOCK-->
 
 ### Pin
 
-Allows you to control view of right and left edges of TextArea's border.
+Allows you to control view of right and left edges of `TextArea`'s border.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -75,7 +71,7 @@ LANDING_BLOCK-->
 
 ### Disabled
 
-The state of the TextArea where you don't want the user to be able to interact with the component.
+The state of the `TextArea` where you don't want the user to be able to interact with the component.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -97,7 +93,7 @@ LANDING_BLOCK-->
 
 ### Error
 
-The state of the TextArea at which you want to show incorrect user input.
+The state of the `TextArea` at which you want to show incorrect user input.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -158,7 +154,7 @@ LANDING_BLOCK-->
 
 ## Rows management
 
-The TextArea's rows count is controlled by the `rows`, `minRows` and `maxRows` properties.
+The `TextArea`'s rows count is controlled by the `rows`, `minRows` and `maxRows` properties.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -185,14 +181,14 @@ LANDING_BLOCK-->
 
 | Property     | Description                                                                                                                         | Type                                                | Default         |
 | :----------- | :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------- | :-------------- |
-| autoComplete | The control's `autocomplete` attribute                                                                                              | `boolean \| string`                                 |                 |
+| autoComplete | The control's `autocomplete` attribute                                                                                              | `boolean` `string`                                  |                 |
 | autoFocus    | The control's `autofocus` attribute                                                                                                 | `boolean`                                           |                 |
 | className    | The control's wrapper class name                                                                                                    | `string`                                            |                 |
 | controlProps | The control's html attributes                                                                                                       | `React.TextareaHTMLAttributes<HTMLTextAreaElement>` |                 |
 | controlRef   | React ref provided to the control                                                                                                   | `React.Ref<HTMLTextAreaElement>`                    |                 |
 | defaultValue | The control's default value. Use when the component is not controlled                                                               | `string`                                            |                 |
 | disabled     | Indicates that the user cannot interact with the control                                                                            | `boolean`                                           | `false`         |
-| error        | Shows error state and optional message if property identified as a string                                                           | `boolean \| string`                                 |                 |
+| error        | Shows error state and optional message if property identified as a string                                                           | `boolean` `string`                                  |                 |
 | hasClear     | Shows icon for clearing control's value                                                                                             | `boolean`                                           | `false`         |
 | id           | The control's `id` attribute                                                                                                        | `string`                                            |                 |
 | maxRows      | The number of maximum visible text lines for the control. Ignored if `rows` is specified                                            | `number`                                            |                 |
@@ -209,8 +205,8 @@ LANDING_BLOCK-->
 | placeholder  | Text that appears in the control when it has no value set                                                                           | `string`                                            |                 |
 | qa           | Test id attribute (`data-qa`)                                                                                                       | `string`                                            |                 |
 | rows         | The number of visible text lines for the control. If not specified, the hight will be automatically calculated based on the content | `number`                                            |                 |
-| size         | The control's size. `'m'` by default                                                                                                | `'s' \| 'm' \| 'l' \| 'xl'`                         | `'m'`           |
+| size         | The control's size. `'m'` by default                                                                                                | `'s'` `'m'` `'l'` `'xl'`                            | `'m'`           |
 | tabIndex     | The control's `tabindex` attribute                                                                                                  | `string`                                            |                 |
 | type         | The control's type                                                                                                                  | `string`                                            |                 |
 | value        | The control's value                                                                                                                 | `string`                                            |                 |
-| view         | The control's view. `'normal'` by default                                                                                           | `'normal' \| 'clear'`                               | `'normal'`      |
+| view         | The control's view. `'normal'` by default                                                                                           | `'normal'` `'clear'`                                | `'normal'`      |

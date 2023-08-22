@@ -1,16 +1,16 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
 import _random from 'lodash/random';
 import _range from 'lodash/range';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
+import {cn} from '../../utils/cn';
 import {List} from '../List';
 
 import './ListShowcase.scss';
 
-const b = block('list-showcase');
+const b = cn('list-showcase');
 
 function getRandomName(length: number) {
     let text = '';

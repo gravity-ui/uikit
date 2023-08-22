@@ -32,7 +32,7 @@ type TextPropsWithoutRef<C extends React.ElementType> = {as?: C} & Omit<TextProp
  * ```jsx
  * import {Text} from '@gravity-ui/uikit';
  *
- * <Text variant="body-1" color="inherit" elipsis>some test</Text>
+ * <Text variant="body-1" color="inherit" ellipsis>some test</Text>
  * ```
  *
  * You can also use a more flexible way of setting the style. "Gravity UI" also provide `text` utility function.

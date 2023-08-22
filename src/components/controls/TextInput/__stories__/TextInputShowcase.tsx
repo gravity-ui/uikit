@@ -1,18 +1,19 @@
 import React from 'react';
 
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 
 import {Button} from '../../../Button';
 import {Checkbox} from '../../../Checkbox';
 import {Icon} from '../../../Icon';
+import {Text} from '../../../Text';
+import {cn} from '../../../utils/cn';
 import {mapTextInputSizeToButtonSize} from '../../common';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
 
 import './TextInputShowcase.scss';
 
-const b = block('text-input-showcase');
+const b = cn('text-input-showcase');
 
 const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
@@ -87,6 +88,12 @@ export function TextInputShowcase() {
                         value={undefined}
                         defaultValue="defaultValue"
                     />
+                    <TextInput
+                        {...textInputProps}
+                        value={undefined}
+                        placeholder="with note"
+                        note={<Text color="secondary">Additional</Text>}
+                    />
                 </div>
             </div>
 
@@ -132,6 +139,13 @@ export function TextInputShowcase() {
                         label={LONG_LABEL}
                         value={undefined}
                         defaultValue="defaultValue"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="with note"
+                        label={LABEL}
+                        note={<Text color="secondary">Additional</Text>}
+                        hasClear
                     />
                 </div>
             </div>
@@ -239,6 +253,18 @@ export function TextInputShowcase() {
                         rightContent={
                             <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="with note"
+                        type={additionalContentExmpleInputType}
+                        label={LABEL}
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
+                        note={<Text color="secondary">Additional</Text>}
+                        hasClear
                     />
                 </div>
             </div>

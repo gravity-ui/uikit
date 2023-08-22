@@ -1,14 +1,14 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
-
 import {Checkbox} from '../../../Checkbox';
+import {Text} from '../../../Text';
+import {cn} from '../../../utils/cn';
 import {TextArea} from '../TextArea';
 import type {TextAreaProps} from '../TextArea';
 
 import './TextAreaShowcase.scss';
 
-const b = block('text-input-showcase');
+const b = cn('text-input-showcase');
 
 export function TextAreaShowcase() {
     const [value, setValue] = React.useState('');
@@ -63,6 +63,21 @@ export function TextAreaShowcase() {
                         placeholder="resize vertical"
                         controlProps={{style: {resize: 'vertical'}}}
                         rows={4}
+                    />
+                    <TextArea
+                        {...textAreaProps}
+                        placeholder="with note"
+                        rows={4}
+                        note={<Text color="secondary">Additional</Text>}
+                    />
+                    <TextArea
+                        {...textAreaProps}
+                        placeholder="with counter and long error message"
+                        rows={4}
+                        note={<Text color="secondary">Additional</Text>}
+                        error={
+                            'It happened a very very very very very very very very very very very very very very very very very very very very very long validation error'
+                        }
                     />
                 </div>
             </div>

@@ -1,15 +1,15 @@
 import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
-import block from 'bem-cn-lite';
 
 import {Button, Checkbox} from '../../../';
+import {cn} from '../../../utils/cn';
 import {Sheet} from '../../Sheet';
 import type {SheetProps} from '../../Sheet';
 
 import './DefaultShowcase.scss';
 
-const b = block('sheet-stories-default-showcase');
+const b = cn('sheet-stories-default-showcase');
 
 const getRandomText = (length: number) => {
     let result = '';

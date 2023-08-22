@@ -25,6 +25,7 @@ type SelectListProps = {
     multiple?: boolean;
     virtualized?: boolean;
     loading?: boolean;
+    onLoadMore?: () => void;
 };
 
 const loadingOption = {value: '__SELECT_LIST_ITEM_LOADING__', disabled: true};
@@ -43,6 +44,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         virtualized,
         mobile,
         loading,
+        onLoadMore,
     } = props;
     const items = React.useMemo(
         () => (loading ? [...flattenOptions, loadingOption] : flattenOptions),
@@ -85,7 +87,11 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                 return <GroupLabel option={option} renderOptionGroup={wrappedRenderOptionGroup} />;
             }
             if (option.value === loadingOption.value) {
-                return <SelectLoadingIndicator />;
+                return (
+                    <SelectLoadingIndicator
+                        onIntersect={itemIndex === 0 ? undefined : onLoadMore}
+                    />
+                );
             }
 
             const wrappedRenderOption = renderOption

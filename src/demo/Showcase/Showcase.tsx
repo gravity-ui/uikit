@@ -1,6 +1,6 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
+import {cn} from '../../components/utils/cn';
 
 import './Showcase.scss';
 
@@ -10,7 +10,7 @@ type Props = React.PropsWithChildren<{
     className?: string;
 }>;
 
-const b = block('showcase');
+const b = cn('showcase');
 
 export function Showcase({title, description, className, children}: Props) {
     return (

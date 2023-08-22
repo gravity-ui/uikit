@@ -50,8 +50,6 @@
     }
 
     &__cell {
-        @include mixins.overflow-ellipsis();
-
         box-sizing: content-box;
         padding: 11px 10px;
         border-bottom: 1px solid var(--g-color-line-generic);
@@ -66,6 +64,10 @@
 
         &:last-child {
             padding-right: 0;
+        }
+
+        &:not(&_word-wrap) {
+            @include mixins.overflow-ellipsis();
         }
 
         &_align_center {

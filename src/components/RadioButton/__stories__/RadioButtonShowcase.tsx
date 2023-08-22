@@ -1,17 +1,17 @@
 import React from 'react';
 
 import {CircleInfoFill, TriangleExclamationFill} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
+import {cn} from '../../utils/cn';
 import {RadioButton} from '../RadioButton';
 import type {RadioButtonOption} from '../RadioButton';
 
 import './RadioButtonShowcase.scss';
 
-const b = block('radio-button-showcase');
+const b = cn('radio-button-showcase');
 
 export function RadioButtonShowcase() {
     const options: RadioButtonOption[] = [

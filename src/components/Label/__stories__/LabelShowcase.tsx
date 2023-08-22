@@ -1,15 +1,15 @@
 import React from 'react';
 
 import {Check, Gear} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 
 import {Icon as IconComponent} from '../../Icon';
+import {cn} from '../../utils/cn';
 import {Label} from '../Label';
 import type {LabelProps} from '../Label';
 
 import './LabelShowcase.scss';
 
-const b = block('label-showcase');
+const b = cn('label-showcase');
 type WithKey<T> = T & {key: React.Key};
 
 const icons = (id: 'TickIcon' | 'GearIcon' | '-', size: 'xs' | 's' | 'm' = 'xs') => {

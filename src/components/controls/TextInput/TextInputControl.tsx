@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {getControlErrorTextId, getControlNoteId} from '../utils';
 
 import type {TextInputProps} from './TextInput';
 
@@ -31,23 +30,7 @@ export function TextInputControl(props: Props) {
         onKeyDown,
         onKeyUp,
         onKeyPress,
-        error,
-        note,
     } = props;
-
-    const describedBy = React.useMemo(() => {
-        const result = [];
-        if (id) {
-            if (note) {
-                result.push(getControlNoteId(id));
-            }
-
-            if (error) {
-                result.push(getControlErrorTextId(id));
-            }
-        }
-        return result.join(' ');
-    }, [error, note, id]);
 
     return (
         <input
@@ -72,8 +55,6 @@ export function TextInputControl(props: Props) {
             onKeyUp={onKeyUp}
             onKeyPress={onKeyPress}
             disabled={disabled}
-            aria-invalid={Boolean(error)}
-            aria-describedby={describedBy}
         />
     );
 }

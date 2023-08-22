@@ -263,6 +263,8 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         if (this.tableRef.current) {
             this.columnsResizeObserver.observe(this.tableRef.current);
         }
+
+        this.updateColumnStyles();
     }
 
     componentDidUpdate(prevProps: TableProps<I>) {

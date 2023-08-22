@@ -39,7 +39,7 @@ export default {
         ),
         renderMore: (items: DemoItem[]) => (
             <Popover
-                placement={['top', 'top-end', 'top-start', 'bottom', 'bottom-end', 'bottom-start']}
+                placement={['bottom', 'bottom-end', 'bottom-start']}
                 content={
                     <Menu>
                         {items.map((item) => (

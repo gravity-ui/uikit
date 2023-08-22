@@ -5,6 +5,7 @@ import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
+import {useDescribedBy} from '../common/useDescribedBy';
 import type {
     BaseInputControlProps,
     InputControlPin,
@@ -88,6 +89,13 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
+    const ariaDescribedBy = useDescribedBy({
+        ariaDescribedBy: controlProps?.['aria-describedby'],
+        note,
+        error,
+        controlId: id,
+    });
+
     const commonProps = {
         id,
         tabIndex,
@@ -105,7 +113,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             }
         },
         autoComplete: prepareAutoComplete(autoComplete),
-        controlProps,
+        controlProps: {
+            ...controlProps,
+            'aria-describedby': ariaDescribedBy,
+        },
     };
 
     const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {

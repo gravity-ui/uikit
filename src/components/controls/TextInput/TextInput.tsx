@@ -10,6 +10,7 @@ import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
+import {useDescribedBy} from '../common/useDescribedBy';
 import type {
     BaseInputControlProps,
     InputControlPin,
@@ -114,22 +115,12 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
     const leftContentSize = useElementSize(isLeftContentVisible ? leftContentRef : null, size);
 
-    const describedBy = React.useMemo(() => {
-        const result = [];
-        if (originalControlProps?.['aria-describedby']) {
-            result.push(originalControlProps['aria-describedby']);
-        }
-        if (id) {
-            if (note) {
-                result.push(getControlNoteId(id));
-            }
-
-            if (error) {
-                result.push(getControlErrorTextId(id));
-            }
-        }
-        return result.join(' ');
-    }, [originalControlProps, id, note, error]);
+    const ariaDescribedBy = useDescribedBy({
+        ariaDescribedBy: originalControlProps?.['aria-describedby'],
+        note,
+        error,
+        controlId: id,
+    });
 
     const controlProps: TextInputProps['controlProps'] = {
         ...originalControlProps,
@@ -138,7 +129,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
         },
         'aria-invalid': originalControlProps?.['aria-invalid'] ?? Boolean(error),
-        'aria-describedby': describedBy,
+        'aria-describedby': ariaDescribedBy,
     };
     const commonProps = {
         id,

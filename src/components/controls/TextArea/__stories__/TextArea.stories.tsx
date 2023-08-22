@@ -19,7 +19,7 @@ const fixConsoleErrors = {
 };
 
 const DefaultTemplate: StoryFn<TextAreaProps> = (args) => (
-    <TextArea {...fixConsoleErrors} {...args} />
+    <TextArea {...fixConsoleErrors} {...args} error={'Some error'} note={'Some note'} />
 );
 export const Default = DefaultTemplate.bind({});
 

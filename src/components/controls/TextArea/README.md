@@ -4,7 +4,9 @@
 
 <!--/GITHUB_BLOCK-->
 
-## Description
+```tsx
+import {TextArea} from '@gravity-ui/uikit';
+```
 
 `TextArea` allow users to enter text into a UI.
 

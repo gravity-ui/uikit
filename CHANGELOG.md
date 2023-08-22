@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.6.0](https://github.com/gravity-ui/uikit/compare/v5.5.1...v5.6.0) (2023-08-22)
+
+
+### Features
+
+* **Icon:** forward `ref` ([#929](https://github.com/gravity-ui/uikit/issues/929)) ([28d023d](https://github.com/gravity-ui/uikit/commit/28d023dc14b05adada4e78d7dfcd3f725bcef2db))
+* **TextArea:** add gravity documentation ([#920](https://github.com/gravity-ui/uikit/issues/920)) ([56f0796](https://github.com/gravity-ui/uikit/commit/56f0796dce851016895f23efd0946fd2c5b93894))
+* **TextInput:** add gravity documentation ([#912](https://github.com/gravity-ui/uikit/issues/912)) ([641e424](https://github.com/gravity-ui/uikit/commit/641e424cf8a21ee99b270472971aff980ea55cf9))
+
 ## [5.5.1](https://github.com/gravity-ui/uikit/compare/v5.5.0...v5.5.1) (2023-08-18)
 
 

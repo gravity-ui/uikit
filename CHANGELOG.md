@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.7.0](https://github.com/gravity-ui/uikit/compare/v5.6.0...v5.7.0) (2023-08-22)
+
+
+### Features
+
+* **Table:** add `wordWrap` option to prevent text cut ([#919](https://github.com/gravity-ui/uikit/issues/919)) ([52d6efb](https://github.com/gravity-ui/uikit/commit/52d6efbfc405cd156ae1b62d4532cb22a96f649f))
+
+
+### Bug Fixes
+
+* **Table:** calculate column styles on mount ([#926](https://github.com/gravity-ui/uikit/issues/926)) ([e51a73b](https://github.com/gravity-ui/uikit/commit/e51a73b66e576a641cdc2218e873a622e3ba5e98))
+
 ## [5.6.0](https://github.com/gravity-ui/uikit/compare/v5.5.1...v5.6.0) (2023-08-22)
 
 

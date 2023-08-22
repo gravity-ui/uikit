@@ -18,8 +18,16 @@ $block: '.#{variables.$ns-new}image-stack';
         border: solid $border-width var(--g-color-line-generic-solid);
         border-radius: 100%;
 
-        &:not(:first-child) {
+        &_overlap-size_s:not(:first-child) {
             margin-inline-end: calc(-1 * (var(--g-spacing-1) + #{$border-width}));
+        }
+
+        &_overlap-size_m:not(:first-child) {
+            margin-inline-end: calc(-1 * (var(--g-spacing-2) + #{$border-width}));
+        }
+
+        &_overlap-size_l:not(:first-child) {
+            margin-inline-end: calc(-1 * (var(--g-spacing-3) + #{$border-width}));
         }
     }
 

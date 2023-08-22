@@ -1,1 +1,2 @@
-export {ImageStack, type Props as ImageStackProps} from './ImageStack';
+export {ImageStack} from './ImageStack';
+export type {Props as ImageStackProps, OverlapSize as ImageStackOverlapSize} from './types';

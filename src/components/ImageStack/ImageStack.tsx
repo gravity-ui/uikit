@@ -3,17 +3,9 @@ import React from 'react';
 import {blockNew} from '../utils/cn';
 
 import {ImageStackMoreButton} from './ImageStackMoreButton';
+import type {Props} from './types';
 
 import './ImageStack.scss';
-
-export interface Props<T extends {pk: string}> {
-    items: T[];
-    renderItem(item: T, options: {itemClassName: string}): React.ReactNode;
-    renderMore(items: T[]): React.ReactNode;
-    /** Amount of items that should be visible */
-    displayCount?: number;
-    className?: string;
-}
 
 const b = blockNew('image-stack');
 
@@ -31,6 +23,7 @@ function getRestItems<T>(items: T[], displayCount: number) {
 
 const ImageStackComponent = <T extends {pk: string}>({
     displayCount = 2,
+    overlapSize = 's',
     className,
     items,
     renderItem,
@@ -53,13 +46,13 @@ const ImageStackComponent = <T extends {pk: string}>({
     return (
         <ul className={b(null, className)}>
             {restItems.length > 0 ? (
-                <li key={'show-more'} className={b('item')}>
+                <li key={'show-more'} className={b('item', {'overlap-size': overlapSize})}>
                     {renderMore(restItems)}
                 </li>
             ) : null}
 
             {visibleItems.map((item) => (
-                <li key={item.pk} className={b('item')}>
+                <li key={item.pk} className={b('item', {'overlap-size': overlapSize})}>
                     {renderItem(item, {itemClassName: b('item-children')})}
                 </li>
             ))}

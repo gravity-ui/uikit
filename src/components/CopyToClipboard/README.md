@@ -15,13 +15,13 @@ CopyToClipboard is a wrapper component that copies given text to clipboard and c
 The render function passed as children props and can update its content depends on status that is returned as first argument in render function.
 There are 3 available statuses: pending, success, error
 
-`pending` - the initial status that returned in render function in neutral state
+`pending` - the initial status returned in render function in neutral case
 
-`success` - the status that returned in render function in error state
+`success` - the result status returned in render function in success case
 
-`error` - the status that returned in render function in success state
+`error` - the result status returned in render function in error case
 
-Option `timeout` set the time in ms to restore `pending` (initial) status after `success` or `error` statuses.
+Option `timeout` set the time in ms to restore initial (`pending`) status after one of the result statuses (`success` or `error`).
 
 <!--LANDING_BLOCK
 

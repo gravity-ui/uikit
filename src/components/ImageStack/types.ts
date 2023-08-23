@@ -1,8 +1,8 @@
 import type React from 'react';
 
-export type OverlapSize = 's' | 'm' | 'l';
+export type ImageStackOverlapSize = 's' | 'm' | 'l';
 
-export interface Props<T extends object> {
+export interface ImageStackProps<T extends object> {
     items: T[];
 
     renderItem(item: T, options: {itemClassName: string}): React.ReactNode;
@@ -11,6 +11,6 @@ export interface Props<T extends object> {
 
     /** Amount of items that should be visible */
     displayCount?: number;
-    overlapSize?: OverlapSize;
+    overlapSize?: ImageStackOverlapSize;
     className?: string;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import {blockNew} from '../utils/cn';
 
 import {ImageStackMoreButton} from './ImageStackMoreButton';
-import type {Props} from './types';
+import type {ImageStackProps} from './types';
 
 import './ImageStack.scss';
 
@@ -28,7 +28,7 @@ const ImageStackComponent = <T extends object>({
     items,
     renderItem,
     renderMore,
-}: Props<T>) => {
+}: ImageStackProps<T>) => {
     const [visibleItems, setVisibleItems] = React.useState(() =>
         getVisibleItems(items, displayCount),
     );

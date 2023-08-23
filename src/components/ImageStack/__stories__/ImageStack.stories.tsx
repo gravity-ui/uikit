@@ -5,8 +5,10 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Menu} from '../../Menu';
 import {Popover} from '../../Popover';
-import {UserAvatar} from '../../UserAvatar';
+import {UserAvatar, UserAvatarSize} from '../../UserAvatar';
 import {ImageStack} from '../ImageStack';
+import type {ImageStackProps} from '../index';
+import type {OverlapSize} from '../types';
 
 type ComponentType = typeof ImageStack;
 
@@ -17,14 +19,15 @@ type DemoItem = {
 };
 
 function getItems(count = faker.number.int({min: 1, max: 30})) {
-    return faker.helpers.uniqueArray(
-        () => ({
-            pk: '',
+    return faker.helpers.uniqueArray(() => {
+        const name = faker.internet.userName().toLowerCase();
+
+        return {
+            pk: name,
             image: faker.image.avatar(),
-            name: faker.internet.userName().toLowerCase(),
-        }),
-        count,
-    );
+            name,
+        };
+    }, count);
 }
 
 const items = getItems();
@@ -34,32 +37,48 @@ export default {
     component: ImageStack,
     args: {
         items,
-        renderItem: (item: DemoItem, {itemClassName}) => (
-            <UserAvatar size={'xs'} className={itemClassName} imgUrl={item.image} />
-        ),
-        renderMore: (items: DemoItem[]) => (
-            <Popover
-                placement={['bottom', 'bottom-end', 'bottom-start']}
-                content={
-                    <Menu>
-                        {items.map((item) => (
-                            <Menu.Item
-                                key={item.pk}
-                                href={new URL(item.name, 'https://example.com').toString()}
-                            >
-                                {item.name}
-                            </Menu.Item>
-                        ))}
-                    </Menu>
-                }
-            >
-                <ImageStack.MoreButton aria-label={'Rest of the users'} count={items.length} />
-            </Popover>
-        ),
     },
 } as Meta<ComponentType>;
 
-const Template: StoryFn<ComponentType> = (args) => <ImageStack {...args} />;
+const Template: StoryFn<ComponentType> = (args) => {
+    const overlapAvatarSizeMap: Record<OverlapSize, UserAvatarSize> = {
+        s: 'xs',
+        m: 'l',
+        l: 'xl',
+    };
+
+    const avatarSize = overlapAvatarSizeMap[args.overlapSize || 's'];
+
+    const renderItem: ImageStackProps<DemoItem>['renderItem'] = (item, {itemClassName}) => (
+        <UserAvatar size={avatarSize} className={itemClassName} imgUrl={item.image} />
+    );
+
+    const renderMore: ImageStackProps<DemoItem>['renderMore'] = (items) => (
+        <Popover
+            placement={['bottom', 'bottom-end', 'bottom-start']}
+            content={
+                <Menu>
+                    {items.map((item) => (
+                        <Menu.Item
+                            key={item.pk}
+                            href={new URL(item.name, 'https://example.com').toString()}
+                        >
+                            {item.name}
+                        </Menu.Item>
+                    ))}
+                </Menu>
+            }
+        >
+            <ImageStack.MoreButton
+                size={avatarSize}
+                aria-label={'Rest of the users'}
+                count={items.length}
+            />
+        </Popover>
+    );
+
+    return <ImageStack {...args} renderItem={renderItem} renderMore={renderMore} />;
+};
 
 export const Default = Template.bind({});
 

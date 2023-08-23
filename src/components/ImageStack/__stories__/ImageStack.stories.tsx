@@ -7,7 +7,7 @@ import {Popover} from '../../Popover';
 import {UserAvatar, UserAvatarSize} from '../../UserAvatar';
 import {ImageStack} from '../ImageStack';
 import type {ImageStackProps} from '../index';
-import type {OverlapSize} from '../types';
+import type {ImageStackOverlapSize} from '../types';
 
 type ComponentType = typeof ImageStack;
 
@@ -37,7 +37,7 @@ export default {
 } as Meta<ComponentType>;
 
 const Template: StoryFn<ComponentType> = (args) => {
-    const overlapAvatarSizeMap: Record<OverlapSize, UserAvatarSize> = {
+    const overlapAvatarSizeMap: Record<ImageStackOverlapSize, UserAvatarSize> = {
         s: 'xs',
         m: 'l',
         l: 'xl',

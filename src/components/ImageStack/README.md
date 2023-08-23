@@ -35,3 +35,14 @@ Component is not limit you to what components to render, basic usage is:
 ```
 
 <!--/GITHUB_BLOCK-->
+
+## Properties
+
+| Name         | Description                                                                                                                                                                                              |                    Type                     | Default |
+| :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------: | :-----: |
+| displayCount | How much items should be visible                                                                                                                                                                         |                  `number`                   |    2    |
+| overlapSize  | How much each item should overlap next one. `s` recommended for `UserAvatars` of sizes `xs`-`m`, `m` recomended for `l` size avatars and `l` overlap for `xl` avatars                                    |                `s`, `m`, `l`                |   `s`   |
+| className    | Class name of root DOM node                                                                                                                                                                              |                  `string`                   |         |
+| items        | Array of items to render                                                                                                                                                                                 |                 `Object[]`                  |         |
+| renderItem   | Render function for rendering `items`. First argument is item from `items` prop, and second argument is options with `itemClassName`, that should be applied for visible children, for correct alignment | `(items, options: {itemClassName: string})` |         |
+| renderMore   | Render function for rendering button                                                                                                                                                                     | `(items, options: {itemClassName: string})` |         |

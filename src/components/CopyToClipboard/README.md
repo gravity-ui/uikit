@@ -23,6 +23,21 @@ There are 3 available statuses: pending, success, error
 
 Option `timeout` set the time in ms to restore `pending` (initial) status after `success` or `error` statuses.
 
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<CopyToClipboard text="Some text to copy" timeout={1000}>
+    {(state) => <Button view="normal" size="l">{state}</Button>}
+</CopyToClipboard>
+`}>
+    <UIKit.CopyToClipboard text="Some text to copy" timeout={1000}>
+        {(state) => <UIKit.Button view="normal" size="l">state</UIKit.Button>}
+    </UIKit.CopyToClipboard>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
 <!--GITHUB_BLOCK-->
 
 ```tsx

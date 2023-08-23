@@ -2,7 +2,7 @@ import type React from 'react';
 
 export type OverlapSize = 's' | 'm' | 'l';
 
-export interface Props<T extends {pk: string}> {
+export interface Props<T extends object> {
     items: T[];
 
     renderItem(item: T, options: {itemClassName: string}): React.ReactNode;

@@ -20,15 +20,12 @@ Component is not limit you to what components to render, basic usage is:
 <ImageStack
   items={[
     {
-      pk: 'login1',
       login: 'login1',
     },
     {
-      pk: 'login2',
       login: 'login2',
     },
     {
-      pk: 'login2',
       login: 'login2',
     },
   ]}

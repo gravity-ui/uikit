@@ -12,21 +12,18 @@ import type {OverlapSize} from '../types';
 type ComponentType = typeof ImageStack;
 
 type DemoItem = {
-    pk: string;
     image: string;
     name: string;
 };
 
 function getItems(count = faker.number.int({min: 1, max: 30})) {
-    return faker.helpers.uniqueArray(() => {
-        const name = faker.internet.userName().toLowerCase();
-
-        return {
-            pk: name,
+    return faker.helpers.uniqueArray(
+        () => ({
             image: faker.image.avatar(),
-            name,
-        };
-    }, count);
+            name: faker.internet.userName().toLowerCase(),
+        }),
+        count,
+    );
 }
 
 const items = getItems();

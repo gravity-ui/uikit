@@ -1,3 +1,5 @@
+@use '../../../styles/mixins';
+@use '../UserAvatar/mixins' as avatarMixins;
 @use '../variables';
 
 $block: '.#{variables.$ns-new}image-stack';
@@ -33,5 +35,35 @@ $block: '.#{variables.$ns-new}image-stack';
 
     &__item-children {
         vertical-align: top;
+    }
+
+    &__more-button {
+        @include mixins.button-reset;
+        @include mixins.button-outline;
+
+        border-radius: 100%;
+
+        background-color: var(--g-color-base-generic);
+
+        &_size {
+            @include avatarMixins.size;
+
+            &_xs {
+                font-size: var(--g-text-caption-1-font-size);
+            }
+
+            &_s {
+                font-size: var(--g-text-caption-2-font-size);
+            }
+
+            &_m,
+            &_l {
+                font-size: var(--g-text-body-1-font-size);
+            }
+
+            &_xl {
+                font-size: var(--g-text-body-2-font-size);
+            }
+        }
     }
 }

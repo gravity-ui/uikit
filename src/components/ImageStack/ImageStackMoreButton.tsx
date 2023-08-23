@@ -1,27 +1,30 @@
 import React from 'react';
 
-import {Button, type ButtonProps} from '../Button';
+import type {UserAvatarSize} from '../UserAvatar';
+import {blockNew} from '../utils/cn';
 
-type Props = Pick<ButtonProps, 'size' | 'onClick'> & {
+const b = blockNew('image-stack');
+
+type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 'aria-label'> & {
+    size?: UserAvatarSize;
     count: number;
-    'aria-label': string;
 };
 
 export const ImageStackMoreButton = ({
-    size = 's',
+    className,
+    size = 'xs',
     onClick,
     count,
     'aria-label': ariaLabel,
 }: Props) => {
     return (
-        <Button
-            size={size}
-            pin={'circle-circle'}
+        <button
+            className={b('more-button', {size}, className)}
             onClick={onClick}
-            extraProps={{'aria-label': ariaLabel}}
+            aria-label={ariaLabel}
         >
-            <Button.Icon>+{count}</Button.Icon>
-        </Button>
+            +{count}
+        </button>
     );
 };
 

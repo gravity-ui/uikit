@@ -8,7 +8,7 @@
 import {CopyToClipboard} from '@gravity-ui/uikit';
 ```
 
-CopyToClipboard is a wrapper component that copies given text in buffer and can updates its content depends on status.
+CopyToClipboard is a wrapper component that copies given text to clipboard and can update its content depends on returned status.
 
 ### Children (render function)
 

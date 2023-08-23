@@ -3,7 +3,7 @@ import React from 'react';
 import {useActionHandlers} from '../../../utils/useActionHandlers';
 import type {PopoverExternalProps} from '../../types';
 
-export interface TriggerProps extends Pick<PopoverExternalProps, 'clickEmulationKeys'> {
+export interface TriggerProps extends Pick<PopoverExternalProps, 'enableButtonEmulation'> {
     /**
      * Tooltip's opened state
      */
@@ -47,7 +47,7 @@ export const Trigger = ({
     closedManually,
     onClick,
     children,
-    clickEmulationKeys,
+    enableButtonEmulation = true,
 }: TriggerProps) => {
     const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
         if (disabled) {
@@ -75,7 +75,7 @@ export const Trigger = ({
         toggleTooltip();
     };
 
-    const {onKeyDown} = useActionHandlers(handleClick, clickEmulationKeys);
+    const {onKeyDown} = useActionHandlers(handleClick);
 
     return (
         // The event handler should only be used to capture bubbled events
@@ -83,7 +83,7 @@ export const Trigger = ({
         <div
             className={className}
             onClick={handleClick}
-            onKeyDown={onClick ? onKeyDown : undefined}
+            onKeyDown={onClick && enableButtonEmulation ? onKeyDown : undefined}
         >
             {children}
         </div>

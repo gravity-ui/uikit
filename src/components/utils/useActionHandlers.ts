@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {EKeyCode, KeyCode} from '../constants';
+import {KeyCode} from '../constants';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunction = (...args: any[]) => any;
@@ -12,22 +12,19 @@ interface UseActionHandlersResult<T> {
 /**
  * Emulates behaviour of system controls, that respond to Enter and Spacebar
  * @param callback
- * @param keyCodes
  * @return {onKeyDown}
  */
-export function useActionHandlers<T>(
-    callback?: AnyFunction,
-    keyCodes: EKeyCode[] = [EKeyCode.ENTER, EKeyCode.SPACEBAR, EKeyCode.SPACEBAR_OLD],
-): UseActionHandlersResult<T> {
-    const keyCodesValues = React.useMemo(() => keyCodes.map((key) => KeyCode[key]), [keyCodes]);
-
+export function useActionHandlers<T>(callback?: AnyFunction): UseActionHandlersResult<T> {
     const onKeyDown = React.useCallback(
         (event: React.KeyboardEvent<T>) => {
-            if (callback && keyCodesValues.includes(event.key)) {
+            if (
+                callback &&
+                [KeyCode.ENTER, KeyCode.SPACEBAR, KeyCode.SPACEBAR_OLD].includes(event.key)
+            ) {
                 callback(event);
             }
         },
-        [callback, keyCodesValues],
+        [callback],
     );
 
     return {onKeyDown};

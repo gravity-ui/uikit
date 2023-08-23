@@ -1,5 +1,4 @@
 import type {PopupAnchorRef, PopupProps} from '../Popup';
-import type {EKeyCode} from '../constants';
 
 import type {ButtonsProps} from './components/Buttons/Buttons';
 import type {ContentProps} from './components/Content/Content';
@@ -18,7 +17,7 @@ export type PopoverButtonProps = {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export type PopoverExternalProps = {
+export interface PopoverExternalProps {
     /** Tooltip's trigger content over which the tooltip is shown */
     children?: TriggerProps['children'];
     /** Tooltip's title */
@@ -72,10 +71,11 @@ export type PopoverExternalProps = {
     /** Focused element when the popover closes */
     restoreFocusRef?: React.RefObject<HTMLElement>;
     /**
-     * Specify keys that will emulate click event
+     * Enables button emulation from keyboard. On Space/Enter press the onClick will be called.
+     * By default, enabled
      */
-    clickEmulationKeys?: EKeyCode[];
-};
+    enableButtonEmulation?: boolean;
+}
 
 export type PopoverBehaviorProps = {
     /** Tooltip open/close behaviour when `openOnHover`

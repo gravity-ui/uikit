@@ -1,12 +1,4 @@
-export enum EKeyCode {
-    BACKSPACE = 'BACKSPACE',
-    ENTER = 'ENTER',
-    TAB = 'TAB',
-    SPACEBAR = 'SPACEBAR',
-    SPACEBAR_OLD = 'SPACEBAR_OLD',
-    ESCAPE = 'ESCAPE',
-}
-export const KeyCode: Record<EKeyCode, string> = {
+export const KeyCode = {
     BACKSPACE: 'Backspace',
     ENTER: 'Enter',
     TAB: 'Tab',

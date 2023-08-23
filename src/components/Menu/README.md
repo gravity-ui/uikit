@@ -185,7 +185,7 @@ Menu item has disabled and selected flags
     <UIKit.Menu>
         <UIKit.Menu.Item disabled>First</UIKit.Menu.Item>
         <UIKit.Menu.Item>Second</UIKit.Menu.Item>
-        <UIKit.Menu.Item> selectedThird</UIKit.Menu.Item>
+        <UIKit.Menu.Item selected>Third</UIKit.Menu.Item>
     </UIKit.Menu>
 </ExampleBlock>
 LANDING_BLOCK-->

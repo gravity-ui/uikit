@@ -21,7 +21,7 @@ function getRestItems<T>(items: T[], displayCount: number) {
     return items.slice(getSplitIndex(items, displayCount));
 }
 
-const ImageStackComponent = <T extends {pk: string}>({
+const ImageStackComponent = <T extends object>({
     displayCount = 2,
     overlapSize = 's',
     className,
@@ -51,8 +51,8 @@ const ImageStackComponent = <T extends {pk: string}>({
                 </li>
             ) : null}
 
-            {visibleItems.map((item) => (
-                <li key={item.pk} className={b('item', {'overlap-size': overlapSize})}>
+            {visibleItems.map((item, index) => (
+                <li key={index} className={b('item', {'overlap-size': overlapSize})}>
                     {renderItem(item, {itemClassName: b('item-children')})}
                 </li>
             ))}

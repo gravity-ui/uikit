@@ -1,13 +1,12 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
-
+import {cn} from '../../utils/cn';
 import {Breadcrumbs} from '../Breadcrumbs';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 import './BreadcrumbsShowcase.scss';
 
-const b = block('breadcrumbs-showcase');
+const b = cn('breadcrumbs-showcase');
 
 const breadcrumbsItems = [
     {

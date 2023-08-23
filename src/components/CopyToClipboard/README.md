@@ -27,17 +27,9 @@ Option `timeout` set the time in ms to restore `pending` (initial) status after 
 
 <ExampleBlock
     code={`
-        const buttonText = {
-            pending: 'Click Me',
-            success: 'Copied!',
-            error: "Couldn't copy...",
-        };
-
-        return (
-            <CopyToClipboard timeout={500} text="Some text to copy" timeout={1000}>
-                {(state) => <Button view="normal" size="l">{buttonText[state]}</Button>}
-            </CopyToClipboard>
-        );
+<CopyToClipboard timeout={500} text="Some text to copy" timeout={1000}>
+    {(state) => <Button view="normal" size="l">{state}</Button>}
+</CopyToClipboard>
 `}>
     <UIKit.CopyToClipboard text="Some text to copy" timeout={1000}>
         {(state) => <UIKit.Button view="normal" size="l">state</UIKit.Button>}

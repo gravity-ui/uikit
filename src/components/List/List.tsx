@@ -19,7 +19,6 @@ import './List.scss';
 
 const b = block('list');
 const DEFAULT_ITEM_HEIGHT = 28;
-const loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true};
 const SortableListItem = SortableElement(ListItem);
 const SortableListContainer = SortableContainer(ListContainer, {withRef: true});
 const SortableSimpleContainer = SortableContainer(SimpleContainer, {withRef: true});
@@ -79,6 +78,9 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
+    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
+        T & {value: string}
+    >;
 
     componentDidUpdate(prevProps: ListProps<T>) {
         if (this.props.items !== prevProps.items) {
@@ -144,9 +146,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             return this.getItems();
         }
 
-        return this.props.loading
-            ? ([...this.state.items, loadingItem] as ListItemData<T>[]) // wtf?
-            : this.getItems();
+        return this.props.loading ? [...this.state.items, this.loadingItem] : this.getItems();
     }
 
     getActiveItem() {
@@ -211,7 +211,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
         const {onLoadMore} = this.props;
 
-        if (item.value === loadingItem.value) {
+        if ('value' in item && item.value === this.loadingItem.value) {
             return (
                 <SelectLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
             );

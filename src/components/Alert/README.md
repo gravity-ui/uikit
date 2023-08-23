@@ -8,10 +8,6 @@
 import {Alert} from '@gravity-ui/uikit';
 ```
 
-## Description
-
-A component that allows you to display some text notification block.
-
 ### Theme
 
 `normal` - the main theme (used by default).
@@ -86,7 +82,7 @@ LANDING_BLOCK-->
 used
 by default).
 
-`horizontal` - Used for direction of content if there is property `actions` with buttons. It shows buttons on the right
+`horizontal` - used for direction of content if there is property `actions` with buttons. It shows buttons on the right
 side of text.
 
 <!--LANDING_BLOCK
@@ -138,7 +134,7 @@ LANDING_BLOCK-->
 
 ## Alert title
 
-`title` - title of an alert. Override if by Alert.Title component.
+`title` - the title of the alert. It has a lower priority than Alert.Title.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -160,11 +156,12 @@ LANDING_BLOCK-->
 
 ## Alert message
 
-`message` - The message of an alert should completely explain the alert's content.
+`message` - the message of the alert. It should completely explain the content of the alert.
 
 ## Alert onClose
 
-`onClose` - enabled close button and defined function in click to this button.
+`onClose` - a callback function that is called when the close button of the alert is clicked. When this property is
+defined, a close button is being displayed.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -190,11 +187,13 @@ LANDING_BLOCK-->
 
 ### Align
 
-`baseline` - align used bu default.
+This property determines how the content inside the Alert component is vertically aligned
 
-`center` - centered all content in vertical direction, useful if for some reason your actions take more space than text
-or
-needed icon to be in the middle of the card.
+`baseline` - align used by default.
+
+`center` - the content is vertically centered within the Alert component, useful if for some reason your actions take
+more space than text
+or needed icon to be in the middle of the card.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -218,17 +217,17 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name          | Description                                                                  |   Default    |
-| :------------ | :--------------------------------------------------------------------------- | :----------: |
-| **theme**     | Alert appearance: `"normal"` `"info"` `"positive"` `"warning"` `"dangerous"` |  `"normal"`  |
-| **view**      | `"filled"` `"outlined"`                                                      |  `"filled"`  |
-| **layout**    | `"vertical"` `"horizontal"`                                                  | `"vertical"` |
-| **corners**   | `"rounded"` `"square"`                                                       | `"rounded"`  |
-| **title**     | `string`                                                                     |      -       |
-| **message**   | `string`                                                                     |      -       |
-| **onClose**   | Define function and close button will be appear. `"() => void"`              |              |
-| **actions**   | Array of buttons or full custom components. `"ReactNode"` `"AlertAction"`    |      -       |
-| **align**     | `"center"` `"baseline"`                                                      | `"baseline"` |
-| **style**     | CSSProperties                                                                |      -       |
-| **className** | `string`                                                                     |      -       |
-| **icon**      | Slot to override default icon. `"ReactNode"`                                 |      -       |
+| Property  | Description                                                                      |                            Type                            |   Default    |
+| :-------- | :------------------------------------------------------------------------------- | :--------------------------------------------------------: | :----------: |
+| theme     | Alert appearance                                                                 | `"normal"` `"info"` `"positive"` `"warning"` `"dangerous"` |  `"normal"`  |
+| view      | Enable/disable the background color of the alert                                 |                  `"filled"` `"outlined"`                   |  `"filled"`  |
+| layout    | Used for direction of content if there is property `actions` with buttons        |                `"vertical"` `"horizontal"`                 | `"vertical"` |
+| corners   | Used fot round/square corners of alert window                                    |                   `"rounded"` `"square"`                   | `"rounded"`  |
+| title     | The title of the alert                                                           |                          `string`                          |              |
+| message   | The message of the alert                                                         |                          `string`                          |              |
+| onClose   | A callback function that is called when the close button of the alert is clicked |                         `Function`                         |              |
+| actions   | Array of buttons or full custom components                                       |               `"ReactNode"` `"AlertAction"`                |              |
+| align     | Determines how the content inside the Alert component is vertically aligned      |                  `"center"` `"baseline"`                   | `"baseline"` |
+| style     | HTML style attribute                                                             |                      `CSSProperties `                      |              |
+| className | The alert class name                                                             |                          `string`                          |              |
+| icon      | Override default icon.                                                           |                       `"ReactNode"`                        |              |

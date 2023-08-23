@@ -5,7 +5,7 @@ export type ListSortHandleAlign = 'left' | 'right';
 
 export type ListSortParams = {oldIndex: number; newIndex: number};
 
-export type ListItemData<T> = T & {disabled?: boolean};
+export type ListItemData<T> = T & {disabled?: boolean; value?: string};
 
 export type ListProps<T = unknown> = QAProps & {
     items: ListItemData<T>[];
@@ -37,6 +37,8 @@ export type ListProps<T = unknown> = QAProps & {
     onFilterEnd?: ({items}: {items: ListItemData<T>[]}) => void;
     onSortEnd?: (params: ListSortParams) => void;
     autoFocus?: boolean;
+    loading?: boolean;
+    onLoadMore?: () => void;
 };
 
 export type ListItemProps<T> = {

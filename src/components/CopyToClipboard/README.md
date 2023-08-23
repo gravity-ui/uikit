@@ -27,10 +27,11 @@ Option `timeout` set the time in ms to restore `pending` (initial) status after 
 
 <ExampleBlock
     code={`
-<CopyToClipboard timeout={500} text="Some text to copy" timeout={1000}>
+<CopyToClipboard text="Some text to copy" timeout={1000}>
     {(state) => <Button view="normal" size="l">{state}</Button>}
 </CopyToClipboard>
-`}>
+`}
+>
     <UIKit.CopyToClipboard text="Some text to copy" timeout={1000}>
         {(state) => <UIKit.Button view="normal" size="l">state</UIKit.Button>}
     </UIKit.CopyToClipboard>

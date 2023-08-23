@@ -3,7 +3,6 @@ import React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {Menu} from '../../Menu';
 import {Popover} from '../../Popover';
 import {UserAvatar, UserAvatarSize} from '../../UserAvatar';
 import {ImageStack} from '../ImageStack';
@@ -57,16 +56,9 @@ const Template: StoryFn<ComponentType> = (args) => {
         <Popover
             placement={['bottom', 'bottom-end', 'bottom-start']}
             content={
-                <Menu>
-                    {items.map((item) => (
-                        <Menu.Item
-                            key={item.pk}
-                            href={new URL(item.name, 'https://example.com').toString()}
-                        >
-                            {item.name}
-                        </Menu.Item>
-                    ))}
-                </Menu>
+                <React.Fragment>
+                    Somehow display list of all other items {items.map(({name}) => name).join(', ')}
+                </React.Fragment>
             }
         >
             <ImageStack.MoreButton

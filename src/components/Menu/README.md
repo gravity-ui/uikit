@@ -8,11 +8,9 @@
 import {Menu} from '@gravity-ui/uikit';
 ```
 
-## Description
+The `Menu` component makes it easy to create view for actions list.
 
-The Menu component makes it easy to navigate the sections of a website or other entity for which this menu is used. With the help of the menu, the user can easily navigate to the sections of interest, understand what information is presented in essence, without studying it completely.
-
-The Menu component also provides Menu components for Menu.Item and Menu.Group. With them, you can easily build your menus by combining different options
+The `Menu` has dedicated components for an item and a group: `Menu.Item`, `Menu.Group`. You can mix them together to create more complex menus.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -26,6 +24,10 @@ The Menu component also provides Menu components for Menu.Item and Menu.Group. W
     <UIKit.Menu>
         <UIKit.Menu.Item>First</UIKit.Menu.Item>
         <UIKit.Menu.Item>Second</UIKit.Menu.Item>
+            <UIKit.Menu.Group label="Group">
+                <UIKit.Menu.Item>One</UIKit.Menu.Item>
+                <UIKit.Menu.Item>Two</UIKit.Menu.Item>
+            </UIKit.Menu.Group>
     </UIKit.Menu>
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -36,6 +38,10 @@ LANDING_BLOCK-->
 <Menu>
   <Menu.Item>First</Menu.Item>
   <Menu.Item>Second</Menu.Item>
+  <Menu.Group label="Group">
+    <Menu.Item>One</Menu.Item>
+    <Menu.Item>Two</Menu.Item>
+  </Menu.Group>
 </Menu>
 ```
 
@@ -43,18 +49,42 @@ LANDING_BLOCK-->
 
 ### Size
 
-Used to select the menu size: `s | m | l | xl`, default - `m`
+Used to select the menu size, default - `m`
 
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
+<Menu size="s">
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
+</Menu>
+<Menu size="m">
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
+</Menu>
 <Menu size="l">
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
+</Menu>
+<Menu size="xl">
     <Menu.Item>First</Menu.Item>
     <Menu.Item>Second</Menu.Item>
 </Menu>
 `}
 >
+    <UIKit.Menu size="s">
+        <UIKit.Menu.Item>First</UIKit.Menu.Item>
+        <UIKit.Menu.Item>Second</UIKit.Menu.Item>
+    </UIKit.Menu>
+    <UIKit.Menu size="m">
+        <UIKit.Menu.Item>First</UIKit.Menu.Item>
+        <UIKit.Menu.Item>Second</UIKit.Menu.Item>
+    </UIKit.Menu>
     <UIKit.Menu size="l">
+        <UIKit.Menu.Item>First</UIKit.Menu.Item>
+        <UIKit.Menu.Item>Second</UIKit.Menu.Item>
+    </UIKit.Menu>
+    <UIKit.Menu size="xl">
         <UIKit.Menu.Item>First</UIKit.Menu.Item>
         <UIKit.Menu.Item>Second</UIKit.Menu.Item>
     </UIKit.Menu>
@@ -64,9 +94,24 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+<Menu size="s">
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
+</Menu>
+
+<Menu size="m">
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
+</Menu>
+
 <Menu size="l">
-  <Menu.Item>First</Menu.Item>
-  <Menu.Item>Second</Menu.Item>
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
+</Menu>
+
+<Menu size="xl">
+    <Menu.Item>First</Menu.Item>
+    <Menu.Item>Second</Menu.Item>
 </Menu>
 ```
 
@@ -74,15 +119,15 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name          | Description                             | Default |
-| :------------ | :-------------------------------------- | :-----: |
-| **size**      | Menu size `s - m - l - xl`              |    m    |
-| **children**  | Child element `React.ReactNode`         |    -    |
-| **className** | HTML `class` attribute `string`         |    -    |
-| **style**     | HTML `style` attribute `CSSProperties`  |    -    |
-| **qa**        | HTML `data-qa` attribute, used in tests |    -    |
+| Name          | Description                             | Type              | Default |
+| :------------ | :-------------------------------------- | :---------------- | :-----: |
+| **size**      | Menu size                               | `s - m - l - xl`  |   `m`   |
+| **children**  | Child element                           | `React.ReactNode` |         |
+| **className** | HTML `class` attribute                  | `string`          |         |
+| **style**     | HTML `style` attribute                  | `CSSProperties`   |         |
+| **qa**        | HTML `data-qa` attribute, used in tests | `string`          |         |
 
-# Menu.Item
+## Menu.Item
 
 Used for render menu item
 
@@ -123,9 +168,9 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-### Disabled
+### States
 
-Menu item disabled flag
+Menu item has disabled and selected flags
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -133,12 +178,14 @@ Menu item disabled flag
 <Menu>
     <Menu.Item disabled>First</Menu.Item>
     <Menu.Item>Second</Menu.Item>
+    <Menu.Item selected>Third</Menu.Item>
 </Menu>
 `}
 >
     <UIKit.Menu>
         <UIKit.Menu.Item disabled>First</UIKit.Menu.Item>
         <UIKit.Menu.Item>Second</UIKit.Menu.Item>
+        <UIKit.Menu.Item> selectedThird</UIKit.Menu.Item>
     </UIKit.Menu>
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -149,37 +196,7 @@ LANDING_BLOCK-->
 <Menu>
   <Menu.Item disabled>First</Menu.Item>
   <Menu.Item>Second</Menu.Item>
-</Menu>
-```
-
-<!--/GITHUB_BLOCK-->
-
-### Selected
-
-Menu item selected flag
-
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Menu>
-    <Menu.Item selected>First</Menu.Item>
-    <Menu.Item>Second</Menu.Item>
-</Menu>
-`}
->
-    <UIKit.Menu>
-        <UIKit.Menu.Item selected>First</UIKit.Menu.Item>
-        <UIKit.Menu.Item>Second</UIKit.Menu.Item>
-    </UIKit.Menu>
-</ExampleBlock>
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Menu>
-  <Menu.Item selected>First</Menu.Item>
-  <Menu.Item>Second</Menu.Item>
+  <Menu.Item selected>Third</Menu.Item>
 </Menu>
 ```
 
@@ -187,7 +204,7 @@ LANDING_BLOCK-->
 
 ### Theme
 
-Menu item theme: `normal | danger`, default - `normal`
+Menu item theme, default - `normal`
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -219,26 +236,26 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Properties
+### Properties
 
-| Name           | Description                                         | Default |
-| :------------- | :-------------------------------------------------- | :-----: |
-| **selected**   | Menu item selected flag                             |    -    |
-| **disabled**   | Menu item disabled flag                             |    -    |
-| **active**     | Menu item active flag                               |    -    |
-| **href**       | The URL                                             |    -    |
-| **title**      | Title attribute                                     |    -    |
-| **target**     | Target attribute                                    |    -    |
-| **rel**        | Rel attribute                                       |    -    |
-| **onClick**    | Handler for onclick event `React.MouseEventHandler` |    -    |
-| **theme**      | Menu item theme `normal - danger`                   | normal  |
-| **children**   | Child element `React.ReactNode`                     |    -    |
-| **className**  | HTML `class` attribute `string`                     |    -    |
-| **style**      | HTML `style` attribute `CSSProperties`              |    -    |
-| **qa**         | HTML `data-qa` attribute, used in tests             |    -    |
-| **extraProps** | Extra html attributes                               |    -    |
+| Name           | Description                             | Type                      | Default  |
+| :------------- | :-------------------------------------- | :------------------------ | :------: |
+| **selected**   | Menu item selected flag                 | `boolean`                 | `false`  |
+| **disabled**   | Menu item disabled flag                 | `boolean`                 | `false`  |
+| **active**     | Menu item active flag                   | `boolean`                 | `false`  |
+| **href**       | The URL                                 | `string`                  |          |
+| **title**      | Title attribute                         | `string`                  |          |
+| **target**     | Target attribute                        | `string`                  |          |
+| **rel**        | Rel attribute                           | `string`                  |          |
+| **onClick**    | Handler for onclick event               | `React.MouseEventHandler` |          |
+| **theme**      | Menu item theme                         | `normal - danger`         | `normal` |
+| **children**   | Child element                           | `React.ReactNode`         |          |
+| **className**  | HTML `class` attribute                  | `string`                  |          |
+| **style**      | HTML `style` attribute                  | `CSSProperties`           |          |
+| **qa**         | HTML `data-qa` attribute, used in tests | `string`                  |          |
+| **extraProps** | Extra html attributes                   | `Record`                  |          |
 
-# Menu.Group
+## Menu.Group
 
 You can group items by topics within a single menu
 
@@ -308,12 +325,12 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Properties
+### Properties
 
-| Name          | Description                             | Default |
-| :------------ | :-------------------------------------- | :-----: |
-| **label**     | Menu group label                        |    -    |
-| **children**  | Child element `React.ReactNode`         |    -    |
-| **className** | HTML `class` attribute `string`         |    -    |
-| **style**     | HTML `style` attribute `CSSProperties`  |    -    |
-| **qa**        | HTML `data-qa` attribute, used in tests |    -    |
+| Name          | Description                             | Type              | Default |
+| :------------ | :-------------------------------------- | :---------------- | :-----: |
+| **label**     | Menu group label                        | `string`          |         |
+| **children**  | Child element                           | `React.ReactNode` |         |
+| **className** | HTML `class` attribute                  | `string`          |         |
+| **style**     | HTML `style` attribute                  | `CSSProperties`   |         |
+| **qa**        | HTML `data-qa` attribute, used in tests | `string`          |         |

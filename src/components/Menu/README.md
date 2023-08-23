@@ -119,13 +119,13 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name          | Description                             | Type              | Default |
-| :------------ | :-------------------------------------- | :---------------- | :-----: |
-| **size**      | Menu size                               | `s - m - l - xl`  |   `m`   |
-| **children**  | Child element                           | `React.ReactNode` |         |
-| **className** | HTML `class` attribute                  | `string`          |         |
-| **style**     | HTML `style` attribute                  | `CSSProperties`   |         |
-| **qa**        | HTML `data-qa` attribute, used in tests | `string`          |         |
+| Name      | Description                             | Type              | Default |
+| :-------- | :-------------------------------------- | :---------------- | :-----: |
+| size      | Menu size                               | `s - m - l - xl`  |   `m`   |
+| children  | Child element                           | `React.ReactNode` |         |
+| className | HTML `class` attribute                  | `string`          |         |
+| style     | HTML `style` attribute                  | `CSSProperties`   |         |
+| qa        | HTML `data-qa` attribute, used in tests | `string`          |         |
 
 ## Menu.Item
 
@@ -238,22 +238,22 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name           | Description                             | Type                      | Default  |
-| :------------- | :-------------------------------------- | :------------------------ | :------: |
-| **selected**   | Menu item selected flag                 | `boolean`                 | `false`  |
-| **disabled**   | Menu item disabled flag                 | `boolean`                 | `false`  |
-| **active**     | Menu item active flag                   | `boolean`                 | `false`  |
-| **href**       | The URL                                 | `string`                  |          |
-| **title**      | Title attribute                         | `string`                  |          |
-| **target**     | Target attribute                        | `string`                  |          |
-| **rel**        | Rel attribute                           | `string`                  |          |
-| **onClick**    | Handler for onclick event               | `React.MouseEventHandler` |          |
-| **theme**      | Menu item theme                         | `normal - danger`         | `normal` |
-| **children**   | Child element                           | `React.ReactNode`         |          |
-| **className**  | HTML `class` attribute                  | `string`                  |          |
-| **style**      | HTML `style` attribute                  | `CSSProperties`           |          |
-| **qa**         | HTML `data-qa` attribute, used in tests | `string`                  |          |
-| **extraProps** | Extra html attributes                   | `Record`                  |          |
+| Name       | Description                             | Type                      | Default  |
+| :--------- | :-------------------------------------- | :------------------------ | :------: |
+| selected   | Menu item selected flag                 | `boolean`                 | `false`  |
+| disabled   | Menu item disabled flag                 | `boolean`                 | `false`  |
+| active     | Menu item active flag                   | `boolean`                 | `false`  |
+| href       | The URL                                 | `string`                  |          |
+| title      | Title attribute                         | `string`                  |          |
+| target     | Target attribute                        | `string`                  |          |
+| rel        | Rel attribute                           | `string`                  |          |
+| onClick    | Handler for onclick event               | `React.MouseEventHandler` |          |
+| theme      | Menu item theme                         | `normal - danger`         | `normal` |
+| children   | Child element                           | `React.ReactNode`         |          |
+| className  | HTML `class` attribute                  | `string`                  |          |
+| style      | HTML `style` attribute                  | `CSSProperties`           |          |
+| qa         | HTML `data-qa` attribute, used in tests | `string`                  |          |
+| extraProps | Extra html attributes                   | `Record`                  |          |
 
 ## Menu.Group
 
@@ -327,10 +327,10 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name          | Description                             | Type              | Default |
-| :------------ | :-------------------------------------- | :---------------- | :-----: |
-| **label**     | Menu group label                        | `string`          |         |
-| **children**  | Child element                           | `React.ReactNode` |         |
-| **className** | HTML `class` attribute                  | `string`          |         |
-| **style**     | HTML `style` attribute                  | `CSSProperties`   |         |
-| **qa**        | HTML `data-qa` attribute, used in tests | `string`          |         |
+| Name      | Description                             | Type              | Default |
+| :-------- | :-------------------------------------- | :---------------- | :-----: |
+| label     | Menu group label                        | `string`          |         |
+| children  | Child element                           | `React.ReactNode` |         |
+| className | HTML `class` attribute                  | `string`          |         |
+| style     | HTML `style` attribute                  | `CSSProperties`   |         |
+| qa        | HTML `data-qa` attribute, used in tests | `string`          |         |

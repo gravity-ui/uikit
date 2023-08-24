@@ -6,7 +6,7 @@ Lets you filter and sort items, render items of different height, and select the
 
 ### PropTypes
 
-| Property          | Type              | Required | Default | Description                                                                                                                                                                                            |
+| Name              | Type              | Required | Default | Description                                                                                                                                                                                            |
 | :---------------- | :---------------- | :------: | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [items](#items)   | `Array`           |   yes    | []      | List of items.                                                                                                                                                                                         |
 | itemHeight        | `Number/Function` |          | 28      | Item height in `px` (or a function that returns the height value for an item). `(item: any) => number`                                                                                                 |

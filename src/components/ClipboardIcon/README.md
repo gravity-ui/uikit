@@ -18,9 +18,9 @@ Depends on `status` property additionally draws animated successful (✓ sign) o
 
 <ExampleBlock
     code={`
-        <UIKit.ClipboardIcon size={24} />
-        <UIKit.ClipboardIcon size={24} status="success"} />
-        <UIKit.ClipboardIcon size={24} status="error" />
+<UIKit.ClipboardIcon size={24} />
+<UIKit.ClipboardIcon size={24} status="success"} />
+<UIKit.ClipboardIcon size={24} status="error" />
 `}>
     <UIKit.ClipboardIcon size={24} />
     <UIKit.ClipboardIcon size={24} status="success"} />

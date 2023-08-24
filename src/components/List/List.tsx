@@ -6,13 +6,14 @@ import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
 
+import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoadingIndicator';
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
 import {block} from '../utils/cn';
 
-import {ListItem, SimpleContainer} from './components';
+import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
-import type {ListItemData, ListProps, ListSortParams} from './types';
+import type {ListItemData, ListItemProps, ListProps, ListSortParams} from './types';
 
 import './List.scss';
 
@@ -77,6 +78,9 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
+    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
+        T & {value: string}
+    >;
 
     componentDidUpdate(prevProps: ListProps<T>) {
         if (this.props.items !== prevProps.items) {
@@ -135,6 +139,14 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     getItems() {
         return this.state.items;
+    }
+
+    getItemsWithLoading() {
+        if (this.props.sortable) {
+            return this.getItems();
+        }
+
+        return this.props.loading ? [...this.state.items, this.loadingItem] : this.getItems();
     }
 
     getActiveItem() {
@@ -196,10 +208,24 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         }
     };
 
+    private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
+        const {onLoadMore} = this.props;
+
+        if ('value' in item && item.value === this.loadingItem.value) {
+            return (
+                <SelectLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
+            );
+        }
+
+        return this.props.renderItem
+            ? this.props.renderItem(item, isItemActive, itemIndex)
+            : defaultRenderItem(item);
+    };
+
     private renderItem = ({index, style}: {index: number; style?: React.CSSProperties}) => {
         const {sortHandleAlign} = this.props;
         const {items, activeItem} = this.state;
-        const item = items[index];
+        const item = this.getItemsWithLoading()[index];
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
         const active = index === activeItem || index === this.props.activeItemIndex;
         const Item = sortable ? SortableListItem : ListItem;
@@ -213,7 +239,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 item={item}
                 sortable={sortable}
                 sortHandleAlign={sortHandleAlign}
-                renderItem={this.props.renderItem}
+                renderItem={this.renderItemContent}
                 itemClassName={this.props.itemClassName}
                 active={active}
                 selected={index === this.props.selectedItemIndex}
@@ -255,7 +281,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private renderSimpleContainer() {
         const {sortable} = this.props;
-        const {items} = this.state;
+        const items = this.getItemsWithLoading();
         const Container = sortable ? SortableSimpleContainer : SimpleContainer;
 
         return (
@@ -278,6 +304,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private renderVirtualizedContainer() {
         const Container = this.props.sortable ? SortableListContainer : ListContainer;
 
+        const items = this.getItemsWithLoading();
         return (
             <AutoSizer>
                 {({width, height}: Size) => (
@@ -286,8 +313,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         width={width}
                         height={height}
                         itemSize={this.getVirtualizedItemHeight}
-                        itemData={this.state.items}
-                        itemCount={this.state.items.length}
+                        itemData={items}
+                        itemCount={items.length}
                         overscanCount={10}
                         helperClass={b('item', {sorting: true})}
                         distance={5}

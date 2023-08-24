@@ -90,4 +90,11 @@ $block: '.#{variables.$ns}list';
         flex: 0 0 auto;
         color: var(--g-color-text-hint);
     }
+
+    &__loading-indicator {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
 }

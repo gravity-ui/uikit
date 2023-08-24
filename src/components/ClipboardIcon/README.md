@@ -25,7 +25,7 @@ Depends on `status` property additionally draws animated successful (✓ sing) o
     <UIKit.CopyToClipboard
         text="Some text to copy"
         timeout={500}
-        children={(status) => <UIKit.ClipboardIcon size={24} size={status} />}
+        children={(status) => <UIKit.ClipboardIcon size={24} status={status} />}
     />
 </ExampleBlock>
 

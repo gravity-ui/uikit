@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import isObject from 'lodash/isObject';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
@@ -211,7 +212,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
         const {onLoadMore} = this.props;
 
-        if ('value' in item && item.value === this.loadingItem.value) {
+        if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
             return (
                 <SelectLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
             );

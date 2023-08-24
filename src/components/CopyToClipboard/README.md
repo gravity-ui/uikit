@@ -1,32 +1,80 @@
-## CopyToClipboard
+<!--GITHUB_BLOCK-->
 
-A wrapper component witch takes given text to be copy-pasted <br/>
-and then updates its contents with a render function passed as children props.
+# CopyToClipboard
 
-The component bounces back to initial state after given timeout <br/>
-which might be useful when you want to animate the copy process.
+<!--/GITHUB_BLOCK-->
 
-### PropTypes
+```tsx
+import {CopyToClipboard} from '@gravity-ui/uikit';
+```
 
-| Property | Type       | Required | Default | Description                                                                          |
-| :------- | :--------- | :------: | :------ | :----------------------------------------------------------------------------------- |
-| children | `Function` |    ✓     |         | Copy control render function `(status: CopyToClipboardStatus) => React.ReactElement` |
-| text     | `String`   |    ✓     |         | Text to copy                                                                         |
-| timeout  | `Number`   |    ✓     |         | Time in ms to restore initial state (`CopyToClipboardStatus.Pending`)                |
-| onCopy   | `Function` |          |         | Callback after copy `(text: string, result: boolean) => void`                        |
+CopyToClipboard is a wrapper component that copies given text to clipboard and can update its content depends on returned status.
 
-### Examples
+### Children (render function)
 
-```js
+The render function passed as children props and can update its content depends on status that is returned as first argument in render function.
+There are 3 available statuses: pending, success, error
+
+`pending` - the initial status returned in render function in neutral case
+
+`success` - the result status returned in render function in success case
+
+`error` - the result status returned in render function in error case
+
+Option `timeout` set the time in ms to restore initial (`pending`) status after one of the result statuses (`success` or `error`).
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
 const buttonText = {
   pending: 'Click Me',
   success: 'Copied!',
   error: "Couldn't copy...",
 };
 
-const clipboardButton = (
-  <CopyToClipboard text="Some text to copy">
-    {(state) => <button>{buttonText[state]}</button>}
-  </CopyToClipboard>
-);
+<CopyToClipboard text="Some text to copy" timeout={1000}>
+    {(status) => <Button view="normal" size="l">buttonText[status]</Button>
+</CopyToClipboard>
+`}>
+    <UIKit.CopyToClipboard
+        text="Some text to copy"
+        timeout={1000}
+        children={(status) => {
+            const buttonText = {
+              pending: 'Click Me',
+              success: 'Copied!',
+              error: "Couldn't copy...",
+            };
+
+            return <UIKit.Button view="normal" size="l">{buttonText[status]}</UIKit.Button>;
+        }}
+    />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+const buttonText = {
+  pending: 'Click Me',
+  success: 'Copied!',
+  error: "Couldn't copy...",
+};
+
+<CopyToClipboard text="Some text to copy" timeout={1000}>
+  {(state) => <button>{buttonText[state]}</button>}
+</CopyToClipboard>;
 ```
+
+<!--/GITHUB_BLOCK-->
+
+## Properties
+
+| Property | Description                                                             | Type       | Default |
+| :------- | :---------------------------------------------------------------------- | :--------- | :------ |
+| children | Render function `(status: CopyToClipboardStatus) => React.ReactElement` | `Function` |         |
+| onCopy   | `copy` event handler                                                    | `Function` |         |
+| text     | Text to copy                                                            | `string`   |         |
+| timeout  | Time in ms to restore initial state                                     | `number`   |         |

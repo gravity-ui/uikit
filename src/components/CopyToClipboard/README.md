@@ -33,13 +33,13 @@ const buttonText = {
   error: "Couldn't copy...",
 };
 
-<CopyToClipboard text="Some text to copy" timeout={1000}>
+<CopyToClipboard text="Some text to copy" timeout={500}>
     {(status) => <Button view="normal" size="l">buttonText[status]</Button>
 </CopyToClipboard>
 `}>
     <UIKit.CopyToClipboard
         text="Some text to copy"
-        timeout={1000}
+        timeout={500}
         children={(status) => {
             const buttonText = {
               pending: 'Click Me',
@@ -63,8 +63,8 @@ const buttonText = {
   error: "Couldn't copy...",
 };
 
-<CopyToClipboard text="Some text to copy" timeout={1000}>
-  {(state) => <button>{buttonText[state]}</button>}
+<CopyToClipboard text="Some text to copy" timeout={500}>
+  {(status) => <button>{buttonText[status]}</button>}
 </CopyToClipboard>;
 ```
 

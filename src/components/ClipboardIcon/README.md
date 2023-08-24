@@ -1,11 +1,50 @@
-## ClipboardIcon
+<!--GITHUB_BLOCK-->
 
-This display **svg** copy-paste icon.<br/>
-Depending on **status** property additionally draws animated successful (✓ sing) or failed operation indicators.<br/>
-Might be adjusted by **className** and **size** props according to your needs.
+# ClipboardIcon
 
-| Name      | Type     | Required | Default | Description                                                                         |
-| :-------- | :------- | :------: | :------ | :---------------------------------------------------------------------------------- |
-| status    | Enum     |          |         | Defines icon displayed: pending - default, <br/>success/error - additional drawings |
-| size      | `Number` |          | 24      | Icon size                                                                           |
-| className | `String` |          |         | CSS class name                                                                      |
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {ClipboardIcon} from '@gravity-ui/uikit';
+```
+
+ClipboardIcon is a svg copy-paste icon. This component is mainly used together with `CopyToClipboard` as wrap component.
+
+### Status
+
+Depends on `status` property additionally draws animated successful (✓ sing) or failed (❌ sing) operation indicators.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+        <CopyToClipboard text="Some text to copy" timeout={500}>
+            {(status) => <ClipboardIcon size={24} status={status} />
+        </CopyToClipboard>
+`}>
+    <UIKit.CopyToClipboard
+        text="Some text to copy"
+        timeout={500}
+        children={(status) => <UIKit.ClipboardIcon size={24} size={status} />}
+    />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<CopyToClipboard text="Some text to copy" timeout={500}>
+  {(status) => <ClipboardIcon size={24} status={status} />}
+</CopyToClipboard>
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Properties
+
+| Name      | Description                                     | Type     | Default |
+|:----------| :---------------------------------------------- | :------- | :------ |
+| classname | HTML `class` attribute                          | `string` |         |
+| size      | Sets icon size                                  | `number` |         |
+| status    | Available values: `pending`, `success`, `error` | `string` |         |

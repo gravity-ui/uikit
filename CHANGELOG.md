@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.8.0](https://github.com/gravity-ui/uikit/compare/v5.7.0...v5.8.0) (2023-08-24)
+
+
+### Features
+
+* create useViewportSize hook ([#933](https://github.com/gravity-ui/uikit/issues/933)) ([637f88d](https://github.com/gravity-ui/uikit/commit/637f88d3f70084d9c7dbe7191e6cdee6c7380bd7))
+* **List:** add loading and onLoadMore props ([#934](https://github.com/gravity-ui/uikit/issues/934)) ([5eab30f](https://github.com/gravity-ui/uikit/commit/5eab30f8e4b8c7517e7d4963762961c0f4743ebb))
+
+
+### Bug Fixes
+
+* **ClearButton:** increase selector specificity ([#945](https://github.com/gravity-ui/uikit/issues/945)) ([edee285](https://github.com/gravity-ui/uikit/commit/edee285af48e8817184fb2214916f09159ca545d))
+* **Table:** fix copying the array from getRowClassNames ([#923](https://github.com/gravity-ui/uikit/issues/923)) ([3f123b7](https://github.com/gravity-ui/uikit/commit/3f123b7feb90ddeb123d06ef42f947fe9f85264d))
+
 ## [5.7.0](https://github.com/gravity-ui/uikit/compare/v5.6.0...v5.7.0) (2023-08-22)
 
 

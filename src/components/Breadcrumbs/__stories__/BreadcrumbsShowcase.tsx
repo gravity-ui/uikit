@@ -89,7 +89,11 @@ export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
                 <p>Custom title</p>
                 <Breadcrumbs
                     {...props}
-                    items={breadcrumbsItems.map(({text}) => ({text, htmlTitle: `Custom title for ${text}`, action: () => {}}))}
+                    items={breadcrumbsItems.map(({text}) => ({
+                        text,
+                        title: `Custom title for ${text}`,
+                        action: () => {},
+                    }))}
                 />
             </div>
         </div>

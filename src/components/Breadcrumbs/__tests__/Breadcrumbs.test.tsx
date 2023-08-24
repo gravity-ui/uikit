@@ -95,12 +95,14 @@ test('should allow to override separator', () => {
 });
 
 test('should display custom title', () => {
-    render(<Breadcrumbs
-        items={items.map(item => ({...item, htmlTitle: `Custom title for ${item.text}`}))}
-        lastDisplayedItemsCount={1}
-        firstDisplayedItemsCount={0}
-    />,)
+    render(
+        <Breadcrumbs
+            items={items.map((item) => ({...item, title: `Custom title for ${item.text}`}))}
+            lastDisplayedItemsCount={1}
+            firstDisplayedItemsCount={0}
+        />,
+    );
 
     expect(screen.getByTitle('Custom title for Root')).toBeInTheDocument();
     expect(screen.getByTitle('Custom title for Street')).toBeInTheDocument();
-})
+});

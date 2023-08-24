@@ -12,7 +12,7 @@ ClipboardIcon is a svg copy-paste icon. This component is mainly used together w
 
 ### Status
 
-Depends on `status` property additionally draws animated successful (✓ sign) or failed (❌ sign) operation indicators.
+Depends on `status` property additionally draws animated successful (✓ sign) or failed (X️ sign) operation indicators.
 
 <!--LANDING_BLOCK
 

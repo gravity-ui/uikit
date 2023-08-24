@@ -2,7 +2,7 @@
 
 ### TabsItem PropTypes
 
-| Property | Type                        | Required | Default | Description                      |
+| Name     | Type                        | Required | Default | Description                      |
 | :------- | :-------------------------- | :------: | :------ | :------------------------------- |
 | id       | `String`                    |  `true`  |         | Tab ID                           |
 | title    | `String`, `React.ReactNode` |  `true`  |         | Tab title                        |
@@ -15,7 +15,7 @@
 
 ### Tabs PropTypes
 
-| Property         | Type                                                                       | Required | Default      | Description                                                          |
+| Name             | Type                                                                       | Required | Default      | Description                                                          |
 | :--------------- | :------------------------------------------------------------------------- | :------: | :----------- | :------------------------------------------------------------------- |
 | direction        | `String`                                                                   |          | `horizontal` | Tab direction (deprecated)                                           |
 | activeTab        | `String`                                                                   |          |              | Active tab ID                                                        |

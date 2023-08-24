@@ -54,9 +54,9 @@ XL - The largest size.
 
 ## Properties
 
-| Property  | Description                                            | Default |
-| :-------- | :----------------------------------------------------- | :------ |
-| size      | Spin size: `"xs"` `"s"` `"m"` `"l"` `"xl"`             | `"m"`   |
-| style     | Custom CSS properties for root element `CSSProperties` |         |
-| className | Custom CSS class for root element `string`             |         |
-| qa        | `string`                                               |         |
+| Name      | Description                        |              Type               | Default |
+| :-------- | :--------------------------------- | :-----------------------------: | :-----: |
+| size      | Spin size                          | `"xs"` `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| style     | Custom CSS styles for root element |         `CSSProperties`         |         |
+| className | Custom CSS class for root element  |            `string`             |         |
+| qa        | Test attribute (`data-qa`)         |            `string`             |         |

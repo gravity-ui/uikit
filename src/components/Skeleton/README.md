@@ -12,7 +12,7 @@ The Skeleton component displays a placeholder preview of your content before the
 
 ## Properties
 
-| Property  | Description                                            | Default |
-| :-------- | :----------------------------------------------------- | :------ |
-| style     | Custom CSS properties for root element `CSSProperties` |         |
-| className | Custom CSS class for root element `string`             |         |
+| Name      | Description                            |      Type       | Default |
+| :-------- | :------------------------------------- | :-------------: | :-----: |
+| style     | Custom CSS properties for root element | `CSSProperties` |         |
+| className | Custom CSS class for root element      |    `string`     |         |

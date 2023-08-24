@@ -6,7 +6,7 @@ Dialog component
 
 ### PropTypes
 
-| Property              | Type                                                                                           | Required | Default | Description                                                                         |
+| Name                  | Type                                                                                           | Required | Default | Description                                                                         |
 | :-------------------- | :--------------------------------------------------------------------------------------------- | :------: | :------ | :---------------------------------------------------------------------------------- |
 | open                  | `Boolean`                                                                                      |    ✓     |         | Current dialog state                                                                |
 | onEscapeKeyDown       | `(event: KeyboardEvent) => void`                                                               |          |         | Escape key down event handler                                                       |

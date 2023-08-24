@@ -4,7 +4,7 @@ React hook used to create a conditionally controlled state, such state can eithe
 
 ### Arguments
 
-| Property     | Type                                                                  | Default                                               | Description                                                      |
+| Name         | Type                                                                  | Default                                               | Description                                                      |
 | :----------- | :-------------------------------------------------------------------- | :---------------------------------------------------- | :--------------------------------------------------------------- |
 | property     | `StateType`                                                           | `-`                                                   | State value                                                      |
 | setProperty  | `Dispatch<SetStateAction<StateType>> or ((value: StateType) => void)` | `-`                                                   | State setter or callback, which should be called on state change |
@@ -13,9 +13,9 @@ React hook used to create a conditionally controlled state, such state can eithe
 
 ### Returns
 
-| Property | Type                                               | Description            |
-| :------- | :------------------------------------------------- | :--------------------- |
-| state    | `[StateType, Dispatch<SetStateAction<StateType>>]` | State and state setter |
+| Name  | Type                                               | Description            |
+| :---- | :------------------------------------------------- | :--------------------- |
+| state | `[StateType, Dispatch<SetStateAction<StateType>>]` | State and state setter |
 
 ### Examples
 

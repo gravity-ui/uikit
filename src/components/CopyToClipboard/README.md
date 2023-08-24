@@ -72,9 +72,9 @@ const buttonText = {
 
 ## Properties
 
-| Property | Description                                                             | Type       | Default |
-| :------- | :---------------------------------------------------------------------- | :--------- | :------ |
+| Name     | Description                                                             |    Type    | Default |
+| :------- | :---------------------------------------------------------------------- | :--------: | :-----: |
 | children | Render function `(status: CopyToClipboardStatus) => React.ReactElement` | `Function` |         |
 | onCopy   | `copy` event handler                                                    | `Function` |         |
-| text     | Text to copy                                                            | `string`   |         |
-| timeout  | Time in ms to restore initial state                                     | `number`   |         |
+| text     | Text to copy                                                            |  `string`  |         |
+| timeout  | Time in ms to restore initial state                                     |  `number`  |         |

@@ -18,15 +18,13 @@ Depends on `status` property additionally draws animated successful (✓ sing) o
 
 <ExampleBlock
     code={`
-        <CopyToClipboard text="Some text to copy" timeout={500}>
-            {(status) => <ClipboardIcon size={24} status={status} />
-        </CopyToClipboard>
+        <UIKit.ClipboardIcon size={24} />
+        <UIKit.ClipboardIcon size={24} status="success"} />
+        <UIKit.ClipboardIcon size={24} status="error" />
 `}>
-    <UIKit.CopyToClipboard
-        text="Some text to copy"
-        timeout={500}
-        children={(status) => <UIKit.ClipboardIcon size={24} status={status} />}
-    />
+    <UIKit.ClipboardIcon size={24} />
+    <UIKit.ClipboardIcon size={24} status="success"} />
+    <UIKit.ClipboardIcon size={24} status="error" />
 </ExampleBlock>
 
 LANDING_BLOCK-->

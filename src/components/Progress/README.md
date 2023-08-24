@@ -6,7 +6,7 @@ Progress bar component
 
 ### PropTypes
 
-| Property        | Type     | Required | Default                   | Description                                                                                                                              |
+| Name            | Type     | Required | Default                   | Description                                                                                                                              |
 | :-------------- | :------- | :------: | :------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------- |
 | value           | `Number` |    ✓     |                           | Current progress value. Available range is from 0 to 100. If `stack` property is passed `value` is not required and behaves as maxValue. |
 | text            | `String` |          | `''`                      | Text inside progress bar                                                                                                                 |

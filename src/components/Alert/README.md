@@ -217,7 +217,7 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Property  | Description                                                                      |                            Type                            |   Default    |
+| Name      | Description                                                                      |                            Type                            |   Default    |
 | :-------- | :------------------------------------------------------------------------------- | :--------------------------------------------------------: | :----------: |
 | theme     | Alert appearance                                                                 | `"normal"` `"info"` `"positive"` `"warning"` `"dangerous"` |  `"normal"`  |
 | view      | Enable/disable the background color of the alert                                 |                  `"filled"` `"outlined"`                   |  `"filled"`  |
@@ -226,8 +226,8 @@ LANDING_BLOCK-->
 | title     | The title of the alert                                                           |                          `string`                          |              |
 | message   | The message of the alert                                                         |                          `string`                          |              |
 | onClose   | A callback function that is called when the close button of the alert is clicked |                         `Function`                         |              |
-| actions   | Array of buttons or full custom components                                       |               `"ReactNode"` `"AlertAction"`                |              |
+| actions   | Array of buttons or full custom components                                       |             `React.ReactNode` `"AlertAction"`              |              |
 | align     | Determines how the content inside the Alert component is vertically aligned      |                  `"center"` `"baseline"`                   | `"baseline"` |
 | style     | HTML style attribute                                                             |                      `CSSProperties `                      |              |
 | className | The alert class name                                                             |                          `string`                          |              |
-| icon      | Override default icon.                                                           |                       `"ReactNode"`                        |              |
+| icon      | Override default icon.                                                           |                     `React.ReactNode`                      |              |

@@ -4,7 +4,7 @@ Sheet component for mobile devices
 
 ### PropTypes
 
-| Property                 | Type       | Required | Default     | Description                                                                                                                                                                 |
+| Name                     | Type       | Required | Default     | Description                                                                                                                                                                 |
 | :----------------------- | :--------- | :------: | :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | visible                  | `boolean`  |    ✓     |             | Show/hide sheet                                                                                                                                                             |
 | allowHideOnContentScroll | `boolean`  |          | `true`      | Enable the behavior in which you can close the sheet window with a swipe down if the content is scrolled to its top (`contentNode.scrollTop === 0`) or has no scroll at all |

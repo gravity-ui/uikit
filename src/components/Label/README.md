@@ -256,20 +256,20 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                               | Type                           | Default     |
-| :--------------- | :---------------------------------------- | :----------------------------- | :---------- |
-| children         | Content                                   | `ReactNode`                    |             |
-| className        | HTML `class` attribute                    | `string`                       |             |
-| closeButtonLabel | `aria-label` of close button              | `string`                       |             |
-| copyButtonLabel  | `aria-label` of copy button               | `string`                       |             |
-| copyText         | Text to copy                              | `string`                       |             |
-| disabled         | Disabled state                            | `boolean`                      |             |
-| icon             | Label icon (at left)                      | `ReactNode`                    |             |
-| interactive      | Enable hover effect                       | `boolean`                      |             |
-| onClick          | `click` event handler                     | `Function`                     |             |
-| onClose          | Close button `click` event handler        | `Function`                     |             |
-| onCopy           | `copy` event handler                      | `Function`                     |             |
-| size             | Label size                                | `"xs"` `"s"` `"m"`             | `"s"`       |
-| theme            | Label theme                               | `string`                       | `"normal"`  |
+| Name             | Description                               |              Type              |   Default   |
+| :--------------- | :---------------------------------------- | :----------------------------: | :---------: |
+| children         | Content                                   |       `React.ReactNode`        |             |
+| className        | HTML `class` attribute                    |            `string`            |             |
+| closeButtonLabel | `aria-label` of close button              |            `string`            |             |
+| copyButtonLabel  | `aria-label` of copy button               |            `string`            |             |
+| copyText         | Text to copy                              |            `string`            |             |
+| disabled         | Disabled state                            |           `boolean`            |             |
+| icon             | Label icon (at left)                      |       `React.ReactNode`        |             |
+| interactive      | Enable hover effect                       |           `boolean`            |             |
+| onClick          | `click` event handler                     |           `Function`           |             |
+| onClose          | Close button `click` event handler        |           `Function`           |             |
+| onCopy           | `copy` event handler                      |           `Function`           |             |
+| size             | Label size                                |       `"xs"` `"s"` `"m"`       |    `"s"`    |
+| theme            | Label theme                               |            `string`            | `"normal"`  |
 | type             | Label type                                | `"default"` `"copy"` `"close"` | `"default"` |
-| value            | Label value (shows as "children : value") | `string`                       |             |
+| value            | Label value (shows as "children : value") |            `string`            |             |

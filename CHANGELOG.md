@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.9.0](https://github.com/gravity-ui/uikit/compare/v5.8.0...v5.9.0) (2023-08-24)
+
+
+### Features
+
+* update deps ([#943](https://github.com/gravity-ui/uikit/issues/943)) ([57547c7](https://github.com/gravity-ui/uikit/commit/57547c7fce715e6dcb4adc80029892ab7ebbeff5))
+
+
+### Bug Fixes
+
+* **List:** item type validation ([#949](https://github.com/gravity-ui/uikit/issues/949)) ([1aef5b5](https://github.com/gravity-ui/uikit/commit/1aef5b592761d6b9a471cdcd92274f7367da4e6b))
+
 ## [5.8.0](https://github.com/gravity-ui/uikit/compare/v5.7.0...v5.8.0) (2023-08-24)
 
 

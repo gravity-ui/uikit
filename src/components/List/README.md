@@ -6,7 +6,7 @@ Lets you filter and sort items, render items of different height, and select the
 
 ### PropTypes
 
-| Property          | Type              | Required | Default | Description                                                                                                                                                                                            |
+| Name              | Type              | Required | Default | Description                                                                                                                                                                                            |
 | :---------------- | :---------------- | :------: | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [items](#items)   | `Array`           |   yes    | []      | List of items.                                                                                                                                                                                         |
 | itemHeight        | `Number/Function` |          | 28      | Item height in `px` (or a function that returns the height value for an item). `(item: any) => number`                                                                                                 |
@@ -30,6 +30,8 @@ Lets you filter and sort items, render items of different height, and select the
 | selectedItemIndex | `Number`          |          |         | If a value is set, an item with this index is rendered as selected (the background color is from `--g-color-base-selection`).                                                                          |
 | itemClassName     | `String`          |          |         | Custom class name to be added to an item container                                                                                                                                                     |
 | itemsClassName    | `String`          |          |         | Custom class name to be added to an item list                                                                                                                                                          |
+| loading           | `boolean`         |          |         | Add the loading item to the end of the items list. Works like persistant loading indicator while the items list is empty. Does Not work with `sortable` prop.                                          |
+| onLoadMore        | `Function`        |          |         | Fires when loading indicator gets visible.                                                                                                                                                             |
 
 ### Virtualization
 

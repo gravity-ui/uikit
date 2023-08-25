@@ -2,7 +2,7 @@
 
 ## PropTypes
 
-| Property         | Type                                                          | Required | Default     | Description                                              |
+| Name             | Type                                                          | Required | Default     | Description                                              |
 | :--------------- | :------------------------------------------------------------ | :------- | :---------- | :------------------------------------------------------- |
 | theme            | `String`                                                      |          | `normal `   | Label appearance                                         |
 | type             | `String`                                                      |          | `default`   | Label type (plain, with text to copy or with cross icon) |

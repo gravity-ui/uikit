@@ -107,13 +107,13 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Property  | Description                                                | Default  |
-| :-------- | :--------------------------------------------------------- | :------- |
-| text      | Visible text `string`                                      |          |
-| image     | Image source `string`                                      |          |
-| hasBorder | Display border `boolean`                                   | `true`   |
-| type      | Avatar appearance: `"person"` `"email"` `"empty"`          | `person` |
-| size      | Text size: `"s"` `"n"`                                     | `s`      |
-| onClose   | Handle click on button with cross `(text: string) => void` |          |
-| onClick   | Handle click on component itself `(text: string) => void`  |          |
-| className | Custom CSS class for root element `string`                 |          |
+| Name      | Description                                                |              Type              |  Default   |
+| :-------- | :--------------------------------------------------------- | :----------------------------: | :--------: |
+| text      | Visible text                                               |            `string`            |            |
+| image     | Image source                                               |            `string`            |            |
+| hasBorder | Display border                                             |           `boolean`            |   `true`   |
+| type      | Avatar appearance                                          | `"person"` `"email"` `"empty"` | `"person"` |
+| size      | Text size                                                  |          `"s"` `"n"`           |   `"s"`    |
+| onClose   | Handle click on button with cross `(text: string) => void` |           `Function`           |            |
+| onClick   | Handle click on component itself `(text: string) => void`  |           `Function`           |            |
+| className | Custom CSS class for root element                          |            `string`            |            |

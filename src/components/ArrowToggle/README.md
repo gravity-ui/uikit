@@ -115,8 +115,8 @@ return (
 
 ## Properties
 
-| Name          | Description                 |   Type   | Default  |
-| :------------ | :-------------------------- | :------: | :------: |
-| **className** | HTML `class` attribute      | `string` |          |
-| **direction** | Sets arrowToggle directions | `string` | `bottom` |
-| **size**      | Size arrowToggle in px      | `number` |   `16`   |
+| Name      | Description                 |   Type   |  Default   |
+| :-------- | :-------------------------- | :------: | :--------: |
+| className | HTML `class` attribute      | `string` |            |
+| direction | Sets arrowToggle directions | `string` | `"bottom"` |
+| size      | Size arrowToggle in px      | `number` |    `16`    |

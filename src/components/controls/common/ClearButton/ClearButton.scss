@@ -1,8 +1,10 @@
 @use '../../../variables';
 
 $block: '.#{variables.$ns-new}clear-button';
+$blockRoot: '.#{variables.$ns-new}root';
 
-#{$block} {
+// #{$blockRoot} used to increase selector specificity
+#{$blockRoot} #{$block} {
     --yc-button-background-color: transparent;
     --yc-button-background-color-hover: transparent;
 

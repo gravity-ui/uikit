@@ -44,7 +44,7 @@ L – Large size, used when standard loader is too small.
 
 ## Properties
 
-| Property  | Description                                | Default |
-| :-------- | :----------------------------------------- | :------ |
-| size      | Loader size: `"s"` `"m"` `"l"`             | `"s"`   |
-| className | Custom CSS class for root element `string` |         |
+| Name      | Description                       |       Type        | Default |
+| :-------- | :-------------------------------- | :---------------: | :-----: |
+| size      | Loader size                       | `"s"` `"m"` `"l"` |  `"s"`  |
+| className | Custom CSS class for root element |     `string`      |         |

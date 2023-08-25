@@ -8,11 +8,11 @@
 import {Progress} from '@gravity-ui/uikit';
 ```
 
-Progress bar indicates current operation process. It can also be divided into sections.
+`Progress` component indicates current operation progress. It can also be divided into sections.
 
 ## Theme
 
-Used for specify color of the whole progress or the composite part.
+Use `theme` property for specify color of the whole progress or the composite part.
 
 <!--LANDING_BLOCK
 
@@ -84,7 +84,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the Progress bar use the size property: `"xs"`, `"s"`, `"m"`. Property `text` is displayed only in `"m"` size.
+To control the size of the `Progress` component use the size property: `"xs"`, `"s"`, `"m"`. Property `text` is displayed only in `"m"` size.
 
 <!--LANDING_BLOCK
 
@@ -108,6 +108,51 @@ LANDING_BLOCK-->
 <Progress theme="success" value={60} size="xs" />
 <Progress theme="warning" value={70} size="s" />
 <Progress theme="danger" value={80} size="m" />
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Breakpoints
+
+To set breakpoints of the `Progress` component use the `colorStops` property.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+  code={`
+<Progress value={10} colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]} />
+<Progress value={40} colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]} />
+<Progress value={60} colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]} />
+`}
+>
+  <div style={{width: '30%'}}>
+    <UIKit.Progress
+      value={10}
+      colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 70}]}
+    />
+  </div>
+  <div style={{width: '30%'}}>
+    <UIKit.Progress
+      value={40}
+      colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 70}]}
+    />
+  </div>
+  <div style={{width: '30%'}}>
+    <UIKit.Progress
+      value={60}
+      colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]}
+    />
+  </div>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Progress value={10} colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]} />
+<Progress value={40} colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]} />
+<Progress value={60} colorStops={[{theme: 'danger', stop: 20}, {theme: 'warning', stop: 50}, {theme: 'success', stop: 100}]} />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -178,23 +223,25 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name            | Description                                                                                                       |                  Type                   | Default     |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :---------- |
-| className       | HTML `class` attribute                                                                                            |                `string`                 |             |
-| colorStops      | Array of sections themes and values                                                                               | `Array<{theme: string; stop: number;}>` |             |
-| colorStopsValue | Alternative value of `colorStops`. Available range: 0 to 100.                                                     |                `number`                 |             |
-| loading         | Toggles `loading` state                                                                                           |                `boolean`                | `false`     |
-| size            | Sets progress size. Text of progress bar is displayed in `"m"` size only.                                         |                `string`                 | `"m"`       |
-| stack           | Configuration of composite progress bar. Not required if a `value` passed.                                        |             `Array<Stack>`              |             |
-| stackClassName  | HTML `class` attribute of stack                                                                                   |                `string`                 |             |
-| text            | Text inside progress bar                                                                                          |                `string`                 |             |
-| theme           | Sets progress color                                                                                               |                `string`                 | `"default"` |
-| value           | Current progress value. Available range: 0 to 100. Using `stack` property value is optional and uses as maxValue. |                `number`                 |             |
+| Name                                    | Description                                                                                                       |      Type      |   Default   |
+| :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------- | :------------: | :---------: |
+| className                               | HTML `class` attribute                                                                                            |    `string`    |             |
+| colorStops                              | Sets breakpoints with themes                                                                                      |                |             |
+| `Array<{theme: string; stop: number;}>` |                                                                                                                   |                |             |
+| colorStopsValue                         | Sets value for choosing current stop, alternative value for colorStops. Available range: 0 to 100.                |                |             |
+| `number`                                |                                                                                                                   |                |             |
+| loading                                 | Toggles `loading` state                                                                                           |   `boolean`    |   `false`   |
+| size                                    | Sets progress size. Text of progress bar is displayed in `"m"` size only.                                         |    `string`    |    `"m"`    |
+| stack                                   | Configuration of composite progress bar. Not required if a `value` passed.                                        | `Array<Stack>` |             |
+| stackClassName                          | HTML `class` attribute of stack                                                                                   |    `string`    |             |
+| text                                    | Text inside progress bar                                                                                          |    `string`    |             |
+| theme                                   | Sets progress color                                                                                               |    `string`    | `"default"` |
+| value                                   | Current progress value. Available range: 0 to 100. Using `stack` property value is optional and uses as maxValue. |    `number`    |             |
 
 ### `Stack`
 
-| Name      | Description                                                                                                       |    Type     | Default     |
-| :-------- | :---------------------------------------------------------------------------------------------------------------- | :---------: | :---------- |
+| Name      | Description                                                                                                       |    Type     |   Default   |
+| :-------- | :---------------------------------------------------------------------------------------------------------------- | :---------: | :---------: |
 | className | HTML `class` attribute of stack element                                                                           |  `string`   |             |
 | color     | Sets background color in HTML `style` attribute                                                                   |  `string`   |             |
 | content   | Stack element content                                                                                             | `ReactNode` |             |

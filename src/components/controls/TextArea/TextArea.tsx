@@ -177,7 +177,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                 <div className={b('outer-additional-content')}>
                     {isErrorMsgVisible && (
                         <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
-                            {error}
+                            {errorMessage}
                         </div>
                     )}
                     {note && <div className={b('note')}>{note}</div>}

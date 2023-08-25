@@ -33,8 +33,8 @@ export const errorPropsMapper = (
     } = errorProps;
 
     let errorMessage: BaseInputControlProps['errorMessage'];
-    if (typeof errorProps === 'string') {
-        errorMessage = errorProps;
+    if (typeof errorProp === 'string') {
+        errorMessage = errorProp;
     }
     if (errorMessageProp || errorMessageProp === '') {
         errorMessage = errorMessageProp;

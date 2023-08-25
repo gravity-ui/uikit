@@ -1,4 +1,8 @@
+<!--GITHUB_BLOCK-->
+
 # Toaster
+
+<!--/GITHUB_BLOCK-->
 
 Component for adjustable notifications.
 

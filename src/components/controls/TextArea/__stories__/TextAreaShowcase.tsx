@@ -1,15 +1,14 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
-
 import {Checkbox} from '../../../Checkbox';
 import {Text} from '../../../Text';
+import {cn} from '../../../utils/cn';
 import {TextArea} from '../TextArea';
 import type {TextAreaProps} from '../TextArea';
 
 import './TextAreaShowcase.scss';
 
-const b = block('text-input-showcase');
+const b = cn('text-input-showcase');
 
 export function TextAreaShowcase() {
     const [value, setValue] = React.useState('');

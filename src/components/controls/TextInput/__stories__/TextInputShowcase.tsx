@@ -1,19 +1,19 @@
 import React from 'react';
 
 import {Eye, EyeSlash, Key} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 
 import {Button} from '../../../Button';
 import {Checkbox} from '../../../Checkbox';
 import {Icon} from '../../../Icon';
 import {Text} from '../../../Text';
+import {cn} from '../../../utils/cn';
 import {mapTextInputSizeToButtonSize} from '../../common';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
 
 import './TextInputShowcase.scss';
 
-const b = block('text-input-showcase');
+const b = cn('text-input-showcase');
 
 const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';

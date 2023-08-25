@@ -4,7 +4,7 @@ Card is content container. It supports multiple types: `selection`, `action`, `c
 
 ## Properties
 
-| Property  | Type                                                | Required | Default       | Description                                                         |
+| Name      | Type                                                | Required | Default       | Description                                                         |
 | :-------- | :-------------------------------------------------- | :------: | :------------ | :------------------------------------------------------------------ |
 | children  | `ReactNode`                                         |    ✓     |               | Card's content                                                      |
 | type      | `CardType`                                          |          | `'container'` | Card's type affects on available properties                         |

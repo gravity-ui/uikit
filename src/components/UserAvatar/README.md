@@ -4,7 +4,7 @@ Component for displaying user avatar.
 
 ### PropTypes
 
-| Property  | Type             | Required | Default | Description                                                |
+| Name      | Type             | Required | Default | Description                                                |
 | :-------- | :--------------- | :------- | :------ | :--------------------------------------------------------- |
 | imgUrl    | `string`         |          |         | Link to image                                              |
 | size      | `UserAvatarSize` |          | 'm'     | Component size. Possible values: `xs`, `s`, `m`, `l`, `xl` |

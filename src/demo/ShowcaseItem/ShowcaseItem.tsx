@@ -1,6 +1,6 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
+import {cn} from '../../components/utils/cn';
 
 import './ShowcaseItem.scss';
 
@@ -9,7 +9,7 @@ interface ShowcaseItemProps {
     children: React.ReactNode;
 }
 
-const b = block('showcase-item');
+const b = cn('showcase-item');
 
 export function ShowcaseItem({title, children}: ShowcaseItemProps) {
     return (

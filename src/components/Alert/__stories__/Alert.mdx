@@ -28,7 +28,7 @@ import {Alert} from '@gravity-ui/uikit';
 
 -   `title` - title of Alert component. Override if by `Alert.Title` component;
     ```tsx
-    <Alert title={<Alert.Title className={'some-class'}>some text</Alert.Title>} />
+    <Alert title={<Alert.Title className={'some-class'} text="some text"></Alert.Title>} />
     ```
 -   `message` - body of Alert componet. One of `title` of `message` props are required;
 -   `corners` - 'rounded' | 'square';
@@ -46,7 +46,6 @@ import {Alert} from '@gravity-ui/uikit';
     -   positive
     -   warning
     -   danger
--   `hasClose`. Define function and close button will be appearing;
 -   `actions`. Alert actions;
 -   `icon` - slot to override default icon;
 -   `align` - сenter your content in vertical direction. For example, you wanna icon component to be placed in center of card or height of your actions in horizontal direction more than content height;

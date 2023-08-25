@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {ArrowsRotateRight} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 import chroma from 'chroma-js';
 
 import {
@@ -19,6 +18,7 @@ import {
     Tabs,
     withTableSelection,
 } from '../../../components';
+import {cn} from '../../../components/utils/cn';
 
 import './BrandingConfigurator.scss';
 
@@ -28,7 +28,7 @@ export interface BrandingConfiguratorProps {
 
 const SelectionTable = withTableSelection(Table);
 
-const b = block('branding-configurator');
+const b = cn('branding-configurator');
 const variables = [
     '--g-color-base-brand',
     '--g-color-base-brand-hover',

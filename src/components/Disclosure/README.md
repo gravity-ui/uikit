@@ -4,7 +4,7 @@ Disclosure component that shows and hides enclosed content.
 
 ### PropTypes
 
-| Property        | Type                          | Required | Default | Description                                              |
+| Name            | Type                          | Required | Default | Description                                              |
 | :-------------- | :---------------------------- | :------: | :------ | :------------------------------------------------------- |
 | size            | `m` `l` `xl`                  |          | `m`     | Disclosure size                                          |
 | className       | `String`                      |          |         | CSS class name of root element                           |

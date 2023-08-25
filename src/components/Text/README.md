@@ -11,7 +11,7 @@ import {Text} from '@gravity-ui/uikit';
 ## Variant
 
 These are the default variants that can be overridden in the project. See all list of the
-variants [here](https://gravity-ui.com/components/uikit/alert).
+variants [here](https://preview.gravity-ui.com/uikit/?path=/story/typography--variants).
 
 <!--LANDING_BLOCK
 
@@ -163,15 +163,15 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name       | Description                                             |                   Type                   | Default  |
-| :--------- | :------------------------------------------------------ | :--------------------------------------: | :------: |
-| children   | Text content                                            |               `ReactNode`                |          |
-| className  | HTML `class` attribute                                  |                 `string`                 |          |
-| as         | Ability to override default html tag                    |            `ElementType<any>`            |          |
-| style      | HTML `style` attribute                                  |             `CSSProperties`              |          |
-| variant    | Font of the text                                        |                 `string`                 | `body-1` |
-| ellipsis   | Hidden overflow content will be displayed with ellipsis |                `boolean`                 |          |
-| whiteSpace | White-space css property                                |       `"nowrap"` `"break-spaces"`        |          |
-| wordBreak  | Word-break css property                                 |              `"break-all"`               |          |
-| color      | Color of the text                                       | `string` (see values in "Color" section) |          |
-| ref        |                                                         |                  `any`                   |          |
+| Name       | Description                                             |                   Type                   |  Default   |
+| :--------- | :------------------------------------------------------ | :--------------------------------------: | :--------: |
+| children   | Text content                                            |            `React.ReactNode`             |            |
+| className  | HTML `class` attribute                                  |                 `string`                 |            |
+| as         | Ability to override default html tag                    |         `React.ElementType<any>`         |            |
+| style      | HTML `style` attribute                                  |             `CSSProperties`              |            |
+| variant    | Font of the text                                        |                 `string`                 | `"body-1"` |
+| ellipsis   | Hidden overflow content will be displayed with ellipsis |                `boolean`                 |            |
+| whiteSpace | White-space css property                                |       `"nowrap"` `"break-spaces"`        |            |
+| wordBreak  | Word-break css property                                 |              `"break-all"`               |            |
+| color      | Color of the text                                       | `string` (see values in "Color" section) |            |
+| ref        |                                                         |                  `any`                   |            |

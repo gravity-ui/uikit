@@ -11,10 +11,6 @@ $block: '.#{variables.$ns}link';
 
     @include mixins.focusable();
 
-    &:focus:not(:focus-visible) {
-        outline: 0;
-    }
-
     &_view_normal,
     &_view_normal-visitable {
         color: var(--g-color-text-link);

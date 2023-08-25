@@ -26,9 +26,6 @@ $gap: 8px;
         font-weight: inherit;
 
         @include mixins.focusable();
-        &:focus:not(:focus-visible) {
-            outline: none;
-        }
     }
     &__trigger_arrow-right {
         flex-direction: row-reverse;

@@ -83,7 +83,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isErrorMsgVisible = Boolean(errorMessage);
+    const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 

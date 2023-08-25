@@ -97,8 +97,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
     const isLabelVisible = Boolean(label);
-    const isErrorMsgVisible = Boolean(errorMessage) && errorPlacement === 'outside';
-    const isErrorIconVisible = Boolean(errorMessage) && errorPlacement === 'inside';
+    const isErrorMsgVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const isLeftContentVisible = Boolean(leftContent);
     const isRightContentVisible = Boolean(rightContent);

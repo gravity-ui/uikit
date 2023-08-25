@@ -223,20 +223,18 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name                                    | Description                                                                                                       |      Type      |   Default   |
-| :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------- | :------------: | :---------: |
-| className                               | HTML `class` attribute                                                                                            |    `string`    |             |
-| colorStops                              | Sets breakpoints with themes                                                                                      |                |             |
-| `Array<{theme: string; stop: number;}>` |                                                                                                                   |                |             |
-| colorStopsValue                         | Sets value for choosing current stop, alternative value for colorStops. Available range: 0 to 100.                |                |             |
-| `number`                                |                                                                                                                   |                |             |
-| loading                                 | Toggles `loading` state                                                                                           |   `boolean`    |   `false`   |
-| size                                    | Sets progress size. Text of progress bar is displayed in `"m"` size only.                                         |    `string`    |    `"m"`    |
-| stack                                   | Configuration of composite progress bar. Not required if a `value` passed.                                        | `Array<Stack>` |             |
-| stackClassName                          | HTML `class` attribute of stack                                                                                   |    `string`    |             |
-| text                                    | Text inside progress bar                                                                                          |    `string`    |             |
-| theme                                   | Sets progress color                                                                                               |    `string`    | `"default"` |
-| value                                   | Current progress value. Available range: 0 to 100. Using `stack` property value is optional and uses as maxValue. |    `number`    |             |
+| Name            | Description                                                                                                       |                  Type                   |   Default   |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :---------: |
+| className       | HTML `class` attribute                                                                                            |                `string`                 |             |
+| colorStops      | Sets breakpoints with themes                                                                                      | `Array<{theme: string; stop: number;}>` |             |
+| colorStopsValue | Sets value for choosing current stop, alternative value for colorStops. Available range: 0 to 100.                |                `number`                 |             |
+| loading         | Toggles `loading` state                                                                                           |                `boolean`                |   `false`   |
+| size            | Sets progress size. Text of progress bar is displayed in `"m"` size only.                                         |                `string`                 |    `"m"`    |
+| stack           | Configuration of composite progress bar. Not required if a `value` passed.                                        |             `Array<Stack>`              |             |
+| stackClassName  | HTML `class` attribute of stack                                                                                   |                `string`                 |             |
+| text            | Text inside progress bar                                                                                          |                `string`                 |             |
+| theme           | Sets progress color                                                                                               |                `string`                 | `"default"` |
+| value           | Current progress value. Available range: 0 to 100. Using `stack` property value is optional and uses as maxValue. |                `number`                 |             |
 
 ### `Stack`
 

@@ -13,6 +13,7 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps {
     style?: React.CSSProperties;
     className?: string;
     children?: React.ReactNode;
+    title?: string;
 }
 
 type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];

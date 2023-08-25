@@ -41,6 +41,14 @@ export const ItemDisabled: StoryFn<MenuProps> = (args) => (
     </Menu>
 );
 
+export const ItemSelected: StoryFn<MenuProps> = (args) => (
+    <Menu {...args}>
+        <Menu.Item>First</Menu.Item>
+        <Menu.Item>Second</Menu.Item>
+        <Menu.Item selected>Third</Menu.Item>
+    </Menu>
+);
+
 export const ItemTheme: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
         <Menu.Item>Normal</Menu.Item>

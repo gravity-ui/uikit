@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {Ban} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
 import {Icon} from '../../components';
+import {cn} from '../../components/utils/cn';
 
 import './ColorTable.scss';
 
@@ -12,7 +12,7 @@ export interface ColorTableProps {
     theme: string;
 }
 
-const b = block('color-table');
+const b = cn('color-table');
 
 const steps: number[] = [];
 for (let i = 50; i <= 1000; i += 50) {

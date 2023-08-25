@@ -1,13 +1,12 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
-
 import {Button} from '../../Button';
+import {cn} from '../../utils/cn';
 import {Skeleton} from '../Skeleton';
 
 import './SkeletonShowcase.scss';
 
-const b = block('skeleton-showcase');
+const b = cn('skeleton-showcase');
 
 function PersonCard({info, info2}: {info: string; info2: string}) {
     return (

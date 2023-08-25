@@ -1,5 +1,52 @@
 # Changelog
 
+## [5.9.0](https://github.com/gravity-ui/uikit/compare/v5.8.0...v5.9.0) (2023-08-24)
+
+
+### Features
+
+* update deps ([#943](https://github.com/gravity-ui/uikit/issues/943)) ([57547c7](https://github.com/gravity-ui/uikit/commit/57547c7fce715e6dcb4adc80029892ab7ebbeff5))
+
+
+### Bug Fixes
+
+* **List:** item type validation ([#949](https://github.com/gravity-ui/uikit/issues/949)) ([1aef5b5](https://github.com/gravity-ui/uikit/commit/1aef5b592761d6b9a471cdcd92274f7367da4e6b))
+
+## [5.8.0](https://github.com/gravity-ui/uikit/compare/v5.7.0...v5.8.0) (2023-08-24)
+
+
+### Features
+
+* create useViewportSize hook ([#933](https://github.com/gravity-ui/uikit/issues/933)) ([637f88d](https://github.com/gravity-ui/uikit/commit/637f88d3f70084d9c7dbe7191e6cdee6c7380bd7))
+* **List:** add loading and onLoadMore props ([#934](https://github.com/gravity-ui/uikit/issues/934)) ([5eab30f](https://github.com/gravity-ui/uikit/commit/5eab30f8e4b8c7517e7d4963762961c0f4743ebb))
+
+
+### Bug Fixes
+
+* **ClearButton:** increase selector specificity ([#945](https://github.com/gravity-ui/uikit/issues/945)) ([edee285](https://github.com/gravity-ui/uikit/commit/edee285af48e8817184fb2214916f09159ca545d))
+* **Table:** fix copying the array from getRowClassNames ([#923](https://github.com/gravity-ui/uikit/issues/923)) ([3f123b7](https://github.com/gravity-ui/uikit/commit/3f123b7feb90ddeb123d06ef42f947fe9f85264d))
+
+## [5.7.0](https://github.com/gravity-ui/uikit/compare/v5.6.0...v5.7.0) (2023-08-22)
+
+
+### Features
+
+* **Table:** add `wordWrap` option to prevent text cut ([#919](https://github.com/gravity-ui/uikit/issues/919)) ([52d6efb](https://github.com/gravity-ui/uikit/commit/52d6efbfc405cd156ae1b62d4532cb22a96f649f))
+
+
+### Bug Fixes
+
+* **Table:** calculate column styles on mount ([#926](https://github.com/gravity-ui/uikit/issues/926)) ([e51a73b](https://github.com/gravity-ui/uikit/commit/e51a73b66e576a641cdc2218e873a622e3ba5e98))
+
+## [5.6.0](https://github.com/gravity-ui/uikit/compare/v5.5.1...v5.6.0) (2023-08-22)
+
+
+### Features
+
+* **Icon:** forward `ref` ([#929](https://github.com/gravity-ui/uikit/issues/929)) ([28d023d](https://github.com/gravity-ui/uikit/commit/28d023dc14b05adada4e78d7dfcd3f725bcef2db))
+* **TextArea:** add gravity documentation ([#920](https://github.com/gravity-ui/uikit/issues/920)) ([56f0796](https://github.com/gravity-ui/uikit/commit/56f0796dce851016895f23efd0946fd2c5b93894))
+* **TextInput:** add gravity documentation ([#912](https://github.com/gravity-ui/uikit/issues/912)) ([641e424](https://github.com/gravity-ui/uikit/commit/641e424cf8a21ee99b270472971aff980ea55cf9))
+
 ## [5.5.1](https://github.com/gravity-ui/uikit/compare/v5.5.0...v5.5.1) (2023-08-18)
 
 

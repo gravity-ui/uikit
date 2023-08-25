@@ -5,7 +5,7 @@ A component that puts all together: **CopyToClipboard** and **ClipboardIcon**.<b
 
 ### PropTypes
 
-| Property           | Type       | Required | Default   | Description                                                                   |
+| Name               | Type       | Required | Default   | Description                                                                   |
 | :----------------- | :--------- | :------: | :-------- | :---------------------------------------------------------------------------- |
 | text               | `String`   |          |           | Text to copy                                                                  |
 | size               | `Number`   |          | 24        | Icon size                                                                     |
@@ -19,7 +19,7 @@ A component that puts all together: **CopyToClipboard** and **ClipboardIcon**.<b
 
 ### ClipboardButtonTooltipProps
 
-| Property     | Type      | Required | Default   | Description                             |
+| Name         | Type      | Required | Default   | Description                             |
 | :----------- | :-------- | :------: | :-------- | :-------------------------------------- |
 | hasTooltip   | `boolean` |    no    | true      | Disable tooltip. Tooltip won't be shown |
 | startCopyTip | `string`  |    no    | `Copy`    | Text shown before copy                  |

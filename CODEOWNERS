@@ -4,7 +4,7 @@
 /src/components/Breadcrumbs @vrozaev
 /src/components/Button @amje
 /src/components/Card @Lunory
-#/src/components/Checkbox
+/src/components/Checkbox @zamkovskaya
 #/src/components/ClipboardButton @damask
 #/src/components/ClipboardIcon @damask
 #/src/components/CopyToClipboard @damask
@@ -17,12 +17,16 @@
 /src/components/Link @LakeVostok
 /src/components/List @korvin89
 /src/components/Loader @SeqviriouM
+/src/components/Menu @NikitaCG
 /src/components/Modal @amje
 /src/components/Persona @DaffPunks
 /src/components/Popover @kseniya57
 /src/components/Popup @amje
 /src/components/Portal @amje
-/src/components/Progress @mfyodorov
+/src/components/Progress @Lunory
+/src/components/Radio @zamkovskaya
+/src/components/RadioButton @zamkovskaya
+/src/components/RadioGroup @zamkovskaya
 /src/components/User @DaffPunks
 /src/components/UserAvatar @DaffPunks
 /src/components/Select @korvin89

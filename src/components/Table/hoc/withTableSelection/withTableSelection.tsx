@@ -203,7 +203,9 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             (getRowClassNames?: (item: I, index: number) => string[]) => {
                 return (item: I, index: number) => {
                     const {selectedIds} = this.props;
-                    const classNames = getRowClassNames ? getRowClassNames(item, index) : [];
+                    const classNames = getRowClassNames
+                        ? getRowClassNames(item, index).slice()
+                        : [];
                     const id = Table.getRowId(this.props, item, index);
                     const selected = selectedIds.includes(id);
 

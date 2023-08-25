@@ -18,7 +18,7 @@ The hook returns the following:
 
 ### Arguments
 
-| Property        | Type                                                                 | Default | Description                                                                                           |
+| Name            | Type                                                                 | Default | Description                                                                                           |
 | :-------------- | :------------------------------------------------------------------- | :------ | :---------------------------------------------------------------------------------------------------- |
 | items           | `ItemType[]`                                                         | `-`     | List items. Item can be any object. Also, it can contain `items` property, which represents sub-items |
 | skip            | `(item: ItemType) => boolean`                                        | `-`     | Returns true if the item should not participate in navigation (Called for each item)                  |
@@ -32,7 +32,7 @@ The hook returns the following:
 
 ### Returns
 
-| Property           | Type                      | Description              |
+| Name               | Type                      | Description              |
 | :----------------- | :------------------------ | :----------------------- |
 | activeItemIndex    | `number`                  | Index of the active item |
 | setActiveItemIndex | `(index: number) => void` | Active item index setter |

@@ -12,7 +12,7 @@ import {Progress} from '@gravity-ui/uikit';
 
 ## Theme
 
-Use `theme` property for specify color of the whole progress or the composite part.
+Use `theme` property to specify color of the whole progress or the composite part.
 
 <!--LANDING_BLOCK
 
@@ -84,7 +84,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `Progress` component use the size property: `"xs"`, `"s"`, `"m"`. Property `text` is displayed only in `"m"` size.
+To control the size of the `Progress` component use the `size` property: `"xs"`, `"s"`, `"m"`. Property `text` is displayed only in `"m"` size.
 
 <!--LANDING_BLOCK
 

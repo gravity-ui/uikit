@@ -117,7 +117,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         autoComplete: prepareAutoComplete(autoComplete),
         controlProps: {
             ...controlProps,
-            'aria-describedby': ariaDescribedBy,
+            'aria-describedby': ariaDescribedBy || undefined,
             'aria-invalid': Boolean(error) || undefined,
         },
     };

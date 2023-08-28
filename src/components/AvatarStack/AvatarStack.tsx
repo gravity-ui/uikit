@@ -44,7 +44,7 @@ const AvatarStackComponent = <T extends object>({
     }
 
     return (
-        <ul className={b(null, className)}>
+        <ul className={b(null, className)} role={'list'}>
             {restItems.length > 0 ? (
                 <li key={'show-more'} className={b('item', {'overlap-size': overlapSize})}>
                     {renderMore(restItems)}
@@ -53,7 +53,7 @@ const AvatarStackComponent = <T extends object>({
 
             {visibleItems.map((item, index) => (
                 <li key={index} className={b('item', {'overlap-size': overlapSize})}>
-                    {renderItem(item, {itemClassName: b('item-children')})}
+                    {renderItem(item)}
                 </li>
             ))}
         </ul>

@@ -46,6 +46,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 open={open}
                 onClose={handleClose}
                 disablePortal={disablePortal}
+                focusTrap
                 restoreFocus
                 restoreFocusRef={controlRef}
                 modifiers={getModifiers({width, disablePortal, virtualized})}

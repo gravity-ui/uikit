@@ -21,9 +21,10 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             this.props;
 
         return (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
-                role="listitem"
+                role="option"
+                aria-selected={selected}
+                tabIndex={0}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
                     'item',
@@ -39,8 +40,11 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 style={style}
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
+                onKeyDown={item.disabled ? undefined : this.onKeyDown}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
+                onFocus={this.onMouseEnter}
+                onBlur={this.onMouseLeave}
                 ref={this.ref}
             >
                 {this.renderSortIcon()}
@@ -72,6 +76,12 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             domEvent: event,
             eventId: 'click',
         });
+    };
+
+    private onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (this.props.onClick && [' ', 'Spacebar'].includes(event.key)) {
+            this.onClick();
+        }
     };
 
     private onMouseEnter = () =>

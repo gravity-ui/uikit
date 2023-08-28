@@ -74,7 +74,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         filter: '',
     };
 
-    refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -107,6 +106,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return (
             <MobileContext.Consumer>
                 {({mobile}) => (
+                    // The event handler should only be used to capture bubbled events
                     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                     <div
                         className={b({mobile}, className)}
@@ -121,6 +121,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                             className={b('items', {virtualized}, itemsClassName)}
                             style={this.getItemsStyle()}
                             onMouseLeave={this.onMouseLeave}
+                            role="listbox"
+                            tabIndex={0}
                         >
                             {this.renderItems()}
                             {items.length === 0 && Boolean(emptyPlaceholder) && (
@@ -188,11 +190,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 }
                 break;
             }
-            default: {
-                if (this.refFilter.current) {
-                    this.refFilter.current.focus();
-                }
-            }
         }
     };
 
@@ -240,7 +237,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return (
             <div className={b('filter', filterClassName)}>
                 <TextInput
-                    controlRef={this.refFilter}
                     size={size}
                     placeholder={filterPlaceholder}
                     value={filter}

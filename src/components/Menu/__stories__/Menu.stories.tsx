@@ -29,7 +29,7 @@ export const ItemActive: StoryFn<MenuProps> = (args) => (
 
 export const ItemIcon: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item icon={<Icon data={Gear} size={16} />}>Settings</Menu.Item>
+        <Menu.Item iconStart={<Icon data={Gear} size={16} />}>Settings</Menu.Item>
     </Menu>
 );
 

@@ -41,6 +41,8 @@ export type ListProps<T = unknown> = QAProps & {
     autoFocus?: boolean;
     ariaAttributes?: React.AriaAttributes;
     role?: React.AriaRole;
+    loading?: boolean;
+    onLoadMore?: () => void;
 };
 
 export type ListItemProps<T> = {

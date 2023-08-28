@@ -9,7 +9,7 @@ import {DragHandleIcon} from './DragHandleIcon';
 
 const b = block('list');
 
-const defaultRenderItem = <T extends unknown>(item: T) => String(item);
+export const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
 export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private static publishEvent = eventBroker.withEventPublisher('List');

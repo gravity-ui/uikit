@@ -4,7 +4,7 @@ Component to render a pagination.
 
 ## PropTypes
 
-| Property        | Type                                       | Required | Default | Description                                                                |
+| Name            | Type                                       | Required | Default | Description                                                                |
 | :-------------- | :----------------------------------------- | :------: | :------ | :------------------------------------------------------------------------- |
 | page            | `number`                                   |   `+`    |         | Current page number                                                        |
 | pageSize        | `number`                                   |   `+`    |         | Number of data items per page.                                             |

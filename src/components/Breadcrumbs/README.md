@@ -4,7 +4,7 @@ Breadcrumbs component. Can collapse breadcrumbs that cause overflow.
 
 ### PropTypes
 
-| Property                 | Type       | Required | Default | Description                                                                                                                  |
+| Name                     | Type       | Required | Default | Description                                                                                                                  |
 | :----------------------- | :--------- | :------: | :------ | :--------------------------------------------------------------------------------------------------------------------------- |
 | items                    | `Array`    |    ✓     |         | Breadcrumb items array `BreadcrumbsItem[]`                                                                                   |
 | className                | `String`   |          |         | CSS class name of root element                                                                                               |

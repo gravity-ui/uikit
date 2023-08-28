@@ -17,6 +17,7 @@ export const Default = DefaultText.bind({});
 Default.args = {
     variant: 'display-1',
     children: 'display-1 text',
+    title: 'Lorem ipsum',
 };
 
 export const UsingTextUtilities = () => (

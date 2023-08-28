@@ -4,7 +4,7 @@ React hook used to handle items selection in list
 
 ### Arguments
 
-| Property     | Type       | Default | Description                                               |
+| Name         | Type       | Default | Description                                               |
 | :----------- | :--------- | :------ | :-------------------------------------------------------- |
 | value        | `string[]` | `-`     | Values that represent selected items                      |
 | defaultValue | `string[]` | `[]`    | Default values used in case of uncontrolled usage         |
@@ -16,7 +16,7 @@ React hook used to handle items selection in list
 
 ### Return data
 
-| Property        | Type       | Description                                                 |
+| Name            | Type       | Description                                                 |
 | :-------------- | :--------- | :---------------------------------------------------------- |
 | value           | `string[]` | Values that represent selected items                        |
 | handleSelection | `function` | Handles item selection                                      |

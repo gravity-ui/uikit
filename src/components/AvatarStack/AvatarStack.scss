@@ -2,7 +2,7 @@
 @use '../UserAvatar/mixins' as avatarMixins;
 @use '../variables';
 
-$block: '.#{variables.$ns-new}image-stack';
+$block: '.#{variables.$ns-new}avatar-stack';
 
 #{$block} {
     $border-width: 1px;

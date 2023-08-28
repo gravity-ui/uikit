@@ -7,7 +7,7 @@ import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
 
-const b = blockNew('image-stack');
+const b = blockNew('avatar-stack');
 
 function getSplitIndex<T>(items: T[], displayCount: number) {
     return displayCount + 1 < items.length ? displayCount : items.length;

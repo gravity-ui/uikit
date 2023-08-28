@@ -25,7 +25,6 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             itemClassName,
             selected,
             active,
-            ariaAttributes,
             role = 'listitem',
         } = this.props;
 
@@ -57,7 +56,6 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 onFocus={this.onMouseEnter}
                 onBlur={this.onMouseLeave}
                 ref={this.ref}
-                {...ariaAttributes}
             >
                 {this.renderSortIcon()}
                 {this.renderContent()}

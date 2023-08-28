@@ -39,7 +39,6 @@ export type ListProps<T = unknown> = QAProps & {
     onFilterEnd?: ({items}: {items: ListItemData<T>[]}) => void;
     onSortEnd?: (params: ListSortParams) => void;
     autoFocus?: boolean;
-    ariaAttributes?: React.AriaAttributes;
     role?: React.AriaRole;
     loading?: boolean;
     onLoadMore?: () => void;
@@ -57,7 +56,5 @@ export type ListItemProps<T> = {
     onActivate: (index?: number) => void;
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];
-    ariaAttributes?: React.AriaAttributes;
     role?: React.AriaRole;
-    selectedValue?: string[];
 };

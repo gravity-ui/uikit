@@ -135,7 +135,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                             onMouseLeave={this.onMouseLeave}
                             role={role}
                             tabIndex={role === 'listbox' ? 0 : undefined}
-                            {...this.props.ariaAttributes}
                         >
                             {this.renderItems()}
                             {items.length === 0 && Boolean(emptyPlaceholder) && (

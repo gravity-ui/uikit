@@ -99,13 +99,9 @@ export const DropdownMenuItem = <T,>({
                 {...props}
                 extraProps={extraProps}
                 onClick={handleMenuItemClick}
+                iconEnd={hasSubmenu && <Icon data={ChevronRight} size={10} />}
             >
-                <div className={cnDropdownMenu('menu-item-content')}>
-                    <div className={cnDropdownMenu('menu-item-content-children')}>
-                        {text || children}
-                    </div>
-                    {hasSubmenu && <Icon data={ChevronRight} size={10} />}
-                </div>
+                {text || children}
             </Menu.Item>
             {hasSubmenu && subMenuItems && (
                 <DropdownMenuPopup

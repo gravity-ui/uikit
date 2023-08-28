@@ -17,17 +17,6 @@ $block: '.#{variables.$ns}dropdown-menu';
         pointer-events: none;
     }
 
-    &__menu-item-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
-    }
-
-    &__menu-item-content-children {
-        flex: auto;
-    }
-
     &__sub-menu {
         position: relative;
 

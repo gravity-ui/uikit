@@ -11,6 +11,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     /** @deprecated use `iconStart` instead */
     icon?: React.ReactNode;
     iconStart?: React.ReactNode;
+    iconEnd?: React.ReactNode;
     title?: string;
     disabled?: boolean;
     active?: boolean;
@@ -30,6 +31,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
     {
         icon,
         iconStart = icon,
+        iconEnd,
         title,
         disabled,
         active,
@@ -73,13 +75,18 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
     };
     const content = [
         iconStart && (
-            <div key="icon" className={b('item-icon')}>
+            <div key="icon-start" className={b('item-icon')}>
                 {iconStart}
             </div>
         ),
         <div key="content" className={b('item-content')}>
             {children}
         </div>,
+        iconEnd && (
+            <div key={'icon-end'} className={b('item-icon-end')}>
+                {iconEnd}
+            </div>
+        ),
     ];
     let item;
 

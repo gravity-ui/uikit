@@ -99,7 +99,14 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     render() {
-        const {emptyPlaceholder, virtualized, className, itemsClassName, qa} = this.props;
+        const {
+            emptyPlaceholder,
+            virtualized,
+            className,
+            itemsClassName,
+            qa,
+            role = 'list',
+        } = this.props;
 
         const {items} = this.state;
 
@@ -121,8 +128,9 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                             className={b('items', {virtualized}, itemsClassName)}
                             style={this.getItemsStyle()}
                             onMouseLeave={this.onMouseLeave}
-                            role="listbox"
-                            tabIndex={0}
+                            role={role}
+                            tabIndex={role === 'listbox' ? 0 : undefined}
+                            {...this.props.ariaAttributes}
                         >
                             {this.renderItems()}
                             {items.length === 0 && Boolean(emptyPlaceholder) && (
@@ -194,12 +202,15 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private renderItem = ({index, style}: {index: number; style?: React.CSSProperties}) => {
-        const {sortHandleAlign} = this.props;
+        const {sortHandleAlign, role} = this.props;
         const {items, activeItem} = this.state;
         const item = items[index];
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
         const active = index === activeItem || index === this.props.activeItemIndex;
         const Item = sortable ? SortableListItem : ListItem;
+        const selected = Array.isArray(this.props.selectedItemIndex)
+            ? this.props.selectedItemIndex.includes(index)
+            : index === this.props.selectedItemIndex;
 
         return (
             <Item
@@ -213,9 +224,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 renderItem={this.props.renderItem}
                 itemClassName={this.props.itemClassName}
                 active={active}
-                selected={index === this.props.selectedItemIndex}
+                selected={selected}
                 onActivate={this.onItemActivate}
                 onClick={this.props.onItemClick}
+                role={role === 'listbox' ? 'option' : 'listitem'}
             />
         );
     };

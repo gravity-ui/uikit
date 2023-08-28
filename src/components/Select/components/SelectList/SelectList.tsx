@@ -51,6 +51,17 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         [flattenOptions, loading],
     );
 
+    const selectedIndexes = React.useMemo(
+        () =>
+            flattenOptions.reduce<number[]>((acc, option, index) => {
+                if ('value' in option && value.includes(option.value)) {
+                    acc.push(index);
+                }
+                return acc;
+            }, []),
+        [flattenOptions, value],
+    );
+
     const optionsHeight = getOptionsHeight({
         options: items,
         getOptionHeight,
@@ -127,6 +138,8 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             virtualized={virtualized}
             renderItem={renderItem}
             onItemClick={onOptionClick}
+            selectedItemIndex={selectedIndexes}
+            role="listbox"
         />
     );
 });

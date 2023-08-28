@@ -17,14 +17,25 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     ref = React.createRef<HTMLDivElement>();
 
     render() {
-        const {item, style, sortable, sortHandleAlign, itemClassName, selected, active} =
-            this.props;
+        const {
+            item,
+            style,
+            sortable,
+            sortHandleAlign,
+            itemClassName,
+            selected,
+            active,
+            ariaAttributes,
+            role = 'listitem',
+        } = this.props;
 
         return (
             <div
-                role="option"
+                role={role}
+                tabIndex={
+                    (this.props.onClick || role === 'option') && !item.disabled ? 0 : undefined
+                }
                 aria-selected={selected}
-                tabIndex={0}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
                     'item',
@@ -46,6 +57,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 onFocus={this.onMouseEnter}
                 onBlur={this.onMouseLeave}
                 ref={this.ref}
+                {...ariaAttributes}
             >
                 {this.renderSortIcon()}
                 {this.renderContent()}

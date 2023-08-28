@@ -24,5 +24,5 @@ function setup<T extends unknown>(props: Partial<ListItemProps<T>> = {}) {
 test('should render', () => {
     setup();
 
-    expect(screen.getByRole('option')).toHaveTextContent('List Item');
+    expect(screen.getByRole('listitem')).toHaveTextContent('List Item');
 });

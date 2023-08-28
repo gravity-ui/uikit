@@ -3,7 +3,7 @@ import React from 'react';
 import type {UserAvatarSize} from '../UserAvatar';
 import {blockNew} from '../utils/cn';
 
-const b = blockNew('image-stack');
+const b = blockNew('avatar-stack');
 
 type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 'aria-label'> & {
     size?: UserAvatarSize;

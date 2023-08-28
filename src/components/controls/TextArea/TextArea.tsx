@@ -5,7 +5,6 @@ import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
-import {useDescribedBy} from '../common/useDescribedBy';
 import type {
     BaseInputControlProps,
     InputControlPin,
@@ -89,12 +88,15 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
-    const ariaDescribedBy = useDescribedBy({
-        ariaDescribedBy: controlProps?.['aria-describedby'],
-        note,
-        error,
-        controlId: id,
-    });
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        controlProps?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
 
     const commonProps = {
         id,
@@ -116,7 +118,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         controlProps: {
             ...controlProps,
             'aria-describedby': ariaDescribedBy,
-            'aria-invalid': controlProps?.['aria-invalid'] ?? Boolean(error),
+            'aria-invalid': Boolean(error) || undefined,
         },
     };
 

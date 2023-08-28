@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, queryHelpers, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
-import {getControlErrorTextId, getControlNoteId} from '../../utils';
 import {TextInput} from '../TextInput';
 
 describe('TextInput input', () => {
@@ -198,24 +197,26 @@ describe('TextInput input', () => {
             });
 
             test('render described input with error message and note', () => {
-                const inputId = 'input-id';
                 const errorText = 'Some error text';
                 const noteText = 'Note text';
-                const {container} = render(
-                    <TextInput error={errorText} id={inputId} note={noteText} />,
-                );
+                const {container} = render(<TextInput error={errorText} note={noteText} />);
 
                 const input = screen.getByRole('textbox');
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                const errorTextElement = container.querySelector(
-                    `#${getControlErrorTextId(inputId)}`,
-                );
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                const noteTextElement = container.querySelector(`#${getControlNoteId(inputId)}`);
+                const [noteId = '', errorMessageId = ''] = (
+                    input.getAttribute('aria-describedby') ?? ''
+                ).split(/\s+/);
+                expect(noteId).not.toBe('');
+                expect(errorMessageId).not.toBe('');
 
-                expect(input.getAttribute('aria-describedby')).toBe(
-                    `${getControlNoteId(inputId)} ${getControlErrorTextId(inputId)}`,
+                const errorTextElement = queryHelpers.queryByAttribute(
+                    'id',
+                    container,
+                    errorMessageId,
                 );
+                const noteTextElement = queryHelpers.queryByAttribute('id', container, noteId);
+                if (!errorTextElement || !noteTextElement) {
+                    throw new Error('Both error message and note elements should be present');
+                }
                 expect(errorTextElement?.textContent).toBe(errorText);
                 expect(noteTextElement?.textContent).toBe(noteText);
             });

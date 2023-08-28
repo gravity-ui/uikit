@@ -1,34 +1,33 @@
 import React from 'react';
 
 import {block} from '../../../utils/cn';
-import {getControlErrorTextId, getControlNoteId} from '../../utils';
 
 import './OuterAdditionalContent.scss';
 
 const b = block('outer-additional-content');
 
 interface OuterAdditionalContentProps {
-    isVisible?: boolean;
     note?: React.ReactNode;
-    error?: React.ReactNode;
-    controlId?: string;
+    errorMessage?: React.ReactNode;
+    noteId?: string;
+    errorMessageId?: string;
 }
 
 export const OuterAdditionalContent = ({
-    error,
-    isVisible,
+    errorMessage,
     note,
-    controlId,
+    noteId,
+    errorMessageId,
 }: OuterAdditionalContentProps) => {
-    return isVisible || note ? (
+    return errorMessage || note ? (
         <div className={b()}>
-            {isVisible && (
-                <div className={b('error')} id={getControlErrorTextId(controlId)}>
-                    {error}
+            {errorMessage && (
+                <div className={b('error')} id={errorMessageId}>
+                    {errorMessage}
                 </div>
             )}
             {note && (
-                <div className={b('note')} id={getControlNoteId(controlId)}>
+                <div className={b('note')} id={noteId}>
                     {note}
                 </div>
             )}

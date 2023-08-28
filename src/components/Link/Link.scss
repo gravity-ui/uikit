@@ -8,6 +8,7 @@ $block: '.#{variables.$ns}link';
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     cursor: pointer;
+    border-radius: 2px;
 
     &:focus {
         outline: 2px solid var(--g-color-line-misc);

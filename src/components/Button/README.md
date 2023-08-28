@@ -174,17 +174,7 @@ LANDING_BLOCK-->
 
 ## Icons
 
-<!--LANDING_BLOCK
-
-In order to add an icon to the `Button` you should use the [`Icon`](./icon) component, a special wrapper for SVGs.
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-In order to add icon to the `Button` you should use the [`Icon`](../Icon/README.md) component, a special wrapper for SVGs.
-
-<!--/GITHUB_BLOCK-->
+In order to add icon to the `Button` you should use the [`Icon`](../Icon) component, a special wrapper for SVGs.
 
 <!--LANDING_BLOCK
 

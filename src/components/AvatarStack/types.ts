@@ -5,7 +5,7 @@ export type AvatarStackOverlapSize = 's' | 'm' | 'l';
 export interface AvatarStackProps<T extends object> {
     items: T[];
 
-    renderItem(item: T, options: {itemClassName: string}): React.ReactNode;
+    renderItem(item: T): React.ReactNode;
 
     renderMore(items: T[]): React.ReactNode;
 

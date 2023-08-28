@@ -45,8 +45,8 @@ const Template: StoryFn<ComponentType> = (args) => {
 
     const avatarSize = overlapAvatarSizeMap[args.overlapSize || 's'];
 
-    const renderItem: AvatarStackProps<DemoItem>['renderItem'] = (item, {itemClassName}) => (
-        <UserAvatar size={avatarSize} className={itemClassName} imgUrl={item.image} />
+    const renderItem: AvatarStackProps<DemoItem>['renderItem'] = (item) => (
+        <UserAvatar size={avatarSize} imgUrl={item.image} />
     );
 
     const renderMore: AvatarStackProps<DemoItem>['renderMore'] = (items) => (

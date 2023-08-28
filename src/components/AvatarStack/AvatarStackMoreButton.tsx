@@ -10,7 +10,7 @@ type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 
     count: number;
 };
 
-export const ImageStackMoreButton = ({
+export const AvatarStackMoreButton = ({
     className,
     size = 'xs',
     onClick,
@@ -28,4 +28,4 @@ export const ImageStackMoreButton = ({
     );
 };
 
-ImageStackMoreButton.displayName = 'ImageStack.MoreButton';
+AvatarStackMoreButton.displayName = 'AvatarStack.MoreButton';

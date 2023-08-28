@@ -2,10 +2,10 @@ import React from 'react';
 
 import {blockNew} from '../utils/cn';
 
-import {ImageStackMoreButton} from './ImageStackMoreButton';
-import type {ImageStackProps} from './types';
+import {AvatarStackMoreButton} from './AvatarStackMoreButton';
+import type {AvatarStackProps} from './types';
 
-import './ImageStack.scss';
+import './AvatarStack.scss';
 
 const b = blockNew('image-stack');
 
@@ -21,14 +21,14 @@ function getRestItems<T>(items: T[], displayCount: number) {
     return items.slice(getSplitIndex(items, displayCount));
 }
 
-const ImageStackComponent = <T extends object>({
+const AvatarStackComponent = <T extends object>({
     displayCount = 2,
     overlapSize = 's',
     className,
     items,
     renderItem,
     renderMore,
-}: ImageStackProps<T>) => {
+}: AvatarStackProps<T>) => {
     const [visibleItems, setVisibleItems] = React.useState(() =>
         getVisibleItems(items, displayCount),
     );
@@ -60,6 +60,6 @@ const ImageStackComponent = <T extends object>({
     );
 };
 
-ImageStackComponent.displayName = 'ImageStack';
+AvatarStackComponent.displayName = 'AvatarStack';
 
-export const ImageStack = Object.assign(ImageStackComponent, {MoreButton: ImageStackMoreButton});
+export const AvatarStack = Object.assign(AvatarStackComponent, {MoreButton: AvatarStackMoreButton});

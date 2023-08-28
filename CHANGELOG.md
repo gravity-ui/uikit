@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.9.1](https://github.com/gravity-ui/uikit/compare/v5.9.0...v5.9.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* downgrade tslib to 2.6.1 ([#963](https://github.com/gravity-ui/uikit/issues/963)) ([87c62d3](https://github.com/gravity-ui/uikit/commit/87c62d3c8034a48bc278999f38e9911c3b54be23))
+
 ## [5.9.0](https://github.com/gravity-ui/uikit/compare/v5.8.0...v5.9.0) (2023-08-24)
 
 

@@ -228,8 +228,6 @@ Likewise, you can forward `onFocus` and `onBlur` if you need to repeat the behav
 
 `filter` - a value of the filter. Used with external sorting.
 
-<!--/GITHUB_BLOCK-->
-
 ### PropTypes
 
 | Name              | Description                                                                                                                                                                                            | Type              | Default |

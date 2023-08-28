@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "5.9.0",
+    "version": "5.9.1",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "repository": {
@@ -88,7 +88,7 @@
         "react-virtualized-auto-sizer": "^1.0.20",
         "react-window": "^1.8.9",
         "tabbable": "^6.2.0",
-        "tslib": "^2.6.2",
+        "tslib": "^2.6.1",
         "utility-types": "^3.10.0"
     },
     "devDependencies": {

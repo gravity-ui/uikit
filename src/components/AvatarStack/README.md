@@ -14,8 +14,6 @@ Stack of images with overlap over next image and optional control. This is usual
 
 Component is not limit you to what components to render, basic usage is:
 
-<!--GITHUB_BLOCK-->
-
 ```tsx
 <AvatarStack
   items={[
@@ -33,8 +31,6 @@ Component is not limit you to what components to render, basic usage is:
   renderMore={(items) => <AvatarStack.MoreButton count={items.length} />}
 />
 ```
-
-<!--/GITHUB_BLOCK-->
 
 ## Properties
 

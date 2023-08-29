@@ -1,38 +1,96 @@
+<!--GITHUB_BLOCK-->
+
 # Radio
 
-## Example
+<!--/GITHUB_BLOCK-->
 
 ```tsx
-import React from 'react';
 import {Radio} from '@gravity-ui/uikit';
-
-function App({checked}) {
-  return (
-    <Radio
-      content="value 1"
-      value="value 1"
-      checked={checked}
-      onUpdate={(checked) => console.log(checked)}
-    />
-  );
-}
 ```
 
-## Props
+The `Radio` component allow users to select a single option from a list of choices.
 
-Inherit props: [`ControlProps`](../README.md#controlprops), [`DOMProps`](../README.md#domprops), [`QAProps`](../README.md#qaprops).
+## States
 
-```ts
-interface RadioProps extends ControlProps<boolean>, DOMProps, QAProps {
-  /** Control value */
-  value: string;
-  /** Size */
-  size?: 'm' | 'l';
-  /** Label content */
-  content?: React.ReactNode;
-  /** Label content */
-  children?: React.ReactNode;
-  /** HTML title */
-  title?: string;
-}
+The Radio can be in different states.
+
+- Checked - when the radio is selected.
+- Disabled - when the radio is unavailable for interaction.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Radio value="option 1" content="Unchecked" size="l"/>
+<Radio value="option 2" content="Checked" size="l" checked/>
+<Radio value="option 3" content="Disabled" size="l" disabled/>
+`}
+>
+    <UIKit.Radio value="option 1" content="Unchecked" size="l"/>
+    <UIKit.Radio value="option 2" content="Checked" size="l" checked/>
+    <UIKit.Radio value="option 3" content="Disabled" size="l" disabled/>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Radio value="option 1" content="Unchecked" size="l"/>
+<Radio value="option 2" content="Checked" size="l" checked/>
+<Radio value="option 3" content="Disabled" size="l" disabled/>
 ```
+
+<!--/GITHUB_BLOCK-->
+
+## Size
+
+To control the size of the `Radio` use the `size` property. Default size is `m`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Radio value="option 1" content="M Size" size="m"/>
+<Radio value="option 2" content="L Size" size="l"/>
+`}
+>
+    <UIKit.Radio value="option 1" content="M Size" size="m"/>
+    <UIKit.Radio value="option 2" content="L Size" size="l"/>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Radio value="option 1" content="M Size" size="m"/>
+<Radio value="option 2" content="L Size" size="l"/>
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Properties
+
+| Name           | Description                                                    |                     Type                      | Default |
+| :------------- | :------------------------------------------------------------- | :-------------------------------------------: | :-----: |
+| children       | The content of the radio (usually a label).                    |                  `ReactNode`                  |         |
+| content        | The content of the radio (alternative to children).            |                  `ReactNode`                  |         |
+| disabled       | Toggles the `disabled` state of the radio.                     |                   `boolean`                   | `false` |
+| checked        | Toggles the checked state of the radio.                        |                   `boolean`                   | `false` |
+| defaultChecked | Sets the initial checked state when the component is mounted.  |                   `boolean`                   | `false` |
+| onUpdate       | Event handler for when the radio's value is updated.           |         `(checked: boolean) => void`          |         |
+| onChange       | Event handler for when the radio's value changes.              |                  `Function`                   |         |
+| onFocus        | Event handler for when the radio input element receives focus. |                  `Function`                   |         |
+| onBlur         | Event handler for when the radio input element loses focus.    |                  `Function`                   |         |
+| size           | Sets the size of the radio.                                    |                    `m - l`                    |  `"m"`  |
+| id             | HTML `id` attribute                                            |                   `string`                    |         |
+| qa             | HTML `data-qa` attribute, used in tests.                       |                   `string`                    |         |
+| style          | HTML `style` attribute                                         |                `CSSProperties`                |         |
+| className      | HTML `class` attribute                                         |                   `string`                    |         |
+| title          | HTML `title` attribute                                         |                   `string`                    |         |
+| name           | HTML `name` attribute for the input element.                   |                   `string`                    |         |
+| value          | Control value                                                  |                   `string`                    |         |
+| indeterminate  | Toggles the indeterminate state of the radio.                  |                   `boolean`                   | `false` |
+| controlProps   | Additional props for the underlying input element.             | `React.InputHTMLAttributes<HTMLInputElement>` |         |
+| controlRef     | Ref to the underlying input element.                           |         `React.Ref<HTMLInputElement>`         |         |

@@ -83,7 +83,7 @@ LANDING_BLOCK-->
 | onChange       | Event handler for when the switch's value changes.              |                  `Function`                   |         |
 | onFocus        | Event handler for when the switch input element receives focus. |                  `Function`                   |         |
 | onBlur         | Event handler for when the switch input element loses focus.    |                  `Function`                   |         |
-| size           | Sets the size of the switch.                                    |                    `m - l`                    |  `"m"`  |
+| size           | Sets the size of the switch.                                    |                    `m` `l`                    |   `m`   |
 | id             | HTML `id` attribute                                             |                   `string`                    |         |
 | qa             | HTML `data-qa` attribute, used in tests.                        |                   `string`                    |         |
 | style          | HTML `style` attribute                                          |                `CSSProperties`                |         |

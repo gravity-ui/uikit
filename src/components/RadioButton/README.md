@@ -21,17 +21,9 @@ const options: RadioButtonOption[] = [
   {value: 'Value 2', content: 'Value 2'},
   {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioButton name="group1" defaultValue={options[0].value} options={options} />
 <RadioButton name="group2" defaultValue={options[0].value} options={options} disabled/>
 `}
 >
-  <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } />
   <UIKit.RadioButton name="group2" defaultValue="Value 1" options={
     [
       {value: 'Value 1', content: 'Value 1'},
@@ -46,13 +38,12 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-  const options: RadioButtonOption[] = [
-    {value: 'Value 1', content: 'Value 1'},
-    {value: 'Value 2', content: 'Value 2'},
-    {value: 'Value 3', content: 'Value 3'},
-  ];
-  <RadioButton name="group1" defaultValue={options[0].value} options={options} />
-  <RadioButton name="group2" defaultValue={options[0].value} options={options} disabled/>
+const options: RadioButtonOption[] = [
+  {value: 'Value 1', content: 'Value 1'},
+  {value: 'Value 2', content: 'Value 2'},
+  {value: 'Value 3', content: 'Value 3'},
+];
+<RadioButton name="group2" defaultValue={options[0].value} options={options} disabled />;
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -76,7 +67,7 @@ const options: RadioButtonOption[] = [
 <RadioButton name="group4" defaultValue={options[0].value} options={options} size="xl"/>
 `}
 >
-
+<div style={{display: grid, justify-items: center, gap: 10px}}>
   <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
     [
       {value: 'Value 1', content: 'Value 1'},
@@ -105,6 +96,8 @@ const options: RadioButtonOption[] = [
       {value: 'Value 3', content: 'Value 3'},
     ]
   } size="xl"/>
+</div>
+
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -134,46 +127,34 @@ To control the width of the `RadioButton` use the `width` property.
 <ExampleBlock
   code={`
 <div style={{width: 140, border: '2px dashed gray'}}>
-    <p>
-        <RadioButton>
-            <RadioButton.Option value="1" content="none" />
-            <RadioButton.Option value="2" content="none********" />
-        </RadioButton>
-    </p>
-    <p>
-        <RadioButton width="auto">
-            <RadioButton.Option value="1" content="auto" />
-            <RadioButton.Option value="2" content="auto********" />
-        </RadioButton>
-    </p>
-    <p>
-        <RadioButton width="max">
-            <RadioButton.Option value="1" content="max" />
-            <RadioButton.Option value="2" content="max" />
-        </RadioButton>
-    </p>
+  <RadioButton>
+      <RadioButton.Option value="1" content="none" />
+      <RadioButton.Option value="2" content="none********" />
+  </RadioButton>
+  <RadioButton width="auto">
+      <RadioButton.Option value="1" content="auto" />
+      <RadioButton.Option value="2" content="auto********" />
+  </RadioButton>
+  <RadioButton width="max">
+      <RadioButton.Option value="1" content="max" />
+      <RadioButton.Option value="2" content="max" />
+  </RadioButton>
 </div>
 `}
 >
 <div style={{width: 140, border: '2px dashed gray'}}>
-    <p>
-        <UIKit.RadioButton>
-            <UIKit.RadioButton.Option value="1" content="none" />
-            <UIKit.RadioButton.Option value="2" content="none********" />
-        </UIKit.RadioButton>
-    </p>
-    <p>
-        <UIKit.RadioButton width="auto">
-            <UIKit.RadioButton.Option value="1" content="auto" />
-            <UIKit.RadioButton.Option value="2" content="auto********" />
-        </UIKit.RadioButton>
-    </p>
-    <p>
-        <UIKit.RadioButton width="max">
-            <UIKit.RadioButton.Option value="1" content="max" />
-            <UIKit.RadioButton.Option value="2" content="max" />
-        </UIKit.RadioButton>
-    </p>
+  <UIKit.RadioButton>
+      <UIKit.RadioButton.Option value="1" content="none" />
+      <UIKit.RadioButton.Option value="2" content="none********" />
+  </UIKit.RadioButton>
+  <UIKit.RadioButton width="auto">
+      <UIKit.RadioButton.Option value="1" content="auto" />
+      <UIKit.RadioButton.Option value="2" content="auto********" />
+  </UIKit.RadioButton>
+  <UIKit.RadioButton width="max">
+      <UIKit.RadioButton.Option value="1" content="max" />
+      <UIKit.RadioButton.Option value="2" content="max" />
+  </UIKit.RadioButton>
 </div>
 </ExampleBlock>
 
@@ -183,24 +164,18 @@ LANDING_BLOCK-->
 
 ```tsx
 <div style={{width: 140, border: '2px dashed gray'}}>
-  <p>
-    <RadioButton>
-      <RadioButton.Option value="1" content="none" />
-      <RadioButton.Option value="2" content="none********" />
-    </RadioButton>
-  </p>
-  <p>
-    <RadioButton width="auto">
-      <RadioButton.Option value="1" content="auto" />
-      <RadioButton.Option value="2" content="auto********" />
-    </RadioButton>
-  </p>
-  <p>
-    <RadioButton width="max">
-      <RadioButton.Option value="1" content="max" />
-      <RadioButton.Option value="2" content="max" />
-    </RadioButton>
-  </p>
+  <RadioButton>
+    <RadioButton.Option value="1" content="none" />
+    <RadioButton.Option value="2" content="none********" />
+  </RadioButton>
+  <RadioButton width="auto">
+    <RadioButton.Option value="1" content="auto" />
+    <RadioButton.Option value="2" content="auto********" />
+  </RadioButton>
+  <RadioButton width="max">
+    <RadioButton.Option value="1" content="max" />
+    <RadioButton.Option value="2" content="max" />
+  </RadioButton>
 </div>
 ```
 
@@ -219,7 +194,7 @@ LANDING_BLOCK-->
 | onFocus      | Event handler for when the radio input element receives focus. |          `Function`          |         |
 | onBlur       | Event handler for when the radio input element loses focus.    |          `Function`          |         |
 | width        | Sets the width of the radio button.                            |         `auto - max`         |         |
-| size         | Sets the size of the radio button.                             |       `s - m - l - xl`       |  `"m"`  |
+| size         | Sets the size of the radio button.                             |       `s` `m` `l` `xl`       |   `m`   |
 | name         | HTML `name` attribute for the input element.                   |           `string`           |         |
 | qa           | HTML `data-qa` attribute, used in tests.                       |           `string`           |         |
 | style        | HTML `style` attribute                                         |       `CSSProperties`        |         |

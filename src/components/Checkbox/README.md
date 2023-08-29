@@ -25,11 +25,13 @@ The Checkbox can be in different states.
 <Checkbox size="l">Unchecked</Checkbox>
 <Checkbox size="l" checked>Checked</Checkbox>
 <Checkbox size="l" disabled>Disabled</Checkbox>
+<Checkbox size="l" indeterminate>Disabled</Checkbox>
 `}
 >
     <UIKit.Checkbox size="l">Unchecked</UIKit.Checkbox>
     <UIKit.Checkbox size="l" checked>Checked</UIKit.Checkbox>
     <UIKit.Checkbox size="l" disabled>Disabled</UIKit.Checkbox>
+    <UIKit.Checkbox size="l" indeterminate>Disabled</UIKit.Checkbox>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -40,6 +42,7 @@ LANDING_BLOCK-->
 <Checkbox size="l">Unchecked</Checkbox>
 <Checkbox size="l" checked>Checked</Checkbox>
 <Checkbox size="l" disabled>Disabled</Checkbox>
+<Checkbox size="l" indeterminate>Disabled</Checkbox>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -84,7 +87,7 @@ LANDING_BLOCK-->
 | onChange       | Event handler for when the checkbox's value changes.              |                  `Function`                   |         |
 | onFocus        | Event handler for when the checkbox input element receives focus. |                  `Function`                   |         |
 | onBlur         | Event handler for when the checkbox input element loses focus.    |                  `Function`                   |         |
-| size           | Sets the size of the checkbox.                                    |                    `m - l`                    |  `"m"`  |
+| size           | Sets the size of the checkbox.                                    |                    `m` `l`                    |   `m`   |
 | id             | HTML `id` attribute                                               |                   `string`                    |         |
 | qa             | HTML `data-qa` attribute, used in tests.                          |                   `string`                    |         |
 | style          | HTML `style` attribute                                            |                `CSSProperties`                |         |

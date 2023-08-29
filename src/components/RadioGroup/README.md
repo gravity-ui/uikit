@@ -21,24 +21,16 @@ const options: RadioGroupOption[] = [
   {value: 'Value 2', content: 'Value 2'},
   {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioGroup name="group1" defaultValue={options[0].value} options={options} />
 <RadioGroup name="group2" defaultValue={options[0].value} options={options} disabled/>
 `}
 >
-    <UIKit.RadioGroup name="group1" defaultValue="Value 1" options={
-      [
-        {value: 'Value 1', content: 'Value 1'},
-        {value: 'Value 2', content: 'Value 2'},
-        {value: 'Value 3', content: 'Value 3'},
-      ]
-    } />
-    <UIKit.RadioGroup name="group2" defaultValue="Value 1" options={
-      [
-        {value: 'Value 1', content: 'Value 1'},
-        {value: 'Value 2', content: 'Value 2'},
-        {value: 'Value 3', content: 'Value 3'},
-      ]
-    } disabled/>
+  <UIKit.RadioGroup name="group2" defaultValue="Value 1" options={
+    [
+      {value: 'Value 1', content: 'Value 1'},
+      {value: 'Value 2', content: 'Value 2'},
+      {value: 'Value 3', content: 'Value 3'},
+    ]
+  } disabled/>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -46,13 +38,12 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-  const options: RadioGroupOption[] = [
-    {value: 'Value 1', content: 'Value 1'},
-    {value: 'Value 2', content: 'Value 2'},
-    {value: 'Value 3', content: 'Value 3'},
-  ];
-  <RadioGroup name="group1" defaultValue={options[0].value} options={options} />
-  <RadioGroup name="group2" defaultValue={options[0].value} options={options} disabled/>
+const options: RadioGroupOption[] = [
+  {value: 'Value 1', content: 'Value 1'},
+  {value: 'Value 2', content: 'Value 2'},
+  {value: 'Value 3', content: 'Value 3'},
+];
+<RadioGroup name="group2" defaultValue={options[0].value} options={options} disabled />;
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -167,7 +158,7 @@ LANDING_BLOCK-->
 | defaultValue    | Sets the initial value state when the component is mounted. |           `string`           |                |
 | onUpdate        | Event handler for when the radio group's value is updated.  | `(checked: boolean) => void` |                |
 | onChange        | Event handler for when the radio group's value changes.     |          `Function`          |                |
-| size            | Sets the size of the radio group.                           |           `m - l`            |     `"m"`      |
+| size            | Sets the size of the radio group.                           |           `m` `l`            |      `m`       |
 | qa              | HTML `data-qa` attribute, used in tests.                    |           `string`           |                |
 | style           | HTML `style` attribute                                      |       `CSSProperties`        |                |
 | className       | HTML `class` attribute                                      |           `string`           |                |
@@ -192,11 +183,6 @@ const options: RadioGroupOption[] = [
 </RadioGroup>
 `}
 >
-const options: RadioGroupOption[] = [
-  {value: 'Value 1', content: 'Value 1'},
-  {value: 'Value 2', content: 'Value 2'},
-  {value: 'Value 3', content: 'Value 3'},
-];
 <UIKit.RadioGroup name="group1" defaultValue="Value 1">
   <UIKit.RadioGroup.Option content="Value 1" value="Value 1" />
   <UIKit.RadioGroup.Option content="Value 2" value="Value 2" />

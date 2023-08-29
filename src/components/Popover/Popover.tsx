@@ -57,7 +57,6 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         focusTrap,
         autoFocus,
         restoreFocusRef,
-        enableButtonEmulation = true,
     },
     ref,
 ) {
@@ -210,7 +209,6 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                 disabled={disabled}
                 onClick={onClick}
                 closedManually={closedManually}
-                enableButtonEmulation={enableButtonEmulation}
             >
                 {children}
             </Trigger>

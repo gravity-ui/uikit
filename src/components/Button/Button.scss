@@ -151,6 +151,10 @@ $iconWidth: 16px;
             --yc-button-background-color: var(--g-color-base-brand);
             --yc-button-background-color-hover: var(--g-color-base-brand-hover);
 
+            &:focus::before {
+                outline-offset: 1px;
+            }
+
             @include button-text-color(var(--g-color-text-brand-contrast));
         }
 

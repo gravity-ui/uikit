@@ -66,7 +66,7 @@ $block: '.#{variables.$ns}menu';
 
             &:hover,
             &:focus {
-                background-color: var(--g-color-base-selection);
+                background-color: var(--g-color-base-selection-hover);
             }
         }
 

@@ -2,6 +2,12 @@ import React from 'react';
 
 import {useActionHandlers} from '../../../utils/useActionHandlers';
 
+interface TriggerArgs {
+    className?: string;
+    onClick: React.MouseEventHandler;
+    onKeyDown: React.KeyboardEventHandler;
+}
+
 export interface TriggerProps {
     /**
      * Tooltip's opened state
@@ -34,7 +40,7 @@ export interface TriggerProps {
     /**
      * Tooltip's trigger content
      */
-    children?: React.ReactNode | (() => React.ReactNode);
+    children?: React.ReactNode | ((triggerArgs: TriggerArgs) => React.ReactNode);
 }
 
 export const Trigger = ({
@@ -74,17 +80,18 @@ export const Trigger = ({
     };
 
     const {onKeyDown} = useActionHandlers(handleClick);
-    const isFunctionChildren = typeof children === 'function';
 
-    return (
+    return typeof children === 'function' ? (
+        <React.Fragment>{children({onClick: handleClick, className, onKeyDown})}</React.Fragment>
+    ) : (
         // The event handler should only be used to capture bubbled events
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             className={className}
             onClick={handleClick}
-            onKeyDown={isFunctionChildren ? undefined : onKeyDown}
+            onKeyDown={onClick ? onKeyDown : undefined}
         >
-            {isFunctionChildren ? children() : children}
+            {children}
         </div>
     );
 };

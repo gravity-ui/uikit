@@ -70,11 +70,6 @@ export interface PopoverExternalProps {
     autoFocus?: boolean;
     /** Focused element when the popover closes */
     restoreFocusRef?: React.RefObject<HTMLElement>;
-    /**
-     * Enables button emulation from keyboard. On Space/Enter press the onClick will be called.
-     * By default, enabled
-     */
-    enableButtonEmulation?: boolean;
 }
 
 export type PopoverBehaviorProps = {

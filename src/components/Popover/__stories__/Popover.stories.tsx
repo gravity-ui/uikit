@@ -215,15 +215,17 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
 
     return (
         <div className={cnPopoverDemo('variants')}>
-            <Base content="Accessible tooltip" tooltipId={tooltipId} enableButtonEmulation={false}>
-                <Button
-                    extraProps={{
-                        'aria-controls': tooltipId,
-                        'aria-describedby': tooltipId,
-                    }}
-                >
-                    Tooltip
-                </Button>
+            <Base content="Accessible tooltip" tooltipId={tooltipId}>
+                {() => (
+                    <Button
+                        extraProps={{
+                            'aria-controls': tooltipId,
+                            'aria-describedby': tooltipId,
+                        }}
+                    >
+                        Tooltip
+                    </Button>
+                )}
             </Base>
             <Base
                 content="Accessible popover with actions"
@@ -243,18 +245,19 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
                 restoreFocusRef={ref}
-                enableButtonEmulation={false}
             >
-                <Button
-                    ref={ref}
-                    extraProps={{
-                        'aria-controls': popoverId,
-                        'aria-describedby': popoverId,
-                        'aria-expanded': openPopover,
-                    }}
-                >
-                    Popover
-                </Button>
+                {() => (
+                    <Button
+                        ref={ref}
+                        extraProps={{
+                            'aria-controls': popoverId,
+                            'aria-describedby': popoverId,
+                            'aria-expanded': openPopover,
+                        }}
+                    >
+                        Popover
+                    </Button>
+                )}
             </Base>
         </div>
     );

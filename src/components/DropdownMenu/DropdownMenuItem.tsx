@@ -92,6 +92,12 @@ export const DropdownMenuItem = <T,>({
         };
     }, [props.extraProps, closeSubmenu, hasSubmenu, openSubmenu]);
 
+    let iconEnd = props.iconEnd ? props.iconEnd : null;
+
+    if (hasSubmenu) {
+        iconEnd = <Icon data={ChevronRight} size={10} />;
+    }
+
     return (
         <React.Fragment>
             <Menu.Item
@@ -99,7 +105,7 @@ export const DropdownMenuItem = <T,>({
                 {...props}
                 extraProps={extraProps}
                 onClick={handleMenuItemClick}
-                iconEnd={hasSubmenu && <Icon data={ChevronRight} size={10} />}
+                iconEnd={iconEnd}
             >
                 {text || children}
             </Menu.Item>

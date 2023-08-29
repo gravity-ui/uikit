@@ -1,13 +1,13 @@
 @mixin g-colors-line-dark {
     --g-color-line-generic: var(--g-color-private-white-150);
     --g-color-line-generic-hover: var(--g-color-private-white-250);
-    --g-color-line-generic-focus: var(--g-color-private-white-900);
     --g-color-line-generic-active: var(--g-color-private-white-300);
     --g-color-line-generic-accent: var(--g-color-private-white-150);
     --g-color-line-generic-accent-hover: var(--g-color-private-white-300);
     --g-color-line-generic-solid: var(--g-color-private-white-150-solid);
 
     --g-color-line-brand: var(--g-color-private-yellow-600-solid);
+    --g-color-line-focus: var(--g-color-private-white-900);
 
     --g-color-line-info: var(--g-color-private-blue-450);
     --g-color-line-positive: var(--g-color-private-green-450);

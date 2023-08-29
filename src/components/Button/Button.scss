@@ -21,7 +21,7 @@ $iconWidth: 16px;
 #{$block} {
     --yc-button-background-color: transparent;
     --yc-button-background-color-hover: var(--g-color-base-simple-hover);
-    --yc-button-outline-color: var(--g-color-line-generic-focus);
+    --yc-button-outline-color: var(--g-color-line-focus);
     --yc-button-icon-space: calc(
         var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset)
     );

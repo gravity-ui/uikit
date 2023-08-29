@@ -83,7 +83,7 @@ $block: '.#{variables.$ns}tabs';
 
         &:focus {
             #{$block}__item-content {
-                outline: 2px solid var(--g-color-line-generic-focus);
+                outline: 2px solid var(--g-color-line-focus);
             }
         }
     }

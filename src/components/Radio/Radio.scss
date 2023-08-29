@@ -69,7 +69,7 @@ $discMarginLSize: 6px;
     }
 
     &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--g-color-line-generic-focus);
+        box-shadow: 0 0 0 2px var(--g-color-line-focus);
     }
 
     &__control:focus:not(:focus-visible) + &__outline {

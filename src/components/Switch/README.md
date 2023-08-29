@@ -21,12 +21,12 @@ The Switch can be in different states.
 
 <ExampleBlock
     code={`
-<Switch size="l">Unchecked</Switch>
+<Switch size="l" checked={false}>Unchecked</Switch>
 <Switch size="l" checked>Checked</Switch>
 <Switch size="l" disabled>Disabled</Switch>
 `}
 >
-    <UIKit.Switch size="l">Unchecked</UIKit.Switch>
+    <UIKit.Switch size="l" checked={false}>Unchecked</UIKit.Switch>
     <UIKit.Switch size="l" checked>Checked</UIKit.Switch>
     <UIKit.Switch size="l" disabled>Disabled</UIKit.Switch>
 </ExampleBlock>
@@ -36,7 +36,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Switch size="l">Unchecked</Switch>
+<Switch size="l" checked={false}>Unchecked</Switch>
 <Switch size="l" checked>Checked</Switch>
 <Switch size="l" disabled>Disabled</Switch>
 ```

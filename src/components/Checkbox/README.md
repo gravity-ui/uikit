@@ -22,16 +22,16 @@ The Checkbox can be in different states.
 
 <ExampleBlock
     code={`
-<Checkbox size="l">Unchecked</Checkbox>
+<Checkbox size="l" checked={false}>Unchecked</Checkbox>
 <Checkbox size="l" checked>Checked</Checkbox>
 <Checkbox size="l" disabled>Disabled</Checkbox>
-<Checkbox size="l" indeterminate>Disabled</Checkbox>
+<Checkbox size="l" indeterminate>Indeterminate</Checkbox>
 `}
 >
-    <UIKit.Checkbox size="l">Unchecked</UIKit.Checkbox>
+    <UIKit.Checkbox size="l" checked={false}>Unchecked</UIKit.Checkbox>
     <UIKit.Checkbox size="l" checked>Checked</UIKit.Checkbox>
     <UIKit.Checkbox size="l" disabled>Disabled</UIKit.Checkbox>
-    <UIKit.Checkbox size="l" indeterminate>Disabled</UIKit.Checkbox>
+    <UIKit.Checkbox size="l" indeterminate>Indeterminate</UIKit.Checkbox>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -39,10 +39,10 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Checkbox size="l">Unchecked</Checkbox>
+<Checkbox size="l" checked={false}>Unchecked</Checkbox>
 <Checkbox size="l" checked>Checked</Checkbox>
 <Checkbox size="l" disabled>Disabled</Checkbox>
-<Checkbox size="l" indeterminate>Disabled</Checkbox>
+<Checkbox size="l" indeterminate>Indeterminate</Checkbox>
 ```
 
 <!--/GITHUB_BLOCK-->

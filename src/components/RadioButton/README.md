@@ -67,7 +67,7 @@ const options: RadioButtonOption[] = [
 <RadioButton name="group4" defaultValue={options[0].value} options={options} size="xl"/>
 `}
 >
-<div style={{display: grid, justify-items: center, gap: 10px}}>
+<div style={{display: 'grid', justify-items: 'center', gap: 10}}>
   <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
     [
       {value: 'Value 1', content: 'Value 1'},

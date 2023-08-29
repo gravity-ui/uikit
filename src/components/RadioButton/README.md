@@ -21,10 +21,10 @@ const options: RadioButtonOption[] = [
   {value: 'Value 2', content: 'Value 2'},
   {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioButton name="group2" defaultValue={options[0].value} options={options} disabled/>
+<RadioButton name="group1" defaultValue={options[0].value} options={options} disabled/>
 `}
 >
-  <UIKit.RadioButton name="group2" defaultValue="Value 1" options={
+  <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
     [
       {value: 'Value 1', content: 'Value 1'},
       {value: 'Value 2', content: 'Value 2'},
@@ -43,7 +43,7 @@ const options: RadioButtonOption[] = [
   {value: 'Value 2', content: 'Value 2'},
   {value: 'Value 3', content: 'Value 3'},
 ];
-<RadioButton name="group2" defaultValue={options[0].value} options={options} disabled />;
+<RadioButton name="group1" defaultValue={options[0].value} options={options} disabled />;
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -67,37 +67,36 @@ const options: RadioButtonOption[] = [
 <RadioButton name="group4" defaultValue={options[0].value} options={options} size="xl"/>
 `}
 >
-<div style={{display: 'grid', justify-items: 'center', gap: 10}}>
-  <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="s"/>
-  <UIKit.RadioButton name="group2" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="m"/>
-  <UIKit.RadioButton name="group3" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="l"/>
-  <UIKit.RadioButton name="group4" defaultValue="Value 1" options={
-    [
-      {value: 'Value 1', content: 'Value 1'},
-      {value: 'Value 2', content: 'Value 2'},
-      {value: 'Value 3', content: 'Value 3'},
-    ]
-  } size="xl"/>
-</div>
-
+  <div style={{display: 'grid', justifyItems: 'center', gap: 10}}>
+    <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
+      [
+        {value: 'Value 1', content: 'Value 1'},
+        {value: 'Value 2', content: 'Value 2'},
+        {value: 'Value 3', content: 'Value 3'},
+      ]
+    } size="s"/>
+    <UIKit.RadioButton name="group2" defaultValue="Value 1" options={
+      [
+        {value: 'Value 1', content: 'Value 1'},
+        {value: 'Value 2', content: 'Value 2'},
+        {value: 'Value 3', content: 'Value 3'},
+      ]
+    } size="m"/>
+    <UIKit.RadioButton name="group3" defaultValue="Value 1" options={
+      [
+        {value: 'Value 1', content: 'Value 1'},
+        {value: 'Value 2', content: 'Value 2'},
+        {value: 'Value 3', content: 'Value 3'},
+      ]
+    } size="l"/>
+    <UIKit.RadioButton name="group4" defaultValue="Value 1" options={
+      [
+        {value: 'Value 1', content: 'Value 1'},
+        {value: 'Value 2', content: 'Value 2'},
+        {value: 'Value 3', content: 'Value 3'},
+      ]
+    } size="xl"/>
+  </div>
 </ExampleBlock>
 
 LANDING_BLOCK-->

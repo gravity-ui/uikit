@@ -24,7 +24,7 @@ $gap: 8px;
         font-size: inherit;
         line-height: inherit;
         font-weight: inherit;
-        border-radius: 2px;
+        border-radius: var(--g-focus-border-radius);
 
         &:focus {
             outline: 2px solid var(--g-color-line-focus);

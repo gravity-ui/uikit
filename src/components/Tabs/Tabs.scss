@@ -52,7 +52,7 @@ $block: '.#{variables.$ns}tabs';
         &-content {
             display: flex;
             align-items: center;
-            border-radius: 2px;
+            border-radius: var(--g-focus-border-radius);
 
             #{$block}__item_overflow & {
                 min-width: 0;

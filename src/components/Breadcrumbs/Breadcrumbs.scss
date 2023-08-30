@@ -13,11 +13,13 @@ $block: '.#{variables.$ns}breadcrumbs';
 
     &__item {
         flex-shrink: 1;
-        margin: 4px 8px;
+        padding: 4px 8px;
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        outline-offset: -4px;
+        border-radius: calc(var(--g-focus-border-radius) + 4px); // +4px as outline-offset is -4px
 
         &_current {
             padding: 0 8px;

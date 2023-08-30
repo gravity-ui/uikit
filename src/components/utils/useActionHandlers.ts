@@ -1,7 +1,5 @@
 import React from 'react';
 
-import {KeyCode} from '../constants';
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunction = (...args: any[]) => any;
 
@@ -17,10 +15,7 @@ interface UseActionHandlersResult<T> {
 export function useActionHandlers<T>(callback?: AnyFunction): UseActionHandlersResult<T> {
     const onKeyDown = React.useCallback(
         (event: React.KeyboardEvent<T>) => {
-            if (
-                callback &&
-                [KeyCode.ENTER, KeyCode.SPACEBAR, KeyCode.SPACEBAR_OLD].includes(event.key)
-            ) {
+            if (callback && ['Enter', ' ', 'Spacebar'].includes(event.key)) {
                 callback(event);
             }
         },

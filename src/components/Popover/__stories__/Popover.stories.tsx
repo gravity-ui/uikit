@@ -206,31 +206,27 @@ WithCustomAnchor.args = {
     content: 'Popover content',
 };
 
-const tooltipId = 'tooltipId';
-const popoverId = 'popoverId';
-
 const AccessibleTemplate: StoryFn<PopoverProps> = () => {
+    const [openTooltip, setOpenTooltip] = React.useState(false);
     const [openPopover, setOpenPopover] = React.useState(false);
     const ref = React.useRef<HTMLButtonElement>(null);
 
     return (
         <div className={cnPopoverDemo('variants')}>
-            <Base content="Accessible tooltip" tooltipId={tooltipId}>
-                {({onClick}) => (
-                    <Button
-                        extraProps={{
-                            'aria-controls': tooltipId,
-                            'aria-describedby': tooltipId,
-                        }}
-                        onClick={onClick}
-                    >
-                        Tooltip
-                    </Button>
-                )}
+            <Base content="Accessible tooltip" tooltipId="tooltipId" onOpenChange={setOpenTooltip}>
+                <Button
+                    extraProps={{
+                        'aria-controls': 'tooltipId',
+                        'aria-describedby': 'tooltipId',
+                        'aria-expanded': openTooltip,
+                    }}
+                >
+                    Tooltip
+                </Button>
             </Base>
             <Base
                 content="Accessible popover with actions"
-                tooltipId={popoverId}
+                tooltipId="popoverId"
                 onOpenChange={setOpenPopover}
                 tooltipActionButton={{
                     text: 'Action with more',
@@ -242,24 +238,21 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
                 }}
                 autoclosable={false}
                 openOnHover={false}
-                focusTrap
+                focusTrap={true}
                 // eslint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
+                autoFocus={true}
                 restoreFocusRef={ref}
             >
-                {({onClick}) => (
-                    <Button
-                        ref={ref}
-                        extraProps={{
-                            'aria-controls': popoverId,
-                            'aria-describedby': popoverId,
-                            'aria-expanded': openPopover,
-                        }}
-                        onClick={onClick}
-                    >
-                        Popover
-                    </Button>
-                )}
+                <Button
+                    ref={ref}
+                    extraProps={{
+                        'aria-controls': 'popoverId',
+                        'aria-describedby': 'popoverId',
+                        'aria-expanded': openPopover,
+                    }}
+                >
+                    Popover
+                </Button>
             </Base>
         </div>
     );

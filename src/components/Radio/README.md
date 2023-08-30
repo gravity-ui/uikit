@@ -21,12 +21,12 @@ The Radio can be in different states.
 
 <ExampleBlock
     code={`
-<Radio value="option 1" content="Unchecked" size="l"/>
+<Radio value="option 1" content="Unchecked" size="l" checked={false}/>
 <Radio value="option 2" content="Checked" size="l" checked/>
 <Radio value="option 3" content="Disabled" size="l" disabled/>
 `}
 >
-    <UIKit.Radio value="option 1" content="Unchecked" size="l"/>
+    <UIKit.Radio value="option 1" content="Unchecked" size="l" checked={false}/>
     <UIKit.Radio value="option 2" content="Checked" size="l" checked/>
     <UIKit.Radio value="option 3" content="Disabled" size="l" disabled/>
 </ExampleBlock>
@@ -36,7 +36,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Radio value="option 1" content="Unchecked" size="l"/>
+<Radio value="option 1" content="Unchecked" size="l" checked={false}/>
 <Radio value="option 2" content="Checked" size="l" checked/>
 <Radio value="option 3" content="Disabled" size="l" disabled/>
 ```

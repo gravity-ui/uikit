@@ -57,43 +57,48 @@ To control the size of the `RadioButton` use the `size` property. Default size i
 <ExampleBlock
   code={`
 const options: RadioButtonOption[] = [
-  {value: 'Value 1', content: 'Value 1'},
-  {value: 'Value 2', content: 'Value 2'},
-  {value: 'Value 3', content: 'Value 3'},
+  {value: 'Value 1', content: 's'},
+  {value: 'Value 2', content: 'm'},
+  {value: 'Value 3', content: 'l'},
+  {value: 'Value 4', content: 'xl'},
 ];
 <RadioButton name="group1" defaultValue={options[0].value} options={options} size="s"/>
-<RadioButton name="group2" defaultValue={options[0].value} options={options} size="m"/>
-<RadioButton name="group3" defaultValue={options[0].value} options={options} size="l"/>
-<RadioButton name="group4" defaultValue={options[0].value} options={options} size="xl"/>
+<RadioButton name="group2" defaultValue={options[1].value} options={options} size="m"/>
+<RadioButton name="group3" defaultValue={options[2].value} options={options} size="l"/>
+<RadioButton name="group4" defaultValue={options[3].value} options={options} size="xl"/>
 `}
 >
   <div style={{display: 'grid', justifyItems: 'center', gap: 10}}>
     <UIKit.RadioButton name="group1" defaultValue="Value 1" options={
       [
-        {value: 'Value 1', content: 'Value 1'},
-        {value: 'Value 2', content: 'Value 2'},
-        {value: 'Value 3', content: 'Value 3'},
+        {value: 'Value 1', content: 's'},
+        {value: 'Value 2', content: 'm'},
+        {value: 'Value 3', content: 'l'},
+        {value: 'Value 4', content: 'xl'},
       ]
     } size="s"/>
-    <UIKit.RadioButton name="group2" defaultValue="Value 1" options={
+    <UIKit.RadioButton name="group2" defaultValue="Value 2" options={
       [
-        {value: 'Value 1', content: 'Value 1'},
-        {value: 'Value 2', content: 'Value 2'},
-        {value: 'Value 3', content: 'Value 3'},
+        {value: 'Value 1', content: 's'},
+        {value: 'Value 2', content: 'm'},
+        {value: 'Value 3', content: 'l'},
+        {value: 'Value 4', content: 'xl'},
       ]
     } size="m"/>
-    <UIKit.RadioButton name="group3" defaultValue="Value 1" options={
+    <UIKit.RadioButton name="group3" defaultValue="Value 3" options={
       [
-        {value: 'Value 1', content: 'Value 1'},
-        {value: 'Value 2', content: 'Value 2'},
-        {value: 'Value 3', content: 'Value 3'},
+        {value: 'Value 1', content: 's'},
+        {value: 'Value 2', content: 'm'},
+        {value: 'Value 3', content: 'l'},
+        {value: 'Value 4', content: 'xl'},
       ]
     } size="l"/>
-    <UIKit.RadioButton name="group4" defaultValue="Value 1" options={
+    <UIKit.RadioButton name="group4" defaultValue="Value 4" options={
       [
-        {value: 'Value 1', content: 'Value 1'},
-        {value: 'Value 2', content: 'Value 2'},
-        {value: 'Value 3', content: 'Value 3'},
+        {value: 'Value 1', content: 's'},
+        {value: 'Value 2', content: 'm'},
+        {value: 'Value 3', content: 'l'},
+        {value: 'Value 4', content: 'xl'},
       ]
     } size="xl"/>
   </div>
@@ -105,14 +110,15 @@ LANDING_BLOCK-->
 
 ```tsx
   const options: RadioButtonOption[] = [
-    {value: 'Value 1', content: 'Value 1'},
-    {value: 'Value 2', content: 'Value 2'},
-    {value: 'Value 3', content: 'Value 3'},
+    {value: 'Value 1', content: 's'},
+    {value: 'Value 2', content: 'm'},
+    {value: 'Value 3', content: 'l'},
+    {value: 'Value 4', content: 'xl'},
   ];
   <RadioButton name="group1" defaultValue={options[0].value} options={options} size="s"/>
-  <RadioButton name="group2" defaultValue={options[0].value} options={options} size="m"/>
-  <RadioButton name="group3" defaultValue={options[0].value} options={options} size="l"/>
-  <RadioButton name="group4" defaultValue={options[0].value} options={options} size="xl"/>
+  <RadioButton name="group2" defaultValue={options[1].value} options={options} size="m"/>
+  <RadioButton name="group3" defaultValue={options[2].value} options={options} size="l"/>
+  <RadioButton name="group4" defaultValue={options[3].value} options={options} size="xl"/>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -126,34 +132,46 @@ To control the width of the `RadioButton` use the `width` property.
 <ExampleBlock
   code={`
 <div style={{width: 140, border: '2px dashed gray'}}>
-  <RadioButton>
+  <div style={{marginBottom: 10}}>
+    <RadioButton>
       <RadioButton.Option value="1" content="none" />
       <RadioButton.Option value="2" content="none********" />
-  </RadioButton>
-  <RadioButton width="auto">
+    </RadioButton>
+  </div>
+  <div style={{marginBottom: 10}}>
+    <RadioButton width="auto">
       <RadioButton.Option value="1" content="auto" />
       <RadioButton.Option value="2" content="auto********" />
-  </RadioButton>
-  <RadioButton width="max">
+    </RadioButton>
+  </div>
+  <div>
+    <RadioButton width="max">
       <RadioButton.Option value="1" content="max" />
       <RadioButton.Option value="2" content="max" />
-  </RadioButton>
+    </RadioButton>
+  </div>
 </div>
 `}
 >
 <div style={{width: 140, border: '2px dashed gray'}}>
-  <UIKit.RadioButton>
+ <div style={{marginBottom: 10}}>
+    <UIKit.RadioButton>
       <UIKit.RadioButton.Option value="1" content="none" />
       <UIKit.RadioButton.Option value="2" content="none********" />
-  </UIKit.RadioButton>
-  <UIKit.RadioButton width="auto">
+    </UIKit.RadioButton>
+  </div>
+  <div style={{marginBottom: 10}}>
+    <UIKit.RadioButton width="auto">
       <UIKit.RadioButton.Option value="1" content="auto" />
       <UIKit.RadioButton.Option value="2" content="auto********" />
-  </UIKit.RadioButton>
-  <UIKit.RadioButton width="max">
+    </UIKit.RadioButton>
+  </div>
+  <div>
+    <UIKit.RadioButton width="max">
       <UIKit.RadioButton.Option value="1" content="max" />
       <UIKit.RadioButton.Option value="2" content="max" />
-  </UIKit.RadioButton>
+    </UIKit.RadioButton>
+  </div>
 </div>
 </ExampleBlock>
 
@@ -163,18 +181,24 @@ LANDING_BLOCK-->
 
 ```tsx
 <div style={{width: 140, border: '2px dashed gray'}}>
-  <RadioButton>
-    <RadioButton.Option value="1" content="none" />
-    <RadioButton.Option value="2" content="none********" />
-  </RadioButton>
-  <RadioButton width="auto">
-    <RadioButton.Option value="1" content="auto" />
-    <RadioButton.Option value="2" content="auto********" />
-  </RadioButton>
-  <RadioButton width="max">
-    <RadioButton.Option value="1" content="max" />
-    <RadioButton.Option value="2" content="max" />
-  </RadioButton>
+  <div style={{marginBottom: 10}}>
+    <RadioButton>
+      <RadioButton.Option value="1" content="none" />
+      <RadioButton.Option value="2" content="none********" />
+    </RadioButton>
+  </div>
+  <div style={{marginBottom: 10}}>
+    <RadioButton width="auto">
+      <RadioButton.Option value="1" content="auto" />
+      <RadioButton.Option value="2" content="auto********" />
+    </RadioButton>
+  </div>
+  <div>
+    <RadioButton width="max">
+      <RadioButton.Option value="1" content="max" />
+      <RadioButton.Option value="2" content="max" />
+    </RadioButton>
+  </div>
 </div>
 ```
 

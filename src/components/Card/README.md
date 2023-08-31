@@ -1,55 +1,147 @@
+<!--GITHUB_BLOCK-->
+
 # Card
 
-Card is content container. It supports multiple types: `selection`, `action`, `container`.
+<!--/GITHUB_BLOCK-->
 
-## Properties
-
-| Name      | Type                                                | Required | Default       | Description                                                         |
-| :-------- | :-------------------------------------------------- | :------: | :------------ | :------------------------------------------------------------------ |
-| children  | `ReactNode`                                         |    ✓     |               | Card's content                                                      |
-| type      | `CardType`                                          |          | `'container'` | Card's type affects on available properties                         |
-| view      | `SelectionCardView` \| `ContainerCardView`          |          | `'outlined'`  | Available for `type`: `'container'` and `'selection'`               |
-| theme     | `CardTheme`                                         |          | `'normal'`    | Card's base color. Available for `type`: `'container'`              |
-| size      | `CardSize`                                          |          | `'m'`         | Card's size affects on available properties                         |
-| className | `String`                                            |          |               | CSS class                                                           |
-| onClick   | `(event: React.MouseEvent<HTMLDivElement>) => void` |          |               | Card click handler. Available for `type`: `'selection'`, `'action'` |
-| selected  | `Boolean`                                           |          |               | Selected card. Available for type: `'selection'`                    |
-| disabled  | `Boolean`                                           |          |               | Disabled card. Available for type: `'selection'`, `'action'`        |
-
-### Typings
-
-```typescript
-type CardType = 'selection' | 'action' | 'container';
-type CardSize = 'm' | 'l';
-
-type SelectionCardView = 'outlined' | 'clear';
-type ContainerCardView = 'outlined' | 'filled' | 'raised';
-
-type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
+```tsx
+import {Card} from '@gravity-ui/uikit';
 ```
 
-### Examples
+## Description
 
-```ts
-const containerFilledCard = (
-  <Card className="my-card" view="filled" size="m" theme="positive">
-    <div>Card's content</div>
-  </Card>
-);
-```
+The Card UI component is a reusable React component that represents a card-like container with customizable styles and functionality. It is used to display information or content in a visually appealing and organized manner.
 
-```ts
-const selectedCard = (
-  <Card
-    className="my-card"
-    type="selection"
-    view="clear"
-    size="m"
-    onClick={() => {}}
-    selected
-    disabled
-  >
-    <div>Card's content</div>
-  </Card>
-);
-```
+## Appearance
+
+Label can be displayed with multiple styled combination
+
+- theme (`normal`, `info`, `positive`, `warning`, `danger`)
+- type (`selection`, `action`, `container`)
+- view (`outlined`, `clear`) or (`outlined`, `filled`, `raised`) depends on `type` parameter
+
+## Theme
+
+This parameter is used to specify the theme style of the card. It determines the color scheme and visual appearance of the card.
+
+By specifying different theme values, you can customize the visual appearance of the Card component to match the desired style and purpose.
+
+- `normal` - represents the normal/default theme of the card.
+- `info` - represents the theme for displaying informational content.
+- `positive` - represents the theme for displaying positive/affirmative content.
+- `warning` - represents the theme for displaying warning or cautionary content.
+- `danger` - represents the theme for displaying content related to danger or critical situations.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+const style = {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+<UIKit.Card style={style} theme="normal" size="l">Normal</UIKit.Card>
+<UIKit.Card style={style} theme="info" size="l">Info</UIKit.Card>
+<UIKit.Card style={style} theme="positive" size="l">Positive</UIKit.Card>
+<UIKit.Card style={style} theme="warning" size="l">Warning</UIKit.Card>
+<UIKit.Card style={style} theme="danger" size="l">Danger</UIKit.Card>
+`}>
+    const style = {
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    <UIKit.Card style={style} theme="normal" size="l">Normal</UIKit.Card>
+    <UIKit.Card style={style} theme="info" size="l">Info</UIKit.Card>
+    <UIKit.Card style={style} theme="positive" size="l">Positive</UIKit.Card>
+    <UIKit.Card style={style} theme="warning" size="l">Warning</UIKit.Card>
+    <UIKit.Card style={style} theme="danger" size="l">Danger</UIKit.Card>
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+## Type
+
+This parameter is used to define the type of the Card component. It allows you to customize the appearance and behavior of the card.
+
+- `container` - represents a card that acts as a container for other elements. It provides a structured layout for content.
+- `action` - represents a card with an interactive element, such as a button, that triggers an action when clicked.
+- `selection` - represents a card that can be selected or clicked to perform a specific action.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+const style = {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    <UIKit.Card style={style} view="outlined" type="container" size="l">Container</UIKit.Card>
+    <UIKit.Card style={style} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
+    <UIKit.Card style={style} view="outlined" type="selection" size="l">Selection</UIKit.Card>
+`}>
+    const style = {
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    <UIKit.Card style={style} view="outlined" type="container" size="l">Container</UIKit.Card>
+    <UIKit.Card style={style} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
+    <UIKit.Card style={style} view="outlined" type="selection" size="l">Selection</UIKit.Card>
+
+</ExampleBlock>
+LANDING_BLOCK-->
+
+## View
+
+This parameter is used to specify the view or layout style of the Card. It allows you to customize the appearance and arrangement of the card content.
+
+- `clear`: no style will be applied.
+- `outlined`: applies thin border to highlight card content.
+- `filed`: fill in the card content.
+- `raised`: applies a shadow to slightly lift the container.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+const style = {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    <UIKit.Card style={style} view="clear" type="container" size="l">Container</UIKit.Card>
+    <UIKit.Card style={style} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
+    <UIKit.Card style={style} view="filed" type="container" size="l">Selection</UIKit.Card>
+    <UIKit.Card style={style} view="raised" type="container" size="l">Selection</UIKit.Card>
+`}>
+    const style = {
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    <UIKit.Card style={style} view="clear" type="container" size="l">Container</UIKit.Card>
+    <UIKit.Card style={style} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
+    <UIKit.Card style={style} view="filed" type="container" size="l">Selection</UIKit.Card>
+    <UIKit.Card style={style} view="raised" type="container" size="l">Selection</UIKit.Card>
+
+</ExampleBlock>
+LANDING_BLOCK-->

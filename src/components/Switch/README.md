@@ -70,27 +70,171 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+## Label
+
+You can set a label for a `Switch` component using the `content` property or pass it as children.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<div>
+  <Switch
+    content="content m"
+    size="m"
+  />
+  <span
+    style={{
+      margin: '16px'
+    }}
+   />
+  <Switch
+    content="content l"
+    size="l"
+  />
+  <div
+    style={{
+      marginTop: 10,
+      width: 200
+    }}
+  >
+    <Switch
+      size="m"
+      style={{
+        width: '100%'
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <span>
+          Full
+        </span>
+        <span>
+          width
+        </span>
+        <span>
+          content
+        </span>
+      </div>
+    </Switch>
+  </div>
+</div>
+`}
+>
+<div>
+  <UIKit.Switch
+    content="content m"
+    size="m"
+  />
+  <span
+    style={{
+      margin: '16px'
+    }}
+   />
+  <UIKit.Switch
+    content="content l"
+    size="l"
+  />
+  <div
+    style={{
+      marginTop: 10,
+      width: 200
+    }}
+  >
+    <UIKit.Switch
+      size="m"
+      style={{
+        width: '100%'
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <span>
+          Full
+        </span>
+        <span>
+          width
+        </span>
+        <span>
+          content
+        </span>
+      </div>
+    </UIKit.Switch>
+  </div>
+</div>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<div>
+  <Switch content="content m" size="m" />
+  <span
+    style={{
+      margin: '16px',
+    }}
+  />
+  <Switch content="content l" size="l" />
+  <div
+    style={{
+      marginTop: 10,
+      width: 200,
+    }}
+  >
+    <Switch
+      size="m"
+      style={{
+        width: '100%',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <span>Full</span>
+        <span>width</span>
+        <span>content</span>
+      </div>
+    </Switch>
+  </div>
+</div>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
-| Name           | Description                                                     |                     Type                      | Default |
-| :------------- | :-------------------------------------------------------------- | :-------------------------------------------: | :-----: |
-| children       | The content of the switch (usually a label).                    |                  `ReactNode`                  |         |
-| content        | The content of the switch (alternative to children).            |                  `ReactNode`                  |         |
-| disabled       | Toggles the `disabled` state of the switch.                     |                   `boolean`                   | `false` |
-| checked        | Toggles the checked state of the switch.                        |                   `boolean`                   | `false` |
-| defaultChecked | Sets the initial checked state when the component is mounted.   |                   `boolean`                   | `false` |
-| onUpdate       | Event handler for when the switch's value is updated.           |         `(checked: boolean) => void`          |         |
-| onChange       | Event handler for when the switch's value changes.              |                  `Function`                   |         |
-| onFocus        | Event handler for when the switch input element receives focus. |                  `Function`                   |         |
-| onBlur         | Event handler for when the switch input element loses focus.    |                  `Function`                   |         |
-| size           | Sets the size of the switch.                                    |                    `m` `l`                    |   `m`   |
-| id             | HTML `id` attribute                                             |                   `string`                    |         |
-| qa             | HTML `data-qa` attribute, used in tests.                        |                   `string`                    |         |
-| style          | HTML `style` attribute                                          |                `CSSProperties`                |         |
-| className      | HTML `class` attribute                                          |                   `string`                    |         |
-| title          | HTML `title` attribute                                          |                   `string`                    |         |
-| name           | HTML `name` attribute for the input element.                    |                   `string`                    |         |
-| value          | HTML `value` attribute for the input element.                   |                   `string`                    |         |
-| indeterminate  | Toggles the indeterminate state of the switch.                  |                   `boolean`                   | `false` |
-| controlProps   | Additional props for the underlying input element.              | `React.InputHTMLAttributes<HTMLInputElement>` |         |
-| controlRef     | Ref to the underlying input element.                            |         `React.Ref<HTMLInputElement>`         |         |
+| Name           | Description                                                                                                   |                     Type                      | Default |
+| :------------- | :------------------------------------------------------------------------------------------------------------ | :-------------------------------------------: | :-----: |
+| children       | The content of the switch (usually a label).                                                                  |                  `ReactNode`                  |         |
+| content        | The content of the switch (alternative to children).                                                          |                  `ReactNode`                  |         |
+| disabled       | Toggles the `disabled` state of the switch.                                                                   |                   `boolean`                   | `false` |
+| checked        | Toggles the checked state of the switch.                                                                      |                   `boolean`                   | `false` |
+| defaultChecked | Sets the initial checked state when the component is mounted.                                                 |                   `boolean`                   | `false` |
+| onUpdate       | Event handler for when the switch's value is updated( also when value changes programmatically through code). |         `(checked: boolean) => void`          |         |
+| onChange       | Event handler for when the user interacts with the switch, leading to a change in its value.                  |                  `Function`                   |         |
+| onFocus        | Event handler for when the switch input element receives focus.                                               |                  `Function`                   |         |
+| onBlur         | Event handler for when the switch input element loses focus.                                                  |                  `Function`                   |         |
+| size           | Sets the size of the switch.                                                                                  |                    `m` `l`                    |   `m`   |
+| id             | HTML `id` attribute                                                                                           |                   `string`                    |         |
+| qa             | HTML `data-qa` attribute, used in tests.                                                                      |                   `string`                    |         |
+| style          | HTML `style` attribute                                                                                        |                `CSSProperties`                |         |
+| className      | HTML `class` attribute                                                                                        |                   `string`                    |         |
+| title          | HTML `title` attribute                                                                                        |                   `string`                    |         |
+| name           | HTML `name` attribute for the input element.                                                                  |                   `string`                    |         |
+| value          | HTML `value` attribute for the input element.                                                                 |                   `string`                    |         |
+| indeterminate  | Toggles the indeterminate state of the switch.                                                                |                   `boolean`                   | `false` |
+| controlProps   | Additional props for the underlying input element.                                                            | `React.InputHTMLAttributes<HTMLInputElement>` |         |
+| controlRef     | Ref to the underlying input element.                                                                          |         `React.Ref<HTMLInputElement>`         |         |

@@ -69,7 +69,6 @@ interface ComputedMediaContext {
     /**
      * This utility automatically checks whether the passed property has media queries
      * and returns the value calculated by `getClosestMediaProps`
-     * @returns
      */
     applyMediaProps: <P extends keyof React.CSSProperties>(property: AdaptiveProp<P>) => any;
 }

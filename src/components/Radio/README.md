@@ -79,94 +79,28 @@ You can set a label for a `Radio` component using the `content` property or pass
 <ExampleBlock
     code={`
 <div>
-  <Radio
-    content="content m"
-    size="m"
-  />
-  <span
-    style={{
-      margin: '16px'
-    }}
-   />
-  <Radio
-    content="content l"
-    size="l"
-  />
+  <Radio content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200
     }}
   >
-    <Radio
-      size="m"
-      style={{
-        width: '100%'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}
-      >
-        <span>
-          Full
-        </span>
-        <span>
-          width
-        </span>
-        <span>
-          content
-        </span>
-      </div>
+    <Radio size="l">
+      <span>Content as children</span>
     </Radio>
   </div>
 </div>
 `}
 >
 <div>
-  <UIKit.Radio
-    content="content m"
-    size="m"
-  />
-  <span
-    style={{
-      margin: '16px'
-    }}
-   />
-  <UIKit.Radio
-    content="content l"
-    size="l"
-  />
+  <UIKit.Radio content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200
     }}
   >
-    <UIKit.Radio
-      size="m"
-      style={{
-        width: '100%'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}
-      >
-        <span>
-          Full
-        </span>
-        <span>
-          width
-        </span>
-        <span>
-          content
-        </span>
-      </div>
+    <UIKit.Radio size="l">
+      <span>Content as children</span>
     </UIKit.Radio>
   </div>
 </div>
@@ -178,35 +112,14 @@ LANDING_BLOCK-->
 
 ```tsx
 <div>
-  <Radio content="content m" size="m" />
-  <span
-    style={{
-      margin: '16px',
-    }}
-  />
-  <Radio content="content l" size="l" />
+  <Radio content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200,
     }}
   >
-    <Radio
-      size="m"
-      style={{
-        width: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <span>Full</span>
-        <span>width</span>
-        <span>content</span>
-      </div>
+    <Radio size="l">
+      <span>Content as children</span>
     </Radio>
   </div>
 </div>

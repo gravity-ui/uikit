@@ -82,96 +82,30 @@ You can set a label for a `Checkbox` component using the `content` property or p
 
 <ExampleBlock
     code={`
-<div>
-  <Checkbox
-    content="content m"
-    size="m"
-  />
-  <span
-    style={{
-      margin: '16px'
-    }}
-   />
-  <Checkbox
-    content="content l"
-    size="l"
-  />
+ <div>
+  <Checkbox content="Content" size="l" />
   <div
-    style={{
-      marginTop: 10,
-      width: 200
-    }}
-  >
-    <Checkbox
-      size="m"
       style={{
-        width: '100%'
+          marginTop: 10,
       }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}
-      >
-        <span>
-          Full
-        </span>
-        <span>
-          width
-        </span>
-        <span>
-          content
-        </span>
-      </div>
-    </Checkbox>
+  >
+      <Checkbox size="l">
+          <span>Content as children</span>
+      </Checkbox>
   </div>
 </div>
 `}
 >
-<div>
-  <UIKit.Checkbox
-    content="content m"
-    size="m"
-  />
-  <span
-    style={{
-      margin: '16px'
-    }}
-   />
-  <UIKit.Checkbox
-    content="content l"
-    size="l"
-  />
+ <div>
+  <UIKit.Checkbox content="Content" size="l" />
   <div
-    style={{
-      marginTop: 10,
-      width: 200
-    }}
-  >
-    <UIKit.Checkbox
-      size="m"
       style={{
-        width: '100%'
+          marginTop: 10,
       }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}
-      >
-        <span>
-          Full
-        </span>
-        <span>
-          width
-        </span>
-        <span>
-          content
-        </span>
-      </div>
-    </UIKit.Checkbox>
+  >
+      <UIKit.Checkbox size="l">
+          <span>Content as children</span>
+      </UIKit.Checkbox>
   </div>
 </div>
 </ExampleBlock>
@@ -182,35 +116,14 @@ LANDING_BLOCK-->
 
 ```tsx
 <div>
-  <Checkbox content="content m" size="m" />
-  <span
-    style={{
-      margin: '16px',
-    }}
-  />
-  <Checkbox content="content l" size="l" />
+  <Checkbox content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200,
     }}
   >
-    <Checkbox
-      size="m"
-      style={{
-        width: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <span>Full</span>
-        <span>width</span>
-        <span>content</span>
-      </div>
+    <Checkbox size="l">
+      <span>Content as children</span>
     </Checkbox>
   </div>
 </div>

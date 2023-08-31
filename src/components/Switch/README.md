@@ -79,94 +79,28 @@ You can set a label for a `Switch` component using the `content` property or pas
 <ExampleBlock
     code={`
 <div>
-  <Switch
-    content="content m"
-    size="m"
-  />
-  <span
-    style={{
-      margin: '16px'
-    }}
-   />
-  <Switch
-    content="content l"
-    size="l"
-  />
+  <Switch content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200
     }}
   >
-    <Switch
-      size="m"
-      style={{
-        width: '100%'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}
-      >
-        <span>
-          Full
-        </span>
-        <span>
-          width
-        </span>
-        <span>
-          content
-        </span>
-      </div>
+    <Switch size="l">
+      <span>Content as children</span>
     </Switch>
   </div>
 </div>
 `}
 >
 <div>
-  <UIKit.Switch
-    content="content m"
-    size="m"
-  />
-  <span
-    style={{
-      margin: '16px'
-    }}
-   />
-  <UIKit.Switch
-    content="content l"
-    size="l"
-  />
+  <UIKit.Switch content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200
     }}
   >
-    <UIKit.Switch
-      size="m"
-      style={{
-        width: '100%'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between'
-        }}
-      >
-        <span>
-          Full
-        </span>
-        <span>
-          width
-        </span>
-        <span>
-          content
-        </span>
-      </div>
+    <UIKit.Switch size="l">
+      <span>Content as children</span>
     </UIKit.Switch>
   </div>
 </div>
@@ -178,35 +112,14 @@ LANDING_BLOCK-->
 
 ```tsx
 <div>
-  <Switch content="content m" size="m" />
-  <span
-    style={{
-      margin: '16px',
-    }}
-  />
-  <Switch content="content l" size="l" />
+  <Switch content="Content" size="l" />
   <div
     style={{
       marginTop: 10,
-      width: 200,
     }}
   >
-    <Switch
-      size="m"
-      style={{
-        width: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <span>Full</span>
-        <span>width</span>
-        <span>content</span>
-      </div>
+    <Switch size="l">
+      <span>Content as children</span>
     </Switch>
   </div>
 </div>

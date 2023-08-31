@@ -151,9 +151,14 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
 
     const {
         getClosestMediaProps,
-        applyMediaProps,
         theme: {spaceBaseSize},
     } = useLayoutContext();
+
+    const applyMediaProps = React.useCallback(
+        <P extends keyof React.CSSProperties>(property: AdaptiveProp<P>) =>
+            typeof property === 'object' ? getClosestMediaProps(property) : property,
+        [getClosestMediaProps],
+    );
 
     let spaceSize: Space | undefined;
     let gapSpaceSize: Space | undefined;

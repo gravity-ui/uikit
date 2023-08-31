@@ -2,7 +2,7 @@
 import React from 'react';
 
 import {LayoutContext} from '../contexts/LayoutContext';
-import type {AdaptiveProp, LayoutTheme, MediaType} from '../types';
+import type {LayoutTheme, MediaType} from '../types';
 import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
 
 interface ComputedMediaContext {
@@ -66,11 +66,6 @@ interface ComputedMediaContext {
      * ```
      */
     getClosestMediaProps: ReturnType<typeof getClosestMediaPropsFactory>;
-    /**
-     * This utility automatically checks whether the passed property has media queries
-     * and returns the value calculated by `getClosestMediaProps`
-     */
-    applyMediaProps: <P extends keyof React.CSSProperties>(property: AdaptiveProp<P>) => any;
 }
 
 /**
@@ -89,17 +84,10 @@ export const useLayoutContext = (): ComputedMediaContext => {
         [activeMediaQuery],
     );
 
-    const applyMediaProps = React.useCallback(
-        <P extends keyof React.CSSProperties>(property: AdaptiveProp<P>) =>
-            typeof property === 'object' ? getClosestMediaProps(property) : property,
-        [getClosestMediaProps],
-    );
-
     return {
         theme,
         activeMediaQuery,
         isMediaActive,
         getClosestMediaProps,
-        applyMediaProps,
     };
 };

@@ -36,17 +36,12 @@ export const errorPropsMapper = (
     if (typeof errorProp === 'string') {
         errorMessage = errorProp;
     }
-    if (errorMessageProp || errorMessageProp === '') {
+    if (errorMessageProp) {
         errorMessage = errorMessageProp;
     }
 
     let validationState: BaseInputControlProps['validationState'];
-    if (
-        validationStateProp === 'invalid' ||
-        Boolean(errorProp) ||
-        errorMessage ||
-        errorMessage === ''
-    ) {
+    if (validationStateProp === 'invalid' || Boolean(errorProp)) {
         validationState = 'invalid';
     }
 

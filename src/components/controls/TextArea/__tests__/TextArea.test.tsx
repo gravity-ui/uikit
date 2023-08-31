@@ -99,6 +99,17 @@ describe('TextArea', () => {
         test('render error message with errorMessage prop (if it is not an empty string)', () => {
             render(<TextArea errorMessage="Some Error with errorMessage prop" />);
 
+            expect(screen.queryByText('Some Error with errorMessage prop')).not.toBeInTheDocument();
+        });
+
+        test('render error message with errorMessage prop (if it is not an empty string)', () => {
+            render(
+                <TextArea
+                    errorMessage="Some Error with errorMessage prop"
+                    validationState="invalid"
+                />,
+            );
+
             expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
         });
 

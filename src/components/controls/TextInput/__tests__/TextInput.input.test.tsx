@@ -117,7 +117,13 @@ describe('TextInput input', () => {
             });
 
             test('render error icon if tooltip option is selected for errorPlacement prop', () => {
-                render(<TextInput errorMessage="Some Error" errorPlacement="inside" />);
+                render(
+                    <TextInput
+                        errorMessage="Some Error"
+                        validationState="invalid"
+                        errorPlacement="inside"
+                    />,
+                );
 
                 expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
             });

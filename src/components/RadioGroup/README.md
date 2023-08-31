@@ -148,20 +148,20 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name            | Description                                                                                                  |           Type            |    Default     |
-| :-------------- | :----------------------------------------------------------------------------------------------------------- | :-----------------------: | :------------: |
-| children        | The content of the radio group.                                                                              |        `ReactNode`        |                |
-| disabled        | Toggles the `disabled` state of the radio group.                                                             |         `boolean`         |    `false`     |
-| options         | Options for radio group.                                                                                     |   `RadioGroupOption[]`    |                |
-| optionClassName | HTML `class` attribute for the radio children.                                                               |         `string`          |                |
-| direction       | Sets the direction of the radio group.                                                                       |  `horizontal - vertical`  | `"horizontal"` |
-| defaultValue    | Sets the initial value state when the component is mounted.                                                  |         `string`          |                |
-| onUpdate        | Event handler for when the radio's value is updated( also when value changes programmatically through code). | `(value: string) => void` |                |
-| onChange        | Event handler for when the user interacts with the radio button, leading to a change in its value.           |        `Function`         |                |
-| size            | Sets the size of the radio group.                                                                            |          `m` `l`          |      `m`       |
-| qa              | HTML `data-qa` attribute, used in tests.                                                                     |         `string`          |                |
-| style           | HTML `style` attribute                                                                                       |      `CSSProperties`      |                |
-| className       | HTML `class` attribute                                                                                       |         `string`          |                |
+| Name            | Description                                                                                         |           Type            |    Default     |
+| :-------------- | :-------------------------------------------------------------------------------------------------- | :-----------------------: | :------------: |
+| children        | The content of the radio group.                                                                     |        `ReactNode`        |                |
+| disabled        | Toggles the `disabled` state of the radio group.                                                    |         `boolean`         |    `false`     |
+| options         | Options for radio group.                                                                            |   `RadioGroupOption[]`    |                |
+| optionClassName | HTML `class` attribute for the radio children.                                                      |         `string`          |                |
+| direction       | Sets the direction of the radio group.                                                              |  `horizontal - vertical`  | `"horizontal"` |
+| defaultValue    | Sets the initial value state when the component is mounted.                                         |         `string`          |                |
+| onUpdate        | Fires when the radio state is changed by the user. Provides new value as an callback's argument.    | `(value: string) => void` |                |
+| onChange        | Fires when the radio state is changed by the user. Provides change event as an callback's argument. |        `Function`         |                |
+| size            | Sets the size of the radio group.                                                                   |          `m` `l`          |      `m`       |
+| qa              | HTML `data-qa` attribute, used in tests.                                                            |         `string`          |                |
+| style           | HTML `style` attribute                                                                              |      `CSSProperties`      |                |
+| className       | HTML `class` attribute                                                                              |         `string`          |                |
 
 ## RadioGroup.Option
 

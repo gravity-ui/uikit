@@ -129,25 +129,25 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name           | Description                                                                                                  |                     Type                      | Default |
-| :------------- | :----------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :-----: |
-| children       | The content of the radio (usually a label).                                                                  |                  `ReactNode`                  |         |
-| content        | The content of the radio (alternative to children).                                                          |                  `ReactNode`                  |         |
-| disabled       | Toggles the `disabled` state of the radio.                                                                   |                   `boolean`                   | `false` |
-| checked        | Toggles the checked state of the radio.                                                                      |                   `boolean`                   | `false` |
-| defaultChecked | Sets the initial checked state when the component is mounted.                                                |                   `boolean`                   | `false` |
-| onUpdate       | Event handler for when the radio's value is updated( also when value changes programmatically through code). |         `(checked: boolean) => void`          |         |
-| onChange       | Event handler for when the user interacts with the radio, leading to a change in its value.                  |                  `Function`                   |         |
-| onFocus        | Event handler for when the radio input element receives focus.                                               |                  `Function`                   |         |
-| onBlur         | Event handler for when the radio input element loses focus.                                                  |                  `Function`                   |         |
-| size           | Sets the size of the radio.                                                                                  |                    `m` `l`                    |   `m`   |
-| id             | HTML `id` attribute                                                                                          |                   `string`                    |         |
-| qa             | HTML `data-qa` attribute, used in tests.                                                                     |                   `string`                    |         |
-| style          | HTML `style` attribute                                                                                       |                `CSSProperties`                |         |
-| className      | HTML `class` attribute                                                                                       |                   `string`                    |         |
-| title          | HTML `title` attribute                                                                                       |                   `string`                    |         |
-| name           | HTML `name` attribute for the input element.                                                                 |                   `string`                    |         |
-| value          | Control value                                                                                                |                   `string`                    |         |
-| indeterminate  | Toggles the indeterminate state of the radio.                                                                |                   `boolean`                   | `false` |
-| controlProps   | Additional props for the underlying input element.                                                           | `React.InputHTMLAttributes<HTMLInputElement>` |         |
-| controlRef     | Ref to the underlying input element.                                                                         |         `React.Ref<HTMLInputElement>`         |         |
+| Name           | Description                                                                                          |                     Type                      | Default |
+| :------------- | :--------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :-----: |
+| children       | The content of the radio (usually a label).                                                          |                  `ReactNode`                  |         |
+| content        | The content of the radio (alternative to children).                                                  |                  `ReactNode`                  |         |
+| disabled       | Toggles the `disabled` state of the radio.                                                           |                   `boolean`                   | `false` |
+| checked        | Toggles the checked state of the radio.                                                              |                   `boolean`                   | `false` |
+| defaultChecked | Sets the initial checked state when the component is mounted.                                        |                   `boolean`                   | `false` |
+| onUpdate       | Fires when the radio state is changed by the user. Provides checked value as an callback's argument. |         `(checked: boolean) => void`          |         |
+| onChange       | Fires when the radio state is changed by the user. Provides change event as an callback's argument.  |                  `Function`                   |         |
+| onFocus        | Event handler for when the radio input element receives focus.                                       |                  `Function`                   |         |
+| onBlur         | Event handler for when the radio input element loses focus.                                          |                  `Function`                   |         |
+| size           | Sets the size of the radio.                                                                          |                    `m` `l`                    |   `m`   |
+| id             | HTML `id` attribute                                                                                  |                   `string`                    |         |
+| qa             | HTML `data-qa` attribute, used in tests.                                                             |                   `string`                    |         |
+| style          | HTML `style` attribute                                                                               |                `CSSProperties`                |         |
+| className      | HTML `class` attribute                                                                               |                   `string`                    |         |
+| title          | HTML `title` attribute                                                                               |                   `string`                    |         |
+| name           | HTML `name` attribute for the input element.                                                         |                   `string`                    |         |
+| value          | Control value                                                                                        |                   `string`                    |         |
+| indeterminate  | Toggles the indeterminate state of the radio.                                                        |                   `boolean`                   | `false` |
+| controlProps   | Additional props for the underlying input element.                                                   | `React.InputHTMLAttributes<HTMLInputElement>` |         |
+| controlRef     | Ref to the underlying input element.                                                                 |         `React.Ref<HTMLInputElement>`         |         |

@@ -206,22 +206,22 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name         | Description                                                                                                  |           Type            | Default |
-| :----------- | :----------------------------------------------------------------------------------------------------------- | :-----------------------: | :-----: |
-| children     | The content of the radio button.                                                                             |        `ReactNode`        |         |
-| disabled     | Toggles the `disabled` state of the radio button.                                                            |         `boolean`         | `false` |
-| options      | Options for radio button.                                                                                    |   `RadioButtonOption[]`   |         |
-| defaultValue | Sets the initial value state when the component is mounted.                                                  |         `string`          |         |
-| onUpdate     | Event handler for when the radio's value is updated( also when value changes programmatically through code). | `(value: string) => void` |         |
-| onChange     | Event handler for when the user interacts with the radio button, leading to a change in its value.           |        `Function`         |         |
-| onFocus      | Event handler for when the radio input element receives focus.                                               |        `Function`         |         |
-| onBlur       | Event handler for when the radio input element loses focus.                                                  |        `Function`         |         |
-| width        | Sets the width of the radio button.                                                                          |       `auto - max`        |         |
-| size         | Sets the size of the radio button.                                                                           |     `s` `m` `l` `xl`      |   `m`   |
-| name         | HTML `name` attribute for the input element.                                                                 |         `string`          |         |
-| qa           | HTML `data-qa` attribute, used in tests.                                                                     |         `string`          |         |
-| style        | HTML `style` attribute                                                                                       |      `CSSProperties`      |         |
-| className    | HTML `class` attribute                                                                                       |         `string`          |         |
+| Name         | Description                                                                                                |           Type            | Default |
+| :----------- | :--------------------------------------------------------------------------------------------------------- | :-----------------------: | :-----: |
+| children     | The content of the radio button.                                                                           |        `ReactNode`        |         |
+| disabled     | Toggles the `disabled` state of the radio button.                                                          |         `boolean`         | `false` |
+| options      | Options for radio button.                                                                                  |   `RadioButtonOption[]`   |         |
+| defaultValue | Sets the initial value state when the component is mounted.                                                |         `string`          |         |
+| onUpdate     | Fires when the radio button state is changed by the user. Provides new value as an callback's argument.    | `(value: string) => void` |         |
+| onChange     | Fires when the radio button state is changed by the user. Provides change event as an callback's argument. |        `Function`         |         |
+| onFocus      | Event handler for when the radio input element receives focus.                                             |        `Function`         |         |
+| onBlur       | Event handler for when the radio input element loses focus.                                                |        `Function`         |         |
+| width        | Sets the width of the radio button.                                                                        |       `auto - max`        |         |
+| size         | Sets the size of the radio button.                                                                         |     `s` `m` `l` `xl`      |   `m`   |
+| name         | HTML `name` attribute for the input element.                                                               |         `string`          |         |
+| qa           | HTML `data-qa` attribute, used in tests.                                                                   |         `string`          |         |
+| style        | HTML `style` attribute                                                                                     |      `CSSProperties`      |         |
+| className    | HTML `class` attribute                                                                                     |         `string`          |         |
 
 ## RadioButton.Option
 

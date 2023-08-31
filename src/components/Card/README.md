@@ -36,36 +36,30 @@ By specifying different theme values, you can customize the visual appearance of
 <ExampleBlock
     code={`
 const style = {
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: '120px';
+    height: '120px';
+    display: 'flex';
+    alignItems: 'center';
+    justifyContent: 'center';
 }
 
-<UIKit.Card style={style} theme="normal" size="l">Normal</UIKit.Card>
-<UIKit.Card style={style} theme="info" size="l">Info</UIKit.Card>
-<UIKit.Card style={style} theme="positive" size="l">Positive</UIKit.Card>
-<UIKit.Card style={style} theme="warning" size="l">Warning</UIKit.Card>
-<UIKit.Card style={style} theme="danger" size="l">Danger</UIKit.Card>
+<Card style={style} theme="normal" size="l">Normal</UIKit.Card>
+<Card style={style} theme="info" size="l">Info</UIKit.Card>
+<Card style={style} theme="positive" size="l">Positive</UIKit.Card>
+<Card style={style} theme="warning" size="l">Warning</UIKit.Card>
+<Card style={style} theme="danger" size="l">Danger</UIKit.Card>
 `}>
-    const style = {
-        width: 120px;
-        height: 120px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 
-    <UIKit.Card style={style} theme="normal" size="l">Normal</UIKit.Card>
-    <UIKit.Card style={style} theme="info" size="l">Info</UIKit.Card>
-    <UIKit.Card style={style} theme="positive" size="l">Positive</UIKit.Card>
-    <UIKit.Card style={style} theme="warning" size="l">Warning</UIKit.Card>
-    <UIKit.Card style={style} theme="danger" size="l">Danger</UIKit.Card>
+    <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} theme="normal" size="l">Normal</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} theme="info" size="l">Info</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} theme="positive" size="l">Positive</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} theme="warning" size="l">Warning</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} theme="danger" size="l">Danger</UIKit.Card>
+    </div>
+
 </ExampleBlock>
 LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
 
 ## Type
 
@@ -79,28 +73,22 @@ This parameter is used to define the type of the Card component. It allows you t
 <ExampleBlock
     code={`
 const style = {
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: '120px';
+    height: '120px';
+    display: 'flex';
+    alignItems: 'center';
+    justifyContent: 'center';
 }
 
-    <UIKit.Card style={style} view="outlined" type="container" size="l">Container</UIKit.Card>
-    <UIKit.Card style={style} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
-    <UIKit.Card style={style} view="outlined" type="selection" size="l">Selection</UIKit.Card>
+    <Card style={style} view="outlined" type="container" size="l">Container</UIKit.Card>
+    <Card style={style} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
+    <Card style={style} view="outlined" type="selection" size="l">Selection</UIKit.Card>
 `}>
-    const style = {
-        width: 120px;
-        height: 120px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    <UIKit.Card style={style} view="outlined" type="container" size="l">Container</UIKit.Card>
-    <UIKit.Card style={style} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
-    <UIKit.Card style={style} view="outlined" type="selection" size="l">Selection</UIKit.Card>
+    <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="outlined" type="container" size="l">Container</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="outlined" type="selection" size="l">Selection</UIKit.Card>
+    </div>
 
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -118,30 +106,24 @@ This parameter is used to specify the view or layout style of the Card. It allow
 <ExampleBlock
     code={`
 const style = {
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: '120px';
+    height: '120px';
+    display: 'flex';
+    alignItems: 'center';
+    justifyContent: 'center';
 }
 
-    <UIKit.Card style={style} view="clear" type="container" size="l">Container</UIKit.Card>
-    <UIKit.Card style={style} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
-    <UIKit.Card style={style} view="filed" type="container" size="l">Selection</UIKit.Card>
-    <UIKit.Card style={style} view="raised" type="container" size="l">Selection</UIKit.Card>
+    <Card style={style} view="clear" type="container" size="l">Container</UIKit.Card>
+    <Card style={style} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
+    <Card style={style} view="filed" type="container" size="l">Selection</UIKit.Card>
+    <Card style={style} view="raised" type="container" size="l">Selection</UIKit.Card>
 `}>
-    const style = {
-        width: 120px;
-        height: 120px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    <UIKit.Card style={style} view="clear" type="container" size="l">Container</UIKit.Card>
-    <UIKit.Card style={style} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
-    <UIKit.Card style={style} view="filed" type="container" size="l">Selection</UIKit.Card>
-    <UIKit.Card style={style} view="raised" type="container" size="l">Selection</UIKit.Card>
+    <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="clear" type="container" size="l">Container</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="filed" type="container" size="l">Selection</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} view="raised" type="container" size="l">Selection</UIKit.Card>
+    </div>
 
 </ExampleBlock>
 LANDING_BLOCK-->

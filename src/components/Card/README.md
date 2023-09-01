@@ -86,7 +86,7 @@ const style = {
 `}>
     <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
         <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">Container</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="action" size="l">action with onClick</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="action" onClick={() => alert(':wave: hey')} size="l">action with onClick</UIKit.Card>
         <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="selection" size="l">Selection</UIKit.Card>
     </div>
 
@@ -127,3 +127,17 @@ const style = {
 
 </ExampleBlock>
 LANDING_BLOCK-->
+
+## Properties
+
+| Name      | Type                                                | Required | Default       | Description                                                         |
+| :-------- | :-------------------------------------------------- | :------: | :------------ | :------------------------------------------------------------------ |
+| children  | `ReactNode`                                         |    ✓     |               | Card's content                                                      |
+| type      | `CardType`                                          |          | `'container'` | Card's type affects on available properties                         |
+| view      | `SelectionCardView` \| `ContainerCardView`          |          | `'outlined'`  | Available for `type`: `'container'` and `'selection'`               |
+| theme     | `CardTheme`                                         |          | `'normal'`    | Card's base color. Available for `type`: `'container'`              |
+| size      | `CardSize`                                          |          | `'m'`         | Card's size affects on available properties                         |
+| className | `String`                                            |          |               | CSS class                                                           |
+| onClick   | `(event: React.MouseEvent<HTMLDivElement>) => void` |          |               | Card click handler. Available for `type`: `'selection'`, `'action'` |
+| selected  | `Boolean`                                           |          |               | Selected card. Available for type: `'selection'`                    |
+| disabled  | `Boolean`                                           |          |               | Disabled card. Available for type: `'selection'`, `'action'`        |

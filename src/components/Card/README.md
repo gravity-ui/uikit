@@ -130,14 +130,14 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                         | Type        | Default       |
-| :-------- | :------------------------------------------------------------------ | ----------- | :------------ |
+| Name      | Description                                                         |    Type     |    Default    |
+| :-------- | :------------------------------------------------------------------ | :---------: | :-----------: |
 | children  | Card's content                                                      | `ReactNode` |               |
-| type      | Card's type affects on available properties                         | `string`    | `"container"` |
-| view      | Available for `type`: `"container"` and `"selection"`               | `string`    | `"outlined"`  |
-| theme     | Card's base color. Available for `type`: `"container"`              | `string`    | `"normal"`    |
-| size      | Card's size affects on available properties                         | `string`    | `"m"`         |
-| className | CSS class                                                           | `string`    |               |
+| type      | Card's type affects on available properties                         |  `string`   | `"container"` |
+| view      | Available for `type`: `"container"` and `"selection"`               |  `string`   | `"outlined"`  |
+| theme     | Card's base color. Available for `type`: `"container"`              |  `string`   |  `"normal"`   |
+| size      | Card's size affects on available properties                         |  `string`   |     `"m"`     |
+| className | CSS class                                                           |  `string`   |               |
 | onClick   | Card click handler. Available for `type`: `"selection"`, `"action"` | `Function`  |               |
-| selected  | Selected card. Available for type: `"selection"`                    | `Boolean`   |               |
-| disabled  | Disabled card. Available for type: `"selection"`, `"action"`        | `Boolean`   |               |
+| selected  | Selected card. Available for type: `"selection"`                    |  `Boolean`  |               |
+| disabled  | Disabled card. Available for type: `"selection"`, `"action"`        |  `Boolean`  |               |

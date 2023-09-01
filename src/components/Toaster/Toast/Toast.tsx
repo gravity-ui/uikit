@@ -34,7 +34,7 @@ interface RenderActionsProps {
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    if (!actions) {
+    if (!actions || !actions.length) {
         return null;
     }
 

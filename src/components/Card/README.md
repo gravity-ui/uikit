@@ -130,14 +130,14 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Type                                                | Required | Default       | Description                                                         |
-| :-------- | :-------------------------------------------------- | :------: | :------------ | :------------------------------------------------------------------ |
-| children  | `ReactNode`                                         |    ✓     |               | Card's content                                                      |
-| type      | `CardType`                                          |          | `'container'` | Card's type affects on available properties                         |
-| view      | `SelectionCardView` \| `ContainerCardView`          |          | `'outlined'`  | Available for `type`: `'container'` and `'selection'`               |
-| theme     | `CardTheme`                                         |          | `'normal'`    | Card's base color. Available for `type`: `'container'`              |
-| size      | `CardSize`                                          |          | `'m'`         | Card's size affects on available properties                         |
-| className | `String`                                            |          |               | CSS class                                                           |
-| onClick   | `(event: React.MouseEvent<HTMLDivElement>) => void` |          |               | Card click handler. Available for `type`: `'selection'`, `'action'` |
-| selected  | `Boolean`                                           |          |               | Selected card. Available for type: `'selection'`                    |
-| disabled  | `Boolean`                                           |          |               | Disabled card. Available for type: `'selection'`, `'action'`        |
+| Name      | Description                                                         | Type                                                | Default       |
+| :-------- | :------------------------------------------------------------------ | :-------------------------------------------------- | :------------ |
+| children  | Card's content                                                      | `ReactNode`                                         |               |
+| type      | Card's type affects on available properties                         | `CardType`                                          | `'container'` |
+| view      | Available for `type`: `'container'` and `'selection'`               | `SelectionCardView` \| `ContainerCardView`          | `'outlined'`  |
+| theme     | Card's base color. Available for `type`: `'container'`              | `CardTheme`                                         | `'normal'`    |
+| size      | Card's size affects on available properties                         | `CardSize`                                          | `'m'`         |
+| className | CSS class                                                           | `String`                                            |               |
+| onClick   | Card click handler. Available for `type`: `'selection'`, `'action'` | `(event: React.MouseEvent<HTMLDivElement>) => void` |               |
+| selected  | Selected card. Available for type: `'selection'`                    | `Boolean`                                           |               |
+| disabled  | Disabled card. Available for type: `'selection'`, `'action'`        | `Boolean`                                           |               |

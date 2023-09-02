@@ -54,6 +54,7 @@ const [open, setOpen] = React.useState(false);
 ## Placement
 
 Use `placement` property to control `Popup` position around the anchor element.
+Accept all values from `Popper.js` [placement](https://popper.js.org/docs/v2/constructors/#options).
 
 <!--LANDING_BLOCK
 

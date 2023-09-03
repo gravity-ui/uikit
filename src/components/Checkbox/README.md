@@ -147,7 +147,7 @@ LANDING_BLOCK-->
 | size           | Sets the size of the checkbox.                                                                          |                    `m` `l`                    |   `m`   |
 | id             | HTML `id` attribute                                                                                     |                   `string`                    |         |
 | qa             | HTML `data-qa` attribute, used in tests.                                                                |                   `string`                    |         |
-| style          | HTML `style` attribute                                                                                  |                `CSSProperties`                |         |
+| style          | HTML `style` attribute                                                                                  |             `React.CSSProperties`             |         |
 | className      | HTML `class` attribute                                                                                  |                   `string`                    |         |
 | title          | HTML `title` attribute                                                                                  |                   `string`                    |         |
 | name           | HTML `name` attribute for the input element.                                                            |                   `string`                    |         |

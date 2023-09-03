@@ -464,7 +464,7 @@ LANDING_BLOCK-->
 | rel          | HTML `rel` attribute                                      |            `string`             |                 |
 | selected     | Toggles `selected` state                                  |                                 |                 |
 | size         | Sets button size                                          |            `string`             |      `"m"`      |
-| style        | HTML `style` attribute                                    |         `CSSProperties`         |                 |
+| style        | HTML `style` attribute                                    |      `React.CSSProperties`      |                 |
 | tabIndex     | HTML `tabIndex` attribute                                 |            `number`             |                 |
 | target       | HTML `target` attribute                                   |            `string`             |                 |
 | title        | HTML `title` attribute                                    |            `string`             |                 |

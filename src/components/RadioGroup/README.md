@@ -160,7 +160,7 @@ LANDING_BLOCK-->
 | onChange        | Fires when the radio state is changed by the user. Provides change event as an callback's argument. |        `Function`         |                |
 | size            | Sets the size of the radio group.                                                                   |          `m` `l`          |      `m`       |
 | qa              | HTML `data-qa` attribute, used in tests.                                                            |         `string`          |                |
-| style           | HTML `style` attribute                                                                              |      `CSSProperties`      |                |
+| style           | HTML `style` attribute                                                                              |   `React.CSSProperties`   |                |
 | className       | HTML `class` attribute                                                                              |         `string`          |                |
 
 ## RadioGroup.Option

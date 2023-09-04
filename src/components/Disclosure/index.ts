@@ -1,1 +1,2 @@
-export {DisclosureSize, DisclosureArrowPosition, DisclosureProps, Disclosure} from './Disclosure';
+export {Disclosure} from './Disclosure';
+export type {DisclosureSize, DisclosureArrowPosition, DisclosureProps} from './Disclosure';

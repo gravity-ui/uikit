@@ -10,7 +10,12 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {getInputControlState, prepareAutoComplete} from '../utils';
+import {
+    CONTROL_ERROR_MESSAGE_QA,
+    errorPropsMapper,
+    getInputControlState,
+    prepareAutoComplete,
+} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -49,6 +54,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         disabled = false,
         hasClear = false,
         error,
+        errorMessage: errorMessageProp,
+        validationState: validationStateProp,
         autoComplete,
         id: originalId,
         tabIndex,
@@ -60,16 +67,23 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         onUpdate,
         onChange,
     } = props;
+
+    const {errorMessage, validationState} = errorPropsMapper({
+        error,
+        errorMessage: errorMessageProp,
+        validationState: validationStateProp,
+    });
+
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
-    const state = getInputControlState({error});
+    const state = getInputControlState(validationState);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const innerId = useUniqId();
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isErrorMsgVisible = typeof error === 'string';
+    const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
@@ -161,7 +175,11 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             </span>
             {(isErrorMsgVisible || note) && (
                 <div className={b('outer-additional-content')}>
-                    {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
+                    {isErrorMsgVisible && (
+                        <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
+                            {errorMessage}
+                        </div>
+                    )}
                     {note && <div className={b('note')}>{note}</div>}
                 </div>
             )}

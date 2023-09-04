@@ -124,7 +124,7 @@ LANDING_BLOCK-->
 | size      | Menu size                               | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
 | children  | Child element                           |    `React.ReactNode`     |         |
 | className | HTML `class` attribute                  |         `string`         |         |
-| style     | HTML `style` attribute                  |     `CSSProperties`      |         |
+| style     | HTML `style` attribute                  |  `React.CSSProperties`   |         |
 | qa        | HTML `data-qa` attribute, used in tests |         `string`         |         |
 
 ## Menu.Item
@@ -251,7 +251,7 @@ LANDING_BLOCK-->
 | theme      | Menu item theme                         |   `"normal"` `"danger"`   | `"normal"` |
 | children   | Child element                           |     `React.ReactNode`     |            |
 | className  | HTML `class` attribute                  |         `string`          |            |
-| style      | HTML `style` attribute                  |      `CSSProperties`      |            |
+| style      | HTML `style` attribute                  |   `React.CSSProperties`   |            |
 | qa         | HTML `data-qa` attribute, used in tests |         `string`          |            |
 | extraProps | Extra html attributes                   |         `Record`          |            |
 
@@ -327,10 +327,10 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name      | Description                             |       Type        | Default |
-| :-------- | :-------------------------------------- | :---------------: | :-----: |
-| label     | Menu group label                        |     `string`      |         |
-| children  | Child element                           | `React.ReactNode` |         |
-| className | HTML `class` attribute                  |     `string`      |         |
-| style     | HTML `style` attribute                  |  `CSSProperties`  |         |
-| qa        | HTML `data-qa` attribute, used in tests |     `string`      |         |
+| Name      | Description                             |         Type          | Default |
+| :-------- | :-------------------------------------- | :-------------------: | :-----: |
+| label     | Menu group label                        |       `string`        |         |
+| children  | Child element                           |   `React.ReactNode`   |         |
+| className | HTML `class` attribute                  |       `string`        |         |
+| style     | HTML `style` attribute                  | `React.CSSProperties` |         |
+| qa        | HTML `data-qa` attribute, used in tests |       `string`        |         |

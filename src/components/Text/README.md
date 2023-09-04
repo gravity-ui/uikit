@@ -168,7 +168,7 @@ LANDING_BLOCK-->
 | children   | Text content                                            |            `React.ReactNode`             |            |
 | className  | HTML `class` attribute                                  |                 `string`                 |            |
 | as         | Ability to override default html tag                    |         `React.ElementType<any>`         |            |
-| style      | HTML `style` attribute                                  |             `CSSProperties`              |            |
+| style      | HTML `style` attribute                                  |          `React.CSSProperties`           |            |
 | variant    | Font of the text                                        |                 `string`                 | `"body-1"` |
 | ellipsis   | Hidden overflow content will be displayed with ellipsis |                `boolean`                 |            |
 | whiteSpace | White-space css property                                |       `"nowrap"` `"break-spaces"`        |            |

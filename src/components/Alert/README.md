@@ -228,6 +228,6 @@ LANDING_BLOCK-->
 | onClose   | A callback function that is called when the close button of the alert is clicked |                         `Function`                         |              |
 | actions   | Array of buttons or full custom components                                       |             `React.ReactNode` `"AlertAction"`              |              |
 | align     | Determines how the content inside the Alert component is vertically aligned      |                  `"center"` `"baseline"`                   | `"baseline"` |
-| style     | HTML style attribute                                                             |                      `CSSProperties `                      |              |
+| style     | HTML style attribute                                                             |                   `React.CSSProperties`                    |              |
 | className | The alert class name                                                             |                          `string`                          |              |
 | icon      | Override default icon.                                                           |                     `React.ReactNode`                      |              |

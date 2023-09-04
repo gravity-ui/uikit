@@ -57,6 +57,6 @@ XL - The largest size.
 | Name      | Description                        |              Type               | Default |
 | :-------- | :--------------------------------- | :-----------------------------: | :-----: |
 | size      | Spin size                          | `"xs"` `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
-| style     | Custom CSS styles for root element |         `CSSProperties`         |         |
+| style     | Custom CSS styles for root element |      `React.CSSProperties`      |         |
 | className | Custom CSS class for root element  |            `string`             |         |
 | qa        | Test attribute (`data-qa`)         |            `string`             |         |

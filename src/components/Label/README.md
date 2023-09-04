@@ -94,17 +94,7 @@ LANDING_BLOCK-->
 
 ### Icon
 
-<!--LANDING_BLOCK
-
-You can add an icon with the `icon` property. Pass the [`Icon`](./icon) component, a special wrapper for SVGs.
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-You can add an icon with the `icon` property. Pass the [`Icon`](../Icon/README.md) component, a special wrapper for SVGs.
-
-<!--/GITHUB_BLOCK-->
+You can add an icon with the `icon` property. Pass the [`Icon`](../Icon) component, a special wrapper for SVGs.
 
 <!--LANDING_BLOCK
 

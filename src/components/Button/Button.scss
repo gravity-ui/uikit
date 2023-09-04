@@ -21,7 +21,7 @@ $iconWidth: 16px;
 #{$block} {
     --yc-button-background-color: transparent;
     --yc-button-background-color-hover: var(--g-color-base-simple-hover);
-    --yc-button-outline-color: var(--g-color-line-misc);
+    --yc-button-outline-color: var(--g-color-line-focus);
     --yc-button-icon-space: calc(
         var(--yc-button-padding) + var(--yc-button-icon-size) + var(--yc-button-icon-offset)
     );
@@ -150,6 +150,11 @@ $iconWidth: 16px;
         &_action {
             --yc-button-background-color: var(--g-color-base-brand);
             --yc-button-background-color-hover: var(--g-color-base-brand-hover);
+            --yc-button-outline-color: var(--g-color-base-brand);
+
+            &:focus::before {
+                outline-offset: 1px;
+            }
 
             @include button-text-color(var(--g-color-text-brand-contrast));
         }

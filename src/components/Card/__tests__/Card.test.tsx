@@ -4,8 +4,8 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {Button} from '../../Button';
-import {Card} from '../Card';
 import type {CardSize, CardTheme, CardType, CardView} from '../Card';
+import {Card} from '../Card';
 
 const qaId = 'card-component';
 const cardText = 'Some text';

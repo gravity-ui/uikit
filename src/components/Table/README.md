@@ -4,7 +4,14 @@
 
 <!--/GITHUB_BLOCK-->
 
+```jsx
+import {Table} from '@gravity-ui/uikit';
+```
+
+
 A table that allows selecting and sorting rows and performing actions on a row.
+
+<!--GITHUB_BLOCK-->
 
 Additional functionality is enabled via HOCs:
 
@@ -13,6 +20,8 @@ Additional functionality is enabled via HOCs:
 - [withTableSelection](#withtableselection)
 - [withTableSettings](#withtablesettings)
 - [withTableSorting](#withtablesorting)
+
+<!--/GITHUB_BLOCK-->
 
 ## Properties
 

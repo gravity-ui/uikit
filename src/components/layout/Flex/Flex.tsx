@@ -1,19 +1,14 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 
 import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {useLayoutContext} from '../hooks/useLayoutContext';
-import type {MediaPartial, Space} from '../types';
+import type {AdaptiveProp, MediaPartial, Space} from '../types';
 import {makeCssMod} from '../utils';
 
 import './Flex.scss';
 
 const b = block('flex');
-
-type AdaptiveProp<T extends keyof React.CSSProperties> =
-    | React.CSSProperties[T]
-    | MediaPartial<React.CSSProperties[T]>;
 
 export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps {
     as?: T;
@@ -33,9 +28,18 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
      * `flex-shrink` property
      */
     shrink?: React.CSSProperties['flexShrink'];
-    alignSelf?: React.CSSProperties['alignSelf'];
-    justifyContent?: AdaptiveProp<'justifyContent'>;
+    /**
+     * `align-` properties
+     */
+    alignContent?: AdaptiveProp<'justifyContent'>;
     alignItems?: AdaptiveProp<'alignItems'>;
+    alignSelf?: AdaptiveProp<'alignSelf'>;
+    /**
+     * `justify-` properties
+     */
+    justifyContent?: AdaptiveProp<'justifyContent'>;
+    justifyItems?: AdaptiveProp<'justifyItems'>;
+    justifySelf?: AdaptiveProp<'justifySelf'>;
     /**
      * `flex-wrap` property
      *
@@ -58,17 +62,17 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
      * ```tsx
      * // wrong
      * <Flex>
-     *   <SomeComponentWIthBackground />
-     *   <SomeComponentWIthBackground />
+     *   <SomeComponentWithBackground />
+     *   <SomeComponentWithBackground />
      * </Flex>
      *
      * // right
      * <Flex>
      *   <div>
-     *     <SomeComponentWIthBackground />
+     *     <SomeComponentWithBackground />
      *   </div>
      *   <div>
-     *     <SomeComponentWIthBackground />
+     *     <SomeComponentWithBackground />
      *   </div>
      * </Flex>
      * ```
@@ -121,15 +125,18 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
 ) {
     const {
         as: Tag = 'div',
-        justifyContent,
         direction,
         width,
         grow,
-        alignSelf,
         basis,
         children,
         style,
+        alignContent,
         alignItems,
+        alignSelf,
+        justifyContent,
+        justifyItems,
+        justifySelf,
         shrink,
         wrap,
         inline,
@@ -147,43 +154,21 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         theme: {spaceBaseSize},
     } = useLayoutContext();
 
-    let spaceSize: Space | undefined;
-    let gapSpaceSize: Space | undefined;
-    let gapRowSpaceSize: Space | undefined;
-    let columnGap: number | undefined;
-    let rowGap: number | undefined;
-    let s: string | undefined;
+    const applyMediaProps = <P,>(
+        property?: P | MediaPartial<P extends MediaPartial<infer V> ? V : P>,
+    ): P | (P extends MediaPartial<infer V> ? V : P) | undefined =>
+        typeof property === 'object' && property !== null
+            ? getClosestMediaProps(property)
+            : property;
 
-    if (typeof space === 'object') {
-        spaceSize = getClosestMediaProps(space);
-    } else {
-        spaceSize = space;
-    }
+    const gapSpaceSize = applyMediaProps(gap);
+    const columnGap = gapSpaceSize ? spaceBaseSize * Number(gapSpaceSize) : undefined;
 
-    if (typeof gap === 'object') {
-        gapSpaceSize = getClosestMediaProps(gap);
-    } else {
-        gapSpaceSize = gap;
-    }
+    const gapRowSpaceSize = applyMediaProps(gapRow) || gapSpaceSize;
+    const rowGap = gapRowSpaceSize ? spaceBaseSize * Number(gapRowSpaceSize) : undefined;
 
-    if (typeof gapRow === 'object') {
-        gapRowSpaceSize = getClosestMediaProps(gapRow);
-    } else if (gapRow) {
-        gapRowSpaceSize = gapRow;
-    } else if (gapSpaceSize) {
-        gapRowSpaceSize = gapSpaceSize;
-    }
-
-    if (gapSpaceSize) {
-        columnGap = spaceBaseSize * Number(gapSpaceSize);
-    }
-    if (gapRowSpaceSize) {
-        rowGap = spaceBaseSize * Number(gapRowSpaceSize);
-    }
-
-    if (!gap && !gapRow && spaceSize) {
-        s = makeCssMod(spaceSize);
-    }
+    const spaceSize = applyMediaProps(space);
+    const s = !gap && !gapRow && spaceSize ? makeCssMod(spaceSize) : undefined;
 
     return (
         <Tag
@@ -196,21 +181,19 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
             )}
             style={{
                 width,
-                alignSelf,
-                flexDirection:
-                    typeof direction === 'object' ? getClosestMediaProps(direction) : direction,
+                flexDirection: applyMediaProps(direction),
                 flexGrow: grow === true ? 1 : grow,
                 flexWrap: wrap === true ? 'wrap' : wrap,
                 flexBasis: basis,
                 flexShrink: shrink,
                 columnGap,
                 rowGap,
-                justifyContent:
-                    typeof justifyContent === 'object'
-                        ? getClosestMediaProps(justifyContent)
-                        : justifyContent,
-                alignItems:
-                    typeof alignItems === 'object' ? getClosestMediaProps(alignItems) : alignItems,
+                alignContent: applyMediaProps(alignContent),
+                alignItems: applyMediaProps(alignItems),
+                alignSelf: applyMediaProps(alignSelf),
+                justifyContent: applyMediaProps(justifyContent),
+                justifyItems: applyMediaProps(justifyItems),
+                justifySelf: applyMediaProps(justifySelf),
                 ...style,
             }}
             title={title}

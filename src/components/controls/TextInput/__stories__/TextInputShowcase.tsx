@@ -73,7 +73,7 @@ export function TextInputShowcase() {
                         <TextInput
                             {...textInputProps}
                             placeholder="error with message"
-                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
+                            error={isErrorMessageVisible ? 'A validation error has occurred' : true}
                         />
                         <Checkbox
                             onUpdate={setErrorMessageVisibility}
@@ -117,7 +117,7 @@ export function TextInputShowcase() {
                             {...textInputProps}
                             placeholder="error with message"
                             label={LABEL}
-                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
+                            error={isErrorMessageVisible ? 'A validation error has occurred' : true}
                         />
                         <Checkbox
                             onUpdate={setErrorMessageVisibility}
@@ -209,7 +209,7 @@ export function TextInputShowcase() {
                         <TextInput
                             {...textInputProps}
                             placeholder="error with message"
-                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
+                            error={isErrorMessageVisible ? 'A validation error has occurred' : true}
                             type={additionalContentExmpleInputType}
                             leftContent={<Icon data={Key} />}
                             rightContent={
@@ -264,6 +264,136 @@ export function TextInputShowcase() {
                             <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
                         }
                         note={<Text color="secondary">Additional</Text>}
+                        hasClear
+                    />
+                </div>
+            </div>
+
+            <div className={b('text-input-error-examples')}>
+                <h2 className={b('title')}>TextInput (with text error)</h2>
+
+                <div className={'size-examples'}>
+                    <h3 className={b('section-header')}>Sizes:</h3>
+
+                    <TextInput
+                        {...textInputProps}
+                        size="s"
+                        placeholder="s"
+                        error={'A validation error has occurred'}
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="m"
+                        errorMessage={'A validation error has occurred'}
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        size="l"
+                        placeholder="l"
+                        errorMessage={'A validation error has occurred'}
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        size="xl"
+                        placeholder="xl"
+                        errorMessage={'A validation error has occurred'}
+                    />
+                </div>
+
+                <div className={b('additional-content-examples')}>
+                    <h3 className={b('section-header')}>With additional content:</h3>
+                    <TextInput
+                        {...textInputProps}
+                        errorMessage={'A validation error has occurred'}
+                        placeholder="clear"
+                        type={additionalContentExmpleInputType}
+                        label={LABEL}
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
+                        hasClear
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        errorMessage={'A validation error has occurred'}
+                        placeholder="default value"
+                        value={undefined}
+                        defaultValue="defaultValue"
+                        type={additionalContentExmpleInputType}
+                        label={LONG_LABEL}
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
+                        hasClear
+                    />
+                </div>
+            </div>
+
+            <div className={b('text-input-error-examples')}>
+                <h2 className={b('title')}>TextInput (with inline error)</h2>
+
+                <div className={'size-examples'}>
+                    <h3 className={b('section-header')}>Sizes:</h3>
+
+                    <TextInput
+                        {...textInputProps}
+                        size="s"
+                        placeholder="s"
+                        error={'A validation error has occurred'}
+                        errorPlacement="inside"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="m"
+                        errorMessage={'A validation error has occurred'}
+                        errorPlacement="inside"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        size="l"
+                        placeholder="l"
+                        errorMessage={'A validation error has occurred'}
+                        errorPlacement="inside"
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        size="xl"
+                        placeholder="xl"
+                        errorMessage={'A validation error has occurred'}
+                        errorPlacement="inside"
+                    />
+                </div>
+
+                <div className={b('additional-content-examples')}>
+                    <h3 className={b('section-header')}>With additional content:</h3>
+                    <TextInput
+                        {...textInputProps}
+                        errorMessage={'A validation error has occurred'}
+                        errorPlacement="inside"
+                        placeholder="clear"
+                        type={additionalContentExmpleInputType}
+                        label={LABEL}
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
+                        hasClear
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        errorMessage={'A validation error has occurred'}
+                        errorPlacement="inside"
+                        placeholder="default value"
+                        value={undefined}
+                        defaultValue="defaultValue"
+                        type={additionalContentExmpleInputType}
+                        label={LONG_LABEL}
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
                         hasClear
                     />
                 </div>

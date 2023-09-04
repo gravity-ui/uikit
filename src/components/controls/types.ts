@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import type {DOMProps, QAProps} from '../types';
 
 export type InputControlView = 'normal' | 'clear';
@@ -29,8 +31,16 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         defaultValue?: string;
         /** Indicates that the user cannot interact with the control */
         disabled?: boolean;
-        /** Shows error state and optional message if property identified as a string */
+        /** Shows error state and optional message if property identified as a string
+         * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
+         */
         error?: string | boolean;
+        /** Determines content of the error message */
+        errorMessage?: React.ReactNode;
+        /** Determines whether the error message will be placed under the input field as text or in the tooltip */
+        errorPlacement?: 'outside' | 'inside';
+        /** Describes the validation state */
+        validationState?: 'invalid';
         /** Shows icon for clearing control's value */
         hasClear?: boolean;
         /** The control's `id` attribute */

@@ -11,13 +11,7 @@ import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
 import {usePopper} from '../utils/usePopper';
-import type {
-    PopperAnchorRef,
-    PopperModifiers,
-    PopperOffset,
-    PopperPlacement,
-    PopperProps,
-} from '../utils/usePopper';
+import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
 import {PopupArrow} from './PopupArrow';
@@ -33,8 +27,6 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     keepMounted?: boolean;
     hasArrow?: boolean;
     disableLayer?: boolean;
-    offset?: PopperOffset;
-    modifiers?: PopperModifiers;
     /** @deprecated Add onClick handler to children */
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;

@@ -7,11 +7,11 @@ $block: '.#{variables.$ns}link';
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     cursor: pointer;
+    border-radius: var(--g-focus-border-radius);
 
     &:focus {
-        outline: 2px solid var(--g-color-line-misc);
+        outline: 2px solid var(--g-color-line-focus);
     }
-
     &:focus:not(:focus-visible) {
         outline: 0;
     }

@@ -49,7 +49,7 @@ export function TextAreaShowcase() {
                         <TextArea
                             {...textAreaProps}
                             placeholder="error with message"
-                            error={isErrorMessageVisible ? 'It happened a validation error' : true}
+                            error={isErrorMessageVisible ? 'A validation error has occurred' : true}
                         />
                         <Checkbox
                             onUpdate={setErrorMessageVisibility}

@@ -24,11 +24,14 @@ $gap: 8px;
         font-size: inherit;
         line-height: inherit;
         font-weight: inherit;
+        border-radius: var(--g-focus-border-radius);
+
         &:focus {
-            outline: 2px solid var(--g-color-line-misc);
+            outline: 2px solid var(--g-color-line-focus);
         }
+
         &:focus:not(:focus-visible) {
-            outline: none;
+            outline: 0;
         }
     }
     &__trigger_arrow-right {

@@ -2,7 +2,7 @@
 
 ## Table
 
-<!--GITHUB_BLOCK-->
+<!--/GITHUB_BLOCK-->
 
 A table that allows selecting and sorting rows and performing actions on a row.
 

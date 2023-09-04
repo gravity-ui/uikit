@@ -35,7 +35,7 @@ $block: '.#{variables.$ns}card';
 
             &:focus::after {
                 content: '';
-                box-shadow: 0 0 0 2px var(--g-color-line-misc);
+                box-shadow: 0 0 0 2px var(--g-color-line-focus);
             }
 
             &:focus:not(:focus-visible)::after {
@@ -87,7 +87,7 @@ $block: '.#{variables.$ns}card';
 
             &:focus::after {
                 content: '';
-                box-shadow: 0 0 0 2px var(--g-color-line-misc);
+                box-shadow: 0 0 0 2px var(--g-color-line-focus);
             }
 
             &:focus:not(:focus-visible)::after {

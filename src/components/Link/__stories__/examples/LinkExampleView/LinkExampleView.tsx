@@ -7,14 +7,14 @@ import {Text} from '../../../../Text';
 export function LinkExampleViewNormal() {
     return (
         <DocsExample>
-            <Link view="normal" href="#">
+            <Link view="normal" href="/">
                 Link
             </Link>
         </DocsExample>
     );
 }
 LinkExampleViewNormal.code = `
-<Link view="normal" href="#">
+<Link view="normal" href="/">
     Link
 </Link>
 `.trim();
@@ -22,14 +22,14 @@ LinkExampleViewNormal.code = `
 export function LinkExampleViewPrimary() {
     return (
         <DocsExample>
-            <Link view="primary" href="#">
+            <Link view="primary" href="/">
                 Link
             </Link>
         </DocsExample>
     );
 }
 LinkExampleViewPrimary.code = `
-<Link view="primary" href="#">
+<Link view="primary" href="/">
     Link
 </Link>
 `.trim();
@@ -37,46 +37,46 @@ LinkExampleViewPrimary.code = `
 export function LinkExampleViewSecondary() {
     return (
         <DocsExample>
-            <Link view="secondary" href="#">
+            <Link view="secondary" href="/">
                 Link
             </Link>
         </DocsExample>
     );
 }
 LinkExampleViewSecondary.code = `
-<Link view="secondary" href="#">
+<Link view="secondary" href="/">
     Link
 </Link>
-`.trim();
-
-export function LinkExampleHref() {
-    return (
-        <DocsExample>
-            <Link href="#">Link with href</Link>
-            <Link>Link without href</Link>
-        </DocsExample>
-    );
-}
-LinkExampleHref.code = `
-<Link href="#">Link with href</Link>
-<Link>Link without href</Link>
 `.trim();
 
 export function LinkExampleVisitable() {
     return (
         <DocsExample>
-            <Link href="#" visitable>
+            <Link href="/" visitable>
                 Visitable link
             </Link>
-            <Link href="#" visitable={false}>
+            <Link href="/" visitable={false}>
                 Non visitable link
             </Link>
         </DocsExample>
     );
 }
 LinkExampleVisitable.code = `
-<Link href="#" visitable>Visitable link</Link>
-<Link href="#" visitable={false}>Non visitable link</Link>
+<Link href="https://gravity-ui.com/" visitable>Visitable link</Link>
+<Link href="https://gravity-ui.com/" visitable={false}>Non visitable link</Link>
+`.trim();
+
+export function LinkExampleHref() {
+    return (
+        <DocsExample>
+            <Link href="/">Link with href</Link>
+            <Link>Link without href</Link>
+        </DocsExample>
+    );
+}
+LinkExampleHref.code = `
+<Link href="/">Link with href</Link>
+<Link>Link without href</Link>
 `.trim();
 
 export function LinkExampleUsage() {

@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import type {TextInputSize} from '../controls';
 import type {QAProps} from '../types';
 

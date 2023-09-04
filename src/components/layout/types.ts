@@ -54,6 +54,10 @@ export type MediaType = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
 
 export type MediaProps<T> = Record<MediaType, T>;
 
+export type AdaptiveProp<T extends keyof React.CSSProperties> =
+    | React.CSSProperties[T]
+    | MediaPartial<React.CSSProperties[T]>;
+
 export type MediaPartial<T> = Partial<MediaProps<T>>;
 
 export type WithMedia<T extends {}> = T & {media?: MediaPartial<Partial<T>>};

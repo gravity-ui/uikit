@@ -42,19 +42,19 @@ Additional functionality is enabled via HOCs:
 
 ### TableColumnConfig
 
-| Name                            | Description                                                                                                                                                            |                            Type                            |                           Default                           |
-|:--------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------:|:-----------------------------------------------------------:|
-| id                              | Column ID                                                                                                                                                              |                          `any[]`                           |                                                             |
-| name                            | Column name (header)                                                                                                                                                   |            `string`  `(() => React.ReactNode)`             |                          column ID                          |
-| placeholder                     | Stub in the event there is no data in a cell                                                                                                                           | `string` `((item: any, index: number) => React.ReactNode)` |                        `— (&mdash;)`                        |
-| template                        | Cell contents. If you pass a row, the cell contents will be the value of the field named the same as this row                                                          | `string` `((item: any, index: number) => React.ReactNode)` | The value of the field with the name equal to the column ID |
-| align                           | Content alignment                                                                                                                                                      |               `"left"` `"center"` `"right"`                |                                                             |
-| sticky                          | Sticky column                                                                                                                                                          |                    `"left"`  `"right"`                     |                                                             |
-| primary                         | Distinguishes a column among othe                                                                                                                                      |                         `boolean`                          |                                                             |
-| width                           | Column width in px                                                                                                                                                     |                          `number`                          |                                                             |
-| stickyHorizontalScroll          | Horizontal sticky scroll in a table. Note: A table can't have a fixed height and sticky scroll at the same time. A sticky scroll won't work if a table has an overflow |                         `boolean`                          |                           `false`                           |
-| stickyHorizontalScrollBreakpoint| Threshold that the parent block should pass to make a scroll sticky. Helpful, for example, in the console when the groupActions bar closes the scroll                  |                          `number`                          |                             `0`                              |
-| meta                            | Various data, HOC settings                                                                                                                                             |                    `Record<string, any>`                    |                                                              |
+| Name                             | Description                                                                                                                                                            |                            Type                            |                           Default                           |
+|:---------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------:|:-----------------------------------------------------------:|
+| id                               | Column ID                                                                                                                                                              |                          `any[]`                           |                                                             |
+| name                             | Column name (header)                                                                                                                                                   |            `string`  `(() => React.ReactNode)`             |                          column ID                          |
+| placeholder                      | Stub in the event there is no data in a cell                                                                                                                           | `string` `((item: any, index: number) => React.ReactNode)` |                        `— (&mdash;)`                        |
+| template                         | Cell contents. If you pass a row, the cell contents will be the value of the field named the same as this row                                                          | `string` `((item: any, index: number) => React.ReactNode)` | The value of the field with the name equal to the column ID |
+| align                            | Content alignment                                                                                                                                                      |               `"left"` `"center"` `"right"`                |                                                             |
+| sticky                           | Sticky column                                                                                                                                                          |                    `"left"`  `"right"`                     |                                                             |
+| primary                          | Distinguishes a column among othe                                                                                                                                      |                         `boolean`                          |                                                             |
+| width                            | Column width in px                                                                                                                                                     |                          `number`                          |                                                             |
+| stickyHorizontalScroll           | Horizontal sticky scroll in a table. Note: A table can't have a fixed height and sticky scroll at the same time. A sticky scroll won't work if a table has an overflow |                         `boolean`                          |                           `false`                           |
+| stickyHorizontalScrollBreakpoint | Threshold that the parent block should pass to make a scroll sticky. Helpful, for example, in the console when the groupActions bar closes the scroll                  |                          `number`                          |                             `0`                             |
+| meta                             | Various data, HOC settings                                                                                                                                             |                   `Record<string, any>`                    |                                                             |
 
 ## Usage with HOC `withTableActions`
 
@@ -64,7 +64,7 @@ Adds a special column with actions to table columns.
 
 | Name           | Description                                 |                         Type                          |
 |:---------------|:--------------------------------------------|:-----------------------------------------------------:|
-| getRowActions  | Array of action configs for each row        | `(item: any, index: number) => TableActionConfig[]`   |
+| getRowActions  | Array of action configs for each row        |  `(item: any, index: number) => TableActionConfig[]`  |
 | rowActionsSize | Size of actions button and popup menu items |               `"s"` `"m"` `"l"` `"xl"`                |
 
 
@@ -80,7 +80,7 @@ type TableActionConfig = TableAction | TableActionGroup;
 | text     | Text            |               `string`               |             |
 | handler  | Click handler   | `(item: any, index: number) => void` |             |
 | disabled | Action disabled |              `boolean `              |             |
-| theme    | Action disabled |       `"normal"` `"danger"`          | `"normal"`  |
+| theme    | Action disabled |        `"normal"` `"danger"`         | `"normal"`  |
 
 #### TableActionGroup
 
@@ -164,9 +164,9 @@ Enables selecting table rows.
 
 ### Properties
 
-| Name              | Description                  |            Type           |
+| Name              | Description                  |           Type            |
 |:------------------|:-----------------------------|:-------------------------:|
-| selectedIds       | Rows selected                |         `string[]`        |
+| selectedIds       | Rows selected                |        `string[]`         |
 | onSelectionChange | Selected row change handler  | `(ids: string[]) => void` |
 
 ### Example
@@ -214,11 +214,11 @@ Enables functionality for table column settings.
 
 ### Properties
 
-| Name               | Description                   |                    Type                    |
-|:-------------------|:------------------------------|:------------------------------------------:|
-| settingsPopupWidth | TableColumnSetup pop-up width |                  `string`                  |
-| settings           | Current settings              |             `TableSettingsData`            |
-| updateSettings     | Settings update handl         |`(data: TableSettingsData) => Promise<void>`|
+| Name               | Description                   |                     Type                     |
+|:-------------------|:------------------------------|:--------------------------------------------:|
+| settingsPopupWidth | TableColumnSetup pop-up width |                   `string`                   |
+| settings           | Current settings              |             `TableSettingsData`              |
+| updateSettings     | Settings update handl         | `(data: TableSettingsData) => Promise<void>` |
 
 ### TableSettingsData
 

@@ -10,11 +10,11 @@ import {Card} from '@gravity-ui/uikit';
 
 ## Description
 
-The Card UI component is a reusable React component that represents a card-like container with customizable styles and functionality. It is used to display information or content in a visually appealing and organized manner.
+The `Card` UI component is a reusable React component that represents a card-like container with customizable styles and functionality. It is used to display information or content in a visually appealing and organized manner.
 
 ## Appearance
 
-Label can be displayed with multiple styled combination
+`Card` can be displayed with multiple styled combination
 
 - theme (`normal`, `info`, `positive`, `warning`, `danger`)
 - type (`selection`, `action`, `container`)
@@ -24,7 +24,7 @@ Label can be displayed with multiple styled combination
 
 This parameter is used to specify the theme style of the card. It determines the color scheme and visual appearance of the card.
 
-By specifying different theme values, you can customize the visual appearance of the Card component to match the desired style and purpose.
+By specifying different theme values, you can customize the visual appearance of the `Card` component to match the desired style and purpose.
 
 - `normal` - represents the normal/default theme of the card.
 - `info` - represents the theme for displaying informational content.
@@ -63,7 +63,7 @@ LANDING_BLOCK-->
 
 ## Type
 
-This parameter is used to define the type of the Card component. It allows you to customize the appearance and behavior of the card.
+This parameter is used to define the type of the `Card` component. It allows you to customize the appearance and behavior of the card.
 
 - `container` - represents a card that acts as a container for other elements. It provides a structured layout for content.
 - `action` - represents a card with an interactive element, such as a button, that triggers an action when clicked.
@@ -95,7 +95,7 @@ LANDING_BLOCK-->
 
 ## View
 
-This parameter is used to specify the view or layout style of the Card. It allows you to customize the appearance and arrangement of the card content.
+This parameter is used to specify the view or layout style of the `Card`. It allows you to customize the appearance and arrangement of the card content.
 
 - `clear`: no style will be applied.
 - `outlined`: applies thin border to highlight card content.

@@ -11,6 +11,7 @@ import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoad
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
 import {block} from '../utils/cn';
+import {getUniqId} from '../utils/common';
 
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
@@ -76,13 +77,15 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         filter: '',
     };
 
+    refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
     loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
         T & {value: string}
     >;
+    uniqId = getUniqId();
 
-    componentDidUpdate(prevProps: ListProps<T>) {
+    componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
         if (this.props.items !== prevProps.items) {
             const filter = this.getFilter();
             const internalFiltering = filter && !this.props.onFilterUpdate;
@@ -96,6 +99,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
         if (this.props.activeItemIndex !== prevProps.activeItemIndex) {
             this.activateItem(this.props.activeItemIndex);
+        }
+
+        if (this.props.onChangeActive && this.state.activeItem !== prevState.activeItem) {
+            this.props.onChangeActive(this.state.activeItem);
         }
     }
 
@@ -134,7 +141,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                             style={this.getItemsStyle()}
                             onMouseLeave={this.onMouseLeave}
                             role={role}
-                            tabIndex={role === 'listbox' ? 0 : undefined}
                         >
                             {this.renderItems()}
                             {items.length === 0 && Boolean(emptyPlaceholder) && (
@@ -210,6 +216,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 }
                 break;
             }
+            default: {
+                if (this.refFilter.current) {
+                    this.refFilter.current.focus();
+                }
+            }
         }
     };
 
@@ -254,6 +265,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 onActivate={this.onItemActivate}
                 onClick={this.props.onItemClick}
                 role={role === 'listbox' ? 'option' : 'listitem'}
+                listId={this.props.id ?? this.uniqId}
             />
         );
     };
@@ -275,6 +287,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return (
             <div className={b('filter', filterClassName)}>
                 <TextInput
+                    controlRef={this.refFilter}
                     size={size}
                     placeholder={filterPlaceholder}
                     value={filter}

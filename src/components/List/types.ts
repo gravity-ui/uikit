@@ -42,6 +42,8 @@ export type ListProps<T = unknown> = QAProps & {
     role?: React.AriaRole;
     loading?: boolean;
     onLoadMore?: () => void;
+    onChangeActive?: (index?: number) => void;
+    id?: string;
 };
 
 export type ListItemProps<T> = {
@@ -57,4 +59,5 @@ export type ListItemProps<T> = {
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];
     role?: React.AriaRole;
+    listId?: string;
 };

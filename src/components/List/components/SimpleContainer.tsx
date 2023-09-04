@@ -51,7 +51,6 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
                 ref.current.scrollIntoView?.({
                     block: 'nearest',
                 });
-                ref.current.focus();
             }
         }
     }

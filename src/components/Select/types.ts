@@ -90,6 +90,7 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOption<T>, typeof Option>[]
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
+        id?: string;
     };
 
 export type SelectOption<T = any> = QAProps &

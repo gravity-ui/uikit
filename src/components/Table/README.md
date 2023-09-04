@@ -14,7 +14,7 @@ Additional functionality is enabled via HOCs:
 - [withTableSettings](#withtablesettings)
 - [withTableSorting](#withtablesorting)
 
-### Properties
+## Properties
 
 | Name            | Description                                                                                                                                            |                                          Type                                          |   Default   |
 |:----------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------:|:-----------:|
@@ -46,11 +46,11 @@ Additional functionality is enabled via HOCs:
 | stickyHorizontalScrollBreakpoint| Threshold that the parent block should pass to make a scroll sticky. Helpful, for example, in the console when the groupActions bar closes the scroll                  |                          `number`                          |                             `0`                              |
 | meta                            | Various data, HOC settings                                                                                                                                             |                    `Record<string, any>`                    |                                                              |
 
-## withTableActions
+## Usage with HOC `withTableActions`
 
 Adds a special column with actions to table columns.
 
-### Props
+### Properties
 
 | Name           | Description                                 |                         Type                          |
 |:---------------|:--------------------------------------------|:-----------------------------------------------------:|
@@ -120,7 +120,7 @@ const table = (
 );
 ```
 
-## withTableCopy
+## Usage with HOC `withTableCopy`
 
 Allows copying the contents of a cell or any text.
 
@@ -157,7 +157,7 @@ const table = (
 );
 ```
 
-## withTableSelection
+## Usage with HOC `withTableSelection`
 
 Enables selecting table rows.
 
@@ -203,7 +203,7 @@ function SelectionTable() {
 }
 ```
 
-## withTableSettings
+## Usage with HOC `withTableSettings`
 
 Enables functionality for table column settings.
 
@@ -269,7 +269,7 @@ function SelectionTable() {
 }
 ```
 
-## withTableSorting
+## Usage with HOC `withTableSorting`
 
 Enables column sorting.
 

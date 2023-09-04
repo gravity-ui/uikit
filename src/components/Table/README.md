@@ -79,7 +79,12 @@ type TableActionConfig = TableAction | TableActionGroup;
 | title | Action group header |        `string`        |
 | items | Action group items  | `TableActionConfig[]`  |
 
+
+<!--GITHUB_BLOCK-->
+
 ### Example
+
+<!--/GITHUB_BLOCK-->
 
 ```jsx
 import {Table, withTableActions} from '@gravity-ui/uikit';
@@ -125,7 +130,11 @@ Allows copying the contents of a cell or any text.
 |:---------|:----------------------------------------------------------|:-------------------------------------------------------------------------------------------:|
 | copy     | Text to copy. If true is passed, cell contents are copied | `boolean` `((item: any, index: number) => string)` `((item: any, index: number) => number)` |
 
+<!--GITHUB_BLOCK-->
+
 ### Example
+
+<!--/GITHUB_BLOCK-->
 
 ```jsx
 import {Table, withTableCopy} from '@gravity-ui/uikit';
@@ -159,7 +168,11 @@ Enables selecting table rows.
 | selectedIds       | Rows selected                |         `string[]`        |
 | onSelectionChange | Selected row change handler  | `(ids: string[]) => void` |
 
+<!--GITHUB_BLOCK-->
+
 ### Example
+
+<!--/GITHUB_BLOCK-->
 
 ```jsx
 import {Table, withTableSelection} from '@gravity-ui/uikit';
@@ -219,7 +232,11 @@ type TableSettingsData = Array<{
 }>;
 ```
 
+<!--GITHUB_BLOCK-->
+
 ### Example
+
+<!--/GITHUB_BLOCK-->
 
 ```jsx
 import {Table, withTableSettings} from '@gravity-ui/uikit';
@@ -284,7 +301,11 @@ type TableSortState = Array<{
 }>;
 ```
 
+<!--GITHUB_BLOCK-->
+
 ### Example
+
+<!--/GITHUB_BLOCK-->
 
 ```jsx
 import {Table, withTableSorting} from '@gravity-ui/uikit';

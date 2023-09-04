@@ -128,7 +128,8 @@ $block: '.#{variables.$ns}card';
             }
         }
 
-        &#{$block}_theme_positive {
+        &#{$block}_theme_positive,
+        &#{$block}_theme_success {
             &#{$block}_view_outlined {
                 border: 1px solid var(--g-color-line-positive);
             }

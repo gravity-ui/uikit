@@ -12,7 +12,7 @@ const cardText = 'Some text';
 
 const cardSizes: CardSize[] = ['l', 'm'];
 
-const cardThemes: CardTheme[] = ['danger', 'info', 'normal', 'positive', 'warning'];
+const cardThemes: CardTheme[] = ['danger', 'info', 'normal', 'success', 'positive', 'warning'];
 
 const cardTypes: CardType[] = ['action', 'container', 'selection'];
 

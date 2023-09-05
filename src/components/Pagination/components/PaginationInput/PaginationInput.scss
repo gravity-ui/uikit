@@ -3,11 +3,11 @@
 $block: '.#{variables.$ns-new}pagination-input';
 
 #{$block} {
-    &_size_m {
+    &#{$block}_size_m {
         width: 80px;
     }
 
-    &_size_l {
+    &#{$block}_size_l {
         width: 90px;
     }
 }

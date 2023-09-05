@@ -11,12 +11,7 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {
-    CONTROL_ERROR_MESSAGE_QA,
-    errorPropsMapper,
-    getInputControlState,
-    prepareAutoComplete,
-} from '../utils';
+import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -188,16 +183,12 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                     />
                 )}
             </span>
-            {(isErrorMsgVisible || note) && (
-                <div className={b('outer-additional-content')}>
-                    {isErrorMsgVisible && (
-                        <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
-                            {errorMessage}
-                        </div>
-                    )}
-                    {note && <div className={b('note')}>{note}</div>}
-                </div>
-            )}
+            <OuterAdditionalContent
+                errorMessage={errorMessage}
+                errorMessageId={errorMessageId}
+                note={note}
+                noteId={noteId}
+            />
         </span>
     );
 });

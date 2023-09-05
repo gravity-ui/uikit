@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {block} from '../../../utils/cn';
+import {CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 
 import './OuterAdditionalContent.scss';
 
@@ -22,7 +23,7 @@ export const OuterAdditionalContent = ({
     return errorMessage || note ? (
         <div className={b()}>
             {errorMessage && (
-                <div className={b('error')} id={errorMessageId}>
+                <div className={b('error')} id={errorMessageId} data-qa={CONTROL_ERROR_MESSAGE_QA}>
                     {errorMessage}
                 </div>
             )}

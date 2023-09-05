@@ -4,18 +4,14 @@ import {blockNew} from '../../utils/cn';
 import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
+import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {
     BaseInputControlProps,
     InputControlPin,
     InputControlSize,
     InputControlView,
 } from '../types';
-import {
-    CONTROL_ERROR_MESSAGE_QA,
-    errorPropsMapper,
-    getInputControlState,
-    prepareAutoComplete,
-} from '../utils';
+import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -87,6 +83,16 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        controlProps?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
     const commonProps = {
         id,
         tabIndex,
@@ -104,7 +110,11 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             }
         },
         autoComplete: prepareAutoComplete(autoComplete),
-        controlProps,
+        controlProps: {
+            ...controlProps,
+            'aria-describedby': ariaDescribedBy || undefined,
+            'aria-invalid': validationState === 'invalid' || undefined,
+        },
     };
 
     const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -173,16 +183,12 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                     />
                 )}
             </span>
-            {(isErrorMsgVisible || note) && (
-                <div className={b('outer-additional-content')}>
-                    {isErrorMsgVisible && (
-                        <div className={b('error')} data-qa={CONTROL_ERROR_MESSAGE_QA}>
-                            {errorMessage}
-                        </div>
-                    )}
-                    {note && <div className={b('note')}>{note}</div>}
-                </div>
-            )}
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+                note={note}
+                noteId={noteId}
+            />
         </span>
     );
 });

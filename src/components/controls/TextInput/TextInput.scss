@@ -91,31 +91,6 @@ $block: '.#{variables.$ns}text-input';
         flex-shrink: 0;
     }
 
-    &__outer-additional-content {
-        display: flex;
-        justify-content: space-between;
-        vertical-align: top;
-    }
-
-    &__note {
-        margin-left: auto;
-    }
-
-    &__error {
-        @include mixins.text-body-1();
-
-        color: var(--g-color-text-danger);
-
-        &:not(:last-child) {
-            margin-right: var(--g-spacing-2);
-        }
-    }
-
-    &__note,
-    &__error {
-        margin-top: 2px;
-    }
-
     &__error-icon {
         color: var(--g-color-text-danger);
         padding: var(--_--text-input-error-icon-padding);

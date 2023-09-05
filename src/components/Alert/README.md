@@ -14,7 +14,7 @@ import {Alert} from '@gravity-ui/uikit';
 
 `info` - the theme used for any kind of regular information.
 
-`positive` - the theme used for positive information.
+`success` - the theme used for positive information.
 
 `warning` - the theme used for information which needs attention.
 
@@ -25,13 +25,13 @@ import {Alert} from '@gravity-ui/uikit';
     code={`
 <Alert theme="normal" title="Normal" message="Normal theme" />
 <Alert theme="info" title="Info" message="Info theme" />
-<Alert theme="positive" title="Positive" message="Positive theme" />
+<Alert theme="success" title="Success" message="Success theme" />
 <Alert theme="warning" title="Warning" message="Warning theme" />
 <Alert theme="danger" title="Danger" message="Danger theme" />
 `}>
     <UIKit.Alert theme="normal" title="Normal" message="Normal theme" />
     <UIKit.Alert theme="info" title="Info" message="Info theme" />
-    <UIKit.Alert theme="positive" title="Positive" message="Positive theme" />
+    <UIKit.Alert theme="success" title="Success" message="Success theme" />
     <UIKit.Alert theme="warning" title="Warning" message="Warning theme" />
     <UIKit.Alert theme="danger" title="Danger" message="Danger theme" />
 </ExampleBlock>
@@ -42,7 +42,7 @@ LANDING_BLOCK-->
 ```tsx
 <Alert theme="normal" title="Normal" message="Normal theme"/>
 <Alert theme="info" title="Info" message="Info theme"/>
-<Alert theme="positive" title="Positive" message="Positive theme"/>
+<Alert theme="success" title="Success" message="Success theme"/>
 <Alert theme="warning" title="Warning" message="Warning theme"/>
 <Alert theme="danger" title="Danger" message="Danger theme"/>
 ```
@@ -217,17 +217,17 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                                      |                            Type                            |   Default    |
-| :-------- | :------------------------------------------------------------------------------- | :--------------------------------------------------------: | :----------: |
-| theme     | Alert appearance                                                                 | `"normal"` `"info"` `"positive"` `"warning"` `"dangerous"` |  `"normal"`  |
-| view      | Enable/disable the background color of the alert                                 |                  `"filled"` `"outlined"`                   |  `"filled"`  |
-| layout    | Used for direction of content if there is property `actions` with buttons        |                `"vertical"` `"horizontal"`                 | `"vertical"` |
-| corners   | Used fot round/square corners of alert window                                    |                   `"rounded"` `"square"`                   | `"rounded"`  |
-| title     | The title of the alert                                                           |                          `string`                          |              |
-| message   | The message of the alert                                                         |                          `string`                          |              |
-| onClose   | A callback function that is called when the close button of the alert is clicked |                         `Function`                         |              |
-| actions   | Array of buttons or full custom components                                       |             `React.ReactNode` `"AlertAction"`              |              |
-| align     | Determines how the content inside the Alert component is vertically aligned      |                  `"center"` `"baseline"`                   | `"baseline"` |
-| style     | HTML style attribute                                                             |                   `React.CSSProperties`                    |              |
-| className | The alert class name                                                             |                          `string`                          |              |
-| icon      | Override default icon.                                                           |                     `React.ReactNode`                      |              |
+| Name      | Description                                                                      |                           Type                            |   Default    |
+| :-------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------: | :----------: |
+| theme     | Alert appearance                                                                 | `"normal"` `"info"` `"success"` `"warning"` `"dangerous"` |  `"normal"`  |
+| view      | Enable/disable the background color of the alert                                 |                  `"filled"` `"outlined"`                  |  `"filled"`  |
+| layout    | Used for direction of content if there is property `actions` with buttons        |                `"vertical"` `"horizontal"`                | `"vertical"` |
+| corners   | Used fot round/square corners of alert window                                    |                  `"rounded"` `"square"`                   | `"rounded"`  |
+| title     | The title of the alert                                                           |                         `string`                          |              |
+| message   | The message of the alert                                                         |                         `string`                          |              |
+| onClose   | A callback function that is called when the close button of the alert is clicked |                        `Function`                         |              |
+| actions   | Array of buttons or full custom components                                       |             `React.ReactNode` `"AlertAction"`             |              |
+| align     | Determines how the content inside the Alert component is vertically aligned      |                  `"center"` `"baseline"`                  | `"baseline"` |
+| style     | HTML style attribute                                                             |                   `React.CSSProperties`                   |              |
+| className | The alert class name                                                             |                         `string`                          |              |
+| icon      | Override default icon.                                                           |                     `React.ReactNode`                     |              |

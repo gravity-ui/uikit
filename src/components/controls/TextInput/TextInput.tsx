@@ -130,7 +130,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             ...originalControlProps?.style,
             ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
         },
-        'aria-invalid': Boolean(error) || undefined,
+        'aria-invalid': validationState === 'invalid' || undefined,
         'aria-describedby': ariaDescribedBy || undefined,
     };
     const commonProps = {

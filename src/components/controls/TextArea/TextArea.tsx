@@ -113,7 +113,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         controlProps: {
             ...controlProps,
             'aria-describedby': ariaDescribedBy || undefined,
-            'aria-invalid': Boolean(error) || undefined,
+            'aria-invalid': validationState === 'invalid' || undefined,
         },
     };
 

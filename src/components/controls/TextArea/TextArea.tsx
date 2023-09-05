@@ -184,7 +184,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                 )}
             </span>
             <OuterAdditionalContent
-                errorMessage={errorMessage}
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
                 errorMessageId={errorMessageId}
                 note={note}
                 noteId={noteId}

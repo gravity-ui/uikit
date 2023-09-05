@@ -258,7 +258,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             </span>
             <OuterAdditionalContent
                 note={note}
-                errorMessage={errorMessage}
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
                 noteId={noteId}
                 errorMessageId={errorMessageId}
             />

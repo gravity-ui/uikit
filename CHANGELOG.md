@@ -1,5 +1,26 @@
 # Changelog
 
+## [5.10.0](https://github.com/gravity-ui/uikit/compare/v5.9.1...v5.10.0) (2023-09-05)
+
+
+### Features
+
+* add CSS variables to control focus outline ([#973](https://github.com/gravity-ui/uikit/issues/973)) ([d926ef8](https://github.com/gravity-ui/uikit/commit/d926ef870b4daef03ed0970f9b97fbc85b93f5d0))
+* **Card:** update README ([#976](https://github.com/gravity-ui/uikit/issues/976)) ([60bf6cc](https://github.com/gravity-ui/uikit/commit/60bf6cc13f3fcda6b03e1de0e152c3b0a5f10ac0))
+* **Flex:** add alignContent, justifyItems and justifySelf css props ([#974](https://github.com/gravity-ui/uikit/issues/974)) ([0be31c9](https://github.com/gravity-ui/uikit/commit/0be31c94a2290b6787b88cdb15fa5d048faf4134))
+* **Menu:** improve MenuItem a11y ([#959](https://github.com/gravity-ui/uikit/issues/959)) ([338f907](https://github.com/gravity-ui/uikit/commit/338f9070c558cd7ce85b99f6ef5539ad0e63a57b))
+* **Popover:** accept function as a children ([#900](https://github.com/gravity-ui/uikit/issues/900)) ([ca5bcc7](https://github.com/gravity-ui/uikit/commit/ca5bcc708598d69270a8645c2fa6a00dc0c9397b))
+* **Table:** update README ([#985](https://github.com/gravity-ui/uikit/issues/985)) ([cc95a33](https://github.com/gravity-ui/uikit/commit/cc95a3372d781aae95f7516cb2e2a2744eca570b))
+* **TextInput:** add an option to display error via tooltip ([#821](https://github.com/gravity-ui/uikit/issues/821)) ([f883f01](https://github.com/gravity-ui/uikit/commit/f883f0126371339e0b0ad46365c29bf1980bdbe7))
+* **Toast:** update icons according to design ([#984](https://github.com/gravity-ui/uikit/issues/984)) ([d10d2c9](https://github.com/gravity-ui/uikit/commit/d10d2c9e1d3d1394786a1105d0d3806de07bce08))
+
+
+### Bug Fixes
+
+* **Disclosure:** explicit type export ([#983](https://github.com/gravity-ui/uikit/issues/983)) ([eeba89d](https://github.com/gravity-ui/uikit/commit/eeba89d4ee2f6a849c0621e96817c00461b2d20f))
+* **Pagination:** increase priority over input styles ([#989](https://github.com/gravity-ui/uikit/issues/989)) ([bbfa6a5](https://github.com/gravity-ui/uikit/commit/bbfa6a5a5ba87dcba31121ccefbb9d05d2f6f60d))
+* **Toast:** don't render empty actions array ([#979](https://github.com/gravity-ui/uikit/issues/979)) ([e19d0b9](https://github.com/gravity-ui/uikit/commit/e19d0b9344ee3f8cbec3e0ee107fcb244b1e26c9))
+
 ## [5.9.1](https://github.com/gravity-ui/uikit/compare/v5.9.0...v5.9.1) (2023-08-28)
 
 

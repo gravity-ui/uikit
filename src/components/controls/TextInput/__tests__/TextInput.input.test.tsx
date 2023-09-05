@@ -3,6 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextInput} from '../TextInput';
 
 describe('TextInput input', () => {
@@ -86,6 +87,75 @@ describe('TextInput input', () => {
                 }
 
                 expect(onChangeFn).toBeCalled();
+            });
+        });
+
+        describe('error', () => {
+            test('render error message with error prop (if it is not an empty string)', () => {
+                render(<TextInput error="Some Error" />);
+
+                expect(screen.getByText('Some Error')).toBeVisible();
+            });
+
+            test('render error message with errorMessage prop (if it is not an empty string)', () => {
+                render(<TextInput errorMessage="Some Error with errorMessage prop" />);
+
+                expect(
+                    screen.queryByText('Some Error with errorMessage prop'),
+                ).not.toBeInTheDocument();
+            });
+
+            test('render error message with errorMessage prop and invalid state (if it is not an empty string)', () => {
+                render(
+                    <TextInput
+                        errorMessage="Some Error with errorMessage prop"
+                        validationState="invalid"
+                    />,
+                );
+
+                expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
+            });
+
+            test('render error icon if tooltip option is selected for errorPlacement prop', () => {
+                render(
+                    <TextInput
+                        errorMessage="Some Error"
+                        validationState="invalid"
+                        errorPlacement="inside"
+                    />,
+                );
+
+                expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
+            });
+
+            test('do not show error message without error/errorMessage prop', () => {
+                render(<TextInput />);
+
+                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
+            });
+
+            test('do not show error message if error prop value is an empty string', () => {
+                render(<TextInput error={''} />);
+
+                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
+            });
+
+            test('do not show error message if errorMessage prop value is an empty string', () => {
+                render(<TextInput errorMessage={''} />);
+
+                expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
+            });
+
+            test('do not show error icon if error prop is an empty string', () => {
+                render(<TextInput error={''} errorPlacement="inside" />);
+
+                expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
+            });
+
+            test('do not show error icon if errorMessage prop is an empty string', () => {
+                render(<TextInput errorMessage={''} errorPlacement="inside" />);
+
+                expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
             });
         });
 

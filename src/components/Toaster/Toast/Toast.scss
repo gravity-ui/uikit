@@ -41,7 +41,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-info);
+            color: var(--g-color-text-info-heavy);
         }
     }
 
@@ -51,7 +51,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-positive);
+            color: var(--g-color-text-positive-heavy);
         }
     }
 
@@ -61,7 +61,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-warning);
+            color: var(--g-color-text-warning-heavy);
         }
     }
 
@@ -71,7 +71,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-danger);
+            color: var(--g-color-text-danger-heavy);
         }
     }
 

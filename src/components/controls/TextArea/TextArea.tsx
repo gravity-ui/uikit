@@ -1,5 +1,9 @@
 import React from 'react';
 
+import {TriangleExclamation} from '@gravity-ui/icons';
+
+import {Icon} from '../../Icon';
+import {Popover} from '../../Popover';
 import {blockNew} from '../../utils/cn';
 import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
@@ -11,7 +15,12 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
+import {
+    CONTROL_ERROR_ICON_QA,
+    errorPropsMapper,
+    getInputControlState,
+    prepareAutoComplete,
+} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -52,6 +61,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         error,
         errorMessage: errorMessageProp,
         validationState: validationStateProp,
+        errorPlacement: errorPlacementProp = 'outside',
         autoComplete,
         id: originalId,
         tabIndex,
@@ -64,10 +74,11 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         onChange,
     } = props;
 
-    const {errorMessage, validationState} = errorPropsMapper({
+    const {errorMessage, validationState, errorPlacement} = errorPropsMapper({
         error,
         errorMessage: errorMessageProp,
         validationState: validationStateProp,
+        errorPlacement: errorPlacementProp,
     });
 
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
@@ -79,7 +90,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
+    const isErrorMsgVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
 
@@ -181,6 +195,17 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                         size={mapTextInputSizeToButtonSize(size)}
                         onClick={handleClear}
                     />
+                )}
+                {isErrorIconVisible && (
+                    <Popover content={errorMessage}>
+                        <span data-qa={CONTROL_ERROR_ICON_QA}>
+                            <Icon
+                                data={TriangleExclamation}
+                                className={b('error-icon')}
+                                size={size === 's' ? 12 : 16}
+                            />
+                        </span>
+                    </Popover>
                 )}
             </span>
             <OuterAdditionalContent

@@ -46,6 +46,11 @@ $block: '.#{variables.$ns-new}text-area';
         }
     }
 
+    &__error-icon {
+        color: var(--g-color-text-danger);
+        padding: var(--_--text-input-error-icon-padding);
+    }
+
     &__clear {
         position: absolute;
         right: 1px;
@@ -72,6 +77,8 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             --_--text-area-border-radius: var(--g-border-radius-s);
+
+            --_--text-input-error-icon-padding: 5px 5px 5px 0;
         }
 
         &_m {
@@ -84,6 +91,8 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             --_--text-area-border-radius: var(--g-border-radius-m);
+
+            --_--text-input-error-icon-padding: 5px 5px 5px 0;
         }
 
         &_l {
@@ -96,6 +105,8 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             --_--text-area-border-radius: var(--g-border-radius-l);
+
+            --_--text-input-error-icon-padding: 9px 9px 9px 0;
         }
 
         &_xl {
@@ -108,6 +119,8 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             --_--text-area-border-radius: var(--g-border-radius-xl);
+
+            --_--text-input-error-icon-padding: 13px 13px 13px 0;
         }
     }
 

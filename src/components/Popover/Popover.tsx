@@ -6,6 +6,7 @@ import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {Popup} from '../Popup';
 import type {QAProps} from '../types';
+import type {PopperProps} from '../utils/usePopper';
 
 import {cnPopover} from './Popover.classname';
 import {Buttons} from './components/Buttons/Buttons';
@@ -18,7 +19,10 @@ import type {PopoverInstanceProps, PopoverProps} from './types';
 
 import './Popover.scss';
 
-export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAProps>(function (
+export const Popover = React.forwardRef<
+    PopoverInstanceProps,
+    PopoverProps & Pick<PopperProps, 'modifiers'> & QAProps
+>(function (
     {
         initialOpen = false,
         disabled = false,
@@ -57,6 +61,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         focusTrap,
         autoFocus,
         restoreFocusRef,
+        modifiers,
     },
     ref,
 ) {
@@ -129,6 +134,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             autoFocus={autoFocus}
             restoreFocus={true}
             restoreFocusRef={restoreFocusRef || controlRef}
+            modifiers={modifiers}
         >
             <React.Fragment>
                 {title && <h3 className={cnPopover('tooltip-title')}>{title}</h3>}

@@ -3,7 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {CONTROL_ERROR_MESSAGE_QA} from '../../utils';
+import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextArea} from '../TextArea';
 
 describe('TextArea', () => {
@@ -113,6 +113,18 @@ describe('TextArea', () => {
             expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
         });
 
+        test('render error icon if tooltip option is selected for errorPlacement prop', () => {
+            render(
+                <TextArea
+                    errorMessage="Some Error"
+                    validationState="invalid"
+                    errorPlacement="inside"
+                />,
+            );
+
+            expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
+        });
+
         test('do not show error message without error/errorMessage prop', () => {
             render(<TextArea />);
 
@@ -129,6 +141,18 @@ describe('TextArea', () => {
             render(<TextArea errorMessage={''} />);
 
             expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
+        });
+
+        test('do not show error icon if error prop is an empty string', () => {
+            render(<TextArea error={''} errorPlacement="inside" />);
+
+            expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
+        });
+
+        test('do not show error icon if errorMessage prop is an empty string', () => {
+            render(<TextArea errorMessage={''} errorPlacement="inside" />);
+
+            expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
         });
     });
 

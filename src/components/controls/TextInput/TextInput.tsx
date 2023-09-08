@@ -9,6 +9,7 @@ import {useElementSize} from '../../utils/useElementSize';
 import {useForkRef} from '../../utils/useForkRef';
 import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
+import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {
     BaseInputControlProps,
     InputControlPin,
@@ -113,12 +114,24 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
     const leftContentSize = useElementSize(isLeftContentVisible ? leftContentRef : null, size);
 
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        originalControlProps?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
     const controlProps: TextInputProps['controlProps'] = {
         ...originalControlProps,
         style: {
             ...originalControlProps?.style,
             ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
         },
+        'aria-invalid': validationState === 'invalid' || undefined,
+        'aria-describedby': ariaDescribedBy || undefined,
     };
     const commonProps = {
         id,
@@ -243,12 +256,12 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     </Popover>
                 )}
             </span>
-            {(isErrorMsgVisible || note) && (
-                <div className={b('outer-additional-content')}>
-                    {isErrorMsgVisible && <div className={b('error')}>{errorMessage}</div>}
-                    {note && <div className={b('note')}>{note}</div>}
-                </div>
-            )}
+            <OuterAdditionalContent
+                note={note}
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                noteId={noteId}
+                errorMessageId={errorMessageId}
+            />
         </span>
     );
 });

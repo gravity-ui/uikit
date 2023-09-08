@@ -21,12 +21,12 @@ const variants: AlertProps[] = [
     },
     {theme: 'warning', title, message},
     {theme: 'danger', title, message},
-    {theme: 'positive', title, message},
+    {theme: 'success', title, message},
     {theme: 'normal', title, message},
     {theme: 'info', view: 'outlined', title, message},
     {theme: 'warning', view: 'outlined', title, message},
     {theme: 'danger', view: 'outlined', title, message},
-    {theme: 'positive', view: 'outlined', title, message},
+    {theme: 'success', view: 'outlined', title, message},
     {theme: 'normal', view: 'outlined', title, message},
 ];
 
@@ -59,7 +59,7 @@ export const WithPlaneActions = () => (
 
 export const WithActionsOverride = () => (
     <Alert
-        theme="positive"
+        theme="success"
         corners="square"
         title="Are you sure?"
         onClose={() => alert('Ok!')}
@@ -94,7 +94,7 @@ export const WithHtmlMessageAndTitle = () => (
 
 export const HorizontalLayoutAndCustomIcon = () => (
     <Alert
-        theme="positive"
+        theme="success"
         align="center"
         icon={<Icon data={HandOk} size={16} />}
         title="Everything is ok, mister!"

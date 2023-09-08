@@ -1,6 +1,12 @@
 import type React from 'react';
 
-export type AlertTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
+export type AlertTheme =
+    | 'normal'
+    | 'info'
+    | 'success'
+    | /** @deprecated */ 'positive'
+    | 'warning'
+    | 'danger';
 export type AlertView = 'filled' | 'outlined';
 export type AlertCorners = 'rounded' | 'square';
 

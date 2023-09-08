@@ -33,9 +33,6 @@ type ControlProps = {
     value: SelectProps['value'];
     clearValue: () => void;
     hasClear?: boolean;
-    popupId: string;
-    selectId: string;
-    activeIndex?: number;
 } & Omit<SelectRenderControlProps, 'onClick'>;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
@@ -124,6 +121,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 ref,
                 open: Boolean(open),
                 renderClear: (arg) => renderClearIcon(arg),
+                popupId,
+                selectId,
+                activeIndex,
             },
             {value},
         );

@@ -16,6 +16,9 @@ export type SelectRenderControlProps = {
     ref: React.Ref<HTMLElement>;
     open: boolean;
     renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
+    popupId: string;
+    selectId: string;
+    activeIndex?: number;
 };
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];

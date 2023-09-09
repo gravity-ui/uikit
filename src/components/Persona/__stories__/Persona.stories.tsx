@@ -26,11 +26,21 @@ Image.args = {
     text: person,
     image: personImg,
 };
+Image.parameters = {
+    screenshot: {
+        skip: true,
+    },
+};
 
 export const Email = Template.bind({});
 Email.args = {
     text: email,
     type: 'email',
+};
+Email.parameters = {
+    screenshot: {
+        skip: true,
+    },
 };
 
 export const Empty = Template.bind({});

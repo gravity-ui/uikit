@@ -2,11 +2,11 @@
 import '../styles/fonts.scss';
 // eslint-disable-next-line import/order
 import '../styles/styles.scss';
-
 import React from 'react';
 
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
 import type {Decorator, Preview} from '@storybook/react';
+import {withScreenshot} from 'storycap';
 
 import {Lang, MobileProvider, ThemeProvider, configure} from '../src';
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
@@ -31,8 +31,12 @@ const withContextProvider: Decorator = (Story, context) => {
     );
 };
 
+export const decorators = [
+    withScreenshot, // Registration the decorator is required
+];
+
 const preview: Preview = {
-    decorators: [WithMobile, WithLang, withContextProvider],
+    decorators: [WithMobile, WithLang, withContextProvider, withScreenshot],
     parameters: {
         docs: {
             theme: themes.light,
@@ -51,6 +55,9 @@ const preview: Preview = {
                 order: ['Components', ['Basic'], 'Branding', ['Overview']],
                 method: 'alphabetical',
             },
+        },
+        screenshot: {
+            waitAssets: true,
         },
     },
     globalTypes: {

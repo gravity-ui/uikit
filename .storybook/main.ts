@@ -14,6 +14,7 @@ const config: StorybookConfig = {
         '@storybook/preset-scss',
         {name: '@storybook/addon-essentials', options: {backgrounds: false}},
         './theme-addon/register.tsx',
+        'storycap',
     ],
 };
 

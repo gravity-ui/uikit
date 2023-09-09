@@ -6,6 +6,11 @@ import {BrandingConfigurator} from './BrandingConfugurator/BrandingConfigurator'
 
 export default {
     title: 'Branding/Example',
+    parameters: {
+        screenshot: {
+            skip: true,
+        },
+    },
 } as Meta;
 
 export const Example: StoryFn = (_, ctx) => {

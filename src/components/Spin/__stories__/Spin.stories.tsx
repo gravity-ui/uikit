@@ -8,6 +8,11 @@ import type {SpinProps} from '../Spin';
 export default {
     title: 'Components/Spin',
     component: Spin,
+    parameters: {
+        screenshot: {
+            skip: true,
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<SpinProps> = (args) => <Spin {...args} />;

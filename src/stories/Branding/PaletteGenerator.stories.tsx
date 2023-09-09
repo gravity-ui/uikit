@@ -6,6 +6,11 @@ import {PaletteGenerator} from './PaletteGenerator/PaletteGenerator';
 
 export default {
     title: 'Branding/Palette Generator',
+    parameters: {
+        screenshot: {
+            skip: true,
+        },
+    },
 } as Meta;
 
 export const Default: StoryFn = (_, ctx) => {

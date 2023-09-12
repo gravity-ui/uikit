@@ -4,6 +4,7 @@
 
 $block: '.#{variables.$ns-new}select-list';
 $popupBlock: '.#{variables.$ns}popup';
+$listBlock: '.#{variables.$ns}list';
 $xl-right-padding: '12px';
 
 #{$block} {
@@ -81,6 +82,20 @@ $xl-right-padding: '12px';
         @include mixins.text-accent;
 
         width: 100%;
+    }
+
+    &__item#{$listBlock} {
+        &__item_selected {
+            background: none;
+
+            &:hover {
+                background: var(--g-color-base-simple-hover);
+            }
+        }
+
+        &__item_active {
+            background: var(--g-color-base-simple-hover);
+        }
     }
 
     &__option {

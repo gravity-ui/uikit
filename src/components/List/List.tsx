@@ -11,6 +11,7 @@ import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoad
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
 import {block} from '../utils/cn';
+import {getUniqId} from '../utils/common';
 
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
@@ -82,8 +83,9 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
         T & {value: string}
     >;
+    uniqId = getUniqId();
 
-    componentDidUpdate(prevProps: ListProps<T>) {
+    componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
         if (this.props.items !== prevProps.items) {
             const filter = this.getFilter();
             const internalFiltering = filter && !this.props.onFilterUpdate;
@@ -98,6 +100,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         if (this.props.activeItemIndex !== prevProps.activeItemIndex) {
             this.activateItem(this.props.activeItemIndex);
         }
+
+        if (this.props.onChangeActive && this.state.activeItem !== prevState.activeItem) {
+            this.props.onChangeActive(this.state.activeItem);
+        }
     }
 
     componentWillUnmount() {
@@ -105,13 +111,21 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     render() {
-        const {emptyPlaceholder, virtualized, className, itemsClassName, qa} = this.props;
+        const {
+            emptyPlaceholder,
+            virtualized,
+            className,
+            itemsClassName,
+            qa,
+            role = 'list',
+        } = this.props;
 
         const {items} = this.state;
 
         return (
             <MobileContext.Consumer>
                 {({mobile}) => (
+                    // The event handler should only be used to capture bubbled events
                     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                     <div
                         className={b({mobile}, className)}
@@ -126,6 +140,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                             className={b('items', {virtualized}, itemsClassName)}
                             style={this.getItemsStyle()}
                             onMouseLeave={this.onMouseLeave}
+                            role={role}
                         >
                             {this.renderItems()}
                             {items.length === 0 && Boolean(emptyPlaceholder) && (
@@ -224,12 +239,15 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private renderItem = ({index, style}: {index: number; style?: React.CSSProperties}) => {
-        const {sortHandleAlign} = this.props;
+        const {sortHandleAlign, role} = this.props;
         const {items, activeItem} = this.state;
         const item = this.getItemsWithLoading()[index];
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
         const active = index === activeItem || index === this.props.activeItemIndex;
         const Item = sortable ? SortableListItem : ListItem;
+        const selected = Array.isArray(this.props.selectedItemIndex)
+            ? this.props.selectedItemIndex.includes(index)
+            : index === this.props.selectedItemIndex;
 
         return (
             <Item
@@ -243,9 +261,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 renderItem={this.renderItemContent}
                 itemClassName={this.props.itemClassName}
                 active={active}
-                selected={index === this.props.selectedItemIndex}
+                selected={selected}
                 onActivate={this.onItemActivate}
                 onClick={this.props.onItemClick}
+                role={role === 'listbox' ? 'option' : 'listitem'}
+                listId={this.props.id ?? this.uniqId}
             />
         );
     };

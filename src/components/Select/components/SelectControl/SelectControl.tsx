@@ -55,6 +55,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         disabled,
         value,
         hasClear,
+        popupId,
+        selectId,
+        activeIndex,
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
@@ -118,6 +121,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 ref,
                 open: Boolean(open),
                 renderClear: (arg) => renderClearIcon(arg),
+                popupId,
+                selectId,
+                activeIndex,
             },
             {value},
         );
@@ -128,9 +134,16 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
             <div className={selectControlBlock(controlMods)} role="group">
                 <button
                     ref={ref}
+                    role="combobox"
+                    aria-controls={popupId}
                     className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"
                     aria-expanded={open}
+                    aria-activedescendant={
+                        activeIndex === undefined
+                            ? undefined
+                            : `${selectId}-list-item-${activeIndex}`
+                    }
                     name={name}
                     disabled={disabled}
                     onClick={toggleOpen}

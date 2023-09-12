@@ -50,13 +50,13 @@ describe('Select filter', () => {
         expect(getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus();
         await user.keyboard('1');
         // 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31
-        expect(getAllByRole('listitem').length).toBe(13);
+        expect(getAllByRole('option').length).toBe(13);
         await user.keyboard('1');
         // 11
-        expect(getAllByRole('listitem').length).toBe(1);
+        expect(getAllByRole('option').length).toBe(1);
         await user.keyboard('1');
         // empty
-        expect(queryAllByRole('listitem').length).toBe(0);
+        expect(queryAllByRole('option').length).toBe(0);
         expect(onFilterChange).toBeCalledTimes(3);
     });
 
@@ -70,7 +70,7 @@ describe('Select filter', () => {
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
         await user.keyboard('z');
-        expect(queryAllByRole('listitem').length).toBe(0);
+        expect(queryAllByRole('option').length).toBe(0);
         getByTestId(EMPTY_OPTIONS_QA);
     });
 
@@ -85,7 +85,7 @@ describe('Select filter', () => {
         await user.click(selectControl);
         await user.keyboard('[a][b][c][1][2]');
         // filter shouldn`t work due to initialized filterOption
-        expect(queryAllByRole('listitem').length).toBe(40);
+        expect(queryAllByRole('option').length).toBe(40);
     });
 
     test('should filter options even if filter text is empty', async () => {
@@ -100,6 +100,6 @@ describe('Select filter', () => {
         await user.click(selectControl);
         expect(filterOption).toHaveBeenCalled();
         // 10, 20, 30, 40
-        expect(queryAllByRole('listitem').length).toBe(4);
+        expect(queryAllByRole('option').length).toBe(4);
     });
 });

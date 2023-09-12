@@ -53,6 +53,10 @@ $block: '.#{variables.$ns}list';
 
         &_selected {
             background: var(--g-color-base-selection);
+
+            &:hover {
+                background: var(--g-color-base-selection-hover);
+            }
         }
 
         &_sort-handle-align_right {

@@ -23,3 +23,5 @@ React hook used to handle items selection in list
 | open            | `boolean`  | List container visibility state                             |
 | setOpen         | `function` | (deprecated) use toggleOpen. Sets value for `open` property |
 | toggleOpen      | `function` | Inver the value of `open`                                   |
+| activeIndex     | `number`   | Index of active option                                      |
+| setActiveIndex  | `function` | Sets value for `activeIndex` property                       |

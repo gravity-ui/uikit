@@ -92,6 +92,7 @@ $block: '.#{variables.$ns}text-input';
     }
 
     &__error-icon {
+        box-sizing: content-box;
         color: var(--g-color-text-danger);
         padding: var(--_--text-input-error-icon-padding);
     }

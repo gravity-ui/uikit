@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.12.1](https://github.com/gravity-ui/uikit/compare/v5.12.0...v5.12.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* **TextInput:** fix inside error display ([#1004](https://github.com/gravity-ui/uikit/issues/1004)) ([1fcab4e](https://github.com/gravity-ui/uikit/commit/1fcab4e83d777bf4a9e38ab919425f502d7080ff))
+
 ## [5.12.0](https://github.com/gravity-ui/uikit/compare/v5.11.0...v5.12.0) (2023-09-13)
 
 

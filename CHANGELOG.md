@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.12.0](https://github.com/gravity-ui/uikit/compare/v5.11.0...v5.12.0) (2023-09-13)
+
+
+### Features
+
+* **List:** improve a11y ([#960](https://github.com/gravity-ui/uikit/issues/960)) ([67c35a2](https://github.com/gravity-ui/uikit/commit/67c35a217db3cc4cf8bfd05d606776c57684d9b7))
+
+
+### Bug Fixes
+
+* **Menu:** make menu item content width limited by a container ([#1001](https://github.com/gravity-ui/uikit/issues/1001)) ([f3943c9](https://github.com/gravity-ui/uikit/commit/f3943c919d163d809754d8eb49fefe4d75558fbd))
+* **Select:** fix control border radius in case of using `xl` size ([#998](https://github.com/gravity-ui/uikit/issues/998)) ([8084778](https://github.com/gravity-ui/uikit/commit/80847789edb172b3bee11ebe39714094ce8b62d2))
+* **Tabs:** show focused state if focus-visible only ([#1000](https://github.com/gravity-ui/uikit/issues/1000)) ([88b89f7](https://github.com/gravity-ui/uikit/commit/88b89f777a665d80974815611d58dbd7eb04ac41))
+* **ThemeProvider:** fix scoped CSS classes ([#1003](https://github.com/gravity-ui/uikit/issues/1003)) ([9fe15e3](https://github.com/gravity-ui/uikit/commit/9fe15e35e18f7ebbc455f76f7de762d5a3df7225))
+
 ## [5.11.0](https://github.com/gravity-ui/uikit/compare/v5.10.0...v5.11.0) (2023-09-07)
 
 

@@ -8,53 +8,49 @@ import {Toc} from '../Toc';
 const defaultItems = [
     {
         value: 'firstItem',
-        title: 'First item',
+        content: 'First item',
         items: [],
     },
     {
         value: 'secondItem',
-        title: 'Second item',
+        content: 'Second item',
         items: [],
     },
     {
         value: 'thirdItem',
-        title: 'Third item',
+        content: 'Third item',
         items: [
             {
                 value: 'firstChildItem',
-                title: 'First child item',
+                content: 'First child item',
+                items: [],
             },
             {
                 value: 'secondChildItem',
-                title: 'Second child item',
+                content: 'Second child item',
+                items: [],
             },
         ],
     },
     {
         value: 'fourthItem',
-        title: 'Fourth item',
+        content: 'Fourth item',
         items: [],
     },
 ];
 
 const defaultValue = defaultItems[2].items[0].value;
-const defaultTitle = defaultItems[2].items[0].title;
+
+const itemsWithLinks = defaultItems.map((item) => ({...item, href: `#${item.value}`}));
+
+const defaultValueWithLink = itemsWithLinks[2].items[0].value;
 
 const qaId = 'toc-component';
 
 describe('Toc', () => {
-    test('renders active item correctly', () => {
-        const onUpdateFn = jest.fn();
-
-        render(<Toc value={defaultValue} items={defaultItems} onUpdate={onUpdateFn} />);
-        const activeItem = screen.getByText(defaultTitle);
-
-        expect(activeItem).toHaveAttribute('aria-checked', 'true');
-    });
-
     test('calls onUpdate with correct value', async () => {
         const nextValue = defaultItems[0].value;
-        const nextTitle = defaultItems[0].title;
+        const nextTitle = defaultItems[0].content;
         const onUpdateFn = jest.fn();
         const user = userEvent.setup();
 
@@ -65,13 +61,41 @@ describe('Toc', () => {
         expect(onUpdateFn).toBeCalledWith(nextValue);
     });
 
+    test('calls onUpdate with correct item with link', async () => {
+        const nextValue = itemsWithLinks[0].value;
+        const nextTitle = itemsWithLinks[0].content;
+        const onUpdateFn = jest.fn();
+        const user = userEvent.setup();
+
+        render(<Toc value={defaultValueWithLink} items={itemsWithLinks} onUpdate={onUpdateFn} />);
+        const nextItem = screen.getByText(nextTitle);
+        await user.click(nextItem);
+
+        expect(onUpdateFn).toBeCalledWith(nextValue);
+    });
+
     test('accessible for keyboard', async () => {
-        const firstTitle = defaultItems[0].title;
+        const firstTitle = defaultItems[0].content;
         const secondValue = defaultItems[1].value;
         const onUpdateFn = jest.fn();
         const user = userEvent.setup();
 
         render(<Toc value={defaultValue} items={defaultItems} onUpdate={onUpdateFn} />);
+        const firstItem = screen.getByText(firstTitle);
+        await user.click(firstItem);
+        await user.tab();
+        await user.keyboard('{Enter}');
+
+        expect(onUpdateFn).toBeCalledWith(secondValue);
+    });
+
+    test('accessible for keyboard with links', async () => {
+        const firstTitle = itemsWithLinks[0].content;
+        const secondValue = itemsWithLinks[1].value;
+        const onUpdateFn = jest.fn();
+        const user = userEvent.setup();
+
+        render(<Toc value={defaultValueWithLink} items={itemsWithLinks} onUpdate={onUpdateFn} />);
         const firstItem = screen.getByText(firstTitle);
         await user.click(firstItem);
         await user.tab();

@@ -1,17 +1,24 @@
 @use '../variables';
+@use '../../../styles/mixins.scss';
 
-$block: '.#{variables.$ns}toc';
+$block: '.#{variables.$ns-new}toc';
 
 #{$block} {
     &__title {
-        font-size: var(--g-text-body-2-font-size);
-        font-weight: 500;
+        @include mixins.text-body-2();
+
         color: var(--g-color-text-primary);
         margin-bottom: 12px;
     }
 
-    &__sections {
+    &__sections,
+    &__subsections {
+        padding: 0;
+        margin: 0;
+
         overflow-y: auto;
         overflow-x: hidden;
+
+        list-style: none;
     }
 }

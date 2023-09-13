@@ -1,38 +1,48 @@
 import React from 'react';
 
-import {block} from '../../utils/cn';
+import {blockNew} from '../../utils/cn';
 import {useActionHandlers} from '../../utils/useActionHandlers';
 import type {TocItem as TocItemType} from '../types';
 
 import './TocItem.scss';
 
-const b = block('toc-item');
+const b = blockNew('toc-item');
 
 export interface TocItemProps extends TocItemType {
     childItem?: boolean;
     active?: boolean;
-    onClick: (value: string) => void;
+    onClick?: (value: string) => void;
 }
 
 export const TocItem = (props: TocItemProps) => {
-    const {childItem = false, active = false, onClick, title, value} = props;
+    const {active = false, childItem = false, content, href, value, onClick} = props;
 
-    const handleClick = () => onClick(value);
+    const handleClick = React.useCallback(() => {
+        if (value === undefined || !onClick) {
+            return;
+        }
+
+        onClick(value);
+    }, [onClick, value]);
 
     const {onKeyDown} = useActionHandlers(handleClick);
 
-    return (
-        <div className={b('section', {child: childItem, active})}>
+    const item =
+        href === undefined ? (
             <div
-                role="radio"
-                aria-checked={active}
+                role="button"
                 tabIndex={0}
                 className={b('section-link')}
                 onClick={handleClick}
                 onKeyDown={onKeyDown}
             >
-                {title}
+                {content}
             </div>
-        </div>
-    );
+        ) : (
+            <a href={href} onClick={handleClick} className={b('section-link')}>
+                {content}
+            </a>
+        );
+
+    return <div className={b('section', {child: childItem, active})}>{item}</div>;
 };

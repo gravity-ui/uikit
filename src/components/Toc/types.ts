@@ -1,5 +1,9 @@
 export interface TocItem {
-    value: string;
-    title?: React.ReactNode;
-    selector?: string;
+    value?: string;
+    content?: React.ReactNode;
+    href?: string;
 }
+
+export type TocItems = (TocItem & {
+    items?: TocItem[];
+})[];

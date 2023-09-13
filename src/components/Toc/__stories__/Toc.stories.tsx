@@ -26,29 +26,74 @@ Default.args = {
     items: [
         {
             value: 'vm',
-            title: 'Virtual machine creation',
+            content: 'Virtual machine creation',
         },
         {
             value: 'info',
-            title: 'Getting information about a group of virtual machines',
+            content: 'Getting information about a group of virtual machines',
         },
         {
             value: 'disk',
-            title: 'Disk',
+            content: 'Disk',
             items: [
                 {
                     value: 'control',
-                    title: 'Disk controls',
+                    content: 'Disk controls',
                 },
                 {
                     value: 'snapshots',
-                    title: 'Disk snapshots',
+                    content: 'Disk snapshots',
                 },
             ],
         },
         {
             value: 'images',
-            title: 'Images with preinstalled software',
+            content: 'Images with preinstalled software',
+        },
+    ],
+    className: b(),
+};
+
+const WithLinksTemplate: StoryFn<TocProps> = (args) => {
+    const [active, setActive] = React.useState('control');
+
+    return <Toc {...args} value={active} onUpdate={(value: string) => setActive(value)} />;
+};
+
+export const WithLinks = WithLinksTemplate.bind({});
+WithLinks.args = {
+    items: [
+        {
+            value: 'vm',
+            content: 'Virtual machine creation',
+            href: '#vm',
+        },
+        {
+            value: 'info',
+            content: 'Getting information about a group of virtual machines',
+            href: '#info',
+        },
+        {
+            value: 'disk',
+            content: 'Disk',
+            href: '#disk',
+            items: [
+                {
+                    value: 'control',
+                    content: 'Disk controls',
+                    href: '#control',
+                },
+                {
+                    value: 'snapshots',
+                    content: 'Disk snapshots',
+                    href: '#snapshots',
+                },
+            ],
+        },
+        {
+            value: 'images',
+            content: 'Images with preinstalled software',
+            href: '#images',
         },
     ],
     className: b(),

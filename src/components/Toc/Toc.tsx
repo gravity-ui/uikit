@@ -1,51 +1,62 @@
 import React from 'react';
 
 import type {QAProps} from '../types';
-import {block} from '../utils/cn';
+import {blockNew} from '../utils/cn';
 
 import {TocItem} from './TocItem/TocItem';
-import type {TocItem as TocItemType} from './types';
+import type {TocItems} from './types';
 
 import './Toc.scss';
 
-const b = block('toc');
+const b = blockNew('toc');
 
 export interface TocProps extends QAProps {
     className?: string;
-    value: string;
-    onUpdate: (value: string) => void;
-    items: (TocItemType & {
-        items?: TocItemType[];
-    })[];
+    value?: string;
+    onUpdate?: (value: string) => void;
+    items: TocItems;
 }
 
-export const Toc = React.forwardRef<HTMLDivElement, TocProps>(function Toc(props, ref) {
+export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, ref) {
     const {value: activeValue, items, className, onUpdate, qa} = props;
 
     return (
-        <div className={b(null, className)} ref={ref} data-qa={qa}>
-            <div className={b('sections')}>
-                {items.map(({value, title, items: childrenItems}) => (
-                    <React.Fragment key={value}>
+        <nav className={b(null, className)} ref={ref} data-qa={qa}>
+            <ul className={b('sections')}>
+                {items.map(({value, content, href, items: childrenItems}) => (
+                    <li key={value ?? href}>
                         <TocItem
-                            title={title}
+                            content={content}
                             value={value}
+                            href={href}
                             active={activeValue === value}
                             onClick={onUpdate}
                         />
-                        {childrenItems?.map(({value: childrenValue, title: childrenTitle}) => (
-                            <TocItem
-                                key={childrenValue}
-                                title={childrenTitle}
-                                value={childrenValue}
-                                childItem={true}
-                                active={activeValue === childrenValue}
-                                onClick={onUpdate}
-                            />
-                        ))}
-                    </React.Fragment>
+                        {childrenItems?.length && (
+                            <ul className={b('subsections')}>
+                                {childrenItems?.map(
+                                    ({
+                                        value: childrenValue,
+                                        content: childrenContent,
+                                        href: childrenHref,
+                                    }) => (
+                                        <li key={childrenValue ?? childrenHref}>
+                                            <TocItem
+                                                content={childrenContent}
+                                                value={childrenValue}
+                                                href={childrenHref}
+                                                childItem={true}
+                                                active={activeValue === childrenValue}
+                                                onClick={onUpdate}
+                                            />
+                                        </li>
+                                    ),
+                                )}
+                            </ul>
+                        )}
+                    </li>
                 ))}
-            </div>
-        </div>
+            </ul>
+        </nav>
     );
 });

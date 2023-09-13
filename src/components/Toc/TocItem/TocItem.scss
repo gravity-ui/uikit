@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$block: '.#{variables.$ns}toc-item';
+$block: '.#{variables.$ns-new}toc-item';
 
 #{$block} {
     $class: &;

@@ -9,6 +9,15 @@ export type UseOnClickOutsideType = <T extends HTMLElement>({
     handleCallback?: () => void;
 }) => void;
 
+/**
+ * Hook for observing clicks outside a given target
+ *
+ * @param observedRef - purpose of observation
+ * @param enabled - enabled/disable flag
+ * @param handleCallback - callback when a click is triggered outside the observation target
+ *
+ * @return - nothing
+ */
 export const useOnClickOutside: UseOnClickOutsideType = ({
     observedRef,
     enabled = true,

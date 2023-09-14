@@ -80,9 +80,9 @@ const preview: Preview = {
             },
         },
         direction: {
-            name: 'Direction',
-            defaultValue: 'rtl',
+            defaultValue: 'rtl', // TODO: change to ltr before merge
             toolbar: {
+                title: 'Direction',
                 icon: 'transfer',
                 items: [
                     {value: 'ltr', right: '->', title: 'left to right'},

@@ -3,8 +3,10 @@ const path = require('path');
 
 const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-dart-sass');
+const postcss = require('gulp-postcss');
 const replace = require('gulp-replace');
 const ts = require('gulp-typescript');
+const rtl = require('postcss-rtl');
 const rimraf = require('rimraf');
 
 const BUILD_DIR = path.resolve('build');
@@ -58,12 +60,14 @@ task('copy-i18n', () => {
 task('styles-global', () => {
     return src(['styles/styles.scss', 'styles/fonts.scss'])
         .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([rtl()]))
         .pipe(dest('styles'));
 });
 
 task('styles-components', () => {
     return src(['src/components/**/*.scss', '!src/components/**/__stories__/**/*'])
         .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([rtl()]))
         .pipe(dest(path.resolve(BUILD_DIR, 'esm', 'components')))
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs', 'components')));
 });

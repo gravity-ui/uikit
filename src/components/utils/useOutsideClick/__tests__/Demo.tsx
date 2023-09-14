@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 
-import {useOnClickOutside} from '../useOnClickOutside';
+import {useOutsideClick} from '../useOutsideClick';
 
 export const Demo = () => {
     const observerRef = React.useRef(null);
@@ -15,10 +15,9 @@ export const Demo = () => {
         setStatus(1);
     };
 
-    useOnClickOutside({
-        observedRef: observerRef,
-        enabled: true,
-        handleCallback: handleOutsideClick,
+    useOutsideClick({
+        ref: observerRef,
+        handler: handleOutsideClick,
     });
 
     return (

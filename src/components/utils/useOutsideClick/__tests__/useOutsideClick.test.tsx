@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import {Demo} from './Demo';
 
-test('Check useOnClickOutside correct work', async () => {
+test('Check useOutsideClick correct work', async () => {
     render(<Demo />);
 
     expect(screen.getByRole('heading')).toHaveTextContent('0');

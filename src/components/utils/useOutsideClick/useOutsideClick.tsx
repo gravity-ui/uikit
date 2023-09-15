@@ -26,11 +26,11 @@ export const useOutsideClick: UseOutsideClickType = ({ref, handler}) => {
         };
 
         window.addEventListener('click', callback, {capture: true});
-        window.addEventListener('touchstart', callback, {capture: true});
+        window.addEventListener('touchend', callback, {capture: true});
 
         return () => {
             window.removeEventListener('click', callback, {capture: true});
-            window.removeEventListener('touchstart', callback, {capture: true});
+            window.removeEventListener('touchend', callback, {capture: true});
         };
     }, [handler, ref]);
 };

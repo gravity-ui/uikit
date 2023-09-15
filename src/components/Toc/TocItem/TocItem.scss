@@ -13,6 +13,19 @@ $block: '.#{variables.$ns-new}toc-item';
         }
 
         &-link {
+            &:focus {
+                outline: 2px solid var(--g-color-line-focus);
+                outline-offset: -2px;
+
+                &:focus-visible {
+                    border-radius: calc(var(--g-focus-border-radius) + 2px);
+                }
+            }
+
+            &:focus:not(:focus-visible) {
+                outline: none;
+            }
+
             display: flex;
             align-items: center;
             padding: 6px 6px 6px 12px;

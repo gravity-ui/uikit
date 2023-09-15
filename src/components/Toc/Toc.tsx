@@ -4,7 +4,7 @@ import type {QAProps} from '../types';
 import {blockNew} from '../utils/cn';
 
 import {TocItem} from './TocItem/TocItem';
-import type {TocItems} from './types';
+import type {TocItem as TocItemType} from './types';
 
 import './Toc.scss';
 
@@ -14,7 +14,7 @@ export interface TocProps extends QAProps {
     className?: string;
     value?: string;
     onUpdate?: (value: string) => void;
-    items: TocItems;
+    items: TocItemType[];
 }
 
 export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, ref) {

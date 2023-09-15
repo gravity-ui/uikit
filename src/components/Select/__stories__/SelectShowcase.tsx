@@ -179,6 +179,10 @@ export const SelectShowcase = (props: SelectProps) => {
                     <Select.Option value="val3" content="Value3" />
                     <Select.Option value="val4" content="Value4" />
                 </Select.OptionGroup>
+                <Select.OptionGroup label="Group 3">
+                    <Select.Option value="val5" content="Value5" />
+                    <Select.Option value="val6" content="Value6" />
+                </Select.OptionGroup>
             </ExampleItem>
             <ExampleItem
                 title="Select with disabled options"

@@ -80,3 +80,13 @@ export function generateOptions(args: number | [string, string][]): SelectOption
 
     return args.map(([value, content]) => ({value, content}));
 }
+
+export function generateOptionsGroups(
+    groupsCount: number,
+    optionsCount: number,
+): SelectOptionGroup[] {
+    return range(0, groupsCount).map((i) => ({
+        label: `Group ${i + 1}`,
+        options: generateOptions(optionsCount),
+    }));
+}

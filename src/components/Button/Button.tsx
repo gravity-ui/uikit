@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {DOMProps, DataAttrProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
@@ -53,7 +53,7 @@ export type ButtonPin =
 
 export type ButtonWidth = 'auto' | 'max';
 
-export interface ButtonProps extends DOMProps, QAProps {
+export interface ButtonProps extends DOMProps, QAProps, DataAttrProps {
     /** Button appearance */
     view?: ButtonView;
     size?: ButtonSize;
@@ -111,6 +111,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         style,
         className,
         qa,
+        ...dataAttrProps
     },
     ref,
 ) {
@@ -166,6 +167,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
             {
                 ...extraProps,
                 ...commonProps,
+                ...dataAttrProps,
                 ...(component ? {} : linkProps),
                 ref: ref as React.Ref<HTMLAnchorElement>,
                 'aria-disabled': disabled || loading,
@@ -177,6 +179,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
             <button
                 {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
                 {...commonProps}
+                {...dataAttrProps}
                 ref={ref as React.Ref<HTMLButtonElement>}
                 type={type}
                 disabled={disabled || loading}

@@ -1,7 +1,13 @@
 import React from 'react';
 
 import {useRadioGroup} from '../../hooks/private';
-import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
+import type {
+    ControlGroupOption,
+    ControlGroupProps,
+    DOMProps,
+    DataAttrProps,
+    QAProps,
+} from '../types';
 import {block} from '../utils/cn';
 
 import {RadioButtonOption as Option} from './RadioButtonOption';
@@ -17,7 +23,8 @@ export type RadioButtonWidth = 'auto' | 'max';
 export interface RadioButtonProps<T extends string = string>
     extends ControlGroupProps<T>,
         DOMProps,
-        QAProps {
+        QAProps,
+        DataAttrProps {
     size?: RadioButtonSize;
     width?: RadioButtonWidth;
     children?:
@@ -35,8 +42,12 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
     props: RadioButtonProps<T>,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
-    const {size = 'm', width, style, className, qa, children} = props;
+    const {size = 'm', width, style, className, qa, children, ...otherProps} = props;
     let options = props.options;
+
+    const dataAttrProps = Object.fromEntries(
+        Object.entries(otherProps).filter(([key]) => key.startsWith('data-')),
+    ) as DataAttrProps;
 
     if (!options) {
         options = (
@@ -98,6 +109,7 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
             style={style}
             className={b({size, width}, className)}
             data-qa={qa}
+            {...dataAttrProps}
         >
             <div
                 ref={plateRef}

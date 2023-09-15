@@ -85,6 +85,20 @@ describe('TextArea', () => {
 
             expect(onChangeFn).toBeCalled();
         });
+
+        test('passing data attribute', async () => {
+            const onChangeFn = jest.fn((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+                event.persist();
+            });
+            const user = userEvent.setup();
+
+            render(<TextArea hasClear onChange={onChangeFn} data-id="textArea1" />);
+            const input = screen.getByRole('textbox');
+
+            await user.type(input, 'abc');
+
+            expect(onChangeFn.mock.calls[0][0].target.dataset['id']).toEqual('textArea1');
+        });
     });
 
     describe('error', () => {

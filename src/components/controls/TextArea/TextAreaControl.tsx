@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useForkRef} from '../../../hooks';
+import type {DataAttrProps} from '../../types';
 import {block} from '../../utils/cn';
 
 import type {TextAreaProps} from './TextArea';
@@ -49,11 +50,16 @@ export function TextAreaControl(props: Props) {
         onKeyDown,
         onKeyUp,
         onKeyPress,
+        ...otherProps
     } = props;
     const innerControlRef = React.useRef<HTMLTextAreaElement>(null);
     const handleRef = useForkRef(controlRef, innerControlRef);
     const textareaRows = rows || minRows;
     const innerValue = value || innerControlRef?.current?.value;
+
+    const dataAttrProps = Object.fromEntries(
+        Object.entries(otherProps).filter(([key]) => key.startsWith('data-')),
+    ) as DataAttrProps;
 
     const resizeHeight = React.useCallback(() => {
         const control = innerControlRef?.current;
@@ -88,6 +94,7 @@ export function TextAreaControl(props: Props) {
     return (
         <textarea
             {...controlProps}
+            {...dataAttrProps}
             ref={handleRef}
             style={{
                 ...controlProps.style,

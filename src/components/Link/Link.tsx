@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {DOMProps, DataAttrProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
 
@@ -8,7 +8,7 @@ import './Link.scss';
 
 export type LinkView = 'normal' | 'primary' | 'secondary';
 
-export interface LinkProps extends DOMProps, QAProps {
+export interface LinkProps extends DOMProps, QAProps, DataAttrProps {
     view?: LinkView;
     visitable?: boolean;
     title?: string;
@@ -42,6 +42,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         style,
         className,
         qa,
+        ...dataAttrProps
     },
     ref,
 ) {
@@ -63,6 +64,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         style,
         className: b({view, visitable}, className),
         'data-qa': qa,
+        ...dataAttrProps,
     };
 
     const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;

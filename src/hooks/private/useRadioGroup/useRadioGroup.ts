@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useUniqId} from '../..';
-import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
+import type {ControlGroupOption, ControlGroupProps, DataAttrProps} from '../../../components/types';
 
 interface OptionsProps<ValueType extends string = string>
     extends Omit<
@@ -67,17 +67,25 @@ export function useRadioGroup<ValueType extends string = string>(
         'aria-labelledby': props['aria-labelledby'],
     };
 
-    const optionsProps = options.map((option) => ({
-        name: name || controlId,
-        value: option.value,
-        content: option.content,
-        title: option.title,
-        checked: currentValue === String(option.value),
-        disabled: disabled || option.disabled,
-        onChange: handleChange,
-        onFocus: onFocus,
-        onBlur: onBlur,
-    }));
+    const optionsProps = options.map((option) => {
+        const {value, content, title, ...otherProps} = option;
+        const dataAttrProps = Object.fromEntries(
+            Object.entries(otherProps).filter(([key]) => key.startsWith('data-')),
+        ) as DataAttrProps;
+
+        return {
+            name: name || controlId,
+            value,
+            content,
+            title,
+            checked: currentValue === String(option.value),
+            disabled: disabled || option.disabled,
+            onChange: handleChange,
+            onFocus: onFocus,
+            onBlur: onBlur,
+            ...dataAttrProps,
+        };
+    });
 
     return {containerProps, optionsProps};
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
 import type {ControlLabelSize} from '../ControlLabel';
-import type {ControlProps, DOMProps, QAProps} from '../types';
+import type {ControlProps, DOMProps, DataAttrProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {CheckboxDashIcon} from './CheckboxDashIcon';
@@ -13,7 +13,7 @@ import './Checkbox.scss';
 
 export type CheckboxSize = ControlLabelSize;
 
-export interface CheckboxProps extends ControlProps, DOMProps, QAProps {
+export interface CheckboxProps extends ControlProps, DOMProps, QAProps, DataAttrProps {
     size?: CheckboxSize;
     content?: React.ReactNode;
     children?: React.ReactNode;
@@ -34,9 +34,14 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(
             style,
             className,
             qa,
+            ...otherProps
         } = props;
         const {checked, inputProps} = useCheckbox(props);
         const text = content || children;
+
+        const dataAttrProps = Object.fromEntries(
+            Object.entries(otherProps).filter(([key]) => key.startsWith('data-')),
+        ) as DataAttrProps;
 
         const control = (
             <span className={b('indicator')}>
@@ -47,7 +52,7 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(
                         <CheckboxTickIcon className={b('icon-svg', {type: 'tick'})} />
                     )}
                 </span>
-                <input {...inputProps} className={b('control')} />
+                <input {...inputProps} {...dataAttrProps} className={b('control')} />
                 <span className={b('outline')} />
             </span>
         );

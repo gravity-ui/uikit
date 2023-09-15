@@ -19,4 +19,12 @@ describe('Link', () => {
 
         expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     });
+
+    test('passing data attribute', () => {
+        render(<Link href="#" target="_blank" data-action="visit" />);
+
+        const link = screen.getByRole('link');
+
+        expect(link.dataset.action).toEqual('visit');
+    });
 });

@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {DOMProps, DataAttrProps, QAProps} from '../types';
 
 export type InputControlView = 'normal' | 'clear';
 
@@ -20,7 +20,8 @@ export type InputControlPin =
 export type InputControlState = 'error';
 
 export type BaseInputControlProps<T = Element> = DOMProps &
-    QAProps & {
+    QAProps &
+    DataAttrProps & {
         /** The control's `autocomplete` attribute */
         autoComplete?: boolean | 'on' | 'off' | string;
         /** The control's `autofocus` attribute */

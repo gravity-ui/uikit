@@ -191,4 +191,17 @@ describe('Checkbox', () => {
         checkbox.blur();
         expect(handleOnBlur).toHaveBeenCalledTimes(1);
     });
+
+    test('passing data attribute', async () => {
+        const onChangeFn = jest.fn((event: React.ChangeEvent<HTMLInputElement>) => {
+            event.persist();
+        });
+        const user = userEvent.setup();
+        render(<Checkbox onChange={onChangeFn} data-id="checkbox1" />);
+        const checkbox = screen.getByRole('checkbox');
+
+        await user.click(checkbox);
+
+        expect(onChangeFn.mock.calls[0][0].target.dataset['id']).toEqual('checkbox1');
+    });
 });

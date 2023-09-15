@@ -3,7 +3,7 @@ import React from 'react';
 import {useCheckbox} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
 import type {ControlLabelSize} from '../ControlLabel';
-import type {ControlProps, DOMProps, QAProps} from '../types';
+import type {ControlProps, DOMProps, DataAttrProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './Switch.scss';
@@ -12,7 +12,7 @@ const b = block('switch');
 
 export type SwitchSize = ControlLabelSize;
 
-export interface SwitchProps extends ControlProps, DOMProps, QAProps {
+export interface SwitchProps extends ControlProps, DOMProps, QAProps, DataAttrProps {
     size?: SwitchSize;
     content?: React.ReactNode;
     children?: React.ReactNode;
@@ -21,7 +21,7 @@ export interface SwitchProps extends ControlProps, DOMProps, QAProps {
 
 export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function Switch(props, ref) {
     const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
-    const {checked, inputProps} = useCheckbox({
+    const {checked, inputProps, dataAttrProps} = useCheckbox({
         ...props,
         controlProps: {...props.controlProps, role: 'switch'},
     });
@@ -29,7 +29,7 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
 
     const control = (
         <span className={b('indicator')}>
-            <input {...inputProps} className={b('control')} />
+            <input {...inputProps} {...dataAttrProps} className={b('control')} />
             <span className={b('outline')} />
             <span className={b('slider')} />
         </span>

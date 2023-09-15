@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 import {fireEvent, queryHelpers, render, screen} from '../../../../../test-utils/utils';
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextInput} from '../TextInput';
-
 describe('TextInput input', () => {
     describe('without label prop', () => {
         describe('basic', () => {
@@ -115,6 +114,20 @@ describe('TextInput input', () => {
                 }
 
                 expect(onChangeFn).toBeCalled();
+            });
+
+            test('passing data attribute', async () => {
+                const onChangeFn = jest.fn((event: React.ChangeEvent<HTMLInputElement>) => {
+                    event.persist();
+                });
+                const user = userEvent.setup();
+
+                render(<TextInput hasClear onChange={onChangeFn} data-id="textInput1" />);
+                const input = screen.getByRole('textbox');
+
+                await user.type(input, 'abc');
+
+                expect(onChangeFn.mock.calls[0][0].target.dataset['id']).toEqual('textInput1');
             });
         });
 

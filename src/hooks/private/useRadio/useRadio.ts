@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {useForkRef, useUniqId} from '../..';
-import type {ControlProps} from '../../../components/types';
+import type {ControlProps, DataAttrProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
 
-export type UseRadioProps = ControlProps;
+export type UseRadioProps = ControlProps & DataAttrProps;
 
 export type UseRadioResult = {
     checked: boolean;
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & React.RefAttributes<HTMLInputElement>;
+    dataAttrProps: DataAttrProps;
 };
 
 export function useRadio({
@@ -24,6 +25,7 @@ export function useRadio({
     onFocus,
     onBlur,
     id,
+    ...otherProps
 }: UseRadioProps): UseRadioResult {
     const controlId = useUniqId();
     const innerControlRef = React.useRef<HTMLInputElement>(null);
@@ -32,6 +34,10 @@ export function useRadio({
     const isChecked = isControlled ? checked : checkedState;
 
     const handleRef = useForkRef(controlRef, innerControlRef);
+
+    const dataAttrProps = Object.fromEntries(
+        Object.entries(otherProps).filter(([key]) => key.startsWith('data-')),
+    ) as DataAttrProps;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!isControlled) {
@@ -73,5 +79,5 @@ export function useRadio({
         ref: handleRef,
     };
 
-    return {checked: isChecked, inputProps};
+    return {checked: isChecked, inputProps, dataAttrProps};
 }

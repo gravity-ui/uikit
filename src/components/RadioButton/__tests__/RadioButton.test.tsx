@@ -11,8 +11,8 @@ const qaId = 'radio-button-component';
 const b = block('radio-button');
 
 const options: RadioButtonOption[] = [
-    {value: 'Value 1', content: 'Value 1'},
-    {value: 'Value 2', content: 'Value 2'},
+    {value: 'Value 1', content: 'Value 1', 'data-id': 'option1'},
+    {value: 'Value 2', content: 'Value 2', 'data-id': 'option2'},
     {value: 'Value 3', content: 'Value 3'},
 ];
 
@@ -27,6 +27,21 @@ describe('RadioButton', () => {
         const component = screen.getByTestId(qaId);
 
         expect(ref.current).toBe(component);
+    });
+
+    test('passing data attribute', async () => {
+        const onChangeFn = jest.fn((event: React.ChangeEvent<HTMLInputElement>) => {
+            event.persist();
+        });
+        const user = userEvent.setup();
+
+        renderRadioButton({onChange: onChangeFn, 'data-id': 'radioButton1'});
+        const component = screen.getByTestId(qaId);
+        const radio1 = await within(component).findByText(options[1].content as string);
+
+        await user.click(radio1);
+
+        expect(onChangeFn.mock.calls[0][0].target.dataset['id']).toEqual('option2');
     });
 
     describe('visibility', () => {

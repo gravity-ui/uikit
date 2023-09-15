@@ -304,4 +304,11 @@ describe('Button', () => {
         await user.click(button);
         expect(handleOnClick).toHaveBeenCalledTimes(1);
     });
+
+    test('passing data attribute', () => {
+        render(<Button data-action="create" />);
+        const button = screen.getByRole('button');
+
+        expect(button.dataset.action).toEqual('create');
+    });
 });

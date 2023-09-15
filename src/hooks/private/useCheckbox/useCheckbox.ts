@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useControlledState, useForkRef} from '../..';
-import type {ControlProps} from '../../../components/types';
+import type {ControlProps, DataAttrProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
 
 export type UseCheckboxProps = ControlProps;
@@ -9,6 +9,7 @@ export type UseCheckboxProps = ControlProps;
 export type UseCheckboxResult = {
     checked: boolean;
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & React.RefAttributes<HTMLInputElement>;
+    dataAttrProps: DataAttrProps;
 };
 
 export function useCheckbox({
@@ -25,6 +26,7 @@ export function useCheckbox({
     onFocus,
     onBlur,
     disabled,
+    ...otherProps
 }: UseCheckboxProps): UseCheckboxResult {
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const [isChecked, setCheckedState] = useControlledState(
@@ -35,6 +37,10 @@ export function useCheckbox({
 
     const inputChecked = indeterminate ? false : checked;
     const inputAriaChecked = indeterminate ? 'mixed' : isChecked;
+
+    const dataAttrProps = Object.fromEntries(
+        Object.entries(otherProps).filter(([key]) => key.startsWith('data-')),
+    ) as DataAttrProps;
 
     const handleRef = useForkRef(controlRef, innerControlRef);
 
@@ -84,5 +90,5 @@ export function useCheckbox({
         ref: handleRef,
     };
 
-    return {checked: isChecked, inputProps};
+    return {checked: isChecked, inputProps, dataAttrProps};
 }

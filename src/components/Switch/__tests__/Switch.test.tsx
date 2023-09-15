@@ -149,4 +149,18 @@ describe('Switch', () => {
 
         expect(component).not.toBeChecked();
     });
+
+    test('passing data attribute', async () => {
+        const onChangeFn = jest.fn((event: React.ChangeEvent<HTMLInputElement>) => {
+            event.persist();
+        });
+        const user = userEvent.setup();
+
+        render(<Switch checked={false} onChange={onChangeFn} data-id="switch1" />);
+        const component = screen.getByRole('switch');
+
+        await user.click(component);
+
+        expect(onChangeFn.mock.calls[0][0].target.dataset['id']).toEqual('switch1');
+    });
 });

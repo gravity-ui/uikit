@@ -42,7 +42,7 @@ export interface ControlProps
     controlRef?: React.Ref<HTMLInputElement>;
 }
 
-export interface ControlGroupOption<ValueType extends string = string> {
+export interface ControlGroupOption<ValueType extends string = string> extends DataAttrProps {
     value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;
@@ -50,7 +50,7 @@ export interface ControlGroupOption<ValueType extends string = string> {
     title?: string;
 }
 
-export interface ControlGroupProps<ValueType extends string = string> {
+export interface ControlGroupProps<ValueType extends string = string> extends DataAttrProps {
     name?: string;
     value?: ValueType;
     defaultValue?: ValueType;
@@ -62,4 +62,8 @@ export interface ControlGroupProps<ValueType extends string = string> {
     options?: ControlGroupOption<ValueType>[];
     'aria-label'?: string;
     'aria-labelledby'?: string;
+}
+
+export interface DataAttrProps {
+    [dataAttribute: `data-${string}`]: string | number | boolean;
 }

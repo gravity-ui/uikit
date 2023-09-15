@@ -1,13 +1,15 @@
 import React from 'react';
 
 import {useRadio} from '../../hooks/private';
-import type {ControlProps} from '../types';
+import type {ControlProps, DataAttrProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon} from '../utils/common';
 
 const b = block('radio-button');
 
-export interface RadioButtonOptionProps<ValueType extends string> extends ControlProps {
+export interface RadioButtonOptionProps<ValueType extends string>
+    extends ControlProps,
+        DataAttrProps {
     value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;
@@ -23,7 +25,7 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
     ref: React.ForwardedRef<HTMLLabelElement>,
 ) {
     const {disabled = false, content, children, title} = props;
-    const {checked, inputProps} = useRadio(props);
+    const {checked, inputProps, dataAttrProps} = useRadio(props);
     const inner = content || children;
     const icon = isIcon(inner);
 
@@ -36,7 +38,7 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
             ref={ref}
             title={title}
         >
-            <input {...inputProps} className={b('option-control')} />
+            <input {...inputProps} {...dataAttrProps} className={b('option-control')} />
             <span className={b('option-outline')} />
             {inner && <span className={b('option-text', {icon})}>{inner}</span>}
         </label>

@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import {TextInput} from '../../controls';
 import type {SelectOption, SelectProps} from '../types';
 
-import {TEST_QA, generateOptions, setup} from './utils';
+import {TEST_QA, generateOptions, generateOptionsGroups, setup} from './utils';
 
 afterEach(() => {
     cleanup();
@@ -101,5 +101,19 @@ describe('Select filter', () => {
         expect(filterOption).toHaveBeenCalled();
         // 10, 20, 30, 40
         expect(queryAllByRole('option').length).toBe(4);
+    });
+
+    test('should not display labels of empty groups during filtering', async () => {
+        const {getByTestId, queryAllByRole} = setup({
+            options: generateOptionsGroups(4, 1),
+            filterable: true,
+        });
+        const user = userEvent.setup();
+        const selectControl = getByTestId(TEST_QA);
+        await user.click(selectControl);
+        // 4 group labels + 1 option in each group
+        expect(queryAllByRole('option').length).toBe(8);
+        await user.keyboard('definitely not option');
+        expect(queryAllByRole('option').length).toBe(0);
     });
 });

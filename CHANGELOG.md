@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.12.2](https://github.com/gravity-ui/uikit/compare/v5.12.1...v5.12.2) (2023-09-15)
+
+
+### Bug Fixes
+
+* **Select:** fix filtering in case of using grouped options ([#1011](https://github.com/gravity-ui/uikit/issues/1011)) ([096d404](https://github.com/gravity-ui/uikit/commit/096d404d8a1734b9a40ca5e4fedcb66e78cf1b5d))
+
 ## [5.12.1](https://github.com/gravity-ui/uikit/compare/v5.12.0...v5.12.1) (2023-09-13)
 
 

@@ -7,8 +7,9 @@ import {Icon} from '../../Icon';
 import type {IconProps} from '../../Icon';
 import {block} from '../../utils/cn';
 import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
+import {ToastAction} from '../ToastAction/ToastAction';
 import i18n from '../i18n';
-import type {InternalToastProps, ToastAction, ToastType} from '../types';
+import type {InternalToastProps, ToastAction as ToastActionProps, ToastType} from '../types';
 
 import './Toast.scss';
 
@@ -29,7 +30,7 @@ interface ToastInnerProps {
 interface ToastUnitedProps extends InternalToastProps, ToastInnerProps {}
 
 interface RenderActionsProps {
-    actions?: ToastAction[];
+    actions?: ToastActionProps[];
     onClose: VoidFunction;
 }
 
@@ -40,27 +41,31 @@ function renderActions({actions, onClose}: RenderActionsProps) {
 
     return (
         <div className={b('actions')}>
-            {actions.map(({label, onClick, view = 'outlined', removeAfterClick = true}, index) => {
-                const onActionClick = () => {
-                    onClick();
-                    if (removeAfterClick) {
-                        onClose();
-                    }
-                };
+            {actions.map(
+                (
+                    {label, onClick, view = 'outlined', removeAfterClick = true, loadingAfterClick},
+                    index,
+                ) => {
+                    const onActionClick = () => {
+                        onClick();
+                        if (removeAfterClick) {
+                            onClose();
+                        }
+                    };
 
-                return (
-                    <Button
-                        key={`${label}__${index}`}
-                        className={b('action')}
-                        onClick={onActionClick}
-                        type="button"
-                        size={'l'}
-                        view={view}
-                    >
-                        {label}
-                    </Button>
-                );
-            })}
+                    return (
+                        <ToastAction
+                            key={`${label}__${index}`}
+                            onClick={onActionClick}
+                            view={view}
+                            label={label}
+                            onClose={onClose}
+                            removeAfterClick={removeAfterClick}
+                            loadingAfterClick={loadingAfterClick}
+                        />
+                    );
+                },
+            )}
         </div>
     );
 }

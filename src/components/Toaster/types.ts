@@ -12,6 +12,7 @@ export type ToastAction = {
     label: string;
     view?: ButtonView;
     removeAfterClick?: boolean;
+    loadingAfterClick?: boolean;
 };
 
 export type ToastProps = {

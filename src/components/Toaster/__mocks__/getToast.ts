@@ -16,3 +16,15 @@ export function getToast() {
 
     return toast;
 }
+
+export function getToastAction() {
+    const toastAction = screen.getByRole('button', {name: 'Toast Button'});
+    // TODO Improve toast a11y to correctly select it
+    // eslint-disable-next-line testing-library/no-node-access
+
+    if (!toastAction) {
+        throw new Error('Toast action expected to be in document.');
+    }
+
+    return toastAction;
+}

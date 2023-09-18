@@ -25,6 +25,7 @@ export * from './Menu';
 export * from './Modal';
 export * from './Pagination';
 export * from './Persona';
+export * from './PersonaWrap';
 export * from './Popover';
 export * from './Popup';
 export * from './Portal';

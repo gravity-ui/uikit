@@ -1,1 +1,2 @@
-export * from './PersonaWrap';
+export {PersonaWrap} from './PersonaWrap';
+export type {PersonaWrapProps} from './PersonaWrap';

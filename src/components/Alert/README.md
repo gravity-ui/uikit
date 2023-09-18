@@ -190,8 +190,8 @@ Determines how content inside the Alert component is vertically aligned.
 
 `baseline` - align used by default.
 
-`center` - content is vertically centered within the Alert component. Useful if actions take up 
-more space than text, 
+`center` - content is vertically centered within the Alert component. Useful if actions take up
+more space than text,
 or if the icon must be in the middle of the card.
 
 <!--LANDING_BLOCK
@@ -216,17 +216,17 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                                      |                           Type                            |   Default    |
-| :-------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------: | :----------: |
-| theme     | Alert appearance                                                                 | `"normal"` `"info"` `"success"` `"warning"` `"dangerous"` |  `"normal"`  |
-| view      | Enable/disable background color of the alert                                     |                  `"filled"` `"outlined"`                  |  `"filled"`  |
-| layout    | Used to direct users to content if there is property `actions` with buttons      |                `"vertical"` `"horizontal"`                | `"vertical"` |
-| corners   | Used for round/square corners of the alert window                                |                  `"rounded"` `"square"`                   | `"rounded"`  |
-| title     | Title of the alert                                                               |                         `string`                          |              |
-| message   | Message of the alert                                                             |                         `string`                          |              |
-| onClose   | A callback function called when the user clicks the alert's close button         |                        `Function`                         |              |
-| actions   | Array of buttons or full custom components                                       |             `React.ReactNode` `"AlertAction"`             |              |
-| align     | Determines how content inside the Alert component is vertically aligned          |                  `"center"` `"baseline"`                  | `"baseline"` |
-| style     | HTML style attribute                                                             |                   `React.CSSProperties`                   |              |
-| className | Name of alert class                                                              |                         `string`                          |              |
-| icon      | Override default icon                                                            |                     `React.ReactNode`                     |              |
+| Name      | Description                                                                 |                           Type                            |   Default    |
+| :-------- | :-------------------------------------------------------------------------- | :-------------------------------------------------------: | :----------: |
+| theme     | Alert appearance                                                            | `"normal"` `"info"` `"success"` `"warning"` `"dangerous"` |  `"normal"`  |
+| view      | Enable/disable background color of the alert                                |                  `"filled"` `"outlined"`                  |  `"filled"`  |
+| layout    | Used to direct users to content if there is property `actions` with buttons |                `"vertical"` `"horizontal"`                | `"vertical"` |
+| corners   | Used for round/square corners of the alert window                           |                  `"rounded"` `"square"`                   | `"rounded"`  |
+| title     | Title of the alert                                                          |                         `string`                          |              |
+| message   | Message of the alert                                                        |                         `string`                          |              |
+| onClose   | A callback function called when the user clicks the alert's close button    |                        `Function`                         |              |
+| actions   | Array of buttons or full custom components                                  |             `React.ReactNode` `"AlertAction"`             |              |
+| align     | Determines how content inside the Alert component is vertically aligned     |                  `"center"` `"baseline"`                  | `"baseline"` |
+| style     | HTML style attribute                                                        |                   `React.CSSProperties`                   |              |
+| className | Name of alert class                                                         |                         `string`                          |              |
+| icon      | Override default icon                                                       |                     `React.ReactNode`                     |              |

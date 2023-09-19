@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, queryHelpers, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
@@ -194,6 +194,31 @@ describe('TextInput input', () => {
                 expect(label).toBeInTheDocument();
                 expect(label?.tagName.toLowerCase()).toBe('label');
                 expect(screen.getByText('Label:')).toBeVisible();
+            });
+
+            test('render described input with error message and note', () => {
+                const errorText = 'Some error text';
+                const noteText = 'Note text';
+                const {container} = render(<TextInput error={errorText} note={noteText} />);
+
+                const input = screen.getByRole('textbox');
+                const [noteId = '', errorMessageId = ''] = (
+                    input.getAttribute('aria-describedby') ?? ''
+                ).split(/\s+/);
+                expect(noteId).not.toBe('');
+                expect(errorMessageId).not.toBe('');
+
+                const errorTextElement = queryHelpers.queryByAttribute(
+                    'id',
+                    container,
+                    errorMessageId,
+                );
+                const noteTextElement = queryHelpers.queryByAttribute('id', container, noteId);
+                if (!errorTextElement || !noteTextElement) {
+                    throw new Error('Both error message and note elements should be present');
+                }
+                expect(errorTextElement?.textContent).toBe(errorText);
+                expect(noteTextElement?.textContent).toBe(noteText);
             });
         });
 

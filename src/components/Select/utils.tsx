@@ -243,7 +243,7 @@ export const getFilteredFlattenOptions = (args: {
 
     return filteredOptions.reduce((acc, option, index) => {
         const groupTitle = isGroupTitle(option);
-        const previousGroupTitle = isGroupTitle(acc[index - 1]);
+        const previousGroupTitle = isGroupTitle(acc[acc.length - 1]);
         const isLastOption = index === filteredOptions.length - 1;
 
         if (groupTitle && previousGroupTitle) {

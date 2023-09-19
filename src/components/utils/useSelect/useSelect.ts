@@ -6,6 +6,7 @@ import {useOpenState} from './useOpenState';
 export const useSelect = <T extends unknown>(props: UseSelectProps) => {
     const {value: valueProps, defaultValue = [], multiple, onUpdate} = props;
     const [innerValue, setInnerValue] = React.useState(defaultValue);
+    const [activeIndex, setActiveIndex] = React.useState<number>();
     const value = valueProps || innerValue;
     const uncontrolled = !valueProps;
     const {toggleOpen, ...openState} = useOpenState(props);
@@ -60,6 +61,7 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
 
     return {
         value,
+        activeIndex,
         handleSelection,
         handleClearValue,
         /**
@@ -67,6 +69,7 @@ export const useSelect = <T extends unknown>(props: UseSelectProps) => {
          */
         setOpen: toggleOpen,
         toggleOpen,
+        setActiveIndex,
         ...openState,
     };
 };

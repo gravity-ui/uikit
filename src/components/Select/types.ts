@@ -16,6 +16,9 @@ export type SelectRenderControlProps = {
     ref: React.Ref<HTMLElement>;
     open: boolean;
     renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
+    popupId: string;
+    selectId: string;
+    activeIndex?: number;
 };
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];
@@ -90,6 +93,7 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOption<T>, typeof Option>[]
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
+        id?: string;
     };
 
 export type SelectOption<T = any> = QAProps &

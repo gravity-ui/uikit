@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.13.0](https://github.com/gravity-ui/uikit/compare/v5.12.2...v5.13.0) (2023-09-19)
+
+
+### Features
+
+* add hook useOnClickOutside ([#1006](https://github.com/gravity-ui/uikit/issues/1006)) ([6e83459](https://github.com/gravity-ui/uikit/commit/6e8345974c98ab3a949d6741ea38f807e1652ade))
+* **LayerManager:** add type to layer ([#1018](https://github.com/gravity-ui/uikit/issues/1018)) ([3fb7de9](https://github.com/gravity-ui/uikit/commit/3fb7de912e144a84a0d169b0be65e6e440c886a0))
+* **Toc:** add component ([#858](https://github.com/gravity-ui/uikit/issues/858)) ([bafed78](https://github.com/gravity-ui/uikit/commit/bafed78dcea0dbedf892763da864d193f18d6421))
+
 ## [5.12.2](https://github.com/gravity-ui/uikit/compare/v5.12.1...v5.12.2) (2023-09-15)
 
 

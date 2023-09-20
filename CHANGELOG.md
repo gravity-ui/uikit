@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.14.0](https://github.com/gravity-ui/uikit/compare/v5.13.0...v5.14.0) (2023-09-20)
+
+
+### Features
+
+* **Select:** add onClear argument to renderControl method ([#1022](https://github.com/gravity-ui/uikit/issues/1022)) ([d3af988](https://github.com/gravity-ui/uikit/commit/d3af988a18adbb285269955dfef3c44df78043bf))
+
 ## [5.13.0](https://github.com/gravity-ui/uikit/compare/v5.12.2...v5.13.0) (2023-09-19)
 
 

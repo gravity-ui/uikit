@@ -33,7 +33,7 @@ type ControlProps = {
     value: SelectProps['value'];
     clearValue: () => void;
     hasClear?: boolean;
-} & Omit<SelectRenderControlProps, 'onClick'>;
+} & Omit<SelectRenderControlProps, 'onClick' | 'onClear'>;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
@@ -117,10 +117,11 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         return renderControl(
             {
                 onKeyDown,
+                onClear: clearValue,
                 onClick: toggleOpen,
+                renderClear: (arg) => renderClearIcon(arg),
                 ref,
                 open: Boolean(open),
-                renderClear: (arg) => renderClearIcon(arg),
                 popupId,
                 selectId,
                 activeIndex,

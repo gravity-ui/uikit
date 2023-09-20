@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
-`ArrowToggle` is a component that displaying chevron icon. It can rotate in 4 directions. It could be used for displaying dropdown lists or cut components, etc.
+`ArrowToggle` is a component for displaying the chevron icon. It be rotated to point in four directions, and can be usef to display dropdown lists, cut components, etc.
 
 ## Appearance
 
-There is 4 directions of component: `top`, `right`, `bottom`, `left`.
+The component has four possible directions: `top`, `right`, `bottom` and `left`.
 
 <!--LANDING_BLOCK
 
@@ -76,7 +76,7 @@ LANDING_BLOCK-->
 
 ## Interactive
 
-There is an example of usage ArrowToggle component with toggling icon.
+Here is an example of usage ArrowToggle component with a toggling icon.
 
 <!--LANDING_BLOCK
 
@@ -115,8 +115,8 @@ return (
 
 ## Properties
 
-| Name      | Description                 |   Type   |  Default   |
-| :-------- | :-------------------------- | :------: | :--------: |
-| className | HTML `class` attribute      | `string` |            |
-| direction | Sets arrowToggle directions | `string` | `"bottom"` |
-| size      | Size arrowToggle in px      | `number` |    `16`    |
+| Name      | Description                          |   Type   |  Default   |
+| :-------- | :----------------------------------- | :------: | :--------: |
+| className | HTML `class` attribute               | `string` |            |
+| direction | Used to set direction of arrowToggle | `string` | `"bottom"` |
+| size      | Size of arrowToggle in px            | `number` |    `16`    |

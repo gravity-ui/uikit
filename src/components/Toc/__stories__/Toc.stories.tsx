@@ -2,12 +2,12 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {block} from '../../utils/cn';
+import {blockNew} from '../../utils/cn';
 import {Toc, TocProps} from '../Toc';
 
 import './Toc.stories.scss';
 
-const b = block('toc-stories');
+const b = blockNew('toc-stories');
 
 export default {
     title: 'Components/Toc',

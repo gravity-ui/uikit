@@ -12,9 +12,9 @@ const b = blockNew('toc');
 
 export interface TocProps extends QAProps {
     className?: string;
+    items: TocItemType[];
     value?: string;
     onUpdate?: (value: string) => void;
-    items: TocItemType[];
 }
 
 export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, ref) {

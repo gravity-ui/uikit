@@ -95,6 +95,7 @@ export function Modal({
         onOutsideClick,
         onClose,
         contentRefs: [contentRef],
+        type: 'modal',
     });
 
     return (

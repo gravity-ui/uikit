@@ -8,9 +8,7 @@
 import {Toc} from '@gravity-ui/uikit';
 ```
 
-## Description
-
-The `Toc` UI component is a component designed to represent table of contents of the page, displaying a set items with two levels of hierarchy.
+The `Toc` component is designed to represent table of contents of the page, displaying a set items with two levels of hierarchy.
 
 ## Usage
 
@@ -25,6 +23,8 @@ If you don't do this, the component will work in the second way.
 
 ## Properties
 
+### Toc
+
 | Name      | Description                                                          |    Type     | Default |
 | :-------- | :------------------------------------------------------------------- | :---------: | :-----: |
 | className | CSS class                                                            |  `string`   |         |
@@ -32,3 +32,12 @@ If you don't do this, the component will work in the second way.
 | value     | Current active item                                                  |  `string`   |         |
 | onUpdate  | Item click handler                                                   | `Function`  |         |
 | qa        | The value to be passed to `data-qa` attribute of the `Toc` container |  `string`   |         |
+
+### TocItem
+
+| Name    | Description                                                                    |        Type         | Default |
+| :------ | :----------------------------------------------------------------------------- | :-----------------: | :-----: |
+| value   | Value of the item                                                              |      `string`       |         |
+| content | Content of the item that will be displayed                                     | `React.ReactNode[]` |         |
+| href    | `href` property of the `<a>` element to which item will be converted if passed |      `string`       |         |
+| items   | Children items                                                                 |     `TocItem[]`     |         |

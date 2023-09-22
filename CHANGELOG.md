@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.15.0](https://github.com/gravity-ui/uikit/compare/v5.14.0...v5.15.0) (2023-09-22)
+
+
+### Features
+
+* **UserAvatar:** add fallbackImgUrl prop ([#1025](https://github.com/gravity-ui/uikit/issues/1025)) ([9a4bd59](https://github.com/gravity-ui/uikit/commit/9a4bd597cc0db62f905d6972eb317faffd8cb672))
+
+
+### Bug Fixes
+
+* **DocsDecorator:** add new css prefix support ([#1027](https://github.com/gravity-ui/uikit/issues/1027)) ([6ff4c1c](https://github.com/gravity-ui/uikit/commit/6ff4c1c3c040b72abae6ad82c3868a447df039d3))
+
 ## [5.14.0](https://github.com/gravity-ui/uikit/compare/v5.13.0...v5.14.0) (2023-09-20)
 
 

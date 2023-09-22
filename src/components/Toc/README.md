@@ -23,8 +23,6 @@ If you don't do this, the component will work in the second way.
 
 ## Properties
 
-### Toc
-
 | Name      | Description                                                          |    Type     | Default |
 | :-------- | :------------------------------------------------------------------- | :---------: | :-----: |
 | className | CSS class                                                            |  `string`   |         |
@@ -33,7 +31,7 @@ If you don't do this, the component will work in the second way.
 | onUpdate  | Item click handler                                                   | `Function`  |         |
 | qa        | The value to be passed to `data-qa` attribute of the `Toc` container |  `string`   |         |
 
-### TocItem
+#### TocItem
 
 | Name    | Description                                                                    |        Type         | Default |
 | :------ | :----------------------------------------------------------------------------- | :-----------------: | :-----: |

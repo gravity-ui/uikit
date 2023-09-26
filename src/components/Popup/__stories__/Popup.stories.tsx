@@ -9,7 +9,7 @@ import {Popup} from '../Popup';
 import type {PopupPlacement, PopupProps} from '../Popup';
 
 export default {
-    title: 'Components/Popup',
+    title: 'Components/Overlays/Popup',
     component: Popup,
 } as Meta;
 

@@ -9,7 +9,7 @@ import type {RadioGroupOption, RadioGroupProps} from '../RadioGroup';
 import {RadioGroupShowcase} from './RadioGroupShowcase';
 
 export default {
-    title: 'Components/RadioGroup',
+    title: 'Components/Inputs/RadioGroup',
     component: RadioGroup,
 } as Meta;
 

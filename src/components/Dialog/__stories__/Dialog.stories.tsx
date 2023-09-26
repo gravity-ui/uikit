@@ -9,7 +9,7 @@ import type {DialogProps} from '../Dialog';
 import {DialogShowcase} from './DialogShowcase';
 
 export default {
-    title: 'Components/Dialog',
+    title: 'Components/Overlays/Dialog',
     component: Dialog,
 } as Meta<DialogProps>;
 

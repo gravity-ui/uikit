@@ -32,7 +32,7 @@ const items = [
 ];
 
 export default {
-    title: 'Components/Breadcrumbs',
+    title: 'Components/Navigation/Breadcrumbs',
     component: Breadcrumbs,
     // TODO: debug why it can't parse enum
     argTypes: {

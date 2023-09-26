@@ -22,7 +22,7 @@ const icons = {
 };
 
 export default {
-    title: 'Components/Label',
+    title: 'Components/Data Display/Label',
     component: Label,
     args: {
         children: '',

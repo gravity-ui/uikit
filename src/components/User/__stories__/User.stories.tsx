@@ -6,7 +6,7 @@ import {User} from '../User';
 import type {UserProps} from '../User';
 
 export default {
-    title: 'Components/User',
+    title: 'Components/Data Display/User',
     component: User,
 } as Meta;
 

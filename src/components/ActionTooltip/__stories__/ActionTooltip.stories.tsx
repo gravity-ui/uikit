@@ -7,7 +7,7 @@ import {ActionTooltip} from '../ActionTooltip';
 import type {ActionTooltipProps} from '../ActionTooltip';
 
 export default {
-    title: 'Components/ActionTooltip',
+    title: 'Components/Overlays/ActionTooltip',
     component: ActionTooltip,
 };
 

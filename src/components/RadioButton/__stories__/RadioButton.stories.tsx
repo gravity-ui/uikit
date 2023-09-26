@@ -8,7 +8,7 @@ import type {RadioButtonOption, RadioButtonProps} from '../RadioButton';
 import {RadioButtonShowcase} from './RadioButtonShowcase';
 
 export default {
-    title: 'Components/RadioButton',
+    title: 'Components/Inputs/RadioButton',
     component: RadioButton,
 } as Meta;
 

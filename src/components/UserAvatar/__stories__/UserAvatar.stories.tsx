@@ -13,7 +13,7 @@ const imgUrl =
     'https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50';
 
 export default {
-    title: 'Components/UserAvatar',
+    title: 'Components/Data Display/UserAvatar',
     component: UserAvatar,
 } as Meta;
 

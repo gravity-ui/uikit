@@ -8,7 +8,7 @@ import type {SkeletonProps} from '../Skeleton';
 import {SkeletonShowcase} from './SkeletonShowcase';
 
 export default {
-    title: 'Components/Skeleton',
+    title: 'Components/Feedback/Skeleton',
     component: Skeleton,
 } as Meta;
 

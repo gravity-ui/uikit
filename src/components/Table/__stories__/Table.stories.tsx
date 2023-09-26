@@ -22,7 +22,7 @@ import {
 import type {DataItem} from './utils';
 
 export default {
-    title: 'Components/Table',
+    title: 'Components/Data Display/Table',
     component: Table,
     args: {
         columns,

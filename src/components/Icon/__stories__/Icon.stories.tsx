@@ -7,7 +7,7 @@ import {Icon} from '../Icon';
 import type {IconProps} from '../Icon';
 
 export default {
-    title: 'Components/Icon',
+    title: 'Components/Data Display/Icon',
     component: Icon,
 } as Meta;
 

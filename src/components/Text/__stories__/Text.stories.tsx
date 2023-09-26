@@ -6,7 +6,7 @@ import {Text, colorText, text} from '../.';
 import type {TextProps} from '../.';
 
 export default {
-    title: 'Components/Text',
+    title: 'Components/Data Display/Text',
     component: Text,
 } as Meta;
 

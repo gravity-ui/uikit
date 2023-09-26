@@ -6,7 +6,7 @@ import {ClipboardButton} from '../ClipboardButton';
 import type {ClipboardButtonProps} from '../ClipboardButton';
 
 export default {
-    title: 'Components/ClipboardButton',
+    title: 'Components/Utils/ClipboardButton',
     component: ClipboardButton,
 } as Meta;
 

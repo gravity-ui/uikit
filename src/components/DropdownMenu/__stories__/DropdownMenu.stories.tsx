@@ -17,7 +17,7 @@ import './DropdownMenu.stories.scss';
 const b = cn('dropdown-menu-stories');
 
 export default {
-    title: 'Components/DropdownMenu',
+    title: 'Components/Overlays/DropdownMenu',
     component: DropdownMenu,
     args: {},
 } as Meta;

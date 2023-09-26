@@ -8,7 +8,7 @@ import type {CheckboxProps} from '../Checkbox';
 import {CheckboxShowcase} from './CheckboxShowcase';
 
 export default {
-    title: 'Components/Checkbox',
+    title: 'Components/Inputs/Checkbox',
     component: Checkbox,
 } as Meta;
 

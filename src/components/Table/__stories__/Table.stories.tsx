@@ -15,6 +15,7 @@ import {
     TableWithCopy,
     TableWithSelection,
     TableWithSettings,
+    TableWithSettingsFactory,
     TableWithSorting,
     columns,
     data,
@@ -144,7 +145,7 @@ const WithTableSelectionTemplate: StoryFn<TableProps<DataItem>> = (args) => {
 export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
 // ---------------------------------
-const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context) => {
     const [settings, setSettings] = React.useState<TableSettingsData>(() =>
         columns.map((x) => ({id: x.id, isSelected: true})),
     );
@@ -154,9 +155,23 @@ const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
         [],
     );
 
-    return <TableWithSettings {...args} settings={settings} updateSettings={updateSettings} />;
+    if (context.parameters.isFactory) {
+        return (
+            <TableWithSettingsFactory
+                {...args}
+                settings={settings}
+                updateSettings={updateSettings}
+            />
+        );
+    } else {
+        return <TableWithSettings {...args} settings={settings} updateSettings={updateSettings} />;
+    }
 };
 export const HOCWithTableSettings = WithTableSettingsTemplate.bind({});
+export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});
+HOCWithTableSettingsFactory.parameters = {
+    isFactory: true,
+};
 
 // ---------------------------------
 const columnsWithSorting = _cloneDeep(columns);

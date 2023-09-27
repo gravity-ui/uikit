@@ -8,7 +8,7 @@
 import {Loader} from '@gravity-ui/uikit';
 ```
 
-The Loader component indicates loading state (flashing bars). Unlike Spin this component used to display loading state in global scenarios. For example in whole page or Dialog.
+The `Loader` component displays the loading progress as flashing bars. Unlike `Spin`, this component is used in global scenarios, e.g., for an entire page or `Dialog`.
 
 ### Size
 
@@ -36,11 +36,11 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-S – Small size, used when standard loader is too big.
+S: Small size, used when the regular loader is too large.
 
-M – Medium (basic size), used in most cases.
+M: Medium (basic) size, used in most cases.
 
-L – Large size, used when standard loader is too small.
+L: Large size, used when the regular loader is too small.
 
 ## Properties
 

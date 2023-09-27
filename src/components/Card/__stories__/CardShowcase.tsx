@@ -8,7 +8,7 @@ import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import './CardShowcase.scss';
 
 const containerViews: CardView[] = ['outlined', 'filled'];
-const themes: CardTheme[] = ['normal', 'info', 'positive', 'warning', 'danger'];
+const themes: CardTheme[] = ['normal', 'info', 'success', 'warning', 'danger'];
 
 export function CardShowcase() {
     return (

@@ -4,7 +4,7 @@ import {act, render} from '@testing-library/react';
 import range from 'lodash/range';
 
 import {Select} from '..';
-import type {SelectOption, SelectOptionGroup, SelectProps} from '..';
+import type {SelectOption, SelectOptionGroup, SelectProps, SelectRenderControlProps} from '..';
 import {MobileProvider} from '../../mobile';
 import {selectControlBlock, selectControlButtonBlock, selectListBlock} from '../constants';
 
@@ -51,16 +51,16 @@ export const ControlledSelect = (props: Partial<SelectProps>) => {
     );
 };
 
-export function setup(props: Partial<SelectProps> = {}, mobile?: boolean) {
+export const setup = (props: Partial<SelectProps> = {}, mobile?: boolean) => {
     const utils = render(
         <MobileProvider mobile={Boolean(mobile)}>
             <ControlledSelect {...props} />
         </MobileProvider>,
     );
     return utils;
-}
+};
 
-export function timeout(ms: number) {
+export const timeout = (ms: number) => {
     // https://testing-library.com/docs/react-testing-library/api/#act
     // https://reactjs.org/docs/test-utils.html#act
     return act(async () => {
@@ -68,7 +68,7 @@ export function timeout(ms: number) {
             setTimeout(resolve, ms);
         });
     });
-}
+};
 
 export function generateOptions(args: number | [string, string][]): SelectOption[] {
     if (typeof args === 'number') {
@@ -80,3 +80,27 @@ export function generateOptions(args: number | [string, string][]): SelectOption
 
     return args.map(([value, content]) => ({value, content}));
 }
+
+export const generateOptionsGroups = (
+    groupsCount: number,
+    optionsCount: number,
+): SelectOptionGroup[] => {
+    return range(0, groupsCount).map((i) => ({
+        label: `Group ${i + 1}`,
+        options: generateOptions(optionsCount),
+    }));
+};
+
+export const renderControl = (args: SelectRenderControlProps) => {
+    const {onClear, onClick, onKeyDown, ref} = args;
+    return (
+        <div>
+            <button
+                ref={ref as React.RefObject<HTMLButtonElement>}
+                onClick={onClick}
+                onKeyDown={onKeyDown}
+            ></button>
+            <button onClick={onClear}>Clear</button>
+        </div>
+    );
+};

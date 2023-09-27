@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {SelectQa} from '../constants';
 import type {SelectProps} from '../types';
 
-import {DEFAULT_OPTIONS, setup} from './utils';
+import {DEFAULT_OPTIONS, renderControl, setup} from './utils';
 
 afterEach(() => {
     cleanup();
@@ -73,4 +73,21 @@ describe('Select clear', () => {
         await user.keyboard('[Enter]');
         expect(onUpdate).toHaveBeenCalledWith([]);
     });
+
+    test.each([[{multiple: false}], [{multiple: true}]])(
+        'check for correct onClear invocation in case of using renderControl without basic clear button (args: %j)',
+        async (props) => {
+            const {getByText} = setup({
+                ...props,
+                options: DEFAULT_OPTIONS,
+                value: [DEFAULT_OPTIONS[0].value],
+                renderControl,
+                onUpdate,
+            });
+            const user = userEvent.setup();
+            const clearButton = getByText('Clear');
+            await user.click(clearButton);
+            expect(onUpdate).toHaveBeenCalledWith([]);
+        },
+    );
 });

@@ -11,11 +11,15 @@ export type SelectRenderClearArgs = {
 };
 
 export type SelectRenderControlProps = {
+    onClear: () => void;
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+    renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
     ref: React.Ref<HTMLElement>;
     open: boolean;
-    renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
+    popupId: string;
+    selectId: string;
+    activeIndex?: number;
 };
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];
@@ -90,6 +94,7 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOption<T>, typeof Option>[]
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
+        id?: string;
     };
 
 export type SelectOption<T = any> = QAProps &

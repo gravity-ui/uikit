@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {block} from '../utils/cn';
+import {block, blockNew} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
@@ -10,6 +10,7 @@ import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASS_NAME);
+const bNew = blockNew(ROOT_CLASS_NAME);
 
 interface ThemeProviderExternalProps {}
 
@@ -65,13 +66,10 @@ export function ThemeProvider({
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 {scoped ? (
                     <div
-                        className={b(
-                            {
-                                theme: themeValue,
-                                'native-scrollbar': nativeScrollbar,
-                            },
+                        className={bNew({theme: themeValue, 'native-scrollbar': nativeScrollbar}, [
+                            b({theme: themeValue, 'native-scrollbar': nativeScrollbar}),
                             rootClassName,
-                        )}
+                        ])}
                     >
                         {children}
                     </div>

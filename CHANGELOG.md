@@ -1,5 +1,81 @@
 # Changelog
 
+## [5.14.0](https://github.com/gravity-ui/uikit/compare/v5.13.0...v5.14.0) (2023-09-20)
+
+
+### Features
+
+* **Select:** add onClear argument to renderControl method ([#1022](https://github.com/gravity-ui/uikit/issues/1022)) ([d3af988](https://github.com/gravity-ui/uikit/commit/d3af988a18adbb285269955dfef3c44df78043bf))
+
+## [5.13.0](https://github.com/gravity-ui/uikit/compare/v5.12.2...v5.13.0) (2023-09-19)
+
+
+### Features
+
+* add hook useOnClickOutside ([#1006](https://github.com/gravity-ui/uikit/issues/1006)) ([6e83459](https://github.com/gravity-ui/uikit/commit/6e8345974c98ab3a949d6741ea38f807e1652ade))
+* **LayerManager:** add type to layer ([#1018](https://github.com/gravity-ui/uikit/issues/1018)) ([3fb7de9](https://github.com/gravity-ui/uikit/commit/3fb7de912e144a84a0d169b0be65e6e440c886a0))
+* **Toc:** add component ([#858](https://github.com/gravity-ui/uikit/issues/858)) ([bafed78](https://github.com/gravity-ui/uikit/commit/bafed78dcea0dbedf892763da864d193f18d6421))
+
+## [5.12.2](https://github.com/gravity-ui/uikit/compare/v5.12.1...v5.12.2) (2023-09-15)
+
+
+### Bug Fixes
+
+* **Select:** fix filtering in case of using grouped options ([#1011](https://github.com/gravity-ui/uikit/issues/1011)) ([096d404](https://github.com/gravity-ui/uikit/commit/096d404d8a1734b9a40ca5e4fedcb66e78cf1b5d))
+
+## [5.12.1](https://github.com/gravity-ui/uikit/compare/v5.12.0...v5.12.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* **TextInput:** fix inside error display ([#1004](https://github.com/gravity-ui/uikit/issues/1004)) ([1fcab4e](https://github.com/gravity-ui/uikit/commit/1fcab4e83d777bf4a9e38ab919425f502d7080ff))
+
+## [5.12.0](https://github.com/gravity-ui/uikit/compare/v5.11.0...v5.12.0) (2023-09-13)
+
+
+### Features
+
+* **List:** improve a11y ([#960](https://github.com/gravity-ui/uikit/issues/960)) ([67c35a2](https://github.com/gravity-ui/uikit/commit/67c35a217db3cc4cf8bfd05d606776c57684d9b7))
+
+
+### Bug Fixes
+
+* **Menu:** make menu item content width limited by a container ([#1001](https://github.com/gravity-ui/uikit/issues/1001)) ([f3943c9](https://github.com/gravity-ui/uikit/commit/f3943c919d163d809754d8eb49fefe4d75558fbd))
+* **Select:** fix control border radius in case of using `xl` size ([#998](https://github.com/gravity-ui/uikit/issues/998)) ([8084778](https://github.com/gravity-ui/uikit/commit/80847789edb172b3bee11ebe39714094ce8b62d2))
+* **Tabs:** show focused state if focus-visible only ([#1000](https://github.com/gravity-ui/uikit/issues/1000)) ([88b89f7](https://github.com/gravity-ui/uikit/commit/88b89f777a665d80974815611d58dbd7eb04ac41))
+* **ThemeProvider:** fix scoped CSS classes ([#1003](https://github.com/gravity-ui/uikit/issues/1003)) ([9fe15e3](https://github.com/gravity-ui/uikit/commit/9fe15e35e18f7ebbc455f76f7de762d5a3df7225))
+
+## [5.11.0](https://github.com/gravity-ui/uikit/compare/v5.10.0...v5.11.0) (2023-09-07)
+
+
+### Features
+
+* **Alert, Card:** deprecate `positive` theme ([#986](https://github.com/gravity-ui/uikit/issues/986)) ([e4758d4](https://github.com/gravity-ui/uikit/commit/e4758d408151554ec2946a8cdb07a0e431ce6b85))
+* **Breadcrumbs:** add `title` prop to item ([#863](https://github.com/gravity-ui/uikit/issues/863)) ([0146f5f](https://github.com/gravity-ui/uikit/commit/0146f5f0052bc7c23fd45b7df9452d5b9c639acf))
+* **Popover:** add popper modifiers to popover props ([#993](https://github.com/gravity-ui/uikit/issues/993)) ([fdce64a](https://github.com/gravity-ui/uikit/commit/fdce64ae8e9af2dc9b6142cd05fb18e285c2de7c))
+* **TextArea, TextInput:** use aria-describedby for error and note ([#904](https://github.com/gravity-ui/uikit/issues/904)) ([d51039b](https://github.com/gravity-ui/uikit/commit/d51039bb0fd4129ac511681e7fa23f051d1c3397))
+
+## [5.10.0](https://github.com/gravity-ui/uikit/compare/v5.9.1...v5.10.0) (2023-09-05)
+
+
+### Features
+
+* add CSS variables to control focus outline ([#973](https://github.com/gravity-ui/uikit/issues/973)) ([d926ef8](https://github.com/gravity-ui/uikit/commit/d926ef870b4daef03ed0970f9b97fbc85b93f5d0))
+* **Card:** update README ([#976](https://github.com/gravity-ui/uikit/issues/976)) ([60bf6cc](https://github.com/gravity-ui/uikit/commit/60bf6cc13f3fcda6b03e1de0e152c3b0a5f10ac0))
+* **Flex:** add alignContent, justifyItems and justifySelf css props ([#974](https://github.com/gravity-ui/uikit/issues/974)) ([0be31c9](https://github.com/gravity-ui/uikit/commit/0be31c94a2290b6787b88cdb15fa5d048faf4134))
+* **Menu:** improve MenuItem a11y ([#959](https://github.com/gravity-ui/uikit/issues/959)) ([338f907](https://github.com/gravity-ui/uikit/commit/338f9070c558cd7ce85b99f6ef5539ad0e63a57b))
+* **Popover:** accept function as a children ([#900](https://github.com/gravity-ui/uikit/issues/900)) ([ca5bcc7](https://github.com/gravity-ui/uikit/commit/ca5bcc708598d69270a8645c2fa6a00dc0c9397b))
+* **Table:** update README ([#985](https://github.com/gravity-ui/uikit/issues/985)) ([cc95a33](https://github.com/gravity-ui/uikit/commit/cc95a3372d781aae95f7516cb2e2a2744eca570b))
+* **TextInput:** add an option to display error via tooltip ([#821](https://github.com/gravity-ui/uikit/issues/821)) ([f883f01](https://github.com/gravity-ui/uikit/commit/f883f0126371339e0b0ad46365c29bf1980bdbe7))
+* **Toast:** update icons according to design ([#984](https://github.com/gravity-ui/uikit/issues/984)) ([d10d2c9](https://github.com/gravity-ui/uikit/commit/d10d2c9e1d3d1394786a1105d0d3806de07bce08))
+
+
+### Bug Fixes
+
+* **Disclosure:** explicit type export ([#983](https://github.com/gravity-ui/uikit/issues/983)) ([eeba89d](https://github.com/gravity-ui/uikit/commit/eeba89d4ee2f6a849c0621e96817c00461b2d20f))
+* **Pagination:** increase priority over input styles ([#989](https://github.com/gravity-ui/uikit/issues/989)) ([bbfa6a5](https://github.com/gravity-ui/uikit/commit/bbfa6a5a5ba87dcba31121ccefbb9d05d2f6f60d))
+* **Toast:** don't render empty actions array ([#979](https://github.com/gravity-ui/uikit/issues/979)) ([e19d0b9](https://github.com/gravity-ui/uikit/commit/e19d0b9344ee3f8cbec3e0ee107fcb244b1e26c9))
+
 ## [5.9.1](https://github.com/gravity-ui/uikit/compare/v5.9.0...v5.9.1) (2023-08-28)
 
 

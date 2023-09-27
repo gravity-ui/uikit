@@ -19,7 +19,7 @@ export type ListProps<T = unknown> = QAProps & {
     filterPlaceholder?: string;
     filter?: string;
     activeItemIndex?: number;
-    selectedItemIndex?: number;
+    selectedItemIndex?: number | number[];
     itemHeight?: number | ((item: ListItemData<T>, itemIndex: number) => number);
     itemsHeight?: number | ((items: T[]) => number);
     virtualized?: boolean;
@@ -39,8 +39,11 @@ export type ListProps<T = unknown> = QAProps & {
     onFilterEnd?: ({items}: {items: ListItemData<T>[]}) => void;
     onSortEnd?: (params: ListSortParams) => void;
     autoFocus?: boolean;
+    role?: React.AriaRole;
     loading?: boolean;
     onLoadMore?: () => void;
+    onChangeActive?: (index?: number) => void;
+    id?: string;
 };
 
 export type ListItemProps<T> = {
@@ -55,4 +58,6 @@ export type ListItemProps<T> = {
     onActivate: (index?: number) => void;
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];
+    role?: React.AriaRole;
+    listId?: string;
 };

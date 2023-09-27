@@ -20,6 +20,7 @@ export function useLayer({
     onClose,
     contentRefs,
     enabled = true,
+    type,
 }: LayerProps) {
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
@@ -29,6 +30,7 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
+        type,
     });
 
     React.useEffect(() => {

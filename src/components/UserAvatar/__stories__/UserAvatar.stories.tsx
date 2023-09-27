@@ -2,7 +2,7 @@ import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {useArgs} from '@storybook/client-api';
-import type {ComponentStory, Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {UserAvatar} from '../UserAvatar';
 import type {UserAvatarProps} from '../UserAvatar';
@@ -42,7 +42,7 @@ const randomAvatars = faker.helpers
         }),
         {},
     );
-export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
+export const WithSrcSet: StoryFn<UserAvatarProps> = (args) => {
     const [, setArgs] = useArgs();
 
     React.useEffect(() => {
@@ -54,6 +54,16 @@ export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
     return <UserAvatar {...args} />;
 };
 WithSrcSet.args = {
-    imgUrl: faker.image.cats(),
+    imgUrl: faker.image.urlLoremFlickr({category: 'cats'}),
+    size: 'xl',
+};
+
+export const WithFallback: StoryFn<UserAvatarProps> = (args) => {
+    return <UserAvatar {...args} />;
+};
+WithFallback.args = {
+    // Invalid image link
+    imgUrl: imgUrl + '1',
+    fallbackImgUrl: imgUrl,
     size: 'xl',
 };

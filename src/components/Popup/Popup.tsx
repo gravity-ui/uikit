@@ -92,6 +92,7 @@ export function Popup({
         onClose,
         contentRefs: [anchorRef, containerRef],
         enabled: !disableLayer,
+        type: 'popup',
     });
 
     const {attributes, styles, setPopperRef, setArrowRef} = usePopper({

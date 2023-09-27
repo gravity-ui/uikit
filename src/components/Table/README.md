@@ -1,6 +1,16 @@
+<!--GITHUB_BLOCK-->
+
 ## Table
 
+<!--/GITHUB_BLOCK-->
+
+```jsx
+import {Table} from '@gravity-ui/uikit';
+```
+
 A table that allows selecting and sorting rows and performing actions on a row.
+
+<!--GITHUB_BLOCK-->
 
 Additional functionality is enabled via HOCs:
 
@@ -10,191 +20,73 @@ Additional functionality is enabled via HOCs:
 - [withTableSettings](#withtablesettings)
 - [withTableSorting](#withtablesorting)
 
-### Props
+<!--/GITHUB_BLOCK-->
 
-```ts
-interface Props {
-  /**
-   * Data.
-   */
-  data: any[];
-  /**
-   * Column parameters.
-   */
-  columns: TableColumnConfig[];
-  /**
-   * Vertical alignment of contents.
-   */
-  verticalAlign?: 'top' | 'middle';
-  /**
-   * Row ID.
-   * Used when selecting and sorting rows. If you pass a row,
-   * its ID will be the value of the field in the row data named the same as the column ID
-   */
-  getRowId?: string | ((item: any, index: number) => string);
-  /**
-   * Row CSS classes.
-   */
-  getRowClassNames?: (item: any, index: number) => string[];
-  /**
-   * Condition for disabling columns.
-   */
-  isRowDisabled?: (item: any, index: number) => boolean;
-  /**
-   * Row click handler.
-   */
-  onRowClick?: (item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
-  /**
-   * Row mouseenter handler.
-   */
-  onRowMouseEnter?: (
-    item: any,
-    index: number,
-    event: React.MouseEvent<HTMLTableRowElement>,
-  ) => void;
-  /**
-   * Row mouseleave handler.
-   */
-  onRowMouseLeave?: (
-    item: any,
-    index: number,
-    event: React.MouseEvent<HTMLTableRowElement>,
-  ) => void;
-  /**
-   * Message returned if data is missing.
-   *
-   * By default: "No data"
-   */
-  emptyMessage?: string;
-  /**
-   * Table CSS class.
-   */
-  className?: string;
-}
-```
+## Properties
+
+| Name             | Description                                                                                                                                            |                                        Type                                        |   Default   |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------: | :---------: |
+| data             | Data                                                                                                                                                   |                                      `any[]`                                       |             |
+| columns          | Column parameters                                                                                                                                      |                               `TableColumnConfig[]`                                |             |
+| verticalAlign    | Vertical alignment of contents                                                                                                                         |                                 `"top"` `"middle"`                                 |             |
+| getRowId         | Row ID. Used when selecting and sorting rows. If you pass a row, its ID will be the value of the field in the row data named the same as the column ID |                 `string` `((item: any, index: number) => string)`                  |             |
+| getRowClassNames | Row CSS classes                                                                                                                                        |                      `(item: any, index: number) => string[]`                      |             |
+| isRowDisabled    | Condition for disabling columns                                                                                                                        |                      `(item: any, index: number) => boolean`                       |             |
+| onRowClick       | Row click handler                                                                                                                                      | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
+| onRowMouseEnter  | Row mouseenter handler                                                                                                                                 | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
+| onRowMouseLeave  | Row mouseleave handler                                                                                                                                 | `(item: any, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void` |             |
+| emptyMessage     | Message returned if data is missing.                                                                                                                   |                                      `string`                                      | `"No data"` |
+| className        | Table CSS class                                                                                                                                        |                                      `string`                                      |             |
+| edgePadding      | Adds horizontal padding for edge cells                                                                                                                 |                                     `boolean`                                      |             |
 
 ### TableColumnConfig
 
-```ts
-interface TableColumnConfig<I> {
-  /**
-   * Column ID.
-   */
-  id: string;
-  /**
-   * Column name (header).
-   *
-   * By default: column ID
-   */
-  name?: string | (() => React.ReactNode);
-  /**
-   * Stub in the event there is no data in a cell.
-   *
-   * By default: — (&mdash;)
-   */
-  placeholder?: string | ((item: any, index: number) => React.ReactNode);
-  /**
-   * Cell contents.
-   * If you pass a row, the cell contents
-   * will be the value of the field named the same as this row.
-   *
-   * By default: The value of the field with the name equal to the column ID
-   */
-  template?: string | ((item: any, index: number) => React.ReactNode);
-  /**
-   * Content alignment.
-   */
-  align?: 'left' | 'center' | 'right';
-  /**
-   * Sticky column.
-   */
-  sticky?: 'left' | 'right';
-  /**
-   * Distinguishes a column among other.
-   */
-  primary?: boolean;
-  /**
-   * Column width in px.
-   */
-  width?: number;
-  /**
-   * Horizontal sticky scroll in a table.
-   * Note: A table can't have a fixed height and sticky scroll at the same time.
-   * A sticky scroll won't work if a table has an overflow.
-   *
-   * By default: false
-   */
-  stickyHorizontalScroll?: boolean;
-  /**
-   * Threshold that the parent block should pass to make a scroll sticky.
-   * Helpful, for example, in the console when the groupActions bar closes the scroll.
-   *
-   * By default: 0
-   */
-  stickyHorizontalScrollBreakpoint?: number;
-  /**
-   * Various data, HOC settings.
-   */
-  meta?: Record<string, any>;
-}
-```
+| Name                             | Description                                                                                                                                                            |                            Type                            |                           Default                           |
+| :------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------: | :---------------------------------------------------------: |
+| id                               | Column ID                                                                                                                                                              |                          `any[]`                           |                                                             |
+| name                             | Column name (header)                                                                                                                                                   |             `string` `(() => React.ReactNode)`             |                          column ID                          |
+| placeholder                      | Stub in the event there is no data in a cell                                                                                                                           | `string` `((item: any, index: number) => React.ReactNode)` |                        `— (&mdash;)`                        |
+| template                         | Cell contents. If you pass a row, the cell contents will be the value of the field named the same as this row                                                          | `string` `((item: any, index: number) => React.ReactNode)` | The value of the field with the name equal to the column ID |
+| align                            | Content alignment                                                                                                                                                      |               `"left"` `"center"` `"right"`                |                                                             |
+| sticky                           | Sticky column                                                                                                                                                          |                     `"left"` `"right"`                     |                                                             |
+| primary                          | Distinguishes a column among othe                                                                                                                                      |                         `boolean`                          |                                                             |
+| width                            | Column width in px                                                                                                                                                     |                          `number`                          |                                                             |
+| stickyHorizontalScroll           | Horizontal sticky scroll in a table. Note: A table can't have a fixed height and sticky scroll at the same time. A sticky scroll won't work if a table has an overflow |                         `boolean`                          |                           `false`                           |
+| stickyHorizontalScrollBreakpoint | Threshold that the parent block should pass to make a scroll sticky. Helpful, for example, in the console when the groupActions bar closes the scroll                  |                          `number`                          |                             `0`                             |
+| meta                             | Various data, HOC settings                                                                                                                                             |                   `Record<string, any>`                    |                                                             |
 
-## withTableActions
+## Usage with HOC `withTableActions`
 
 Adds a special column with actions to table columns.
 
-### Props
+### Properties
 
-```ts
-interface Props {
-  /**
-   * Array of action configs for each row.
-   */
-  getRowActions: (item: any, index: number) => TableActionConfig[];
-  /**
-   * Size of actions button and popup menu items.
-   */
-  rowActionsSize?: 's' | 'm' | 'l' | 'xl';
-}
-```
+| Name           | Description                                 |                        Type                         |
+| :------------- | :------------------------------------------ | :-------------------------------------------------: |
+| getRowActions  | Array of action configs for each row        | `(item: any, index: number) => TableActionConfig[]` |
+| rowActionsSize | Size of actions button and popup menu items |              `"s"` `"m"` `"l"` `"xl"`               |
 
 ### TableActionConfig
 
 ```ts
 type TableActionConfig = TableAction | TableActionGroup;
-
-interface TableAction {
-  /**
-   * Text.
-   */
-  text: string;
-  /**
-   * Click handler.
-   */
-  handler: (item: any, index: number) => void;
-  /**
-   * Action disabled.
-   */
-  disabled?: boolean;
-  /**
-   * Theme.
-   *
-   * By default: "normal"
-   */
-  theme?: 'normal' | 'danger';
-}
-
-interface TableActionGroup {
-  /**
-   * Action group header.
-   */
-  title: string;
-  /**
-   * Action group items.
-   */
-  items: TableActionConfig[];
-}
 ```
+
+#### TableAction
+
+| Name     | Description     |                 Type                 |  Default   |
+| :------- | :-------------- | :----------------------------------: | :--------: |
+| text     | Text            |               `string`               |            |
+| handler  | Click handler   | `(item: any, index: number) => void` |            |
+| disabled | Action disabled |              `boolean `              |            |
+| theme    | Theme           |        `"normal"` `"danger"`         | `"normal"` |
+
+#### TableActionGroup
+
+| Name  | Description         |         Type          |
+| :---- | :------------------ | :-------------------: |
+| title | Action group header |       `string`        |
+| items | Action group items  | `TableActionConfig[]` |
 
 ### Example
 
@@ -232,21 +124,15 @@ const table = (
 );
 ```
 
-## withTableCopy
+## Usage with HOC `withTableCopy`
 
 Allows copying the contents of a cell or any text.
 
 ### ColumnMeta
 
-```ts
-interface ColumnMeta {
-  /**
-   * Text to copy.
-   * If true is passed, cell contents are copied.
-   */
-  copy: boolean | ((item: any, index: number) => string | number);
-}
-```
+| Name | Description                                               |                                            Type                                             |
+| :--- | :-------------------------------------------------------- | :-----------------------------------------------------------------------------------------: |
+| copy | Text to copy. If true is passed, cell contents are copied | `boolean` `((item: any, index: number) => string)` `((item: any, index: number) => number)` |
 
 ### Example
 
@@ -271,24 +157,16 @@ const table = (
 );
 ```
 
-## withTableSelection
+## Usage with HOC `withTableSelection`
 
 Enables selecting table rows.
 
-### Props
+### Properties
 
-```ts
-interface Props {
-  /**
-   * Rows selected.
-   */
-  selectedIds: string[];
-  /**
-   * Selected row change handler.
-   */
-  onSelectionChange: (ids: string[]) => void;
-}
-```
+| Name              | Description                 |           Type            |
+| :---------------- | :-------------------------- | :-----------------------: |
+| selectedIds       | Rows selected               |        `string[]`         |
+| onSelectionChange | Selected row change handler | `(ids: string[]) => void` |
 
 ### Example
 
@@ -321,47 +199,24 @@ function SelectionTable() {
 }
 ```
 
-## withTableSettings
+## Usage with HOC `withTableSettings`
 
 Enables functionality for table column settings.
 
 ### ColumnMeta
 
-```ts
-interface ColumnMeta {
-  /**
-   * Specifies whether a column is selected if it's missing in the settings.
-   *
-   * By default: true
-   */
-  selectedByDefault?: boolean;
-  /**
-   * The column is always selected, you can't change its visibility.
-   *
-   * By default: false
-   */
-  selectedAlways?: boolean;
-}
-```
+| Name              | Description                                                            |   Type    | Default |
+| :---------------- | :--------------------------------------------------------------------- | :-------: | :-----: |
+| selectedByDefault | Specifies whether a column is selected if it's missing in the settings | `boolean` | `true`  |
+| selectedAlways    | The column is always selected, you can't change its visibility         | `boolean` | `false` |
 
-### Props
+### Properties
 
-```ts
-interface Props {
-  /**
-   * TableColumnSetup pop-up width.
-   */
-  settingsPopupWidth?: string;
-  /**
-   * Current settings.
-   */
-  settings: TableSettingsData;
-  /**
-   * Settings update handle.
-   */
-  updateSettings: (data: TableSettingsData) => Promise<void>;
-}
-```
+| Name               | Description                   |                     Type                     |
+| :----------------- | :---------------------------- | :------------------------------------------: |
+| settingsPopupWidth | TableColumnSetup pop-up width |                   `string`                   |
+| settings           | Current settings              |             `TableSettingsData`              |
+| updateSettings     | Settings update handl         | `(data: TableSettingsData) => Promise<void>` |
 
 ### TableSettingsData
 
@@ -405,48 +260,24 @@ function SelectionTable() {
 }
 ```
 
-## withTableSorting
+## Usage with HOC `withTableSorting`
 
 Enables column sorting.
 
 ### ColumnMeta
 
-```ts
-interface ColumnMeta {
-  /**
-   * Sets the primary sorting order.
-   *
-   * By default: "asc"
-   */
-  defaultSortOrder?: 'asc' | 'desc';
-  /**
-   * Sorting function.
-   * It should return a value for sorting in ascending order.
-   * If true is passed, cell values are compared
-   * and sorting is done in ascending order.
-   */
-  sort: boolean | ((itemA: any, itemB: any) => number);
-}
-```
+| Name             | Description                                                                                                                                                   |                       Type                       | Default |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------: | :-----: |
+| defaultSortOrder | Sets the primary sorting order                                                                                                                                |                 `"asc"` `"desc"`                 |  `asc`  |
+| sort             | Sorting function. It should return a value for sorting in ascending order. If true is passed, cell values are compared and sorting is done in ascending order | `boolean` `((itemA: any, itemB: any) => number)` |         |
 
-### Props
+### Properties
 
-```ts
-interface Props {
-  /**
-   * Default sorting state for an uncontrolled component.
-   */
-  defaultSortState?: TableSortState;
-  /**
-   * Sorting state.
-   */
-  sortState?: TableSortState;
-  /**
-   * Sorting state change handler.
-   */
-  onSortStateChange?: (sortState: TableSortState) => void;
-}
-```
+| Name              | Description                                         |                 Type                  |
+| :---------------- | :-------------------------------------------------- | :-----------------------------------: |
+| defaultSortState  | Default sorting state for an uncontrolled component |           `TableSortState`            |
+| sortState         | Sorting state                                       |           `TableSortState`            |
+| onSortStateChange | Sorting state change handle                         | `(sortState: TableSortState) => void` |
 
 If the `sortState` and `onSortStateChange` props are not passed, the sorting state is stored in the component itself.
 

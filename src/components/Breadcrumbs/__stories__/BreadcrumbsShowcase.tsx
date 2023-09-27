@@ -85,6 +85,17 @@ export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
                     items={breadcrumbsItems.map(({text}) => ({text, action: () => {}}))}
                 />
             </div>
+            <div className={b('item')}>
+                <p>Custom title</p>
+                <Breadcrumbs
+                    {...props}
+                    items={breadcrumbsItems.map(({text}) => ({
+                        text,
+                        title: `Custom title for ${text}`,
+                        action: () => {},
+                    }))}
+                />
+            </div>
         </div>
     );
 }

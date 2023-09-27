@@ -27,7 +27,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
     @if $size == 'xl' {
         --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
-        --_--select-border-radius: var(--yc-border-radius-xl);
+        --_--select-border-radius: var(--g-border-radius-xl);
         height: #{variables.$xl-height};
         padding: 12px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
     }

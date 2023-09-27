@@ -57,6 +57,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         focusTrap,
         autoFocus,
         restoreFocusRef,
+        modifiers,
     },
     ref,
 ) {
@@ -129,6 +130,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             autoFocus={autoFocus}
             restoreFocus={true}
             restoreFocusRef={restoreFocusRef || controlRef}
+            modifiers={modifiers}
         >
             <React.Fragment>
                 {title && <h3 className={cnPopover('tooltip-title')}>{title}</h3>}

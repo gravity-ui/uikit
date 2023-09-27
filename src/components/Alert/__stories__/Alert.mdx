@@ -43,7 +43,7 @@ import {Alert} from '@gravity-ui/uikit';
 -   `theme`. By default `info`. [Variansts example](#variants):
     -   normal
     -   info
-    -   positive
+    -   success
     -   warning
     -   danger
 -   `actions`. Alert actions;
@@ -69,11 +69,11 @@ import {Alert} from '@gravity-ui/uikit';
 
 <WithPlaneActions />
 
-### With actions override and squere corners
+### With actions override and square corners
 
 ```tsx
 <Alert
-    theme="positive"
+    theme="success"
     corners="square"
     title="Are you sure?"
     onClose={() => alert('Ok!')}
@@ -126,7 +126,7 @@ import {Alert} from '@gravity-ui/uikit';
 
 ```tsx
 <Alert
-    theme="positive"
+    theme="success"
     align="center"
     icon={<Icon data={HandOk} size={16} />}
     title="Everything is ok, mister!"

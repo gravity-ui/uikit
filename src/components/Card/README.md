@@ -16,7 +16,7 @@ The `Card` UI component is a reusable React component that represents a card-lik
 
 `Card` can be displayed with multiple styled combination
 
-- theme (`normal`, `info`, `positive`, `warning`, `danger`)
+- theme (`normal`, `info`, `success`, `warning`, `danger`)
 - type (`selection`, `action`, `container`)
 - view (`outlined`, `clear`) or (`outlined`, `filled`, `raised`) depends on `type` parameter
 
@@ -28,7 +28,7 @@ By specifying different theme values, you can customize the visual appearance of
 
 - `normal` - represents the normal/default theme of the card.
 - `info` - represents the theme for displaying informational content.
-- `positive` - represents the theme for displaying positive/affirmative content.
+- `success` - represents the theme for displaying positive/affirmative content.
 - `warning` - represents the theme for displaying warning or cautionary content.
 - `danger` - represents the theme for displaying content related to danger or critical situations.
 
@@ -45,7 +45,7 @@ const style = {
 
 <Card style={style} theme="normal" size="l">Normal</UIKit.Card>
 <Card style={style} theme="info" size="l">Info</UIKit.Card>
-<Card style={style} theme="positive" size="l">Positive</UIKit.Card>
+<Card style={style} theme="success" size="l">Success</UIKit.Card>
 <Card style={style} theme="warning" size="l">Warning</UIKit.Card>
 <Card style={style} theme="danger" size="l">Danger</UIKit.Card>
 `}>
@@ -53,7 +53,7 @@ const style = {
     <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
         <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="normal" size="l">Normal</UIKit.Card>
         <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="info" size="l">Info</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="positive" size="l">Positive</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="success" size="l">Success</UIKit.Card>
         <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="warning" size="l">Warning</UIKit.Card>
         <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="danger" size="l">Danger</UIKit.Card>
     </div>

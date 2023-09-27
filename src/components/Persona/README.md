@@ -1,10 +1,10 @@
 # Persona
 
-The Persona component can be used to display users or user-related information.
+The `Persona` component can be used to display users or user-related information.
 
 ### Image
 
-Component can be used with custom image. Works only with `type: "person"`.
+This component can be used with a custom image. It works only with `type: "person"`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -28,7 +28,7 @@ LANDING_BLOCK-->
 
 ### Type
 
-Used to specify avatar appearance. Use "person" if you need to represent some kind of personalized entity. Use "email", to represent email adresses. Use "other" for cases, when you don't need an avatar.
+Used to manage avatar appearance. Use "person" for a personalized entity and "email" for an email adresses. Use "other" for cases when you do not need any avatar.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -77,12 +77,12 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-S – Basic size, used in most components.
-N – Used when standard labels are too small.
+S: Basic size, used in most components.
+N: Used when regular labels are too small.
 
 ### Interactivity
 
-Component is also interactive. It can be clickable or closable.
+This component is also interactive. It can be clickable or closable.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -107,13 +107,13 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                                |              Type              |  Default   |
-| :-------- | :--------------------------------------------------------- | :----------------------------: | :--------: |
-| text      | Visible text                                               |            `string`            |            |
-| image     | Image source                                               |            `string`            |            |
-| hasBorder | Display border                                             |           `boolean`            |   `true`   |
-| type      | Avatar appearance                                          | `"person"` `"email"` `"empty"` | `"person"` |
-| size      | Text size                                                  |          `"s"` `"n"`           |   `"s"`    |
-| onClose   | Handle click on button with cross `(text: string) => void` |           `Function`           |            |
-| onClick   | Handle click on component itself `(text: string) => void`  |           `Function`           |            |
-| className | Custom CSS class for root element                          |            `string`            |            |
+| Name      | Description                                                 |              Type              |  Default   |
+| :-------- | :---------------------------------------------------------- | :----------------------------: | :--------: |
+| text      | Visible text                                                |            `string`            |            |
+| image     | Image source                                                |            `string`            |            |
+| hasBorder | Display border                                              |           `boolean`            |   `true`   |
+| type      | Avatar appearance                                           | `"person"` `"email"` `"empty"` | `"person"` |
+| size      | Text size                                                   |          `"s"` `"n"`           |   `"s"`    |
+| onClose   | Handles click on button with cross `(text: string) => void` |           `Function`           |            |
+| onClick   | Handles click on component itself `(text: string) => void`  |           `Function`           |            |
+| className | Custom CSS class for root element                           |            `string`            |            |

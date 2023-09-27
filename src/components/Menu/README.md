@@ -8,9 +8,9 @@
 import {Menu} from '@gravity-ui/uikit';
 ```
 
-The `Menu` component makes it easy to create view for actions list.
+The `Menu` component makes it easy to create views for actions lists.
 
-The `Menu` has dedicated components for an item and a group: `Menu.Item`, `Menu.Group`. You can mix them together to create more complex menus.
+`Menu` has dedicated components for items (`Menu.Item`) and a groups (`Menu.Group`). You can combine them to create more complex menus.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -49,7 +49,7 @@ LANDING_BLOCK-->
 
 ### Size
 
-Used to select the menu size, default - `m`
+This property is used to select the menu size. The default value is `m`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -119,21 +119,21 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name      | Description                             |           Type           | Default |
-| :-------- | :-------------------------------------- | :----------------------: | :-----: |
-| size      | Menu size                               | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
-| children  | Child element                           |    `React.ReactNode`     |         |
-| className | HTML `class` attribute                  |         `string`         |         |
-| style     | HTML `style` attribute                  |  `React.CSSProperties`   |         |
-| qa        | HTML `data-qa` attribute, used in tests |         `string`         |         |
+| Name      | Description                                |           Type           | Default |
+| :-------- | :----------------------------------------- | :----------------------: | :-----: |
+| size      | Menu size                                  | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| children  | Child element                              |    `React.ReactNode`     |         |
+| className | HTML `class` attribute                     |         `string`         |         |
+| style     | HTML `style` attribute                     |  `React.CSSProperties`   |         |
+| qa        | HTML `data-qa` attribute, used for testing |         `string`         |         |
 
 ## Menu.Item
 
-Used for render menu item
+This property is used rendering menu items.
 
 ### Icon
 
-Used if you need to display an icon for a menu item
+The `Icon` property is used to display an icon for a menu item:
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -170,7 +170,7 @@ LANDING_BLOCK-->
 
 ### States
 
-Menu item has disabled and selected flags
+Using this property, you can enable or disable (gray out) specific menu items:
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -204,7 +204,7 @@ LANDING_BLOCK-->
 
 ### Theme
 
-Menu item theme, default - `normal`
+This allows you to change the menu item theme. The default theme is `normal`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -238,26 +238,26 @@ LANDING_BLOCK-->
 
 ### Properties
 
-| Name       | Description                             |           Type            |  Default   |
-| :--------- | :-------------------------------------- | :-----------------------: | :--------: |
-| selected   | Menu item selected flag                 |         `boolean`         |  `false`   |
-| disabled   | Menu item disabled flag                 |         `boolean`         |  `false`   |
-| active     | Menu item active flag                   |         `boolean`         |  `false`   |
-| href       | The URL                                 |         `string`          |            |
-| title      | Title attribute                         |         `string`          |            |
-| target     | Target attribute                        |         `string`          |            |
-| rel        | Rel attribute                           |         `string`          |            |
-| onClick    | Handler for onclick event               | `React.MouseEventHandler` |            |
-| theme      | Menu item theme                         |   `"normal"` `"danger"`   | `"normal"` |
-| children   | Child element                           |     `React.ReactNode`     |            |
-| className  | HTML `class` attribute                  |         `string`          |            |
-| style      | HTML `style` attribute                  |   `React.CSSProperties`   |            |
-| qa         | HTML `data-qa` attribute, used in tests |         `string`          |            |
-| extraProps | Extra html attributes                   |         `Record`          |            |
+| Name       | Description                                |           Type            |  Default   |
+| :--------- | :----------------------------------------- | :-----------------------: | :--------: |
+| selected   | Menu item selected flag                    |         `boolean`         |  `false`   |
+| disabled   | Menu item disabled flag                    |         `boolean`         |  `false`   |
+| active     | Menu item active flag                      |         `boolean`         |  `false`   |
+| href       | URL                                        |         `string`          |            |
+| title      | Title attribute                            |         `string`          |            |
+| target     | Target attribute                           |         `string`          |            |
+| rel        | Rel attribute                              |         `string`          |            |
+| onClick    | Handler for onclick event                  | `React.MouseEventHandler` |            |
+| theme      | Menu item theme                            |   `"normal"` `"danger"`   | `"normal"` |
+| children   | Child element                              |     `React.ReactNode`     |            |
+| className  | HTML `class` attribute                     |         `string`          |            |
+| style      | HTML `style` attribute                     |   `React.CSSProperties`   |            |
+| qa         | HTML `data-qa` attribute, used for testing |         `string`          |            |
+| extraProps | Additional html attributes                 |         `Record`          |            |
 
 ## Menu.Group
 
-You can group items by topics within a single menu
+You can group items by topics within a single menu:
 
 <!--LANDING_BLOCK
 <ExampleBlock

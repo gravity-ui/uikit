@@ -7,8 +7,8 @@ import {Icon} from '../../Icon';
 import {Button} from '../Button';
 
 export default {
-    title: 'Components/Basic/Button',
-    id: 'components/Button',
+    title: 'Components/Inputs/Button',
+    id: 'components/inputs/Button',
     args: {
         view: 'normal',
         size: 'm',

@@ -131,7 +131,7 @@ LANDING_BLOCK-->
 
 | Name           | Description                                                                                              |                     Type                      | Default |
 | :------------- | :------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :-----: |
-| children       | The content of the switch (usually a label).                                                             |                  `ReactNode`                  |         | 
+| children       | The content of the switch (usually a label).                                                             |                  `ReactNode`                  |         |
 | content        | The content of the switch (alternative to children).                                                     |                  `ReactNode`                  |         |
 | disabled       | Toggles the `disabled` state of the switch.                                                              |                   `boolean`                   | `false` |
 | checked        | Toggles the checked state of the switch.                                                                 |                   `boolean`                   | `false` |
@@ -146,7 +146,7 @@ LANDING_BLOCK-->
 | style          | HTML `style` attribute                                                                                   |             `React.CSSProperties`             |         |
 | className      | HTML `class` attribute                                                                                   |                   `string`                    |         |
 | title          | HTML `title` attribute                                                                                   |                   `string`                    |         |
-| name           | HTML `name` attribute for the input element.                                                             |                   `string`                    |         | 
+| name           | HTML `name` attribute for the input element.                                                             |                   `string`                    |         |
 | value          | HTML `value` attribute for the input element.                                                            |                   `string`                    |         |
 | indeterminate  | Toggles the indeterminate state of the switch.                                                           |                   `boolean`                   | `false` |
 | controlProps   | Additional props for the underlying input element.                                                       | `React.InputHTMLAttributes<HTMLInputElement>` |         |

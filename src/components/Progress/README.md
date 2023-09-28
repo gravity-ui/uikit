@@ -236,7 +236,7 @@ LANDING_BLOCK-->
 | :-------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :---------: |
 | className       | HTML `class` attribute                                                                                                              |                `string`                 |             |
 | colorStops      | Sets breakpoints with themes                                                                                                        | `Array<{theme: string; stop: number;}>` |             |
-| colorStopsValue | Sets the value for choosing the current stop or alternative value for colorStops. The available range is from  0 to 100.            |                `number`                 |             |
+| colorStopsValue | Sets the value for choosing the current stop or alternative value for colorStops. The available range is from 0 to 100.             |                `number`                 |             |
 | loading         | Toggles the `loading` state                                                                                                         |                `boolean`                |   `false`   |
 | size            | Sets the progress bar size. The progress bar text can only be displayed in `"m"` size.                                              |                `string`                 |    `"m"`    |
 | stack           | Configuration of composite progress bar. Not required if a `value` is provided.                                                     |             `Array<Stack>`              |             |

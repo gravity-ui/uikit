@@ -212,11 +212,11 @@ Enables functionality for table column settings.
 
 ### Properties
 
-| Name               | Description                    |                     Type                     |
-| :----------------- | :----------------------------- | :------------------------------------------: |
-| settingsPopupWidth | TableColumnSetup pop-up width  |                   `string`                   |
-| settings           | Current settings               |             `TableSettingsData`              |
-| updateSettings     | Settings update handle         | `(data: TableSettingsData) => Promise<void>` |
+| Name               | Description                   |                     Type                     |
+| :----------------- | :---------------------------- | :------------------------------------------: |
+| settingsPopupWidth | TableColumnSetup pop-up width |                   `string`                   |
+| settings           | Current settings              |             `TableSettingsData`              |
+| updateSettings     | Settings update handle        | `(data: TableSettingsData) => Promise<void>` |
 
 ### TableSettingsData
 

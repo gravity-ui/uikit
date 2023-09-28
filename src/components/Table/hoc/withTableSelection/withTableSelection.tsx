@@ -80,6 +80,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             const {selectedIds} = this.props;
             const id = Table.getRowId(this.props, item, index);
             const checked = selectedIds.includes(id);
+
             return this.renderCheckBox({
                 disabled: this.isDisabled(item, index),
                 checked,
@@ -116,6 +117,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             // @ts-ignore shiftKey is defined for click events
             const isShiftPressed = event.nativeEvent.shiftKey;
             const {data, selectedIds, onSelectionChange} = this.props;
+
             if (
                 isShiftPressed &&
                 this.lastCheckedIndex !== undefined &&

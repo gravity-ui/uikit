@@ -13,6 +13,7 @@ export interface LayerExtendableProps {
     onEnterKeyDown?: (event: KeyboardEvent) => void;
     onOutsideClick?: (event: MouseEvent) => void;
     onClose?: (event: MouseEvent | KeyboardEvent, reason: LayerCloseReason) => void;
+    type?: string;
 }
 
 export type ContentElement =
@@ -52,6 +53,10 @@ class LayerManager {
         return this.stack.length;
     }
 
+    getLayers() {
+        return this.stack.map(({type}) => ({type}));
+    }
+
     private addListeners() {
         document.addEventListener('keydown', this.handleDocumentKeyDown);
         document.addEventListener('click', this.handleDocumentClick, true);
@@ -69,7 +74,11 @@ class LayerManager {
             componentId: 'LayerManager',
             eventId: 'layerschange',
             meta: {
+                /**
+                 * @deprecated use layers
+                 */
                 layersCount: this.getLayersCount(),
+                layers: this.getLayers(),
             },
         });
     }

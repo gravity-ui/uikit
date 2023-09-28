@@ -78,11 +78,11 @@ LANDING_BLOCK-->
 
 ### Layout
 
-`vertical` - used to direct users to content if there are property `actions` with buttons. For showing buttons below text (
+`vertical` - used to direct users to content if there is property `actions` with buttons. For showing buttons below text (
 used
 by default).
 
-`horizontal` - used to direct users to content if there are property `actions` with buttons. For showing buttons to the right
+`horizontal` - used to direct users to content if there is property `actions` with buttons. For showing buttons to the right
 of text.
 
 <!--LANDING_BLOCK

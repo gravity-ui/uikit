@@ -84,7 +84,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `Progress` component use the `size` property: `"xs"`, `"s"`, `"m"`. Property `text` is displayed only in `"m"` size.
+To manage the size of the `Progress` component, use the `size` property that can take the following values: `"xs"`, `"s"`, and `"m"`. The `text` property works only with the `"m"` size.
 
 <!--LANDING_BLOCK
 
@@ -232,26 +232,26 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name            | Description                                                                                                       |                  Type                   |   Default   |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :---------: |
-| className       | HTML `class` attribute                                                                                            |                `string`                 |             |
-| colorStops      | Sets breakpoints with themes                                                                                      | `Array<{theme: string; stop: number;}>` |             |
-| colorStopsValue | Sets value for choosing current stop, alternative value for colorStops. Available range: 0 to 100.                |                `number`                 |             |
-| loading         | Toggles `loading` state                                                                                           |                `boolean`                |   `false`   |
-| size            | Sets progress size. Text of progress bar is displayed in `"m"` size only.                                         |                `string`                 |    `"m"`    |
-| stack           | Configuration of composite progress bar. Not required if a `value` passed.                                        |             `Array<Stack>`              |             |
-| stackClassName  | HTML `class` attribute of stack                                                                                   |                `string`                 |             |
-| text            | Text inside progress bar                                                                                          |                `string`                 |             |
-| theme           | Sets progress color                                                                                               |                `string`                 | `"default"` |
-| value           | Current progress value. Available range: 0 to 100. Using `stack` property value is optional and uses as maxValue. |                `number`                 |             |
+| Name            | Description                                                                                                                         |                  Type                   |   Default   |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------: | :---------: |
+| className       | HTML `class` attribute                                                                                                              |                `string`                 |             |
+| colorStops      | Sets breakpoints with themes                                                                                                        | `Array<{theme: string; stop: number;}>` |             |
+| colorStopsValue | Sets the value for choosing the current stop or alternative value for colorStops. The available range is from  0 to 100.            |                `number`                 |             |
+| loading         | Toggles the `loading` state                                                                                                         |                `boolean`                |   `false`   |
+| size            | Sets the progress bar size. The progress bar text can only be displayed in `"m"` size.                                              |                `string`                 |    `"m"`    |
+| stack           | Configuration of composite progress bar. Not required if a `value` is provided.                                                     |             `Array<Stack>`              |             |
+| stackClassName  | HTML `class` attribute of stack                                                                                                     |                `string`                 |             |
+| text            | Text inside the progress bar                                                                                                        |                `string`                 |             |
+| theme           | Sets progress color                                                                                                                 |                `string`                 | `"default"` |
+| value           | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |                `number`                 |             |
 
 ### `Stack`
 
-| Name      | Description                                                                                                       |    Type     |   Default   |
-| :-------- | :---------------------------------------------------------------------------------------------------------------- | :---------: | :---------: |
-| className | HTML `class` attribute of stack element                                                                           |  `string`   |             |
-| color     | Sets background color in HTML `style` attribute                                                                   |  `string`   |             |
-| content   | Stack element content                                                                                             | `ReactNode` |             |
-| title     | HTML `title` attribute                                                                                            |  `string`   |             |
-| theme     | Sets stack element color                                                                                          |  `string`   | `"default"` |
-| value     | Current progress value. Available range: 0 to 100. Using `stack` property value is optional and uses as maxValue. |  `number`   |             |
+| Name      | Description                                                                                                                         |    Type     |   Default   |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------- | :---------: | :---------: |
+| className | HTML `class` attribute of the stack element                                                                                         |  `string`   |             |
+| color     | Sets background color for the HTML `style` attribute                                                                                |  `string`   |             |
+| content   | Stack element content                                                                                                               | `ReactNode` |             |
+| title     | HTML `title` attribute                                                                                                              |  `string`   |             |
+| theme     | Sets the stack element color                                                                                                        |  `string`   | `"default"` |
+| value     | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |  `number`   |             |

@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.16.0](https://github.com/gravity-ui/uikit/compare/v5.15.0...v5.16.0) (2023-09-29)
+
+
+### Features
+
+* **Table:** add options for WithTableSettings HOC ([#1029](https://github.com/gravity-ui/uikit/issues/1029)) ([b338bf9](https://github.com/gravity-ui/uikit/commit/b338bf9c3b77aba5471e143ce58495d55ec94cfe))
+
 ## [5.15.0](https://github.com/gravity-ui/uikit/compare/v5.14.0...v5.15.0) (2023-09-22)
 
 

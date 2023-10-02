@@ -8,7 +8,7 @@ import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
 
 export default {
-    title: 'Components/Menu',
+    title: 'Components/Navigation/Menu',
     component: Menu,
 } as Meta;
 

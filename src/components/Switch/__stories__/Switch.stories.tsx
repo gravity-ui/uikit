@@ -8,7 +8,7 @@ import type {SwitchProps} from '../Switch';
 import {SwitchShowcase} from './SwitchShowcase';
 
 export default {
-    title: 'Components/Switch',
+    title: 'Components/Inputs/Switch',
     component: Switch,
 } as Meta;
 

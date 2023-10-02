@@ -5,8 +5,8 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Label} from '../Label';
 
 export default {
-    title: 'Components/Basic/Label',
-    id: 'components/Label',
+    title: 'Components/Data display/Label',
+    id: 'components/data display/Label',
     args: {
         children: 'Label',
         theme: 'normal',

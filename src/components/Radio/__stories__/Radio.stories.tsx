@@ -8,7 +8,7 @@ import type {RadioProps} from '../Radio';
 import {RadioShowcase} from './RadioShowcase';
 
 export default {
-    title: 'Components/Radio',
+    title: 'Components/Inputs/Radio',
     component: Radio,
 } as Meta;
 

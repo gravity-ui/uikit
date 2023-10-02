@@ -10,7 +10,7 @@ import {CardShowcase} from './CardShowcase';
 import './Card.stories.scss';
 
 export default {
-    title: 'Components/Card',
+    title: 'Components/Data Display/Card',
     component: Card,
 } as Meta;
 

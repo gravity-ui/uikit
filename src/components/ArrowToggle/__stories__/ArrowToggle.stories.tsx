@@ -6,7 +6,7 @@ import {ArrowToggle} from '../ArrowToggle';
 import type {ArrowToggleProps} from '../ArrowToggle';
 
 export default {
-    title: 'Components/ArrowToggle',
+    title: 'Components/Utils/ArrowToggle',
     component: ArrowToggle,
 } as Meta;
 

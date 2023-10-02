@@ -10,7 +10,7 @@ import {ListShowcase} from './ListShowcase';
 type ComponentType = React.JSXElementConstructor<ListProps<string>>;
 
 export default {
-    title: 'Components/List',
+    title: 'Components/Data Display/List',
     component: List,
     args: {
         ...listDefaultProps,

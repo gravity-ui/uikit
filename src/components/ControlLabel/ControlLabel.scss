@@ -18,12 +18,12 @@ $block: '.#{variables.$ns}control-label';
     }
 
     &_size_m {
-        font-size: 13px;
+        font-size: var(--g-text-body-1-font-size);
         line-height: 15px;
     }
 
     &_size_l {
-        font-size: 15px;
+        font-size: var(--g-text-body-2-font-size);
         line-height: 18px;
     }
 

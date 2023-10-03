@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 
-import {usePortalContainer} from '../utils/usePortalContainer';
+import {usePortalContainer} from '../../hooks/usePortalContainer/usePortalContainer';
 
 export interface PortalProps {
     container?: HTMLElement;

@@ -7,7 +7,7 @@ import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
 
 export default {
-    title: 'Components/Hotkey',
+    title: 'Components/Data Display/Hotkey',
     component: Hotkey,
 } as Meta;
 

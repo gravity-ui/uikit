@@ -7,7 +7,7 @@ import {Modal} from '../Modal';
 import type {ModalProps} from '../Modal';
 
 export default {
-    title: 'Components/Modal',
+    title: 'Components/Overlays/Modal',
     component: Modal,
 } as Meta;
 

@@ -10,7 +10,7 @@ import type {ButtonProps} from '../Button';
 import {ButtonShowcase} from './ButtonShowcase';
 
 export default {
-    title: 'Components/Button',
+    title: 'Components/Inputs/Button',
     component: Button,
 } as Meta;
 

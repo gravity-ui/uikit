@@ -69,4 +69,3 @@ export * from './utils/useFileInput/useFileInput';
 export {useActionHandlers} from './utils/useActionHandlers';
 export {useUniqId} from './utils/useUniqId';
 export {getLayersCount} from './utils/LayerManager';
-export * from './utils/useOutsideClick';

@@ -10,7 +10,7 @@ import './Toc.stories.scss';
 const b = blockNew('toc-stories');
 
 export default {
-    title: 'Components/Toc',
+    title: 'Components/Data Display/Toc',
     component: Toc,
     argTypes: {},
 } as Meta;

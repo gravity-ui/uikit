@@ -13,7 +13,7 @@ import {WithCustomAnchor as WithCustomAnchorExample} from './examples/WithCustom
 import './PopoverDemo.scss';
 
 export default {
-    title: 'Components/Popover',
+    title: 'Components/Overlays/Popover',
     component: Popover,
     args: {
         initialOpen: false,

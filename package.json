@@ -69,6 +69,7 @@
         "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
         "lint:prettier": "prettier --check '**/*.md'",
+        "lint:prettier:fix": "prettier --write '**/*.md'",
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
         "prepublishOnly": "npm run build"

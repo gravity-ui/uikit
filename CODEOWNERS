@@ -41,6 +41,9 @@
 /src/components/Toaster @ogonkov
 /src/components/theme @resure
 /src/components/Pagination @jhoncool
+
+/src/hooks/useOutsideClick @NikitaCG
+
 # Allow everyone to update dependencies
 /package.json
 /package-lock.json

@@ -46,7 +46,6 @@
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
 /src/components/theme @resure
-/src/components/Pagination @jhoncool
 # Allow everyone to update dependencies
 /package.json
 /package-lock.json

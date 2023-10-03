@@ -1,14 +1,16 @@
 * @amje @ValeraS @korvin89
+/src/components/ActionTooltip @amje
 /src/components/Alert @IsaevAlexandr
 /src/components/ArrowToggle @Marginy605
-/src/components/Breadcrumbs @vrozaev
+#/src/components/Breadcrumbs
 /src/components/Button @amje
 /src/components/Card @Lunory
 /src/components/Checkbox @zamkovskaya
-#/src/components/ClipboardButton @damask
-#/src/components/ClipboardIcon @damask
-#/src/components/CopyToClipboard @damask
-/src/components/Dialog @Volodomor
+/src/components/ClipboardButton @SeqviriouM
+/src/components/ClipboardIcon @SeqviriouM
+/src/components/ControlLabel @korvin89
+/src/components/CopyToClipboard @SeqviriouM
+#/src/components/Dialog
 /src/components/Disclosure @Raubzeug
 /src/components/DropdownMenu @axtk
 /src/components/Hotkey @d3m1d0v
@@ -19,6 +21,7 @@
 /src/components/Loader @SeqviriouM
 /src/components/Menu @NikitaCG
 /src/components/Modal @amje
+/src/components/Pagination @jhoncool
 /src/components/Persona @DaffPunks
 /src/components/Popover @kseniya57
 /src/components/Popup @amje
@@ -31,16 +34,18 @@
 /src/components/UserAvatar @DaffPunks
 /src/components/Select @korvin89
 /src/components/Sheet @korvin89
-/src/components/Skeleton @amje
+/src/components/Skeleton @SeqviriouM
+/src/components/Spin @SeqviriouM
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
-/src/components/Table @krozhkov
+#/src/components/Table
 /src/components/Tabs @sofiushko
 /src/components/Text @IsaevAlexandr
-#/src/components/TextInput @dustyo-O
+/src/components/controls/TextArea @korvin89
+/src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov
+/src/components/Tooltip @amje
 /src/components/theme @resure
-/src/components/Pagination @jhoncool
 
 /src/hooks/useOutsideClick @NikitaCG
 

@@ -2,9 +2,9 @@ import React from 'react';
 
 import {PortalContext} from './PortalProvider';
 
-export type UsePortalContainerReturnType = HTMLElement | null;
+export type UsePortalContainerResult = HTMLElement | null;
 
-export function usePortalContainer(): UsePortalContainerReturnType {
+export function usePortalContainer(): UsePortalContainerResult {
     const context = React.useContext(PortalContext);
 
     let defaultContainer = null;

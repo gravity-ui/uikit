@@ -8,9 +8,9 @@
 import {usePortalContainer} from '@gravity-ui/uikit';
 ```
 
-The `usePortalContainer` hook helps to create portal container
+The `usePortalContainer` hook returns portal container element in the current scope
 
-## Return
+## Result
 
 | Name      | Description                  |         Type         |
 | :-------- | :--------------------------- | :------------------: |

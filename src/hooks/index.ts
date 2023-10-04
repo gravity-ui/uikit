@@ -1,4 +1,4 @@
-export * from './useOutsideClick';
 export * from './useBodyScrollLock';
-export * from './useVirtualElementRef';
+export * from './useOutsideClick';
 export * from './usePortalContainer';
+export * from './useVirtualElementRef';

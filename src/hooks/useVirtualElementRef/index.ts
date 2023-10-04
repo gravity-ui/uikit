@@ -2,5 +2,5 @@ export {useVirtualElementRef} from './useVirtualElementRef';
 export type {
     VirtualElementRect,
     UseVirtualElementRefProps,
-    UseVirtualElementRefReturnType,
+    UseVirtualElementRefResult,
 } from './useVirtualElementRef';

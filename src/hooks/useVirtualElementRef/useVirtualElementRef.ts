@@ -11,7 +11,7 @@ export type VirtualElementRect = {
 
 export interface UseVirtualElementRefProps {
     /**
-     * Position of virtual element in relation to viewport
+     * Position of virtual element relative to viewport
      */
     rect?: VirtualElementRect | null;
 
@@ -21,14 +21,14 @@ export interface UseVirtualElementRefProps {
     contextElement?: Element;
 }
 
-export type UseVirtualElementRefReturnType = React.MutableRefObject<VirtualElement>;
+export type UseVirtualElementRefResult = React.MutableRefObject<VirtualElement>;
 
 const initialPosition = {top: 0, right: 0, bottom: 0, left: 0};
 
 // React hook for creating virtual element for popup
 export function useVirtualElementRef(
     props: UseVirtualElementRefProps = {},
-): UseVirtualElementRefReturnType {
+): UseVirtualElementRefResult {
     const {rect, contextElement} = props;
     const rectRef = React.useRef(initialPosition);
 

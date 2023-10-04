@@ -1,13 +1,13 @@
 import React from 'react';
 
-export interface UseBodyScrollLockProps {
+export interface BodyScrollLockProps {
     enabled: boolean;
 }
 
 let locks = 0;
 let storedBodyStyle: string | undefined;
 
-export function useBodyScrollLock({enabled}: UseBodyScrollLockProps) {
+export function useBodyScrollLock({enabled}: BodyScrollLockProps) {
     React.useLayoutEffect(() => {
         if (enabled) {
             locks++;

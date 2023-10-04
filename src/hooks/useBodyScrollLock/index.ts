@@ -1,2 +1,2 @@
 export {useBodyScrollLock} from './useBodyScrollLock';
-export type {UseBodyScrollLockProps} from './useBodyScrollLock';
+export type {BodyScrollLockProps} from './useBodyScrollLock';

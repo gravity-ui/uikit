@@ -147,7 +147,7 @@ $iconWidth: 16px;
         &_action {
             --yc-button-background-color: var(--g-color-base-brand);
             --yc-button-background-color-hover: var(--g-color-base-brand-hover);
-            --yc-button-outline-color: var(--g-color-base-brand);
+            --g-color-line-focus: var(--g-color-base-brand);
 
             &:focus::before {
                 outline-offset: 1px;

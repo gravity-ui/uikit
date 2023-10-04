@@ -28,6 +28,7 @@ $iconWidth: 16px;
     --yc-button-icon-position: calc(
         var(--yc-button-padding) - (var(--yc-button-height) - var(--yc-button-icon-size)) / 2
     );
+    --yc-button-font-size: var(--g-text-body-1-font-size);
 
     @include mixins.button-reset();
     display: inline-block;
@@ -99,7 +100,6 @@ $iconWidth: 16px;
             --yc-button-padding: 6px;
             --yc-button-icon-size: 12px;
             --yc-button-icon-offset: 4px;
-            --yc-button-font-size: 13px;
         }
 
         &_s {
@@ -108,7 +108,6 @@ $iconWidth: 16px;
             --yc-button-padding: 8px;
             --yc-button-icon-size: 16px;
             --yc-button-icon-offset: 4px;
-            --yc-button-font-size: 13px;
         }
 
         &_m {
@@ -117,7 +116,6 @@ $iconWidth: 16px;
             --yc-button-padding: 12px;
             --yc-button-icon-size: 16px;
             --yc-button-icon-offset: 8px;
-            --yc-button-font-size: 13px;
         }
 
         &_l {
@@ -126,7 +124,6 @@ $iconWidth: 16px;
             --yc-button-padding: 16px;
             --yc-button-icon-size: 16px;
             --yc-button-icon-offset: 8px;
-            --yc-button-font-size: 13px;
         }
 
         &_xl {
@@ -135,7 +132,7 @@ $iconWidth: 16px;
             --yc-button-padding: 24px;
             --yc-button-icon-size: 20px;
             --yc-button-icon-offset: 12px;
-            --yc-button-font-size: 15px;
+            --yc-button-font-size: var(--g-text-body-2-font-size);
         }
     }
 

@@ -78,6 +78,7 @@ $transitionTimingFunction: ease-in-out;
         display: flex;
         align-items: baseline;
         width: 100%;
+        font-size: var(--g-text-body-1-font-size);
         text-align: center;
         white-space: nowrap;
         text-overflow: ellipsis;

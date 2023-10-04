@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {useVirtualElementRef} from '../../../hooks/useVirtualElementRef';
+import {useVirtualElementRef} from '../../../hooks';
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
 import {Popup} from '../Popup';

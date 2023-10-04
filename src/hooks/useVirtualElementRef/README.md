@@ -17,8 +17,6 @@ The `useVirtualElementRef` hook helps to create virtual element for popup
 | rect           | Position of virtual element relative to viewport | `{top, bottom, left, right}: {[x]:number}` |         |
 | contextElement | DOM-context of virtual element                   |                 `Element`                  |         |
 
-## Return
+## Result
 
-| Name | Description              |       Type        |
-| :--- | :----------------------- | :---------------: |
-| ref  | Virtual element ref link | `React.RefObject` |
+Virtual element ref link. `React.RefObject`

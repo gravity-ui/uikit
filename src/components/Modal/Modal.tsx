@@ -2,7 +2,7 @@ import React from 'react';
 
 import {CSSTransition} from 'react-transition-group';
 
-import {useBodyScrollLock} from '../../hooks/useBodyScrollLock';
+import {useBodyScrollLock} from '../../hooks';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 import {FocusTrap} from '../utils/FocusTrap';

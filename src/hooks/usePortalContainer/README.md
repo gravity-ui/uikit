@@ -12,6 +12,4 @@ The `usePortalContainer` hook returns portal container element in the current sc
 
 ## Result
 
-| Name      | Description                  |         Type         |
-| :-------- | :--------------------------- | :------------------: |
-| container | Container element for portal | `HTMLElement - null` |
+Container element for portal. `HTMLElement | null`

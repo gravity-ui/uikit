@@ -83,6 +83,7 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
     className?: string;
     title?: string;
     ref?: React.ComponentPropsWithRef<T>['ref'];
+    onClick?(e: unknown): void;
 }
 
 /**

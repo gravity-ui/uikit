@@ -1,0 +1,32 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}list-item-view';
+
+#{$block} {
+    &__grip {
+        cursor: grab;
+    }
+
+    &:hover#{$block}_activeOnHover,
+    &_active#{$block}_activeOnHover,
+    &_active {
+        background: var(--yc-color-base-simple-hover);
+    }
+
+    &_clickable {
+        cursor: pointer;
+    }
+
+    &_selected,
+    &_selected:hover#{$block}_activeOnHover {
+        background: var(--yc-color-base-selection);
+    }
+
+    &_hidden {
+        display: none;
+    }
+
+    &__slot {
+        width: 16px;
+    }
+}

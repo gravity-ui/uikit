@@ -3,7 +3,7 @@ import React from 'react';
 import {Text} from '../../../Text';
 import {Flex} from '../../Flex/Flex';
 import {LayoutProvider} from '../../LayoutProvider/LayoutProvider';
-import {useLayoutContext} from '../../hooks';
+import {useLayoutContext} from '../../hooks/useLayoutContext';
 import {sp} from '../../spacing/spacing';
 
 interface LayoutPresenterProps {

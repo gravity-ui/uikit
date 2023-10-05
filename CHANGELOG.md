@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.17.0](https://github.com/gravity-ui/uikit/compare/v5.16.0...v5.17.0) (2023-10-05)
+
+
+### Features
+
+* **List:** extend `emptyPlaceholder` type to `ReactNode` ([#1013](https://github.com/gravity-ui/uikit/issues/1013)) ([56437e6](https://github.com/gravity-ui/uikit/commit/56437e6e4782eebf4040d6f1e2bc70bc6b5b61ec))
+* synced codeowners with sharepoint table ([#1034](https://github.com/gravity-ui/uikit/issues/1034)) ([5bdfa75](https://github.com/gravity-ui/uikit/commit/5bdfa75bbae36827dd74b9b67a24fa2e2dd6fcdb))
+* **withTableSorting:** add control the use of data sorting ([#1032](https://github.com/gravity-ui/uikit/issues/1032)) ([53248c9](https://github.com/gravity-ui/uikit/commit/53248c967e32bba6cb5f4451f9ee5bf00d963163))
+
+
+### Bug Fixes
+
+* start refactor hooks: useOutsideClick ([#1035](https://github.com/gravity-ui/uikit/issues/1035)) ([6ad4a78](https://github.com/gravity-ui/uikit/commit/6ad4a78ca202ecc6e843d14f0c71f922d0845828))
+* use correct font-size through component styles ([#1036](https://github.com/gravity-ui/uikit/issues/1036)) ([44d7160](https://github.com/gravity-ui/uikit/commit/44d71608af59eb04350d830dd2d19c1a5ce922b2))
+
 ## [5.16.0](https://github.com/gravity-ui/uikit/compare/v5.15.0...v5.16.0) (2023-09-29)
 
 

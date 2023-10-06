@@ -34,7 +34,7 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-An item can be a scalar or an arbitrary value and must be `truly` in any case.
+An item can be a scalar or an arbitrary value and must be `truthy` in any case.
 If it is an arbitrary value, make sure to specify filtering and rendering functions.
 The default render only provides an item as text.
 

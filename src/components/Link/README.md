@@ -134,7 +134,7 @@ LANDING_BLOCK-->
 
 ## Usage
 
-A 'Link' can be used both as an independent text element and as part of the text:
+A `Link` can be used both as an independent text element and as part of the text:
 
 <!--LANDING_BLOCK
 <ExampleBlock

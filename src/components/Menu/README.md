@@ -129,7 +129,7 @@ LANDING_BLOCK-->
 
 ## Menu.Item
 
-This property is used rendering menu items.
+This property is used to render menu items.
 
 ### Icon
 

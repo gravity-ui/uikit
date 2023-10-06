@@ -14,7 +14,7 @@ they can be used as links to navigate to another pages.
 ## Appearance
 
 There are four `Button` view types: basic, outlined, flat and contrast.
-The `Button's` appearance is determined by the `view` property.
+The `Button`'s appearance is determined by the `view` property.
 
 ### Basic
 

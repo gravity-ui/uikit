@@ -4,7 +4,7 @@
 
 <!--/GITHUB_BLOCK-->
 
-`ArrowToggle` is a component for displaying the chevron icon. It be rotated to point in four directions, and can be usef to display dropdown lists, cut components, etc.
+`ArrowToggle` is a component for displaying the chevron icon. It be rotated to point in four directions, and can be used to display dropdown lists, cut components, etc.
 
 ## Appearance
 

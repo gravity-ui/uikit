@@ -186,7 +186,7 @@ LANDING_BLOCK-->
 
 A `label` can have different states:
 
-- `disabled`: No additional options allowed.
+- `disabled`: No interactions allowed.
 - `interactive`: Makes the label hoverable.
 
 <!--LANDING_BLOCK

@@ -2,12 +2,11 @@ import React from 'react';
 
 import {TriangleExclamation} from '@gravity-ui/icons';
 
-import {useUniqId} from '../../../hooks';
+import {useForkRef, useUniqId} from '../../../hooks';
 import {Icon} from '../../Icon';
 import {Popover} from '../../Popover';
 import {block} from '../../utils/cn';
 import {useElementSize} from '../../utils/useElementSize';
-import {useForkRef} from '../../utils/useForkRef';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {

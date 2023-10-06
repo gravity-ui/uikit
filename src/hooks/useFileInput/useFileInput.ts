@@ -16,18 +16,20 @@ export type UseFileInputOutput = {
     };
 };
 
+export type UseFileInputResult = UseFileInputOutput;
+
 /**
  * Used to shape props for input with type "file".
- * 
+ *
  * Usage example:
  ```tsx
     import React from 'react';
     import {Button, useFileInput} from '@gravity-ui/uikit';
-    
+
     const Component = () => {
         const onUpdate = React.useCallback((files: File[]) => console.log(files), []);
         const {controlProps, triggerProps} = useFileInput({onUpdate});
-        
+
         return (
             <React.Fragment>
                 <input {...controlProps} />

@@ -1,12 +1,11 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useUniqId} from '../../hooks';
+import {useForkRef, useUniqId} from '../../hooks';
 import type {List} from '../List';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
 import {useFocusWithin} from '../utils/interactions';
-import {useForkRef} from '../utils/useForkRef';
 import {useSelect} from '../utils/useSelect';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';

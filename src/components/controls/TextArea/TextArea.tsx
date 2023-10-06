@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {useUniqId} from '../../../hooks';
+import {useForkRef, useUniqId} from '../../../hooks';
 import {blockNew} from '../../utils/cn';
-import {useForkRef} from '../../utils/useForkRef';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {

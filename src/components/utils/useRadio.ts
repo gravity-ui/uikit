@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {useUniqId} from '../../hooks';
+import {useForkRef, useUniqId} from '../../hooks';
 import type {ControlProps} from '../types';
 
 import {eventBroker} from './event-broker';
-import {useForkRef} from './useForkRef';
 
 export function useRadio({
     name,

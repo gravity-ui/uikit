@@ -3,8 +3,9 @@ import React from 'react';
 import {createFocusTrap} from 'focus-trap';
 import type {FocusTrap as FocusTrapInstance} from 'focus-trap';
 
+import {useUniqId} from '../../hooks';
+
 import {useForkRef} from './useForkRef';
-import {useUniqId} from './useUniqId';
 
 interface FocusTrapContext {
     addNode: (id: string, node: HTMLElement) => void;

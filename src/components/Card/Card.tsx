@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {useActionHandlers} from '../../hooks';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
-import {useActionHandlers} from '../utils/useActionHandlers';
 
 import './Card.scss';
 

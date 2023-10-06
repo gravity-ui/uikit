@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {KeyCode} from '../../constants';
 import {useUniqId} from '../../hooks';
 import type {List} from '../List';
-import {KeyCode} from '../constants';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
 import {useFocusWithin} from '../utils/interactions';

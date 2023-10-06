@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {useActionHandlers} from '../../hooks';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
-import {useActionHandlers} from '../utils/useActionHandlers';
 
 const b = block('menu');
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {KeyCode} from '../../constants';
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
-import {KeyCode} from '../constants';
 import type {DOMProps} from '../types';
 import {block} from '../utils/cn';
 import {useBoolean} from '../utils/useBoolean';

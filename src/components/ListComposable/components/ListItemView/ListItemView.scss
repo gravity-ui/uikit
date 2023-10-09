@@ -3,10 +3,6 @@
 $block: '.#{variables.$ns}list-item-view';
 
 #{$block} {
-    &__grip {
-        cursor: grab;
-    }
-
     &:hover#{$block}_activeOnHover,
     &_active#{$block}_activeOnHover,
     &_active {

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {Check, Grip} from '@gravity-ui/icons';
+import {Check} from '@gravity-ui/icons';
 import type {QAProps} from 'src/components/types';
 
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
 import {Flex, spacing} from '../../../layout';
 import {block} from '../../../utils/cn';
-import {modToHeight} from '../../constants';
+import {bListRadiuses, modToHeight} from '../../constants';
 import type {ListSizeTypes} from '../../types';
 
 import './ListItemView.scss';
@@ -19,11 +19,11 @@ export interface ListItemViewProps extends QAProps {
      * Ability to override default html tag
      */
     as?: keyof JSX.IntrinsicElements;
-    draggable?: boolean;
     /**
      * @default `m`
      */
     size?: ListSizeTypes;
+    height?: number;
     selected?: boolean;
     active?: boolean;
     /**
@@ -52,6 +52,8 @@ export interface ListItemViewProps extends QAProps {
     subtitle?: string;
     leftSlot?: React.ReactNode;
     rightSlot?: React.ReactNode;
+    corners?: boolean;
+    className?: string;
 }
 
 export const Slot = ({children}: {children?: React.ReactNode}) => {
@@ -72,10 +74,12 @@ export const ListItemView = ({
     active,
     hidden,
     selected,
-    draggable,
     disabled,
+    corners = true,
     activeOnHover = true,
     indentation,
+    className,
+    height,
     selectable = true,
     onClick: _onClick,
     ...rest
@@ -87,13 +91,19 @@ export const ListItemView = ({
             onClick={onClick}
             alignItems="center"
             className={b(
-                {hidden, active, selected, activeOnHover, clickable: Boolean(onClick)},
-                spacing({px: 2}),
+                {
+                    hidden,
+                    active,
+                    selected,
+                    activeOnHover,
+                    clickable: Boolean(onClick),
+                },
+                spacing({px: 2}, corners ? bListRadiuses({size}, className) : className),
             )}
             as={as}
             gap="4"
             justifyContent="space-between"
-            style={{height: modToHeight[size][Number(Boolean(subtitle))]}}
+            style={{height: height ?? modToHeight[size][Number(Boolean(subtitle))]}}
             {...rest}
         >
             <Flex gap="2" alignItems="center">
@@ -117,10 +127,7 @@ export const ListItemView = ({
                     {subtitle && <Text color={disabled ? 'hint' : 'secondary'}>{subtitle}</Text>}
                 </Flex>
             </Flex>
-            <Flex gap="2">
-                {draggable && <Icon data={Grip} size={16} className={b('grip')} />}
-                {rightSlot}
-            </Flex>
+            <Flex gap="2">{rightSlot}</Flex>
         </Flex>
     );
 };

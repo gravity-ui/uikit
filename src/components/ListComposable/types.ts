@@ -1,7 +1,5 @@
 import type {QAProps} from '../types';
 
-import type {modToHeight} from './constants';
-
 export type ListItemId = string;
 /**
  * Default fallback id type.
@@ -41,7 +39,7 @@ export type ParsedState<T = unknown> = {
     groupsState: Record<ListItemId, GroupParsedState>;
 };
 
-export type ListSizeTypes = keyof typeof modToHeight;
+export type ListSizeTypes = 's' | 'm' | 'l' | 'xl';
 
 export interface ListItemBaseData {
     title: string;

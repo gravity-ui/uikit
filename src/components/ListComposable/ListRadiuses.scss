@@ -1,0 +1,18 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}list-radiuses';
+
+#{$block} {
+    &_s {
+        border-radius: 5px;
+    }
+    &_m {
+        border-radius: 6px;
+    }
+    &_l {
+        border-radius: 8px;
+    }
+    &_xl {
+        border-radius: 10px;
+    }
+}

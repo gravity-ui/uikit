@@ -17,7 +17,6 @@ const subtitle = 'subtitle';
 const stories: ListItemViewProps[] = [
     {
         title,
-        draggable: true,
         activeOnHover: false,
         subtitle,
         disabled: true,
@@ -27,14 +26,11 @@ const stories: ListItemViewProps[] = [
     },
     {
         title,
-        draggable: true,
         subtitle,
         activeOnHover: false,
     },
     {
         title,
-
-        draggable: true,
         subtitle,
         selected: true,
         leftSlot: (
@@ -45,21 +41,17 @@ const stories: ListItemViewProps[] = [
         title,
         selected: true,
         disabled: true,
-        // draggable: true,
+        height: 60,
         leftSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
     {
         title,
-        draggable: true,
     },
     {
         title,
-
-        draggable: true,
         subtitle,
-
         leftSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),

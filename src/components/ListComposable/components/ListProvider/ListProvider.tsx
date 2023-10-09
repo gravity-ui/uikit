@@ -31,13 +31,13 @@ export function ListProvider<T>({
     selectable,
     filter: userControlledFilterValue,
 }: ListProviderProps<T>) {
-    const refFilter = React.useRef<HTMLInputElement>(null);
+    const filterRef = React.useRef<HTMLInputElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const listRef = React.useRef(null);
+    const listRef = React.useRef<HTMLUListElement>(null);
 
     const [disabled, setDisabled] = useDisabledState(outerDisabledState);
     const [selected, setSelected] = useSelectedState(userSelectedState);
-    const [filter, onFilterChange] = useFilterControlledState(userControlledFilterValue);
+    const [filter, setFilter] = useFilterControlledState(userControlledFilterValue);
     const [expandedState, setGroupState] = useGroupsExpandedState(outerExpandedState);
 
     const [activeItem, setActiveItem] = React.useState<ListItemId | null>(() => {
@@ -164,8 +164,8 @@ export function ListProvider<T>({
                     break;
                 }
                 default: {
-                    if (refFilter.current) {
-                        refFilter.current.focus();
+                    if (filterRef.current) {
+                        filterRef.current.focus();
                     }
                 }
             }
@@ -182,14 +182,14 @@ export function ListProvider<T>({
                 handleKeyDown,
                 containerRef,
                 listRef,
-                refFilter,
+                filterRef,
                 setActiveItem: setActiveItem as SetActiveItem,
                 byId,
                 order,
                 groupsState,
                 formatInternalItems,
                 filter,
-                onFilterChange,
+                setFilter,
                 expandedState,
                 setSelected,
                 setGroupState: setGroupState as SetGroupState,

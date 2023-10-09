@@ -33,23 +33,24 @@ export function ListFilter<T>({
     debounceTimeout = DEFAULT_DEBOUNCE_TIMEOUT,
     ...props
 }: ListFilterProps<T>) {
-    const {refFilter, filter, onFilterChange, formatInternalItems, size} = useListContext<T>();
+    const {filterRef, filter, setFilter, formatInternalItems, size} = useListContext<T>();
 
     const handleUpdate = React.useMemo(() => {
         const runFiltration = (nextFilterValue: string) => {
             if (filterItems) {
-                return (items: ListItemType<T>[]) => filterItems(nextFilterValue, items);
+                return (initialItems: ListItemType<T>[]) =>
+                    filterItems(nextFilterValue, initialItems);
             }
 
             if (nextFilterValue) {
-                return (items: ListItemType<T>[]) =>
-                    defaultFilterItems(items, (item) =>
+                return (initialItems: ListItemType<T>[]) =>
+                    defaultFilterItems(initialItems, (item) =>
                         (filterItem || defaultFilterFn)(nextFilterValue, item),
                     );
             }
 
             // reset initial data
-            return (items: ListItemType<T>[]) => items;
+            return (initialItems: ListItemType<T>[]) => initialItems;
         };
 
         return debounce((value) => formatInternalItems(runFiltration(value)), debounceTimeout);
@@ -59,13 +60,5 @@ export function ListFilter<T>({
         handleUpdate(filter);
     }, [filter, handleUpdate]);
 
-    return (
-        <TextInput
-            {...props}
-            size={size}
-            value={filter}
-            ref={refFilter}
-            onUpdate={onFilterChange}
-        />
-    );
+    return <TextInput {...props} size={size} value={filter} ref={filterRef} onUpdate={setFilter} />;
 }

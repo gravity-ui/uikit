@@ -6,11 +6,11 @@ import {useListContext} from '../components/ListContext/ListContext';
 interface ListResetButtonProps {}
 
 export const ListResetButton = (_props: ListResetButtonProps) => {
-    const {setSelected, size, onFilterChange, formatInternalItems} = useListContext();
+    const {setSelected, size, setFilter, formatInternalItems} = useListContext();
 
     const handleClick = () => {
         setSelected(() => ({}));
-        onFilterChange('');
+        setFilter('');
         formatInternalItems((initialData) => initialData);
     };
 

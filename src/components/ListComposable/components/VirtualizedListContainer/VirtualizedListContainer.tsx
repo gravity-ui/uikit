@@ -20,7 +20,7 @@ export const VirtualizedListContainer = React.forwardRef(function <T>(
             return (
                 <div style={style} key={index}>
                     {children({
-                        id: index,
+                        index,
                         item: items[index],
                     })}
                 </div>

@@ -44,12 +44,12 @@ export type ListSizeTypes = 's' | 'm' | 'l' | 'xl';
 export interface ListItemBaseData {
     title: string;
     subtitle?: string;
-    leftSlot?: React.ReactNode;
-    rightSlot?: React.ReactNode;
+    startSlot?: React.ReactNode;
+    endSlot?: React.ReactNode;
 }
 
 export interface ListItemRendererProps<T> {
-    id: number;
+    index: number;
     item: T;
 }
 
@@ -89,8 +89,9 @@ export interface RenderListItemViewProps extends QAProps {
     onClick?(): void;
     title: string | React.ReactNode;
     subtitle?: string;
-    leftSlot: React.ReactNode;
-    rightSlot: React.ReactNode;
+    startSlot: React.ReactNode;
+    endSlot: React.ReactNode;
+    selectable: boolean;
 }
 
 export type ListContextType<T> = ParsedState<T> & {
@@ -100,7 +101,7 @@ export type ListContextType<T> = ParsedState<T> & {
     handleKeyDown(e: React.KeyboardEvent<HTMLUListElement | HTMLDivElement>): void;
     containerRef: React.RefObject<HTMLDivElement>;
     listRef: React.RefObject<HTMLUListElement>;
-    refFilter: React.RefObject<HTMLInputElement>;
+    filterRef: React.RefObject<HTMLInputElement>;
     expandedState: ExpandedState;
     setActiveItem: SetActiveItem;
     setSelected(fn: (selected: Record<ListItemId, boolean>) => Record<ListItemId, boolean>): void;
@@ -114,7 +115,7 @@ export type ListContextType<T> = ParsedState<T> & {
     selected: Record<ListItemId, boolean>;
     formatInternalItems(formatFn?: (originalItems: ListItemType<T>[]) => ListItemType<T>[]): void;
     filter: string;
-    onFilterChange(value: string): void;
+    setFilter(value: string): void;
     disabled: Record<ListItemId, boolean>;
     setDisabled(fn: (state: Record<ListItemId, boolean>) => Record<ListItemId, boolean>): void;
 };

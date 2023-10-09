@@ -20,7 +20,7 @@ const stories: ListItemViewProps[] = [
         activeOnHover: false,
         subtitle,
         disabled: true,
-        leftSlot: (
+        startSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
@@ -33,7 +33,7 @@ const stories: ListItemViewProps[] = [
         title,
         subtitle,
         selected: true,
-        leftSlot: (
+        startSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
@@ -42,7 +42,7 @@ const stories: ListItemViewProps[] = [
         selected: true,
         disabled: true,
         height: 60,
-        leftSlot: (
+        startSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
@@ -52,7 +52,7 @@ const stories: ListItemViewProps[] = [
     {
         title,
         subtitle,
-        leftSlot: (
+        startSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
         indentation: 1,

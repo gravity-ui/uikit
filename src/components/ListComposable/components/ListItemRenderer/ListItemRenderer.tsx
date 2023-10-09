@@ -15,10 +15,10 @@ import {createListItemQa} from '../../utils/createListItemQa';
 import {useListContext} from '../ListContext/ListContext';
 
 interface ListItemRendererProps extends ListItemRendererPropsBase<ListItemBaseData> {
-    View: (props: RenderListItemViewProps) => React.JSX.Element;
+    View(props: RenderListItemViewProps): React.JSX.Element;
 }
 
-export const ListItemRenderer = ({item, id: index, View}: ListItemRendererProps) => {
+export const ListItemRenderer = React.memo(({item, index, View}: ListItemRendererProps) => {
     const {
         activeItem,
         order,
@@ -76,17 +76,18 @@ export const ListItemRenderer = ({item, id: index, View}: ListItemRendererProps)
             selected={Boolean(selected[id])}
             onClick={onClick}
             key={index}
-            rightSlot={isGroup ? <Label>{groupsState[id].childrenCount}</Label> : null}
+            endSlot={isGroup ? <Label>{groupsState[id].childrenCount}</Label> : null}
             qa={qa}
-            leftSlot={
+            startSlot={
                 isGroup && groupsState[id].childrenCount > 0 ? (
                     <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
                 ) : null
             }
             indentation={indentation}
             size={size}
+            selectable={!isGroup}
             activeOnHover={!isGroup}
             disabled={disabled[id]}
         />
     );
-};
+});

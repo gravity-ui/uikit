@@ -5,7 +5,7 @@ import type {QAProps} from 'src/components/types';
 
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
-import {Flex, spacing} from '../../../layout';
+import {Flex, FlexProps, spacing} from '../../../layout';
 import {block} from '../../../utils/cn';
 import {bListRadiuses, modToHeight} from '../../constants';
 import type {ListSizeTypes} from '../../types';
@@ -50,84 +50,109 @@ export interface ListItemViewProps extends QAProps {
     style?: React.CSSProperties;
     title: string | React.ReactNode;
     subtitle?: string;
-    leftSlot?: React.ReactNode;
-    rightSlot?: React.ReactNode;
+    startSlot?: React.ReactNode;
+    endSlot?: React.ReactNode;
     corners?: boolean;
     className?: string;
 }
 
-export const Slot = ({children}: {children?: React.ReactNode}) => {
-    return <div className={b('slot')}>{children}</div>;
-};
+interface SlotProps extends FlexProps {
+    indentation?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+}
 
-export const computeIndentation = (payload = 0) => {
-    return React.Children.toArray(Array(payload < 0 ? 0 : payload).fill(<Slot />));
-};
-
-export const ListItemView = ({
-    as = 'li',
-    leftSlot,
-    rightSlot,
-    title,
-    subtitle,
-    size = 'm',
-    active,
-    hidden,
-    selected,
-    disabled,
-    corners = true,
-    activeOnHover = true,
-    indentation,
-    className,
-    height,
-    selectable = true,
-    onClick: _onClick,
-    ...rest
-}: ListItemViewProps) => {
-    const onClick = disabled ? undefined : _onClick;
-
+export const Slot = ({children, indentation: indent = 1, className, ...props}: SlotProps) => {
     return (
-        <Flex
-            onClick={onClick}
-            alignItems="center"
-            className={b(
-                {
-                    hidden,
-                    active,
-                    selected,
-                    activeOnHover,
-                    clickable: Boolean(onClick),
-                },
-                spacing({px: 2}, corners ? bListRadiuses({size}, className) : className),
-            )}
-            as={as}
-            gap="4"
-            justifyContent="space-between"
-            style={{height: height ?? modToHeight[size][Number(Boolean(subtitle))]}}
-            {...rest}
-        >
-            <Flex gap="2" alignItems="center">
-                {selectable && (
-                    <Slot>
-                        {selected ? (
-                            <Icon data={Check} size={16} className={colorText({color: 'info'})} />
-                        ) : null}
-                    </Slot>
-                )}
-
-                {computeIndentation(indentation)}
-
-                {leftSlot}
-                <Flex direction="column" gap="0.5">
-                    {typeof title === 'string' ? (
-                        <Text color={disabled ? 'hint' : undefined}>{title}</Text>
-                    ) : (
-                        title
-                    )}
-                    {subtitle && <Text color={disabled ? 'hint' : 'secondary'}>{subtitle}</Text>}
-                </Flex>
-            </Flex>
-            <Flex gap="2">{rightSlot}</Flex>
+        <Flex className={b('slot', {indent}, className)} {...props}>
+            {children}
         </Flex>
     );
 };
+
+const renderSafeIndentation = (indentation?: number) => {
+    if (indentation && indentation >= 1 && indentation < 11) {
+        return <Slot indentation={Math.floor(indentation) as SlotProps['indentation']} />;
+    }
+    return null;
+};
+
+export const ListItemView = React.forwardRef(
+    (
+        {
+            as = 'li',
+            startSlot,
+            endSlot,
+            title,
+            subtitle,
+            size = 'm',
+            active,
+            hidden,
+            selected,
+            disabled,
+            corners = true,
+            activeOnHover = true,
+            indentation,
+            className,
+            height,
+            selectable = true,
+            onClick: _onClick,
+            ...rest
+        }: ListItemViewProps,
+        ref?: any,
+    ) => {
+        const onClick = disabled ? undefined : _onClick;
+
+        return (
+            <Flex
+                onClick={onClick}
+                alignItems="center"
+                className={b(
+                    {
+                        hidden,
+                        active,
+                        selected,
+                        activeOnHover,
+                        clickable: Boolean(onClick),
+                    },
+                    spacing({px: 2}, corners ? bListRadiuses({size}, className) : className),
+                )}
+                as={as}
+                gap="4"
+                justifyContent="space-between"
+                ref={ref}
+                style={{height: height ?? modToHeight[size][Number(Boolean(subtitle))]}}
+                {...rest}
+            >
+                <Flex gap="2" alignItems="center">
+                    {selectable && (
+                        <Slot>
+                            {selected ? (
+                                <Icon
+                                    data={Check}
+                                    size={16}
+                                    className={colorText({color: 'info'})}
+                                />
+                            ) : null}
+                        </Slot>
+                    )}
+
+                    {renderSafeIndentation(indentation)}
+
+                    {startSlot}
+                    <Flex direction="column" gap="0.5">
+                        {typeof title === 'string' ? (
+                            <Text color={disabled ? 'hint' : undefined}>{title}</Text>
+                        ) : (
+                            title
+                        )}
+                        {subtitle && (
+                            <Text color={disabled ? 'hint' : 'secondary'}>{subtitle}</Text>
+                        )}
+                    </Flex>
+                </Flex>
+                {endSlot}
+            </Flex>
+        );
+    },
+);
+
+ListItemView.displayName = 'ListItemView';

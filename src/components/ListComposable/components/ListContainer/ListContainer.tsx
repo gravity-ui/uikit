@@ -8,27 +8,39 @@ import type {
     RenderListItemViewProps,
 } from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
+import {IntersectionContainer} from '../IntersectionContainer/IntersectionContainer';
 import {useListContext} from '../ListContext/ListContext';
 import {ListItemRenderer} from '../ListItemRenderer/ListItemRenderer';
 import {ListItemView} from '../ListItemView/ListItemView';
 import {SimpleListContainer} from '../SimpleListContainer/SimpleListContainer';
 import {VirtualizedListContainer} from '../VirtualizedListContainer/VirtualizedListContainer';
+
 interface ListContainerProps<T> {
     virtualized?: boolean;
     prepareCustomData?(props: T): ListItemBaseData;
     getItemSize?(index: number): number;
-    renderItemView?: (props: RenderListItemViewProps) => React.JSX.Element;
-    renderItem?(props: ListItemRendererProps<T>): React.ReactNode;
-    renderContainer?(props: ListContainerRenderProps<T>): React.ReactNode;
+    ItemView?(props: RenderListItemViewProps): React.JSX.Element;
+    Item?(props: ListItemRendererProps<T>): React.JSX.Element;
+    Container?(props: ListContainerRenderProps<T>): React.ReactNode;
+    /**
+     * Use it if you wont to implement infinity scroll or what ever you want.
+     * !Warning - onLastItemRender can be triggered multiple times
+     * If you wont to call you callback once, write logic for managing the availability of the function:
+     * ```tsx
+     * onLastItemRender={needToFetchData && !isDataLoading ? fetchNextPage : undefined}
+     * ```
+     */
+    onLastItemRender?(): void;
 }
 
 export function ListContainer<T>({
     virtualized,
     prepareCustomData,
     getItemSize: _getItemSize,
-    renderItem,
-    renderContainer,
-    renderItemView = ListItemView,
+    Item,
+    Container: _Container,
+    ItemView,
+    onLastItemRender,
 }: ListContainerProps<T>) {
     const {listRef, size, containerRef, handleKeyDown, byId, order} = useListContext<T>();
 
@@ -36,20 +48,28 @@ export function ListContainer<T>({
         return order.map((id) => (prepareCustomData ? prepareCustomData(byId[id]) : byId[id]));
     }, [byId, order, prepareCustomData]);
 
-    const Container =
-        renderContainer || virtualized ? VirtualizedListContainer : SimpleListContainer;
+    const Container = _Container || virtualized ? VirtualizedListContainer : SimpleListContainer;
 
     const RenderItem = React.useCallback(
-        (props: ListItemRendererProps<T>) =>
-            renderItem ? (
-                renderItem(props)
+        (props: ListItemRendererProps<T>) => {
+            const isLastItem = order.length - 1 === props.index;
+            const node = Item ? (
+                <Item {...props} />
             ) : (
                 <ListItemRenderer
                     {...(props as ListItemRendererProps<ListItemBaseData>)}
-                    View={renderItemView}
+                    // know how to type right? Just do it!
+                    View={ItemView! || ListItemView}
                 />
-            ),
-        [renderItem, renderItemView],
+            );
+
+            return isLastItem ? (
+                <IntersectionContainer onIntersect={onLastItemRender}>{node}</IntersectionContainer>
+            ) : (
+                node
+            );
+        },
+        [Item, ItemView, onLastItemRender, order.length],
     );
 
     const getItemSize = React.useMemo(() => {

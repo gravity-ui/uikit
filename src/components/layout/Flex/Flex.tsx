@@ -83,7 +83,7 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
     className?: string;
     title?: string;
     ref?: React.ComponentPropsWithRef<T>['ref'];
-    onClick?(e: unknown): void;
+    onClick?(e: React.MouseEvent<T>): void;
 }
 
 /**
@@ -125,7 +125,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
     ref: React.ComponentPropsWithRef<T>['ref'],
 ) {
     const {
-        as: Tag = 'div',
+        as,
         direction,
         width,
         grow,
@@ -149,6 +149,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         qa,
         ...restProps
     } = props;
+    const Tag: React.ElementType = as || 'span';
 
     const {
         getClosestMediaProps,

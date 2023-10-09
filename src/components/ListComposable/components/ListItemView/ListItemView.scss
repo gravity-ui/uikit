@@ -23,6 +23,37 @@ $block: '.#{variables.$ns}list-item-view';
     }
 
     &__slot {
-        width: 16px;
+        &_indent {
+            &_1 {
+                width: 16px;
+            }
+            &_2 {
+                width: 32px;
+            }
+            &_3 {
+                width: 48px;
+            }
+            &_4 {
+                width: 64px;
+            }
+            &_5 {
+                width: 80px;
+            }
+            &_6 {
+                width: 96px;
+            }
+            &_7 {
+                width: 112px;
+            }
+            &_8 {
+                width: 128px;
+            }
+            &_9 {
+                width: 144px;
+            }
+            &_10 {
+                width: 160px;
+            }
+        }
     }
 }

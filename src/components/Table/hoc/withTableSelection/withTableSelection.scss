@@ -1,10 +1,12 @@
 @use '../../variables';
-@import '../../Table';
 
 #{variables.$block} {
+    &__checkbox_cell {
+        min-width: 17px;
+    }
+
     &__selection-checkbox {
-        @extend #{variables.$block}__cell;
-        @extend #{variables.$block}__cell_edge-padding;
+        padding: inherit;
         border-bottom: none;
         position: absolute;
         top: 0;

@@ -5,6 +5,7 @@ import {Xmark} from '@gravity-ui/icons';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
+import i18n from '../i18n';
 
 import './ButtonClose.scss';
 
@@ -25,6 +26,9 @@ export function ButtonClose({onClose}: ButtonCloseProps) {
                 size="l"
                 className={b('btn')}
                 onClick={(event) => onClose(event, {isOutsideClick: false})}
+                extraProps={{
+                    'aria-label': i18n('close'),
+                }}
             >
                 <Icon data={Xmark} size={20} />
             </Button>

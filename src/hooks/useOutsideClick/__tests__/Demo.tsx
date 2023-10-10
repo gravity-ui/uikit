@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 
 import {useOutsideClick} from '../useOutsideClick';
@@ -23,9 +22,9 @@ export const Demo = () => {
     return (
         <div>
             <h1>{status}</h1>
-            <div ref={observerRef} onClick={handleClick}>
+            <button ref={observerRef} onClick={handleClick}>
                 {'Target'}
-            </div>
+            </button>
             <div>{'Outside'}</div>
         </div>
     );

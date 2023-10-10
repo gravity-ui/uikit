@@ -92,7 +92,8 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
                 {...(extraProps as React.HTMLAttributes<HTMLSpanElement>)}
                 {...commonProps}
                 ref={ref as React.Ref<HTMLSpanElement>}
-                role="link"
+                // FIXME Href always should be string
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                 tabIndex={0}
             />
         );

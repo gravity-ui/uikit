@@ -14,16 +14,6 @@ $block: '.#{variables.$ns}user-avatar';
     background-position: center;
     background-size: cover;
 
-    outline: none;
-
-    &:focus {
-        box-shadow: 0 0 0 2px var(--g-color-line-focus);
-    }
-
-    &:focus:not(:focus-visible) {
-        box-shadow: none;
-    }
-
     &_size {
         &_xs {
             width: 24px;

@@ -201,7 +201,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <div className={b(null, className)}>
-            {/* It is used to handle clicks on the switcher control */}
+            {/* FIXME change to renderProp or provide component's context */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className={b('control')} ref={refControl} onClick={handleControlClick}>
                 {switcher || (

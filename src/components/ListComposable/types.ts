@@ -1,5 +1,3 @@
-import type {QAProps} from '../types';
-
 export type ListItemId = string;
 /**
  * Default fallback id type.
@@ -72,28 +70,6 @@ export type ExpandedState = Record<ListItemId, boolean>;
 
 export type SetGroupState = (value: (currentState: ExpandedState) => ExpandedState) => void;
 
-export interface RenderListItemViewProps extends QAProps {
-    /**
-     * @default `m`
-     */
-    size: ListSizeTypes;
-    isGroup: boolean;
-    selected: boolean;
-    active: boolean;
-    disabled: boolean;
-    /**
-     * By default hovered elements has active styles. You can switch off this behavior
-     */
-    activeOnHover: boolean;
-    indentation: number;
-    onClick?(): void;
-    title: string | React.ReactNode;
-    subtitle?: string;
-    startSlot: React.ReactNode;
-    endSlot: React.ReactNode;
-    selectable: boolean;
-}
-
 export type ListContextType<T> = ParsedState<T> & {
     activeItem: ListItemId | null;
     size: ListSizeTypes;
@@ -125,7 +101,7 @@ export interface ListProviderProps<T> {
     size?: ListSizeTypes;
     children: React.ReactNode;
     onItemClick?: OnListItemClick<T>;
-    onGroupItemClick?: OnListItemClick<T>;
+    onGroupItemClick?: OnListItemClick<T> | null;
     expandedState?: Record<string, boolean>;
     initialActiveItemId?: string;
     /**

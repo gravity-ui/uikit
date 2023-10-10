@@ -9,16 +9,14 @@ import {Text} from '../../../Text';
 import type {
     ListItemBaseData,
     ListItemRendererProps as ListItemRendererPropsBase,
-    RenderListItemViewProps,
 } from '../../types';
 import {createListItemQa} from '../../utils/createListItemQa';
 import {useListContext} from '../ListContext/ListContext';
+import {ListItemView} from '../ListItemView/ListItemView';
 
-interface ListItemRendererProps extends ListItemRendererPropsBase<ListItemBaseData> {
-    View(props: RenderListItemViewProps): React.JSX.Element;
-}
+interface ListItemRendererProps extends ListItemRendererPropsBase<ListItemBaseData> {}
 
-export const ListItemRenderer = React.memo(({item, index, View}: ListItemRendererProps) => {
+export const ListItemRenderer = React.memo(({item, index}: ListItemRendererProps) => {
     const {
         activeItem,
         order,
@@ -54,7 +52,7 @@ export const ListItemRenderer = React.memo(({item, index, View}: ListItemRendere
     }, [itemHandlers, id, isGroup, onItemClick, onGroupItemClick]);
 
     return (
-        <View
+        <ListItemView
             {...handlers}
             {...item}
             title={
@@ -71,7 +69,6 @@ export const ListItemRenderer = React.memo(({item, index, View}: ListItemRendere
                     item.title
                 )
             }
-            isGroup={isGroup}
             active={id === activeItem}
             selected={Boolean(selected[id])}
             onClick={onClick}

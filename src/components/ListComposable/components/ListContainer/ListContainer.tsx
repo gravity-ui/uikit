@@ -1,17 +1,11 @@
 import React from 'react';
 
 import {bListComposable} from '../../constants';
-import type {
-    ListContainerRenderProps,
-    ListItemBaseData,
-    ListItemRendererProps,
-    RenderListItemViewProps,
-} from '../../types';
+import type {ListContainerRenderProps, ListItemBaseData, ListItemRendererProps} from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
 import {IntersectionContainer} from '../IntersectionContainer/IntersectionContainer';
 import {useListContext} from '../ListContext/ListContext';
 import {ListItemRenderer} from '../ListItemRenderer/ListItemRenderer';
-import {ListItemView} from '../ListItemView/ListItemView';
 import {SimpleListContainer} from '../SimpleListContainer/SimpleListContainer';
 import {VirtualizedListContainer} from '../VirtualizedListContainer/VirtualizedListContainer';
 
@@ -19,7 +13,6 @@ interface ListContainerProps<T> {
     virtualized?: boolean;
     prepareCustomData?(props: T): ListItemBaseData;
     getItemSize?(index: number): number;
-    ItemView?(props: RenderListItemViewProps): React.JSX.Element;
     Item?(props: ListItemRendererProps<T>): React.JSX.Element;
     Container?(props: ListContainerRenderProps<T>): React.ReactNode;
     /**
@@ -39,7 +32,6 @@ export function ListContainer<T>({
     getItemSize: _getItemSize,
     Item,
     Container: _Container,
-    ItemView,
     onLastItemRender,
 }: ListContainerProps<T>) {
     const {listRef, size, containerRef, handleKeyDown, byId, order} = useListContext<T>();
@@ -56,11 +48,7 @@ export function ListContainer<T>({
             const node = Item ? (
                 <Item {...props} />
             ) : (
-                <ListItemRenderer
-                    {...(props as ListItemRendererProps<ListItemBaseData>)}
-                    // know how to type right? Just do it!
-                    View={ItemView! || ListItemView}
-                />
+                <ListItemRenderer {...(props as ListItemRendererProps<ListItemBaseData>)} />
             );
 
             return isLastItem ? (
@@ -69,7 +57,7 @@ export function ListContainer<T>({
                 node
             );
         },
-        [Item, ItemView, onLastItemRender, order.length],
+        [Item, onLastItemRender, order.length],
     );
 
     const getItemSize = React.useMemo(() => {

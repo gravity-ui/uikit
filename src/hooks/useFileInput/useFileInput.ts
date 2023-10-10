@@ -6,6 +6,9 @@ export type UseFileInputProps = {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+/**
+ * @deprecated use UseFileInputResult instead
+ */
 export type UseFileInputOutput = {
     controlProps: React.DetailedHTMLProps<
         React.InputHTMLAttributes<HTMLInputElement>,

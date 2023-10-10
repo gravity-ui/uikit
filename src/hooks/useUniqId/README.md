@@ -8,8 +8,8 @@
 import {useUniqId} from '@gravity-ui/uikit';
 ```
 
-The `useUniqId` hook create uniq Id.
+The `useUniqId` hook create uniq ID.
 
 ## Result
 
-Id. `string`
+ID. `string`

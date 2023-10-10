@@ -8,7 +8,7 @@
 import {useForkRef} from '@gravity-ui/uikit';
 ```
 
-The `useForkRef` hook that can combine refs into a single Ref
+The `useForkRef` hook that can combine refs into a single ref
 
 ## Properties
 

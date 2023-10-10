@@ -158,7 +158,7 @@
         "*.{js,jsx,ts,tsx}": [
             "eslint --fix --quiet"
         ],
-        "*.md": [
+        "*.{md,mdx}": [
             "prettier --write"
         ]
     }

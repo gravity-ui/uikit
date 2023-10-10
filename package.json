@@ -103,6 +103,7 @@
         "@gravity-ui/prettier-config": "^1.0.1",
         "@gravity-ui/stylelint-config": "^2.0.0",
         "@gravity-ui/tsconfig": "^1.0.0",
+        "@react-stately/data": "^3.10.2",
         "@storybook/addon-essentials": "^7.3.2",
         "@storybook/cli": "^7.3.2",
         "@storybook/preset-scss": "^1.0.3",

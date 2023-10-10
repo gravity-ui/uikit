@@ -5,6 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Select} from '..';
 import type {SelectProps} from '..';
 
+import {SelectAsyncShowcase} from './SelectAsync';
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
 
@@ -25,9 +26,15 @@ const ShowcaseTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectSho
 const SelectPopupWidthShowcaseTemplate: StoryFn<SelectProps> = (args) => (
     <SelectPopupWidthShowcase {...args} />
 );
+
+const SelectAsyncShowcaseTemplate: StoryFn<SelectProps> = (args) => (
+    <SelectAsyncShowcase {...args} />
+);
+
 export const Default = DefaultTemplate.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
 export const PopupWidth = SelectPopupWidthShowcaseTemplate.bind({});
+export const SelectAsync = SelectAsyncShowcaseTemplate.bind({});
 
 Showcase.args = {
     view: 'normal',

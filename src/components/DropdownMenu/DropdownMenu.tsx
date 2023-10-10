@@ -137,6 +137,7 @@ const DropdownMenu = <T,>({
 
     return (
         <DropdownMenuContext.Provider value={contextValue}>
+            {/* It is used to handle clicks on the switcher control */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 ref={anchorRef}

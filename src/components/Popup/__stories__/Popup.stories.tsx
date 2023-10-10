@@ -5,6 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {useVirtualElementRef} from '../../../hooks';
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
+import {useUniqId} from '../../utils/useUniqId';
 import {Popup} from '../Popup';
 import type {PopupPlacement, PopupProps} from '../Popup';
 
@@ -93,12 +94,15 @@ export const Position: StoryFn<PopupProps> = (args) => {
     const [left, setLeft] = React.useState(100);
     const [top, setTop] = React.useState(100);
     const anchorRef = useVirtualElementRef({rect: {top, left}});
+
+    const id = useUniqId();
+
     return (
         <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label style={{display: 'flex', alignItems: 'center'}}>
+            <label htmlFor={id + '1'} style={{display: 'flex', alignItems: 'center'}}>
                 x:
                 <TextInput
+                    id={id + '1'}
                     value={String(left)}
                     onUpdate={(value) => {
                         setLeft(Number(value));
@@ -108,10 +112,10 @@ export const Position: StoryFn<PopupProps> = (args) => {
                     style={{width: 100}}
                 />
             </label>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label style={{display: 'flex', alignItems: 'center'}}>
+            <label htmlFor={id + '2'} style={{display: 'flex', alignItems: 'center'}}>
                 y:
                 <TextInput
+                    id={id + '2'}
                     value={String(top)}
                     onUpdate={(value) => {
                         setTop(Number(value));

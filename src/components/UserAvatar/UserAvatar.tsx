@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {block} from '../utils/cn';
+import {useActionHandlers} from '../utils/useActionHandlers';
 
 import {SIZES} from './constants';
 import type {UserAvatarSize} from './types';
@@ -34,9 +35,18 @@ export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
             setIsErrored(false);
         }, [imgUrl]);
 
+        const {onKeyDown} = useActionHandlers(onClick);
+
         return (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-            <div className={b({size}, className)} title={title} onClick={onClick} ref={ref}>
+            <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={onKeyDown}
+                className={b({size}, className)}
+                title={title}
+                onClick={onClick}
+                ref={ref}
+            >
                 <img
                     className={b('figure')}
                     width={SIZES[size]}

@@ -20,10 +20,18 @@ const b = block('table-column-setup');
 
 type Item = TableColumnSetupItem;
 
+interface SwitcherProps {
+    onClick: React.MouseEventHandler<HTMLElement>;
+}
+
 export interface TableColumnSetupProps {
     // for Button
     disabled?: boolean;
+    /**
+     * @deprecated Use renderSwitcher instead
+     */
     switcher?: React.ReactElement | undefined;
+    renderSwitcher?: (props: SwitcherProps) => React.ReactElement | undefined;
 
     // for List
     items: Item[];
@@ -41,6 +49,7 @@ export interface TableColumnSetupProps {
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const {
         switcher,
+        renderSwitcher,
         disabled,
         popupWidth,
         popupPlacement,
@@ -201,10 +210,10 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <div className={b(null, className)}>
-            {/* FIXME change to renderProp or provide component's context */}
+            {/* FIXME remove switcher prop and this wrapper */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className={b('control')} ref={refControl} onClick={handleControlClick}>
-                {switcher || (
+                {renderSwitcher?.({onClick: handleControlClick}) || switcher || (
                     <Button disabled={disabled}>
                         <Icon data={Gear} />
                         {i18n('button_switcher')}

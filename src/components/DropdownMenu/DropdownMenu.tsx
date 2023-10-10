@@ -27,6 +27,10 @@ import {toItemList} from './utils/toItemList';
 
 import './DropdownMenu.scss';
 
+type SwitcherProps = {
+    onClick: React.MouseEventHandler<HTMLElement>;
+};
+
 export type DropdownMenuProps<T> = {
     /**
      * Array of items.
@@ -56,8 +60,13 @@ export type DropdownMenuProps<T> = {
     disabled?: boolean;
     /**
      * Menu toggle control.
+     * @deprecated Use renderSwitcher instead
      */
     switcher?: React.ReactNode;
+    /**
+     * Menu toggle control.
+     */
+    renderSwitcher?: (props: SwitcherProps) => React.ReactNode;
     switcherWrapperClassName?: string;
     /**
      * Overrides the default switcher button props.
@@ -94,6 +103,7 @@ const DropdownMenu = <T,>({
     data,
     disabled,
     switcher,
+    renderSwitcher,
     switcherWrapperClassName,
     defaultSwitcherProps,
     defaultSwitcherClassName,
@@ -126,7 +136,7 @@ const DropdownMenu = <T,>({
         [items],
     );
 
-    const handleSwitcherClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    const handleSwitcherClick: React.MouseEventHandler<HTMLElement> = (event) => {
         if (disabled) {
             return;
         }
@@ -137,17 +147,18 @@ const DropdownMenu = <T,>({
 
     return (
         <DropdownMenuContext.Provider value={contextValue}>
-            {/* FIXME change to renderProp or provide component's context */}
+            {/* FIXME remove switcher prop and this wrapper */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 ref={anchorRef}
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
                 onClick={handleSwitcherClick}
             >
-                {switcher || (
+                {renderSwitcher?.({onClick: handleSwitcherClick}) || switcher || (
                     <Button
                         view="flat"
                         size={size}
+                        onClick={handleSwitcherClick}
                         {...defaultSwitcherProps}
                         className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
                         disabled={disabled}

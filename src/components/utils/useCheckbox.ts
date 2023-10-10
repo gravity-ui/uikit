@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {useForkRef} from '../../hooks';
 import type {ControlProps} from '../types';
 
 import {eventBroker} from './event-broker';
-import {useForkRef} from './useForkRef';
 
 export function useCheckbox({
     name,

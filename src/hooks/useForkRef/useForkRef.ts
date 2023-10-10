@@ -2,9 +2,10 @@ import React from 'react';
 
 import {setRef} from './setRef';
 
-export function useForkRef<T>(
-    ...refs: Array<React.Ref<T> | undefined>
-): React.RefCallback<T> | null {
+export type UseForkRefProps<K> = Array<React.Ref<K> | undefined>;
+export type UseForkRefResult<W> = React.RefCallback<W> | null;
+
+export function useForkRef<T>(...refs: UseForkRefProps<T>): UseForkRefResult<T> {
     return React.useMemo(() => {
         if (refs.every((ref) => ref === null || ref === undefined)) {
             return null;

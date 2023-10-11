@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {useForkRef} from '../../../hooks';
 import {blockNew} from '../../utils/cn';
-import {useForkRef} from '../../utils/useForkRef';
 
 import type {TextAreaProps} from './TextArea';
 

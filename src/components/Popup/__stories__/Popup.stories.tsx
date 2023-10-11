@@ -2,10 +2,9 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {useVirtualElementRef} from '../../../hooks';
+import {useUniqId, useVirtualElementRef} from '../../../hooks';
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
-import {useUniqId} from '../../utils/useUniqId';
 import {Popup} from '../Popup';
 import type {PopupPlacement, PopupProps} from '../Popup';
 

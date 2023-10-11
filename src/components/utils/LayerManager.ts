@@ -1,6 +1,6 @@
 import type {VirtualElement} from '@popperjs/core';
 
-import {KeyCode} from '../constants';
+import {KeyCode} from '../../constants';
 
 import {eventBroker} from './event-broker';
 

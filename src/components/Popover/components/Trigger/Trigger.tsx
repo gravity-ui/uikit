@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useActionHandlers} from '../../../utils/useActionHandlers';
+import {useActionHandlers} from '../../../../hooks';
 
 interface TriggerArgs {
     onClick: React.MouseEventHandler;

@@ -47,7 +47,11 @@
 /src/components/Tooltip @amje
 /src/components/theme @resure
 
+/src/hooks/useActionHandlers @ogonkov
+/src/hooks/useFileInput @korvin89
+/src/hooks/useForkRef @ValeraS
 /src/hooks/useOutsideClick @NikitaCG
+/src/hooks/useUniqId @ValeraS
 
 # Allow everyone to update dependencies
 /package.json

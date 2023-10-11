@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {KeyCode} from '../../constants';
 import type {List, ListItemData} from '../List';
-import {KeyCode} from '../constants';
 
 import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
 import type {Option, OptionGroup} from './tech-components';

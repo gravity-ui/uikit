@@ -2,13 +2,13 @@ import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
+import {useActionHandlers} from '../../hooks';
 import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
 import {block} from '../utils/cn';
-import {useActionHandlers} from '../utils/useActionHandlers';
 
 import './Label.scss';
 

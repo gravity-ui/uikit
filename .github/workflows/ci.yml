@@ -41,9 +41,9 @@ jobs:
       run: npm run test
 
 	test_component:
-		name: Test component
-		runs-on: ubuntu-latest
-		steps:
+	  name: Test component
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Setup Node

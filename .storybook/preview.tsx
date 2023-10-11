@@ -48,7 +48,14 @@ const preview: Preview = {
         },
         options: {
             storySort: {
-                order: ['Components', ['Basic'], 'Branding', ['Overview']],
+                order: [
+                    'Components',
+                    ['Inputs', 'Data Display', 'Feedback', 'Navigation', 'Overlays', 'Utils'],
+                    'Layout',
+                    'Hooks',
+                    'Branding',
+                    ['Overview'],
+                ],
                 method: 'alphabetical',
             },
         },

@@ -39,9 +39,9 @@ jobs:
       run: npm ci
     - name: Unit Tests
       run: npm run test
-
+			
 	test_component:
-	  name: Test component
+		name: Test component
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

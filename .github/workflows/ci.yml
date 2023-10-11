@@ -41,7 +41,7 @@ jobs:
       run: npm run test
 			
 	test_component:
-		name: Test component
+    name: Test component
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

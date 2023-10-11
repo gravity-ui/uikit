@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {useIntersection} from '../../hooks';
 import {Loader} from '../Loader';
 import {block} from '../utils/cn';
-import {useIntersection} from '../utils/useIntersection';
 
 const b = block('list');
 export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {

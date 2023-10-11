@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type {UseSelectOption, UseSelectProps} from './types';
+import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
-export const useSelect = <T extends unknown>(props: UseSelectProps) => {
+export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectResult<T> => {
     const {value: valueProps, defaultValue = [], multiple, onUpdate} = props;
     const [innerValue, setInnerValue] = React.useState(defaultValue);
     const [activeIndex, setActiveIndex] = React.useState<number>();

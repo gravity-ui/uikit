@@ -15,6 +15,12 @@ export type UseListNavigationProps<ItemType, AnchorType> = {
     onAnchorKeyDown?: (activeItemIndex: number, event: KeyboardEvent) => void | boolean;
 };
 
+export type UseListNavigationResult = {
+    activeItemIndex: number;
+    setActiveItemIndex: React.Dispatch<React.SetStateAction<number>>;
+    reset: () => void;
+};
+
 export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
     items,
     skip,
@@ -25,7 +31,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
     disabled = false,
     initialValue = -1,
     onAnchorKeyDown,
-}: UseListNavigationProps<ItemType, AnchorType>) {
+}: UseListNavigationProps<ItemType, AnchorType>): UseListNavigationResult {
     const [activeItemIndex, setActiveItemIndex] = React.useState<number>(initialValue);
 
     const reset = React.useCallback(() => {

@@ -24,28 +24,6 @@ The hook returns the following:
 - `activeItemIndex` - active item index
 - `reset` - function, which should be called when you want to reset navigation
 
-## Properties
-
-| Name            |                                              Description                                              |                                 Type                                 | Default |
-| :-------------- | :---------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------: | :-----: |
-| items           | List items. Item can be any object. Also, it can contain `items` property, which represents sub-items |                             `ItemType[]`                             |         |
-| skip            |         Returns true if the item should not participate in navigation (Called for each item)          |                    `(item: ItemType) => boolean`                     |         |
-| pageSize        |               Items page size, if passed, then navigates by pageSize on PageDown/PageUp               |                               `number`                               |         |
-| processHomeKey  |                             Navigate to the start of the list on Home key                             |                              `boolean`                               | `false` |
-| processEndKey   |                              Navigate to the end of the list on End key                               |                              `boolean`                               | `false` |
-| disabled        |                                          Disable navigation                                           |                              `boolean`                               | `false` |
-| initialValue    |                                       Initial active item index                                       |                               `number`                               |  `-1`   |
-| anchorRef       |               HTMLElement reference, the hook will listen keydown event on that element               |                       `RefObject<AnchorType>`                        |         |
-| onAnchorKeyDown |             Custom keydown handler, if returns false, then the hook won't process keydown             | `(activeItemIndex: number, event: KeyboardEvent) => boolean or void` |         |
-
-## Result
-
-| Name               | Description              |           Type            |
-| :----------------- | :----------------------- | :-----------------------: |
-| activeItemIndex    | Index of the active item |         `number`          |
-| setActiveItemIndex | Active item index setter | `(index: number) => void` |
-| reset              | Resets navigation        |       `() => void`        |
-
 ## Examples
 
 ```tsx
@@ -83,3 +61,25 @@ useListNavigation({
   },
 });
 ```
+
+## Properties
+
+| Name            |                                              Description                                              |                                 Type                                 | Default |
+| :-------------- | :---------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------: | :-----: |
+| items           | List items. Item can be any object. Also, it can contain `items` property, which represents sub-items |                             `ItemType[]`                             |         |
+| skip            |         Returns true if the item should not participate in navigation (Called for each item)          |                    `(item: ItemType) => boolean`                     |         |
+| pageSize        |               Items page size, if passed, then navigates by pageSize on PageDown/PageUp               |                               `number`                               |         |
+| processHomeKey  |                             Navigate to the start of the list on Home key                             |                              `boolean`                               | `false` |
+| processEndKey   |                              Navigate to the end of the list on End key                               |                              `boolean`                               | `false` |
+| disabled        |                                          Disable navigation                                           |                              `boolean`                               | `false` |
+| initialValue    |                                       Initial active item index                                       |                               `number`                               |  `-1`   |
+| anchorRef       |               HTMLElement reference, the hook will listen keydown event on that element               |                       `RefObject<AnchorType>`                        |         |
+| onAnchorKeyDown |             Custom keydown handler, if returns false, then the hook won't process keydown             | `(activeItemIndex: number, event: KeyboardEvent) => boolean or void` |         |
+
+## Result
+
+| Name               | Description              |           Type            |
+| :----------------- | :----------------------- | :-----------------------: |
+| activeItemIndex    | Index of the active item |         `number`          |
+| setActiveItemIndex | Active item index setter | `(index: number) => void` |
+| reset              | Resets navigation        |       `() => void`        |

@@ -31,5 +31,4 @@ jobs:
         name: playwright-reports
         path: playwright-report/index.html
         retention-days: 1
-
-         
+      

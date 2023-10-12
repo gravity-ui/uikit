@@ -10,3 +10,5 @@ node_modules
 /build
 /styles/**/*.css
 /coverage
+/test-component/playwright/.cache
+/playwright-report

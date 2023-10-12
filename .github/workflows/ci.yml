@@ -40,3 +40,29 @@ jobs:
     - name: Unit Tests
       run: npm run test
 
+	test_component:
+		name: Test component
+		runs-on: ubuntu-latest
+		steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: npm
+    - name: Install Packages
+      run: npm ci
+    - name: Install Playwright browsers
+      run: npm run playwright:install
+    - name: Run Playwright tests
+      run: npm run test:component
+      env:
+        CI: 'true'
+    - name: Upload Playwright playwright report to GitHub Actions Artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: playwright-reports
+        path: playwright-report/index.html
+        retention-days: 1

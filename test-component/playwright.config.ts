@@ -65,13 +65,11 @@ const config: PlaywrightTestConfig = {
             name: 'webkit',
             use: {...devices['Desktop Safari']},
         },
-    ],
-    expect: {
-        toHaveScreenshot: {
-            // An acceptable amount of pixels that could be different, unset by default.
-            maxDiffPixels: 10,
+        {
+            name: 'Google Chrome',
+            use: {...devices['Desktop Chrome'], channel: 'chrome'}, // or 'chrome-beta'
         },
-    },
+    ],
 };
 
 export default defineConfig(config);

@@ -12,3 +12,4 @@ node_modules
 /coverage
 /test-component/playwright/.cache
 /playwright-report
+/test-results

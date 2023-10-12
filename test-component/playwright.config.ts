@@ -28,6 +28,8 @@ const config: PlaywrightTestConfig = {
     testDir: pathFromRoot('src'),
     testMatch: '*/__component__/*.spec.tsx',
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'missing',
+    snapshotPathTemplate:
+        '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
     /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
     /* Maximum time one test can run for. */
     timeout: 10 * 1000,

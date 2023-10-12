@@ -1,1 +1,23 @@
 @import '../../styles/styles.scss';
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-weight: var(--g-text-header-font-weight);
+}
+
+h1 {
+    font-size: 17px;
+}
+
+h2 {
+    font-size: 15px;
+}
+
+h3 {
+    font-size: 13px;
+}

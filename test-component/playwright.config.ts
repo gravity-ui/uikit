@@ -66,6 +66,12 @@ const config: PlaywrightTestConfig = {
             use: {...devices['Desktop Safari']},
         },
     ],
+    expect: {
+        toHaveScreenshot: {
+            // An acceptable amount of pixels that could be different, unset by default.
+            maxDiffPixels: 10,
+        },
+    },
 };
 
 export default defineConfig(config);

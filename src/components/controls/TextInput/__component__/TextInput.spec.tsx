@@ -15,7 +15,7 @@ test.describe('TextInput', () => {
         });
 
         test('render error message with error prop', async ({mount}) => {
-            const component = await mount(<TextInputWrapper error="Some Error" />);
+            const component = await mount(<TextInputWrapper error="Soame Error" />);
 
             await expect(component).toHaveScreenshot();
         });

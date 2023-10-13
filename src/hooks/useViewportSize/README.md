@@ -12,7 +12,7 @@ The `useViewportSize` hook calculates the size of the viewport at the resize eve
 
 ## Result
 
-|  Name  |   Description   |   Type   |
-| :----: | :-------------: | :------: |
+| Name   | Description     |   Type   |
+| :----- | :-------------- | :------: |
 | width  | Viewport width  | `number` |
 | height | Viewport height | `number` |

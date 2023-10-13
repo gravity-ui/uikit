@@ -1,8 +1,8 @@
 import React from 'react';
 
-import type {Meta, StoryFn, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
-import {StoryLayout} from '../../../demo/StoryLayout/StoryLayout';
+import {Showcase} from '../../../demo/Showcase';
 import {Radio} from '../Radio';
 
 import {RadioShowcase} from './RadioShowcase';
@@ -29,29 +29,31 @@ export const Checked: Story = {
 
 export const Size: Story = {
     render: (args) => (
-        <StoryLayout>
+        <Showcase>
             <Radio {...args} size="m">
                 Size m
             </Radio>
             <Radio {...args} size="l">
                 Size l
             </Radio>
-        </StoryLayout>
+        </Showcase>
     ),
 };
 
 export const Disabled: Story = {
     render: (args) => (
-        <StoryLayout>
+        <Showcase>
             <Radio {...args} disabled checked={false}>
                 Unchecked
             </Radio>
             <Radio {...args} disabled checked>
                 Checked
             </Radio>
-        </StoryLayout>
+        </Showcase>
     ),
 };
 
-const ShowcaseTemplate: StoryFn = () => <RadioShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const ShowcaseStory: Story = {
+    render: () => <RadioShowcase />,
+    name: 'Showcase',
+};

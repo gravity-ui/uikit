@@ -1,8 +1,8 @@
 import React from 'react';
 
-import type {Meta, StoryFn, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
-import {StoryLayout} from '../../../demo/StoryLayout/StoryLayout';
+import {Showcase} from '../../../demo/Showcase';
 import {Checkbox} from '../Checkbox';
 
 import {CheckboxShowcase} from './CheckboxShowcase';
@@ -36,20 +36,20 @@ export const Indeterminate: Story = {
 
 export const Size: Story = {
     render: (args) => (
-        <StoryLayout>
+        <Showcase>
             <Checkbox {...args} size="m">
                 Size m
             </Checkbox>
             <Checkbox {...args} size="l">
                 Size l
             </Checkbox>
-        </StoryLayout>
+        </Showcase>
     ),
 };
 
 export const Disabled: Story = {
     render: (args) => (
-        <StoryLayout>
+        <Showcase>
             <Checkbox {...args} disabled checked={false}>
                 Unchecked
             </Checkbox>
@@ -59,9 +59,11 @@ export const Disabled: Story = {
             <Checkbox {...args} disabled indeterminate>
                 Indeterminate
             </Checkbox>
-        </StoryLayout>
+        </Showcase>
     ),
 };
 
-const ShowcaseTemplate: StoryFn = () => <CheckboxShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const ShowcaseStory: Story = {
+    render: () => <CheckboxShowcase />,
+    name: 'Showcase',
+};

@@ -6,8 +6,8 @@ import {Radio} from '../Radio';
 
 export function RadioShowcase() {
     return (
-        <Showcase title="Radio">
-            <ShowcaseItem title="size">
+        <Showcase>
+            <ShowcaseItem title="Size">
                 <p>
                     <Radio size="m" content="size m" value="value 1" />
                     <span style={{margin: '8px'}} />
@@ -19,11 +19,11 @@ export function RadioShowcase() {
                     <Radio size="l" content="size l" value="value 2" />
                 </p>
             </ShowcaseItem>
-            <ShowcaseItem title="disabled">
+            <ShowcaseItem title="Disabled">
                 <p>
                     <Radio
                         size="m"
-                        content="unchecked"
+                        content="Unchecked"
                         defaultChecked={false}
                         value="value 1"
                         disabled
@@ -32,14 +32,14 @@ export function RadioShowcase() {
                 <p>
                     <Radio
                         size="m"
-                        content="checked"
+                        content="Checked"
                         defaultChecked={true}
                         value="value 2"
                         disabled
                     />
                 </p>
             </ShowcaseItem>
-            <ShowcaseItem title="uncontrolled">
+            <ShowcaseItem title="Uncontrolled">
                 <p>
                     <Radio size="m" content="checked" defaultChecked={true} value="value 1" />
                 </p>
@@ -48,7 +48,7 @@ export function RadioShowcase() {
                 </p>
             </ShowcaseItem>
 
-            <ShowcaseItem title="controlled">
+            <ShowcaseItem title="Controlled">
                 <p>
                     <Radio size="m" content="checked" checked={true} value="value 1" />
                 </p>

@@ -50,7 +50,6 @@ interface SheetContentState {
     startScrollTop: number;
     startY: number;
     deltaY: number;
-    prevInnerContentHeight: number;
     swipeAreaTouched: boolean;
     contentTouched: boolean;
     veilTouched: boolean;
@@ -78,7 +77,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         startScrollTop: 0,
         startY: 0,
         deltaY: 0,
-        prevInnerContentHeight: 0,
         swipeAreaTouched: false,
         contentTouched: false,
         veilTouched: false,
@@ -90,7 +88,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.addListeners();
         this.show();
         this.setInitialStyles();
-        this.setState({prevInnerContentHeight: this.innerContentHeight});
     }
 
     componentDidUpdate(prevProps: SheetContentInnerProps) {
@@ -399,30 +396,21 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private onResize = () => {
-        const heightChanged = this.state.prevInnerContentHeight !== this.innerContentHeight;
-
-        if (!this.sheetRef.current || !this.sheetContentRef.current || !heightChanged) {
+        if (!this.sheetRef.current || !this.sheetContentRef.current) {
             return;
         }
-
-        this.sheetContentRef.current.style.transition =
-            this.state.prevInnerContentHeight > this.innerContentHeight
-                ? `height 0s ease ${this.transitionDuration}`
-                : 'none';
 
         const contentHeight = this.sheetTitleHeight + this.innerContentHeight;
 
         const viewportHeight = window.innerHeight;
-        const resultHeight =
+        const resultFullHeight =
             contentHeight >= viewportHeight
                 ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
                 : contentHeight;
+        const resultContentHeight = resultFullHeight - this.sheetTopHeight;
 
-        this.sheetContentRef.current.style.height = `${resultHeight}px`;
-        this.sheetRef.current.style.transform = `translate3d(0, -${
-            resultHeight + this.sheetTopHeight
-        }px, 0)`;
-        this.setState({prevInnerContentHeight: contentHeight});
+        this.sheetContentRef.current.style.height = `${resultContentHeight}px`;
+        this.sheetRef.current.style.transform = `translate3d(0, -${resultFullHeight}px, 0)`;
     };
 
     private addListeners() {

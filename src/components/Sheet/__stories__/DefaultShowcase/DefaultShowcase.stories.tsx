@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {Button, Checkbox} from '../../../';
+import {Button, Checkbox, TextInput} from '../../../';
 import {cn} from '../../../utils/cn';
 import {Sheet} from '../../Sheet';
 import type {SheetProps} from '../../Sheet';
@@ -68,6 +68,9 @@ export const Showcase: StoryFn<SheetProps> = (args: SheetProps) => {
                 onClose={() => setVisible(false)}
                 title={withTitle ? 'Sheet title' : undefined}
             >
+                <div className={b('content-item')}>
+                    <TextInput />
+                </div>
                 <div className={b('content-item', b('checkbox'))}>
                     <Checkbox
                         content="Extra content"

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {Switch} from '../Switch';
-import type {SwitchProps} from '../Switch';
 
 import {SwitchShowcase} from './SwitchShowcase';
 
@@ -12,53 +12,48 @@ export default {
     component: Switch,
 } as Meta;
 
-const DefaultTemplate: StoryFn<SwitchProps> = (args) => <Switch {...args} />;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Switch>;
 
-const SizeTemplate: StoryFn<SwitchProps> = (args) => (
-    <React.Fragment>
-        m: <Switch {...args} size="m" />
-        <span style={{margin: '16px'}} />
-        l: <Switch {...args} size="l" />
-    </React.Fragment>
-);
-export const Size = SizeTemplate.bind({});
+export const Default: Story = {
+    args: {
+        content: 'Label',
+    },
+};
 
-const DisabledTemplate: StoryFn<SwitchProps> = (args) => (
-    <React.Fragment>
-        <Switch {...args} defaultChecked disabled content="Disabled checked" />
-        <span style={{margin: '16px'}} />
-        <Switch disabled content="Disabled" />
-    </React.Fragment>
-);
-export const Disabled = DisabledTemplate.bind({});
+export const Checked: Story = {
+    args: {
+        ...Default.args,
+        checked: true,
+    },
+};
 
-const LabelTemplate: StoryFn<SwitchProps> = (args) => (
-    <React.Fragment>
-        <Switch {...args} size="m" content="content m" />
-        <span style={{margin: '16px'}} />
-        <Switch {...args} size="l" content="content l" />
-        <div style={{width: 200, marginTop: 10}}>
-            <Switch {...args} size="m" style={{width: '100%'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <span>Full</span>
-                    <span>width</span>
-                    <span>content</span>
-                </div>
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            <Switch {...args} size="m">
+                Size m
             </Switch>
-        </div>
-    </React.Fragment>
-);
-export const Label = LabelTemplate.bind({});
+            <Switch {...args} size="l">
+                Size l
+            </Switch>
+        </Showcase>
+    ),
+};
 
-const ControlledTemplate: StoryFn<SwitchProps> = (args) => (
-    <React.Fragment>
-        <Switch {...args} content="Controlled checked" checked />
-        <span style={{margin: '16px'}} />
-        <Switch {...args} content="Controlled unchecked" checked={false} />
-    </React.Fragment>
-);
-export const Controlled = ControlledTemplate.bind({});
+export const Disabled: Story = {
+    render: (args) => (
+        <Showcase>
+            <Switch {...args} disabled checked={false}>
+                Unchecked
+            </Switch>
+            <Switch {...args} disabled checked>
+                Checked
+            </Switch>
+        </Showcase>
+    ),
+};
 
-const ShowcaseTemplate: StoryFn = () => <SwitchShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const ShowcaseStory: Story = {
+    render: () => <SwitchShowcase />,
+    name: 'Showcase',
+};

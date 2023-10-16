@@ -10,7 +10,7 @@ import {
 } from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {StoryLayout} from '../../../demo/StoryLayout/StoryLayout';
+import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {Button} from '../Button';
 
@@ -31,7 +31,7 @@ export const View: Story = {
 
 export const Size: Story = {
     render: (args) => (
-        <StoryLayout>
+        <Showcase>
             <Button {...args} size="xs">
                 Size xs
             </Button>
@@ -47,13 +47,13 @@ export const Size: Story = {
             <Button {...args} size="xl">
                 Size xl
             </Button>
-        </StoryLayout>
+        </Showcase>
     ),
 };
 
 export const Icon: Story = {
     render: (args) => (
-        <StoryLayout>
+        <Showcase>
             <Button {...args}>No icon</Button>
             <Button {...args}>
                 <IconComponent data={Heart} />
@@ -71,7 +71,7 @@ export const Icon: Story = {
             <Button {...args}>
                 <IconComponent data={Copy} />
             </Button>
-        </StoryLayout>
+        </Showcase>
     ),
 };
 
@@ -121,7 +121,7 @@ export const Width: Story = {
 export const Pin: Story = {
     render: (args) => {
         return (
-            <StoryLayout>
+            <Showcase>
                 <Button {...args}>Round</Button>
                 <Button {...args} pin="circle-circle">
                     Circle
@@ -129,7 +129,7 @@ export const Pin: Story = {
                 <Button {...args} pin="brick-brick">
                     Brick
                 </Button>
-            </StoryLayout>
+            </Showcase>
         );
     },
 };

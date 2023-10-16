@@ -5,13 +5,8 @@ import {CircleInfoFill, TriangleExclamationFill} from '@gravity-ui/icons';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Icon} from '../../Icon';
-import {cn} from '../../utils/cn';
 import {RadioButton} from '../RadioButton';
 import type {RadioButtonOption} from '../RadioButton';
-
-import './RadioButtonShowcase.scss';
-
-const b = cn('radio-button-showcase');
 
 export function RadioButtonShowcase() {
     const options: RadioButtonOption[] = [
@@ -26,77 +21,36 @@ export function RadioButtonShowcase() {
     ];
 
     return (
-        <Showcase title="RadioButton" className={b()}>
-            <ShowcaseItem title="options">
-                <RadioButton name="group1" defaultValue={options[0].value} options={options} />
+        <Showcase>
+            <ShowcaseItem title="Default">
+                <RadioButton defaultValue={options[0].value} options={options} />
             </ShowcaseItem>
 
-            <ShowcaseItem title="options as children">
-                <RadioButton name="group2" defaultValue={options[0].value}>
-                    <RadioButton.Option content={options[0].content} value={options[0].value} />
-                    <RadioButton.Option content={options[1].content} value={options[1].value} />
-                    <RadioButton.Option
-                        content={options[2].content}
-                        value={options[2].value}
-                        disabled
-                    />
-                </RadioButton>
-            </ShowcaseItem>
-
-            <ShowcaseItem title="options as icon">
-                <RadioButton
-                    name="group7"
-                    defaultValue={iconOptions[0].value}
-                    options={iconOptions}
-                />
+            <ShowcaseItem title="Icons">
+                <RadioButton defaultValue={iconOptions[0].value} options={iconOptions} />
             </ShowcaseItem>
 
             <ShowcaseItem title="disabled">
-                <RadioButton
-                    name="group2"
-                    defaultValue={options[0].value}
-                    options={options}
-                    disabled
-                />
+                <RadioButton defaultValue={options[0].value} options={options} disabled />
             </ShowcaseItem>
 
             <ShowcaseItem title="size">
-                <div className={b('grid')}>
-                    <div>s</div>
+                <div>
+                    <p>s</p>
                     <div>
-                        <RadioButton
-                            name="group3"
-                            defaultValue={options[0].value}
-                            options={options}
-                            size="s"
-                        />
+                        <RadioButton defaultValue={options[0].value} options={options} size="s" />
                     </div>
-                    <div>m</div>
+                    <p>m</p>
                     <div>
-                        <RadioButton
-                            name="group4"
-                            defaultValue={options[0].value}
-                            options={options}
-                            size="m"
-                        />
+                        <RadioButton defaultValue={options[0].value} options={options} size="m" />
                     </div>
-                    <div>l</div>
+                    <p>l</p>
                     <div>
-                        <RadioButton
-                            name="group5"
-                            defaultValue={options[0].value}
-                            options={options}
-                            size="l"
-                        />
+                        <RadioButton defaultValue={options[0].value} options={options} size="l" />
                     </div>
-                    <div>xl</div>
+                    <p>xl</p>
                     <div>
-                        <RadioButton
-                            name="group6"
-                            defaultValue={options[0].value}
-                            options={options}
-                            size="xl"
-                        />
+                        <RadioButton defaultValue={options[0].value} options={options} size="xl" />
                     </div>
                 </div>
             </ShowcaseItem>

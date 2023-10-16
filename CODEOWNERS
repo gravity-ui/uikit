@@ -50,7 +50,10 @@
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
+/src/hooks/useIntersection @imechoim
+/src/hooks/useTimeout @ogonkov
 /src/hooks/useOutsideClick @NikitaCG
+/src/hooks/useViewportSize @NikitaCG
 /src/hooks/useUniqId @ValeraS
 
 # Allow everyone to update dependencies

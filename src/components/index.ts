@@ -54,8 +54,6 @@ export * from './utils/withEventBrokerDomHandlers';
 export * from './utils/useEventBroker';
 export * from './utils/useLayer';
 export {Lang, configure} from './utils/configure';
-export * from './utils/useSelect';
-export * from './utils/useListNavigation';
 export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/interactions';
 export * from './utils/xpath';

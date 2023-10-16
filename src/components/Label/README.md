@@ -188,7 +188,7 @@ LANDING_BLOCK-->
 
 `disabled` - no interactions allowed
 
-`interactive` - hoverable
+`interactive` - hoverable, automatically set to true, if `type` is `"copy"` or passed `onClick` property
 
 <!--LANDING_BLOCK
 

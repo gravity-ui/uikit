@@ -152,8 +152,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             content = id;
         }
 
-        if (id === '_selection') return content;
-        return <span className={b('th-content')}>{content}</span>;
+        return content;
     }
 
     static getBodyCellContent<I extends TableDataItem>(

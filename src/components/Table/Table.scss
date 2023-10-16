@@ -122,9 +122,8 @@
         border-bottom-color: transparent;
     }
 
-    &__th-content {
+    &__head &__cell {
         @include mixins.text-accent;
-        display: inline-block;
         &::first-letter {
             text-transform: uppercase;
         }

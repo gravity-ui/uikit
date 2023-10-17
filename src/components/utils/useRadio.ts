@@ -3,7 +3,7 @@ import React from 'react';
 import {useForkRef, useUniqId} from '../../hooks';
 import type {ControlProps} from '../types';
 
-import {eventBroker} from './event-broker';
+import {eventBroker} from './eventBroker';
 
 export function useRadio({
     name,

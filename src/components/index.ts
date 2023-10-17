@@ -48,10 +48,9 @@ export * from './controls';
 export * from './layout';
 
 export * from './utils/class-transform';
-export * from './utils/event-broker';
+export * from './utils/eventBroker';
 export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
-export * from './utils/useEventBroker';
 export * from './utils/useLayer';
 export {Lang, configure} from './utils/configure';
 export {useOnFocusOutside} from './utils/useOnFocusOutside';

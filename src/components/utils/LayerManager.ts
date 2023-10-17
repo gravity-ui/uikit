@@ -2,7 +2,7 @@ import type {VirtualElement} from '@popperjs/core';
 
 import {KeyCode} from '../../constants';
 
-import {eventBroker} from './event-broker';
+import {eventBroker} from './eventBroker';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {eventBroker} from './event-broker';
-import type {EventBrokerData} from './event-broker';
+import type {EventBrokerData} from './eventBroker';
+import {eventBroker} from './eventBroker';
 import {getComponentName} from './getComponentName';
 
 type SupportedEvents = 'onClick' | 'onClickCapture';

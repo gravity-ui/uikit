@@ -382,7 +382,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private onContentTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
         if (e.propertyName === 'height') {
             if (this.sheetContentRef.current) {
-                this.sheetContentRef.current.style.transition = 'none';
+                // this.sheetContentRef.current.style.transition = 'none';
             }
         }
     };
@@ -403,14 +403,15 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         const contentHeight = this.sheetTitleHeight + this.innerContentHeight;
 
         const viewportHeight = window.innerHeight;
-        const resultFullHeight =
+        const resultHeight =
             contentHeight >= viewportHeight
                 ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
                 : contentHeight;
-        const resultContentHeight = resultFullHeight - this.sheetTopHeight;
 
-        this.sheetContentRef.current.style.height = `${resultContentHeight}px`;
-        this.sheetRef.current.style.transform = `translate3d(0, -${resultFullHeight}px, 0)`;
+        this.sheetContentRef.current.style.height = `${resultHeight}px`;
+        this.sheetRef.current.style.transform = `translate3d(0, -${
+            resultHeight + this.sheetTopHeight
+        }px, 0)`;
     };
 
     private addListeners() {

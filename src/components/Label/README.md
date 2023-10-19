@@ -8,9 +8,9 @@
 import {Label} from '@gravity-ui/uikit';
 ```
 
-`Label` can be used for display some marking information. `Label` with close button or copy button may be useful for various simple actions.
+`Label` can be used for displaying certain marking information. `Label` with the close or copy button may be useful for various simple actions.
 
-`Label` is best designed to display one line text information with different color indication of its importance.
+`Label` is most suitable for displaying one-line text information with different color codes indicating its importance.
 
 ## Appearance
 
@@ -18,8 +18,8 @@ import {Label} from '@gravity-ui/uikit';
 
 ### Theme
 
-Apply different themes for various statuses with the `theme` property. Possible values are: `normal`, `info`, `success`, `warning`, `danger`, `unknown`, `clear`.
-Default theme is `normal`.
+Apply different themes for various statuses with the `theme` property. You can use the following values: `normal`, `info`, `success`, `warning`, `danger`, `unknown`, and `clear`.
+The default theme is `normal`.
 
 <!--LANDING_BLOCK
 
@@ -61,11 +61,11 @@ LANDING_BLOCK-->
 
 ### Type
 
-Add some interactions to the `Label` using `type` property.
+Adds various options to the `Label` using the `type` property.
 
-`copy` - adds copy button, when clicked copies value of the `copyText` property.
+`copy`: Adds a copy button; when clicked, it copies the value of the `copyText` property.
 
-`close` - adds close button for managing list of labels.
+`close`: Adds a close button for managing label lists.
 
 <!--LANDING_BLOCK
 
@@ -94,7 +94,7 @@ LANDING_BLOCK-->
 
 ### Icon
 
-You can add an icon with the `icon` property. Pass the [`Icon`](../Icon) component, a special wrapper for SVGs.
+You can add an icon with the `icon` property. To do so, use the [`Icon`](../Icon) component, a special wrapper for SVGs.
 
 <!--LANDING_BLOCK
 
@@ -184,11 +184,10 @@ LANDING_BLOCK-->
 
 ## State
 
-`Label` can have different states.
+A `label` can have different states:
 
-`disabled` - no interactions allowed
-
-`interactive` - hoverable, automatically set to true, if `type` is `"copy"` or passed `onClick` property
+- `disabled`: No interactions allowed.
+- `interactive`: Makes the label hoverable.
 
 <!--LANDING_BLOCK
 
@@ -246,20 +245,20 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name             | Description                               |              Type              |   Default   |
-| :--------------- | :---------------------------------------- | :----------------------------: | :---------: |
-| children         | Content                                   |       `React.ReactNode`        |             |
-| className        | HTML `class` attribute                    |            `string`            |             |
-| closeButtonLabel | `aria-label` of close button              |            `string`            |             |
-| copyButtonLabel  | `aria-label` of copy button               |            `string`            |             |
-| copyText         | Text to copy                              |            `string`            |             |
-| disabled         | Disabled state                            |           `boolean`            |             |
-| icon             | Label icon (at left)                      |       `React.ReactNode`        |             |
-| interactive      | Enable hover effect                       |           `boolean`            |             |
-| onClick          | `click` event handler                     |           `Function`           |             |
-| onClose          | Close button `click` event handler        |           `Function`           |             |
-| onCopy           | `copy` event handler                      |           `Function`           |             |
-| size             | Label size                                |       `"xs"` `"s"` `"m"`       |    `"s"`    |
-| theme            | Label theme                               |            `string`            | `"normal"`  |
-| type             | Label type                                | `"default"` `"copy"` `"close"` | `"default"` |
-| value            | Label value (shows as "children : value") |            `string`            |             |
+| Name             | Description                                   |              Type              |   Default   |
+| :--------------- | :-------------------------------------------- | :----------------------------: | :---------: |
+| children         | Content                                       |       `React.ReactNode`        |             |
+| className        | HTML `class` attribute                        |            `string`            |             |
+| closeButtonLabel | `aria-label` of the close button              |            `string`            |             |
+| copyButtonLabel  | `aria-label` of the copy button               |            `string`            |             |
+| copyText         | Text to copy                                  |            `string`            |             |
+| disabled         | Disabled state                                |           `boolean`            |             |
+| icon             | Label icon (on the left)                      |       `React.ReactNode`        |             |
+| interactive      | Enable hover effect                           |           `boolean`            |             |
+| onClick          | `click` event handler                         |           `Function`           |             |
+| onClose          | Close button `click` event handler            |           `Function`           |             |
+| onCopy           | `copy` event handler                          |           `Function`           |             |
+| size             | Label size                                    |       `"xs"` `"s"` `"m"`       |    `"s"`    |
+| theme            | Label theme                                   |            `string`            | `"normal"`  |
+| type             | Label type                                    | `"default"` `"copy"` `"close"` | `"default"` |
+| value            | Label value (displayed as "children : value") |            `string`            |             |

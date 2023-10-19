@@ -8,7 +8,7 @@
 import {Spin} from '@gravity-ui/uikit';
 ```
 
-The Spin component indicates loading state (rotating semicircle) in inline scenarios. Unlike Loader this component used to display loading state in inline scenarios. For example in Button or Label.
+The Spin component indicates the loading state (a rotating semicircle) in inline scenarios. Unlike Loader, this component is used to display the loading state in inline scenarios, e.g., in Button or Label.
 
 ### Size
 
@@ -44,11 +44,11 @@ LANDING_BLOCK-->
 
 XS - The smallest size.
 
-S – Small size, used when standard spin is too big.
+S – Small, used when standard spin is too large.
 
-M – Medium (basic size), used in most cases.
+M – Medium (basic), used in most cases.
 
-L – Large size, used when standard spin is too small.
+L – Large, used when standard spin is too small.
 
 XL - The largest size.
 

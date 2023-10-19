@@ -45,8 +45,8 @@ Hook returns methods `add`, `update`, `remove` and `removeAll` (see below).
 
 ## Usage as HOC
 
-For class components you can use `withToaster` HOC. This will inject `toaster`
-prop to component.
+For class components, you can use the `withToaster` HOC, which will inject the `toaster`
+prop into the component.
 
 ```jsx
 import {Component} from 'react';
@@ -63,8 +63,8 @@ const FoobarWithToaster = withToaster()(FoobarComponent);
 
 ## Usage as singleton
 
-Toaster has singleton, so when initialized in different parts of the application, the same instance will be returned.
-On initialization it is possible to pass className, that will be assigned to dom-element which is wrapping all toasts.
+Toaster has singleton, so when it is initialized in different parts of the application, the same instance will be returned.
+On initialization, it is possible to transmit a className that will be assigned to dom-element which wrap all toasts.
 
 ### React < 18
 
@@ -103,34 +103,34 @@ import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 
 ## Methods
 
-| Method name                   | Params             | Description                                                                                                                             |
-| :---------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| add(toastOptions)             | `Object`           | Create new notification                                                                                                                 |
-| remove(name)                  | `string`           | Delete existing notification manually                                                                                                   |
-| update(name, overrideOptions) | `string`, `Object` | Change already rendered notification content. In `overrideOptions` following fields are optional: `title`, `type`, `content`, `actions` |
-| has(name)                     | `string`           | Checks if there is a toast with the given name in the list of displayed toasts                                                          |
+| Method name                   | Params             | Description                                                                                                                                   |
+| :---------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| add(toastOptions)             | `Object`           | Creates a new notification                                                                                                                    |
+| remove(name)                  | `string`           | Manually deletes an existing notification                                                                                                     |
+| update(name, overrideOptions) | `string`, `Object` | Changes already rendered notification content. In `overrideOptions`, the following fields are optional: `title`, `type`, `content`, `actions` |
+| has(name)                     | `string`           | Checks fora toast with the given name in the list of displayed toasts                                                                         |
 
 ## More about `add`
 
-Accepts argument `toastOptions` with ongoing notification details:
+Accepts the argument `toastOptions` with ongoing notification details:
 
-| Parameter  | Type                                    | Required | Default     | Description                                                                                                                                                         |
-| :--------- | :-------------------------------------- | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| name       | `string`                                | yes      |             | Notification unique name. Notifications with same names collapse into one                                                                                           |
-| title      | `string`                                |          |             | Notification title                                                                                                                                                  |
-| className  | `string`                                |          |             | CSS-class                                                                                                                                                           |
-| autoHiding | `number` or `false`                     |          | 5000        | Time (in milliseconds) after which the notification will hide. Use `false` to disable toast hiding after timeout.                                                   |
-| content    | `node`                                  |          | `undefined` | Notification content. [Anything that can be rendered: numbers, strings, elements or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)  |
-| type       | `string`                                |          | `undefined` | Notification type. Possible values: `error`, `success`. If `type` is set, icon (success/error) will be added into notification title. _By default there is no icon_ |
-| isClosable | `boolean`                               |          | `true`      | Configuration that manages visibility of cross icon, which allows to close notification                                                                             |
-| actions    | `ToastAction[]`                         |          | `undefined` | Array of [actions](./types.ts#L9) which displays after `content`                                                                                                    |
-| renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Use for toast icon customization. By default type-based behavior is used                                                                                            |
+| Parameter  | Type                                    | Required | Default     | Description                                                                                                                                                                |
+| :--------- | :-------------------------------------- | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name       | `string`                                | yes      |             | A unique notification name. Notifications with identical names are collapsed into one                                                                                      |
+| title      | `string`                                |          |             | Notification title                                                                                                                                                         |
+| className  | `string`                                |          |             | CSS-class                                                                                                                                                                  |
+| autoHiding | `number` or `false`                     |          | 5000        | Number of ms to delay before hiding the notification. Use `false` to disable toast hiding after timeout.                                                                   |
+| content    | `node`                                  |          | `undefined` | Notification content. [Anything that can be rendered: numbers, strings, elements or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)         |
+| type       | `string`                                |          | `undefined` | A notification type. Possible values: `error`, `success`. If `type` is set, the icon (success/error) will be added into notification title. _By default, there is no icon_ |
+| isClosable | `boolean`                               |          | `true`      | A configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                 |
+| actions    | `ToastAction[]`                         |          | `undefined` | An array of [actions](./types.ts#L9) that display after `content`                                                                                                          |
+| renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                   |
 
 Every `action` is an object with following parameters:
 
-| Parameter        | Type                                      | Required | Default    | Description                                                 |
-| :--------------- | :---------------------------------------- | :------- | :--------- | :---------------------------------------------------------- |
-| label            | `string`                                  | yes      |            | Action text description                                     |
-| onClick          | `() => void`                              | yes      |            | On action click handler                                     |
-| view             | [`ButtonView`](../Button/README.md#props) |          | `outlined` | Appearance of the action, same to `view` of the `<Button/>` |
-| removeAfterClick | `boolean`                                 |          | `true`     | If notification should be closed after click on action      |
+| Parameter        | Type                                      | Required | Default    | Description                                                             |
+| :--------------- | :---------------------------------------- | :------- | :--------- | :---------------------------------------------------------------------- |
+| label            | `string`                                  | yes      |            | Description of action                                                   |
+| onClick          | `() => void`                              | yes      |            | On action click handler                                                 |
+| view             | [`ButtonView`](../Button/README.md#props) |          | `outlined` | The appearance of the action, the same as the `view` of the `<Button/>` |
+| removeAfterClick | `boolean`                                 |          | `true`     | If the notification should close after the action is clicked            |

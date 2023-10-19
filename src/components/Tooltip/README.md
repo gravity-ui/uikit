@@ -4,8 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
-A simple text tip that uses its children node as an anchor. Anchor node must be able to handle mouse
-events and focus/blur events in order to work correctly.
+A simple text tip that uses its children node as an anchor. To function correctly, the anchor node
+must be able to handle mouse events and focus or blur events.
 
 ## Usage
 
@@ -22,7 +22,7 @@ import {Tooltip} from '@gravity-ui/uikit';
 | Name       | Description                                                                             |                       Type                       | Default |
 | :--------- | --------------------------------------------------------------------------------------- | :----------------------------------------------: | :-----: |
 | children   | An anchor element for a `Tooltip`. Must accept a `ref` that will provide a DOM element. |               `React.ReactElement`               |         |
-| content    | A content that will be shown in `Tooltip`                                               |                `React.ReactNode`                 |         |
-| closeDelay | Delay in ms before hiding the `Tooltip` after the hover ends                            |                     `number`                     |   `0`   |
-| openDelay  | Delay in ms before showing the `Tooltip` after hovering                                 |                     `number`                     |  `250`  |
-| placement  | `Tooltip` position relative to it's anchor                                              | [`PopupPlacement`](../Popup/README.md#placement) |         |
+| content    | Content that will be shown in the `Tooltip`                                             |                `React.ReactNode`                 |         |
+| closeDelay | Number of ms to delay hiding the `Tooltip` after the hover ends                         |                     `number`                     |   `0`   |
+| openDelay  | Number of ms to delay showing the `Tooltip` after the hover begins                      |                     `number`                     |  `250`  |
+| placement  | `Tooltip` position relative to its anchor                                               | [`PopupPlacement`](../Popup/README.md#placement) |         |

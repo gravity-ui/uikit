@@ -99,7 +99,7 @@ This parameter is used to specify the view or layout style of the `Card`. It all
 
 - `clear`: no style will be applied.
 - `outlined`: applies thin border to highlight card content.
-- `filed`: fill in the card content.
+- `filed`: fills in the card content.
 - `raised`: applies a shadow to slightly lift the container.
 
 <!--LANDING_BLOCK
@@ -133,10 +133,10 @@ LANDING_BLOCK-->
 | Name      | Description                                                         |    Type     |    Default    |
 | :-------- | :------------------------------------------------------------------ | :---------: | :-----------: |
 | children  | Card's content                                                      | `ReactNode` |               |
-| type      | Card's type affects on available properties                         |  `string`   | `"container"` |
+| type      | The Card type affects which properties are available                |  `string`   | `"container"` |
 | view      | Available for `type`: `"container"` and `"selection"`               |  `string`   | `"outlined"`  |
 | theme     | Card's base color. Available for `type`: `"container"`              |  `string`   |  `"normal"`   |
-| size      | Card's size affects on available properties                         |  `string`   |     `"m"`     |
+| size      | The Card size affects which properties are available                |  `string`   |     `"m"`     |
 | className | CSS class                                                           |  `string`   |               |
 | onClick   | Card click handler. Available for `type`: `"selection"`, `"action"` | `Function`  |               |
 | selected  | Selected card. Available for type: `"selection"`                    |  `Boolean`  |               |

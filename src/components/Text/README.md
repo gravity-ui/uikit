@@ -10,7 +10,7 @@ import {Text} from '@gravity-ui/uikit';
 
 ## Variant
 
-These are the default variants that can be overridden in the project. See all list of the
+These are the default variants that can be overridden in the project. See a list of all the
 variants [here](https://preview.gravity-ui.com/uikit/?path=/story/typography--variants).
 
 <!--LANDING_BLOCK
@@ -40,11 +40,11 @@ LANDING_BLOCK-->
 
 ### Ellipsis
 
-This roperty allows you to hide overflowing text
+This property allows you to hide overflowing text
 
 `false` - used by default.
 
-`true` - hidden overflow content will be displayed with ellipsis `…`.
+`true` - hidden overflow content will be replaced with ellipsis `…`.
 
 <!--LANDING_BLOCK
 
@@ -74,7 +74,7 @@ LANDING_BLOCK-->
 
 ### White Space
 
-white-space css property. Can be`nowrap`, `break-spaces`.
+The white-space css property. Can be `nowrap`, `break-spaces`.
 
 <!--LANDING_BLOCK
 
@@ -103,7 +103,7 @@ LANDING_BLOCK-->
 
 ### Word Break
 
-word-break css property. Can be `break-all`.
+The word-break css property. Can be `break-all`.
 
 <!--LANDING_BLOCK
 
@@ -133,7 +133,7 @@ LANDING_BLOCK-->
 
 ### Color
 
-Specify the color of the text. Colors are:
+Specifies the color of the text. The possible colors are:
 `primary`, `complementary`, `secondary`, `hint`, `info`, `info-heavy`, `positive`, `positive-heavy`, `warning`, `warning-heavy`, `danger`, `danger-heavy`, `utility`, `utility-heavy`, `misc`, `misc-heavy`, `brand`, `link`, `link-hover`, `link-visited`, `link-visited-hover`, `dark-primary`, `dark-complementary`, `dark-secondary`, `light-primary`, `light-complementary`, `light-secondary`, `light-hint`, `inverted-primary`, `inverted-complementary`, `inverted-secondary`, `inverted-hint`.
 
 <!--LANDING_BLOCK
@@ -170,8 +170,8 @@ LANDING_BLOCK-->
 | as         | Ability to override default html tag                    |         `React.ElementType<any>`         |            |
 | style      | HTML `style` attribute                                  |          `React.CSSProperties`           |            |
 | variant    | Font of the text                                        |                 `string`                 | `"body-1"` |
-| ellipsis   | Hidden overflow content will be displayed with ellipsis |                `boolean`                 |            |
-| whiteSpace | White-space css property                                |       `"nowrap"` `"break-spaces"`        |            |
-| wordBreak  | Word-break css property                                 |              `"break-all"`               |            |
+| ellipsis   | Hidden overflow content will be replaced by an ellipsis |                `boolean`                 |            |
+| whiteSpace | The white-space css property                            |       `"nowrap"` `"break-spaces"`        |            |
+| wordBreak  | The word-break css property                             |              `"break-all"`               |            |
 | color      | Color of the text                                       | `string` (see values in "Color" section) |            |
 | ref        |                                                         |                  `any`                   |            |

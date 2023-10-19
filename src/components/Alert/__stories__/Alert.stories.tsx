@@ -8,7 +8,7 @@ import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
 
 export default {
-    title: 'Components/Alert',
+    title: 'Components/Feedback/Alert',
     component: Alert,
 } as Meta;
 

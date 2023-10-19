@@ -1,8 +1,8 @@
 import type React from 'react';
 
+import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
-import type {UseOpenProps} from '../utils/useSelect/types';
 
 import type {Option, OptionGroup} from './tech-components';
 

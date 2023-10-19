@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {useActionHandlers} from '../../../hooks';
 import {blockNew} from '../../utils/cn';
-import {useActionHandlers} from '../../utils/useActionHandlers';
 import type {TocItem as TocItemType} from '../types';
 
 import './TocItem.scss';

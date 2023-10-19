@@ -6,7 +6,7 @@ import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
 
 export default {
-    title: 'Components/Portal',
+    title: 'Components/Utils/Portal',
     component: Portal,
 } as Meta;
 

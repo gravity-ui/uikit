@@ -15,7 +15,7 @@ export type ListProps<T = unknown> = QAProps & {
     itemClassName?: string;
     itemsClassName?: string;
     filterClassName?: string;
-    emptyPlaceholder?: string;
+    emptyPlaceholder?: React.ReactNode;
     filterPlaceholder?: string;
     filter?: string;
     activeItemIndex?: number;

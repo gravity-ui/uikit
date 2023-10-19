@@ -26,11 +26,11 @@ This parameter is used to specify the theme style of the card. It determines the
 
 By specifying different theme values, you can customize the visual appearance of the `Card` component to match the desired style and purpose.
 
-- `normal` - represents the normal/default theme of the card.
-- `info` - represents the theme for displaying informational content.
-- `success` - represents the theme for displaying positive/affirmative content.
-- `warning` - represents the theme for displaying warning or cautionary content.
-- `danger` - represents the theme for displaying content related to danger or critical situations.
+- `normal`: represents the normal/default theme of the card.
+- `info`: represents the theme for displaying informational content.
+- `success`: represents the theme for displaying positive/affirmative content.
+- `warning`: represents the theme for displaying warning or cautionary content.
+- `danger`: represents the theme for displaying content related to danger or critical situations.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -65,9 +65,9 @@ LANDING_BLOCK-->
 
 This parameter is used to define the type of the `Card` component. It allows you to customize the appearance and behavior of the card.
 
-- `container` - represents a card that acts as a container for other elements. It provides a structured layout for content.
-- `action` - represents a card with an interactive element, such as a button, that triggers an action when clicked.
-- `selection` - represents a card that can be selected or clicked to perform a specific action.
+- `container`: represents a card that acts as a container for other elements. It provides a structured layout for content.
+- `action`: represents a card with an interactive element, such as a button, that triggers an action when clicked.
+- `selection`: represents a card that can be selected or clicked to perform a specific action.
 
 <!--LANDING_BLOCK
 <ExampleBlock

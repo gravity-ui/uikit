@@ -9,7 +9,7 @@ import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
 
 export default {
-    title: 'Components/Select',
+    title: 'Components/Inputs/Select',
     component: Select,
 } as Meta;
 

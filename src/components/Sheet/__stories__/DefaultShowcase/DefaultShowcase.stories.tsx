@@ -28,7 +28,7 @@ const EXTRA_INNER_CONTENT = getRandomText(500);
 const EXTRA_INNER_CONTENT_MORE_THAN_VIEWPORT = getRandomText(3000);
 
 export default {
-    title: 'Components/Sheet',
+    title: 'Components/Overlays/Sheet',
     component: Sheet,
 } as Meta;
 

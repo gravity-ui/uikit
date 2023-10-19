@@ -1,18 +1,40 @@
 import React from 'react';
 
-import {Gear} from '@gravity-ui/icons';
-import type {Meta, StoryFn} from '@storybook/react';
+import {Envelope, Gear, Rocket} from '@gravity-ui/icons';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {Icon} from '../Icon';
-import type {IconProps} from '../Icon';
+
+const icons = [Gear, Envelope, Rocket].reduce((acc, fn) => {
+    acc[fn.name] = fn;
+    return acc;
+}, {} as {[key: string]: React.FunctionComponent});
 
 export default {
-    title: 'Components/Icon',
+    title: 'Components/Data Display/Icon',
     component: Icon,
+    argTypes: {
+        data: {
+            options: Object.keys(icons),
+            mapping: icons,
+        },
+    },
+    args: {
+        data: 'Gear',
+    },
 } as Meta;
 
-const DefaultTemplate: StoryFn<IconProps> = (args) => <Icon {...args} />;
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    data: Gear,
+type Story = StoryObj<typeof Icon>;
+
+export const Default: Story = {};
+
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            <Icon {...args} size={16} />
+            <Icon {...args} size={24} />
+            <Icon {...args} size={36} />
+        </Showcase>
+    ),
 };

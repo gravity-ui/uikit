@@ -1,8 +1,19 @@
 @use '../../variables';
 
 #{variables.$block} {
+    &__checkbox_cell {
+        position: relative;
+        min-width: 17px;
+    }
+
     &__selection-checkbox {
-        display: inline-block;
+        padding: inherit;
+        border-bottom: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 
     &__row_selected {

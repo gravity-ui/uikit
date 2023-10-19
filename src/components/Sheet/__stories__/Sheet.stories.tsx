@@ -6,7 +6,7 @@ import {Showcase} from './DefaultShowcase/DefaultShowcase.stories';
 import {WithMenuShowcase} from './WithMenuShowcase/WithMenuShowcase.stories';
 
 export default {
-    title: 'Components/Sheet',
+    title: 'Components/Overlays/Sheet',
     component: Sheet,
 } as Meta;
 

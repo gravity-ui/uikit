@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {useUniqId} from '../../hooks';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {useUniqId} from '../utils/useUniqId';
 
 const b = block('menu');
 

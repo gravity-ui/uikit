@@ -1,12 +1,8 @@
-.showcase-item {
-    display: inline-block;
-    margin-right: 60px;
-    margin-bottom: 20px;
-    vertical-align: top;
+@use '../../../styles/mixins';
 
+.showcase-item {
     &__title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 15px;
+        @include mixins.text-subheader-3();
+        margin-bottom: var(--g-spacing-3);
     }
 }

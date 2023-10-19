@@ -336,7 +336,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             accelerationY > ACCELERATION_Y_MAX
         ) {
             this.hide();
-        } else if (deltaY > 0) {
+        } else {
             this.show();
         }
     };

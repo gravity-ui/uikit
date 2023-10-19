@@ -1,8 +1,15 @@
+@use '../../../../styles/mixins';
+
 .label-showcase {
     .grid {
         display: grid;
         gap: 30px;
     }
+
+    .header {
+        @include mixins.text-header-1;
+    }
+
     .section {
         display: grid;
         grid-template-columns: 1fr 1fr;

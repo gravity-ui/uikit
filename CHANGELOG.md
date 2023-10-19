@@ -1,5 +1,39 @@
 # Changelog
 
+## [5.17.0](https://github.com/gravity-ui/uikit/compare/v5.16.0...v5.17.0) (2023-10-05)
+
+
+### Features
+
+* **List:** extend `emptyPlaceholder` type to `ReactNode` ([#1013](https://github.com/gravity-ui/uikit/issues/1013)) ([56437e6](https://github.com/gravity-ui/uikit/commit/56437e6e4782eebf4040d6f1e2bc70bc6b5b61ec))
+* synced codeowners with sharepoint table ([#1034](https://github.com/gravity-ui/uikit/issues/1034)) ([5bdfa75](https://github.com/gravity-ui/uikit/commit/5bdfa75bbae36827dd74b9b67a24fa2e2dd6fcdb))
+* **withTableSorting:** add control the use of data sorting ([#1032](https://github.com/gravity-ui/uikit/issues/1032)) ([53248c9](https://github.com/gravity-ui/uikit/commit/53248c967e32bba6cb5f4451f9ee5bf00d963163))
+
+
+### Bug Fixes
+
+* start refactor hooks: useOutsideClick ([#1035](https://github.com/gravity-ui/uikit/issues/1035)) ([6ad4a78](https://github.com/gravity-ui/uikit/commit/6ad4a78ca202ecc6e843d14f0c71f922d0845828))
+* use correct font-size through component styles ([#1036](https://github.com/gravity-ui/uikit/issues/1036)) ([44d7160](https://github.com/gravity-ui/uikit/commit/44d71608af59eb04350d830dd2d19c1a5ce922b2))
+
+## [5.16.0](https://github.com/gravity-ui/uikit/compare/v5.15.0...v5.16.0) (2023-09-29)
+
+
+### Features
+
+* **Table:** add options for WithTableSettings HOC ([#1029](https://github.com/gravity-ui/uikit/issues/1029)) ([b338bf9](https://github.com/gravity-ui/uikit/commit/b338bf9c3b77aba5471e143ce58495d55ec94cfe))
+
+## [5.15.0](https://github.com/gravity-ui/uikit/compare/v5.14.0...v5.15.0) (2023-09-22)
+
+
+### Features
+
+* **UserAvatar:** add fallbackImgUrl prop ([#1025](https://github.com/gravity-ui/uikit/issues/1025)) ([9a4bd59](https://github.com/gravity-ui/uikit/commit/9a4bd597cc0db62f905d6972eb317faffd8cb672))
+
+
+### Bug Fixes
+
+* **DocsDecorator:** add new css prefix support ([#1027](https://github.com/gravity-ui/uikit/issues/1027)) ([6ff4c1c](https://github.com/gravity-ui/uikit/commit/6ff4c1c3c040b72abae6ad82c3868a447df039d3))
+
 ## [5.14.0](https://github.com/gravity-ui/uikit/compare/v5.13.0...v5.14.0) (2023-09-20)
 
 

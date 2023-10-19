@@ -8,12 +8,16 @@ import type {SkeletonProps} from '../Skeleton';
 import {SkeletonShowcase} from './SkeletonShowcase';
 
 export default {
-    title: 'Components/Skeleton',
+    title: 'Components/Feedback/Skeleton',
     component: Skeleton,
 } as Meta;
 
 const DefaultTemplate: StoryFn<SkeletonProps> = (args) => <Skeleton {...args} />;
 export const Default = DefaultTemplate.bind({});
+
+Default.args = {
+    style: {height: 30},
+};
 
 const ShowcaseTemplate: StoryFn = () => <SkeletonShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});

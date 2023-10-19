@@ -6,7 +6,7 @@ import {Spin} from '../Spin';
 import type {SpinProps} from '../Spin';
 
 export default {
-    title: 'Components/Spin',
+    title: 'Components/Feedback/Spin',
     component: Spin,
 } as Meta;
 

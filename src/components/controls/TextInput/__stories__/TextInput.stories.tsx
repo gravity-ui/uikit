@@ -8,7 +8,7 @@ import type {TextInputProps} from '../TextInput';
 import {TextInputShowcase} from './TextInputShowcase';
 
 export default {
-    title: 'Components/TextInput',
+    title: 'Components/Inputs/TextInput',
     component: TextInput,
 } as Meta;
 

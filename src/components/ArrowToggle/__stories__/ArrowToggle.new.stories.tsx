@@ -7,8 +7,8 @@ import {ArrowToggle, ArrowToggleProps} from '../ArrowToggle';
 const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
 
 export default {
-    title: 'Components/ArrowToggle',
-    id: 'components/ArrowToggle',
+    title: 'Components/Utils/ArrowToggle',
+    id: 'components/utils/ArrowToggle',
     args: {
         direction: 'bottom',
         size: 16,

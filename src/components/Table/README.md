@@ -201,7 +201,23 @@ function SelectionTable() {
 
 ## Usage with HOC `withTableSettings`
 
-Enables functionality for table column settings.
+Enables functionality for table column settings. You can use ut in two forms:
+
+```jsx
+import {Table, withTableSettings} from './withTableSettings';
+
+// No options passed
+const MyTable1 = withTableSettings(Table);
+// or with options
+const MyTable1 = withTableSettings({sortable: false})(Table);
+```
+
+### Options
+
+| Name     | Description                                       |       Type        | Default |
+| :------- | :------------------------------------------------ | :---------------: | :-----: |
+| width    | Settings' popup width                             | `number` `string` |         |
+| sortable | Whether or not add ability to sort settings items |     `boolean`     | `true`  |
 
 ### ColumnMeta
 
@@ -214,7 +230,7 @@ Enables functionality for table column settings.
 
 | Name               | Description                   |                     Type                     |
 | :----------------- | :---------------------------- | :------------------------------------------: |
-| settingsPopupWidth | TableColumnSetup pop-up width |                   `string`                   |
+| settingsPopupWidth | TableColumnSetup pop-up width |              `number` `string`               |
 | settings           | Current settings              |             `TableSettingsData`              |
 | updateSettings     | Settings update handle        | `(data: TableSettingsData) => Promise<void>` |
 
@@ -232,7 +248,7 @@ type TableSettingsData = Array<{
 ```jsx
 import {Table, withTableSettings} from '@gravity-ui/uikit';
 
-const MyTable = withTableSettings(Table);
+const MyTable = withTableSettings({width: 100, sortable: false})(Table);
 const data = [
   {id: 1, text: 'Hello'},
   {id: 2, text: 'World'},

@@ -1,10 +1,10 @@
 import React from 'react';
 
+import {useListNavigation} from '../../hooks';
 import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
 import {Popup} from '../Popup';
 import type {PopupProps} from '../Popup';
-import {useListNavigation} from '../utils/useListNavigation';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';

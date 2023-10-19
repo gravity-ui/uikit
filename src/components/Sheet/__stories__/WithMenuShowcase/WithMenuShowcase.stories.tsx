@@ -12,7 +12,7 @@ import './WithMenuShowcase.scss';
 const b = cn('sheet-stories-with-menu-showcase');
 
 export default {
-    title: 'Components/Sheet',
+    title: 'Components/Overlays/Sheet',
     component: Sheet,
 } as Meta;
 

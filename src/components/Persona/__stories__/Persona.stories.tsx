@@ -6,7 +6,7 @@ import type {ComponentMeta, ComponentStory} from '@storybook/react';
 import {Persona} from '../Persona';
 
 export default {
-    title: 'Components/Persona',
+    title: 'Components/Data Display/Persona',
     component: Persona,
 } as ComponentMeta<typeof Persona>;
 

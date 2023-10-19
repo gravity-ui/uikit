@@ -10,7 +10,7 @@ import {getTabsMock} from './getTabsMock';
 import type {StoryParams} from './types';
 
 export default {
-    title: 'Components/Tabs',
+    title: 'Components/Navigation/Tabs',
     component: Tabs,
     args: {
         direction: 'horizontal',

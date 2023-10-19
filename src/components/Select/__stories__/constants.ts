@@ -160,12 +160,12 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
                 })}
             </Button>
         );
-    }},
-    onUpdate={(nextValue) => setValue1(nextValue)}
+    }}
+    onUpdate={(nextValue) => setValue(nextValue)}
 >
     <Select.Option value="val1" content="Value1" />
     <Select.Option value="val2" content="Value2" />
-    <Select.Option value="val3" content="\\" />
+    <Select.Option value="val3" content="Value3" />
     <Select.Option value="val4" content="Value4" />
 </Select>
 `;

@@ -120,6 +120,8 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__close {
+        @include mixins.button-reset();
+
         height: $avatarSize;
         width: 16px;
         display: inline-flex;
@@ -128,6 +130,7 @@ $block: '.#{variables.$ns}persona';
         cursor: pointer;
         padding-right: 6px;
         color: var(--g-color-text-secondary);
+        box-sizing: initial;
 
         transition-property: color;
         transition-duration: $transitionDuration;
@@ -135,6 +138,20 @@ $block: '.#{variables.$ns}persona';
 
         &:hover {
             color: var(--g-color-text-primary);
+        }
+
+        .yc-icon {
+            border-radius: var(--g-focus-border-radius);
+        }
+        &:focus {
+            .yc-icon {
+                outline: 2px solid var(--g-color-line-focus);
+            }
+        }
+        &:focus:not(:focus-visible) {
+            .yc-icon {
+                outline: 0;
+            }
         }
     }
 }

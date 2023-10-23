@@ -41,7 +41,6 @@ export function PersonaWrap({
             className={b({size, theme, clickable, closeable, empty: isEmpty}, className)}
             style={style}
         >
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             {React.createElement(
                 clickable ? 'button' : 'div',
                 {onClick, className: b('main')},

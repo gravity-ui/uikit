@@ -75,6 +75,7 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
         const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
         return (
+            // children is passed in commonProps
             // eslint-disable-next-line jsx-a11y/anchor-has-content
             <a
                 {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}

@@ -42,10 +42,14 @@ export function PersonaWrap({
             style={style}
         >
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className={b('main')} onClick={onClick}>
-                {avatar && <div className={b('avatar')}>{avatar}</div>}
-                <div className={b('text')}>{children}</div>
-            </div>
+            {React.createElement(
+                clickable ? 'button' : 'div',
+                {onClick, className: b('main')},
+                <React.Fragment>
+                    {avatar && <div className={b('avatar')}>{avatar}</div>}
+                    <div className={b('text')}>{children}</div>
+                </React.Fragment>,
+            )}
             {onClose && (
                 <button className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
                     <Icon data={Xmark} size={12} />

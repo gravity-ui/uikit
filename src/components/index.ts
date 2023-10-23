@@ -58,3 +58,4 @@ export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/interactions';
 export * from './utils/xpath';
 export {getLayersCount} from './utils/LayerManager';
+export {getUniqId} from './utils/common';

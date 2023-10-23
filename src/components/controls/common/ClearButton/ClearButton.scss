@@ -1,17 +1,12 @@
 @use '../../../variables';
 
 $block: '.#{variables.$ns-new}clear-button';
-$blockRoot: '.#{variables.$ns-new}root';
 
-// #{$blockRoot} used to increase selector specificity
-#{$blockRoot} #{$block} {
-    --yc-button-background-color: transparent;
-    --yc-button-background-color-hover: transparent;
+#{$block} {
+    --g-button-color: var(--g-color-text-hint);
+    --g-button-color-hover: var(--g-color-text-primary);
+    --g-button-background-color: transparent;
+    --g-button-background-color-hover: transparent;
 
     margin: auto 0;
-    color: var(--g-color-text-hint);
-
-    &:hover {
-        color: var(--g-color-text-primary);
-    }
 }

@@ -30,7 +30,7 @@ $transitionTimingFunction: ease-in-out;
 
     // hover on action button
     &:not(#{$disabled}) #{$block}__addon_interactive {
-        --yc-button-background-color-hover: #{$bgHoverColor};
+        --g-button-background-color-hover: #{$bgHoverColor};
 
         &:hover,
         &:focus,
@@ -115,7 +115,7 @@ $transitionTimingFunction: ease-in-out;
         }
 
         &_interactive {
-            --yc-button-background-color: transparent;
+            --g-button-background-color: transparent;
 
             cursor: pointer;
             color: inherit;

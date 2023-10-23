@@ -403,24 +403,22 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             return;
         }
 
-        const contentHeight = this.sheetTitleHeight + this.innerContentHeight;
+        const sheetHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
 
         const viewportHeight = window.innerHeight;
         const resultHeight =
-            contentHeight >= viewportHeight
+            sheetHeight >= viewportHeight
                 ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
-                : contentHeight;
+                : sheetHeight;
 
         this.sheetContentRef.current.style.transition =
-            this.state.prevInnerContentHeight > contentHeight
+            this.state.prevInnerContentHeight > sheetHeight
                 ? `height 0s ease ${this.transitionDuration}`
                 : 'none';
 
-        this.sheetContentRef.current.style.height = `${resultHeight}px`;
-        this.sheetRef.current.style.transform = `translate3d(0, -${
-            resultHeight + this.sheetTopHeight
-        }px, 0)`;
-        this.setState({prevInnerContentHeight: contentHeight});
+        this.sheetContentRef.current.style.height = `${resultHeight - this.sheetTopHeight}px`;
+        this.sheetRef.current.style.transform = `translate3d(0, -${resultHeight}px, 0)`;
+        this.setState({prevInnerContentHeight: sheetHeight});
     };
 
     private addListeners() {

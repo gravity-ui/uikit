@@ -405,11 +405,11 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         const sheetHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
 
-        const viewportHeight = window.innerHeight;
+        const availableViewportHeight =
+            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
         const resultHeight =
-            sheetHeight >= viewportHeight
-                ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
-                : sheetHeight;
+            sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
 
         this.sheetContentRef.current.style.transition =
             this.state.prevInnerContentHeight > sheetHeight

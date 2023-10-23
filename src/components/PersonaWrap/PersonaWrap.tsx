@@ -47,10 +47,9 @@ export function PersonaWrap({
                 <div className={b('text')}>{children}</div>
             </div>
             {onClose && (
-                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                <div className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
+                <button className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
                     <Icon data={Xmark} size={12} />
-                </div>
+                </button>
             )}
         </div>
     );

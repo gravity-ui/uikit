@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.18.1](https://github.com/gravity-ui/uikit/compare/v5.18.0...v5.18.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* **Sheet:** fix Sheet resize when viewport size changes ([#1055](https://github.com/gravity-ui/uikit/issues/1055)) ([35a7b74](https://github.com/gravity-ui/uikit/commit/35a7b749493ec0377f5e013619d312f087801141))
+
 ## [5.18.0](https://github.com/gravity-ui/uikit/compare/v5.17.0...v5.18.0) (2023-10-19)
 
 

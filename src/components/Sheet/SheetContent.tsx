@@ -50,7 +50,7 @@ interface SheetContentState {
     startScrollTop: number;
     startY: number;
     deltaY: number;
-    prevInnerContentHeight: number;
+    prevSheetHeight: number;
     swipeAreaTouched: boolean;
     contentTouched: boolean;
     veilTouched: boolean;
@@ -78,7 +78,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         startScrollTop: 0,
         startY: 0,
         deltaY: 0,
-        prevInnerContentHeight: 0,
+        prevSheetHeight: 0,
         swipeAreaTouched: false,
         contentTouched: false,
         veilTouched: false,
@@ -90,7 +90,9 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.addListeners();
         this.show();
         this.setInitialStyles();
-        this.setState({prevInnerContentHeight: this.innerContentHeight});
+        this.setState({
+            prevSheetHeight: this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight,
+        });
     }
 
     componentDidUpdate(prevProps: SheetContentInnerProps) {
@@ -412,13 +414,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
 
         this.sheetContentRef.current.style.transition =
-            this.state.prevInnerContentHeight > sheetHeight
+            this.state.prevSheetHeight > sheetHeight
                 ? `height 0s ease ${this.transitionDuration}`
                 : 'none';
 
         this.sheetContentRef.current.style.height = `${resultHeight - this.sheetTopHeight}px`;
         this.sheetRef.current.style.transform = `translate3d(0, -${resultHeight}px, 0)`;
-        this.setState({prevInnerContentHeight: sheetHeight});
+        this.setState({prevSheetHeight: sheetHeight});
     };
 
     private addListeners() {

@@ -3,7 +3,7 @@ import React from 'react';
 import {useActionHandlers} from '../../hooks';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {eventBroker} from '../utils/eventBroker';
+import {eventBroker} from '../utils/event-broker';
 
 const b = block('menu');
 

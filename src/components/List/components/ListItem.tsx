@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../../utils/cn';
-import {eventBroker} from '../../utils/eventBroker';
+import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
 import type {ListItemProps} from '../types';
 

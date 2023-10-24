@@ -58,7 +58,6 @@ $block: '.#{variables.$ns}persona';
 
     &_clickable {
         #{$block}__main {
-            @include mixins.button-reset();
             outline-offset: -1px;
 
             &:focus {
@@ -71,6 +70,8 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__main {
+        @include mixins.button-reset();
+
         height: $avatarSize;
         display: inline-flex;
         align-items: center;

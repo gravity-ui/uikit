@@ -14,11 +14,11 @@ A table that allows the selecting and sorting of rows, and performing actions on
 
 Additional functionality is enabled via HOCs:
 
-- [withTableActions](#withtableactions)
-- [withTableCopy](#withtablecopy)
-- [withTableSelection](#withtableselection)
-- [withTableSettings](#withtablesettings)
-- [withTableSorting](#withtablesorting)
+- [withTableActions](#usage-with-hoc-withtableactions)
+- [withTableCopy](#usage-with-hoc-withtablecopy)
+- [withTableSelection](#usage-with-hoc-withtableselection)
+- [withTableSettings](#usage-with-hoc-withtablesettings)
+- [withTableSorting](#usage-with-hoc-withtablesorting)
 
 <!--/GITHUB_BLOCK-->
 

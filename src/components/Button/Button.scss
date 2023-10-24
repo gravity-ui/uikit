@@ -389,6 +389,18 @@ $iconWidth: 16px;
                 }
             }
         }
+
+        &_outlined,
+        &_outlined-info,
+        &_outlined-success,
+        &_outlined-warning,
+        &_outlined-danger,
+        &_outlined-action,
+        &_outlined-contrast {
+            &:focus::before {
+                outline-offset: -2px;
+            }
+        }
     }
 
     @include mixins.pin($block, ('::before', '::after'), var(--yc-button-border-radius));

@@ -36,22 +36,20 @@ export function PersonaWrap({
 }: PersonaWrapProps) {
     const clickable = Boolean(onClick);
     const closeable = Boolean(onClose);
+    const MainComponent = clickable ? 'button' : 'div';
+
     return (
         <div
             className={b({size, theme, clickable, closeable, empty: isEmpty}, className)}
             style={style}
         >
-            {React.createElement(
-                clickable ? 'button' : 'div',
-                {onClick, className: b('main')},
-                <React.Fragment>
-                    {avatar && <div className={b('avatar')}>{avatar}</div>}
-                    <div className={b('text')}>{children}</div>
-                </React.Fragment>,
-            )}
+            <MainComponent onClick={onClick} className={b('main')}>
+                {avatar && <div className={b('avatar')}>{avatar}</div>}
+                <div className={b('text')}>{children}</div>
+            </MainComponent>
             {onClose && (
                 <button className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
-                    <Icon data={Xmark} size={12} />
+                    <Icon data={Xmark} size={12} className={b('close-icon')} />
                 </button>
             )}
         </div>

@@ -56,19 +56,6 @@ $block: '.#{variables.$ns}persona';
         }
     }
 
-    &_clickable {
-        #{$block}__main {
-            outline-offset: -1px;
-
-            &:focus {
-                outline: 2px solid var(--g-color-line-focus);
-            }
-            &:focus:not(:focus-visible) {
-                outline: 0;
-            }
-        }
-    }
-
     &__main {
         @include mixins.button-reset();
 
@@ -80,6 +67,16 @@ $block: '.#{variables.$ns}persona';
 
         #{$block}_closeable & {
             padding-right: 0;
+        }
+        #{$block}_clickable & {
+            outline-offset: -1px;
+
+            &:focus {
+                outline: 2px solid var(--g-color-line-focus);
+            }
+            &:focus:not(:focus-visible) {
+                outline: 0;
+            }
         }
     }
 
@@ -155,19 +152,16 @@ $block: '.#{variables.$ns}persona';
         &:hover {
             color: var(--g-color-text-primary);
         }
+    }
 
-        .yc-icon {
-            border-radius: var(--g-focus-border-radius);
+    &__close-icon {
+        border-radius: var(--g-focus-border-radius);
+
+        #{$block}__close:focus & {
+            outline: 2px solid var(--g-color-line-focus);
         }
-        &:focus {
-            .yc-icon {
-                outline: 2px solid var(--g-color-line-focus);
-            }
-        }
-        &:focus:not(:focus-visible) {
-            .yc-icon {
-                outline: 0;
-            }
+        #{$block}__close:focus:not(:focus-visible) & {
+            outline: 0;
         }
     }
 }

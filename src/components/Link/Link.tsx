@@ -60,7 +60,6 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
 
     const commonProps = {
         title,
-        children,
         onClick,
         onClickCapture: handleClickCapture,
         onFocus,
@@ -75,8 +74,6 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
         const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
         return (
-            // children is passed in commonProps
-            // eslint-disable-next-line jsx-a11y/anchor-has-content
             <a
                 {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
                 {...commonProps}
@@ -84,7 +81,9 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
                 href={href}
                 target={target}
                 rel={relProp}
-            />
+            >
+                {children}
+            </a>
         );
     } else {
         return (
@@ -92,9 +91,12 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
                 {...(extraProps as React.HTMLAttributes<HTMLSpanElement>)}
                 {...commonProps}
                 ref={ref as React.Ref<HTMLSpanElement>}
+                // as this element has onClick handler
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                 tabIndex={0}
-            />
+            >
+                {children}
+            </span>
         );
     }
 });

@@ -7,8 +7,9 @@ import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 import {FocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
-import type {LayerCloseReason, LayerExtendableProps} from '../utils/layer-manager';
+import type {LayerCloseReason} from '../utils/layer-manager';
 import {useLayer} from '../utils/layer-manager';
+import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 import {getCSSTransitionClassNames} from '../utils/transition';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 

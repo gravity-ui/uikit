@@ -15,9 +15,7 @@ export interface LayerExtendableProps {
     type?: string;
 }
 
-export type ContentElement =
-    | Element
-    | (VirtualElement & {contains?: (other: Node | null) => boolean});
+type ContentElement = Element | (VirtualElement & {contains?: (other: Node | null) => boolean});
 
 export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;

@@ -50,7 +50,7 @@ interface SheetContentState {
     startScrollTop: number;
     startY: number;
     deltaY: number;
-    prevInnerContentHeight: number;
+    prevSheetHeight: number;
     swipeAreaTouched: boolean;
     contentTouched: boolean;
     veilTouched: boolean;
@@ -78,7 +78,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         startScrollTop: 0,
         startY: 0,
         deltaY: 0,
-        prevInnerContentHeight: 0,
+        prevSheetHeight: 0,
         swipeAreaTouched: false,
         contentTouched: false,
         veilTouched: false,
@@ -90,7 +90,9 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.addListeners();
         this.show();
         this.setInitialStyles();
-        this.setState({prevInnerContentHeight: this.innerContentHeight});
+        this.setState({
+            prevSheetHeight: this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight,
+        });
     }
 
     componentDidUpdate(prevProps: SheetContentInnerProps) {
@@ -336,7 +338,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             accelerationY > ACCELERATION_Y_MAX
         ) {
             this.hide();
-        } else {
+        } else if (deltaY !== 0) {
             this.show();
         }
     };
@@ -399,30 +401,26 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private onResize = () => {
-        const heightChanged = this.state.prevInnerContentHeight !== this.innerContentHeight;
-
-        if (!this.sheetRef.current || !this.sheetContentRef.current || !heightChanged) {
+        if (!this.sheetRef.current || !this.sheetContentRef.current) {
             return;
         }
 
+        const sheetHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
+
+        const availableViewportHeight =
+            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
+
+        const resultHeight =
+            sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
+
         this.sheetContentRef.current.style.transition =
-            this.state.prevInnerContentHeight > this.innerContentHeight
+            this.state.prevSheetHeight > sheetHeight
                 ? `height 0s ease ${this.transitionDuration}`
                 : 'none';
 
-        const contentHeight = this.sheetTitleHeight + this.innerContentHeight;
-
-        const viewportHeight = window.innerHeight;
-        const resultHeight =
-            contentHeight >= viewportHeight
-                ? viewportHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT
-                : contentHeight;
-
-        this.sheetContentRef.current.style.height = `${resultHeight}px`;
-        this.sheetRef.current.style.transform = `translate3d(0, -${
-            resultHeight + this.sheetTopHeight
-        }px, 0)`;
-        this.setState({prevInnerContentHeight: contentHeight});
+        this.sheetContentRef.current.style.height = `${resultHeight - this.sheetTopHeight}px`;
+        this.sheetRef.current.style.transform = `translate3d(0, -${resultHeight}px, 0)`;
+        this.setState({prevSheetHeight: sheetHeight});
     };
 
     private addListeners() {

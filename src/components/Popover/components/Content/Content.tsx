@@ -21,7 +21,7 @@ export const Content = ({secondary, htmlContent, content, className}: ContentPro
     if (htmlContent) {
         return (
             <div
-                className={cnPopover('tooltip-content', {secondary})}
+                className={cnPopover('tooltip-content', {secondary}, className)}
                 dangerouslySetInnerHTML={{
                     __html: htmlContent,
                 }}

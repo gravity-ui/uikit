@@ -127,3 +127,66 @@ export const Position: StoryFn<PopupProps> = (args) => {
         </div>
     );
 };
+
+export const PopupInPopup: StoryFn<PopupProps> = (props: PopupProps) => {
+    const anchorRef = React.useRef<HTMLButtonElement>(null);
+    const anotherAnchorRef = React.useRef<HTMLDivElement>(null);
+
+    const [open, setOpen] = React.useState(false);
+
+    return (
+        <React.Fragment>
+            <Popup {...props} open={open} anchorRef={anchorRef} onClose={() => setOpen(false)}>
+                <div style={{padding: 10}} ref={anotherAnchorRef}>
+                    Popup content
+                </div>
+                <Popup {...props} open={open} anchorRef={anotherAnchorRef}>
+                    <div style={{padding: 10}}>Popup content</div>
+                </Popup>
+            </Popup>
+            <div
+                style={{
+                    width: '100%',
+                    height: 200,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Button ref={anchorRef} onClick={() => setOpen(!open)}>
+                    {open ? 'Hide' : 'Show'}
+                </Button>
+            </div>
+        </React.Fragment>
+    );
+};
+
+export const TextinputInPopup: StoryFn<PopupProps> = (props: PopupProps) => {
+    const anchorRef = React.useRef<HTMLButtonElement>(null);
+    const [open, setOpen] = React.useState(false);
+
+    return (
+        <React.Fragment>
+            <Popup {...props} open={open} anchorRef={anchorRef} onClose={() => setOpen(false)}>
+                <TextInput
+                    // eslint-disable-next-line jsx-a11y/no-autofocus
+                    autoFocus
+                    id="suggest-1"
+                />
+            </Popup>
+            <div
+                style={{
+                    width: '100%',
+                    height: 200,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Button ref={anchorRef} onClick={() => setOpen(!open)}>
+                    {open ? 'Hide' : 'Show'}
+                </Button>
+            </div>
+        </React.Fragment>
+    );
+};

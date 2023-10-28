@@ -82,6 +82,7 @@ export function Popup({
     autoFocus = false,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const [inTransition, setInTransition] = React.useState(true);
 
     useLayer({
         open,
@@ -132,37 +133,46 @@ export function Popup({
             >
                 <div
                     ref={handleRef}
-                    style={styles.popper}
+                    style={{
+                        ...styles.popper,
+                        transitionProperty: 'transform',
+                        transitionDuration: '1ms',
+                    }}
                     {...attributes.popper}
                     {...containerProps}
                     className={b({open}, className)}
                     data-qa={qa}
                     id={id}
                     role={role}
+                    onTransitionEnd={() => {
+                        setInTransition(false);
+                    }}
                 >
-                    <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
-                        {/* The onClick event handler is deprecated and should be removed */}
-                        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-                        <div
-                            onClick={onClick}
-                            onMouseEnter={onMouseEnter}
-                            onMouseLeave={onMouseLeave}
-                            onFocus={onFocus}
-                            onBlur={onBlur}
-                            className={b('content', contentClassName)}
-                            style={style}
-                            tabIndex={-1}
-                        >
-                            {hasArrow && (
-                                <PopupArrow
-                                    styles={styles.arrow}
-                                    attributes={attributes.arrow}
-                                    setArrowRef={setArrowRef}
-                                />
-                            )}
-                            {children}
-                        </div>
-                    </FocusTrap>
+                    {inTransition ? undefined : (
+                        <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
+                            {/* The onClick event handler is deprecated and should be removed */}
+                            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+                            <div
+                                onClick={onClick}
+                                onMouseEnter={onMouseEnter}
+                                onMouseLeave={onMouseLeave}
+                                onFocus={onFocus}
+                                onBlur={onBlur}
+                                className={b('content', contentClassName)}
+                                style={style}
+                                tabIndex={-1}
+                            >
+                                {hasArrow && (
+                                    <PopupArrow
+                                        styles={styles.arrow}
+                                        attributes={attributes.arrow}
+                                        setArrowRef={setArrowRef}
+                                    />
+                                )}
+                                {children}
+                            </div>
+                        </FocusTrap>
+                    )}
                 </div>
             </CSSTransition>
         </Portal>

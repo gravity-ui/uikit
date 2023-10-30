@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {ComponentMeta, ComponentStory} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import type {ButtonView} from '../../Button';
 import {ToasterProvider} from '../Provider/ToasterProvider';
@@ -85,9 +85,11 @@ export default {
             );
         },
     ],
-} as ComponentMeta<typeof Toast>;
+} as Meta<typeof Toast>;
 
-const DefaultTemplate: ComponentStory<typeof Toast & typeof ToasterDemo> = (args) => (
-    <ToasterDemo {...args} />
-);
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Toast & typeof ToasterDemo>;
+
+export const Default: Story = {
+    args: {},
+    render: (props) => <ToasterDemo {...props} />,
+};

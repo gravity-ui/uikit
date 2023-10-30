@@ -82,6 +82,8 @@ $block: '.#{variables.$ns}toast';
         width: 100%;
         height: 100%;
         min-height: var(--g-text-body-2-line-height);
+        min-width: 0;
+        grid-template-columns: 100%;
 
         &:before {
             content: '';

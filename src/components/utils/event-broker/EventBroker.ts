@@ -1,6 +1,5 @@
-import type {QAProps} from '../types';
-
-import {NAMESPACE} from './cn';
+import type {QAProps} from '../../types';
+import {NAMESPACE} from '../cn';
 
 export interface EventBrokerData<T = unknown> extends QAProps {
     componentId: string;

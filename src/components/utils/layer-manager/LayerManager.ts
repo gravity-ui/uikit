@@ -1,8 +1,7 @@
 import type {VirtualElement} from '@popperjs/core';
 
-import {KeyCode} from '../../constants';
-
-import {eventBroker} from './event-broker';
+import {KeyCode} from '../../../constants';
+import {eventBroker} from '../event-broker';
 
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 
@@ -16,9 +15,7 @@ export interface LayerExtendableProps {
     type?: string;
 }
 
-export type ContentElement =
-    | Element
-    | (VirtualElement & {contains?: (other: Node | null) => boolean});
+type ContentElement = Element | (VirtualElement & {contains?: (other: Node | null) => boolean});
 
 export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement> | undefined>;

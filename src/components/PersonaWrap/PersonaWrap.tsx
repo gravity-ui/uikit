@@ -36,21 +36,21 @@ export function PersonaWrap({
 }: PersonaWrapProps) {
     const clickable = Boolean(onClick);
     const closeable = Boolean(onClose);
+    const MainComponent = clickable ? 'button' : 'div';
+
     return (
         <div
             className={b({size, theme, clickable, closeable, empty: isEmpty}, className)}
             style={style}
         >
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className={b('main')} onClick={onClick}>
+            <MainComponent onClick={onClick} className={b('main')}>
                 {avatar && <div className={b('avatar')}>{avatar}</div>}
                 <div className={b('text')}>{children}</div>
-            </div>
+            </MainComponent>
             {onClose && (
-                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                <div className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
-                    <Icon data={Xmark} size={12} />
-                </div>
+                <button className={b('close')} onClick={onClose} {...closeButtonAriaAttributes}>
+                    <Icon data={Xmark} size={12} className={b('close-icon')} />
+                </button>
             )}
         </div>
     );

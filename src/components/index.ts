@@ -56,3 +56,4 @@ export {Lang, configure} from './utils/configure';
 export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/interactions';
 export * from './utils/xpath';
+export {getUniqId} from './utils/common';

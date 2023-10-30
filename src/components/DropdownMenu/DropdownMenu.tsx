@@ -166,7 +166,8 @@ const DropdownMenu = <T,>({
                         <Button
                             view="flat"
                             size={size}
-                            onClick={handleSwitcherClick}
+                            // FIXME remove switcher prop and uncomment onClick handler
+                            // onClick={handleSwitcherClick}
                             {...defaultSwitcherProps}
                             className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
                             disabled={disabled}

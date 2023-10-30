@@ -4,46 +4,14 @@ $block: '.#{variables.$ns}label';
 $disabled: #{$block}_disabled;
 $transitionDuration: 0.15s;
 $transitionTimingFunction: ease-in-out;
-
-@mixin themeState($bgColor, $bgHoverColor, $textColor, $borderColor: none) {
-    color: #{$textColor};
-    background-color: #{$bgColor};
-
-    @if $borderColor != none {
-        --border-size: 1px;
-        border: var(--border-size) solid #{$borderColor};
-    }
-
-    // hover on interactive label (excluding hover on addon)
-    #{$block}_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {
-        background-color: #{$bgHoverColor};
-    }
-
-    //fallback for old browsers
-    @supports not selector(:has(*)) {
-        #{$block}_is-interactive:hover {
-            background-color: #{$bgHoverColor};
-        }
-    }
-
-    // hover on action button
-    &:not(#{$disabled}) #{$block}__addon_interactive {
-        --yc-button-background-color-hover: #{$bgHoverColor};
-
-        &:hover,
-        &:focus,
-        &:active {
-            color: #{$textColor};
-        }
-    }
-}
+$hover-opacity: 0.7;
 
 @mixin sizeState($margin, $mainSize, $rAddon, $lAddon, $borderRadius) {
-    height: #{$mainSize};
-    border-radius: #{$borderRadius};
+    height: $mainSize;
+    border-radius: $borderRadius;
     & #{$block}__text {
-        line-height: #{$mainSize};
-        margin: 0 #{$margin};
+        line-height: $mainSize;
+        margin: 0 $margin;
     }
 
     & #{$block}__addon {
@@ -53,11 +21,11 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &#{$block}_has-right-addon #{$block}__text {
-        margin-right: #{$rAddon};
+        margin-right: $rAddon;
     }
 
     &#{$block}_has-left-addon #{$block}__text {
-        margin-left: #{$lAddon};
+        margin-left: $lAddon;
     }
 }
 
@@ -85,7 +53,7 @@ $transitionTimingFunction: ease-in-out;
 
     &__value {
         display: flex;
-        opacity: 0.7;
+        opacity: $hover-opacity;
     }
 
     &__separator {
@@ -138,7 +106,7 @@ $transitionTimingFunction: ease-in-out;
     }
 
     &_disabled {
-        opacity: 0.7;
+        opacity: $hover-opacity;
         pointer-events: none;
     }
 
@@ -147,72 +115,77 @@ $transitionTimingFunction: ease-in-out;
         outline: none;
     }
 
-    // focus on interactive label (excluding focus on addon)
-    &_is-interactive:focus:not(:has(#{$block}__addon_interactive:focus)) {
-        outline: 2px solid var(--g-color-line-focus);
-    }
-
-    //fallback for old browsers
-    &_is-interactive:focus:not(:has(#{$block}__addon_interactive:focus)):not(:focus-visible) {
-        box-shadow: none;
-    }
+    --_-bg-color: none;
+    --_-bg-hover-color: none;
+    --_-text-color: none;
+    --_-border-color: none;
 
     &_theme {
         &_normal {
-            @include themeState(
-                var(--g-color-base-misc-light),
-                var(--g-color-base-misc-light-hover),
-                var(--g-color-text-misc-heavy)
-            );
+            --_-bg-color: var(--g-color-base-misc-light);
+            --_-bg-hover-color: var(--g-color-base-misc-light-hover);
+            --_-text-color: var(--g-color-text-misc-heavy);
         }
 
         &_success {
-            @include themeState(
-                var(--g-color-base-positive-light),
-                var(--g-color-base-positive-light-hover),
-                var(--g-color-text-positive-heavy)
-            );
+            --_-bg-color: var(--g-color-base-positive-light);
+            --_-bg-hover-color: var(--g-color-base-positive-light-hover);
+            --_-text-color: var(--g-color-text-positive-heavy);
         }
 
         &_info {
-            @include themeState(
-                var(--g-color-base-info-light),
-                var(--g-color-base-info-light-hover),
-                var(--g-color-text-info-heavy)
-            );
+            --_-bg-color: var(--g-color-base-info-light);
+            --_-bg-hover-color: var(--g-color-base-info-light-hover);
+            --_-text-color: var(--g-color-text-info-heavy);
         }
 
         &_warning {
-            @include themeState(
-                var(--g-color-base-warning-light),
-                var(--g-color-base-warning-light-hover),
-                var(--g-color-text-warning-heavy)
-            );
+            --_-bg-color: var(--g-color-base-warning-light);
+            --_-bg-hover-color: var(--g-color-base-warning-light-hover);
+            --_-text-color: var(--g-color-text-warning-heavy);
         }
 
         &_danger {
-            @include themeState(
-                var(--g-color-base-danger-light),
-                var(--g-color-base-danger-light-hover),
-                var(--g-color-text-danger-heavy)
-            );
+            --_-bg-color: var(--g-color-base-danger-light);
+            --_-bg-hover-color: var(--g-color-base-danger-light-hover);
+            --_-text-color: var(--g-color-text-danger-heavy);
         }
 
         &_unknown {
-            @include themeState(
-                var(--g-color-base-neutral-light),
-                var(--g-color-base-neutral-light-hover),
-                var(--g-color-text-complementary)
-            );
+            --_-bg-color: var(--g-color-base-neutral-light);
+            --_-bg-hover-color: var(--g-color-base-neutral-light-hover);
+            --_-text-color: var(--g-color-text-complementary);
         }
 
         &_clear {
-            @include themeState(
-                transparent,
-                var(--g-color-base-simple-hover-solid),
-                var(--g-color-text-complementary),
-                var(--g-color-line-generic)
-            );
+            --_-bg-color: transparent;
+            --_-bg-hover-color: var(--g-color-base-simple-hover-solid);
+            --_-text-color: var(--g-color-text-complementary);
+            --_-border-color: var(--g-color-line-generic);
+        }
+    }
+
+    color: var(--_-text-color);
+    background-color: var(--_-bg-color);
+
+    @if var(--_-border-color) != none {
+        --border-size: 1px;
+        border: var(--border-size) solid var(--_-border-color);
+    }
+
+    // hover on interactive label (excluding hover on addon)
+    &_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {
+        background-color: var(--_-bg-hover-color);
+    }
+
+    // hover on action button
+    &:not(#{$disabled}) #{$block}__addon_interactive {
+        --yc-button-background-color-hover: var(--_-bg-hover-color);
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: var(--_-text-color);
         }
     }
 }

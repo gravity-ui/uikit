@@ -115,6 +115,10 @@ $hover-opacity: 0.7;
         outline: none;
     }
 
+    &_is-interactive:focus-visible {
+        outline: 2px solid var(--g-color-line-focus);
+    }
+
     --_-bg-color: none;
     --_-bg-hover-color: none;
     --_-text-color: none;

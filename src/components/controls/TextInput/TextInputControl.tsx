@@ -44,8 +44,6 @@ export function TextInputControl(props: Props) {
             placeholder={placeholder}
             value={value}
             defaultValue={defaultValue}
-            // TextInput provides this functionality for its user. False by default
-            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}
             onChange={onChange}

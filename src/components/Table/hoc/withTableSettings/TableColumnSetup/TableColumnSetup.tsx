@@ -3,6 +3,7 @@ import React from 'react';
 import {Gear} from '@gravity-ui/icons';
 
 import type {PopperPlacement} from '../../../../../components/utils/usePopper';
+import {useActionHandlers} from '../../../../../hooks/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
 import {List} from '../../../../List';
@@ -21,6 +22,7 @@ const b = block('table-column-setup');
 type Item = TableColumnSetupItem;
 
 interface SwitcherProps {
+    onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -208,18 +210,21 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         );
     };
 
+    const {onKeyDown: handleControlKeyDown} = useActionHandlers(handleControlClick);
+
     return (
         <div className={b(null, className)}>
             {/* FIXME remove switcher prop and this wrapper */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className={b('control')} ref={refControl} onClick={handleControlClick}>
-                {renderSwitcher?.({onClick: handleControlClick}) || switcher || (
-                    <Button disabled={disabled}>
-                        <Icon data={Gear} />
-                        {i18n('button_switcher')}
-                        {renderStatus()}
-                    </Button>
-                )}
+                {renderSwitcher?.({onClick: handleControlClick, onKeyDown: handleControlKeyDown}) ||
+                    switcher || (
+                        <Button disabled={disabled}>
+                            <Icon data={Gear} />
+                            {i18n('button_switcher')}
+                            {renderStatus()}
+                        </Button>
+                    )}
             </div>
             <Popup
                 anchorRef={refControl}

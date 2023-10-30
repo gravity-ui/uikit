@@ -100,8 +100,6 @@ export function TextAreaControl(props: Props) {
             value={value}
             defaultValue={defaultValue}
             rows={textareaRows}
-            // TextArea provides this functionality for its user. False by default
-            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={autoFocus}
             autoComplete={autoComplete}
             onChange={onChange}

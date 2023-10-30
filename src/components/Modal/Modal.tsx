@@ -132,7 +132,6 @@ export function Modal({
                         <div className={b('cell')}>
                             <FocusTrap
                                 enabled={!disableFocusTrap && focusTrap && open && !inTransition}
-                                // eslint-disable-next-line jsx-a11y/no-autofocus
                                 autoFocus={!disableAutoFocus && autoFocus}
                             >
                                 <div

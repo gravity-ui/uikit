@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';
 
+import {useActionHandlers} from '../../hooks/useActionHandlers';
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
 import {Icon} from '../Icon';
@@ -28,6 +29,7 @@ import {toItemList} from './utils/toItemList';
 import './DropdownMenu.scss';
 
 type SwitcherProps = {
+    onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
 };
 
@@ -145,6 +147,8 @@ const DropdownMenu = <T,>({
         togglePopup();
     };
 
+    const {onKeyDown: handleSwitcherKeyDown} = useActionHandlers(handleSwitcherClick);
+
     return (
         <DropdownMenuContext.Provider value={contextValue}>
             {/* FIXME remove switcher prop and this wrapper */}
@@ -154,18 +158,22 @@ const DropdownMenu = <T,>({
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
                 onClick={handleSwitcherClick}
             >
-                {renderSwitcher?.({onClick: handleSwitcherClick}) || switcher || (
-                    <Button
-                        view="flat"
-                        size={size}
-                        onClick={handleSwitcherClick}
-                        {...defaultSwitcherProps}
-                        className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
-                        disabled={disabled}
-                    >
-                        {icon}
-                    </Button>
-                )}
+                {renderSwitcher?.({
+                    onClick: handleSwitcherClick,
+                    onKeyDown: handleSwitcherKeyDown,
+                }) ||
+                    switcher || (
+                        <Button
+                            view="flat"
+                            size={size}
+                            onClick={handleSwitcherClick}
+                            {...defaultSwitcherProps}
+                            className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
+                            disabled={disabled}
+                        >
+                            {icon}
+                        </Button>
+                    )}
             </div>
             <DropdownMenuNavigationContextProvider anchorRef={anchorRef} disabled={!isPopupShown}>
                 <DropdownMenuPopup

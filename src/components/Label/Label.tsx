@@ -96,7 +96,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
 
     const hasOnClick = Boolean(onClick);
     const hasCopy = Boolean(typeCopy && copyText);
-    const isInteractive = hasOnClick || hasCopy || interactive;
+    const isInteractive = (hasOnClick || hasCopy || interactive) && !disabled;
     const {copyIconSize, closeIconSize, buttonSize} = sizeMap[size];
 
     const leftIcon = icon && (
@@ -173,7 +173,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         return (
             <div
                 ref={ref}
-                role={hasOnClick ? 'role' : undefined}
+                role={hasOnClick ? 'button' : undefined}
                 tabIndex={hasOnClick ? 0 : undefined}
                 onClick={hasOnClick ? handleClick : undefined}
                 onKeyDown={hasOnClick ? onKeyDown : undefined}
@@ -197,7 +197,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         );
     };
 
-    if (hasCopy && copyText) {
+    if (hasCopy && copyText && !hasOnClick) {
         return (
             <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000}>
                 {(status) => renderLabel(status)}

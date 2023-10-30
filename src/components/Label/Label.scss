@@ -14,30 +14,14 @@ $transitionTimingFunction: ease-in-out;
         border: var(--border-size) solid #{$borderColor};
     }
 
-    // focus on interactive label (excluding focus on addon)
-    &:not(#{$disabled})#{$block}_is-interactive:focus:not(
-            :has(#{$block}__addon_interactive:focus)
-        ) {
-        box-shadow: 0 0 0 2px var(--g-color-line-focus);
-    }
-
-    //fallback for old browsers
-    &:not(#{$disabled})#{$block}_is-interactive:focus:not(
-            :has(#{$block}__addon_interactive:focus)
-        ):not(:focus-visible) {
-        box-shadow: none;
-    }
-
     // hover on interactive label (excluding hover on addon)
-    &:not(#{$disabled})#{$block}_is-interactive:hover:not(
-            :has(#{$block}__addon_interactive:hover)
-        ) {
+    #{$block}_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {
         background-color: #{$bgHoverColor};
     }
 
     //fallback for old browsers
     @supports not selector(:has(*)) {
-        &:not(#{$disabled})#{$block}_is-interactive:hover {
+        #{$block}_is-interactive:hover {
             background-color: #{$bgHoverColor};
         }
     }
@@ -161,6 +145,16 @@ $transitionTimingFunction: ease-in-out;
     &_is-interactive {
         cursor: pointer;
         outline: none;
+    }
+
+    // focus on interactive label (excluding focus on addon)
+    &_is-interactive:focus:not(:has(#{$block}__addon_interactive:focus)) {
+        outline: 2px solid var(--g-color-line-focus);
+    }
+
+    //fallback for old browsers
+    &_is-interactive:focus:not(:has(#{$block}__addon_interactive:focus)):not(:focus-visible) {
+        box-shadow: none;
     }
 
     &_theme {

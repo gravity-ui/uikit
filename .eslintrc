@@ -18,7 +18,8 @@
                 "selector": "TSTypeReference>TSQualifiedName[left.name='React'][right.name='FC']",
                 "message": "Don't use React.FC"
             }
-        ]
+        ],
+        "jsx-a11y/no-autofocus": 0
     },
     "overrides": [
         {

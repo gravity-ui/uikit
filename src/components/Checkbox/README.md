@@ -8,7 +8,7 @@
 import {Checkbox} from '@gravity-ui/checkbox';
 ```
 
-The `Checkbox` component allows the user to select or deselect a specific value
+The `Checkbox` component allows the user to select or deselect a specific value.
 
 ## States
 
@@ -49,7 +49,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `Checkbox` use the `size` property. Default size is `m`.
+To control the size of the `Checkbox`, use the `size` property. The default size is `m`.
 
 <!--LANDING_BLOCK
 
@@ -133,25 +133,25 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name           | Description                                                                                             |                     Type                      | Default |
-| :------------- | :------------------------------------------------------------------------------------------------------ | :-------------------------------------------: | :-----: |
-| children       | The content of the checkbox (usually a label).                                                          |                  `ReactNode`                  |         |
-| content        | The content of the checkbox (alternative to children).                                                  |                  `ReactNode`                  |         |
-| disabled       | Toggles the `disabled` state of the checkbox.                                                           |                   `boolean`                   | `false` |
-| checked        | Toggles the checked state of the checkbox.                                                              |                   `boolean`                   | `false` |
-| defaultChecked | Sets the initial checked state when the component is mounted.                                           |                   `boolean`                   | `false` |
-| onUpdate       | Fires when the checkbox state is changed by the user. Provides checked value as an callback's argument. |         `(checked: boolean) => void`          |         |
-| onChange       | Fires when the checkbox state is changed by the user. Provides change event as an callback's argument.  |                  `Function`                   |         |
-| onFocus        | Event handler for when the checkbox input element receives focus.                                       |                  `Function`                   |         |
-| onBlur         | Event handler for when the checkbox input element loses focus.                                          |                  `Function`                   |         |
-| size           | Sets the size of the checkbox.                                                                          |                    `m` `l`                    |   `m`   |
-| id             | HTML `id` attribute                                                                                     |                   `string`                    |         |
-| qa             | HTML `data-qa` attribute, used in tests.                                                                |                   `string`                    |         |
-| style          | HTML `style` attribute                                                                                  |             `React.CSSProperties`             |         |
-| className      | HTML `class` attribute                                                                                  |                   `string`                    |         |
-| title          | HTML `title` attribute                                                                                  |                   `string`                    |         |
-| name           | HTML `name` attribute for the input element.                                                            |                   `string`                    |         |
-| value          | HTML `value` attribute for the input element.                                                           |                   `string`                    |         |
-| indeterminate  | Toggles the indeterminate state of the checkbox.                                                        |                   `boolean`                   | `false` |
-| controlProps   | Additional props for the underlying input element.                                                      | `React.InputHTMLAttributes<HTMLInputElement>` |         |
-| controlRef     | Ref to the underlying input element.                                                                    |         `React.Ref<HTMLInputElement>`         |         |
+| Name           | Description                                                                                          |                     Type                      | Default |
+| :------------- | :--------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :-----: |
+| children       | The content of the checkbox (usually a label).                                                       |                  `ReactNode`                  |         |
+| content        | The content of the checkbox (alternative to children).                                               |                  `ReactNode`                  |         |
+| disabled       | Toggles the `disabled` state of the checkbox.                                                        |                   `boolean`                   | `false` |
+| checked        | Toggles the checked state of the checkbox.                                                           |                   `boolean`                   | `false` |
+| defaultChecked | Sets the initial checked state when the component is mounted.                                        |                   `boolean`                   | `false` |
+| onUpdate       | Fires when the user changes the checkbox state. Provides the checked value as a callback's argument. |         `(checked: boolean) => void`          |         |
+| onChange       | Fires when the user changes the checkbox state. Provides the change event as a callback's argument.  |                  `Function`                   |         |
+| onFocus        | Event handler for when the checkbox input element receives focus.                                    |                  `Function`                   |         |
+| onBlur         | Event handler for when the checkbox input element loses focus.                                       |                  `Function`                   |         |
+| size           | Sets the size of the checkbox.                                                                       |                    `m` `l`                    |   `m`   |
+| id             | HTML `id` attribute                                                                                  |                   `string`                    |         |
+| qa             | HTML `data-qa` attribute, used in tests.                                                             |                   `string`                    |         |
+| style          | HTML `style` attribute                                                                               |             `React.CSSProperties`             |         |
+| className      | HTML `class` attribute                                                                               |                   `string`                    |         |
+| title          | HTML `title` attribute                                                                               |                   `string`                    |         |
+| name           | HTML `name` attribute for the input element.                                                         |                   `string`                    |         |
+| value          | HTML `value` attribute for the input element.                                                        |                   `string`                    |         |
+| indeterminate  | Toggles the indeterminate state of the checkbox.                                                     |                   `boolean`                   | `false` |
+| controlProps   | Additional props for the underlying input element.                                                   | `React.InputHTMLAttributes<HTMLInputElement>` |         |
+| controlRef     | Ref to the underlying input element.                                                                 |         `React.Ref<HTMLInputElement>`         |         |

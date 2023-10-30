@@ -8,13 +8,13 @@
 import {Portal} from '@gravity-ui/uikit';
 ```
 
-`Portal` is a utility component, simple wrapper around React [`createPortal`](https://react.dev/reference/react-dom/createPortal)
-that allows to render children into a DOM node outside parent component.
+`Portal` is a utility component, a simple wrapper around React [`createPortal`](https://react.dev/reference/react-dom/createPortal)
+that allows you to render children into a DOM node outside the parent component.
 
 ## Container
 
-By default `Portal` renders its children into `document.body`, but it can be changed by `container` property.
-Additionally, container can be provided to all `Portal`s in the React subtree using `PortalProvder` component.
+By default, `Portal` renders its children into `document.body`; however, it can be changed with the `container` property.
+Additionally, a container can be provided to all `Portal`s in the React subtree using the `PortalProvder` component.
 
 ```tsx
 import {Portal, PortalProvider} from '@gravity-ui/uikit'
@@ -34,4 +34,4 @@ const myRoot = document.getElementById('my-root');
 | :------------ | :---------------------------------------------------- | :---------------: | :-------------: |
 | children      | Any React content                                     | `React.ReactNode` |                 |
 | container     | DOM element children to be mounted                    |   `HTMLElement`   | `document.body` |
-| disablePortal | If true, renders chidlren within normal DOM hierarchy |     `boolean`     |                 |
+| disablePortal | If true, renders children within normal DOM hierarchy |     `boolean`     |                 |

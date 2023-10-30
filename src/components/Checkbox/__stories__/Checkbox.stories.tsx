@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {Checkbox} from '../Checkbox';
-import type {CheckboxProps} from '../Checkbox';
 
 import {CheckboxShowcase} from './CheckboxShowcase';
 
@@ -12,58 +12,58 @@ export default {
     component: Checkbox,
 } as Meta;
 
-const DefaultTemplate: StoryFn<CheckboxProps> = (args) => <Checkbox {...args} />;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Checkbox>;
 
-const SizeTemplate: StoryFn<CheckboxProps> = (args) => (
-    <React.Fragment>
-        m: <Checkbox {...args} size="m" />
-        <span style={{margin: '16px'}} />
-        l: <Checkbox {...args} size="l" />
-    </React.Fragment>
-);
-export const Size = SizeTemplate.bind({});
+export const Default: Story = {
+    args: {
+        content: 'Label',
+    },
+};
 
-const DisabledTemplate: StoryFn<CheckboxProps> = (args) => (
-    <React.Fragment>
-        <Checkbox {...args} defaultChecked disabled content="Disabled checked" />
-        <span style={{margin: '16px'}} />
-        <Checkbox disabled content="Disabled" />
-    </React.Fragment>
-);
-export const Disabled = DisabledTemplate.bind({});
+export const Checked: Story = {
+    args: {
+        ...Default.args,
+        checked: true,
+    },
+};
 
-const IndeterminateTemplate: StoryFn<CheckboxProps> = (args) => (
-    <Checkbox {...args} indeterminate />
-);
-export const Indeterminate = IndeterminateTemplate.bind({});
+export const Indeterminate: Story = {
+    args: {
+        ...Default.args,
+        indeterminate: true,
+    },
+};
 
-const LabelTemplate: StoryFn<CheckboxProps> = (args) => (
-    <React.Fragment>
-        <Checkbox {...args} size="m" content="content m" />
-        <span style={{margin: '16px'}} />
-        <Checkbox {...args} size="l" content="content l" />
-        <div style={{width: 200, marginTop: 10}}>
-            <Checkbox {...args} size="m" style={{width: '100%'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <span>Full</span>
-                    <span>width</span>
-                    <span>content</span>
-                </div>
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            <Checkbox {...args} size="m">
+                Size m
             </Checkbox>
-        </div>
-    </React.Fragment>
-);
-export const Label = LabelTemplate.bind({});
+            <Checkbox {...args} size="l">
+                Size l
+            </Checkbox>
+        </Showcase>
+    ),
+};
 
-const ControlledTemplate: StoryFn<CheckboxProps> = (args) => (
-    <React.Fragment>
-        <Checkbox {...args} content="Controlled checked" checked />
-        <span style={{margin: '16px'}} />
-        <Checkbox {...args} content="Controlled unchecked" checked={false} />
-    </React.Fragment>
-);
-export const Controlled = ControlledTemplate.bind({});
+export const Disabled: Story = {
+    render: (args) => (
+        <Showcase>
+            <Checkbox {...args} disabled checked={false}>
+                Unchecked
+            </Checkbox>
+            <Checkbox {...args} disabled checked>
+                Checked
+            </Checkbox>
+            <Checkbox {...args} disabled indeterminate>
+                Indeterminate
+            </Checkbox>
+        </Showcase>
+    ),
+};
 
-const ShowcaseTemplate: StoryFn = () => <CheckboxShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const ShowcaseStory: Story = {
+    render: () => <CheckboxShowcase />,
+    name: 'Showcase',
+};

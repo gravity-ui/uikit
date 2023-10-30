@@ -6,8 +6,8 @@ import {Checkbox} from '../Checkbox';
 
 export function CheckboxShowcase() {
     return (
-        <Showcase title="Checkbox">
-            <ShowcaseItem title="size">
+        <Showcase>
+            <ShowcaseItem title="Size">
                 <p>
                     <Checkbox size="m" checked={false} content="size m" />
                     <span style={{margin: '8px'}} />
@@ -23,7 +23,7 @@ export function CheckboxShowcase() {
                     <Checkbox size="l" indeterminate={true} content="size l" />
                 </p>
             </ShowcaseItem>
-            <ShowcaseItem title="disabled">
+            <ShowcaseItem title="Disabled">
                 <p>
                     <Checkbox checked={false} disabled content="unchecked" />
                 </p>
@@ -34,7 +34,7 @@ export function CheckboxShowcase() {
                     <Checkbox checked={true} disabled content="checked" />
                 </p>
             </ShowcaseItem>
-            <ShowcaseItem title="uncontrolled">
+            <ShowcaseItem title="Uncontrolled">
                 <p>
                     <Checkbox defaultChecked={false} content="unchecked" />
                 </p>
@@ -42,7 +42,7 @@ export function CheckboxShowcase() {
                     <Checkbox defaultChecked={true} content="checked" />
                 </p>
             </ShowcaseItem>
-            <ShowcaseItem title="controlled">
+            <ShowcaseItem title="Controlled">
                 <p>
                     <Checkbox checked={false} content="unchecked" />
                 </p>

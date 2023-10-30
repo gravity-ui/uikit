@@ -78,11 +78,13 @@ export function LabelShowcase(args: LabelProps) {
             >
                 <div></div>
                 {themes.map((theme) => (
-                    <h1 key={`${theme}-header`}>{theme}</h1>
+                    <div key={`${theme}-header`} className="header">
+                        {theme}
+                    </div>
                 ))}
                 {sizes.map((size) => (
                     <React.Fragment key={size}>
-                        <h1>{size}</h1>
+                        <div className="header">{size}</div>
                         {themes.map((theme) => (
                             <div key={theme} className="section">
                                 {section({theme, size, ...args})}

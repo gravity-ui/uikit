@@ -1,5 +1,6 @@
+import {useTimeout} from '../../hooks';
+
 import {useHover} from './useHover';
-import {useTimeout} from './useTimeout';
 
 interface UseCloseOnTimeoutProps {
     onClose: VoidFunction;

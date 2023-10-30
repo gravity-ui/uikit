@@ -16,7 +16,7 @@ The `TextArea`'s appearance is controlled by the `view` and `pin` properties.
 
 ### View
 
-`normal` - this is the main view of `TextArea` (used by default).
+`normal` - is the main view of the `TextArea` (used by default).
 
 <!--LANDING_BLOCK
 <ExampleBlock code={`<TextArea placeholder="Placeholder" />`}>
@@ -24,7 +24,7 @@ The `TextArea`'s appearance is controlled by the `view` and `pin` properties.
 </ExampleBlock>
 LANDING_BLOCK-->
 
-`clear` - this view could be used in case of using custom wrapper for `TextArea`.
+`clear` - can be used when using a custom wrapper for the `TextArea`.
 
 <!--LANDING_BLOCK
 <ExampleBlock code={`<TextArea view="clear" placeholder="Placeholder" />`}>
@@ -43,7 +43,7 @@ LANDING_BLOCK-->
 
 ### Pin
 
-Allows you to control view of right and left edges of `TextArea`'s border.
+Allows you to control the appearance of the right and left edges of the `TextArea`'s border.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -95,8 +95,8 @@ LANDING_BLOCK-->
 
 ### Error
 
-The state of the `TextArea` at which you want to show incorrect user input. To change `TextArea` appearance use the `validationState` property with `"invalid"` value.
-Optional message text can be added via `errorMessage` property.
+The state of the `TextArea` where you want to show incorrect user input. To change the appearance of the `TextArea`, use the `validationState` property with the "invalid" value.
+An optional message text can be added via the `errorMessage` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -122,9 +122,9 @@ LANDING_BLOCK-->
 
 `s` – Used when standard controls are too big (tables, small cards).
 
-`m` – Basic size, used in most components.
+`m` – The basic size, used in most components.
 
-`l` – Basic controls performed in a page's header, modal windows, or pop-ups.
+`l` – Used for basic controls in a page's header, modal windows, or pop-ups.
 
 `xl` – Used on promo and landing pages.
 
@@ -155,9 +155,9 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Rows management
+## Row management
 
-The `TextArea`'s rows count is controlled by the `rows`, `minRows` and `maxRows` properties.
+The row count of the `TextArea` is controlled by the `rows`, `minRows` and `maxRows` properties.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -182,35 +182,35 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name            | Description                                                                                                                         |                        Type                         |     Default     |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------: | :-------------: |
-| autoComplete    | The control's `autocomplete` attribute                                                                                              |                 `boolean` `string`                  |                 |
-| autoFocus       | The control's `autofocus` attribute                                                                                                 |                      `boolean`                      |                 |
-| className       | The control's wrapper class name                                                                                                    |                      `string`                       |                 |
-| controlProps    | The control's html attributes                                                                                                       | `React.TextareaHTMLAttributes<HTMLTextAreaElement>` |                 |
-| controlRef      | React ref provided to the control                                                                                                   |          `React.Ref<HTMLTextAreaElement>`           |                 |
-| defaultValue    | The control's default value. Use when the component is not controlled                                                               |                      `string`                       |                 |
-| disabled        | Indicates that the user cannot interact with the control                                                                            |                      `boolean`                      |     `false`     |
-| errorMessage    | Error text                                                                                                                          |                      `string`                       |                 |
-| hasClear        | Shows icon for clearing control's value                                                                                             |                      `boolean`                      |     `false`     |
-| id              | The control's `id` attribute                                                                                                        |                      `string`                       |                 |
-| maxRows         | The number of maximum visible text lines for the control. Ignored if `rows` is specified                                            |                      `number`                       |                 |
-| minRows         | The number of minimum visible text lines for the control. Ignored if `rows` is specified                                            |                      `number`                       |                 |
-| name            | The control's `name` attribute. Will be autogenerated if not specified                                                              |                      `string`                       |                 |
-| note            | An optional element displayed under the lower right corner of the control and sharing the place with the error container            |                  `React.ReactNode`                  |                 |
-| onBlur          | Fires when the control lost focus. Provides focus event as an callback's argument                                                   |                     `function`                      |                 |
-| onChange        | Fires when the input’s value is changed by the user. Provides change event as an callback's argument                                |                     `function`                      |                 |
-| onFocus         | Fires when the control gets focus. Provides focus event as an callback's argument                                                   |                     `function`                      |                 |
-| onKeyDown       | Fires when a key is pressed. Provides keyboard event as an callback's argument                                                      |                     `function`                      |                 |
-| onKeyUp         | Fires when a key is released. Provides keyboard event as an callback's argument                                                     |                     `function`                      |                 |
-| onUpdate        | Fires when the input’s value is changed by the user. Provides new value as an callback's argument                                   |                     `function`                      |                 |
-| pin             | The control's border view                                                                                                           |                      `string`                       | `"round-round"` |
-| placeholder     | Text that appears in the control when it has no value set                                                                           |                      `string`                       |                 |
-| qa              | Test id attribute (`data-qa`)                                                                                                       |                      `string`                       |                 |
-| rows            | The number of visible text lines for the control. If not specified, the hight will be automatically calculated based on the content |                      `number`                       |                 |
-| size            | The control's size                                                                                                                  |              `"s"` `"m"` `"l"` `"xl"`               |      `"m"`      |
-| tabIndex        | The control's `tabindex` attribute                                                                                                  |                      `string`                       |                 |
-| type            | The control's type                                                                                                                  |                      `string`                       |                 |
-| validationState | Validation state                                                                                                                    |                     `"invalid"`                     |                 |
-| value           | The control's value                                                                                                                 |                      `string`                       |                 |
-| view            | The control's view                                                                                                                  |                `"normal"` `"clear"`                 |   `"normal"`    |
+| Name            | Description                                                                                                                       |                        Type                         |     Default     |
+| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------: | :-------------: |
+| autoComplete    | The control's `autocomplete` attribute                                                                                            |                 `boolean` `string`                  |                 |
+| autoFocus       | The control's `autofocus` attribute                                                                                               |                      `boolean`                      |                 |
+| className       | The control's wrapper class name                                                                                                  |                      `string`                       |                 |
+| controlProps    | The control's html attributes                                                                                                     | `React.TextareaHTMLAttributes<HTMLTextAreaElement>` |                 |
+| controlRef      | React ref provided to the control                                                                                                 |          `React.Ref<HTMLTextAreaElement>`           |                 |
+| defaultValue    | The control's default value. Used when the component is not controlled                                                            |                      `string`                       |                 |
+| disabled        | Indicates that the user cannot interact with the control                                                                          |                      `boolean`                      |     `false`     |
+| errorMessage    | Error text                                                                                                                        |                      `string`                       |                 |
+| hasClear        | Shows the icon for clearing the control's value                                                                                   |                      `boolean`                      |     `false`     |
+| id              | The control's `id` attribute                                                                                                      |                      `string`                       |                 |
+| maxRows         | The maximum number of visible text lines for the control. Ignored if `rows` is specified                                          |                      `number`                       |                 |
+| minRows         | The minimum number of visible text lines for the control. Ignored if `rows` is specified                                          |                      `number`                       |                 |
+| name            | The control's `name` attribute. If unspecified, it will be autogenerated.                                                         |                      `string`                       |                 |
+| note            | An optional element displayed under the bottom-right corner of the control and sharing space with the error container             |                  `React.ReactNode`                  |                 |
+| onBlur          | Fires when the control lost focus. Provides focus event as a callback's argument                                                  |                     `function`                      |                 |
+| onChange        | Fires when the input’s value is changed by the user. Provides change event as a callback's argument                               |                     `function`                      |                 |
+| onFocus         | Fires when the control gets focus. Provides focus event as a callback's argument                                                  |                     `function`                      |                 |
+| onKeyDown       | Fires when a key is pressed. Provides keyboard event as a callback's argument                                                     |                     `function`                      |                 |
+| onKeyUp         | Fires when a key is released. Provides keyboard event as a callback's argument                                                    |                     `function`                      |                 |
+| onUpdate        | Fires when the input’s value is changed by the user. Provides new value as ancallback's argument                                  |                     `function`                      |                 |
+| pin             | The control's border view                                                                                                         |                      `string`                       | `"round-round"` |
+| placeholder     | Text that appears in the control when no value is set                                                                             |                      `string`                       |                 |
+| qa              | Test id attribute (`data-qa`)                                                                                                     |                      `string`                       |                 |
+| rows            | The number of visible text lines for the control. If unspecified, the hight will be calculated automatically based on the content |                      `number`                       |                 |
+| size            | The control's size                                                                                                                |              `"s"` `"m"` `"l"` `"xl"`               |      `"m"`      |
+| tabIndex        | The control's `tabindex` attribute                                                                                                |                      `string`                       |                 |
+| type            | The control's type                                                                                                                |                      `string`                       |                 |
+| validationState | Validation state                                                                                                                  |                     `"invalid"`                     |                 |
+| value           | The control's value                                                                                                               |                      `string`                       |                 |
+| view            | The control's view                                                                                                                |                `"normal"` `"clear"`                 |   `"normal"`    |

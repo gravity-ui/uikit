@@ -4,11 +4,9 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Switch} from '../Switch';
 
-import './SwitchShowcase.scss';
-
 export const SwitchShowcase = () => {
     return (
-        <Showcase title="Switch">
+        <Showcase>
             <ShowcaseItem title="default">
                 <p>
                     <Switch />

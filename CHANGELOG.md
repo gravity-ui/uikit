@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.18.1](https://github.com/gravity-ui/uikit/compare/v5.18.0...v5.18.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* **Sheet:** fix Sheet resize when viewport size changes ([#1055](https://github.com/gravity-ui/uikit/issues/1055)) ([35a7b74](https://github.com/gravity-ui/uikit/commit/35a7b749493ec0377f5e013619d312f087801141))
+
+## [5.18.0](https://github.com/gravity-ui/uikit/compare/v5.17.0...v5.18.0) (2023-10-19)
+
+
+### Features
+
+* **Table:** expand checkbox click area ([#654](https://github.com/gravity-ui/uikit/issues/654)) ([0534cf8](https://github.com/gravity-ui/uikit/commit/0534cf8f973c4737f137078a6978df8f201a4f3f))
+
+
+### Bug Fixes
+
+* **Sheet:** fix Sheet intermediate hanging when touch ends above it ([#1052](https://github.com/gravity-ui/uikit/issues/1052)) ([38e6308](https://github.com/gravity-ui/uikit/commit/38e63088433798193d3eea267548ac1e7422e0a6))
+
 ## [5.17.0](https://github.com/gravity-ui/uikit/compare/v5.16.0...v5.17.0) (2023-10-05)
 
 

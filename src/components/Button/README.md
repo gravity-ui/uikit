@@ -13,18 +13,18 @@ they can be used as links to navigate to another pages.
 
 ## Appearance
 
-There are 4 view groups of the `Button`: basic, outlined, flat and contrast.
-The `Button` appearance is controlled by the `view` property.
+There are four `Button` view types: basic, outlined, flat and contrast.
+The `Button`'s appearance is determined by the `view` property.
 
 ### Basic
 
-`action` - the most prominent button, used for the primary action on a screen, which requires the most attention.
-We recommend only using one such button per page.
+`action` - the most prominent button, used for the primary action on a screen which requires the most attention.
+We recommend using only one such button per page.
 
-`normal` - default type of the `Button`. It is designed for secondary actions or when you have to maintain
-the importance of an action without drawing too much attention to it.
+`normal` - default type of the `Button`, designed for secondary actions or to maintain the importance of an
+action without drawing too much attention to it.
 
-`raised` - placed above the content, as "floating" element, usually with a fixed location.
+`raised` - placed above the content as a "floating" element, usually with a fixed location.
 
 <!--LANDING_BLOCK
 
@@ -53,11 +53,11 @@ LANDING_BLOCK-->
 
 ### Outlined
 
-`outlined` - used for secondary actions that require less attention on a page. It can be used both with the main button and without it (only with an accented one).
+`outlined` - used for secondary actions that require less attention on a page. Can be used with or without a main button (only with an accented one).
 
-`outlined-action` - usually used as link to another page or external resource.
+`outlined-action` - usually used as a link to another page or external resource.
 
-There are also semantic variants of this view, which can be used in places where additional semantic needed: `outlined-info`, `outlined-success`, `outlined-warning`, `outlined-danger`.
+There are also semantic variants of this type, which can be used when additional semantics are needed: `outlined-info`, `outlined-success`, `outlined-warning`, `outlined-danger`.
 
 <!--LANDING_BLOCK
 
@@ -142,8 +142,7 @@ LANDING_BLOCK-->
 
 ### Contrast
 
-`normal-contrast`, `outline-contrast` and `flat-contrast` buttons highlight actions against complex background (for example, in a banner or against inverse background).
-The type depends on the required degree of display.
+`normal-contrast`, `outline-contrast` and `flat-contrast` buttons highlight actions against complex background, e.g., in a banner or against an inverse background.
 
 <!--LANDING_BLOCK
 
@@ -174,7 +173,7 @@ LANDING_BLOCK-->
 
 ## Icons
 
-In order to add icon to the `Button` you should use the [`Icon`](../Icon) component, a special wrapper for SVGs.
+To add an icon to the `Button`, you should use the [`Icon`](../Icon) component, a special wrapper for SVGs.
 
 <!--LANDING_BLOCK
 
@@ -260,7 +259,7 @@ LANDING_BLOCK-->
 
 The `Button` can be in different states.
 
-`disabled` - when button is unavailable for some reason.
+`disabled` - when the button is unavailable for some reason.
 
 `loading` - when some asynchronous processes are happening in the background, `selected` - when the user can switch between "Enable" and "Disable".
 
@@ -328,11 +327,11 @@ LANDING_BLOCK-->
 
 ## Width
 
-The `width` property controls how the `Button` behave inside the container.
+The `width` property controls how the `Button` behaves inside the container.
 
-`auto` - limits the maximum width of the component, hides overflowing content with ellipsis.
+`auto` - limits the maximum width of the component, hides overflowing content with an ellipsis.
 
-`max` - fix the width by the width of the parent container, also hides overflowing content with ellipsis.
+`max` - matches the width to the width of the parent container, also hides overflowing content with an ellipsis.
 
 <!--LANDING_BLOCK
 
@@ -376,9 +375,9 @@ LANDING_BLOCK-->
 
 ## Pin
 
-The `pin` property allows you to control shape of the right and left edges. It is usually used for combining multiple buttons in a single unit.
-Value of the `pin` property consist of left and edge style names divided by dash, for example `"round-brick"`.
-Edge styles are: `round` (default), `circle`, `brick` and `clear`.
+The `pin` property allows you to control the shape of the right and left edges and is usually used for combining multiple buttons in a single unit.
+The value of the `pin` property consists of left and edge style names divided by a dash, e.g. `"round-brick"`.
+The edge styles are: `round` (default), `circle`, `brick` and `clear`.
 
 <!--LANDING_BLOCK
 
@@ -448,7 +447,7 @@ LANDING_BLOCK-->
 | :----------- | :-------------------------------------------------------- | :-----------------------------: | :-------------: |
 | children     | Button content. You can mix text with `<Icon/>` component |           `ReactNode`           |                 |
 | className    | HTML `class` attribute                                    |            `string`             |                 |
-| component    | Override the root component                               |       `ElementType<any>`        |   `"button"`    |
+| component    | Overrides the root component                              |       `ElementType<any>`        |   `"button"`    |
 | disabled     | Toggles `disabled` state                                  |             `false`             |     `false`     |
 | extraProps   | Any additional props                                      |            `Record`             |                 |
 | href         | HTML `href` attribute                                     |            `string`             |                 |

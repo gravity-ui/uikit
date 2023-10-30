@@ -10,12 +10,12 @@ import {List} from '@gravity-ui/uikit';
 
 ### ItemsHeight
 
-Item list height (or a function that returns the height value for a list). It can be helpful when setting the list
-height dynamically. `(items: []) => number`.
+Determines the item list height (or a function that returns the height value for a list). It can be helpful when setting the list
+height dynamically, e.g., `(items: []) => number`.
 
 ### Items
 
-Array of items for a list.
+Provides an array of items for a list:
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -34,14 +34,14 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-An item can be a scalar or an arbitrary value (anyway, it must be `truly`).
-If the latter, be sure to specify filtering and rendering functions.
-The default render just passes an item as text.
+An item can be a scalar or an arbitrary value and must be `truthy` in any case.
+If it is an arbitrary value, make sure to specify filtering and rendering functions.
+The default render only provides an item as text.
 
 The special `item.disabled` field disables an item.
 
 Render and height customization provides plenty of room for experimenting.
-For example, the code below lets you emulate groups:
+For example, the code below allows you to emulate groups:
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -161,7 +161,7 @@ LANDING_BLOCK-->
 
 ### Filterable
 
-`filterable` - disabled an input to search item if the value is `false`. It is `true` by default.
+`filterable`: Disables the input to search for an item if the value is `false`. The default value is `true`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -186,7 +186,7 @@ LANDING_BLOCK-->
 
 ### Sortable
 
-`sortable` - enabled an opportunity to switch the order of the items if the value is `true`. It is `false` by default.
+`sortable`: Enables swapping list items if the value is `true`. The default value is `false`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -211,17 +211,17 @@ LANDING_BLOCK-->
 
 ### Virtualization
 
-To enable virtualization, make sure one of the following two conditions is set:
+To enable virtualization, make sure one of these conditions is met:
 
-1. The `--yc-list-height` variable value is set. In this case, the list height will be fixed and equal to the value
+1. You set the `--yc-list-height` variable value. In this case, the list height will be fixed and equal to the value
    specified in this variable.
-2. Set the `display: flex` style for the list parent container. In this case, the list will adapt to the container
+2. You set the `display: flex` style for the list parent container. In this case, the list will adapt to the container
    width.
 
 ### External management
 
-Sometimes you may want to manage the activity of items from the keyboard by maintaining the focus on an external item.
-The `onKeyDown` event forwarding to a list may help you here:
+Sometimes, you may want to manage the activity of items from the keyboard by maintaining the focus on an external item.
+The `onKeyDown` event forwarding to a list may help you here.
 Likewise, you can forward `onFocus` and `onBlur` if you need to repeat the behavior when an active item is lost.
 
 ### Filter

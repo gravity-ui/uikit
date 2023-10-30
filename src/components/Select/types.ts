@@ -1,8 +1,8 @@
 import type React from 'react';
 
+import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
-import type {UseOpenProps} from '../utils/useSelect/types';
 
 import type {Option, OptionGroup} from './tech-components';
 
@@ -12,7 +12,7 @@ export type SelectRenderClearArgs = {
 
 export type SelectRenderControlProps = {
     onClear: () => void;
-    onClick: (e: React.MouseEvent<HTMLElement>) => void;
+    onClick: () => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
     ref: React.Ref<HTMLElement>;

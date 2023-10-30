@@ -33,7 +33,7 @@
 /src/components/User @DaffPunks
 /src/components/UserAvatar @DaffPunks
 /src/components/Select @korvin89
-/src/components/Sheet @korvin89
+/src/components/Sheet @mournfulCoroner
 /src/components/Skeleton @SeqviriouM
 /src/components/Spin @SeqviriouM
 /src/components/Stories @DarkGenius
@@ -50,7 +50,10 @@
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
+/src/hooks/useIntersection @imechoim
+/src/hooks/useTimeout @ogonkov
 /src/hooks/useOutsideClick @NikitaCG
+/src/hooks/useViewportSize @NikitaCG
 /src/hooks/useUniqId @ValeraS
 
 # Allow everyone to update dependencies

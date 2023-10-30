@@ -8,7 +8,7 @@
 import {Pagination} from '@gravity-ui/uikit';
 ```
 
-Component to render a pagination.
+This component renders pagination.
 
 ## Usage
 
@@ -25,14 +25,14 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 
 ## Properties
 
-| Name            | Description                                                               |    Type    | Default |
-| :-------------- | :------------------------------------------------------------------------ | :--------: | :-----: |
-| className       | HTML `class` attribute                                                    |  `string`  |         |
-| compact         | Hide first, previous, next buttons title. Always `true` in mobile version | `boolean`  | `true`  |
-| onUpdate        | Called when the page number or pageSize is changed                        | `Function` |         |
-| page            | Current page number                                                       |  `number`  |         |
-| pageSize        | Number of data items per page                                             |  `number`  |         |
-| pageSizeOptions | Specify the sizeChanger options                                           | `number[]` |         |
-| total           | Total number of data items                                                |  `number`  |         |
-| showInput       | Show input to navigate to pages directly                                  | `boolean`  | `false` |
-| showPages       | Show pages numeration                                                     | `boolean`  | `true`  |
+| Name            | Description                                                                                              |    Type    | Default |
+| :-------------- | :------------------------------------------------------------------------------------------------------- | :--------: | :-----: |
+| className       | HTML `class` attribute                                                                                   |  `string`  |         |
+| compact         | Hides the title for the `First`, `Previous`, and `Next` buttons. Always set to `true` in mobile version. | `boolean`  | `true`  |
+| onUpdate        | Called when the page number or `pageSize` is changed                                                     | `Function` |         |
+| page            | Current page number                                                                                      |  `number`  |         |
+| pageSize        | Number of data items per page                                                                            |  `number`  |         |
+| pageSizeOptions | Allows you to specify the `sizeChanger` options                                                          | `number[]` |         |
+| total           | Total number of data items                                                                               |  `number`  |         |
+| showInput       | Shows input to navigate to pages directly                                                                | `boolean`  | `false` |
+| showPages       | Shows pages numbering                                                                                    | `boolean`  | `true`  |

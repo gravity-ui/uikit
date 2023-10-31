@@ -5,15 +5,11 @@ import {getUniqId} from '../../components/utils/common';
 
 export type UseUniqIdResult = string;
 
-function useUniqIdFallback() {
-    const idRef = React.useRef<string>();
-    if (idRef.current === undefined) {
-        idRef.current = getUniqId();
-    }
-    return idRef.current;
+export function useUniqIdFallback() {
+    return React.useMemo(() => getUniqId(), []);
 }
 
-function useIdNative() {
+export function useIdNative() {
     return `${NAMESPACE_NEW}${React.useId()}`;
 }
 

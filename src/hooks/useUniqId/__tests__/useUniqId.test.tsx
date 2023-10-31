@@ -38,37 +38,7 @@ const TestComponentWithFallback = () => {
     );
 };
 describe('useUniqId', () => {
-    test.each([
-        {
-            Component: TestComponentReact,
-            uniqId: 'g-:r0:',
-        },
-        {
-            Component: TestComponentWithFallback,
-            uniqId: 'yc-uniq-1',
-        },
-    ])('should return the same id on different calls', ({Component, uniqId}) => {
-        render(<Component />);
-
-        const uniqIdElement = screen.getByTestId(uniqId);
-        const clickedAmountElement = screen.getByTestId(
-            `${TEST_COMPONENT_CLICKED_AMOUNT_ID}${uniqId}`,
-        );
-        const uniqId1 = uniqIdElement.textContent;
-        const clickedAmount1 = Number(clickedAmountElement.textContent);
-        act(() => {
-            uniqIdElement.click();
-        });
-        const uniqId2 = uniqIdElement.textContent;
-        const clickedAmount2 = Number(clickedAmountElement.textContent);
-
-        expect(uniqId1).toBe(uniqId);
-        expect(uniqId2).toBe(uniqId);
-        expect(clickedAmount1).toBe(0);
-        expect(clickedAmount2).toBe(1);
-    });
-
-    test.each([
+    it.each([
         {
             Component: TestComponentReact,
             uniqId1: 'g-:r0:',

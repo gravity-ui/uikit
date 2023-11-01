@@ -186,6 +186,13 @@ LANDING_BLOCK-->
 </Menu>
 ```
 
+```tsx
+<Menu>
+  <Menu.Item iconEnd={<Icon size={16} data={TriangleExclamation} />}>Item with icon</Menu.Item>
+  <Menu.Item>Item without icon</Menu.Item>
+</Menu>
+```
+
 <!--/GITHUB_BLOCK-->
 
 ### States

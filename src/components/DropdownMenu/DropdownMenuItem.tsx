@@ -95,7 +95,9 @@ export const DropdownMenuItem = <T,>({
     let iconEnd = props.iconEnd ? props.iconEnd : null;
 
     if (hasSubmenu) {
-        iconEnd = <Icon data={ChevronRight} size={10} />;
+        iconEnd = (
+            <Icon data={ChevronRight} size={10} className={cnDropdownMenu('sub-menu-arrow')} />
+        );
     }
 
     return (

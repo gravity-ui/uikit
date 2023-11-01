@@ -17,6 +17,11 @@ $block: '.#{variables.$ns}dropdown-menu';
         pointer-events: none;
     }
 
+    &__sub-menu-arrow {
+        right: -4px;
+        position: relative;
+    }
+
     &__sub-menu {
         position: relative;
 

@@ -60,7 +60,6 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
 
     const commonProps = {
         title,
-        children,
         onClick,
         onClickCapture: handleClickCapture,
         onFocus,
@@ -83,7 +82,7 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
                 target={target}
                 rel={relProp}
             >
-                {commonProps.children}
+                {children}
             </a>
         );
     } else {
@@ -92,10 +91,12 @@ export const Link = React.forwardRef<HTMLElement, LinkProps>(function Link(
                 {...(extraProps as React.HTMLAttributes<HTMLSpanElement>)}
                 {...commonProps}
                 ref={ref as React.Ref<HTMLSpanElement>}
-                // FIXME Href always should be string
+                // as this element has onClick handler
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                 tabIndex={0}
-            />
+            >
+                {children}
+            </span>
         );
     }
 });

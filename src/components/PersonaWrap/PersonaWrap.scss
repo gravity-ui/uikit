@@ -57,13 +57,26 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__main {
+        @include mixins.button-reset();
+
         height: $avatarSize;
         display: inline-flex;
         align-items: center;
         padding-right: 6px;
+        border-radius: inherit;
 
         #{$block}_closeable & {
             padding-right: 0;
+        }
+        #{$block}_clickable & {
+            outline-offset: -1px;
+
+            &:focus {
+                outline: 2px solid var(--g-color-line-focus);
+            }
+            &:focus:not(:focus-visible) {
+                outline: 0;
+            }
         }
     }
 
@@ -120,6 +133,8 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__close {
+        @include mixins.button-reset();
+
         height: $avatarSize;
         width: 16px;
         display: inline-flex;
@@ -128,6 +143,7 @@ $block: '.#{variables.$ns}persona';
         cursor: pointer;
         padding-right: 6px;
         color: var(--g-color-text-secondary);
+        box-sizing: initial;
 
         transition-property: color;
         transition-duration: $transitionDuration;
@@ -135,6 +151,17 @@ $block: '.#{variables.$ns}persona';
 
         &:hover {
             color: var(--g-color-text-primary);
+        }
+    }
+
+    &__close-icon {
+        border-radius: var(--g-focus-border-radius);
+
+        #{$block}__close:focus & {
+            outline: 2px solid var(--g-color-line-focus);
+        }
+        #{$block}__close:focus:not(:focus-visible) & {
+            outline: 0;
         }
     }
 }

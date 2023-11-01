@@ -1,6 +1,7 @@
 export * from './useActionHandlers';
 export * from './useBodyScrollLock';
 export * from './useFileInput';
+export * from './useFocusWithin';
 export * from './useForkRef';
 export * from './useIntersection';
 export * from './useListNavigation';

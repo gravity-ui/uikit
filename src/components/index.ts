@@ -53,7 +53,7 @@ export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
 export * from './utils/layer-manager';
 export {Lang, configure} from './utils/configure';
+/** @deprecated, drop on next major */
 export {useOnFocusOutside} from './utils/useOnFocusOutside';
-export * from './utils/interactions';
 export * from './utils/xpath';
 export {getUniqId} from './utils/common';

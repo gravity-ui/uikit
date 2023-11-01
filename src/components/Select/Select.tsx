@@ -1,11 +1,10 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useForkRef, useSelect, useUniqId} from '../../hooks';
+import {useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
-import {useFocusWithin} from '../utils/interactions';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';

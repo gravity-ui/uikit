@@ -240,8 +240,8 @@ LANDING_BLOCK-->
 
 | Name       | Description                                |           Type            |  Default   |
 | :--------- | :----------------------------------------- | :-----------------------: | :--------: |
-| iconStart  | Menu icon before item text              |        `ReactNode`        |            |
-| iconEnd    | Menu icon after item text               |        `ReactNode`        |            |
+| iconStart  | Menu icon before item text                 |        `ReactNode`        |            |
+| iconEnd    | Menu icon after item text                  |        `ReactNode`        |            |
 | selected   | Menu item selected flag                    |         `boolean`         |  `false`   |
 | disabled   | Menu item disabled flag                    |         `boolean`         |  `false`   |
 | active     | Menu item active flag                      |         `boolean`         |  `false`   |

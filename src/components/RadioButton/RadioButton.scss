@@ -59,12 +59,8 @@ $block: '.#{variables.$ns}radio-button';
             opacity: 0;
             cursor: inherit;
 
-            &:focus + #{$block}__option-outline {
+            &:focus-visible + #{$block}__option-outline {
                 box-shadow: 0 0 0 2px var(--g-color-line-focus);
-            }
-
-            &:focus:not(:focus-visible) + #{$block}__option-outline {
-                box-shadow: none;
             }
         }
 

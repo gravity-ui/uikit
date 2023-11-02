@@ -33,13 +33,9 @@ $block: '.#{variables.$ns}card';
                 --yc-card-box-shadow: 0px 3px 10px var(--g-color-sfx-shadow);
             }
 
-            &:focus::after {
+            &:focus-visible::after {
                 content: '';
                 box-shadow: 0 0 0 2px var(--g-color-line-focus);
-            }
-
-            &:focus:not(:focus-visible)::after {
-                box-shadow: none;
             }
         }
     }
@@ -85,13 +81,9 @@ $block: '.#{variables.$ns}card';
                 }
             }
 
-            &:focus::after {
+            &:focus-visible::after {
                 content: '';
                 box-shadow: 0 0 0 2px var(--g-color-line-focus);
-            }
-
-            &:focus:not(:focus-visible)::after {
-                box-shadow: none;
             }
         }
 

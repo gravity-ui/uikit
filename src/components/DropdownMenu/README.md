@@ -399,7 +399,7 @@ The example above is oversimplified to demonstrate the idea of the customizable 
 
 ## Custom icons
 
-A custom icons can be added to a `DropdownMenu` item by assigning the `iconStart` or `iconEnd` property. By default, `DropdownMenu` items go without icons.
+Custom icons can be added to a `DropdownMenu` item by assigning the `iconStart` or `iconEnd` property. By default, `DropdownMenu` items go without icons.
 
 The menu toggle icon can be changed with the `DropdownMenu`'s `switcher` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
@@ -528,8 +528,8 @@ This type describes individual dropdown menu items.
 | :----------- | :------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------: | :-----: |
 | `text`       | Menu item content.                                                                                                              |               `React.ReactNode`                |         |
 | `action`     | Menu item click handler. Recieves the parameters from the parent dropdown menu component (both `event` and `data`).             | `(event: React.MouseEvent, data: any) => void` |         |
-| `iconStart`  | Menu item icon before item text.                                                                                                |               `React.ReactNode`                |         |
-| `iconEnd`    | Menu item icon after item text. Ignored, when item has sub-menu.                                                                |               `React.ReactNode`                |         |
+| `iconStart`  | Menu item icon before the item content.                                                                                         |               `React.ReactNode`                |         |
+| `iconEnd`    | Menu item icon after the item content. Ignored if the item has a submenu.                                                       |               `React.ReactNode`                |         |
 | `hidden`     | Determines whether the item is hidden.                                                                                          |                   `boolean`                    |         |
 | `disabled`   | Determines whether the item is disabled.                                                                                        |                   `boolean`                    |         |
 | `href`       | Menu item with this prop becomes a link to the specified location.                                                              |                    `string`                    |         |

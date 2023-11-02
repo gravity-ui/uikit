@@ -2,16 +2,16 @@
 
 React hook used to create a conditionally controlled state, such state can either be controlled or uncontrolled
 
-### Arguments
+## Properties
 
-| Name         | Type                                                                  | Default                                               | Description                                                      |
-| :----------- | :-------------------------------------------------------------------- | :---------------------------------------------------- | :--------------------------------------------------------------- |
-| property     | `StateType`                                                           | `-`                                                   | State value                                                      |
-| setProperty  | `Dispatch<SetStateAction<StateType>> or ((value: StateType) => void)` | `-`                                                   | State setter or callback, which should be called on state change |
-| initialState | `StateType` or `() => StateType`                                      | `-`                                                   | Initial state or state initializer                               |
-| isControlled | `() => boolean`                                                       | `property !== undefined && setProperty !== undefined` | Returns if state should be controlled                            |
+| Name         | Description                                                      |                                 Type                                  |                        Default                        |
+| :----------- | :--------------------------------------------------------------- | :-------------------------------------------------------------------: | :---------------------------------------------------: |
+| property     | State value                                                      |                              `StateType`                              |                                                       |
+| setProperty  | State setter or callback, which should be called on state change | `Dispatch<SetStateAction<StateType>> or ((value: StateType) => void)` |                                                       |
+| initialState | Initial state or state initializer                               |                   `StateType` or `() => StateType`                    |                                                       |
+| isControlled | Returns if state should be controlled                            |                            `() => boolean`                            | `property !== undefined && setProperty !== undefined` |
 
-### Returns
+## Result
 
 | Name  | Type                                               | Description            |
 | :---- | :------------------------------------------------- | :--------------------- |

@@ -1,6 +1,6 @@
-import {useStateWithCallback} from '../useStateWithCallback';
+import {useStateWithCallback} from '../../../components/utils/useStateWithCallback';
 
-type UseConditionallyControlledStateResult<T extends unknown> = [
+export type UseConditionallyControlledStateResult<T extends unknown> = [
     T,
     React.Dispatch<React.SetStateAction<T>>,
 ];

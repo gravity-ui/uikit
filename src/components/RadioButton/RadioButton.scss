@@ -60,7 +60,7 @@ $block: '.#{variables.$ns}radio-button';
             cursor: inherit;
 
             &:focus-visible + #{$block}__option-outline {
-                box-shadow: 0 0 0 2px var(--g-color-line-focus);
+                outline: 2px solid var(--g-color-line-focus);
             }
         }
 

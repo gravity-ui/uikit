@@ -72,7 +72,7 @@ $block: '.#{variables.$ns}checkbox';
     }
 
     &__control:focus-visible + &__outline {
-        box-shadow: 0 0 0 2px var(--g-color-line-focus);
+        outline: 2px solid var(--g-color-line-focus);
     }
 
     &_size {

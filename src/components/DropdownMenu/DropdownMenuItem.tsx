@@ -92,13 +92,11 @@ export const DropdownMenuItem = <T,>({
         };
     }, [props.extraProps, closeSubmenu, hasSubmenu, openSubmenu]);
 
-    let iconEnd = props.iconEnd ? props.iconEnd : null;
-
-    if (hasSubmenu) {
-        iconEnd = (
-            <Icon data={ChevronRight} size={10} className={cnDropdownMenu('sub-menu-arrow')} />
-        );
-    }
+    const iconEnd = hasSubmenu ? (
+        <Icon data={ChevronRight} size={10} className={cnDropdownMenu('sub-menu-arrow')} />
+    ) : (
+        props.iconEnd
+    );
 
     return (
         <React.Fragment>

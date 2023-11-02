@@ -12,6 +12,7 @@ export interface TriggerProps {
      * Tooltip's opened state
      */
     open: boolean;
+    openOnHover?: boolean;
     /**
      * Css class for the control
      */
@@ -44,6 +45,7 @@ export interface TriggerProps {
 
 export const Trigger = ({
     open,
+    openOnHover,
     disabled,
     className,
     openTooltip,
@@ -53,7 +55,11 @@ export const Trigger = ({
     children,
 }: TriggerProps) => {
     const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
-        if (disabled) {
+        // Ignores click that should close tooltip in case of {openOnHover: true}
+        // to prevent situation when user could close tooltip accidentally
+        const shouldPreventClosingByClick = open && openOnHover;
+
+        if (disabled || shouldPreventClosingByClick) {
             return;
         }
 

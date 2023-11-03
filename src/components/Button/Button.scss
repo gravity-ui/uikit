@@ -4,12 +4,14 @@
 $block: '.#{variables.$ns}button';
 
 #{$block} {
-    --_--color: var(--g-color-text-primary);
-    --_--color-hover: var(--_--color);
+    --_--text-color: var(--g-color-text-primary);
+    --_--text-color-hover: var(--_--text-color);
     --_--background-color: transparent;
     --_--background-color-hover: var(--g-color-base-simple-hover);
-    --_--outline-color: var(--g-color-line-focus);
-    --_--outline-offset: 0;
+    --_--border-width: 0;
+    --_--border-color: currentColor;
+    --_--focus-outline-color: var(--g-color-line-focus);
+    --_--focus-outline-offset: 0;
     --_--icon-space: calc(
         var(--g-button-padding, var(--_--padding)) + var(--g-button-icon-size, var(--_--icon-size)) +
             var(--g-button-icon-offset, var(--_--icon-offset))
@@ -35,7 +37,7 @@ $block: '.#{variables.$ns}button';
     text-align: center;
     white-space: nowrap;
     text-decoration: none;
-    color: var(--g-button-color, var(--_--color));
+    color: var(--g-button-text-color, var(--_--text-color));
     background: transparent;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -48,12 +50,13 @@ $block: '.#{variables.$ns}button';
         z-index: -1;
         inset: 0;
         background-color: var(--g-button-background-color, var(--_--background-color));
-        border: var(--g-button-border, var(--_--border));
+        border: var(--g-button-border-width, var(--_--border-width))
+            var(--g-button-border-style, solid) var(--g-button-border-color, var(--_--border-color));
         transition: background-color 0.15s linear;
     }
 
     &:hover {
-        color: var(--g-button-color-hover, var(--_--color-hover));
+        color: var(--g-button-text-color-hover, var(--_--text-color-hover));
 
         &::before {
             background-color: var(
@@ -64,8 +67,9 @@ $block: '.#{variables.$ns}button';
     }
 
     &:focus::before {
-        outline: 2px solid var(--g-button-outline-color, var(--_--outline-color));
-        outline-offset: var(--g-button-outline-offset, var(--_--outline-offset));
+        outline: var(--g-button-focus-outline-color, var(--_--focus-outline-color))
+            var(--g-button-focus-outline-style, solid) var(--g-button-focus-outline-width, 2px);
+        outline-offset: var(--g-button-focus-outline-offset, var(--_--focus-outline-offset));
     }
 
     &:focus:not(:focus-visible)::before {
@@ -140,43 +144,46 @@ $block: '.#{variables.$ns}button';
         }
 
         &_action {
-            --_--color: var(--g-color-text-brand-contrast);
+            --_--text-color: var(--g-color-text-brand-contrast);
             --_--background-color: var(--g-color-base-brand);
             --_--background-color-hover: var(--g-color-base-brand-hover);
-            --_--outline-color: var(--g-color-base-brand);
-
-            &:focus::before {
-                outline-offset: var(--_--outline-offset);
-            }
+            --_--focus-outline-color: var(--g-color-base-brand);
+            --_--focus-outline-offset: 1px;
         }
 
         &_outlined {
-            --_--border: 1px solid var(--g-color-line-generic);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-generic);
         }
 
         &_outlined-info {
-            --_--color: var(--g-color-text-info);
-            --_--border: 1px solid var(--g-color-line-info);
+            --_--text-color: var(--g-color-text-info);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-info);
         }
 
         &_outlined-success {
-            --_--color: var(--g-color-text-positive);
-            --_--border: 1px solid var(--g-color-line-positive);
+            --_--text-color: var(--g-color-text-positive);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-positive);
         }
 
         &_outlined-warning {
-            --_--color: var(--g-color-text-warning);
-            --_--border: 1px solid var(--g-color-line-warning);
+            --_--text-color: var(--g-color-text-warning);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-warning);
         }
 
         &_outlined-danger {
-            --_--color: var(--g-color-text-danger);
-            --_--border: 1px solid var(--g-color-line-danger);
+            --_--text-color: var(--g-color-text-danger);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-danger);
         }
 
         &_outlined-action {
-            --_--color: var(--g-color-text-brand);
-            --_--border: 1px solid var(--g-color-line-brand);
+            --_--text-color: var(--g-color-text-brand);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-brand);
         }
 
         &_raised {
@@ -193,48 +200,49 @@ $block: '.#{variables.$ns}button';
         }
 
         &_flat-secondary {
-            --_--color: var(--g-color-text-secondary);
-            --_--color-hover: var(--g-color-text-primary);
+            --_--text-color: var(--g-color-text-secondary);
+            --_--text-color-hover: var(--g-color-text-primary);
         }
 
         &_flat-info {
-            --_--color: var(--g-color-text-info);
+            --_--text-color: var(--g-color-text-info);
         }
 
         &_flat-success {
-            --_--color: var(--g-color-text-positive);
+            --_--text-color: var(--g-color-text-positive);
         }
 
         &_flat-warning {
-            --_--color: var(--g-color-text-warning);
+            --_--text-color: var(--g-color-text-warning);
         }
 
         &_flat-danger {
-            --_--color: var(--g-color-text-danger);
+            --_--text-color: var(--g-color-text-danger);
         }
 
         &_flat-action {
-            --_--color: var(--g-color-text-brand);
+            --_--text-color: var(--g-color-text-brand);
         }
 
         &_normal-contrast {
-            --_--color: var(--g-color-text-dark-primary);
+            --_--text-color: var(--g-color-text-dark-primary);
             --_--background-color: var(--g-color-base-light);
             --_--background-color-hover: var(--g-color-base-light-hover);
-            --_--outline-color: var(--g-color-line-light);
+            --_--focus-outline-color: var(--g-color-line-light);
         }
 
         &_outlined-contrast {
-            --_--color: var(--g-color-text-light-primary);
+            --_--text-color: var(--g-color-text-light-primary);
             --_--background-color-hover: var(--g-color-base-light-simple-hover);
-            --_--border: 1px solid var(--g-color-line-light);
-            --_--outline-color: var(--g-color-line-light);
+            --_--border-width: 1px;
+            --_--border-color: var(--g-color-line-light);
+            --_--focus-outline-color: var(--g-color-line-light);
         }
 
         &_flat-contrast {
-            --_--color: var(--g-color-text-light-primary);
+            --_--text-color: var(--g-color-text-light-primary);
             --_--background-color-hover: var(--g-color-base-light-simple-hover);
-            --_--outline-color: var(--g-color-line-light);
+            --_--focus-outline-color: var(--g-color-line-light);
         }
     }
 
@@ -306,13 +314,13 @@ $block: '.#{variables.$ns}button';
         pointer-events: none;
 
         &:not(#{$block}_loading) {
-            --_--color: var(--g-color-text-hint);
+            --_--text-color: var(--g-color-text-hint);
             --_--background-color: var(--g-color-base-generic-accent-disabled);
             --_--background-color-hover: var(--g-color-base-generic-accent-disabled);
-            --_--border: none;
+            --_--border-width: 0;
 
             &:is(#{$block}_view_normal-contrast, #{$block}_view_outlined-contrast) {
-                --_--color: var(--g-color-text-light-secondary);
+                --_--text-color: var(--g-color-text-light-secondary);
                 --_--background-color: var(--g-color-base-light-disabled);
                 --_--background-color-hover: var(--g-color-base-light-disabled);
             }
@@ -327,13 +335,13 @@ $block: '.#{variables.$ns}button';
                     #{$block}_view_flat-action,
                     #{$block}_view_flat-contrast
                 ) {
-                --_--color: var(--g-color-text-hint);
+                --_--text-color: var(--g-color-text-hint);
                 --_--background-color: transparent;
                 --_--background-color-hover: transparent;
             }
 
             &#{$block}_view_flat-contrast {
-                --_--color: var(--g-color-text-light-hint);
+                --_--text-color: var(--g-color-text-light-hint);
             }
         }
 
@@ -344,7 +352,7 @@ $block: '.#{variables.$ns}button';
 
     &_selected {
         &:not(#{$block}_view_outlined-contrast) {
-            --_--border: none;
+            --_--border-width: 0;
         }
 
         &:not(
@@ -352,7 +360,7 @@ $block: '.#{variables.$ns}button';
                 #{$block}_view_flat-contrast,
                 #{$block}_view_outlined-contrast
             ) {
-            --_--color: var(--g-color-text-brand-heavy);
+            --_--text-color: var(--g-color-text-brand-heavy);
             --_--background-color: var(--g-color-base-selection);
             --_--background-color-hover: var(--g-color-base-selection-hover);
         }
@@ -360,28 +368,28 @@ $block: '.#{variables.$ns}button';
         &#{$block}_view {
             &_outlined-info,
             &_flat-info {
-                --_--color: var(--g-color-text-info-heavy);
+                --_--text-color: var(--g-color-text-info-heavy);
                 --_--background-color: var(--g-color-base-info-light);
                 --_--background-color-hover: var(--g-color-base-info-light-hover);
             }
 
             &_outlined-success,
             &_flat-success {
-                --_--color: var(--g-color-text-positive-heavy);
+                --_--text-color: var(--g-color-text-positive-heavy);
                 --_--background-color: var(--g-color-base-positive-light);
                 --_--background-color-hover: var(--g-color-base-positive-light-hover);
             }
 
             &_outlined-warning,
             &_flat-warning {
-                --_--color: var(--g-color-text-warning-heavy);
+                --_--text-color: var(--g-color-text-warning-heavy);
                 --_--background-color: var(--g-color-base-warning-light);
                 --_--background-color-hover: var(--g-color-base-warning-light-hover);
             }
 
             &_outlined-danger,
             &_flat-danger {
-                --_--color: var(--g-color-text-danger-heavy);
+                --_--text-color: var(--g-color-text-danger-heavy);
                 --_--background-color: var(--g-color-base-danger-light);
                 --_--background-color-hover: var(--g-color-base-danger-light-hover);
             }

@@ -475,14 +475,18 @@ LANDING_BLOCK-->
 
 | Name                                | Description               |
 | :---------------------------------- | :------------------------ |
-| `--g-button-color`                  | Text color                |
-| `--g-button-color-hover`            | Text color on hover       |
+| `--g-button-text-color`             | Text color                |
+| `--g-button-text-color-hover`       | Text color on hover       |
 | `--g-button-background-color`       | Background color          |
 | `--g-button-background-color-hover` | Background color on hover |
-| `--g-button-border`                 | Border                    |
-| `--g-button-outline-color`          | Focus outline color       |
-| `--g-button-outline-offset`         | Focus outline offset      |
-| `--g-button-height`                 | Height                    |
+| `--g-button-border-width`           | Border width              |
+| `--g-button-border-color`           | Border color              |
+| `--g-button-border-style`           | Border style              |
+| `--g-button-focus-outline-width`    | Focus outline color       |
+| `--g-button-focus-outline-color`    | Focus outline color       |
+| `--g-button-focus-outline-style`    | Focus outline style       |
+| `--g-button-focus-outline-offset`   | Focus outline offset      |
+| `--g-button-height`                 | Height, line-height       |
 | `--g-button-padding`                | Side paddings             |
 | `--g-button-border-radius`          | Border radius             |
 | `--g-button-font-size`              | Text font size            |

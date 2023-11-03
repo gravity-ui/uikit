@@ -470,3 +470,25 @@ LANDING_BLOCK-->
 | type         | HTML `type` attribute                                     | `"button"` `"submit"` `"reset"` |   `"button"`    |
 | view         | Sets button appearance                                    |            `string`             |   `"normal"`    |
 | width        | `"auto"` `"max"`                                          |        `"auto"` `"max"`         |                 |
+
+## CSS API
+
+| Name                                | Description               |
+| :---------------------------------- | :------------------------ |
+| `--g-button-text-color`             | Text color                |
+| `--g-button-text-color-hover`       | Text color on hover       |
+| `--g-button-background-color`       | Background color          |
+| `--g-button-background-color-hover` | Background color on hover |
+| `--g-button-border-width`           | Border width              |
+| `--g-button-border-color`           | Border color              |
+| `--g-button-border-style`           | Border style              |
+| `--g-button-focus-outline-width`    | Focus outline color       |
+| `--g-button-focus-outline-color`    | Focus outline color       |
+| `--g-button-focus-outline-style`    | Focus outline style       |
+| `--g-button-focus-outline-offset`   | Focus outline offset      |
+| `--g-button-height`                 | Height, line-height       |
+| `--g-button-padding`                | Side paddings             |
+| `--g-button-border-radius`          | Border radius             |
+| `--g-button-font-size`              | Text font size            |
+| `--g-button-icon-size`              | Icon size                 |
+| `--g-button-icon-offset`            | Icon offset               |

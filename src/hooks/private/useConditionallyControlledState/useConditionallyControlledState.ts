@@ -1,4 +1,4 @@
-import {useStateWithCallback} from '../../../components/utils/useStateWithCallback';
+import {useStateWithCallback} from '../useStateWithCallback';
 
 export type UseConditionallyControlledStateResult<T extends unknown> = [
     T,

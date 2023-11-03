@@ -18,6 +18,23 @@ export interface PopperProps {
     altBoundary?: boolean;
 }
 
+export interface UsePopperProps extends PopperProps {}
+
+export interface UsePopperResult {
+    attributes: {
+        [key: string]:
+            | {
+                  [key: string]: string;
+              }
+            | undefined;
+    };
+    styles: {
+        [key: string]: React.CSSProperties;
+    };
+    setPopperRef: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+    setArrowRef: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+}
+
 const DEFAULT_PLACEMENT: PopperPlacement = [
     'bottom-start',
     'bottom',
@@ -40,7 +57,7 @@ export function usePopper({
     modifiers = [],
     strategy,
     altBoundary,
-}: PopperProps) {
+}: UsePopperProps): UsePopperResult {
     const [popperElement, setPopperElement] = React.useState<HTMLElement | null>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
     const placements = Array.isArray(placement) ? placement : [placement];

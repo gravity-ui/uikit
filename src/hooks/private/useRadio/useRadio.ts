@@ -1,9 +1,15 @@
 import React from 'react';
 
-import {useForkRef, useUniqId} from '../../hooks';
-import type {ControlProps} from '../types';
+import {useForkRef, useUniqId} from '../..';
+import type {ControlProps} from '../../../components/types';
+import {eventBroker} from '../../../components/utils/event-broker';
 
-import {eventBroker} from './event-broker';
+export type UseRadioProps = ControlProps;
+
+export type UseRadioResult = {
+    checked: boolean;
+    inputProps: React.InputHTMLAttributes<HTMLInputElement> & React.RefAttributes<HTMLInputElement>;
+};
 
 export function useRadio({
     name,
@@ -18,7 +24,7 @@ export function useRadio({
     onFocus,
     onBlur,
     id,
-}: ControlProps) {
+}: UseRadioProps): UseRadioResult {
     const controlId = useUniqId();
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const [checkedState, setCheckedState] = React.useState(defaultChecked ?? false);

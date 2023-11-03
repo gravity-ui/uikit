@@ -1,9 +1,9 @@
 import React from 'react';
 
+import {useRadio} from '../../hooks/private';
 import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon} from '../utils/common';
-import {useRadio} from '../utils/useRadio';
 
 const b = block('radio-button');
 

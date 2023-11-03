@@ -122,7 +122,6 @@ $hover-opacity: 0.7;
     --_-bg-color: none;
     --_-bg-hover-color: none;
     --_-text-color: none;
-    --_-border-color: none;
 
     &_theme {
         &_normal {
@@ -165,17 +164,14 @@ $hover-opacity: 0.7;
             --_-bg-color: transparent;
             --_-bg-hover-color: var(--g-color-base-simple-hover-solid);
             --_-text-color: var(--g-color-text-complementary);
-            --_-border-color: var(--g-color-line-generic);
+
+            --border-size: 1px;
+            border: var(--border-size) solid var(--g-color-line-generic);
         }
     }
 
     color: var(--_-text-color);
     background-color: var(--_-bg-color);
-
-    @if var(--_-border-color) != none {
-        --border-size: 1px;
-        border: var(--border-size) solid var(--_-border-color);
-    }
 
     // hover on interactive label (excluding hover on addon)
     &_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {

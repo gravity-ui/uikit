@@ -40,9 +40,6 @@ $block: '.#{variables.$ns-new}select-clear';
     }
 
     &__clear {
-        --yc-button-background-color: transparent;
-        --yc-button-background-color-hover: transparent;
-
         color: var(--g-color-text-secondary);
 
         #{$block}:hover & {

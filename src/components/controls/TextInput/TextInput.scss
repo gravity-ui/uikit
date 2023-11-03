@@ -89,15 +89,16 @@ $block: '.#{variables.$ns}text-input';
 
     &__clear {
         flex-shrink: 0;
+        margin: auto 0;
 
         &_size_s,
         &_size_m {
-            margin: 1px;
+            margin-right: 1px;
         }
 
         &_size_l,
         &_size_xl {
-            margin: 3px;
+            margin-right: 2px;
         }
     }
 

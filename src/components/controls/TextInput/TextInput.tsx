@@ -232,12 +232,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                 )}
                 <TextInputControl {...props} {...commonProps} controlRef={handleRef} />
                 {isClearControlVisible && (
-                    <div className={b('clear', {size})}>
-                        <ClearButton
-                            size={mapTextInputSizeToButtonSize(size)}
-                            onClick={handleClear}
-                        />
-                    </div>
+                    <ClearButton
+                        size={mapTextInputSizeToButtonSize(size)}
+                        onClick={handleClear}
+                        className={b('clear', {size})}
+                    />
                 )}
                 {isRightContentVisible && (
                     <AdditionalContent placement="right" onClick={handleAdditionalContentClick}>

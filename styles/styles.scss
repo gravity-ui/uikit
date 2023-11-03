@@ -23,7 +23,7 @@
     }
 }
 
-body.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
+.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
         width: var(--g-scrollbar-width);

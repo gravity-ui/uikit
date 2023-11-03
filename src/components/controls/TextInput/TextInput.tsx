@@ -235,7 +235,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     <ClearButton
                         size={mapTextInputSizeToButtonSize(size)}
                         onClick={handleClear}
-                        className={b('clear')}
+                        className={b('clear', {size})}
                     />
                 )}
                 {isRightContentVisible && (

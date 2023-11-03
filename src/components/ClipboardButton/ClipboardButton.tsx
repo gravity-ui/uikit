@@ -56,7 +56,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
     React.useEffect(() => {
-        buttonRef?.current?.style.setProperty('--yc-button-height', `${size}px`);
+        buttonRef?.current?.style.setProperty('--g-button-height', `${size}px`);
     }, [size]);
 
     return (

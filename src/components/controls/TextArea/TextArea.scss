@@ -48,15 +48,16 @@ $block: '.#{variables.$ns-new}text-area';
 
     &__clear {
         position: absolute;
-        right: 1px;
 
         &_size_s,
         &_size_m {
+            right: 2px;
             top: 2px;
         }
 
         &_size_l,
         &_size_xl {
+            right: 3px;
             top: 4px;
         }
     }

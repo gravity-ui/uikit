@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.19.0](https://github.com/gravity-ui/uikit/compare/v5.18.1...v5.19.0) (2023-11-03)
+
+
+### Features
+
+* improving a11y ([#1070](https://github.com/gravity-ui/uikit/issues/1070)) ([146ff4f](https://github.com/gravity-ui/uikit/commit/146ff4f3dfd6e9debb1d28ca72485734d1e08cf7))
+* **Menu:** add support for item icon on the end of the item ([#965](https://github.com/gravity-ui/uikit/issues/965)) ([55885d0](https://github.com/gravity-ui/uikit/commit/55885d0d7956a93eb33ffade8be535fa7f2b7f6e))
+* **Popover:** prevent closing by click in case of using openOnHover property ([#1085](https://github.com/gravity-ui/uikit/issues/1085)) ([2c17a06](https://github.com/gravity-ui/uikit/commit/2c17a06bd3bb52f730a8dc810bcfc22a3a9c163c))
+
+
+### Bug Fixes
+
+* **Popover:** pass classname to html content ([#1073](https://github.com/gravity-ui/uikit/issues/1073)) ([c0a725a](https://github.com/gravity-ui/uikit/commit/c0a725ab73ca74f9f051a9e2db27e5456427f972))
+* **Select:** fix SelectRenderControlProps.onClick type ([#1075](https://github.com/gravity-ui/uikit/issues/1075)) ([9dbfc3a](https://github.com/gravity-ui/uikit/commit/9dbfc3a2d5118f51944494edb02c137bcc67c1fc))
+
 ## [5.18.1](https://github.com/gravity-ui/uikit/compare/v5.18.0...v5.18.1) (2023-10-24)
 
 

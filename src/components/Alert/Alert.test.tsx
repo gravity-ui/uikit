@@ -72,7 +72,7 @@ describe('Alert', () => {
         expect(container).toMatchSnapshot();
     });
 
-    test.each<AlertTheme>(['danger', 'info', 'positive', 'success', 'warning'])(
+    test.each<AlertTheme>(['danger', 'info', 'success', 'warning'])(
         'render correct icon if not normal theme',
         async (theme) => {
             const {container} = render(

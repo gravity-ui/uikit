@@ -29,10 +29,6 @@ const typeToIcon: Record<
         filled: CircleInfoFill,
         outlined: CircleInfo,
     },
-    positive: {
-        filled: CircleCheckFill,
-        outlined: CircleCheck,
-    },
     success: {
         filled: CircleCheckFill,
         outlined: CircleCheck,

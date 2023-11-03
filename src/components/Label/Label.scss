@@ -81,7 +81,7 @@ $hover-opacity: 0.7;
         }
 
         &_interactive {
-            --yc-button-background-color: transparent;
+            --g-button-background-color: transparent;
 
             cursor: pointer;
             color: inherit;
@@ -186,7 +186,7 @@ $hover-opacity: 0.7;
 
     // hover on action button
     &:not(#{$disabled}) #{$block}__addon_interactive {
-        --yc-button-background-color-hover: var(--_-bg-hover-color);
+        --g-button-background-color-hover: var(--_-bg-hover-color);
 
         &:hover,
         &:focus,

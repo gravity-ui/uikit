@@ -142,3 +142,30 @@ export const Link: Story = {
     },
     name: 'As Link',
 };
+
+export const Custom: Story = {
+    args: {
+        children: 'Fancy Button',
+    },
+    render: (args) => (
+        <React.Fragment>
+            <style>
+                {`.g-root {
+                    --g-button-text-color: #fff;
+                    --g-button-text-color-hover: #fff;
+                    --g-button-background-color: #9a2eff;
+                    --g-button-background-color-hover: #8526de;
+                    --g-button-border-width: 5px;
+                    --g-button-border-style: dotted;
+                    --g-button-height: 60px;
+                    --g-button-padding: 36px;
+                    --g-button-font-size: 20px;
+                    --g-button-border-radius: 40px 20px;
+                    --g-button-focus-outline-color: #9a2eff;
+                    --g-button-focus-outline-offset: 4px;
+                }`}
+            </style>
+            <Button {...args} />
+        </React.Fragment>
+    ),
+};

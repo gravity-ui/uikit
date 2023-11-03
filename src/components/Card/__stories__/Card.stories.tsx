@@ -59,6 +59,9 @@ export const Theme: Story = {
             <Card {...args} view="outlined" theme="danger">
                 Danger
             </Card>
+            <Card {...args} view="outlined" theme="utility">
+                Utility
+            </Card>
             <Card {...args} view="filled" theme="normal">
                 Normal
             </Card>
@@ -73,6 +76,9 @@ export const Theme: Story = {
             </Card>
             <Card {...args} view="filled" theme="danger">
                 Danger
+            </Card>
+            <Card {...args} view="filled" theme="utility">
+                Utility
             </Card>
         </Showcase>
     ),

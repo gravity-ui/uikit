@@ -18,7 +18,7 @@ import {Label} from '@gravity-ui/uikit';
 
 ### Theme
 
-Apply different themes for various statuses with the `theme` property. You can use the following values: `normal`, `info`, `success`, `warning`, `danger`, `unknown`, and `clear`.
+Apply different themes for various statuses with the `theme` property. You can use the following values: `normal`, `info`, `success`, `warning`, `danger`, `utility`, `unknown`, and `clear`.
 The default theme is `normal`.
 
 <!--LANDING_BLOCK
@@ -27,18 +27,20 @@ The default theme is `normal`.
     code={`
 <Label theme="normal">Normal</Label>
 <Label theme="info">Info</Label>
+<Label theme="success">Success</Label>
 <Label theme="warning">Warning</Label>
 <Label theme="danger">Danger</Label>
-<Label theme="success">Success</Label>
+<Label theme="utility">Utility</Label>
 <Label theme="unknown">Unknown</Label>
 <Label theme="clear">Clear</Label>
 `}
 >
     <UIKit.Label theme="normal">Normal</UIKit.Label>
     <UIKit.Label theme="info">Info</UIKit.Label>
+    <UIKit.Label theme="success">Success</UIKit.Label>
     <UIKit.Label theme="warning">Warning</UIKit.Label>
     <UIKit.Label theme="danger">Danger</UIKit.Label>
-    <UIKit.Label theme="success">Success</UIKit.Label>
+    <UIKit.Label theme="utility">Utility</UIKit.Label>
     <UIKit.Label theme="unknown">Unknown</UIKit.Label>
     <UIKit.Label theme="clear">Clear</UIKit.Label>
 </ExampleBlock>
@@ -50,9 +52,10 @@ LANDING_BLOCK-->
 ```tsx
 <Label theme="normal">Normal</Label>
 <Label theme="info">Info</Label>
+<Label theme="success">Success</Label>
 <Label theme="warning">Warning</Label>
 <Label theme="danger">Danger</Label>
-<Label theme="success">Success</Label>
+<Label theme="utility">Utility</Label>
 <Label theme="unknown">Unknown</Label>
 <Label theme="clear">Clear</Label>
 ```
@@ -153,6 +156,7 @@ LANDING_BLOCK-->
 <Label theme="success" value="Value">Key</Label>
 <Label theme="warning" value="Value">Key</Label>
 <Label theme="danger" value="Value">Key</Label>
+<Label theme="utility" value="Value">Key</Label>
 <Label theme="unknown" value="Value">Key</Label>
 <Label theme="clear" value="Value">Key</Label>
 `}
@@ -162,6 +166,7 @@ LANDING_BLOCK-->
     <UIKit.Label theme="success" value="Value">Key</UIKit.Label>
     <UIKit.Label theme="warning" value="Value">Key</UIKit.Label>
     <UIKit.Label theme="danger" value="Value">Key</UIKit.Label>
+    <UIKit.Label theme="utility" value="Value">Key</UIKit.Label>
     <UIKit.Label theme="unknown" value="Value">Key</UIKit.Label>
     <UIKit.Label theme="clear" value="Value">Key</UIKit.Label>
 </ExampleBlock>
@@ -176,6 +181,7 @@ LANDING_BLOCK-->
 <Label theme="success" value="Value">Key</Label>
 <Label theme="warning" value="Value">Key</Label>
 <Label theme="danger" value="Value">Key</Label>
+<Label theme="utility" value="Value">Key</Label>
 <Label theme="unknown" value="Value">Key</Label>
 <Label theme="clear" value="Value">Key</Label>
 ```

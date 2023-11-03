@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CircleCheck, CircleInfo, TriangleExclamation, Xmark} from '@gravity-ui/icons';
+import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation, Xmark} from '@gravity-ui/icons';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
@@ -19,6 +19,7 @@ const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
     success: CircleCheck,
     warning: TriangleExclamation,
     error: TriangleExclamation,
+    utility: Thunderbolt,
 };
 
 interface ToastInnerProps {

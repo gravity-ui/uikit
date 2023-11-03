@@ -59,6 +59,11 @@ const semantic = [
         description: 'Danger blocks. Blocks with negative context.',
     },
     {
+        name: 'line-utility',
+        title: 'Utility',
+        description: 'Utility blocks.',
+    },
+    {
         name: 'line-misc',
         title: 'Misc',
         description: 'Uncategorized blocks.',

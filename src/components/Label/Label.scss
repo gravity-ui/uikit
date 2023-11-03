@@ -189,6 +189,14 @@ $transitionTimingFunction: ease-in-out;
             );
         }
 
+        &_utility {
+            @include themeState(
+                var(--g-color-base-utility-light),
+                var(--g-color-base-utility-light-hover),
+                var(--g-color-text-utility-heavy)
+            );
+        }
+
         &_unknown {
             @include themeState(
                 var(--g-color-base-neutral-light),

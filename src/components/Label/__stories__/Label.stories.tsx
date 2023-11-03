@@ -59,6 +59,9 @@ export const Theme: Story = {
             <Label {...args} theme="danger">
                 Danger
             </Label>
+            <Label {...args} theme="utility">
+                Utility
+            </Label>
             <Label {...args} theme="unknown">
                 Unknown
             </Label>

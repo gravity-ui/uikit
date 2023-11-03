@@ -122,6 +122,16 @@ const semanticLight = [
         description: 'Hover for Danger.',
     },
     {
+        name: 'base-utility-light',
+        title: 'Utility Light',
+        description: 'Utility semantic background.',
+    },
+    {
+        name: 'base-utility-light-hover',
+        title: 'Utility Light Hover',
+        description: 'Hover for Utility.',
+    },
+    {
         name: 'base-misc-light',
         title: 'Misc Light',
         description: 'Uncategorized semantic background.',
@@ -185,6 +195,16 @@ const semanticMedium = [
         description: 'Hover for Danger Medium.',
     },
     {
+        name: 'base-utility-medium',
+        title: 'Utility Medium',
+        description: 'Utility semantic background, medium accent.',
+    },
+    {
+        name: 'base-utility-medium-hover',
+        title: 'Utility Medium Hover',
+        description: 'Hover for Utility Medium.',
+    },
+    {
         name: 'base-misc-medium',
         title: 'Misc Medium',
         description: 'Uncategorized semantic background, medium accent.',
@@ -246,6 +266,16 @@ const semanticHeavy = [
         name: 'base-danger-heavy-hover',
         title: 'Danger Heavy Hover',
         description: 'Hover for Danger Heavy',
+    },
+    {
+        name: 'base-utility-heavy',
+        title: 'Utility Heavy',
+        description: 'Utility semantic background, strong accent.',
+    },
+    {
+        name: 'base-utility-heavy-hover',
+        title: 'Utility Heavy Hover',
+        description: 'Hover for Utility Heavy.',
     },
     {
         name: 'base-misc-heavy',

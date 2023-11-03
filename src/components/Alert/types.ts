@@ -6,7 +6,8 @@ export type AlertTheme =
     | 'success'
     | /** @deprecated */ 'positive'
     | 'warning'
-    | 'danger';
+    | 'danger'
+    | 'utility';
 export type AlertView = 'filled' | 'outlined';
 export type AlertCorners = 'rounded' | 'square';
 

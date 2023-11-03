@@ -3,6 +3,16 @@ import React from 'react';
 import {useUniqId} from '../..';
 import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
 
+interface OptionsProps
+    extends Omit<
+        ControlGroupProps,
+        'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
+    > {
+    value: string;
+    checked: boolean;
+    content: ControlGroupOption['content'];
+}
+
 export type UseRadioGroupProps = ControlGroupProps;
 
 export type UseRadioGroupResult = {
@@ -10,11 +20,7 @@ export type UseRadioGroupResult = {
         role: string;
         'aria-disabled': ControlGroupProps['disabled'];
     };
-    optionsProps: Omit<
-        ControlGroupProps,
-        'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate'
-    > &
-        {checked: boolean; content: ControlGroupOption['content']}[];
+    optionsProps: OptionsProps[];
 };
 
 export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {

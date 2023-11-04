@@ -1,4 +1,5 @@
 export * from './useActionHandlers';
+export * from './useAsyncActionHandler';
 export * from './useBodyScrollLock';
 export * from './useFileInput';
 export * from './useForkRef';

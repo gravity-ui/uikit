@@ -333,8 +333,8 @@ The menu toggle is configured with the `renderSwitcher` prop. It can be any func
 <ExampleBlock
     code={`
 <DropdownMenu
-    renderSwitcher={({onClick}) => (
-        <div onClick={onClick} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
+    renderSwitcher={(props) => (
+        <div {...props} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
     )}
     items={[
         {
@@ -351,8 +351,8 @@ The menu toggle is configured with the `renderSwitcher` prop. It can be any func
 `}
 >
     <UIKit.DropdownMenu
-        renderSwitcher={({onClick}) => (
-            <div onClick={onClick} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
+        renderSwitcher={(props) => (
+            <div {...props} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
         )}
         items={[
             {
@@ -374,8 +374,8 @@ LANDING_BLOCK-->
 
 ```jsx
 <DropdownMenu
-  renderSwitcher={({onClick}) => (
-    <div onClick={onClick} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>
+  renderSwitcher={(props) => (
+    <div {...props} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>
       John Doe
     </div>
   )}
@@ -395,6 +395,13 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+## Switcher properties
+
+| Name        | Description                                                    |     Type     |
+| :---------- | :------------------------------------------------------------- | :----------: |
+| `onClick`   | Called when the switcher is clicked.                           | `() => void` |
+| `onKeyDown` | Called when the switcher is focused and action key is pressed. | `() => void` |
+
 The example above is oversimplified to demonstrate the idea of the customizable menu toggle. In a real-life application, it is generally recommended that the clickable menu toggle should be a component accessible with a keyboard and other assistive technologies (such as a button).
 
 ## Custom icons
@@ -408,8 +415,8 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` p
 <ExampleBlock
     code={`
 <DropdownMenu
-    renderSwitcher={({onClick}) => (
-        <Button view="flat" onClick={onClick}>
+    renderSwitcher={(props) => (
+        <Button {...props} view="flat">
             <Icon size={16} data={Bars} />
         </Button>
     )}
@@ -430,8 +437,8 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` p
 `}
 >
     <UIKit.DropdownMenu
-        renderSwitcher={({onClick}) => (
-            <UIKit.Button view="flat" onClick={onClick}>
+        renderSwitcher={(props) => (
+            <UIKit.Button {...props} view="flat">
                 <UIKit.Icon
                     data={() => (
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M1.25 3.25A.75.75 0 0 1 2 2.5h12A.75.75 0 0 1 14 4H2a.75.75 0 0 1-.75-.75Zm0 4.75A.75.75 0 0 1 2 7.25h12a.75.75 0 0 1 0 1.5H2A.75.75 0 0 1 1.25 8ZM2 12a.75.75 0 0 0 0 1.5h12a.75.75 0 0 0 0-1.5H2Z" clip-rule="evenodd"></path></svg>
@@ -476,8 +483,8 @@ LANDING_BLOCK-->
 
 ```jsx
 <DropdownMenu
-  renderSwitcher={({onClick}) => (
-    <Button view="flat" onClick={onClick}>
+  renderSwitcher={(props) => (
+    <Button {...props} view="flat">
       <Icon size={16} data={Bars} />
     </Button>
   )}

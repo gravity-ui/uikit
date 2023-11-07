@@ -50,12 +50,8 @@ $block: '.#{variables.$ns}switch';
         pointer-events: none;
     }
 
-    &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--g-color-line-focus);
-    }
-
-    &__control:focus:not(:focus-visible) + &__outline {
-        box-shadow: none;
+    &__control:focus-visible + &__outline {
+        outline: 2px solid var(--g-color-line-focus);
     }
 
     &_size {

@@ -24,7 +24,7 @@ export function isStringSvgData(data: SVGIconData): data is SVGIconStringData {
 export function prepareStringData(data: SVGIconStringData) {
     return data.replace(/<svg[^>]*>/, (match) => {
         return match
-            .replace(/(width|height)="[^"]*"/g, '')
+            .replace(/(width|height)=(["']?)\d+\2/g, '')
             .replace(/(\s){2,}\b/g, '$1')
             .replace(/(\s)+>/g, '>');
     });

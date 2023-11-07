@@ -399,7 +399,7 @@ The example above is oversimplified to demonstrate the idea of the customizable 
 
 ## Custom icons
 
-A custom icon can be added to a `DropdownMenu` item by assigning the `icon` property. By default, `DropdownMenu` items go without icons.
+Custom icons can be added to a `DropdownMenu` item by assigning the `iconStart` or `iconEnd` property. By default, `DropdownMenu` items go without icons.
 
 The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
@@ -415,12 +415,12 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` p
     )}
     items={[
         {
-            icon: <Icon size={16} data={Pencil} />,
+            iconStart: <Icon size={16} data={Pencil} />,
             action: () => console.log('Rename'),
             text: 'Rename',
         },
         {
-            icon: <Icon size={16} data={TrashBin} />,
+            iconStart: <Icon size={16} data={TrashBin} />,
             action: () => console.log('Delete'),
             text: 'Delete',
             theme: 'danger',
@@ -442,7 +442,7 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` p
         )}
         items={[
             {
-                icon: (
+                iconStart: (
                     <UIKit.Icon
                         data={() => (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M11.423 1A3.577 3.577 0 0 1 15 4.577c0 .27-.108.53-.3.722l-.528.529-1.971 1.971-5.059 5.059a3 3 0 0 1-1.533.82l-2.638.528a1 1 0 0 1-1.177-1.177l.528-2.638a3 3 0 0 1 .82-1.533l5.059-5.059 2.5-2.5c.191-.191.451-.299.722-.299Zm-2.31 4.009-4.91 4.91a1.5 1.5 0 0 0-.41.766l-.38 1.903 1.902-.38a1.5 1.5 0 0 0 .767-.41l4.91-4.91a2.077 2.077 0 0 0-1.88-1.88Zm3.098.658a3.59 3.59 0 0 0-1.878-1.879l1.28-1.28c.995.09 1.788.884 1.878 1.88l-1.28 1.28Z" clip-rule="evenodd"></path></svg>
@@ -454,7 +454,7 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` p
                 text: 'Rename',
             },
             {
-                icon: (
+                iconStart: (
                     <UIKit.Icon
                         data={() => (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M9 2H7a.5.5 0 0 0-.5.5V3h3v-.5A.5.5 0 0 0 9 2Zm2 1v-.5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2V3H2.251a.75.75 0 0 0 0 1.5h.312l.317 7.625A3 3 0 0 0 5.878 15h4.245a3 3 0 0 0 2.997-2.875l.318-7.625h.312a.75.75 0 0 0 0-1.5H11Zm.936 1.5H4.064l.315 7.562A1.5 1.5 0 0 0 5.878 13.5h4.245a1.5 1.5 0 0 0 1.498-1.438l.315-7.562Zm-6.186 2v5a.75.75 0 0 0 1.5 0v-5a.75.75 0 0 0-1.5 0Zm3.75-.75a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0v-5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"></path></svg>
@@ -483,12 +483,12 @@ LANDING_BLOCK-->
   )}
   items={[
     {
-      icon: <Icon size={16} data={Pencil} />,
+      iconStart: <Icon size={16} data={Pencil} />,
       action: () => console.log('Rename'),
       text: 'Rename',
     },
     {
-      icon: <Icon size={16} data={TrashBin} />,
+      iconStart: <Icon size={16} data={TrashBin} />,
       action: () => console.log('Delete'),
       text: 'Delete',
       theme: 'danger',
@@ -528,7 +528,8 @@ This type describes individual dropdown menu items.
 | :----------- | :------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------: | :-----: |
 | `text`       | Menu item content.                                                                                                              |               `React.ReactNode`                |         |
 | `action`     | Menu item click handler. Recieves the parameters from the parent dropdown menu component (both `event` and `data`).             | `(event: React.MouseEvent, data: any) => void` |         |
-| `icon`       | Menu item icon.                                                                                                                 |               `React.ReactNode`                |         |
+| `iconStart`  | Menu item icon before the item content.                                                                                         |               `React.ReactNode`                |         |
+| `iconEnd`    | Menu item icon after the item content. Ignored if the item has a submenu.                                                       |               `React.ReactNode`                |         |
 | `hidden`     | Determines whether the item is hidden.                                                                                          |                   `boolean`                    |         |
 | `disabled`   | Determines whether the item is disabled.                                                                                        |                   `boolean`                    |         |
 | `href`       | Menu item with this prop becomes a link to the specified location.                                                              |                    `string`                    |         |

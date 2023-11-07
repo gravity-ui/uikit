@@ -22,7 +22,12 @@ export function isStringSvgData(data: SVGIconData): data is SVGIconStringData {
     return typeof data === 'string';
 }
 export function prepareStringData(data: SVGIconStringData) {
-    return data.replace(/(width|height)=(["']?)\d+\2/g, '');
+    return data.replace(/<svg[^>]*>/, (match) => {
+        return match
+            .replace(/(width|height)="[^"]*"/g, '')
+            .replace(/(\s){2,}\b/g, '$1')
+            .replace(/(\s)+>/g, '>');
+    });
 }
 
 export function getStringViewBox(data: SVGIconStringData) {

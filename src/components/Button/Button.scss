@@ -66,14 +66,10 @@ $block: '.#{variables.$ns}button';
         }
     }
 
-    &:focus::before {
+    &:focus-visible::before {
         outline: var(--g-button-focus-outline-color, var(--_--focus-outline-color))
             var(--g-button-focus-outline-style, solid) var(--g-button-focus-outline-width, 2px);
         outline-offset: var(--g-button-focus-outline-offset, var(--_--focus-outline-offset));
-    }
-
-    &:focus:not(:focus-visible)::before {
-        outline: none;
     }
 
     &::after {

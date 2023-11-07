@@ -81,16 +81,10 @@ $block: '.#{variables.$ns}tabs';
             display: block;
         }
 
-        &:focus {
+        &:focus-visible {
             #{$block}__item-content {
                 outline: 2px solid var(--g-color-line-focus);
                 outline-offset: -2px;
-            }
-        }
-
-        &:focus:not(:focus-visible) {
-            #{$block}__item-content {
-                outline: 0;
             }
         }
     }

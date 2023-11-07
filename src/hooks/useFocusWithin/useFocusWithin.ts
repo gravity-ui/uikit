@@ -14,6 +14,15 @@ export interface FocusWithinProps {
     onFocusWithinChange?: (isFocusWithin: boolean) => void;
 }
 
+export interface UseFocusWithinProps extends FocusWithinProps {}
+
+export interface UseFocusWithinResult {
+    focusWithinProps: {
+        onFocus?: (event: React.FocusEvent<Element, Element>) => void;
+        onBlur?: (event: React.FocusEvent<Element, Element>) => void;
+    };
+}
+
 /**
  * Callback on focus outside event.
  *
@@ -59,7 +68,7 @@ export interface FocusWithinProps {
  *  }
  * }
  */
-export function useFocusWithin(props: FocusWithinProps) {
+export function useFocusWithin(props: UseFocusWithinProps) {
     const {onFocusWithin, onBlurWithin, onFocusWithinChange, isDisabled} = props;
 
     const isFocusWithinRef = React.useRef(false);

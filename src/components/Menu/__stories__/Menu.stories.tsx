@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Gear} from '@gravity-ui/icons';
+import {CircleExclamationFill, Gear} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
@@ -10,7 +10,7 @@ import type {MenuProps} from '../Menu';
 export default {
     title: 'Components/Navigation/Menu',
     component: Menu,
-} as Meta;
+} as Meta<typeof Menu>;
 
 export const Default: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
@@ -29,7 +29,18 @@ export const ItemActive: StoryFn<MenuProps> = (args) => (
 
 export const ItemIcon: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item icon={<Icon data={Gear} size={16} />}>Settings</Menu.Item>
+        <Menu.Item iconStart={<Icon data={Gear} size={16} />}>Settings</Menu.Item>
+    </Menu>
+);
+
+export const ItemBothIcons: StoryFn<MenuProps> = (args) => (
+    <Menu {...args}>
+        <Menu.Item
+            iconStart={<Icon data={Gear} size={16} />}
+            iconEnd={<Icon data={CircleExclamationFill} size={16} />}
+        >
+            Settings
+        </Menu.Item>
     </Menu>
 );
 

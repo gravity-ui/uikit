@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.19.1](https://github.com/gravity-ui/uikit/compare/v5.19.0...v5.19.1) (2023-11-07)
+
+
+### Bug Fixes
+
+* **Icon:** correct prepareStringData ([#1096](https://github.com/gravity-ui/uikit/issues/1096)) ([8e4817e](https://github.com/gravity-ui/uikit/commit/8e4817e39d4591a65b7782770f50fef594606b36))
+* return EventBroker constructor in export ([#1098](https://github.com/gravity-ui/uikit/issues/1098)) ([f22bc27](https://github.com/gravity-ui/uikit/commit/f22bc273648bcdebd1d627f59d1f1d7a818722e8))
+
 ## [5.19.0](https://github.com/gravity-ui/uikit/compare/v5.18.1...v5.19.0) (2023-11-03)
 
 

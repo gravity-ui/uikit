@@ -8,7 +8,7 @@
 import {DropdownMenu} from '@gravity-ui/uikit';
 ```
 
-This is a dropdown menu component with item grouping, submenus, and a customizable toggle. The dropdown menu items are configured with the `items` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**), which can be overridden with the `switcher` prop.
+This is a dropdown menu component with item grouping, submenus, and a customizable toggle. The dropdown menu items are configured with the `items` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**), which can be overridden with the `renderSwitcher` prop.
 
 <!--LANDING_BLOCK
 
@@ -326,18 +326,16 @@ LANDING_BLOCK-->
 
 ## Custom menu toggle
 
-The menu toggle is configured with the `switcher` prop. It can be any React component (or any `React.ReactNode` in the TypeScript terms). By default, the menu toggle is a button with the ellipsis icon (**⋯**).
+The menu toggle is configured with the `renderSwitcher` prop. It can be any function that returns the React component (or any `(props: SwitcherProps) => React.ReactNode` in the TypeScript terms). By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
 <DropdownMenu
-    switcher={
-        <div style={{cursor: 'pointer', borderBottom: '1px dotted'}}>
-            John Doe
-        </div>
-    }
+    renderSwitcher={({onClick}) => (
+        <div onClick={onClick} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
+    )}
     items={[
         {
             action: () => console.log('Rename'),
@@ -353,11 +351,9 @@ The menu toggle is configured with the `switcher` prop. It can be any React comp
 `}
 >
     <UIKit.DropdownMenu
-        switcher={
-            <div style={{cursor: 'pointer', borderBottom: '1px dotted'}}>
-                John Doe
-            </div>
-        }
+        renderSwitcher={({onClick}) => (
+            <div onClick={onClick} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>
+        )}
         items={[
             {
                 action: () => console.log('Rename'),
@@ -378,7 +374,11 @@ LANDING_BLOCK-->
 
 ```jsx
 <DropdownMenu
-  switcher={<div style={{cursor: 'pointer', borderBottom: '1px dotted'}}>John Doe</div>}
+  renderSwitcher={({onClick}) => (
+    <div onClick={onClick} style={{cursor: 'pointer', borderBottom: '1px dotted'}}>
+      John Doe
+    </div>
+  )}
   items={[
     {
       action: () => console.log('Rename'),
@@ -401,18 +401,18 @@ The example above is oversimplified to demonstrate the idea of the customizable 
 
 A custom icon can be added to a `DropdownMenu` item by assigning the `icon` property. By default, `DropdownMenu` items go without icons.
 
-The menu toggle icon can be changed with the `DropdownMenu`'s `switcher` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**).
+The menu toggle icon can be changed with the `DropdownMenu`'s `renderSwitcher` prop. By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
 <DropdownMenu
-    switcher={
-        <Button view="flat">
+    renderSwitcher={({onClick}) => (
+        <Button view="flat" onClick={onClick}>
             <Icon size={16} data={Bars} />
         </Button>
-    }
+    )}
     items={[
         {
             icon: <Icon size={16} data={Pencil} />,
@@ -430,8 +430,8 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `switcher` prop. B
 `}
 >
     <UIKit.DropdownMenu
-        switcher={
-            <UIKit.Button view="flat">
+        renderSwitcher={({onClick}) => (
+            <UIKit.Button view="flat" onClick={onClick}>
                 <UIKit.Icon
                     data={() => (
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M1.25 3.25A.75.75 0 0 1 2 2.5h12A.75.75 0 0 1 14 4H2a.75.75 0 0 1-.75-.75Zm0 4.75A.75.75 0 0 1 2 7.25h12a.75.75 0 0 1 0 1.5H2A.75.75 0 0 1 1.25 8ZM2 12a.75.75 0 0 0 0 1.5h12a.75.75 0 0 0 0-1.5H2Z" clip-rule="evenodd"></path></svg>
@@ -439,7 +439,7 @@ The menu toggle icon can be changed with the `DropdownMenu`'s `switcher` prop. B
                     size={16}
                 />
             </UIKit.Button>
-        }
+        )}
         items={[
             {
                 icon: (
@@ -476,11 +476,11 @@ LANDING_BLOCK-->
 
 ```jsx
 <DropdownMenu
-  switcher={
-    <Button view="flat">
+  renderSwitcher={({onClick}) => (
+    <Button view="flat" onClick={onClick}>
       <Icon size={16} data={Bars} />
     </Button>
-  }
+  )}
   items={[
     {
       icon: <Icon size={16} data={Pencil} />,
@@ -508,7 +508,7 @@ LANDING_BLOCK-->
 | `icon`                     | Icon of the default `switcher`.                                                                |                 `React.ReactNode`                  | Ellipsis icon |
 | `size`                     | Applied both to the default `switcher` and the menu.                                           |            `'s' \| 'm' \| 'l' \| 'xl'`             |     `'m'`     |
 | `disabled`                 | Setting this prop to `true` disables the `switcher` button and prevents the menu from opening. |                     `boolean`                      |               |
-| `switcher`                 | Menu toggle control.                                                                           |                 `React.ReactNode`                  |               |
+| `renderSwitcher`           | Render function for the menu toggle control.                                                   |                 `React.ReactNode`                  |               |
 | `switcherWrapperClassName` | Value for the `className` prop of the `switcher`'s parent component.                           |                      `string`                      |               |
 | `defaultSwitcherProps`     | Default `switcher` props.                                                                      |                   `ButtonProps`                    |               |
 | `defaultSwitcherClassName` | Value for the `className` prop of the default `switcher`.                                      |                      `string`                      |               |

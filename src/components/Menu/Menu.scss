@@ -48,13 +48,9 @@ $block: '.#{variables.$ns}menu';
         }
 
         &:hover,
-        &:focus,
+        &:focus-visible,
         &_selected {
             background-color: var(--g-color-base-simple-hover);
-        }
-
-        &:focus:not(:focus-visible):not(:hover):not(&_active) {
-            background-color: transparent;
         }
 
         &_disabled {
@@ -72,7 +68,7 @@ $block: '.#{variables.$ns}menu';
             background-color: var(--g-color-base-selection);
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 background-color: var(--g-color-base-selection-hover);
             }
         }

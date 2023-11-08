@@ -2,15 +2,13 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [main, next]
+    branches: [next]
   pull_request:
 
 jobs:
   test:
     name: Test component
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.39.0-jammy
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3

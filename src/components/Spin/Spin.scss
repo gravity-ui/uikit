@@ -11,11 +11,11 @@ $block: '.#{variables.$ns}spin';
         box-sizing: border-box;
         height: 100%;
         width: 50%;
-        margin-left: 50%;
+        margin-inline-start: 50%;
         border: 2px solid var(--g-color-line-brand);
-        border-left: none;
-        border-top-right-radius: 25px;
-        border-bottom-right-radius: 25px;
+        border-inline-start: none;
+        border-start-end-radius: 25px;
+        border-end-end-radius: 25px;
     }
 
     &_size {

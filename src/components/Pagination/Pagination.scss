@@ -6,7 +6,7 @@ $block: '.#{variables.$ns-new}pagination';
     display: flex;
 
     &__pagination-item {
-        margin-right: 4px;
+        margin-inline-end: 4px;
         flex-shrink: 0;
     }
 

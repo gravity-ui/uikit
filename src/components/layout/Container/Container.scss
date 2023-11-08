@@ -15,7 +15,7 @@
         // space row - space between Row components
         &_sr_#{$space} {
             & > #{v.$rowBlock}:not(:last-child) {
-                margin-bottom: $value;
+                margin-block-end: $value;
             }
         }
     }

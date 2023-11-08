@@ -37,8 +37,8 @@
 
     &__bg-switcher {
         position: absolute;
-        top: 15px;
-        right: 15px;
+        inset-block-start: 15px;
+        inset-inline-end: 15px;
     }
 
     &__title {
@@ -48,21 +48,21 @@
     &__description {
         @include mixins.text-body-2();
         color: var(--g-color-text-complementary);
-        margin-top: 3px;
+        margin-block-start: 3px;
     }
 
     &:not(:first-of-type) {
-        margin-top: 25px;
+        margin-block-start: 25px;
     }
 
     &__colors {
-        margin-top: 15px;
+        margin-block-start: 15px;
     }
 
     &__card {
         display: flex;
         &:not(:first-of-type) {
-            margin-top: 15px;
+            margin-block-start: 15px;
         }
 
         &-box {
@@ -97,7 +97,7 @@
         &-var {
             @include mixins.text-code-1();
             color: var(--g-color-text-secondary);
-            margin-left: 10px;
+            margin-inline-start: 10px;
             white-space: nowrap;
         }
 

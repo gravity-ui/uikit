@@ -55,7 +55,7 @@ $block: '.#{variables.$ns}breadcrumbs';
             #{$menu}__list-item {
                 #{$menu}__item {
                     /* stylelint-disable declaration-no-important */
-                    padding-left: 8px * $staircaseLength !important;
+                    padding-inline-start: 8px * $staircaseLength !important;
                     /* stylelint-enable declaration-no-important */
                 }
             }
@@ -64,7 +64,7 @@ $block: '.#{variables.$ns}breadcrumbs';
                 #{$menu}__list-item:nth-child(#{$i}) {
                     #{$menu}__item {
                         /* stylelint-disable declaration-no-important */
-                        padding-left: 8px * $i !important;
+                        padding-inline-start: 8px * $i !important;
                         /* stylelint-enable declaration-no-important */
                     }
                 }

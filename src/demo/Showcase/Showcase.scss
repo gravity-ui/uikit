@@ -10,7 +10,7 @@
 
     &__description {
         @include mixins.text-body-2();
-        margin-top: var(--g-spacing-2);
+        margin-block-start: var(--g-spacing-2);
         color: var(--g-color-text-secondary);
     }
 
@@ -21,7 +21,7 @@
         gap: var(--g-spacing-6);
 
         &:not(:only-child) {
-            margin-top: var(--g-spacing-5);
+            margin-block-start: var(--g-spacing-5);
         }
     }
 }

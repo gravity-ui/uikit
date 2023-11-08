@@ -287,22 +287,22 @@ $block: '.#{variables.$ns}button';
         &_side_left,
         &_side_right {
             position: absolute;
-            top: 0;
+            inset-block-start: 0;
         }
 
         &_side_left {
-            left: var(--_--icon-position);
+            inset-inline-start: var(--_--icon-position);
 
             & ~ #{$block}__text {
-                padding-left: var(--_--icon-space);
+                padding-inline-start: var(--_--icon-space);
             }
         }
 
         &_side_right {
-            right: var(--_--icon-position);
+            inset-inline-end: var(--_--icon-position);
 
             & ~ #{$block}__text {
-                padding-right: var(--_--icon-space);
+                padding-inline-end: var(--_--icon-space);
             }
         }
     }

@@ -8,14 +8,14 @@ $block: '.#{variables.$ns}table-column-setup';
     }
 
     &__status {
-        margin-left: 5px;
+        margin-inline-start: 5px;
         color: var(--g-color-text-secondary);
     }
 
     &__tick-wrap {
         position: absolute;
-        left: 14px;
-        top: 50%;
+        inset-inline-start: 14px;
+        inset-block-start: 50%;
         transform: translateY(-50%);
         width: 10px;
         height: 10px;
@@ -32,8 +32,8 @@ $block: '.#{variables.$ns}table-column-setup';
 
     &__lock-wrap {
         position: absolute;
-        left: 10px;
-        top: 50%;
+        inset-inline-start: 10px;
+        inset-block-start: 50%;
         transform: translateY(-50%);
         color: var(--g-color-text-hint);
     }

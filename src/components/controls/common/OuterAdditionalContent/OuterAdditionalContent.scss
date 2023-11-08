@@ -10,7 +10,7 @@ $block: '.#{variables.$ns}outer-additional-content';
 
     &__note,
     &__error {
-        margin-top: 2px;
+        margin-block-start: 2px;
     }
 
     &__error {
@@ -19,11 +19,11 @@ $block: '.#{variables.$ns}outer-additional-content';
         color: var(--g-color-text-danger);
 
         &:not(:last-child) {
-            margin-right: var(--g-spacing-2);
+            margin-inline-end: var(--g-spacing-2);
         }
     }
 
     &__note {
-        margin-left: auto;
+        margin-inline-start: auto;
     }
 }

@@ -1,13 +1,6 @@
 import type React from 'react';
 
-export type AlertTheme =
-    | 'normal'
-    | 'info'
-    | 'success'
-    | /** @deprecated */ 'positive'
-    | 'warning'
-    | 'danger'
-    | 'utility';
+export type AlertTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 export type AlertView = 'filled' | 'outlined';
 export type AlertCorners = 'rounded' | 'square';
 
@@ -88,6 +81,7 @@ export interface AlertActionsProps {
     children?: React.ReactNode | React.ReactNode[];
     parentLayout?: 'vertical' | 'horizontal';
 }
+
 export interface AlertTitleProps {
     className?: string;
     text: string;

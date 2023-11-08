@@ -15,7 +15,7 @@ reporter.push(
     [
         'html',
         {
-            open: !process.env.CI ? 'on-failure' : 'never',
+            open: process.env.CI ? 'never' : 'on-failure',
             outputFolder: resolve(process.cwd(), 'playwright-report'),
         },
     ],

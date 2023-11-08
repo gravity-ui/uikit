@@ -25,17 +25,23 @@ jobs:
       env:
         CI: 'true'
     - name: Upload Playwright playwright report to GitHub Actions Artifacts
-      if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: playwright-reports
+        name: playwright-report
         path: playwright-report
         retention-days: 1
-    - name: Upload Playwright test results to GitHub Actions Artifacts
-      if: always()
-      uses: actions/upload-artifact@v3
+    - name: Upload Playwright report
+      shell: bash 
+      run: aws s3 cp ./playwright-report s3://playwright-reports/uikit/pulls/${{ github.event.pull_request.number }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
+        AWS_DEFAULT_REGION: ru-central1
+        AWS_EC2_METADATA_DISABLED: true
+    - name: Create Comment
+      uses: marocchino/sticky-pull-request-comment@v2
       with:
-        name: test-results
-        path: test-results
-        retention-days: 1    
+        GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
+        number: ${{ github.event.pull_request.number }}
+        message: '[Playwright Test Component](https://storage.yandexcloud.net/playwright-reports/uikit/pulls/${{ github.event.pull_request.number }}/index.html) is ready.'
  

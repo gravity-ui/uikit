@@ -1,10 +1,10 @@
-# Test Component
+# Playwright Test Component
 
 ## How to write a test
 
 1. You need to select the component for which you want to write tests
-2. In the component folder, create a folder `__component__`
-3. Create a file in it `component name.spec.tsx`
+2. In the component folder, create a folder `__tests__`
+3. Create a file in it `NameComponent.visual.test.tsx`
 4. In the file to make imports:
 
    ```ts
@@ -27,6 +27,8 @@
    });
    ```
 
+   Group of tests.
+
    ```ts
    test.describe('Name group tests', () => {
         test('1', ...);
@@ -39,13 +41,31 @@
 6. Running the test: (you don't need to run storybook to test components)
 
    ```shell
-   npm run playwright:install
+   npm run playwright install
    npm run test:component
    ```
 
-   ! the npm run playwright:install command must be run for the first time
+   If you are developing on a system other than Linux, then you need to use a command that takes screenshot tests based on a Docker image.
 
-7. In the folder `__component__`, in which the folder `component name.spec.tsx-snapshots` will appear, it will contain screenshots
+   ```shell
+   npm run test:component:docker
+   ```
+
+   ! the npm run playwright install command must be run for the first time
+
+7. To update screenshots use the command
+
+```shell
+ npm run test:component:update
+```
+
+Or
+
+```shell
+ npm run test:component:docker:update
+```
+
+8. In the folder `__tests__`, in which the folder `NameComponent.visual.test.tsx-snapshots` will appear, it will contain screenshots
 
 ## Description of possible commands:
 
@@ -76,12 +96,11 @@ test('test Component  ', async ({mount}) => {
 
 ## Test examples
 
-- [TextInput](../src/components/controls/TextInput/__component__/TextInput.spec.tsx)
-- [Button](../src/components/Button/__component__/Button.spec.tsx)
-- [Card](../src/components/Card/__component__/Card.spec.tsx)
-- [Table](../src/components/Table/__component__/Table.spec.tsx)
+- [Button](../src/components/Button/__tests__/Button.visual.test)
 
 ## Npm scripts
 
 - `npm run test:component` - run tests
 - `npm run test:component:update` - update screenshots
+- `npm run test:component:docker` - run tests using docker
+- `npm run test:component:docker` - update screenshots using docker

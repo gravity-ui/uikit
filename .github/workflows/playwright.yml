@@ -25,6 +25,7 @@ jobs:
       env:
         CI: 'true'
     - name: Upload Playwright playwright report to GitHub Actions Artifacts
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: playwright-report

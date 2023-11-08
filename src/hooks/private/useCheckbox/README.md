@@ -1,6 +1,6 @@
 # useCheckbox
 
-The `useCheckbox` hook need to generate props for radio group element
+The `useCheckbox` hook need to generate props for checkbox control
 
 ## Properties
 
@@ -22,5 +22,7 @@ The `useCheckbox` hook need to generate props for radio group element
 
 ## Result
 
-- checked, radio-input status `boolean`
-- inputProps
+| Name       | Description                        |                       Type                        |
+| :--------- | :--------------------------------- | :-----------------------------------------------: |
+| checked    | Checked state                      |                     `boolean`                     |
+| inputProps | Props to pass to the input element | `React.InputHTMLAttributes & React.RefAttributes` |

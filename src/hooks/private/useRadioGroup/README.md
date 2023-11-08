@@ -1,6 +1,6 @@
 # useRadioGroup
 
-The `useRadioGroup` hook need to generate props for radio group element
+The `useRadioGroup` hook need to generate props for radio group control
 
 ## Properties
 
@@ -18,5 +18,7 @@ The `useRadioGroup` hook need to generate props for radio group element
 
 ## Result
 
-- containerProps
-- optionsProps
+| Name           | Description                        |                                             Type                                             |
+| :------------- | :--------------------------------- | :------------------------------------------------------------------------------------------: |
+| containerProps | Props to pass to the input element | `{'aria-label'?: string;'aria-labelledby'?: string; role: string; 'aria-disabled': boolean;` |
+| optionsProps   | Options props                      |                                        `OptionsProps`                                        |

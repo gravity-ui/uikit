@@ -12,4 +12,6 @@ The `useRestoreFocus` hook restore focus
 
 ## Result
 
-- onFocus, `(event: React.FocusEvent) => void`
+| Name    | Description      |                Type                 |
+| :------ | :--------------- | :---------------------------------: |
+| onFocus | OnFocus callback | `(event: React.FocusEvent) => void` |

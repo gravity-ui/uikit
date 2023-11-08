@@ -11,5 +11,7 @@ The `useCloseOnTimeout` hook invokes callback after given amount of time unless 
 
 ## Result
 
-- onMouseOver, `React.MouseEventHandler`
-- onMouseLeave, `React.MouseEventHandler`
+| Name         | Description          |           Type            |
+| :----------- | :------------------- | :-----------------------: |
+| onMouseOver  | OnMouseOver handler  | `React.MouseEventHandler` |
+| onMouseLeave | OnMouseLeave handler | `React.MouseEventHandler` |

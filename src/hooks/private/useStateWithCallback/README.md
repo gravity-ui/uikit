@@ -11,5 +11,7 @@ The `useStateWithCallback` hook a wrapper that adds a callback call when the wra
 
 ## Result
 
-- state, `any`
-- setWithCallback, `(nextValue: T | ((value: T) => T)) => void`
+| Name            | Description                                |                     Type                      |
+| :-------------- | :----------------------------------------- | :-------------------------------------------: |
+| state           | Target state                               |                     `any`                     |
+| setWithCallback | State setter with the transmitted callback | `(nextValue: T or ((value: T) => T)) => void` |

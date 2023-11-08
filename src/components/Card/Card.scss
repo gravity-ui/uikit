@@ -156,6 +156,15 @@ $block: '.#{variables.$ns}card';
             }
         }
 
+        &#{$block}_theme_utility {
+            &#{$block}_view_outlined {
+                border: 1px solid var(--g-color-line-utility);
+            }
+            &#{$block}_view_filled {
+                background-color: var(--g-color-base-utility-light);
+            }
+        }
+
         &#{$block}_view_raised {
             background-color: var(--g-color-base-float);
 

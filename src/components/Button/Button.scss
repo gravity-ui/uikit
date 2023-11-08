@@ -196,6 +196,14 @@ $iconWidth: 16px;
             }
         }
 
+        &_outlined-utility {
+            @include button-text-color(var(--g-color-text-utility));
+
+            &::before {
+                border: 1px solid var(--g-color-line-utility);
+            }
+        }
+
         &_outlined-action {
             @include button-text-color(var(--g-color-text-brand));
 
@@ -243,6 +251,10 @@ $iconWidth: 16px;
             @include button-text-color(var(--g-color-text-danger));
         }
 
+        &_flat-utility {
+            @include button-text-color(var(--g-color-text-utility));
+        }
+
         &_flat-action {
             @include button-text-color(var(--g-color-text-brand));
         }
@@ -281,6 +293,7 @@ $iconWidth: 16px;
         &_flat-success,
         &_flat-warning,
         &_flat-danger,
+        &_flat-utility,
         &_flat-action {
             &#{$block}_disabled:not(#{$block}_loading),
             &#{$block}_disabled:not(#{$block}_loading) {
@@ -383,6 +396,20 @@ $iconWidth: 16px;
                 --yc-button-background-color-hover: var(--g-color-base-danger-light-hover);
 
                 @include button-text-color(var(--g-color-text-danger-heavy));
+
+                &::before {
+                    border: none;
+                }
+            }
+        }
+
+        &_outlined-utility,
+        &_flat-utility {
+            &#{$block}_selected {
+                --yc-button-background-color: var(--g-color-base-utility-light);
+                --yc-button-background-color-hover: var(--g-color-base-utility-light-hover);
+
+                @include button-text-color(var(--g-color-text-utility-heavy));
 
                 &::before {
                     border: none;

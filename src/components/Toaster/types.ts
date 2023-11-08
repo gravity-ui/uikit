@@ -5,7 +5,7 @@ export type ToasterArgs = {
     mobile?: boolean;
 };
 
-export type ToastType = 'info' | 'success' | 'warning' | 'error';
+export type ToastType = 'info' | 'success' | 'warning' | 'error' | 'utility';
 
 export type ToastAction = {
     onClick: VoidFunction;

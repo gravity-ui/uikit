@@ -96,6 +96,17 @@ const stories: AlertProps[] = [
     },
     {
         message,
+        theme: 'utility',
+        view: 'outlined',
+    },
+    {
+        title,
+        message,
+        theme: 'utility',
+        view: 'filled',
+    },
+    {
+        message,
         theme: 'normal',
         view: 'outlined',
     },

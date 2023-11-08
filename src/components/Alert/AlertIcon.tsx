@@ -7,6 +7,8 @@ import {
     CircleInfoFill,
     CircleXmark,
     CircleXmarkFill,
+    Thunderbolt,
+    ThunderboltFill,
     TriangleExclamation,
     TriangleExclamationFill,
 } from '@gravity-ui/icons';
@@ -40,6 +42,10 @@ const typeToIcon: Record<
     warning: {
         filled: TriangleExclamationFill,
         outlined: TriangleExclamation,
+    },
+    utility: {
+        filled: ThunderboltFill,
+        outlined: Thunderbolt,
     },
     normal: null,
 };

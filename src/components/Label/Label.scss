@@ -154,6 +154,14 @@ $hover-opacity: 0.7;
             --_-text-color: var(--g-color-text-danger-heavy);
         }
 
+        &_utility {
+            @include themeState(
+                var(--g-color-base-utility-light),
+                var(--g-color-base-utility-light-hover),
+                var(--g-color-text-utility-heavy)
+            );
+        }
+
         &_unknown {
             --_-bg-color: var(--g-color-base-neutral-light);
             --_-bg-hover-color: var(--g-color-base-neutral-light-hover);

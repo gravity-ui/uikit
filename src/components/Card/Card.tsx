@@ -18,7 +18,8 @@ export type CardTheme =
     | 'success'
     | /** @deprecated */ 'positive'
     | 'warning'
-    | 'danger';
+    | 'danger'
+    | 'utility';
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 

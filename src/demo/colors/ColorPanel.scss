@@ -66,6 +66,7 @@
         }
 
         &-box {
+            flex-shrink: 0;
             margin: 5px 15px 0 0;
             width: 40px;
             height: 40px;
@@ -97,6 +98,7 @@
             @include mixins.text-code-1();
             color: var(--g-color-text-secondary);
             margin-left: 10px;
+            white-space: nowrap;
         }
 
         &-description {

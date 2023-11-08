@@ -23,7 +23,16 @@ const icons = (id: 'TickIcon' | 'GearIcon' | '-', size: 'xs' | 's' | 'm' = 'xs')
 };
 
 export function LabelShowcase(args: LabelProps) {
-    const themes = ['normal', 'info', 'danger', 'warning', 'success', 'unknown', 'clear'] as const;
+    const themes = [
+        'normal',
+        'info',
+        'success',
+        'warning',
+        'danger',
+        'utility',
+        'unknown',
+        'clear',
+    ] as const;
     const sizes = ['xs', 's', 'm'] as const;
 
     const getLabel = ({...props}: WithKey<LabelProps>) => <Label {...props} />;

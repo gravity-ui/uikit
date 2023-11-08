@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
-import {CircleCheck, CircleInfo, TriangleExclamation} from '@gravity-ui/icons';
+import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation} from '@gravity-ui/icons';
 
 import {ToasterComponent, useToaster} from '..';
 import type {ToastProps} from '..';
@@ -171,6 +171,18 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
+    const createUtilityToast = () => {
+        const toastProps = getToastProps({
+            name: 'utility',
+            type: 'utility',
+            title: 'Utility toast',
+        });
+
+        toaster.add(toastProps);
+
+        setState((state) => ({...state, lastToastName: toastProps.name}));
+    };
+
     const createCustomToast = () => {
         const content = (
             <div style={{display: 'flex'}}>
@@ -299,6 +311,13 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const utilityToastBtn = (
+        <Button view="outlined" size="l" onClick={createUtilityToast} style={btnStyle}>
+            <Icon className={b('icon', {utility: true})} data={Thunderbolt} />
+            Create utility toast
+        </Button>
+    );
+
     const customToastBtn = (
         <Button view="outlined" size="l" onClick={createCustomToast} style={btnStyle}>
             Create custom toast
@@ -332,6 +351,7 @@ export const ToasterDemo = ({
             <p>{successToastBtn}</p>
             <p>{warningToastBtn}</p>
             <p>{errorToastBtn}</p>
+            <p>{utilityToastBtn}</p>
             <p>{customToastBtn}</p>
             <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>

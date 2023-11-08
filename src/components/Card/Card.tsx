@@ -12,14 +12,7 @@ type SelectionCardView = 'outlined' | 'clear';
 type ContainerCardView = 'outlined' | 'filled' | 'raised';
 
 export type CardType = 'selection' | 'action' | 'container';
-export type CardTheme =
-    | 'normal'
-    | 'info'
-    | 'success'
-    | /** @deprecated */ 'positive'
-    | 'warning'
-    | 'danger'
-    | 'utility';
+export type CardTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 

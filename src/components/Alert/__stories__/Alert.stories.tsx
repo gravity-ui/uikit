@@ -54,7 +54,7 @@ const stories: AlertProps[] = [
     {
         title,
         message,
-        theme: 'positive',
+        theme: 'success',
         view: 'outlined',
         actions: (
             <Alert.Actions>
@@ -67,7 +67,7 @@ const stories: AlertProps[] = [
     {
         title,
         message,
-        theme: 'positive',
+        theme: 'success',
         view: 'filled',
 
         actions: [{text: right, handler: console.log}],

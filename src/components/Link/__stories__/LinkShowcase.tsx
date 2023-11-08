@@ -24,10 +24,6 @@ export function LinkShowcase() {
                             name: 'View secondary',
                             value: 'secondary',
                         },
-                        {
-                            name: 'View normal-visitable',
-                            value: 'normal-visitable',
-                        },
                     ],
                     href: [
                         {

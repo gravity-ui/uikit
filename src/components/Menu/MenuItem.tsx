@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {useActionHandlers} from '../../hooks';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
@@ -43,6 +44,8 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
     },
     ref,
 ) {
+    const {onKeyDown} = useActionHandlers(onClick);
+
     const handleClickCapture = React.useCallback((event: React.SyntheticEvent) => {
         eventBroker.publish({
             componentId: 'MenuItem',
@@ -50,6 +53,11 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
             domEvent: event,
         });
     }, []);
+
+    const defaultProps = {
+        role: 'menuitem',
+        onKeyDown: onClick && !disabled ? onKeyDown : undefined,
+    };
 
     const commonProps = {
         title,
@@ -75,6 +83,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
     if (href) {
         item = (
             <a
+                {...defaultProps}
                 {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
                 {...commonProps}
                 href={href}
@@ -86,7 +95,11 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         );
     } else {
         item = (
-            <div {...(extraProps as React.HTMLAttributes<HTMLDivElement>)} {...commonProps}>
+            <div
+                {...defaultProps}
+                {...(extraProps as React.HTMLAttributes<HTMLDivElement>)}
+                {...commonProps}
+            >
                 {content}
             </div>
         );

@@ -1,5 +1,204 @@
 # Changelog
 
+## [5.18.0](https://github.com/gravity-ui/uikit/compare/v5.17.0...v5.18.0) (2023-10-19)
+
+
+### Features
+
+* **Table:** expand checkbox click area ([#654](https://github.com/gravity-ui/uikit/issues/654)) ([0534cf8](https://github.com/gravity-ui/uikit/commit/0534cf8f973c4737f137078a6978df8f201a4f3f))
+
+
+### Bug Fixes
+
+* **Sheet:** fix Sheet intermediate hanging when touch ends above it ([#1052](https://github.com/gravity-ui/uikit/issues/1052)) ([38e6308](https://github.com/gravity-ui/uikit/commit/38e63088433798193d3eea267548ac1e7422e0a6))
+
+## [5.17.0](https://github.com/gravity-ui/uikit/compare/v5.16.0...v5.17.0) (2023-10-05)
+
+
+### Features
+
+* **List:** extend `emptyPlaceholder` type to `ReactNode` ([#1013](https://github.com/gravity-ui/uikit/issues/1013)) ([56437e6](https://github.com/gravity-ui/uikit/commit/56437e6e4782eebf4040d6f1e2bc70bc6b5b61ec))
+* synced codeowners with sharepoint table ([#1034](https://github.com/gravity-ui/uikit/issues/1034)) ([5bdfa75](https://github.com/gravity-ui/uikit/commit/5bdfa75bbae36827dd74b9b67a24fa2e2dd6fcdb))
+* **withTableSorting:** add control the use of data sorting ([#1032](https://github.com/gravity-ui/uikit/issues/1032)) ([53248c9](https://github.com/gravity-ui/uikit/commit/53248c967e32bba6cb5f4451f9ee5bf00d963163))
+
+
+### Bug Fixes
+
+* start refactor hooks: useOutsideClick ([#1035](https://github.com/gravity-ui/uikit/issues/1035)) ([6ad4a78](https://github.com/gravity-ui/uikit/commit/6ad4a78ca202ecc6e843d14f0c71f922d0845828))
+* use correct font-size through component styles ([#1036](https://github.com/gravity-ui/uikit/issues/1036)) ([44d7160](https://github.com/gravity-ui/uikit/commit/44d71608af59eb04350d830dd2d19c1a5ce922b2))
+
+## [5.16.0](https://github.com/gravity-ui/uikit/compare/v5.15.0...v5.16.0) (2023-09-29)
+
+
+### Features
+
+* **Table:** add options for WithTableSettings HOC ([#1029](https://github.com/gravity-ui/uikit/issues/1029)) ([b338bf9](https://github.com/gravity-ui/uikit/commit/b338bf9c3b77aba5471e143ce58495d55ec94cfe))
+
+## [5.15.0](https://github.com/gravity-ui/uikit/compare/v5.14.0...v5.15.0) (2023-09-22)
+
+
+### Features
+
+* **UserAvatar:** add fallbackImgUrl prop ([#1025](https://github.com/gravity-ui/uikit/issues/1025)) ([9a4bd59](https://github.com/gravity-ui/uikit/commit/9a4bd597cc0db62f905d6972eb317faffd8cb672))
+
+
+### Bug Fixes
+
+* **DocsDecorator:** add new css prefix support ([#1027](https://github.com/gravity-ui/uikit/issues/1027)) ([6ff4c1c](https://github.com/gravity-ui/uikit/commit/6ff4c1c3c040b72abae6ad82c3868a447df039d3))
+
+## [5.14.0](https://github.com/gravity-ui/uikit/compare/v5.13.0...v5.14.0) (2023-09-20)
+
+
+### Features
+
+* **Select:** add onClear argument to renderControl method ([#1022](https://github.com/gravity-ui/uikit/issues/1022)) ([d3af988](https://github.com/gravity-ui/uikit/commit/d3af988a18adbb285269955dfef3c44df78043bf))
+
+## [5.13.0](https://github.com/gravity-ui/uikit/compare/v5.12.2...v5.13.0) (2023-09-19)
+
+
+### Features
+
+* add hook useOnClickOutside ([#1006](https://github.com/gravity-ui/uikit/issues/1006)) ([6e83459](https://github.com/gravity-ui/uikit/commit/6e8345974c98ab3a949d6741ea38f807e1652ade))
+* **LayerManager:** add type to layer ([#1018](https://github.com/gravity-ui/uikit/issues/1018)) ([3fb7de9](https://github.com/gravity-ui/uikit/commit/3fb7de912e144a84a0d169b0be65e6e440c886a0))
+* **Toc:** add component ([#858](https://github.com/gravity-ui/uikit/issues/858)) ([bafed78](https://github.com/gravity-ui/uikit/commit/bafed78dcea0dbedf892763da864d193f18d6421))
+
+## [5.12.2](https://github.com/gravity-ui/uikit/compare/v5.12.1...v5.12.2) (2023-09-15)
+
+
+### Bug Fixes
+
+* **Select:** fix filtering in case of using grouped options ([#1011](https://github.com/gravity-ui/uikit/issues/1011)) ([096d404](https://github.com/gravity-ui/uikit/commit/096d404d8a1734b9a40ca5e4fedcb66e78cf1b5d))
+
+## [5.12.1](https://github.com/gravity-ui/uikit/compare/v5.12.0...v5.12.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* **TextInput:** fix inside error display ([#1004](https://github.com/gravity-ui/uikit/issues/1004)) ([1fcab4e](https://github.com/gravity-ui/uikit/commit/1fcab4e83d777bf4a9e38ab919425f502d7080ff))
+
+## [5.12.0](https://github.com/gravity-ui/uikit/compare/v5.11.0...v5.12.0) (2023-09-13)
+
+
+### Features
+
+* **List:** improve a11y ([#960](https://github.com/gravity-ui/uikit/issues/960)) ([67c35a2](https://github.com/gravity-ui/uikit/commit/67c35a217db3cc4cf8bfd05d606776c57684d9b7))
+
+
+### Bug Fixes
+
+* **Menu:** make menu item content width limited by a container ([#1001](https://github.com/gravity-ui/uikit/issues/1001)) ([f3943c9](https://github.com/gravity-ui/uikit/commit/f3943c919d163d809754d8eb49fefe4d75558fbd))
+* **Select:** fix control border radius in case of using `xl` size ([#998](https://github.com/gravity-ui/uikit/issues/998)) ([8084778](https://github.com/gravity-ui/uikit/commit/80847789edb172b3bee11ebe39714094ce8b62d2))
+* **Tabs:** show focused state if focus-visible only ([#1000](https://github.com/gravity-ui/uikit/issues/1000)) ([88b89f7](https://github.com/gravity-ui/uikit/commit/88b89f777a665d80974815611d58dbd7eb04ac41))
+* **ThemeProvider:** fix scoped CSS classes ([#1003](https://github.com/gravity-ui/uikit/issues/1003)) ([9fe15e3](https://github.com/gravity-ui/uikit/commit/9fe15e35e18f7ebbc455f76f7de762d5a3df7225))
+
+## [5.11.0](https://github.com/gravity-ui/uikit/compare/v5.10.0...v5.11.0) (2023-09-07)
+
+
+### Features
+
+* **Alert, Card:** deprecate `positive` theme ([#986](https://github.com/gravity-ui/uikit/issues/986)) ([e4758d4](https://github.com/gravity-ui/uikit/commit/e4758d408151554ec2946a8cdb07a0e431ce6b85))
+* **Breadcrumbs:** add `title` prop to item ([#863](https://github.com/gravity-ui/uikit/issues/863)) ([0146f5f](https://github.com/gravity-ui/uikit/commit/0146f5f0052bc7c23fd45b7df9452d5b9c639acf))
+* **Popover:** add popper modifiers to popover props ([#993](https://github.com/gravity-ui/uikit/issues/993)) ([fdce64a](https://github.com/gravity-ui/uikit/commit/fdce64ae8e9af2dc9b6142cd05fb18e285c2de7c))
+* **TextArea, TextInput:** use aria-describedby for error and note ([#904](https://github.com/gravity-ui/uikit/issues/904)) ([d51039b](https://github.com/gravity-ui/uikit/commit/d51039bb0fd4129ac511681e7fa23f051d1c3397))
+
+## [5.10.0](https://github.com/gravity-ui/uikit/compare/v5.9.1...v5.10.0) (2023-09-05)
+
+
+### Features
+
+* add CSS variables to control focus outline ([#973](https://github.com/gravity-ui/uikit/issues/973)) ([d926ef8](https://github.com/gravity-ui/uikit/commit/d926ef870b4daef03ed0970f9b97fbc85b93f5d0))
+* **Card:** update README ([#976](https://github.com/gravity-ui/uikit/issues/976)) ([60bf6cc](https://github.com/gravity-ui/uikit/commit/60bf6cc13f3fcda6b03e1de0e152c3b0a5f10ac0))
+* **Flex:** add alignContent, justifyItems and justifySelf css props ([#974](https://github.com/gravity-ui/uikit/issues/974)) ([0be31c9](https://github.com/gravity-ui/uikit/commit/0be31c94a2290b6787b88cdb15fa5d048faf4134))
+* **Menu:** improve MenuItem a11y ([#959](https://github.com/gravity-ui/uikit/issues/959)) ([338f907](https://github.com/gravity-ui/uikit/commit/338f9070c558cd7ce85b99f6ef5539ad0e63a57b))
+* **Popover:** accept function as a children ([#900](https://github.com/gravity-ui/uikit/issues/900)) ([ca5bcc7](https://github.com/gravity-ui/uikit/commit/ca5bcc708598d69270a8645c2fa6a00dc0c9397b))
+* **Table:** update README ([#985](https://github.com/gravity-ui/uikit/issues/985)) ([cc95a33](https://github.com/gravity-ui/uikit/commit/cc95a3372d781aae95f7516cb2e2a2744eca570b))
+* **TextInput:** add an option to display error via tooltip ([#821](https://github.com/gravity-ui/uikit/issues/821)) ([f883f01](https://github.com/gravity-ui/uikit/commit/f883f0126371339e0b0ad46365c29bf1980bdbe7))
+* **Toast:** update icons according to design ([#984](https://github.com/gravity-ui/uikit/issues/984)) ([d10d2c9](https://github.com/gravity-ui/uikit/commit/d10d2c9e1d3d1394786a1105d0d3806de07bce08))
+
+
+### Bug Fixes
+
+* **Disclosure:** explicit type export ([#983](https://github.com/gravity-ui/uikit/issues/983)) ([eeba89d](https://github.com/gravity-ui/uikit/commit/eeba89d4ee2f6a849c0621e96817c00461b2d20f))
+* **Pagination:** increase priority over input styles ([#989](https://github.com/gravity-ui/uikit/issues/989)) ([bbfa6a5](https://github.com/gravity-ui/uikit/commit/bbfa6a5a5ba87dcba31121ccefbb9d05d2f6f60d))
+* **Toast:** don't render empty actions array ([#979](https://github.com/gravity-ui/uikit/issues/979)) ([e19d0b9](https://github.com/gravity-ui/uikit/commit/e19d0b9344ee3f8cbec3e0ee107fcb244b1e26c9))
+
+## [5.9.1](https://github.com/gravity-ui/uikit/compare/v5.9.0...v5.9.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* downgrade tslib to 2.6.1 ([#963](https://github.com/gravity-ui/uikit/issues/963)) ([87c62d3](https://github.com/gravity-ui/uikit/commit/87c62d3c8034a48bc278999f38e9911c3b54be23))
+
+## [5.9.0](https://github.com/gravity-ui/uikit/compare/v5.8.0...v5.9.0) (2023-08-24)
+
+
+### Features
+
+* update deps ([#943](https://github.com/gravity-ui/uikit/issues/943)) ([57547c7](https://github.com/gravity-ui/uikit/commit/57547c7fce715e6dcb4adc80029892ab7ebbeff5))
+
+
+### Bug Fixes
+
+* **List:** item type validation ([#949](https://github.com/gravity-ui/uikit/issues/949)) ([1aef5b5](https://github.com/gravity-ui/uikit/commit/1aef5b592761d6b9a471cdcd92274f7367da4e6b))
+
+## [5.8.0](https://github.com/gravity-ui/uikit/compare/v5.7.0...v5.8.0) (2023-08-24)
+
+
+### Features
+
+* create useViewportSize hook ([#933](https://github.com/gravity-ui/uikit/issues/933)) ([637f88d](https://github.com/gravity-ui/uikit/commit/637f88d3f70084d9c7dbe7191e6cdee6c7380bd7))
+* **List:** add loading and onLoadMore props ([#934](https://github.com/gravity-ui/uikit/issues/934)) ([5eab30f](https://github.com/gravity-ui/uikit/commit/5eab30f8e4b8c7517e7d4963762961c0f4743ebb))
+
+
+### Bug Fixes
+
+* **ClearButton:** increase selector specificity ([#945](https://github.com/gravity-ui/uikit/issues/945)) ([edee285](https://github.com/gravity-ui/uikit/commit/edee285af48e8817184fb2214916f09159ca545d))
+* **Table:** fix copying the array from getRowClassNames ([#923](https://github.com/gravity-ui/uikit/issues/923)) ([3f123b7](https://github.com/gravity-ui/uikit/commit/3f123b7feb90ddeb123d06ef42f947fe9f85264d))
+
+## [5.7.0](https://github.com/gravity-ui/uikit/compare/v5.6.0...v5.7.0) (2023-08-22)
+
+
+### Features
+
+* **Table:** add `wordWrap` option to prevent text cut ([#919](https://github.com/gravity-ui/uikit/issues/919)) ([52d6efb](https://github.com/gravity-ui/uikit/commit/52d6efbfc405cd156ae1b62d4532cb22a96f649f))
+
+
+### Bug Fixes
+
+* **Table:** calculate column styles on mount ([#926](https://github.com/gravity-ui/uikit/issues/926)) ([e51a73b](https://github.com/gravity-ui/uikit/commit/e51a73b66e576a641cdc2218e873a622e3ba5e98))
+
+## [5.6.0](https://github.com/gravity-ui/uikit/compare/v5.5.1...v5.6.0) (2023-08-22)
+
+
+### Features
+
+* **Icon:** forward `ref` ([#929](https://github.com/gravity-ui/uikit/issues/929)) ([28d023d](https://github.com/gravity-ui/uikit/commit/28d023dc14b05adada4e78d7dfcd3f725bcef2db))
+* **TextArea:** add gravity documentation ([#920](https://github.com/gravity-ui/uikit/issues/920)) ([56f0796](https://github.com/gravity-ui/uikit/commit/56f0796dce851016895f23efd0946fd2c5b93894))
+* **TextInput:** add gravity documentation ([#912](https://github.com/gravity-ui/uikit/issues/912)) ([641e424](https://github.com/gravity-ui/uikit/commit/641e424cf8a21ee99b270472971aff980ea55cf9))
+
+## [5.5.1](https://github.com/gravity-ui/uikit/compare/v5.5.0...v5.5.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* **Button:** fix maxWidth property in case of using button only with icon node ([#914](https://github.com/gravity-ui/uikit/issues/914)) ([15dde1a](https://github.com/gravity-ui/uikit/commit/15dde1abaa497ad270626e3702e684c7be921a89))
+* **MobileProvider:** fix SSR compatibility ([#897](https://github.com/gravity-ui/uikit/issues/897)) ([9c6f5a7](https://github.com/gravity-ui/uikit/commit/9c6f5a7f770225228f88bd9b7a1dfcf059a73f05))
+
+## [5.5.0](https://github.com/gravity-ui/uikit/compare/v5.4.1...v5.5.0) (2023-08-17)
+
+
+### Features
+
+* **Link:** add visitable prop ([#872](https://github.com/gravity-ui/uikit/issues/872)) ([62903e5](https://github.com/gravity-ui/uikit/commit/62903e50e18d3ce17faa148b966dae757f57d735))
+* **Select:** add onLoadMore prop ([#901](https://github.com/gravity-ui/uikit/issues/901)) ([e191c0b](https://github.com/gravity-ui/uikit/commit/e191c0b5a2fb59ca915066bffd080660d472d48a))
+* **TextArea|TextInput:** add note prop into TextArea and TextInput ([#895](https://github.com/gravity-ui/uikit/issues/895)) ([ad959e4](https://github.com/gravity-ui/uikit/commit/ad959e4d0f518f2655713099e43b91b4cb74f286))
+* use "Inter" as main font ([#893](https://github.com/gravity-ui/uikit/issues/893)) ([13ed356](https://github.com/gravity-ui/uikit/commit/13ed356b1f8eaf82816f0f6e0ec3f6437b364c41))
+
+
+### Bug Fixes
+
+* **Toaster:** add min-height ([#882](https://github.com/gravity-ui/uikit/issues/882)) ([a254e1b](https://github.com/gravity-ui/uikit/commit/a254e1ba09f0da2d0ba724aac6cf2fde588844f5))
+
 ## [5.4.1](https://github.com/gravity-ui/uikit/compare/v5.4.0...v5.4.1) (2023-08-11)
 
 

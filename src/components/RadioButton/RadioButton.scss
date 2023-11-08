@@ -28,6 +28,7 @@ $block: '.#{variables.$ns}radio-button';
     &__option {
         flex: 1 1 auto;
         user-select: none;
+        font-size: var(--g-text-body-1-font-size);
         text-align: center;
         border-radius: var(--yc-radio-button-inner-border-radius);
         cursor: pointer;
@@ -58,12 +59,8 @@ $block: '.#{variables.$ns}radio-button';
             opacity: 0;
             cursor: inherit;
 
-            &:focus + #{$block}__option-outline {
-                box-shadow: 0 0 0 2px var(--g-color-line-misc);
-            }
-
-            &:focus:not(:focus-visible) + #{$block}__option-outline {
-                box-shadow: none;
+            &:focus-visible + #{$block}__option-outline {
+                outline: 2px solid var(--g-color-line-focus);
             }
         }
 
@@ -126,7 +123,6 @@ $block: '.#{variables.$ns}radio-button';
             #{$block}__option {
                 height: 24px;
                 line-height: 24px;
-                font-size: 13px;
 
                 &-text {
                     margin: 0 10px;
@@ -140,7 +136,6 @@ $block: '.#{variables.$ns}radio-button';
             #{$block}__option {
                 height: 28px;
                 line-height: 28px;
-                font-size: 13px;
 
                 &-text {
                     margin: 0 13px;
@@ -154,7 +149,6 @@ $block: '.#{variables.$ns}radio-button';
             #{$block}__option {
                 height: 36px;
                 line-height: 36px;
-                font-size: 13px;
 
                 &-text {
                     margin: 0 18px;
@@ -168,7 +162,7 @@ $block: '.#{variables.$ns}radio-button';
             #{$block}__option {
                 height: 44px;
                 line-height: 44px;
-                font-size: 15px;
+                font-size: var(--g-text-body-2-font-size);
 
                 &-text {
                     margin: 0 25px;

@@ -1,22 +1,22 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
+import {cn} from '../../components/utils/cn';
 
 import './Showcase.scss';
 
 type Props = React.PropsWithChildren<{
-    title: string;
+    title?: string;
     description?: React.ReactNode;
     className?: string;
 }>;
 
-const b = block('showcase');
+const b = cn('showcase');
 
 export function Showcase({title, description, className, children}: Props) {
     return (
         <div className={b(null, className)}>
-            <div className={b('title')}>{title}</div>
-            <div className={b('description')}>{description}</div>
+            {title && <div className={b('title')}>{title}</div>}
+            {description && <div className={b('description')}>{description}</div>}
             <div className={b('content')}>{children}</div>
         </div>
     );

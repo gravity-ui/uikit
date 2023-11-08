@@ -1,12 +1,11 @@
 import React from 'react';
 
+import {KeyCode} from '../../constants';
+import {useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
-import {KeyCode} from '../constants';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
 import {useFocusWithin} from '../utils/interactions';
-import {useForkRef} from '../utils/useForkRef';
-import {useSelect} from '../utils/useSelect';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
@@ -76,6 +75,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disablePortal,
         hasClear = false,
         onClose,
+        id,
     } = props;
     const [mobile] = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
@@ -86,7 +86,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-    const {value, open, toggleOpen, handleSelection, handleClearValue} = useSelect({
+    const {
+        value,
+        open,
+        activeIndex,
+        toggleOpen,
+        handleSelection,
+        handleClearValue,
+        setActiveIndex,
+    } = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
@@ -96,6 +104,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onClose,
         onOpenChange,
     });
+    const uniqId = useUniqId();
+    const selectId = id ?? uniqId;
     const options = props.options || getOptionsFromChildren(props.children);
     const flattenOptions = getFlattenOptions(options);
     const filteredFlattenOptions = filterable
@@ -242,6 +252,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
                 value={value}
+                popupId={`select-popup-${selectId}`}
+                selectId={`select-${selectId}`}
+                activeIndex={activeIndex}
             />
             <SelectPopup
                 ref={controlWrapRef}
@@ -253,6 +266,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disablePortal={disablePortal}
                 virtualized={virtualized}
                 mobile={mobile}
+                id={`select-popup-${selectId}`}
             >
                 {filterable && (
                     <SelectFilter
@@ -281,6 +295,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                         getOptionGroupHeight={getOptionGroupHeight}
                         loading={props.loading}
                         onLoadMore={props.onLoadMore}
+                        selectId={`select-${selectId}`}
+                        onChangeActive={setActiveIndex}
                     />
                 ) : (
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />

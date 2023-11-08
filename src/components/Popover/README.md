@@ -6,7 +6,7 @@ Block with pop-up content
 
 Extends [`QAProps`](../types.ts).
 
-| Property                | Type               | Required | Values                                   | Default             | Description                                                                                                                                                                    |
+| Name                    | Type               | Required | Values                                   | Default             | Description                                                                                                                                                                    |
 | :---------------------- | :----------------- | :------- | :--------------------------------------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | initialOpen             | `Boolean`          |          |                                          | `false`             | Whether the tooltip initially opened                                                                                                                                           |
 | disabled                | `Boolean`          |          |                                          | `false`             | Disables open state changes                                                                                                                                                    |
@@ -46,7 +46,7 @@ Extends [`QAProps`](../types.ts).
 
 ### Instance properties
 
-| Property     | Type       | Description        |
+| Name         | Type       | Description        |
 | :----------- | :--------- | :----------------- |
 | openTooltip  | `Function` | Opens the tooltip  |
 | closeTooltip | `Function` | Closes the tooltip |

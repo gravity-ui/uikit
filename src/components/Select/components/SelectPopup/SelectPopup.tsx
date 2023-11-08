@@ -24,6 +24,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             disablePortal,
             virtualized,
             mobile,
+            id,
         },
         ref,
     ) =>
@@ -49,6 +50,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 restoreFocus
                 restoreFocusRef={controlRef}
                 modifiers={getModifiers({width, disablePortal, virtualized})}
+                id={id}
             >
                 {children}
             </Popup>

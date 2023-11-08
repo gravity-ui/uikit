@@ -12,6 +12,7 @@
     },
     "include": [
         "src/**/*.ts",
-        "src/**/*.tsx"
+        "src/**/*.tsx",
+        "test-utils/setup-tests-after.ts"
     ]
 }

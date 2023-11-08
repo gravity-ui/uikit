@@ -1,0 +1,47 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns-new}toc-item';
+
+#{$block} {
+    $class: &;
+
+    &__section {
+        cursor: pointer;
+
+        & > #{$class}__section-link {
+            border-left-color: var(--g-color-line-generic);
+        }
+
+        &-link {
+            &:focus-visible {
+                outline-offset: -2px;
+                outline: 2px solid var(--g-color-line-focus);
+                border-radius: calc(var(--g-focus-border-radius) + 2px);
+            }
+
+            display: flex;
+            align-items: center;
+            padding: 6px 6px 6px 12px;
+            min-height: 28px;
+
+            color: var(--g-color-text-secondary);
+            border-left: 2px solid transparent;
+            text-decoration: none;
+
+            &:hover {
+                color: var(--g-color-text-complementary);
+            }
+        }
+
+        &_child {
+            #{$class}__section-link {
+                padding-left: 25px;
+            }
+        }
+
+        &_active > #{$class}__section-link {
+            color: var(--g-color-text-primary);
+            border-left-color: var(--g-color-line-brand);
+        }
+    }
+}

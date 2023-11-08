@@ -4,6 +4,7 @@
 
 $block: '.#{variables.$ns-new}select-list';
 $popupBlock: '.#{variables.$ns}popup';
+$listBlock: '.#{variables.$ns}list';
 $xl-right-padding: '12px';
 
 #{$block} {
@@ -34,6 +35,8 @@ $xl-right-padding: '12px';
     }
 
     &__group-label {
+        font-size: var(--g-text-body-1-font-size);
+
         #{$block}_size_s &:not(#{&}_empty) {
             height: #{variables.$s-height};
             padding: 8px #{select-css-variables.$s-hor-padding} 4px;
@@ -52,13 +55,13 @@ $xl-right-padding: '12px';
         #{$block}_size_xl &:not(#{&}_empty) {
             height: #{variables.$xl-height};
             padding: 12px #{select-css-variables.$xl-hor-padding} 8px;
-            font-size: 15px;
+            font-size: var(--g-text-body-2-font-size);
         }
 
         #{$block}_mobile &:not(#{&}_empty) {
             height: #{variables.$l-height};
             padding: 12px #{select-css-variables.$l-hor-padding} 8px;
-            font-size: 15px;
+            font-size: var(--g-text-body-2-font-size);
         }
 
         #{$block}__item:not(:first-child) & {
@@ -81,6 +84,20 @@ $xl-right-padding: '12px';
         @include mixins.text-accent;
 
         width: 100%;
+    }
+
+    &__item#{$listBlock} {
+        &__item_selected {
+            background: none;
+
+            &:hover {
+                background: var(--g-color-base-simple-hover);
+            }
+        }
+
+        &__item_active {
+            background: var(--g-color-base-simple-hover);
+        }
     }
 
     &__option {
@@ -130,7 +147,7 @@ $xl-right-padding: '12px';
             & #{$block}__option-default-label {
                 height: #{variables.$xl-height};
                 line-height: #{variables.$xl-height};
-                font-size: 15px;
+                font-size: var(--g-text-body-2-font-size);
             }
 
             --_--select-tick-icon-padding-right: calc(#{select-css-variables.$xl-hor-padding} / 2);
@@ -142,7 +159,7 @@ $xl-right-padding: '12px';
             & #{$block}__option-default-label {
                 height: #{variables.$l-height};
                 line-height: #{variables.$l-height};
-                font-size: 15px;
+                font-size: var(--g-text-body-2-font-size);
             }
 
             & #{$block}__tick-icon {
@@ -161,6 +178,7 @@ $xl-right-padding: '12px';
 
     &__option-default-label {
         @include mixins.overflow-ellipsis();
+        font-size: var(--g-text-body-1-font-size);
 
         &_disabled {
             color: var(--g-color-text-secondary);

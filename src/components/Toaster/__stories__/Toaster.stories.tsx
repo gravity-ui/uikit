@@ -48,7 +48,7 @@ function booleanControl(label: string) {
 }
 
 export default {
-    title: 'Components/Toaster',
+    title: 'Components/Feedback/Toaster',
     component: Toast,
     argTypes: {
         mobile: disabledControl,

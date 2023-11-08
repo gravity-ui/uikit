@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CircleCheckFill, CircleInfoFill, TriangleExclamationFill, Xmark} from '@gravity-ui/icons';
+import {CircleCheck, CircleInfo, TriangleExclamation, Xmark} from '@gravity-ui/icons';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
@@ -15,10 +15,10 @@ import './Toast.scss';
 const b = block('toast');
 const DEFAULT_TIMEOUT = 5000;
 const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
-    info: CircleInfoFill,
-    success: CircleCheckFill,
-    warning: TriangleExclamationFill,
-    error: TriangleExclamationFill,
+    info: CircleInfo,
+    success: CircleCheck,
+    warning: TriangleExclamation,
+    error: TriangleExclamation,
 };
 
 interface ToastInnerProps {
@@ -34,7 +34,7 @@ interface RenderActionsProps {
 }
 
 function renderActions({actions, onClose}: RenderActionsProps) {
-    if (!actions) {
+    if (!actions || !actions.length) {
         return null;
     }
 

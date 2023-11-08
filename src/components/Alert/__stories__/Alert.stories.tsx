@@ -8,7 +8,7 @@ import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
 
 export default {
-    title: 'Components/Alert',
+    title: 'Components/Feedback/Alert',
     component: Alert,
 } as Meta;
 
@@ -54,7 +54,7 @@ const stories: AlertProps[] = [
     {
         title,
         message,
-        theme: 'positive',
+        theme: 'success',
         view: 'outlined',
         actions: (
             <Alert.Actions>
@@ -67,7 +67,7 @@ const stories: AlertProps[] = [
     {
         title,
         message,
-        theme: 'positive',
+        theme: 'success',
         view: 'filled',
 
         actions: [{text: right, handler: console.log}],

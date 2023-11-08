@@ -35,8 +35,6 @@ $block: '.#{variables.$ns-new}text-area';
 
         &::placeholder {
             color: var(--g-color-text-hint);
-            overflow: hidden;
-            white-space: nowrap;
         }
 
         &:focus {
@@ -48,24 +46,18 @@ $block: '.#{variables.$ns-new}text-area';
         }
     }
 
-    &__error {
-        @include mixins.text-body-1();
-
-        color: var(--g-color-text-danger);
-        margin-top: 2px;
-    }
-
     &__clear {
         position: absolute;
-        right: 1px;
 
         &_size_s,
         &_size_m {
+            right: 2px;
             top: 2px;
         }
 
         &_size_l,
         &_size_xl {
+            right: 3px;
             top: 4px;
         }
     }

@@ -3,6 +3,7 @@ import React from 'react';
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextArea} from '../TextArea';
 
 describe('TextArea', () => {
@@ -16,11 +17,15 @@ describe('TextArea', () => {
         });
 
         test('render error message with error prop', () => {
-            const {container} = render(<TextArea error="Some Error" />);
+            render(<TextArea error="Some Error" />);
 
-            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            expect(container.querySelector('.g-text-area__error')).toBeInTheDocument();
             expect(screen.getByText('Some Error')).toBeVisible();
+        });
+
+        test('render note container with note prop', () => {
+            render(<TextArea error="Some Error" note={<div>Additional</div>} />);
+
+            expect(screen.getByText('Additional')).toBeVisible();
         });
 
         test('do not show error without error prop', () => {
@@ -81,6 +86,49 @@ describe('TextArea', () => {
             }
 
             expect(onChangeFn).toBeCalled();
+        });
+    });
+
+    describe('error', () => {
+        test('render error message with error prop (if it is not an empty string)', () => {
+            render(<TextArea error="Some Error" />);
+
+            expect(screen.getByText('Some Error')).toBeVisible();
+        });
+
+        test('render error message with errorMessage prop (if it is not an empty string)', () => {
+            render(<TextArea errorMessage="Some Error with errorMessage prop" />);
+
+            expect(screen.queryByText('Some Error with errorMessage prop')).not.toBeInTheDocument();
+        });
+
+        test('render error message with errorMessage prop (if it is not an empty string)', () => {
+            render(
+                <TextArea
+                    errorMessage="Some Error with errorMessage prop"
+                    validationState="invalid"
+                />,
+            );
+
+            expect(screen.getByText('Some Error with errorMessage prop')).toBeVisible();
+        });
+
+        test('do not show error message without error/errorMessage prop', () => {
+            render(<TextArea />);
+
+            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
+        });
+
+        test('do not show error message if error prop value is an empty string', () => {
+            render(<TextArea error={''} />);
+
+            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
+        });
+
+        test('do not show error message if errorMessage prop value is an empty string', () => {
+            render(<TextArea errorMessage={''} />);
+
+            expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
         });
     });
 

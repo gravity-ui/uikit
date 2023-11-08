@@ -17,7 +17,7 @@ export type PopoverButtonProps = {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export type PopoverExternalProps = {
+export interface PopoverExternalProps {
     /** Tooltip's trigger content over which the tooltip is shown */
     children?: TriggerProps['children'];
     /** Tooltip's title */
@@ -70,7 +70,7 @@ export type PopoverExternalProps = {
     autoFocus?: boolean;
     /** Focused element when the popover closes */
     restoreFocusRef?: React.RefObject<HTMLElement>;
-};
+}
 
 export type PopoverBehaviorProps = {
     /** Tooltip open/close behaviour when `openOnHover`
@@ -119,7 +119,7 @@ export type PopoverDefaultProps = {
     size: 's' | 'l';
 };
 
-export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement'> &
+export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement' | 'modifiers'> &
     PopoverExternalProps &
     PopoverBehaviorProps &
     Partial<PopoverDefaultProps>;

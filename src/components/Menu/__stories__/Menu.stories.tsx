@@ -8,7 +8,7 @@ import {Menu} from '../Menu';
 import type {MenuProps} from '../Menu';
 
 export default {
-    title: 'Components/Menu',
+    title: 'Components/Navigation/Menu',
     component: Menu,
 } as Meta;
 
@@ -38,6 +38,14 @@ export const ItemDisabled: StoryFn<MenuProps> = (args) => (
         <Menu.Item>First</Menu.Item>
         <Menu.Item disabled>Second (unavailable)</Menu.Item>
         <Menu.Item>Third</Menu.Item>
+    </Menu>
+);
+
+export const ItemSelected: StoryFn<MenuProps> = (args) => (
+    <Menu {...args}>
+        <Menu.Item>First</Menu.Item>
+        <Menu.Item>Second</Menu.Item>
+        <Menu.Item selected>Third</Menu.Item>
     </Menu>
 );
 

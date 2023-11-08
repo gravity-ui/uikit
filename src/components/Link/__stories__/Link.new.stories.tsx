@@ -5,8 +5,8 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Link} from '../Link';
 
 export default {
-    title: 'Components/Basic/Link',
-    id: 'components/Link',
+    title: 'Components/Navigation/Link',
+    id: 'components/navigation/Link',
     args: {
         view: 'normal',
         children: 'Link',

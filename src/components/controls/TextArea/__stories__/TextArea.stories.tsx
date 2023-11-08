@@ -8,7 +8,7 @@ import type {TextAreaProps} from '../TextArea';
 import {TextAreaShowcase} from './TextAreaShowcase';
 
 export default {
-    title: 'Components/TextArea',
+    title: 'Components/Inputs/TextArea',
     component: TextArea,
 } as Meta;
 

@@ -1,3 +1,5 @@
+import type React from 'react';
+
 export type PersonaText = string | {value: string; content: React.ReactNode};
 
 export type PersonaProps = {

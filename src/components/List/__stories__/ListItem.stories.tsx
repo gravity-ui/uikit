@@ -13,7 +13,7 @@ const demoWrapperStyles: React.CSSProperties = {
 };
 
 export default {
-    title: 'Components/List/Item',
+    title: 'Components/Data Display/List/Item',
     component: ListItem,
     args: {
         item: 'Item Content',

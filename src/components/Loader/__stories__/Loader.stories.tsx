@@ -6,7 +6,7 @@ import {Loader} from '../Loader';
 import type {LoaderProps} from '../Loader';
 
 export default {
-    title: 'Components/Loader',
+    title: 'Components/Feedback/Loader',
     component: Loader,
 } as Meta;
 

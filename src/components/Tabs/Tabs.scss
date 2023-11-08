@@ -52,6 +52,7 @@ $block: '.#{variables.$ns}tabs';
         &-content {
             display: flex;
             align-items: center;
+            border-radius: var(--g-focus-border-radius);
 
             #{$block}__item_overflow & {
                 min-width: 0;
@@ -78,6 +79,12 @@ $block: '.#{variables.$ns}tabs';
 
         &-icon > svg {
             display: block;
+        }
+
+        &:focus-visible {
+            #{$block}__item-content {
+                outline: 2px solid var(--g-color-line-focus);
+            }
         }
     }
 

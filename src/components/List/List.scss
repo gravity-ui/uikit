@@ -53,6 +53,10 @@ $block: '.#{variables.$ns}list';
 
         &_selected {
             background: var(--g-color-base-selection);
+
+            &:hover {
+                background: var(--g-color-base-selection-hover);
+            }
         }
 
         &_sort-handle-align_right {
@@ -89,5 +93,12 @@ $block: '.#{variables.$ns}list';
         margin-right: 10px;
         flex: 0 0 auto;
         color: var(--g-color-text-hint);
+    }
+
+    &__loading-indicator {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
     }
 }

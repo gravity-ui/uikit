@@ -1,16 +1,16 @@
 import React from 'react';
 
+import {useForkRef, useUniqId} from '../../../hooks';
 import {blockNew} from '../../utils/cn';
-import {useForkRef} from '../../utils/useForkRef';
-import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
+import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {
     BaseInputControlProps,
     InputControlPin,
     InputControlSize,
     InputControlView,
 } from '../types';
-import {getInputControlState, prepareAutoComplete} from '../utils';
+import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -27,6 +27,8 @@ export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     minRows?: number;
     /** The number of maximum visible text lines for the control. Ignored if `rows` is specified */
     maxRows?: number;
+    /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
+    note?: React.ReactNode;
 };
 export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;
@@ -47,6 +49,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         disabled = false,
         hasClear = false,
         error,
+        errorMessage: errorMessageProp,
+        validationState: validationStateProp,
         autoComplete,
         id: originalId,
         tabIndex,
@@ -54,21 +58,39 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         className,
         qa,
         controlProps,
+        note,
         onUpdate,
         onChange,
     } = props;
+
+    const {errorMessage, validationState} = errorPropsMapper({
+        error,
+        errorMessage: errorMessageProp,
+        validationState: validationStateProp,
+    });
+
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
-    const state = getInputControlState({error});
+    const state = getInputControlState(validationState);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const innerId = useUniqId();
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
-    const isErrorMsgVisible = typeof error === 'string';
+    const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
+
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        controlProps?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
 
     const commonProps = {
         id,
@@ -87,7 +109,11 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             }
         },
         autoComplete: prepareAutoComplete(autoComplete),
-        controlProps,
+        controlProps: {
+            ...controlProps,
+            'aria-describedby': ariaDescribedBy || undefined,
+            'aria-invalid': validationState === 'invalid' || undefined,
+        },
     };
 
     const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -156,7 +182,12 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
                     />
                 )}
             </span>
-            {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+                note={note}
+                noteId={noteId}
+            />
         </span>
     );
 });

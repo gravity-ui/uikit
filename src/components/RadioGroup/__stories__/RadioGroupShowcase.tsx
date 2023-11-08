@@ -12,7 +12,7 @@ export function RadioGroupShowcase() {
         {value: 'Value 3', content: 'Value 3', disabled: true},
     ];
     return (
-        <Showcase title="RadioGroup">
+        <Showcase>
             <ShowcaseItem title="options">
                 <RadioGroup name="group1" defaultValue={options[0].value} options={options} />
             </ShowcaseItem>

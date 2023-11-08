@@ -1,4 +1,6 @@
-export type AlertTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
+import type React from 'react';
+
+export type AlertTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger';
 export type AlertView = 'filled' | 'outlined';
 export type AlertCorners = 'rounded' | 'square';
 
@@ -23,10 +25,6 @@ export interface AlertProps {
      */
     layout?: 'vertical' | 'horizontal';
     view?: AlertView;
-    /**
-     * Define function and close button will be appear
-     */
-    hasClose?: boolean;
     onClose?: () => void;
     /**
      * Add you Actions to alert component:

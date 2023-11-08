@@ -28,6 +28,7 @@ export interface WithTableSortingProps {
     defaultSortState?: SortState;
     sortState?: SortState;
     onSortStateChange?: (sortState: SortState) => void;
+    disableDataSorting?: boolean;
 }
 
 interface WithTableSortingState {
@@ -73,10 +74,10 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
         }
 
         private getSortedData() {
-            const {data, columns} = this.props;
+            const {data, columns, disableDataSorting = this.isControlledState()} = this.props;
             const sortState = this.getSortState();
 
-            if (this.isControlledState() || sortState.length === 0) {
+            if (disableDataSorting || sortState.length === 0) {
                 return data;
             }
 
@@ -195,10 +196,12 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
         private handleSortStateChange(newSortState: SortState) {
             const {onSortStateChange} = this.props;
 
-            if (this.isControlledState()) {
-                onSortStateChange!(newSortState);
-            } else {
+            if (!this.isControlledState()) {
                 this.setState({sort: newSortState});
+            }
+
+            if (onSortStateChange) {
+                onSortStateChange(newSortState);
             }
         }
 

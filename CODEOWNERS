@@ -1,13 +1,16 @@
 * @amje @ValeraS @korvin89
+/src/components/ActionTooltip @amje
+/src/components/Alert @IsaevAlexandr
 /src/components/ArrowToggle @Marginy605
-/src/components/Breadcrumbs @vrozaev
+#/src/components/Breadcrumbs
 /src/components/Button @amje
 /src/components/Card @Lunory
-#/src/components/Checkbox
-#/src/components/ClipboardButton @damask
-#/src/components/ClipboardIcon @damask
-#/src/components/CopyToClipboard @damask
-/src/components/Dialog @Volodomor
+/src/components/Checkbox @zamkovskaya
+/src/components/ClipboardButton @SeqviriouM
+/src/components/ClipboardIcon @SeqviriouM
+/src/components/ControlLabel @korvin89
+/src/components/CopyToClipboard @SeqviriouM
+#/src/components/Dialog
 /src/components/Disclosure @Raubzeug
 /src/components/DropdownMenu @axtk
 /src/components/Hotkey @d3m1d0v
@@ -16,24 +19,43 @@
 /src/components/Link @LakeVostok
 /src/components/List @korvin89
 /src/components/Loader @SeqviriouM
+/src/components/Menu @NikitaCG
 /src/components/Modal @amje
+/src/components/Pagination @jhoncool
 /src/components/Persona @DaffPunks
 /src/components/Popover @kseniya57
 /src/components/Popup @amje
 /src/components/Portal @amje
-/src/components/Progress @mfyodorov
+/src/components/Progress @Lunory
+/src/components/Radio @zamkovskaya
+/src/components/RadioButton @zamkovskaya
+/src/components/RadioGroup @zamkovskaya
+/src/components/User @DaffPunks
+/src/components/UserAvatar @DaffPunks
 /src/components/Select @korvin89
 /src/components/Sheet @korvin89
-/src/components/Skeleton @amje
+/src/components/Skeleton @SeqviriouM
+/src/components/Spin @SeqviriouM
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
-/src/components/Table @krozhkov
+#/src/components/Table
 /src/components/Tabs @sofiushko
 /src/components/Text @IsaevAlexandr
-#/src/components/TextInput @dustyo-O
+/src/components/controls/TextArea @korvin89
+/src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov
+/src/components/Tooltip @amje
 /src/components/theme @resure
-/src/components/Pagination @jhoncool
+
+/src/hooks/useActionHandlers @ogonkov
+/src/hooks/useFileInput @korvin89
+/src/hooks/useForkRef @ValeraS
+/src/hooks/useIntersection @imechoim
+/src/hooks/useTimeout @ogonkov
+/src/hooks/useOutsideClick @NikitaCG
+/src/hooks/useViewportSize @NikitaCG
+/src/hooks/useUniqId @ValeraS
+
 # Allow everyone to update dependencies
 /package.json
 /package-lock.json

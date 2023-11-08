@@ -20,7 +20,7 @@ $block: '.#{variables.$ns}toast';
     width: inherit;
     margin-bottom: var(--yc-toaster-margin);
     padding: var(--yc-toaster-padding);
-    font-size: 13px;
+    font-size: var(--g-text-body-2-font-size);
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--g-color-sfx-shadow);
     background-color: var(--g-color-base-background);
@@ -41,7 +41,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-info);
+            color: var(--g-color-text-info-heavy);
         }
     }
 
@@ -51,7 +51,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-positive);
+            color: var(--g-color-text-positive-heavy);
         }
     }
 
@@ -61,7 +61,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-warning);
+            color: var(--g-color-text-warning-heavy);
         }
     }
 
@@ -71,7 +71,7 @@ $block: '.#{variables.$ns}toast';
         }
 
         & #{$iconClass} {
-            color: var(--g-color-text-danger);
+            color: var(--g-color-text-danger-heavy);
         }
     }
 
@@ -81,7 +81,7 @@ $block: '.#{variables.$ns}toast';
         row-gap: 8px;
         width: 100%;
         height: 100%;
-        min-height: var(--g-text-body-1-line-height);
+        min-height: var(--g-text-body-2-line-height);
 
         &:before {
             content: '';
@@ -105,10 +105,6 @@ $block: '.#{variables.$ns}toast';
         @include mixins.text-subheader-3;
         margin: 0;
         padding-right: $closeButtonTitleSpacing + $closeButtonSize;
-    }
-
-    &__title {
-        line-height: 24px;
     }
 
     &__content_without-title {

@@ -12,7 +12,7 @@ const useState = (args: PaginationProps) => {
 };
 
 export default {
-    title: 'Components/Pagination',
+    title: 'Components/Navigation/Pagination',
     component: Pagination,
 } as Meta;
 

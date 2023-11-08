@@ -11,6 +11,7 @@ $block: '.#{variables.$ns}menu';
     list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
+    font-size: var(--g-text-body-1-font-size);
     color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
     user-select: none;
@@ -38,16 +39,13 @@ $block: '.#{variables.$ns}menu';
 
         &-content {
             flex-grow: 1;
+            min-width: 0;
         }
 
         &:hover,
-        &:focus,
+        &:focus-visible,
         &_selected {
             background-color: var(--g-color-base-simple-hover);
-        }
-
-        &:focus:not(:focus-visible):not(:hover):not(&_active) {
-            background-color: transparent;
         }
 
         &_disabled {
@@ -65,8 +63,8 @@ $block: '.#{variables.$ns}menu';
             background-color: var(--g-color-base-selection);
 
             &:hover,
-            &:focus {
-                background-color: var(--g-color-base-selection);
+            &:focus-visible {
+                background-color: var(--g-color-base-selection-hover);
             }
         }
 
@@ -90,7 +88,6 @@ $block: '.#{variables.$ns}menu';
 
     &_size {
         &_s {
-            font-size: 13px;
             line-height: 24px;
             padding: 3px 0;
 
@@ -112,7 +109,6 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_m {
-            font-size: 13px;
             line-height: 24px;
             padding: 4px 0;
 
@@ -134,7 +130,6 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_l {
-            font-size: 13px;
             line-height: 28px;
             padding: 5px 0;
 
@@ -156,7 +151,7 @@ $block: '.#{variables.$ns}menu';
         }
 
         &_xl {
-            font-size: 15px;
+            font-size: var(--g-text-body-2-font-size);
             line-height: 36px;
             padding: 6px 0;
 

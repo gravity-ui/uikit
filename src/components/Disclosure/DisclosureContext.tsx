@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useUniqId} from '../utils/useUniqId';
+import {useUniqId} from '../../hooks';
 
 import type {DisclosureProps} from './Disclosure';
 

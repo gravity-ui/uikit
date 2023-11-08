@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {KeyCode} from '../../constants';
 import type {List, ListItemData} from '../List';
-import {KeyCode} from '../constants';
 
 import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
 import type {Option, OptionGroup} from './tech-components';
@@ -243,7 +243,7 @@ export const getFilteredFlattenOptions = (args: {
 
     return filteredOptions.reduce((acc, option, index) => {
         const groupTitle = isGroupTitle(option);
-        const previousGroupTitle = isGroupTitle(acc[index - 1]);
+        const previousGroupTitle = isGroupTitle(acc[acc.length - 1]);
         const isLastOption = index === filteredOptions.length - 1;
 
         if (groupTitle && previousGroupTitle) {

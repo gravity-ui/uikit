@@ -9,12 +9,19 @@
     }
 
     &__description {
-        @include mixins.text-body-3();
-        margin-top: 10px;
+        @include mixins.text-body-2();
+        margin-top: var(--g-spacing-2);
+        color: var(--g-color-text-secondary);
     }
 
     &__content {
         flex-grow: 1;
-        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--g-spacing-6);
+
+        &:not(:only-child) {
+            margin-top: var(--g-spacing-5);
+        }
     }
 }

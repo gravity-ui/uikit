@@ -89,13 +89,23 @@ $block: '.#{variables.$ns}text-input';
 
     &__clear {
         flex-shrink: 0;
+        margin: auto 0;
+
+        &_size_s,
+        &_size_m {
+            margin-right: 1px;
+        }
+
+        &_size_l,
+        &_size_xl {
+            margin-right: 2px;
+        }
     }
 
-    &__error {
-        @include mixins.text-body-1();
-
+    &__error-icon {
+        box-sizing: content-box;
         color: var(--g-color-text-danger);
-        margin-top: 2px;
+        padding: var(--_--text-input-error-icon-padding);
     }
 
     &__additional-content {
@@ -129,6 +139,8 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 1px;
             }
 
+            --_--text-input-error-icon-padding: 5px 5px 5px 0;
+
             --_--text-input-border-radius: var(--g-border-radius-s);
         }
 
@@ -156,6 +168,8 @@ $block: '.#{variables.$ns}text-input';
             #{$block}__additional-content_placement_right {
                 padding-right: 1px;
             }
+
+            --_--text-input-error-icon-padding: 5px 5px 5px 0;
 
             --_--text-input-border-radius: var(--g-border-radius-m);
         }
@@ -185,6 +199,8 @@ $block: '.#{variables.$ns}text-input';
                 padding-right: 3px;
             }
 
+            --_--text-input-error-icon-padding: 9px 9px 9px 0;
+
             --_--text-input-border-radius: var(--g-border-radius-l);
         }
 
@@ -212,6 +228,8 @@ $block: '.#{variables.$ns}text-input';
             #{$block}__additional-content_placement_right {
                 padding-right: 3px;
             }
+
+            --_--text-input-error-icon-padding: 13px 13px 13px 0;
 
             --_--text-input-border-radius: var(--g-border-radius-xl);
         }

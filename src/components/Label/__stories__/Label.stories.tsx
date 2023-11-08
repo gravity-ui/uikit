@@ -1,177 +1,141 @@
 import React from 'react';
 
-import {Check, Gear} from '@gravity-ui/icons';
-import type {Meta, StoryFn} from '@storybook/react';
-import block from 'bem-cn-lite';
+import {Check} from '@gravity-ui/icons';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon';
 import {Link} from '../../Link';
 import {Label} from '../Label';
-import type {LabelProps} from '../Label';
 
 import {LabelShowcase} from './LabelShowcase';
 
-import './Label.stories.scss';
-
-const b = block('label-stories');
-
-const icons = {
-    '-': undefined,
-    TickIcon: <IconComponent size={12} data={Check} />,
-    GearIcon: <IconComponent size={12} data={Gear} />,
-};
+const iconSizeMap = {xs: 12, s: 14, m: 16} as const;
 
 export default {
-    title: 'Components/Label',
+    title: 'Components/Data Display/Label',
     component: Label,
-    args: {
-        children: '',
-    },
-    argTypes: {
-        icon: {
-            control: {type: 'select'},
-            mapping: icons,
-            options: Object.keys(icons),
-        },
-        children: {
-            control: {type: 'text'},
-        },
-        copyText: {
-            control: {type: 'text'},
-            defaultValue: '',
-        },
-    },
 } as Meta;
 
-const Template: StoryFn<LabelProps> = (args) => <Label {...args} />;
+type Story = StoryObj<typeof Label>;
 
-export const Default = Template.bind({});
-
-Default.args = {
-    children: 'Default',
+export const Default: Story = {
+    args: {
+        children: 'Content',
+    },
 };
 
-const ThemeTemplate: StoryFn<LabelProps> = (args) => {
-    return (
-        <div className={b()}>
-            <Label {...args} theme="normal">
-                normal
-            </Label>
-            <Label {...args} theme="info">
-                info
-            </Label>
-            <Label {...args} theme="success">
-                success
-            </Label>
-            <Label {...args} theme="warning">
-                warning
-            </Label>
-            <Label {...args} theme="danger">
-                danger
-            </Label>
-            <Label {...args} theme="unknown">
-                unknown
-            </Label>
-            <Label {...args} theme="clear">
-                clear
-            </Label>
-        </div>
-    );
-};
-
-export const Theme = ThemeTemplate.bind({});
-
-const SizeTemplate: StoryFn<LabelProps> = (args) => {
-    return (
-        <div className={b()}>
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
             <Label {...args} size="xs">
-                xs
+                Size xs
             </Label>
             <Label {...args} size="s">
-                s
+                Size s
             </Label>
             <Label {...args} size="m">
-                m
+                Size m
             </Label>
-        </div>
-    );
+        </Showcase>
+    ),
 };
 
-export const Size = SizeTemplate.bind({});
-
-const IconTemplate: StoryFn<LabelProps> = (args) => {
-    return <Label {...args} />;
+export const Theme: Story = {
+    render: (args) => (
+        <Showcase>
+            <Label {...args} theme="normal">
+                Normal
+            </Label>
+            <Label {...args} theme="info">
+                Info
+            </Label>
+            <Label {...args} theme="success">
+                Success
+            </Label>
+            <Label {...args} theme="warning">
+                Warning
+            </Label>
+            <Label {...args} theme="danger">
+                Danger
+            </Label>
+            <Label {...args} theme="unknown">
+                Unknown
+            </Label>
+            <Label {...args} theme="clear">
+                Clear
+            </Label>
+        </Showcase>
+    ),
 };
 
-export const Icon = IconTemplate.bind({});
+export const Icon: Story = {
+    render: (args) => {
+        const size = args.size ?? 'xs';
+        const iconSize = iconSizeMap[size];
 
-Icon.args = {
-    icon: 'TickIcon',
-};
-
-export const Interactions: StoryFn<LabelProps> = (args) => (
-    <div style={{display: 'flex', flexFlow: 'column', gap: 10}}>
-        <div>
-            <Label {...args}>No interactions</Label>
-        </div>
-        <div>
-            <Label
-                {...args}
-                onClick={() => {
-                    console.log('click');
-                }}
-            >
-                Clickable
-            </Label>
-        </div>
-        <div>
-            <Label {...args} type={'copy'} copyText={'copyText'}>
-                Copy
-            </Label>
-        </div>
-        <div>
-            <Label
-                {...args}
-                type={'close'}
-                onClose={() => {
-                    console.log('close');
-                }}
-            >
-                Close
-            </Label>
-        </div>
-        <div>
-            <Link href={'https://ya.ru'} target={'_blank'}>
-                <Label {...args}>Link</Label>
-            </Link>
-        </div>
-        <div>
-            <Link href={'https://ya.ru'} target={'_blank'}>
-                <Label {...args} interactive>
-                    Link interactive
+        return (
+            <Showcase>
+                <Label {...args} icon={<IconComponent data={Check} size={iconSize} />}>
+                    {undefined}
                 </Label>
-            </Link>
-        </div>
-        <div>
-            <Label
-                {...args}
-                type={'close'}
-                theme={'unknown'}
-                onClick={() => {
-                    console.log('click');
-                }}
-                onClose={() => {
-                    console.log('close');
-                }}
-            >
-                Click and Close
-            </Label>
-        </div>
-    </div>
-);
+                <Label {...args} icon={<IconComponent data={Check} size={iconSize} />} />
+            </Showcase>
+        );
+    },
+    args: {
+        ...Default.args,
+    },
+};
 
-const ShowcaseTemplate: StoryFn = () => <LabelShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
-Showcase.args = {
-    interactive: true,
+export const Interactive: Story = {
+    render: (args) => (
+        <Showcase>
+            <Label {...args} interactive>
+                Interactive
+            </Label>
+            <Label {...args} onClick={() => {}}>
+                With onClick
+            </Label>
+        </Showcase>
+    ),
+};
+
+export const Copy: Story = {
+    args: {
+        ...Default.args,
+        type: 'copy',
+        copyText: "I'm copied text",
+    },
+};
+
+export const Close: Story = {
+    args: {
+        ...Default.args,
+        type: 'close',
+    },
+};
+
+export const Value: Story = {
+    args: {
+        ...Default.args,
+        children: 'Key',
+        value: 'Value',
+    },
+};
+
+export const LinkWrapper: Story = {
+    render: (args) => (
+        <Link href="https://gravity-ui.com/" target="_blank">
+            <Label {...args} />
+        </Link>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+export const ShowcaseStory: Story = {
+    render: () => <LabelShowcase />,
+    name: 'Showcase',
 };

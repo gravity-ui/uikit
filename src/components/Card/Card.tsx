@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {useActionHandlers} from '../../hooks';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
-import {useActionHandlers} from '../utils/useActionHandlers';
 
 import './Card.scss';
 
@@ -12,7 +12,7 @@ type SelectionCardView = 'outlined' | 'clear';
 type ContainerCardView = 'outlined' | 'filled' | 'raised';
 
 export type CardType = 'selection' | 'action' | 'container';
-export type CardTheme = 'normal' | 'info' | 'positive' | 'warning' | 'danger';
+export type CardTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger';
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 

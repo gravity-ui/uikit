@@ -32,11 +32,7 @@ function compileTs(modules = false) {
         '!src/**/__mocks__/**/*',
         '!src/**/*.test.{ts,tsx}',
     ])
-        .pipe(
-            replace(/import '.+\.scss';/g, (match) =>
-                modules ? match.replace('.scss', '.css') : '',
-            ),
-        )
+        .pipe(replace(/(import.+)\.scss/g, '$1.css'))
         .pipe(tsProject())
         .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')));
 }
@@ -56,7 +52,9 @@ task('copy-i18n', () => {
 });
 
 task('styles-global', () => {
-    return src('styles/styles.scss').pipe(sass().on('error', sass.logError)).pipe(dest('styles'));
+    return src(['styles/styles.scss', 'styles/fonts.scss'])
+        .pipe(sass().on('error', sass.logError))
+        .pipe(dest('styles'));
 });
 
 task('styles-components', () => {

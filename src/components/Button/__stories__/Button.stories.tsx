@@ -1,126 +1,171 @@
 import React from 'react';
 
-import {Gear} from '@gravity-ui/icons';
-import type {Meta, StoryFn} from '@storybook/react';
+import {
+    ArrowUpRightFromSquare,
+    ChevronDown,
+    CircleChevronRight,
+    Copy,
+    Globe,
+    Heart,
+} from '@gravity-ui/icons';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {Button} from '../Button';
-import type {ButtonProps} from '../Button';
 
-import {ButtonShowcase} from './ButtonShowcase';
+import {ButtonViewShowcase} from './ButtonViewShowcase';
 
 export default {
-    title: 'Components/Button',
+    title: 'Components/Inputs/Button',
     component: Button,
 } as Meta;
 
-const DefaultTemplate: StoryFn<ButtonProps> = (args) => <Button {...args}>Button</Button>;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Button>;
 
-const SizeTemplate: StoryFn<ButtonProps> = (args) => (
-    <React.Fragment>
-        <Button {...args} size="xs">
-            Size xs
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args} size="s">
-            Size s
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args} size="m">
-            Size m
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args} size="l">
-            Size l
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args} size="xl">
-            Size xl
-        </Button>
-    </React.Fragment>
-);
-export const Size = SizeTemplate.bind({});
+export const Default: Story = {args: {children: 'Button'}};
 
-const IconTemplate: StoryFn<ButtonProps> = (args) => (
-    <React.Fragment>
-        <Button {...args}>No icon</Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args}>
-            <IconComponent data={Gear} />
-            Left
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args}>
-            Right
-            <IconComponent data={Gear} />
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args}>
-            <IconComponent data={Gear} />
-            Both
-            <IconComponent data={Gear} />
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args}>
-            <Button.Icon side="right">
-                <IconComponent data={Gear} />
-            </Button.Icon>
-            Both (with Button.Icon)
-            <IconComponent data={Gear} />
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args}>
-            <IconComponent data={Gear} />
-        </Button>
-        <span style={{margin: '16px'}} />
-        <Button {...args}>
-            <Button.Icon>
-                <IconComponent data={Gear} />
-            </Button.Icon>
-        </Button>
-    </React.Fragment>
-);
-export const Icon = IconTemplate.bind({});
-
-export const Selected: StoryFn<ButtonProps> = (args) => {
-    const [selected, setSelected] = React.useState(true);
-
-    return (
-        <Button {...args} view="normal" selected={selected} onClick={() => setSelected(!selected)}>
-            {`Button is ${selected ? 'on' : 'off'}`}
-        </Button>
-    );
+export const View: Story = {
+    render: (args) => <ButtonViewShowcase {...args} />,
 };
 
-export const Link: StoryFn<ButtonProps> = (args) => {
-    return (
-        <Button {...args} view="normal" href={'//ya.ru'} target={'_blank'}>
-            {`Open ya.ru`}
-        </Button>
-    );
-};
-
-export const ButtonInRouter: StoryFn<ButtonProps> = (args) => {
-    return (
-        <a href={'https://ya.ru'} target={'_blank'} rel="noreferrer">
-            <Button {...args} view="normal" component={'span'}>
-                {`Open ya.ru`}
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            <Button {...args} size="xs">
+                Size xs
             </Button>
-        </a>
-    );
+            <Button {...args} size="s">
+                Size s
+            </Button>
+            <Button {...args} size="m">
+                Size m
+            </Button>
+            <Button {...args} size="l">
+                Size l
+            </Button>
+            <Button {...args} size="xl">
+                Size xl
+            </Button>
+        </Showcase>
+    ),
 };
 
-export const CustomComponent: StoryFn<ButtonProps> = (args) => {
-    const ButtonComponent = (props: ButtonProps) => {
-        return <button {...props} style={{boxShadow: '2px 2px 2px 2px deepskyblue'}} />;
-    };
-    return (
-        <Button {...args} view="normal" component={ButtonComponent}>
-            {`Button with custom component`}
-        </Button>
-    );
+export const Icon: Story = {
+    render: (args) => (
+        <Showcase>
+            <Button {...args}>No icon</Button>
+            <Button {...args}>
+                <IconComponent data={Heart} />
+                Start
+            </Button>
+            <Button {...args}>
+                End
+                <IconComponent data={CircleChevronRight} />
+            </Button>
+            <Button {...args}>
+                <IconComponent data={Globe} />
+                Both
+                <IconComponent data={ChevronDown} />
+            </Button>
+            <Button {...args}>
+                <IconComponent data={Copy} />
+            </Button>
+        </Showcase>
+    ),
 };
 
-const ShowcaseTemplate: StoryFn = () => <ButtonShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const Disabled: Story = {
+    args: {
+        ...Default.args,
+        disabled: true,
+    },
+};
+
+export const Selected: Story = {
+    args: {
+        ...Default.args,
+        selected: true,
+    },
+};
+
+export const Loading: Story = {
+    args: {
+        ...Default.args,
+        loading: true,
+    },
+};
+
+export const Width: Story = {
+    render: (args) => {
+        return (
+            <div style={{width: 100, border: '2px dashed gray', overflow: 'hidden', padding: 2}}>
+                <p>
+                    <Button {...args}>none none none</Button>
+                </p>
+                <p>
+                    <Button {...args} width="auto">
+                        auto auto auto
+                    </Button>
+                </p>
+                <p>
+                    <Button {...args} width="max">
+                        max
+                    </Button>
+                </p>
+            </div>
+        );
+    },
+};
+
+export const Pin: Story = {
+    render: (args) => {
+        return (
+            <Showcase>
+                <Button {...args}>Round</Button>
+                <Button {...args} pin="circle-circle">
+                    Circle
+                </Button>
+                <Button {...args} pin="brick-brick">
+                    Brick
+                </Button>
+            </Showcase>
+        );
+    },
+};
+
+export const Link: Story = {
+    args: {
+        children: ['Link Button', <IconComponent key="icon" data={ArrowUpRightFromSquare} />],
+        href: 'https://gravity-ui.com',
+        target: '_blank',
+    },
+    name: 'As Link',
+};
+
+export const Custom: Story = {
+    args: {
+        children: 'Fancy Button',
+    },
+    render: (args) => (
+        <React.Fragment>
+            <style>
+                {`.g-root {
+                    --g-button-text-color: #fff;
+                    --g-button-text-color-hover: #fff;
+                    --g-button-background-color: #9a2eff;
+                    --g-button-background-color-hover: #8526de;
+                    --g-button-border-width: 5px;
+                    --g-button-border-style: dotted;
+                    --g-button-height: 60px;
+                    --g-button-padding: 36px;
+                    --g-button-font-size: 20px;
+                    --g-button-border-radius: 40px 20px;
+                    --g-button-focus-outline-color: #9a2eff;
+                    --g-button-focus-outline-offset: 4px;
+                }`}
+            </style>
+            <Button {...args} />
+        </React.Fragment>
+    ),
+};

@@ -4,15 +4,15 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {Button} from '../../Button';
-import {Card} from '../Card';
 import type {CardSize, CardTheme, CardType, CardView} from '../Card';
+import {Card} from '../Card';
 
 const qaId = 'card-component';
 const cardText = 'Some text';
 
 const cardSizes: CardSize[] = ['l', 'm'];
 
-const cardThemes: CardTheme[] = ['danger', 'info', 'normal', 'positive', 'warning'];
+const cardThemes: CardTheme[] = ['danger', 'info', 'normal', 'success', 'warning'];
 
 const cardTypes: CardType[] = ['action', 'container', 'selection'];
 

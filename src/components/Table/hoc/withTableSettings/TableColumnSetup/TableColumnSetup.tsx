@@ -31,7 +31,7 @@ export interface TableColumnSetupProps {
     filterable?: boolean;
 
     onUpdate: (updated: Item[]) => void;
-    popupWidth?: string;
+    popupWidth?: number | string;
     popupPlacement?: PopperPlacement;
     getItemTitle?: (item: Item) => TableColumnSetupItem['title'];
     showStatus?: boolean;

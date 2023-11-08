@@ -12,7 +12,7 @@ import {
 } from '@gravity-ui/icons';
 
 import {Icon, IconData} from '../Icon';
-import {colorText} from '../Text';
+import {ColorTextBaseProps, colorText} from '../Text/colorText/colorText';
 
 import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import type {AlertIconProps, AlertTheme} from './types';
@@ -29,7 +29,7 @@ const typeToIcon: Record<
         filled: CircleInfoFill,
         outlined: CircleInfo,
     },
-    positive: {
+    success: {
         filled: CircleCheckFill,
         outlined: CircleCheck,
     },
@@ -52,13 +52,16 @@ export const AlertIcon = ({
         return null;
     }
 
+    let color: ColorTextBaseProps['color'];
+
+    if (theme === 'success') {
+        color = 'positive';
+    } else if (theme !== 'normal') {
+        color = theme;
+    }
+
     return (
-        <div
-            className={bAlert(
-                'icon',
-                colorText({color: theme === 'normal' ? undefined : theme}, className),
-            )}
-        >
+        <div className={bAlert('icon', colorText({color}, className))}>
             <Icon data={iconByTheme[view] as IconData} size={size} />
         </div>
     );

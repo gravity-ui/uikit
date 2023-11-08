@@ -9,7 +9,7 @@ import {DragHandleIcon} from './DragHandleIcon';
 
 const b = block('list');
 
-const defaultRenderItem = <T extends unknown>(item: T) => String(item);
+export const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
 export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private static publishEvent = eventBroker.withEventPublisher('List');
@@ -17,13 +17,22 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     ref = React.createRef<HTMLDivElement>();
 
     render() {
-        const {item, style, sortable, sortHandleAlign, itemClassName, selected, active} =
-            this.props;
+        const {
+            item,
+            style,
+            sortable,
+            sortHandleAlign,
+            itemClassName,
+            selected,
+            active,
+            role = 'listitem',
+        } = this.props;
 
         return (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
-                role="listitem"
+                role={role}
+                aria-selected={selected}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
                     'item',
@@ -42,6 +51,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 ref={this.ref}
+                id={`${this.props.listId}-item-${this.props.itemIndex}`}
             >
                 {this.renderSortIcon()}
                 {this.renderContent()}

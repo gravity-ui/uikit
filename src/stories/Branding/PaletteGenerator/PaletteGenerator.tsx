@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {ArrowUpArrowDown} from '@gravity-ui/icons';
-import block from 'bem-cn-lite';
 import chroma from 'chroma-js';
 
 import {Button, Card, ClipboardButton, Icon, TextInput} from '../../../components';
+import {cn} from '../../../components/utils/cn';
 
 import './PaletteGenerator.scss';
 
@@ -12,7 +12,7 @@ export interface BrandingConfiguratorProps {
     theme: string;
 }
 
-const b = block('palette-generator');
+const b = cn('palette-generator');
 const colorsMap = {
     50: {a: 0.1, c: -1},
     100: {a: 0.15, c: -1},

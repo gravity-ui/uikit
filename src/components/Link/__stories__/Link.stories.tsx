@@ -7,7 +7,7 @@ import type {LinkProps} from '../Link';
 import {LinkShowcase} from '../__stories__/LinkShowcase';
 
 export default {
-    title: 'Components/Link',
+    title: 'Components/Navigation/Link',
     component: Link,
 } as Meta;
 

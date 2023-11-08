@@ -2,7 +2,7 @@ import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {useArgs} from '@storybook/client-api';
-import type {ComponentStory, Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {UserAvatar} from '../UserAvatar';
 import type {UserAvatarProps} from '../UserAvatar';
@@ -13,7 +13,7 @@ const imgUrl =
     'https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50';
 
 export default {
-    title: 'Components/UserAvatar',
+    title: 'Components/Data Display/UserAvatar',
     component: UserAvatar,
 } as Meta;
 
@@ -42,7 +42,7 @@ const randomAvatars = faker.helpers
         }),
         {},
     );
-export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
+export const WithSrcSet: StoryFn<UserAvatarProps> = (args) => {
     const [, setArgs] = useArgs();
 
     React.useEffect(() => {
@@ -54,6 +54,16 @@ export const WithSrcSet: ComponentStory<typeof UserAvatar> = (args) => {
     return <UserAvatar {...args} />;
 };
 WithSrcSet.args = {
-    imgUrl: faker.image.cats(),
+    imgUrl: faker.image.urlLoremFlickr({category: 'cats'}),
+    size: 'xl',
+};
+
+export const WithFallback: StoryFn<UserAvatarProps> = (args) => {
+    return <UserAvatar {...args} />;
+};
+WithFallback.args = {
+    // Invalid image link
+    imgUrl: imgUrl + '1',
+    fallbackImgUrl: imgUrl,
     size: 'xl',
 };

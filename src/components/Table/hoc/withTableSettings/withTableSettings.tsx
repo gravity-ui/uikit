@@ -114,8 +114,16 @@ function prepareUpdateSettings(items: TableColumnSetupItem[]): TableSettingsData
     }));
 }
 
+export interface WithTableSettingsOptions {
+    width?: number | string;
+    sortable?: boolean;
+}
+
 export interface WithTableSettingsProps {
-    settingsPopupWidth?: string;
+    /**
+     * @deprecated Use factory notation: "withTableSettings({width: <value>})(Table)"
+     */
+    settingsPopupWidth?: number | string;
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;
 }
@@ -123,67 +131,92 @@ export interface WithTableSettingsProps {
 const b = block('table');
 
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
-    TableComponent: React.ComponentType<TableProps<I> & E>,
-): React.ComponentType<TableProps<I> & WithTableSettingsProps & E> {
-    const componentName = getComponentName(TableComponent);
+    Component: React.ComponentType<TableProps<I> & E>,
+): React.ComponentType<TableProps<I> & WithTableSettingsProps & E>;
+export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
+    options?: WithTableSettingsOptions,
+): (
+    Component: React.ComponentType<TableProps<I> & E>,
+) => React.ComponentType<TableProps<I> & WithTableSettingsProps & E>;
+export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
+    ComponentOrOptions?: WithTableSettingsOptions | React.ComponentType<TableProps<I> & E>,
+):
+    | React.ComponentType<TableProps<I> & WithTableSettingsProps & E>
+    | ((
+          Component: React.ComponentType<TableProps<I> & E>,
+      ) => React.ComponentType<TableProps<I> & WithTableSettingsProps & E>) {
+    function tableWithSettingsFactory(
+        TableComponent: React.ComponentType<TableProps<I> & E>,
+        {width, sortable}: WithTableSettingsOptions = {},
+    ) {
+        const componentName = getComponentName(TableComponent);
 
-    const TableWithSettings = ({
-        updateSettings,
-        settings,
-        columns,
-        settingsPopupWidth,
-        ...restTableProps
-    }: TableProps<I> & WithTableSettingsProps & E) => {
-        const actualItems = React.useMemo(
-            () => getActualItems(columns, settings || []),
-            [columns, settings],
-        );
+        function TableWithSettings({
+            updateSettings,
+            settings,
+            columns,
+            settingsPopupWidth,
+            ...restTableProps
+        }: TableProps<I> & WithTableSettingsProps & E) {
+            const actualItems = React.useMemo(
+                () => getActualItems(columns, settings || []),
+                [columns, settings],
+            );
 
-        const onUpdateColumns = React.useCallback(
-            (newItems: TableColumnSetupItem[]) => {
-                updateSettings(prepareUpdateSettings(newItems));
-            },
-            [updateSettings],
-        );
+            const onUpdateColumns = React.useCallback(
+                (newItems: TableColumnSetupItem[]) => {
+                    updateSettings(prepareUpdateSettings(newItems));
+                },
+                [updateSettings],
+            );
 
-        const columnSetupItems = React.useMemo(
-            () => prepareColumnSetupItems(actualItems),
-            [actualItems],
-        );
+            const columnSetupItems = React.useMemo(
+                () => prepareColumnSetupItems(actualItems),
+                [actualItems],
+            );
 
-        const enhancedColumns = React.useMemo(
-            () =>
-                enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
-                    // eslint-disable-next-line react/display-name
-                    systemColumn.name = () => (
-                        <div className={b('settings')}>
-                            <TableColumnSetup
-                                popupWidth={settingsPopupWidth}
-                                popupPlacement={['bottom-end', 'bottom', 'top-end', 'top']}
-                                onUpdate={onUpdateColumns}
-                                items={columnSetupItems}
-                                switcher={
-                                    <Button view="flat" className={b('settings-button')}>
-                                        <Icon data={Gear} />
-                                    </Button>
-                                }
-                            />
-                        </div>
-                    );
-                }),
-            [actualItems, columnSetupItems, columns, onUpdateColumns, settingsPopupWidth],
-        );
+            const enhancedColumns = React.useMemo(
+                () =>
+                    enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
+                        // eslint-disable-next-line react/display-name
+                        systemColumn.name = () => (
+                            <div className={b('settings')}>
+                                <TableColumnSetup
+                                    popupWidth={settingsPopupWidth || width}
+                                    popupPlacement={['bottom-end', 'bottom', 'top-end', 'top']}
+                                    sortable={sortable}
+                                    onUpdate={onUpdateColumns}
+                                    items={columnSetupItems}
+                                    switcher={
+                                        <Button view="flat" className={b('settings-button')}>
+                                            <Icon data={Gear} />
+                                        </Button>
+                                    }
+                                />
+                            </div>
+                        );
+                    }),
+                [actualItems, columnSetupItems, columns, onUpdateColumns, settingsPopupWidth],
+            );
 
-        return (
-            <React.Fragment>
-                <TableComponent
-                    {...(restTableProps as Omit<TableProps<I>, 'columns'> & E)}
-                    columns={enhancedColumns}
-                />
-            </React.Fragment>
-        );
-    };
-    TableWithSettings.displayName = `withTableSettings(${componentName})`;
+            return (
+                <React.Fragment>
+                    <TableComponent
+                        {...(restTableProps as Omit<TableProps<I>, 'columns'> & E)}
+                        columns={enhancedColumns}
+                    />
+                </React.Fragment>
+            );
+        }
+        TableWithSettings.displayName = `withTableSettings(${componentName})`;
 
-    return TableWithSettings;
+        return TableWithSettings;
+    }
+
+    if (typeof ComponentOrOptions === 'function') {
+        return tableWithSettingsFactory(ComponentOrOptions);
+    } else {
+        return (TableComponent: React.ComponentType<TableProps<I> & E>) =>
+            tableWithSettingsFactory(TableComponent, ComponentOrOptions);
+    }
 }

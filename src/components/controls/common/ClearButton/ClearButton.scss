@@ -3,13 +3,8 @@
 $block: '.#{variables.$ns-new}clear-button';
 
 #{$block} {
-    --yc-button-background-color: transparent;
-    --yc-button-background-color-hover: transparent;
-
-    margin: auto 0;
-    color: var(--g-color-text-hint);
-
-    &:hover {
-        color: var(--g-color-text-primary);
-    }
+    --g-button-text-color: var(--g-color-text-hint);
+    --g-button-text-color-hover: var(--g-color-text-primary);
+    --g-button-background-color: transparent;
+    --g-button-background-color-hover: transparent;
 }

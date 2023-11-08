@@ -1,17 +1,26 @@
 import React from 'react';
 
+import {TriangleExclamation} from '@gravity-ui/icons';
+
+import {useForkRef, useUniqId} from '../../../hooks';
+import {Icon} from '../../Icon';
+import {Popover} from '../../Popover';
 import {block} from '../../utils/cn';
 import {useElementSize} from '../../utils/useElementSize';
-import {useForkRef} from '../../utils/useForkRef';
-import {useUniqId} from '../../utils/useUniqId';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
+import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {
     BaseInputControlProps,
     InputControlPin,
     InputControlSize,
     InputControlView,
 } from '../types';
-import {getInputControlState, prepareAutoComplete} from '../utils';
+import {
+    CONTROL_ERROR_ICON_QA,
+    errorPropsMapper,
+    getInputControlState,
+    prepareAutoComplete,
+} from '../utils';
 
 import {AdditionalContent} from './AdditionalContent';
 import {TextInputControl} from './TextInputControl';
@@ -31,6 +40,8 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     leftContent?: React.ReactNode;
     /** User`s node rendered after input node and clear button */
     rightContent?: React.ReactNode;
+    /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
+    note?: React.ReactNode;
 };
 export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
@@ -52,6 +63,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         disabled = false,
         hasClear = false,
         error,
+        errorMessage: errorMessageProp,
+        errorPlacement: errorPlacementProp = 'outside',
+        validationState: validationStateProp,
         autoComplete,
         id: originalId,
         tabIndex,
@@ -61,20 +75,32 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         controlProps: originalControlProps,
         leftContent,
         rightContent,
+        note,
         onUpdate,
         onChange,
     } = props;
+
+    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
+        error,
+        errorMessage: errorMessageProp,
+        errorPlacement: errorPlacementProp,
+        validationState: validationStateProp,
+    });
+
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const leftContentRef = React.useRef<HTMLDivElement>(null);
-    const state = getInputControlState({error});
+    const state = getInputControlState(validationState);
 
     const isControlled = value !== undefined;
     const inputValue = isControlled ? value : uncontrolledValue;
     const isLabelVisible = Boolean(label);
-    const isErrorMsgVisible = typeof error === 'string';
+    const isErrorMsgVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const isLeftContentVisible = Boolean(leftContent);
     const isRightContentVisible = Boolean(rightContent);
@@ -87,12 +113,24 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
     const leftContentSize = useElementSize(isLeftContentVisible ? leftContentRef : null, size);
 
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        originalControlProps?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
     const controlProps: TextInputProps['controlProps'] = {
         ...originalControlProps,
         style: {
             ...originalControlProps?.style,
             ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
         },
+        'aria-invalid': validationState === 'invalid' || undefined,
+        'aria-describedby': ariaDescribedBy || undefined,
     };
     const commonProps = {
         id,
@@ -197,7 +235,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     <ClearButton
                         size={mapTextInputSizeToButtonSize(size)}
                         onClick={handleClear}
-                        className={b('clear')}
+                        className={b('clear', {size})}
                     />
                 )}
                 {isRightContentVisible && (
@@ -205,8 +243,24 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                         {rightContent}
                     </AdditionalContent>
                 )}
+                {isErrorIconVisible && (
+                    <Popover content={errorMessage}>
+                        <span data-qa={CONTROL_ERROR_ICON_QA}>
+                            <Icon
+                                data={TriangleExclamation}
+                                className={b('error-icon')}
+                                size={size === 's' ? 12 : 16}
+                            />
+                        </span>
+                    </Popover>
+                )}
             </span>
-            {isErrorMsgVisible && <div className={b('error')}>{error}</div>}
+            <OuterAdditionalContent
+                note={note}
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                noteId={noteId}
+                errorMessageId={errorMessageId}
+            />
         </span>
     );
 });

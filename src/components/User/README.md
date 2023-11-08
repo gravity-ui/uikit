@@ -4,7 +4,7 @@ Display user avatar and his brief info.
 
 ### PropTypes
 
-| Property    | Type             | Required | Default | Description                                                                                                     |
+| Name        | Type             | Required | Default | Description                                                                                                     |
 | :---------- | :--------------- | :------- | :------ | :-------------------------------------------------------------------------------------------------------------- |
 | imgUrl      | `string`         |          |         | Url of user avatar                                                                                              |
 | className   | `string`         |          |         | Root element class name                                                                                         |

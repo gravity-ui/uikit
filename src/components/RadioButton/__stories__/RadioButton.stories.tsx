@@ -1,31 +1,60 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {RadioButton} from '../RadioButton';
-import type {RadioButtonOption, RadioButtonProps} from '../RadioButton';
 
 import {RadioButtonShowcase} from './RadioButtonShowcase';
 
 export default {
-    title: 'Components/RadioButton',
+    title: 'Components/Inputs/RadioButton',
     component: RadioButton,
 } as Meta;
 
-const options: RadioButtonOption[] = [
-    {value: 'Value 1', content: 'Value 1'},
-    {value: 'Value 2', content: 'Value 2'},
-    {value: 'Value 3', content: 'Value 3'},
-];
+type Story = StoryObj<typeof RadioButton>;
 
-const DefaultTemplate: StoryFn<RadioButtonProps> = (args) => {
-    const [value, setValue] = React.useState<string>(options[0].value);
-    return <RadioButton {...args} value={value} onUpdate={setValue} />;
-};
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    options,
+export const Default: Story = {
+    args: {
+        options: [
+            {value: 'Value 1', content: 'Value 1'},
+            {value: 'Value 2', content: 'Value 2'},
+            {value: 'Value 3', content: 'Value 3'},
+        ],
+    },
 };
 
-const ShowcaseTemplate: StoryFn = () => <RadioButtonShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            <ShowcaseItem title="Size s">
+                <RadioButton {...args} size="s" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size m">
+                <RadioButton {...args} size="m" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size l">
+                <RadioButton {...args} size="l" />
+            </ShowcaseItem>
+            <ShowcaseItem title="Size xl">
+                <RadioButton {...args} size="xl" />
+            </ShowcaseItem>
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+export const Disabled: Story = {
+    args: {
+        ...Default.args,
+        disabled: true,
+    },
+};
+
+export const ShowcaseStory: Story = {
+    render: () => <RadioButtonShowcase />,
+    name: 'Showcase',
+};

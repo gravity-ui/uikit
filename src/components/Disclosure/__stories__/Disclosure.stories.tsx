@@ -11,7 +11,7 @@ import {Disclosure} from '../index';
 import './Disclosure.stories.scss';
 
 export default {
-    title: 'Components/Disclosure',
+    title: 'Components/Utils/Disclosure',
     component: Disclosure,
     args: {
         children: 'Default content',

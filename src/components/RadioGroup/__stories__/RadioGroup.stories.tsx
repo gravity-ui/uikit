@@ -1,63 +1,72 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {RadioGroup} from '../RadioGroup';
-import type {RadioGroupOption, RadioGroupProps} from '../RadioGroup';
 
 import {RadioGroupShowcase} from './RadioGroupShowcase';
 
 export default {
-    title: 'Components/RadioGroup',
+    title: 'Components/Inputs/RadioGroup',
     component: RadioGroup,
 } as Meta;
 
-const options: RadioGroupOption[] = [
-    {value: 'Value 1', content: 'Value 1'},
-    {value: 'Value 2', content: 'Value 2'},
-    {value: 'Value 3', content: 'Value 3'},
-];
+type Story = StoryObj<typeof RadioGroup>;
 
-const DefaultTemplate: StoryFn<RadioGroupProps> = (args) => {
-    const [value, setValue] = React.useState<string>(options[0].value);
-    return <RadioGroup {...args} value={value} onUpdate={setValue} />;
-};
-export const Default = DefaultTemplate.bind({});
-Default.args = {
-    options,
+export const Default: Story = {
+    args: {
+        options: [
+            {value: 'Value 1', content: 'Value 1'},
+            {value: 'Value 2', content: 'Value 2'},
+            {value: 'Value 3', content: 'Value 3'},
+        ],
+    },
 };
 
-export const Direction: StoryFn<RadioGroupProps> = (args) => {
-    const [value, setValue] = React.useState(args.options?.[0].value);
-
-    return (
-        <React.Fragment>
-            <ShowcaseItem title="horizontal">
-                <RadioGroup
-                    {...args}
-                    name="group1"
-                    direction="horizontal"
-                    value={value}
-                    onUpdate={setValue}
-                />
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            <ShowcaseItem title="Size m">
+                <RadioGroup {...args} size="m" />
             </ShowcaseItem>
-            <ShowcaseItem title="vertical">
-                <RadioGroup
-                    {...args}
-                    name="group2"
-                    direction="vertical"
-                    options={options}
-                    value={value}
-                    onUpdate={setValue}
-                />
+            <ShowcaseItem title="Size l">
+                <RadioGroup {...args} size="l" />
             </ShowcaseItem>
-        </React.Fragment>
-    );
-};
-Direction.args = {
-    options,
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
 };
 
-const ShowcaseTemplate: StoryFn = () => <RadioGroupShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const Disabled: Story = {
+    args: {
+        ...Default.args,
+        disabled: true,
+    },
+};
+
+export const Direction: Story = {
+    args: {
+        ...Default.args,
+    },
+    render: (args) => {
+        return (
+            <Showcase>
+                <ShowcaseItem title="Horizontal">
+                    <RadioGroup {...args} direction="horizontal" />
+                </ShowcaseItem>
+                <ShowcaseItem title="Vertical">
+                    <RadioGroup {...args} direction="vertical" />
+                </ShowcaseItem>
+            </Showcase>
+        );
+    },
+};
+
+export const ShowcaseStory: Story = {
+    render: () => <RadioGroupShowcase />,
+    name: 'Showcase',
+};

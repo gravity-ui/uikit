@@ -1,9 +1,18 @@
-## Skeleton
+<!--GITHUB_BLOCK-->
 
-Component for illusion of fast loading.
+# Skeleton
 
-### PropTypes
+<!--/GITHUB_BLOCK-->
 
-| Property  | Type     | Required | Default | Description                                 |
-| :-------- | :------- | :------- | :------ | :------------------------------------------ |
-| className | `String` |          |         | Class name to customize size component size |
+```tsx
+import {Skeleton} from '@gravity-ui/uikit';
+```
+
+The Skeleton component displays a placeholder preview of your content before the data loads in order to reduce load-time frustration.
+
+## Properties
+
+| Name      | Description                            |         Type          | Default |
+| :-------- | :------------------------------------- | :-------------------: | :-----: |
+| style     | Custom CSS properties for root element | `React.CSSProperties` |         |
+| className | Custom CSS class for root element      |       `string`        |         |

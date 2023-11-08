@@ -1,6 +1,6 @@
 import React from 'react';
 
-import block from 'bem-cn-lite';
+import {cn} from '../../components/utils/cn';
 
 import './DocsExample.scss';
 
@@ -13,7 +13,7 @@ export interface DocsExampleProps {
     background?: string;
 }
 
-const b = block('docs-example');
+const b = cn('docs-example');
 
 export function DocsExample({
     children,

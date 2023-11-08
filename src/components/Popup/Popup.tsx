@@ -2,22 +2,16 @@ import React from 'react';
 
 import {CSSTransition} from 'react-transition-group';
 
+import {useForkRef} from '../../hooks';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
 import {block} from '../utils/cn';
 import {getCSSTransitionClassNames} from '../utils/transition';
-import {useForkRef} from '../utils/useForkRef';
 import {useLayer} from '../utils/useLayer';
 import type {LayerExtendableProps} from '../utils/useLayer';
 import {usePopper} from '../utils/usePopper';
-import type {
-    PopperAnchorRef,
-    PopperModifiers,
-    PopperOffset,
-    PopperPlacement,
-    PopperProps,
-} from '../utils/usePopper';
+import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
 import {useRestoreFocus} from '../utils/useRestoreFocus';
 
 import {PopupArrow} from './PopupArrow';
@@ -33,8 +27,6 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     keepMounted?: boolean;
     hasArrow?: boolean;
     disableLayer?: boolean;
-    offset?: PopperOffset;
-    modifiers?: PopperModifiers;
     /** @deprecated Add onClick handler to children */
     onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
@@ -100,6 +92,7 @@ export function Popup({
         onClose,
         contentRefs: [anchorRef, containerRef],
         enabled: !disableLayer,
+        type: 'popup',
     });
 
     const {attributes, styles, setPopperRef, setArrowRef} = usePopper({

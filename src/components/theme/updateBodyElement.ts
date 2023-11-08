@@ -1,26 +1,21 @@
 import {block, blockNew, modsClassName} from '../utils/cn';
 
-import {ROOT_CLASS_NAME} from './constants';
-import type {RealTheme} from './types';
+import {DEFAULT_DIRECTION, ROOT_CLASS_NAME} from './constants';
+import type {Direction, RealTheme} from './types';
 
 const b = block(ROOT_CLASS_NAME);
 const bNew = blockNew(ROOT_CLASS_NAME);
 const rootClassName = b();
 const rootNewClassName = bNew();
 
-export type BodyClassNameModifiers = {
-    'native-scrollbar': boolean;
-};
+interface Props {
+    theme: RealTheme;
+    direction: Direction;
+    nativeScrollbar?: boolean;
+    className?: string;
+}
 
-const defaultModifiers: BodyClassNameModifiers = {
-    'native-scrollbar': false,
-};
-
-export function updateBodyClassName(
-    newTheme: RealTheme,
-    modifiers?: Partial<BodyClassNameModifiers>,
-    customRootClassName?: string,
-) {
+export function updateBodyElement({theme, direction, nativeScrollbar = false, className}: Props) {
     const bodyEl = document.body;
 
     if (!bodyEl.classList.contains(rootClassName)) {
@@ -31,8 +26,8 @@ export function updateBodyClassName(
         bodyEl.classList.add(rootNewClassName);
     }
 
-    if (customRootClassName) {
-        const parsedCustomRootClassNames = customRootClassName.split(' ');
+    if (className) {
+        const parsedCustomRootClassNames = className.split(' ');
         parsedCustomRootClassNames.forEach((cls) => {
             if (cls && !bodyEl.classList.contains(cls)) {
                 bodyEl.classList.add(cls);
@@ -49,11 +44,21 @@ export function updateBodyClassName(
             bodyEl.classList.remove(cls);
         }
     });
-    bodyEl.classList.add(modsClassName(b({theme: newTheme})));
-    bodyEl.classList.add(modsClassName(bNew({theme: newTheme})));
+    bodyEl.classList.add(modsClassName(b({theme})));
+    bodyEl.classList.add(modsClassName(bNew({theme})));
 
-    for (const [key, value] of Object.entries({...defaultModifiers, ...modifiers})) {
+    const modifiers = {
+        'native-scrollbar': nativeScrollbar,
+    };
+
+    for (const [key, value] of Object.entries(modifiers)) {
         bodyEl.classList.toggle(modsClassName(b({[key]: true})), value);
         bodyEl.classList.toggle(modsClassName(bNew({[key]: true})), value);
+    }
+
+    if (direction === DEFAULT_DIRECTION) {
+        bodyEl.removeAttribute('dir');
+    } else {
+        bodyEl.setAttribute('dir', direction);
     }
 }

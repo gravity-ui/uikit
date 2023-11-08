@@ -293,7 +293,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     value={filter}
                     hasClear={true}
                     onUpdate={this.onFilterUpdate}
-                    // eslint-disable-next-line jsx-a11y/no-autofocus
                     autoFocus={autoFocus}
                 />
             </div>

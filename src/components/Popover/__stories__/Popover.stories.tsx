@@ -243,7 +243,6 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
                 autoclosable={false}
                 openOnHover={false}
                 focusTrap
-                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
                 restoreFocusRef={ref}
             >

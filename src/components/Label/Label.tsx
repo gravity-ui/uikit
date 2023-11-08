@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
+import {useActionHandlers} from '../../hooks';
 import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
@@ -86,6 +87,8 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         onClick,
     } = props;
 
+    const actionButtonRef = React.useRef<HTMLButtonElement>(null);
+
     const hasContent = Boolean(children !== '' && React.Children.count(children) > 0);
 
     const typeClose = type === 'close' && hasContent;
@@ -93,7 +96,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
 
     const hasOnClick = Boolean(onClick);
     const hasCopy = Boolean(typeCopy && copyText);
-    const isInteractive = hasOnClick || hasCopy || interactive;
+    const isInteractive = (hasOnClick || hasCopy || interactive) && !disabled;
     const {copyIconSize, closeIconSize, buttonSize} = sizeMap[size];
 
     const leftIcon = icon && (
@@ -122,12 +125,25 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         }
     };
 
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        /**
+         * Triggered only if the handler was triggered on the element itself, and not on the actionButton
+         * It is necessary that keyboard navigation works correctly
+         */
+        if (!actionButtonRef.current?.contains(event.target as Node)) {
+            onClick?.(event);
+        }
+    };
+
+    const {onKeyDown} = useActionHandlers(handleClick);
+
     const renderLabel = (status?: CopyToClipboardStatus) => {
         let actionButton: React.ReactNode;
 
         if (typeCopy) {
             actionButton = (
                 <Button
+                    ref={actionButtonRef}
                     size={buttonSize}
                     extraProps={{'aria-label': copyButtonLabel || undefined}}
                     {...commonActionButtonProps}
@@ -143,6 +159,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         } else if (typeClose) {
             actionButton = (
                 <Button
+                    ref={actionButtonRef}
                     onClick={onClose ? handleCloseClick : undefined}
                     size={buttonSize}
                     extraProps={{'aria-label': closeButtonLabel || undefined}}
@@ -154,10 +171,12 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         }
 
         return (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
                 ref={ref}
-                onClick={hasOnClick ? onClick : undefined}
+                role={hasOnClick ? 'button' : undefined}
+                tabIndex={hasOnClick ? 0 : undefined}
+                onClick={hasOnClick ? handleClick : undefined}
+                onKeyDown={hasOnClick ? onKeyDown : undefined}
                 className={b(
                     {
                         theme,
@@ -178,7 +197,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         );
     };
 
-    if (hasCopy && copyText) {
+    if (hasCopy && copyText && !hasOnClick) {
         return (
             <CopyToClipboard text={copyText} onCopy={onCopy} timeout={1000}>
                 {(status) => renderLabel(status)}

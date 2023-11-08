@@ -35,6 +35,7 @@ export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
         }, [imgUrl]);
 
         return (
+            // FIXME OnClick deprecated, will be deleted
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div className={b({size}, className)} title={title} onClick={onClick} ref={ref}>
                 <img

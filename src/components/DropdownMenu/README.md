@@ -326,7 +326,7 @@ LANDING_BLOCK-->
 
 ## Custom menu toggle
 
-The menu toggle is configured with the `renderSwitcher` prop. It can be any function that returns the React component (or any `(props: SwitcherProps) => React.ReactNode` in the TypeScript terms). By default, the menu toggle is a button with the ellipsis icon (**⋯**).
+The menu toggle is configured with the `renderSwitcher` prop. It can be any function that returns a React component (or any `(props: SwitcherProps) => React.ReactNode` in the TypeScript terms, see [`SwitcherProps`](#switcherprops) below). By default, the menu toggle is a button with the ellipsis icon (**⋯**).
 
 <!--LANDING_BLOCK
 
@@ -394,13 +394,6 @@ LANDING_BLOCK-->
 ```
 
 <!--/GITHUB_BLOCK-->
-
-## Switcher properties
-
-| Name        | Description                                                    |     Type     |
-| :---------- | :------------------------------------------------------------- | :----------: |
-| `onClick`   | Called when the switcher is clicked.                           | `() => void` |
-| `onKeyDown` | Called when the switcher is focused and action key is pressed. | `() => void` |
 
 The example above is oversimplified to demonstrate the idea of the customizable menu toggle. In a real-life application, it is generally recommended that the clickable menu toggle should be a component accessible with a keyboard and other assistive technologies (such as a button).
 
@@ -549,3 +542,10 @@ This type describes individual dropdown menu items.
 | `popupProps` | Submenu popup props.                                                                                                            |                    `string`                    |         |
 | `path`       | Path of indexes from the root to the current item.                                                                              |                   `number[]`                   |         |
 | `closeMenu`  | Custom `closeMenu` callback. It can be called instead of closing the main menu and used to close submenus before the main menu. |                  `() => void`                  |         |
+
+### SwitcherProps
+
+| Name        | Description                                                    |     Type     |
+| :---------- | :------------------------------------------------------------- | :----------: |
+| `onClick`   | Called when the switcher is clicked.                           | `() => void` |
+| `onKeyDown` | Called when the switcher is focused and action key is pressed. | `() => void` |

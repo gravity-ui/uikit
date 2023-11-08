@@ -29,7 +29,7 @@ const b = block('table-column-setup');
 
 type Item = TableColumnSetupItem;
 
-interface SwitcherProps<S extends HTMLElement = HTMLElement> {
+interface SwitcherProps<S extends HTMLElement> {
     ref: React.RefObject<S>;
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;

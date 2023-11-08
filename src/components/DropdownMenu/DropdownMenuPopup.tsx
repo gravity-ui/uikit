@@ -9,16 +9,19 @@ import type {PopupProps} from '../Popup';
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import {DropdownMenuItem} from './DropdownMenuItem';
-import {DropdownMenuNavigationContext} from './DropdownMenuNavigationContext';
+import {
+    DropdownMenuNavigationContext,
+    DropdownMenuNavigationContextType,
+} from './DropdownMenuNavigationContext';
 import type {DropdownMenuListItem, DropdownMenuSize} from './types';
 import {isSeparator} from './utils/isSeparator';
 import {shouldSkipItemNavigation} from './utils/shouldSkipItemNavigation';
 import {stringifyNavigationPath} from './utils/stringifyNavigationPath';
 
-export type DropdownMenuPopupProps<T> = {
+export type DropdownMenuPopupProps<T, S extends HTMLElement = HTMLElement> = {
     items: DropdownMenuListItem<T>[];
     open: boolean;
-    anchorRef: React.RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<S>;
     onClose?: () => void;
     size?: DropdownMenuSize;
     menuProps?: MenuProps;
@@ -27,7 +30,7 @@ export type DropdownMenuPopupProps<T> = {
     path?: number[];
 };
 
-export const DropdownMenuPopup = <T,>({
+export const DropdownMenuPopup = <T, S extends HTMLElement = HTMLElement>({
     items,
     open,
     anchorRef,
@@ -37,14 +40,14 @@ export const DropdownMenuPopup = <T,>({
     children,
     popupProps,
     path = [],
-}: DropdownMenuPopupProps<T>) => {
+}: DropdownMenuPopupProps<T, S>) => {
     const {toggle, data} = React.useContext(DropdownMenuContext);
 
     const {
         activeMenuPath,
         setActiveMenuPath,
         anchorRef: navigationAnchorRef,
-    } = React.useContext(DropdownMenuNavigationContext);
+    } = React.useContext(DropdownMenuNavigationContext) as DropdownMenuNavigationContextType<S>;
 
     const isSubmenu = path.length > 0;
 
@@ -115,7 +118,7 @@ export const DropdownMenuPopup = <T,>({
         activeItemIndex,
         setActiveItemIndex,
         reset: resetNavigation,
-    } = useListNavigation<DropdownMenuListItem<T>, HTMLDivElement>({
+    } = useListNavigation<DropdownMenuListItem<T>, S>({
         items,
         skip: shouldSkipItemNavigation,
         anchorRef: navigationAnchorRef,

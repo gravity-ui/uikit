@@ -1,9 +1,9 @@
 import React from 'react';
 
-export type DropdownMenuNavigationContextType = {
+export type DropdownMenuNavigationContextType<S extends HTMLElement = HTMLElement> = {
     activeMenuPath: number[];
     setActiveMenuPath: (path: number[]) => void;
-    anchorRef: React.RefObject<HTMLDivElement>;
+    anchorRef: React.RefObject<S>;
 };
 
 const rootMenuPath: number[] = [];
@@ -16,8 +16,8 @@ export const DropdownMenuNavigationContext = React.createContext<DropdownMenuNav
     },
 );
 
-export type DropdownMenuNavigationContextProviderProps = {
-    anchorRef: React.RefObject<HTMLDivElement>;
+export type DropdownMenuNavigationContextProviderProps<S extends HTMLElement = HTMLElement> = {
+    anchorRef: React.RefObject<S>;
     children: React.ReactNode;
     disabled: boolean;
 };

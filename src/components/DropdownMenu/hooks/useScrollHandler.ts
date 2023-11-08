@@ -1,8 +1,8 @@
 import React from 'react';
 
-export function useScrollHandler(
+export function useScrollHandler<S extends HTMLElement = HTMLElement>(
     onScroll: (event: Event) => void,
-    anchorRef: React.RefObject<HTMLDivElement>,
+    anchorRef: React.RefObject<S>,
     disabled?: boolean,
 ) {
     React.useEffect(() => {

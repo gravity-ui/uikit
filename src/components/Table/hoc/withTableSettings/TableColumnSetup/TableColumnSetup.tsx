@@ -14,6 +14,14 @@ import type {TableColumnSetupItem} from '../withTableSettings';
 import {LockIcon} from './LockIcon';
 import {TickIcon} from './TickIcon';
 import i18n from './i18n';
+import {
+    LIST_ITEM_HEIGHT,
+    getConfigurableItems,
+    getCountSelected,
+    getListHeight,
+    getRequiredItems,
+    getRequiredListHeight,
+} from './utils';
 
 import './TableColumnSetup.scss';
 
@@ -21,19 +29,20 @@ const b = block('table-column-setup');
 
 type Item = TableColumnSetupItem;
 
-interface SwitcherProps {
+interface SwitcherProps<S extends HTMLElement = HTMLElement> {
+    ref: React.RefObject<S>;
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
 }
 
-export interface TableColumnSetupProps {
+export interface TableColumnSetupProps<S extends HTMLElement = HTMLElement> {
     // for Button
     disabled?: boolean;
     /**
      * @deprecated Use renderSwitcher instead
      */
     switcher?: React.ReactElement | undefined;
-    renderSwitcher?: (props: SwitcherProps) => React.ReactElement | undefined;
+    renderSwitcher?: (props: SwitcherProps<S>) => React.ReactElement | undefined;
 
     // for List
     items: Item[];
@@ -48,7 +57,9 @@ export interface TableColumnSetupProps {
     className?: string;
 }
 
-export const TableColumnSetup = (props: TableColumnSetupProps) => {
+export function TableColumnSetup<S extends HTMLElement = HTMLElement>(
+    props: TableColumnSetupProps<S>,
+) {
     const {
         switcher,
         renderSwitcher,
@@ -68,19 +79,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const [currentItems, setCurrentItems] = React.useState<Item[]>([]);
     const [requiredItems, setRequiredItems] = React.useState<Item[]>([]);
 
-    const refControl = React.useRef(null);
-
-    const LIST_ITEM_HEIGHT = 36;
-
-    const getRequiredItems = (list: Item[]) =>
-        list
-            .filter(({required}) => required)
-            .map((column) => ({
-                ...column,
-                disabled: true,
-            }));
-
-    const getConfigurableItems = (list: Item[]) => list.filter(({required}) => !required);
+    const controlRef = React.useRef<S>(null);
 
     React.useEffect(() => {
         if (propsItems !== items) {
@@ -96,25 +95,11 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setCurrentItems(getConfigurableItems(items));
     };
 
-    const getListHeight = (list: Item[]) => {
-        const itemHeight = LIST_ITEM_HEIGHT;
-
-        return Math.min(5, list.length) * itemHeight + itemHeight / 2;
-    };
-
-    const getRequiredListHeight = (list: Item[]) => list.length * LIST_ITEM_HEIGHT;
-
-    const getCountSelected = () => items.reduce((acc, cur) => (cur.selected ? acc + 1 : acc), 0);
-
     const makeOnSortEnd =
         (list: Item[]) =>
         ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => {
             setCurrentItems(List.moveListElement(list.slice(), oldIndex, newIndex));
         };
-
-    const handleUpdate = (value: Item[]) => setCurrentItems(value);
-
-    const handleClosePopup = () => setInitialState();
 
     const handleControlClick = () => {
         if (!disabled) {
@@ -138,7 +123,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         const newItems = currentItems.map((item) =>
             item === value ? {...item, selected: !item.selected} : item,
         );
-        handleUpdate(newItems);
+        setCurrentItems(newItems);
     };
 
     const renderItem = (item: Item) => {
@@ -163,7 +148,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             return null;
         }
 
-        const selected = getCountSelected();
+        const selected = getCountSelected(items);
         const all = propsItems.length;
         const status = `${selected}/${all}`;
 
@@ -216,8 +201,16 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         <div className={b(null, className)}>
             {/* FIXME remove switcher prop and this wrapper */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className={b('control')} ref={refControl} onClick={handleControlClick}>
-                {renderSwitcher?.({onClick: handleControlClick, onKeyDown: handleControlKeyDown}) ||
+            <div
+                //@ts-ignore
+                ref={controlRef}
+                onClick={handleControlClick}
+            >
+                {renderSwitcher?.({
+                    ref: controlRef,
+                    onClick: handleControlClick,
+                    onKeyDown: handleControlKeyDown,
+                }) ||
                     switcher || (
                         <Button disabled={disabled}>
                             <Icon data={Gear} />
@@ -227,10 +220,10 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
                     )}
             </div>
             <Popup
-                anchorRef={refControl}
+                anchorRef={controlRef}
                 placement={popupPlacement || ['bottom-start', 'bottom-end', 'top-start', 'top-end']}
                 open={focused}
-                onClose={handleClosePopup}
+                onClose={setInitialState}
                 className={b('popup')}
                 style={{width: popupWidth}}
             >
@@ -244,4 +237,4 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             </Popup>
         </div>
     );
-};
+}

@@ -28,12 +28,13 @@ import {toItemList} from './utils/toItemList';
 
 import './DropdownMenu.scss';
 
-type SwitcherProps = {
+type SwitcherProps<S extends HTMLElement> = {
+    ref: React.RefObject<S>;
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
 };
 
-export type DropdownMenuProps<T> = {
+export type DropdownMenuProps<T, S extends HTMLElement = HTMLElement> = {
     /**
      * Array of items.
      * Nested arrays of items represent visually separated groups.
@@ -68,7 +69,7 @@ export type DropdownMenuProps<T> = {
     /**
      * Menu toggle control.
      */
-    renderSwitcher?: (props: SwitcherProps) => React.ReactNode;
+    renderSwitcher?: (props: SwitcherProps<S>) => React.ReactNode;
     switcherWrapperClassName?: string;
     /**
      * Overrides the default switcher button props.
@@ -95,7 +96,7 @@ export type ControlledDropdownMenuProps<T> = DropdownMenuProps<T> & {
     onOpenToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const DropdownMenu = <T,>({
+const DropdownMenu = <T, S extends HTMLElement = HTMLElement>({
     items = [],
     size = 'm',
     icon = <Icon data={Ellipsis} />,
@@ -113,8 +114,8 @@ const DropdownMenu = <T,>({
     menuProps,
     popupProps,
     children,
-}: DropdownMenuProps<T> | ControlledDropdownMenuProps<T>) => {
-    const anchorRef = React.useRef<HTMLDivElement | null>(null);
+}: DropdownMenuProps<T, S> | ControlledDropdownMenuProps<T>) => {
+    const anchorRef = React.useRef<S>(null);
 
     const {isPopupShown, togglePopup, closePopup} = usePopupVisibility(
         open,
@@ -138,14 +139,17 @@ const DropdownMenu = <T,>({
         [items],
     );
 
-    const handleSwitcherClick: React.MouseEventHandler<HTMLElement> = (event) => {
-        if (disabled) {
-            return;
-        }
+    const handleSwitcherClick: React.MouseEventHandler<HTMLElement> = React.useCallback(
+        (event) => {
+            if (disabled) {
+                return;
+            }
 
-        onSwitcherClick?.(event);
-        togglePopup();
-    };
+            onSwitcherClick?.(event);
+            togglePopup();
+        },
+        [disabled, onSwitcherClick, togglePopup],
+    );
 
     const {onKeyDown: handleSwitcherKeyDown} = useActionHandlers(handleSwitcherClick);
 
@@ -154,11 +158,13 @@ const DropdownMenu = <T,>({
             {/* FIXME remove switcher prop and this wrapper */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
+                //@ts-ignore
                 ref={anchorRef}
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
                 onClick={handleSwitcherClick}
             >
                 {renderSwitcher?.({
+                    ref: anchorRef,
                     onClick: handleSwitcherClick,
                     onKeyDown: handleSwitcherKeyDown,
                 }) ||

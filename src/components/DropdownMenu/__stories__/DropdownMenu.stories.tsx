@@ -3,11 +3,12 @@ import React from 'react';
 import {Bars} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 
+import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import {Label} from '../../Label';
 import type {LabelProps} from '../../Label';
 import {cn} from '../../utils/cn';
-import {DropdownMenu} from '../DropdownMenu';
+import {DropdownMenu, DropdownMenuProps} from '../DropdownMenu';
 import type {DropdownMenuItem} from '../DropdownMenu';
 
 import {options, optionsAssorted, optionsWithGroups, optionsWithSubItems} from './options';
@@ -86,11 +87,22 @@ SwitcherTheme.args = {
 SwitcherTheme.storyName = 'Icon theme';
 
 // ----------------------------------------
-const TextSwitcherTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
+const TextSwitcherTemplate: StoryFn<DropdownMenuProps<unknown>> = (args) => (
+    <DropdownMenu {...args} />
+);
 export const TextSwitcher = TextSwitcherTemplate.bind({});
 TextSwitcher.args = {
     items: options,
-    switcher: <div style={{cursor: 'pointer', fontWeight: 'bold'}}>&nbsp;John Doe&nbsp;</div>,
+    renderSwitcher: ({onClick, onKeyDown, ref}) => (
+        <Button
+            ref={ref}
+            onClick={onClick}
+            extraProps={{onKeyDown}}
+            style={{cursor: 'pointer', fontWeight: 'bold'}}
+        >
+            John Doe
+        </Button>
+    ),
 };
 TextSwitcher.parameters = {
     docs: {
@@ -115,13 +127,18 @@ const LabelSwitcherTemplate: StoryFn<{statuses: {text: string; style: LabelProps
     }, [args.statuses, setStatus]);
 
     return (
-        <DropdownMenu
+        <DropdownMenu<undefined, HTMLDivElement>
             items={items}
-            switcher={
-                <Label theme={status.style} className={b('label-switcher-switcher')}>
+            renderSwitcher={({onClick, ref}) => (
+                <Label
+                    ref={ref}
+                    onClick={onClick}
+                    theme={status.style}
+                    className={b('label-switcher-switcher')}
+                >
                     {status.text}
                 </Label>
-            }
+            )}
             popupProps={{className: b('label-switcher-menu')}}
         />
     );

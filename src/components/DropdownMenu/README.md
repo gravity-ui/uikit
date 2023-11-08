@@ -545,7 +545,8 @@ This type describes individual dropdown menu items.
 
 ### SwitcherProps
 
-| Name        | Description                                                    |     Type     |
-| :---------- | :------------------------------------------------------------- | :----------: |
-| `onClick`   | Called when the switcher is clicked.                           | `() => void` |
-| `onKeyDown` | Called when the switcher is focused and action key is pressed. | `() => void` |
+| Name        | Description                                                    |                     Type                      |
+| :---------- | :------------------------------------------------------------- | :-------------------------------------------: |
+| `ref`       | Reference to a custom switcher to align the dropdown popup.    | `React.MutableRefObject<HTMLElement \| null>` |
+| `onClick`   | Called when the switcher is clicked.                           |   `React.KeyboardEventHandler<HTMLElement>`   |
+| `onKeyDown` | Called when the switcher is focused and action key is pressed. |    `React.MouseEventHandler<HTMLElement>`     |

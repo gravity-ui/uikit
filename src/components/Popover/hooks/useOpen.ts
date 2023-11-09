@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useUpdateEffect} from '../../utils/useUpdateEffect';
+import {useUpdateEffect} from '../../../hooks/private';
 import {PopoverBehavior, delayByBehavior} from '../config';
 
 export type UseOpenProps = {

@@ -3,6 +3,8 @@ import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
 import {useForkRef} from '../../hooks';
+import {usePopper, useRestoreFocus} from '../../hooks/private';
+import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../../hooks/private';
 import {Portal} from '../Portal';
 import type {DOMProps, QAProps} from '../types';
 import {FocusTrap, useParentFocusTrap} from '../utils/FocusTrap';
@@ -10,9 +12,6 @@ import {block} from '../utils/cn';
 import {useLayer} from '../utils/layer-manager';
 import type {LayerExtendableProps} from '../utils/layer-manager/LayerManager';
 import {getCSSTransitionClassNames} from '../utils/transition';
-import {usePopper} from '../utils/usePopper';
-import type {PopperAnchorRef, PopperPlacement, PopperProps} from '../utils/usePopper';
-import {useRestoreFocus} from '../utils/useRestoreFocus';
 
 import {PopupArrow} from './PopupArrow';
 

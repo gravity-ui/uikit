@@ -1,8 +1,8 @@
 import React from 'react';
 
+import {useRadioGroup} from '../../hooks/private';
 import type {ControlGroupOption, ControlGroupProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {useRadioGroup} from '../utils/useRadioGroup';
 
 import {RadioButtonOption as Option} from './RadioButtonOption';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useConditionallyControlledState} from '../../utils/useConditionallyControlledState';
+import {useConditionallyControlledState} from '../../../hooks/private';
 
 export function usePopupVisibility(
     visible?: boolean,

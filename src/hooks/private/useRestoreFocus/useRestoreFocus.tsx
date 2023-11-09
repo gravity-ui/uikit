@@ -2,12 +2,21 @@ import React from 'react';
 
 import {isFocusable, isTabbable} from 'tabbable';
 
-interface UseRestoreFocusProps {
+export interface UseRestoreFocusProps {
     enabled: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
     focusTrapped?: boolean;
 }
-export function useRestoreFocus({enabled, restoreFocusRef, focusTrapped}: UseRestoreFocusProps) {
+
+export interface UseRestoreFocusResult {
+    onFocus: (event: React.FocusEvent) => void;
+}
+
+export function useRestoreFocus({
+    enabled,
+    restoreFocusRef,
+    focusTrapped,
+}: UseRestoreFocusProps): UseRestoreFocusResult {
     const ref = React.useRef<HTMLElement | null>(null);
 
     const initialActiveElementRef = React.useRef<HTMLElement | null>(null);

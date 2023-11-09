@@ -1,4 +1,4 @@
-import type {PopperPlacement} from '../utils/usePopper';
+import type {PopperPlacement} from '../../hooks/private';
 
 import type {DropdownMenuListItem} from './types';
 

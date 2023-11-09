@@ -4,7 +4,7 @@ import {faker} from '@faker-js/faker/locale/en';
 import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation} from '@gravity-ui/icons';
 
 import {ToasterComponent, useToaster} from '..';
-import type {ToastProps} from '..';
+import type {ToastAction, ToastProps} from '..';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
@@ -75,6 +75,7 @@ export const ToasterDemo = ({
         type?: ToastProps['type'];
         className?: string;
         content?: React.ReactNode;
+        actions?: ToastAction[];
     }): ToastProps {
         let content: React.ReactNode = null;
         let title;
@@ -108,7 +109,7 @@ export const ToasterDemo = ({
                       ...action,
                       view: index === 0 ? action1View : action2View,
                   }))
-                : undefined,
+                : extra.actions,
         };
     }
 
@@ -232,6 +233,28 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
+    const createToastLongContent = () => {
+        const toastProps = getToastProps({
+            name: 'overflow',
+            type: 'error',
+            title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+            content:
+                'Excepturi cumque dicta, et a repellat culpa totam minus vero, error ducimus nesciunt? Dicta soluta earum sapiente explicabo commodi pariatur nulla eius?',
+            actions: [
+                {
+                    label: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+                    onClick: () => {
+                        console.log('Lorem ipsum dolor sit amet consectetur adipisicing elit.');
+                    },
+                },
+            ],
+        });
+
+        toaster.add(toastProps);
+
+        setState((state) => ({...state, lastToastName: toastProps.name}));
+    };
+
     const createDynamicallyUpdatingToast = () => {
         const toastProps = getToastProps({
             name: 'UpdatingToast',
@@ -324,6 +347,12 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const toastWithLongContent = (
+        <Button view="outlined" size="l" onClick={createToastLongContent} style={btnStyle}>
+            Create toast with long content
+        </Button>
+    );
+
     const dynamicallyUpdatingToast = (
         <Button size="l" onClick={createDynamicallyUpdatingToast} style={btnStyle}>
             Create dynamically updating toast
@@ -353,6 +382,7 @@ export const ToasterDemo = ({
             <p>{errorToastBtn}</p>
             <p>{utilityToastBtn}</p>
             <p>{customToastBtn}</p>
+            <p>{toastWithLongContent}</p>
             <p>{dynamicallyUpdatingToast}</p>
             <p>{overrideToastBtn}</p>
             <p>{clearBtn}</p>

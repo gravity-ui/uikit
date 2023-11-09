@@ -2,11 +2,11 @@ import React from 'react';
 
 import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
+import {useBoolean} from '../../hooks/private';
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
 import type {DOMProps} from '../types';
 import {block} from '../utils/cn';
-import {useBoolean} from '../utils/useBoolean';
 
 import './Tooltip.scss';
 

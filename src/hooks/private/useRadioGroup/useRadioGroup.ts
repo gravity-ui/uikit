@@ -1,9 +1,29 @@
 import React from 'react';
 
-import {useUniqId} from '../../hooks';
-import type {ControlGroupProps} from '../types';
+import {useUniqId} from '../..';
+import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
 
-export function useRadioGroup(props: ControlGroupProps) {
+interface OptionsProps
+    extends Omit<
+        ControlGroupProps,
+        'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
+    > {
+    value: string;
+    checked: boolean;
+    content: ControlGroupOption['content'];
+}
+
+export type UseRadioGroupProps = ControlGroupProps;
+
+export type UseRadioGroupResult = {
+    containerProps: Pick<ControlGroupProps, 'aria-label' | 'aria-labelledby'> & {
+        role: string;
+        'aria-disabled': ControlGroupProps['disabled'];
+    };
+    optionsProps: OptionsProps[];
+};
+
+export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
     const {
         name,
         value,

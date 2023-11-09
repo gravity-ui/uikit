@@ -1,9 +1,15 @@
 import React from 'react';
 
-import {useForkRef} from '../../hooks';
-import type {ControlProps} from '../types';
+import {useForkRef} from '../..';
+import type {ControlProps} from '../../../components/types';
+import {eventBroker} from '../../../components/utils/event-broker';
 
-import {eventBroker} from './event-broker';
+export type UseCheckboxProps = ControlProps;
+
+export type UseCheckboxResult = {
+    checked: boolean;
+    inputProps: React.InputHTMLAttributes<HTMLInputElement> & React.RefAttributes<HTMLInputElement>;
+};
 
 export function useCheckbox({
     name,
@@ -19,7 +25,7 @@ export function useCheckbox({
     onFocus,
     onBlur,
     disabled,
-}: ControlProps) {
+}: UseCheckboxProps): UseCheckboxResult {
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const [checkedState, setCheckedState] = React.useState(defaultChecked ?? false);
     const isControlled = typeof checked === 'boolean';

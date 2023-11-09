@@ -2,11 +2,11 @@ import React from 'react';
 
 import {CircleCheck, CircleInfo, Thunderbolt, TriangleExclamation, Xmark} from '@gravity-ui/icons';
 
+import {useCloseOnTimeout} from '../../../hooks/private';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import type {IconProps} from '../../Icon';
 import {block} from '../../utils/cn';
-import {useCloseOnTimeout} from '../../utils/useCloseOnTimeout';
 import i18n from '../i18n';
 import type {InternalToastProps, ToastAction, ToastType} from '../types';
 

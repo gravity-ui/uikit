@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
 
-import type {PopperPlacement} from '../../../../../components/utils/usePopper';
+import type {PopperPlacement} from '../../../../../hooks/private';
 import {useActionHandlers} from '../../../../../hooks/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';

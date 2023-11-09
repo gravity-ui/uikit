@@ -1,10 +1,10 @@
 import React from 'react';
 
+import {useRadio} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
 import type {ControlLabelSize} from '../ControlLabel';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {useRadio} from '../utils/useRadio';
 
 import './Radio.scss';
 

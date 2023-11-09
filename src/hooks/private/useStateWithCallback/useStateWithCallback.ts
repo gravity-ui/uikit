@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {isFunction} from './typeCheckers';
+import {isFunction} from '../../../components/utils/typeCheckers';
 
 export function useStateWithCallback<T>(
     initialValue: T,

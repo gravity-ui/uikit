@@ -1,10 +1,14 @@
-import {useTimeout} from '../../hooks';
+import {useTimeout} from '../..';
+import {useHover} from '../useHover';
 
-import {useHover} from './useHover';
-
-interface UseCloseOnTimeoutProps {
+export interface UseCloseOnTimeoutProps {
     onClose: VoidFunction;
     timeout?: number;
+}
+
+export interface UseCloseOnTimeoutResult {
+    onMouseOver: React.MouseEventHandler;
+    onMouseLeave: React.MouseEventHandler;
 }
 
 /**
@@ -12,6 +16,8 @@ interface UseCloseOnTimeoutProps {
  *
  * @param onClose
  * @param timeout
+ *
+ * @return mouse event handlers
  */
 export function useCloseOnTimeout<T = Element>({onClose, timeout}: UseCloseOnTimeoutProps) {
     const [onMouseOver, onMouseLeave, isHovering] = useHover<T>();

@@ -6,7 +6,7 @@ import throttle from 'lodash/throttle';
 const RESIZE_THROTTLE = 16;
 const ROUND_PRESICION = 2;
 
-interface ElementSize {
+export interface UseElementSizeResult {
     width: number;
     height: number;
 }
@@ -18,7 +18,7 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
     // https://github.com/WICG/resize-observer/issues/65
     key?: string,
 ) {
-    const [size, setSize] = React.useState<ElementSize>({
+    const [size, setSize] = React.useState<UseElementSizeResult>({
         width: 0,
         height: 0,
     });

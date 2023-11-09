@@ -57,6 +57,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                         type="button"
                         size={'l'}
                         view={view}
+                        width="auto"
                     >
                         {label}
                     </Button>

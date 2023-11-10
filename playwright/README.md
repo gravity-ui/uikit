@@ -42,13 +42,13 @@ test.describe('Name group tests', () => {
 
    ```shell
    npm run playwright:install
-   npm run test:component
+   npm run playwright
    ```
 
    If you are using system other than Linux, then you need to run tests via docker command:
 
    ```shell
-   npm run test:component:docker
+   npm run playwright:docker
    ```
 
    > `npm run playwright:install` command must be run only once on initial setup
@@ -56,13 +56,13 @@ test.describe('Name group tests', () => {
 6. Update screenshots if needed
 
 ```shell
- npm run test:component:update
+ npm run playwright:update
 ```
 
 Or
 
 ```shell
- npm run test:component:docker:update
+ npm run playwright:docker:update
 ```
 
 7. In the folder `__snapshots__`, in which the folder `<ComponentName>.visual.test.tsx-snapshots` will appear, it will contain screenshots

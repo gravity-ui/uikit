@@ -2,9 +2,9 @@
 
 ## How to write a test
 
-1. You need to select the component for which you want to write tests
-2. In the component folder, create a folder `__tests__`
-3. Create a file in it `NameComponent.visual.test.tsx`
+1. Select the component you want to write tests for
+2. Inside the component folder, create the `__snapshots__` folder
+3. Create a file inside it with the following name `<ComponentName>.visual.test.tsx`
 4. In the file to make imports:
 
    ```ts
@@ -15,45 +15,45 @@
    import {MyTestedComponent} from '../MyTestedComponent';
    ```
 
-5. Writing a test:
+Writing a test:
 
-   ```ts
-   test('Name test', async ({mount}) => {
-     //mounting a component
-     const component = await mount(<MyTestedComponent props={props} />);
+```ts
+test('Name test', async ({mount}) => {
+  //mounting a component
+  const component = await mount(<MyTestedComponent props={props} />);
 
-     //screenshot
-     await expect(component).toHaveScreenshot();
-   });
-   ```
+  //screenshot
+  await expect(component).toHaveScreenshot();
+});
+```
 
-   Group of tests.
+Group of tests.
 
-   ```ts
-   test.describe('Name group tests', () => {
-        test('1', ...);
-        test('2', ...);
-        ...
-        test('10', ...)
-   });
-   ```
+```ts
+test.describe('Name group tests', () => {
+     test('1', ...);
+     test('2', ...);
+     ...
+     test('10', ...)
+});
+```
 
-6. Running the test: (you don't need to run storybook to test components)
+5. Run tests
 
    ```shell
-   npm run playwright install
+   npm run playwright:install
    npm run test:component
    ```
 
-   If you are developing on a system other than Linux, then you need to use a command that takes screenshot tests based on a Docker image.
+   If you are using system other than Linux, then you need to run tests via docker command:
 
    ```shell
    npm run test:component:docker
    ```
 
-   ! the npm run playwright install command must be run for the first time
+   > `npm run playwright:install` command must be run only once on initial setup
 
-7. To update screenshots use the command
+6. Update screenshots if needed
 
 ```shell
  npm run test:component:update
@@ -65,7 +65,7 @@ Or
  npm run test:component:docker:update
 ```
 
-8. In the folder `__tests__`, in which the folder `NameComponent.visual.test.tsx-snapshots` will appear, it will contain screenshots
+7. In the folder `__snapshots__`, in which the folder `<ComponentName>.visual.test.tsx-snapshots` will appear, it will contain screenshots
 
 ## Description of possible commands:
 
@@ -74,20 +74,22 @@ Or
 
 ## Pay attention
 
-It takes screenshots along the border of the component and if you see that any part of the component did not get into the screenshots, it is recommended to do the following:
+Screenshots are taken within the component boundaries and if it has overflowing content, do the following:
 
 ```ts
 import React from 'react';
 
 import {expect, test} from '@playwright/experimental-ct-react';
 
+import {WrapperTest} from '../../../../playwright/helpers';
+
 import {Component} from '../Component';
 
-test('test Component  ', async ({mount}) => {
+test('Test Component  ', async ({mount}) => {
   const component = await mount(
-    <div style={{padding: 20}}>
+    <WrapperTest>
       <Component />
-    </div>,
+    </WrapperTest>,
   );
 
   await expect(component).toHaveScreenshot();
@@ -100,7 +102,8 @@ test('test Component  ', async ({mount}) => {
 
 ## Npm scripts
 
-- `npm run test:component` - run tests
-- `npm run test:component:update` - update screenshots
-- `npm run test:component:docker` - run tests using docker
-- `npm run test:component:docker` - update screenshots using docker
+- `npm run playwright:install` - install playwright browsers and dependencies
+- `npm run playwright` - run tests
+- `npm run playwright:update` - update screenshots
+- `npm run playwright:docker` - run tests using docker
+- `npm run playwright:update:docker` - update screenshots using docker

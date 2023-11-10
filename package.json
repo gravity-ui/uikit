@@ -74,10 +74,10 @@
         "typecheck": "tsc --noEmit",
         "prepublishOnly": "npm run build",
         "playwright:install": "playwright install --with-deps",
-        "test:component": "playwright test --config=playwright/playwright.config.ts",
-        "test:component:update": "npm run test:component -- -u",
-        "test:component:docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run test:component'",
-        "test:component:update:docker": " docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run test:component:update'"
+        "playwright": "playwright test --config=playwright/playwright.config.ts",
+        "playwright:update": "npm run playwright -- -u",
+        "playwright:docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright'",
+        "playwright:update:docker": " docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright:update'"
     },
     "dependencies": {
         "@bem-react/classname": "^1.6.0",

@@ -26,10 +26,9 @@ reporter.push(
  */
 const config: PlaywrightTestConfig = {
     testDir: pathFromRoot('src'),
-    testMatch: '*/__tests__/*.visual.test.tsx',
+    testMatch: '*/__snapshots__/*.visual.test.tsx',
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'missing',
-    snapshotPathTemplate:
-        '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
+    snapshotPathTemplate: '{testDir}/{testFileDir}/__snapshots__/{arg}{-projectName}-linux{ext}',
     /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
     /* Maximum time one test can run for. */
     timeout: 10 * 1000,
@@ -38,7 +37,7 @@ const config: PlaywrightTestConfig = {
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: Boolean(process.env.CI),
     /* Retry on CI only */
-    retries: 0,
+    retries: process.env.CI ? 2 : 0,
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 8 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -50,9 +49,8 @@ const config: PlaywrightTestConfig = {
         trace: 'on-first-retry',
         headless: true,
         /* Port to use for Playwright component endpoint. */
-        ctPort: 3100,
         screenshot: 'only-on-failure',
-        timezoneId: 'Europe/Belgrade',
+        timezoneId: 'UTC',
         ctViteConfig: {plugins: [react()]},
     },
     /* Configure projects for major browsers */

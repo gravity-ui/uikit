@@ -4,10 +4,9 @@ import {Gear} from '@gravity-ui/icons';
 import {expect, test} from '@playwright/experimental-ct-react';
 
 import {Button} from '../Button';
-/* import {Size} from '../__stories__/Button.stories'; */
 import {ButtonViewShowcase} from '../__stories__/ButtonViewShowcase';
 
-import {ButtonIcon, ButtonWitchIcon} from './ButtonHelpers';
+import {ButtonIcon, ButtonWitchIcon} from './helpers';
 
 test.describe('Button', () => {
     test('render buttom by default', async ({mount}) => {
@@ -109,10 +108,4 @@ test.describe('Button', () => {
 
         await expect(component).toHaveScreenshot();
     });
-
-    /*  test('Size', async ({mount}) => {
-        const component = await mount(<div>{Size.render()}</div>);
-
-        await expect(component).toHaveScreenshot();
-    }); */
 });

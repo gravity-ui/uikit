@@ -19,7 +19,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npm run test:component
+      run: npm run playwright
       env:
         CI: 'true'
     - name: Upload Playwright playwright report to GitHub Actions Artifacts
@@ -44,5 +44,6 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
         number: ${{ github.event.pull_request.number }}
+        header:  playwright test
         message: '[Playwright Test Component](https://storage.yandexcloud.net/playwright-reports/uikit/pulls/${{ github.event.pull_request.number }}/index.html) is ready.'
  

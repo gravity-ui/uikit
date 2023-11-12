@@ -187,11 +187,15 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                     sortable={sortable}
                                     onUpdate={onUpdateColumns}
                                     items={columnSetupItems}
-                                    switcher={
-                                        <Button view="flat" className={b('settings-button')}>
+                                    renderSwitcher={({onClick}) => (
+                                        <Button
+                                            view="flat"
+                                            className={b('settings-button')}
+                                            onClick={onClick}
+                                        >
                                             <Icon data={Gear} />
                                         </Button>
-                                    }
+                                    )}
                                 />
                             </div>
                         );

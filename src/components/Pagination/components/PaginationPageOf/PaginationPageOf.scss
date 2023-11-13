@@ -10,10 +10,10 @@ $block: '.#{variables.$ns-new}pagination-page-of';
     color: var(--g-color-text-secondary);
 
     &_size_m {
-        padding-bottom: 5px;
+        padding-block-end: 5px;
     }
 
     &_size_l {
-        padding-bottom: 9px;
+        padding-block-end: 9px;
     }
 }

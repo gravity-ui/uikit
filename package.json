@@ -67,7 +67,9 @@
         "start": "sb dev -p 7007",
         "build-storybook": "sb build -c .storybook -o storybook-static",
         "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .",
+        "lint:js:fix": "npm run lint:js -- --fix",
         "lint:styles": "stylelint '{styles,src}/**/*.scss'",
+        "lint:styles:fix": "npm run lint:styles -- --fix",
         "lint:prettier": "prettier --check '**/*.md'",
         "lint:prettier:fix": "prettier --write '**/*.md'",
         "lint": "run-p lint:*",
@@ -154,6 +156,7 @@
         "sass": "^1.66.1",
         "sass-loader": "^13.3.2",
         "stylelint": "^14.16.1",
+        "stylelint-use-logical": "^2.1.0",
         "ts-jest": "^29.1.1",
         "typescript": "^4.9.5"
     },

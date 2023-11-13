@@ -9,7 +9,7 @@ $block: '.#{variables.$ns-new}toc-item';
         cursor: pointer;
 
         & > #{$class}__section-link {
-            border-left-color: var(--g-color-line-generic);
+            border-inline-start-color: var(--g-color-line-generic);
         }
 
         &-link {
@@ -25,7 +25,7 @@ $block: '.#{variables.$ns-new}toc-item';
             min-height: 28px;
 
             color: var(--g-color-text-secondary);
-            border-left: 2px solid transparent;
+            border-inline-start: 2px solid transparent;
             text-decoration: none;
 
             &:hover {
@@ -35,13 +35,13 @@ $block: '.#{variables.$ns-new}toc-item';
 
         &_child {
             #{$class}__section-link {
-                padding-left: 25px;
+                padding-inline-start: 25px;
             }
         }
 
         &_active > #{$class}__section-link {
             color: var(--g-color-text-primary);
-            border-left-color: var(--g-color-line-brand);
+            border-inline-start-color: var(--g-color-line-brand);
         }
     }
 }

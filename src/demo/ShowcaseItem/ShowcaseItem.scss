@@ -3,6 +3,6 @@
 .showcase-item {
     &__title {
         @include mixins.text-subheader-3();
-        margin-bottom: var(--g-spacing-3);
+        margin-block-end: var(--g-spacing-3);
     }
 }

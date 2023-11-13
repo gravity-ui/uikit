@@ -60,7 +60,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         &-icon {
-            margin-right: 8px;
+            margin-inline-end: 8px;
         }
 
         &-title {
@@ -74,7 +74,7 @@ $block: '.#{variables.$ns}tabs';
 
         &-counter,
         &-label {
-            margin-left: 8px;
+            margin-inline-start: 8px;
         }
 
         &-icon > svg {
@@ -101,8 +101,8 @@ $block: '.#{variables.$ns}tabs';
             align-items: center;
             box-sizing: border-box;
             height: var(--yc-tabs-height);
-            border-bottom: var(--yc-tabs-border-width) solid transparent;
-            padding-top: var(--yc-tabs-border-width);
+            border-block-end: var(--yc-tabs-border-width) solid transparent;
+            padding-block-start: var(--yc-tabs-border-width);
 
             &-meta {
                 display: none;
@@ -146,7 +146,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         > :not(:last-child) {
-            margin-right: var(--yc-tabs-gap);
+            margin-inline-end: var(--yc-tabs-gap);
         }
     }
 

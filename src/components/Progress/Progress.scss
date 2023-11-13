@@ -106,7 +106,7 @@ $progress-xs-height: 4px;
 
         #{$block}__text {
             height: $progress-m-height;
-            margin-bottom: -$progress-m-height;
+            margin-block-end: -$progress-m-height;
         }
     }
 

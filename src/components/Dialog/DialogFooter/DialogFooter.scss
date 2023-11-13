@@ -24,7 +24,7 @@ $block: '.#{variables.$ns}dialog-footer';
     }
 
     &__bts-wrapper > &__button {
-        margin-left: 10px;
+        margin-inline-start: 10px;
     }
 
     &__error {

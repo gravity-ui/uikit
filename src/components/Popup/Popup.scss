@@ -63,11 +63,11 @@ $transition-distance: 10px;
 
     // arrow
     &[data-popper-placement*='bottom'] #{$block}__arrow {
-        top: -$arrow-offset;
+        inset-block-start: -$arrow-offset;
     }
 
     &[data-popper-placement*='top'] #{$block}__arrow {
-        bottom: -$arrow-offset;
+        inset-block-end: -$arrow-offset;
 
         &-content {
             transform: rotate(180deg);
@@ -75,7 +75,7 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='left'] #{$block}__arrow {
-        right: -$arrow-offset;
+        inset-inline-end: -$arrow-offset;
 
         &-content {
             transform: rotate(90deg);
@@ -83,7 +83,7 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='right'] #{$block}__arrow {
-        left: -$arrow-offset;
+        inset-inline-start: -$arrow-offset;
 
         &-content {
             transform: rotate(-90deg);
@@ -104,13 +104,13 @@ $transition-distance: 10px;
         // Corners rounding for content
         & > :first-child:not(#{$block}__arrow),
         & > #{$block}__arrow + * {
-            border-top-left-radius: inherit;
-            border-top-right-radius: inherit;
+            border-start-start-radius: inherit;
+            border-start-end-radius: inherit;
         }
 
         & > :last-child {
-            border-bottom-left-radius: inherit;
-            border-bottom-right-radius: inherit;
+            border-end-start-radius: inherit;
+            border-end-end-radius: inherit;
         }
     }
 
@@ -141,13 +141,13 @@ $transition-distance: 10px;
         position: absolute;
 
         &_left {
-            right: -5px;
-            bottom: -4px;
+            inset-inline-end: -5px;
+            inset-block-end: -4px;
         }
 
         &_right {
-            left: -5px;
-            bottom: -4px;
+            inset-inline-start: -5px;
+            inset-block-end: -4px;
         }
     }
 }

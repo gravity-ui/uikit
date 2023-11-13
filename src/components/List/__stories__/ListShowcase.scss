@@ -10,14 +10,14 @@
     &__title {
         @include mixins.text-header-2();
         width: 100%;
-        border-bottom: 1px solid var(--g-color-line-generic);
+        border-block-end: 1px solid var(--g-color-line-generic);
     }
 
     &__subtitle {
         @include mixins.text-body-3();
         width: 100%;
-        margin-bottom: 5px;
-        margin-left: var(--yc-list-margin);
+        margin-block-end: 5px;
+        margin-inline-start: var(--yc-list-margin);
         color: var(--g-color-text-secondary);
     }
 
@@ -40,15 +40,15 @@
 
     &__sample {
         width: 200px;
-        margin-bottom: 40px;
+        margin-block-end: 40px;
 
         &:not(:last-child) {
-            margin-right: 20px;
+            margin-inline-end: 20px;
         }
     }
 
     &__list-wrap {
-        margin-top: 10px;
+        margin-block-start: 10px;
         padding: 10px 0 0;
         border: 1px solid var(--g-color-line-generic);
         border-radius: 3px;
@@ -66,11 +66,11 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        padding-left: 10px;
+        padding-inline-start: 10px;
 
         #{$button} {
             display: none;
-            margin-left: auto;
+            margin-inline-start: auto;
         }
         &:hover {
             #{$button} {

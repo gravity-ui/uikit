@@ -1,25 +1,23 @@
 import {modsClassName} from '../utils/cn';
 
+import {DEFAULT_DIRECTION} from './constants';
 import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
-import type {RealTheme} from './types';
+import type {Direction, RealTheme} from './types';
 
 const rootClassName = getDeprecatedRootClassName();
 const rootNewClassName = getRootClassName();
 
-export type BodyClassNameModifiers = {
-    'native-scrollbar': boolean;
-};
-
-const defaultModifiers: BodyClassNameModifiers = {
-    'native-scrollbar': false,
-};
-
-export function updateBodyClassName(
-    newTheme: RealTheme,
-    modifiers?: Partial<BodyClassNameModifiers>,
-    customRootClassName?: string,
-    prevCustomRootClassName?: string,
-) {
+export function updateBodyClassName({
+    theme,
+    nativeScrollbar = false,
+    className,
+    prevClassName,
+}: {
+    theme: RealTheme;
+    nativeScrollbar?: boolean;
+    className?: string;
+    prevClassName?: string;
+}) {
     const bodyEl = document.body;
 
     if (!bodyEl.classList.contains(rootClassName)) {
@@ -30,8 +28,8 @@ export function updateBodyClassName(
         bodyEl.classList.add(rootNewClassName);
     }
 
-    if (prevCustomRootClassName) {
-        const parsedPrevCustomRootClassNames = prevCustomRootClassName.split(' ');
+    if (prevClassName) {
+        const parsedPrevCustomRootClassNames = prevClassName.split(' ');
         parsedPrevCustomRootClassNames.forEach((cls) => {
             if (cls) {
                 bodyEl.classList.remove(cls);
@@ -39,8 +37,8 @@ export function updateBodyClassName(
         });
     }
 
-    if (customRootClassName) {
-        const parsedCustomRootClassNames = customRootClassName.split(' ');
+    if (className) {
+        const parsedCustomRootClassNames = className.split(' ');
         parsedCustomRootClassNames.forEach((cls) => {
             if (cls && !bodyEl.classList.contains(cls)) {
                 bodyEl.classList.add(cls);
@@ -57,11 +55,25 @@ export function updateBodyClassName(
             bodyEl.classList.remove(cls);
         }
     });
-    bodyEl.classList.add(modsClassName(getDeprecatedRootClassName({theme: newTheme})));
-    bodyEl.classList.add(modsClassName(getRootClassName({theme: newTheme})));
+    bodyEl.classList.add(modsClassName(getDeprecatedRootClassName({theme})));
+    bodyEl.classList.add(modsClassName(getRootClassName({theme})));
 
-    for (const [key, value] of Object.entries({...defaultModifiers, ...modifiers})) {
+    const modifiers = {
+        'native-scrollbar': nativeScrollbar,
+    };
+
+    for (const [key, value] of Object.entries(modifiers)) {
         bodyEl.classList.toggle(modsClassName(getDeprecatedRootClassName({[key]: true})), value);
         bodyEl.classList.toggle(modsClassName(getRootClassName({[key]: true})), value);
+    }
+}
+
+export function updateBodyDirection(direction: Direction) {
+    const bodyEl = document.body;
+
+    if (direction === DEFAULT_DIRECTION) {
+        bodyEl.removeAttribute('dir');
+    } else {
+        bodyEl.setAttribute('dir', direction);
     }
 }

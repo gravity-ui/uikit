@@ -5,10 +5,7 @@ $block: '.#{variables.$ns}modal';
 #{$block} {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 1000;
 
     visibility: hidden;
@@ -34,7 +31,7 @@ $block: '.#{variables.$ns}modal';
     &__content {
         display: inline-block;
         margin: var(--yc-modal-margin);
-        text-align: left;
+        text-align: start;
         background-color: var(--g-color-base-modal);
         border-radius: var(--yc-modal-border-radius);
     }

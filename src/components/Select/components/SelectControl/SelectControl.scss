@@ -51,32 +51,48 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 @mixin block_clear_reserved_width() {
     // reserving place for clear icon to fix width changing on displaying clear
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_s & {
-        padding-right: calc(#{variables.$s-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$s-height} + var(--_--select-options-text-right-padding)
+        );
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_m & {
-        padding-right: calc(#{variables.$m-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$m-height} + var(--_--select-options-text-right-padding)
+        );
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_l & {
-        padding-right: calc(#{variables.$l-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$l-height} + var(--_--select-options-text-right-padding)
+        );
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_xl & {
-        padding-right: calc(#{variables.$xl-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$xl-height} + var(--_--select-options-text-right-padding)
+        );
     }
 }
 
 @mixin block_clear_reserved_disabled_width() {
     // reserving place for clear icon to fix width changing on displaying clear for disabled select
     #{$block}_has-clear#{$block}_size_s #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$s-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$s-height} + var(--_--select-options-text-right-padding)
+        );
     }
     #{$block}_has-clear#{$block}_size_m #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$m-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$m-height} + var(--_--select-options-text-right-padding)
+        );
     }
     #{$block}_has-clear#{$block}_size_l #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$l-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$l-height} + var(--_--select-options-text-right-padding)
+        );
     }
     #{$block}_has-clear#{$block}_size_xl #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$xl-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(
+            #{variables.$xl-height} + var(--_--select-options-text-right-padding)
+        );
     }
 }
 
@@ -205,7 +221,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
         flex-shrink: 0;
         max-width: 50%;
-        margin-right: 4px;
+        margin-inline-end: 4px;
         white-space: nowrap;
     }
 
@@ -214,7 +230,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         @include mixins.overflow-ellipsis();
         @include block_clear_reserved_disabled_width();
 
-        padding-right: var(--_--select-options-text-right-padding);
+        padding-inline-end: var(--_--select-options-text-right-padding);
     }
 
     &__placeholder {
@@ -227,7 +243,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__chevron-icon {
         flex: 0 0 16px;
-        margin-left: auto;
+        margin-inline-start: auto;
         color: var(--g-color-text-secondary);
 
         &_disabled {
@@ -236,7 +252,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
 
     #{SelectClear.$block} + &__chevron-icon {
-        margin-left: 0;
+        margin-inline-start: 0;
     }
 
     &__error-icon {

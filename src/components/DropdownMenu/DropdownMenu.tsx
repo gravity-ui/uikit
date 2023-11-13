@@ -167,7 +167,6 @@ const DropdownMenu = <T,>({
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 ref={anchorRef}
-                data-testid="switcher-wrapper"
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
                 {...(renderSwitcher ? {} : switcherProps)}
             >

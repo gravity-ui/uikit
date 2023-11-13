@@ -3,11 +3,11 @@
 exports[`Alert has predicted styles if inline layout rendered 1`] = `
 <div>
   <div
-    class="yc-card yc-card_theme_danger yc-card_view_filled yc-card_type_container yc-card_size_m yc-alert yc-s__py_4 yc-s__px_5"
+    class="yc-box yc-flex yc-card yc-card_theme_danger yc-card_view_filled yc-card_type_container yc-card_size_m yc-alert yc-s__py_4 yc-s__px_5"
   >
     <div
-      class="yc-flex"
-      style="column-gap: 12px; row-gap: 12px; align-items: center;"
+      class="yc-box yc-flex"
+      style="flex-grow: 1; column-gap: 12px; row-gap: 12px; align-items: center;"
     >
       <div
         class="yc-alert__icon yc-color-text yc-color-text_color_danger"
@@ -37,15 +37,15 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
         </svg>
       </div>
       <div
-        class="yc-flex"
+        class="yc-box yc-flex"
         style="flex-direction: row; flex-grow: 1; column-gap: 20px; row-gap: 20px;"
       >
         <div
-          class="yc-flex yc-alert__text-content"
+          class="yc-box yc-flex yc-alert__text-content"
           style="flex-grow: 1; column-gap: 8px; row-gap: 8px;"
         >
           <div
-            class="yc-flex"
+            class="yc-box yc-flex"
             style="flex-direction: column; flex-grow: 1; column-gap: 4px; row-gap: 4px; justify-content: center;"
           >
             <span
@@ -56,7 +56,7 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
           </div>
         </div>
         <div
-          class="yc-flex yc-alert__actions yc-alert__actions_minContent"
+          class="yc-box yc-flex yc-alert__actions yc-alert__actions_minContent"
           style="flex-direction: row; flex-wrap: wrap; column-gap: 12px; row-gap: 12px; align-items: center;"
         >
           <button

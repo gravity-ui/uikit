@@ -5,10 +5,10 @@
 
     &__title {
         @include mixins.text-display-1;
-        margin-bottom: 16px;
+        margin-block-end: 16px;
 
         &:not(:first-child) {
-            margin-top: 32px;
+            margin-block-start: 32px;
         }
     }
 
@@ -19,13 +19,13 @@
 
     &__random-color {
         flex-shrink: 0;
-        margin-left: 10px;
+        margin-inline-start: 10px;
     }
 
     &__colors {
         display: flex;
         gap: 10px;
-        margin-left: 40px;
+        margin-inline-start: 40px;
     }
 
     &__color {
@@ -52,7 +52,7 @@
             align-items: center;
 
             & > *:not(:last-child) {
-                margin-right: 24px;
+                margin-inline-end: 24px;
             }
         }
     }
@@ -65,8 +65,8 @@
 
     &__result-copy {
         position: absolute;
-        top: 12px;
-        right: 12px;
+        inset-block-start: 12px;
+        inset-inline-end: 12px;
     }
 
     &__result-text {

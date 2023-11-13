@@ -5,10 +5,10 @@
 
     &__title {
         @include mixins.text-display-1;
-        margin-bottom: 16px;
+        margin-block-end: 16px;
 
         &:not(:first-child) {
-            margin-top: 32px;
+            margin-block-start: 32px;
         }
     }
 
@@ -42,8 +42,8 @@
 
         &-input {
             position: absolute;
-            left: 0;
-            bottom: 0;
+            inset-inline-start: 0;
+            inset-block-end: 0;
             width: 0;
             height: 0;
             visibility: hidden;
@@ -62,7 +62,7 @@
             &-number {
                 align-self: center;
                 justify-self: end;
-                padding-right: 10px;
+                padding-inline-end: 10px;
             }
 
             &-color {
@@ -70,10 +70,7 @@
 
                 &-inner {
                     position: absolute;
-                    top: 0;
-                    left: 0;
-                    bottom: 0;
-                    right: 0;
+                    inset: 0;
                 }
             }
         }
@@ -87,8 +84,8 @@
 
     &__result-copy {
         position: absolute;
-        top: 12px;
-        right: 12px;
+        inset-block-start: 12px;
+        inset-inline-end: 12px;
     }
 
     &__result-text {

@@ -30,17 +30,17 @@ $root: '.docs-decorator';
         & + p,
         & + ul,
         & + ol {
-            margin-top: $offset-s;
+            margin-block-start: $offset-s;
         }
     }
 
     li + li:not([class*='yc-']):not([class*='g-']) {
-        margin-top: $offset-xs;
+        margin-block-start: $offset-xs;
     }
 
     ul:not([class*='yc-']):not([class*='g-']),
     ol:not([class*='yc-']):not([class*='g-']) {
-        padding-left: $offset-m;
+        padding-inline-start: $offset-m;
     }
 
     h1 {
@@ -60,8 +60,7 @@ $root: '.docs-decorator';
     h1,
     h2,
     h3 {
-        margin-top: $offset-l;
-        margin-bottom: $offset-m;
+        margin-block: $offset-l $offset-m;
     }
 
     a:not([class*='yc-']):not([class*='g-']) {

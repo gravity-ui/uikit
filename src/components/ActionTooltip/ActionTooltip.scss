@@ -20,11 +20,11 @@ $block: '.#{variables.$ns}action-tooltip';
     }
 
     &__hotkey {
-        margin-left: 8px;
+        margin-inline-start: 8px;
     }
 
     &__description {
-        margin-top: 4px;
+        margin-block-start: 4px;
         color: var(--g-color-text-light-secondary);
     }
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import {Gear} from '@gravity-ui/icons';
 import {expect, test} from '@playwright/experimental-ct-react';
 
+import {WrapperTest} from '../../../../playwright/helpers';
 import {Button} from '../Button';
 import {ButtonViewShowcase} from '../__stories__/ButtonViewShowcase';
 
@@ -104,7 +105,11 @@ test.describe('Button', () => {
     });
 
     test('ButtonViewShowcase', async ({mount}) => {
-        const component = await mount(<ButtonViewShowcase />);
+        const component = await mount(
+            <WrapperTest>
+                <ButtonViewShowcase />
+            </WrapperTest>,
+        );
 
         await expect(component).toHaveScreenshot();
     });

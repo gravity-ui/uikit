@@ -11,14 +11,6 @@ interface Props extends Pick<BreadcrumbsProps, 'popupPlacement' | 'popupStyle' |
 
 const b = block('breadcrumbs');
 
-function Switcher() {
-    return (
-        <Link view="secondary" title={i18n('label_more')} className={b('item', {more: true})}>
-            ...
-        </Link>
-    );
-}
-
 export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
     return (
         <DropdownMenu
@@ -29,7 +21,16 @@ export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
                 }),
                 placement: popupPlacement,
             }}
-            switcher={<Switcher />}
+            renderSwitcher={({onClick}) => (
+                <Link
+                    view="secondary"
+                    title={i18n('label_more')}
+                    className={b('item', {more: true})}
+                    onClick={onClick}
+                >
+                    ...
+                </Link>
+            )}
         />
     );
 }

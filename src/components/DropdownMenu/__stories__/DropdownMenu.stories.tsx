@@ -117,11 +117,15 @@ const LabelSwitcherTemplate: StoryFn<{statuses: {text: string; style: LabelProps
     return (
         <DropdownMenu
             items={items}
-            switcher={
-                <Label theme={status.style} className={b('label-switcher-switcher')}>
+            renderSwitcher={({onClick}) => (
+                <Label
+                    theme={status.style}
+                    className={b('label-switcher-switcher')}
+                    onClick={onClick}
+                >
                     {status.text}
                 </Label>
-            }
+            )}
             popupProps={{className: b('label-switcher-menu')}}
         />
     );

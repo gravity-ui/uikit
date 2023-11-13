@@ -17,6 +17,7 @@ export interface TooltipProps extends DOMProps, TooltipDelayProps {
     placement?: PopupPlacement;
     children: React.ReactElement;
     contentClassName?: string;
+    disablePortal?: boolean;
 }
 
 interface TooltipDelayProps {
@@ -42,6 +43,7 @@ export const Tooltip = (props: TooltipProps) => {
                 open={tooltipVisible && !disabled}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
+                disablePortal={props.disablePortal}
                 disableEscapeKeyDown
                 disableOutsideClick
                 disableLayer

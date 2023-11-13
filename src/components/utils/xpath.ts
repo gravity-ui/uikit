@@ -12,9 +12,13 @@ export type XpathClassConverter = (
     strClass: string,
 ) => ElementClass | undefined;
 
+export type XpathIdConverter = (id: string) => string | undefined;
+
 export interface XpathOptions {
     /** Function for converting and filtering classes */
     classConverter?: XpathClassConverter;
+    /** Function for converting and filtering ids */
+    idConverter?: XpathIdConverter;
     /** Flag for managing replaces from tag[@class='...'] to tag[@id='...'] if id is exist */
     withoutId?: boolean;
 }
@@ -39,8 +43,10 @@ function getXpathByNode(node: Node | null, options: InternalXpathOptions): strin
     const tag = node.tagName.toLowerCase();
 
     let token = `/${tag}`;
-    if (node.id && !options.withoutId) {
-        token += `[@id='${node.id}']`;
+
+    const convertedId = node.id && !options.withoutId ? options.idConverter(node.id) : undefined;
+    if (convertedId) {
+        token += `[@id='${convertedId}']`;
     } else {
         const classes: string[] = [];
         node.classList.forEach((className) => {
@@ -59,6 +65,7 @@ function getXpathByNode(node: Node | null, options: InternalXpathOptions): strin
 
 const defaultXpathOptions: InternalXpathOptions = {
     classConverter: (arg) => arg,
+    idConverter: (arg) => arg,
     withoutId: false,
 };
 

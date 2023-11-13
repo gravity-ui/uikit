@@ -9,7 +9,7 @@
         border: 1px dashed var(--g-color-line-generic);
 
         & + & {
-            margin-top: 10px;
+            margin-block-start: 10px;
         }
     }
 }

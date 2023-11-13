@@ -32,7 +32,7 @@ const withContextProvider: Decorator = (Story, context) => {
 
     return (
         <React.StrictMode>
-            <ThemeProvider theme={context.globals.theme}>
+            <ThemeProvider theme={context.globals.theme} direction={context.globals.direction}>
                 <MobileProvider>
                     <Story {...context} />
                 </MobileProvider>
@@ -79,9 +79,10 @@ const preview: Preview = {
                 items: [
                     {value: 'light', right: '☼', title: 'Light'},
                     {value: 'dark', right: '☾', title: 'Dark'},
-                    {value: 'light-hc', right: '☼', title: 'High Contrast Light (beta)'},
-                    {value: 'dark-hc', right: '☾', title: 'High Contrast Dark (beta)'},
+                    {value: 'light-hc', right: '☼', title: 'Light (high contrast)'},
+                    {value: 'dark-hc', right: '☾', title: 'Dark (high contrast)'},
                 ],
+                dynamicTitle: true,
             },
         },
         lang: {
@@ -93,6 +94,19 @@ const preview: Preview = {
                     {value: 'en', right: '🇬🇧', title: 'En'},
                     {value: 'ru', right: '🇷🇺', title: 'Ru'},
                 ],
+                dynamicTitle: true,
+            },
+        },
+        direction: {
+            defaultValue: 'ltr',
+            toolbar: {
+                title: 'Direction',
+                icon: 'menu',
+                items: [
+                    {value: 'ltr', title: 'Left to Right', icon: 'arrowrightalt'},
+                    {value: 'rtl', title: 'Right to Left', icon: 'arrowleftalt'},
+                ],
+                dynamicTitle: true,
             },
         },
         platform: {
@@ -103,6 +117,7 @@ const preview: Preview = {
                     {value: 'desktop', title: 'Desktop', icon: 'browser'},
                     {value: 'mobile', title: 'Mobile', icon: 'mobile'},
                 ],
+                dynamicTitle: true,
             },
         },
     },

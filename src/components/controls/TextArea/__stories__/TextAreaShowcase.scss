@@ -54,6 +54,6 @@
 
     &__input:not(:last-child),
     &__text-area:not(:last-child) {
-        margin-bottom: 20px;
+        margin-block-end: 20px;
     }
 }

@@ -7,6 +7,6 @@ $block: '.#{variables.$ns-new}select-empty-placeholder';
     color: var(--g-color-text-hint);
 
     &_empty {
-        margin-top: 0;
+        margin-block-start: 0;
     }
 }

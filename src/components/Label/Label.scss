@@ -21,11 +21,11 @@ $hover-opacity: 0.7;
     }
 
     &#{$block}_has-right-addon #{$block}__text {
-        margin-right: $rAddon;
+        margin-inline-end: $rAddon;
     }
 
     &#{$block}_has-left-addon #{$block}__text {
-        margin-left: $lAddon;
+        margin-inline-start: $lAddon;
     }
 }
 
@@ -69,15 +69,15 @@ $hover-opacity: 0.7;
         &_side_left,
         &_side_right {
             position: absolute;
-            top: 0;
+            inset-block-start: 0;
         }
 
         &_side_left {
-            left: 2px;
+            inset-inline-start: 2px;
         }
 
         &_side_right {
-            right: 0;
+            inset-inline-end: 0;
         }
 
         &_interactive {

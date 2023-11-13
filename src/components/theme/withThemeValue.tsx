@@ -7,7 +7,7 @@ import {getComponentName} from '../utils/getComponentName';
 import {ThemeContext} from './ThemeContext';
 import type {ThemeContextProps} from './ThemeContext';
 
-export interface WithThemeValueProps extends ThemeContextProps {}
+export interface WithThemeValueProps extends Pick<ThemeContextProps, 'themeValue'> {}
 
 export function withThemeValue<T extends WithThemeValueProps>(
     WrappedComponent: React.ComponentType<T>,

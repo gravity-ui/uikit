@@ -12,13 +12,13 @@ $block: '.#{variables.$ns}dropdown-menu';
     }
 
     &__menu-item_separator {
-        border-top: 1px solid var(--g-color-line-generic-solid);
+        border-block-start: 1px solid var(--g-color-line-generic-solid);
         margin: 0.5em 0;
         pointer-events: none;
     }
 
     &__sub-menu-arrow {
-        right: -4px;
+        inset-inline-end: -4px;
         position: relative;
     }
 
@@ -30,7 +30,7 @@ $block: '.#{variables.$ns}dropdown-menu';
             &:after {
                 position: absolute;
 
-                top: 0;
+                inset-block-start: 0;
 
                 width: 10px;
                 height: 100%;
@@ -39,11 +39,11 @@ $block: '.#{variables.$ns}dropdown-menu';
             }
 
             &:before {
-                left: -10px;
+                inset-inline-start: -10px;
             }
 
             &:after {
-                right: -10px;
+                inset-inline-end: -10px;
             }
         }
     }

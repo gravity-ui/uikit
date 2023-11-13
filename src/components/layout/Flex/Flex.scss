@@ -8,6 +8,11 @@
         display: inline-flex;
     }
 
+    &_center-content {
+        justify-content: center;
+        align-items: center;
+    }
+
     @each $space, $value in v.$SPACE {
         &_s_#{$space} {
             margin-block-start: calc(-1 * $value) !important;

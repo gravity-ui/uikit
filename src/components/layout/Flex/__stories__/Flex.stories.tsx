@@ -12,7 +12,7 @@ import {Flex} from '../Flex';
 import type {FlexProps} from '../Flex';
 
 export default {
-    title: 'Layout/Flex',
+    title: 'Components/Layout/Flex',
     component: Flex,
 } as Meta;
 

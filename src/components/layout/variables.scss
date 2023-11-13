@@ -1,5 +1,6 @@
 @use '../variables.scss';
 
+$boxBlock: '.#{variables.$ns}box';
 $colBlock: '.#{variables.$ns}col';
 $rowBlock: '.#{variables.$ns}row';
 $flexBlock: '.#{variables.$ns}flex';

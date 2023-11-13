@@ -3,6 +3,7 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
+import {Box, Flex} from '../../layout';
 import {Card} from '../Card';
 
 export default {
@@ -15,13 +16,9 @@ type Story = StoryObj<typeof Card>;
 export const Default: Story = {
     args: {
         children: 'Content',
-        style: {
-            width: 120,
-            height: 120,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
+        centerContent: true,
+        width: 120,
+        height: 120,
     },
 };
 
@@ -142,4 +139,39 @@ export const SelectionType: Story = {
         type: 'selection',
     },
     name: 'Selection Type',
+};
+
+export const WithFixedSizesType: Story = {
+    render: (args) => (
+        <Flex>
+            <Card
+                {...args}
+                width={250}
+                height={150}
+                spacing={{mr: 3, p: 5}}
+                theme="danger"
+                view="outlined"
+            >
+                <Box overflow="auto" width={'100%'}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia pariatur
+                    incidunt quasi veritatis officia tenetur ratione voluptatem illo voluptatum
+                    dolore illum ex magni soluta officiis maxime quia eaque, exercitationem veniam?
+                </Box>
+            </Card>
+            <Card {...args} width={300} height={200} centerContent theme="info" view="filled">
+                300x200
+            </Card>
+            <Card
+                {...args}
+                width={100}
+                height={300}
+                centerContent
+                theme="warning"
+                view="filled"
+                spacing={{ml: 3, p: 2}}
+                dangerouslySetInnerHTML={{__html: '<h2>100x300</h2>'}}
+            />
+        </Flex>
+    ),
+    name: 'With Fixed Sizes Type',
 };

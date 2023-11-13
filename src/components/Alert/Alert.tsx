@@ -43,7 +43,7 @@ export const Alert = (props: AlertProps) => {
             theme={theme}
             view={view}
         >
-            <Flex gap="3" alignItems={align}>
+            <Flex gap="3" alignItems={align} grow>
                 {icon}
                 <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
                     <Flex gap="2" grow className={bAlert('text-content')}>

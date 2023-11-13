@@ -3,7 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 export default {
-    title: 'Layout',
+    title: 'Components/Layout',
     id: 'Layout',
     parameters: {
         order: -100,

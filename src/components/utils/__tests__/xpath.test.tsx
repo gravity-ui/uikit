@@ -313,5 +313,51 @@ describe('getXpath', () => {
             expect(xpath).toBe(rootBuilder.append({className: 'class__div'}).xpath);
             expect(hash).toMatchInlineSnapshot(`"bf5138ce0f335973b588b4c3029e1335"`);
         });
+
+        it('should remove id if it was converted to undefined', () => {
+            const onClick = jest.fn();
+            render(
+                <div onClick={onClick} id={'remove-too'}>
+                    <div id={'keep-this'} className={'class-2'}>
+                        <div id={'remove'} className={'target class-3'}>
+                            {clickText}
+                        </div>
+                    </div>
+                </div>,
+            );
+            screen.getByText(clickText).click();
+
+            const {xpath, hash} = getXpath(onClick.mock.calls[0][0], {
+                idConverter: (id) => (id.startsWith('remove') ? undefined : id),
+            });
+            expect(xpath).toBe(
+                rootBuilder.append().append({id: 'keep-this'}).append({className: 'target class-3'})
+                    .xpath,
+            );
+            expect(hash).toMatchInlineSnapshot(`"21df5cf9017ae106f30a9a6608a9cb4a"`);
+        });
+
+        it('should convert some ids', () => {
+            const onClick = jest.fn();
+            render(
+                <div onClick={onClick} className={'class-1'} id={'convert-too'}>
+                    <div id={'keep-this'} className={'class-2'}>
+                        <div id={'convert'} className={'target class-3'}>
+                            {clickText}
+                        </div>
+                    </div>
+                </div>,
+            );
+            screen.getByText(clickText).click();
+
+            const {xpath, hash} = getXpath(onClick.mock.calls[0][0], {
+                idConverter: (id) => id.replace('convert', 'keep'),
+            });
+            expect(xpath).toBe(
+                rootBuilder.append({id: 'keep-too'}).append({id: 'keep-this'}).append({id: 'keep'})
+                    .xpath,
+            );
+            expect(hash).toMatchInlineSnapshot(`"2ac575742aa22271a17b4e1efb375330"`);
+        });
     });
 });

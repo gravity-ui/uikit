@@ -138,16 +138,28 @@ const DropdownMenu = <T,>({
         [items],
     );
 
-    const handleSwitcherClick: React.MouseEventHandler<HTMLElement> = (event) => {
-        if (disabled) {
-            return;
-        }
+    const handleSwitcherClick = React.useCallback<React.MouseEventHandler<HTMLElement>>(
+        (event) => {
+            if (disabled) {
+                return;
+            }
 
-        onSwitcherClick?.(event);
-        togglePopup();
-    };
+            onSwitcherClick?.(event);
+
+            togglePopup();
+        },
+        [disabled, onSwitcherClick, togglePopup],
+    );
 
     const {onKeyDown: handleSwitcherKeyDown} = useActionHandlers(handleSwitcherClick);
+
+    const switcherProps = React.useMemo<SwitcherProps>(
+        () => ({
+            onClick: handleSwitcherClick,
+            onKeyDown: handleSwitcherKeyDown,
+        }),
+        [handleSwitcherClick, handleSwitcherKeyDown],
+    );
 
     return (
         <DropdownMenuContext.Provider value={contextValue}>
@@ -155,26 +167,23 @@ const DropdownMenu = <T,>({
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
                 ref={anchorRef}
+                data-testid="switcher-wrapper"
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
-                onClick={handleSwitcherClick}
+                {...(renderSwitcher ? {} : switcherProps)}
             >
-                {renderSwitcher?.({
-                    onClick: handleSwitcherClick,
-                    onKeyDown: handleSwitcherKeyDown,
-                }) ||
-                    switcher || (
-                        <Button
-                            view="flat"
-                            size={size}
-                            // FIXME remove switcher prop and uncomment onClick handler
-                            // onClick={handleSwitcherClick}
-                            {...defaultSwitcherProps}
-                            className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
-                            disabled={disabled}
-                        >
-                            {icon}
-                        </Button>
-                    )}
+                {renderSwitcher?.(switcherProps) || switcher || (
+                    <Button
+                        view="flat"
+                        size={size}
+                        // FIXME remove switcher prop and uncomment onClick handler
+                        // onClick={handleSwitcherClick}
+                        {...defaultSwitcherProps}
+                        className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
+                        disabled={disabled}
+                    >
+                        {icon}
+                    </Button>
+                )}
             </div>
             <DropdownMenuNavigationContextProvider anchorRef={anchorRef} disabled={!isPopupShown}>
                 <DropdownMenuPopup

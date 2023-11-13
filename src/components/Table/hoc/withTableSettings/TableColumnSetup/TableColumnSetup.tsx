@@ -116,13 +116,13 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const handleClosePopup = () => setInitialState();
 
-    const handleControlClick = () => {
+    const handleControlClick = React.useCallback(() => {
         if (!disabled) {
             setFocused(!focused);
             setRequiredItems(getRequiredItems(items));
             setCurrentItems(getConfigurableItems(items));
         }
-    };
+    }, [disabled, focused, items]);
 
     const handleApplyClick = () => {
         setInitialState();
@@ -212,19 +212,30 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const {onKeyDown: handleControlKeyDown} = useActionHandlers(handleControlClick);
 
+    const switcherProps = React.useMemo<SwitcherProps>(
+        () => ({
+            onClick: handleControlClick,
+            onKeyDown: handleControlKeyDown,
+        }),
+        [handleControlClick, handleControlKeyDown],
+    );
+
     return (
         <div className={b(null, className)}>
             {/* FIXME remove switcher prop and this wrapper */}
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className={b('control')} ref={refControl} onClick={handleControlClick}>
-                {renderSwitcher?.({onClick: handleControlClick, onKeyDown: handleControlKeyDown}) ||
-                    switcher || (
-                        <Button disabled={disabled}>
-                            <Icon data={Gear} />
-                            {i18n('button_switcher')}
-                            {renderStatus()}
-                        </Button>
-                    )}
+            <div
+                className={b('control')}
+                ref={refControl}
+                {...(renderSwitcher ? {} : switcherProps)}
+            >
+                {renderSwitcher?.(switcherProps) || switcher || (
+                    <Button disabled={disabled}>
+                        <Icon data={Gear} />
+                        {i18n('button_switcher')}
+                        {renderStatus()}
+                    </Button>
+                )}
             </div>
             <Popup
                 anchorRef={refControl}

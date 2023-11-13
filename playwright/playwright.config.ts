@@ -26,9 +26,10 @@ reporter.push(
  */
 const config: PlaywrightTestConfig = {
     testDir: pathFromRoot('src'),
-    testMatch: '*/__snapshots__/*.visual.test.tsx',
+    testMatch: '*/__tests__/*.visual.test.tsx',
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'missing',
-    snapshotPathTemplate: '{testDir}/{testFileDir}/__snapshots__/{arg}{-projectName}-linux{ext}',
+    snapshotPathTemplate:
+        '{testDir}/{testFileDir}/../__snapshots__/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
     /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
     /* Maximum time one test can run for. */
     timeout: 10 * 1000,

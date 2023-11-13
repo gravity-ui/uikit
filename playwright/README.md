@@ -3,9 +3,9 @@
 ## How to write a test
 
 1. Select the component you want to write tests for
-2. Inside the component folder, create the `__snapshots__` folder
+2. Inside the component folder, create the `__tests__` folder
 3. Create a file inside it with the following name `<ComponentName>.visual.test.tsx`
-4. In the file to make imports:
+4. Writing a test::
 
    ```ts
    import React from 'react';
@@ -13,30 +13,28 @@
    import {expect, test} from '@playwright/experimental-ct-react';
 
    import {MyTestedComponent} from '../MyTestedComponent';
+
+   test('Name test', async ({mount}) => {
+     //mounting a component
+     const component = await mount(<MyTestedComponent props={props} />);
+
+     //screenshot
+     await expect(component).toHaveScreenshot();
+   });
    ```
 
-Writing a test:
-
-```ts
-test('Name test', async ({mount}) => {
-  //mounting a component
-  const component = await mount(<MyTestedComponent props={props} />);
-
-  //screenshot
-  await expect(component).toHaveScreenshot();
-});
-```
+````
 
 Group of tests.
 
 ```ts
 test.describe('Name group tests', () => {
-     test('1', ...);
-     test('2', ...);
-     ...
-     test('10', ...)
+   test('1', ...);
+   test('2', ...);
+   ...
+   test('10', ...)
 });
-```
+````
 
 5. Run tests
 
@@ -65,7 +63,7 @@ Or
  npm run playwright:docker:update
 ```
 
-7. In the folder `__snapshots__`, in which the folder `<ComponentName>.visual.test.tsx-snapshots` will appear, it will contain screenshots
+7.In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
 
 ## Description of possible commands:
 
@@ -106,4 +104,4 @@ test('Test Component  ', async ({mount}) => {
 - `npm run playwright` - run tests
 - `npm run playwright:update` - update screenshots
 - `npm run playwright:docker` - run tests using docker
-- `npm run playwright:update:docker` - update screenshots using docker
+- `npm run playwright:docker:update` - update screenshots using docker

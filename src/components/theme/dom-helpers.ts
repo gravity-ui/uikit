@@ -8,14 +8,15 @@ const bNew = blockNew(ROOT_CLASS_NAME);
 const rootClassName = b();
 const rootNewClassName = bNew();
 
-interface Props {
+export function updateBodyClassName({
+    theme,
+    nativeScrollbar = false,
+    className,
+}: {
     theme: RealTheme;
-    direction: Direction;
     nativeScrollbar?: boolean;
     className?: string;
-}
-
-export function updateBodyElement({theme, direction, nativeScrollbar = false, className}: Props) {
+}) {
     const bodyEl = document.body;
 
     if (!bodyEl.classList.contains(rootClassName)) {
@@ -55,6 +56,10 @@ export function updateBodyElement({theme, direction, nativeScrollbar = false, cl
         bodyEl.classList.toggle(modsClassName(b({[key]: true})), value);
         bodyEl.classList.toggle(modsClassName(bNew({[key]: true})), value);
     }
+}
+
+export function updateBodyDirection(direction: Direction) {
+    const bodyEl = document.body;
 
     if (direction === DEFAULT_DIRECTION) {
         bodyEl.removeAttribute('dir');

@@ -11,8 +11,8 @@ import {
     DEFAULT_THEME,
     ROOT_CLASS_NAME,
 } from './constants';
+import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
 import type {Direction, RealTheme, Theme} from './types';
-import {updateBodyElement} from './updateBodyElement';
 import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASS_NAME);
@@ -45,12 +45,12 @@ export function ThemeProvider({
 
     React.useEffect(() => {
         if (!scoped) {
-            updateBodyElement({
+            updateBodyClassName({
                 theme: themeValue,
-                direction,
                 nativeScrollbar,
                 className: rootClassName,
             });
+            updateBodyDirection(direction);
         }
     }, [scoped, themeValue, direction, nativeScrollbar, rootClassName]);
 

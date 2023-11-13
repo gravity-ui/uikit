@@ -5,3 +5,5 @@ export const DEFAULT_DARK_THEME = 'dark';
 export const LIGHT_THEMES = ['light', 'light-hc'];
 export const DARK_THEMES = ['dark', 'dark-hc'];
 export const THEMES = [...LIGHT_THEMES, ...DARK_THEMES];
+
+export const DEFAULT_DIRECTION = 'ltr';

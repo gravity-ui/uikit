@@ -7,7 +7,7 @@
     &__card {
         @include mixins.text-body-2();
         padding: 10px;
-        margin-bottom: 14px;
+        margin-block-end: 14px;
         border-radius: 5px;
         box-shadow: 0px 1px 5px var(--g-color-sfx-shadow);
         background-color: var(--g-color-base-float);
@@ -15,12 +15,12 @@
     }
 
     &__info {
-        margin-left: 10px;
-        margin-top: 2px;
+        margin-inline-start: 10px;
+        margin-block-start: 2px;
     }
 
     &__meta {
-        margin-top: 4px;
+        margin-block-start: 4px;
         color: var(--g-color-text-secondary);
     }
 
@@ -38,7 +38,7 @@
             width: 106px;
 
             &_meta {
-                margin-top: 4px;
+                margin-block-start: 4px;
             }
         }
 
@@ -46,14 +46,14 @@
             height: 28px;
             width: 28px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-inline-end: 8px;
         }
 
         &-person-name {
             height: 1em;
             width: 62px;
             position: relative;
-            top: 6px;
+            inset-block-start: 6px;
         }
     }
 }

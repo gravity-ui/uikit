@@ -40,11 +40,11 @@ $block: '.#{variables.$ns}control-label';
         }
 
         #{$block}_size_m & {
-            margin-left: 5px;
+            margin-inline-start: 5px;
         }
 
         #{$block}_size_l & {
-            margin-left: 7px;
+            margin-inline-start: 7px;
         }
     }
 }

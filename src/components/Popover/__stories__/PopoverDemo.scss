@@ -10,7 +10,7 @@ $block: '.#{$ns}popover-demo';
     flex-direction: column;
 
     & > * {
-        margin-bottom: 20px;
+        margin-block-end: 20px;
     }
 
     &__content {
@@ -32,7 +32,7 @@ $block: '.#{$ns}popover-demo';
     }
 
     &__title + &__text {
-        margin-top: 15px;
+        margin-block-start: 15px;
     }
 
     &__loader {

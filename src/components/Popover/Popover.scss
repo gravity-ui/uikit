@@ -58,8 +58,8 @@ $block: '.#{variables.$ns}popover';
 
         &-close {
             position: absolute;
-            top: var(--yc-popover-close-margin);
-            right: var(--yc-popover-close-margin);
+            inset-block-start: var(--yc-popover-close-margin);
+            inset-inline-end: var(--yc-popover-close-margin);
         }
 
         &-content {
@@ -72,16 +72,16 @@ $block: '.#{variables.$ns}popover';
         }
 
         &-links > * {
-            margin-top: 8px;
+            margin-block-start: 8px;
 
             &:first-child {
-                margin-top: 0;
+                margin-block-start: 0;
             }
         }
 
         &-content + &-links > * {
             &:first-child {
-                margin-top: 12px;
+                margin-block-start: 12px;
             }
         }
 
@@ -162,7 +162,7 @@ $block: '.#{variables.$ns}popover';
         &_with-close {
             #{$class}__tooltip-title,
             #{$class}__tooltip-content {
-                padding-right: calc(
+                padding-inline-end: calc(
                     var(--yc-popover-close-margin) + var(--yc-popover-close-size) -
                         var(--yc-popover-padding)
                 );

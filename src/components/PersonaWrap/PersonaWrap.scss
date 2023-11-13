@@ -23,10 +23,7 @@ $block: '.#{variables.$ns}persona';
         &:after {
             position: absolute;
             z-index: -1;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            inset: 0;
             content: '';
             border: 1px solid var(--g-color-line-generic);
             border-radius: 20px;
@@ -39,11 +36,11 @@ $block: '.#{variables.$ns}persona';
 
     &_empty {
         &#{$block}_size_s {
-            padding-left: 12px;
+            padding-inline-start: 12px;
         }
 
         &#{$block}_size_n {
-            padding-left: 16px;
+            padding-inline-start: 16px;
         }
     }
 
@@ -62,11 +59,11 @@ $block: '.#{variables.$ns}persona';
         height: $avatarSize;
         display: inline-flex;
         align-items: center;
-        padding-right: 6px;
+        padding-inline-end: 6px;
         border-radius: inherit;
 
         #{$block}_closeable & {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
         #{$block}_clickable & {
             outline-offset: -1px;
@@ -95,11 +92,11 @@ $block: '.#{variables.$ns}persona';
         transition-timing-function: $transitionTimingFunction;
 
         #{$block}_size_n & {
-            margin-right: 12px;
+            margin-inline-end: 12px;
         }
 
         #{$block}_size_s & {
-            margin-right: 6px;
+            margin-inline-end: 6px;
         }
 
         #{$block}_clickable:hover & {
@@ -123,12 +120,12 @@ $block: '.#{variables.$ns}persona';
     &__text {
         #{$block}_size_n & {
             @include mixins.text-body-2;
-            margin-right: 10px;
+            margin-inline-end: 10px;
         }
 
         #{$block}_size_s & {
             @include mixins.text-body-1;
-            margin-right: 6px;
+            margin-inline-end: 6px;
         }
     }
 
@@ -141,7 +138,7 @@ $block: '.#{variables.$ns}persona';
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        padding-right: 6px;
+        padding-inline-end: 6px;
         color: var(--g-color-text-secondary);
         box-sizing: initial;
 

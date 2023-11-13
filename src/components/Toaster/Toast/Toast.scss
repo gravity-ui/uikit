@@ -18,7 +18,7 @@ $block: '.#{variables.$ns}toast';
     box-sizing: border-box;
     position: relative;
     width: inherit;
-    margin-bottom: var(--yc-toaster-margin);
+    margin-block-end: var(--yc-toaster-margin);
     padding: var(--yc-toaster-padding);
     font-size: var(--g-text-body-2-font-size);
     border-radius: 8px;
@@ -98,8 +98,8 @@ $block: '.#{variables.$ns}toast';
         &:before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
+            inset-block-start: 0;
+            inset-inline-start: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
@@ -109,27 +109,27 @@ $block: '.#{variables.$ns}toast';
 
     &__icon-container {
         flex: 0 0 auto;
-        padding-right: 8px;
-        padding-top: 2px;
+        padding-inline-end: 8px;
+        padding-block-start: 2px;
     }
 
     &__title {
         @include mixins.text-subheader-3;
         margin: 0;
-        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
+        padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__content_without-title {
-        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
+        padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__action {
-        margin-right: 8px;
+        margin-inline-end: 8px;
     }
 
     & &__btn-close {
         position: absolute;
-        top: $closeButtonEdgesSpacing;
-        right: $closeButtonEdgesSpacing;
+        inset-block-start: $closeButtonEdgesSpacing;
+        inset-inline-end: $closeButtonEdgesSpacing;
     }
 }

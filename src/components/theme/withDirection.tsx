@@ -7,20 +7,20 @@ import {getComponentName} from '../utils/getComponentName';
 import {ThemeContext} from './ThemeContext';
 import type {ThemeContextProps} from './ThemeContext';
 
-export interface WithThemeProps extends Pick<ThemeContextProps, 'theme'> {}
+export interface WithDirectionProps extends Pick<ThemeContextProps, 'direction'> {}
 
-export function withTheme<T extends WithThemeProps>(
+export function withDirection<T extends WithDirectionProps>(
     WrappedComponent: React.ComponentType<T>,
-): React.ComponentType<Subtract<T, WithThemeProps>> {
+): React.ComponentType<Subtract<T, WithDirectionProps>> {
     const componentName = getComponentName(WrappedComponent);
 
-    return class WithThemeComponent extends React.Component<Subtract<T, WithThemeProps>> {
-        static displayName = `withTheme(${componentName})`;
+    return class WithDirectionComponent extends React.Component<Subtract<T, WithDirectionProps>> {
+        static displayName = `withDirection(${componentName})`;
         static contextType = ThemeContext;
         context!: React.ContextType<typeof ThemeContext>;
 
         render() {
-            return <WrappedComponent {...(this.props as T)} theme={this.context.theme} />;
+            return <WrappedComponent {...(this.props as T)} direction={this.context.direction} />;
         }
     };
 }

@@ -65,13 +65,13 @@ $xl-right-padding: '12px';
         }
 
         #{$block}__item:not(:first-child) & {
-            margin-top: 5px;
+            margin-block-start: 5px;
 
             &::before {
                 content: '';
                 position: absolute;
-                top: -3px;
-                left: 0;
+                inset-block-start: -3px;
+                inset-inline-start: 0;
                 width: 100%;
                 height: 1px;
                 background-color: var(--g-color-line-generic);
@@ -163,7 +163,7 @@ $xl-right-padding: '12px';
             }
 
             & #{$block}__tick-icon {
-                padding-right: calc(#{select-css-variables.$l-hor-padding} / 2);
+                padding-inline-end: calc(#{select-css-variables.$l-hor-padding} / 2);
             }
         }
 
@@ -191,7 +191,7 @@ $xl-right-padding: '12px';
         flex: 0 0 16px;
         visibility: hidden;
         color: var(--g-color-text-info);
-        padding-right: var(--_--select-tick-icon-padding-right);
+        padding-inline-end: var(--_--select-tick-icon-padding-right);
 
         &_shown {
             visibility: visible;

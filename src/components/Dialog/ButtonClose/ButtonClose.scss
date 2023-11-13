@@ -4,7 +4,7 @@ $block: '.#{variables.$ns}dialog-btn-close';
 
 #{$block} {
     position: absolute;
-    top: calc(var(--yc-dialog-header-padding-top) - 6px);
-    right: calc(var(--yc-dialog-side-padding) - 12px);
+    inset-block-start: calc(var(--yc-dialog-header-padding-top) - 6px);
+    inset-inline-end: calc(var(--yc-dialog-side-padding) - 12px);
     z-index: 1;
 }

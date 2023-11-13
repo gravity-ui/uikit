@@ -2,32 +2,32 @@ import React from 'react';
 
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
-import {DEFAULT_DARK_THEME, DEFAULT_LIGHT_THEME, DEFAULT_THEME} from './constants';
+import {
+    DEFAULT_DARK_THEME,
+    DEFAULT_DIRECTION,
+    DEFAULT_LIGHT_THEME,
+    DEFAULT_THEME,
+} from './constants';
 import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
-import type {RealTheme, Theme} from './types';
-import {updateBodyClassName} from './updateBodyClassName';
+import type {Direction, RealTheme, Theme} from './types';
+import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
 import {useSystemTheme} from './useSystemTheme';
 
-interface ThemeProviderExternalProps {}
-
-interface ThemeProviderDefaultProps {
-    theme: Theme;
-    systemLightTheme: RealTheme;
-    systemDarkTheme: RealTheme;
-    nativeScrollbar: boolean;
-    scoped: boolean;
-    rootClassName: string;
+export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
+    theme?: Theme;
+    systemLightTheme?: RealTheme;
+    systemDarkTheme?: RealTheme;
+    direction?: Direction;
+    nativeScrollbar?: boolean;
+    scoped?: boolean;
+    rootClassName?: string;
 }
-
-export interface ThemeProviderProps
-    extends ThemeProviderExternalProps,
-        Partial<ThemeProviderDefaultProps>,
-        React.PropsWithChildren<{}> {}
 
 export function ThemeProvider({
     theme = DEFAULT_THEME,
     systemLightTheme = DEFAULT_LIGHT_THEME,
     systemDarkTheme = DEFAULT_DARK_THEME,
+    direction = DEFAULT_DIRECTION,
     nativeScrollbar = false,
     scoped = false,
     rootClassName = '',
@@ -42,22 +42,24 @@ export function ThemeProvider({
 
     React.useEffect(() => {
         if (!scoped) {
-            updateBodyClassName(
-                themeValue,
-                {'native-scrollbar': nativeScrollbar},
-                rootClassName,
-                prevRootClassName.current,
-            );
+            updateBodyClassName({
+                theme: themeValue,
+                nativeScrollbar,
+                className: rootClassName,
+                prevClassName: prevRootClassName.current,
+            });
+            updateBodyDirection(direction);
             prevRootClassName.current = rootClassName;
         }
-    }, [nativeScrollbar, themeValue, scoped, rootClassName]);
+    }, [scoped, themeValue, direction, nativeScrollbar, rootClassName]);
 
     const contextValue = React.useMemo(
         () => ({
             theme,
             themeValue,
+            direction,
         }),
-        [theme, themeValue],
+        [theme, themeValue, direction],
     );
 
     const themeSettingsContext = React.useMemo(
@@ -80,6 +82,7 @@ export function ThemeProvider({
                                 rootClassName,
                             ],
                         )}
+                        dir={direction === DEFAULT_DIRECTION ? undefined : direction}
                     >
                         {children}
                     </div>

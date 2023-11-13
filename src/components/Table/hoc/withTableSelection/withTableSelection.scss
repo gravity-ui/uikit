@@ -13,12 +13,9 @@ $checkboxWidth: 17px;
         display: flex;
         align-items: center;
         padding: inherit;
-        border-bottom: none;
+        border-block-end: none;
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
 
         &_vertical-align_top {
             align-items: start;

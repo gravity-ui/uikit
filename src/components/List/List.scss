@@ -11,7 +11,7 @@ $block: '.#{variables.$ns}list';
 
     &__filter {
         padding: 0 var(--yc-list-margin);
-        margin-bottom: 8px;
+        margin-block-end: 8px;
         flex: 0 0 auto;
     }
 
@@ -52,8 +52,7 @@ $block: '.#{variables.$ns}list';
             flex-direction: row-reverse;
 
             #{$block}__item-sort-icon {
-                margin-left: 10px;
-                margin-right: 0;
+                margin-inline: 10px 0;
             }
         }
 
@@ -72,8 +71,7 @@ $block: '.#{variables.$ns}list';
         box-sizing: border-box;
         color: var(--g-color-text-hint);
         min-height: 36px;
-        padding-top: 8px;
-        padding-bottom: 8px;
+        padding-block: 8px;
     }
 
     &__item-content {
@@ -92,7 +90,7 @@ $block: '.#{variables.$ns}list';
         display: flex;
         align-items: center;
         width: $icon-width;
-        margin-right: $space-from-edge - $icon-width;
+        margin-inline-end: $space-from-edge - $icon-width;
         flex: 0 0 auto;
         color: var(--g-color-text-hint);
     }

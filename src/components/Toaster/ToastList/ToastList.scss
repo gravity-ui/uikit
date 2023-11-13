@@ -4,8 +4,8 @@ $block: '.#{variables.$ns}toaster';
 
 #{$block} {
     position: fixed;
-    bottom: 0;
-    right: 10px;
+    inset-block-end: 0;
+    inset-inline-end: 10px;
     width: var(--yc-toaster-desktop-width);
     z-index: 100000;
     display: flex;
@@ -13,7 +13,7 @@ $block: '.#{variables.$ns}toaster';
     align-items: flex-end;
 
     &_mobile {
-        left: 50%;
+        inset-inline-start: 50%;
         transform: translate(-50%);
         width: calc(100% - 20px);
     }

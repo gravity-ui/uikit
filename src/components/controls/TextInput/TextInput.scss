@@ -93,12 +93,12 @@ $block: '.#{variables.$ns}text-input';
 
         &_size_s,
         &_size_m {
-            margin-right: 1px;
+            margin-inline-end: 1px;
         }
 
         &_size_l,
         &_size_xl {
-            margin-right: 2px;
+            margin-inline-end: 2px;
         }
     }
 
@@ -124,7 +124,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             &#{$block}_has-left-content #{$block}__label {
-                padding-left: 2px;
+                padding-inline-start: 2px;
             }
 
             #{$block}__additional-content {
@@ -132,11 +132,11 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content_placement_left {
-                padding-left: 1px;
+                padding-inline-start: 1px;
             }
 
             #{$block}__additional-content_placement_right {
-                padding-right: 1px;
+                padding-inline-end: 1px;
             }
 
             --_--text-input-error-icon-padding: 5px 5px 5px 0;
@@ -154,7 +154,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             &#{$block}_has-left-content #{$block}__label {
-                padding-left: 2px;
+                padding-inline-start: 2px;
             }
 
             #{$block}__additional-content {
@@ -162,11 +162,11 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content_placement_left {
-                padding-left: 1px;
+                padding-inline-start: 1px;
             }
 
             #{$block}__additional-content_placement_right {
-                padding-right: 1px;
+                padding-inline-end: 1px;
             }
 
             --_--text-input-error-icon-padding: 5px 5px 5px 0;
@@ -184,7 +184,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             &#{$block}_has-left-content #{$block}__label {
-                padding-left: 3px;
+                padding-inline-start: 3px;
             }
 
             #{$block}__additional-content {
@@ -192,11 +192,11 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content_placement_left {
-                padding-left: 3px;
+                padding-inline-start: 3px;
             }
 
             #{$block}__additional-content_placement_right {
-                padding-right: 3px;
+                padding-inline-end: 3px;
             }
 
             --_--text-input-error-icon-padding: 9px 9px 9px 0;
@@ -214,7 +214,7 @@ $block: '.#{variables.$ns}text-input';
             }
 
             &#{$block}_has-left-content #{$block}__label {
-                padding-left: 3px;
+                padding-inline-start: 3px;
             }
 
             #{$block}__additional-content {
@@ -222,11 +222,11 @@ $block: '.#{variables.$ns}text-input';
             }
 
             #{$block}__additional-content_placement_left {
-                padding-left: 3px;
+                padding-inline-start: 3px;
             }
 
             #{$block}__additional-content_placement_right {
-                padding-right: 3px;
+                padding-inline-end: 3px;
             }
 
             --_--text-input-error-icon-padding: 13px 13px 13px 0;
@@ -253,14 +253,12 @@ $block: '.#{variables.$ns}text-input';
         &_clear {
             & #{$block}__content {
                 border: 1px solid transparent;
-                border-left: 0;
-                border-right: 0;
+                border-inline: 0;
                 border-radius: 0;
             }
 
             & #{$block}__control {
-                padding-left: 0;
-                padding-right: 0;
+                padding-inline: 0;
             }
         }
     }
@@ -294,19 +292,19 @@ $block: '.#{variables.$ns}text-input';
 
     &_has-scrollbar {
         #{$block}__clear {
-            right: var(--g-scrollbar-width);
+            inset-inline-end: var(--g-scrollbar-width);
         }
     }
 
     &_has-left-content {
         #{$block}__control {
-            padding-left: 2px;
+            padding-inline-start: 2px;
         }
     }
 
     &_has-right-content {
         #{$block}__control {
-            padding-right: 2px;
+            padding-inline-end: 2px;
         }
     }
 
@@ -325,11 +323,11 @@ $block: '.#{variables.$ns}text-input';
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-bottom: 1px solid var(--g-color-line-danger);
+                    border-block-end: 1px solid var(--g-color-line-danger);
 
                     &:hover,
                     &:focus-within {
-                        border-bottom: 1px solid var(--g-color-line-danger);
+                        border-block-end: 1px solid var(--g-color-line-danger);
                     }
                 }
             }

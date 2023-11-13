@@ -8,7 +8,7 @@ $block: '.#{variables.$ns-new}toc';
         @include mixins.text-body-2();
 
         color: var(--g-color-text-primary);
-        margin-bottom: 12px;
+        margin-block-end: 12px;
     }
 
     &__sections,

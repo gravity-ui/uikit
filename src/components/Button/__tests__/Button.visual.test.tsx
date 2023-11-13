@@ -26,7 +26,7 @@ test.describe('Button', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('should render icon in Button.Icon', async ({mount}) => {
+    test('should render icon in Button-Icon', async ({mount}) => {
         const component = await mount(<ButtonIcon />);
 
         await expect(component).toHaveScreenshot();

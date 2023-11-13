@@ -45,6 +45,10 @@ const config: PlaywrightTestConfig = {
     reporter,
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
+        viewport: {
+            width: 1200,
+            height: 900,
+        },
         testIdAttribute: 'data-qa',
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',

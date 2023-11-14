@@ -212,7 +212,7 @@ function prepareChildren(children: React.ReactNode) {
             );
         }
     } else {
-        let leftIcon, rightIcon, text;
+        let startIcon, endIcon, text;
         const content = [];
 
         for (const item of items) {
@@ -220,31 +220,31 @@ function prepareChildren(children: React.ReactNode) {
             const isButtonIconElement = isButtonIconComponent(item);
 
             if (isIconElement || isButtonIconElement) {
-                if (!leftIcon && content.length === 0) {
-                    const key = 'icon-left';
-                    const side = 'left';
+                if (!startIcon && content.length === 0) {
+                    const key = 'icon-start';
+                    const side = 'start';
                     if (isIconElement) {
-                        leftIcon = (
+                        startIcon = (
                             <Button.Icon key={key} side={side}>
                                 {item}
                             </Button.Icon>
                         );
                     } else {
-                        leftIcon = React.cloneElement(item, {
+                        startIcon = React.cloneElement(item, {
                             side,
                         });
                     }
-                } else if (!rightIcon && content.length !== 0) {
-                    const key = 'icon-right';
-                    const side = 'right';
+                } else if (!endIcon && content.length !== 0) {
+                    const key = 'icon-end';
+                    const side = 'end';
                     if (isIconElement) {
-                        rightIcon = (
+                        endIcon = (
                             <Button.Icon key={key} side={side}>
                                 {item}
                             </Button.Icon>
                         );
                     } else {
-                        rightIcon = React.cloneElement(item, {
+                        endIcon = React.cloneElement(item, {
                             side,
                         });
                     }
@@ -262,6 +262,6 @@ function prepareChildren(children: React.ReactNode) {
             );
         }
 
-        return [leftIcon, rightIcon, text];
+        return [startIcon, endIcon, text];
     }
 }

@@ -91,7 +91,7 @@ describe('Button', () => {
         render(
             <Button>
                 <Gear data-qa={iconQaId} width={20} height={20} />
-                Left
+                Start
             </Button>,
         );
 
@@ -127,7 +127,7 @@ describe('Button', () => {
                 <Button.Icon>
                     <Gear data-qa={iconQaId} width={20} height={20} />
                 </Button.Icon>
-                Left
+                Start
             </Button>,
         );
 

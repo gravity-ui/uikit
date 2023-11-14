@@ -284,13 +284,13 @@ $block: '.#{variables.$ns}button';
             justify-content: center;
         }
 
-        &_side_left,
-        &_side_right {
+        &_side_start,
+        &_side_end {
             position: absolute;
             inset-block-start: 0;
         }
 
-        &_side_left {
+        &_side_start {
             inset-inline-start: var(--_--icon-position);
 
             & ~ #{$block}__text {
@@ -298,7 +298,7 @@ $block: '.#{variables.$ns}button';
             }
         }
 
-        &_side_right {
+        &_side_end {
             inset-inline-end: var(--_--icon-position);
 
             & ~ #{$block}__text {

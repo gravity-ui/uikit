@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.20.0](https://github.com/gravity-ui/uikit/compare/v5.19.1...v5.20.0) (2023-11-14)
+
+
+### Features
+
+* add id converter for getXpath ([#1117](https://github.com/gravity-ui/uikit/issues/1117)) ([75fb80c](https://github.com/gravity-ui/uikit/commit/75fb80cb7d55d18a850d4b521de2e020cd95b25b))
+* introduce new utility semantic colors ([#1094](https://github.com/gravity-ui/uikit/issues/1094)) ([7c3938c](https://github.com/gravity-ui/uikit/commit/7c3938cacabaff9a2eadae17d0b288780502bcd8))
+* **Tooltip:** add `disablePortal` prop ([#1115](https://github.com/gravity-ui/uikit/issues/1115)) ([496916e](https://github.com/gravity-ui/uikit/commit/496916e820ec125a7cdea0a481c2d7e1a19d892e))
+* **useAsyncActionHandler:** add useAsyncActionHandler hook ([#1095](https://github.com/gravity-ui/uikit/issues/1095)) ([66a25b3](https://github.com/gravity-ui/uikit/commit/66a25b3b1c6241c10fa0db24c19dd9911cb51214))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** fix inner usages of switcher prop ([#1116](https://github.com/gravity-ui/uikit/issues/1116)) ([2a3eccc](https://github.com/gravity-ui/uikit/commit/2a3eccc3225695dfc98b6a53a989bbf652e888d4))
+* improve a11y on some components ([#1045](https://github.com/gravity-ui/uikit/issues/1045)) ([c6c6138](https://github.com/gravity-ui/uikit/commit/c6c6138472055ecd77dea990afb3f271b7c30085))
+* **Label:** fix utility theme declaration ([#1106](https://github.com/gravity-ui/uikit/issues/1106)) ([ed8230d](https://github.com/gravity-ui/uikit/commit/ed8230df4b4f89adba271b226ef872d74e1a3f5d))
+* **Tabs:** tab outline focus is stripped ([#1071](https://github.com/gravity-ui/uikit/issues/1071)) ([c47f641](https://github.com/gravity-ui/uikit/commit/c47f64189e50a7191c1c2d1313227821452e8414))
+* **Toast:** fix overflows ([#1079](https://github.com/gravity-ui/uikit/issues/1079)) ([2205fde](https://github.com/gravity-ui/uikit/commit/2205fde429bf0efce7500e3282c331186415d780))
+
 ## [5.19.1](https://github.com/gravity-ui/uikit/compare/v5.19.0...v5.19.1) (2023-11-07)
 
 

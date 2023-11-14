@@ -30,18 +30,40 @@ LANDING_BLOCK-->
 
 ## Properties
 
+##### Specific ClipboardButton properties
+
 | Name               | Description                                                              |                       Type                        |   Default   |
 | :----------------- | :----------------------------------------------------------------------- | :-----------------------------------------------: | :---------: |
-| text               | Text to copy                                                             |                     `string`                      |             |
+| hasTooltip         | Disable tooltip. Tooltip won't be shown                                  |                     `boolean`                     |   `true`    |
 | onCopy             | Callback after copy `(text: string, result: boolean) => void`            |                    `Function`                     |             |
 | options            | Copy to clipboard options                                                | [CopyToClipboardOptions](#copytoclipboardoptions) |             |
-| size               | Icon size                                                                |                     `number`                      |    `24`     |
-| className          | CSS class name                                                           |                     `string`                      |             |
-| hasTooltip         | Disable tooltip. Tooltip won't be shown                                  |                     `boolean`                     |   `true`    |
+| text               | Text to copy                                                             |                     `string`                      |             |
+| timeout            | Time before state bounces back to its normal after the button is clicked |                     `number`                      |   `1000`    |
 | tooltipInitialText | Text shown before copy                                                   |                     `string`                      |  `"Copy"`   |
 | tooltipSuccessText | Text shown after copy                                                    |                     `string`                      | `"Copied!"` |
-| qa                 | HTML `data-qa` attribute, used in tests                                  |                     `string`                      |             |
-| timeout            | Time before state bounces back to its normal after the button is clicked |                     `number`                      |   `1000`    |
+
+##### Properties inherited from Button
+
+| Name         | Description                             |              Type               |     Default     |
+| :----------- | :-------------------------------------- | :-----------------------------: | :-------------: |
+| className    | HTML `class` attribute                  |            `string`             |                 |
+| disabled     | Toggles `disabled` state                |             `false`             |     `false`     |
+| extraProps   | Any additional props                    |            `Record`             |                 |
+| id           | HTML `id` attribute                     |            `string`             |                 |
+| onBlur       | `blur` event handler                    |           `Function`            |                 |
+| onFocus      | `focus` event handler                   |           `Function`            |                 |
+| onMouseEnter | `mouseenter` event handler              |           `Function`            |                 |
+| onMouseLeave | `mouseleave` event handler              |           `Function`            |                 |
+| pin          | Sets button edges style                 |            `string`             | `"round-round"` |
+| qa           | HTML `data-qa` attribute, used in tests |            `string`             |                 |
+| selected     | Toggles `selected` state                |                                 |                 |
+| size         | Sets button size                        |            `string`             |      `"m"`      |
+| style        | HTML `style` attribute                  |      `React.CSSProperties`      |                 |
+| tabIndex     | HTML `tabIndex` attribute               |            `number`             |                 |
+| title        | HTML `title` attribute                  |            `string`             |                 |
+| type         | HTML `type` attribute                   | `"button"` `"submit"` `"reset"` |   `"button"`    |
+| view         | Sets button appearance                  |            `string`             |   `"normal"`    |
+| width        | `"auto"` `"max"`                        |        `"auto"` `"max"`         |                 |
 
 ### CopyToClipboardOptions
 

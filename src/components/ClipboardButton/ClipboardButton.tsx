@@ -1,34 +1,24 @@
 import React from 'react';
 
 import {Button} from '../Button';
-import type {ButtonProps} from '../Button';
+import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
-import {CopyToClipboardStatus} from '../CopyToClipboard/types';
-import type {CopyToClipboardBaseProps} from '../CopyToClipboard/types';
+import type {CopyToClipboardBaseProps, CopyToClipboardStatus} from '../CopyToClipboard/types';
 import {Tooltip} from '../Tooltip';
-import type {QAProps} from '../types';
-import {block} from '../utils/cn';
 
 import i18n from './i18n';
 
-import './ClipboardButton.scss';
-
 export interface ClipboardButtonProps
     extends CopyToClipboardBaseProps,
-        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'>,
-        QAProps {
+        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {
     /** Time to restore initial state, ms */
     timeout?: number;
 }
 
-interface ClipboardButtonComponentProps extends QAProps {
-    /** Icon size in pixels */
-    size?: number;
-    /** Element CSS class */
-    className?: string;
+interface ClipboardButtonComponentProps
+    extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading'> {
     status: CopyToClipboardStatus;
-    onClick?: ButtonProps['onClick'];
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;
     /** Text shown before copy */
@@ -37,44 +27,36 @@ interface ClipboardButtonComponentProps extends QAProps {
     tooltipSuccessText?: string;
 }
 
-const b = block('clipboard-button');
-
-const DEFAULT_ICON_SIZE = 24;
 const DEFAULT_TIMEOUT = 1000;
+
+const ButtonSizeToIconSize: Record<ButtonSize, number> = {
+    xs: 14,
+    s: 18,
+    m: 22,
+    l: 30,
+    xl: 38,
+};
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {
-        size = DEFAULT_ICON_SIZE,
-        className,
-        qa,
+        size = 'm',
         hasTooltip = true,
         tooltipInitialText = i18n('startCopy'),
         tooltipSuccessText = i18n('endCopy'),
         status,
-        onClick,
+        view = 'flat',
+        ...rest
     } = props;
-    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-
-    React.useEffect(() => {
-        buttonRef?.current?.style.setProperty('--g-button-height', `${size}px`);
-    }, [size]);
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
 
     return (
         <Tooltip
             disabled={!hasTooltip}
-            content={
-                status === CopyToClipboardStatus.Success ? tooltipSuccessText : tooltipInitialText
-            }
+            content={status === 'success' ? tooltipSuccessText : tooltipInitialText}
         >
-            <Button
-                ref={buttonRef}
-                view="flat"
-                className={b(null, className)}
-                qa={qa}
-                onClick={onClick}
-            >
+            <Button ref={buttonRef} view={view} size={size} {...rest}>
                 <Button.Icon>
-                    <ClipboardIcon status={status} size={size} className={b('icon')} />
+                    <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
                 </Button.Icon>
             </Button>
         </Tooltip>

@@ -1,10 +1,6 @@
 import type ReactCopyToClipboard from 'react-copy-to-clipboard';
 
-export enum CopyToClipboardStatus {
-    Pending = 'pending',
-    Success = 'success',
-    Error = 'error',
-}
+export type CopyToClipboardStatus = 'pending' | 'success' | 'error';
 
 export type OnCopyHandler = (text: string, result: boolean) => void;
 

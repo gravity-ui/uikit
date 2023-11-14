@@ -6,7 +6,7 @@ const b = block('button');
 
 type Props = React.PropsWithChildren<{
     className?: string;
-    side?: 'left' | 'right';
+    side?: 'start' | 'end';
 }>;
 
 export const ButtonIcon = ({side, className, children}: Props) => {

@@ -24,7 +24,7 @@
     &::after {
         content: '';
         position: absolute;
-        inset: logical -$v -$h -$v;
+        inset: logical (-$v) (-$h) (-$v);
     }
 }
 

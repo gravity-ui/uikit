@@ -106,6 +106,8 @@ export type PopoverDefaultProps = {
     offset: {
         top?: number;
         left?: number;
+        block?: number;
+        inline?: number;
     };
     /** Whether the tooltip has a tail */
     hasArrow: boolean;

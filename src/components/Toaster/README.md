@@ -134,3 +134,11 @@ Every `action` is an object with following parameters:
 | onClick          | `() => void`                              | yes      |            | On action click handler                                                 |
 | view             | [`ButtonView`](../Button/README.md#props) |          | `outlined` | The appearance of the action, the same as the `view` of the `<Button/>` |
 | removeAfterClick | `boolean`                                 |          | `true`     | If the notification should close after the action is clicked            |
+
+## CSS API
+
+| Name                       | Description     |
+| :------------------------- | :-------------- |
+| `--g-toaster-width`        | Container width |
+| `--g-toaster-item-padding` | Item padding    |
+| `--g-toaster-item-gap`     | Item gap        |

@@ -6,7 +6,7 @@ $block: '.#{variables.$ns}toaster';
     position: fixed;
     inset-block-end: 0;
     inset-inline-end: 10px;
-    width: var(--yc-toaster-desktop-width);
+    width: var(--g-toaster-width, 312px);
     z-index: 100000;
     display: flex;
     flex-direction: column;
@@ -17,8 +17,4 @@ $block: '.#{variables.$ns}toaster';
         transform: translate(-50%);
         width: calc(100% - 20px);
     }
-}
-
-.g-root {
-    --yc-toaster-desktop-width: 312px;
 }

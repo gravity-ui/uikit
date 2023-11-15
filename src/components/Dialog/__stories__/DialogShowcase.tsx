@@ -110,11 +110,9 @@ function OtherDialog() {
                     renderButtons={(buttonApply, buttonCancel) => (
                         <React.Fragment>
                             {buttonCancel}
-                            <div style={{marginLeft: 10}}>
-                                <Button view="flat" size="l" width="max" onClick={switchVisibility}>
-                                    use the force
-                                </Button>
-                            </div>
+                            <Button view="flat" size="l" width="max" onClick={switchVisibility}>
+                                use the force
+                            </Button>
                             {buttonApply}
                         </React.Fragment>
                     )}

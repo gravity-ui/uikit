@@ -1,8 +1,8 @@
-## MobileModal
+# Sheet
 
 Sheet component for mobile devices
 
-### PropTypes
+## PropTypes
 
 | Name                     | Type       | Required | Default     | Description                                                                                                                                                                 |
 | :----------------------- | :--------- | :------: | :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -15,3 +15,9 @@ Sheet component for mobile devices
 | contentClassName         | `string`   |          | `undefined` | Class name for the sheet content                                                                                                                                            |
 | swipeAreaClassName       | `string`   |          | `undefined` | Class name for the swipe area                                                                                                                                               |
 | onClose                  | `function` |          | `undefined` | Function called when the sheet is closed (when `visible` sets to `false`)                                                                                                   |
+
+## CSS API
+
+| Name                | Description     |
+| :------------------ | :-------------- |
+| `--g-sheet-padding` | Content padding |

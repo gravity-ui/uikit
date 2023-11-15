@@ -10,7 +10,8 @@ $block: '.#{variables.$ns}sheet';
     height: 100%;
     z-index: 100000;
 
-    $SHEET_TOP_HEIGHT: 20px;
+    $top-height: 20px;
+    $transition-duration: 0.3s;
 
     &__veil {
         position: absolute;
@@ -23,7 +24,7 @@ $block: '.#{variables.$ns}sheet';
         will-change: opacity;
 
         &_with-transition {
-            transition: opacity var(--yc-sheet-transition-duration) ease;
+            transition: opacity $transition-duration ease;
         }
     }
 
@@ -36,7 +37,7 @@ $block: '.#{variables.$ns}sheet';
         will-change: transform;
 
         &_with-transition {
-            transition: transform var(--yc-sheet-transition-duration) ease;
+            transition: transform $transition-duration ease;
         }
     }
 
@@ -51,7 +52,7 @@ $block: '.#{variables.$ns}sheet';
 
     &__sheet-top {
         position: relative;
-        height: $SHEET_TOP_HEIGHT;
+        height: $top-height;
         border-start-start-radius: 20px;
         border-start-end-radius: 20px;
         background-color: var(--g-color-base-float);
@@ -71,14 +72,14 @@ $block: '.#{variables.$ns}sheet';
     &__sheet-content {
         box-sizing: border-box;
         width: 100%;
-        padding: var(--yc-sheet-content-paddings);
-        max-height: calc(90% - #{$SHEET_TOP_HEIGHT});
+        padding: var(--g-sheet-padding, 0 10px);
+        max-height: calc(90% - #{$top-height});
         overflow-x: hidden;
         overflow-y: auto;
         overscroll-behavior-y: contain;
         background-color: var(--g-color-base-float);
 
-        transition: height var(--yc-sheet-transition-duration) ease;
+        transition: height $transition-duration ease;
 
         &_without-scroll {
             overflow: hidden;
@@ -94,9 +95,4 @@ $block: '.#{variables.$ns}sheet';
         white-space: nowrap;
         text-overflow: ellipsis;
     }
-}
-
-.g-root {
-    --yc-sheet-content-paddings: 0 10px;
-    --yc-sheet-transition-duration: 0.3s;
 }

@@ -20,17 +20,17 @@ $block: '.#{variables.$ns}popover';
     &__tooltip {
         $tooltip_block: &;
 
-        --yc-popover-padding: 16px;
-        --yc-popover-close-margin: 8px;
-        --yc-popover-close-size: 24px;
+        --_--padding: 16px;
+        --_--close-offset: 8px;
+        --_--close-size: 24px;
 
         $buttonGap: 5px;
 
         &-popup-content {
             box-sizing: border-box;
             min-height: 40px;
-            max-width: var(--yc-popover-max-width);
-            padding: var(--yc-popover-padding);
+            max-width: var(--g-popover-max-width, 300px);
+            padding: var(--g-popover-padding, var(--_--padding));
             cursor: default;
         }
 
@@ -58,8 +58,8 @@ $block: '.#{variables.$ns}popover';
 
         &-close {
             position: absolute;
-            inset-block-start: var(--yc-popover-close-margin);
-            inset-inline-end: var(--yc-popover-close-margin);
+            inset-block-start: var(--_--close-offset);
+            inset-inline-end: var(--_--close-offset);
         }
 
         &-content {
@@ -141,7 +141,7 @@ $block: '.#{variables.$ns}popover';
 
         &_size {
             &_l {
-                --yc-popover-padding: 24px;
+                --_--padding: 24px;
 
                 #{$class}__tooltip-title {
                     @include mixins.text-header-1();
@@ -157,14 +157,9 @@ $block: '.#{variables.$ns}popover';
             #{$class}__tooltip-title,
             #{$class}__tooltip-content {
                 padding-inline-end: calc(
-                    var(--yc-popover-close-margin) + var(--yc-popover-close-size) -
-                        var(--yc-popover-padding)
+                    var(--_--close-offset) + var(--_--close-size) - var(--_--padding)
                 );
             }
         }
     }
-}
-
-.g-root {
-    --yc-popover-max-width: 300px;
 }

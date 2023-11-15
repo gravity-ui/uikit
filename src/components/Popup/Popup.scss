@@ -75,7 +75,8 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='left'] #{$block}__arrow {
-        inset-inline-end: -$arrow-offset;
+        // stylelint-disable-next-line csstools/use-logical
+        right: -$arrow-offset;
 
         &-content {
             transform: rotate(90deg);
@@ -83,7 +84,8 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='right'] #{$block}__arrow {
-        inset-inline-start: -$arrow-offset;
+        // stylelint-disable-next-line csstools/use-logical
+        left: -$arrow-offset;
 
         &-content {
             transform: rotate(-90deg);

@@ -199,6 +199,8 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             style={{
                 top: offset.top,
                 left: offset.left,
+                insetBlockStart: offset.block,
+                insetInlineStart: offset.inline,
             }}
             data-qa={qa}
         >

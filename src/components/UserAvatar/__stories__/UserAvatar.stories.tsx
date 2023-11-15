@@ -67,3 +67,18 @@ WithFallback.args = {
     fallbackImgUrl: imgUrl,
     size: 'xl',
 };
+
+export const LazyLoading: StoryFn<UserAvatarProps> = (args) => (
+    <div style={{overflow: 'scroll', height: '100px'}}>
+        {Array(10)
+            .fill(0)
+            .map((_, index) => {
+                return (
+                    <div key={index} style={{padding: '2px'}}>
+                        <UserAvatar imgUrl={`${args.imgUrl}?${index}`} loading="lazy" size="xl" />
+                    </div>
+                );
+            })}
+    </div>
+);
+LazyLoading.args = {imgUrl};

@@ -15,6 +15,7 @@ export interface UserAvatarProps {
     sizes?: string;
     title?: string;
     className?: string;
+    loading?: 'eager' | 'lazy';
     /** @deprecated Use appropriate component, like `<Button/>` instead */
     onClick?: () => void;
 }
@@ -22,7 +23,10 @@ export interface UserAvatarProps {
 const b = block('user-avatar');
 
 export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
-    ({imgUrl, fallbackImgUrl, size = 'm', srcSet, sizes, title, className, onClick}, ref) => {
+    (
+        {imgUrl, fallbackImgUrl, size = 'm', srcSet, sizes, title, className, loading, onClick},
+        ref,
+    ) => {
         const [isErrored, setIsErrored] = React.useState(false);
 
         const handleError = React.useCallback(() => {
@@ -39,6 +43,7 @@ export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div className={b({size}, className)} title={title} onClick={onClick} ref={ref}>
                 <img
+                    loading={loading}
                     className={b('figure')}
                     width={SIZES[size]}
                     height={SIZES[size]}

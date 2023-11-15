@@ -10,11 +10,13 @@ type Props = React.PropsWithChildren<{
 }>;
 
 export const ButtonIcon = ({side, className, children}: Props) => {
-    if (side === 'left') {
-        side = 'start';
+    let sideMod = side;
+
+    if (sideMod === 'left') {
+        sideMod = 'start';
     }
-    if (side === 'right') {
-        side = 'end';
+    if (sideMod === 'right') {
+        sideMod = 'end';
     }
 
     return (
@@ -22,7 +24,7 @@ export const ButtonIcon = ({side, className, children}: Props) => {
             className={b(
                 'icon',
                 {
-                    side,
+                    side: sideMod,
                 },
                 className,
             )}

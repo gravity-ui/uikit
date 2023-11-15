@@ -17,7 +17,7 @@ export interface ClipboardButtonProps
 }
 
 interface ClipboardButtonComponentProps
-    extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading'> {
+    extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading' | 'children'> {
     status: CopyToClipboardStatus;
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;

@@ -6,16 +6,25 @@ const b = block('button');
 
 type Props = React.PropsWithChildren<{
     className?: string;
-    side?: 'start' | 'end';
+    side?: 'left' | 'right' | 'start' | 'end';
 }>;
 
 export const ButtonIcon = ({side, className, children}: Props) => {
+    let sideMod = side;
+
+    if (sideMod === 'left') {
+        sideMod = 'start';
+    }
+    if (sideMod === 'right') {
+        sideMod = 'end';
+    }
+
     return (
         <span
             className={b(
                 'icon',
                 {
-                    side,
+                    side: sideMod,
                 },
                 className,
             )}

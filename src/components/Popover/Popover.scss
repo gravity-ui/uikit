@@ -111,20 +111,14 @@ $block: '.#{variables.$ns}popover';
             }
 
             &_announcement {
-                // Increasing specificity for overrides
-                &#{&} {
-                    --yc-popup-background-color: var(--g-color-base-simple-hover-solid);
-                    --yc-popup-border-color: var(--g-color-base-simple-hover-solid);
-                }
+                --g-popup-background-color: var(--g-color-base-simple-hover-solid);
+                --g-popup-border-color: var(--g-color-base-simple-hover-solid);
             }
 
             &_special {
-                // Increasing specificity for overrides
-                &#{&} {
-                    --yc-popup-background-color: var(--g-color-base-brand);
-                    --yc-popup-border-color: var(--g-color-base-brand);
-                    color: var(--g-color-text-light-primary);
-                }
+                --g-popup-background-color: var(--g-color-base-brand);
+                --g-popup-border-color: var(--g-color-base-brand);
+                color: var(--g-color-text-light-primary);
 
                 #{$class}__tooltip-content a:not(.yc-button) {
                     @include mixins.text-accent;

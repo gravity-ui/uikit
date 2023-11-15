@@ -103,6 +103,10 @@ $block: '.#{variables.$ns}switch';
 
     &_checked &__slider {
         transform: translateX(100%);
+
+        [dir='rtl'] & {
+            transform: translateX(-100%);
+        }
     }
 
     &_checked,

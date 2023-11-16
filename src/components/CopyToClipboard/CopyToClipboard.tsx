@@ -2,8 +2,11 @@ import React from 'react';
 
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
-import {CopyToClipboardStatus} from './types';
-import type {CopyToClipboardBaseProps, CopyToClipboardContent} from './types';
+import type {
+    CopyToClipboardBaseProps,
+    CopyToClipboardContent,
+    CopyToClipboardStatus,
+} from './types';
 
 interface CopyToClipboardGeneralProps extends CopyToClipboardBaseProps {
     children: CopyToClipboardContent;
@@ -29,7 +32,7 @@ export class CopyToClipboard extends React.Component<
     CopyToClipboardInnerProps,
     CopyToClipboardState
 > {
-    static INITIAL_STATUS = CopyToClipboardStatus.Pending;
+    static INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 
     state: CopyToClipboardState = {
         status: CopyToClipboard.INITIAL_STATUS,
@@ -61,7 +64,7 @@ export class CopyToClipboard extends React.Component<
         const {timeout, onCopy} = this.props;
 
         this.setState({
-            status: result ? CopyToClipboardStatus.Success : CopyToClipboardStatus.Error,
+            status: result ? 'success' : 'error',
         });
 
         clearTimeout(this.timerId);

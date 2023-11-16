@@ -1,8 +1,0 @@
-@use '../variables';
-
-$block: '.#{variables.$ns}clipboard-button';
-
-#{$block} {
-    --g-button-background-color: transparent;
-    --g-button-background-color-hover: transparent;
-}

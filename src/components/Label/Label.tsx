@@ -151,10 +151,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                     {...commonActionButtonProps}
                 >
                     <Button.Icon>
-                        <ClipboardIcon
-                            status={status || CopyToClipboardStatus.Pending}
-                            size={copyIconSize}
-                        />
+                        <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
                     </Button.Icon>
                 </Button>
             );

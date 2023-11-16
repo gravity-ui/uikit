@@ -84,7 +84,7 @@
     "dependencies": {
         "@bem-react/classname": "^1.6.0",
         "@gravity-ui/i18n": "^1.1.0",
-        "@gravity-ui/icons": "^2.5.0",
+        "@gravity-ui/icons": "^2.8.1",
         "@popperjs/core": "^2.11.8",
         "blueimp-md5": "^2.19.0",
         "focus-trap": "^7.5.2",

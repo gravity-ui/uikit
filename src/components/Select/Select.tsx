@@ -74,6 +74,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disablePortal,
         hasClear = false,
         onClose,
+        onClearClick,
         id,
     } = props;
     const [mobile] = useMobile();
@@ -102,6 +103,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         open: propsOpen,
         onClose,
         onOpenChange,
+        onClearClick,
     });
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;

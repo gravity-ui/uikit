@@ -4,7 +4,7 @@ import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
 export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectResult<T> => {
-    const {value: valueProps, defaultValue = [], multiple, onUpdate} = props;
+    const {value: valueProps, defaultValue = [], multiple, onUpdate, onClearClick} = props;
     const [innerValue, setInnerValue] = React.useState(defaultValue);
     const [activeIndex, setActiveIndex] = React.useState<number>();
     const value = valueProps || innerValue;
@@ -57,7 +57,8 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
     const handleClearValue = React.useCallback(() => {
         onUpdate?.([]);
         setInnerValue([]);
-    }, [onUpdate]);
+        onClearClick?.();
+    }, [onUpdate, onClearClick]);
 
     return {
         value,

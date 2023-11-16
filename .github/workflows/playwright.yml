@@ -23,12 +23,14 @@ jobs:
       env:
         CI: 'true'
     - name: Upload Playwright playwright report to GitHub Actions Artifacts
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: playwright-report
         path: playwright-report
         retention-days: 1
     - name: Upload Playwright report
+      if: always()
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
@@ -37,6 +39,7 @@ jobs:
       run: aws s3 cp ./playwright-report s3://playwright-reports/uikit/pulls/${{ github.event.pull_request.number }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
       shell: bash 
     - name: Create Comment
+      if: always()
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}

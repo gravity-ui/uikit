@@ -3,9 +3,8 @@
 ## How to write a test
 
 1. Select the component you want to write tests for
-2. Inside the component folder, create the `__tests__` folder
-3. Create a file inside it with the following name `<ComponentName>.visual.test.tsx`
-4. Writing a test::
+2. Inside the component folder, create the `__tests__` folder and create a file inside it with the following name `<ComponentName>.visual.test.tsx`
+3. Writing a test:
 
    ```ts
    import React from 'react';
@@ -36,7 +35,7 @@ test.describe('Name group tests', () => {
 });
 ````
 
-5. Run tests
+4. Run tests
 
    ```shell
    npm run playwright:install
@@ -51,7 +50,7 @@ test.describe('Name group tests', () => {
 
    > `npm run playwright:install` command must be run only once on initial setup
 
-6. Update screenshots if needed
+5. Update screenshots if needed
 
 ```shell
  npm run playwright:update

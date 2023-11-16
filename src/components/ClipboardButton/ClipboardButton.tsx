@@ -30,11 +30,11 @@ interface ClipboardButtonComponentProps
 const DEFAULT_TIMEOUT = 1000;
 
 const ButtonSizeToIconSize: Record<ButtonSize, number> = {
-    xs: 14,
-    s: 18,
-    m: 22,
-    l: 30,
-    xl: 38,
+    xs: 12,
+    s: 16,
+    m: 16,
+    l: 16,
+    xl: 20,
 };
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {

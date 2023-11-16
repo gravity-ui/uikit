@@ -5,7 +5,7 @@ import {Copy, CopyCheck, CopyXmark} from '@gravity-ui/icons';
 import type {CopyToClipboardStatus} from '../CopyToClipboard/types';
 import {Icon} from '../Icon';
 export interface ClipboardIconProps {
-    size: number;
+    size?: number;
     status: CopyToClipboardStatus;
     className?: string;
 }

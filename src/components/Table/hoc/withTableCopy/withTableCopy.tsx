@@ -79,7 +79,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
                             <div className={b('copy')}>
                                 <div className={b('copy-content')}>{originContent}</div>
                                 <div className={b('copy-button')}>
-                                    <ClipboardButton text={copyText} size={14} />
+                                    <ClipboardButton text={copyText} size="xs" />
                                 </div>
                             </div>
                         );

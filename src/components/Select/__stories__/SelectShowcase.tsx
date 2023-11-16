@@ -100,7 +100,7 @@ const ExampleItem = (props: {
                                 {codeItem}
                                 <ClipboardButton
                                     className={b('copy-button')}
-                                    size={16}
+                                    size="xs"
                                     text={codeItem}
                                 />
                             </pre>

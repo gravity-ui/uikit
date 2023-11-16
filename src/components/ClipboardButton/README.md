@@ -30,18 +30,17 @@ LANDING_BLOCK-->
 
 ## Properties
 
+`ClipboardButton` properties are inherited from `Button` [properties](../Button/README.md#properties) except `href`, `component`, `target`, `rel`, `loading`, `children`.
+
 | Name               | Description                                                              |                       Type                        |   Default   |
 | :----------------- | :----------------------------------------------------------------------- | :-----------------------------------------------: | :---------: |
-| text               | Text to copy                                                             |                     `string`                      |             |
+| hasTooltip         | Disable tooltip. Tooltip won't be shown                                  |                     `boolean`                     |   `true`    |
 | onCopy             | Callback after copy `(text: string, result: boolean) => void`            |                    `Function`                     |             |
 | options            | Copy to clipboard options                                                | [CopyToClipboardOptions](#copytoclipboardoptions) |             |
-| size               | Icon size                                                                |                     `number`                      |    `24`     |
-| className          | CSS class name                                                           |                     `string`                      |             |
-| hasTooltip         | Disable tooltip. Tooltip won't be shown                                  |                     `boolean`                     |   `true`    |
+| text               | Text to copy                                                             |                     `string`                      |             |
+| timeout            | Time before state bounces back to its normal after the button is clicked |                     `number`                      |   `1000`    |
 | tooltipInitialText | Text shown before copy                                                   |                     `string`                      |  `"Copy"`   |
 | tooltipSuccessText | Text shown after copy                                                    |                     `string`                      | `"Copied!"` |
-| qa                 | HTML `data-qa` attribute, used in tests                                  |                     `string`                      |             |
-| timeout            | Time before state bounces back to its normal after the button is clicked |                     `number`                      |   `1000`    |
 
 ### CopyToClipboardOptions
 

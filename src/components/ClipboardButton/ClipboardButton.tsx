@@ -47,14 +47,13 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         view = 'flat',
         ...rest
     } = props;
-    const buttonRef = React.useRef<HTMLButtonElement>(null);
 
     return (
         <Tooltip
             disabled={!hasTooltip}
             content={status === 'success' ? tooltipSuccessText : tooltipInitialText}
         >
-            <Button ref={buttonRef} view={view} size={size} {...rest}>
+            <Button view={view} size={size} {...rest}>
                 <Button.Icon>
                     <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
                 </Button.Icon>

@@ -18,6 +18,6 @@ Sheet component for mobile devices
 
 ## CSS API
 
-| Name                | Description     |
-| :------------------ | :-------------- |
-| `--g-sheet-padding` | Content padding |
+| Name                        | Description     |
+| :-------------------------- | :-------------- |
+| `--g-sheet-content-padding` | Content padding |

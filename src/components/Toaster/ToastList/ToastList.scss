@@ -3,18 +3,20 @@
 $block: '.#{variables.$ns}toaster';
 
 #{$block} {
+    --_--width: 312px;
+
     position: fixed;
     inset-block-end: 0;
     inset-inline-end: 10px;
-    width: var(--g-toaster-width, 312px);
+    width: var(--g-toaster-width, var(--_--width));
     z-index: 100000;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 
     &_mobile {
+        --_--width: calc(100% - 20px);
         inset-inline-start: 50%;
         transform: translate(-50%);
-        width: calc(100% - 20px);
     }
 }

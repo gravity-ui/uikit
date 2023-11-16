@@ -72,7 +72,7 @@ $block: '.#{variables.$ns}sheet';
     &__sheet-content {
         box-sizing: border-box;
         width: 100%;
-        padding: var(--g-sheet-padding, 0 10px);
+        padding: var(--g-sheet-content-padding, 0 10px);
         max-height: calc(90% - #{$top-height});
         overflow-x: hidden;
         overflow-y: auto;

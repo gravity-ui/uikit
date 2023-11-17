@@ -42,7 +42,7 @@ export function DefaultDisclosureSummary({
         <button
             type="button"
             aria-expanded={expanded}
-            className={b('trigger', {disabled, 'arrow-right': arrowPosition === 'right'})}
+            className={b('trigger', {disabled, 'arrow-end': arrowPosition === 'end'})}
             aria-controls={ariaControls}
             id={id}
             onClick={onClick}

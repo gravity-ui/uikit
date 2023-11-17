@@ -127,16 +127,16 @@ describe.only('Disclosure', () => {
         const text = screen.queryByText(content);
         expect(text).toBeInTheDocument();
     });
-    test('arrow on the left by default', () => {
+    test('arrow on the start position by default', () => {
         render(<Disclosure />);
         const disclosure = screen.getByRole('button');
 
-        expect(disclosure).not.toHaveClass('g-disclosure__trigger_arrow-right');
+        expect(disclosure).not.toHaveClass('g-disclosure__trigger_arrow-end');
     });
-    test('arrow on the right if arrowPosition=right', () => {
-        render(<Disclosure arrowPosition="right" />);
+    test('arrow on the end position if arrowPosition=end', () => {
+        render(<Disclosure arrowPosition="end" />);
         const disclosure = screen.getByRole('button');
 
-        expect(disclosure).toHaveClass('g-disclosure__trigger_arrow-right');
+        expect(disclosure).toHaveClass('g-disclosure__trigger_arrow-end');
     });
 });

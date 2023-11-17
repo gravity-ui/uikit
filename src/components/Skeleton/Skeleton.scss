@@ -19,6 +19,11 @@ $block: '.#{variables.$ns}skeleton';
         background-image: linear-gradient(90deg, transparent, var(--g-color-base-generic));
         animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
+
+        [dir='rtl'] & {
+            background-image: linear-gradient(-90deg, transparent, var(--g-color-base-generic));
+            animation-name: #{variables.$ns}skeleton-rtl;
+        }
     }
 }
 
@@ -29,5 +34,15 @@ $block: '.#{variables.$ns}skeleton';
 
     100% {
         transform: translateX(100%);
+    }
+}
+
+@keyframes #{variables.$ns}skeleton-rtl {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
     }
 }

@@ -17,9 +17,9 @@ const DirectionsTemplate: StoryFn<ArrowToggleProps> = (args) => {
     return (
         <React.Fragment>
             <ArrowToggle {...args} direction="top" /> top
-            <ArrowToggle {...args} direction="right" /> right
+            <ArrowToggle {...args} direction="end" /> end
             <ArrowToggle {...args} direction="bottom" /> bottom
-            <ArrowToggle {...args} direction="left" /> left
+            <ArrowToggle {...args} direction="start" /> start
         </React.Fragment>
     );
 };
@@ -43,7 +43,7 @@ export const Sizes = SizesTemplate.bind({});
 
 export const Interactive: StoryFn<ArrowToggleProps> = (args) => {
     const [directionIndex, setDirectionIndex] = React.useState(0);
-    const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
+    const directions = ['top', 'start', 'bottom', 'end '] as Array<ArrowToggleProps['direction']>;
     const direction = directions[directionIndex % directions.length];
 
     return (

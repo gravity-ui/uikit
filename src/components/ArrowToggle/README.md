@@ -8,21 +8,21 @@
 
 ## Appearance
 
-The component has four possible directions: `top`, `right`, `bottom` and `left`.
+The component has four possible directions: `top`, `end`, `bottom` and `start`.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
 <ArrowToggle direction="top" /> top
-<ArrowToggle direction="right" /> right
+<ArrowToggle direction="end" /> end
 <ArrowToggle direction="bottom" /> bottom
-<ArrowToggle direction="left" /> left
+<ArrowToggle direction="start" /> start
 `}>
     <UIKit.ArrowToggle direction="top" /> top
-    <UIKit.ArrowToggle direction="right" /> right
+    <UIKit.ArrowToggle direction="end" /> end
     <UIKit.ArrowToggle direction="bottom" /> bottom
-    <UIKit.ArrowToggle direction="left" /> left
+    <UIKit.ArrowToggle direction="start" /> start
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -31,9 +31,9 @@ LANDING_BLOCK-->
 
 ```tsx
 <ArrowToggle direction="top" /> top
-<ArrowToggle direction="right" /> right
+<ArrowToggle direction="end" /> end
 <ArrowToggle direction="bottom" /> bottom
-<ArrowToggle direction="left" /> left
+<ArrowToggle direction="start" /> start
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -83,7 +83,7 @@ Here is an example of usage ArrowToggle component with a toggling icon.
 <ExampleBlock
 code={`
 const [directionIndex, setDirectionIndex] = React.useState(0);
-const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
+const directions = ['top', 'start', 'bottom', 'end'] as Array<ArrowToggleProps['direction']>;
 const direction = directions[directionIndex % directions.length];
 
 return (
@@ -101,7 +101,7 @@ LANDING_BLOCK-->
 
 ```tsx
 const [directionIndex, setDirectionIndex] = React.useState(0);
-const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
+const directions = ['top', 'start', 'bottom', 'end'] as Array<ArrowToggleProps['direction']>;
 const direction = directions[directionIndex % directions.length];
 
 return (

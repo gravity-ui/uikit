@@ -12,7 +12,7 @@ $block: '.#{variables.$ns}arrow-toggle';
             transform: matrix(1, 0, 0, 1, 0, 0);
         }
 
-        &_left {
+        &_start {
             transform: matrix(0, 1, -1, 0, 0, 0);
         }
 
@@ -20,7 +20,7 @@ $block: '.#{variables.$ns}arrow-toggle';
             transform: matrix(-1, 0, 0, -1, 0, 0);
         }
 
-        &_right {
+        &_end {
             transform: matrix(0, -1, 1, 0, 0, 0);
         }
     }

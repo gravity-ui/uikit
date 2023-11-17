@@ -9,7 +9,7 @@ import './ArrowToggle.scss';
 
 export interface ArrowToggleProps {
     size?: number;
-    direction?: 'top' | 'left' | 'bottom' | 'right';
+    direction?: 'top' | 'start' | 'bottom' | 'end';
     className?: string;
 }
 

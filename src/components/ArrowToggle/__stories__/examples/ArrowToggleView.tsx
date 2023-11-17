@@ -8,17 +8,17 @@ export function ArrowToggleExampleViewDirection() {
     return (
         <DocsExample gap="m" space="l">
             <ArrowToggle direction="top" /> top
-            <ArrowToggle direction="right" /> right
+            <ArrowToggle direction="end" /> end
             <ArrowToggle direction="bottom" /> bottom
-            <ArrowToggle direction="left" /> left
+            <ArrowToggle direction="start" /> start
         </DocsExample>
     );
 }
 ArrowToggleExampleViewDirection.code = `
 <ArrowToggle direction="top" /> top
-<ArrowToggle direction="right" /> right
+<ArrowToggle direction="end" /> end
 <ArrowToggle direction="bottom" /> bottom
-<ArrowToggle direction="left" /> left
+<ArrowToggle direction="start" /> start
 `.trim();
 
 export function ArrowToggleExampleViewSize() {
@@ -44,7 +44,7 @@ ArrowToggleExampleViewSize.code = `
 
 export function ArrowToggleExampleViewInteractive() {
     const [directionIndex, setDirectionIndex] = React.useState(0);
-    const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
+    const directions = ['top', 'start', 'bottom', 'end'] as Array<ArrowToggleProps['direction']>;
     const direction = directions[directionIndex % directions.length];
 
     return (
@@ -57,7 +57,7 @@ export function ArrowToggleExampleViewInteractive() {
 }
 ArrowToggleExampleViewInteractive.code = `
 const [directionIndex, setDirectionIndex] = React.useState(0);
-const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
+const directions = ['top', 'start', 'bottom', 'end'] as Array<ArrowToggleProps['direction']>;
 const direction = directions[directionIndex % directions.length];
 
 return (

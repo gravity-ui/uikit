@@ -66,6 +66,10 @@ $block: '.#{variables.$ns}sheet';
         height: 4px;
         border-radius: 4px;
         background-color: var(--g-color-line-generic);
+
+        [dir='rtl'] & {
+            transform: translateX(50%) translateY(-50%);
+        }
     }
 
     &__sheet-content {

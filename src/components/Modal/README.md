@@ -54,3 +54,10 @@ const [open, setOpen] = React.useState(false);
 | style                 | HTML `style` atribute for root node                                                 |     `string`      |                 |
 | aria-label            | HTML `aria-label` attribute to describe the `Modal`                                 |     `string`      |                 |
 | aria-labelledby       | Id of the visible `Modal` caption element                                           |     `string`      |                 |
+
+## CSS API
+
+| Name                      | Description                   |
+| :------------------------ | :---------------------------- |
+| `--g-modal-margin`        | Margin around Modal's content |
+| `--g-modal-border-radius` | Modal's content border radius |

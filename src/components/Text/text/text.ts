@@ -54,12 +54,12 @@ export interface TextBaseProps {
      *      - 3: font-size: 40px; line-height: 48px; font-weight: 600;
      *      - 4: font-size: 48px; line-height: 52px; font-weight: 600;
      * - code:
-     *      - 1: font-size: 12px; line-height: 18px; font-weight: 400; font-family: var(--yc-font-family-monospace);
-     *      - 2: font-size: 14px; line-height: 20px; font-weight: 400; font-family: var(--yc-font-family-monospace);
-     *      - 3: font-size: 16px; line-height: 14px; font-weight: 400; font-family: var(--yc-font-family-monospace);
-     *      - inline=1: font-size: 12px; line-height: 14px; font-weight: 400; font-family: var(--yc-font-family-monospace);
-     *      - inline-2: font-size: 14px; line-height: 16px; font-weight: 400; font-family: var(--yc-font-family-monospace);
-     *      - inline-3: font-size: 16px; line-height: 20px; font-weight: 400; font-family: var(--yc-font-family-monospace);
+     *      - 1: font-size: 12px; line-height: 18px; font-weight: 400; font-family: var(--g-font-family-monospace);
+     *      - 2: font-size: 14px; line-height: 20px; font-weight: 400; font-family: var(--g-font-family-monospace);
+     *      - 3: font-size: 16px; line-height: 14px; font-weight: 400; font-family: var(--g-font-family-monospace);
+     *      - inline=1: font-size: 12px; line-height: 14px; font-weight: 400; font-family: var(--g-font-family-monospace);
+     *      - inline-2: font-size: 14px; line-height: 16px; font-weight: 400; font-family: var(--g-font-family-monospace);
+     *      - inline-3: font-size: 16px; line-height: 20px; font-weight: 400; font-family: var(--g-font-family-monospace);
      */
     variant?: (typeof TEXT_VARIANTS)[number];
 

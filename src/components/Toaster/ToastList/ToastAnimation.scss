@@ -10,9 +10,9 @@ $animation-duration: 0.6s;
 }
 
 @mixin visible-toast-height {
-    margin-block-end: var(--yc-toaster-margin);
-    padding: var(--yc-toaster-padding);
-    height: var(--yc-toast-height);
+    margin-block-end: var(--g-toaster-item-gap, var(--_--item-gap));
+    padding: var(--g-toaster-item-padding, var(--_--item-padding));
+    height: var(--_--item-height);
 }
 
 @mixin hidden-toast-move($platform) {

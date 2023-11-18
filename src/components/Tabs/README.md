@@ -312,3 +312,14 @@ LANDING_BLOCK-->
 | onSelectTab      | Select tab handler                                                   |                    `onSelectTab?(tabId: string): void`                     |              |
 | wrapTo           | Allows to wrap `TabItem` into another component or render custom tab | `wrapTo?(item: TabsItemProps, node: React.ReactNode, index: number): void` |              |
 | className        | CSS-class of element                                                 |                                  `string`                                  |              |
+
+## CSS API
+
+| Name                             | Description                |
+| :------------------------------- | :------------------------- |
+| `--g-tabs-border-width`          | Tabs border width          |
+| `--g-tabs-item-height`           | Tabs item height           |
+| `--g-tabs-item-border-width`     | Tabs item border width     |
+| `--g-tabs-item-gap`              | Distance between tabs      |
+| `--g-tabs-vertical-item-height`  | Tabs vertical item height  |
+| `--g-tabs-vertical-item-padding` | Tabs vertical item padding |

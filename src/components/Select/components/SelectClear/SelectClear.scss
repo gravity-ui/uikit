@@ -18,25 +18,25 @@ $block: '.#{variables.$ns-new}select-clear';
     &_size_s {
         height: #{variables.$s-height};
         width: #{variables.$s-height};
-        border-radius: var(--yc-border-radius-s);
+        border-radius: var(--g-border-radius-s);
     }
 
     &_size_m {
         height: #{variables.$m-height};
         width: #{variables.$m-height};
-        border-radius: var(--yc-border-radius-m);
+        border-radius: var(--g-border-radius-m);
     }
 
     &_size_l {
         height: #{variables.$l-height};
         width: #{variables.$l-height};
-        border-radius: var(--yc-border-radius-l);
+        border-radius: var(--g-border-radius-l);
     }
 
     &_size_xl {
         height: #{variables.$xl-height};
         width: #{variables.$xl-height};
-        border-radius: var(--yc-border-radius-xl);
+        border-radius: var(--g-border-radius-xl);
     }
 
     &__clear {

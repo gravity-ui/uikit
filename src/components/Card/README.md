@@ -145,3 +145,13 @@ LANDING_BLOCK-->
 | selected  | Selected card. Available for type: `"selection"`                    |  `Boolean`  |               |
 | disabled  | Disabled card. Available for type: `"selection"`, `"action"`        |  `Boolean`  |               |
 | qa        | HTML `data-qa` attribute, used in tests                             |  `string`   |               |
+
+## CSS API
+
+| Name                        | Description      |
+| :-------------------------- | :--------------- |
+| `--g-card-background-color` | Background color |
+| `--g-card-border-width`     | Border width     |
+| `--g-card-border-color`     | Border color     |
+| `--g-card-border-radius`    | Border radius    |
+| `--g-card-box-shadow`       | Shadow           |

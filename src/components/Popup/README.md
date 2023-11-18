@@ -118,3 +118,11 @@ LANDING_BLOCK-->
 | role                 | `aria-role` attribute                                                             |                 `string`                 |                 |
 | strategy             | `Popper.js` positioning strategy                                                  |       `popper.PositioningStrategy`       |    `[0, 4]`     |
 | style                | HTML `style` atribute for root node                                               |                 `string`                 |                 |
+
+## CSS API
+
+| Name                         | Description      |
+| :--------------------------- | :--------------- |
+| `--g-popup-background-color` | Background color |
+| `--g-popup-border-color`     | Border color     |
+| `--g-popup-border-width`     | Border width     |

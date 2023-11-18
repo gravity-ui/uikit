@@ -3,12 +3,8 @@
 $block: '.#{variables.$ns}alert';
 
 #{$block} {
-    --yc-alert-border-radius: var(--yc-card-border-radius, 8px);
-
-    border-radius: var(--yc-alert-border-radius);
-
     &_corners_square {
-        --yc-alert-border-radius: 0px;
+        --g-card-border-radius: 0;
     }
 
     &__text-content {

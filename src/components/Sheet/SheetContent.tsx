@@ -8,7 +8,7 @@ import {VelocityTracker} from './utils';
 
 import './Sheet.scss';
 
-const DEFAULT_TRANSITION_DURATION = '0.3s';
+const TRANSITION_DURATION = '0.3s';
 const HIDE_THRESHOLD = 50;
 const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
@@ -72,7 +72,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetTitleRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: MutationObserver | null = null;
-    transitionDuration = DEFAULT_TRANSITION_DURATION;
 
     state: SheetContentState = {
         startScrollTop: 0,
@@ -211,10 +210,6 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private setInitialStyles() {
         if (this.sheetContentRef.current && this.sheetInnerContentRef.current) {
-            this.transitionDuration = getComputedStyle(
-                this.sheetContentRef.current,
-            ).getPropertyValue('--yc-sheet-transition-duration');
-
             const initialHeight = this.sheetHeight - this.sheetTopHeight;
             this.sheetContentRef.current.style.height = `${initialHeight}px`;
         }
@@ -415,7 +410,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         this.sheetContentRef.current.style.transition =
             this.state.prevSheetHeight > sheetHeight
-                ? `height 0s ease ${this.transitionDuration}`
+                ? `height 0s ease ${TRANSITION_DURATION}`
                 : 'none';
 
         this.sheetContentRef.current.style.height = `${resultHeight - this.sheetTopHeight}px`;

@@ -72,7 +72,12 @@
         "lint:prettier:fix": "prettier --write '**/*.md'",
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "playwright:install": "playwright install --with-deps",
+        "playwright": "playwright test --config=playwright/playwright.config.ts",
+        "playwright:update": "npm run playwright -- -u",
+        "playwright:docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright'",
+        "playwright:docker:update": " docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright:update'"
     },
     "dependencies": {
         "@bem-react/classname": "^1.6.0",
@@ -103,6 +108,8 @@
         "@gravity-ui/prettier-config": "^1.0.1",
         "@gravity-ui/stylelint-config": "^2.0.0",
         "@gravity-ui/tsconfig": "^1.0.0",
+        "@playwright/experimental-ct-react": "^1.38.1",
+        "@playwright/test": "^1.38.1",
         "@storybook/addon-essentials": "^7.4.6",
         "@storybook/cli": "^7.4.6",
         "@storybook/preset-scss": "^1.0.3",
@@ -120,6 +127,7 @@
         "@types/react-transition-group": "^4.4.6",
         "@types/react-virtualized-auto-sizer": "^1.0.1",
         "@types/react-window": "^1.8.5",
+        "@vitejs/plugin-react": "^4.1.0",
         "chroma-js": "^2.4.2",
         "cross-env": "^7.0.3",
         "eslint": "^8.47.0",

@@ -40,7 +40,7 @@ $progress-xs-height: 4px;
         width: 100%;
         height: 100%;
 
-        transition: transform 0.6s ease;
+        transition: inset-inline-start 0.6s ease;
     }
 
     &__item {
@@ -55,7 +55,7 @@ $progress-xs-height: 4px;
         overflow: hidden;
 
         color: var(--g-color-text-light-primary);
-        transition: transform 0.6s ease, width 0.6s ease, background-color 0.6s ease;
+        transition: inset-inline-start 0.6s ease, width 0.6s ease, background-color 0.6s ease;
 
         &_theme_default {
             background-color: var(--g-color-base-neutral-medium);
@@ -94,7 +94,7 @@ $progress-xs-height: 4px;
 
         overflow: hidden;
         color: var(--g-color-text-light-primary);
-        transition: transform 0.6s ease;
+        transition: inset-inline-start 0.6s ease;
     }
 
     &_size_m {

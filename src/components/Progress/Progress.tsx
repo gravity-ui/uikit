@@ -144,7 +144,7 @@ export class Progress extends React.Component<ProgressProps> {
         const className = b('item', {theme: this.getTheme(), loading: this.props.loading});
 
         const offset = Progress.getOffset(value);
-        const style = {transform: `translateX(${offset}%)`};
+        const style = {insetInlineStart: `${offset}%`};
 
         if (Progress.isFiniteNumber(value)) {
             return (
@@ -163,7 +163,7 @@ export class Progress extends React.Component<ProgressProps> {
         const className = b('stack', stackClassName);
         const value = props.value || Progress.getValueFromStack(stack);
         const offset = Progress.getOffset(value);
-        const style = {transform: `translateX(${offset}%)`};
+        const style = {insetInlineStart: `${offset}%`};
 
         interface ItemStyle {
             width: string;
@@ -225,7 +225,7 @@ export class Progress extends React.Component<ProgressProps> {
         }
 
         const className = b('text-inner');
-        const style = {transform: `translateX(${-offset}%)`};
+        const style = {insetInlineStart: `${-offset}%`};
 
         return (
             <div className={className} style={style}>

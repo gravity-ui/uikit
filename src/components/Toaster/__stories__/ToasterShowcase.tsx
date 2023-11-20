@@ -187,7 +187,7 @@ export const ToasterDemo = ({
     const createCustomToast = () => {
         const content = (
             <div style={{display: 'flex'}}>
-                <div style={{maxWidth: '86px', maxHeight: '86px', marginRight: '16px'}}>
+                <div style={{maxWidth: '86px', maxHeight: '86px', marginInlineEnd: '16px'}}>
                     <Icon size={86} data={CircleCheck} />
                 </div>
                 <div
@@ -298,7 +298,7 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: ''}));
     };
 
-    const btnStyle = {marginLeft: 20};
+    const btnStyle = {marginInlineStart: 20};
 
     const defaultToastBtn = (
         <Button view="outlined" size="l" onClick={createDefaultToast} style={btnStyle}>

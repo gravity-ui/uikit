@@ -50,6 +50,7 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
           >
             <span
               class="yc-text yc-text_variant_subheader-2 yc-alert__title"
+              dir="auto"
             >
               Where will you go, hero?
             </span>

@@ -11,7 +11,7 @@ Disclosure component that shows and hides enclosed content.
 | disabled        | `Boolean`                     |          | `false` | Disabled state                                           |
 | defaultExpanded | `Boolean`                     |          | `false` | Default opening state                                    |
 | expanded        | `Boolean`                     |          |         | Controlled opening state                                 |
-| arrowPosition   | `start` `end`                 |          | `start` | Control position                                         |
+| arrowPosition   | `left` `right` `start` `end`  |          | `start` | Control position                                         |
 | summary         | `String`                      |          |         | Content summary                                          |
 | keepMounted     | `Boolean`                     |          | `true`  | Keep content in DOM                                      |
 | onUpdate        | `(expanded: boolean) => void` |          |         | Callback fired when the expand/collapse state is changed |

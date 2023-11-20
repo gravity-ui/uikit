@@ -90,7 +90,7 @@ export interface LayoutTheme {
     /**
      * Base space unit size.
      *
-     * **Don't forget to override corresponding css custom property `--yc-space-base` at project level,
+     * **Don't forget to override corresponding css custom property `--g-spacing-base` at project level,
      * if you will change this value in theme**
      */
     spaceBaseSize: number;

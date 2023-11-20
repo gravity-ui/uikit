@@ -45,7 +45,7 @@ export function ToastList(props: ToastListProps) {
 function updateToastHeightCssProperty(toast: InternalToastProps) {
     if (toast.ref?.current) {
         toast.ref.current.style.setProperty(
-            '--yc-toast-height',
+            '--_--item-height',
             `${toast.ref.current.offsetHeight}px`,
         );
     }

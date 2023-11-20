@@ -131,12 +131,12 @@ describe.only('Disclosure', () => {
         render(<Disclosure />);
         const disclosure = screen.getByRole('button');
 
-        expect(disclosure).not.toHaveClass('g-disclosure__trigger_arrow-end');
+        expect(disclosure).not.toHaveClass('g-disclosure__trigger_arrow_end');
     });
     test('arrow on the end position if arrowPosition=end', () => {
         render(<Disclosure arrowPosition="end" />);
         const disclosure = screen.getByRole('button');
 
-        expect(disclosure).toHaveClass('g-disclosure__trigger_arrow-end');
+        expect(disclosure).toHaveClass('g-disclosure__trigger_arrow_end');
     });
 });

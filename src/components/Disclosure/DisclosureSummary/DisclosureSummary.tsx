@@ -38,11 +38,19 @@ export function DefaultDisclosureSummary({
     disabled,
 }: DisclosureSummaryRenderFunctionProps) {
     const {size, summary, arrowPosition} = useDisclosureAttributes();
+    let arrowMod = arrowPosition;
+
+    if (arrowMod === 'left') {
+        arrowMod = 'start';
+    }
+    if (arrowMod === 'right') {
+        arrowMod = 'end';
+    }
     return (
         <button
             type="button"
             aria-expanded={expanded}
-            className={b('trigger', {disabled, 'arrow-right': arrowPosition === 'right'})}
+            className={b('trigger', {disabled, arrow: arrowMod})}
             aria-controls={ariaControls}
             id={id}
             onClick={onClick}

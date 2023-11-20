@@ -11,7 +11,7 @@ import {b} from './constants';
 import './Disclosure.scss';
 
 export type DisclosureSize = 'm' | 'l' | 'xl';
-export type DisclosureArrowPosition = 'left' | 'right';
+export type DisclosureArrowPosition = 'left' | 'right' | 'start' | 'end';
 
 export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;
@@ -49,7 +49,7 @@ export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureCo
             size = 'm',
             disabled = false,
             defaultExpanded = false,
-            arrowPosition = 'left',
+            arrowPosition = 'start',
             summary = '',
             className,
             keepMounted = true,

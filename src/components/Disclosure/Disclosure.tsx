@@ -11,7 +11,7 @@ import {b} from './cn';
 import './Disclosure.scss';
 
 export type DisclosureSize = 'm' | 'l' | 'xl';
-export type DisclosureArrowPosition = 'start' | 'end';
+export type DisclosureArrowPosition = 'left' | 'right' | 'start' | 'end';
 
 export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;
@@ -27,7 +27,7 @@ export interface DisclosureProps extends QAProps {
     /** Controlled opening state */
     expanded?: boolean;
     /** Control position */
-    arrowPosition?: DisclosureArrowPosition | 'left' | 'right';
+    arrowPosition?: DisclosureArrowPosition;
     /** Content summary */
     summary?: string;
     /** Class name */

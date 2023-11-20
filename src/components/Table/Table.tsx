@@ -106,6 +106,8 @@ export interface TableProps<I> extends QAProps {
     className?: string;
     /** Adds horizontal padding for edge cells. */
     edgePadding?: boolean;
+    /** Display footer inside the table container */
+    renderFooter?: () => React.ReactNode;
 }
 
 interface TableDefaultProps {
@@ -332,6 +334,7 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 ) : (
                     this.renderTable()
                 )}
+                {this.renderFooter()}
             </div>
         );
     }
@@ -381,6 +384,12 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 {data.length > 0 ? data.map(this.renderRow) : this.renderEmptyRow()}
             </tbody>
         );
+    }
+
+    private renderFooter() {
+        const {renderFooter} = this.props;
+
+        return renderFooter?.();
     }
 
     private renderTable() {

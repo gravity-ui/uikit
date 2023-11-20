@@ -38,6 +38,7 @@ Additional functionality is enabled via HOCs:
 | emptyMessage     | The message returned if data is missing.                                                                                                                       |                                      `string`                                      | `"No data"` |
 | className        | Table CSS class                                                                                                                                                |                                      `string`                                      |             |
 | edgePadding      | Adds horizontal padding for edge cells                                                                                                                         |                                     `boolean`                                      |             |
+| renderFooter     | Display footer inside the table container                                                                                                                      |                              `() => React.ReactNode`                               |             |
 
 ### TableColumnConfig
 

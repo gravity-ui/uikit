@@ -9,13 +9,15 @@
    ```ts
    import React from 'react';
 
-   import {expect, test} from '@playwright/experimental-ct-react';
+   import {expect} from '@playwright/experimental-ct-react';
 
    import {MyTestedComponent} from '../MyTestedComponent';
 
-   test('Name test', async ({mount}) => {
+   import {test} from '~playwright/core';
+
+   test('Name test', async ({mountWithWrapper}) => {
      //mounting a component
-     const component = await mount(<MyTestedComponent props={props} />);
+     const component = await mountWithWrapper(<MyTestedComponent props={props} />);
 
      //screenshot
      await expect(component).toHaveScreenshot();
@@ -66,30 +68,6 @@ npm run playwright:docker:update
 
 1. [playwright-test-components](https://playwright.dev/docs/test-components)
 2. [playwright-docs](https://playwright.dev/docs/api/class-test)
-
-## Pay attention
-
-Screenshots are taken within the component boundaries and if it has overflowing content, do the following:
-
-```ts
-import React from 'react';
-
-import {expect, test} from '@playwright/experimental-ct-react';
-
-import {WrapperTest} from '../../../../playwright/helpers';
-
-import {Component} from '../Component';
-
-test('Test Component  ', async ({mount}) => {
-  const component = await mount(
-    <WrapperTest>
-      <Component />
-    </WrapperTest>,
-  );
-
-  await expect(component).toHaveScreenshot();
-});
-```
 
 ## Test examples
 

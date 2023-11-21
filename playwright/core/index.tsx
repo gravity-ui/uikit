@@ -3,11 +3,11 @@ import React from 'react';
 import type {JsonObject} from '@playwright/experimental-ct-core/types/component';
 import {ComponentFixtures, MountOptions, test as base} from '@playwright/experimental-ct-react';
 
-type CoreFixtures = {
+type MountWithWrapperFixtures = {
     mountWithWrapper: ComponentFixtures['mount'];
 };
 
-export const test = base.extend<CoreFixtures>({
+export const test = base.extend<MountWithWrapperFixtures>({
     mountWithWrapper: async ({mount: baseMount}, use) => {
         const mount = async (
             component: JSX.Element,

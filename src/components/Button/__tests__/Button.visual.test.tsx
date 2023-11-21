@@ -19,12 +19,10 @@ test.describe('Button', () => {
 
     test('should render icon', async ({mountWithWrapper}) => {
         const component = await mountWithWrapper(
-            <div style={{padding: 20, width: 'fit-content'}}>
-                <Button>
-                    <Gear width={20} height={20} />
-                    Left
-                </Button>
-            </div>,
+            <Button>
+                <Gear width={20} height={20} />
+                Left
+            </Button>,
         );
 
         await expect(component).toHaveScreenshot();

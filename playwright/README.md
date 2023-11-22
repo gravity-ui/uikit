@@ -15,9 +15,9 @@
 
    import {test} from '~playwright/core';
 
-   test('Name test', async ({mountWithWrapper}) => {
+   test('Name test', async ({mount}) => {
      //mounting a component
-     const component = await mountWithWrapper(<MyTestedComponent props={props} />);
+     const component = await mount(<MyTestedComponent props={props} />);
 
      //screenshot
      await expect(component).toHaveScreenshot();

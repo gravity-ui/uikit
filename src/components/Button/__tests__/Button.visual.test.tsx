@@ -11,14 +11,14 @@ import {ButtonIcon, ButtonWitchIcon} from './helpers';
 import {test} from '~playwright/core';
 
 test.describe('Button', () => {
-    test('render buttom by default', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<Button>Button</Button>);
+    test('render buttom by default', async ({mount}) => {
+        const component = await mount(<Button>Button</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('should render icon', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(
+    test('should render icon', async ({mount}) => {
+        const component = await mount(
             <Button>
                 <Gear width={20} height={20} />
                 Left
@@ -28,29 +28,29 @@ test.describe('Button', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('should render icon in Button-Icon', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<ButtonIcon />);
+    test('should render icon in Button-Icon', async ({mount}) => {
+        const component = await mount(<ButtonIcon />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('selected when selected=true prop is given', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<Button selected>Button</Button>);
+    test('selected when selected=true prop is given', async ({mount}) => {
+        const component = await mount(<Button selected>Button</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('loading when loading=true prop is given', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<Button loading>Button</Button>);
+    test('loading when loading=true prop is given', async ({mount}) => {
+        const component = await mount(<Button loading>Button</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('should render <a /> tag', async ({mountWithWrapper}) => {
+    test('should render <a /> tag', async ({mount}) => {
         const href = 'https://yandex.ru';
         const target = '_blank';
 
-        const component = await mountWithWrapper(
+        const component = await mount(
             <Button href={href} target={target}>
                 Button
             </Button>,
@@ -59,30 +59,30 @@ test.describe('Button', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('render with given submit type', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<Button type="submit">Button</Button>);
+    test('render with given submit type', async ({mount}) => {
+        const component = await mount(<Button type="submit">Button</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render with given reset type', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<Button type="reset">Button</Button>);
+    test('render with given reset type', async ({mount}) => {
+        const component = await mount(<Button type="reset">Button</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('show given content', async ({mountWithWrapper}) => {
+    test('show given content', async ({mount}) => {
         const content = 'Some content';
 
-        const component = await mountWithWrapper(<Button>{content}</Button>);
+        const component = await mount(<Button>{content}</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('show given children', async ({mountWithWrapper}) => {
+    test('show given children', async ({mount}) => {
         const childrenText = 'Children content';
 
-        const component = await mountWithWrapper(
+        const component = await mount(
             <Button>
                 <span>{childrenText}</span>
             </Button>,
@@ -91,22 +91,22 @@ test.describe('Button', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('add style', async ({mountWithWrapper}) => {
+    test('add style', async ({mount}) => {
         const style = {color: 'red'};
 
-        const component = await mountWithWrapper(<Button style={style}>Button</Button>);
+        const component = await mount(<Button style={style}>Button</Button>);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('should render Icon component', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<ButtonWitchIcon />);
+    test('should render Icon component', async ({mount}) => {
+        const component = await mount(<ButtonWitchIcon />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('ButtonViewShowcase', async ({mountWithWrapper}) => {
-        const component = await mountWithWrapper(<ButtonViewShowcase />);
+    test('ButtonViewShowcase', async ({mount}) => {
+        const component = await mount(<ButtonViewShowcase />);
 
         await expect(component).toHaveScreenshot();
     });

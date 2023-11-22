@@ -5,7 +5,7 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {Checkbox} from '@gravity-ui/checkbox';
+import {Checkbox} from '@gravity-ui/uikit';
 ```
 
 The `Checkbox` component allows the user to select or deselect a specific value.

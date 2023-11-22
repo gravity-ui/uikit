@@ -143,7 +143,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                                 </div>,
                             ];
 
-                            if (column.align === 'right') {
+                            if (column.align === 'right' || column.align === 'end') {
                                 content.reverse();
                             }
 

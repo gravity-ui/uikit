@@ -163,7 +163,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 name: this.renderHeadCell,
                 template: this.renderBodyCell,
                 className: b('checkbox_cell'),
-                sticky: _get(columns, [0, 'sticky']) === 'left' ? 'left' : undefined,
+                sticky: _get(columns, [0, 'sticky']) === 'start' ? 'start' : undefined,
             };
 
             return [selectionColumn, ...columns];

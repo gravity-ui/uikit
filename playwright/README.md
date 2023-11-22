@@ -17,7 +17,7 @@
 
    test('Name test', async ({mount}) => {
      //mounting a component
-     const component = await mountWithWrapper(<MyTestedComponent props={props} />);
+     const component = await mount(<MyTestedComponent props={props} />);
 
      //screenshot
      await expect(component).toHaveScreenshot();

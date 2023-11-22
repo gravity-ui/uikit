@@ -62,16 +62,19 @@ Or
 npm run playwright:docker:update
 ```
 
-6.In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
+6. In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
 
 ## Description of possible commands:
 
 1. [playwright-test-components](https://playwright.dev/docs/test-components)
 2. [playwright-docs](https://playwright.dev/docs/api/class-test)
+3. [playwright-writing-tests](https://playwright.dev/docs/writing-tests)
 
 ## Test examples
 
-- [Button](../src/components/Button/__tests__/Button.visual.test)
+- [Button](../src/components/Button/__tests__/Button.visual.test.tsx) - example story screenshots
+- [TextInput](../src/components/controls/TextInput/__tests__/TextInput.input.visual.test.tsx) - example of testing user actions on a component
+- [Label](../src/components/Label/__tests__//Label.visual.test.tsx)
 
 ## Npm scripts
 

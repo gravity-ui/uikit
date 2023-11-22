@@ -56,14 +56,16 @@ export const columns: TableColumnConfig<DataItem>[] = [
     {
         id: 'name',
         name: 'Name',
-        template(item, index) {
-            if (index % 2 === 0) {
+        template(item, i) {
+            if (i % 2 === 0) {
                 return item.name;
             }
+            const [name, surname] = item.name.split(' ');
             return (
                 <div>
-                    {item.name} <br />
-                    Lorem
+                    {name}
+                    <br />
+                    {surname}
                 </div>
             );
         },

@@ -307,7 +307,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return (
             <Container
                 helperClass={b('item', {sorting: true})}
-                distance={5}
+                pressDelay={150}
                 lockAxis="y"
                 onSortStart={this.onSortStart}
                 onSortEnd={this.onSortEnd}
@@ -337,7 +337,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         itemCount={items.length}
                         overscanCount={10}
                         helperClass={b('item', {sorting: true})}
-                        distance={5}
+                        pressDelay={150}
                         lockAxis="y"
                         onItemsRendered={this.onItemsRendered}
                         onSortStart={this.onSortStart}

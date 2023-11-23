@@ -2,9 +2,10 @@ import React from 'react';
 
 import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
-import {Tooltip} from '../Tooltip';
-import type {TooltipProps} from '../Tooltip';
 import {block} from '../utils/cn';
+
+import {Tooltip} from './components/Tooltip/Tooltip';
+import type {TooltipProps} from './components/Tooltip/Tooltip';
 
 import './ActionTooltip.scss';
 

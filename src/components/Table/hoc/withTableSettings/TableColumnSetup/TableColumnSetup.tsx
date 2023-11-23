@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Gear} from '@gravity-ui/icons';
+import {Check, Gear, Lock} from '@gravity-ui/icons';
 
 import type {PopperPlacement} from '../../../../../components/utils/usePopper';
 import {useActionHandlers} from '../../../../../hooks/useActionHandlers';
@@ -11,8 +11,6 @@ import {Popup} from '../../../../Popup';
 import {block} from '../../../../utils/cn';
 import type {TableColumnSetupItem} from '../withTableSettings';
 
-import {LockIcon} from './LockIcon';
-import {TickIcon} from './TickIcon';
 import i18n from './i18n';
 
 import './TableColumnSetup.scss';
@@ -146,11 +144,11 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             <div className={b('item-content')}>
                 {item.required ? (
                     <div className={b('lock-wrap', {visible: item.selected})}>
-                        <Icon data={LockIcon} />
+                        <Icon data={Lock} />
                     </div>
                 ) : (
                     <div className={b('tick-wrap', {visible: item.selected})}>
-                        <Icon data={TickIcon} className={b('tick')} width={10} height={10} />
+                        <Icon data={Check} className={b('tick')} width={10} height={10} />
                     </div>
                 )}
                 <div className={b('title')}>{getItemTitle(item)}</div>

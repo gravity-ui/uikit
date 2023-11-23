@@ -103,7 +103,9 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     checked={checked}
                     disabled={disabled}
                     onChange={handler}
-                    className={b('selection-checkbox', {verticalAlign: this.props.verticalAlign})}
+                    className={b('selection-checkbox', {
+                        'vertical-align': this.props.verticalAlign,
+                    })}
                 />
             );
         }

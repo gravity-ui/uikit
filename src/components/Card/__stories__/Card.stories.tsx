@@ -121,6 +121,7 @@ export const ActionType: Story = {
     args: {
         ...Default.args,
         type: 'action',
+        onClick: () => alert('Click!'),
     },
     name: 'Action Type',
 };
@@ -140,6 +141,7 @@ export const SelectionType: Story = {
     args: {
         ...Default.args,
         type: 'selection',
+        onClick: () => alert('Click!'),
     },
     name: 'Selection Type',
 };

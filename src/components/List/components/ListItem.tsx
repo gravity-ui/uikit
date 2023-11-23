@@ -21,6 +21,11 @@ function getStyle(provided?: DraggableProvided, style?: React.CSSProperties) {
     return {
         ...provided?.draggableProps.style,
         ...style,
+        /*
+        This fixes item drag layout for rtl direction.
+        react-window has a bug where in rtl it setting "right" to 0 instead of undefined.
+         */
+        right: undefined,
     };
 }
 

@@ -96,7 +96,7 @@ const ExampleItem = (props: {
                 code.map((codeItem, i) => {
                     return (
                         <React.Fragment key={`${title}-${i}`}>
-                            <pre>
+                            <pre dir="ltr">
                                 {codeItem}
                                 <ClipboardButton
                                     className={b('copy-button')}

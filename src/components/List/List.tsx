@@ -18,6 +18,7 @@ import {VariableSizeList as ListContainer} from 'react-window';
 import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoadingIndicator';
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
+import {ThemeContext} from '../theme';
 import {block} from '../utils/cn';
 import {getUniqId} from '../utils/common';
 
@@ -57,6 +58,7 @@ const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: num
 
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
     static defaultProps: Partial<ListProps<ListItemData<unknown>>> = listDefaultProps;
+    static contextType = ThemeContext;
 
     static moveListElement<T = unknown>(
         list: ListItemData<T>[],
@@ -85,6 +87,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         return undefined;
     }
 
+    context!: React.ContextType<typeof ThemeContext>;
     state: ListState<T> = {
         items: this.props.items,
         filter: '',
@@ -461,6 +464,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         itemCount={items.length}
                         overscanCount={10}
                         onItemsRendered={this.onItemsRendered}
+                        direction={this.context.direction}
                         // this property used to rerender items in viewport
                         // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
                         // @ts-expect-error

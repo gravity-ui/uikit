@@ -3,8 +3,18 @@
 $block: '.#{variables.$ns}tooltip';
 
 #{$block} {
-    --g-popup-border-width: 0;
-    --g-popup-background-color: var(--g-color-base-float-heavy);
+    // [class] for increasing specificity
+    &[class] {
+        --g-popup-border-width: 0;
+        --g-popup-background-color: var(--g-color-base-float);
+
+        > div {
+            padding: 4px 8px;
+            max-width: 360px;
+            box-sizing: border-box;
+            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+        }
+    }
 
     &__popup-content {
         // prevent glitch between two nearby tooltip refs
@@ -12,7 +22,19 @@ $block: '.#{variables.$ns}tooltip';
     }
 
     &__content {
-        padding: 6px 12px;
-        color: var(--g-color-text-light-primary);
+        display: box;
+
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        -ms-box-orient: vertical;
+
+        -webkit-line-clamp: 20;
+        -moz-line-clamp: 20;
+        -ms-line-clamp: 20;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        color: var(--g-color-text-complementary);
     }
 }

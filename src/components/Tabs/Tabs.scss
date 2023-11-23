@@ -1,19 +1,17 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
-#{variables.$root} {
-    --yc-tab-item-vertical-padding: 6px 20px;
-    --yc-tab-item-vertical-height: 18px;
-}
-
 $block: '.#{variables.$ns}tabs';
 
 #{$block} {
+    --_--vertical-item-padding: var(--g-tabs-vertical-item-padding, 6px 20px);
+    --_--vertical-item-height: var(--g-tabs-vertical-item-height, 18px);
+
     &_size {
         &_m {
-            --yc-tabs-height: 36px;
-            --yc-tabs-gap: 24px;
-            --yc-tabs-border-width: 2px;
+            --_--item-height: 36px;
+            --_--item-gap: 24px;
+            --_--item-border-width: 2px;
 
             #{$block}__item-title,
             #{$block}__item-counter {
@@ -22,9 +20,9 @@ $block: '.#{variables.$ns}tabs';
         }
 
         &_l {
-            --yc-tabs-height: 40px;
-            --yc-tabs-gap: 28px;
-            --yc-tabs-border-width: 2px;
+            --_--item-height: 40px;
+            --_--item-gap: 28px;
+            --_--item-border-width: 2px;
 
             #{$block}__item-title,
             #{$block}__item-counter {
@@ -33,9 +31,9 @@ $block: '.#{variables.$ns}tabs';
         }
 
         &_xl {
-            --yc-tabs-height: 44px;
-            --yc-tabs-gap: 32px;
-            --yc-tabs-border-width: 3px;
+            --_--item-height: 44px;
+            --_--item-gap: 32px;
+            --_--item-border-width: 3px;
 
             #{$block}__item-title,
             #{$block}__item-counter {
@@ -80,28 +78,30 @@ $block: '.#{variables.$ns}tabs';
         &-icon > svg {
             display: block;
         }
-
-        &:focus-visible {
-            #{$block}__item-content {
-                outline: 2px solid var(--g-color-line-focus);
-            }
-        }
     }
 
     &_direction_horizontal {
         display: flex;
         align-items: flex-end;
         flex-wrap: wrap;
-        box-shadow: inset 0 -1px 0 0 var(--g-color-line-generic);
+        box-shadow: inset 0 calc(var(--g-tabs-border-width, 1px) * -1) 0 0
+            var(--g-color-line-generic);
         overflow: hidden;
 
         #{$block}__item {
             display: flex;
             align-items: center;
             box-sizing: border-box;
-            height: var(--yc-tabs-height);
-            border-block-end: var(--yc-tabs-border-width) solid transparent;
-            padding-block-start: var(--yc-tabs-border-width);
+            height: var(--g-tabs-item-height, var(--_--item-height));
+            border-block-end: var(--g-tabs-item-border-width, var(--_--item-border-width)) solid
+                transparent;
+            padding-block-start: var(--_--item-border-width);
+
+            &:focus-visible {
+                #{$block}__item-content {
+                    outline: 2px solid var(--g-color-line-focus);
+                }
+            }
 
             &-meta {
                 display: none;
@@ -118,7 +118,7 @@ $block: '.#{variables.$ns}tabs';
 
             &_active,
             &:hover,
-            &:focus {
+            &:focus-visible {
                 #{$block}__item-title {
                     color: var(--g-color-text-primary);
                 }
@@ -131,7 +131,7 @@ $block: '.#{variables.$ns}tabs';
 
             &_active,
             &_active:hover,
-            &_active:focus {
+            &_active:focus-visible {
                 border-color: var(--g-color-line-brand);
             }
 
@@ -145,7 +145,7 @@ $block: '.#{variables.$ns}tabs';
         }
 
         > :not(:last-child) {
-            margin-inline-end: var(--yc-tabs-gap);
+            margin-inline-end: var(--g-tabs-item-gap, var(--_--item-gap));
         }
     }
 
@@ -154,15 +154,15 @@ $block: '.#{variables.$ns}tabs';
         flex-direction: column;
 
         #{$block}__item {
-            padding: var(--yc-tab-item-vertical-padding);
+            padding: var(--_--vertical-item-padding);
 
             &-title {
-                line-height: var(--yc-tab-item-vertical-height);
+                line-height: var(--_--vertical-item-height);
                 color: var(--g-color-text-primary);
             }
 
             &-meta {
-                line-height: var(--yc-tab-item-vertical-height);
+                line-height: var(--_--vertical-item-height);
                 color: var(--g-color-text-secondary);
             }
 
@@ -172,7 +172,7 @@ $block: '.#{variables.$ns}tabs';
             }
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 background-color: var(--g-color-base-generic-hover);
             }
 
@@ -181,7 +181,7 @@ $block: '.#{variables.$ns}tabs';
             }
 
             &_active:hover,
-            &_active:focus {
+            &_active:focus-visible {
                 background-color: var(--g-color-base-selection-hover);
             }
 

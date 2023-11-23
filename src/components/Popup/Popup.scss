@@ -10,10 +10,9 @@ $arrow-circle-height: 30px;
 $transition-distance: 10px;
 
 #{$block} {
-    // Can be overridden, see Tooltip
-    --yc-popup-background-color: var(--g-color-base-float);
-    --yc-popup-border-color: var(--g-color-line-generic-solid);
-    --yc-popup-border-width: 1px;
+    --_--background-color: var(--g-popup-background-color, var(--g-color-base-float));
+    --_--border-color: var(--g-popup-border-color, var(--g-color-line-generic-solid));
+    --_--border-width: var(--g-popup-border-width, 1px);
 
     z-index: 1000;
     visibility: hidden;
@@ -98,9 +97,9 @@ $transition-distance: 10px;
         animation-timing-function: ease-out;
         animation-fill-mode: forwards;
         border-radius: 4px;
-        background-color: var(--yc-popup-background-color);
-        box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
-            0 8px 20px var(--yc-popup-border-width) var(--g-color-sfx-shadow);
+        background-color: var(--_--background-color);
+        box-shadow: 0 0 0 var(--_--border-width) var(--_--border-color),
+            0 8px 20px var(--_--border-width) var(--g-color-sfx-shadow);
         outline: none;
 
         // Corners rounding for content
@@ -135,9 +134,9 @@ $transition-distance: 10px;
     &__arrow-circle {
         box-sizing: border-box;
         border-radius: 50%;
-        box-shadow: inset 0 0 0 calc(#{$arrow-border} - var(--yc-popup-border-width))
-                var(--yc-popup-background-color),
-            inset 0 0 0 $arrow-border var(--yc-popup-border-color);
+        box-shadow: inset 0 0 0 calc(#{$arrow-border} - var(--_--border-width))
+                var(--_--background-color),
+            inset 0 0 0 $arrow-border var(--_--border-color);
         width: $arrow-circle-width;
         height: $arrow-circle-height;
         position: absolute;

@@ -290,16 +290,16 @@ LANDING_BLOCK-->
 
 ### Tabs.Item properties
 
-| Name     | Description                      |            Type            | Default |
-| :------- | -------------------------------- | :------------------------: | :-----: |
-| id       | Tab ID                           |          `string`          |         |
-| title    | Tab title                        | `string` `React.ReactNode` |         |
-| meta     | Tab description                  |          `string`          |         |
-| hint     | HTML title attribute             |          `string`          |         |
-| icon     | Icon displayed at the left       |     `React.ReactNode`      |         |
-| counter  | Number displayed at the right    |     `React.ReactNode`      |         |
-| label    | `<Label>` displayed at the right |     `React.ReactNode`      |         |
-| disabled | Inactive state                   |         `boolean`          |         |
+| Name     | Description                    |            Type            | Default |
+| :------- | ------------------------------ | :------------------------: | :-----: |
+| id       | Tab ID                         |          `string`          |         |
+| title    | Tab title                      | `string` `React.ReactNode` |         |
+| meta     | Tab description                |          `string`          |         |
+| hint     | HTML title attribute           |          `string`          |         |
+| icon     | Icon displayed at the start    |     `React.ReactNode`      |         |
+| counter  | Number displayed at the end    |     `React.ReactNode`      |         |
+| label    | `<Label>` displayed at the end |     `React.ReactNode`      |         |
+| disabled | Inactive state                 |         `boolean`          |         |
 
 ## Properties
 

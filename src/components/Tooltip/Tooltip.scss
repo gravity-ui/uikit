@@ -22,7 +22,9 @@ $block: '.#{variables.$ns}tooltip';
     }
 
     &__content {
-        display: box;
+        // -webkit-line-clamp will not work without display: -webkit-box;
+        /* stylelint-disable-next-line */
+        display: -webkit-box;
 
         -webkit-box-orient: vertical;
         -moz-box-orient: vertical;

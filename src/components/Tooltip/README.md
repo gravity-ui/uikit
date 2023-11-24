@@ -22,7 +22,7 @@ import {Tooltip} from '@gravity-ui/uikit';
 | Name       | Description                                                                             |                       Type                       | Default |
 | :--------- | --------------------------------------------------------------------------------------- | :----------------------------------------------: | :-----: |
 | children   | An anchor element for a `Tooltip`. Must accept a `ref` that will provide a DOM element. |               `React.ReactElement`               |         |
-| content    | Content that will be shown in the `Tooltip`                                             |                `React.ReactNode`                 |         |
+| content    | Content that will be shown in the `Tooltip`                                             |                     `string`                     |         |
 | closeDelay | Number of ms to delay hiding the `Tooltip` after the hover ends                         |                     `number`                     |   `0`   |
 | openDelay  | Number of ms to delay showing the `Tooltip` after the hover begins                      |                     `number`                     |  `250`  |
 | placement  | `Tooltip` position relative to its anchor                                               | [`PopupPlacement`](../Popup/README.md#placement) |         |

@@ -6,13 +6,16 @@ $block: '.#{variables.$ns}tooltip';
     // [class] for increasing specificity
     &[class] {
         --g-popup-border-width: 0;
-        --g-popup-background-color: var(--g-color-base-float);
 
         > div {
             padding: 4px 8px;
             max-width: 360px;
             box-sizing: border-box;
             box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+
+            animation-duration: unset;
+            animation-timing-function: unset;
+            animation-fill-mode: unset;
         }
     }
 
@@ -36,7 +39,5 @@ $block: '.#{variables.$ns}tooltip';
 
         overflow: hidden;
         text-overflow: ellipsis;
-
-        color: var(--g-color-text-complementary);
     }
 }

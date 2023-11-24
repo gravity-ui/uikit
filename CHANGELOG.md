@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.21.0](https://github.com/gravity-ui/uikit/compare/v5.20.0...v5.21.0) (2023-11-24)
+
+
+### Features
+
+* change react-sortable-hoc with react-beautiful-dnd ([#1159](https://github.com/gravity-ui/uikit/issues/1159)) ([1f7ab68](https://github.com/gravity-ui/uikit/commit/1f7ab68a74deedcd6dd091c8a9bc7d5a5b913006))
+* lazy loading for userAvatar ([#1124](https://github.com/gravity-ui/uikit/issues/1124)) ([e76fd7c](https://github.com/gravity-ui/uikit/commit/e76fd7ce9ab4a6adff05f5e816f385e1b5afc316))
+
 ## [5.20.0](https://github.com/gravity-ui/uikit/compare/v5.19.1...v5.20.0) (2023-11-14)
 
 

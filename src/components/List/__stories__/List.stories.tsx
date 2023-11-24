@@ -7,9 +7,6 @@ import type {ListProps} from '..';
 
 import {ListShowcase} from './ListShowcase';
 
-// Strict mode ruins sortable list due to this react-beautiful-dnd issue
-// https://github.com/atlassian/react-beautiful-dnd/issues/2350
-
 type ComponentType = React.JSXElementConstructor<ListProps<string>>;
 
 export default {
@@ -36,6 +33,11 @@ Sortable.args = {
     sortable: true,
     itemsHeight: 150,
 };
+Sortable.parameters = {
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
+};
 
 const RenderItemTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
 export const RenderItem = RenderItemTemplate.bind({});
@@ -47,3 +49,8 @@ RenderItem.args = {
 
 const ShowcaseTemplate: ComponentStory<ComponentType> = () => <ListShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
+Showcase.parameters = {
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
+};

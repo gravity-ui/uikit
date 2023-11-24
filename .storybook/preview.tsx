@@ -20,6 +20,16 @@ configure({
 });
 
 const withContextProvider: Decorator = (Story, context) => {
+    if (context.parameters?.disableStrictMode) {
+        return (
+            <ThemeProvider theme={context.globals.theme}>
+                <MobileProvider>
+                    <Story {...context} />
+                </MobileProvider>
+            </ThemeProvider>
+        );
+    }
+
     return (
         <React.StrictMode>
             <ThemeProvider theme={context.globals.theme}>

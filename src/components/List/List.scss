@@ -57,6 +57,11 @@ $block: '.#{variables.$ns}list';
             }
         }
 
+        // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md#phase-dragging-droppable-element
+        &_sortable[data-rbd-drag-handle-context-id]:active {
+            cursor: grabbing;
+        }
+
         &_dragging {
             background: var(--g-color-base-simple-hover-solid);
             z-index: 100001;

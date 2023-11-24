@@ -4,6 +4,7 @@ import {KeyCode} from '../../constants';
 import {useForkRef} from '../../hooks';
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
+import {Text} from '../Text';
 import type {DOMProps} from '../types';
 import {block} from '../utils/cn';
 import {useBoolean} from '../utils/useBoolean';
@@ -46,7 +47,11 @@ export const Tooltip = (props: TooltipProps) => {
                 disableOutsideClick
                 disableLayer
             >
-                <div className={b('content', props.contentClassName)}>{content}</div>
+                <div className={b('content', props.contentClassName)}>
+                    <Text variant="body-short" color="complementary">
+                        {content}
+                    </Text>
+                </div>
             </Popup>
         );
     };

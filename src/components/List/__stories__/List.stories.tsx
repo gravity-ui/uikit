@@ -7,6 +7,9 @@ import type {ListProps} from '..';
 
 import {ListShowcase} from './ListShowcase';
 
+// Strict mode ruins sortable list due to this react-beautiful-dnd issue
+// https://github.com/atlassian/react-beautiful-dnd/issues/2350
+
 type ComponentType = React.JSXElementConstructor<ListProps<string>>;
 
 export default {

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import type {DraggableProvided} from 'react-beautiful-dnd';
+
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
@@ -11,10 +13,21 @@ const b = block('list');
 
 export const defaultRenderItem = <T extends unknown>(item: T) => String(item);
 
+function getStyle(provided?: DraggableProvided, style?: React.CSSProperties) {
+    if (!style) {
+        return provided?.draggableProps.style;
+    }
+
+    return {
+        ...provided?.draggableProps.style,
+        ...style,
+    };
+}
+
 export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private static publishEvent = eventBroker.withEventPublisher('List');
 
-    ref = React.createRef<HTMLDivElement>();
+    node: HTMLDivElement | null = null;
 
     render() {
         const {
@@ -26,6 +39,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             selected,
             active,
             role = 'listitem',
+            isDragging = false,
         } = this.props;
 
         return (
@@ -42,15 +56,18 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                         selected,
                         inactive: item.disabled,
                         'sort-handle-align': sortHandleAlign,
+                        dragging: isDragging,
                     },
                     itemClassName,
                 )}
-                style={style}
+                {...this.props.provided?.draggableProps}
+                {...this.props.provided?.dragHandleProps}
+                style={getStyle(this.props.provided, style)}
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
-                ref={this.ref}
+                ref={this.setRef}
                 id={`${this.props.listId}-item-${this.props.itemIndex}`}
             >
                 {this.renderSortIcon()}
@@ -59,7 +76,12 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         );
     }
 
-    getRef = () => this.ref;
+    getNode = () => this.node;
+
+    private setRef = (node: HTMLDivElement) => {
+        this.node = node;
+        this.props.provided?.innerRef(node);
+    };
 
     private renderSortIcon() {
         const {sortable} = this.props;

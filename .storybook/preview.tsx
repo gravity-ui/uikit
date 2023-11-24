@@ -21,13 +21,13 @@ configure({
 
 const withContextProvider: Decorator = (Story, context) => {
     return (
-        <React.StrictMode>
-            <ThemeProvider theme={context.globals.theme}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        </React.StrictMode>
+        // Strict mode disabled due to this react-beautiful-dnd issue
+        // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+        <ThemeProvider theme={context.globals.theme}>
+            <MobileProvider>
+                <Story {...context} />
+            </MobileProvider>
+        </ThemeProvider>
     );
 };
 

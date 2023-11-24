@@ -36,17 +36,6 @@ $block: '.#{variables.$ns}list';
     &__item {
         height: var(--yc-list-item-height);
 
-        &_sortable {
-            cursor: move;
-        }
-
-        &_sorting {
-            z-index: 100001;
-            background: var(--g-color-base-simple-hover-solid);
-            padding: 0 var(--yc-list-margin);
-            cursor: move;
-        }
-
         &_active {
             background: var(--g-color-base-simple-hover);
         }
@@ -66,6 +55,11 @@ $block: '.#{variables.$ns}list';
                 margin-left: 10px;
                 margin-right: 0;
             }
+        }
+
+        &_dragging {
+            background: var(--g-color-base-simple-hover-solid);
+            z-index: 100001;
         }
     }
 

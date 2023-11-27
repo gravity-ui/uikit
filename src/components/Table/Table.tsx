@@ -19,6 +19,16 @@ export interface TableDataItem {
 
 type ActiveScrollElementType = 'scrollBar' | 'scrollContainer';
 
+function normalizeSides(side: TableColumnConfig<any>['align'] | TableColumnConfig<any>['sticky']) {
+    if (side === 'left') {
+        return 'start';
+    }
+    if (side === 'right') {
+        return 'end';
+    }
+    return side;
+}
+
 interface TableState {
     // activeScrollElement is required so listener on table scroll won't fire when scrollbar will appear (and vice-versa)
     // without that page will wobble on scrolling
@@ -39,9 +49,9 @@ export interface TableColumnConfig<I> {
     /** Cell contents. If you pass a row, the cell contents will be the value of the field named the same as this row. By default: The value of the field with the name equal to the column ID */
     template?: string | ((item: I, index: number) => React.ReactNode);
     /** Content alignment. */
-    align?: 'left' | 'center' | 'right';
+    align?: 'start' | 'end' | 'center' | 'left' | 'right';
     /** Sticky column. */
-    sticky?: 'left' | 'right';
+    sticky?: 'start' | 'end' | 'left' | 'right';
     /** Distinguishes a column among other. */
     primary?: boolean;
     /** Column width in px or in %. Width can behave unexpectedly (it's more like min-width in block-elements). Sometimes you want to use `table-layout: fixed` */
@@ -385,7 +395,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             <thead className={b('head')}>
                 <tr className={b('row')}>
                     {columns.map((column, index) => {
-                        const {id, align, primary, sticky, className} = column;
+                        const {id, align: rawAlign, primary, sticky: rawSticky, className} = column;
+                        const align = normalizeSides(rawAlign);
+                        const sticky = normalizeSides(rawSticky);
                         const content = Table.getHeadCellContent(column);
 
                         return (
@@ -486,9 +498,10 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 )}
             >
                 {columns.map((column, colIndex) => {
-                    const {id, align, primary, className, sticky} = column;
+                    const {id, align: rawAlign, primary, className, sticky: rawSticky} = column;
                     const content = Table.getBodyCellContent(column, item, rowIndex);
-
+                    const align = normalizeSides(rawAlign);
+                    const sticky = normalizeSides(rawSticky);
                     return (
                         <td
                             key={id}
@@ -574,9 +587,15 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         }
 
         const filteredColumns =
-            column.sticky === 'left' ? columnsWidth.slice(0, index) : columnsWidth.slice(index + 1);
-        style[column.sticky] = filteredColumns.reduce<number>((left, width) => {
-            return _isNumber(width) ? left + width : left;
+            column.sticky === 'left' || column.sticky === 'start'
+                ? columnsWidth.slice(0, index)
+                : columnsWidth.slice(index + 1);
+        const styleName: keyof React.CSSProperties =
+            column.sticky === 'left' || column.sticky === 'start'
+                ? 'insetInlineStart'
+                : 'insetInlineEnd';
+        style[styleName] = filteredColumns.reduce<number>((start, width) => {
+            return _isNumber(width) ? start + width : start;
         }, 0);
 
         return style;

@@ -74,12 +74,12 @@
             text-align: center;
         }
 
-        &_align_right {
+        &_align_end {
             text-align: end;
         }
 
-        #{variables.$block} &_sticky_left,
-        #{variables.$block} &_sticky_right {
+        #{variables.$block} &_sticky_start,
+        #{variables.$block} &_sticky_end {
             position: sticky;
             z-index: 2;
 
@@ -130,8 +130,8 @@
         background-color: var(--g-color-base-simple-hover-solid);
         cursor: pointer;
 
-        #{variables.$block}__cell_sticky_left,
-        #{variables.$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_start,
+        #{variables.$block}__cell_sticky_end {
             background: var(--g-color-base-simple-hover-solid);
         }
     }

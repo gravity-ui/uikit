@@ -31,7 +31,7 @@ const b = block('text-input');
 
 export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     /** The control's [type](https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML5_input_types) */
-    type?: string;
+    type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';
     /** The control's html attributes */
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     /** Help text rendered to the left of the input node */

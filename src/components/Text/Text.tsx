@@ -65,6 +65,7 @@ export const Text = React.forwardRef(
 
         return (
             <Tag
+                dir="auto"
                 ref={ref}
                 className={text(
                     {variant, ellipsis, whiteSpace, wordBreak},

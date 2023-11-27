@@ -74,18 +74,18 @@
             text-align: center;
         }
 
-        &_align_right {
+        &_align_end {
             text-align: end;
         }
 
-        &_sticky_left,
-        &_sticky_right {
+        &_sticky_start,
+        &_sticky_end {
             position: sticky;
             z-index: 2;
         }
 
-        &_sticky_left,
-        &_sticky_right {
+        &_sticky_start,
+        &_sticky_end {
             background: var(--g-color-base-background);
         }
 
@@ -133,8 +133,8 @@
         background-color: var(--g-color-base-simple-hover-solid);
         cursor: pointer;
 
-        #{variables.$block}__cell_sticky_left,
-        #{variables.$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_start,
+        #{variables.$block}__cell_sticky_end {
             background: var(--g-color-base-simple-hover-solid);
         }
     }

@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.21.1](https://github.com/gravity-ui/uikit/compare/v5.21.0...v5.21.1) (2023-11-27)
+
+
+### Bug Fixes
+
+* align checkbox when there is more than 1 line of text in any cell ([#1149](https://github.com/gravity-ui/uikit/issues/1149)) ([8011430](https://github.com/gravity-ui/uikit/commit/8011430102d3fda764711d3003be2b9c953f586d))
+
 ## [5.21.0](https://github.com/gravity-ui/uikit/compare/v5.20.0...v5.21.0) (2023-11-24)
 
 

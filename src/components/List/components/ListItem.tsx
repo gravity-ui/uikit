@@ -1,13 +1,13 @@
 import React from 'react';
 
+import {Grip} from '@gravity-ui/icons';
 import type {DraggableProvided} from 'react-beautiful-dnd';
 
+import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
 import type {ListItemProps} from '../types';
-
-import {DragHandleIcon} from './DragHandleIcon';
 
 const b = block('list');
 
@@ -87,7 +87,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         const {sortable} = this.props;
         return sortable ? (
             <div className={b('item-sort-icon')}>
-                <DragHandleIcon />
+                <Icon data={Grip} size={12} />
             </div>
         ) : null;
     }

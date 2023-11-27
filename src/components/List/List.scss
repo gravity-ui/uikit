@@ -86,10 +86,13 @@ $block: '.#{variables.$ns}list';
     }
 
     &__item-sort-icon {
+        $icon-width: 12px;
+        $space-from-edge: 16px;
+
         display: flex;
         align-items: center;
-        width: 6px;
-        margin-right: 10px;
+        width: $icon-width;
+        margin-right: $space-from-edge - $icon-width;
         flex: 0 0 auto;
         color: var(--g-color-text-hint);
     }

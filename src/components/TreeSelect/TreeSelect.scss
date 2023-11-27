@@ -1,0 +1,10 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}tree-select';
+
+#{$block} {
+    &__popup {
+        overflow: hidden;
+        min-width: 300px;
+    }
+}

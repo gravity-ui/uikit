@@ -81,7 +81,7 @@ export const columns: TableColumnConfig<DataItem>[] = [
     {
         id: 'count',
         name: 'Count',
-        align: 'right',
+        align: 'end',
     },
     {
         id: 'date',

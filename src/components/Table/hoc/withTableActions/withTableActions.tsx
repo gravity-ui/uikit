@@ -24,7 +24,7 @@ export function enhanceSystemColumn<I>(
     const systemColumn = existedColumn || {
         id: actionsColumnId,
         name: '',
-        sticky: 'right',
+        sticky: 'end',
         width: 28, // button width
         placeholder: '',
     };

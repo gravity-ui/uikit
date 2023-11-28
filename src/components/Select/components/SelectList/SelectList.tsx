@@ -126,7 +126,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                 />
             );
         },
-        [renderOption, renderOptionGroup, value, multiple, getItemHeight],
+        [renderOption, renderOptionGroup, value, multiple, getItemHeight, onLoadMore],
     );
 
     return (

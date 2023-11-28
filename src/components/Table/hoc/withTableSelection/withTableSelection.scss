@@ -16,8 +16,8 @@
     &__row_selected {
         background: var(--g-color-base-selection);
 
-        #{variables.$block}__cell_sticky_left,
-        #{variables.$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_start,
+        #{variables.$block}__cell_sticky_end {
             background: linear-gradient(
                     to right,
                     var(--g-color-base-selection),
@@ -33,8 +33,8 @@
         &#{variables.$block}__row_interactive:hover {
             background: var(--g-color-base-selection-hover);
 
-            #{variables.$block}__cell_sticky_left,
-            #{variables.$block}__cell_sticky_right {
+            #{variables.$block}__cell_sticky_start,
+            #{variables.$block}__cell_sticky_end {
                 background: linear-gradient(
                         to right,
                         var(--g-color-base-selection-hover),

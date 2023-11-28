@@ -28,6 +28,15 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             role = 'listitem',
         } = this.props;
 
+        /*
+        This fixes item drag layout for rtl direction.
+        react-window has a bug where in rtl it setting "right" to 0 instead of undefined.
+         */
+        const fixedStyle = {
+            ...style,
+            right: undefined,
+        };
+
         return (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
@@ -45,7 +54,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                     },
                     itemClassName,
                 )}
-                style={style}
+                style={fixedStyle}
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}

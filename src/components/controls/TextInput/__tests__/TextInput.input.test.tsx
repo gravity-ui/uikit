@@ -40,10 +40,10 @@ describe('TextInput input', () => {
                 render(<TextInput hasClear />);
                 const user = userEvent.setup();
                 const input = screen.getByRole('textbox');
-                let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+                let clearButton = screen.queryByRole('button', {name: 'Clear'});
                 expect(clearButton).not.toBeInTheDocument();
                 await user.type(input, 'abc');
-                clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+                clearButton = screen.queryByRole('button', {name: 'Clear'});
                 expect(clearButton).toBeInTheDocument();
             });
 
@@ -51,7 +51,7 @@ describe('TextInput input', () => {
                 render(<TextInput />);
 
                 expect(
-                    screen.queryByRole('button', {name: 'Clear input value'}),
+                    screen.queryByRole('button', {name: 'Clear'}),
                 ).not.toBeInTheDocument();
             });
 
@@ -80,7 +80,7 @@ describe('TextInput input', () => {
                 render(<TextInput hasClear onChange={onChangeFn} />);
                 const input = screen.getByRole('textbox');
                 await user.type(input, 'abc');
-                const clear = screen.getByRole('button', {name: 'Clear input value'});
+                const clear = screen.getByRole('button', {name: 'Clear'});
 
                 if (clear) {
                     await user.click(clear);

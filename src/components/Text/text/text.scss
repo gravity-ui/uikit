@@ -68,8 +68,20 @@ $block: '.#{variables.$ns}text';
         @include mixins.text-subheader-3();
     }
     &_ellipsis {
+        display: inline-block;
         @include mixins.overflow-ellipsis();
     }
+
+    &_ellipsis-lines {
+        display: -webkit-box; // stylelint-disable-line value-no-vendor-prefix
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        align-self: center;
+        white-space: normal;
+        // by default clamp 2 lines
+        -webkit-line-clamp: 2;
+    }
+
     &_ws_nowrap {
         white-space: nowrap;
     }

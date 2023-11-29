@@ -84,6 +84,7 @@ const WithGroupSelectionControlledStateAndCustomIconsExample: StoryFn<
                 onClick={(e) => {
                     e.stopPropagation();
                     setExpanded((prevExpandedState) => ({
+                        ...prevExpandedState,
                         // by default all groups expanded
                         [id]: id in prevExpandedState ? !prevExpandedState[id] : false,
                     }));

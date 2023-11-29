@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import type {QAProps} from '../types';
+
 export type PersonaText = string | {value: string; content: React.ReactNode};
 
 export type PersonaProps = {
@@ -25,4 +27,4 @@ export type PersonaProps = {
     /** Custom CSS class for root element */
     className?: string;
     style?: React.CSSProperties;
-};
+} & QAProps;

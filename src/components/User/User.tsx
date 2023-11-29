@@ -2,13 +2,14 @@ import React from 'react';
 
 import {UserAvatar} from '../UserAvatar';
 import type {UserAvatarSize} from '../UserAvatar';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './User.scss';
 
 const b = block('user');
 
-export interface UserProps {
+export interface UserProps extends QAProps {
     name?: string;
     description?: string;
     imgUrl?: string;
@@ -16,11 +17,11 @@ export interface UserProps {
     className?: string;
 }
 
-export function User({name, description, imgUrl, size = 'm', className}: UserProps) {
+export function User({name, description, imgUrl, size = 'm', className, qa}: UserProps) {
     const compact = size === 'xs';
 
     return (
-        <div className={b({size}, className)}>
+        <div className={b({size}, className)} data-qa={qa}>
             {imgUrl && <UserAvatar imgUrl={imgUrl} size={size} className={b('avatar')} />}
             {(name || description) && (
                 <div className={b('info')}>

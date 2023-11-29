@@ -1,11 +1,13 @@
 import React from 'react';
 
+import type {QAProps} from '../types';
+
 import {colorText} from './colorText/colorText';
 import type {ColorTextBaseProps} from './colorText/colorText';
 import {text} from './text/text';
 import type {TextBaseProps} from './text/text';
 
-export interface TextProps extends TextBaseProps, ColorTextBaseProps {
+export interface TextProps extends TextBaseProps, ColorTextBaseProps, QAProps {
     /**
      * Ability to override default html tag
      */

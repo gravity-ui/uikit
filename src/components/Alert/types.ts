@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import type {QAProps} from '../types';
+
 export type AlertTheme =
     | 'normal'
     | 'info'
@@ -11,7 +13,7 @@ export type AlertTheme =
 export type AlertView = 'filled' | 'outlined';
 export type AlertCorners = 'rounded' | 'square';
 
-export interface AlertProps {
+export interface AlertProps extends QAProps {
     title?: React.ReactNode;
     message?: React.ReactNode;
     theme?: AlertTheme;

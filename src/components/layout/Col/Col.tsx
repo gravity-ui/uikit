@@ -1,6 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
+import type {QAProps} from 'src/components/types';
+
 import {block} from '../../utils/cn';
 import type {ColSize, MediaPartial} from '../types';
 import {makeCssMod} from '../utils';
@@ -9,7 +11,7 @@ import './Col.scss';
 
 const b = block('col');
 
-export interface ColProps extends MediaPartial<ColSize> {
+export interface ColProps extends MediaPartial<ColSize>, QAProps {
     className?: string;
     style?: React.CSSProperties;
     children?: React.ReactNode;
@@ -39,7 +41,7 @@ export interface ColProps extends MediaPartial<ColSize> {
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#col
  */
-export const Col = ({children, style, className, ...media}: ColProps) => {
+export const Col = ({children, style, className, qa, ...media}: ColProps) => {
     const mods = Object.entries(media).reduce<Record<string, string>>((acc, [mod, modSize]) => {
         acc[`s-${mod}`] = makeCssMod(modSize);
 
@@ -47,7 +49,7 @@ export const Col = ({children, style, className, ...media}: ColProps) => {
     }, {});
 
     return (
-        <div style={style} className={b(mods, className)}>
+        <div style={style} className={b(mods, className)} data-qa={qa}>
             {children}
         </div>
     );

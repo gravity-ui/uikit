@@ -1,5 +1,6 @@
 import React from 'react';
 
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {SIZES} from './constants';
@@ -7,7 +8,7 @@ import type {UserAvatarSize} from './types';
 
 import './UserAvatar.scss';
 
-export interface UserAvatarProps {
+export interface UserAvatarProps extends QAProps {
     imgUrl?: string;
     fallbackImgUrl?: string;
     size?: UserAvatarSize;
@@ -24,7 +25,7 @@ const b = block('user-avatar');
 
 export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
     (
-        {imgUrl, fallbackImgUrl, size = 'm', srcSet, sizes, title, className, loading, onClick},
+        {imgUrl, fallbackImgUrl, size = 'm', srcSet, sizes, title, className, loading, onClick, qa},
         ref,
     ) => {
         const [isErrored, setIsErrored] = React.useState(false);
@@ -41,7 +42,13 @@ export const UserAvatar = React.forwardRef<HTMLDivElement, UserAvatarProps>(
         return (
             // FIXME OnClick deprecated, will be deleted
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-            <div className={b({size}, className)} title={title} onClick={onClick} ref={ref}>
+            <div
+                className={b({size}, className)}
+                title={title}
+                onClick={onClick}
+                ref={ref}
+                data-qa={qa}
+            >
                 <img
                     loading={loading}
                     className={b('figure')}

@@ -1,6 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
+import type {QAProps} from 'src/components/types';
+
 import {block} from '../../utils/cn';
 import {useLayoutContext} from '../hooks/useLayoutContext';
 import type {MediaPartial, Space} from '../types';
@@ -10,7 +12,7 @@ import './Row.scss';
 
 const b = block('row');
 
-export interface RowProps {
+export interface RowProps extends QAProps {
     style?: React.CSSProperties;
     /**
      * Vertical and horizontal `space` between children `<Col />` components.
@@ -40,7 +42,7 @@ export interface RowProps {
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#row
  */
-export const Row = ({children, style, className, space, spaceRow}: RowProps) => {
+export const Row = ({children, style, className, space, spaceRow, qa}: RowProps) => {
     const {getClosestMediaProps} = useLayoutContext();
 
     let s: string | undefined;
@@ -76,6 +78,7 @@ export const Row = ({children, style, className, space, spaceRow}: RowProps) => 
                 },
                 className,
             )}
+            data-qa={qa}
         >
             {children}
         </div>

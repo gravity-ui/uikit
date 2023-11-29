@@ -3,13 +3,14 @@ import React from 'react';
 import {Xmark} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './PersonaWrap.scss';
 
 const b = block('persona');
 
-export interface PersonaWrapProps {
+export interface PersonaWrapProps extends QAProps {
     avatar: React.ReactNode;
     children?: React.ReactNode;
     isEmpty?: boolean;
@@ -33,6 +34,7 @@ export function PersonaWrap({
     children,
     style,
     closeButtonAriaAttributes,
+    qa,
 }: PersonaWrapProps) {
     const clickable = Boolean(onClick);
     const closeable = Boolean(onClose);
@@ -42,6 +44,7 @@ export function PersonaWrap({
         <div
             className={b({size, theme, clickable, closeable, empty: isEmpty}, className)}
             style={style}
+            data-qa={qa}
         >
             <MainComponent onClick={onClick} className={b('main')}>
                 {avatar && <div className={b('avatar')}>{avatar}</div>}

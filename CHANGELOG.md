@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.22.0](https://github.com/gravity-ui/uikit/compare/v5.21.1...v5.22.0) (2023-11-28)
+
+
+### Features
+
+* **List:** use `Grip` icon from `@gravity-ui/icons` ([#1164](https://github.com/gravity-ui/uikit/issues/1164)) ([625679a](https://github.com/gravity-ui/uikit/commit/625679a8c18769dbfbf82b77b8154ad176a30a69))
+
+
+### Bug Fixes
+
+* **Select:** add onLoadMore to the list of dependencies to avoid closures ([#1168](https://github.com/gravity-ui/uikit/issues/1168)) ([a804684](https://github.com/gravity-ui/uikit/commit/a8046846662be94b64f6d0c10f84beefeaec0644))
+
 ## [5.21.1](https://github.com/gravity-ui/uikit/compare/v5.21.0...v5.21.1) (2023-11-27)
 
 

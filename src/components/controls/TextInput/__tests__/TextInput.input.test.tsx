@@ -50,9 +50,7 @@ describe('TextInput input', () => {
             test('do not render clear button without hasClear prop', () => {
                 render(<TextInput />);
 
-                expect(
-                    screen.queryByRole('button', {name: 'Clear'}),
-                ).not.toBeInTheDocument();
+                expect(screen.queryByRole('button', {name: 'Clear'})).not.toBeInTheDocument();
             });
 
             test('call onChange when input changes value', () => {

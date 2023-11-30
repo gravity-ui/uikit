@@ -14,13 +14,4 @@ $block: '.#{variables.$ns}alert';
     &__actions_minContent {
         width: min-content;
     }
-
-    &__title {
-        // To make sure that the title with dir='auto' is aligned as the rest of the page
-        text-align: start;
-
-        [dir='rtl'] & {
-            text-align: end;
-        }
-    }
 }

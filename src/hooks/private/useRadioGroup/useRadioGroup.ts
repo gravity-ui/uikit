@@ -3,27 +3,29 @@ import React from 'react';
 import {useUniqId} from '../..';
 import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
 
-interface OptionsProps
+interface OptionsProps<ValueType extends string = string>
     extends Omit<
-        ControlGroupProps,
+        ControlGroupProps<ValueType>,
         'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
     > {
-    value: string;
+    value: ValueType;
     checked: boolean;
     content: ControlGroupOption['content'];
 }
 
-export type UseRadioGroupProps = ControlGroupProps;
+export type UseRadioGroupProps<ValueType extends string = string> = ControlGroupProps<ValueType>;
 
-export type UseRadioGroupResult = {
+export type UseRadioGroupResult<ValueType extends string = string> = {
     containerProps: Pick<ControlGroupProps, 'aria-label' | 'aria-labelledby'> & {
         role: string;
         'aria-disabled': ControlGroupProps['disabled'];
     };
-    optionsProps: OptionsProps[];
+    optionsProps: OptionsProps<ValueType>[];
 };
 
-export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
+export function useRadioGroup<ValueType extends string = string>(
+    props: UseRadioGroupProps<ValueType>,
+): UseRadioGroupResult<ValueType> {
     const {
         name,
         value,
@@ -40,7 +42,7 @@ export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
     const [valueState, setValueState] = React.useState(
         defaultValue ?? options[0]?.value?.toString(),
     );
-    const isControlled = typeof value === 'string';
+    const isControlled = typeof value !== 'undefined';
     const currentValue = isControlled ? value : valueState;
 
     const handleChange = React.useCallback(
@@ -52,7 +54,7 @@ export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
                 onChange(event);
             }
             if (onUpdate) {
-                onUpdate(event.target.value);
+                onUpdate(event.target.value as ValueType);
             }
         },
         [isControlled, onUpdate, onChange],
@@ -67,7 +69,7 @@ export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
 
     const optionsProps = options.map((option) => ({
         name: name || controlId,
-        value: String(option.value),
+        value: option.value,
         content: option.content,
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,

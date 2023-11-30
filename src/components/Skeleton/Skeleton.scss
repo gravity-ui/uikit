@@ -3,6 +3,10 @@
 $block: '.#{variables.$ns}skeleton';
 
 #{$block} {
+    --_--animation-from: -100%;
+    --_--animation-to: 100%;
+    --_--gradient-deg: 90deg;
+
     display: inline-block;
     position: relative;
     z-index: 0;
@@ -12,11 +16,21 @@ $block: '.#{variables.$ns}skeleton';
 
     background-color: var(--g-color-base-generic);
 
+    [dir='rtl'] & {
+        --_--animation-from: 100%;
+        --_--animation-to: -100%;
+        --_--gradient-deg: -90deg;
+    }
+
     &::after {
         position: absolute;
         inset: 0;
 
-        background-image: linear-gradient(90deg, transparent, var(--g-color-base-generic));
+        background-image: linear-gradient(
+            var(--_--gradient-deg),
+            transparent,
+            var(--g-color-base-generic)
+        );
         animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
         content: '';
     }
@@ -24,10 +38,10 @@ $block: '.#{variables.$ns}skeleton';
 
 @keyframes #{variables.$ns}skeleton {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(var(--_--animation-from));
     }
 
     100% {
-        transform: translateX(100%);
+        transform: translateX(var(--_--animation-to));
     }
 }

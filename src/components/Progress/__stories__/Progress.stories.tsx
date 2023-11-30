@@ -17,17 +17,17 @@ export const Default = Template.bind({value: 50});
 const ThemeTemplate: StoryFn<typeof Progress> = (args) => {
     return (
         <React.Fragment>
-            <Progress {...args} value={80} theme="default" text="default" />
+            <Progress {...args} value={50} theme="default" text="default" />
             <br />
-            <Progress {...args} value={90} theme="success" text="success" />
+            <Progress {...args} value={50} theme="success" text="success" />
             <br />
-            <Progress {...args} value={70} theme="warning" text="warning" />
+            <Progress {...args} value={50} theme="warning" text="warning" />
             <br />
-            <Progress {...args} value={80} theme="danger" text="danger" />
+            <Progress {...args} value={50} theme="danger" text="danger" />
             <br />
-            <Progress {...args} value={90} theme="info" text="info" />
+            <Progress {...args} value={50} theme="info" text="info" />
             <br />
-            <Progress {...args} value={60} theme="misc" text="misc" />
+            <Progress {...args} value={50} theme="misc" text="misc" />
         </React.Fragment>
     );
 };

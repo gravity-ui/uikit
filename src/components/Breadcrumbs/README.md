@@ -346,10 +346,11 @@ return (
 
 ### BreadcrumbsItem
 
-| Name   | Description            | Type                                                                              | Default |
-| :----- | :--------------------- | :-------------------------------------------------------------------------------- | :------ |
-| text   | Breadcrumb content     | `string`                                                                          |         |
-| action | `click` event handler  | `React.MouseEventHandler<HTMLElement> \| React.KeyboardEventHandler<HTMLElement>` |         |
-| href   | HTML `href` attribute  | `string \| undefined`                                                             |         |
-| items  | Breadcrumb item array  | `BreadcrumbsItem[] \| undefined`                                                  |         |
-| title  | HTML `title` attribute | `string \| undefined`                                                             |         |
+| Name   | Description                             | Type                                                                              | Default |
+| :----- | :-------------------------------------- | :-------------------------------------------------------------------------------- | :------ |
+| text   | Breadcrumb content                      | `string`                                                                          |         |
+| action | `click` event handler                   | `React.MouseEventHandler<HTMLElement> \| React.KeyboardEventHandler<HTMLElement>` |         |
+| href   | HTML `href` attribute                   | `string \| undefined`                                                             |         |
+| items  | Breadcrumb item array                   | `BreadcrumbsItem[] \| undefined`                                                  |         |
+| title  | HTML `title` attribute                  | `string \| undefined`                                                             |         |
+| qa     | HTML `data-qa` attribute, used in tests | `string`                                                                          |         |

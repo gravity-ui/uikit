@@ -175,3 +175,4 @@ LANDING_BLOCK-->
 | wordBreak  | The word-break css property                             |              `"break-all"`               |            |
 | color      | Color of the text                                       | `string` (see values in "Color" section) |            |
 | ref        |                                                         |                  `any`                   |            |
+| qa         | HTML `data-qa` attribute, used in tests                 |                 `string`                 |            |

@@ -14,3 +14,4 @@ Component for displaying user avatar.
 | title          | `string`         |          |         | Tooltip text on hover                                                                                   |
 | className      | `string`         |          |         | Class name                                                                                              |
 | loading        | `eager \| lazy`  |          |         | The loading attribute specifies whether a browser should load an image immediately or to defer loading. |
+| qa             | `string`         |          |         | HTML `data-qa` attribute, used in tests                                                                 |

@@ -235,3 +235,4 @@ LANDING_BLOCK-->
 | style     | HTML style attribute                                                        |                       `React.CSSProperties`                        |              |
 | className | Name of alert class                                                         |                              `string`                              |              |
 | icon      | Override default icon                                                       |                         `React.ReactNode`                          |              |
+| qa        | HTML `data-qa` attribute, used in tests.                                    |                              `string`                              |              |

@@ -144,3 +144,5 @@ LANDING_BLOCK-->
 | onClick   | Card click handler. Available for `type`: `"selection"`, `"action"` | `Function`  |               |
 | selected  | Selected card. Available for type: `"selection"`                    |  `Boolean`  |               |
 | disabled  | Disabled card. Available for type: `"selection"`, `"action"`        |  `Boolean`  |               |
+| role      | `aria-role` attribute                                               |  `string`   |               |
+| qa        | HTML `data-qa` attribute, used in tests                             |  `string`   |               |

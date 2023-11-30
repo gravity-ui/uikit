@@ -41,6 +41,7 @@ export interface CardProps extends QAProps {
     theme?: CardTheme;
     /** Card's size affects on available properties*/
     size?: CardSize;
+    role?: React.AriaRole;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
@@ -55,6 +56,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         disabled,
         selected,
         style,
+        role,
         qa,
     } = props;
 
@@ -78,7 +80,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         <div
             style={style}
             ref={ref}
-            role={isClickable ? 'button' : undefined}
+            role={isClickable ? 'button' : role}
             className={b(
                 {
                     theme: theme || defaultTheme,

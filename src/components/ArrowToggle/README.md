@@ -120,3 +120,4 @@ return (
 | className | HTML `class` attribute                   | `string` |            |
 | direction | Used to set the direction of arrowToggle | `string` | `"bottom"` |
 | size      | Size of arrowToggle in px                | `number` |    `16`    |
+| qa        | HTML `data-qa` attribute, used in tests  | `string` |            |

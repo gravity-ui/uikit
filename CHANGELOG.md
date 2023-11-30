@@ -1,5 +1,32 @@
 # Changelog
 
+## [5.22.0](https://github.com/gravity-ui/uikit/compare/v5.21.1...v5.22.0) (2023-11-28)
+
+
+### Features
+
+* **List:** use `Grip` icon from `@gravity-ui/icons` ([#1164](https://github.com/gravity-ui/uikit/issues/1164)) ([625679a](https://github.com/gravity-ui/uikit/commit/625679a8c18769dbfbf82b77b8154ad176a30a69))
+
+
+### Bug Fixes
+
+* **Select:** add onLoadMore to the list of dependencies to avoid closures ([#1168](https://github.com/gravity-ui/uikit/issues/1168)) ([a804684](https://github.com/gravity-ui/uikit/commit/a8046846662be94b64f6d0c10f84beefeaec0644))
+
+## [5.21.1](https://github.com/gravity-ui/uikit/compare/v5.21.0...v5.21.1) (2023-11-27)
+
+
+### Bug Fixes
+
+* align checkbox when there is more than 1 line of text in any cell ([#1149](https://github.com/gravity-ui/uikit/issues/1149)) ([8011430](https://github.com/gravity-ui/uikit/commit/8011430102d3fda764711d3003be2b9c953f586d))
+
+## [5.21.0](https://github.com/gravity-ui/uikit/compare/v5.20.0...v5.21.0) (2023-11-24)
+
+
+### Features
+
+* change react-sortable-hoc with react-beautiful-dnd ([#1159](https://github.com/gravity-ui/uikit/issues/1159)) ([1f7ab68](https://github.com/gravity-ui/uikit/commit/1f7ab68a74deedcd6dd091c8a9bc7d5a5b913006))
+* lazy loading for userAvatar ([#1124](https://github.com/gravity-ui/uikit/issues/1124)) ([e76fd7c](https://github.com/gravity-ui/uikit/commit/e76fd7ce9ab4a6adff05f5e816f385e1b5afc316))
+
 ## [5.20.0](https://github.com/gravity-ui/uikit/compare/v5.19.1...v5.20.0) (2023-11-14)
 
 

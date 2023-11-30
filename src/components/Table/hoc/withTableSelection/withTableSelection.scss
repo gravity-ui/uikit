@@ -7,6 +7,8 @@
     }
 
     &__selection-checkbox {
+        display: flex;
+        align-items: center;
         padding: inherit;
         border-bottom: none;
         position: absolute;
@@ -14,6 +16,10 @@
         bottom: 0;
         left: 0;
         right: 0;
+
+        &_vertical-align_top {
+            align-items: start;
+        }
     }
 
     &__row_selected {

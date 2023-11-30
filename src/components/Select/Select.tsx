@@ -156,6 +156,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     handleOptionClick(getActiveItem(listRef));
                 }
             }
+            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
+                e.preventDefault();
+                toggleOpen();
+            }
 
             listRef?.current?.onKeyDown(e);
         },

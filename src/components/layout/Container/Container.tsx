@@ -1,8 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
-import type {QAProps} from 'src/components/types';
-
+import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {sp} from '../spacing/spacing';
 import type {MediaPartial, MediaType, Space} from '../types';

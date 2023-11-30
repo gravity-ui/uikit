@@ -26,6 +26,11 @@ $progress-xs-height: 4px;
     text-align: center;
     text-shadow: 0 0 1px var(--g-color-text-dark-primary);
 
+    --_--flow-direction: 1;
+    [dir='rtl'] & {
+        --_--flow-direction: -1;
+    }
+
     &__text {
         @include progress-text;
 
@@ -49,6 +54,9 @@ $progress-xs-height: 4px;
         position: relative;
 
         float: left;
+        [dir='rtl'] & {
+            float: right;
+        }
 
         width: 100%;
         height: 100%;

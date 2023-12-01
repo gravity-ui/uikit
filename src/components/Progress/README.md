@@ -18,28 +18,28 @@ Use `theme` property to specify color of the whole progress or the composite par
 
 <ExampleBlock
   code={`
-<Progress text="default" value={80} />
-<Progress text="warning" theme="warning" value={70} />
-<Progress text="info" theme="info" value={90} />
-<Progress text="success" theme="success" value={90} />
-<Progress text="danger" theme="danger" value={80} />
-<Progress text="misc" theme="misc" value={60} />
+<Progress text="default" value={50} />
+<Progress text="warning" theme="warning" value={50} />
+<Progress text="info" theme="info" value={50} />
+<Progress text="success" theme="success" value={50} />
+<Progress text="danger" theme="danger" value={50} />
+<Progress text="misc" theme="misc" value={50} />
 `}
 >
   <div style={{width: '30%'}}>
-    <UIKit.Progress text="default" value={80} />
+    <UIKit.Progress text="default" value={50} />
     <div style={{height: '15px'}} />
-    <UIKit.Progress text="success" theme="success" value={90} />
+    <UIKit.Progress text="success" theme="success" value={50} />
   </div>
   <div style={{width: '30%'}}>
-    <UIKit.Progress text="warning" theme="warning" value={70} />
+    <UIKit.Progress text="warning" theme="warning" value={50} />
     <div style={{height: '15px'}} />
-    <UIKit.Progress text="danger" theme="danger" value={80} />
+    <UIKit.Progress text="danger" theme="danger" value={50} />
   </div>
   <div style={{width: '30%'}}>
-    <UIKit.Progress text="info" theme="info "value={90} />
+    <UIKit.Progress text="info" theme="info "value={50} />
     <div style={{height: '15px'}} />
-    <UIKit.Progress text="misc" theme="misc" value={60} />
+    <UIKit.Progress text="misc" theme="misc" value={50} />
   </div>
 </ExampleBlock>
 
@@ -48,12 +48,12 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Progress text="default" value={80} />
-<Progress text="warning" theme="warning" value={70} />
-<Progress text="info" theme="info" value={90} />
-<Progress text="success" theme="success" value={90} />
-<Progress text="danger" theme="danger" value={80} />
-<Progress text="misc" theme="misc" value={60} />
+<Progress text="default" value={50} />
+<Progress text="warning" theme="warning" value={50} />
+<Progress text="info" theme="info" value={50} />
+<Progress text="success" theme="success" value={50} />
+<Progress text="danger" theme="danger" value={50} />
+<Progress text="misc" theme="misc" value={50} />
 ```
 
 <!--/GITHUB_BLOCK-->

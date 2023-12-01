@@ -1,0 +1,86 @@
+@use '../variables';
+
+$block: '.#{variables.$ns-new}colors-grid';
+
+#{$block} {
+    --_--color-size: 28px;
+    --_--color-icon-size: 12px;
+    --_--color-gap: 1px;
+
+    width: min-content;
+    height: min-content;
+    display: grid;
+    grid-template-columns: repeat(var(--_--cols-num), 1fr);
+    gap: var(--_--color-gap);
+    border-radius: 8px;
+    box-shadow: 0px 2px 52px 0px var(--g-color-sfx-shadow);
+    padding: 12px;
+
+    &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: var(--_--color-size);
+        height: var(--_--color-size);
+        border-radius: 1px;
+        box-sizing: border-box;
+
+        &_active {
+            outline: 1px solid var(--g-color-line-focus);
+            outline-offset: 1px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        &_void {
+            border: 1px solid var(--g-color-line-generic-solid);
+            position: relative;
+            overflow: hidden;
+
+            &::after {
+                content: '';
+                position: absolute;
+                display: inline-block;
+                width: 150%;
+                height: 2px;
+                background-color: var(--g-color-line-danger);
+                transform: rotate(-45deg);
+            }
+        }
+
+        &[role='button'] {
+            &:hover,
+            &:focus-visible {
+                outline: 1px solid var(--g-color-line-focus);
+                outline-offset: 0px;
+                z-index: 1;
+            }
+        }
+    }
+
+    &__check {
+        width: var(--_--color-icon-size);
+        height: var(--_--color-icon-size);
+        z-index: 1;
+    }
+
+    &_size {
+        &_s {
+            --_--color-size: 24px;
+            --_--color-icon-size: 12px;
+            --_--color-gap: 1px;
+        }
+
+        &_m {
+            --_--color-size: 28px;
+            --_--color-icon-size: 14px;
+            --_--color-gap: 1px;
+        }
+
+        &_l {
+            --_--color-size: 36px;
+            --_--color-icon-size: 16px;
+            --_--color-gap: 2px;
+        }
+    }
+}

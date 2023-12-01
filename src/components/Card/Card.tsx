@@ -75,12 +75,11 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
 
     const handleClick = isClickable ? onClick : undefined;
     const {onKeyDown} = useActionHandlers(onClick);
-
     return (
         <div
             style={style}
             ref={ref}
-            role={isClickable ? 'button' : role}
+            role={role || (isClickable ? 'button' : undefined)}
             className={b(
                 {
                     theme: theme || defaultTheme,

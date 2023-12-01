@@ -343,14 +343,14 @@ return (
 | firstDisplayedItemsCount | Number of items to display before item collapse control | `FirstDisplayedItemsCount.Zero \| FirstDisplayedItemsCount.One`                                         |         |
 | lastDisplayedItemsCount  | Number of items to display after item collapse control  | `LastDisplayedItemsCount.One \| LastDisplayedItemsCount.Two`                                            |         |
 | popupStyle               | Style of collapsed item popup                           | `"staircase" \| undefined`                                                                              |         |
+| qa                       | HTML `data-qa` attribute, used in tests                 | `string`                                                                                                |         |
 
 ### BreadcrumbsItem
 
-| Name   | Description                             | Type                                                                              | Default |
-| :----- | :-------------------------------------- | :-------------------------------------------------------------------------------- | :------ |
-| text   | Breadcrumb content                      | `string`                                                                          |         |
-| action | `click` event handler                   | `React.MouseEventHandler<HTMLElement> \| React.KeyboardEventHandler<HTMLElement>` |         |
-| href   | HTML `href` attribute                   | `string \| undefined`                                                             |         |
-| items  | Breadcrumb item array                   | `BreadcrumbsItem[] \| undefined`                                                  |         |
-| title  | HTML `title` attribute                  | `string \| undefined`                                                             |         |
-| qa     | HTML `data-qa` attribute, used in tests | `string`                                                                          |         |
+| Name   | Description            | Type                                                                              | Default |
+| :----- | :--------------------- | :-------------------------------------------------------------------------------- | :------ |
+| text   | Breadcrumb content     | `string`                                                                          |         |
+| action | `click` event handler  | `React.MouseEventHandler<HTMLElement> \| React.KeyboardEventHandler<HTMLElement>` |         |
+| href   | HTML `href` attribute  | `string \| undefined`                                                             |         |
+| items  | Breadcrumb item array  | `BreadcrumbsItem[] \| undefined`                                                  |         |
+| title  | HTML `title` attribute | `string \| undefined`                                                             |         |

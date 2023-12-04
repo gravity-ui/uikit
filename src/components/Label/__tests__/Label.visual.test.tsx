@@ -18,61 +18,61 @@ import {
 import {test} from '~playwright/core';
 
 test.describe('Label', () => {
-    test('render stories: <Default>', async ({mount}) => {
+    test('render story: <Default>', async ({mount}) => {
         const component = await mount(<Default />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Theme>', async ({mount}) => {
+    test('render story: <Theme>', async ({mount}) => {
         const component = await mount(<Theme />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Size>', async ({mount}) => {
+    test('render story: <Size>', async ({mount}) => {
         const component = await mount(<Size />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Icon>', async ({mount}) => {
+    test('render story: <Icon>', async ({mount}) => {
         const component = await mount(<Icon />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Interactive>', async ({mount}) => {
+    test('render story: <Interactive>', async ({mount}) => {
         const component = await mount(<Interactive />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <LinkWrapper>', async ({mount}) => {
+    test('render story: <LinkWrapper>', async ({mount}) => {
         const component = await mount(<LinkWrapper />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <ShowcaseStory>', async ({mount}) => {
+    test('render story: <ShowcaseStory>', async ({mount}) => {
         const component = await mount(<ShowcaseStory />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Value>', async ({mount}) => {
+    test('render story: <Value>', async ({mount}) => {
         const component = await mount(<Value />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Copy>', async ({mount}) => {
+    test('render story: <Copy>', async ({mount}) => {
         const component = await mount(<Copy />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('render stories: <Close>', async ({mount}) => {
+    test('render story: <Close>', async ({mount}) => {
         const component = await mount(<Close />);
 
         await expect(component).toHaveScreenshot();

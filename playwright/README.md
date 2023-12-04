@@ -72,8 +72,7 @@ npm run playwright:docker:update
 
 ## Test examples
 
-- [Button](../src/components/Button/__tests__/Button.visual.test.tsx) - example story screenshots
-- [TextInput](../src/components/controls/TextInput/__tests__/TextInput.input.visual.test.tsx) - example of testing user actions on a component
+- [Button](../src/components/Button/__tests__/Button.visual.test.tsx)
 - [Label](../src/components/Label/__tests__//Label.visual.test.tsx)
 
 ## Npm scripts

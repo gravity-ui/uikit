@@ -8,7 +8,12 @@
         "baseUrl": ".",
         "resolveJsonModule": true,
         "importHelpers": true,
-        "importsNotUsedAsValues": "error"
+        "importsNotUsedAsValues": "error",
+        "paths": {
+            "~playwright/*": [
+                "playwright/*"
+            ]
+        }
     },
     "include": [
         "src/**/*.ts",

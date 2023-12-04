@@ -1,9 +1,12 @@
 @use '../../variables';
 
+$checkboxWidth: 17px;
+
 #{variables.$block} {
     &__checkbox_cell {
         position: relative;
-        min-width: 17px;
+        min-width: $checkboxWidth;
+        width: $checkboxWidth;
     }
 
     &__selection-checkbox {

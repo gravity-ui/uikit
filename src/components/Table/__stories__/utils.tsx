@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {withTableSelection} from '..';
 import {Table} from '../Table';
 import type {TableColumnConfig} from '../Table';
@@ -54,6 +56,19 @@ export const columns: TableColumnConfig<DataItem>[] = [
     {
         id: 'name',
         name: 'Name',
+        template(item, i) {
+            if (i % 2 === 0) {
+                return item.name;
+            }
+            const [name, surname] = item.name.split(' ');
+            return (
+                <div>
+                    {name}
+                    <br />
+                    {surname}
+                </div>
+            );
+        },
     },
     {
         id: 'city',

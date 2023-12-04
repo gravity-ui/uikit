@@ -1,9 +1,17 @@
-/* eslint new-cap: "off" */
-
 import React from 'react';
 
+import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import {
+    DragDropContext,
+    Draggable,
+    DraggableProvided,
+    DraggableRubric,
+    DraggableStateSnapshot,
+    DropResult,
+    Droppable,
+    DroppableProvided,
+} from 'react-beautiful-dnd';
 import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList as ListContainer} from 'react-window';
 
@@ -15,15 +23,12 @@ import {getUniqId} from '../utils/common';
 
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
-import type {ListItemData, ListItemProps, ListProps, ListSortParams} from './types';
+import type {ListItemData, ListItemProps, ListProps} from './types';
 
 import './List.scss';
 
 const b = block('list');
 const DEFAULT_ITEM_HEIGHT = 28;
-const SortableListItem = SortableElement(ListItem);
-const SortableListContainer = SortableContainer(ListContainer, {withRef: true});
-const SortableSimpleContainer = SortableContainer(SimpleContainer, {withRef: true});
 
 type ListState<T> = {
     items: ListProps<T>['items'];
@@ -40,6 +45,14 @@ export const listDefaultProps: Partial<ListProps<ListItemData<unknown>>> = {
     sortable: false,
     virtualized: true,
     deactivateOnLeave: true,
+};
+
+const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
 };
 
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
@@ -86,7 +99,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     uniqId = getUniqId();
 
     componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
-        if (this.props.items !== prevProps.items) {
+        if (!isEqual(this.props.items, prevProps.items)) {
             const filter = this.getFilter();
             const internalFiltering = filter && !this.props.onFilterUpdate;
 
@@ -177,7 +190,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         this.setState({activeItem: index});
     }
 
-    // FIXME: BREAKING CHANGE. Rename to "handleKeyDown"
     onKeyDown: React.KeyboardEventHandler<HTMLElement> = (event) => {
         const {activeItem, pageSize} = this.state;
 
@@ -238,22 +250,30 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             : defaultRenderItem(item);
     };
 
-    private renderItem = ({index, style}: {index: number; style?: React.CSSProperties}) => {
+    private renderItem = ({
+        index,
+        style,
+        provided,
+        isDragging,
+    }: {
+        index: number;
+        style?: React.CSSProperties;
+        provided?: DraggableProvided;
+        isDragging?: boolean;
+    }) => {
         const {sortHandleAlign, role} = this.props;
         const {items, activeItem} = this.state;
         const item = this.getItemsWithLoading()[index];
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
         const active = index === activeItem || index === this.props.activeItemIndex;
-        const Item = sortable ? SortableListItem : ListItem;
         const selected = Array.isArray(this.props.selectedItemIndex)
             ? this.props.selectedItemIndex.includes(index)
             : index === this.props.selectedItemIndex;
 
         return (
-            <Item
+            <ListItem
                 key={index}
                 style={style}
-                index={index}
                 itemIndex={index}
                 item={item}
                 sortable={sortable}
@@ -266,7 +286,23 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 onClick={this.props.onItemClick}
                 role={role === 'listbox' ? 'option' : 'listitem'}
                 listId={this.props.id ?? this.uniqId}
+                provided={provided}
+                isDragging={isDragging}
             />
+        );
+    };
+
+    private renderVirtualizedItem = ({
+        index,
+        style,
+    }: {
+        index: number;
+        style?: React.CSSProperties;
+    }) => {
+        return (
+            <Draggable draggableId={String(index)} index={index} key={`item-key-${index}`}>
+                {(provided: DraggableProvided) => this.renderItem({index, style, provided})}
+            </Draggable>
         );
     };
 
@@ -302,33 +338,121 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private renderSimpleContainer() {
         const {sortable} = this.props;
         const items = this.getItemsWithLoading();
-        const Container = sortable ? SortableSimpleContainer : SimpleContainer;
+
+        if (sortable) {
+            return (
+                <DragDropContext onDragStart={this.onSortStart} onDragEnd={this.onSortEnd}>
+                    <Droppable
+                        droppableId="droppable"
+                        renderClone={(
+                            provided: DraggableProvided,
+                            snapshot: DraggableStateSnapshot,
+                            rubric: DraggableRubric,
+                        ) => {
+                            return this.renderItem({
+                                index: rubric.source.index,
+                                provided,
+                                isDragging: snapshot.isDragging,
+                            });
+                        }}
+                    >
+                        {(droppableProvided: DroppableProvided) => (
+                            <SimpleContainer
+                                ref={this.refContainer}
+                                itemCount={items.length}
+                                provided={droppableProvided}
+                                sortable={sortable}
+                            >
+                                {items.map((_item, index) => {
+                                    return (
+                                        <Draggable
+                                            draggableId={String(index)}
+                                            index={index}
+                                            key={`item-key-${index}`}
+                                        >
+                                            {(
+                                                provided: DraggableProvided,
+                                                snapshot: DraggableStateSnapshot,
+                                            ) => {
+                                                return this.renderItem({
+                                                    index,
+                                                    isDragging: snapshot.isDragging,
+                                                    provided,
+                                                    style: {height: this.getItemHeight(index)},
+                                                });
+                                            }}
+                                        </Draggable>
+                                    );
+                                })}
+                            </SimpleContainer>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            );
+        }
 
         return (
-            <Container
-                helperClass={b('item', {sorting: true})}
-                distance={5}
-                lockAxis="y"
-                onSortStart={this.onSortStart}
-                onSortEnd={this.onSortEnd}
-                itemCount={items.length}
-                ref={this.refContainer}
-            >
+            <SimpleContainer itemCount={items.length} ref={this.refContainer}>
                 {items.map((_item, index) =>
                     this.renderItem({index, style: {height: this.getItemHeight(index)}}),
                 )}
-            </Container>
+            </SimpleContainer>
         );
     }
 
     private renderVirtualizedContainer() {
-        const Container = this.props.sortable ? SortableListContainer : ListContainer;
+        const items = this.getItems();
 
-        const items = this.getItemsWithLoading();
+        if (this.props.sortable) {
+            return (
+                <DragDropContext onDragStart={this.onSortStart} onDragEnd={this.onSortEnd}>
+                    <Droppable
+                        droppableId="droppable"
+                        mode="virtual"
+                        renderClone={(
+                            provided: DraggableProvided,
+                            snapshot: DraggableStateSnapshot,
+                            rubric: DraggableRubric,
+                        ) => {
+                            return this.renderItem({
+                                index: rubric.source.index,
+                                provided,
+                                isDragging: snapshot.isDragging,
+                            });
+                        }}
+                    >
+                        {(droppableProvided: DroppableProvided) => (
+                            <AutoSizer>
+                                {({width, height}: Size) => (
+                                    <ListContainer
+                                        ref={this.refContainer}
+                                        outerRef={droppableProvided.innerRef}
+                                        width={width}
+                                        height={height}
+                                        itemSize={this.getVirtualizedItemHeight}
+                                        itemData={items}
+                                        itemCount={items.length}
+                                        overscanCount={10}
+                                        onItemsRendered={this.onItemsRendered}
+                                        // this property used to rerender items in viewport
+                                        // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
+                                        // @ts-expect-error
+                                        activeItem={this.state.activeItem}
+                                    >
+                                        {this.renderVirtualizedItem}
+                                    </ListContainer>
+                                )}
+                            </AutoSizer>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            );
+        }
+
         return (
             <AutoSizer>
                 {({width, height}: Size) => (
-                    <Container
+                    <ListContainer
                         ref={this.refContainer}
                         width={width}
                         height={height}
@@ -336,19 +460,14 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         itemData={items}
                         itemCount={items.length}
                         overscanCount={10}
-                        helperClass={b('item', {sorting: true})}
-                        distance={5}
-                        lockAxis="y"
                         onItemsRendered={this.onItemsRendered}
-                        onSortStart={this.onSortStart}
-                        onSortEnd={this.onSortEnd}
                         // this property used to rerender items in viewport
                         // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
                         // @ts-expect-error
                         activeItem={this.state.activeItem}
                     >
                         {this.renderItem}
-                    </Container>
+                    </ListContainer>
                 )}
             </AutoSizer>
         );
@@ -360,17 +479,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         } else {
             return this.renderSimpleContainer();
         }
-    }
-
-    private getContainer() {
-        const ref = this.refContainer.current;
-        const wrappedInstance =
-            ref &&
-            'getWrappedInstance' in ref &&
-            typeof ref.getWrappedInstance === 'function' &&
-            ref.getWrappedInstance();
-
-        return this.props.sortable ? wrappedInstance : ref;
     }
 
     private filterItem = (filter: string) => (item: ListItemData<T>) => {
@@ -393,7 +501,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     private scrollToIndex = (index: number) => {
-        const container = this.getContainer();
+        const container = this.refContainer.current;
 
         if (container) {
             container.scrollToItem(index);
@@ -479,14 +587,28 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         this.setState({sorting: true});
     };
 
-    private onSortEnd = (params: ListSortParams) => {
-        if (this.props.onSortEnd) {
-            this.props.onSortEnd(params);
+    private onSortEnd = (result: DropResult) => {
+        if (!result.destination) {
+            return;
         }
 
+        if (result.source.index === result.destination.index) {
+            return;
+        }
+
+        const oldIndex = result.source.index;
+        const newIndex = result.destination.index;
+
+        if (this.props.onSortEnd) {
+            this.props.onSortEnd({oldIndex, newIndex});
+        }
+
+        const nextItems = reorder(this.getItems(), oldIndex, newIndex);
+
         this.setState({
+            activeItem: newIndex,
+            items: nextItems,
             sorting: false,
-            activeItem: params.newIndex,
         });
     };
 

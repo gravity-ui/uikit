@@ -6,4 +6,6 @@ export const KeyCode = {
     SPACEBAR: ' ',
     SPACEBAR_OLD: 'Spacebar',
     ESCAPE: 'Escape',
+    ARROW_UP: 'ArrowUp',
+    ARROW_DOWN: 'ArrowDown',
 };

@@ -52,6 +52,22 @@ describe('Select base actions', () => {
             await user.keyboard('[Space]');
             getByTestId(SelectQa.POPUP);
         });
+
+        test('ArrowUp', async () => {
+            const {getByTestId} = setup();
+            const user = userEvent.setup();
+            await user.keyboard('[Tab]');
+            await user.keyboard('[ArrowUp]');
+            getByTestId(SelectQa.POPUP);
+        });
+
+        test('ArrowDown', async () => {
+            const {getByTestId} = setup();
+            const user = userEvent.setup();
+            await user.keyboard('[Tab]');
+            await user.keyboard('[ArrowDown]');
+            getByTestId(SelectQa.POPUP);
+        });
     });
 
     describe('initial state', () => {

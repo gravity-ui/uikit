@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import type {DraggableProvided} from 'react-beautiful-dnd';
+
 import type {TextInputSize} from '../controls';
 import type {QAProps} from '../types';
 
@@ -60,4 +62,6 @@ export type ListItemProps<T> = {
     onClick?: ListProps<T>['onItemClick'];
     role?: React.AriaRole;
     listId?: string;
+    provided?: DraggableProvided;
+    isDragging?: boolean;
 };

@@ -71,7 +71,7 @@ export const Tooltip = (props: TooltipProps) => {
 
 function useTooltipVisible(
     anchor: HTMLElement | null,
-    {openDelay = 250, closeDelay}: TooltipDelayProps,
+    {openDelay = 1000, closeDelay}: TooltipDelayProps,
 ) {
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
     const timeoutRef = React.useRef<number>();

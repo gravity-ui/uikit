@@ -59,6 +59,7 @@ export const Text = React.forwardRef(
             color,
             whiteSpace,
             wordBreak,
+            qa,
             ...rest
         }: TextPropsWithoutRef<C>,
         ref?: TextRef<C>,
@@ -72,6 +73,7 @@ export const Text = React.forwardRef(
                     {variant, ellipsis, whiteSpace, wordBreak},
                     color ? colorText({color}, className) : className,
                 )}
+                data-qa={qa}
                 {...rest}
             >
                 {children}

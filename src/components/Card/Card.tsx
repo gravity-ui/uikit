@@ -73,6 +73,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
 
     const handleClick = isClickable ? onClick : undefined;
     const {onKeyDown} = useActionHandlers(onClick);
+
     return (
         <div
             style={style}

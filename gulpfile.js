@@ -31,6 +31,7 @@ function compileTs(modules = false) {
         '!src/**/__tests__/**/*',
         '!src/**/__mocks__/**/*',
         '!src/**/*.test.{ts,tsx}',
+        '!src/**/__snapshots__/**/*',
     ])
         .pipe(
             replace(/import '.+\.scss';/g, (match) =>

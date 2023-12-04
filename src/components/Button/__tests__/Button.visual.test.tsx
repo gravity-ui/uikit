@@ -1,12 +1,14 @@
 import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
-import {expect, test} from '@playwright/experimental-ct-react';
+import {expect} from '@playwright/experimental-ct-react';
 
 import {Button} from '../Button';
 import {ButtonViewShowcase} from '../__stories__/ButtonViewShowcase';
 
 import {ButtonIcon, ButtonWitchIcon} from './helpers';
+
+import {test} from '~playwright/core';
 
 test.describe('Button', () => {
     test('render buttom by default', async ({mount}) => {

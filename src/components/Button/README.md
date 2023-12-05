@@ -69,6 +69,7 @@ There are also semantic variants of this type, which can be used when additional
 <Button view="outlined-success" size="l">Outlined Success</Button>
 <Button view="outlined-warning" size="l">Outlined Warning</Button>
 <Button view="outlined-danger" size="l">Outlined Danger</Button>
+<Button view="outlined-utility" size="l">Outlined Utility</Button>
 `}>
     <UIKit.Button view="outlined" size="l">Outlined</UIKit.Button>
     <UIKit.Button view="outlined-action" size="l">Outlined Action</UIKit.Button>
@@ -76,6 +77,7 @@ There are also semantic variants of this type, which can be used when additional
     <UIKit.Button view="outlined-success" size="l">Outlined Success</UIKit.Button>
     <UIKit.Button view="outlined-warning" size="l">Outlined Warning</UIKit.Button>
     <UIKit.Button view="outlined-danger" size="l">Outlined Danger</UIKit.Button>
+    <UIKit.Button view="outlined-utility" size="l">Outlined Utility</UIKit.Button>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -89,6 +91,7 @@ LANDING_BLOCK-->
 <Button view="outlined-success" size="l">Outlined Success</Button>
 <Button view="outlined-warning" size="l">Outlined Warning</Button>
 <Button view="outlined-danger" size="l">Outlined Danger</Button>
+<Button view="outlined-utility" size="l">Outlined Utility</Button>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -114,6 +117,7 @@ There are also semantic variants of this view, which can be used in places where
 <Button view="flat-success" size="l">Flat Success</Button>
 <Button view="flat-warning" size="l">Flat Warning</Button>
 <Button view="flat-danger" size="l">Flat Danger</Button>
+<Button view="flat-utility" size="l">Flat Utility</Button>
 `}
 >
     <UIKit.Button view="flat" size="l">Flat</UIKit.Button>
@@ -122,6 +126,7 @@ There are also semantic variants of this view, which can be used in places where
     <UIKit.Button view="flat-success" size="l">Flat Success</UIKit.Button>
     <UIKit.Button view="flat-warning" size="l">Flat Warning</UIKit.Button>
     <UIKit.Button view="flat-danger" size="l">Flat Danger</UIKit.Button>
+    <UIKit.Button view="flat-utility" size="l">Flat Utility</UIKit.Button>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -136,6 +141,7 @@ LANDING_BLOCK-->
 <Button view="flat-success" size="l">Flat Success</Button>
 <Button view="flat-warning" size="l">Flat Warning</Button>
 <Button view="flat-danger" size="l">Flat Danger</Button>
+<Button view="flat-utility" size="l">Flat Utility</Button>
 ```
 
 <!--/GITHUB_BLOCK-->

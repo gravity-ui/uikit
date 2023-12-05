@@ -9,9 +9,11 @@
    ```ts
    import React from 'react';
 
-   import {expect, test} from '@playwright/experimental-ct-react';
+   import {expect} from '@playwright/experimental-ct-react';
 
    import {MyTestedComponent} from '../MyTestedComponent';
+
+   import {test} from '~playwright/core';
 
    test('Name test', async ({mount}) => {
      //mounting a component
@@ -60,40 +62,18 @@ Or
 npm run playwright:docker:update
 ```
 
-6.In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
+6. In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
 
 ## Description of possible commands:
 
 1. [playwright-test-components](https://playwright.dev/docs/test-components)
 2. [playwright-docs](https://playwright.dev/docs/api/class-test)
-
-## Pay attention
-
-Screenshots are taken within the component boundaries and if it has overflowing content, do the following:
-
-```ts
-import React from 'react';
-
-import {expect, test} from '@playwright/experimental-ct-react';
-
-import {WrapperTest} from '../../../../playwright/helpers';
-
-import {Component} from '../Component';
-
-test('Test Component  ', async ({mount}) => {
-  const component = await mount(
-    <WrapperTest>
-      <Component />
-    </WrapperTest>,
-  );
-
-  await expect(component).toHaveScreenshot();
-});
-```
+3. [playwright-writing-tests](https://playwright.dev/docs/writing-tests)
 
 ## Test examples
 
-- [Button](../src/components/Button/__tests__/Button.visual.test)
+- [Button](../src/components/Button/__tests__/Button.visual.test.tsx)
+- [Label](../src/components/Label/__tests__//Label.visual.test.tsx)
 
 ## Npm scripts
 

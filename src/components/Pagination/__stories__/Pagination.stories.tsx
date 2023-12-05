@@ -4,21 +4,13 @@ import type {Meta, Story} from '@storybook/react';
 
 import {Pagination, PaginationProps} from '../../Pagination';
 
-const useState = (args: PaginationProps) => {
-    const [state, setState] = React.useState({...args});
-    const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) =>
-        setState((prevState) => ({...prevState, page, pageSize}));
-    return {...state, onUpdate};
-};
-
 export default {
     title: 'Components/Navigation/Pagination',
     component: Pagination,
 } as Meta;
 
 const Template: Story<PaginationProps> = (args) => {
-    const state = useState(args);
-    return <Pagination {...state} />;
+    return <Pagination {...args} />;
 };
 
 export const Default = Template.bind({});
@@ -32,8 +24,7 @@ Default.args = {
 };
 
 const TotalUnknownTemplate: Story<PaginationProps> = (args) => {
-    const state = useState(args);
-    return <Pagination {...state} />;
+    return <Pagination {...args} />;
 };
 
 export const TotalUnknown = TotalUnknownTemplate.bind({});
@@ -46,8 +37,7 @@ TotalUnknown.args = {
 };
 
 const CompactTemplate: Story<PaginationProps> = (args) => {
-    const state = useState(args);
-    return <Pagination {...state} />;
+    return <Pagination {...args} />;
 };
 
 export const Compact = CompactTemplate.bind({});
@@ -60,15 +50,15 @@ Compact.args = {
 };
 
 const HidePagesTemplate: Story<PaginationProps> = (args) => {
-    const state1 = useState({
+    const state1 = {
         ...args,
         page: 1,
         pageSize: 100,
         showInput: true,
         compact: false,
         showPages: false,
-    });
-    const state2 = useState({
+    };
+    const state2 = {
         ...args,
         page: 1,
         pageSize: 100,
@@ -77,7 +67,7 @@ const HidePagesTemplate: Story<PaginationProps> = (args) => {
         pageSizeOptions: [100, 200, 500],
         compact: true,
         showPages: false,
-    });
+    };
 
     return (
         <React.Fragment>
@@ -92,12 +82,12 @@ const HidePagesTemplate: Story<PaginationProps> = (args) => {
 export const HidePages = HidePagesTemplate.bind({});
 
 const PagesSetTemplate: Story<PaginationProps> = (args) => {
-    const state1 = useState({...args, page: 1, pageSize: 1, total: 1});
-    const state2 = useState({...args, page: 1, pageSize: 1, total: 2});
-    const state3 = useState({...args, page: 1, pageSize: 1, total: 3});
-    const state4 = useState({...args, page: 1, pageSize: 1, total: 5});
-    const state5 = useState({...args, page: 1, pageSize: 1, total: 6});
-    const state6 = useState({...args, page: 1, pageSize: 1, total: 10});
+    const state1 = {...args, page: 1, pageSize: 1, total: 1};
+    const state2 = {...args, page: 1, pageSize: 1, total: 2};
+    const state3 = {...args, page: 1, pageSize: 1, total: 3};
+    const state4 = {...args, page: 1, pageSize: 1, total: 5};
+    const state5 = {...args, page: 1, pageSize: 1, total: 6};
+    const state6 = {...args, page: 1, pageSize: 1, total: 10};
     return (
         <React.Fragment>
             <Pagination {...state1} />

@@ -52,7 +52,9 @@ const config: PlaywrightTestConfig = {
         /* Port to use for Playwright component endpoint. */
         screenshot: 'only-on-failure',
         timezoneId: 'UTC',
-        ctViteConfig: {plugins: [react()]},
+        ctViteConfig: {
+            plugins: [react()],
+        },
     },
     /* Configure projects for major browsers */
     projects: [

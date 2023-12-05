@@ -10,33 +10,37 @@ import './RadioButton.scss';
 
 const b = block('radio-button');
 
-export type RadioButtonOption = ControlGroupOption;
+export type RadioButtonOption<T extends string = string> = ControlGroupOption<T>;
 export type RadioButtonSize = 's' | 'm' | 'l' | 'xl';
 export type RadioButtonWidth = 'auto' | 'max';
 
-export interface RadioButtonProps extends ControlGroupProps, DOMProps, QAProps {
+export interface RadioButtonProps<T extends string = string>
+    extends ControlGroupProps<T>,
+        DOMProps,
+        QAProps {
     size?: RadioButtonSize;
     width?: RadioButtonWidth;
-    children?: React.ReactElement<ControlGroupOption> | React.ReactElement<ControlGroupOption>[];
+    children?:
+        | React.ReactElement<ControlGroupOption<T>>
+        | React.ReactElement<ControlGroupOption<T>>[];
 }
 
-interface RadioButtonComponent
-    extends React.ForwardRefExoticComponent<
-        RadioButtonProps & React.RefAttributes<HTMLDivElement>
-    > {
-    Option: React.ComponentType<ControlGroupOption>;
-}
+type RadioButtonComponentType = (<T extends string>(
+    props: RadioButtonProps<T> & {ref?: React.ForwardedRef<HTMLDivElement>},
+) => React.JSX.Element) & {
+    Option: typeof Option;
+};
 
-export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(function RadioButton(
-    props,
-    ref,
+export const RadioButton = React.forwardRef(function RadioButton<T extends string>(
+    props: RadioButtonProps<T>,
+    ref: React.ForwardedRef<HTMLDivElement>,
 ) {
     const {size = 'm', width, style, className, qa, children} = props;
     let options = props.options;
 
     if (!options) {
         options = (
-            React.Children.toArray(children) as React.ReactElement<ControlGroupOption>[]
+            React.Children.toArray(children) as React.ReactElement<ControlGroupOption<T>>[]
         ).map(({props}) => ({
             value: props.value,
             content: props.content || props.children,
@@ -109,6 +113,6 @@ export const RadioButton = React.forwardRef<HTMLDivElement, RadioButtonProps>(fu
             ))}
         </div>
     );
-}) as RadioButtonComponent;
+}) as unknown as RadioButtonComponentType;
 
 RadioButton.Option = Option;

@@ -42,23 +42,23 @@ export interface ControlProps
     controlRef?: React.Ref<HTMLInputElement>;
 }
 
-export interface ControlGroupOption {
-    value: string;
+export interface ControlGroupOption<ValueType extends string = string> {
+    value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;
     disabled?: boolean;
 }
 
-export interface ControlGroupProps {
+export interface ControlGroupProps<ValueType extends string = string> {
     name?: string;
-    value?: string;
-    defaultValue?: string;
-    onUpdate?: (value: string) => void;
+    value?: ValueType;
+    defaultValue?: ValueType;
+    onUpdate?: (value: ValueType) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     disabled?: boolean;
-    options?: ControlGroupOption[];
+    options?: ControlGroupOption<ValueType>[];
     'aria-label'?: string;
     'aria-labelledby'?: string;
 }

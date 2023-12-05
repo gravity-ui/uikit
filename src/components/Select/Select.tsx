@@ -201,14 +201,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if (filterable) {
                 filterRef.current?.focus();
             }
-        }
-    }, [open, filterable]);
-
-    React.useEffect(() => {
-        if (!open) {
+        } else {
             handleFilterChange('');
         }
-    }, [open, handleFilterChange]);
+    }, [open, filterable, handleFilterChange]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),

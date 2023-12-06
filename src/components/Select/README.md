@@ -12,6 +12,8 @@ import {Select} from '@gravity-ui/uikit';
 
 ## Selecting multiple options
 
+To enable multiple selection use the `multiple` property. Default to `false`.
+
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -91,6 +93,45 @@ LANDING_BLOCK-->
     <Select.Option value="val_3">Value 3</Select.Option>
     <Select.Option value="val_4">Value 4</Select.Option>
   </Select.OptionGroup>
+</Select>
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Filterable options
+
+To enable filter section use the `filterable` property. Default to `false`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select filterable={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select filterable={true}>
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Select filterable={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
 </Select>
 ```
 

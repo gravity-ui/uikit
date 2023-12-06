@@ -16,6 +16,35 @@ import {Select} from '@gravity-ui/uikit';
 
 - As array of objects:
 
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  options={[
+    {value: 'val_1', content: 'Value 1'},
+    {value: 'val_2', content: 'Value 2'},
+    {value: 'val_3', content: 'Value 3'},
+    {value: 'val_4', content: 'Value 4'},
+  ]}
+/>
+`}
+>
+  <UIKit.Select
+    placeholder="As array of objects"
+    options={[
+      {value: 'val_1', content: 'Value 1'},
+      {value: 'val_2', content: 'Value 2'},
+      {value: 'val_3', content: 'Value 3'},
+      {value: 'val_4', content: 'Value 4'},
+    ]}
+  />
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
 ```tsx
 <Select
   options={[
@@ -27,7 +56,33 @@ import {Select} from '@gravity-ui/uikit';
 />
 ```
 
+<!--/GITHUB_BLOCK-->
+
 - As react nodes:
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select placeholder="As react nodes">
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
 
 ```tsx
 <Select>
@@ -37,6 +92,8 @@ import {Select} from '@gravity-ui/uikit';
   <Select.Option value="val_4">Value 4</Select.Option>
 </Select>
 ```
+
+<!--/GITHUB_BLOCK-->
 
 ### Grouped list
 
@@ -443,7 +500,7 @@ Notice: for a virtualized list the `'outfit'` mode does't work, the `'fit'` mode
 | onLoadMore                                    | Fires when loading indicator gets visible.                                                                                    | `function`                              |                 |
 | onOpenChange                                  | Fires every time after changing popup visibility                                                                              | `function`                              |                 |
 | onUpdate                                      | Fires when an alteration to the Select value is committed by the user                                                         | `function`                              |                 |
-| options                                       | Options to select                                                                                                             | `(SelectOption \| SelectOptionGroup)[]` |                 |
+| [options](#defining-options)                  | Options to select                                                                                                             | `(SelectOption \| SelectOptionGroup)[]` |                 |
 | pin                                           | Control border view                                                                                                           | `string`                                | `'round-round'` |
 | placeholder                                   | Placeholder text                                                                                                              | `string`                                |                 |
 | popupClassName                                | Popup with options list className                                                                                             | `string`                                |                 |

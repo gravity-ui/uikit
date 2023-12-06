@@ -269,7 +269,7 @@ Notice: you should forward all arguments to your node in order to have properly 
     filterable={true}
     renderFilter={({onChange, onKeyDown, ref, value}) => {
       return (
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
           <input
             ref={ref}
             value={value}

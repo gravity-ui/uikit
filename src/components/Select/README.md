@@ -259,55 +259,6 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Grouped options
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Select>
-  <Select.OptionGroup label="Group 1">
-    <Select.Option value="val_1">Value 1</Select.Option>
-    <Select.Option value="val_2">Value 2</Select.Option>
-  </Select.OptionGroup>
-  <Select.OptionGroup label="Group 2">
-    <Select.Option value="val_3">Value 3</Select.Option>
-    <Select.Option value="val_4">Value 4</Select.Option>
-  </Select.OptionGroup>
-</Select>
-`}
->
-  <UIKit.Select>
-    <UIKit.Select.OptionGroup label="Group 1">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    </UIKit.Select.OptionGroup>
-    <UIKit.Select.OptionGroup label="Group 2">
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select.OptionGroup>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<Select>
-  <Select.OptionGroup label="Group 1">
-    <Select.Option value="val_1">Value 1</Select.Option>
-    <Select.Option value="val_2">Value 2</Select.Option>
-  </Select.OptionGroup>
-  <Select.OptionGroup label="Group 2">
-    <Select.Option value="val_3">Value 3</Select.Option>
-    <Select.Option value="val_4">Value 4</Select.Option>
-  </Select.OptionGroup>
-</Select>
-```
-
-<!--/GITHUB_BLOCK-->
-
 ## Filterable options
 
 To enable filter section use the `filterable` property. Default to `false`.

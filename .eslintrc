@@ -31,7 +31,8 @@
             "extends": ["plugin:testing-library/react"],
             "rules": {
                 "jsx-a11y/no-static-element-interactions": 0
-            }
+            },
+            "excludedFiles": "**/__tests__/**/*.visual.test.*"
         },
         {
             "files": ["**/__stories__/**/*.[jt]s?(x)"],
@@ -43,6 +44,13 @@
             "files": ["**/*.js", "!src/**/*"],
             "env": {
                 "node": true
+            }
+        },
+        {
+            "files": ["**/__tests__/**/*.visual.test.*"],
+            "env": {
+                "node": true,
+                "jest": true
             }
         }
     ]

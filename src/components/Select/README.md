@@ -195,12 +195,12 @@ Notice: you should forward all arguments to your node in order to have consisten
 
 <ExampleBlock
     code={`
-<Select renderControl={() => <div>Control</div>}>
+<Select renderControl={(props) => <div {...props}>Control</div>}>
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
 `}
 >
-  <UIKit.Select renderControl={() => <div>Control</div>}>
+  <UIKit.Select renderControl={(props) => <div {...props}>Control</div>}>
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
   </UIKit.Select>
 </ExampleBlock>

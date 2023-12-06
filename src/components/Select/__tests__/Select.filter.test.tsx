@@ -57,7 +57,7 @@ describe('Select filter', () => {
         await user.keyboard('1');
         // empty
         expect(queryAllByRole('option').length).toBe(0);
-        expect(onFilterChange).toBeCalledTimes(3);
+        expect(onFilterChange).toBeCalledTimes(4);
     });
 
     test('should render node with renderEmptyOptions', async () => {

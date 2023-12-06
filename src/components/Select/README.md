@@ -10,6 +10,74 @@ import {Select} from '@gravity-ui/uikit';
 
 `Select` represents a control that provides a menu of options.
 
+## Defining options
+
+### Flat list
+
+- As array of objects:
+
+```tsx
+<Select
+  options={[
+    {value: 'val_1', content: 'Value 1'},
+    {value: 'val_2', content: 'Value 2'},
+    {value: 'val_3', content: 'Value 3'},
+    {value: 'val_4', content: 'Value 4'},
+  ]}
+/>
+```
+
+- As react nodes:
+
+```tsx
+<Select>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+```
+
+### Grouped list
+
+- As array of objects:
+
+```tsx
+<Select
+  options={[
+    {
+      label: 'Group 1',
+      options: [
+        {value: 'val_1', content: 'Value 1'},
+        {value: 'val_2', content: 'Value 2'},
+      ],
+    },
+    {
+      label: 'Group 2',
+      options: [
+        {value: 'val_3', content: 'Value 3'},
+        {value: 'val_4', content: 'Value 4'},
+      ],
+    },
+  ]}
+/>
+```
+
+- As react nodes:
+
+```tsx
+<Select>
+  <Select.OptionGroup label="Group 1">
+    <Select.Option value="val_1" content="Value 1" />
+    <Select.Option value="val_2" content="Value 2" />
+  </Select.OptionGroup>
+  <Select.OptionGroup label="Group 2">
+    <Select.Option value="val_3" content="Value 3" />
+    <Select.Option value="val_4" content="Value 4" />
+  </Select.OptionGroup>
+</Select>
+```
+
 ## Selecting multiple options
 
 To enable multiple selection use the `multiple` property. Default to `false`.

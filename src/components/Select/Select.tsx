@@ -163,7 +163,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             listRef?.current?.onKeyDown(e);
         },
-        [handleOptionClick, open],
+        [handleOptionClick, open, toggleOpen],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
@@ -202,9 +202,9 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 filterRef.current?.focus();
             }
         } else {
-            dispatch({type: 'SET_FILTER', payload: {filter: ''}});
+            handleFilterChange('');
         }
-    }, [open, filterable]);
+    }, [open, filterable, handleFilterChange]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),

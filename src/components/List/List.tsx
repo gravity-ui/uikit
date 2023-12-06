@@ -437,6 +437,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                         itemCount={items.length}
                                         overscanCount={10}
                                         onItemsRendered={this.onItemsRendered}
+                                        direction={this.context.direction}
                                         // this property used to rerender items in viewport
                                         // must be last, typescript skips checks for all props behind ts-ignore/ts-expect-error
                                         // @ts-expect-error

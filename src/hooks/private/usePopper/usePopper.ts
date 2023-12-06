@@ -4,7 +4,7 @@ import type popper from '@popperjs/core';
 import {usePopper as useReactPopper} from 'react-popper';
 import type {Modifier} from 'react-popper';
 
-import {useDirection} from '../theme';
+import {useDirection} from '../../../components/theme';
 
 export type PopperPlacement = popper.Placement | popper.Placement[];
 export type PopperOffset = [number, number];

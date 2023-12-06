@@ -195,12 +195,12 @@ Notice: you should forward all arguments to your node in order to have consisten
 
 <ExampleBlock
     code={`
-<Select renderControl={(props) => <button {...props}>Control</button>}>
+<Select renderControl={({onClick, onKeyDown, ref}) => <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Control</button>}>
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
 `}
 >
-  <UIKit.Select renderControl={(props) => <button {...props}>Control</button>}>
+  <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Control</button>}>
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
   </UIKit.Select>
 </ExampleBlock>

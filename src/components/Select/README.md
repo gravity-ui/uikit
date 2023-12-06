@@ -1,4 +1,57 @@
-Name - Description - Type - Default
+<!--GITHUB_BLOCK-->
+
+# Select
+
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {Select} from '@gravity-ui/uikit';
+```
+
+Select represents a control that provides a menu of options.
+
+## Pin
+
+The `pin` property allows you to control the shape of the right and left edges and is usually used for combining multiple controls in a single unit.
+The value of the `pin` property consists of left and edge style names divided by a dash, e.g. `"round-brick"`.
+The edge styles are: `round` (default), `circle`, `brick` and `clear`.
+
+## Selecting multiple options
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select multiple={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select multiple={true}>
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Select multiple={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+```
+
+<!--/GITHUB_BLOCK-->
 
 | Name                            | Description                                                                                                                                                                                                                                                                                                                        | Type                                    | Default         |
 | :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- | :-------------- |

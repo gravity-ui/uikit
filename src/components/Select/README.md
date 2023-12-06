@@ -257,7 +257,7 @@ Notice: you should forward all arguments to your node in order to have properly 
 <ExampleBlock
     code={`
 <Select
-  renderControl={({onClick, onKeyDown, ref}) => {
+  renderFilter={({onClick, onKeyDown, ref}) => {
     return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Control</button>
   }}
 >
@@ -265,10 +265,23 @@ Notice: you should forward all arguments to your node in order to have properly 
 </Select>
 `}
 >
-  <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Control</button>
+  <UIKit.Select renderFilter={({onChange, onKeyDown, ref, value}) => {
+    return (
+      <div>
+        <input
+          ref={ref}
+          value={value}
+          onKeyDown={onKeyDown}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        <button>Do smth</button>
+      </div>
+    );
   }}>
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
   </UIKit.Select>
 </ExampleBlock>
 
@@ -279,6 +292,7 @@ LANDING_BLOCK-->
 ```tsx
 import React from 'react';
 import {Button, Select, TextInput} from '@gravity-ui/uikit';
+import type {SelectProps} from '@gravity-ui/uikit';
 
 const MyComponent = () => {
   const renderFilter: SelectProps['renderFilter'] = (props) => {
@@ -343,5 +357,3 @@ const MyComponent = () => {
 | loading                 | Add the loading item to the end of the options list. Works like persistant loading indicator while the options list is empty.                                                                                                                                                                                                      | `boolean`                               |                 |
 | onLoadMore              | Fires when loading indicator gets visible.                                                                                                                                                                                                                                                                                         | `function`                              |                 |
 | id                      | HTML `id` attribute                                                                                                                                                                                                                                                                                                                | `string`                                |                 |
-
----

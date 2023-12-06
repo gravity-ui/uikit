@@ -120,20 +120,9 @@ To control the size of the `Button` use the `size` property. Default size is `m`
 </Select>
 `}
 >
-  <div>
-    <UIKit.Select size="s">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    </UIKit.Select>
-    <UIKit.Select size="m">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    </UIKit.Select>
-    <UIKit.Select size="l">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    </UIKit.Select>
-    <UIKit.Select size="xl">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
+  <UIKit.Select size="s">
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+  </UIKit.Select>
 </ExampleBlock>
 
 LANDING_BLOCK-->

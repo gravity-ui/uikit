@@ -14,7 +14,7 @@ const b = block('action-tooltip');
 export interface ActionTooltipProps
     extends Pick<
         TooltipProps,
-        'children' | 'disabled' | 'placement' | 'openDelay' | 'closeDelay' | 'className'
+        'children' | 'disabled' | 'placement' | 'openDelay' | 'closeDelay' | 'className' | 'qa'
     > {
     title: string;
     hotkey?: HotkeyProps['value'];

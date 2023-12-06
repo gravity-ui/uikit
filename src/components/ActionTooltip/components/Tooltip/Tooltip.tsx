@@ -5,12 +5,12 @@ import {useForkRef} from '../../../../hooks';
 import {useBoolean} from '../../../../hooks/private';
 import {Popup} from '../../../Popup';
 import type {PopupPlacement} from '../../../Popup';
-import type {DOMProps} from '../../../types';
+import type {DOMProps, QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 
 import './Tooltip.scss';
 
-export interface TooltipProps extends DOMProps, TooltipDelayProps {
+export interface TooltipProps extends QAProps, DOMProps, TooltipDelayProps {
     id?: string;
     disabled?: boolean;
     content?: React.ReactNode;
@@ -29,7 +29,7 @@ const b = block('tooltip');
 const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
 
 export const Tooltip = (props: TooltipProps) => {
-    const {children, content, disabled, placement = DEFAULT_PLACEMENT} = props;
+    const {children, content, disabled, placement = DEFAULT_PLACEMENT, qa} = props;
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const tooltipVisible = useTooltipVisible(anchorElement, props);
 
@@ -47,6 +47,7 @@ export const Tooltip = (props: TooltipProps) => {
                 disableEscapeKeyDown
                 disableOutsideClick
                 disableLayer
+                qa={qa}
             >
                 <div className={b('content', props.contentClassName)}>{content}</div>
             </Popup>

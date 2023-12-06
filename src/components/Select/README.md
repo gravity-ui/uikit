@@ -8,13 +8,7 @@
 import {Select} from '@gravity-ui/uikit';
 ```
 
-Select represents a control that provides a menu of options.
-
-## Pin
-
-The `pin` property allows you to control the shape of the right and left edges and is usually used for combining multiple controls in a single unit.
-The value of the `pin` property consists of left and edge style names divided by a dash, e.g. `"round-brick"`.
-The edge styles are: `round` (default), `circle`, `brick` and `clear`.
+`Select` represents a control that provides a menu of options.
 
 ## Selecting multiple options
 
@@ -71,12 +65,6 @@ LANDING_BLOCK-->
 </Select>
 `}
 >
-  <UIKit.Select multiple={true}>
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
   <UIKit.Select>
     <UIKit.Select.OptionGroup label="Group 1">
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
@@ -104,6 +92,57 @@ LANDING_BLOCK-->
     <Select.Option value="val_4">Value 4</Select.Option>
   </Select.OptionGroup>
 </Select>
+```
+
+<!--/GITHUB_BLOCK-->
+
+<!--/GITHUB_BLOCK-->
+
+## Size
+
+To control the size of the `Button` use the `size` property. Default size is `m`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select size="s">
+  <Select.Option value="val_1">Value 1</Select.Option>
+</Select>
+<Select size="m">
+  <Select.Option value="val_1">Value 1</Select.Option>
+</Select>
+<Select size="l">
+  <Select.Option value="val_1">Value 1</Select.Option>
+</Select>
+<Select size="xl">
+  <Select.Option value="val_1">Value 1</Select.Option>
+</Select>
+`}
+>
+    <UIKit.Select size="s">
+      <UIKit.Select.Option value="val_1">Value 1</Select.Option>
+    </UIKit.Select>
+    <UIKit.Select size="m">
+      <UIKit.Select.Option value="val_1">Value 1</Select.Option>
+    </UIKit.Select>
+    <UIKit.Select size="l">
+      <UIKit.Select.Option value="val_1">Value 1</Select.Option>
+    </UIKit.Select>
+    <UIKit.Select size="xl">
+      <UIKit.Select.Option value="val_1">Value 1</Select.Option>
+    </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Select size="s">S Size</Select>
+<Select size="m">M Size</Select>
+<Select size="l">L Size</Select>
+<Select size="xl">XL Size</Select>
 ```
 
 <!--/GITHUB_BLOCK-->

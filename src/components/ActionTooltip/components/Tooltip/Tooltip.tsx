@@ -1,23 +1,23 @@
 import React from 'react';
 
-import {KeyCode} from '../../constants';
-import {useForkRef} from '../../hooks';
-import {useBoolean} from '../../hooks/private';
-import {Popup} from '../Popup';
-import type {PopupPlacement} from '../Popup';
-import {Text} from '../Text';
-import type {DOMProps} from '../types';
-import {block} from '../utils/cn';
+import {KeyCode} from '../../../../constants';
+import {useForkRef} from '../../../../hooks';
+import {useBoolean} from '../../../../hooks/private';
+import {Popup} from '../../../Popup';
+import type {PopupPlacement} from '../../../Popup';
+import type {DOMProps} from '../../../types';
+import {block} from '../../../utils/cn';
 
 import './Tooltip.scss';
 
 export interface TooltipProps extends DOMProps, TooltipDelayProps {
     id?: string;
     disabled?: boolean;
-    content?: string;
+    content?: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
     contentClassName?: string;
+    disablePortal?: boolean;
 }
 
 interface TooltipDelayProps {
@@ -43,15 +43,12 @@ export const Tooltip = (props: TooltipProps) => {
                 open={tooltipVisible && !disabled}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
+                disablePortal={props.disablePortal}
                 disableEscapeKeyDown
                 disableOutsideClick
                 disableLayer
             >
-                <div className={b('content', props.contentClassName)}>
-                    <Text variant="body-short" color="complementary">
-                        {content}
-                    </Text>
-                </div>
+                <div className={b('content', props.contentClassName)}>{content}</div>
             </Popup>
         );
     };
@@ -71,7 +68,7 @@ export const Tooltip = (props: TooltipProps) => {
 
 function useTooltipVisible(
     anchor: HTMLElement | null,
-    {openDelay = 1000, closeDelay}: TooltipDelayProps,
+    {openDelay = 250, closeDelay}: TooltipDelayProps,
 ) {
     const [tooltipVisible, showTooltip, hideTooltip] = useBoolean(false);
     const timeoutRef = React.useRef<number>();

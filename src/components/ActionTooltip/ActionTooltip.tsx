@@ -2,9 +2,10 @@ import React from 'react';
 
 import {Hotkey} from '../Hotkey';
 import type {HotkeyProps} from '../Hotkey';
-import {Tooltip} from '../Tooltip';
-import type {TooltipProps} from '../Tooltip';
 import {block} from '../utils/cn';
+
+import {Tooltip} from './components/Tooltip/Tooltip';
+import type {TooltipProps} from './components/Tooltip/Tooltip';
 
 import './ActionTooltip.scss';
 
@@ -13,7 +14,7 @@ const b = block('action-tooltip');
 export interface ActionTooltipProps
     extends Pick<
         TooltipProps,
-        'children' | 'disabled' | 'placement' | 'openDelay' | 'closeDelay' | 'className' | 'qa'
+        'children' | 'disabled' | 'placement' | 'openDelay' | 'closeDelay' | 'className'
     > {
     title: string;
     hotkey?: HotkeyProps['value'];

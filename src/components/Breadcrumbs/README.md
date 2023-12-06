@@ -343,6 +343,7 @@ return (
 | firstDisplayedItemsCount | Number of items to display before item collapse control | `FirstDisplayedItemsCount.Zero \| FirstDisplayedItemsCount.One`                                         |         |
 | lastDisplayedItemsCount  | Number of items to display after item collapse control  | `LastDisplayedItemsCount.One \| LastDisplayedItemsCount.Two`                                            |         |
 | popupStyle               | Style of collapsed item popup                           | `"staircase" \| undefined`                                                                              |         |
+| qa                       | HTML `data-qa` attribute, used in tests                 | `string`                                                                                                |         |
 
 ### BreadcrumbsItem
 

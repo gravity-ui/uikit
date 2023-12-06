@@ -36,3 +36,4 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 | total           | Total number of data items                                                                               |  `number`  |         |
 | showInput       | Shows input to navigate to pages directly                                                                | `boolean`  | `false` |
 | showPages       | Shows pages numbering                                                                                    | `boolean`  | `true`  |
+| qa              | HTML `data-qa` attribute, used in tests                                                                  |  `string`  |         |

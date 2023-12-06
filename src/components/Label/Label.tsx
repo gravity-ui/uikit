@@ -8,6 +8,7 @@ import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './Label.scss';
@@ -30,7 +31,7 @@ const commonActionButtonProps: ButtonProps = {
     }),
 };
 
-interface LabelOwnProps {
+interface LabelOwnProps extends QAProps {
     /** Label icon (at left) */
     icon?: React.ReactNode;
     /** Disabled state */
@@ -85,6 +86,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         value,
         onCopy,
         onClick,
+        qa,
     } = props;
 
     const actionButtonRef = React.useRef<HTMLButtonElement>(null);
@@ -189,6 +191,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                     },
                     className,
                 )}
+                data-qa={qa}
             >
                 {leftIcon}
                 {content}

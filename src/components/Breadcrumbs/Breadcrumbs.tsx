@@ -3,6 +3,7 @@ import React from 'react';
 import _throttle from 'lodash/throttle';
 
 import type {PopupPlacement} from '../Popup';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
@@ -19,7 +20,7 @@ export interface BreadcrumbsItem {
     title?: string;
 }
 
-export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> {
+export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> extends QAProps {
     items: T[];
     className?: string;
     renderRootContent?: (item: T, isCurrent: boolean) => React.ReactNode;
@@ -114,13 +115,13 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
     }
 
     render() {
-        const {className} = this.props;
+        const {className, qa} = this.props;
         const {calculated} = this.state;
 
         const rootItem = this.renderRootItem();
 
         return (
-            <div className={b({calculated: calculated ? 'yes' : 'no'}, className)}>
+            <div className={b({calculated: calculated ? 'yes' : 'no'}, className)} data-qa={qa}>
                 <div className={b('inner')} ref={this.container}>
                     {rootItem}
                     {this.renderMoreItem()}

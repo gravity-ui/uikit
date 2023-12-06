@@ -2,6 +2,7 @@ import React from 'react';
 
 import _sumBy from 'lodash/sumBy';
 
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './Progress.scss';
@@ -27,7 +28,7 @@ export interface ProgressColorStops {
     stop: number;
 }
 
-interface ProgressGeneralProps {
+interface ProgressGeneralProps extends QAProps {
     /** ClassName of element */
     className?: string;
 }
@@ -91,10 +92,10 @@ export class Progress extends React.Component<ProgressProps> {
     }
 
     render() {
-        const {size, className} = this.props;
+        const {size, className, qa} = this.props;
 
         return (
-            <div className={b({size}, className)}>
+            <div className={b({size}, className)} data-qa={qa}>
                 {this.renderText()}
                 {this.renderContent()}
             </div>

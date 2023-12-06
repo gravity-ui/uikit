@@ -20,6 +20,7 @@ export function Persona({
     image,
     className,
     style,
+    qa,
 }: PersonaProps) {
     const textValue = extractTextValue(text);
     const textView = extractTextView(text);
@@ -59,6 +60,7 @@ export function Persona({
             className={className}
             style={style}
             closeButtonAriaAttributes={closeButtonAriaAttributes}
+            qa={qa}
         >
             {textView}
         </PersonaWrap>

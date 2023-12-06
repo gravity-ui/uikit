@@ -117,3 +117,4 @@ LANDING_BLOCK-->
 | onClose   | Handles click on button with cross `(text: string) => void` |           `Function`           |            |
 | onClick   | Handles click on component itself `(text: string) => void`  |           `Function`           |            |
 | className | Custom CSS class for root element                           |            `string`            |            |
+| qa        | HTML `data-qa` attribute, used in tests                     |            `string`            |            |

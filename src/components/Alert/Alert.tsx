@@ -25,6 +25,7 @@ export const Alert = (props: AlertProps) => {
         style,
         onClose,
         align,
+        qa,
     } = props;
 
     const icon = props.icon || <Alert.Icon theme={theme} view={view} />;
@@ -42,6 +43,7 @@ export const Alert = (props: AlertProps) => {
             className={bAlert({corners}, spacing({py: 4, px: 5}, className))}
             theme={theme}
             view={view}
+            qa={qa}
         >
             <Flex gap="3" alignItems={align}>
                 {icon}

@@ -255,3 +255,4 @@ LANDING_BLOCK-->
 | title     | HTML `title` attribute                                                                                                              |  `string`   |             |
 | theme     | Sets the stack element color                                                                                                        |  `string`   | `"default"` |
 | value     | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |  `number`   |             |
+| qa        | HTML `data-qa` attribute, used in tests                                                                                             |  `string`   |             |

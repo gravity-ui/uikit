@@ -11,3 +11,4 @@ Display user avatar and his brief info.
 | name        | `string`         |          |         | User name (first line of info)                                                                                  |
 | description | `string`         |          |         | User additional data (second line of info)                                                                      |
 | size        | `UserAvatarSize` |          | 'm'     | Component size. Supported values is: `xs`, `s`, `m`, `l`, `xl`. With a smallest size user info is not rendered. |
+| qa          | `string`         |          |         | HTML `data-qa` attribute, used in tests                                                                         |

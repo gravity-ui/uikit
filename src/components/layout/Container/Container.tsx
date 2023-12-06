@@ -1,6 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
+import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {sp} from '../spacing/spacing';
 import type {MediaPartial, MediaType, Space} from '../types';
@@ -12,7 +13,7 @@ import './Container.scss';
 
 const b = block('container');
 
-export interface ContainerProps {
+export interface ContainerProps extends QAProps {
     style?: React.CSSProperties;
     /**
      * Use function to define different classes in different media queries
@@ -68,6 +69,7 @@ export const Container = ({
     maxWidth,
     gutters,
     spaceRow,
+    qa,
 }: ContainerProps) => {
     const {getClosestMediaProps, containerThemeProps} = useContainerThemeProps();
 
@@ -100,6 +102,7 @@ export const Container = ({
                           className,
                       ),
             )}
+            data-qa={qa}
         >
             {children}
         </Tag>

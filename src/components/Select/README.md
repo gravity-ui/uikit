@@ -265,19 +265,22 @@ Notice: you should forward all arguments to your node in order to have properly 
 </Select>
 `}
 >
-  <UIKit.Select renderFilter={({onChange, onKeyDown, ref, value}) => {
-    return (
-      <div>
-        <input
-          ref={ref}
-          value={value}
-          onKeyDown={onKeyDown}
-          onChange={(e) => onChange(e.target.value)}
-        />
-        <button>Do smth</button>
-      </div>
-    );
-  }}>
+  <UIKit.Select
+    filterable={true}
+    renderFilter={({onChange, onKeyDown, ref, value}) => {
+      return (
+        <div>
+          <input
+            ref={ref}
+            value={value}
+            onKeyDown={onKeyDown}
+            onChange={(e) => onChange(e.target.value)}
+          />
+          <button>Do smth</button>
+        </div>
+      );
+    }}
+  >
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
     <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -312,7 +315,11 @@ const MyComponent = () => {
     );
   };
 
-  return <Select renderFilter={renderFilter}>/* Your options here */</Select>;
+  return (
+    <Select filterable={true} renderFilter={renderFilter}>
+      /* Your options here */
+    </Select>
+  );
 };
 ```
 

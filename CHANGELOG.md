@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.23.0](https://github.com/gravity-ui/uikit/compare/v5.22.0...v5.23.0) (2023-12-06)
+
+
+### Features
+
+* **Progress:** make contrast ([#1129](https://github.com/gravity-ui/uikit/issues/1129)) ([e1ce48f](https://github.com/gravity-ui/uikit/commit/e1ce48fefef9a510f6867e627018a0d2f04cc5ff))
+* **RadioButton:** allow an extended value other than a string ([#1177](https://github.com/gravity-ui/uikit/issues/1177)) ([77eb5a0](https://github.com/gravity-ui/uikit/commit/77eb5a0c7a9ca29c273854e9c13868f610735218))
+
+
+### Bug Fixes
+
+* **a11y:** make a short text for the clear button ([#1172](https://github.com/gravity-ui/uikit/issues/1172)) ([d767727](https://github.com/gravity-ui/uikit/commit/d76772724264da02e132eb63a9ec0860446e8b71))
+* add qa property for some components ([#1173](https://github.com/gravity-ui/uikit/issues/1173)) ([0f2a491](https://github.com/gravity-ui/uikit/commit/0f2a4911b30e4bd0f20b7d52be90531058ff2070))
+* export TableColumnSetupItem type from index ([#1169](https://github.com/gravity-ui/uikit/issues/1169)) ([21e21a3](https://github.com/gravity-ui/uikit/commit/21e21a33f8e6c163013e6f4951e34605700e8d5b))
+* **Select:** proper filter updates when closing the popup ([#1180](https://github.com/gravity-ui/uikit/issues/1180)) ([7d12e86](https://github.com/gravity-ui/uikit/commit/7d12e8642368e6fa95359a9a69a554be85e0b034))
+* **Select:** update keyboard interaction to correspond with specification ([#1176](https://github.com/gravity-ui/uikit/issues/1176)) ([504b05c](https://github.com/gravity-ui/uikit/commit/504b05caed8300c8f550c7dc36cd6ef0e6b22064))
+* **Table:** fixed checkbox max width ([#1174](https://github.com/gravity-ui/uikit/issues/1174)) ([ed68043](https://github.com/gravity-ui/uikit/commit/ed6804379abd88c7b13ffc5034bf7d90f108aee5))
+
 ## [5.22.0](https://github.com/gravity-ui/uikit/compare/v5.21.1...v5.22.0) (2023-11-28)
 
 

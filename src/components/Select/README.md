@@ -100,32 +100,7 @@ LANDING_BLOCK-->
 
 ## Size
 
-To control the size of the `Button` use the `size` property. Default size is `m`.
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Select size="s">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="m">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="l">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="xl">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select size="s">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+To control the size of the `Select` use the `size` property. Default size is `m`.
 
 <!--GITHUB_BLOCK-->
 

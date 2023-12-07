@@ -8,13 +8,17 @@
 import {Select} from '@gravity-ui/uikit';
 ```
 
-`Select` represents a control that provides a list of options.
+`Select` represents a control that provides a list of options that user can select.
 
-## Defining options
+## Options
 
-You could define options as an array of objects or as the children of a component. The first approach is convenient for cases where options require complex preparation and possible memoization. The second approach is convenient when there are few options, and their configuration does not require complex calculations.
+Options to select.
 
-### Flat list
+### Defining options
+
+You can define options as an array of objects or as the children of a component. The first approach is convenient for cases where options require complex preparation and possible memoization. The second approach is convenient when there are few options, and their configuration does not require complex calculations.
+
+#### Flat list
 
 <!--LANDING_BLOCK
 
@@ -83,7 +87,7 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-### Grouped list
+#### Grouped list
 
 <!--LANDING_BLOCK
 
@@ -192,6 +196,10 @@ LANDING_BLOCK-->
 </Select>
 ```
 
+### Storing data in options
+
+You can define and store uniq data in each option by using `option.data` property. This can be useful when you need to enrich the data when using the `onUpdate` callback or, for example, when drawing your options with `renderOption`.
+
 ## Selecting multiple options
 
 To enable multiple selection use the `multiple` property. Default to `false`.
@@ -270,9 +278,9 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Size
+## Control size
 
-To control the size of the `Select` use the `size` property. Default size is `m`.
+To manage default contol size use the `size` property. Default value is `m`.
 
 <!--LANDING_BLOCK
 
@@ -752,6 +760,8 @@ When using virtualization, some restrictions are imposed on the popup element:
 
 LANDING_BLOCK-->
 
+## Advanced usage
+
 ## Properties
 
 | Name                                                 | Description                                                                                                                   | Type                                    | Default         |
@@ -776,7 +786,7 @@ LANDING_BLOCK-->
 | onLoadMore                                           | Fires when loading indicator gets visible.                                                                                    | `function`                              |                 |
 | onOpenChange                                         | Fires every time after changing popup visibility                                                                              | `function`                              |                 |
 | onUpdate                                             | Fires when an alteration to the Select value is committed by the user                                                         | `function`                              |                 |
-| [options](#defining-options)                         | Options to select                                                                                                             | `(SelectOption \| SelectOptionGroup)[]` |                 |
+| [options](#options)                                  | Options to select                                                                                                             | `(SelectOption \| SelectOptionGroup)[]` |                 |
 | pin                                                  | Control border view                                                                                                           | `string`                                | `'round-round'` |
 | placeholder                                          | Placeholder text                                                                                                              | `string`                                |                 |
 | popupClassName                                       | Popup with options list className                                                                                             | `string`                                |                 |

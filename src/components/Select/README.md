@@ -482,8 +482,9 @@ const MyComponent = () => {
 
 By default, the width of the control stretches to match the width of the content of the selected options. You can manage it by using `width` property:
 
-- `'max'`: stretches to the full width of the parent, excluding overflow.
-- `number`: apply width in pixels.
+`'max'` - stretches to the full width of the parent, excluding overflow.
+
+`number` - apply width in pixels.
 
 <!--LANDING_BLOCK
 
@@ -544,9 +545,11 @@ LANDING_BLOCK-->
 
 Available values:
 
-- `'fit'`: apply control width.
-- `'outfit'`: apply width of widest option (maximum 90vw by default).
-- `number`: apply width in pixels.
+`'fit'` - apply control width.
+
+`'outfit'` - apply width of widest option (maximum 90vw by default).
+
+`number` - apply width in pixels.
 
 Notice: for a virtualized list the `'outfit'` mode does't work, the `'fit'` mode will be applied. Also, the virtualized list has a minimum popup width of 100px, short values will be stretched to this size.
 
@@ -590,4 +593,4 @@ Notice: for a virtualized list the `'outfit'` mode does't work, the `'fit'` mode
 | value                                         | Values that represent selected options                                                                                        | `string[]`                              |                 |
 | view                                          | Control view                                                                                                                  | `string`                                | `'normal'`      |
 | virtualizationThreshold                       | The threshold of the options count after which virtualization is enabled                                                      | `number`                                | `50`            |
-| width                                         | Control width                                                                                                                 | `string \| number`                      | `undefined`     |
+| [width](#control-width)                       | Control width                                                                                                                 | `string \| number`                      | `undefined`     |

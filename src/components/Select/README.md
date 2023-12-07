@@ -718,7 +718,7 @@ When using virtualization, some restrictions are imposed on the popup element:
     <h4 style={{textAlign: 'center'}}>Default</h4>
     <p>
       <UIKit.Select placeholder="Short value">
-        {Array.from({length: 1000}, (num) => num)
+        {Array.from({length: 1000}, (_, index) => index)
           .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
         }
       </UIKit.Select>

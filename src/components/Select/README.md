@@ -196,6 +196,8 @@ LANDING_BLOCK-->
 </Select>
 ```
 
+<!--/GITHUB_BLOCK-->
+
 ### Storing data in options
 
 You can define and store uniq data in each option by using `option.data` property. This can be useful when you need to enrich the data when using the `onUpdate` callback or, for example, when drawing your options with `renderOption`.

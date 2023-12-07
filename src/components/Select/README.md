@@ -241,7 +241,7 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Filterable options
+## Filtering options
 
 To enable filter section use the `filterable` property. Default to `false`.
 
@@ -280,9 +280,9 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
-## Control size
+## Size
 
-To manage default contol size use the `size` property. Default value is `m`.
+To manage default contols and options sizes use the `size` property. Default value is `m`.
 
 <!--LANDING_BLOCK
 
@@ -333,157 +333,6 @@ LANDING_BLOCK-->
 <Select size="xl" placeholder="XL Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-```
-
-<!--/GITHUB_BLOCK-->
-
-## Render custom control
-
-To render custom control use the `renderControl` property.
-Notice: you should forward all arguments to your node in order to have consistent behavior as in the case of using default control.
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Select
-  renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
-  }}>
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-import {Button} from '@gravity-ui/uikit';
-
-const MyComponent = () => {
-  const renderControl: SelectProps['renderControl'] = ({onClick, onKeyDown, ref}) => {
-    return (
-      <Button
-        ref={ref}
-        onClick={onClick}
-        extraProps={{
-          onKeyDown,
-        }}
-      >
-        Your control
-      </Button>
-    );
-  };
-
-  return <Select renderControl={renderControl}>/* Your options here */</Select>;
-};
-```
-
-<!--/GITHUB_BLOCK-->
-
-## Render custom filter section
-
-To render custom filter section use the `renderFilter` property.
-Notice: you should forward all arguments to your node in order to have properly working filter as in the case of using default.
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Select
-  placeholder="Custom filter"
-  filterable={true}
-  renderFilter={({onChange, onKeyDown, ref, value}) => {
-    return (
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <input
-          ref={ref}
-          value={value}
-          size="1"
-          onKeyDown={onKeyDown}
-          onChange={(e) => onChange(e.target.value)}
-        />
-        <button>Do smth</button>
-      </div>
-    );
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom filter"
-    filterable={true}
-    renderFilter={({onChange, onKeyDown, ref, value}) => {
-      return (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          <input
-            ref={ref}
-            value={value}
-            size="1"
-            onKeyDown={onKeyDown}
-            onChange={(e) => onChange(e.target.value)}
-          />
-          <button>Do smth</button>
-        </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-import {Button, TextInput} from '@gravity-ui/uikit';
-import type {SelectProps} from '@gravity-ui/uikit';
-
-const MyComponent = () => {
-  const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
-
-    return (
-      <div>
-        <TextInput
-          controlRef={ref}
-          controlProps={{size: 1}}
-          value={value}
-          onUpdate={onChange}
-          onKeyDown={onKeyDown}
-        />
-        <Button>Do smth</Button>
-      </div>
-    );
-  };
-
-  return (
-    <Select filterable={true} renderFilter={renderFilter}>
-      /* Your options here */
-    </Select>
-  );
-};
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -763,6 +612,208 @@ When using virtualization, some restrictions are imposed on the popup element:
 LANDING_BLOCK-->
 
 ## Advanced usage
+
+There are many ways to add uniqueness to your `Select`.
+
+### Render custom control
+
+To render custom control use the `renderControl` property.
+Notice: you should forward all arguments to your node in order to have consistent behavior as in the case of using default control.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  renderControl={({onClick, onKeyDown, ref}) => {
+    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
+  }}
+>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => {
+    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
+  }}>
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {Button} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderControl: SelectProps['renderControl'] = ({onClick, onKeyDown, ref}) => {
+    return (
+      <Button
+        ref={ref}
+        onClick={onClick}
+        extraProps={{
+          onKeyDown,
+        }}
+      >
+        Your control
+      </Button>
+    );
+  };
+
+  return <Select renderControl={renderControl}>/* Your options here */</Select>;
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Render custom filter section
+
+To render custom filter section use the `renderFilter` property and set `filterable` property to `true`.
+Notice: you should forward all arguments to your node in order to have properly working filter as in the case of using default.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  placeholder="Custom filter"
+  filterable={true}
+  renderFilter={({onChange, onKeyDown, ref, value}) => {
+    return (
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <input
+          ref={ref}
+          value={value}
+          size="1"
+          onKeyDown={onKeyDown}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        <button>Do smth</button>
+      </div>
+    );
+  }}
+>
+  <Select.Option value="val_1">Value 1</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    placeholder="Custom filter"
+    filterable={true}
+    renderFilter={({onChange, onKeyDown, ref, value}) => {
+      return (
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <input
+            ref={ref}
+            value={value}
+            size="1"
+            onKeyDown={onKeyDown}
+            onChange={(e) => onChange(e.target.value)}
+          />
+          <button>Do smth</button>
+        </div>
+      );
+    }}
+  >
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {Button, TextInput} from '@gravity-ui/uikit';
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderFilter: SelectProps['renderFilter'] = (props) => {
+    const {value, ref, onChange, onKeyDown} = props;
+
+    return (
+      <div>
+        <TextInput
+          controlRef={ref}
+          controlProps={{size: 1}}
+          value={value}
+          onUpdate={onChange}
+          onKeyDown={onKeyDown}
+        />
+        <Button>Do smth</Button>
+      </div>
+    );
+  };
+
+  return (
+    <Select filterable={true} renderFilter={renderFilter}>
+      /* Your options here */
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Render custom options
+
+To render custom filter section use the `renderOption` property.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  placeholder="Custom filter"
+  filterable={true}
+  renderFilter={({onChange, onKeyDown, ref, value}) => {
+    return (
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <input
+          ref={ref}
+          value={value}
+          size="1"
+          onKeyDown={onKeyDown}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        <button>Do smth</button>
+      </div>
+    );
+  }}
+>
+  <Select.Option value="val_1">Value 1</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    placeholder="Custom options"
+    renderOption={({content, data}) => {
+      return (
+        <div style={{color: data.color}}>
+          {content}
+        </div>
+      );
+    }}
+  >
+    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
 
 ## Properties
 

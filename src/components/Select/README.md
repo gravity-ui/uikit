@@ -725,10 +725,9 @@ When using virtualization, some restrictions are imposed on the popup element:
     </p>
     <p>
       <UIKit.Select placeholder="Long value">
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
+        {Array.from({length: 1000}, (_, index) => index)
+          .map((value) => <UIKit.Select.Option value={value}>{`Loooooooooooooooooooong Value ${value}`}</UIKit.Select.Option>)
+        }
       </UIKit.Select>
     </p>
   </div>
@@ -736,18 +735,16 @@ When using virtualization, some restrictions are imposed on the popup element:
     <h4 style={{textAlign: 'center'}}>In pixels</h4>
     <p>
       <UIKit.Select placeholder="Short value" popupWidth={80}>
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+        {Array.from({length: 1000}, (_, index) => index)
+          .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
+        }
       </UIKit.Select>
     </p>
     <p>
       <UIKit.Select placeholder="Long value" popupWidth={80}>
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
+        {Array.from({length: 1000}, (_, index) => index)
+          .map((value) => <UIKit.Select.Option value={value}>{`Loooooooooooooooooooong Value ${value}`}</UIKit.Select.Option>)
+        }
       </UIKit.Select>
     </p>
   </div>

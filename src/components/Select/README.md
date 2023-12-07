@@ -306,30 +306,30 @@ To control the size of the `Select` use the `size` property. Default size is `m`
 
 <ExampleBlock
     code={`
-<Select size="s">
+<Select size="s" placeholder="S Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-<Select size="m">
+<Select size="m" placeholder="M Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-<Select size="l">
+<Select size="l" placeholder="L Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-<Select size="xl">
+<Select size="xl" placeholder="XL Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
 `}
 >
-  <UIKit.Select size="s">
+  <UIKit.Select size="s" placeholder="S Size">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
   </UIKit.Select>
-  <UIKit.Select size="m">
+  <UIKit.Select size="m" placeholder="M Size">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
   </UIKit.Select>
-  <UIKit.Select size="l">
+  <UIKit.Select size="l" placeholder="L Size">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
   </UIKit.Select>
-  <UIKit.Select size="xl">
+  <UIKit.Select size="xl" placeholder="XL Size">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
   </UIKit.Select>
 </ExampleBlock>
@@ -339,16 +339,16 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Select size="s">
+<Select size="s" placeholder="S Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-<Select size="m">
+<Select size="m" placeholder="M Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-<Select size="l">
+<Select size="l" placeholder="L Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
-<Select size="xl">
+<Select size="xl" placeholder="XL Size">
   <Select.Option value="val_1">Value 1</Select.Option>
 </Select>
 ```
@@ -366,7 +366,7 @@ Notice: you should forward all arguments to your node in order to have consisten
     code={`
 <Select
   renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Control</button>
+    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
   }}
 >
   <Select.Option value="val_1">Value 1</Select.Option>
@@ -377,7 +377,7 @@ Notice: you should forward all arguments to your node in order to have consisten
 `}
 >
   <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Control</button>
+    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
   }}>
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
@@ -424,6 +424,7 @@ Notice: you should forward all arguments to your node in order to have properly 
 <ExampleBlock
     code={`
 <Select
+  placeholder="Custom filter"
   filterable={true}
   renderFilter={({onChange, onKeyDown, ref, value}) => {
     return (
@@ -444,6 +445,7 @@ Notice: you should forward all arguments to your node in order to have properly 
 `}
 >
   <UIKit.Select
+    placeholder="Custom filter"
     filterable={true}
     renderFilter={({onChange, onKeyDown, ref, value}) => {
       return (

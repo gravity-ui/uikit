@@ -39,6 +39,7 @@ You could define options as an array of objects or as the children of a componen
   <div style={{display: 'flex', flexDirection: 'column'}}>
     Array of objects
     <UIKit.Select
+      width="auto"
       options={[
         {value: 'val_1', content: 'Value 1'},
         {value: 'val_2', content: 'Value 2'},
@@ -49,7 +50,7 @@ You could define options as an array of objects or as the children of a componen
   </div>
   <div style={{display: 'flex', flexDirection: 'column'}}>
     Child nodes
-    <UIKit.Select>
+    <UIKit.Select width="auto">
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
       <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
       <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>

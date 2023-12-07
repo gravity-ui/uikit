@@ -624,7 +624,7 @@ A regular list when all the elements are in the dom tree at once.
   <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
     <h4 style={{textAlign: 'center'}}>In pixels</h4>
     <p>
-      <UIKit.Select placeholder="Short value" popupWidth={100}>
+      <UIKit.Select placeholder="Short value" popupWidth={80}>
         <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
         <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
         <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -632,7 +632,7 @@ A regular list when all the elements are in the dom tree at once.
       </UIKit.Select>
     </p>
     <p>
-      <UIKit.Select placeholder="Long value" popupWidth={100}>
+      <UIKit.Select placeholder="Long value" popupWidth={80}>
         <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
         <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
         <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>

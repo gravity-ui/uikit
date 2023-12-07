@@ -453,6 +453,7 @@ Notice: you should forward all arguments to your node in order to have properly 
           <input
             ref={ref}
             value={value}
+            size="1"
             onKeyDown={onKeyDown}
             onChange={(e) => onChange(e.target.value)}
           />

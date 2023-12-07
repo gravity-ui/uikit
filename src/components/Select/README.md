@@ -914,6 +914,68 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
+### Render options with different heights
+
+The options have a fixed height according to the `size` property. If you need to render options with different heights, you can use the `option.data` property, which will store information about what height you need to set the options and `getOptionHeight` property to set this value.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  getOptionHeight={(option) => option.data.height}
+>
+  <Select.Option value="val_1" data={{height: 20}}>Value 1</Select.Option>
+  <Select.Option value="val_2" data={{height: 40}}>Value 2</Select.Option>
+  <Select.Option value="val_3" data={{height: 60}}>Value 3</Select.Option>
+  <Select.Option value="val_4" data={{height: 80}}>Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    placeholder="Different heights"
+    getOptionHeight={(option) => option.data.height}
+  >
+    <UIKit.Select.Option value="val_1" data={{height: 20}}>Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2" data={{height: 40}}>Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3" data={{height: 60}}>Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4" data={{height: 80}}>Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderOption: SelectProps['renderOption'] = (option) => {
+    return <div style={{color: option.data.color}}>{option.children}</div>;
+  };
+
+  return (
+    <Select renderOption={renderOption}>
+      <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+        Value 1
+      </Select.Option>
+      <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+        Value 2
+      </Select.Option>
+      <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+        Value 3
+      </Select.Option>
+      <Select.Option value="val_4" data={{color: '#534581'}}>
+        Value 4
+      </Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name                                                    | Description                                                                                                                   | Type                                    | Default         |

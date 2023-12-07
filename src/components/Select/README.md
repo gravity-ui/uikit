@@ -583,10 +583,10 @@ A regular list when all the elements are in the dom tree at once.
 </Select>
 `}
 >
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
+  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
     <h4 style={{textAlign: 'center'}}>Default</h4>
     <p>
-      <UIKit.Select>
+      <UIKit.Select placeholder="Short value">
         <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
         <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
         <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -594,11 +594,11 @@ A regular list when all the elements are in the dom tree at once.
       </UIKit.Select>
     </p>
     <p>
-      <UIKit.Select>
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+      <UIKit.Select placeholder="Long value">
+        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
       </UIKit.Select>
     </p>
   </div>

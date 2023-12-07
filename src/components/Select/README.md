@@ -798,10 +798,11 @@ To render custom filter section use the `renderOption` property.
 >
   <UIKit.Select
     placeholder="Custom options"
-    renderOption={({content, data}) => {
+    renderOption={(option) => {
+      console.log(option);
       return (
-        <div style={{color: data.color}}>
-          {content}
+        <div style={{color: option.data.color}}>
+          {option.value}
         </div>
       );
     }}

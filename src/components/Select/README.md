@@ -478,6 +478,68 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
+## Control width
+
+By default, the width of the control stretches to match the width of the content of the selected options. You can manage it by using `width` property:
+
+- `'max'`: stretches to the full width of the parent, excluding overflow.
+- `number`: apply width in pixels.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select width="max">
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select width={150}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <div style={{width: 200, border: '2px dashed gray'}}>
+    <h4 style={{textAlign: 'center'}}>Default</h4>
+    <UIKit.Select>
+      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    </UIKit.Select>
+  </div>
+  <div style={{width: 200, border: '2px dashed gray'}}>
+    <h4 style={{textAlign: 'center'}}>Max</h4>
+    <UIKit.Select width="max">
+      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    </UIKit.Select>
+  </div>
+  <div style={{width: 200, border: '2px dashed gray'}}>
+    <h4 style={{textAlign: 'center'}}>Max</h4>
+    <UIKit.Select width={150}>
+      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    </UIKit.Select>
+  </div>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
 ## Popup width
 
 Available values:

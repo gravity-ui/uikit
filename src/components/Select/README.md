@@ -840,6 +840,80 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
+### Render custom selected options
+
+To render custom selected options use the `renderSelectedOption` property.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  renderSelectedOption={(option) => {
+    return (
+      <div style={{color: option.data.color}}>
+        {option.children}
+      </div>
+    );
+  }}
+>
+  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
+  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
+  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
+  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    placeholder="Custom selected options"
+    renderSelectedOption={(option) => {
+      return (
+        <div style={{color: option.data.color}}>
+          {option.children}
+        </div>
+      );
+    }}
+  >
+    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderSelectedOption: SelectProps['renderSelectedOption'] = (option) => {
+    return <div style={{color: option.data.color}}>{option.children}</div>;
+  };
+
+  return (
+    <Select renderSelectedOption={renderSelectedOption}>
+      <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+        Value 1
+      </Select.Option>
+      <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+        Value 2
+      </Select.Option>
+      <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+        Value 3
+      </Select.Option>
+      <Select.Option value="val_4" data={{color: '#534581'}}>
+        Value 4
+      </Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name                                                 | Description                                                                                                                   | Type                                    | Default         |

@@ -247,7 +247,7 @@ To enable filter section use the `filterable` property. Default to `false`.
 </Select>
 `}
 >
-  <UIKit.Select filterable={true}>
+  <UIKit.Select filterable={true} placeholder="Filterable">
     <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
     <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
     <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -569,17 +569,35 @@ A regular list when all the elements are in the dom tree at once.
   <Select.Option value="val_3">Value 3</Select.Option>
   <Select.Option value="val_4">Value 4</Select.Option>
 </Select>
-<Select width="max">
+<Select>
+  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+</Select>
+<Select popupWidth="fit">
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
   <Select.Option value="val_4">Value 4</Select.Option>
 </Select>
-<Select width={150}>
+<Select popupWidth="fit">
+  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+</Select>
+<Select popupWidth={80}>
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
   <Select.Option value="val_3">Value 3</Select.Option>
   <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select popupWidth={80}>
+  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
 </Select>
 `}
 >

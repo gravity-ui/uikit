@@ -719,7 +719,7 @@ When using virtualization, some restrictions are imposed on the popup element:
     <p>
       <UIKit.Select placeholder="Short value">
         {Array.from({length: 1000}, (num) => num)
-          .map((value) => <UIKit.Select.Option value={Value}>{`Value ${value}`}</UIKit.Select.Option>)
+          .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
         }
       </UIKit.Select>
     </p>

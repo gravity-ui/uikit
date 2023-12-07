@@ -16,8 +16,6 @@ You could define options as an array of objects or as the children of a componen
 
 ### Flat list
 
-- As array of objects:
-
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -30,12 +28,17 @@ You could define options as an array of objects or as the children of a componen
     {value: 'val_4', content: 'Value 4'},
   ]}
 />
+<Select>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
 `}
 >
   <div style={{display: 'flex', flexDirection: 'column'}}>
     Array of objects
     <UIKit.Select
-      placeholder="As array of objects"
       options={[
         {value: 'val_1', content: 'Value 1'},
         {value: 'val_2', content: 'Value 2'},
@@ -46,15 +49,12 @@ You could define options as an array of objects or as the children of a componen
   </div>
   <div style={{display: 'flex', flexDirection: 'column'}}>
     Child nodes
-    <UIKit.Select
-      placeholder="As array of objects"
-      options={[
-        {value: 'val_1', content: 'Value 1'},
-        {value: 'val_2', content: 'Value 2'},
-        {value: 'val_3', content: 'Value 3'},
-        {value: 'val_4', content: 'Value 4'},
-      ]}
-    />
+    <UIKit.Select placeholder="As react nodes">
+      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+    </UIKit.Select>
   </div>
 </ExampleBlock>
 
@@ -71,37 +71,6 @@ LANDING_BLOCK-->
     {value: 'val_4', content: 'Value 4'},
   ]}
 />
-```
-
-<!--/GITHUB_BLOCK-->
-
-- As react nodes:
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select placeholder="As react nodes">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
 <Select>
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>

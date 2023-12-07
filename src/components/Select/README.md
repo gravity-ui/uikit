@@ -662,7 +662,7 @@ A regular list when all the elements are in the dom tree at once.
 
 LANDING_BLOCK-->
 
-### Virtualized options list
+### Virtualized list
 
 For optimal display of a large number of options, `Select` has a built-in list virtualization mechanism. Virtualization is enabled after overcoming the threshold of the number of options (`50` by default). You can control this value using the `virtualizationThreshold` property.
 
@@ -671,6 +671,89 @@ When using virtualization, some restrictions are imposed on the popup element:
 - The popup width stops adjusting to the length of the longest option.
 
 - The minimum width of the popup is equal to the width of the control, or `100px` if the control is shorter.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select>
+  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+</Select>
+<Select popupWidth="fit">
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select popupWidth="fit">
+  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+</Select>
+<Select popupWidth={80}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+<Select popupWidth={80}>
+  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+</Select>
+`}
+>
+  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+    <h4 style={{textAlign: 'center'}}>Default</h4>
+    <p>
+      <UIKit.Select placeholder="Short value">
+        {Array.from({length: 1000}, (num) => num)
+          .map((value) => <UIKit.Select.Option value={Value}>{`Value ${value}`}</UIKit.Select.Option>)
+        }
+      </UIKit.Select>
+    </p>
+    <p>
+      <UIKit.Select placeholder="Long value">
+        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
+      </UIKit.Select>
+    </p>
+  </div>
+  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
+    <h4 style={{textAlign: 'center'}}>In pixels</h4>
+    <p>
+      <UIKit.Select placeholder="Short value" popupWidth={80}>
+        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+      </UIKit.Select>
+    </p>
+    <p>
+      <UIKit.Select placeholder="Long value" popupWidth={80}>
+        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
+        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
+      </UIKit.Select>
+    </p>
+  </div>
+</ExampleBlock>
+
+LANDING_BLOCK-->
 
 ## Properties
 

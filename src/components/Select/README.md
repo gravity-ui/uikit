@@ -36,10 +36,9 @@ You could define options as an array of objects or as the children of a componen
 </Select>
 `}
 >
-  <div style={{display: 'flex', flexDirection: 'column'}}>
+  <div>
     Array of objects
     <UIKit.Select
-      width="auto"
       options={[
         {value: 'val_1', content: 'Value 1'},
         {value: 'val_2', content: 'Value 2'},
@@ -48,9 +47,9 @@ You could define options as an array of objects or as the children of a componen
       ]}
     />
   </div>
-  <div style={{display: 'flex', flexDirection: 'column'}}>
+  <div>
     Child nodes
-    <UIKit.Select width="auto">
+    <UIKit.Select>
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
       <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
       <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
@@ -64,6 +63,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+// Array of objects
 <Select
   options={[
     {value: 'val_1', content: 'Value 1'},
@@ -72,6 +72,7 @@ LANDING_BLOCK-->
     {value: 'val_4', content: 'Value 4'},
   ]}
 />
+// Child nodes
 <Select>
   <Select.Option value="val_1">Value 1</Select.Option>
   <Select.Option value="val_2">Value 2</Select.Option>
@@ -84,8 +85,6 @@ LANDING_BLOCK-->
 
 ### Grouped list
 
-- As array of objects:
-
 <!--LANDING_BLOCK
 
 <ExampleBlock
@@ -108,27 +107,52 @@ LANDING_BLOCK-->
     },
   ]}
 />
+<Select>
+  <Select.OptionGroup label="Group 1">
+    <Select.Option value="val_1" content="Value 1" />
+    <Select.Option value="val_2" content="Value 2" />
+  </Select.OptionGroup>
+  <Select.OptionGroup label="Group 2">
+    <Select.Option value="val_3" content="Value 3" />
+    <Select.Option value="val_4" content="Value 4" />
+  </Select.OptionGroup>
+</Select>
 `}
 >
-  <UIKit.Select
-    placeholder="As array of objects"
-    options={[
-      {
-        label: 'Group 1',
-        options: [
-          {value: 'val_1', content: 'Value 1'},
-          {value: 'val_2', content: 'Value 2'},
-        ],
-      },
-      {
-        label: 'Group 2',
-        options: [
-          {value: 'val_3', content: 'Value 3'},
-          {value: 'val_4', content: 'Value 4'},
-        ],
-      },
-    ]}
-  />
+  <div>
+    Array of objects
+    <UIKit.Select
+      options={[
+        {
+          label: 'Group 1',
+          options: [
+            {value: 'val_1', content: 'Value 1'},
+            {value: 'val_2', content: 'Value 2'},
+          ],
+        },
+        {
+          label: 'Group 2',
+          options: [
+            {value: 'val_3', content: 'Value 3'},
+            {value: 'val_4', content: 'Value 4'},
+          ],
+        },
+      ]}
+    />
+  </div>
+  <div>
+    Child nodes
+    <UIKit.Select>
+      <UIKit.Select.OptionGroup label="Group 1">
+        <UIKit.Select.Option value="val_1" content="Value 1" />
+        <UIKit.Select.Option value="val_2" content="Value 2" />
+      </UIKit.Select.OptionGroup>
+      <UIKit.Select.OptionGroup label="Group 2">
+        <UIKit.Select.Option value="val_3" content="Value 3" />
+        <UIKit.Select.Option value="val_4" content="Value 4" />
+      </UIKit.Select.OptionGroup>
+    </UIKit.Select>
+  </div>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -136,6 +160,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
+// Array of objects
 <Select
   options={[
     {
@@ -154,45 +179,7 @@ LANDING_BLOCK-->
     },
   ]}
 />
-```
-
-<!--/GITHUB_BLOCK-->
-
-- As react nodes:
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Select>
-  <Select.OptionGroup label="Group 1">
-    <Select.Option value="val_1" content="Value 1" />
-    <Select.Option value="val_2" content="Value 2" />
-  </Select.OptionGroup>
-  <Select.OptionGroup label="Group 2">
-    <Select.Option value="val_3" content="Value 3" />
-    <Select.Option value="val_4" content="Value 4" />
-  </Select.OptionGroup>
-</Select>
-`}
->
-  <UIKit.Select placeholder="As react nodes">
-    <UIKit.Select.OptionGroup label="Group 1">
-      <UIKit.Select.Option value="val_1" content="Value 1" />
-      <UIKit.Select.Option value="val_2" content="Value 2" />
-    </UIKit.Select.OptionGroup>
-    <UIKit.Select.OptionGroup label="Group 2">
-      <UIKit.Select.Option value="val_3" content="Value 3" />
-      <UIKit.Select.Option value="val_4" content="Value 4" />
-    </UIKit.Select.OptionGroup>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
-
-<!--GITHUB_BLOCK-->
-
-```tsx
+// Child nodes
 <Select>
   <Select.OptionGroup label="Group 1">
     <Select.Option value="val_1" content="Value 1" />
@@ -204,8 +191,6 @@ LANDING_BLOCK-->
   </Select.OptionGroup>
 </Select>
 ```
-
-<!--/GITHUB_BLOCK-->
 
 ## Selecting multiple options
 

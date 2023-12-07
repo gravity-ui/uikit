@@ -12,6 +12,8 @@ import {Select} from '@gravity-ui/uikit';
 
 ## Defining options
 
+You could define options as an array of objects or as the children of a component. The first approach is convenient for cases where options require complex preparation and possible memoization. The second approach is convenient when there are few options, and their configuration does not require complex calculations.
+
 ### Flat list
 
 - As array of objects:
@@ -30,15 +32,30 @@ import {Select} from '@gravity-ui/uikit';
 />
 `}
 >
-  <UIKit.Select
-    placeholder="As array of objects"
-    options={[
-      {value: 'val_1', content: 'Value 1'},
-      {value: 'val_2', content: 'Value 2'},
-      {value: 'val_3', content: 'Value 3'},
-      {value: 'val_4', content: 'Value 4'},
-    ]}
-  />
+  <div style={{display: 'flex', flexDirection: 'column'}}>
+    Array of objects
+    <UIKit.Select
+      placeholder="As array of objects"
+      options={[
+        {value: 'val_1', content: 'Value 1'},
+        {value: 'val_2', content: 'Value 2'},
+        {value: 'val_3', content: 'Value 3'},
+        {value: 'val_4', content: 'Value 4'},
+      ]}
+    />
+  </div>
+  <div style={{display: 'flex', flexDirection: 'column'}}>
+    Child nodes
+    <UIKit.Select
+      placeholder="As array of objects"
+      options={[
+        {value: 'val_1', content: 'Value 1'},
+        {value: 'val_2', content: 'Value 2'},
+        {value: 'val_3', content: 'Value 3'},
+        {value: 'val_4', content: 'Value 4'},
+      ]}
+    />
+  </div>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -432,6 +449,7 @@ Notice: you should forward all arguments to your node in order to have properly 
         <input
           ref={ref}
           value={value}
+          size="1"
           onKeyDown={onKeyDown}
           onChange={(e) => onChange(e.target.value)}
         />

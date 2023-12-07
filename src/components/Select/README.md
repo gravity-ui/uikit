@@ -410,7 +410,7 @@ Popup width managed by the `popupWidth` property. Available values:
 
 There are some points about default behaviour:
 
-- The width of the popup is equal to the width of the widest option, but not wider than `90vw`. Does not work in case of using [virtualization](#virtualized-options-list).
+- The width of the popup is equal to the width of the widest option, but not wider than `90vw`. Does not work in case of using [virtualization](#virtualized-list).
 
 - Narrow options are stretched to fit the width of the control.
 
@@ -981,7 +981,7 @@ const MyComponent = () => {
 | className                                                 | Control className                                                                                                             | `string`                                |                 |
 | defaultValue                                              | Default values that represent selected options in case of using uncontrolled state                                            | `string[]`                              |                 |
 | disabled                                                  | Indicates that the user cannot interact with the control                                                                      | `boolean`                               | `false`         |
-| [filterable](#filterable-options)                         | Indicates that select popup have filter section                                                                               | `boolean`                               | `false`         |
+| [filterable](#filtering-options)                          | Indicates that select popup have filter section                                                                               | `boolean`                               | `false`         |
 | filterOption                                              | Used to compare option with filter                                                                                            | `function`                              |                 |
 | filterPlaceholder                                         | Default filter input placeholder text                                                                                         | `string`                                |                 |
 | [getOptionHeight](#render-options-with-different-heights) | Used to set height of customized user options                                                                                 | `function`                              |                 |
@@ -1013,5 +1013,5 @@ const MyComponent = () => {
 | [size](#size)                                             | Control / options size                                                                                                        | `string`                                | `'m'`           |
 | value                                                     | Values that represent selected options                                                                                        | `string[]`                              |                 |
 | view                                                      | Control view                                                                                                                  | `string`                                | `'normal'`      |
-| [virtualizationThreshold](#virtualized-options-list)      | The threshold of the options count after which virtualization is enabled                                                      | `number`                                | `50`            |
+| [virtualizationThreshold](#virtualized-list)              | The threshold of the options count after which virtualization is enabled                                                      | `number`                                | `50`            |
 | [width](#control-width)                                   | Control width                                                                                                                 | `string \| number`                      | `undefined`     |

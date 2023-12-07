@@ -414,11 +414,11 @@ There are some points about default behaviour:
 
 - Narrow options are stretched to fit the width of the control.
 
+<!--LANDING_BLOCK
+
 ### Non-virtualized list
 
 A regular list when all the elements are in the dom tree at once.
-
-<!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
@@ -768,31 +768,25 @@ const MyComponent = () => {
 
 ### Render custom options
 
-To render custom filter section use the `renderOption` property.
+To render custom options use the `renderOption` property.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
 <Select
-  placeholder="Custom filter"
-  filterable={true}
-  renderFilter={({onChange, onKeyDown, ref, value}) => {
+  renderOption={(option) => {
     return (
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <input
-          ref={ref}
-          value={value}
-          size="1"
-          onKeyDown={onKeyDown}
-          onChange={(e) => onChange(e.target.value)}
-        />
-        <button>Do smth</button>
+      <div style={{color: option.data.color}}>
+        {option.children}
       </div>
     );
   }}
 >
-  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
+  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
+  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
+  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
 </Select>
 `}
 >
@@ -814,6 +808,37 @@ To render custom filter section use the `renderOption` property.
 </ExampleBlock>
 
 LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderOption: SelectProps['renderOption'] = (option) => {
+    return <div style={{color: option.data.color}}>{option.children}</div>;
+  };
+
+  return (
+    <Select renderOption={renderOption}>
+      <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+        Value 1
+      </Select.Option>
+      <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+        Value 2
+      </Select.Option>
+      <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+        Value 3
+      </Select.Option>
+      <Select.Option value="val_4" data={{color: '#534581'}}>
+        Value 4
+      </Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
 
 ## Properties
 
@@ -848,7 +873,7 @@ LANDING_BLOCK-->
 | [renderControl](#render-custom-control)              | Used to render user control                                                                                                   | `function`                              |                 |
 | renderEmptyOptions                                   | Used to render node for an empty options list                                                                                 | `function`                              |                 |
 | [renderFilter](#render-custom-filter-section)        | Used to render user filter section                                                                                            | `function`                              |                 |
-| renderOption                                         | Used to render user options                                                                                                   | `function`                              |                 |
+| [renderOption](#render-custom-options)               | Used to render user options                                                                                                   | `function`                              |                 |
 | renderOptionGroup                                    | Used to render user option groups                                                                                             | `function`                              |                 |
 | renderSelectedOption                                 | Used to render user selected options                                                                                          | `function`                              |                 |
 | [size](#size)                                        | Control / options size                                                                                                        | `string`                                | `'m'`           |

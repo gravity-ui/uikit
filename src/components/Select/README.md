@@ -509,27 +509,27 @@ By default, the width of the control stretches to match the width of the content
 </Select>
 `}
 >
-  <div style={{width: 200, border: '2px dashed gray'}}>
+  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
     <h4 style={{textAlign: 'center'}}>Default</h4>
-    <UIKit.Select>
+    <UIKit.Select multiple={true}>
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
       <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
       <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
       <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
     </UIKit.Select>
   </div>
-  <div style={{width: 200, border: '2px dashed gray'}}>
+  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
     <h4 style={{textAlign: 'center'}}>Max</h4>
-    <UIKit.Select width="max">
+    <UIKit.Select width="max" multiple={true}>
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
       <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
       <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
       <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
     </UIKit.Select>
   </div>
-  <div style={{width: 200, border: '2px dashed gray'}}>
-    <h4 style={{textAlign: 'center'}}>Max</h4>
-    <UIKit.Select width={150}>
+  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
+    <h4 style={{textAlign: 'center'}}>In pixels</h4>
+    <UIKit.Select width={110} multiple={true}>
       <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
       <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
       <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>

@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.24.0](https://github.com/gravity-ui/uikit/compare/v5.23.0...v5.24.0) (2023-12-08)
+
+
+### Features
+
+* **Table:** use `&lt;colgroup/&gt;` to set cells width ([#831](https://github.com/gravity-ui/uikit/issues/831)) ([c33b330](https://github.com/gravity-ui/uikit/commit/c33b3308b68ce92626e995a99821eede74a3b196))
+
 ## [5.23.0](https://github.com/gravity-ui/uikit/compare/v5.22.0...v5.23.0) (2023-12-06)
 
 

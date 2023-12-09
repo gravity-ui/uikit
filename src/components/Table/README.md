@@ -118,7 +118,7 @@ const getRowActions = () => {
 const table = (
     <MyTable
         data={data}
-        columns{columns}
+        columns={columns}
         getRowActions={getRowActions}
     />
 );
@@ -152,7 +152,7 @@ const columns = [
 const table = (
     <MyTable
         data={data}
-        columns{columns}
+        columns={columns}
     />
 );
 ```
@@ -324,7 +324,7 @@ const columns = [
 const table = (
     <MyTable
         data={data}
-        columns{columns}
+        columns={columns}
     />
 );
 ```

@@ -72,6 +72,13 @@ export interface TextBaseProps {
      */
     ellipsis?: boolean;
     /**
+     * With this prop you need to pass `-webkit-line-clamp` css property with number of cropped lines
+     *
+     * !Note: supports only modern browsers
+     * https://caniuse.com/?search=display%3A%20-webkit-box%3B
+     */
+    ellipsisLines?: boolean;
+    /**
      * white-space css property
      */
     whiteSpace?: 'nowrap' | 'break-spaces';
@@ -93,6 +100,16 @@ export interface TextBaseProps {
  *```
  */
 export const text = (
-    {variant = 'body-1', ellipsis, whiteSpace, wordBreak}: TextBaseProps,
+    {variant = 'body-1', ellipsis, ellipsisLines, whiteSpace, wordBreak}: TextBaseProps,
     className?: string,
-) => b({variant, ellipsis, ws: whiteSpace, wb: wordBreak}, className);
+) =>
+    b(
+        {
+            variant,
+            ellipsis,
+            ws: whiteSpace,
+            wb: wordBreak,
+            'ellipsis-lines': ellipsisLines,
+        },
+        className,
+    );

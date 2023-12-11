@@ -56,4 +56,5 @@ export {Lang, configure} from './utils/configure';
 /** @deprecated, drop on next major */
 export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/xpath';
+export * from './utils/FocusTrap';
 export {getUniqId} from './utils/common';

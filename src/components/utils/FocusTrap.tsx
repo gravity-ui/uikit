@@ -12,7 +12,7 @@ interface FocusTrapContext {
 
 const focusTrapContext = React.createContext<FocusTrapContext | undefined>(undefined);
 
-interface FocusTrapProps {
+export interface FocusTrapProps {
     enabled?: boolean;
     /** @deprecated Use autoFocus instead */
     disableAutoFocus?: boolean;

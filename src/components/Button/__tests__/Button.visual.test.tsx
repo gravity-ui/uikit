@@ -40,7 +40,7 @@ test.describe('Button', () => {
         await expectScreenshot();
     });
 
-    test('render story: <View', async ({mount, expectScreenshot}) => {
+    test('render story: <View>', async ({mount, expectScreenshot}) => {
         await mount(<View />);
 
         await expectScreenshot();

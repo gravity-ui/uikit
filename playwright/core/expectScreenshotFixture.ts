@@ -26,11 +26,11 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         };
 
         expect(await captureScreenshot('g-root_theme_dark')).toMatchSnapshot({
-            name: `${screenshotName || testInfo.title}-dark.png`,
+            name: `${screenshotName || testInfo.title}dark.png`,
         });
 
         expect(await captureScreenshot('g-root_theme_light')).toMatchSnapshot({
-            name: `${screenshotName || testInfo.title}-light.png`,
+            name: `${screenshotName || testInfo.title}light.png`,
         });
     };
 

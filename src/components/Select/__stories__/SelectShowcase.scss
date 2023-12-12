@@ -50,6 +50,12 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
         }
     }
 
+    &__user-control-placement {
+        display: inline-flex;
+
+        margin: 0 100px;
+    }
+
     &__user-clear-icon {
         margin-left: 6px;
     }

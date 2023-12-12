@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {TrashBin} from '@gravity-ui/icons';
+import {Plus, TrashBin} from '@gravity-ui/icons';
 import range from 'lodash/range';
 
 import {Select} from '..';
@@ -23,6 +23,7 @@ import {
     EXAMPLE_GROUP_JSON_OPTIONS,
     EXAMPLE_JSON_OPTIONS,
     EXAMPLE_USER_CONTROL,
+    EXAMPLE_USER_CONTROL_WITH_PLACEMENT,
     EXAMPLE_USER_OPTIONS,
 } from './constants';
 
@@ -294,6 +295,35 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val2" content="Value2" />
                 <Select.Option value="val3" content="\" />
                 <Select.Option value="val4" content="Value4" />
+            </ExampleItem>
+            <ExampleItem
+                title="Select with user control and custom placement"
+                code={[EXAMPLE_USER_CONTROL_WITH_PLACEMENT]}
+                selectProps={{
+                    ...props,
+                    className: b('user-control-placement'),
+                    popupPlacement: ['bottom'],
+                    renderControl: ({onClick, onKeyDown, ref}) => {
+                        return (
+                            <Button
+                                ref={ref}
+                                view="action"
+                                onClick={onClick}
+                                extraProps={{
+                                    onKeyDown,
+                                }}
+                            >
+                                <Icon data={Plus} />
+                            </Button>
+                        );
+                    },
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+                <Select.Option value="val5" content="Some long value" />
             </ExampleItem>
             <ExampleItem
                 title="Select with virtualized list"

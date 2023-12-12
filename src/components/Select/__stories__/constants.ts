@@ -170,6 +170,35 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
 </Select>
 `;
 
+export const EXAMPLE_USER_CONTROL_WITH_PLACEMENT = `const [value, setValue] = React.useState<string[]>([]);
+
+<Select
+    value={value}
+    popupPlacement={['bottom']}
+    renderControl={({onClick, onKeyDown, ref}) => {
+        return (
+            <Button
+                ref={ref}
+                view="action"
+                onClick={onClick}
+                extraProps={{
+                    onKeyDown,
+                }}
+            >
+                <Icon data={Plus} />
+            </Button>
+        );
+    }}
+    onUpdate={(nextValue) => setValue(nextValue)}
+>
+    <Select.Option value="val1" content="Value1" />
+    <Select.Option value="val2" content="Value2" />
+    <Select.Option value="val3" content="Value3" />
+    <Select.Option value="val4" content="Value4" />
+    <Select.Option value="val5" content="Some long value" />
+</Select>
+`;
+
 export const EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM = `import {Tooltip} from '@gravity-ui/uikit';
 
 const [value, setValue] = React.useState<string[]>([]);

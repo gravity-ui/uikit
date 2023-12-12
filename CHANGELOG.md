@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.25.0](https://github.com/gravity-ui/uikit/compare/v5.24.0...v5.25.0) (2023-12-12)
+
+
+### Features
+
+* **Select:** add popupPlacement prop ([#1195](https://github.com/gravity-ui/uikit/issues/1195)) ([ba0e1a1](https://github.com/gravity-ui/uikit/commit/ba0e1a1a28b98b519c59b040ab53671aa178341a))
+
 ## [5.24.0](https://github.com/gravity-ui/uikit/compare/v5.23.0...v5.24.0) (2023-12-08)
 
 

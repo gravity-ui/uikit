@@ -5,7 +5,7 @@ export type ToasterArgs = {
     mobile?: boolean;
 };
 
-export type ToastType = 'info' | 'success' | 'warning' | 'error' | 'utility';
+export type ToastTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 
 export type ToastAction = {
     onClick: VoidFunction;
@@ -20,7 +20,7 @@ export type ToastProps = {
     className?: string;
     autoHiding?: number | false;
     content?: React.ReactNode;
-    type?: ToastType;
+    theme?: ToastTheme;
     isClosable?: boolean;
     actions?: ToastAction[];
 

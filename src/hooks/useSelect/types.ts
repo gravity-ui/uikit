@@ -20,6 +20,7 @@ export type UseSelectResult<T> = {
     activeIndex: number | undefined;
     handleSelection: (option: UseSelectOption<T>) => void;
     handleClearValue: () => void;
+    handleUpdateValue: (value: string[]) => void;
     /**
      * @deprecated use toggleOpen
      */

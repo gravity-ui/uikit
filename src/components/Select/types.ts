@@ -46,6 +46,12 @@ export type SelectRenderOptionGroup<T> = (
 
 export type SelectSize = InputControlSize;
 
+export type SelectApiRef = {
+    getFlattenOptions: () => (SelectOption | {label: string; disabled: true})[];
+    // getFilteredFlattenOptions: () => (SelectOption | {label: string; disabled: true})[];
+    setValue?: (value: string[]) => void;
+};
+
 export type SelectProps<T = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
@@ -97,6 +103,7 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
         id?: string;
+        apiRef?: React.Ref<SelectApiRef>;
     };
 
 export type SelectOption<T = any> = QAProps &

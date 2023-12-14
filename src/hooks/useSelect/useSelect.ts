@@ -11,20 +11,27 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
     const uncontrolled = !valueProps;
     const {toggleOpen, ...openState} = useOpenState(props);
 
+    const handleUpdateValue = React.useCallback(
+        (nextValue: string[]) => {
+            onUpdate?.(nextValue);
+
+            if (uncontrolled) {
+                setInnerValue(nextValue);
+            }
+        },
+        [uncontrolled, onUpdate],
+    );
+
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {
             if (!value.includes(option.value)) {
                 const nextValue = [option.value];
-                onUpdate?.(nextValue);
-
-                if (uncontrolled) {
-                    setInnerValue(nextValue);
-                }
+                handleUpdateValue(nextValue);
             }
 
             toggleOpen(false);
         },
-        [value, uncontrolled, onUpdate, toggleOpen],
+        [value, handleUpdateValue, toggleOpen],
     );
 
     const handleMultipleSelection = React.useCallback(
@@ -33,14 +40,9 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
             const nextValue = alreadySelected
                 ? value.filter((iteratedVal) => iteratedVal !== option.value)
                 : [...value, option.value];
-
-            onUpdate?.(nextValue);
-
-            if (uncontrolled) {
-                setInnerValue(nextValue);
-            }
+            handleUpdateValue(nextValue);
         },
-        [value, uncontrolled, onUpdate],
+        [value, handleUpdateValue],
     );
 
     const handleSelection = React.useCallback(
@@ -64,6 +66,7 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
         activeIndex,
         handleSelection,
         handleClearValue,
+        handleUpdateValue,
         /**
          * @deprecated use toggleOpen
          */

@@ -75,7 +75,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         disablePortal,
         hasClear = false,
         onClose,
+        onFocus,
+        onBlur,
         id,
+        apiRef,
     } = props;
     const [mobile] = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
@@ -93,6 +96,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         toggleOpen,
         handleSelection,
         handleClearValue,
+        handleUpdateValue,
         setActiveIndex,
     } = useSelect({
         onUpdate,
@@ -121,6 +125,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+    const mods: CnMods = {
+        ...(width === 'max' && {width}),
+    };
+    const inlineStyles: React.CSSProperties = {};
+
+    if (typeof width === 'number') {
+        inlineStyles.width = width;
+    }
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
@@ -189,11 +201,33 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         }
     }, []);
 
+    const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
+
+    const {focusWithinProps} = useFocusWithin({
+        onFocusWithin: onFocus,
+        onBlurWithin: React.useCallback(
+            (e: React.FocusEvent) => {
+                onBlur?.(e);
+                handleClose();
+            },
+            [handleClose, onBlur],
+        ),
+    });
+
     useQuickSearch({
         onChange: handleQuickSearchChange,
         open,
         disabled: filterable,
     });
+
+    React.useImperativeHandle(
+        apiRef,
+        () => ({
+            getFlattenOptions: () => flattenOptions,
+            setValue: handleUpdateValue,
+        }),
+        [flattenOptions, handleUpdateValue],
+    );
 
     React.useEffect(() => {
         if (open) {
@@ -206,28 +240,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             handleFilterChange('');
         }
     }, [open, filterable, handleFilterChange]);
-
-    const mods: CnMods = {
-        ...(width === 'max' && {width}),
-    };
-    const inlineStyles: React.CSSProperties = {};
-
-    if (typeof width === 'number') {
-        inlineStyles.width = width;
-    }
-
-    const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
-    const {onFocus, onBlur} = props;
-    const {focusWithinProps} = useFocusWithin({
-        onFocusWithin: onFocus,
-        onBlurWithin: React.useCallback(
-            (e: React.FocusEvent) => {
-                onBlur?.(e);
-                handleClose();
-            },
-            [handleClose, onBlur],
-        ),
-    });
 
     return (
         <div

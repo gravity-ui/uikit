@@ -63,7 +63,6 @@ export function getListParsedState<T>(
         if (item.children) {
             result.groupsState[id] = {
                 expanded: item.expanded,
-                childrenCount: item.children.length,
                 childrenIds: [],
             };
 

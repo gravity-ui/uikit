@@ -7,7 +7,7 @@ import type {
     ListSizeTypes,
     RenderItem,
     RenderItemContext,
-} from '../ListNext/types';
+} from '../ListNext';
 import type {QAProps} from '../types';
 
 export type RenderControlProps = {
@@ -71,10 +71,13 @@ export interface TreeSelectProps<T> extends QAProps {
     /**
      * For example wrap item with divider or some custom react node
      */
-    itemWrapper?(node: React.JSX.Element, context: RenderItemContext): React.JSX.Element;
+    itemWrapper?(
+        getOriginalNode: () => React.JSX.Element,
+        context: RenderItemContext,
+    ): React.JSX.Element;
     onClose?(): void;
     containerWrapper?(
-        originalNode: React.JSX.Element,
+        getOriginalNode: () => React.JSX.Element,
         context: {items: ListItemType<T>[]},
     ): React.JSX.Element;
     renderItem?: RenderItem<T>;

@@ -2,12 +2,17 @@ import React from 'react';
 
 import type {TreeSelectProps} from 'src/unstable';
 
-import type {GetItemContent, RenderItem, RenderItemContext} from '../../types';
+import type {GetItemContent} from '../../types';
 import {ListGroupItemView} from '../ListGroupItemView/ListGroupItemView';
 import {ListItemView} from '../ListItemView/ListItemView';
 
+import type {RenderItem, RenderItemContext} from './types';
+
 interface BuilderProps<T> extends Pick<TreeSelectProps<T>, 'groupsBehavior' | 'groupAction'> {
-    itemWrapper?(node: React.JSX.Element, context: RenderItemContext): React.JSX.Element;
+    itemWrapper?(
+        getOriginalNode: () => React.JSX.Element,
+        context: RenderItemContext,
+    ): React.JSX.Element;
     /**
      * Known how map data (T) to list item props
      */
@@ -27,24 +32,27 @@ export const defaultItemRendererBuilder = function <T>({
             isLastItem,
         });
 
-        let node: React.ReactNode = groupState ? (
-            <ListGroupItemView
-                {...itemState}
-                {...state}
-                defaultExpandIcon={groupsBehavior === 'expandable'}
-                childrenCount={groupAction === 'items-count' ? groupState.childrenCount : undefined}
-                selectable={groupsBehavior === 'selectable'}
-                activeOnHover={groupsBehavior === 'selectable'}
-                {...itemContent}
-                role="treeitem"
-            />
-        ) : (
-            <ListItemView {...itemState} {...state} {...itemContent} role="treeitem" />
-        );
+        const getNode = () =>
+            groupState ? (
+                <ListGroupItemView
+                    {...itemState}
+                    {...state}
+                    defaultExpandIcon={groupsBehavior === 'expandable'}
+                    childrenCount={
+                        groupAction === 'items-count' ? groupState.childrenIds.length : undefined
+                    }
+                    selectable={groupsBehavior === 'selectable'}
+                    activeOnHover={groupsBehavior === 'selectable'}
+                    {...itemContent}
+                    role="treeitem"
+                />
+            ) : (
+                <ListItemView {...itemState} {...state} {...itemContent} role="treeitem" />
+            );
 
-        if (itemWrapper) {
-            node = itemWrapper(node, {isLastItem, itemState, groupState});
-        }
+        const node = itemWrapper
+            ? itemWrapper(getNode, {isLastItem, itemState, groupState})
+            : getNode();
 
         return node;
     };

@@ -164,7 +164,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
 
-    let containerNode = (
+    const getContainerNode = () => (
         <ListContainerView
             ref={containerRef}
             id={`list-${treeSelectId}`}
@@ -217,11 +217,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         </ListContainerView>
     );
 
-    if (containerWrapper) {
-        // the full list of properties will be updated as the component develops
-        containerNode = containerWrapper(containerNode, {items});
-    }
-
     const controlProps: RenderControlProps = {
         open,
         toggleOpen,
@@ -271,7 +266,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 id={`tree-select-popup-${treeSelectId}`}
             >
                 {slotBeforeListBody}
-                {containerNode}
+                {containerWrapper
+                    ? // the full list of properties will be updated as the component develops
+                      containerWrapper(getContainerNode, {items})
+                    : getContainerNode()}
                 {slotAfterListBody}
             </SelectPopup>
         </Flex>

@@ -144,7 +144,9 @@ const InfinityScrollExample: StoryFn<
                 value={value}
                 popupClassName={spacing({p: 2})}
                 getItemContent={identity}
-                itemWrapper={(node, {isLastItem}) => {
+                itemWrapper={(getOriginalNode, {isLastItem}) => {
+                    const node = getOriginalNode();
+
                     if (isLastItem) {
                         return (
                             <IntersectionContainer
@@ -207,7 +209,7 @@ const WithFiltrationAndControlsExample: StoryFn<
                         ref={filterState.filterRef}
                     />
                 }
-                containerWrapper={(node, context) => {
+                containerWrapper={(getOriginalNode, context) => {
                     if (context.items.length === 0 && items.length > 0) {
                         return (
                             <Flex direction="column" gap="3" className={spacing({p: 2})}>
@@ -216,7 +218,7 @@ const WithFiltrationAndControlsExample: StoryFn<
                         );
                     }
 
-                    return node;
+                    return getOriginalNode();
                 }}
                 slotAfterListBody={
                     <Flex gap="2" className={spacing({p: 2})}>
@@ -265,7 +267,7 @@ const WithCustomEmptyContentExample: StoryFn<
             <TreeSelect
                 {...props}
                 items={emptyItems}
-                containerWrapper={(node, context) => {
+                containerWrapper={(getOriginalNode, context) => {
                     if (context.items.length === 0) {
                         return (
                             <Flex gap="3" className={spacing({p: 2})} justifyContent="center">
@@ -274,7 +276,7 @@ const WithCustomEmptyContentExample: StoryFn<
                         );
                     }
 
-                    return node;
+                    return getOriginalNode();
                 }}
                 getItemContent={(x) => x}
             />

@@ -19,6 +19,7 @@ export interface ListRecursiveRendererProps<T> {
     style?: React.CSSProperties;
 }
 
+// Saves the nested html structure for tree data structure
 export function ListItemRecursiveRenderer<T>({
     itemSchema,
     index,

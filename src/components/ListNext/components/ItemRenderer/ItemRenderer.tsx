@@ -1,10 +1,6 @@
-import type {
-    ItemsParsedState,
-    ListGroupState,
-    ListItemId,
-    ListSizeTypes,
-    RenderItem,
-} from '../../types';
+import type {ItemsParsedState, ListGroupState, ListItemId, ListSizeTypes} from '../../types';
+
+import type {RenderItem} from './types';
 
 type ItemRendererProps<T> = {
     id: ListItemId;

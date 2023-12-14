@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
-import {VariableSizeList as List} from 'react-window';
+import {VariableSizeList} from 'react-window';
 
 import type {ListContainerRenderProps} from './types';
 
@@ -21,7 +21,7 @@ export function VirtualizedListContainer<T>({
     return (
         <AutoSizer>
             {({width, height}: Size) => (
-                <List
+                <VariableSizeList
                     overscanCount={DEFAULT_OVERSCAN_COUNT}
                     className={className}
                     width={width}
@@ -35,7 +35,7 @@ export function VirtualizedListContainer<T>({
                             {children(data[index], index)}
                         </div>
                     )}
-                </List>
+                </VariableSizeList>
             )}
         </AutoSizer>
     );

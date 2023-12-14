@@ -285,3 +285,38 @@ const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyD
 </Select>
 
 `;
+
+export const EXAMPLE_SELECT_ALL_FILTER_SECTION = `import {Select, useSelectAllFilter} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+    const selectOptions = [
+        {value: 'value1', content: 'value1'},
+        {value: 'value11', content: 'value11'},
+        {value: 'value2', content: 'value2'},
+        {value: 'value3', content: 'value3'},
+    ];
+
+    const [value, setValue] = React.useState<string[]>([]);
+
+    const renderFilter = useSelectAllFilter({
+        value: value,
+        options: selectOptions,
+        onUpdate: setValue,
+        hasClear: true,
+        autoFocus: true,
+    });
+
+    return (
+        <Select
+            filterable
+            hasClear
+            multiple
+            renderFilter={renderFilter}
+            value={value}
+            placeholder={'Select options'}
+            options={selectOptions}
+            onUpdate={setValue}
+        />
+    );
+};
+`;

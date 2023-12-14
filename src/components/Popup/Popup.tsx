@@ -37,6 +37,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     contentClassName?: string;
     restoreFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
+    'aria-label'?: React.AriaAttributes['aria-label'];
+    'aria-labelledby'?: React.AriaAttributes['aria-labelledby'];
     role?: React.AriaRole;
     id?: string;
     focusTrap?: boolean;
@@ -75,6 +77,8 @@ export function Popup({
     qa,
     restoreFocus,
     restoreFocusRef,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
     role,
     id,
     focusTrap = false,
@@ -138,6 +142,8 @@ export function Popup({
                     data-qa={qa}
                     id={id}
                     role={role}
+                    aria-label={ariaLabel}
+                    aria-labelledby={ariaLabelledBy}
                 >
                     <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
                         {/* FIXME The onClick event handler is deprecated and should be removed */}

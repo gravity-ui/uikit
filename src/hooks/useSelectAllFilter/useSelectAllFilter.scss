@@ -1,0 +1,26 @@
+.select-filter-with-all {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    &_is-reversed {
+        flex-direction: row-reverse;
+    }
+
+    &_is-vertical {
+        flex-direction: column;
+        gap: 0.25rem;
+
+        > .yc-button {
+            width: 100%;
+        }
+    }
+
+    &_is-vertical#{&}_is-reversed {
+        flex-direction: column-reverse;
+    }
+
+    &__no-options {
+        width: calc(100% - 8px);
+    }
+}

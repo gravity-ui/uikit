@@ -3,10 +3,15 @@ import React from 'react';
 import {render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Select} from '../../../../Select/Select';
-import type {SelectProps} from '../../../../Select/types';
-import {DEFAULT_OPTIONS, SELECT_CONTROL_BUTTON_OPEN_CLASS, TEST_QA} from '../../../__tests__/utils';
-import {SELECT_ALL_QA, useSelectAllFilter} from '../useSelectAllFilter';
+import {SelectQa} from '../../../components';
+import {Select} from '../../../components/Select/Select';
+import {
+    DEFAULT_OPTIONS,
+    SELECT_CONTROL_BUTTON_OPEN_CLASS,
+    TEST_QA,
+} from '../../../components/Select/__tests__/utils';
+import type {SelectProps} from '../../../components/Select/types';
+import {useSelectAllFilter} from '../useSelectAllFilter';
 
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 
@@ -20,13 +25,12 @@ export const ControlledSelectWithAll = (props: Partial<SelectProps>) => {
         setValue(nextValue);
     };
 
-    const renderFilter = useSelectAllFilter({
+    const {renderFilter} = useSelectAllFilter({
         value: value,
         options: props.options,
         onUpdate: handleUpdate,
         filterPlaceholder: filterPlaceholder,
         hasClear: true,
-        autoFocus: true,
     });
 
     return (
@@ -88,7 +92,7 @@ describe('<Select> select all', () => {
             expect(queryAllByRole('option').length).toBe(3);
 
             // select all options with first already selected
-            const selectAllButton = getByTestId(SELECT_ALL_QA);
+            const selectAllButton = getByTestId(SelectQa.SELECT_ALL);
             await user.click(selectAllButton);
             expect(onUpdate).toHaveBeenLastCalledWith([
                 DEFAULT_OPTIONS[0].value,

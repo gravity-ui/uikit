@@ -10,7 +10,7 @@ import {Col} from '../Col';
 import type {ColProps} from '../Col';
 
 export default {
-    title: 'Layout/Col',
+    title: 'Components/Layout/Col',
     component: Col,
 } as Meta;
 

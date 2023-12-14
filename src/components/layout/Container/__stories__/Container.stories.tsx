@@ -9,7 +9,7 @@ import {Container} from '../Container';
 import type {ContainerProps} from '../Container';
 
 export default {
-    title: 'Layout/Container',
+    title: 'Components/Layout/Container',
     component: Container,
 } as Meta;
 

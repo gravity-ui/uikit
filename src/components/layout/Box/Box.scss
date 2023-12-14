@@ -1,0 +1,23 @@
+@use '../variables.scss' as v;
+
+#{v.$boxBlock} {
+    box-sizing: border-box;
+
+    &_overflow_hidden {
+        overflow: hidden;
+    }
+
+    &_overflow_auto {
+        overflow: auto;
+    }
+
+    &_overflow_x {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    &_overflow_y {
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+}

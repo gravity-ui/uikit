@@ -1,15 +1,14 @@
 import React from 'react';
 
-import type {SelectProps} from '..';
-import {Select} from '..';
-import {useSelectAllFilter} from '../../../hooks';
-import {ClipboardButton} from '../../ClipboardButton';
-import {RadioButton} from '../../RadioButton';
-import {block} from '../../utils/cn';
-import {generateOptions} from '../__tests__/utils';
-
-import {Mode, radioButtonOptions} from './SelectShowcase';
-import {EXAMPLE_JSON_OPTIONS} from './constants';
+import {Select} from '../..';
+import type {SelectProps} from '../..';
+import {ClipboardButton} from '../../../ClipboardButton';
+import {RadioButton} from '../../../RadioButton';
+import {block} from '../../../utils/cn';
+import {Mode, radioButtonOptions} from '../../__stories__/SelectShowcase';
+import {EXAMPLE_SELECT_ALL_FILTER_SECTION} from '../../__stories__/constants';
+import {generateOptions} from '../../__tests__/utils';
+import {useSelectAllFilter} from '../../public-hooks/useSelectAllFilter';
 
 const b = block('select-showcase');
 
@@ -36,8 +35,7 @@ const ExampleSelectAllItem = (props: {
         value: value,
         options: selectProps.options,
         onUpdate: onUpdate,
-        hasClear: true,
-        buttonPosition: 'right',
+        buttonPosition: 'end',
     });
 
     return (
@@ -92,7 +90,7 @@ export const SelectHooks = (props: SelectProps) => {
         <div className={b()}>
             <ExampleSelectAllItem
                 title="Select with select all hook"
-                code={[EXAMPLE_JSON_OPTIONS]}
+                code={[EXAMPLE_SELECT_ALL_FILTER_SECTION]}
                 selectProps={{
                     ...props,
                     options: generateOptions([

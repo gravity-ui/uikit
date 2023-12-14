@@ -5,7 +5,6 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Select} from '..';
 import type {SelectProps} from '..';
 
-import {SelectHooks} from './SelectHooks';
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
 
@@ -26,12 +25,10 @@ const ShowcaseTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectSho
 const SelectPopupWidthShowcaseTemplate: StoryFn<SelectProps> = (args) => (
     <SelectPopupWidthShowcase {...args} />
 );
-const HooksTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectHooks {...args} />;
 
 export const Default = DefaultTemplate.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
 export const PopupWidth = SelectPopupWidthShowcaseTemplate.bind({});
-export const Hooks = HooksTemplate.bind({});
 
 Showcase.args = {
     view: 'normal',

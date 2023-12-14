@@ -3,14 +3,10 @@ import React from 'react';
 import {render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {SelectQa} from '../../../components';
-import {Select} from '../../../components/Select/Select';
-import {
-    DEFAULT_OPTIONS,
-    SELECT_CONTROL_BUTTON_OPEN_CLASS,
-    TEST_QA,
-} from '../../../components/Select/__tests__/utils';
-import type {SelectProps} from '../../../components/Select/types';
+import {SelectQa} from '../../../..';
+import {Select} from '../../../Select';
+import {DEFAULT_OPTIONS, SELECT_CONTROL_BUTTON_OPEN_CLASS, TEST_QA} from '../../../__tests__/utils';
+import type {SelectProps} from '../../../types';
 import {useSelectAllFilter} from '../useSelectAllFilter';
 
 const FILTER_PLACEHOLDER = 'Filter placeholder';

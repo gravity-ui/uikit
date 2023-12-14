@@ -9,7 +9,6 @@ export * from './useListNavigation';
 export * from './useOutsideClick';
 export * from './usePortalContainer';
 export * from './useSelect';
-export * from './useSelectAllFilter';
 export * from './useTimeout';
 export * from './useViewportSize';
 export * from './useVirtualElementRef';

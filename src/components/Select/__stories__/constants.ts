@@ -298,12 +298,11 @@ const MyComponent = () => {
 
     const [value, setValue] = React.useState<string[]>([]);
 
-    const renderFilter = useSelectAllFilter({
+    const {renderFilter} = useSelectAllFilter({
         value: value,
         options: selectOptions,
         onUpdate: setValue,
-        hasClear: true,
-        autoFocus: true,
+        textInputProps: {hasClear: true},
     });
 
     return (

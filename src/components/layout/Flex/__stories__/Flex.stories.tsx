@@ -12,7 +12,7 @@ import {Flex} from '../Flex';
 import type {FlexProps} from '../Flex';
 
 export default {
-    title: 'Layout/Flex',
+    title: 'Components/Layout/Flex',
     component: Flex,
 } as Meta;
 
@@ -112,17 +112,17 @@ export const ChildrenWithBgColor = ChildrenWithBgColorTemplate.bind({});
 ChildrenWithBgColor.args = {};
 
 const WithNullChildrenTemplate: StoryFn<FlexProps<'div'>> = (args) => (
-    <LayoutPresenter title="Change screen size to 's' to see result">
+    <LayoutPresenter title="Null elements don't affect spacings">
         <Container>
             <Row space="5">
                 <Col>
                     <Flex {...args} space={5} direction="column">
-                        <Box />
+                        <Box>Box</Box>
                         {null}
                         {null}
-                        <Box />
+                        <Box>Box</Box>
                         {null}
-                        <Box />
+                        <Box>Box</Box>
                     </Flex>
                 </Col>
             </Row>

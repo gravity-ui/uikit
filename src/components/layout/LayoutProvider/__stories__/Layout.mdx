@@ -1,8 +1,6 @@
 import {Meta} from '@storybook/addon-docs';
-import * as LayoutStories from './Layout.stories';
 
-
-<Meta of={LayoutStories}/>
+<Meta title="Components/Layout" />
 
 # Layout Components
 
@@ -27,7 +25,6 @@ import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
 
 **All components supports `jsdoc` on hover feature. Just hover over the component or components prop in you favorite editor to see documentation**
 
-
 ### Base concepts:
 
 -   [Spacing](#spacing)
@@ -41,6 +38,7 @@ import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
     -   [Col](#col)
 -   [Container](#container)
 -   [Flex](#flex)
+-   [Box](#box)
 
 ### Hooks
 
@@ -155,6 +153,26 @@ export const App = () => {
         </LayoutProvider>
     );
 };
+```
+
+## Box
+
+The `Box` component is a developer friend and basic block to build other components. Aware about spacing, its own sizes and most commonly used CSS properties.
+
+Use it to declaratively describe elements with a fixed height/width. It also has built-in support for the most commonly used properties, such as `overflow`.
+It is mainly used as a base unit for other components such as `Flex` and `Card`.
+
+It is also well suited for use as a base for data loading containers, for example:
+
+```tsx
+import React, {Suspence} from 'react';
+
+// `Flex` extended from `Box` component and enriched flexbox model properties
+<Flex centerContent width="100%" height="100%">
+    <Suspence fallback={<Loader size="m" />}>
+        <LazyLoadedCompepnet>
+    </Suspence>
+</Flex>
 ```
 
 ## Layout Grid

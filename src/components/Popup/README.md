@@ -116,8 +116,7 @@ LANDING_BLOCK-->
 | restoreFocus         | If true, the focus will return to the anchor element                               |                `boolean`                 |     `false`     |
 | restoreFocusRef      | Element the focus will be restored to                                              |            `React.RefObject`             |                 |
 | aria-labelledby      | `aria-labelledby` attribute, prefer this attribute if you have visible caption     |                 `string`                 |                 |
-| aria-label           | `aria-label` attribute, use this attribute only if you didn't have visible caprion |                 `string`                 |                 |
-| role                 | `aria-role` attribute                                                              |                 `string`                 |                 |
+| aria-label           | `aria-label` attribute, use this attribute only if you didn't have visible caption |                 `string`                 |                 |
 | role                 | `aria-role` attribute                                                              |                 `string`                 |                 |
 | strategy             | `Popper.js` positioning strategy                                                   |       `popper.PositioningStrategy`       |    `[0, 4]`     |
 | style                | HTML `style` atribute for root node                                                |                 `string`                 |                 |

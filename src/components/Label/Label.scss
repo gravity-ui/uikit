@@ -47,6 +47,11 @@ $hover-opacity: 0.7;
         font-size: var(--g-text-body-1-font-size);
         text-align: center;
         white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__content,
+    &__key {
         text-overflow: ellipsis;
         overflow: hidden;
     }
@@ -54,6 +59,7 @@ $hover-opacity: 0.7;
     &__value {
         display: flex;
         opacity: $hover-opacity;
+        overflow: hidden;
     }
 
     &__separator {

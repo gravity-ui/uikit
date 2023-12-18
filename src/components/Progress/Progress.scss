@@ -76,30 +76,28 @@ $progress-xs-height: 4px;
             var(--_--filled-background-color)
         );
 
-        &_theme {
-            &_default {
-                --_--filled-background-color: var(--g-color-base-neutral-medium);
-            }
+        &_theme_default {
+            --_--filled-background-color: var(--g-color-base-neutral-medium);
+        }
 
-            &_success {
-                --_--filled-background-color: var(--g-color-base-positive-medium);
-            }
+        &_theme_success {
+            --_--filled-background-color: var(--g-color-base-positive-medium);
+        }
 
-            &_warning {
-                --_--filled-background-color: var(--g-color-base-warning-medium);
-            }
+        &_theme_warning {
+            --_--filled-background-color: var(--g-color-base-warning-medium);
+        }
 
-            &_danger {
-                --_--filled-background-color: var(--g-color-base-danger-medium);
-            }
+        &_theme_danger {
+            --_--filled-background-color: var(--g-color-base-danger-medium);
+        }
 
-            &_info {
-                --_--filled-background-color: var(--g-color-base-info-medium);
-            }
+        &_theme_info {
+            --_--filled-background-color: var(--g-color-base-info-medium);
+        }
 
-            &_misc {
-                --_--filled-background-color: var(--g-color-base-misc-medium);
-            }
+        &_theme_misc {
+            --_--filled-background-color: var(--g-color-base-misc-medium);
         }
 
         &_loading {

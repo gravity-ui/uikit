@@ -127,7 +127,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         ...originalControlProps,
         style: {
             ...originalControlProps?.style,
-            ...(isLabelVisible && labelSize.width ? {paddingLeft: `${labelSize.width}px`} : {}),
+            ...(isLabelVisible && labelSize.width
+                ? {paddingInlineStart: `${labelSize.width}px`}
+                : {}),
         },
         'aria-invalid': validationState === 'invalid' || undefined,
         'aria-describedby': ariaDescribedBy || undefined,
@@ -220,7 +222,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     <label
                         ref={labelRef}
                         style={{
-                            left: isLeftContentVisible ? leftContentSize.width : undefined,
+                            insetInlineStart: isLeftContentVisible
+                                ? leftContentSize.width
+                                : undefined,
                             maxWidth: `calc(50% - ${leftContentSize.width}px)`,
                         }}
                         className={b('label')}

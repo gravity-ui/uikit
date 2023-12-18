@@ -36,10 +36,18 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     /** Help text rendered to the left of the input node */
     label?: string;
-    /** User`s node rendered before label and input node */
+    /** User`s node rendered before label and input node
+     * @deprecated use `startContent` instead
+     */
     leftContent?: React.ReactNode;
-    /** User`s node rendered after input node and clear button */
+    /** User`s node rendered after input node and clear button
+     * @deprecated use `endContent` instead
+     */
     rightContent?: React.ReactNode;
+    /** User`s node rendered before label and input node */
+    startContent?: React.ReactNode;
+    /** User`s node rendered after input node and clear button */
+    endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
 };
@@ -75,6 +83,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         controlProps: originalControlProps,
         leftContent,
         rightContent,
+        startContent = leftContent,
+        endContent = rightContent,
         note,
         onUpdate,
         onChange,
@@ -91,7 +101,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const labelRef = React.useRef<HTMLLabelElement>(null);
-    const leftContentRef = React.useRef<HTMLDivElement>(null);
+    const startContentRef = React.useRef<HTMLDivElement>(null);
     const state = getInputControlState(validationState);
 
     const isControlled = value !== undefined;
@@ -102,8 +112,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const isErrorIconVisible =
         validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
-    const isLeftContentVisible = Boolean(leftContent);
-    const isRightContentVisible = Boolean(rightContent);
+    const isStartContentVisible = Boolean(startContent);
+    const isEndContentVisible = Boolean(endContent);
     const isAutoCompleteOff =
         isLabelVisible && !originalId && !name && typeof autoComplete === 'undefined';
 
@@ -111,7 +121,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     const id = isLabelVisible ? originalId || innerId : originalId;
 
     const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
-    const leftContentSize = useElementSize(isLeftContentVisible ? leftContentRef : null, size);
+    const startContentSize = useElementSize(isStartContentVisible ? startContentRef : null, size);
 
     const errorMessageId = useUniqId();
     const noteId = useUniqId();
@@ -201,31 +211,31 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                     state,
                     pin: view === 'clear' ? undefined : pin,
                     'has-clear': isClearControlVisible,
-                    'has-left-content': isLeftContentVisible,
-                    'has-right-content': isClearControlVisible || isRightContentVisible,
+                    'has-start-content': isStartContentVisible,
+                    'has-end-content': isClearControlVisible || isEndContentVisible,
                 },
                 className,
             )}
             data-qa={qa}
         >
             <span className={b('content')}>
-                {isLeftContentVisible && (
+                {isStartContentVisible && (
                     <AdditionalContent
-                        ref={leftContentRef}
-                        placement="left"
+                        ref={startContentRef}
+                        placement="start"
                         onClick={handleAdditionalContentClick}
                     >
-                        {leftContent}
+                        {startContent}
                     </AdditionalContent>
                 )}
                 {isLabelVisible && (
                     <label
                         ref={labelRef}
                         style={{
-                            insetInlineStart: isLeftContentVisible
-                                ? leftContentSize.width
+                            insetInlineStart: isStartContentVisible
+                                ? startContentSize.width
                                 : undefined,
-                            maxWidth: `calc(50% - ${leftContentSize.width}px)`,
+                            maxWidth: `calc(50% - ${startContentSize.width}px)`,
                         }}
                         className={b('label')}
                         title={label}
@@ -242,9 +252,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
                         className={b('clear', {size})}
                     />
                 )}
-                {isRightContentVisible && (
-                    <AdditionalContent placement="right" onClick={handleAdditionalContentClick}>
-                        {rightContent}
+                {isEndContentVisible && (
+                    <AdditionalContent placement="end" onClick={handleAdditionalContentClick}>
+                        {endContent}
                     </AdditionalContent>
                 )}
                 {isErrorIconVisible && (

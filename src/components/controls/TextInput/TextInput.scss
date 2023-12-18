@@ -128,7 +128,7 @@ $block: '.#{variables.$ns}text-input';
                 @include input-label(s);
             }
 
-            &#{$block}_has-left-content #{$block}__label {
+            &#{$block}_has-start-content #{$block}__label {
                 padding-inline-start: 2px;
             }
 
@@ -136,11 +136,11 @@ $block: '.#{variables.$ns}text-input';
                 height: #{variables.$s-height - control-variables.$border-width * 2};
             }
 
-            #{$block}__additional-content_placement_left {
+            #{$block}__additional-content_placement_start {
                 padding-inline-start: 1px;
             }
 
-            #{$block}__additional-content_placement_right {
+            #{$block}__additional-content_placement_end {
                 padding-inline-end: 1px;
             }
 
@@ -159,7 +159,7 @@ $block: '.#{variables.$ns}text-input';
                 @include input-label(m);
             }
 
-            &#{$block}_has-left-content #{$block}__label {
+            &#{$block}_has-start-content #{$block}__label {
                 padding-inline-start: 2px;
             }
 
@@ -167,11 +167,11 @@ $block: '.#{variables.$ns}text-input';
                 height: #{variables.$m-height - control-variables.$border-width * 2};
             }
 
-            #{$block}__additional-content_placement_left {
+            #{$block}__additional-content_placement_start {
                 padding-inline-start: 1px;
             }
 
-            #{$block}__additional-content_placement_right {
+            #{$block}__additional-content_placement_end {
                 padding-inline-end: 1px;
             }
 
@@ -190,7 +190,7 @@ $block: '.#{variables.$ns}text-input';
                 @include input-label(l);
             }
 
-            &#{$block}_has-left-content #{$block}__label {
+            &#{$block}_has-start-content #{$block}__label {
                 padding-inline-start: 3px;
             }
 
@@ -198,11 +198,11 @@ $block: '.#{variables.$ns}text-input';
                 height: #{variables.$l-height - control-variables.$border-width * 2};
             }
 
-            #{$block}__additional-content_placement_left {
+            #{$block}__additional-content_placement_start {
                 padding-inline-start: 3px;
             }
 
-            #{$block}__additional-content_placement_right {
+            #{$block}__additional-content_placement_end {
                 padding-inline-end: 3px;
             }
 
@@ -221,7 +221,7 @@ $block: '.#{variables.$ns}text-input';
                 @include input-label(xl);
             }
 
-            &#{$block}_has-left-content #{$block}__label {
+            &#{$block}_has-start-content #{$block}__label {
                 padding-inline-start: 3px;
             }
 
@@ -229,11 +229,11 @@ $block: '.#{variables.$ns}text-input';
                 height: #{variables.$xl-height - control-variables.$border-width * 2};
             }
 
-            #{$block}__additional-content_placement_left {
+            #{$block}__additional-content_placement_start {
                 padding-inline-start: 3px;
             }
 
-            #{$block}__additional-content_placement_right {
+            #{$block}__additional-content_placement_end {
                 padding-inline-end: 3px;
             }
 
@@ -305,13 +305,13 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
-    &_has-left-content {
+    &_has-start-content {
         #{$block}__control {
             padding-inline-start: 2px;
         }
     }
 
-    &_has-right-content {
+    &_has-end-content {
         #{$block}__control {
             padding-inline-end: 2px;
         }

@@ -5,7 +5,7 @@ import {block} from '../../utils/cn';
 const b = block('text-input');
 
 type Props = {
-    placement: 'left' | 'right';
+    placement: 'start' | 'end';
     children?: React.ReactNode;
     onClick: React.MouseEventHandler<HTMLDivElement>;
 };

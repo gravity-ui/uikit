@@ -1,6 +1,11 @@
 import React from 'react';
 
 import {useForkRef, useUniqId} from '../../hooks';
+import {SelectControl} from '../Select/components';
+import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
+import {borderRadius} from '../borderRadius';
+import {Flex} from '../layout';
+import {useMobile} from '../mobile';
 import {
     type ListItemId,
     ListItemView,
@@ -9,12 +14,7 @@ import {
     useList,
     useListKeydown,
     useListState,
-} from '../ListNext';
-import {SelectControl} from '../Select/components';
-import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
-import {borderRadius} from '../borderRadius';
-import {Flex} from '../layout';
-import {useMobile} from '../mobile';
+} from '../useList';
 import {block} from '../utils/cn';
 
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';

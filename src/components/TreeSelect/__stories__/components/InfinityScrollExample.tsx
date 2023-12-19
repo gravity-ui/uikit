@@ -3,11 +3,11 @@ import React from 'react';
 import identity from 'lodash/identity';
 
 import {Label} from '../../../Label';
-import {ListItemView} from '../../../ListNext';
-import {useInfinityFetch} from '../../../ListNext/__stories__/utils/useInfinityFetch';
-import {IntersectionContainer} from '../../../ListNext/components/IntersectionContainer/IntersectionContainer';
 import {Loader} from '../../../Loader';
 import {Flex, spacing} from '../../../layout';
+import {ListItemView} from '../../../useList';
+import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
+import {IntersectionContainer} from '../../../useList/components/IntersectionContainer/IntersectionContainer';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
 

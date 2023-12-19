@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 import type {
     ItemsParsedState,
     ListGroupState,

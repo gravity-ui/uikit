@@ -3,11 +3,11 @@ import React from 'react';
 import identity from 'lodash/identity';
 
 import {Button} from '../../../Button';
-import {useListFilter} from '../../../ListNext';
-import {createRandomizedData} from '../../../ListNext/__stories__/utils/makeData';
 import {Text} from '../../../Text';
 import {TextInput} from '../../../controls';
 import {Flex, spacing} from '../../../layout';
+import {useListFilter} from '../../../useList';
+import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
 

@@ -1,5 +1,6 @@
 import type React from 'react';
 
+import type {QAProps} from '../types';
 import type {
     KnownItemStructure,
     ListItemId,
@@ -10,8 +11,7 @@ import type {
     OverrideItemContext,
     RenderItemContext,
     RenderItemState,
-} from '../ListNext';
-import type {QAProps} from '../types';
+} from '../useList';
 
 export type RenderControlProps = {
     open: boolean;

@@ -14,10 +14,10 @@ import {
 } from 'react-beautiful-dnd';
 
 import {Icon} from '../../../Icon';
-import {ListContainerView, ListItemView, ListItemViewProps} from '../../../ListNext';
-import {createRandomizedData} from '../../../ListNext/__stories__/utils/makeData';
-import {reorderArray} from '../../../ListNext/__stories__/utils/reorderArray';
 import {Flex} from '../../../layout';
+import {ListContainerView, ListItemView, ListItemViewProps} from '../../../useList';
+import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
+import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
 

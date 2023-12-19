@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {UseOpenProps} from '../../../hooks/useSelect/types';
 import {useOpenState} from '../../../hooks/useSelect/useOpenState';
-import type {ListItemId} from '../../ListNext/types';
+import type {ListItemId} from '../../useList/types';
 
 type UseTreeSelectSelectionProps = {
     value?: ListItemId[];

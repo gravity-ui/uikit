@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {ListContainerView, computeItemSize} from '../../../ListNext';
-import {VirtualizedListContainer} from '../../../ListNext/__stories__/components/VirtualizedListContainer';
+import {ListContainerView, computeItemSize} from '../../../useList';
+import {VirtualizedListContainer} from '../../../useList/__stories__/components/VirtualizedListContainer';
 import type {RenderContainerProps} from '../../types';
 
 // custom container renderer example

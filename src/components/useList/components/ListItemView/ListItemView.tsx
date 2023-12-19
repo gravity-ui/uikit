@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {Check} from '@gravity-ui/icons';
+import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
 
-import {ArrowToggle} from '../../../ArrowToggle';
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
 import {borderRadius} from '../../../borderRadius';
@@ -159,7 +158,9 @@ export const ListItemView = React.forwardRef(
                     {renderSafeIndentation(indentation)}
 
                     {startSlot ??
-                        (isGroup ? <ArrowToggle direction={expanded ? 'bottom' : 'top'} /> : null)}
+                        (isGroup ? (
+                            <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
+                        ) : null)}
 
                     <Flex direction="column" gap="0.5">
                         {typeof title === 'string' ? (

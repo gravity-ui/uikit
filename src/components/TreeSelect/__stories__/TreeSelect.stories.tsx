@@ -3,8 +3,8 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 import identity from 'lodash/identity';
 
-import {createRandomizedData} from '../../ListNext/__stories__/utils/makeData';
 import {Flex} from '../../layout';
+import {createRandomizedData} from '../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../TreeSelect';
 import type {TreeSelectProps} from '../types';
 

@@ -6,9 +6,9 @@ import identity from 'lodash/identity';
 import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
-import {ListItemId, ListItemView} from '../../../ListNext';
-import {createRandomizedData} from '../../../ListNext/__stories__/utils/makeData';
 import {Flex, spacing} from '../../../layout';
+import {ListItemId, ListItemView} from '../../../useList';
+import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
 

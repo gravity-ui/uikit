@@ -108,7 +108,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                             expandedById={listState.expandedById}
                         >
                             {(id) => {
-                                const [data, state, _context] = getItemRenderState({
+                                const [data, state, listContext] = getItemRenderState({
                                     id,
                                     size,
                                     onItemClick,
@@ -116,7 +116,13 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                                     ...listState,
                                 });
 
-                                return <ListItemView {...state} {...data} />;
+                                return (
+                                    <ListItemView
+                                        {...state}
+                                        {...data}
+                                        selectable={!listContext.groupState}
+                                    />
+                                );
                             }}
                         </ListItemRecursiveRenderer>
                     ))}

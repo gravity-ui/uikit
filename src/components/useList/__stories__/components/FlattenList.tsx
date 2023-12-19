@@ -35,6 +35,7 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
     const listParsedState = useList({
         items: filterState.items,
+        expandedById: listState.expandedById,
     });
 
     const onItemClick = React.useCallback(
@@ -88,14 +89,20 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
                     }
                 >
                     {(id) => {
-                        const [item, state, _context] = getItemRenderState({
+                        const [item, state, listContext] = getItemRenderState({
                             id,
                             size,
                             onItemClick,
                             ...listParsedState,
                             ...listState,
                         });
-                        return <ListItemView {...state} {...item} />;
+                        return (
+                            <ListItemView
+                                {...state}
+                                {...item}
+                                selectable={!listContext.groupState}
+                            />
+                        );
                     }}
                 </VirtualizedListContainer>
             </ListContainerView>

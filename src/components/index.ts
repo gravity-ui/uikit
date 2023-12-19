@@ -46,6 +46,7 @@ export * from './Tooltip';
 export * from './User';
 export * from './controls';
 export * from './layout';
+export * from './borderRadius';
 
 export * from './utils/class-transform';
 export * from './utils/event-broker';

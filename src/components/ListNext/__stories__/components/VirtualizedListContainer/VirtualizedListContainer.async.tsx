@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Loader} from '../../../Loader';
-import {Flex} from '../../../layout';
+import {Loader} from '../../../../Loader';
+import {Flex} from '../../../../layout';
 
 import type {ListContainerRenderProps} from './types';
 

@@ -11,7 +11,7 @@ export default {
     component: RecursiveList,
 } as Meta;
 
-const DefaultTemplate: StoryFn<RecursiveListProps> = (props) => {
+const RecursiveRendererTemplate: StoryFn<RecursiveListProps> = (props) => {
     return (
         <Flex width={400}>
             <RecursiveList {...props} />
@@ -19,9 +19,9 @@ const DefaultTemplate: StoryFn<RecursiveListProps> = (props) => {
     );
 };
 
-export const Examples = DefaultTemplate.bind({});
+export const RecursiveRenderer = RecursiveRendererTemplate.bind({});
 
-Examples.args = {
+RecursiveRenderer.args = {
     size: 's',
     itemsCount: 10,
 };

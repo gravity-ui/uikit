@@ -1,18 +1,17 @@
 import React from 'react';
 
-import identity from 'lodash/identity';
-
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
+import {borderRadius} from '../../../borderRadius';
 import {Flex} from '../../../layout';
-import {ItemRenderer} from '../../components/ItemRenderer/ItemRenderer';
-import {defaultItemRendererBuilder} from '../../components/ItemRenderer/defaultItemRendererBuilder';
 import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
+import {ListItemView} from '../../components/ListItemView/ListItemView';
 import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
-import {bListRadiuses} from '../../constants';
 import {useList} from '../../hooks/useList';
 import {useListKeydown} from '../../hooks/useListKeydown';
+import {useListState} from '../../hooks/useListState';
 import type {ListItemId, ListSizeTypes} from '../../types';
+import {getItemRenderState} from '../../utils/getItemRenderState';
 import {scrollToListItem} from '../../utils/scrollToListItem';
 import {createRandomizedData} from '../utils/makeData';
 
@@ -29,15 +28,21 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     const controlRef = React.useRef(null);
     const [open, setOpen] = React.useState(false);
     const items = React.useMemo(
-        () => createRandomizedData<{title: string}>(itemsCount),
+        () => createRandomizedData<{title: string}>({num: itemsCount}),
         [itemsCount],
     );
 
-    const [listParsedState, listState] = useList({
+    const listState = useListState();
+
+    const listParsedState = useList({
         items,
+        expandedById: listState.expandedById,
     });
 
-    const [selectedId] = React.useMemo(() => Object.keys(listState.selected), [listState.selected]);
+    const [selectedId] = React.useMemo(
+        () => Object.keys(listState.selectedById),
+        [listState.selectedById],
+    );
 
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
@@ -83,8 +88,8 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                 {selectedId ? listParsedState.byId[selectedId]?.title : 'Select person'}
             </Button>
             <Popup
-                style={{width: COMPONENT_WIDTH}}
-                contentClassName={bListRadiuses({size})}
+                style={{width: COMPONENT_WIDTH, height: '80vh', overflow: 'auto'}}
+                contentClassName={borderRadius({size})}
                 anchorRef={controlWrapRef as React.RefObject<HTMLDivElement>}
                 placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
                 offset={[0, 10]}
@@ -100,20 +105,19 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                             itemSchema={item}
                             key={index}
                             index={index}
-                            expanded={listState.expanded}
+                            expandedById={listState.expandedById}
                         >
-                            {(id) => (
-                                <ItemRenderer
-                                    id={id}
-                                    size={size}
-                                    onItemClick={onItemClick}
-                                    {...listParsedState}
-                                    {...listState}
-                                    renderItem={defaultItemRendererBuilder({
-                                        getItemContent: identity,
-                                    })}
-                                />
-                            )}
+                            {(id) => {
+                                const [data, state, _context] = getItemRenderState({
+                                    id,
+                                    size,
+                                    onItemClick,
+                                    ...listParsedState,
+                                    ...listState,
+                                });
+
+                                return <ListItemView {...state} {...data} />;
+                            }}
                         </ListItemRecursiveRenderer>
                     ))}
                 </ListContainerView>

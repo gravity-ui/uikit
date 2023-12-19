@@ -1,17 +1,16 @@
 import React from 'react';
 
-import identity from 'lodash/identity';
-
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ItemRenderer} from '../../components/ItemRenderer/ItemRenderer';
-import {defaultItemRendererBuilder} from '../../components/ItemRenderer/defaultItemRendererBuilder';
 import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
+import {ListItemView} from '../../components/ListItemView/ListItemView';
 import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
+import {useListState} from '../../hooks/useListState';
 import type {ListItemId, ListSizeTypes} from '../../types';
+import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
 
 export interface RecursiveListProps {
@@ -23,14 +22,17 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
     const containerRef = React.useRef(null);
 
     const items = React.useMemo(
-        () => createRandomizedData<{title: string}>(itemsCount),
+        () => createRandomizedData<{title: string}>({num: itemsCount}),
         [itemsCount],
     );
 
     const filterState = useListFilter({items});
 
-    const [listParsedState, listState] = useList({
+    const listState = useListState();
+
+    const listParsedState = useList({
         items: filterState.items,
+        expandedById: listState.expandedById,
     });
 
     const onItemClick = React.useCallback(
@@ -76,20 +78,25 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
                         itemSchema={item}
                         key={index}
                         index={index}
-                        expanded={listState.expanded}
+                        expandedById={listState.expandedById}
                     >
-                        {(id) => (
-                            <ItemRenderer
-                                size={size}
-                                id={id}
-                                {...listParsedState}
-                                {...listState}
-                                onItemClick={onItemClick}
-                                renderItem={defaultItemRendererBuilder({
-                                    getItemContent: identity,
-                                })}
-                            />
-                        )}
+                        {(id) => {
+                            const [data, state, listContext] = getItemRenderState({
+                                id,
+                                size,
+                                onItemClick,
+                                ...listParsedState,
+                                ...listState,
+                            });
+
+                            return (
+                                <ListItemView
+                                    {...state}
+                                    {...data}
+                                    selectable={!listContext.groupState}
+                                />
+                            );
+                        }}
                     </ListItemRecursiveRenderer>
                 ))}
             </ListContainerView>

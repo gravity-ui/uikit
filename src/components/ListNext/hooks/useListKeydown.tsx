@@ -1,16 +1,14 @@
 import React from 'react';
 
-import type {ListItemId} from '../types';
+import type {ListItemId, ListState} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
 
-interface UseListKeydownProps {
+interface UseListKeydownProps extends Partial<Pick<ListState, 'disabledById' | 'activeItemId'>> {
     flattenIdsOrder: ListItemId[];
     onItemClick?(itemId: ListItemId): void;
     containerRef?: React.RefObject<HTMLDivElement>;
-    activeItemId?: ListItemId;
     setActiveItemId?(id: ListItemId): void;
-    disabled?: Record<ListItemId, boolean>;
     enactive?: boolean;
 }
 
@@ -19,7 +17,7 @@ export const useListKeydown = ({
     flattenIdsOrder,
     onItemClick,
     containerRef,
-    disabled = {},
+    disabledById = {},
     activeItemId,
     setActiveItemId,
     enactive,
@@ -47,12 +45,12 @@ export const useListKeydown = ({
                 list: flattenIdsOrder,
                 index: (maybeIndex > -1 ? maybeIndex : defaultItemIndex) + step,
                 step: Math.sign(step),
-                disabledItems: disabled,
+                disabledItems: disabledById,
             });
 
             activateItem(nextIndex);
         },
-        [activateItem, activeItemId, disabled, flattenIdsOrder],
+        [activateItem, activeItemId, disabledById, flattenIdsOrder],
     );
 
     React.useLayoutEffect(() => {
@@ -74,7 +72,7 @@ export const useListKeydown = ({
                 }
                 case ' ':
                 case 'Enter': {
-                    if (activeItemId && !disabled[activeItemId]) {
+                    if (activeItemId && !disabledById[activeItemId]) {
                         event.preventDefault();
 
                         onItemClick?.(activeItemId);
@@ -91,5 +89,5 @@ export const useListKeydown = ({
         return () => {
             anchor.removeEventListener('keydown', handleKeyDown);
         };
-    }, [activeItemId, containerRef, disabled, enactive, handleKeyMove, onItemClick]);
+    }, [activeItemId, containerRef, disabledById, enactive, handleKeyMove, onItemClick]);
 };

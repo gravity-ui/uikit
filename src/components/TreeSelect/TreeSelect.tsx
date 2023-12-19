@@ -2,23 +2,22 @@ import React from 'react';
 
 import {useForkRef, useUniqId} from '../../hooks';
 import {
-    ItemRenderer,
-    ListBodyRenderer,
-    ListContainerView,
     type ListItemId,
-    bListRadiuses,
-    computeItemSize,
-    defaultItemRendererBuilder,
+    ListItemView,
+    getItemRenderState,
     scrollToListItem,
     useList,
     useListKeydown,
+    useListState,
 } from '../ListNext';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
+import {borderRadius} from '../borderRadius';
 import {Flex} from '../layout';
 import {useMobile} from '../mobile';
 import {block} from '../utils/cn';
 
+import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
 import {useTreeSelectSelection} from './hooks/useTreeSelectSelection';
 import type {RenderControlProps, TreeSelectProps} from './types';
 
@@ -38,24 +37,22 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         open: propsOpen,
         multiple,
         popupWidth,
-        listContainerClassName,
-        expandedItemsMap,
+        expandedById,
+        disabledById,
+        activeItemId,
         defaultValue,
-        virtualized,
         popupDisablePortal,
-        groupAction = 'items-count',
-        disabledItemsStateMap,
-        value: propsValue,
         groupsBehavior = 'expandable',
-        containerWrapper,
+        value: propsValue,
         onClose,
         onUpdate,
-        getItemContent,
         getId,
         onOpenChange,
+        renderControlContent,
         renderControl,
-        itemWrapper,
-        renderItem: propsRenderItem,
+        renderItem,
+        renderContainer: RenderContainer = TreeListContainer,
+        onItemClick,
     }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -67,12 +64,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     const controlRef = React.useRef<HTMLElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-
-    const [{byId, flattenIdsOrder, groupsState, itemsState, lastItemId}, listState] = useList({
-        items,
-        expanded: expandedItemsMap,
-        getId,
-    });
 
     const {
         value,
@@ -91,9 +82,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onOpenChange,
     });
 
-    const lastSelectedItemId = value[value.length - 1];
-    const expanded = expandedItemsMap || listState.expanded;
-    const disabled = disabledItemsStateMap || listState.disabled;
     const selected = React.useMemo(
         () =>
             value.reduce<Record<ListItemId, boolean>>((acc, value) => {
@@ -103,35 +91,66 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         [value],
     );
 
+    const listState = useListState({
+        expandedById,
+        disabledById,
+        activeItemId,
+        selectedById: selected,
+    });
+
+    const listParsedState = useList({
+        items,
+        expandedById: listState.expandedById,
+        getId,
+    });
+
     const handleItemClick = React.useCallback(
         (id: ListItemId) => {
-            if (listState.disabled[id]) return;
+            // onItemClick = null - switch off default click behavior
+            if (onItemClick === 'disabled') return undefined;
 
-            listState.setActiveItemId(id);
+            const defaultHandleClick = () => {
+                if (listState.disabledById[id]) return;
 
-            const isGroup = id in groupsState;
+                listState.setActiveItemId(id);
 
-            if (isGroup && groupsBehavior === 'expandable') {
-                // toggle group selection
-                listState.setExpanded((state) => ({
-                    ...state,
-                    // by default all groups expanded
-                    [id]: typeof state[id] === 'boolean' ? !state[id] : false,
-                }));
-            } else if (multiple) {
-                handleMultipleSelection(id);
-            } else {
-                handleSingleSelection(id);
-                toggleOpen(false);
+                const isGroup = id in listParsedState.groupsState;
+
+                if (isGroup && groupsBehavior === 'expandable') {
+                    // toggle group selection
+                    listState.setExpanded((state) => ({
+                        ...state,
+                        // by default all groups expanded
+                        [id]: typeof state[id] === 'boolean' ? !state[id] : false,
+                    }));
+                } else if (multiple) {
+                    handleMultipleSelection(id);
+                } else {
+                    handleSingleSelection(id);
+                    toggleOpen(false);
+                }
+            };
+
+            if (onItemClick) {
+                return onItemClick(defaultHandleClick, {
+                    id,
+                    isGroup: id in listParsedState.groupsState,
+                    isLastItem: listParsedState.lastItemId === id,
+                    disabled: listState.disabledById[id],
+                });
             }
+
+            return defaultHandleClick();
         },
         [
-            groupsState,
+            onItemClick,
+            listState,
+            listParsedState.groupsState,
+            listParsedState.lastItemId,
             groupsBehavior,
+            multiple,
             handleMultipleSelection,
             handleSingleSelection,
-            listState,
-            multiple,
             toggleOpen,
         ],
     );
@@ -139,9 +158,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
         if (open) {
+            const lastSelectedItemId = value[value.length - 1];
             containerRef.current?.focus();
 
-            const firstItemId = flattenIdsOrder[0];
+            const firstItemId = listParsedState.flattenIdsOrder[0];
 
             listState.setActiveItemId(lastSelectedItemId ?? firstItemId);
 
@@ -155,67 +175,12 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     useListKeydown({
         containerRef,
-        activeItemId: listState.activeItemId,
-        setActiveItemId: listState.setActiveItemId,
         onItemClick: handleItemClick,
-        flattenIdsOrder,
-        disabled,
+        ...listParsedState,
+        ...listState,
     });
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
-
-    const getContainerNode = () => (
-        <ListContainerView
-            ref={containerRef}
-            id={`list-${treeSelectId}`}
-            className={listContainerClassName}
-            virtualized={virtualized}
-        >
-            <ListBodyRenderer
-                items={items}
-                virtualized={virtualized}
-                expanded={expanded}
-                flattenIdsOrder={flattenIdsOrder}
-                itemSize={(index) =>
-                    computeItemSize(
-                        size,
-                        Boolean(
-                            getItemContent(byId[flattenIdsOrder[index]], {
-                                isLastItem: lastItemId === flattenIdsOrder[index],
-                                id: flattenIdsOrder[index],
-                                isGroup: flattenIdsOrder[index] in groupsState,
-                            }).subtitle,
-                        ),
-                    )
-                }
-            >
-                {(id) => (
-                    <ItemRenderer
-                        lastItemId={lastItemId}
-                        size={size}
-                        id={id}
-                        byId={byId}
-                        onItemClick={handleItemClick}
-                        itemsState={itemsState}
-                        groupsState={groupsState}
-                        activeItemId={listState.activeItemId}
-                        selected={selected}
-                        disabled={disabled}
-                        expanded={expanded}
-                        renderItem={
-                            propsRenderItem ||
-                            defaultItemRendererBuilder({
-                                groupsBehavior,
-                                itemWrapper,
-                                getItemContent,
-                                groupAction,
-                            })
-                        }
-                    />
-                )}
-            </ListBodyRenderer>
-        </ListContainerView>
-    );
 
     const controlProps: RenderControlProps = {
         open,
@@ -234,14 +199,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map(
-                    (id) =>
-                        getItemContent(byId[id], {
-                            id,
-                            isGroup: id in groupsState,
-                            isLastItem: lastItemId === id,
-                        }).title,
-                ),
+                value.map((id) => renderControlContent(listParsedState.byId[id]).title),
             ).join(', ')}
             view="normal"
             pin="round-round"
@@ -255,21 +213,49 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             {togglerNode}
             <SelectPopup
                 ref={controlWrapRef}
-                className={b('popup', bListRadiuses({size}, popupClassName))}
+                className={b('popup', borderRadius({size}, popupClassName))}
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}
                 handleClose={handleClose}
                 disablePortal={popupDisablePortal}
-                virtualized={virtualized}
                 mobile={mobile}
                 id={`tree-select-popup-${treeSelectId}`}
             >
                 {slotBeforeListBody}
-                {containerWrapper
-                    ? // the full list of properties will be updated as the component develops
-                      containerWrapper(getContainerNode, {items})
-                    : getContainerNode()}
+                <RenderContainer
+                    size={size}
+                    containerRef={containerRef}
+                    id={`list-${treeSelectId}`}
+                    {...listParsedState}
+                    {...listState}
+                    renderItem={(id, renderContextProps) => {
+                        const [item, state, context] = getItemRenderState({
+                            id,
+                            size,
+                            onItemClick: handleItemClick,
+                            ...listParsedState,
+                            ...listState,
+                        });
+
+                        // assign components scope logic
+                        state.selectable = context.groupState
+                            ? groupsBehavior === 'selectable'
+                            : undefined;
+
+                        if (renderItem) {
+                            return renderItem(item, state, context, renderContextProps);
+                        }
+
+                        return (
+                            <ListItemView
+                                {...state}
+                                {...renderControlContent(item)}
+                                {...renderContextProps}
+                            />
+                        );
+                    }}
+                />
                 {slotAfterListBody}
             </SelectPopup>
         </Flex>

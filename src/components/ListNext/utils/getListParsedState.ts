@@ -1,26 +1,44 @@
-import type {ListItemId, ListItemType, ParsedState} from '../types';
+import type {
+    ListFlattenItemType,
+    ListItemId,
+    ListItemType,
+    ListTreeItemType,
+    ParsedState,
+} from '../types';
 
-import {getListItemId, parseGroupItemId} from './getListItemId';
+import {getListItemId} from './getListItemId';
+import {getGroupItemId, parseGroupItemId} from './groupItemId';
+import {isTreeItemGuard} from './isTreeItemGuard';
 
-interface TraverseItemsProps<T> {
+interface TraverseItemProps<T> {
+    item: ListFlattenItemType<T>;
+    index: number;
+}
+interface TraverseTreeItemProps<T> {
     /**
      * For example T is entity type with id what represents db id
      * So now you can use it id as a list item id in internal state
      */
     getId?(item: T): ListItemId;
-    item: ListItemType<T>;
+    item: ListTreeItemType<T>;
     index: number;
     parentId?: ListItemId;
     parentGroupedId?: string;
 }
 
+// TODO(aisaev188): unit tests
 export function getListParsedState<T>(
     items: ListItemType<T>[],
+    /**
+     * For example T is entity type with id what represents db id
+     * So now you can use it id as a list item id in internal state
+     */
     getId?: (item: T) => ListItemId,
 ): ParsedState<T> {
     if (process.env.NODE_ENV !== 'production') {
         console.time('getListParsedState');
     }
+
     const result: ParsedState<T> = {
         byId: {},
         groupsState: {},
@@ -28,9 +46,42 @@ export function getListParsedState<T>(
         lastItemId: '',
     };
 
-    const traverseItems = ({item, index, parentGroupedId, parentId}: TraverseItemsProps<T>) => {
-        const groupedId = getListItemId(index, parentGroupedId);
-        const id = typeof getId === 'function' ? getId(item.data) : item.id || groupedId;
+    const traverseItem = ({item, index}: TraverseItemProps<T>) => {
+        const id = getListItemId({groupedId: String(index), item, getId});
+
+        result.byId[id] = item;
+
+        if (!result.itemsState[id]) {
+            result.itemsState[id] = {
+                indentation: 0,
+                selected: false,
+                disabled: false,
+            };
+        }
+
+        if (typeof item.selected !== 'undefined') {
+            result.itemsState[id].selected = item.selected;
+        }
+
+        if (typeof item.disabled !== 'undefined') {
+            result.itemsState[id].disabled = item.disabled;
+        }
+
+        result.lastItemId = id;
+    };
+
+    const traverseTreeItem = ({
+        item,
+        index,
+        parentGroupedId,
+        parentId,
+    }: TraverseTreeItemProps<T>) => {
+        const groupedId = getGroupItemId(index, parentGroupedId);
+        const id = getListItemId({groupedId, item, getId});
+
+        if (parentId) {
+            result.groupsState[parentId].childrenIds.push(id);
+        }
 
         result.byId[id] = item.data;
 
@@ -66,15 +117,20 @@ export function getListParsedState<T>(
                 childrenIds: [],
             };
 
-            item.children.forEach((item, index) => {
-                result.groupsState[id].childrenIds.push(getListItemId(index, groupedId));
-
-                traverseItems({item, index, parentGroupedId: groupedId, parentId: id});
+            item.children.forEach((treeItem, index) => {
+                traverseTreeItem({
+                    item: treeItem,
+                    index,
+                    parentGroupedId: groupedId,
+                    parentId: id,
+                });
             });
         }
     };
 
-    items.forEach((item, index) => traverseItems({item, index}));
+    items.forEach((item, index) =>
+        isTreeItemGuard(item) ? traverseTreeItem({item, index}) : traverseItem({item, index}),
+    );
 
     if (process.env.NODE_ENV !== 'production') {
         console.timeEnd('getListParsedState');

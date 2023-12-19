@@ -2,17 +2,21 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {InfinityScrollList, InfinityScrollListProps} from './components/InfinityScrollList';
+import {
+    InfinityScrollList as InfinityScrollListExample,
+    InfinityScrollListProps,
+} from './components/InfinityScrollList';
 
 export default {
     title: 'Unstable/useList/InfinityScrollList',
-    component: InfinityScrollList,
+    component: InfinityScrollListExample,
 } as Meta;
 
-const ListInfinityScroll: StoryFn<InfinityScrollListProps> = (props) => {
-    return <InfinityScrollList {...props} />;
+const InfinityScrollListTemplate: StoryFn<InfinityScrollListProps> = (props) => {
+    return <InfinityScrollListExample {...props} />;
 };
-export const Examples = ListInfinityScroll.bind({});
-Examples.args = {
+
+export const InfinityScrollList = InfinityScrollListTemplate.bind({});
+InfinityScrollList.args = {
     size: 'm',
 };

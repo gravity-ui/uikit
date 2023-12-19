@@ -7,11 +7,6 @@ import type {ListContainerRenderProps} from './types';
 
 const DEFAULT_OVERSCAN_COUNT = 10;
 
-/**
- * Ready to use tin wrapper around `react-window`
- *
- * @return -
- */
 export function VirtualizedListContainer<T>({
     items,
     className,

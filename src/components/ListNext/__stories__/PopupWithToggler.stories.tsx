@@ -11,15 +11,15 @@ export default {
     component: PopupWithTogglerList,
 } as Meta;
 
-const PopupWithTogglerScroll: StoryFn<PopupWithTogglerListProps> = (props) => {
+const PopupWithTogglerTemplate: StoryFn<PopupWithTogglerListProps> = (props) => {
     return (
         <Flex>
             <PopupWithTogglerList {...props} />
         </Flex>
     );
 };
-export const Examples = PopupWithTogglerScroll.bind({});
-Examples.args = {
+export const PopupWithToggler = PopupWithTogglerTemplate.bind({});
+PopupWithToggler.args = {
     itemsCount: 10,
     size: 'm',
 };

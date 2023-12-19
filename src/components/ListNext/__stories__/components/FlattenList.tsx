@@ -1,20 +1,21 @@
 import React from 'react';
 
 import get from 'lodash/get';
-import identity from 'lodash/identity';
 
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ItemRenderer} from '../../components/ItemRenderer/ItemRenderer';
-import {defaultItemRendererBuilder} from '../../components/ItemRenderer/defaultItemRendererBuilder';
 import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {VirtualizedListContainer} from '../../components/VirtualizedListContainer/VirtualizedListContainer';
+import {ListItemView} from '../../components/ListItemView/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
+import {useListState} from '../../hooks/useListState';
 import type {ListItemId, ListSizeTypes} from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
+import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
+
+import {VirtualizedListContainer} from './VirtualizedListContainer';
 
 export interface FlattenListProps {
     itemsCount: number;
@@ -24,14 +25,16 @@ export interface FlattenListProps {
 export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
     const containerRef = React.useRef(null);
     const items = React.useMemo(
-        () => createRandomizedData<{title: string}>(itemsCount),
+        () => createRandomizedData<{title: string}>({num: itemsCount}),
         [itemsCount],
     );
 
     const filterState = useListFilter({items});
 
-    const [listParsedState, listState] = useList({
-        items,
+    const listState = useListState();
+
+    const listParsedState = useList({
+        items: filterState.items,
     });
 
     const onItemClick = React.useCallback(
@@ -84,18 +87,16 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
                         )
                     }
                 >
-                    {(id) => (
-                        <ItemRenderer
-                            size={size}
-                            {...listParsedState}
-                            {...listState}
-                            id={id}
-                            onItemClick={onItemClick}
-                            renderItem={defaultItemRendererBuilder({
-                                getItemContent: identity,
-                            })}
-                        />
-                    )}
+                    {(id) => {
+                        const [item, state, _context] = getItemRenderState({
+                            id,
+                            size,
+                            onItemClick,
+                            ...listParsedState,
+                            ...listState,
+                        });
+                        return <ListItemView {...state} {...item} />;
+                    }}
                 </VirtualizedListContainer>
             </ListContainerView>
         </Flex>

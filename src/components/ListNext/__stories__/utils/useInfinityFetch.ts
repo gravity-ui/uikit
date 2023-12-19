@@ -14,7 +14,10 @@ function fetchData<T>({
     withChildren?: boolean;
 }) {
     return new Promise<ListItemType<T>[]>((res) =>
-        setTimeout(() => res(createRandomizedData(itemsCount, withChildren)), timeout),
+        setTimeout(
+            () => res(createRandomizedData({num: itemsCount, depth: withChildren ? undefined : 0})),
+            timeout,
+        ),
     );
 }
 

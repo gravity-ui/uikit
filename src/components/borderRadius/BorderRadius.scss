@@ -1,0 +1,22 @@
+/* stylelint-disable declaration-no-important */
+@use '../variables';
+
+$block: '.#{variables.$ns}border-radius';
+
+#{$block} {
+    &_xs {
+        border-radius: var(--g-border-radius-xs, 3px) !important;
+    }
+    &_s {
+        border-radius: var(--g-border-radius-s, 5px) !important;
+    }
+    &_m {
+        border-radius: var(--g-border-radius-m, 6px) !important;
+    }
+    &_l {
+        border-radius: var(--g-border-radius-l, 8px) !important;
+    }
+    &_xl {
+        border-radius: var(--g-border-radius-xl, 10px) !important;
+    }
+}

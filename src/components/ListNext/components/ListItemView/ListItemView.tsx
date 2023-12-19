@@ -1,13 +1,15 @@
 import React from 'react';
 
 import {Check} from '@gravity-ui/icons';
-import type {QAProps} from 'src/components/types';
 
+import {ArrowToggle} from '../../../ArrowToggle';
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
+import {borderRadius} from '../../../borderRadius';
 import {Flex, FlexProps, spacing} from '../../../layout';
+import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
-import {LIST_ITEM_DATA_ATR, bListRadiuses, modToHeight} from '../../constants';
+import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
 import type {ListItemId, ListSizeTypes} from '../../types';
 import {createListItemId} from '../../utils/createListItemId';
 
@@ -55,6 +57,8 @@ export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'l
     endSlot?: React.ReactNode;
     corners?: boolean;
     className?: string;
+    expanded?: boolean;
+    isDragging?: boolean;
     /**
      * `[${LIST_ITEM_DATA_ATR}="${id}"]` data attribute to find element.
      * For example for scroll to
@@ -86,10 +90,6 @@ export const ListItemView = React.forwardRef(
         {
             id,
             as = 'li',
-            startSlot,
-            endSlot,
-            title,
-            subtitle,
             size = 'm',
             active,
             hidden,
@@ -97,37 +97,50 @@ export const ListItemView = React.forwardRef(
             disabled,
             corners = true,
             activeOnHover = true,
-            indentation,
             className,
-            height,
             selectable = true,
+            indentation,
+            startSlot,
+            subtitle,
+            endSlot,
+            title,
+            height,
+            expanded,
+            style,
+            isDragging,
             onClick: _onClick,
             ...rest
         }: ListItemViewProps,
         ref?: any,
     ) => {
+        const isGroup = typeof expanded === 'boolean';
         const onClick = disabled ? undefined : _onClick;
 
         return (
             <Flex
+                aria-selected={selected}
                 onClick={onClick}
-                alignItems="center"
                 className={b(
                     {
                         hidden,
                         active,
                         selected,
                         activeOnHover,
+                        dragging: isDragging,
                         clickable: Boolean(onClick),
                     },
-                    spacing({px: 2}, corners ? bListRadiuses({size}, className) : className),
+                    spacing({px: 2}, corners ? borderRadius({size}, className) : className),
                 )}
+                style={{
+                    height: height ?? modToHeight[size][Number(Boolean(subtitle))],
+                    ...style,
+                }}
                 as={as}
+                ref={ref}
+                {...{[LIST_ITEM_DATA_ATR]: id ? createListItemId(id) : undefined}}
+                alignItems="center"
                 gap="4"
                 justifyContent="space-between"
-                ref={ref}
-                style={{height: height ?? modToHeight[size][Number(Boolean(subtitle))]}}
-                {...{[LIST_ITEM_DATA_ATR]: id ? createListItemId(id) : undefined}}
                 {...rest}
             >
                 <Flex gap="2" alignItems="center">
@@ -145,20 +158,31 @@ export const ListItemView = React.forwardRef(
 
                     {renderSafeIndentation(indentation)}
 
-                    {startSlot}
+                    {startSlot ??
+                        (isGroup ? <ArrowToggle direction={expanded ? 'bottom' : 'top'} /> : null)}
+
                     <Flex direction="column" gap="0.5">
                         {typeof title === 'string' ? (
-                            <Text color={disabled ? 'hint' : undefined}>{title}</Text>
+                            <Text
+                                ellipsis
+                                color={disabled ? 'hint' : undefined}
+                                variant={isGroup ? 'subheader-1' : undefined}
+                            >
+                                {title}
+                            </Text>
                         ) : (
                             title
                         )}
                         {typeof subtitle === 'string' ? (
-                            <Text color={disabled ? 'hint' : 'secondary'}>{subtitle}</Text>
+                            <Text ellipsis color={disabled ? 'hint' : 'secondary'}>
+                                {subtitle}
+                            </Text>
                         ) : (
                             subtitle
                         )}
                     </Flex>
                 </Flex>
+
                 {endSlot}
             </Flex>
         );

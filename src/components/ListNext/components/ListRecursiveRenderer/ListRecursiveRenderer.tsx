@@ -1,16 +1,17 @@
 import React from 'react';
 
 import {block} from '../../../utils/cn';
-import type {ListItemId, ListItemType} from '../../types';
+import type {ListItemId, ListItemType, ListState} from '../../types';
 import {getListItemId} from '../../utils/getListItemId';
+import {getGroupItemId} from '../../utils/groupItemId';
+import {isTreeItemGuard} from '../../utils/isTreeItemGuard';
 
 import './ListRecursiveRenderer.scss';
 
 const b = block('list-recursive-renderer');
 
-export interface ListRecursiveRendererProps<T> {
+export interface ListRecursiveRendererProps<T> extends Partial<Pick<ListState, 'expandedById'>> {
     itemSchema: ListItemType<T>;
-    expanded?: Record<ListItemId, boolean>;
     children(id: ListItemId): React.JSX.Element;
     index: number;
     parentId?: string;
@@ -26,19 +27,17 @@ export function ListItemRecursiveRenderer<T>({
     parentId,
     ...props
 }: ListRecursiveRendererProps<T>) {
-    const groupedId = getListItemId(index, parentId);
-    const id =
-        typeof props.getId === 'function'
-            ? props.getId(itemSchema.data)
-            : itemSchema.id || groupedId;
+    const groupedId = getGroupItemId(index, parentId);
+    const id = getListItemId({item: itemSchema, groupedId, getId: props.getId});
 
     const node = props.children(id);
 
-    if (itemSchema.children) {
-        const isExpanded = props.expanded && id in props.expanded ? props.expanded[id] : true;
+    if (isTreeItemGuard(itemSchema) && itemSchema.children) {
+        const isExpanded =
+            props.expandedById && id in props.expandedById ? props.expandedById[id] : true;
 
         return (
-            <ul style={props.style} className={b(null, typeof props.className)} role="group">
+            <ul style={props.style} className={b(null, props.className)} role="group">
                 {node}
                 {isExpanded &&
                     itemSchema.children.map((item, index) => (

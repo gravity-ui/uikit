@@ -20,6 +20,10 @@ $block: '.#{variables.$ns}list-item-view';
         background: var(--g-color-base-selection);
     }
 
+    &_dragging {
+        background: var(--g-color-base-simple-hover-solid);
+    }
+
     &_hidden {
         display: none;
     }

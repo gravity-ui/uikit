@@ -1,8 +1,7 @@
 export type ListItemId = string;
 
 export type ListSizeTypes = 's' | 'm' | 'l' | 'xl';
-
-export interface ListItemType<T> {
+interface ListItemInitialProps {
     /**
      * If you need to control the state from the outside,
      * you can set a unique id for each element
@@ -20,9 +19,16 @@ export interface ListItemType<T> {
      * Default expanded state if group
      */
     expanded?: boolean;
-    data: T;
-    children?: ListItemType<T>[];
 }
+
+export type ListFlattenItemType<T> = T & ListItemInitialProps;
+
+export interface ListTreeItemType<T> extends ListItemInitialProps {
+    data: T;
+    children?: ListTreeItemType<T>[];
+}
+
+export type ListItemType<T> = ListTreeItemType<T> | ListFlattenItemType<T>;
 
 export type GroupParsedState = {
     childrenIds: ListItemId[];
@@ -41,6 +47,41 @@ export type ItemParsedState = {
 };
 export type ItemsParsedState = Record<ListItemId, ItemParsedState>;
 
+export type KnownItemStructure = {
+    title: React.ReactNode;
+    subtitle?: React.ReactNode;
+    startSlot?: React.ReactNode;
+    endSlot?: React.ReactNode;
+};
+
+export interface OverrideItemContext {
+    id: ListItemId;
+    isGroup: boolean;
+    disabled: boolean;
+    isLastItem: boolean;
+}
+
+export type RenderItemContext = {
+    itemState: ItemParsedState;
+    /**
+     * Exists if item is group
+     */
+    groupState?: GroupParsedState;
+    isLastItem: boolean;
+};
+
+export type RenderItemState = {
+    size: ListSizeTypes;
+    id: ListItemId;
+    onClick?(): void;
+    selected: boolean;
+    disabled: boolean;
+    expanded?: boolean;
+    active: boolean;
+    indentation: number;
+    selectable?: boolean;
+};
+
 export type ParsedState<T> = {
     /**
      * Stored internal meta info about item
@@ -58,14 +99,14 @@ export type ParsedState<T> = {
     lastItemId: ListItemId;
 };
 
-export type KnownItemStructure = {
-    title: React.ReactNode;
-    subtitle?: React.ReactNode;
-    startSlot?: React.ReactNode;
-    endSlot?: React.ReactNode;
+export type ListState = {
+    disabledById: Record<ListItemId, boolean>;
+    selectedById: Record<ListItemId, boolean>;
+    expandedById: Record<ListItemId, boolean>;
+    activeItemId?: ListItemId;
 };
 
-export type GetItemContent<T> = (
-    item: T,
-    context: {id: ListItemId; isGroup: boolean; isLastItem: boolean},
-) => KnownItemStructure;
+export type ListParsedState<T> = ParsedState<T> & {
+    items: ListItemType<T>[];
+    flattenIdsOrder: ListItemId[];
+};

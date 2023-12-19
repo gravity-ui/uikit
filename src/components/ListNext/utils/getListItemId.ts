@@ -1,7 +1,21 @@
-import {GROUPED_ID_SEPARATOR} from '../constants';
-import type {ListItemId} from '../types';
+import type {ListItemId, ListItemType} from '../types';
 
-export const getListItemId = (index: string | number, parentId?: string): ListItemId =>
-    parentId ? `${parentId}${GROUPED_ID_SEPARATOR}${index}` : `${index}`;
+import {isTreeItemGuard} from './isTreeItemGuard';
 
-export const parseGroupItemId = (id: ListItemId): string[] => id.split(GROUPED_ID_SEPARATOR);
+interface GetListItemIdProps<T> {
+    item: ListItemType<T>;
+    groupedId: ListItemId;
+    getId?(data: T): ListItemId;
+}
+
+export const getListItemId = <T>({item, groupedId, getId}: GetListItemIdProps<T>) => {
+    let id = groupedId;
+
+    if (typeof getId === 'function') {
+        id = getId(isTreeItemGuard(item) ? item.data : item);
+    } else if (item.id) {
+        id = item.id;
+    }
+
+    return id;
+};

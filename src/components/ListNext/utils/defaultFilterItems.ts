@@ -1,5 +1,8 @@
-import type {ListItemType} from '../types';
+import type {ListItemType, ListTreeItemType} from '../types';
 
+import {isTreeItemGuard} from './isTreeItemGuard';
+
+// TODO(aisaev188): unit tests
 export function defaultFilterItems<T>(
     items: ListItemType<T>[],
     filterFn: (data: T) => boolean,
@@ -9,16 +12,19 @@ export function defaultFilterItems<T>(
     }
 
     const getChildren = (result: ListItemType<T>[], item: ListItemType<T>) => {
-        if (item.children) {
+        if (isTreeItemGuard(item) && item.children) {
             const children = item.children.reduce(getChildren, []);
 
             if (children.length) {
-                result.push({data: item.data, children});
+                result.push({...item, data: item.data, children} as ListTreeItemType<T>);
             } else if (filterFn(item.data)) {
-                result.push({data: item.data, children: []});
+                result.push({...item, data: item.data, children: []});
             }
-        } else if (filterFn(item.data)) {
-            result.push({data: item.data});
+        } else if (isTreeItemGuard(item) && filterFn(item.data)) {
+            const {children: _children, ...newItem} = item;
+            result.push(newItem);
+        } else if (!isTreeItemGuard(item) && filterFn(item)) {
+            result.push(item);
         }
 
         return result;

@@ -1,289 +1,112 @@
 import React from 'react';
 
-import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icons';
 import type {Meta, StoryFn} from '@storybook/react';
 import identity from 'lodash/identity';
 
-import {Button} from '../../Button';
-import {Icon} from '../../Icon';
-import type {GetItemContent, ListItemId, ListItemType} from '../../ListNext';
-import {getListParsedState} from '../../ListNext';
 import {createRandomizedData} from '../../ListNext/__stories__/utils/makeData';
-import {useInfinityFetch} from '../../ListNext/__stories__/utils/useInfinityFetch';
-import {IntersectionContainer} from '../../ListNext/components/IntersectionContainer/IntersectionContainer';
-import {useListFilter} from '../../ListNext/hooks/useListFilter';
-import {Loader} from '../../Loader';
-import {Text} from '../../Text';
-import {TextInput} from '../../controls';
-import {Flex, spacing} from '../../layout';
+import {Flex} from '../../layout';
 import {TreeSelect} from '../TreeSelect';
 import type {TreeSelectProps} from '../types';
+
+import {
+    InfinityScrollExample,
+    InfinityScrollExampleProps,
+} from './components/InfinityScrollExample';
+import {WithDndListExample, WithDndListExampleProps} from './components/WithDndListExample';
+import {
+    WithFiltrationAndControlsExample,
+    WithFiltrationAndControlsExampleProps,
+} from './components/WithFiltrationAndControlsExample';
+import {
+    WithGroupSelectionControlledStateAndCustomIconExample,
+    WithGroupSelectionControlledStateAndCustomIconExampleProps,
+} from './components/WithGroupSelectionControlledStateAndCustomIcon';
+import {
+    WithItemLinksAndActionsExample,
+    WithItemLinksAndActionsExampleProps,
+} from './components/WithItemLinksAndActionsExample';
 
 export default {
     title: 'Unstable/TreeSelect',
     component: TreeSelect,
 } as Meta;
 
-const DefaultExample: StoryFn<
-    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
+const DefaultTemplate: StoryFn<
+    Omit<
+        TreeSelectProps<{title: string}>,
+        'value' | 'onUpdate' | 'items' | 'renderControlContent'
+    > & {
         itemsCount?: number;
     }
 > = ({itemsCount = 5, ...props}) => {
-    const items = React.useMemo(() => createRandomizedData(itemsCount), [itemsCount]);
+    const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
     const [value, setValue] = React.useState<string[]>([]);
 
     return (
         <Flex>
             <TreeSelect
                 {...props}
-                popupClassName={spacing({p: 2})}
                 value={value}
-                getItemContent={identity}
+                renderControlContent={identity}
                 items={items}
                 onUpdate={setValue}
             />
         </Flex>
     );
 };
-export const Default = DefaultExample.bind({});
-DefaultExample.args = {
-    size: 'l',
+export const Default = DefaultTemplate.bind({});
+Default.args = {
+    size: 'm',
 };
 
-const getItemsExpandedState = <T,>(items: ListItemType<T>[]) => {
-    return Object.entries(getListParsedState(items).groupsState).reduce<
-        Record<ListItemId, boolean>
-    >((acc, [groupId, {expanded}]) => {
-        acc[groupId] = true;
-
-        if (typeof expanded !== 'undefined') {
-            acc[groupId] = expanded;
-        }
-        return acc;
-    }, {});
+const WithGroupSelectionControlledStateAndCustomIconTemplate: StoryFn<
+    WithGroupSelectionControlledStateAndCustomIconExampleProps
+> = (props) => {
+    return <WithGroupSelectionControlledStateAndCustomIconExample {...props} />;
 };
 
-const WithGroupSelectionControlledStateAndCustomIconsExample: StoryFn<
-    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
-        itemsCount?: number;
-    }
-> = ({itemsCount = 5, ...props}) => {
-    const items = React.useMemo(() => createRandomizedData(itemsCount), [itemsCount]);
-    const [value, setValue] = React.useState<string[]>([]);
-    const [expandedItemsMap, setExpanded] = React.useState<Record<ListItemId, boolean>>(() =>
-        getItemsExpandedState(items),
-    );
-
-    const getItemContent: GetItemContent<{title: string}> = ({title}, {isGroup, id}) => ({
-        title,
-        startSlot: <Icon size={16} data={isGroup ? Database : PlugConnection} />,
-        endSlot: isGroup ? (
-            <Button
-                size={'m'}
-                className={spacing({mr: 1})}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setExpanded((prevExpandedState) => ({
-                        ...prevExpandedState,
-                        // by default all groups expanded
-                        [id]: id in prevExpandedState ? !prevExpandedState[id] : false,
-                    }));
-                }}
-            >
-                <Icon
-                    data={
-                        (typeof expandedItemsMap[id] === 'boolean' ? expandedItemsMap[id] : true)
-                            ? ChevronDown
-                            : ChevronUp
-                    }
-                    size={16}
-                />
-            </Button>
-        ) : undefined,
-    });
-
-    return (
-        <Flex>
-            <TreeSelect
-                {...props}
-                expandedItemsMap={expandedItemsMap}
-                popupClassName={spacing({p: 2})}
-                value={value}
-                getItemContent={getItemContent}
-                items={items}
-                onUpdate={setValue}
-            />
-        </Flex>
-    );
-};
-export const WithGroupSelectionControlledStateAndCustomIcons =
-    WithGroupSelectionControlledStateAndCustomIconsExample.bind({});
-WithGroupSelectionControlledStateAndCustomIcons.args = {
-    size: 'l',
+export const WithGroupSelectionControlledStateAndCustomIcon =
+    WithGroupSelectionControlledStateAndCustomIconTemplate.bind({});
+WithGroupSelectionControlledStateAndCustomIcon.args = {
     multiple: true,
     groupsBehavior: 'selectable',
 };
 
-const InfinityScrollExample: StoryFn<
-    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
-        itemsCount?: number;
-    }
-> = ({itemsCount = 5, ...props}) => {
-    const [value, setValue] = React.useState<string[]>([]);
-    const {
-        data = [],
-        onFetchMore,
-        canFetchMore,
-        isLoading,
-    } = useInfinityFetch<{title: string}>(itemsCount, true);
-
-    return (
-        <Flex>
-            <TreeSelect
-                {...props}
-                value={value}
-                popupClassName={spacing({p: 2})}
-                getItemContent={identity}
-                itemWrapper={(getOriginalNode, {isLastItem}) => {
-                    const node = getOriginalNode();
-
-                    if (isLastItem) {
-                        return (
-                            <IntersectionContainer
-                                onIntersect={canFetchMore ? onFetchMore : undefined}
-                            >
-                                {node}
-                            </IntersectionContainer>
-                        );
-                    }
-
-                    return node;
-                }}
-                virtualized
-                items={data}
-                onUpdate={setValue}
-                slotAfterListBody={
-                    isLoading && (
-                        <Flex justifyContent="center" className={spacing({py: 2})}>
-                            <Loader size={'m'} />
-                        </Flex>
-                    )
-                }
-            />
-        </Flex>
-    );
+const InfinityScrollTemplate: StoryFn<InfinityScrollExampleProps> = (props) => {
+    return <InfinityScrollExample {...props} />;
 };
-export const InfinityScroll = InfinityScrollExample.bind({});
-InfinityScrollExample.args = {
+export const InfinityScroll = InfinityScrollTemplate.bind({});
+InfinityScroll.args = {
     size: 'm',
     multiple: true,
 };
 
-const WithFiltrationAndControlsExample: StoryFn<
-    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
-        itemsCount?: number;
-    }
-> = ({itemsCount = 5, ...props}) => {
-    const items = React.useMemo(() => createRandomizedData(itemsCount), [itemsCount]);
-    const [open, onOpenChange] = React.useState(true);
-    const [value, setValue] = React.useState<string[]>([]);
-    const filterState = useListFilter({items});
-
-    return (
-        <Flex>
-            <TreeSelect
-                {...props}
-                multiple
-                open={open}
-                onOpenChange={onOpenChange}
-                slotBeforeListBody={
-                    <TextInput
-                        autoFocus
-                        hasClear
-                        placeholder="Type for search..."
-                        className={spacing({p: 2})}
-                        style={{boxSizing: 'border-box'}}
-                        autoComplete="off"
-                        value={filterState.filter}
-                        onUpdate={filterState.onChange}
-                        ref={filterState.filterRef}
-                    />
-                }
-                containerWrapper={(getOriginalNode, context) => {
-                    if (context.items.length === 0 && items.length > 0) {
-                        return (
-                            <Flex direction="column" gap="3" className={spacing({p: 2})}>
-                                <Text variant="subheader-1">Nothing found</Text>
-                            </Flex>
-                        );
-                    }
-
-                    return getOriginalNode();
-                }}
-                slotAfterListBody={
-                    <Flex gap="2" className={spacing({p: 2})}>
-                        <Button
-                            width="max"
-                            onClick={() => {
-                                setValue([]);
-                                filterState.reset();
-                            }}
-                        >
-                            Reset
-                        </Button>
-                        <Button
-                            disabled={!value.length}
-                            width="max"
-                            view="action"
-                            onClick={() => {
-                                onOpenChange(false);
-                                alert(JSON.stringify(value));
-                            }}
-                        >
-                            Accept
-                        </Button>
-                    </Flex>
-                }
-                value={value}
-                getItemContent={identity}
-                items={filterState.items}
-                onUpdate={setValue}
-            />
-        </Flex>
-    );
+const WithFiltrationAndControlsTemplate: StoryFn<WithFiltrationAndControlsExampleProps> = (
+    props,
+) => {
+    return <WithFiltrationAndControlsExample {...props} />;
 };
-export const WithFiltrationAndControls = WithFiltrationAndControlsExample.bind({});
-WithFiltrationAndControlsExample.args = {
+export const WithFiltrationAndControls = WithFiltrationAndControlsTemplate.bind({});
+WithFiltrationAndControls.args = {
     size: 'l',
 };
 
-const emptyItems: ListItemType<{title: string}>[] = [];
-
-const WithCustomEmptyContentExample: StoryFn<
-    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'>
-> = (props) => {
-    return (
-        <Flex>
-            <TreeSelect
-                {...props}
-                items={emptyItems}
-                containerWrapper={(getOriginalNode, context) => {
-                    if (context.items.length === 0) {
-                        return (
-                            <Flex gap="3" className={spacing({p: 2})} justifyContent="center">
-                                <Text variant="subheader-1">Nothing found</Text>
-                            </Flex>
-                        );
-                    }
-
-                    return getOriginalNode();
-                }}
-                getItemContent={(x) => x}
-            />
-        </Flex>
-    );
+const WithItemLinksAndActionsTemplate: StoryFn<WithItemLinksAndActionsExampleProps> = (props) => {
+    return <WithItemLinksAndActionsExample {...props} />;
 };
-export const WithCustomEmptyContent = WithCustomEmptyContentExample.bind({});
-WithCustomEmptyContentExample.args = {
+export const WithItemLinksAndActions = WithItemLinksAndActionsTemplate.bind({});
+WithItemLinksAndActions.args = {};
+
+const WithDndListTemplate: StoryFn<WithDndListExampleProps> = (props) => {
+    return <WithDndListExample {...props} />;
+};
+export const WithDndList = WithDndListTemplate.bind({});
+
+WithDndList.args = {
     size: 'l',
+};
+WithDndList.parameters = {
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
 };

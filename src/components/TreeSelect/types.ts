@@ -1,12 +1,15 @@
 import type React from 'react';
 
 import type {
-    GetItemContent,
+    KnownItemStructure,
     ListItemId,
     ListItemType,
+    ListParsedState,
     ListSizeTypes,
-    RenderItem,
+    ListState,
+    OverrideItemContext,
     RenderItemContext,
+    RenderItemState,
 } from '../ListNext';
 import type {QAProps} from '../types';
 
@@ -21,8 +24,25 @@ export type RenderControlProps = {
     activeItemId?: ListItemId;
 };
 
-export interface TreeSelectProps<T> extends QAProps {
-    value?: string[];
+export type RenderItem<T> = (
+    item: T,
+    // required item props to render
+    state: RenderItemState,
+    // internal list context props
+    context: RenderItemContext,
+    renderContextProps?: Object,
+) => React.JSX.Element;
+
+export type RenderContainerProps<T> = ListParsedState<T> &
+    ListState & {
+        id: string;
+        size: ListSizeTypes;
+        renderItem(id: ListItemId, renderContextProps?: Object): React.JSX.Element;
+        containerRef: React.RefObject<HTMLDivElement>;
+    };
+
+export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
+    value?: ListItemId[];
     defaultOpen?: boolean;
     defaultValue?: ListItemId[];
     items: ListItemType<T>[];
@@ -31,30 +51,27 @@ export interface TreeSelectProps<T> extends QAProps {
     popupClassName?: string;
     popupWidth?: number;
     popupDisablePortal?: boolean;
-    disabledItemsStateMap: Record<ListItemId, boolean>;
-    expandedItemsMap: Record<ListItemId, boolean>;
     multiple?: boolean;
     /**
-     * Is it possible to select group elements or not
+     * The ability to set the default behavior for group elements
+     *
+     * - `expandable`. Click on group item will be produce internal `expanded` state toggle
+     * - `selectable`. Click on group item will be produce internal `selected` state toggle
+     *
      * @default - 'expandable
      */
     groupsBehavior?: 'expandable' | 'selectable';
-    virtualized?: boolean;
-    /**
-     * If you need custom action button in group,
-     * use `getItemContent` and pass it as a `endIcon` prop.
-     * ```tsx
-     * getItemContent={({title}: T, {isGroup}) => ({
-     *  title,
-     *  endIcon: isGroup ? buttonNodeWithLogic : undefined
-     * })}
-     * ```
-     */
-    groupAction?: 'none' | 'items-count';
     size: ListSizeTypes;
+    /**
+     * Use slots if you don't need access to internal TreeListState.
+     * In other situations use `renderContainer` method
+     */
     slotBeforeListBody?: React.ReactNode;
+    /**
+     * Use slots if you don't need access to internal TreeListState.
+     * In other situations use `renderContainer` method
+     */
     slotAfterListBody?: React.ReactNode;
-    listContainerClassName?: string;
     /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
@@ -64,23 +81,18 @@ export interface TreeSelectProps<T> extends QAProps {
      */
     renderControl?(props: RenderControlProps): React.JSX.Element;
     /**
-     * Required function to map you custom data to list item props.
-     * This function need to calculate item size by availability of `subtitle` prop
+     * Override list item content by you custom node.
      */
-    getItemContent: GetItemContent<T>;
-    /**
-     * For example wrap item with divider or some custom react node
-     */
-    itemWrapper?(
-        getOriginalNode: () => React.JSX.Element,
-        context: RenderItemContext,
-    ): React.JSX.Element;
-    onClose?(): void;
-    containerWrapper?(
-        getOriginalNode: () => React.JSX.Element,
-        context: {items: ListItemType<T>[]},
-    ): React.JSX.Element;
     renderItem?: RenderItem<T>;
+    renderControlContent(item: T): KnownItemStructure;
+    onClose?(): void;
     onUpdate?(value: string[]): void;
     onOpenChange?(open: boolean): void;
+    renderContainer?(props: RenderContainerProps<T>): React.JSX.Element;
+    /**
+     * If you wont to disable default behavior pass `disabled` as a value;
+     */
+    onItemClick?:
+        | 'disabled'
+        | ((defaultClickCallback: () => void, content: OverrideItemContext) => void);
 }

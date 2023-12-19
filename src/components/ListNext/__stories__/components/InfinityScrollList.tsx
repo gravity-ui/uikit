@@ -1,20 +1,19 @@
 import React from 'react';
 
-import identity from 'lodash/identity';
-
 import {Button} from '../../../Button';
 import {Loader} from '../../../Loader';
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
 import {IntersectionContainer} from '../../components/IntersectionContainer/IntersectionContainer';
-import {ItemRenderer} from '../../components/ItemRenderer/ItemRenderer';
-import {defaultItemRendererBuilder} from '../../components/ItemRenderer/defaultItemRendererBuilder';
 import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
+import {ListItemView} from '../../components/ListItemView/ListItemView';
 import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
+import {useListState} from '../../hooks/useListState';
 import type {ListItemId, ListSizeTypes} from '../../types';
+import {getItemRenderState} from '../../utils/getItemRenderState';
 import {useInfinityFetch} from '../utils/useInfinityFetch';
 
 export interface InfinityScrollListProps {
@@ -26,7 +25,9 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
     const {data, onFetchMore, canFetchMore, isLoading} = useInfinityFetch<{title: string}>();
     const filterState = useListFilter({items: data});
 
-    const [listParsedState, listState] = useList({
+    const listState = useListState();
+
+    const listParsedState = useList({
         items: filterState.items,
     });
 
@@ -60,7 +61,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
     const handleAccept = () => {
         alert(
             JSON.stringify(
-                Object.keys(listState.selected).map((id) => listParsedState.byId[id]),
+                Object.keys(listState.selectedById).map((id) => listParsedState.byId[id]),
                 null,
                 2,
             ),
@@ -80,43 +81,39 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                         />
 
                         <ListContainerView ref={containerRef}>
-                            {filterState.items.map((item, index) => (
+                            {listParsedState.items.map((item, index) => (
                                 <ListItemRecursiveRenderer
                                     itemSchema={item}
                                     key={index}
                                     index={index}
-                                    expanded={listState.expanded}
+                                    expandedById={listState.expandedById}
                                 >
-                                    {(id) => (
-                                        <ItemRenderer
-                                            size={size}
-                                            {...listParsedState}
-                                            {...listState}
-                                            id={id}
-                                            onItemClick={onItemClick}
-                                            renderItem={defaultItemRendererBuilder({
-                                                itemWrapper: (node, {isLastItem}) => {
-                                                    if (isLastItem) {
-                                                        return (
-                                                            <IntersectionContainer
-                                                                onIntersect={
-                                                                    canFetchMore &&
-                                                                    !filterState.filter
-                                                                        ? onFetchMore
-                                                                        : undefined
-                                                                }
-                                                            >
-                                                                {node}
-                                                            </IntersectionContainer>
-                                                        );
-                                                    }
+                                    {(id) => {
+                                        const [data, state, context] = getItemRenderState({
+                                            id,
+                                            size,
+                                            onItemClick,
+                                            ...listParsedState,
+                                            ...listState,
+                                        });
+                                        const node = <ListItemView {...state} {...data} />;
 
-                                                    return node;
-                                                },
-                                                getItemContent: identity,
-                                            })}
-                                        />
-                                    )}
+                                        if (context.isLastItem) {
+                                            return (
+                                                <IntersectionContainer
+                                                    onIntersect={
+                                                        canFetchMore && !filterState.filter
+                                                            ? onFetchMore
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {node}
+                                                </IntersectionContainer>
+                                            );
+                                        }
+
+                                        return node;
+                                    }}
                                 </ListItemRecursiveRenderer>
                             ))}
                         </ListContainerView>

@@ -7,11 +7,11 @@ import {Flex} from '../../layout';
 import {FlattenList, FlattenListProps} from './components/FlattenList';
 
 export default {
-    title: 'Unstable/useList/FlattenRenderer(Virtualized)',
+    title: 'Unstable/useList/VirtualizedList',
     component: FlattenList,
 } as Meta;
 
-const DefaultTemplate: StoryFn<FlattenListProps> = (props) => {
+const VirtualizedListTemplate: StoryFn<FlattenListProps> = (props) => {
     return (
         <Flex width={400} style={{height: 500}}>
             <FlattenList {...props} />
@@ -19,9 +19,9 @@ const DefaultTemplate: StoryFn<FlattenListProps> = (props) => {
     );
 };
 
-export const Examples = DefaultTemplate.bind({});
+export const VirtualizedList = VirtualizedListTemplate.bind({});
 
-Examples.args = {
+VirtualizedList.args = {
     size: 's',
     itemsCount: 1000,
 };

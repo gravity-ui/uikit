@@ -4,11 +4,11 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {UserAvatar} from '../../../../UserAvatar';
 import {Flex} from '../../../../layout';
-import {ListItemView, ListItemViewProps} from '../ListItemView';
+import {ListItemView as ListItemViewComponent, ListItemViewProps} from '../ListItemView';
 
 export default {
     title: 'Unstable/useList/ListItemView',
-    component: ListItemView,
+    component: ListItemViewComponent,
 } as Meta;
 
 const title = 'title';
@@ -69,11 +69,11 @@ const stories: ListItemViewProps[] = [
     },
 ];
 
-const DefaultTemplate: StoryFn<ListItemViewProps> = () => (
+const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => (
     <Flex direction="column" width={300}>
         {stories.map((props, i) => (
-            <ListItemView key={i} {...props} />
+            <ListItemViewComponent key={i} {...props} />
         ))}
     </Flex>
 );
-export const Examples = DefaultTemplate.bind({});
+export const ListItemView = ListItemViewTemplate.bind({});

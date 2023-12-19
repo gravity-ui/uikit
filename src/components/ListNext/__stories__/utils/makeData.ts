@@ -1,38 +1,42 @@
 import {faker} from '@faker-js/faker/locale/en';
 
-import type {ListItemType} from '../../types';
+import type {ListItemType, ListTreeItemType} from '../../types';
 
 const RANDOM_WORDS = Array(50)
     .fill(null)
     .map(() => faker.person.fullName());
 
-export function createRandomizedData<T = {title: string}>(
-    num = 1000,
-    hasDepth = true,
-    getData?: (title: string) => T,
-): ListItemType<T>[] {
+function base<T>(title: string): T {
+    return {title} as T;
+}
+
+export function createRandomizedData<T = {title: string}>({
+    num,
+    depth = 3,
+    getData,
+}: {
+    num: number;
+    depth?: number;
+    getData?: (title: string) => T;
+}): ListItemType<T>[] {
     const data = [];
 
     for (let i = 0; i < num; i++) {
-        data.push(createRandomizedItem<T>(hasDepth ? 0 : 3, getData));
+        data.push(createRandomizedItem<T>(depth, getData));
     }
 
     return data;
 }
 
-function base<T>(title: string): T {
-    return {title} as T;
-}
-
 function createRandomizedItem<T>(
     depth: number,
     getData: (title: string) => T = base,
-): ListItemType<T> {
-    const item: ListItemType<T> = {
+): ListTreeItemType<T> {
+    const item: ListTreeItemType<T> = {
         data: getData(RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)]),
     };
 
-    const numChildren = depth < 3 ? Math.floor(Math.random() * 5) : 0;
+    const numChildren = depth > 0 ? Math.floor(Math.random() * 5) : 0;
 
     if (numChildren > 0) {
         item.children = [];
@@ -40,7 +44,7 @@ function createRandomizedItem<T>(
 
     for (let i = 0; i < numChildren; i++) {
         if (item.children) {
-            item.children.push(createRandomizedItem(depth + 1, getData));
+            item.children.push(createRandomizedItem(depth - 1, getData));
         }
     }
 

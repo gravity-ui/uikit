@@ -25,12 +25,14 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
             });
         };
 
+        const nameScreenshot = testInfo.titlePath.slice(1).join(' ');
+
         expect(await captureScreenshot('g-root_theme_dark')).toMatchSnapshot({
-            name: `${screenshotName || testInfo.title}dark.png`,
+            name: `${screenshotName || nameScreenshot} dark.png`,
         });
 
         expect(await captureScreenshot('g-root_theme_light')).toMatchSnapshot({
-            name: `${screenshotName || testInfo.title}light.png`,
+            name: `${screenshotName || nameScreenshot} light.png`,
         });
     };
 

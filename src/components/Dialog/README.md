@@ -32,6 +32,7 @@ Dialog component
 | aria-label            | `String`                                                                                       |          |         | Dialog label for a11y. Prefer `aria-labelledby` if caption is visible to user       |
 | container             | `HTMLElement`                                                                                  |          |         | Container element for the dialog box                                                |
 | qa                    | `String`                                                                                       |          |         | Data-qa attribute value of modal box, in which dialog is disposed                   |
+| scroll                | `inner` `outer`                                                                                |          | `outer` | Define scroll position when the dialog becomes too long to fit the screen           |
 
 ### Examples
 

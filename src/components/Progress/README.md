@@ -256,3 +256,12 @@ LANDING_BLOCK-->
 | theme     | Sets the stack element color                                                                                                        |  `string`   | `"default"` |
 | value     | Current progress value. The available range is from 0 to 100. Using the `stack` property value is optional and is used as maxValue. |  `number`   |             |
 | qa        | HTML `data-qa` attribute, used in tests                                                                                             |  `string`   |             |
+
+## CSS API
+
+| Name                                   | Description                        |
+| :------------------------------------- | :--------------------------------- |
+| `--g-progress-empty-text-color`        | Empty `Progress` text color        |
+| `--g-progress-filled-text-color`       | Filled `Progress` text color       |
+| `--g-progress-empty-background-color`  | Empty `Progress` background color  |
+| `--g-progress-filled-background-color` | Filled `Progress` background color |

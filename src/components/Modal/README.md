@@ -54,3 +54,4 @@ const [open, setOpen] = React.useState(false);
 | style                 | HTML `style` atribute for root node                                                 |     `string`      |                 |
 | aria-label            | HTML `aria-label` attribute to describe the `Modal`                                 |     `string`      |                 |
 | aria-labelledby       | Id of the visible `Modal` caption element                                           |     `string`      |                 |
+| scroll                | Define scroll position when the modal becomes too long to fit the screen            |  `inner` 'outer'  |     'outer'     |

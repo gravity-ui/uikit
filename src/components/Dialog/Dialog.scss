@@ -5,6 +5,12 @@ $block: '.#{variables.$ns}dialog';
 #{$block} {
     position: relative;
 
+    &_scroll_inner {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
     &_size {
         &_s {
             width: var(--yc-dialog-size-s);

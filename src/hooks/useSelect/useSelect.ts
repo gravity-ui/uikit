@@ -64,10 +64,6 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
         activeIndex,
         handleSelection,
         handleClearValue,
-        /**
-         * @deprecated use toggleOpen
-         */
-        setOpen: toggleOpen,
         toggleOpen,
         setActiveIndex,
         ...openState,

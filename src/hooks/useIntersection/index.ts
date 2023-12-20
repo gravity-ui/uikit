@@ -1,2 +1,2 @@
 export {useIntersection} from './useIntersection';
-export type {UseIntersection, UseIntersectionProps} from './useIntersection';
+export type {UseIntersectionProps} from './useIntersection';

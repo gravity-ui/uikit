@@ -49,7 +49,7 @@ test('should show tooltip on hover and hide on un hover', async () => {
     expect(tooltip).not.toBeInTheDocument();
 });
 
-test('should show tooltip on focus and hide on blur', async () => {
+test('should not show tooltip on focus', async () => {
     const user = userEvent.setup();
     render(
         <Tooltip content="test content">
@@ -62,15 +62,8 @@ test('should show tooltip on focus and hide on blur', async () => {
     await user.tab();
     expect(button).toHaveFocus();
 
-    const tooltip = await screen.findByRole('tooltip');
+    const tooltip = screen.queryByRole('tooltip');
 
-    expect(tooltip).toBeVisible();
-
-    await user.tab();
-
-    fireAnimationEndEvent(tooltip);
-
-    expect(button).not.toHaveFocus();
     expect(tooltip).not.toBeInTheDocument();
 });
 
@@ -85,41 +78,13 @@ test('should hide on press Escape', async () => {
     const button = await screen.findByRole('button');
 
     await user.tab();
-    expect(button).toHaveFocus();
+    await user.hover(button);
 
     const tooltip = await screen.findByRole('tooltip');
 
     expect(tooltip).toBeVisible();
 
     await user.keyboard('[Escape]');
-
-    fireAnimationEndEvent(tooltip);
-
-    expect(button).toHaveFocus();
-    expect(tooltip).not.toBeInTheDocument();
-});
-
-test('should show on focus and hide on un hover', async () => {
-    const user = userEvent.setup();
-    render(
-        <Tooltip content="test content">
-            <button />
-        </Tooltip>,
-    );
-
-    const button = screen.getByRole('button');
-
-    button.focus();
-
-    const tooltip = await screen.findByRole('tooltip');
-
-    expect(tooltip).toBeVisible();
-
-    await user.hover(button);
-
-    expect(tooltip).toBeVisible();
-
-    await user.unhover(button);
 
     fireAnimationEndEvent(tooltip);
 

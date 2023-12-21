@@ -3,7 +3,7 @@ import React from 'react';
 import {createEvent, fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Tooltip} from '../Tooltip';
+import {ActionTooltip} from '../ActionTooltip';
 
 export function fireAnimationEndEvent(el: Node | Window, animationName = 'animation') {
     const ev = createEvent.animationEnd(el, {animationName});
@@ -17,9 +17,9 @@ export function fireAnimationEndEvent(el: Node | Window, animationName = 'animat
 test('should preserve ref on anchor element', () => {
     const ref = jest.fn();
     render(
-        <Tooltip content="text">
+        <ActionTooltip title="text">
             <button ref={ref} />
-        </Tooltip>,
+        </ActionTooltip>,
     );
 
     expect(ref).toHaveBeenCalledTimes(1);
@@ -29,9 +29,9 @@ test('should show tooltip on hover and hide on un hover', async () => {
     const user = userEvent.setup();
 
     render(
-        <Tooltip content="test content">
+        <ActionTooltip title="test content">
             <button />
-        </Tooltip>,
+        </ActionTooltip>,
     );
 
     const button = await screen.findByRole('button');
@@ -52,9 +52,9 @@ test('should show tooltip on hover and hide on un hover', async () => {
 test('should show tooltip on focus and hide on blur', async () => {
     const user = userEvent.setup();
     render(
-        <Tooltip content="test content">
+        <ActionTooltip title="test content">
             <button />
-        </Tooltip>,
+        </ActionTooltip>,
     );
 
     const button = await screen.findByRole('button');
@@ -77,9 +77,9 @@ test('should show tooltip on focus and hide on blur', async () => {
 test('should hide on press Escape', async () => {
     const user = userEvent.setup();
     render(
-        <Tooltip content="test content">
+        <ActionTooltip title="test content">
             <button />
-        </Tooltip>,
+        </ActionTooltip>,
     );
 
     const button = await screen.findByRole('button');
@@ -102,9 +102,9 @@ test('should hide on press Escape', async () => {
 test('should show on focus and hide on un hover', async () => {
     const user = userEvent.setup();
     render(
-        <Tooltip content="test content">
+        <ActionTooltip title="test content">
             <button />
-        </Tooltip>,
+        </ActionTooltip>,
     );
 
     const button = screen.getByRole('button');

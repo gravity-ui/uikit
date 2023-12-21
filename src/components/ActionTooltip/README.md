@@ -1,21 +1,20 @@
 <!--GITHUB_BLOCK-->
 
-# Tooltip
+# ActionTooltip
 
 <!--/GITHUB_BLOCK-->
 
-A simple text tip that uses its children node as an anchor. This component accepts only text content and may be an excellent alternative to the browser title with its small size and increased appearance delay.
-
-Tooltip has a light and dark theme.
+A simple text tip that uses its children node as an anchor. For correct functioning, the anchor node
+must be able to handle mouse events and focus or blur events.
 
 ## Usage
 
 ```tsx
-import {Tooltip} from '@gravity-ui/uikit';
+import {ActionTooltip} from '@gravity-ui/uikit';
 
-<Tooltip content="Content">
+<ActionTooltip title="Content">
   <div tabIndex={0}>Anchor</div>
-</Tooltip>;
+</ActionTooltip>;
 ```
 
 ## Properties
@@ -24,12 +23,13 @@ import {Tooltip} from '@gravity-ui/uikit';
 | :--------------- | --------------------------------------------------------------------------------------- | :----------------------------------------------: | :-----: |
 | children         | An anchor element for a `Tooltip`. Must accept a `ref` that will provide a DOM element. |               `React.ReactElement`               |         |
 | closeDelay       | Number of ms to delay hiding the `Tooltip` after the hover ends                         |                     `number`                     |   `0`   |
-| openDelay        | Number of ms to delay showing the `Tooltip` after the hover begins                      |                     `number`                     | `1000`  |
+| openDelay        | Number of ms to delay showing the `Tooltip` after the hover begins                      |                     `number`                     |  `250`  |
 | placement        | `Tooltip` position relative to its anchor                                               | [`PopupPlacement`](../Popup/README.md#placement) |         |
 | qa               | HTML `data-qa` attribute, used in tests                                                 |                     `string`                     |         |
-| content          | Text content that will be shown in the `Tooltip`                                        |                     `string`                     |         |
+| title            | Tooltip title text                                                                      |                     `string`                     |         |
+| description      | Tooltip description text                                                                |                     `string`                     |         |
+| hotkey           | Hot keys that are assigned to an interface action.                                      |                     `string`                     |         |
 | id               | This prop is used to help implement the accessibility logic.                            |                     `string`                     |         |
 | disablePortal    | Do not use Portal for children                                                          |                    `boolean`                     |         |
 | contentClassName | HTML class attribute for content node                                                   |                     `string`                     |         |
-| className        | HTML class attribute for popup                                                          |                     `string`                     |         |
 | disabled         | Prevent popup from opening                                                              |                    `boolean`                     | `false` |

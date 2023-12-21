@@ -1,0 +1,11 @@
+.g-number-input-example {
+    width: 100px;
+
+    // workaround: hide native input buttons
+    // https://stackoverflow.com/a/4298216
+    & input::-webkit-inner-spin-button {
+        /* stylelint-disable-next-line */
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}

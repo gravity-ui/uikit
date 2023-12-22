@@ -1,2 +1,2 @@
 export * from './CopyToClipboard';
-export {CopyToClipboardStatus} from './types';
+export type {CopyToClipboardStatus} from './types';

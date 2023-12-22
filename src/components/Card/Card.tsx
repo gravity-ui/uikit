@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useActionHandlers} from '../../hooks';
-import type {QAProps} from '../types';
+import {Box, BoxProps} from '../layout';
 import {block} from '../utils/cn';
 
 import './Card.scss';
@@ -16,10 +16,8 @@ export type CardTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | '
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 
-export interface CardProps extends QAProps {
+export interface CardProps extends Omit<BoxProps<'div'>, 'as' | 'onClick'> {
     children: React.ReactNode;
-    style?: React.CSSProperties;
-    className?: string;
     /** Card click handler. Available for type: 'selection', 'action' */
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
     /** Disabled card. Available for type: 'selection', 'action' */
@@ -47,8 +45,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
         onClick,
         disabled,
         selected,
-        style,
-        qa,
+        ...restProps
     } = props;
 
     const isTypeAction = type === 'action';
@@ -68,8 +65,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
     const {onKeyDown} = useActionHandlers(onClick);
 
     return (
-        <div
-            style={style}
+        <Box
             ref={ref}
             role={isClickable ? 'button' : undefined}
             className={b(
@@ -84,12 +80,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(pr
                 },
                 className,
             )}
-            onClick={handleClick}
+            onClick={handleClick as BoxProps['onClick']}
             onKeyDown={isClickable ? onKeyDown : undefined}
             tabIndex={isClickable ? 0 : undefined}
-            data-qa={qa}
+            {...restProps}
         >
             {children}
-        </div>
+        </Box>
     );
 });

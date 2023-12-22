@@ -55,7 +55,7 @@ import CheckIcon from './check.svg';
 
 | Name      | Description                             |       Type        |     Default      |
 | :-------- | :-------------------------------------- | :---------------: | :--------------: |
-| data      | Source of SVG icon                      |       `any`       |                  |
+| data      | Source of SVG icon                      |    `IconData`     |                  |
 | width     | `width` SVG attribute                   | `number` `string` |                  |
 | height    | `height` SVG attribute                  | `number` `string` |                  |
 | size      | Both `width` and `height` SVG attribute | `number` `string` |                  |

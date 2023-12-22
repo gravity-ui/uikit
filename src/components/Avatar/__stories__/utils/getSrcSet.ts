@@ -1,6 +1,6 @@
 import type {SrcSetType} from './types';
 
-export function getSrcSet<T>(srcSet: SrcSetType<T>) {
+export const getSrcSet = <T>(srcSet: SrcSetType<T>) => {
     let srcSetString = '';
 
     for (const item of srcSet) {
@@ -16,4 +16,4 @@ export function getSrcSet<T>(srcSet: SrcSetType<T>) {
     }
 
     return srcSetString;
-}
+};

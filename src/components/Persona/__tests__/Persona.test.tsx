@@ -3,10 +3,11 @@ import React from 'react';
 import {queryByAttribute, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {getAvatarDisplayText} from '../../Avatar';
 import {Persona} from '../Persona';
 import i18n from '../i18n';
 import type {PersonaProps} from '../types';
-import {extractTextValue, getTwoLetters} from '../utils';
+import {extractTextValue} from '../utils';
 
 const MOCKED_TEXT = 'text';
 const MOCKED_TEXT_NODE_CONTENT_VALUE = 'Some view';
@@ -24,8 +25,8 @@ describe('Persona', () => {
                 render(<Persona text={text} onClick={onClick} />);
                 const user = userEvent.setup();
                 const textValue = extractTextValue(text);
-                const twoLetters = getTwoLetters(textValue);
-                const personaNode = screen.getByText(twoLetters);
+                const displayText = getAvatarDisplayText(textValue);
+                const personaNode = screen.getByText(displayText);
                 await user.click(personaNode);
                 expect(onClick).toBeCalledWith(textValue);
             },

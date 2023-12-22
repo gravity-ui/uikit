@@ -6,72 +6,72 @@
 2. Inside the component folder, create the `__tests__` folder and create a file inside it with the following name `<ComponentName>.visual.test.tsx`
 3. Writing a test:
 
-Take a screenshot by default, takes a screenshot in a light theme
+   Capture a screenshot, by default in light theme only:
 
-```ts
-import React from 'react';
+   ```ts
+   import React from 'react';
 
-import {expect} from '@playwright/experimental-ct-react';
+   import {expect} from '@playwright/experimental-ct-react';
 
-import {MyTestedComponent} from '../MyTestedComponent';
+   import {MyComponent} from '../MyComponent';
 
-import {test} from '~playwright/core';
+   import {test} from '~playwright/core';
 
-test('Name test', async ({mount}) => {
-  //mounting a component
-  const component = await mount(<MyTestedComponent props={props} />);
+   test('test description', async ({mount}) => {
+     // mount the component
+     const component = await mount(<MyComponent props={props} />);
 
-  //screenshot
-  await expect(component).toHaveScreenshot();
-});
-```
+     // capture the screenshot
+     await expect(component).toHaveScreenshot();
+   });
+   ```
 
-You can also take screenshots in dark and light themes
+   You can also capture screenshots both in dark and light themes:
 
-```ts
-import React from 'react';
+   ```ts
+   import React from 'react';
 
-import {MyTestedComponent} from '../MyTestedComponent';
+   import {MyComponent} from '../MyComponent';
 
-import {test} from '~playwright/core';
+   import {test} from '~playwright/core';
 
-test('Name test', async ({mount, expectScreenshot}) => {
-  //mounting a component
-  await mount(<MyTestedComponent props={props} />);
+   test('test description', async ({mount, expectScreenshot}) => {
+     // mount the component
+     await mount(<MyComponent props={props} />);
 
-  //screenshot
-  await expectScreenshot();
-});
-```
+     // capture the screenshot
+     await expectScreenshot();
+   });
+   ```
 
-or if you need to do any actions on the component
+   If you need to do any actions with the component:
 
-```ts
-import React from 'react';
+   ```ts
+   import React from 'react';
 
-import {MyTestedComponent} from '../MyTestedComponent';
+   import {MyComponent} from '../MyComponent';
 
-import {test} from '~playwright/core';
+   import {test} from '~playwright/core';
 
-test('Name test', async ({mount, expectScreenshot}) => {
-  //mounting a component
-  const component = await mount(<MyTestedComponent props={props} />);
+   test('test description', async ({mount, expectScreenshot}) => {
+     // mount the component
+     const component = await mount(<MyComponent props={props} />);
 
-  //screenshot
-  await expectScreenshot({component});
-});
-```
+     // capture the screenshot
+     await expectScreenshot({component});
+   });
+   ```
 
-Group of tests.
+   Group of tests.
 
-```ts
-test.describe('Name group tests', () => {
-  test('1', ...);
-  test('2', ...);
-  ...
-  test('10', ...)
-});
-```
+   ```ts
+   test.describe('Name group tests', () => {
+     test('1', ...);
+     test('2', ...);
+     ...
+     test('10', ...)
+   });
+   ```
 
 4. Run tests
 
@@ -90,15 +90,15 @@ test.describe('Name group tests', () => {
 
 5. Update screenshots if needed
 
-```shell
-npm run playwright:update
-```
+   ```shell
+   npm run playwright:update
+   ```
 
-Or
+   Or
 
-```shell
-npm run playwright:docker:update
-```
+   ```shell
+   npm run playwright:docker:update
+   ```
 
 6. In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
 

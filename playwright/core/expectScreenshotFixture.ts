@@ -16,7 +16,7 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
             const root = page.locator('#root');
 
             await root.evaluate((el, theme) => {
-                el.classList.value = `g-root ${theme}`;
+                el.classList.value = `g-root g-root_theme_${theme}`;
             }, theme);
 
             return (component || page.locator('.playwright-wrapper-test')).screenshot({
@@ -27,11 +27,11 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
 
         const nameScreenshot = testInfo.titlePath.slice(1).join(' ');
 
-        expect(await captureScreenshot('g-root_theme_dark')).toMatchSnapshot({
+        expect(await captureScreenshot('dark')).toMatchSnapshot({
             name: `${screenshotName || nameScreenshot} dark.png`,
         });
 
-        expect(await captureScreenshot('g-root_theme_light')).toMatchSnapshot({
+        expect(await captureScreenshot('light')).toMatchSnapshot({
             name: `${screenshotName || nameScreenshot} light.png`,
         });
     };

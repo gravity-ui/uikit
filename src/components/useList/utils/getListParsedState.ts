@@ -26,7 +26,6 @@ interface TraverseTreeItemProps<T> {
     parentGroupedId?: string;
 }
 
-// TODO(aisaev188): unit tests
 export function getListParsedState<T>(
     items: ListItemType<T>[],
     /**
@@ -54,8 +53,6 @@ export function getListParsedState<T>(
         if (!result.itemsState[id]) {
             result.itemsState[id] = {
                 indentation: 0,
-                selected: false,
-                disabled: false,
             };
         }
 
@@ -88,8 +85,6 @@ export function getListParsedState<T>(
         if (!result.itemsState[id]) {
             result.itemsState[id] = {
                 indentation: 0,
-                selected: false,
-                disabled: false,
             };
         }
 
@@ -113,9 +108,12 @@ export function getListParsedState<T>(
 
         if (item.children) {
             result.groupsState[id] = {
-                expanded: item.expanded,
                 childrenIds: [],
             };
+
+            if (typeof item.expanded !== 'undefined') {
+                result.groupsState[id].expanded = item.expanded;
+            }
 
             item.children.forEach((treeItem, index) => {
                 traverseTreeItem({

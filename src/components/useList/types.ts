@@ -42,8 +42,8 @@ export type ItemParsedState = {
     parentId?: ListItemId;
     indentation: number;
     // initial item state
-    selected: boolean;
-    disabled: boolean;
+    selected?: boolean;
+    disabled?: boolean;
 };
 export type ItemsParsedState = Record<ListItemId, ItemParsedState>;
 

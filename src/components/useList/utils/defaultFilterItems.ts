@@ -2,7 +2,6 @@ import type {ListItemType, ListTreeItemType} from '../types';
 
 import {isTreeItemGuard} from './isTreeItemGuard';
 
-// TODO(aisaev188): unit tests
 export function defaultFilterItems<T>(
     items: ListItemType<T>[],
     filterFn: (data: T) => boolean,

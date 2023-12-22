@@ -5,11 +5,12 @@ $block: '.#{variables.$ns}table';
 #{$block} {
     &__sort {
         display: inline-flex;
-        align-items: center;
+        align-items: baseline;
         // `top` to avoid redundant height to appear
         vertical-align: top;
         cursor: pointer;
         user-select: none;
+        border-radius: var(--g-border-radius-xs);
 
         &-spacer {
             width: 5px;
@@ -17,16 +18,14 @@ $block: '.#{variables.$ns}table';
 
         &-indicator {
             color: var(--g-color-text-hint);
-            opacity: 0;
         }
 
         &_active &-indicator {
             color: var(--g-color-text-primary);
-            opacity: 1;
         }
 
-        &:hover &-indicator {
-            opacity: 1;
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
         }
     }
 }

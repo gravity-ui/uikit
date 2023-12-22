@@ -61,15 +61,11 @@ export function ActionTooltip(props: ActionTooltipProps) {
                 qa={qa}
             >
                 <div className={b('content', contentClassName)}>
-                    <React.Fragment>
-                        <div className={b('heading')}>
-                            <div className={b('title')}>{title}</div>
-                            {hotkey && (
-                                <Hotkey view="dark" value={hotkey} className={b('hotkey')} />
-                            )}
-                        </div>
-                        {description && <div className={b('description')}>{description}</div>}
-                    </React.Fragment>
+                    <div className={b('heading')}>
+                        <div className={b('title')}>{title}</div>
+                        {hotkey && <Hotkey view="dark" value={hotkey} className={b('hotkey')} />}
+                    </div>
+                    {description && <div className={b('description')}>{description}</div>}
                 </div>
             </Popup>
         );

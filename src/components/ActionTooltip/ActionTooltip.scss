@@ -7,11 +7,6 @@ $block: '.#{variables.$ns}action-tooltip';
     --g-popup-border-width: 0;
     --g-popup-background-color: var(--g-color-base-float-heavy);
 
-    &__popup-content {
-        // prevent glitch between two nearby tooltip refs
-        pointer-events: none;
-    }
-
     &__content {
         padding: 6px 12px;
         color: var(--g-color-text-light-primary);

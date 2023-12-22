@@ -19,11 +19,6 @@ $block: '.#{variables.$ns}tooltip';
         }
     }
 
-    &__popup-content {
-        // prevent glitch between two nearby tooltip refs
-        pointer-events: none;
-    }
-
     &__content {
         // -webkit-line-clamp will not work without display: -webkit-box;
         /* stylelint-disable-next-line */

@@ -27,7 +27,7 @@ import {Tooltip} from '@gravity-ui/uikit';
 | openDelay        | Number of ms to delay showing the `Tooltip` after the hover begins                      |                     `number`                     | `1000`  |
 | placement        | `Tooltip` position relative to its anchor                                               | [`PopupPlacement`](../Popup/README.md#placement) |         |
 | qa               | HTML `data-qa` attribute, used in tests                                                 |                     `string`                     |         |
-| content          | Text content that will be shown in the `Tooltip`                                        |                     `string`                     |         |
+| content          | Content that will be shown in the `Tooltip`                                             |                `React.ReactNode`                 |         |
 | id               | This prop is used to help implement the accessibility logic.                            |                     `string`                     |         |
 | disablePortal    | Do not use Portal for children                                                          |                    `boolean`                     |         |
 | contentClassName | HTML class attribute for content node                                                   |                     `string`                     |         |

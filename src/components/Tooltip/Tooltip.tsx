@@ -13,7 +13,7 @@ import './Tooltip.scss';
 export interface TooltipProps extends QAProps, DOMProps, TooltipDelayProps {
     id?: string;
     disabled?: boolean;
-    content?: string;
+    content?: React.ReactNode;
     placement?: PopupPlacement;
     children: React.ReactElement;
     contentClassName?: string;

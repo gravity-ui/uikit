@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {render, screen, waitForElementToBeRemoved} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {Table, TableColumnConfig} from '../../../Table';
@@ -35,11 +35,18 @@ test('should change table columns', async () => {
         />,
     );
 
-    expect(screen.getByRole('columnheader', {name: 'occupation'})).toBeInTheDocument();
-
     await userEvent.click(screen.getByRole('button', {name: 'Table settings'}));
     await userEvent.click(await screen.findByRole('button', {name: 'occupation'}));
     await userEvent.click(screen.getByRole('button', {name: 'Apply'}));
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('columnheader', {name: 'occupation'}));
+    expect(updateSettings).toHaveBeenCalledWith([
+        {
+            id: 'name',
+            isSelected: true,
+        },
+        {
+            id: 'occupation',
+            isSelected: false,
+        },
+    ]);
 });

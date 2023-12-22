@@ -9,3 +9,4 @@ export * from './useRadio';
 export * from './useRadioGroup';
 export * from './useRestoreFocus';
 export * from './useUpdateEffect';
+export * from './useTooltipVisible';

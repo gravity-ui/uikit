@@ -4,7 +4,12 @@
 $block: '.#{variables.$ns}action-tooltip';
 
 #{$block} {
-    &__layout {
+    --g-popup-border-width: 0;
+    --g-popup-background-color: var(--g-color-base-float-heavy);
+
+    &__content {
+        padding: 6px 12px;
+        color: var(--g-color-text-light-primary);
         max-width: 300px;
         box-sizing: border-box;
     }

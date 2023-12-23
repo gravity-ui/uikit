@@ -5,10 +5,11 @@ $block: '.#{variables.$ns}dialog';
 #{$block} {
     position: relative;
 
-    &_scroll_inner {
+    &_with-scroll {
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        max-height: calc(100vh - var(--yc-modal-margin) * 2);
     }
 
     &_size {

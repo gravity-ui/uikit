@@ -42,7 +42,7 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     onTransitionEntered?: VoidFunction;
     onTransitionExit?: VoidFunction;
     onTransitionExited?: VoidFunction;
-    scroll?: 'inner' | 'outer';
+    contentOverflow?: 'visible' | 'auto';
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -70,7 +70,7 @@ export function Modal({
     onTransitionExited,
     children,
     style,
-    scroll = 'outer',
+    contentOverflow = 'visible',
     className,
     contentClassName,
     'aria-labelledby': ariaLabelledBy,
@@ -131,24 +131,30 @@ export function Modal({
                 }}
             >
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
-                    <div className={b('content-wrapper', {scroll})}>
-                        <FocusTrap
-                            enabled={!disableFocusTrap && focusTrap && open && !inTransition}
-                            autoFocus={!disableAutoFocus && autoFocus}
-                        >
-                            <div
-                                ref={contentRef}
-                                tabIndex={-1}
-                                role="dialog"
-                                aria-modal={open}
-                                aria-label={ariaLabel}
-                                aria-labelledby={ariaLabelledBy}
-                                className={b('content', {scroll}, contentClassName)}
-                                {...containerProps}
+                    <div className={b('content-aligner-wrapper')}>
+                        <div className={b('content-container')}>
+                            <FocusTrap
+                                enabled={!disableFocusTrap && focusTrap && open && !inTransition}
+                                autoFocus={!disableAutoFocus && autoFocus}
                             >
-                                {children}
-                            </div>
-                        </FocusTrap>
+                                <div
+                                    ref={contentRef}
+                                    tabIndex={-1}
+                                    role="dialog"
+                                    aria-modal={open}
+                                    aria-label={ariaLabel}
+                                    aria-labelledby={ariaLabelledBy}
+                                    className={b(
+                                        'content',
+                                        {'with-scroll': contentOverflow === 'auto'},
+                                        contentClassName,
+                                    )}
+                                    {...containerProps}
+                                >
+                                    {children}
+                                </div>
+                            </FocusTrap>
+                        </div>
                     </div>
                 </div>
             </CSSTransition>

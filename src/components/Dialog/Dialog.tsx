@@ -38,7 +38,7 @@ interface DialogOwnProps {
     disableFocusTrap?: boolean;
     disableAutoFocus?: boolean;
     restoreFocusRef?: React.RefObject<HTMLElement>;
-    scroll?: 'inner' | 'outer';
+    contentOverflow?: 'visible' | 'auto';
 }
 
 interface DialogDefaultProps {
@@ -79,7 +79,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
             restoreFocusRef,
             keepMounted,
             size,
-            scroll = 'outer',
+            contentOverflow = 'visible',
             className,
             modalClassName,
             hasCloseButton,
@@ -99,7 +99,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
         return (
             <Modal
                 open={open}
-                scroll={scroll}
+                contentOverflow={contentOverflow}
                 disableBodyScrollLock={disableBodyScrollLock}
                 disableEscapeKeyDown={disableEscapeKeyDown}
                 disableOutsideClick={disableOutsideClick}
@@ -121,7 +121,16 @@ export class Dialog extends React.Component<DialogInnerProps> {
                 container={container}
                 qa={qa}
             >
-                <div className={b({size, 'has-close': hasCloseButton, scroll}, className)}>
+                <div
+                    className={b(
+                        {
+                            size,
+                            'has-close': hasCloseButton,
+                            'with-scroll': contentOverflow === 'auto',
+                        },
+                        className,
+                    )}
+                >
                     {children}
                     {hasCloseButton && <ButtonClose onClose={this.handleCloseButtonClick} />}
                 </div>

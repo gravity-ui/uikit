@@ -19,42 +19,26 @@ $block: '.#{variables.$ns}modal';
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-    &__content-wrapper {
+    &__content-aligner-wrapper {
         width: 100%;
-        height: 100%;
-        text-align: center;
+        min-height: 100%;
 
-        &_scroll_inner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        &::after {
-            content: '';
-            display: inline-block;
-            vertical-align: middle;
-            height: 100%;
-            width: 0px;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    &__content {
-        display: inline-block;
-        vertical-align: middle;
-        text-align: left;
-
+    &__content-container {
         margin: var(--yc-modal-margin);
         background-color: var(--g-color-base-modal);
         border-radius: var(--yc-modal-border-radius);
+        overflow-x: hidden;
+    }
 
-        &_scroll_inner {
-            display: flex;
-            flex-direction: column;
+    &__content {
+        &_with-scroll {
             overflow-y: auto;
-            margin-top: var(--yc-modal-with-inner-scroll-margin);
-            margin-bottom: var(--yc-modal-with-inner-scroll-margin);
-            max-height: calc(100% - (var(--yc-modal-with-inner-scroll-margin) * 2));
+            max-height: calc(100vh - (var(--yc-modal-margin) * 2));
         }
     }
 
@@ -121,5 +105,4 @@ $block: '.#{variables.$ns}modal';
 :root {
     --yc-modal-border-radius: 5px;
     --yc-modal-margin: 20px;
-    --yc-modal-with-inner-scroll-margin: 24px;
 }

@@ -15,8 +15,8 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         const captureScreenshot = async (theme: string) => {
             const root = page.locator('#root');
 
-            await root.evaluate((el, theme) => {
-                el.classList.value = `g-root g-root_theme_${theme}`;
+            await root.evaluate((el, newTheme) => {
+                el.setAttribute('class', `g-root g-root_theme_${newTheme}`);
             }, theme);
 
             return (component || page.locator('.playwright-wrapper-test')).screenshot({

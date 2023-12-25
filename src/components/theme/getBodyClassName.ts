@@ -8,18 +8,18 @@ const ROOT_CLASS_NAME = 'root';
 const bNew = blockNew(ROOT_CLASS_NAME);
 const b = block(ROOT_CLASS_NAME);
 
-export function getDeprecatedBodyRootClassName(
+export function getDeprecatedRootClassName(
     modifier?: Partial<BodyClassNameModifiers & {theme: RealTheme | boolean}>,
 ) {
     return b(modifier);
 }
-export function getBodyRootClassName(
+export function getRootClassName(
     modifier?: Partial<BodyClassNameModifiers & {theme: RealTheme | boolean}>,
     addition?: string[],
 ) {
     return bNew(modifier, addition);
 }
 
-export function getBaseBodyRootClassName(theme?: RealTheme) {
-    return getBodyRootClassName({theme});
+export function getInitialRootClassName(theme?: RealTheme) {
+    return getRootClassName({theme});
 }

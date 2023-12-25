@@ -1,10 +1,10 @@
 import {modsClassName} from '../utils/cn';
 
-import {getBodyRootClassName, getDeprecatedBodyRootClassName} from './getBodyClassName';
+import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
 import type {RealTheme} from './types';
 
-const rootClassName = getDeprecatedBodyRootClassName();
-const rootNewClassName = getBodyRootClassName();
+const rootClassName = getDeprecatedRootClassName();
+const rootNewClassName = getRootClassName();
 
 export type BodyClassNameModifiers = {
     'native-scrollbar': boolean;
@@ -39,22 +39,19 @@ export function updateBodyClassName(
     }
 
     [...bodyEl.classList].forEach((cls) => {
-        if (cls.startsWith(modsClassName(getDeprecatedBodyRootClassName({theme: true})))) {
+        if (cls.startsWith(modsClassName(getDeprecatedRootClassName({theme: true})))) {
             bodyEl.classList.remove(cls);
         }
 
-        if (cls.startsWith(modsClassName(getBodyRootClassName({theme: true})))) {
+        if (cls.startsWith(modsClassName(getRootClassName({theme: true})))) {
             bodyEl.classList.remove(cls);
         }
     });
-    bodyEl.classList.add(modsClassName(getDeprecatedBodyRootClassName({theme: newTheme})));
-    bodyEl.classList.add(modsClassName(getBodyRootClassName({theme: newTheme})));
+    bodyEl.classList.add(modsClassName(getDeprecatedRootClassName({theme: newTheme})));
+    bodyEl.classList.add(modsClassName(getRootClassName({theme: newTheme})));
 
     for (const [key, value] of Object.entries({...defaultModifiers, ...modifiers})) {
-        bodyEl.classList.toggle(
-            modsClassName(getDeprecatedBodyRootClassName({[key]: true})),
-            value,
-        );
-        bodyEl.classList.toggle(modsClassName(getBodyRootClassName({[key]: true})), value);
+        bodyEl.classList.toggle(modsClassName(getDeprecatedRootClassName({[key]: true})), value);
+        bodyEl.classList.toggle(modsClassName(getRootClassName({[key]: true})), value);
     }
 }

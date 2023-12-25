@@ -3,7 +3,7 @@ import React from 'react';
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
 import {DEFAULT_DARK_THEME, DEFAULT_LIGHT_THEME, DEFAULT_THEME} from './constants';
-import {getBodyRootClassName, getDeprecatedBodyRootClassName} from './getBodyClassName';
+import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
 import type {RealTheme, Theme} from './types';
 import {updateBodyClassName} from './updateBodyClassName';
 import {useSystemTheme} from './useSystemTheme';
@@ -62,10 +62,10 @@ export function ThemeProvider({
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 {scoped ? (
                     <div
-                        className={getBodyRootClassName(
+                        className={getRootClassName(
                             {theme: themeValue, 'native-scrollbar': nativeScrollbar},
                             [
-                                getDeprecatedBodyRootClassName({
+                                getDeprecatedRootClassName({
                                     theme: themeValue,
                                     'native-scrollbar': nativeScrollbar,
                                 }),

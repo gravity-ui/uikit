@@ -121,9 +121,6 @@
 
     &__head &__cell {
         @include mixins.text-accent;
-        &::first-letter {
-            text-transform: uppercase;
-        }
     }
 
     &__body &__row_interactive:hover {

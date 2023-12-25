@@ -190,7 +190,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_open:not(&_error):not(&_view_clear)::before,
-        &:not(&_error):not(&_view_clear):focus-visible::before {
+        &:not(&_error):focus-visible::before {
             border-color: var(--g-color-line-generic-active);
         }
     }

@@ -139,6 +139,13 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
         &_view_clear {
             border-color: transparent;
+
+            &::before {
+                border-color: transparent;
+            }
+            &::after {
+                border-color: transparent;
+            }
         }
 
         &_size_s {
@@ -178,12 +185,12 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             }
         }
 
-        &:not(&_error):not(&_disabled):hover::before {
+        &:not(&_error):not(&_disabled):not(&_view_clear):hover::before {
             border-color: var(--g-color-line-generic-hover);
         }
 
-        &_open:not(&_error)::before,
-        &:not(&_error):focus-visible::before {
+        &_open:not(&_error):not(&_view_clear)::before,
+        &:not(&_error):not(&_view_clear):focus-visible::before {
             border-color: var(--g-color-line-generic-active);
         }
     }

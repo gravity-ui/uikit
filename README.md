@@ -56,6 +56,15 @@ or add specific CSS-classes to the root node:
 </html>
 ```
 
+it is possible to generate initial CSS-classes during SSR:
+
+```js
+import {getInitialRootClassName} from '@gravity-ui/uikit';
+
+const theme = 'light';
+const rootClassName = getInitialRootClassName({theme});
+```
+
 ```js
 // index.js
 import {createRoot} from 'react-dom/client';

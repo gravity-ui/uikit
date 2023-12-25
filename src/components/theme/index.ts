@@ -8,4 +8,5 @@ export * from './useThemeType';
 export * from './withTheme';
 export * from './withThemeValue';
 export * from './getThemeType';
+export {getInitialRootClassName} from './getBodyClassName';
 export type {Theme, RealTheme, ThemeType} from './types';

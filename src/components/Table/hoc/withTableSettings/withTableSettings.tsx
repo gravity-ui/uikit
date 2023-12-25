@@ -14,6 +14,7 @@ import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTabl
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
+import i18n from './i18n';
 
 import './withTableSettings.scss';
 
@@ -191,6 +192,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                         <Button
                                             view="flat"
                                             className={b('settings-button')}
+                                            extraProps={{'aria-label': i18n('label_settings')}}
                                             onClick={onClick}
                                         >
                                             <Icon data={Gear} />

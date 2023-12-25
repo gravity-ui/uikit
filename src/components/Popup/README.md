@@ -83,38 +83,40 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name                 | Description                                                                       |                   Type                   |     Default     |
-| :------------------- | :-------------------------------------------------------------------------------- | :--------------------------------------: | :-------------: |
-| altBoundary          | `altBoundary` parameter for `Popper.js` `offset` modifier                         |                `boolean`                 |     `false`     |
-| anchorRef            | `Popper.js` anchor element. Can also be `popper.VirtualElement`                   |             `PopupAnchorRef`             |                 |
-| autoFocus            | While open, the focus will be set to the first interactive element in the content |                `boolean`                 |     `false`     |
-| children             | Any React content                                                                 |            `React.ReactNode`             |                 |
-| className            | HTML `class` attribute for root node                                              |                 `string`                 |                 |
-| container            | DOM element children to be mounted to                                             |              `HTMLElement`               | `document.body` |
-| contentClassName     | HTML `class` attribute for content node                                           |                 `string`                 |                 |
-| disableEscapeKeyDown | Do not trigger close on `Esc`                                                     |                `boolean`                 |     `false`     |
-| disableLayer         | Do not use `LayerManager` on stacking popups                                      |                `boolean`                 |     `false`     |
-| disableOutsideClick  | Do not trigger close on outside clicks                                            |                `boolean`                 |     `false`     |
-| disablePortal        | Do not use `Portal` for children                                                  |                `boolean`                 |     `false`     |
-| focusTrap            | Enable focus trapping behavior                                                    |                `boolean`                 |     `false`     |
-| hasArrow             | Render an arrow pointing to the anchor                                            |                `boolean`                 |     `false`     |
-| id                   | HTML `id` attribute                                                               |                 `string`                 |                 |
-| keepMounted          | `Popup` will not be removed from the DOM upon hiding                              |                `boolean`                 |     `false`     |
-| modifiers            | `Popper.js` modifiers in addition to default: `arrow`, `offset`, `flip`           |                 `Array`                  |    `[0, 4]`     |
-| offset               | `Popper.js` offset                                                                |            `[number, number]`            |    `[0, 4]`     |
-| onBlur               | `blur` event handler                                                              |                `Function`                |                 |
-| onClose              | Handle `Popup` close event                                                        |                `Function`                |                 |
-| onEnterKeyDown       | `Enter` press event handler                                                       |                `Function`                |                 |
-| onEscapeKeyDown      | `Esc` press event handler                                                         |                `Function`                |                 |
-| onFocus              | `focus` event handler                                                             |                `Function`                |                 |
-| onMouseEnter         | `mouseenter` event handler                                                        |                `Function`                |                 |
-| onMouseLeave         | `mouseleave` event handler                                                        |                `Function`                |                 |
-| onOutsideClick       | Outside click event handler                                                       |                `Function`                |                 |
-| open                 | Manages `Popup` visibility                                                        |                `boolean`                 |     `false`     |
-| placement            | `Popper.js` placement                                                             | `PopupPlacement` `Array<PopupPlacement>` |                 |
-| qa                   | Test attribute (`data-qa`)                                                        |                 `string`                 |                 |
-| restoreFocus         | If true, the focus will return to the anchor element                              |                `boolean`                 |     `false`     |
-| restoreFocusRef      | Element the focus will be restored to                                             |            `React.RefObject`             |                 |
-| role                 | `aria-role` attribute                                                             |                 `string`                 |                 |
-| strategy             | `Popper.js` positioning strategy                                                  |       `popper.PositioningStrategy`       |    `[0, 4]`     |
-| style                | HTML `style` atribute for root node                                               |                 `string`                 |                 |
+| Name                 | Description                                                                        |                   Type                   |     Default     |
+| :------------------- | :--------------------------------------------------------------------------------- | :--------------------------------------: | :-------------: |
+| altBoundary          | `altBoundary` parameter for `Popper.js` `offset` modifier                          |                `boolean`                 |     `false`     |
+| anchorRef            | `Popper.js` anchor element. Can also be `popper.VirtualElement`                    |             `PopupAnchorRef`             |                 |
+| autoFocus            | While open, the focus will be set to the first interactive element in the content  |                `boolean`                 |     `false`     |
+| children             | Any React content                                                                  |            `React.ReactNode`             |                 |
+| className            | HTML `class` attribute for root node                                               |                 `string`                 |                 |
+| container            | DOM element children to be mounted to                                              |              `HTMLElement`               | `document.body` |
+| contentClassName     | HTML `class` attribute for content node                                            |                 `string`                 |                 |
+| disableEscapeKeyDown | Do not trigger close on `Esc`                                                      |                `boolean`                 |     `false`     |
+| disableLayer         | Do not use `LayerManager` on stacking popups                                       |                `boolean`                 |     `false`     |
+| disableOutsideClick  | Do not trigger close on outside clicks                                             |                `boolean`                 |     `false`     |
+| disablePortal        | Do not use `Portal` for children                                                   |                `boolean`                 |     `false`     |
+| focusTrap            | Enable focus trapping behavior                                                     |                `boolean`                 |     `false`     |
+| hasArrow             | Render an arrow pointing to the anchor                                             |                `boolean`                 |     `false`     |
+| id                   | HTML `id` attribute                                                                |                 `string`                 |                 |
+| keepMounted          | `Popup` will not be removed from the DOM upon hiding                               |                `boolean`                 |     `false`     |
+| modifiers            | `Popper.js` modifiers in addition to default: `arrow`, `offset`, `flip`            |                 `Array`                  |    `[0, 4]`     |
+| offset               | `Popper.js` offset                                                                 |            `[number, number]`            |    `[0, 4]`     |
+| onBlur               | `blur` event handler                                                               |                `Function`                |                 |
+| onClose              | Handle `Popup` close event                                                         |                `Function`                |                 |
+| onEnterKeyDown       | `Enter` press event handler                                                        |                `Function`                |                 |
+| onEscapeKeyDown      | `Esc` press event handler                                                          |                `Function`                |                 |
+| onFocus              | `focus` event handler                                                              |                `Function`                |                 |
+| onMouseEnter         | `mouseenter` event handler                                                         |                `Function`                |                 |
+| onMouseLeave         | `mouseleave` event handler                                                         |                `Function`                |                 |
+| onOutsideClick       | Outside click event handler                                                        |                `Function`                |                 |
+| open                 | Manages `Popup` visibility                                                         |                `boolean`                 |     `false`     |
+| placement            | `Popper.js` placement                                                              | `PopupPlacement` `Array<PopupPlacement>` |                 |
+| qa                   | Test attribute (`data-qa`)                                                         |                 `string`                 |                 |
+| restoreFocus         | If true, the focus will return to the anchor element                               |                `boolean`                 |     `false`     |
+| restoreFocusRef      | Element the focus will be restored to                                              |            `React.RefObject`             |                 |
+| aria-labelledby      | `aria-labelledby` attribute, prefer this attribute if you have visible caption     |                 `string`                 |                 |
+| aria-label           | `aria-label` attribute, use this attribute only if you didn't have visible caption |                 `string`                 |                 |
+| role                 | `aria-role` attribute                                                              |                 `string`                 |                 |
+| strategy             | `Popper.js` positioning strategy                                                   |       `popper.PositioningStrategy`       |    `[0, 4]`     |
+| style                | HTML `style` atribute for root node                                                |                 `string`                 |                 |

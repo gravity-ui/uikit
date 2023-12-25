@@ -1,5 +1,6 @@
 import type React from 'react';
 
+import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
@@ -74,6 +75,7 @@ export type SelectProps<T = any> = QAProps &
         className?: string;
         controlClassName?: string;
         popupClassName?: string;
+        popupPlacement?: PopperPlacement;
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;

@@ -63,6 +63,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterPlaceholder,
         width,
         popupWidth,
+        popupPlacement,
         error,
         virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
@@ -270,6 +271,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 virtualized={virtualized}
                 mobile={mobile}
                 id={`select-popup-${selectId}`}
+                placement={popupPlacement}
             >
                 {filterable && (
                     <SelectFilter

@@ -18,6 +18,7 @@ export function usePagination({
 }: UsePaginationArgs): UsePaginationReturn {
     const numberOfPages = getNumberOfPages(pageSize, total);
     const hasTotal = numberOfPages !== 0;
+    const isNextDisabled = (hasTotal && page === numberOfPages) || total === 0;
 
     let items: PaginationItem[];
 
@@ -59,7 +60,7 @@ export function usePagination({
     items.push({
         type: 'button',
         action: 'next',
-        disabled: hasTotal ? page === numberOfPages : false,
+        disabled: isNextDisabled,
     });
 
     return {items, numberOfPages};

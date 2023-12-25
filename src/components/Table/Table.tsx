@@ -346,9 +346,15 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
 
         return (
             <colgroup>
-                {columnsStyles.map(({width}, index) => (
-                    <col style={{width}} key={columns[index].id} />
-                ))}
+                {columnsStyles.flatMap(({width}, index) => {
+                    const key = columns[index]?.id;
+
+                    if (!key) {
+                        return [];
+                    }
+
+                    return <col style={{width}} key={key} />;
+                })}
             </colgroup>
         );
     }
@@ -553,10 +559,11 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         return style;
     }
 
-    private getCellStyles({
-        width: _width,
-        ...styles
-    }: React.CSSProperties): React.CSSProperties | undefined {
+    private getCellStyles(
+        columnStyles: React.CSSProperties | undefined,
+    ): React.CSSProperties | undefined {
+        const {width: _width, ...styles} = columnStyles || {};
+
         return Object.keys(styles).length ? styles : undefined;
     }
 

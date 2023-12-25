@@ -2,7 +2,6 @@ import React from 'react';
 
 import {KeyCode} from '../../constants';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunction = (...args: any[]) => any;
 
 export type UseActionHandlersProps = AnyFunction;
@@ -17,7 +16,6 @@ export function createOnKeyDownHandler<T>(callback?: AnyFunction) {
             callback &&
             [KeyCode.ENTER, KeyCode.SPACEBAR, KeyCode.SPACEBAR_OLD].includes(event.key)
         ) {
-            // eslint-disable-next-line callback-return
             callback(event);
         }
     };

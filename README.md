@@ -62,7 +62,7 @@ it is possible to generate initial CSS-classes during SSR:
 import {getInitialRootClassName} from '@gravity-ui/uikit';
 
 const theme = 'light';
-const rootClassName = getInitialRootClassName(theme);
+const rootClassName = getInitialRootClassName({theme});
 ```
 
 ```js

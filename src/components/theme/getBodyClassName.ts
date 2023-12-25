@@ -20,6 +20,7 @@ export function getRootClassName(
     return bNew(modifier, addition);
 }
 
-export function getInitialRootClassName(theme?: RealTheme) {
+export function getInitialRootClassName(props: {theme?: RealTheme} = {}) {
+    const {theme} = props;
     return getRootClassName({theme});
 }

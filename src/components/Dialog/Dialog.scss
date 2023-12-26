@@ -4,10 +4,10 @@ $block: '.#{variables.$ns}dialog';
 
 #{$block} {
     position: relative;
+    display: flex;
+    flex-direction: column;
 
     &_with-scroll {
-        display: flex;
-        flex-direction: column;
         overflow-y: auto;
         max-height: calc(100vh - var(--yc-modal-margin) * 2);
     }

@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.26.0](https://github.com/gravity-ui/uikit/compare/v5.25.0...v5.26.0) (2023-12-26)
+
+
+### Features
+
+* calculate body class names seperately ([#1197](https://github.com/gravity-ui/uikit/issues/1197)) ([3dcf03d](https://github.com/gravity-ui/uikit/commit/3dcf03d46b6834c3d0fd6f43a9208d234c730405))
+* **Popup:** add `aria-label` & `aria-labelledby` attributes ([#1202](https://github.com/gravity-ui/uikit/issues/1202)) ([f68183a](https://github.com/gravity-ui/uikit/commit/f68183ad27c025c736164b72ee38a908afb7dc67))
+
+
+### Bug Fixes
+
+* **Pagination:** fix wrong behaviour in case of 0 total ([#1208](https://github.com/gravity-ui/uikit/issues/1208)) ([cda2349](https://github.com/gravity-ui/uikit/commit/cda2349c699b5e11fe79aa79fdbb4f5b647277bc))
+* **Select:** fix wrong view "clear" styles ([#1224](https://github.com/gravity-ui/uikit/issues/1224)) ([4f4e13e](https://github.com/gravity-ui/uikit/commit/4f4e13ec7286dc1611755899b30429f1cf4b5b7f))
+* **Table:** columns change throws ([#1219](https://github.com/gravity-ui/uikit/issues/1219)) ([20756bc](https://github.com/gravity-ui/uikit/commit/20756bcd27d8577d399e39f7d86189d7cb3d4d14))
+
 ## [5.25.0](https://github.com/gravity-ui/uikit/compare/v5.24.0...v5.25.0) (2023-12-12)
 
 

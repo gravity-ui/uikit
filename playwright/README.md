@@ -120,3 +120,4 @@
 - `npm run playwright:update` - update screenshots
 - `npm run playwright:docker` - run tests using docker
 - `npm run playwright:docker:update` - update screenshots using docker
+- `npm run playwright:docker:clear-cache` - clear node_modules cache for docker container

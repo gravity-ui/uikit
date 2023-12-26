@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useIntersection} from '../../../../hooks';
+import {useIntersection} from '../../../../../hooks';
 
 interface IntersectionContainerProps {
     children: React.JSX.Element;

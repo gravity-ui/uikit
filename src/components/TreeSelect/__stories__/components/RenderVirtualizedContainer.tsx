@@ -13,7 +13,7 @@ export const RenderVirtualizedContainer = <T,>({
     size,
 }: RenderContainerProps<T>) => {
     return (
-        <ListContainerView virtualized id={id} ref={containerRef}>
+        <ListContainerView fixedHeight id={id} ref={containerRef}>
             <VirtualizedListContainer
                 items={flattenIdsOrder}
                 itemSize={(_index) => computeItemSize(size)}

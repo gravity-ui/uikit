@@ -6,23 +6,10 @@ import identity from 'lodash/identity';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemId, ListItemType, ListItemView, getListParsedState} from '../../../useList';
+import {ListItemId, ListItemView, getListParsedState} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
-
-const getItemsExpandedState = <T,>(items: ListItemType<T>[]) => {
-    return Object.entries(getListParsedState(items).groupsState).reduce<
-        Record<ListItemId, boolean>
-    >((acc, [groupId, {expanded}]) => {
-        acc[groupId] = true;
-
-        if (typeof expanded !== 'undefined') {
-            acc[groupId] = expanded;
-        }
-        return acc;
-    }, {});
-};
 
 export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
     extends Omit<
@@ -39,8 +26,8 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
 
     const [value, setValue] = React.useState<string[]>([]);
-    const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>(() =>
-        getItemsExpandedState(items),
+    const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>(
+        () => getListParsedState(items).initialState.expandedById,
     );
 
     return (

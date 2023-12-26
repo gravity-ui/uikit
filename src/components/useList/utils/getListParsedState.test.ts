@@ -34,6 +34,17 @@ describe('getListParsedState', () => {
         ];
 
         expect(getListParsedState(data)).toEqual({
+            initialState: {
+                selectedById: {
+                    2: true,
+                },
+                disabledById: {
+                    0: true,
+                },
+                expandedById: {
+                    '1-1': false,
+                },
+            },
             byId: {
                 0: {title: 'item-0'},
                 1: {title: 'item-1'},
@@ -47,20 +58,19 @@ describe('getListParsedState', () => {
                 1: {
                     childrenIds: ['1-0', '1-1', '1-2'],
                 },
-                '1-1': {childrenIds: ['1-1-0'], expanded: false},
+                '1-1': {childrenIds: ['1-1-0']},
                 '1-1-0': {childrenIds: []},
                 '2': {childrenIds: []},
             },
             itemsState: {
-                0: {indentation: 0, disabled: true},
+                0: {indentation: 0},
                 1: {indentation: 0},
                 '1-0': {parentId: '1', indentation: 1},
                 '1-1': {parentId: '1', indentation: 1},
                 '1-1-0': {parentId: '1-1', indentation: 2},
                 '1-2': {parentId: '1', indentation: 1},
-                '2': {indentation: 0, selected: true},
+                '2': {indentation: 0},
             },
-            lastItemId: '2',
         });
     });
 
@@ -81,6 +91,15 @@ describe('getListParsedState', () => {
         ];
 
         expect(getListParsedState(data)).toEqual({
+            initialState: {
+                selectedById: {
+                    1: true,
+                },
+                disabledById: {
+                    0: true,
+                },
+                expandedById: {},
+            },
             byId: {
                 0: {
                     a: 'item-1',
@@ -97,11 +116,10 @@ describe('getListParsedState', () => {
             },
             groupsState: {},
             itemsState: {
-                0: {indentation: 0, disabled: true},
-                1: {indentation: 0, selected: true},
+                0: {indentation: 0},
+                1: {indentation: 0},
                 2: {indentation: 0},
             },
-            lastItemId: '2',
         });
     });
 
@@ -126,6 +144,13 @@ describe('getListParsedState', () => {
         ];
 
         expect(getListParsedState(data, ({id}) => id)).toEqual({
+            initialState: {
+                selectedById: {},
+                disabledById: {},
+                expandedById: {
+                    'id-4': false,
+                },
+            },
             byId: {
                 'id-1': {title: 'item-0', id: 'id-1'},
                 'id-2': {title: 'item-1', id: 'id-2'},
@@ -139,7 +164,6 @@ describe('getListParsedState', () => {
                 },
                 'id-4': {
                     childrenIds: ['id-5'],
-                    expanded: false,
                 },
                 'id-5': {
                     childrenIds: [],
@@ -152,7 +176,6 @@ describe('getListParsedState', () => {
                 'id-4': {indentation: 1, parentId: 'id-2'},
                 'id-5': {indentation: 2, parentId: 'id-4'},
             },
-            lastItemId: 'id-5',
         });
     });
 });

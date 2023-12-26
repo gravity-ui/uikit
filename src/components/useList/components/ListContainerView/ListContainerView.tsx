@@ -13,15 +13,15 @@ export interface ListContainerViewProps extends QAProps, React.HTMLAttributes<'d
     id?: string;
     className?: string;
     /**
-     * Removes `overflow: auto` from container
+     * Removes `overflow: auto` from container and set fixed container size (`--g-list-height` = `300px`)
      */
-    virtualized?: boolean;
+    fixedHeight?: boolean;
     children: React.ReactNode;
 }
 
 export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerViewProps>(
     function ListContainerView(
-        {role = 'listbox', children, id, className, virtualized, ...props},
+        {role = 'listbox', children, id, className, fixedHeight, ...props},
         ref,
     ) {
         return (
@@ -33,7 +33,7 @@ export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerV
                 tabIndex={-1}
                 id={id}
                 role={role}
-                className={b({virtualized}, className)}
+                className={b({'fixed-height': fixedHeight}, className)}
                 {...props}
             >
                 {children}

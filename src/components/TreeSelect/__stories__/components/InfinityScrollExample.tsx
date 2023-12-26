@@ -6,8 +6,8 @@ import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView} from '../../../useList';
+import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
-import {IntersectionContainer} from '../../../useList/components/IntersectionContainer/IntersectionContainer';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
 

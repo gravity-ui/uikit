@@ -8,7 +8,7 @@ $block: '.#{variables.$ns}list-item-view';
     &:hover#{$block}_activeOnHover,
     &_active#{$block}_activeOnHover,
     &_active {
-        background: var(--g-color-base-simple-hover);
+        background: var(--g-color-base-simple-hover-solid);
     }
 
     &_clickable {
@@ -18,14 +18,6 @@ $block: '.#{variables.$ns}list-item-view';
     &_selected,
     &_selected:hover#{$block}_activeOnHover {
         background: var(--g-color-base-selection);
-    }
-
-    &_dragging {
-        background: var(--g-color-base-simple-hover-solid);
-    }
-
-    &_hidden {
-        display: none;
     }
 
     &__slot {

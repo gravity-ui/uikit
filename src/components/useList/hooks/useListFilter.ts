@@ -5,9 +5,9 @@ import debounce from 'lodash/debounce';
 import type {ListItemType} from '../types';
 import {defaultFilterItems} from '../utils/defaultFilterItems';
 
-function defaultFilterFn<T>(value: string, item: T): boolean {
+function defaultFilterFn<T>(value: string | undefined, item: T): boolean {
     return item && typeof item === 'object' && 'title' in item && typeof item.title === 'string'
-        ? item.title.includes(value)
+        ? item.title.toLowerCase().includes((value || '').toLowerCase())
         : true;
 }
 
@@ -29,7 +29,7 @@ interface UseListFilterProps<T> {
  * Ready-to-use logic for filtering tree-like data structures
  * ```tsx
  * const {item: filteredItems,...listFiltration} = useListFIlter({items});
- * const [listParsedState, listState] = useList({items: filteredItems});
+ * const listParsedState = useList({items: filteredItems});
  *
  * <TextInput {...listFiltration} />
  * ```

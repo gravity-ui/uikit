@@ -75,7 +75,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                 ) => {
                                     return renderItem(flattenIdsOrder[rubric.source.index], {
                                         provided,
-                                        isDragging: snapshot.isDragging,
+                                        active: snapshot.isDragging,
                                     });
                                 }}
                             >
@@ -106,8 +106,8 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                         return (
                             <DraggableListItem
                                 key={`item-key-${state.id}`}
-                                {...renderContextProps}
                                 {...commonProps}
+                                {...renderContextProps}
                             />
                         );
                     }
@@ -120,8 +120,8 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
                                 <DraggableListItem
                                     provided={provided}
-                                    isDragging={snapshot.isDragging}
                                     {...commonProps}
+                                    active={snapshot.isDragging}
                                 />
                             )}
                         </Draggable>

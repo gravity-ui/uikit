@@ -4,7 +4,6 @@ import {Button} from '../../../Button';
 import {Loader} from '../../../Loader';
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {IntersectionContainer} from '../../components/IntersectionContainer/IntersectionContainer';
 import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
 import {ListItemView} from '../../components/ListItemView/ListItemView';
 import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
@@ -15,6 +14,8 @@ import {useListState} from '../../hooks/useListState';
 import type {ListItemId, ListSizeTypes} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {useInfinityFetch} from '../utils/useInfinityFetch';
+
+import {IntersectionContainer} from './IntersectionContainer/IntersectionContainer';
 
 export interface InfinityScrollListProps {
     size: ListSizeTypes;

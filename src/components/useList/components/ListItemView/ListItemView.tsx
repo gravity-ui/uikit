@@ -10,7 +10,6 @@ import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
 import type {ListItemId, ListSizeTypes} from '../../types';
-import {createListItemId} from '../../utils/createListItemId';
 
 import './ListItemView.scss';
 
@@ -28,10 +27,6 @@ export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'l
     height?: number;
     selected?: boolean;
     active?: boolean;
-    /**
-     * display: hidden;
-     */
-    hidden?: boolean;
     disabled?: boolean;
     /**
      * By default hovered elements has active styles. You can disable this behavior
@@ -57,7 +52,6 @@ export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'l
     corners?: boolean;
     className?: string;
     expanded?: boolean;
-    isDragging?: boolean;
     /**
      * `[${LIST_ITEM_DATA_ATR}="${id}"]` data attribute to find element.
      * For example for scroll to
@@ -91,7 +85,6 @@ export const ListItemView = React.forwardRef(
             as = 'li',
             size = 'm',
             active,
-            hidden,
             selected,
             disabled,
             corners = true,
@@ -106,7 +99,6 @@ export const ListItemView = React.forwardRef(
             height,
             expanded,
             style,
-            isDragging,
             onClick: _onClick,
             ...rest
         }: ListItemViewProps,
@@ -121,11 +113,9 @@ export const ListItemView = React.forwardRef(
                 onClick={onClick}
                 className={b(
                     {
-                        hidden,
                         active,
                         selected,
                         activeOnHover,
-                        dragging: isDragging,
                         clickable: Boolean(onClick),
                     },
                     spacing({px: 2}, corners ? borderRadius({size}, className) : className),
@@ -136,7 +126,7 @@ export const ListItemView = React.forwardRef(
                 }}
                 as={as}
                 ref={ref}
-                {...{[LIST_ITEM_DATA_ATR]: id ? createListItemId(id) : undefined}}
+                {...{[LIST_ITEM_DATA_ATR]: id ? id : undefined}}
                 alignItems="center"
                 gap="4"
                 justifyContent="space-between"

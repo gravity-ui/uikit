@@ -7,11 +7,11 @@ $block: '.#{variables.$ns}list-container-view';
     width: 100%;
     outline: none;
 
-    &_virtualized {
+    &_fixed-height {
         height: var(--g-list-height, 300px);
     }
 
-    &:not(#{$block}_virtualized) {
+    &:not(#{$block}_fixed-height) {
         overflow: auto;
     }
 }

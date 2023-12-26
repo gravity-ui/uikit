@@ -17,7 +17,7 @@ interface UseListProps<T> {
  * Take array of items as a argument and returns parsed representation of this data structure to work with
  */
 export const useList = <T>({items, expandedById, getId}: UseListProps<T>): ListParsedState<T> => {
-    const {byId, groupsState, itemsState, lastItemId} = useListParsedState({
+    const {byId, groupsState, itemsState} = useListParsedState({
         items,
         getId,
     });
@@ -28,5 +28,5 @@ export const useList = <T>({items, expandedById, getId}: UseListProps<T>): ListP
         getId,
     });
 
-    return {items, flattenIdsOrder, byId, groupsState, itemsState, lastItemId};
+    return {items, flattenIdsOrder, byId, groupsState, itemsState};
 };

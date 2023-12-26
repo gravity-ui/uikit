@@ -1,2 +1,2 @@
 export {TreeSelect} from './TreeSelect';
-export type {TreeSelectProps} from './types';
+export type {TreeSelectProps, RenderItem} from './types';

@@ -34,6 +34,7 @@ const stories: ListItemViewProps[] = [
     {
         id: '3',
         title,
+        size: 'l',
         subtitle,
         selected: true,
         startSlot: (
@@ -43,8 +44,8 @@ const stories: ListItemViewProps[] = [
     {
         id: '4',
         title,
-        selected: true,
         disabled: true,
+        size: 'xl',
         height: 60,
         startSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
@@ -57,14 +58,19 @@ const stories: ListItemViewProps[] = [
     {
         id: '6',
         title,
+        size: 'l',
         subtitle,
         startSlot: (
             <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
         indentation: 1,
+        selected: true,
     },
     {
         id: '7',
+        expanded: true,
+        selectable: false,
+        size: 'xl',
         title: 'Group 1',
     },
 ];

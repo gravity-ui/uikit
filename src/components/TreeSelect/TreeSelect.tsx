@@ -106,21 +106,21 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleItemClick = React.useCallback(
         (id: ListItemId) => {
-            // onItemClick = null - switch off default click behavior
+            // onItemClick = disabled - switch off default click behavior
             if (onItemClick === 'disabled') return undefined;
 
             const defaultHandleClick = () => {
                 if (listState.disabledById[id]) return;
 
+                // always activate selected item
                 listState.setActiveItemId(id);
 
                 const isGroup = id in listParsedState.groupsState;
 
                 if (isGroup && groupsBehavior === 'expandable') {
-                    // toggle group selection
                     listState.setExpanded((state) => ({
                         ...state,
-                        // by default all groups expanded
+                        // toggle expanded state by id, by default all groups expanded
                         [id]: typeof state[id] === 'boolean' ? !state[id] : false,
                     }));
                 } else if (multiple) {
@@ -135,7 +135,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 return onItemClick(defaultHandleClick, {
                     id,
                     isGroup: id in listParsedState.groupsState,
-                    isLastItem: listParsedState.lastItemId === id,
+                    isLastItem:
+                        listParsedState.flattenIdsOrder[
+                            listParsedState.flattenIdsOrder.length - 1
+                        ] === id,
                     disabled: listState.disabledById[id],
                 });
             }
@@ -146,7 +149,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             onItemClick,
             listState,
             listParsedState.groupsState,
-            listParsedState.lastItemId,
+            listParsedState.flattenIdsOrder,
             groupsBehavior,
             multiple,
             handleMultipleSelection,

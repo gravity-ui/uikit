@@ -53,7 +53,7 @@ export const WithFiltrationAndControlsExample = ({
                 renderContainer={(props) => {
                     if (props.items.length === 0 && items.length > 0) {
                         return (
-                            <Flex direction="column" gap="3" className={spacing({p: 2})}>
+                            <Flex centerContent className={spacing({p: 2})} height="300px">
                                 <Text variant="subheader-1">Nothing found</Text>
                             </Flex>
                         );

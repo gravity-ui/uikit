@@ -32,20 +32,12 @@ export type ListItemType<T> = ListTreeItemType<T> | ListFlattenItemType<T>;
 
 export type GroupParsedState = {
     childrenIds: ListItemId[];
-    // initial group item state
-    expanded?: boolean;
 };
-
-export type ListGroupState = Record<ListItemId, GroupParsedState>;
 
 export type ItemParsedState = {
     parentId?: ListItemId;
     indentation: number;
-    // initial item state
-    selected?: boolean;
-    disabled?: boolean;
 };
-export type ItemsParsedState = Record<ListItemId, ItemParsedState>;
 
 export type KnownItemStructure = {
     title: React.ReactNode;
@@ -87,7 +79,7 @@ export type ParsedState<T> = {
      * Stored internal meta info about item
      * Note: Groups are also items
      */
-    itemsState: ItemsParsedState;
+    itemsState: Record<ListItemId, ItemParsedState>;
     /**
      * Normalized original data
      */
@@ -95,8 +87,7 @@ export type ParsedState<T> = {
     /**
      * Stored info about group items:
      */
-    groupsState: ListGroupState;
-    lastItemId: ListItemId;
+    groupsState: Record<ListItemId, GroupParsedState>;
 };
 
 export type ListState = {

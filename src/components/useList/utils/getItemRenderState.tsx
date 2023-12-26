@@ -1,23 +1,19 @@
 /* eslint-disable valid-jsdoc */
 import type {
-    ItemsParsedState,
-    ListGroupState,
     ListItemId,
+    ListParsedState,
     ListSizeTypes,
     ListState,
     RenderItemContext,
     RenderItemState,
 } from '../types';
 
-type ItemRendererProps<T> = ListState & {
-    size?: ListSizeTypes;
-    byId: Record<ListItemId, T>;
-    itemsState: ItemsParsedState;
-    groupsState: ListGroupState;
-    lastItemId: ListItemId;
-    onItemClick?(id: ListItemId): void;
-    id: ListItemId;
-};
+type ItemRendererProps<T> = ListState &
+    ListParsedState<T> & {
+        size?: ListSizeTypes;
+        id: ListItemId;
+        onItemClick?(id: ListItemId): void;
+    };
 
 /**
  * Map list state and parsed list state to item render props
@@ -29,19 +25,19 @@ export const getItemRenderState = <T,>(
         expandedById,
         groupsState,
         onItemClick,
+        flattenIdsOrder,
         size = 'm',
         itemsState,
-        lastItemId,
         selectedById,
         activeItemId,
         id,
     }: ItemRendererProps<T>,
     {defaultExpanded = true}: {defaultExpanded?: boolean} = {},
 ) => {
-    const context: RenderItemContext = {
+    const listContext: RenderItemContext = {
         itemState: itemsState[id],
         groupState: groupsState[id],
-        isLastItem: id === lastItemId,
+        isLastItem: id === flattenIdsOrder[flattenIdsOrder.length - 1],
     };
 
     let expanded;
@@ -51,16 +47,16 @@ export const getItemRenderState = <T,>(
         expanded = expandedById[id] ?? defaultExpanded;
     }
 
-    const state: RenderItemState = {
+    const stateProps: RenderItemState = {
         id,
         size,
         expanded,
         active: id === activeItemId,
-        indentation: context.itemState.indentation,
+        indentation: listContext.itemState.indentation,
         disabled: disabledById[id],
         selected: selectedById[id],
         onClick: onItemClick ? () => onItemClick(id) : undefined,
     };
 
-    return [byId[id], state, context] as const;
+    return [byId[id], stateProps, listContext] as const;
 };

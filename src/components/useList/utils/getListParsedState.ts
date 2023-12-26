@@ -2,6 +2,7 @@ import type {
     ListFlattenItemType,
     ListItemId,
     ListItemType,
+    ListState,
     ListTreeItemType,
     ParsedState,
 } from '../types';
@@ -26,6 +27,10 @@ interface TraverseTreeItemProps<T> {
     parentGroupedId?: string;
 }
 
+type ListParsedStateResult<T> = ParsedState<T> & {
+    initialState: Pick<ListState, 'disabledById' | 'expandedById' | 'selectedById'>;
+};
+
 export function getListParsedState<T>(
     items: ListItemType<T>[],
     /**
@@ -33,16 +38,20 @@ export function getListParsedState<T>(
      * So now you can use it id as a list item id in internal state
      */
     getId?: (item: T) => ListItemId,
-): ParsedState<T> {
+): ListParsedStateResult<T> {
     if (process.env.NODE_ENV !== 'production') {
         console.time('getListParsedState');
     }
 
-    const result: ParsedState<T> = {
+    const result: ListParsedStateResult<T> = {
         byId: {},
         groupsState: {},
         itemsState: {},
-        lastItemId: '',
+        initialState: {
+            disabledById: {},
+            selectedById: {},
+            expandedById: {},
+        },
     };
 
     const traverseItem = ({item, index}: TraverseItemProps<T>) => {
@@ -57,14 +66,12 @@ export function getListParsedState<T>(
         }
 
         if (typeof item.selected !== 'undefined') {
-            result.itemsState[id].selected = item.selected;
+            result.initialState.selectedById[id] = item.selected;
         }
 
         if (typeof item.disabled !== 'undefined') {
-            result.itemsState[id].disabled = item.disabled;
+            result.initialState.disabledById[id] = item.disabled;
         }
-
-        result.lastItemId = id;
     };
 
     const traverseTreeItem = ({
@@ -93,18 +100,16 @@ export function getListParsedState<T>(
         }
 
         if (typeof item.selected !== 'undefined') {
-            result.itemsState[id].selected = item.selected;
+            result.initialState.selectedById[id] = item.selected;
         }
 
         if (typeof item.disabled !== 'undefined') {
-            result.itemsState[id].disabled = item.disabled;
+            result.initialState.disabledById[id] = item.disabled;
         }
 
         if (groupedId) {
             result.itemsState[id].indentation = parseGroupItemId(groupedId).length - 1;
         }
-
-        result.lastItemId = id;
 
         if (item.children) {
             result.groupsState[id] = {
@@ -112,7 +117,7 @@ export function getListParsedState<T>(
             };
 
             if (typeof item.expanded !== 'undefined') {
-                result.groupsState[id].expanded = item.expanded;
+                result.initialState.expandedById[id] = item.expanded;
             }
 
             item.children.forEach((treeItem, index) => {

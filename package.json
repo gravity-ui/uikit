@@ -76,8 +76,9 @@
         "playwright:install": "playwright install --with-deps",
         "playwright": "playwright test --config=playwright/playwright.config.ts",
         "playwright:update": "npm run playwright -- -u",
-        "playwright:docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright'",
-        "playwright:docker:update": " docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright:update'"
+        "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
+        "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",
+        "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache"
     },
     "dependencies": {
         "@bem-react/classname": "^1.6.0",

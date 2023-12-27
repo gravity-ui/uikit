@@ -12,7 +12,7 @@ Disclosure component that shows and hides enclosed content.
 | defaultExpanded | `Boolean`                     |          | `false` | Default opening state                                    |
 | expanded        | `Boolean`                     |          |         | Controlled opening state                                 |
 | arrowPosition   | `left` `right`                |          | `left`  | Control position                                         |
-| summary         | `String`                      |          |         | Content summary                                          |
+| summary         | `React.ReactNode`             |          |         | Content summary                                          |
 | keepMounted     | `Boolean`                     |          | `true`  | Keep content in DOM                                      |
 | onUpdate        | `(expanded: boolean) => void` |          |         | Callback fired when the expand/collapse state is changed |
 | children        | `React.ReactNode`             |          |         | Content                                                  |

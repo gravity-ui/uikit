@@ -560,9 +560,9 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     }
 
     private getCellStyles(
-        columnStyles: React.CSSProperties | undefined,
+        columnStyles: React.CSSProperties | undefined = {},
     ): React.CSSProperties | undefined {
-        const {width: _width, ...styles} = columnStyles || {};
+        const {width: _width, ...styles} = columnStyles;
 
         return Object.keys(styles).length ? styles : undefined;
     }

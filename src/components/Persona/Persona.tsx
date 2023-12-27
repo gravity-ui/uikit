@@ -2,12 +2,12 @@ import React from 'react';
 
 import {Envelope} from '@gravity-ui/icons';
 
-import {Icon} from '../Icon';
+import {Avatar} from '../Avatar';
 import {PersonaWrap} from '../PersonaWrap';
 
 import i18n from './i18n';
 import type {PersonaProps} from './types';
-import {extractTextValue, extractTextView, getTwoLetters} from './utils';
+import {extractTextValue, extractTextView} from './utils';
 
 export function Persona({
     size = 's',
@@ -31,10 +31,14 @@ export function Persona({
 
     switch (type) {
         case 'person':
-            avatar = image ? <img alt={''} src={image} /> : <span>{getTwoLetters(textValue)}</span>;
+            avatar = image ? (
+                <Avatar imgUrl={image} size="s" />
+            ) : (
+                <Avatar text={textValue} size="s" />
+            );
             break;
         case 'email':
-            avatar = <Icon data={Envelope} size={14} />;
+            avatar = <Avatar icon={Envelope} size="s" />;
             break;
         case 'empty':
             avatar = null;

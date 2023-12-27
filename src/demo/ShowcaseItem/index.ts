@@ -1,1 +1,1 @@
-export * from './ShowcaseItem';
+export {ShowcaseItem} from './ShowcaseItem';

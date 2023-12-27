@@ -4,6 +4,10 @@
     display: flex;
     flex-direction: column;
 
+    & + & {
+        margin-block-start: var(--g-spacing-9);
+    }
+
     &__title {
         @include mixins.text-display-2();
     }

@@ -189,8 +189,9 @@ $block: '.#{variables.$ns}button';
         }
 
         &_raised {
-            --_--background-color: var(--g-color-base-float);
             --_--background-color-hover: var(--g-color-base-float-hover);
+
+            background: var(--g-color-base-float);
 
             &::before {
                 box-shadow: 0 3px 5px var(--g-color-sfx-shadow);
@@ -254,7 +255,7 @@ $block: '.#{variables.$ns}button';
 
     @include mixins.pin(
         $block,
-        ('::before', '::after'),
+        (&, '::before', '::after'),
         var(--g-button-border-radius, var(--_--border-radius))
     );
 

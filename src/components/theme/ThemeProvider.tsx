@@ -38,11 +38,16 @@ export function ThemeProvider({
     ) as RealTheme;
     const themeValue = theme === 'system' ? systemTheme : theme;
 
-    const prevRootClassName = React.useRef<string>('');
+    const prevRootClassName = React.useRef('');
 
     React.useEffect(() => {
         if (!scoped) {
-            updateBodyClassName(themeValue, {'native-scrollbar': nativeScrollbar}, rootClassName, rootClassName.current);
+            updateBodyClassName(
+                themeValue,
+                {'native-scrollbar': nativeScrollbar},
+                rootClassName,
+                prevRootClassName.current,
+            );
             prevRootClassName.current = rootClassName;
         }
     }, [nativeScrollbar, themeValue, scoped, rootClassName]);

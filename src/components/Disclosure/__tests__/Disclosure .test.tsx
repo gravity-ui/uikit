@@ -39,13 +39,27 @@ describe.only('Disclosure', () => {
         expect(disclosure).not.toBeDisabled();
     });
 
-    test('show given summary', () => {
+    test('show given string summary', () => {
         const content = 'Some content';
 
         render(<Disclosure summary={content} />);
         const text = screen.getByText(content);
 
         expect(text).toBeVisible();
+    });
+
+    test('show given node summary', () => {
+        const className = 'content';
+        const content = (
+            <div data-qa={qaId} className={className}>
+                Some content
+            </div>
+        );
+
+        render(<Disclosure summary={content} />);
+        const component = screen.getByTestId(qaId);
+
+        expect(component).toHaveClass(className);
     });
 
     test('add className', () => {

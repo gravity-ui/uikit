@@ -29,7 +29,7 @@ export interface DisclosureProps extends QAProps {
     /** Control position */
     arrowPosition?: DisclosureArrowPosition;
     /** Content summary */
-    summary?: string;
+    summary?: React.ReactNode;
     /** Class name */
     className?: string;
     /** Content */

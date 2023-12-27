@@ -5,6 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
+import {Label} from '../../Label';
 import type {DisclosureProps} from '../index';
 import {Disclosure} from '../index';
 
@@ -76,6 +77,7 @@ const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
                     {(props) => <Button {...props}>Without content</Button>}
                 </Disclosure.Summary>
             </Disclosure>
+            <Disclosure {...args} summary={<Label>Default node summary</Label>} />
         </div>
     );
 };

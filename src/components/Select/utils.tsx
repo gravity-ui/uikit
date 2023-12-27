@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import type {List, ListItemData} from '../List';
+import {List, type ListItemData} from '../List';
 
 import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
 import type {Option, OptionGroup} from './tech-components';
@@ -210,8 +210,7 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption>>) => 
 
 export const activateFirstClickableItem = (listRef: React.RefObject<List<FlattenOption>>) => {
     const items = getListItems(listRef);
-    const isGroupTitleFirstItem = items[0] && 'label' in items[0];
-    listRef?.current?.activateItem(isGroupTitleFirstItem ? 1 : 0, false);
+    listRef?.current?.activateItem(List.findNextIndex(items, 0, 1), false);
 };
 
 const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {

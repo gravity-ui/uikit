@@ -190,8 +190,8 @@ export const SelectShowcase = (props: SelectProps) => {
                 code={[EXAMPLE_DISABLED_OPTIONS]}
                 selectProps={props}
             >
-                <Select.Option value="val1" content="Value1" />
-                <Select.Option value="val2" content="Value2" disabled />
+                <Select.Option value="val1" content="Value1" disabled />
+                <Select.Option value="val2" content="Value2" />
                 <Select.Option value="val3" content="Value3" disabled />
                 <Select.Option value="val4" content="Value4" />
             </ExampleItem>

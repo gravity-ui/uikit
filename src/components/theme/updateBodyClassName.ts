@@ -18,6 +18,7 @@ export function updateBodyClassName(
     newTheme: RealTheme,
     modifiers?: Partial<BodyClassNameModifiers>,
     customRootClassName?: string,
+    prevCustomRootClassName?: string,
 ) {
     const bodyEl = document.body;
 
@@ -27,6 +28,15 @@ export function updateBodyClassName(
 
     if (!bodyEl.classList.contains(rootNewClassName)) {
         bodyEl.classList.add(rootNewClassName);
+    }
+
+    if (prevCustomRootClassName) {
+        const parsedPrevCustomRootClassNames = prevCustomRootClassName.split(' ');
+        parsedPrevCustomRootClassNames.forEach((cls) => {
+            if (cls) {
+                bodyEl.classList.remove(cls);
+            }
+        });
     }
 
     if (customRootClassName) {

@@ -1,4 +1,4 @@
-export function getClosestNumber(targetNumber: number, availableNumbers: number[]) {
+export const getClosestNumber = (targetNumber: number, availableNumbers: number[]) => {
     const stack = [...availableNumbers];
     let previousNumber: number | undefined;
 
@@ -23,4 +23,4 @@ export function getClosestNumber(targetNumber: number, availableNumbers: number[
     }
 
     return previousNumber as number;
-}
+};

@@ -1,19 +1,24 @@
 @use '../../../styles/mixins';
 @use '../variables';
 
-$block: '.#{variables.$ns}user';
+$block: '.#{variables.$ns-new}user';
 
 #{$block} {
     display: flex;
     align-items: center;
 
+    &__avatar {
+        display: flex;
+        align-items: center;
+    }
+
     &__info {
-        @include mixins.text-body-short();
+        flex: auto;
         display: flex;
         flex-direction: column;
+        min-width: 0;
 
-        flex: 1;
-        max-width: 165px;
+        @include mixins.text-body-short();
 
         #{$block}__name {
             color: var(--g-color-text-primary);

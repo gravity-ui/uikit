@@ -8,11 +8,10 @@ $block: '.#{variables.$ns}persona';
     $transitionDuration: 0.1s;
     $transitionTimingFunction: ease-in-out;
 
-    height: $avatarSize;
-    display: inline-flex;
-    align-items: center;
     position: relative;
     z-index: 0;
+    display: inline-flex;
+    height: $avatarSize;
     border-radius: 20px;
 
     transition-property: background-color;
@@ -56,11 +55,10 @@ $block: '.#{variables.$ns}persona';
     &__main {
         @include mixins.button-reset();
 
-        height: $avatarSize;
         display: inline-flex;
         align-items: center;
-        padding-inline-end: 6px;
         border-radius: inherit;
+        padding-inline-end: 6px;
 
         #{$block}_closeable & {
             padding-inline-end: 0;
@@ -71,6 +69,7 @@ $block: '.#{variables.$ns}persona';
             &:focus {
                 outline: 2px solid var(--g-color-line-focus);
             }
+
             &:focus:not(:focus-visible) {
                 outline: 0;
             }
@@ -78,18 +77,8 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__avatar {
-        width: $avatarSize;
-        height: $avatarSize;
-        display: flex;
-        align-items: center;
-        border-radius: 50%;
-        overflow: hidden;
-        justify-content: center;
-        background-color: var(--g-color-base-generic-accent);
-
-        transition-property: background-color;
-        transition-duration: $transitionDuration;
-        transition-timing-function: $transitionTimingFunction;
+        --g-avatar-background-color: var(--g-color-base-generic-accent);
+        --g-avatar-color: var(--g-color-text-primary);
 
         #{$block}_size_n & {
             margin-inline-end: 12px;
@@ -97,23 +86,6 @@ $block: '.#{variables.$ns}persona';
 
         #{$block}_size_s & {
             margin-inline-end: 6px;
-        }
-
-        #{$block}_clickable:hover & {
-            background-color: var(--g-color-base-generic);
-        }
-
-        span {
-            @include mixins.text-accent;
-            text-transform: uppercase;
-            font-size: 11px;
-            line-height: 11px;
-        }
-
-        img {
-            width: $avatarSize;
-            height: $avatarSize;
-            object-fit: cover;
         }
     }
 
@@ -132,15 +104,14 @@ $block: '.#{variables.$ns}persona';
     &__close {
         @include mixins.button-reset();
 
-        height: $avatarSize;
-        width: 16px;
+        box-sizing: initial;
         display: inline-flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
+        width: 16px;
         cursor: pointer;
         padding-inline-end: 6px;
         color: var(--g-color-text-secondary);
-        box-sizing: initial;
 
         transition-property: color;
         transition-duration: $transitionDuration;
@@ -157,6 +128,7 @@ $block: '.#{variables.$ns}persona';
         #{$block}__close:focus & {
             outline: 2px solid var(--g-color-line-focus);
         }
+
         #{$block}__close:focus:not(:focus-visible) & {
             outline: 0;
         }

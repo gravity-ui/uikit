@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-
 import type {PersonaText} from './types';
 
 export const extractTextValue = (text: PersonaText = '') => {
@@ -17,8 +15,3 @@ export const extractTextView = (text: PersonaText = '') => {
 
     return text;
 };
-
-export function getTwoLetters(text: string) {
-    const words = text.split(' ');
-    return [get(words, '[0][0]'), get(words, '[1][0]')].filter(Boolean).join('');
-}

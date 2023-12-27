@@ -3,8 +3,9 @@ export * from './mobile';
 export * from './theme';
 
 export * from './ActionTooltip';
-export * from './ArrowToggle';
 export * from './Alert';
+export * from './ArrowToggle';
+export * from './Avatar';
 export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';
@@ -43,7 +44,6 @@ export * from './Text';
 export * from './Toaster';
 export * from './Tooltip';
 export * from './User';
-export * from './UserAvatar';
 export * from './controls';
 export * from './layout';
 

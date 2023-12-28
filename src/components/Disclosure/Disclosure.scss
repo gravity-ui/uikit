@@ -5,13 +5,13 @@ $block: '.#{variables.$ns-new}disclosure';
 $gap: 8px;
 
 #{$block} {
-    &_size_m {
+    &_size_m &__trigger {
         @include mixins.text-body-1();
     }
-    &_size_l {
+    &_size_l &__trigger {
         @include mixins.text-body-2();
     }
-    &_size_xl {
+    &_size_xl &__trigger {
         @include mixins.text-subheader-3();
     }
     &__trigger {

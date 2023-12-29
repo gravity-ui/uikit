@@ -1,29 +1,47 @@
 import React from 'react';
 
 import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icons';
-import identity from 'lodash/identity';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemId, ListItemView, getListParsedState} from '../../../useList';
+import {
+    type KnownItemStructure,
+    ListItemId,
+    ListItemView,
+    getListParsedState,
+} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
 
+/**
+ * Just for example how to work with data
+ */
+interface CustomDataStructure {
+    a: string;
+}
+
 export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
     extends Omit<
-        TreeSelectProps<{title: string}>,
+        TreeSelectProps<CustomDataStructure>,
         'value' | 'onUpdate' | 'items' | 'getItemContent' | 'size'
     > {
     itemsCount?: number;
 }
 
+const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): KnownItemStructure => ({
+    title: props.a,
+});
+
 export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     itemsCount = 5,
     ...props
 }: WithGroupSelectionControlledStateAndCustomIconExampleProps) => {
-    const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
+    const items = React.useMemo(
+        () => createRandomizedData({num: itemsCount, getData: (a) => ({a})}),
+        [itemsCount],
+    );
 
     const [value, setValue] = React.useState<string[]>([]);
     const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>(
@@ -35,7 +53,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
             <TreeSelect
                 {...props}
                 size="l"
-                renderControlContent={identity}
+                renderControlContent={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
                 popupClassName={spacing({p: 2})}
                 value={value}
@@ -43,7 +61,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                     return (
                         <ListItemView
                             {...state}
-                            {...item}
+                            {...mapCustomDataStructureToKnownProps(item)}
                             startSlot={
                                 <Icon size={16} data={groupState ? Database : PlugConnection} />
                             }

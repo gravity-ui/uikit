@@ -1,7 +1,5 @@
 import React from 'react';
 
-import identity from 'lodash/identity';
-
 import {Button} from '../../../Button';
 import {Text} from '../../../Text';
 import {TextInput} from '../../../controls';
@@ -86,7 +84,6 @@ export const WithFiltrationAndControlsExample = ({
                     </Flex>
                 }
                 value={value}
-                renderControlContent={identity}
                 items={filterState.items}
                 onUpdate={setValue}
             />

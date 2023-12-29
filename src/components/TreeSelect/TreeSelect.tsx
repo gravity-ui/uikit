@@ -10,6 +10,7 @@ import {
     type ListItemId,
     ListItemView,
     getItemRenderState,
+    isKnownStructureGuard,
     scrollToListItem,
     useList,
     useListKeydown,
@@ -26,7 +27,10 @@ import './TreeSelect.scss';
 const b = block('tree-select');
 
 export const TreeSelect = React.forwardRef(function TreeSelect<T>(
-    {
+    props: TreeSelectProps<T>,
+    ref: React.Ref<HTMLButtonElement>,
+) {
+    const {
         id,
         slotBeforeListBody,
         slotAfterListBody,
@@ -48,14 +52,12 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onUpdate,
         getId,
         onOpenChange,
-        renderControlContent,
         renderControl,
         renderItem,
         renderContainer: RenderContainer = TreeListContainer,
         onItemClick,
-    }: TreeSelectProps<T>,
-    ref: React.Ref<HTMLButtonElement>,
-) {
+    } = props;
+
     const [mobile] = useMobile();
     const uniqId = useUniqId();
     const treeSelectId = id ?? uniqId;
@@ -201,7 +203,19 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map((id) => renderControlContent(listParsedState.byId[id]).title),
+                value.map((id) => {
+                    if ('renderControlContent' in props) {
+                        return props.renderControlContent(listParsedState.byId[id]).title;
+                    }
+
+                    const items = listParsedState.byId[id];
+
+                    if (isKnownStructureGuard(items)) {
+                        return items.title;
+                    }
+
+                    return items as string;
+                }),
             ).join(', ')}
             view="normal"
             pin="round-round"
@@ -249,10 +263,17 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                             return renderItem(item, state, context, renderContextProps);
                         }
 
+                        const itemData = listParsedState.byId[id];
+
                         return (
                             <ListItemView
                                 {...state}
-                                {...renderControlContent(item)}
+                                // eslint-disable-next-line no-nested-ternary
+                                {...('renderControlContent' in props
+                                    ? props.renderControlContent(itemData)
+                                    : isKnownStructureGuard(itemData)
+                                    ? itemData
+                                    : {title: itemData as string})}
                                 {...renderContextProps}
                             />
                         );

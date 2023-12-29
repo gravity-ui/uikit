@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {UserAvatar} from '../../../../UserAvatar';
+import {Avatar} from '../../../../Avatar';
 import {Flex} from '../../../../layout';
 import {ListItemView as ListItemViewComponent, ListItemViewProps} from '../ListItemView';
 
@@ -22,7 +22,7 @@ const stories: ListItemViewProps[] = [
         subtitle,
         disabled: true,
         startSlot: (
-            <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
+            <Avatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
     {
@@ -38,7 +38,7 @@ const stories: ListItemViewProps[] = [
         subtitle,
         selected: true,
         startSlot: (
-            <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
+            <Avatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
     {
@@ -48,7 +48,7 @@ const stories: ListItemViewProps[] = [
         size: 'xl',
         height: 60,
         startSlot: (
-            <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
+            <Avatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
     },
     {
@@ -61,7 +61,7 @@ const stories: ListItemViewProps[] = [
         size: 'l',
         subtitle,
         startSlot: (
-            <UserAvatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
+            <Avatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
         ),
         indentation: 1,
         selected: true,

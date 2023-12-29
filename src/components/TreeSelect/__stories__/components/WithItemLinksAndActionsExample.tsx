@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {ChevronDown, ChevronUp, FolderOpen} from '@gravity-ui/icons';
-import identity from 'lodash/identity';
 
 import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
@@ -33,7 +32,6 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                 size="l"
                 value={value}
                 items={items}
-                renderControlContent={identity}
                 onItemClick={(_, {id, isGroup, disabled}) => {
                     if (!isGroup && !disabled) {
                         setValue([id]);

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
-import identity from 'lodash/identity';
 
 import {Flex} from '../../layout';
 import {createRandomizedData} from '../../useList/__stories__/utils/makeData';
@@ -26,6 +25,7 @@ import {
     WithItemLinksAndActionsExampleProps,
 } from './components/WithItemLinksAndActionsExample';
 
+// TODO: пример с кастомной структурой данных
 export default {
     title: 'Unstable/TreeSelect',
     component: TreeSelect,
@@ -45,7 +45,6 @@ const DefaultTemplate: StoryFn<
         <Flex>
             <TreeSelect
                 {...props}
-                renderControlContent={identity}
                 items={items}
                 onUpdate={(...args) =>
                     console.log('Uncontrolled `TreeSelect onUpdate args: `', ...args)

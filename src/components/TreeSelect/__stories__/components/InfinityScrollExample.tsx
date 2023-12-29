@@ -1,7 +1,5 @@
 import React from 'react';
 
-import identity from 'lodash/identity';
-
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {Flex, spacing} from '../../../layout';
@@ -31,11 +29,11 @@ export const InfinityScrollExample = ({itemsCount = 5, ...props}: InfinityScroll
 
     return (
         <Flex>
-            <TreeSelect
+            <TreeSelect<{title: string}>
                 {...props}
+                items={data}
                 value={value}
                 popupClassName={spacing({p: 2})}
-                renderControlContent={identity}
                 renderItem={(item, state, {isLastItem, groupState}) => {
                     const node = (
                         <ListItemView
@@ -62,7 +60,6 @@ export const InfinityScrollExample = ({itemsCount = 5, ...props}: InfinityScroll
                     return node;
                 }}
                 renderContainer={RenderVirtualizedContainer}
-                items={data}
                 onUpdate={setValue}
                 slotAfterListBody={
                     isLoading && (

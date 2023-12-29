@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
-import identity from 'lodash/identity';
 import {
     DragDropContext,
     Draggable,
@@ -36,13 +35,12 @@ const DraggableListItem = ({
 };
 
 export interface WithDndListExampleProps
-    extends Omit<
-        TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent'
-    > {}
+    extends Omit<TreeSelectProps<string>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> {}
 
 export const WithDndListExample = (props: WithDndListExampleProps) => {
-    const [items, setItems] = React.useState(() => createRandomizedData({num: 10, depth: 0}));
+    const [items, setItems] = React.useState(() =>
+        createRandomizedData({num: 10, depth: 0, getData: (title) => title}),
+    );
     const [value, setValue] = React.useState<string[]>([]);
 
     const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
@@ -57,7 +55,6 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                 {...props}
                 value={value}
                 items={items}
-                renderControlContent={identity}
                 onItemClick={(_, {id, isGroup, disabled}) => {
                     if (!isGroup && !disabled) {
                         setValue([id]);
@@ -97,7 +94,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                 renderItem={(item, state, _listContext, renderContextProps) => {
                     const commonProps = {
                         ...state,
-                        ...item,
+                        title: item,
                         endSlot: <Icon data={Grip} size={16} />,
                     };
 

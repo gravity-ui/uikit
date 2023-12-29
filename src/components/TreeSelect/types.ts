@@ -41,11 +41,11 @@ export type RenderContainerProps<T> = ListParsedState<T> &
         containerRef: React.RefObject<HTMLDivElement>;
     };
 
-export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
+interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
     defaultOpen?: boolean;
     defaultValue?: ListItemId[];
-    items: ListItemType<T>[];
+    // items: ListItemType<T>[];
     open?: boolean;
     id?: string | undefined;
     popupClassName?: string;
@@ -84,7 +84,6 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
      * Override list item content by you custom node.
      */
     renderItem?: RenderItem<T>;
-    renderControlContent(item: T): KnownItemStructure;
     onClose?(): void;
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
@@ -96,3 +95,15 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
         | 'disabled'
         | ((defaultClickCallback: () => void, content: OverrideItemContext) => void);
 }
+
+type TreeSelectKnownProps<T> = TreeSelectBaseProps<T> & {
+    items: ListItemType<T>[];
+};
+type TreeSelectUnknownProps<T> = TreeSelectBaseProps<T> & {
+    items: ListItemType<T>[];
+    renderControlContent(item: T): KnownItemStructure;
+};
+
+export type TreeSelectProps<T> = T extends KnownItemStructure | string
+    ? TreeSelectKnownProps<T>
+    : TreeSelectUnknownProps<T>;

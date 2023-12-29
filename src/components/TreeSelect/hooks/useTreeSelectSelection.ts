@@ -5,25 +5,50 @@ import {useOpenState} from '../../../hooks/useSelect/useOpenState';
 import type {ListItemId} from '../../useList/types';
 
 type UseTreeSelectSelectionProps = {
-    value?: ListItemId[];
-    defaultValue?: ListItemId[];
+    value: ListItemId[];
+    setInnerValue?(ids: ListItemId[]): void;
     onUpdate?: (value: ListItemId[]) => void;
 } & UseOpenProps;
 
-export const useTreeSelectSelection = ({
-    defaultOpen,
-    onClose,
-    onOpenChange,
-    open: openProps,
-    value: valueProps,
-    defaultValue = [],
-    onUpdate,
-}: UseTreeSelectSelectionProps) => {
-    const [innerValue, setInnerValue] = React.useState(defaultValue);
+type UseValueProps = {
+    value?: ListItemId[];
+    defaultValue?: ListItemId[];
+};
+
+export const useValue = ({defaultValue, value: valueProps}: UseValueProps) => {
+    const [innerValue, setInnerValue] = React.useState(defaultValue || []);
 
     const value = valueProps || innerValue;
     const uncontrolled = !valueProps;
 
+    const selected = React.useMemo(
+        () =>
+            value.reduce<Record<ListItemId, boolean>>((acc, value) => {
+                acc[value] = true;
+                return acc;
+            }, {}),
+        [value],
+    );
+
+    return {
+        selected,
+        value,
+        /**
+         * Available only if `uncontrolled` component valiant
+         */
+        setInnerValue: uncontrolled ? setInnerValue : undefined,
+    };
+};
+
+export const useTreeSelectSelection = ({
+    value,
+    setInnerValue,
+    defaultOpen,
+    onClose,
+    onOpenChange,
+    open: openProps,
+    onUpdate,
+}: UseTreeSelectSelectionProps) => {
     const {toggleOpen, open} = useOpenState({
         defaultOpen,
         onClose,
@@ -37,14 +62,12 @@ export const useTreeSelectSelection = ({
                 const nextValue = [id];
                 onUpdate?.(nextValue);
 
-                if (uncontrolled) {
-                    setInnerValue(nextValue);
-                }
+                setInnerValue?.(nextValue);
             }
 
             toggleOpen(false);
         },
-        [value, uncontrolled, onUpdate, toggleOpen],
+        [value, toggleOpen, onUpdate, setInnerValue],
     );
 
     const handleMultipleSelection = React.useCallback(
@@ -56,21 +79,18 @@ export const useTreeSelectSelection = ({
 
             onUpdate?.(nextValue);
 
-            if (uncontrolled) {
-                setInnerValue(nextValue);
-            }
+            setInnerValue?.(nextValue);
         },
-        [value, uncontrolled, onUpdate],
+        [value, onUpdate, setInnerValue],
     );
 
     const handleClearValue = React.useCallback(() => {
         onUpdate?.([]);
-        setInnerValue([]);
-    }, [onUpdate]);
+        setInnerValue?.([]);
+    }, [onUpdate, setInnerValue]);
 
     return {
         open,
-        value,
         toggleOpen,
         handleSingleSelection,
         handleMultipleSelection,

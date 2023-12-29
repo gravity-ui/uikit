@@ -40,16 +40,16 @@ const DefaultTemplate: StoryFn<
     }
 > = ({itemsCount = 5, ...props}) => {
     const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
-    const [value, setValue] = React.useState<string[]>([]);
 
     return (
         <Flex>
             <TreeSelect
                 {...props}
-                value={value}
                 renderControlContent={identity}
                 items={items}
-                onUpdate={setValue}
+                onUpdate={(...args) =>
+                    console.log('Uncontrolled `TreeSelect onUpdate args: `', ...args)
+                }
             />
         </Flex>
     );

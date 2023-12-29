@@ -18,7 +18,7 @@ import {
 import {block} from '../utils/cn';
 
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
-import {useTreeSelectSelection} from './hooks/useTreeSelectSelection';
+import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
 import type {RenderControlProps, TreeSelectProps} from './types';
 
 import './TreeSelect.scss';
@@ -65,31 +65,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     const containerRef = React.useRef<HTMLDivElement>(null);
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const {
-        value,
-        open,
-        toggleOpen,
-        handleClearValue,
-        handleMultipleSelection,
-        handleSingleSelection,
-    } = useTreeSelectSelection({
-        onUpdate,
+    const {value, setInnerValue, selected} = useValue({
         value: propsValue,
         defaultValue,
-        defaultOpen,
-        open: propsOpen,
-        onClose,
-        onOpenChange,
     });
-
-    const selected = React.useMemo(
-        () =>
-            value.reduce<Record<ListItemId, boolean>>((acc, value) => {
-                acc[value] = true;
-                return acc;
-            }, {}),
-        [value],
-    );
 
     const listState = useListState({
         expandedById,
@@ -103,6 +82,26 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         expandedById: listState.expandedById,
         getId,
     });
+
+    const wrappedOnUpdate = React.useCallback(
+        (ids: ListItemId[]) =>
+            onUpdate?.(
+                ids,
+                ids.map((id) => listParsedState.byId[id]),
+            ),
+        [listParsedState.byId, onUpdate],
+    );
+
+    const {open, toggleOpen, handleClearValue, handleMultipleSelection, handleSingleSelection} =
+        useTreeSelectSelection({
+            setInnerValue,
+            value,
+            onUpdate: wrappedOnUpdate,
+            defaultOpen,
+            open: propsOpen,
+            onClose,
+            onOpenChange,
+        });
 
     const handleItemClick = React.useCallback(
         (id: ListItemId) => {

@@ -86,7 +86,7 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
     renderItem?: RenderItem<T>;
     renderControlContent(item: T): KnownItemStructure;
     onClose?(): void;
-    onUpdate?(value: string[]): void;
+    onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?(props: RenderContainerProps<T>): React.JSX.Element;
     /**

@@ -10,4 +10,4 @@ export * from './withTheme';
 export * from './withThemeValue';
 export * from './withDirection';
 export * from './getThemeType';
-export type {Theme, RealTheme, ThemeType} from './types';
+export type {Theme, RealTheme, ThemeType, Direction, ThemeContextProps} from './types';

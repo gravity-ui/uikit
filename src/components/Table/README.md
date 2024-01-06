@@ -118,7 +118,7 @@ const getRowActions = () => {
 const table = (
     <MyTable
         data={data}
-        columns{columns}
+        columns={columns}
         getRowActions={getRowActions}
     />
 );
@@ -152,7 +152,7 @@ const columns = [
 const table = (
     <MyTable
         data={data}
-        columns{columns}
+        columns={columns}
     />
 );
 ```
@@ -190,7 +190,7 @@ function SelectionTable() {
     return (
         <MyTable
             data={data}
-            columns{columns}
+            columns={columns}
             getRowId={getRowId}
             selectedIds={selectedIds}
             onSelectionChange={setSelectedIds}
@@ -324,7 +324,7 @@ const columns = [
 const table = (
     <MyTable
         data={data}
-        columns{columns}
+        columns={columns}
     />
 );
 ```

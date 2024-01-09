@@ -95,33 +95,25 @@ import {Table, withTableActions} from '@gravity-ui/uikit';
 
 const MyTable = withTableActions(Table);
 const data = [
-    {id: 1, text: 'Hello'},
-    {id: 2, text: 'World'},
+  {id: 1, text: 'Hello'},
+  {id: 2, text: 'World'},
 ];
-const columns = [
-    {id: 'id'},
-    {id: 'text'},
-];
+const columns = [{id: 'id'}, {id: 'text'}];
 const getRowActions = () => {
-    return [
-        {
-            text: 'Print', handler: () => {
-            }
-        },
-        {
-            text: 'Remove', handler: () => {
-            }, theme: 'danger'
-        },
-    ];
-}
+  return [
+    {
+      text: 'Print',
+      handler: () => {},
+    },
+    {
+      text: 'Remove',
+      handler: () => {},
+      theme: 'danger',
+    },
+  ];
+};
 
-const table = (
-    <MyTable
-        data={data}
-        columns{columns}
-        getRowActions={getRowActions}
-    />
-);
+const table = <MyTable data={data} columns={columns} getRowActions={getRowActions} />;
 ```
 
 ## Usage with HOC `withTableCopy`
@@ -141,20 +133,15 @@ import {Table, withTableCopy} from '@gravity-ui/uikit';
 
 const MyTable = withTableCopy(Table);
 const data = [
-    {id: 1, text: 'Hello'},
-    {id: 2, text: 'World'},
+  {id: 1, text: 'Hello'},
+  {id: 2, text: 'World'},
 ];
 const columns = [
-    {id: 'id', meta: {copy: ({id}) => `ID #${id}`}},
-    {id: 'text', meta: {copy: true}},
+  {id: 'id', meta: {copy: ({id}) => `ID #${id}`}},
+  {id: 'text', meta: {copy: true}},
 ];
 
-const table = (
-    <MyTable
-        data={data}
-        columns{columns}
-    />
-);
+const table = <MyTable data={data} columns={columns} />;
 ```
 
 ## Usage with HOC `withTableSelection`
@@ -175,27 +162,24 @@ import {Table, withTableSelection} from '@gravity-ui/uikit';
 
 const MyTable = withTableSelection(Table);
 const data = [
-    {id: 1, text: 'Hello'},
-    {id: 2, text: 'World'},
+  {id: 1, text: 'Hello'},
+  {id: 2, text: 'World'},
 ];
-const columns = [
-    {id: 'id'},
-    {id: 'text'},
-];
+const columns = [{id: 'id'}, {id: 'text'}];
 const getRowId = 'id';
 
 function SelectionTable() {
-    const [selectedIds, setSelectedIds] = React.useState([1]);
+  const [selectedIds, setSelectedIds] = React.useState([1]);
 
-    return (
-        <MyTable
-            data={data}
-            columns{columns}
-            getRowId={getRowId}
-            selectedIds={selectedIds}
-            onSelectionChange={setSelectedIds}
-        />
-    );
+  return (
+    <MyTable
+      data={data}
+      columns={columns}
+      getRowId={getRowId}
+      selectedIds={selectedIds}
+      onSelectionChange={setSelectedIds}
+    />
+  );
 }
 ```
 
@@ -313,18 +297,16 @@ import {Table, withTableSorting} from '@gravity-ui/uikit';
 
 const MyTable = withTableSorting(Table);
 const data = [
-    {id: 1, text: 'Hello', date: '2016-10-25'},
-    {id: 2, text: 'World', date: '2020-08-15'},
+  {id: 1, text: 'Hello', date: '2016-10-25'},
+  {id: 2, text: 'World', date: '2020-08-15'},
 ];
 const columns = [
-    {id: 'id', meta: {sort: true}},
-    {id: 'text', meta: {defaultSortOrder: 'desc', sort: (a, b) => Date.parse(a.date) - Date.parse(b.date)}},
+  {id: 'id', meta: {sort: true}},
+  {
+    id: 'text',
+    meta: {defaultSortOrder: 'desc', sort: (a, b) => Date.parse(a.date) - Date.parse(b.date)},
+  },
 ];
 
-const table = (
-    <MyTable
-        data={data}
-        columns{columns}
-    />
-);
+const table = <MyTable data={data} columns={columns} />;
 ```

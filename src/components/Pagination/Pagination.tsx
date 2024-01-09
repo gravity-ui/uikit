@@ -18,8 +18,6 @@ import {getResultPage, getResultTotal} from './utils';
 import './Pagination.scss';
 
 const b = blockNew('pagination');
-const DEFAULT_TOTAL = 1;
-const DEFAULT_PAGE = 1;
 
 export const Pagination = ({
     page,
@@ -38,12 +36,11 @@ export const Pagination = ({
     const size = mobile ? 'l' : 'm';
     const compact = mobile ? true : propCompact;
 
-    const resultTotal = getResultTotal(total, DEFAULT_TOTAL);
+    const resultTotal = getResultTotal(total);
     const resultPage = getResultPage({
         page,
         total: resultTotal,
         pageSize,
-        defaultPage: DEFAULT_PAGE,
     });
 
     const {items, numberOfPages} = usePagination({

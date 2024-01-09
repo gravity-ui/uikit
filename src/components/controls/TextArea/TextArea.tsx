@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useForkRef, useUniqId} from '../../../hooks';
+import {useMobile} from '../../mobile';
 import {blockNew} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -62,6 +63,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         onUpdate,
         onChange,
     } = props;
+
+    const [mobile] = useMobile();
 
     const {errorMessage, validationState} = errorPropsMapper({
         error,
@@ -160,6 +163,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             style={style}
             className={b(
                 {
+                    mobile,
                     view,
                     size,
                     disabled,

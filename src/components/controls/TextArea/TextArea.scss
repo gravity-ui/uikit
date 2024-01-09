@@ -1,6 +1,7 @@
 @use '../../../../styles/mixins';
 @use '../../variables';
 @use '../mixins.scss' as control-mixins;
+@use '../variables' as control-variables;
 
 $block: '.#{variables.$ns-new}text-area';
 
@@ -8,6 +9,10 @@ $block: '.#{variables.$ns-new}text-area';
     display: inline-block;
     width: 100%;
     position: relative;
+
+    &_mobile {
+        font-size: control-variables.$mobile-safari-font-size;
+    }
 
     &__content {
         box-sizing: border-box;

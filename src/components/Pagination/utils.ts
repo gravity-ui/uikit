@@ -51,3 +51,23 @@ function getDesktopNumerationList(page: number, numberOfPages: number) {
 export function getNumberOfPages(pageSize: number, total = 0) {
     return Math.floor((total - 1) / pageSize) + 1;
 }
+
+export function getResultTotal(total: number | undefined, defaultTotal: number) {
+    return total === undefined || total > 0 ? total : defaultTotal;
+}
+
+export function getResultPage({
+    page,
+    total,
+    pageSize,
+    defaultPage,
+}: {
+    page: number;
+    total: number | undefined;
+    pageSize: number;
+    defaultPage: number;
+}) {
+    return page > 0 && (total === undefined || page <= getNumberOfPages(pageSize, total))
+        ? page
+        : defaultPage;
+}

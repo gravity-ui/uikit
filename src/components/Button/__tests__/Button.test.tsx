@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../../test-utils/utils';
 import {Button} from '../Button';
 import type {ButtonPin, ButtonProps, ButtonSize, ButtonView} from '../Button';
 

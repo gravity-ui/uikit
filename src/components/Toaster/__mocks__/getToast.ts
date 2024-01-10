@@ -1,4 +1,4 @@
-import {screen} from '@testing-library/react';
+import {screen} from '../../../../test-utils/utils';
 
 import {fireAnimationEndEvent} from './fireAnimationEndEvent';
 

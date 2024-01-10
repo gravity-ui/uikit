@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react';
-
+import {render, screen} from '../../../../test-utils/utils';
 import {User} from '../User';
 
 describe('User', () => {

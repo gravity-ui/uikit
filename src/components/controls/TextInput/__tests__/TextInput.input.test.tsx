@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {fireEvent, queryHelpers, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {fireEvent, queryHelpers, render, screen} from '../../../../../test-utils/utils';
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextInput} from '../TextInput';
 

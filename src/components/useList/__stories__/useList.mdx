@@ -10,27 +10,124 @@ The basic idea is that hooks take all the complex logic on themselves, and all y
 
 `Storybook` provides complex examples how to use this components from this documentation.
 
-### Hooks
+### Hooks:
 
 -   [useList](#uselist-1);
 -   [useListKeydown](#uselistkeydown)
 -   [useListFilter](#uselistfilter);
 -   [useListState](#useliststate);
 
-### Components (View only);
+### Components (View only):
 
 -   [ListItemView](#listitemview);
 -   [ListContainerView](#listcontainerview);
 -   [ListRecursiveRenderer](#listrecursiverenderer);
 
-### Utilitys
+### Utilitys:
 
 -   [computeItemSize](#computeitemsize);
 -   [scrollToListItem](#scrolltolistitem);
 -   [getItemRenderState](#getitemrenderstate);
 -   [getListParsedState](#getlistparsedstate);
 
-## Hooks
+## Quick code snippets for beginners:
+
+### flatten items:
+
+```tsx
+import {
+    ListContainerView,
+    type ListItemId,
+    type ListItemType,
+    ListItemView,
+    getItemRenderState,
+    useList,
+    useListKeydown,
+    useListState,
+} from '@gravity-ui/uikit/unstable';
+
+const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
+
+function List() {
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    const listState = useListState();
+    const parsedListState = useList({
+        items,
+        expandedById: listState.expandedById,
+    });
+
+    useListKeydown({
+        onItemClick,
+        containerRef,
+        ...parsedListState,
+        ...listState,
+    });
+
+    return (
+        <ListContainerView ref={containerRef}>
+            {parsedListState.items.map((_, i) => {
+                const [itemData, computedItemProps, _listContext] = getItemRenderState({
+                    id: String(i),
+                    onItemClick,
+                    ...parsedListState,
+                    ...listState,
+                });
+
+                return <ListItemView key={i} {...computedItemProps} title={itemData} />;
+            })}
+        </ListContainerView>
+    );
+
+    // multiple selection
+    function onItemClick(id: ListItemId) {
+        listState.setSelected((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id],
+        }));
+
+        listState.setActiveItemId(id);
+    }
+}
+```
+
+### tree item structure:
+
+```tsx
+const items: ListItemType<string>[] = [
+    {data: 'one'},
+    {data: 'two', children: [{data: 'tree', children: [{data: 'four'}, {data: 'five'}]}]},
+];
+
+function List() {
+    // same as prev example
+    return (
+        <ListContainerView ref={containerRef}>
+            {parsedListState.items.map((item, index) => (
+                <ListItemRecursiveRenderer
+                    key={index}
+                    itemSchema={item}
+                    index={index}
+                    expandedById={expandedById}
+                >
+                    {(id) => {
+                        const [itemData, computedItemProps, _listContext] = getItemRenderState({
+                            id: String(i),
+                            onItemClick,
+                            ...parsedListState,
+                            ...listState,
+                        });
+
+                        return <ListItemView {...computedItemProps} title={itemData} />;
+                    }}
+                </ListItemRecursiveRenderer>
+            ))}
+        </ListContainerView>
+    );
+}
+```
+
+## Hooks:
 
 ### useList
 
@@ -216,7 +313,7 @@ const {
 } = useListState();
 ```
 
-## Components
+## Components:
 
 ### ListItemView
 
@@ -235,7 +332,7 @@ Use it even if the functionality of the `useList` hook seems redundant to you
 -   `disabled` - The disabled state. It also prevents clicking on an element;
 -   `activeOnHover`- By default hovered elements has active styles. You can disable this behavior;
 -   `indentation` - Build in indentation component to render nested views structure;
--   `selectable` - Show selected icon if selected and reserve space for this icon;
+-   `hasSelectionIcon` - Show selected icon if selected and reserve space for this icon;
 -   `onClick` - on item click callback. !Note: if passed this and `disabled` option is `true` click will not be appear;
 -   `style` - optional react `React.CSSProperties` object;
 -   `subtitle` - Slot under `title`. If passed string apply prefefined styles. Or you can pass custom `React.ReactNode` to use you own behaviour;

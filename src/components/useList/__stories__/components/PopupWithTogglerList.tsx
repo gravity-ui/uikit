@@ -120,7 +120,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                                     <ListItemView
                                         {...state}
                                         {...data}
-                                        selectable={!listContext.groupState}
+                                        hasSelectionIcon={!listContext.groupState}
                                     />
                                 );
                             }}

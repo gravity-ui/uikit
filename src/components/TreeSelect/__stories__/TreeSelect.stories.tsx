@@ -25,7 +25,6 @@ import {
     WithItemLinksAndActionsExampleProps,
 } from './components/WithItemLinksAndActionsExample';
 
-// TODO: пример с кастомной структурой данных
 export default {
     title: 'Unstable/TreeSelect',
     component: TreeSelect,

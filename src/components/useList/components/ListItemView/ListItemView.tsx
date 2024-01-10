@@ -39,7 +39,7 @@ export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'l
     /**
      * Show selected icon if selected and reserve space for this icon
      */
-    selectable?: boolean;
+    hasSelectionIcon?: boolean;
     /**
      * Note: if passed and `disabled` option is `true` click will not be appear
      */
@@ -90,7 +90,7 @@ export const ListItemView = React.forwardRef(
             corners = true,
             activeOnHover = true,
             className,
-            selectable = true,
+            hasSelectionIcon = true,
             indentation,
             startSlot,
             subtitle,
@@ -114,7 +114,7 @@ export const ListItemView = React.forwardRef(
                 className={b(
                     {
                         active,
-                        selected,
+                        selected: selected && !hasSelectionIcon,
                         activeOnHover,
                         clickable: Boolean(onClick),
                     },
@@ -133,7 +133,7 @@ export const ListItemView = React.forwardRef(
                 {...rest}
             >
                 <Flex gap="2" alignItems="center">
-                    {selectable && (
+                    {hasSelectionIcon && (
                         <Slot>
                             {selected ? (
                                 <Icon

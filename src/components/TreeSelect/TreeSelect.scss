@@ -3,6 +3,12 @@
 $block: '.#{variables.$ns}tree-select';
 
 #{$block} {
+    max-width: 100%;
+
+    &_width_max {
+        width: 100%;
+    }
+
     &__popup {
         overflow: hidden;
         min-width: 300px;

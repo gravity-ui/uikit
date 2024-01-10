@@ -71,7 +71,7 @@ export type RenderItemState = {
     expanded?: boolean;
     active: boolean;
     indentation: number;
-    selectable?: boolean;
+    hasSelectionIcon?: boolean;
 };
 
 export type ParsedState<T> = {

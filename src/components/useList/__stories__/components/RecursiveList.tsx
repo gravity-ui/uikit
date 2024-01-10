@@ -93,7 +93,7 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
                                 <ListItemView
                                     {...state}
                                     {...data}
-                                    selectable={!listContext.groupState}
+                                    hasSelectionIcon={!listContext.groupState}
                                 />
                             );
                         }}

@@ -16,7 +16,7 @@ import {
     useListKeydown,
     useListState,
 } from '../useList';
-import {block} from '../utils/cn';
+import {type CnMods, block} from '../utils/cn';
 
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
 import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
@@ -37,6 +37,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         size = 'm',
         items,
         defaultOpen,
+        className,
+        width,
         popupClassName,
         open: propsOpen,
         multiple,
@@ -224,8 +226,24 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         />
     );
 
+    const mods: CnMods = {
+        ...(width === 'max' && {width}),
+    };
+
+    const inlineStyles: React.CSSProperties = {};
+
+    if (typeof width === 'number') {
+        inlineStyles.width = width;
+    }
+
     return (
-        <Flex direction="column" gap="5" ref={controlWrapRef} className={b()}>
+        <Flex
+            direction="column"
+            gap="5"
+            ref={controlWrapRef}
+            className={b(mods, className)}
+            style={inlineStyles}
+        >
             {togglerNode}
             <SelectPopup
                 ref={controlWrapRef}
@@ -255,7 +273,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                         });
 
                         // assign components scope logic
-                        state.selectable = context.groupState
+                        state.hasSelectionIcon = context.groupState
                             ? groupsBehavior === 'selectable'
                             : undefined;
 

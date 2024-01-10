@@ -7,7 +7,7 @@ import {Flex, spacing} from '../../../layout';
 import {useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
-import type {TreeSelectProps} from '../../types';
+import type {RenderContainerProps, TreeSelectProps} from '../../types';
 
 import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
 
@@ -23,7 +23,23 @@ export const WithFiltrationAndControlsExample = ({
     itemsCount = 5,
     ...props
 }: WithFiltrationAndControlsExampleProps) => {
-    const items = React.useMemo(() => createRandomizedData({num: itemsCount}), [itemsCount]);
+    const {items, renderContainer} = React.useMemo(() => {
+        const baseItems = createRandomizedData({num: itemsCount});
+        const containerRenderer = (props: RenderContainerProps<{title: string}>) => {
+            if (props.items.length === 0 && baseItems.length > 0) {
+                return (
+                    <Flex centerContent className={spacing({p: 2})} height="300px">
+                        <Text variant="subheader-1">Nothing found</Text>
+                    </Flex>
+                );
+            }
+
+            return <RenderVirtualizedContainer {...props} />;
+        };
+
+        return {items: baseItems, renderContainer: containerRenderer};
+    }, [itemsCount]);
+
     const [open, onOpenChange] = React.useState(true);
     const [value, setValue] = React.useState<string[]>([]);
     const filterState = useListFilter({items});
@@ -48,17 +64,7 @@ export const WithFiltrationAndControlsExample = ({
                         ref={filterState.filterRef}
                     />
                 }
-                renderContainer={(props) => {
-                    if (props.items.length === 0 && items.length > 0) {
-                        return (
-                            <Flex centerContent className={spacing({p: 2})} height="300px">
-                                <Text variant="subheader-1">Nothing found</Text>
-                            </Flex>
-                        );
-                    }
-
-                    return <RenderVirtualizedContainer {...props} />;
-                }}
+                renderContainer={renderContainer}
                 slotAfterListBody={
                     <Flex gap="2" className={spacing({p: 2})}>
                         <Button

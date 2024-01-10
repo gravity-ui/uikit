@@ -100,7 +100,7 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
                             <ListItemView
                                 {...state}
                                 {...item}
-                                selectable={!listContext.groupState}
+                                hasSelectionIcon={!listContext.groupState}
                             />
                         );
                     }}

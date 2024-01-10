@@ -50,6 +50,8 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     id?: string | undefined;
     popupClassName?: string;
     popupWidth?: number;
+    width?: 'auto' | 'max' | number;
+    className?: string;
     popupDisablePortal?: boolean;
     multiple?: boolean;
     /**

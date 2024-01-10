@@ -179,6 +179,7 @@ $xl-right-padding: '12px';
     &__option-default-label {
         @include mixins.overflow-ellipsis();
         font-size: var(--g-text-body-1-font-size);
+        width: 100%;
 
         &_disabled {
             color: var(--g-color-text-secondary);

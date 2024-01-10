@@ -1,0 +1,7 @@
+@use '../variables';
+
+$block: '.#{variables.$ns-new}slider';
+
+#{$block} {
+    display: flex;
+}

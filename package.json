@@ -99,6 +99,7 @@
         "focus-trap": "^7.5.4",
         "lodash": "^4.17.21",
         "react-beautiful-dnd": "^13.1.1",
+        "rc-slider": "^10.5.0",
         "react-copy-to-clipboard": "^5.1.0",
         "react-popper": "^2.3.0",
         "react-transition-group": "^4.4.5",

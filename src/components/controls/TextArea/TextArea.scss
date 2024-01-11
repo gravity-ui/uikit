@@ -1,7 +1,6 @@
 @use '../../../../styles/mixins';
 @use '../../variables';
 @use '../mixins.scss' as control-mixins;
-@use '../variables' as control-variables;
 
 $block: '.#{variables.$ns-new}text-area';
 

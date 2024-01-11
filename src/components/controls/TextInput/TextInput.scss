@@ -42,10 +42,6 @@ $block: '.#{variables.$ns}text-input';
     width: 100%;
     position: relative;
 
-    &_mobile {
-        font-size: control-variables.$mobile-safari-font-size;
-    }
-
     &__content {
         box-sizing: border-box;
         display: flex;

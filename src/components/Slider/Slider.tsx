@@ -106,7 +106,6 @@ export const Slider = React.forwardRef(function Slider(
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
                 data-qa={qa}
-                pushable={false}
             ></BaseSlider>
         </div>
     );

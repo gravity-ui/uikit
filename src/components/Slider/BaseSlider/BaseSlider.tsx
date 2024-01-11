@@ -12,7 +12,7 @@ const b = blockNew('base-slider');
 
 type BaseSliderProps = {styleModifiers: StyleModifiers} & Omit<
     SliderProps,
-    'classNames' | 'prefixCls' | 'className'
+    'classNames' | 'prefixCls' | 'className' | 'pushable'
 >;
 
 export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function BaseSlider(
@@ -30,6 +30,7 @@ export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function 
                 rail: b('rail', styleModifiers),
                 track: b('track', styleModifiers),
             }}
+            pushable={false}
         ></Slider>
     );
 });

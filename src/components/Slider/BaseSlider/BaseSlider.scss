@@ -12,27 +12,22 @@ $block: '.#{variables.$ns-new}base-slider';
 
 #{$block} {
     $slider-color: var(--g-color-base-brand);
-    $slider-rail-color: var(--g-color-base-selection); //--g-color-base-info-light in figma
-    $slider-unfilled-tail-color: var(--g-color-base-background);
-    $slider-color-error: var(--g-color-base-danger-heavy);
+    $slider-error-color: var(--g-color-base-danger-heavy);
 
-    $slider-rail-disabled-color: var(--g-color-base-generic-accent-disabled);
-    $slider-handle-disabled-color: var(
-        --g-color-base-generic-accent
-    ); // --g-color-misc-axis in figma
+    $rail-color: var(--g-color-base-selection); //--g-color-base-info-light in figma
+    $rail-disabled-color: var(--g-color-base-generic-accent-disabled);
 
-    $slider-handle-focus-color: var(
+    $handle-center-color: var(--g-color-base-background);
+    $handle-disabled-color: var(--g-color-base-generic-accent); // --g-color-misc-axis in figma
+    $handle-focus-color: var(
         --g-color-base-selection-hover
     ); // --g-color-base-info-light-hover in figma
+    $handle-focus-error-color: var(--g-color-base-danger-light-hover); // not presented in figma
 
-    $slider-handle-focus-error-color: var(
-        --g-color-base-danger-light-hover
-    ); // not presented in figma
-
-    $slider-s-size: 15px; //14 in figma
-    $slider-m-size: 18px;
-    $slider-l-size: 21px; //20 in figma
-    $slider-xl-size: 24px;
+    $handle-s-size: 15px; //14 in figma
+    $handle-m-size: 18px;
+    $handle-l-size: 21px; //20 in figma
+    $handle-xl-size: 24px;
 
     $rail-s-size: 3px;
     $rail-m-size: 4px;
@@ -62,7 +57,7 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_s {
             @include slider-outer-style(
-                #{$slider-s-size},
+                #{$handle-s-size},
                 #{$rail-s-size},
                 #{$line-height},
                 #{$mark-s-offset}
@@ -72,15 +67,15 @@ $block: '.#{variables.$ns-new}base-slider';
                 font-size: var(--g-text-body-1-font-size);
                 line-height: #{$line-height};
 
-                $edge-mark-offset: calc(-#{$slider-s-size} / 2);
+                $edge-mark-offset: calc(-#{$handle-s-size} / 2);
 
+                //we override last of type style in the situation when we have only one mark
+                //so we should have this style sequence
                 &-text:last-of-type {
                     right: #{$edge-mark-offset};
                 }
 
                 &-text:first-of-type {
-                    //we override last of type style in the situation when we have only one mark
-                    //so we should have this style sequence
                     right: unset;
                     left: #{$edge-mark-offset};
                 }
@@ -89,7 +84,7 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_m {
             @include slider-outer-style(
-                #{$slider-m-size},
+                #{$handle-m-size},
                 #{$rail-m-size},
                 #{$line-height},
                 #{$mark-m-offset}
@@ -99,15 +94,13 @@ $block: '.#{variables.$ns-new}base-slider';
                 font-size: var(--g-text-body-1-font-size);
                 line-height: #{$line-height};
 
-                $edge-mark-offset: calc(-#{$slider-m-size} / 2);
+                $edge-mark-offset: calc(-#{$handle-m-size} / 2);
 
                 &-text:last-of-type {
                     right: #{$edge-mark-offset};
                 }
 
                 &-text:first-of-type {
-                    //we override last of type style in the situation when we have only one mark
-                    //so we should have this style sequence
                     right: unset;
                     left: #{$edge-mark-offset};
                 }
@@ -116,7 +109,7 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_l {
             @include slider-outer-style(
-                #{$slider-l-size},
+                #{$handle-l-size},
                 #{$rail-l-size},
                 #{$line-height},
                 #{$mark-l-offset}
@@ -126,15 +119,13 @@ $block: '.#{variables.$ns-new}base-slider';
                 font-size: var(--g-text-body-1-font-size);
                 line-height: #{$line-height};
 
-                $edge-mark-offset: calc(-#{$slider-l-size} / 2);
+                $edge-mark-offset: calc(-#{$handle-l-size} / 2);
 
                 &-text:last-of-type {
                     right: #{$edge-mark-offset};
                 }
 
                 &-text:first-of-type {
-                    //we override last of type style in the situation when we have only one mark
-                    //so we should have this style sequence
                     right: unset;
                     left: #{$edge-mark-offset};
                 }
@@ -145,7 +136,7 @@ $block: '.#{variables.$ns-new}base-slider';
             $line-height: var(--g-text-body-2-line-height);
 
             @include slider-outer-style(
-                #{$slider-xl-size},
+                #{$handle-xl-size},
                 #{$rail-xl-size},
                 #{$line-height},
                 #{$mark-xl-offset}
@@ -155,15 +146,13 @@ $block: '.#{variables.$ns-new}base-slider';
                 font-size: var(--g-text-body-2-font-size);
                 line-height: #{$line-height};
 
-                $edge-mark-offset: calc(-#{$slider-xl-size} / 2);
+                $edge-mark-offset: calc(-#{$handle-xl-size} / 2);
 
                 &-text:last-of-type {
                     right: #{$edge-mark-offset};
                 }
 
                 &-text:first-of-type {
-                    //we override last of type style in the situation when we have only one mark
-                    //so we should have this style sequence
                     right: unset;
                     left: #{$edge-mark-offset};
                 }
@@ -175,7 +164,7 @@ $block: '.#{variables.$ns-new}base-slider';
         position: absolute;
         width: 100%;
         border-radius: 4px;
-        background-color: #{$slider-rail-color};
+        background-color: #{$rail-color};
         &_size {
             &_s {
                 height: #{$rail-s-size};
@@ -195,11 +184,11 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_disabled {
-            background-color: #{$slider-rail-disabled-color};
+            background-color: #{$rail-disabled-color};
         }
 
         &_error {
-            background-color: #{$slider-color-error};
+            background-color: #{$slider-error-color};
         }
     }
 
@@ -234,9 +223,8 @@ $block: '.#{variables.$ns-new}base-slider';
         position: absolute;
         z-index: 1;
         cursor: grab;
-        cursor: grab;
         touch-action: pan-x;
-        background-color: #{$slider-unfilled-tail-color};
+        background-color: #{$handle-center-color};
         border-radius: 50%;
         border-style: solid;
         border-color: #{$slider-color};
@@ -244,26 +232,26 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_size {
             &_s {
-                height: #{$slider-s-size};
-                width: #{$slider-s-size};
+                height: #{$handle-s-size};
+                width: #{$handle-s-size};
                 border-width: 4px;
             }
 
             &_m {
-                height: #{$slider-m-size};
-                width: #{$slider-m-size};
+                height: #{$handle-m-size};
+                width: #{$handle-m-size};
                 border-width: 5px;
             }
 
             &_l {
-                height: #{$slider-l-size};
-                width: #{$slider-l-size};
+                height: #{$handle-l-size};
+                width: #{$handle-l-size};
                 border-width: 5px;
             }
 
             &_xl {
-                height: #{$slider-xl-size};
-                width: #{$slider-xl-size};
+                height: #{$handle-xl-size};
+                width: #{$handle-xl-size};
                 border-width: 6px;
             }
         }
@@ -274,13 +262,13 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &:focus {
-            box-shadow: 0 0 0 4px #{$slider-handle-focus-color};
+            box-shadow: 0 0 0 4px #{$handle-focus-color};
             outline: none;
         }
 
         &_disabled {
             cursor: not-allowed;
-            border-color: #{$slider-handle-disabled-color};
+            border-color: #{$handle-disabled-color};
 
             &:active,
             &:focus {
@@ -290,10 +278,10 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_error {
-            border-color: #{$slider-color-error};
+            border-color: #{$slider-error-color};
             &:active,
             &:focus {
-                box-shadow: 0 0 0 4px var(--g-color-base-danger-light-hover);
+                box-shadow: 0 0 0 4px #{$handle-focus-error-color};
             }
         }
     }

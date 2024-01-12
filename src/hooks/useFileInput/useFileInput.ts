@@ -6,10 +6,7 @@ export type UseFileInputProps = {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-/**
- * @deprecated use UseFileInputResult instead
- */
-export type UseFileInputOutput = {
+export type UseFileInputResult = {
     controlProps: React.DetailedHTMLProps<
         React.InputHTMLAttributes<HTMLInputElement>,
         HTMLInputElement
@@ -18,8 +15,6 @@ export type UseFileInputOutput = {
         onClick: () => void;
     };
 };
-
-export type UseFileInputResult = UseFileInputOutput;
 
 /**
  * Used to shape props for input with type "file".
@@ -42,7 +37,7 @@ export type UseFileInputResult = UseFileInputOutput;
     };
 ```
 */
-export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileInputOutput {
+export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileInputResult {
     const ref = React.useRef<HTMLInputElement>(null);
 
     const handleChange = React.useCallback(
@@ -59,7 +54,7 @@ export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileIn
         ref.current?.click();
     }, []);
 
-    const result: UseFileInputOutput = React.useMemo(
+    const result: UseFileInputResult = React.useMemo(
         () => ({
             controlProps: {
                 ref,

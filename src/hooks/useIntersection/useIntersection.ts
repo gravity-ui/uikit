@@ -1,15 +1,10 @@
 import React from 'react';
 
-/**
- * @deprecated use UseIntersectionProps instead
- */
-export type UseIntersection = {
+export type UseIntersectionProps = {
     element: Element | null;
     options?: IntersectionObserverInit;
     onIntersect?: () => void;
 };
-
-export type UseIntersectionProps = UseIntersection;
 
 export const useIntersection = ({element, options, onIntersect}: UseIntersectionProps) => {
     React.useEffect(() => {

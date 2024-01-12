@@ -1,0 +1,57 @@
+@use '../../variables';
+@use '../sliderVariables';
+
+$block: '.#{variables.$ns-new}slider-tooltip';
+
+#{$block} {
+    position: absolute;
+    top: -#{sliderVariables.$slider-tooltip-height};
+    transform: translateX(-50%);
+    // height: #{sliderVariables.$slider-tooltip-height};
+
+    &__card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        height: 24px;
+        padding: 4px 4px 2px;
+        // margin-bottom: auto;
+        background-color: #{sliderVariables.$slider-color};
+        font-size: var(--g-text-body-1-font-size);
+        color: #{sliderVariables.$handle-center-color};
+
+        &_size {
+            &_xl {
+                font-size: var(--g-text-body-2-font-size);
+            }
+        }
+    }
+
+    &__pin {
+        display: flex;
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        right: 0;
+        justify-content: center;
+        color: #{sliderVariables.$slider-color};
+    }
+
+    &_error &__card {
+        background-color: #{sliderVariables.$slider-error-color};
+    }
+
+    &_disabled &__card {
+        background-color: #{sliderVariables.$slider-disabled-color};
+    }
+
+    &_error &__pin {
+        color: #{sliderVariables.$slider-error-color};
+    }
+
+    &_disabled &__pin {
+        color: #{sliderVariables.$slider-disabled-color};
+    }
+}

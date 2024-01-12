@@ -31,6 +31,7 @@ export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function 
                 track: b('track', styleModifiers),
             }}
             pushable={false}
+            dots={false}
         ></Slider>
     );
 });

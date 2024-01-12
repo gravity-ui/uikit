@@ -1,4 +1,5 @@
 @use '../../variables';
+@use '../sliderVariables';
 
 @mixin slider-outer-style($slider-size, $rail-size, $line-height, $mark-offset) {
     $common-padding: calc(($slider-size - $rail-size) / 2);
@@ -11,14 +12,9 @@
 $block: '.#{variables.$ns-new}base-slider';
 
 #{$block} {
-    $slider-color: var(--g-color-base-brand);
-    $slider-error-color: var(--g-color-base-danger-heavy);
-
     $rail-color: var(--g-color-base-selection); //--g-color-base-info-light in figma
     $rail-disabled-color: var(--g-color-base-generic-accent-disabled);
 
-    $handle-center-color: var(--g-color-base-background);
-    $handle-disabled-color: var(--g-color-base-generic-accent); // --g-color-misc-axis in figma
     $handle-focus-color: var(
         --g-color-base-selection-hover
     ); // --g-color-base-info-light-hover in figma
@@ -188,14 +184,14 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_error {
-            background-color: #{$slider-error-color};
+            background-color: #{sliderVariables.$slider-error-color};
         }
     }
 
     &__track {
         position: absolute;
         border-radius: 4px;
-        background-color: #{$slider-color};
+        background-color: #{sliderVariables.$slider-color};
         &_size {
             &_s {
                 height: #{$rail-s-size};
@@ -224,10 +220,10 @@ $block: '.#{variables.$ns-new}base-slider';
         z-index: 1;
         cursor: grab;
         touch-action: pan-x;
-        background-color: #{$handle-center-color};
+        background-color: #{sliderVariables.$handle-center-color};
         border-radius: 50%;
         border-style: solid;
-        border-color: #{$slider-color};
+        border-color: #{sliderVariables.$slider-color};
         top: 0;
 
         &_size {
@@ -257,7 +253,7 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &:active {
-            box-shadow: 0 0 4px #{$slider-color};
+            box-shadow: 0 0 4px #{sliderVariables.$slider-color};
             cursor: grabbing;
         }
 
@@ -268,7 +264,7 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_disabled {
             cursor: not-allowed;
-            border-color: #{$handle-disabled-color};
+            border-color: #{sliderVariables.$slider-disabled-color};
 
             &:active,
             &:focus {
@@ -278,7 +274,7 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_error {
-            border-color: #{$slider-error-color};
+            border-color: #{sliderVariables.$slider-error-color};
             &:active,
             &:focus {
                 box-shadow: 0 0 0 4px #{$handle-focus-error-color};

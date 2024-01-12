@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import {blockNew} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
+import {SliderTooltip} from './SliderTooltip/SliderTooltip';
 import type {BaseSliderRefType, RcSliderValueType, SliderProps, SliderValue} from './sliderTypes';
 import {getInnerState} from './utils';
 
@@ -22,6 +23,7 @@ export const Slider = React.forwardRef(function Slider(
         step = 1,
         infoPointCount = 0,
         availableValues,
+        withTooltip = true,
         error = false,
         disabled = false,
         keyboard = true,
@@ -82,10 +84,15 @@ export const Slider = React.forwardRef(function Slider(
         step,
         value,
     });
-    const styleModifiers = {size, error: error && !disabled, disabled};
+    const styleModifiers = {
+        size,
+        error: error && !disabled,
+        disabled,
+        withTooltip: Boolean(withTooltip),
+    };
 
     return (
-        <div className={b(null, className)}>
+        <div className={b({withTooltip}, className)}>
             <BaseSlider
                 ref={baseSliderRef}
                 value={innerState.value}
@@ -106,6 +113,23 @@ export const Slider = React.forwardRef(function Slider(
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
                 data-qa={qa}
+                handleRender={
+                    withTooltip
+                        ? (originHandle, handleProps) => {
+                              return (
+                                  <React.Fragment>
+                                      {originHandle}
+                                      <SliderTooltip
+                                          value={handleProps.value}
+                                          className={b('tooltip')}
+                                          style={{left: originHandle.props.style?.left}}
+                                          styleModifiers={styleModifiers}
+                                      />
+                                  </React.Fragment>
+                              );
+                          }
+                        : undefined
+                }
             ></BaseSlider>
         </div>
     );

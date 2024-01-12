@@ -18,6 +18,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     //не используется, если есть availableValues
     infoPointCount?: number;
     availableValues?: number[];
+    withTooltip?: boolean;
 
     disabled?: boolean;
     keyboard?: boolean;
@@ -43,6 +44,7 @@ export type StyleModifiers = {
     size: SliderSize;
     error: boolean;
     disabled: boolean;
+    withTooltip: boolean;
 };
 
 export type BaseSliderRefType = RcSliderRef;

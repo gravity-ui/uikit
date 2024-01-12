@@ -1,7 +1,12 @@
 @use '../variables';
+@use './sliderVariables';
 
 $block: '.#{variables.$ns-new}slider';
 
 #{$block} {
     display: flex;
+
+    &_withTooltip {
+        padding-top: #{sliderVariables.$slider-tooltip-height};
+    }
 }

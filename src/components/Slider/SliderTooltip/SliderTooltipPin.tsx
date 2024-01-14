@@ -1,5 +1,6 @@
 import React from 'react';
 
+//TODO: @revenkov-k: increase pin height on 1 px to hide white line on scaling page
 export const SliderTooltipPin = ({className}: {className?: string}) => (
     <span className={className}>
         <svg

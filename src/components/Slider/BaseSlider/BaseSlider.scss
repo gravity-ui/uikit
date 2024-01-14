@@ -1,6 +1,8 @@
 @use '../../variables';
 @use '../sliderVariables';
 
+$block: '.#{variables.$ns-new}base-slider';
+
 @mixin slider-outer-style($slider-size, $rail-size, $line-height, $mark-offset) {
     $common-padding: calc(($slider-size - $rail-size) / 2);
     $bottom-padding: calc($common-padding + $line-height - $mark-offset);
@@ -9,7 +11,12 @@
     margin: 0 calc($slider-size / 2);
 }
 
-$block: '.#{variables.$ns-new}base-slider';
+@mixin dot-style($slider-size, $rail-size) {
+    top: calc((($slider-size - $rail-size) / 2) + 1px);
+    $size: calc($rail-size - 2px);
+    height: $size;
+    width: $size;
+}
 
 #{$block} {
     $rail-color: var(--g-color-base-selection); //--g-color-base-info-light in figma
@@ -31,6 +38,7 @@ $block: '.#{variables.$ns-new}base-slider';
     $rail-xl-size: 6px;
 
     $mark: '#{$block}-mark';
+    $dot: '#{$block}-dot';
 
     $mark-s-offset: 1px;
     $mark-m-offset: 1px;
@@ -76,6 +84,10 @@ $block: '.#{variables.$ns-new}base-slider';
                     left: #{$edge-mark-offset};
                 }
             }
+
+            #{$dot} {
+                @include dot-style(#{$handle-s-size}, #{$rail-s-size});
+            }
         }
 
         &_m {
@@ -101,6 +113,10 @@ $block: '.#{variables.$ns-new}base-slider';
                     left: #{$edge-mark-offset};
                 }
             }
+
+            #{$dot} {
+                @include dot-style(#{$handle-m-size}, #{$rail-m-size});
+            }
         }
 
         &_l {
@@ -125,6 +141,10 @@ $block: '.#{variables.$ns-new}base-slider';
                     right: unset;
                     left: #{$edge-mark-offset};
                 }
+            }
+
+            #{$dot} {
+                @include dot-style(#{$handle-m-size}, #{$rail-l-size});
             }
         }
 
@@ -152,6 +172,10 @@ $block: '.#{variables.$ns-new}base-slider';
                     right: unset;
                     left: #{$edge-mark-offset};
                 }
+            }
+
+            #{$dot} {
+                @include dot-style(#{$handle-m-size}, #{$rail-xl-size});
             }
         }
     }
@@ -324,6 +348,18 @@ $block: '.#{variables.$ns-new}base-slider';
     }
 
     &-dot {
+        position: absolute;
+        border-radius: 50%;
+        background-color: #{sliderVariables.$slider-color};
+
+        &:first-of-type,
+        &:last-of-type {
+            display: none;
+        }
+    }
+
+    &_disabled &-dot,
+    &_error &-dot {
         display: none;
     }
 }

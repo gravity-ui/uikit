@@ -7,7 +7,7 @@ $block: '.#{variables.$ns-new}slider-tooltip';
     position: absolute;
     top: -#{sliderVariables.$slider-tooltip-height};
     transform: translateX(-50%);
-    // height: #{sliderVariables.$slider-tooltip-height};
+    cursor: default;
 
     &__card {
         position: relative;
@@ -17,7 +17,6 @@ $block: '.#{variables.$ns-new}slider-tooltip';
         border-radius: 4px;
         height: 24px;
         padding: 4px 4px 2px;
-        // margin-bottom: auto;
         background-color: #{sliderVariables.$slider-color};
         font-size: var(--g-text-body-1-font-size);
         color: #{sliderVariables.$handle-center-color};

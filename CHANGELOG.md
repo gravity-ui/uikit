@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.27.0](https://github.com/gravity-ui/uikit/compare/v5.26.0...v5.27.0) (2024-01-10)
+
+
+### Features
+
+* **Disclosure:** allow use React.Node as summary ([#1233](https://github.com/gravity-ui/uikit/issues/1233)) ([3180060](https://github.com/gravity-ui/uikit/commit/31800603eaf6eaaab4c9849b1af12e9e6a53b5f7))
+
+
+### Bug Fixes
+
+* **Disclosure:** component size should not be used for its content ([#1234](https://github.com/gravity-ui/uikit/issues/1234)) ([c721640](https://github.com/gravity-ui/uikit/commit/c721640074baf0f5ae04ba4efaa2e187fa590e9c))
+* **Pagination:** fix total page calculation ([#1237](https://github.com/gravity-ui/uikit/issues/1237)) ([8f1af66](https://github.com/gravity-ui/uikit/commit/8f1af66dd7de4dc13c33cc58e4f73715802c02cb))
+* **Select:** activate first clickable item ([#1228](https://github.com/gravity-ui/uikit/issues/1228)) ([13b921e](https://github.com/gravity-ui/uikit/commit/13b921e8384108bf1ca71941e0a5908191cb325e))
+* **Select:** add 100% width to default labels ([#1239](https://github.com/gravity-ui/uikit/issues/1239)) ([5bd5edd](https://github.com/gravity-ui/uikit/commit/5bd5edd63c5755a52003967b4d3e822983f5033a))
+* **ThemeProvider:** fix rootClassName update ([#1231](https://github.com/gravity-ui/uikit/issues/1231)) ([4f0f099](https://github.com/gravity-ui/uikit/commit/4f0f09946023d039b8d1fed3c198d1888959f7a5))
+
 ## [5.26.0](https://github.com/gravity-ui/uikit/compare/v5.25.0...v5.26.0) (2023-12-26)
 
 

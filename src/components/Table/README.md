@@ -52,7 +52,7 @@ Additional functionality is enabled via HOCs:
 | align       | Content alignment                                                                                                  |               `"left"` `"center"` `"right"`                |                                                             |
 | sticky      | Sticky column                                                                                                      |                     `"left"` `"right"`                     |                                                             |
 | primary     | Distinguishes a column among other                                                                                 |                         `boolean`                          |                                                             |
-| width       | Column width in px                                                                                                 |                          `number`                          |                                                             |
+| width       | Column's content width in px                                                                                       |                     `number` `string`                      |                                                             |
 | meta        | Various data, HOC settings                                                                                         |                   `Record<string, any>`                    |                                                             |
 
 ## Usage with HOC `withTableActions`

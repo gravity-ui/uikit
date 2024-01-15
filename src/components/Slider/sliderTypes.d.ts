@@ -11,7 +11,7 @@ export type RcSliderValueType = number | number[];
 export type SliderProps<ValueType = number | [number, number]> = {
     value?: ValueType;
     defaultValue?: ValueType;
-    size: SliderSize;
+    size?: SliderSize;
     min?: number;
     max?: number;
     step?: number;

@@ -23,7 +23,7 @@ export const Slider = React.forwardRef(function Slider(
         step = 1,
         infoPointCount = 0,
         availableValues,
-        withTooltip = true,
+        withTooltip = false,
         error = false,
         disabled = false,
         keyboard = true,

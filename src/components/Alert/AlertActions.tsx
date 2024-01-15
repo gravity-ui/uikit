@@ -1,29 +1,27 @@
 import React from 'react';
 
-import {Button} from '../Button';
 import {Flex} from '../layout';
 
+import {AlertAction} from './AlertAction';
 import {bAlert} from './constants';
 import type {AlertActionsProps} from './types';
+import {useAlertContext} from './useAlertContext';
 
-export const AlertActions = ({
-    items,
-    children,
-    parentLayout = 'vertical',
-    className,
-}: AlertActionsProps) => {
+export const AlertActions = ({items, children, className}: AlertActionsProps) => {
+    const {layout} = useAlertContext();
+
     return (
         <Flex
-            className={bAlert('actions', {minContent: parentLayout === 'horizontal'}, className)}
+            className={bAlert('actions', {minContent: layout === 'horizontal'}, className)}
             direction="row"
             gap="3"
             wrap
-            alignItems={parentLayout === 'horizontal' ? 'center' : 'flex-start'}
+            alignItems={layout === 'horizontal' ? 'center' : 'flex-start'}
         >
             {items?.map(({handler, text}, i) => (
-                <Button key={i} onClick={handler}>
+                <AlertAction key={i} onClick={handler}>
                     {text}
-                </Button>
+                </AlertAction>
             )) || children}
         </Flex>
     );

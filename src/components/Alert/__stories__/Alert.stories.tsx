@@ -25,7 +25,7 @@ const stories: AlertProps[] = [
         theme: 'danger',
         view: 'filled',
         onClose: () => alert('Close button pressed'),
-        actions: <Button>{right}</Button>,
+        actions: <Alert.Action>{right}</Alert.Action>,
     },
     {
         title: <div dangerouslySetInnerHTML={{__html: '<b>Some html title</b>'}} />,
@@ -36,12 +36,19 @@ const stories: AlertProps[] = [
         onClose: () => alert('Close button pressed'),
     },
     {
+        title,
+        message,
+        view: 'outlined',
+        onClose: () => alert('Close button pressed'),
+        actions: [{text: left}, {text: center}, {text: left}],
+    },
+    {
         message,
         theme: 'info',
         view: 'filled',
         actions: (
             <Alert.Actions>
-                <Button>{center}</Button>
+                <Alert.Action>{center}</Alert.Action>
             </Alert.Actions>
         ),
     },
@@ -81,8 +88,8 @@ const stories: AlertProps[] = [
         corners: 'square',
         onClose: () => {},
         actions: (
-            <Alert.Actions parentLayout="horizontal">
-                <Button view="outlined">{left}</Button>
+            <Alert.Actions>
+                <Alert.Action view="outlined">{left}</Alert.Action>
             </Alert.Actions>
         ),
     },
@@ -92,7 +99,7 @@ const stories: AlertProps[] = [
         theme: 'warning',
         view: 'outlined',
         layout: 'horizontal',
-        actions: <Button>{right}</Button>,
+        actions: <Alert.Action>{right}</Alert.Action>,
     },
     {
         message,

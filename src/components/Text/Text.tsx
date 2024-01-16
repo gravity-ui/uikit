@@ -14,6 +14,7 @@ export interface TextProps extends TextBaseProps, ColorTextBaseProps, QAProps {
     as?: keyof JSX.IntrinsicElements;
     style?: React.CSSProperties;
     className?: string;
+    id?: string;
     children?: React.ReactNode;
     title?: string;
 }

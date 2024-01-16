@@ -58,6 +58,11 @@ const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: num
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
     static defaultProps: Partial<ListProps<ListItemData<unknown>>> = listDefaultProps;
 
+    static LOADING_ITEM = {
+        value: '__LIST_ITEM_LOADING__',
+        disabled: true,
+    };
+
     static moveListElement<T = unknown>(
         list: ListItemData<T>[],
         oldIndex: number,
@@ -93,12 +98,24 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
-    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
-        T & {value: string}
-    >;
     uniqId = getUniqId();
 
+    _itemsWithLoading: ListItemData<T>[] = this.createItemsWithLoading(
+        this.props.items,
+        this.props.loading,
+    );
+
     componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
+        if (
+            Boolean(this.props.loading) !== Boolean(prevProps.loading) ||
+            this.props.items !== prevProps.items
+        ) {
+            this._itemsWithLoading = this.createItemsWithLoading(
+                this.props.items,
+                this.props.loading,
+            );
+        }
+
         if (!isEqual(this.props.items, prevProps.items)) {
             const filter = this.getFilter();
             const internalFiltering = filter && !this.props.onFilterUpdate;
@@ -166,16 +183,20 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         );
     }
 
-    getItems() {
-        return this.state.items;
+    createItemsWithLoading(items: ListItemData<T>[], loading?: boolean) {
+        if (loading === true) {
+            return [...items, List.LOADING_ITEM as unknown as ListItemData<T>];
+        } else {
+            return items;
+        }
     }
 
     getItemsWithLoading() {
-        if (this.props.sortable) {
-            return this.getItems();
-        }
+        return this._itemsWithLoading;
+    }
 
-        return this.props.loading ? [...this.state.items, this.loadingItem] : this.getItems();
+    getItems() {
+        return this.state.items;
     }
 
     getActiveItem() {
@@ -239,7 +260,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
         const {onLoadMore} = this.props;
 
-        if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
+        if (isObject(item) && 'value' in item && item.value === List.LOADING_ITEM.value) {
             return (
                 <SelectLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
             );
@@ -263,7 +284,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }) => {
         const {sortHandleAlign, role} = this.props;
         const {items, activeItem} = this.state;
-        const item = this.getItemsWithLoading()[index];
+
+        const itemsWithLoading = this.getItemsWithLoading();
+        const item = itemsWithLoading[index];
+
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
         const active = index === activeItem || index === this.props.activeItemIndex;
         const selected = Array.isArray(this.props.selectedItemIndex)

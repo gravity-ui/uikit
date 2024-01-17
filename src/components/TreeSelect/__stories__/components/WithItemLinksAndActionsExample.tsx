@@ -6,9 +6,10 @@ import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemId, ListItemView} from '../../../useList';
+import type {ListItemId} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
+import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
 export interface WithItemLinksAndActionsExampleProps
@@ -48,7 +49,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                             href="#"
                             style={{textDecoration: 'none', color: 'inherit', width: '100%'}}
                         >
-                            <ListItemView
+                            <TreeSelectItem
                                 {...item}
                                 {...state}
                                 endSlot={

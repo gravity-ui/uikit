@@ -13,7 +13,7 @@ export const getListItemId = <T>({item, groupedId, getId}: GetListItemIdProps<T>
 
     if (typeof getId === 'function') {
         id = getId(isTreeItemGuard(item) ? item.data : item);
-    } else if (item.id) {
+    } else if (item && typeof item === 'object' && 'id' in item && item.id) {
         id = item.id;
     }
 

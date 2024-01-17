@@ -1,48 +1,49 @@
 import React from 'react';
 
+import {KeyCode} from '../../../constants';
 import type {ListItemId, ListState} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
 
 interface UseListKeydownProps extends Partial<Pick<ListState, 'disabledById' | 'activeItemId'>> {
-    flattenIdsOrder: ListItemId[];
+    existedFlattenIds: ListItemId[];
     onItemClick?(itemId: ListItemId): void;
     containerRef?: React.RefObject<HTMLDivElement>;
     setActiveItemId?(id: ListItemId): void;
-    enactive?: boolean;
+    enabled?: boolean;
 }
 
 // Use this hook if you need keyboard support for tree structure lists
 export const useListKeydown = ({
-    flattenIdsOrder,
+    existedFlattenIds,
     onItemClick,
     containerRef,
     disabledById = {},
     activeItemId,
     setActiveItemId,
-    enactive,
+    enabled,
 }: UseListKeydownProps) => {
     const activateItem = React.useCallback(
         (index?: number, scrollTo = true) => {
-            if (typeof index === 'number' && flattenIdsOrder[index]) {
+            if (typeof index === 'number' && existedFlattenIds[index]) {
                 if (scrollTo) {
-                    scrollToListItem(flattenIdsOrder[index], containerRef?.current);
+                    scrollToListItem(existedFlattenIds[index], containerRef?.current);
                 }
 
-                setActiveItemId?.(flattenIdsOrder[index]);
+                setActiveItemId?.(existedFlattenIds[index]);
             }
         },
-        [containerRef, flattenIdsOrder, setActiveItemId],
+        [containerRef, existedFlattenIds, setActiveItemId],
     );
 
     const handleKeyMove = React.useCallback(
         (event: KeyboardEvent, step: number, defaultItemIndex = 0) => {
             event.preventDefault();
 
-            const maybeIndex = flattenIdsOrder.findIndex((i) => i === activeItemId);
+            const maybeIndex = existedFlattenIds.findIndex((i) => i === activeItemId);
 
             const nextIndex = findNextIndex({
-                list: flattenIdsOrder,
+                list: existedFlattenIds,
                 index: (maybeIndex > -1 ? maybeIndex : defaultItemIndex) + step,
                 step: Math.sign(step),
                 disabledItems: disabledById,
@@ -50,28 +51,28 @@ export const useListKeydown = ({
 
             activateItem(nextIndex);
         },
-        [activateItem, activeItemId, disabledById, flattenIdsOrder],
+        [activateItem, activeItemId, disabledById, existedFlattenIds],
     );
 
     React.useLayoutEffect(() => {
         const anchor = containerRef?.current;
 
-        if (enactive || !anchor) {
+        if (enabled || !anchor) {
             return undefined;
         }
 
         const handleKeyDown = (event: KeyboardEvent) => {
             switch (event.key) {
-                case 'ArrowDown': {
+                case KeyCode.ARROW_DOWN: {
                     handleKeyMove(event, 1, -1);
                     break;
                 }
-                case 'ArrowUp': {
+                case KeyCode.ARROW_UP: {
                     handleKeyMove(event, -1);
                     break;
                 }
-                case ' ':
-                case 'Enter': {
+                case KeyCode.SPACEBAR:
+                case KeyCode.ENTER: {
                     if (activeItemId && !disabledById[activeItemId]) {
                         event.preventDefault();
 
@@ -89,5 +90,5 @@ export const useListKeydown = ({
         return () => {
             anchor.removeEventListener('keydown', handleKeyDown);
         };
-    }, [activeItemId, containerRef, disabledById, enactive, handleKeyMove, onItemClick]);
+    }, [activeItemId, containerRef, disabledById, enabled, handleKeyMove, onItemClick]);
 };

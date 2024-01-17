@@ -56,17 +56,17 @@ export const WithFiltrationAndControlsExample = ({
                         autoFocus
                         hasClear
                         placeholder="Type for search..."
-                        className={spacing({p: 2})}
+                        className={spacing({px: 2, py: 1})}
                         style={{boxSizing: 'border-box'}}
                         autoComplete="off"
                         value={filterState.filter}
-                        onUpdate={filterState.onChange}
+                        onUpdate={filterState.onFilterUpdate}
                         ref={filterState.filterRef}
                     />
                 }
                 renderContainer={renderContainer}
                 slotAfterListBody={
-                    <Flex gap="2" className={spacing({p: 2})}>
+                    <Flex gap="2" className={spacing({px: 2, py: 1})}>
                         <Button
                             width="max"
                             onClick={() => {

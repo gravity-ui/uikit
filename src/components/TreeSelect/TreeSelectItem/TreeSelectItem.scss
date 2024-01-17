@@ -1,0 +1,7 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}tree-select-item';
+
+#{$block} {
+    padding: 0 4px;
+}

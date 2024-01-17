@@ -3,10 +3,10 @@ import type {ListItemId} from '../types';
 
 export const scrollToListItem = (
     itemId: ListItemId,
-    containerRef?: HTMLDivElement | HTMLUListElement | null,
+    containerElement?: HTMLDivElement | HTMLUListElement | null,
 ) => {
     if (document) {
-        const element = (containerRef || document).querySelector(
+        const element = (containerElement || document).querySelector(
             `[${LIST_ITEM_DATA_ATR}="${itemId}"]`,
         );
 

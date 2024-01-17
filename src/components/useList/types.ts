@@ -1,6 +1,6 @@
 export type ListItemId = string;
 
-export type ListSizeTypes = 's' | 'm' | 'l' | 'xl';
+export type ListItemSizeType = 's' | 'm' | 'l' | 'xl';
 interface ListItemInitialProps {
     /**
      * If you need to control the state from the outside,
@@ -21,7 +21,7 @@ interface ListItemInitialProps {
     expanded?: boolean;
 }
 
-export type ListFlattenItemType<T> = T & ListItemInitialProps;
+export type ListFlattenItemType<T> = T extends {} ? T & ListItemInitialProps : T;
 
 export interface ListTreeItemType<T> extends ListItemInitialProps {
     data: T;
@@ -34,7 +34,7 @@ export type GroupParsedState = {
     childrenIds: ListItemId[];
 };
 
-export type ItemParsedState = {
+export type ItemState = {
     parentId?: ListItemId;
     indentation: number;
 };
@@ -54,7 +54,7 @@ export interface OverrideItemContext {
 }
 
 export type RenderItemContext = {
-    itemState: ItemParsedState;
+    itemState: ItemState;
     /**
      * Exists if item is group
      */
@@ -63,7 +63,7 @@ export type RenderItemContext = {
 };
 
 export type RenderItemState = {
-    size: ListSizeTypes;
+    size: ListItemSizeType;
     id: ListItemId;
     onClick?(): void;
     selected: boolean;
@@ -79,11 +79,11 @@ export type ParsedState<T> = {
      * Stored internal meta info about item
      * Note: Groups are also items
      */
-    itemsState: Record<ListItemId, ItemParsedState>;
+    itemsState: Record<ListItemId, ItemState>;
     /**
      * Normalized original data
      */
-    byId: Record<ListItemId, T>;
+    itemsById: Record<ListItemId, T>;
     /**
      * Stored info about group items:
      */
@@ -99,5 +99,5 @@ export type ListState = {
 
 export type ListParsedState<T> = ParsedState<T> & {
     items: ListItemType<T>[];
-    flattenIdsOrder: ListItemId[];
+    existedFlattenIds: ListItemId[];
 };

@@ -4,18 +4,17 @@ import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
 
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
-import {borderRadius} from '../../../borderRadius';
 import {Flex, FlexProps, spacing} from '../../../layout';
 import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
-import type {ListItemId, ListSizeTypes} from '../../types';
+import type {ListItemId, ListItemSizeType} from '../../types';
 
 import './ListItemView.scss';
 
 const b = block('list-item-view');
 
-export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'li'>, 'title'> {
+export interface ListItemViewProps extends QAProps {
     /**
      * Ability to override default html tag
      */
@@ -23,7 +22,7 @@ export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'l
     /**
      * @default `m`
      */
-    size?: ListSizeTypes;
+    size?: ListItemSizeType;
     height?: number;
     selected?: boolean;
     active?: boolean;
@@ -49,8 +48,8 @@ export interface ListItemViewProps extends QAProps, Omit<React.HTMLAttributes<'l
     subtitle?: React.ReactNode;
     startSlot?: React.ReactNode;
     endSlot?: React.ReactNode;
-    corners?: boolean;
     className?: string;
+    role?: React.AriaRole;
     expanded?: boolean;
     /**
      * `[${LIST_ITEM_DATA_ATR}="${id}"]` data attribute to find element.
@@ -82,12 +81,11 @@ export const ListItemView = React.forwardRef(
     (
         {
             id,
-            as = 'li',
+            as = 'div',
             size = 'm',
             active,
             selected,
             disabled,
-            corners = true,
             activeOnHover = true,
             className,
             hasSelectionIcon = true,
@@ -99,6 +97,7 @@ export const ListItemView = React.forwardRef(
             height,
             expanded,
             style,
+            role = 'listitem',
             onClick: _onClick,
             ...rest
         }: ListItemViewProps,
@@ -109,6 +108,7 @@ export const ListItemView = React.forwardRef(
 
         return (
             <Flex
+                role={role}
                 aria-selected={selected}
                 onClick={onClick}
                 className={b(
@@ -116,9 +116,10 @@ export const ListItemView = React.forwardRef(
                         active,
                         selected: selected && !hasSelectionIcon,
                         activeOnHover,
+                        radius: size,
                         clickable: Boolean(onClick),
                     },
-                    spacing({px: 2}, corners ? borderRadius({size}, className) : className),
+                    spacing({px: 2}, className),
                 )}
                 style={{
                     height: height ?? modToHeight[size][Number(Boolean(subtitle))],

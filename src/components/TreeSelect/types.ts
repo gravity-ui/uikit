@@ -4,9 +4,9 @@ import type {QAProps} from '../types';
 import type {
     KnownItemStructure,
     ListItemId,
+    ListItemSizeType,
     ListItemType,
     ListParsedState,
-    ListSizeTypes,
     ListState,
     OverrideItemContext,
     RenderItemContext,
@@ -18,7 +18,7 @@ export type RenderControlProps = {
     toggleOpen(): void;
     clearValue(): void;
     ref: React.Ref<HTMLButtonElement>;
-    size: ListSizeTypes;
+    size: ListItemSizeType;
     value: ListItemId[];
     id: string;
     activeItemId?: ListItemId;
@@ -36,9 +36,10 @@ export type RenderItem<T> = (
 export type RenderContainerProps<T> = ListParsedState<T> &
     ListState & {
         id: string;
-        size: ListSizeTypes;
+        size: ListItemSizeType;
         renderItem(id: ListItemId, renderContextProps?: Object): React.JSX.Element;
         containerRef: React.RefObject<HTMLDivElement>;
+        className?: string;
     };
 
 interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
@@ -63,7 +64,11 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
      * @default - 'expandable
      */
     groupsBehavior?: 'expandable' | 'selectable';
-    size: ListSizeTypes;
+    /**
+     * List popup has fixes size - 6px. This prop is used to control only list item size view.
+     * To override popup border radius use `popupClassName` class
+     */
+    size: ListItemSizeType;
     /**
      * Use slots if you don't need access to internal TreeListState.
      * In other situations use `renderContainer` method

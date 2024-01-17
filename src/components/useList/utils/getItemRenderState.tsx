@@ -1,8 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import type {
     ListItemId,
+    ListItemSizeType,
     ListParsedState,
-    ListSizeTypes,
     ListState,
     RenderItemContext,
     RenderItemState,
@@ -10,7 +10,7 @@ import type {
 
 type ItemRendererProps<T> = ListState &
     ListParsedState<T> & {
-        size?: ListSizeTypes;
+        size?: ListItemSizeType;
         id: ListItemId;
         onItemClick?(id: ListItemId): void;
     };
@@ -20,12 +20,12 @@ type ItemRendererProps<T> = ListState &
  */
 export const getItemRenderState = <T,>(
     {
-        byId,
+        itemsById,
         disabledById,
         expandedById,
         groupsState,
         onItemClick,
-        flattenIdsOrder,
+        existedFlattenIds,
         size = 'm',
         itemsState,
         selectedById,
@@ -34,10 +34,10 @@ export const getItemRenderState = <T,>(
     }: ItemRendererProps<T>,
     {defaultExpanded = true}: {defaultExpanded?: boolean} = {},
 ) => {
-    const listContext: RenderItemContext = {
+    const context: RenderItemContext = {
         itemState: itemsState[id],
         groupState: groupsState[id],
-        isLastItem: id === flattenIdsOrder[flattenIdsOrder.length - 1],
+        isLastItem: id === existedFlattenIds[existedFlattenIds.length - 1],
     };
 
     let expanded;
@@ -52,11 +52,11 @@ export const getItemRenderState = <T,>(
         size,
         expanded,
         active: id === activeItemId,
-        indentation: listContext.itemState.indentation,
+        indentation: context.itemState.indentation,
         disabled: disabledById[id],
         selected: selectedById[id],
         onClick: onItemClick ? () => onItemClick(id) : undefined,
     };
 
-    return [byId[id], stateProps, listContext] as const;
+    return {data: itemsById[id], props: stateProps, context};
 };

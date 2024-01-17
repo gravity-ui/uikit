@@ -52,29 +52,33 @@ function List() {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     const listState = useListState();
-    const parsedListState = useList({
+    const list = useList({
         items,
-        expandedById: listState.expandedById,
+        ...listState,
     });
 
     useListKeydown({
         onItemClick,
         containerRef,
-        ...parsedListState,
+        ...list,
         ...listState,
     });
 
     return (
         <ListContainerView ref={containerRef}>
-            {parsedListState.items.map((_, i) => {
-                const [itemData, computedItemProps, _listContext] = getItemRenderState({
+            {list.items.map((_, i) => {
+                const {
+                    data,
+                    props,
+                    context: _context,
+                } = getItemRenderState({
                     id: String(i),
                     onItemClick,
-                    ...parsedListState,
+                    ...list,
                     ...listState,
                 });
 
-                return <ListItemView key={i} {...computedItemProps} title={itemData} />;
+                return <ListItemView key={i} {...props} title={data} />;
             })}
         </ListContainerView>
     );
@@ -103,7 +107,7 @@ function List() {
     // same as prev example
     return (
         <ListContainerView ref={containerRef}>
-            {parsedListState.items.map((item, index) => (
+            {list.items.map((item, index) => (
                 <ListItemRecursiveRenderer
                     key={index}
                     itemSchema={item}
@@ -111,14 +115,18 @@ function List() {
                     expandedById={expandedById}
                 >
                     {(id) => {
-                        const [itemData, computedItemProps, _listContext] = getItemRenderState({
+                        const {
+                            data,
+                            props,
+                            context: _context,
+                        } = getItemRenderState({
                             id: String(i),
                             onItemClick,
-                            ...parsedListState,
+                            ...list,
                             ...listState,
                         });
 
-                        return <ListItemView {...computedItemProps} title={itemData} />;
+                        return <ListItemView {...props} title={data} />;
                     }}
                 </ListItemRecursiveRenderer>
             ))}
@@ -168,7 +176,7 @@ interface ListTreeItemType<T> extends ListItemInitialProps {
 export type ListItemType<T> = ListTreeItemType<T> | ListFlattenItemType<T>;
 ```
 
--   `expandedById` - state for open/closed `List` elements. Affects the formation of the `flattenIdsOrder` - if the element id in this object is set to `false` - all elements of this group and all nested groups will not be present in the final ids order;
+-   `expandedById` - state for open/closed `List` elements. Affects the formation of the `existedFlattenIds` - if the element id in this object is set to `false` - all elements of this group and all nested groups will not be present in the final ids order;
 -   `getId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
 
 ```tsx
@@ -178,7 +186,7 @@ const items = [
 ];
 
 /**
- * byId: {
+ * itemsById: {
  *  'id-1': {id: 'id-1', title: 'some title 1'},
  *  'id-2': {id: 'id-2', title: 'some title 2'},
  * }
@@ -197,12 +205,12 @@ const {byid} = useList({
     -   `parentId` - Id of the parent element, if there is a parent;
     -   `indentation` - Nesting level;
 
--   `byId` - normalized representation of list items:
+-   `itemsById` - normalized representation of list items:
 
         ```tsx
         export type ParsedState<T> = {
             // ...
-            byId: Record<ListItemId, T>;
+            itemsById: Record<ListItemId, T>;
             // ...
         };
 
@@ -211,7 +219,7 @@ const {byid} = useList({
             {data: {title: 'title-2'}, children: []},
         ];
         // ->
-        const byId: {
+        const itemsById: {
             0: {title: 'title-1'};
             '0-0': {title: 'title-1-1'};
             1: {title: 'title-2'};
@@ -222,7 +230,7 @@ const {byid} = useList({
 
 -   `groupsState` - a normalized representation of metadata about a group if the item is both a list item and a group:
     -   `childrenIds` - list of child element IDs;
--   `flattenIdsOrder` - sequential representation of list items by id, taking into account invisible elements inside collapsed groups;
+-   `existedFlattenIds` - sequential representation of list items by id, taking into account invisible elements inside collapsed groups;
 
 ### useListKeydown
 
@@ -232,24 +240,24 @@ Keyboard support
 
 -   `disabledById` - key-value representation of disabled elements that do not need to be taken into account when navigating through the `List`;
 -   `activeItemId` - current active item `id`;
--   `flattenIdsOrder` - a flat list of elements to be navigated through; Collapsed groups must be taken into account in this array;
+-   `existedFlattenIds` - a flat list of elements to be navigated through; Collapsed groups must be taken into account in this array;
 -   `onItemClick` - callback will be called when pressing the `Enter`, `Space` keys;
 -   `containerRef` - a reference to the DOM element of the List container inside which to search for its elements;
 -   `setActiveItemId` - Callback for setting the current active element;
--   `enactive` - on/off keyboard support. Use it if you need to change the behavior in runtime;
+-   `enabled` - on/off keyboard support. Use it if you need to change the behavior in runtime;
 
 ```tsx
 const containerRef = React.useRef<HTMLDivElement>(null);
-const parsedListState = useListState()
-const parsedListState = useList(...)
+const listState = useListState()
+const list = useList(...)
 
 const handleItemClick = () => {...};
 
 useListKeydown({
     onItemClick: handleItemClick,
     containerRef,
+    ...list,
     ...listState,
-    ...parsedListState,
 })
 ```
 
@@ -269,21 +277,25 @@ useListKeydown({
 -   `filter` - current filter value;
 -   `reset` - method for resetting the filter value;
 -   `items` - list of filtered sheet elements `listItemType<T>[]`;
--   `onChange` - callback for changing the filter value;
+-   `onFilterUpdate` - callback for changing the filter value;
 
 ```tsx
 const List = () => {
-    const {items, reset: _reset, ...conponentProps} = useListFilter({
+    const {items, filter, onFilterUpdate, filterRef} = useListFilter({
         items: [...]
     })
 
-    const parsedListState = useList({
+    const list = useList({
         items,
     })
 
     return (
         <>
-            <TextField {...conponentProps} />
+            <TextField
+                value={filter}
+                onUpdate={onFilterUpdate}
+                ref={filterRef}
+            />
         </>
     )
 }
@@ -411,7 +423,7 @@ For the virtualized version of the list, you need to implement a component with 
             index={index}
             expandedById={expandedById}
         >
-            {(id) => <ListItemView key={id} id={id} title={byId[id].title} />}
+            {(id) => <ListItemView key={id} id={id} title={itemsById[id].title} />}
         </ListItemRecursiveRenderer>
     ))}
 </ListContainerView>
@@ -425,13 +437,13 @@ Utility to compute list item height:
 
 ```tsx
 <VirtualizedListContainer // custom implementation
-    items={flattenIdsOrder}
+    items={existedFlattenIds}
     itemSize={(index) =>
         computeItemSize(
             // list size
             size,
             // has subrows
-            Boolean(get(byId[flattenIdsOrder[index]], 'subtitle')),
+            Boolean(get(itemsById[existedFlattenIds[index]], 'subtitle')),
         )
     }
 />
@@ -447,7 +459,7 @@ const containerRef = React.useRef<HTMLDivElement>(null);
 React.useLayoutEffect(() => {
     if (open) {
         containerRef.current?.focus();
-        listState.setActiveItemId(selectedId ?? listParsedState.flattenIdsOrder[0]);
+        listState.setActiveItemId(selectedId ?? list.existedFlattenIds[0]);
 
         if (selectedId) {
             scrollToListItem(selectedId, containerRef.current);
@@ -493,21 +505,24 @@ item = T
     -   `isLastItem` - if item is last in the list. Useful in cases than you need to do somthing on last item appears. For example, implement custom infinity lists variants
 
 ```tsx
-const listParsedState = useList();
 const listState = useListState();
+const list = useList({
+    items,
+    ...listState,
+});
 const handleItemClick = () => {};
 
 <ListItemRecursiveRenderer>
     {(id) => {
-        const [data, stateProps, _listContext] = getItemRenderState({
+        const {data, props} = getItemRenderState({
             id,
             size, // list size
             onItemClick: handleItemClick,
-            ...listParsedState,
+            ...list,
             ...listState,
         });
 
-        return <ListItemView {...stateProps} title={data.title} />;
+        return <ListItemView {...props} title={data.title} />;
     }}
 </ListItemRecursiveRenderer>;
 ```

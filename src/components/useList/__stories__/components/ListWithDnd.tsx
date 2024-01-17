@@ -19,14 +19,14 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListSizeTypes} from '../../types';
+import type {ListItemId, ListItemSizeType} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
 import {reorderArray} from '../utils/reorderArray';
 
 export interface ListWithDndProps {
     itemsCount: number;
-    size: ListSizeTypes;
+    size: ListItemSizeType;
 }
 
 export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
@@ -40,13 +40,14 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
 
     const listState = useListState();
 
-    const listParsedState = useList({
+    const list = useList({
         items: filterState.items,
+        ...listState,
     });
 
     const onItemClick = React.useCallback(
         (id: ListItemId) => {
-            if (id in listParsedState.groupsState) {
+            if (id in list.groupsState) {
                 listState.setExpanded((state) => ({
                     ...state,
                     [id]: id in state ? !state[id] : false,
@@ -60,13 +61,13 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
 
             listState.setActiveItemId(id);
         },
-        [listParsedState.groupsState, listState],
+        [list.groupsState, listState],
     );
 
     useListKeydown({
         containerRef,
         onItemClick,
-        ...listParsedState,
+        ...list,
         ...listState,
     });
 
@@ -75,7 +76,7 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
             <TextInput
                 autoComplete="off"
                 value={filterState.filter}
-                onUpdate={filterState.onChange}
+                onUpdate={filterState.onFilterUpdate}
                 ref={filterState.filterRef}
             />
             <DragDropContext
@@ -89,12 +90,12 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                     {(droppableProvided: DroppableProvided) => (
                         <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
                             <ListContainerView ref={containerRef}>
-                                {listParsedState.flattenIdsOrder.map((id, index) => {
-                                    const [data, state, _listContext] = getItemRenderState({
+                                {list.existedFlattenIds.map((id, index) => {
+                                    const {data, props} = getItemRenderState({
                                         id,
                                         size,
                                         onItemClick,
-                                        ...listParsedState,
+                                        ...list,
                                         ...listState,
                                     });
 
@@ -109,7 +110,7 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                                                 snapshot: DraggableStateSnapshot,
                                             ) => (
                                                 <ListItemView
-                                                    {...state}
+                                                    {...props}
                                                     {...data}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}

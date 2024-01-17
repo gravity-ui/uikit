@@ -14,18 +14,19 @@ import {
 
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
-import {ListContainerView, ListItemView, ListItemViewProps} from '../../../useList';
+import {ListContainerView} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
 import {TreeSelect} from '../../TreeSelect';
+import {TreeSelectItem, TreeSelectItemProps} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
 const DraggableListItem = ({
     provided,
     ...props
-}: {provided?: DraggableProvided} & ListItemViewProps) => {
+}: {provided?: DraggableProvided} & TreeSelectItemProps) => {
     return (
-        <ListItemView
+        <TreeSelectItem
             {...provided?.dragHandleProps}
             {...provided?.draggableProps}
             ref={provided?.innerRef}
@@ -60,7 +61,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                         setValue([id]);
                     }
                 }}
-                renderContainer={({renderItem, flattenIdsOrder, containerRef, id}) => {
+                renderContainer={({renderItem, existedFlattenIds, containerRef, id}) => {
                     return (
                         <DragDropContext onDragEnd={handleDrugEnd}>
                             <Droppable
@@ -70,7 +71,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                     snapshot: DraggableStateSnapshot,
                                     rubric: DraggableRubric,
                                 ) => {
-                                    return renderItem(flattenIdsOrder[rubric.source.index], {
+                                    return renderItem(existedFlattenIds[rubric.source.index], {
                                         provided,
                                         active: snapshot.isDragging,
                                     });
@@ -82,7 +83,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
                                         >
-                                            {flattenIdsOrder.map((id) => renderItem(id))}
+                                            {existedFlattenIds.map((id) => renderItem(id))}
                                             {droppableProvided.placeholder}
                                         </div>
                                     </ListContainerView>

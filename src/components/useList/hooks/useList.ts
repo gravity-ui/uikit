@@ -1,32 +1,36 @@
 /* eslint-disable valid-jsdoc */
-import type {ListItemId, ListItemType, ListParsedState} from '../types';
+import type {ListItemId, ListItemType, ListParsedState, ListState} from '../types';
 
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
 
-interface UseListProps<T> {
+export interface UseListProps<T> extends Partial<ListState> {
     items: ListItemType<T>[];
     /**
      * Control expanded items state from external source
      */
-    expandedById?: Record<ListItemId, boolean>;
     getId?(item: T): ListItemId;
 }
+
+export type UseListResult<T> = ListParsedState<T>;
 
 /**
  * Take array of items as a argument and returns parsed representation of this data structure to work with
  */
-export const useList = <T>({items, expandedById, getId}: UseListProps<T>): ListParsedState<T> => {
-    const {byId, groupsState, itemsState} = useListParsedState({
+export const useList = <T>({items, expandedById, getId}: UseListProps<T>): UseListResult<T> => {
+    const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
         items,
         getId,
     });
 
-    const flattenIdsOrder = useFlattenListItems({
+    const existedFlattenIds = useFlattenListItems({
         items,
-        expandedById,
+        /**
+         * By default controlled from list items declaration state
+         */
+        expandedById: expandedById || initialState.expandedById,
         getId,
     });
 
-    return {items, flattenIdsOrder, byId, groupsState, itemsState};
+    return {items, existedFlattenIds, itemsById, groupsState, itemsState};
 };

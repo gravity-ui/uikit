@@ -9,13 +9,13 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListSizeTypes} from '../../types';
+import type {ListItemId, ListItemSizeType} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
 
 export interface RecursiveListProps {
     itemsCount: number;
-    size: ListSizeTypes;
+    size: ListItemSizeType;
 }
 
 export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
@@ -30,14 +30,14 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
 
     const listState = useListState();
 
-    const listParsedState = useList({
+    const list = useList({
         items: filterState.items,
-        expandedById: listState.expandedById,
+        ...listState,
     });
 
     const onItemClick = React.useCallback(
         (id: ListItemId) => {
-            if (id in listParsedState.groupsState) {
+            if (id in list.groupsState) {
                 listState.setExpanded((state) => ({
                     ...state,
                     [id]: id in state ? !state[id] : false,
@@ -52,13 +52,13 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
 
             listState.setActiveItemId(id);
         },
-        [listParsedState.groupsState, listState],
+        [list.groupsState, listState],
     );
 
     useListKeydown({
         containerRef,
         onItemClick,
-        ...listParsedState,
+        ...list,
         ...listState,
     });
 
@@ -67,7 +67,7 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
             <TextInput
                 autoComplete="off"
                 value={filterState.filter}
-                onUpdate={filterState.onChange}
+                onUpdate={filterState.onFilterUpdate}
                 ref={filterState.filterRef}
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
@@ -81,19 +81,19 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
                         expandedById={listState.expandedById}
                     >
                         {(id) => {
-                            const [data, state, listContext] = getItemRenderState({
+                            const {data, props, context} = getItemRenderState({
                                 id,
                                 size,
                                 onItemClick,
-                                ...listParsedState,
+                                ...list,
                                 ...listState,
                             });
 
                             return (
                                 <ListItemView
-                                    {...state}
+                                    {...props}
                                     {...data}
-                                    hasSelectionIcon={!listContext.groupState}
+                                    hasSelectionIcon={!context.groupState}
                                 />
                             );
                         }}

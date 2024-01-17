@@ -9,24 +9,30 @@ import './ListContainerView.scss';
 
 const b = block('list-container-view');
 
-export interface ListContainerViewProps extends QAProps, React.HTMLAttributes<'div'> {
+export interface ListContainerViewProps extends QAProps {
+    /**
+     * Ability to override default html tag
+     */
+    as?: keyof JSX.IntrinsicElements;
     id?: string;
+    role?: React.AriaRole;
     className?: string;
     /**
      * Removes `overflow: auto` from container and set fixed container size (`--g-list-height` = `300px`)
      */
     fixedHeight?: boolean;
     children: React.ReactNode;
+    extraProps?: React.HTMLAttributes<'div'>;
 }
 
 export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerViewProps>(
     function ListContainerView(
-        {role = 'listbox', children, id, className, fixedHeight, ...props},
+        {as = 'div', role = 'listbox', children, id, className, fixedHeight, extraProps},
         ref,
     ) {
         return (
             <Flex
-                as="div"
+                as={as}
                 direction="column"
                 ref={ref}
                 grow
@@ -34,7 +40,7 @@ export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerV
                 id={id}
                 role={role}
                 className={b({'fixed-height': fixedHeight}, className)}
-                {...props}
+                {...extraProps}
             >
                 {children}
             </Flex>

@@ -10,7 +10,7 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListSizeTypes} from '../../types';
+import type {ListItemId, ListItemSizeType} from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
@@ -19,7 +19,7 @@ import {VirtualizedListContainer} from './VirtualizedListContainer';
 
 export interface FlattenListProps {
     itemsCount: number;
-    size: ListSizeTypes;
+    size: ListItemSizeType;
 }
 
 export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
@@ -33,14 +33,14 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
     const listState = useListState();
 
-    const listParsedState = useList({
+    const list = useList({
         items: filterState.items,
-        expandedById: listState.expandedById,
+        ...listState,
     });
 
     const onItemClick = React.useCallback(
         (id: ListItemId) => {
-            if (id in listParsedState.groupsState) {
+            if (id in list.groupsState) {
                 listState.setExpanded((state) => ({
                     ...state,
                     [id]: id in state ? !state[id] : false,
@@ -54,13 +54,13 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
             listState.setActiveItemId(id);
         },
-        [listParsedState, listState],
+        [list, listState],
     );
 
     useListKeydown({
         containerRef,
         onItemClick,
-        ...listParsedState,
+        ...list,
         ...listState,
     });
 
@@ -69,38 +69,33 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
             <TextInput
                 autoComplete="off"
                 value={filterState.filter}
-                onUpdate={filterState.onChange}
+                onUpdate={filterState.onFilterUpdate}
                 ref={filterState.filterRef}
             />
 
             <ListContainerView ref={containerRef}>
                 <VirtualizedListContainer
-                    items={listParsedState.flattenIdsOrder}
+                    items={list.existedFlattenIds}
                     itemSize={(index) =>
                         computeItemSize(
                             size,
-                            Boolean(
-                                get(
-                                    listParsedState.byId[listParsedState.flattenIdsOrder[index]],
-                                    'subtitle',
-                                ),
-                            ),
+                            Boolean(get(list.itemsById[list.existedFlattenIds[index]], 'subtitle')),
                         )
                     }
                 >
                     {(id) => {
-                        const [item, state, listContext] = getItemRenderState({
+                        const {data, props, context} = getItemRenderState({
                             id,
                             size,
                             onItemClick,
-                            ...listParsedState,
+                            ...list,
                             ...listState,
                         });
                         return (
                             <ListItemView
-                                {...state}
-                                {...item}
-                                hasSelectionIcon={!listContext.groupState}
+                                {...props}
+                                {...data}
+                                hasSelectionIcon={!context.groupState}
                             />
                         );
                     }}

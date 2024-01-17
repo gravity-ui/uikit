@@ -8,7 +8,7 @@ $block: '.#{variables.$ns}list-container-view';
     outline: none;
 
     &_fixed-height {
-        height: var(--g-list-height, 300px);
+        height: var(--g-list-container-height, 300px);
     }
 
     &:not(#{$block}_fixed-height) {

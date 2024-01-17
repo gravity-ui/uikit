@@ -45,7 +45,7 @@ describe('getListParsedState', () => {
                     '1-1': false,
                 },
             },
-            byId: {
+            itemsById: {
                 0: {title: 'item-0'},
                 1: {title: 'item-1'},
                 '1-0': {title: 'child-1-1'},
@@ -100,7 +100,7 @@ describe('getListParsedState', () => {
                 },
                 expandedById: {},
             },
-            byId: {
+            itemsById: {
                 0: {
                     a: 'item-1',
                     children: [],
@@ -151,7 +151,7 @@ describe('getListParsedState', () => {
                     'id-4': false,
                 },
             },
-            byId: {
+            itemsById: {
                 'id-1': {title: 'item-0', id: 'id-1'},
                 'id-2': {title: 'item-1', id: 'id-2'},
                 'id-3': {title: 'child-1-1', id: 'id-3'},

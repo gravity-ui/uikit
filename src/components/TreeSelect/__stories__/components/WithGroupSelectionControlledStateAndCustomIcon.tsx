@@ -5,14 +5,10 @@ import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icon
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {
-    type KnownItemStructure,
-    ListItemId,
-    ListItemView,
-    getListParsedState,
-} from '../../../useList';
+import {type KnownItemStructure, ListItemId, getListParsedState} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
+import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
 /**
@@ -55,11 +51,10 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                 size="l"
                 renderControlContent={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
-                popupClassName={spacing({p: 2})}
                 value={value}
                 renderItem={(item, state, {groupState}) => {
                     return (
-                        <ListItemView
+                        <TreeSelectItem
                             {...state}
                             {...mapCustomDataStructureToKnownProps(item)}
                             startSlot={

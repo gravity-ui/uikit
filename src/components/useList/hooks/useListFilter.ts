@@ -29,7 +29,7 @@ interface UseListFilterProps<T> {
  * Ready-to-use logic for filtering tree-like data structures
  * ```tsx
  * const {item: filteredItems,...listFiltration} = useListFIlter({items});
- * const listParsedState = useList({items: filteredItems});
+ * const list = useList({items: filteredItems});
  *
  * <TextInput {...listFiltration} />
  * ```
@@ -70,28 +70,29 @@ export function useListFilter<T>({
         setPrevItems(externalItems);
     }
 
-    const reset = React.useCallback(() => {
-        setFilter(initialFilterValue);
-        setItems(externalItems);
-    }, [externalItems, initialFilterValue]);
-
-    const onChange = React.useMemo(() => {
+    const {onFilterUpdate, reset} = React.useMemo(() => {
         const debouncedFn = debounce(
             (value) => setItems(filterItemsFn(value, externalItems)),
             debounceTimeout,
         );
 
-        return (nextFilterValue: string) => {
-            setFilter(nextFilterValue);
-            debouncedFn(nextFilterValue);
+        return {
+            reset: () => {
+                setFilter(initialFilterValue);
+                debouncedFn(initialFilterValue);
+            },
+            onFilterUpdate: (nextFilterValue: string) => {
+                setFilter(nextFilterValue);
+                debouncedFn(nextFilterValue);
+            },
         };
-    }, [debounceTimeout, externalItems, filterItemsFn]);
+    }, [debounceTimeout, externalItems, filterItemsFn, initialFilterValue]);
 
     return {
         filterRef,
         filter,
         reset,
         items,
-        onChange,
+        onFilterUpdate,
     };
 }

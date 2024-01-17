@@ -2,7 +2,6 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
-import {borderRadius} from '../../../borderRadius';
 import {Flex} from '../../../layout';
 import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
 import {ListItemView} from '../../components/ListItemView/ListItemView';
@@ -10,14 +9,14 @@ import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/
 import {useList} from '../../hooks/useList';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListSizeTypes} from '../../types';
+import type {ListItemId, ListItemSizeType} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {scrollToListItem} from '../../utils/scrollToListItem';
 import {createRandomizedData} from '../utils/makeData';
 
 export interface PopupWithTogglerListProps {
     itemsCount: number;
-    size: ListSizeTypes;
+    size: ListItemSizeType;
 }
 
 const COMPONENT_WIDTH = 300;
@@ -34,9 +33,9 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
 
     const listState = useListState();
 
-    const listParsedState = useList({
+    const list = useList({
         items,
-        expandedById: listState.expandedById,
+        ...listState,
     });
 
     const [selectedId] = React.useMemo(
@@ -48,7 +47,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     React.useLayoutEffect(() => {
         if (open) {
             containerRef.current?.focus();
-            listState.setActiveItemId(selectedId ?? listParsedState.flattenIdsOrder[0]);
+            listState.setActiveItemId(selectedId ?? list.existedFlattenIds[0]);
 
             if (selectedId) {
                 scrollToListItem(selectedId, containerRef.current);
@@ -59,7 +58,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     }, [open]);
 
     const onItemClick = (id: ListItemId) => {
-        if (id in listParsedState.groupsState) {
+        if (id in list.groupsState) {
             listState.setExpanded((state) => ({
                 ...state,
                 [id]: id in state ? !state[id] : false,
@@ -78,18 +77,17 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     useListKeydown({
         containerRef,
         onItemClick,
-        ...listParsedState,
+        ...list,
         ...listState,
     });
 
     return (
         <Flex direction="column" gap="5" width={COMPONENT_WIDTH} ref={controlWrapRef}>
             <Button ref={controlRef} onClick={() => setOpen((x) => !x)} width="max">
-                {selectedId ? listParsedState.byId[selectedId]?.title : 'Select person'}
+                {selectedId ? list.itemsById[selectedId]?.title : 'Select person'}
             </Button>
             <Popup
-                style={{width: COMPONENT_WIDTH, height: '80vh', overflow: 'auto'}}
-                contentClassName={borderRadius({size})}
+                style={{width: COMPONENT_WIDTH, height: '80vh', overflow: 'auto', borderRadius: 6}}
                 anchorRef={controlWrapRef as React.RefObject<HTMLDivElement>}
                 placement={['bottom-start', 'bottom-end', 'top-start', 'top-end']}
                 offset={[0, 10]}
@@ -108,19 +106,19 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                             expandedById={listState.expandedById}
                         >
                             {(id) => {
-                                const [data, state, listContext] = getItemRenderState({
+                                const {data, props, context} = getItemRenderState({
                                     id,
                                     size,
                                     onItemClick,
-                                    ...listParsedState,
+                                    ...list,
                                     ...listState,
                                 });
 
                                 return (
                                     <ListItemView
-                                        {...state}
+                                        {...props}
                                         {...data}
-                                        hasSelectionIcon={!listContext.groupState}
+                                        hasSelectionIcon={!context.groupState}
                                     />
                                 );
                             }}

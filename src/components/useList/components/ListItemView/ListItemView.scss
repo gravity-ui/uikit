@@ -20,6 +20,19 @@ $block: '.#{variables.$ns}list-item-view';
         background: var(--g-color-base-selection);
     }
 
+    &_radius_s {
+        border-radius: var(--g-list-item-border-radius-s, 3px);
+    }
+    &_radius_m {
+        border-radius: var(--g-list-item-border-radius-m, 6px);
+    }
+    &_radius_l {
+        border-radius: var(--g-list-item-border-radius-l, 8px);
+    }
+    &_radius_xl {
+        border-radius: var(--g-list-item-border-radius-xl, 8px);
+    }
+
     &__slot {
         &_indent_1 {
             width: 16px;

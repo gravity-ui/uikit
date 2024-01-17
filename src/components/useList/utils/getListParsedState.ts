@@ -44,7 +44,7 @@ export function getListParsedState<T>(
     }
 
     const result: ListParsedStateResult<T> = {
-        byId: {},
+        itemsById: {},
         groupsState: {},
         itemsState: {},
         initialState: {
@@ -57,7 +57,7 @@ export function getListParsedState<T>(
     const traverseItem = ({item, index}: TraverseItemProps<T>) => {
         const id = getListItemId({groupedId: String(index), item, getId});
 
-        result.byId[id] = item;
+        result.itemsById[id] = item;
 
         if (!result.itemsState[id]) {
             result.itemsState[id] = {
@@ -65,12 +65,14 @@ export function getListParsedState<T>(
             };
         }
 
-        if (typeof item.selected !== 'undefined') {
-            result.initialState.selectedById[id] = item.selected;
-        }
+        if (item && typeof item === 'object') {
+            if ('selected' in item && typeof item.selected === 'boolean') {
+                result.initialState.selectedById[id] = item.selected;
+            }
 
-        if (typeof item.disabled !== 'undefined') {
-            result.initialState.disabledById[id] = item.disabled;
+            if ('disabled' in item && typeof item.disabled === 'boolean') {
+                result.initialState.disabledById[id] = item.disabled;
+            }
         }
     };
 
@@ -87,7 +89,7 @@ export function getListParsedState<T>(
             result.groupsState[parentId].childrenIds.push(id);
         }
 
-        result.byId[id] = item.data;
+        result.itemsById[id] = item.data;
 
         if (!result.itemsState[id]) {
             result.itemsState[id] = {

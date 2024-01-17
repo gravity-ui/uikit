@@ -66,7 +66,6 @@ const WithGroupSelectionControlledStateAndCustomIconTemplate: StoryFn<
 export const WithGroupSelectionControlledStateAndCustomIcon =
     WithGroupSelectionControlledStateAndCustomIconTemplate.bind({});
 WithGroupSelectionControlledStateAndCustomIcon.args = {
-    multiple: true,
     groupsBehavior: 'selectable',
 };
 

@@ -11,14 +11,14 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListSizeTypes} from '../../types';
+import type {ListItemId, ListItemSizeType} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {useInfinityFetch} from '../utils/useInfinityFetch';
 
 import {IntersectionContainer} from './IntersectionContainer/IntersectionContainer';
 
 export interface InfinityScrollListProps {
-    size: ListSizeTypes;
+    size: ListItemSizeType;
 }
 
 export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
@@ -28,12 +28,13 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
 
     const listState = useListState();
 
-    const listParsedState = useList({
+    const list = useList({
         items: filterState.items,
+        ...listState,
     });
 
     const onItemClick = (id: ListItemId) => {
-        if (id in listParsedState.groupsState) {
+        if (id in list.groupsState) {
             listState.setExpanded((state) => ({
                 ...state,
                 [id]: id in state ? !state[id] : false,
@@ -48,7 +49,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
     useListKeydown({
         containerRef,
         onItemClick,
-        ...listParsedState,
+        ...list,
         ...listState,
     });
 
@@ -62,7 +63,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
     const handleAccept = () => {
         alert(
             JSON.stringify(
-                Object.keys(listState.selectedById).map((id) => listParsedState.byId[id]),
+                Object.keys(listState.selectedById).map((id) => list.itemsById[id]),
                 null,
                 2,
             ),
@@ -77,12 +78,12 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                         <TextInput
                             autoComplete="off"
                             value={filterState.filter}
-                            onUpdate={filterState.onChange}
+                            onUpdate={filterState.onFilterUpdate}
                             ref={filterState.filterRef}
                         />
 
                         <ListContainerView ref={containerRef}>
-                            {listParsedState.items.map((item, index) => (
+                            {list.items.map((item, index) => (
                                 <ListItemRecursiveRenderer
                                     itemSchema={item}
                                     key={index}
@@ -90,14 +91,14 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                                     expandedById={listState.expandedById}
                                 >
                                     {(id) => {
-                                        const [data, state, context] = getItemRenderState({
+                                        const {data, props, context} = getItemRenderState({
                                             id,
                                             size,
                                             onItemClick,
-                                            ...listParsedState,
+                                            ...list,
                                             ...listState,
                                         });
-                                        const node = <ListItemView {...state} {...data} />;
+                                        const node = <ListItemView {...props} {...data} />;
 
                                         if (context.isLastItem) {
                                             return (

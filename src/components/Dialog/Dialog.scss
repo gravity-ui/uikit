@@ -7,9 +7,11 @@ $block: '.#{variables.$ns}dialog';
     display: flex;
     flex-direction: column;
 
-    &_with-scroll {
+    &_has-scroll {
         overflow-y: auto;
-        max-height: calc(100vh - var(--yc-modal-margin) * 2);
+        max-height: calc(
+            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin})) * 2
+        );
     }
 
     &_size {

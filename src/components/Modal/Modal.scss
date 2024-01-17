@@ -28,7 +28,7 @@ $modal-default-border-radius: 5px;
 
     &__content-wrapper {
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
-        border-radius: var(--g-modal-border-radius, 5px);
+        border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         overflow-x: hidden;
     }
 

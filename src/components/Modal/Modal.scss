@@ -1,6 +1,7 @@
 @use '../variables';
 
 $block: '.#{variables.$ns}modal';
+$modal-default-border-radius: 5px;
 
 #{$block} {
     display: none;
@@ -27,16 +28,18 @@ $block: '.#{variables.$ns}modal';
 
     &__content-wrapper {
         margin: var(--g-modal-margin, #{variables.$modal-default-margin});
-        border-radius: var(--g-modal-border-radius, #{variables.$modal-default-border-radius});
+        border-radius: var(--g-modal-border-radius, 5px);
         overflow-x: hidden;
     }
 
     &__content {
         background-color: var(--g-color-base-modal);
+        border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
+
         &_has-scroll {
             overflow-y: auto;
             max-height: calc(
-                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin})) * 2
+                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
             );
         }
     }

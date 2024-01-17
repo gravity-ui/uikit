@@ -10,7 +10,7 @@ $block: '.#{variables.$ns}dialog';
     &_has-scroll {
         overflow-y: auto;
         max-height: calc(
-            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin})) * 2
+            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
         );
     }
 

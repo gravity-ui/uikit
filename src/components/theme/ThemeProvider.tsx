@@ -4,6 +4,7 @@ import {block, blockNew} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
+import type {ThemeSettings} from './ThemeSettingsContext';
 import {
     DEFAULT_DARK_THEME,
     DEFAULT_DIRECTION,
@@ -12,7 +13,7 @@ import {
     ROOT_CLASS_NAME,
 } from './constants';
 import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
-import type {Direction, RealTheme, Theme} from './types';
+import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
 import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASS_NAME);
@@ -67,17 +68,17 @@ export function ThemeProvider({
     }, [scoped, themeValue, direction, nativeScrollbar, rootClassName]);
 
     const contextValue = React.useMemo(
-        () => ({
-            theme,
-            themeValue,
-            direction,
-            default: false,
-        }),
+        () =>
+            ({
+                theme,
+                themeValue,
+                direction,
+            } satisfies ThemeContextProps),
         [theme, themeValue, direction],
     );
 
     const themeSettingsContext = React.useMemo(
-        () => ({systemLightTheme, systemDarkTheme}),
+        () => ({systemLightTheme, systemDarkTheme} satisfies ThemeSettings),
         [systemLightTheme, systemDarkTheme],
     );
 

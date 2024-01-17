@@ -9,11 +9,11 @@ const b = block('dialog-body');
 export interface DialogBodyProps {
     children: React.ReactNode;
     className?: string;
-    withDividers?: boolean;
+    hasDividers?: boolean;
 }
 
 export function DialogBody(props: DialogBodyProps) {
-    const {className, withDividers = false} = props;
+    const {className, hasDividers = false} = props;
 
-    return <div className={b({'with-dividers': withDividers}, className)}>{props.children}</div>;
+    return <div className={b({'has-dividers': hasDividers}, className)}>{props.children}</div>;
 }

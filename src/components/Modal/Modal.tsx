@@ -131,8 +131,8 @@ export function Modal({
                 }}
             >
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
-                    <div className={b('content-aligner-wrapper')}>
-                        <div className={b('content-container')}>
+                    <div className={b('content-aligner')}>
+                        <div className={b('content-wrapper')}>
                             <FocusTrap
                                 enabled={!disableFocusTrap && focusTrap && open && !inTransition}
                                 autoFocus={!disableAutoFocus && autoFocus}
@@ -146,7 +146,7 @@ export function Modal({
                                     aria-labelledby={ariaLabelledBy}
                                     className={b(
                                         'content',
-                                        {'with-scroll': contentOverflow === 'auto'},
+                                        {'has-scroll': contentOverflow === 'auto'},
                                         contentClassName,
                                     )}
                                     {...containerProps}

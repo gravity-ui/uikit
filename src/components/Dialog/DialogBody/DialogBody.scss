@@ -7,7 +7,7 @@ $block: '.#{variables.$ns}dialog-body';
     flex: 1 1 auto;
     overflow-y: auto;
 
-    &_with-dividers {
+    &_has-dividers {
         border-block-start: 1px solid var(--g-color-line-generic);
         border-block-end: 1px solid var(--g-color-line-generic);
     }

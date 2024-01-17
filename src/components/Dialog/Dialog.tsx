@@ -126,7 +126,7 @@ export class Dialog extends React.Component<DialogInnerProps> {
                         {
                             size,
                             'has-close': hasCloseButton,
-                            'with-scroll': contentOverflow === 'auto',
+                            'has-scroll': contentOverflow === 'auto',
                         },
                         className,
                     )}

@@ -16,7 +16,7 @@ $block: '.#{variables.$ns}modal';
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-    &__content-aligner-wrapper {
+    &__content-aligner {
         min-width: 100%;
         min-height: 100%;
 
@@ -25,17 +25,19 @@ $block: '.#{variables.$ns}modal';
         justify-content: center;
     }
 
-    &__content-container {
-        margin: var(--yc-modal-margin);
-        background-color: var(--g-color-base-modal);
-        border-radius: var(--yc-modal-border-radius);
+    &__content-wrapper {
+        margin: var(--g-modal-margin, #{variables.$modal-default-margin});
+        border-radius: var(--g-modal-border-radius, #{variables.$modal-default-border-radius});
         overflow-x: hidden;
     }
 
     &__content {
-        &_with-scroll {
+        background-color: var(--g-color-base-modal);
+        &_has-scroll {
             overflow-y: auto;
-            max-height: calc(100vh - (var(--yc-modal-margin) * 2));
+            max-height: calc(
+                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin})) * 2
+            );
         }
     }
 
@@ -97,9 +99,4 @@ $block: '.#{variables.$ns}modal';
     100% {
         transform: scale(1);
     }
-}
-
-:root {
-    --yc-modal-border-radius: 5px;
-    --yc-modal-margin: 20px;
 }

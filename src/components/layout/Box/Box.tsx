@@ -33,7 +33,6 @@ export interface BoxProps<T extends React.ElementType = 'div'>
      * ```
      */
     spacing?: SpacingProps;
-    onClick?(e: React.MouseEvent<T>): void;
 }
 
 /**

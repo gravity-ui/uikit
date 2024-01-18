@@ -132,7 +132,7 @@ export const Slider = React.forwardRef(function Slider(
                         : undefined
                 }
             ></BaseSlider>
-            {error && <div className={errorCn}>{error}</div>}
+            {styleModifiers.error && <div className={errorCn}>{error}</div>}
         </div>
     );
 });

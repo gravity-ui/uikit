@@ -18,6 +18,12 @@ $block: '.#{variables.$ns-new}base-slider';
     width: $size;
 }
 
+@mixin rail-size-style($rail-size, $handle-size) {
+    height: $rail-size;
+    width: calc(100% + $handle-size);
+    left: calc($handle-size / (-2));
+}
+
 #{$block} {
     $rail-color: var(--g-color-base-selection); //--g-color-base-info-light in figma
     $rail-disabled-color: var(--g-color-base-generic-accent-disabled);
@@ -60,91 +66,76 @@ $block: '.#{variables.$ns-new}base-slider';
         $line-height: var(--g-text-body-1-line-height);
 
         &_s {
-            @include slider-outer-style(
-                #{$handle-s-size},
-                #{$rail-s-size},
-                #{$line-height},
-                #{$mark-s-offset}
-            );
+            @include slider-outer-style($handle-s-size, $rail-s-size, $line-height, $mark-s-offset);
 
             #{$mark} {
                 font-size: var(--g-text-body-1-font-size);
-                line-height: #{$line-height};
+                line-height: $line-height;
 
-                $edge-mark-offset: calc(-#{$handle-s-size} / 2);
+                $edge-mark-offset: calc($handle-s-size / -2);
 
                 //we override last of type style in the situation when we have only one mark
                 //so we should have this style sequence
                 &-text:last-of-type {
-                    right: #{$edge-mark-offset};
+                    right: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
                     right: unset;
-                    left: #{$edge-mark-offset};
+                    left: $edge-mark-offset;
                 }
             }
 
             #{$dot} {
-                @include dot-style(#{$handle-s-size}, #{$rail-s-size});
+                @include dot-style($handle-s-size, $rail-s-size);
             }
         }
 
         &_m {
-            @include slider-outer-style(
-                #{$handle-m-size},
-                #{$rail-m-size},
-                #{$line-height},
-                #{$mark-m-offset}
-            );
+            @include slider-outer-style($handle-m-size, $rail-m-size, $line-height, $mark-m-offset);
 
             #{$mark} {
                 font-size: var(--g-text-body-1-font-size);
-                line-height: #{$line-height};
+                line-height: $line-height;
 
-                $edge-mark-offset: calc(-#{$handle-m-size} / 2);
+                $edge-mark-offset: calc($handle-m-size / -2);
 
                 &-text:last-of-type {
-                    right: #{$edge-mark-offset};
+                    right: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
                     right: unset;
-                    left: #{$edge-mark-offset};
+                    left: $edge-mark-offset;
                 }
             }
 
             #{$dot} {
-                @include dot-style(#{$handle-m-size}, #{$rail-m-size});
+                @include dot-style($handle-m-size, $rail-m-size);
             }
         }
 
         &_l {
-            @include slider-outer-style(
-                #{$handle-l-size},
-                #{$rail-l-size},
-                #{$line-height},
-                #{$mark-l-offset}
-            );
+            @include slider-outer-style($handle-l-size, $rail-l-size, $line-height, $mark-l-offset);
 
             #{$mark} {
                 font-size: var(--g-text-body-1-font-size);
-                line-height: #{$line-height};
+                line-height: $line-height;
 
-                $edge-mark-offset: calc(-#{$handle-l-size} / 2);
+                $edge-mark-offset: calc($handle-l-size / -2);
 
                 &-text:last-of-type {
-                    right: #{$edge-mark-offset};
+                    right: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
                     right: unset;
-                    left: #{$edge-mark-offset};
+                    left: $edge-mark-offset;
                 }
             }
 
             #{$dot} {
-                @include dot-style(#{$handle-m-size}, #{$rail-l-size});
+                @include dot-style($handle-m-size, $rail-l-size);
             }
         }
 
@@ -152,59 +143,59 @@ $block: '.#{variables.$ns-new}base-slider';
             $line-height: var(--g-text-body-2-line-height);
 
             @include slider-outer-style(
-                #{$handle-xl-size},
-                #{$rail-xl-size},
-                #{$line-height},
-                #{$mark-xl-offset}
+                $handle-xl-size,
+                $rail-xl-size,
+                $line-height,
+                $mark-xl-offset
             );
 
             #{$mark} {
                 font-size: var(--g-text-body-2-font-size);
-                line-height: #{$line-height};
+                line-height: $line-height;
 
-                $edge-mark-offset: calc(-#{$handle-xl-size} / 2);
+                $edge-mark-offset: calc($handle-xl-size / -2);
 
                 &-text:last-of-type {
-                    right: #{$edge-mark-offset};
+                    right: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
                     right: unset;
-                    left: #{$edge-mark-offset};
+                    left: $edge-mark-offset;
                 }
             }
 
             #{$dot} {
-                @include dot-style(#{$handle-m-size}, #{$rail-xl-size});
+                @include dot-style($handle-m-size, $rail-xl-size);
             }
         }
     }
 
     &__rail {
         position: absolute;
-        width: 100%;
         border-radius: 4px;
-        background-color: #{$rail-color};
+        background-color: $rail-color;
+
         &_size {
             &_s {
-                height: #{$rail-s-size};
+                @include rail-size-style($rail-s-size, $handle-s-size);
             }
 
             &_m {
-                height: #{$rail-m-size};
+                @include rail-size-style($rail-m-size, $handle-m-size);
             }
 
             &_l {
-                height: #{$rail-l-size};
+                @include rail-size-style($rail-l-size, $handle-l-size);
             }
 
             &_xl {
-                height: #{$rail-xl-size};
+                @include rail-size-style($rail-xl-size, $handle-xl-size);
             }
         }
 
         &_disabled {
-            background-color: #{$rail-disabled-color};
+            background-color: $rail-disabled-color;
         }
 
         &_error {
@@ -214,23 +205,25 @@ $block: '.#{variables.$ns-new}base-slider';
 
     &__track {
         position: absolute;
-        border-radius: 4px;
         background-color: #{sliderVariables.$slider-color};
         &_size {
             &_s {
-                height: #{$rail-s-size};
+                height: $rail-s-size;
             }
 
             &_m {
-                height: #{$rail-m-size};
+                height: $rail-m-size;
+                left: calc($handle-m-size / -2);
             }
 
             &_l {
-                height: #{$rail-l-size};
+                height: $rail-l-size;
+                left: calc($handle-l-size / -2);
             }
 
             &_xl {
-                height: #{$rail-xl-size};
+                height: $rail-xl-size;
+                left: calc($handle-xl-size / -2);
             }
         }
         &_disabled,
@@ -252,26 +245,26 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_size {
             &_s {
-                height: #{$handle-s-size};
-                width: #{$handle-s-size};
+                height: $handle-s-size;
+                width: $handle-s-size;
                 border-width: 4px;
             }
 
             &_m {
-                height: #{$handle-m-size};
-                width: #{$handle-m-size};
+                height: $handle-m-size;
+                width: $handle-m-size;
                 border-width: 5px;
             }
 
             &_l {
-                height: #{$handle-l-size};
-                width: #{$handle-l-size};
+                height: $handle-l-size;
+                width: $handle-l-size;
                 border-width: 5px;
             }
 
             &_xl {
-                height: #{$handle-xl-size};
-                width: #{$handle-xl-size};
+                height: $handle-xl-size;
+                width: $handle-xl-size;
                 border-width: 6px;
             }
         }
@@ -282,7 +275,7 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &:focus {
-            box-shadow: 0 0 0 4px #{$handle-focus-color};
+            box-shadow: 0 0 0 4px $handle-focus-color;
             outline: none;
         }
 
@@ -301,7 +294,7 @@ $block: '.#{variables.$ns-new}base-slider';
             border-color: #{sliderVariables.$slider-error-color};
             &:active,
             &:focus {
-                box-shadow: 0 0 0 4px #{$handle-focus-error-color};
+                box-shadow: 0 0 0 4px $handle-focus-error-color;
             }
         }
     }
@@ -313,19 +306,19 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_size {
             &_s {
-                height: #{$rail-s-size};
+                height: $rail-s-size;
             }
 
             &_m {
-                height: #{$rail-m-size};
+                height: $rail-m-size;
             }
 
             &_l {
-                height: #{$rail-l-size};
+                height: $rail-l-size;
             }
 
             &_xl {
-                height: #{$rail-xl-size};
+                height: $rail-xl-size;
             }
         }
     }

@@ -10,8 +10,14 @@ export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
     useIntersection({element: ref.current, onIntersect: props?.onIntersect});
 
     return (
-        <div ref={ref} className={selectListBlock('loading-indicator')}>
+        <div
+            ref={ref}
+            className={selectListBlock('loading-indicator')}
+            data-qa={SelectLoadingIndicator.qa}
+        >
             <Loader />
         </div>
     );
 };
+
+SelectLoadingIndicator.qa = 'SELECT_LOADING_INFICATOR';

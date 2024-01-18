@@ -42,6 +42,7 @@ export interface ModalProps extends DOMProps, LayerExtendableProps, QAProps {
     onTransitionEntered?: VoidFunction;
     onTransitionExit?: VoidFunction;
     onTransitionExited?: VoidFunction;
+    contentOverflow?: 'visible' | 'auto';
 }
 
 export type ModalCloseReason = LayerCloseReason;
@@ -69,6 +70,7 @@ export function Modal({
     onTransitionExited,
     children,
     style,
+    contentOverflow = 'visible',
     className,
     contentClassName,
     'aria-labelledby': ariaLabelledBy,
@@ -129,8 +131,8 @@ export function Modal({
                 }}
             >
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
-                    <div className={b('table')}>
-                        <div className={b('cell')}>
+                    <div className={b('content-aligner')}>
+                        <div className={b('content-wrapper')}>
                             <FocusTrap
                                 enabled={!disableFocusTrap && focusTrap && open && !inTransition}
                                 autoFocus={!disableAutoFocus && autoFocus}
@@ -142,7 +144,11 @@ export function Modal({
                                     aria-modal={open}
                                     aria-label={ariaLabel}
                                     aria-labelledby={ariaLabelledBy}
-                                    className={b('content', contentClassName)}
+                                    className={b(
+                                        'content',
+                                        {'has-scroll': contentOverflow === 'auto'},
+                                        contentClassName,
+                                    )}
                                     {...containerProps}
                                 >
                                     {children}

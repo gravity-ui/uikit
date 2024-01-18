@@ -4,5 +4,11 @@ $block: '.#{variables.$ns}dialog-body';
 
 #{$block} {
     padding: var(--yc-dialog-body-padding);
-    flex: 1 1 100%;
+    flex: 1 1 auto;
+    overflow-y: auto;
+
+    &_has-borders {
+        border-block-start: 1px solid var(--g-color-line-generic);
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
 }

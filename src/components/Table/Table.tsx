@@ -53,8 +53,7 @@ export interface TableColumnConfig<I> {
 export interface DescriptorType {
     /**
      * Row ID.
-     * Used when selecting and sorting rows. If you pass a row,
-     * its ID will be the value of the field in the row data named the same as the column ID.
+     * Used when selecting and sorting rows.
      */
     id?: string;
 

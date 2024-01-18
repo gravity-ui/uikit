@@ -44,11 +44,11 @@ Additional functionality is enabled via HOCs:
 
 ### DescriptorType
 
-| Name       | Description                                                                                                                                                    |          Type           |   Default   |
-| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------: | :---------: |
-| id         | The row ID, used when selecting and sorting rows. If you skip a row, its ID will be the value of the field in the row data with the same name as the column ID |  `string` `undefined`   | `undefined` |
-| disabled   | Column ID                                                                                                                                                      |  `boolean` `undefined`  | `undefined` |
-| classNames | Row CSS classes                                                                                                                                                | ` string[]` `undefined` | `undefined` |
+| Name       | Description                                      |          Type           |   Default   |
+| :--------- | :----------------------------------------------- | :---------------------: | :---------: |
+| id         | The row ID, used when selecting and sorting rows |  `string` `undefined`   | `undefined` |
+| disabled   | Column ID                                        |  `boolean` `undefined`  | `undefined` |
+| classNames | Row CSS classes                                  | ` string[]` `undefined` | `undefined` |
 
 ### TableColumnConfig
 

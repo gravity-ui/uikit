@@ -1,10 +1,13 @@
 @use '../variables';
 @use './sliderVariables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}slider';
 
 #{$block} {
     display: flex;
+    flex-direction: column;
+    gap: 6px;
 
     &_withTooltip {
         //6px is padding inside tooltip card
@@ -20,5 +23,14 @@ $block: '.#{variables.$ns-new}slider';
                 var(--g-text-body-2-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
             );
         }
+    }
+
+    &__error {
+        @include mixins.text-body-1;
+        color: var(--g-color-text-danger);
+    }
+
+    &_size_xl &__error {
+        @include mixins.text-body-2;
     }
 }

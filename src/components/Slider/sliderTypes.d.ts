@@ -22,7 +22,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
 
     disabled?: boolean;
     keyboard?: boolean;
-    error?: boolean;
+    error?: string;
 
     debounceDelay?: number;
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;

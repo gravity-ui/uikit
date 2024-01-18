@@ -12,6 +12,7 @@ import {getInnerState} from './utils';
 import './Slider.scss';
 
 const b = blockNew('slider');
+const errorCn = b('error');
 
 export const Slider = React.forwardRef(function Slider(
     {
@@ -24,7 +25,7 @@ export const Slider = React.forwardRef(function Slider(
         infoPointCount = 0,
         availableValues,
         withTooltip = false,
-        error = false,
+        error,
         disabled = false,
         keyboard = true,
         debounceDelay = 0,
@@ -86,7 +87,7 @@ export const Slider = React.forwardRef(function Slider(
     });
     const styleModifiers = {
         size,
-        error: error && !disabled,
+        error: Boolean(error) && !disabled,
         disabled,
         withTooltip: Boolean(withTooltip),
     };
@@ -131,6 +132,7 @@ export const Slider = React.forwardRef(function Slider(
                         : undefined
                 }
             ></BaseSlider>
+            {error && <div className={errorCn}>{error}</div>}
         </div>
     );
 });

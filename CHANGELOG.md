@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.28.0](https://github.com/gravity-ui/uikit/compare/v5.27.0...v5.28.0) (2024-01-16)
+
+
+### Features
+
+* **Alert:** changed default Alert actions background ([#1240](https://github.com/gravity-ui/uikit/issues/1240)) ([9693147](https://github.com/gravity-ui/uikit/commit/96931475fb59e8e9c6da96bae361165d38f6dec5))
+* **Text:** add `id` prop ([#1246](https://github.com/gravity-ui/uikit/issues/1246)) ([252229e](https://github.com/gravity-ui/uikit/commit/252229e6498effe9628d193103d9e5117b2bd79b))
+
+
+### Bug Fixes
+
+* revert [#831](https://github.com/gravity-ui/uikit/issues/831) ([#1244](https://github.com/gravity-ui/uikit/issues/1244)) ([79f7e07](https://github.com/gravity-ui/uikit/commit/79f7e07a3c155ba34a240250aa06860bf795abcc))
+
 ## [5.27.0](https://github.com/gravity-ui/uikit/compare/v5.26.0...v5.27.0) (2024-01-10)
 
 

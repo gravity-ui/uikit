@@ -1,14 +1,94 @@
+@use 'sass:math';
 @use '../../variables';
 @use '../sliderVariables';
+@use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}base-slider';
+$mark: '#{$block}-mark';
+$dot: '#{$block}-dot';
 
-@mixin slider-outer-style($slider-size, $rail-size, $line-height, $mark-offset) {
-    $common-padding: calc(($slider-size - $rail-size) / 2);
-    $bottom-padding: calc($common-padding + $line-height - $mark-offset);
-    padding: $common-padding 0 $bottom-padding;
-    height: calc($common-padding + $rail-size + $bottom-padding);
-    margin: 0 calc($slider-size / 2);
+$rail-color: var(--g-color-base-selection);
+$rail-disabled-color: var(--g-color-base-generic-accent-disabled);
+
+$handle-focus-color: var(--g-color-base-selection-hover);
+$handle-focus-error-color: var(--g-color-base-danger-light-hover);
+
+$handle-s-size: 15px;
+$handle-m-size: 18px;
+$handle-l-size: 21px;
+$handle-xl-size: 24px;
+
+$rail-s-size: 3px;
+$rail-m-size: 4px;
+$rail-l-size: 5px;
+$rail-xl-size: 6px;
+
+$mark-s-offset: 1px;
+$mark-m-offset: 1px;
+$mark-l-offset: -5px;
+$mark-xl-offset: -9px;
+
+@mixin input-control($size) {
+    position: absolute;
+    content: '';
+    background-color: #{sliderVariables.$slider-color};
+    border-radius: 4px 0 0 4px;
+
+    @if $size == 's' {
+        $width: math.floor(calc($handle-s-size / 2));
+        width: $width;
+        left: calc($width * -1);
+        height: $rail-s-size;
+    }
+    @if $size == 'm' {
+        $width: math.floor(calc($handle-m-size / 2));
+        width: $width;
+        left: calc($width * -1);
+        height: $rail-m-size;
+    }
+    @if $size == 'l' {
+        $width: math.floor(calc($handle-l-size / 2));
+        width: $width;
+        left: calc($width * -1);
+        height: $rail-l-size;
+    }
+    @if $size == 'xl' {
+        $width: math.floor(calc($handle-xl-size / 2));
+        width: $width;
+        left: calc($width * -1);
+        height: $rail-xl-size;
+    }
+}
+
+@mixin slider-outer-style($size) {
+    @if $size == 's' {
+        $common-padding: calc(($handle-s-size - $rail-s-size) / 2);
+        $bottom-padding: calc($common-padding + var(--g-text-body-1-line-height) - $mark-s-offset);
+        padding: $common-padding 0 $bottom-padding;
+        height: calc($common-padding + $rail-s-size + $bottom-padding);
+        margin: 0 calc($handle-s-size / 2);
+    }
+    @if $size == 'm' {
+        $common-padding: calc(($handle-m-size - $rail-m-size) / 2);
+        $bottom-padding: calc($common-padding + var(--g-text-body-1-line-height) - $mark-m-offset);
+        padding: $common-padding 0 $bottom-padding;
+        height: calc($common-padding + $rail-m-size + $bottom-padding);
+        margin: 0 calc($handle-m-size / 2);
+    }
+    @if $size == 'l' {
+        $common-padding: calc(($handle-l-size - $rail-l-size) / 2);
+        $bottom-padding: calc($common-padding + var(--g-text-body-1-line-height) - $mark-l-offset);
+        padding: $common-padding 0 $bottom-padding;
+        height: calc($common-padding + $rail-l-size + $bottom-padding);
+        margin: 0 calc($handle-l-size / 2);
+    }
+    @if $size == 'xl' {
+        $common-padding: calc(($handle-xl-size - $rail-xl-size) / 2);
+        $bottom-padding: calc($common-padding + var(--g-text-body-2-line-height) - $mark-xl-offset);
+        padding: $common-padding 0 $bottom-padding;
+        height: calc($common-padding + $rail-xl-size + $bottom-padding);
+        margin: 0 calc($handle-xl-size / 2);
+    }
 }
 
 @mixin dot-style($slider-size, $rail-size) {
@@ -18,39 +98,34 @@ $block: '.#{variables.$ns-new}base-slider';
     width: $size;
 }
 
-@mixin rail-size-style($rail-size, $handle-size) {
-    height: $rail-size;
-    width: calc(100% + $handle-size);
-    left: calc($handle-size / (-2));
+@mixin rail-size-style($size) {
+    @if $size == 's' {
+        $offset: math.floor(calc($handle-s-size / 2)) * -1;
+        height: $rail-s-size;
+        right: $offset;
+        left: $offset;
+    }
+    @if $size == 'm' {
+        $offset: math.floor(calc($handle-m-size / 2)) * -1;
+        height: $rail-m-size;
+        right: $offset;
+        left: $offset;
+    }
+    @if $size == 'l' {
+        $offset: math.floor(calc($handle-l-size / 2)) * -1;
+        height: $rail-l-size;
+        right: $offset;
+        left: $offset;
+    }
+    @if $size == 'xl' {
+        $offset: math.floor(calc($handle-xl-size / 2)) * -1;
+        height: $rail-xl-size;
+        right: $offset;
+        left: $offset;
+    }
 }
 
 #{$block} {
-    $rail-color: var(--g-color-base-selection); //--g-color-base-info-light in figma
-    $rail-disabled-color: var(--g-color-base-generic-accent-disabled);
-
-    $handle-focus-color: var(
-        --g-color-base-selection-hover
-    ); // --g-color-base-info-light-hover in figma
-    $handle-focus-error-color: var(--g-color-base-danger-light-hover); // not presented in figma
-
-    $handle-s-size: 15px; //14 in figma
-    $handle-m-size: 18px;
-    $handle-l-size: 21px; //20 in figma
-    $handle-xl-size: 24px;
-
-    $rail-s-size: 3px;
-    $rail-m-size: 4px;
-    $rail-l-size: 5px;
-    $rail-xl-size: 6px;
-
-    $mark: '#{$block}-mark';
-    $dot: '#{$block}-dot';
-
-    $mark-s-offset: 1px;
-    $mark-m-offset: 1px;
-    $mark-l-offset: -5px;
-    $mark-xl-offset: -9px;
-
     * {
         box-sizing: border-box;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -63,15 +138,11 @@ $block: '.#{variables.$ns-new}base-slider';
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
     &_size {
-        $line-height: var(--g-text-body-1-line-height);
-
         &_s {
-            @include slider-outer-style($handle-s-size, $rail-s-size, $line-height, $mark-s-offset);
+            @include slider-outer-style(s);
 
             #{$mark} {
-                font-size: var(--g-text-body-1-font-size);
-                line-height: $line-height;
-
+                @include mixins.text-body-1;
                 $edge-mark-offset: calc($handle-s-size / -2);
 
                 //we override last of type style in the situation when we have only one mark
@@ -92,12 +163,10 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_m {
-            @include slider-outer-style($handle-m-size, $rail-m-size, $line-height, $mark-m-offset);
+            @include slider-outer-style(m);
 
             #{$mark} {
-                font-size: var(--g-text-body-1-font-size);
-                line-height: $line-height;
-
+                @include mixins.text-body-1;
                 $edge-mark-offset: calc($handle-m-size / -2);
 
                 &-text:last-of-type {
@@ -116,12 +185,10 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_l {
-            @include slider-outer-style($handle-l-size, $rail-l-size, $line-height, $mark-l-offset);
+            @include slider-outer-style(l);
 
             #{$mark} {
-                font-size: var(--g-text-body-1-font-size);
-                line-height: $line-height;
-
+                @include mixins.text-body-1;
                 $edge-mark-offset: calc($handle-l-size / -2);
 
                 &-text:last-of-type {
@@ -140,19 +207,10 @@ $block: '.#{variables.$ns-new}base-slider';
         }
 
         &_xl {
-            $line-height: var(--g-text-body-2-line-height);
-
-            @include slider-outer-style(
-                $handle-xl-size,
-                $rail-xl-size,
-                $line-height,
-                $mark-xl-offset
-            );
+            @include slider-outer-style(xl);
 
             #{$mark} {
-                font-size: var(--g-text-body-2-font-size);
-                line-height: $line-height;
-
+                @include mixins.text-body-2;
                 $edge-mark-offset: calc($handle-xl-size / -2);
 
                 &-text:last-of-type {
@@ -178,19 +236,19 @@ $block: '.#{variables.$ns-new}base-slider';
 
         &_size {
             &_s {
-                @include rail-size-style($rail-s-size, $handle-s-size);
+                @include rail-size-style(s);
             }
 
             &_m {
-                @include rail-size-style($rail-m-size, $handle-m-size);
+                @include rail-size-style(m);
             }
 
             &_l {
-                @include rail-size-style($rail-l-size, $handle-l-size);
+                @include rail-size-style(l);
             }
 
             &_xl {
-                @include rail-size-style($rail-xl-size, $handle-xl-size);
+                @include rail-size-style(xl);
             }
         }
 
@@ -209,21 +267,30 @@ $block: '.#{variables.$ns-new}base-slider';
         &_size {
             &_s {
                 height: $rail-s-size;
+                &::after {
+                    @include input-control(s);
+                }
             }
 
             &_m {
                 height: $rail-m-size;
-                left: calc($handle-m-size / -2);
+                &::after {
+                    @include input-control(m);
+                }
             }
 
             &_l {
                 height: $rail-l-size;
-                left: calc($handle-l-size / -2);
+                &::after {
+                    @include input-control(l);
+                }
             }
 
             &_xl {
                 height: $rail-xl-size;
-                left: calc($handle-xl-size / -2);
+                &::after {
+                    @include input-control(xl);
+                }
             }
         }
         &_disabled,

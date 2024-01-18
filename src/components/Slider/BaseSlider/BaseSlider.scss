@@ -334,25 +334,25 @@ $mark-xl-offset: -9px;
             &_s {
                 height: $handle-s-size;
                 width: $handle-s-size;
-                border-width: 4px;
+                border-width: $rail-s-size;
             }
 
             &_m {
                 height: $handle-m-size;
                 width: $handle-m-size;
-                border-width: 5px;
+                border-width: $rail-m-size;
             }
 
             &_l {
                 height: $handle-l-size;
                 width: $handle-l-size;
-                border-width: 5px;
+                border-width: $rail-l-size;
             }
 
             &_xl {
                 height: $handle-xl-size;
                 width: $handle-xl-size;
-                border-width: 6px;
+                border-width: $rail-xl-size;
             }
         }
 

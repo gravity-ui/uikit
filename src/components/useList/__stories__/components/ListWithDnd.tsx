@@ -90,7 +90,7 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                     {(droppableProvided: DroppableProvided) => (
                         <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
                             <ListContainerView ref={containerRef}>
-                                {list.existedFlattenIds.map((id, index) => {
+                                {list.visibleFlattenIds.map((id, index) => {
                                     const {data, props} = getItemRenderState({
                                         id,
                                         size,

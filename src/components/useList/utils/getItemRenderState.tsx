@@ -25,7 +25,7 @@ export const getItemRenderState = <T,>(
         expandedById,
         groupsState,
         onItemClick,
-        existedFlattenIds,
+        visibleFlattenIds,
         size = 'm',
         itemsState,
         selectedById,
@@ -37,7 +37,7 @@ export const getItemRenderState = <T,>(
     const context: RenderItemContext = {
         itemState: itemsState[id],
         groupState: groupsState[id],
-        isLastItem: id === existedFlattenIds[existedFlattenIds.length - 1],
+        isLastItem: id === visibleFlattenIds[visibleFlattenIds.length - 1],
     };
 
     let expanded;

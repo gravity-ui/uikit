@@ -70,12 +70,12 @@ export function useListFilter<T>({
         setPrevItems(externalItems);
     }
 
-    const {onFilterUpdate, reset} = React.useMemo(() => {
-        const debouncedFn = debounce(
-            (value) => setItems(filterItemsFn(value, externalItems)),
-            debounceTimeout,
-        );
+    const debouncedFn = React.useCallback(
+        debounce((value) => setItems(filterItemsFn(value, externalItems)), debounceTimeout),
+        [setItems, filterItemsFn, debounceTimeout],
+    );
 
+    const {onFilterUpdate, reset} = React.useMemo(() => {
         return {
             reset: () => {
                 setFilter(initialFilterValue);
@@ -86,7 +86,7 @@ export function useListFilter<T>({
                 debouncedFn(nextFilterValue);
             },
         };
-    }, [debounceTimeout, externalItems, filterItemsFn, initialFilterValue]);
+    }, [debouncedFn, initialFilterValue]);
 
     return {
         filterRef,

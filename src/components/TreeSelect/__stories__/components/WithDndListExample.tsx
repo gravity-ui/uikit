@@ -61,7 +61,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                         setValue([id]);
                     }
                 }}
-                renderContainer={({renderItem, existedFlattenIds, containerRef, id}) => {
+                renderContainer={({renderItem, visibleFlattenIds, containerRef, id}) => {
                     return (
                         <DragDropContext onDragEnd={handleDrugEnd}>
                             <Droppable
@@ -71,7 +71,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                     snapshot: DraggableStateSnapshot,
                                     rubric: DraggableRubric,
                                 ) => {
-                                    return renderItem(existedFlattenIds[rubric.source.index], {
+                                    return renderItem(visibleFlattenIds[rubric.source.index], {
                                         provided,
                                         active: snapshot.isDragging,
                                     });
@@ -83,7 +83,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
                                         >
-                                            {existedFlattenIds.map((id) => renderItem(id))}
+                                            {visibleFlattenIds.map((id) => renderItem(id))}
                                             {droppableProvided.placeholder}
                                         </div>
                                     </ListContainerView>

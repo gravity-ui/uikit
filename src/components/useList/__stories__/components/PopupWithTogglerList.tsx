@@ -47,7 +47,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
     React.useLayoutEffect(() => {
         if (open) {
             containerRef.current?.focus();
-            listState.setActiveItemId(selectedId ?? list.existedFlattenIds[0]);
+            listState.setActiveItemId(selectedId ?? list.visibleFlattenIds[0]);
 
             if (selectedId) {
                 scrollToListItem(selectedId, containerRef.current);

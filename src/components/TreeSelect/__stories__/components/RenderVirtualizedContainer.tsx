@@ -8,14 +8,14 @@ import type {RenderContainerProps} from '../../types';
 export const RenderVirtualizedContainer = <T,>({
     id,
     containerRef,
-    existedFlattenIds,
+    visibleFlattenIds,
     renderItem,
     size,
 }: RenderContainerProps<T>) => {
     return (
         <ListContainerView fixedHeight id={id} ref={containerRef}>
             <VirtualizedListContainer
-                items={existedFlattenIds}
+                items={visibleFlattenIds}
                 itemSize={(_index) => computeItemSize(size)}
             >
                 {renderItem}

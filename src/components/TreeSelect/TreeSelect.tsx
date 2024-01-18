@@ -138,8 +138,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     id,
                     isGroup: id in listParsedState.groupsState,
                     isLastItem:
-                        listParsedState.existedFlattenIds[
-                            listParsedState.existedFlattenIds.length - 1
+                        listParsedState.visibleFlattenIds[
+                            listParsedState.visibleFlattenIds.length - 1
                         ] === id,
                     disabled: listState.disabledById[id],
                 });
@@ -151,7 +151,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             onItemClick,
             listState,
             listParsedState.groupsState,
-            listParsedState.existedFlattenIds,
+            listParsedState.visibleFlattenIds,
             groupsBehavior,
             multiple,
             handleMultipleSelection,
@@ -166,7 +166,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             const lastSelectedItemId = value[value.length - 1];
             containerRef.current?.focus();
 
-            const firstItemId = listParsedState.existedFlattenIds[0];
+            const firstItemId = listParsedState.visibleFlattenIds[0];
 
             listState.setActiveItemId(lastSelectedItemId ?? firstItemId);
 

@@ -176,7 +176,7 @@ interface ListTreeItemType<T> extends ListItemInitialProps {
 export type ListItemType<T> = ListTreeItemType<T> | ListFlattenItemType<T>;
 ```
 
--   `expandedById` - state for open/closed `List` elements. Affects the formation of the `existedFlattenIds` - if the element id in this object is set to `false` - all elements of this group and all nested groups will not be present in the final ids order;
+-   `expandedById` - state for open/closed `List` elements. Affects the formation of the `visibleFlattenIds` - if the element id in this object is set to `false` - all elements of this group and all nested groups will not be present in the final ids order;
 -   `getId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
 
 ```tsx
@@ -230,7 +230,7 @@ const {byid} = useList({
 
 -   `groupsState` - a normalized representation of metadata about a group if the item is both a list item and a group:
     -   `childrenIds` - list of child element IDs;
--   `existedFlattenIds` - sequential representation of list items by id, taking into account invisible elements inside collapsed groups;
+-   `visibleFlattenIds` - sequential representation of list items by id, taking into account invisible elements inside collapsed groups;
 
 ### useListKeydown
 
@@ -240,7 +240,7 @@ Keyboard support
 
 -   `disabledById` - key-value representation of disabled elements that do not need to be taken into account when navigating through the `List`;
 -   `activeItemId` - current active item `id`;
--   `existedFlattenIds` - a flat list of elements to be navigated through; Collapsed groups must be taken into account in this array;
+-   `visibleFlattenIds` - a flat list of elements to be navigated through; Collapsed groups must be taken into account in this array;
 -   `onItemClick` - callback will be called when pressing the `Enter`, `Space` keys;
 -   `containerRef` - a reference to the DOM element of the List container inside which to search for its elements;
 -   `setActiveItemId` - Callback for setting the current active element;
@@ -437,13 +437,13 @@ Utility to compute list item height:
 
 ```tsx
 <VirtualizedListContainer // custom implementation
-    items={existedFlattenIds}
+    items={visibleFlattenIds}
     itemSize={(index) =>
         computeItemSize(
             // list size
             size,
             // has subrows
-            Boolean(get(itemsById[existedFlattenIds[index]], 'subtitle')),
+            Boolean(get(itemsById[visibleFlattenIds[index]], 'subtitle')),
         )
     }
 />
@@ -459,7 +459,7 @@ const containerRef = React.useRef<HTMLDivElement>(null);
 React.useLayoutEffect(() => {
     if (open) {
         containerRef.current?.focus();
-        listState.setActiveItemId(selectedId ?? list.existedFlattenIds[0]);
+        listState.setActiveItemId(selectedId ?? list.visibleFlattenIds[0]);
 
         if (selectedId) {
             scrollToListItem(selectedId, containerRef.current);

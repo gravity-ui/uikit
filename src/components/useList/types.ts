@@ -99,5 +99,5 @@ export type ListState = {
 
 export type ListParsedState<T> = ParsedState<T> & {
     items: ListItemType<T>[];
-    existedFlattenIds: ListItemId[];
+    visibleFlattenIds: ListItemId[];
 };

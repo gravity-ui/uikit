@@ -75,11 +75,11 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
             <ListContainerView ref={containerRef}>
                 <VirtualizedListContainer
-                    items={list.existedFlattenIds}
+                    items={list.visibleFlattenIds}
                     itemSize={(index) =>
                         computeItemSize(
                             size,
-                            Boolean(get(list.itemsById[list.existedFlattenIds[index]], 'subtitle')),
+                            Boolean(get(list.itemsById[list.visibleFlattenIds[index]], 'subtitle')),
                         )
                     }
                 >

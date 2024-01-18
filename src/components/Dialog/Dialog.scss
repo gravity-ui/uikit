@@ -4,6 +4,15 @@ $block: '.#{variables.$ns}dialog';
 
 #{$block} {
     position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &_has-scroll {
+        overflow-y: auto;
+        max-height: calc(
+            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+        );
+    }
 
     &_size {
         &_s {

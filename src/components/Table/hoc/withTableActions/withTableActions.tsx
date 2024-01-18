@@ -115,14 +115,15 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
         }
 
         private renderBodyCell = (item: I, index: number) => {
-            const {isRowDisabled, getRowActions, rowActionsSize} = this.props;
+            const {isRowDisabled, getRowActions, rowActionsSize, getRowDescriptor} = this.props;
             const actions = getRowActions(item, index);
 
             if (actions.length === 0) {
                 return null;
             }
 
-            const disabled = isRowDisabled ? isRowDisabled(item, index) : false;
+            const disabled =
+                getRowDescriptor?.(item, index).disabled || isRowDisabled?.(item, index) || false;
 
             return (
                 <div className={b('actions')}>

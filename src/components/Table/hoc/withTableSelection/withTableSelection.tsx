@@ -239,11 +239,13 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         );
 
         private isDisabled = (item: I, index: number) => {
-            const {isRowDisabled, isRowSelectionDisabled} = this.props;
+            const {isRowDisabled, isRowSelectionDisabled, getRowDescriptor} = this.props;
             if (isRowSelectionDisabled && isRowSelectionDisabled(item, index)) {
                 return true;
             }
-            return isRowDisabled ? isRowDisabled(item, index) : false;
+            return (
+                getRowDescriptor?.(item, index).disabled || isRowDisabled?.(item, index) || false
+            );
         };
     };
 }

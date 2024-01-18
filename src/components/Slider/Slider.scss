@@ -7,6 +7,18 @@ $block: '.#{variables.$ns-new}slider';
     display: flex;
 
     &_withTooltip {
-        padding-top: #{sliderVariables.$slider-tooltip-height};
+        //6px is padding inside tooltip card
+        padding-top: calc(
+            var(--g-text-body-1-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
+        );
+    }
+
+    &_size {
+        &_xl {
+            //6px is padding inside tooltip card
+            padding-top: calc(
+                var(--g-text-body-2-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
+            );
+        }
     }
 }

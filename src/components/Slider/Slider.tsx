@@ -92,7 +92,7 @@ export const Slider = React.forwardRef(function Slider(
     };
 
     return (
-        <div className={b({withTooltip}, className)}>
+        <div className={b({withTooltip, size}, className)}>
             <BaseSlider
                 ref={baseSliderRef}
                 value={innerState.value}

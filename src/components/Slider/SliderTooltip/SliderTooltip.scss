@@ -6,8 +6,8 @@ $block: '.#{variables.$ns-new}slider-tooltip';
 
 #{$block} {
     position: absolute;
-    top: -#{sliderVariables.$slider-tooltip-height};
-    transform: translateX(-50%);
+    top: -#{sliderVariables.$slider-tooltip-offset};
+    transform: translate(-50%, -100%);
     cursor: default;
 
     $base-background-color: var(--g-color-base-background);

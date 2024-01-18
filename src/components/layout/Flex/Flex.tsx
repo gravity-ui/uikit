@@ -11,10 +11,7 @@ import './Flex.scss';
 
 const b = block('flex');
 
-export interface FlexProps<T extends React.ElementType = 'div'>
-    extends QAProps,
-        BoxProps<T>,
-        React.HTMLAttributes<T> {
+export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps, BoxProps<T> {
     /**
      * `flex-direction` property
      */

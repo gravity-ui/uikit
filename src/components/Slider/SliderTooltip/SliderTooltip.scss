@@ -1,5 +1,6 @@
 @use '../../variables';
 @use '../sliderVariables';
+@use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}slider-tooltip';
 
@@ -9,21 +10,22 @@ $block: '.#{variables.$ns-new}slider-tooltip';
     transform: translateX(-50%);
     cursor: default;
 
+    $base-background-color: var(--g-color-base-background);
+
     &__card {
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 4px;
-        height: 24px;
         padding: 4px 4px 2px;
         background-color: #{sliderVariables.$slider-color};
-        font-size: var(--g-text-body-1-font-size);
+        @include mixins.text-body-1;
         color: #{sliderVariables.$handle-center-color};
 
         &_size {
             &_xl {
-                font-size: var(--g-text-body-2-font-size);
+                @include mixins.text-body-2;
             }
         }
     }
@@ -31,7 +33,7 @@ $block: '.#{variables.$ns-new}slider-tooltip';
     &__pin {
         display: flex;
         position: absolute;
-        bottom: -6px;
+        bottom: -5px;
         left: 0;
         right: 0;
         justify-content: center;
@@ -46,11 +48,24 @@ $block: '.#{variables.$ns-new}slider-tooltip';
         background-color: #{sliderVariables.$slider-disabled-color};
     }
 
+    //use this element to prevent crossing effect
+    &_disabled &__card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 4px;
+        background-color: $base-background-color;
+        z-index: -1;
+    }
+
     &_error &__pin {
         color: #{sliderVariables.$slider-error-color};
     }
 
     &_disabled &__pin {
         color: #{sliderVariables.$slider-disabled-color};
+        &_background {
+            color: $base-background-color;
+        }
     }
 }

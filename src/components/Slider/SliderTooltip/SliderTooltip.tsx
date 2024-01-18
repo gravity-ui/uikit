@@ -33,6 +33,10 @@ export const SliderTooltip = ({value, className, style, styleModifiers}: SliderT
         >
             <div className={b('card', styleModifiers)}>
                 {value}
+                {styleModifiers.disabled && (
+                    //use this element to prevent crossing effect
+                    <SliderTooltipPin className={b('pin', {background: true})} />
+                )}
                 <SliderTooltipPin className={b('pin')} />
             </div>
         </div>

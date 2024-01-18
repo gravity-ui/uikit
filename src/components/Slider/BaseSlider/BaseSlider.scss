@@ -91,11 +91,31 @@ $mark-xl-offset: -9px;
     }
 }
 
-@mixin dot-style($slider-size, $rail-size) {
-    top: calc((($slider-size - $rail-size) / 2) + 1px);
-    $size: calc($rail-size - 2px);
-    height: $size;
-    width: $size;
+@mixin dot-style($size) {
+    @if $size == 's' {
+        top: calc((($handle-s-size - $rail-s-size) / 2) + 1px);
+        $dot-size: calc($rail-s-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+    @if $size == 'm' {
+        top: calc((($handle-m-size - $rail-m-size) / 2) + 1px);
+        $dot-size: calc($rail-m-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+    @if $size == 'l' {
+        top: calc((($handle-l-size - $rail-l-size) / 2) + 1px);
+        $dot-size: calc($rail-l-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+    @if $size == 'xl' {
+        top: calc((($handle-xl-size - $rail-xl-size) / 2) + 1px);
+        $dot-size: calc($rail-xl-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
 }
 
 @mixin rail-size-style($size) {
@@ -158,7 +178,7 @@ $mark-xl-offset: -9px;
             }
 
             #{$dot} {
-                @include dot-style($handle-s-size, $rail-s-size);
+                @include dot-style(s);
             }
         }
 
@@ -180,7 +200,7 @@ $mark-xl-offset: -9px;
             }
 
             #{$dot} {
-                @include dot-style($handle-m-size, $rail-m-size);
+                @include dot-style(m);
             }
         }
 
@@ -202,7 +222,7 @@ $mark-xl-offset: -9px;
             }
 
             #{$dot} {
-                @include dot-style($handle-m-size, $rail-l-size);
+                @include dot-style(l);
             }
         }
 
@@ -224,7 +244,7 @@ $mark-xl-offset: -9px;
             }
 
             #{$dot} {
-                @include dot-style($handle-m-size, $rail-xl-size);
+                @include dot-style(xl);
             }
         }
     }

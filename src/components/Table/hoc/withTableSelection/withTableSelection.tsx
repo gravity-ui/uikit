@@ -226,7 +226,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             (getRowDescriptor?: TableProps<I>['getRowDescriptor']) => {
                 return (item: I, index: number) => {
                     const {selectedIds} = this.props;
-                    const classNames = getRowDescriptor?.(item, index).classNames?.slice() || [];
+                    const classNames = getRowDescriptor?.(item, index)?.classNames?.slice() || [];
 
                     const id = Table.getRowId(this.props, item, index);
                     const selected = selectedIds.includes(id);
@@ -244,7 +244,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 return true;
             }
             return (
-                getRowDescriptor?.(item, index).disabled || isRowDisabled?.(item, index) || false
+                getRowDescriptor?.(item, index)?.disabled || isRowDisabled?.(item, index) || false
             );
         };
     };

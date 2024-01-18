@@ -123,7 +123,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
             }
 
             const disabled =
-                getRowDescriptor?.(item, index).disabled || isRowDisabled?.(item, index) || false;
+                getRowDescriptor?.(item, index)?.disabled || isRowDisabled?.(item, index) || false;
 
             return (
                 <div className={b('actions')}>

@@ -117,7 +117,7 @@ export interface TableProps<I> extends QAProps {
      *
      * @returns {DescriptorType} {@link DescriptorType}
      */
-    getRowDescriptor?: (item: I, index: number) => DescriptorType;
+    getRowDescriptor?: (item: I, index: number) => DescriptorType | undefined;
 
     /** Row click handler. When passed row's hover is visible. */
     onRowClick?: (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;

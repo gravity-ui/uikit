@@ -5,4 +5,9 @@ export {
     useListFilter as unstable_useListFilter,
     useListKeydown as unstable_useListKeydown,
 } from './components/useList';
-export * from './components/TreeSelect';
+export {
+    TreeSelect as unstable_TreeSelect,
+    TreeSelectProps as unstable_TreeSelectProps,
+    TreeSelectItem as unstable_TreeSelectItem,
+    TreeSelectItemProps as unstable_TreeSelectItemProps,
+} from './components/TreeSelect';

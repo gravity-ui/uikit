@@ -11,14 +11,14 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSizeType} from '../../types';
+import type {ListItemId, ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {useInfinityFetch} from '../utils/useInfinityFetch';
 
 import {IntersectionContainer} from './IntersectionContainer/IntersectionContainer';
 
 export interface InfinityScrollListProps {
-    size: ListItemSizeType;
+    size: ListItemSize;
 }
 
 export const InfinityScrollList = ({size}: InfinityScrollListProps) => {

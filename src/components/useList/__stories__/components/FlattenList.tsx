@@ -10,7 +10,7 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSizeType} from '../../types';
+import type {ListItemId, ListItemSize} from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
@@ -19,7 +19,7 @@ import {VirtualizedListContainer} from './VirtualizedListContainer';
 
 export interface FlattenListProps {
     itemsCount: number;
-    size: ListItemSizeType;
+    size: ListItemSize;
 }
 
 export const FlattenList = ({itemsCount, size}: FlattenListProps) => {

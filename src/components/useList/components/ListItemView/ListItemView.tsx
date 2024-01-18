@@ -8,7 +8,7 @@ import {Flex, FlexProps, spacing} from '../../../layout';
 import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
-import type {ListItemId, ListItemSizeType} from '../../types';
+import type {ListItemId, ListItemSize} from '../../types';
 
 import './ListItemView.scss';
 
@@ -22,7 +22,7 @@ export interface ListItemViewProps extends QAProps {
     /**
      * @default `m`
      */
-    size?: ListItemSizeType;
+    size?: ListItemSize;
     height?: number;
     selected?: boolean;
     active?: boolean;
@@ -97,7 +97,7 @@ export const ListItemView = React.forwardRef(
             height,
             expanded,
             style,
-            role = 'listitem',
+            role = 'option',
             onClick: _onClick,
             ...rest
         }: ListItemViewProps,

@@ -19,14 +19,14 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSizeType} from '../../types';
+import type {ListItemId, ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
 import {reorderArray} from '../utils/reorderArray';
 
 export interface ListWithDndProps {
     itemsCount: number;
-    size: ListItemSizeType;
+    size: ListItemSize;
 }
 
 export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {

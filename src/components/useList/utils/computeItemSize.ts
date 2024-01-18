@@ -1,6 +1,6 @@
 import {modToHeight} from '../constants';
-import type {ListItemSizeType} from '../types';
+import type {ListItemSize} from '../types';
 
-export const computeItemSize = (size: ListItemSizeType, hasSubRows = false) => {
+export const computeItemSize = (size: ListItemSize, hasSubRows = false) => {
     return modToHeight[size][Number(hasSubRows)];
 };

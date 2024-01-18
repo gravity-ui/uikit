@@ -1,6 +1,6 @@
 export type ListItemId = string;
 
-export type ListItemSizeType = 's' | 'm' | 'l' | 'xl';
+export type ListItemSize = 's' | 'm' | 'l' | 'xl';
 interface ListItemInitialProps {
     /**
      * If you need to control the state from the outside,
@@ -63,7 +63,7 @@ export type RenderItemContext = {
 };
 
 export type RenderItemState = {
-    size: ListItemSizeType;
+    size: ListItemSize;
     id: ListItemId;
     onClick?(): void;
     selected: boolean;

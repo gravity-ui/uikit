@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import type {
     ListItemId,
-    ListItemSizeType,
+    ListItemSize,
     ListParsedState,
     ListState,
     RenderItemContext,
@@ -10,7 +10,7 @@ import type {
 
 type ItemRendererProps<T> = ListState &
     ListParsedState<T> & {
-        size?: ListItemSizeType;
+        size?: ListItemSize;
         id: ListItemId;
         onItemClick?(id: ListItemId): void;
     };

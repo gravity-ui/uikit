@@ -9,13 +9,13 @@ import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSizeType} from '../../types';
+import type {ListItemId, ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
 
 export interface RecursiveListProps {
     itemsCount: number;
-    size: ListItemSizeType;
+    size: ListItemSize;
 }
 
 export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {

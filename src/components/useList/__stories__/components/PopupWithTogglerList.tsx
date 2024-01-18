@@ -9,14 +9,14 @@ import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/
 import {useList} from '../../hooks/useList';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSizeType} from '../../types';
+import type {ListItemId, ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {scrollToListItem} from '../../utils/scrollToListItem';
 import {createRandomizedData} from '../utils/makeData';
 
 export interface PopupWithTogglerListProps {
     itemsCount: number;
-    size: ListItemSizeType;
+    size: ListItemSize;
 }
 
 const COMPONENT_WIDTH = 300;

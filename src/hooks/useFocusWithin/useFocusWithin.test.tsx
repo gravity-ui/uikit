@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {act, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ReactDom from 'react-dom';
+
+import {act, render, screen, waitFor} from '../../../test-utils/utils';
 
 import {useFocusWithin} from './useFocusWithin';
 

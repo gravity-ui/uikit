@@ -2,15 +2,16 @@ import React from 'react';
 
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
+import type {ThemeSettings} from './ThemeSettingsContext';
 import {
     DEFAULT_DARK_THEME,
     DEFAULT_DIRECTION,
     DEFAULT_LIGHT_THEME,
     DEFAULT_THEME,
 } from './constants';
-import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
-import type {Direction, RealTheme, Theme} from './types';
 import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
+import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
+import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
 import {useSystemTheme} from './useSystemTheme';
 
 export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
@@ -24,23 +25,35 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
 }
 
 export function ThemeProvider({
-    theme = DEFAULT_THEME,
-    systemLightTheme = DEFAULT_LIGHT_THEME,
-    systemDarkTheme = DEFAULT_DARK_THEME,
-    direction = DEFAULT_DIRECTION,
-    nativeScrollbar = false,
-    scoped = false,
+    theme: themeProp,
+    systemLightTheme: systemLightThemeProp,
+    systemDarkTheme: systemDarkThemeProp,
+    direction: directionProp,
+    nativeScrollbar,
+    scoped: scopedProp = false,
     rootClassName = '',
     children,
 }: ThemeProviderProps) {
-    const systemTheme = (
-        useSystemTheme() === 'light' ? systemLightTheme : systemDarkTheme
-    ) as RealTheme;
+    const parentThemeState = React.useContext(ThemeContext);
+    const systemThemeState = React.useContext(ThemeSettingsContext);
+
+    const hasParentProvider = parentThemeState !== undefined;
+    const scoped = hasParentProvider || scopedProp;
+    const parentTheme = parentThemeState?.theme ?? DEFAULT_THEME;
+    const theme = themeProp ?? parentTheme;
+    const systemLightTheme =
+        systemLightThemeProp ?? systemThemeState?.systemLightTheme ?? DEFAULT_LIGHT_THEME;
+    const systemDarkTheme =
+        systemDarkThemeProp ?? systemThemeState?.systemDarkTheme ?? DEFAULT_DARK_THEME;
+    const parentDirection = parentThemeState?.direction ?? DEFAULT_DIRECTION;
+    const direction = directionProp ?? parentDirection;
+
+    const systemTheme = useSystemTheme() === 'light' ? systemLightTheme : systemDarkTheme;
     const themeValue = theme === 'system' ? systemTheme : theme;
 
     const prevRootClassName = React.useRef('');
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (!scoped) {
             updateBodyClassName({
                 theme: themeValue,
@@ -54,35 +67,41 @@ export function ThemeProvider({
     }, [scoped, themeValue, direction, nativeScrollbar, rootClassName]);
 
     const contextValue = React.useMemo(
-        () => ({
-            theme,
-            themeValue,
-            direction,
-        }),
+        () =>
+            ({
+                theme,
+                themeValue,
+                direction,
+            } satisfies ThemeContextProps),
         [theme, themeValue, direction],
     );
 
     const themeSettingsContext = React.useMemo(
-        () => ({systemLightTheme, systemDarkTheme}),
+        () => ({systemLightTheme, systemDarkTheme} satisfies ThemeSettings),
         [systemLightTheme, systemDarkTheme],
     );
 
+    const isNeedToSetTheme = !hasParentProvider || themeValue !== parentThemeState.themeValue;
     return (
         <ThemeContext.Provider value={contextValue}>
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 {scoped ? (
                     <div
                         className={getRootClassName(
-                            {theme: themeValue, 'native-scrollbar': nativeScrollbar},
+                            {
+                                theme: isNeedToSetTheme && themeValue,
+                                'native-scrollbar': nativeScrollbar !== false,
+                            },
                             [
-                                getDeprecatedRootClassName({
-                                    theme: themeValue,
-                                    'native-scrollbar': nativeScrollbar,
-                                }),
+                                getDeprecatedRootClassName({theme: isNeedToSetTheme && themeValue}),
                                 rootClassName,
                             ],
                         )}
-                        dir={direction === DEFAULT_DIRECTION ? undefined : direction}
+                        dir={
+                            hasParentProvider && direction === parentDirection
+                                ? undefined
+                                : direction
+                        }
                     >
                         {children}
                     </div>

@@ -1,4 +1,4 @@
-import {createEvent, fireEvent} from '@testing-library/react';
+import {createEvent, fireEvent} from '../../../../test-utils/utils';
 
 export function fireAnimationEndEvent(el: Node | Window, animationName: string) {
     const ev = createEvent.animationEnd(el, {animationName});

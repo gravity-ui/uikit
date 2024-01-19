@@ -1,8 +1,6 @@
-import React from 'react';
-
-import {ThemeContext} from './ThemeContext';
-import type {ThemeContextProps} from './ThemeContext';
+import type {ThemeContextProps} from './types';
+import {useThemeContext} from './useThemeContext';
 
 export function useDirection(): ThemeContextProps['direction'] {
-    return React.useContext(ThemeContext).direction;
+    return useThemeContext().direction;
 }

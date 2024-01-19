@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {act, fireEvent, render, screen, within} from '@testing-library/react';
-
+import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {Modal} from '../../../components/Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';

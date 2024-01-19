@@ -6,7 +6,7 @@ import {isOfType} from '../utils/isOfType';
 import {DisclosureProvider} from './DisclosureContext';
 import {DisclosureDetails} from './DisclosureDetails/DisclosureDetails';
 import {DefaultDisclosureSummary, DisclosureSummary} from './DisclosureSummary/DisclosureSummary';
-import {b} from './cn';
+import {b} from './constants';
 
 import './Disclosure.scss';
 

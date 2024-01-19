@@ -3,11 +3,7 @@
 $block: '.#{variables.$ns}sort-indicator';
 
 #{$block} {
-    &__caret {
-        padding: 1px 0;
-
-        & > svg {
-            display: block;
-        }
+    &__icon {
+        vertical-align: -2px;
     }
 }

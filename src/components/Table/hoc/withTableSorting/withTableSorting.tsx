@@ -2,6 +2,7 @@ import React from 'react';
 
 import _memoize from 'lodash/memoize';
 
+import {createOnKeyDownHandler} from '../../../../hooks/useActionHandlers/useActionHandlers';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import {Table} from '../../Table';
@@ -135,11 +136,8 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                                 <div key="content" className={b('sort-content')}>
                                     {originContent}
                                 </div>,
-                                <div key="spacer" className={b('sort-spacer')} />,
                                 <div key="indicator" className={b('sort-indicator')}>
-                                    <SortIndicator
-                                        order={sortOrder || this.getColumnDefaultSortOrder(column)}
-                                    />
+                                    <SortIndicator order={sortOrder} />
                                 </div>,
                             ];
 
@@ -147,11 +145,16 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                                 content.reverse();
                             }
 
+                            const onClick = this.handleColumnSortClick.bind(this, column);
+                            const onKeyDown = createOnKeyDownHandler(onClick);
+
                             return (
-                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                                 <div
+                                    role="button"
+                                    tabIndex={0}
                                     className={b('sort', {active: Boolean(sortOrder)})}
-                                    onClick={this.handleColumnSortClick.bind(this, column)}
+                                    onClick={onClick}
+                                    onKeyDown={onKeyDown}
                                 >
                                     {content}
                                 </div>

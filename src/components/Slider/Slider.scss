@@ -8,33 +8,37 @@ $block: '.#{variables.$ns-new}slider';
     display: flex;
     flex-direction: column;
 
-    &_size {
-        &_s {
-            gap: 0px;
-        }
-        &_m {
-            gap: 2px;
-        }
-        &_l {
-            gap: 4px;
-        }
-        &_xl {
-            gap: 6px;
+    &__error {
+        &_size {
+            &_s {
+                margin-top: 0px;
+            }
+            &_m {
+                margin-top: 2px;
+            }
+            &_l {
+                margin-top: 4px;
+            }
+            &_xl {
+                margin-top: 6px;
+            }
         }
     }
 
-    &_withTooltip {
+    &__top {
         //6px is padding inside tooltip card
-        padding-top: calc(
+        height: calc(
             var(--g-text-body-1-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
         );
-    }
-
-    &_withTooltip &_size_xl {
-        //6px is padding inside tooltip card
-        padding-top: calc(
-            var(--g-text-body-2-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
-        );
+        display: none;
+        &_withTooltip {
+            display: block;
+        }
+        &_size_xl {
+            height: calc(
+                var(--g-text-body-2-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
+            );
+        }
     }
 
     &__error {
@@ -42,7 +46,9 @@ $block: '.#{variables.$ns-new}slider';
         color: var(--g-color-text-danger);
     }
 
-    &_size_xl &__error {
-        @include mixins.text-body-2;
+    &__error {
+        &_size_xl {
+            @include mixins.text-body-2;
+        }
     }
 }

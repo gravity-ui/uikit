@@ -427,6 +427,10 @@ $mark-xl-offset: -1px;
         bottom: 0;
     }
 
+    &_disabled &-mark-text {
+        cursor: not-allowed;
+    }
+
     &-dot {
         position: absolute;
         border-radius: 50%;

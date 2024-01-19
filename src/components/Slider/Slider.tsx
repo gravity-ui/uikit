@@ -12,7 +12,6 @@ import {getInnerState} from './utils';
 import './Slider.scss';
 
 const b = blockNew('slider');
-const errorCn = b('error');
 
 export const Slider = React.forwardRef(function Slider(
     {
@@ -93,7 +92,8 @@ export const Slider = React.forwardRef(function Slider(
     };
 
     return (
-        <div className={b({withTooltip, size}, className)}>
+        <div className={b(null, className)}>
+            <div className={b('top', {size, withTooltip})}></div>
             <BaseSlider
                 ref={baseSliderRef}
                 value={innerState.value}
@@ -132,7 +132,7 @@ export const Slider = React.forwardRef(function Slider(
                         : undefined
                 }
             ></BaseSlider>
-            {styleModifiers.error && <div className={errorCn}>{error}</div>}
+            {styleModifiers.error && <div className={b('error', {size})}>{error}</div>}
         </div>
     );
 });

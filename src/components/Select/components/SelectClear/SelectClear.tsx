@@ -24,6 +24,7 @@ export const SelectClear = (props: SelectClearProps) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             data-qa={SelectQa.CLEAR}
+            type="button"
         >
             {icon}
         </button>

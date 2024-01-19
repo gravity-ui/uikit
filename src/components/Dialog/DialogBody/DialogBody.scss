@@ -3,7 +3,7 @@
 $block: '.#{variables.$ns}dialog-body';
 
 #{$block} {
-    padding: var(--yc-dialog-body-padding);
+    padding: 10px var(--_--side-padding);
     flex: 1 1 auto;
     overflow-y: auto;
 

@@ -59,18 +59,15 @@ $block: '.#{variables.$ns}sheet';
     }
 
     &__sheet-top-resizer {
+        --_--translate-x: calc(-50% * var(--g-flow-direction));
         position: absolute;
         inset-block-start: 50%;
         inset-inline-start: 50%;
-        transform: translateX(-50%) translateY(-50%);
+        transform: translateX(var(--_--translate-x)) translateY(-50%);
         width: 40px;
         height: 4px;
         border-radius: 4px;
         background-color: var(--g-color-line-generic);
-
-        [dir='rtl'] & {
-            transform: translateX(50%) translateY(-50%);
-        }
     }
 
     &__sheet-content {

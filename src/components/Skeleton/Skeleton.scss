@@ -3,9 +3,9 @@
 $block: '.#{variables.$ns}skeleton';
 
 #{$block} {
-    --_--animation-from: -100%;
-    --_--animation-to: 100%;
-    --_--gradient-deg: 90deg;
+    --_--animation-from: calc(-100% * var(--g-flow-direction));
+    --_--animation-to: calc(100% * var(--g-flow-direction));
+    --_--gradient-deg: calc(90deg * var(--g-flow-direction));
 
     display: inline-block;
     position: relative;
@@ -15,12 +15,6 @@ $block: '.#{variables.$ns}skeleton';
     overflow: hidden;
 
     background-color: var(--g-color-base-generic);
-
-    [dir='rtl'] & {
-        --_--animation-from: 100%;
-        --_--animation-to: -100%;
-        --_--gradient-deg: -90deg;
-    }
 
     &::after {
         position: absolute;

@@ -30,14 +30,9 @@ $block: '.#{variables.$ns}dialog';
 
     &_has-close {
         --yc-dialog-header-padding: var(--yc-dialog-header-padding-top)
-            calc(var(--yc-dialog-side-padding) + 28px) var(--yc-dialog-header-padding-bottom)
-            var(--yc-dialog-side-padding);
-
-        [dir='rtl'] & {
-            --yc-dialog-header-padding: var(--yc-dialog-header-padding-top)
-                var(--yc-dialog-side-padding) var(--yc-dialog-header-padding-bottom)
-                calc(var(--yc-dialog-side-padding) + 28px);
-        }
+            calc(var(--yc-dialog-side-padding) + 28px * var(--g-flow-is-ltr))
+            var(--yc-dialog-header-padding-bottom)
+            calc(var(--yc-dialog-side-padding) + 28px * var(--g-flow-is-rtl));
     }
 }
 

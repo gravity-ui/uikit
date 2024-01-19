@@ -138,9 +138,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                                 </div>,
                                 <div key="spacer" className={b('sort-spacer')} />,
                                 <div key="indicator" className={b('sort-indicator')}>
-                                    <SortIndicator
-                                        order={sortOrder || this.getColumnDefaultSortOrder(column)}
-                                    />
+                                    <SortIndicator order={sortOrder} />
                                 </div>,
                             ];
 

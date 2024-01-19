@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {queryByAttribute, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {queryByAttribute, render, screen} from '../../../../test-utils/utils';
 import {getAvatarDisplayText} from '../../Avatar';
 import {Persona} from '../Persona';
 import i18n from '../i18n';

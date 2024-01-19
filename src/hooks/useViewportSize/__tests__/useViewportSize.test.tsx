@@ -1,6 +1,5 @@
-import {act, fireEvent, renderHook} from '@testing-library/react';
-
 import {useViewportSize} from '..';
+import {act, fireEvent, renderHook} from '../../../../test-utils/utils';
 
 test('Check useViewportSize correct work', () => {
     const view = renderHook(() => useViewportSize());

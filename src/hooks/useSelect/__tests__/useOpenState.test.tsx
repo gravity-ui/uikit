@@ -1,5 +1,4 @@
-import {act, renderHook} from '@testing-library/react';
-
+import {act, renderHook} from '../../../../test-utils/utils';
 import type {UseOpenProps} from '../types';
 import {useOpenState} from '../useOpenState';
 

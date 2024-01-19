@@ -1,6 +1,6 @@
-import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {cleanup} from '../../../../test-utils/utils';
 import {SelectQa} from '../constants';
 import type {SelectProps} from '../types';
 

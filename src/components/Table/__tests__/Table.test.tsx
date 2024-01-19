@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen, within} from '../../../../test-utils/utils';
 import {Table, TableColumnConfig, TableProps} from '../Table';
 
 import {DataItem, columns, data} from './utils';

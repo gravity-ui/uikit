@@ -3,7 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Progress} from '../Progress';
-import type {ProgressTheme} from '../Progress';
+import type {ProgressTheme} from '../types';
 
 export default {
     title: 'Components/Feedback/Progress',

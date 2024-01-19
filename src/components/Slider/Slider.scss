@@ -7,7 +7,21 @@ $block: '.#{variables.$ns-new}slider';
 #{$block} {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+
+    &_size {
+        &_s {
+            gap: 0px;
+        }
+        &_m {
+            gap: 2px;
+        }
+        &_l {
+            gap: 4px;
+        }
+        &_xl {
+            gap: 6px;
+        }
+    }
 
     &_withTooltip {
         //6px is padding inside tooltip card

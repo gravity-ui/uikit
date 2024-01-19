@@ -152,7 +152,7 @@ $mark-xl-offset: -1px;
     }
 
     position: relative;
-    width: 100%;
+    flex-grow: 1;
     touch-action: none;
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

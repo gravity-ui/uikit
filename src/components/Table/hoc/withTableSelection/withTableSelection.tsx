@@ -40,7 +40,6 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 onSelectionChange, // eslint-disable-line @typescript-eslint/no-unused-vars
                 columns,
                 onRowClick,
-                getRowClassNames,
                 getRowDescriptor,
                 ...restTableProps
             } = this.props;
@@ -50,7 +49,6 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     {...(restTableProps as Omit<TableProps<I>, 'columns'> & E)}
                     columns={this.enhanceColumns(columns)}
                     onRowClick={this.enhanceOnRowClick(onRowClick)}
-                    getRowClassNames={this.enhanceGetRowClassNames(getRowClassNames)}
                     getRowDescriptor={this.enhanceGetRowDescriptor(getRowDescriptor)}
                 />
             );

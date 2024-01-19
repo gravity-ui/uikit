@@ -31,7 +31,9 @@ export default {
     },
 } as Meta<TableProps<DataItem>>;
 
-const DefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => <Table {...args} />;
+const DefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+    return <Table {...args} />;
+};
 export const Default = DefaultTemplate.bind({});
 
 const EmptyDefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => <Table {...args} />;

@@ -50,6 +50,24 @@ export interface TableColumnConfig<I> {
     meta?: Record<string, any>;
 }
 
+export interface DescriptorType {
+    /**
+     * Row ID.
+     * Used when selecting and sorting rows.
+     */
+    id?: string;
+
+    /**
+     * Row CSS classes.
+     */
+    classNames?: string[];
+
+    /**
+     * Condition for disabling columns.
+     */
+    disabled?: boolean;
+}
+
 // TODO: Replace @default in props description with defaultProps in order to work with Storybook.
 export interface TableProps<I> extends QAProps {
     /** Data */
@@ -75,15 +93,32 @@ export interface TableProps<I> extends QAProps {
      */
     stickyHorizontalScrollBreakpoint?: number;
     /**
+     * @deprecated Use getRowDescriptor instead
+     *
      * Row ID.
      * Used when selecting and sorting rows. If you pass a row,
      * its ID will be the value of the field in the row data named the same as the column ID.
      */
     getRowId?: string | ((item: I, index: number) => string);
-    /** Row CSS classes. */
+    /**
+     * @deprecated Use getRowDescriptor instead
+     *
+     * Row CSS classes.
+     * */
     getRowClassNames?: (item: I, index: number) => string[];
-    /** Condition for disabling columns. */
+    /**
+     * @deprecated Use getRowDescriptor instead
+     *
+     * Condition for disabling columns.
+     * */
     isRowDisabled?: (item: I, index: number) => boolean;
+
+    /**
+     *
+     * @returns {DescriptorType} {@link DescriptorType}
+     */
+    getRowDescriptor?: (item: I, index: number) => DescriptorType | undefined;
+
     /** Row click handler. When passed row's hover is visible. */
     onRowClick?: (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
     /** Row mouseenter handler. */
@@ -124,8 +159,14 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
 
     // Static methods may be used by HOCs
     static getRowId<I extends TableDataItem>(props: TableProps<I>, item: I, rowIndex?: number) {
-        const {data, getRowId} = props;
+        const {data, getRowId, getRowDescriptor} = props;
         const index = rowIndex ?? data.indexOf(item);
+
+        const descriptor = getRowDescriptor?.(item, index);
+
+        if (descriptor?.id !== undefined) {
+            return descriptor.id;
+        }
 
         if (typeof getRowId === 'function') {
             return getRowId(item, index);
@@ -404,12 +445,18 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             verticalAlign,
             edgePadding,
             wordWrap,
+            getRowDescriptor,
         } = this.props;
         const {columnsStyles} = this.state;
 
-        const disabled = isRowDisabled ? isRowDisabled(item, rowIndex) : false;
+        const descriptor = getRowDescriptor?.(item, rowIndex);
+
+        const disabled = descriptor?.disabled || isRowDisabled?.(item, rowIndex) || false;
+
+        const additionalClassNames =
+            descriptor?.classNames || getRowClassNames?.(item, rowIndex) || [];
+
         const interactive = Boolean(!disabled && onRowClick);
-        const additionalClassNames = getRowClassNames ? getRowClassNames(item, rowIndex) : [];
 
         return (
             <tr

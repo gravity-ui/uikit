@@ -203,30 +203,14 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         );
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceGetRowClassNames = _memoize(
-            (getRowClassNames?: (item: I, index: number) => string[]) => {
-                return (item: I, index: number) => {
-                    const {selectedIds} = this.props;
-                    const classNames = getRowClassNames
-                        ? getRowClassNames(item, index).slice()
-                        : [];
-
-                    const id = Table.getRowId(this.props, item, index);
-                    const selected = selectedIds.includes(id);
-
-                    classNames.push(b('row', {selected}));
-
-                    return classNames;
-                };
-            },
-        );
-
-        // eslint-disable-next-line @typescript-eslint/member-ordering
         private enhanceGetRowDescriptor = _memoize(
             (getRowDescriptor?: TableProps<I>['getRowDescriptor']) => {
                 return (item: I, index: number) => {
-                    const {selectedIds} = this.props;
-                    const classNames = getRowDescriptor?.(item, index)?.classNames?.slice() || [];
+                    const {selectedIds, getRowClassNames} = this.props;
+                    const classNames =
+                        getRowDescriptor?.(item, index)?.classNames?.slice() ||
+                        getRowClassNames?.(item, index) ||
+                        [];
 
                     const id = Table.getRowId(this.props, item, index);
                     const selected = selectedIds.includes(id);

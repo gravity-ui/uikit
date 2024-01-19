@@ -1,26 +1,23 @@
 import React from 'react';
 
-import type {Subtract} from 'utility-types';
-
 import {getComponentName} from '../utils/getComponentName';
 
-import {ThemeContext} from './ThemeContext';
-import type {ThemeContextProps} from './ThemeContext';
+import type {ThemeContextProps} from './types';
+import {useThemeValue} from './useThemeValue';
 
 export interface WithThemeValueProps extends Pick<ThemeContextProps, 'themeValue'> {}
 
 export function withThemeValue<T extends WithThemeValueProps>(
     WrappedComponent: React.ComponentType<T>,
-): React.ComponentType<Subtract<T, WithThemeValueProps>> {
+): React.ComponentType<Omit<T, keyof WithThemeValueProps>> {
     const componentName = getComponentName(WrappedComponent);
 
-    return class WithThemeValueComponent extends React.Component<Subtract<T, WithThemeValueProps>> {
-        static displayName = `withThemeValue(${componentName})`;
-        static contextType = ThemeContext;
-        context!: React.ContextType<typeof ThemeContext>;
-
-        render() {
-            return <WrappedComponent {...(this.props as T)} themeValue={this.context.themeValue} />;
-        }
+    const component = function WithThemeValueComponent(props: Omit<T, keyof WithThemeValueProps>) {
+        const themeValue = useThemeValue();
+        return <WrappedComponent {...(props as T)} themeValue={themeValue} />;
     };
+
+    component.displayName = `withThemeValue(${componentName})`;
+
+    return component;
 }

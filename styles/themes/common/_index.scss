@@ -15,9 +15,19 @@
 
     --g-focus-border-radius: 2px;
 
-    --g-flow-direction: 1;
-    --g-flow-is-ltr: 1;
-    --g-flow-is-rtl: 0;
+    @at-root body#{&} {
+        // default document direction is ltr
+        --g-flow-direction: 1;
+        --g-flow-is-ltr: 1;
+        --g-flow-is-rtl: 0;
+    }
+
+    &[dir='ltr'] {
+        --g-flow-direction: 1;
+        --g-flow-is-ltr: 1;
+        --g-flow-is-rtl: 0;
+    }
+
     &[dir='rtl'] {
         --g-flow-direction: -1;
         --g-flow-is-ltr: 0;

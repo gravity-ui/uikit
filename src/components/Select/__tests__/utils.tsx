@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {act, render} from '@testing-library/react';
 import range from 'lodash/range';
 
 import {Select} from '..';
 import type {SelectOption, SelectOptionGroup, SelectProps, SelectRenderControlProps} from '..';
+import {act, render} from '../../../../test-utils/utils';
 import {MobileProvider} from '../../mobile';
 import {selectControlBlock, selectControlButtonBlock, selectListBlock} from '../constants';
 

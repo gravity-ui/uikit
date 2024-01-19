@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {Flame} from '@gravity-ui/icons';
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../../test-utils/utils';
 import {TabsItem} from '../TabsItem';
 
 const tabId = 'tab-id';

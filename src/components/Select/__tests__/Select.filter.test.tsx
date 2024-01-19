@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {cleanup} from '../../../../test-utils/utils';
 import {TextInput} from '../../controls';
 import type {SelectOption, SelectProps} from '../types';
 

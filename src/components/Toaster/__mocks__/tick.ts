@@ -1,4 +1,4 @@
-import {act} from '@testing-library/react';
+import {act} from '../../../../test-utils/utils';
 
 import {fireAnimationEndEvent} from './fireAnimationEndEvent';
 

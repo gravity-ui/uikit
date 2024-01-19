@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {createEvent, fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {createEvent, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Tooltip} from '../Tooltip';
 
 export function fireAnimationEndEvent(el: Node | Window, animationName = 'animation') {

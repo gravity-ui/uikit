@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../../test-utils/utils';
 import {Button} from '../../Button';
 import type {CardSize, CardTheme, CardType, CardView} from '../Card';
 import {Card} from '../Card';

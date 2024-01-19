@@ -51,9 +51,7 @@
         background: var(--g-color-scroll-handle-hover);
     }
 
-    // stylelint-disable-next-line property-no-unknown
     scrollbar-width: var(--g-scrollbar-width);
-    // stylelint-disable-next-line property-no-unknown
     scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
 }
 

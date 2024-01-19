@@ -6,17 +6,15 @@ $block: '.#{variables.$ns}table';
     &__sort {
         display: inline-flex;
         align-items: baseline;
+        gap: var(--g-spacing-1);
         // `top` to avoid redundant height to appear
         vertical-align: top;
         cursor: pointer;
         user-select: none;
         border-radius: var(--g-border-radius-xs);
 
-        &-spacer {
-            width: 5px;
-        }
-
         &-indicator {
+            flex-shrink: 0;
             color: var(--g-color-text-hint);
         }
 

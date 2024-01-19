@@ -136,7 +136,6 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                                 <div key="content" className={b('sort-content')}>
                                     {originContent}
                                 </div>,
-                                <div key="spacer" className={b('sort-spacer')} />,
                                 <div key="indicator" className={b('sort-indicator')}>
                                     <SortIndicator order={sortOrder} />
                                 </div>,

@@ -4,7 +4,7 @@ import {CSSTransition} from 'react-transition-group';
 
 import {getCSSTransitionClassNames} from '../../utils/transition';
 import {useDisclosureAttributes} from '../DisclosureContext';
-import {b} from '../cn';
+import {DisclosureQa, b} from '../constants';
 
 export interface DisclosureDetailsProps {
     children: React.ReactNode;
@@ -30,6 +30,7 @@ export function DisclosureDetails({children}: DisclosureDetailsProps) {
                 role="region"
                 aria-labelledby={ariaLabelledby}
                 className={b('content', {visible: expanded})}
+                data-qa={DisclosureQa.DETAILS}
             >
                 {children}
             </div>

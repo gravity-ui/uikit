@@ -102,11 +102,8 @@ $block: '.#{variables.$ns}switch';
     }
 
     &_checked &__slider {
-        transform: translateX(100%);
-
-        [dir='rtl'] & {
-            transform: translateX(-100%);
-        }
+        --_--translate-x: calc(100% * var(--g-flow-direction));
+        transform: translateX(var(--_--translate-x));
     }
 
     &_checked,

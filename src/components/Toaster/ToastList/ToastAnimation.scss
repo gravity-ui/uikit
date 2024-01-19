@@ -20,7 +20,7 @@ $animation-duration: 0.6s;
     @if ($platform == 'mobile') {
         transform: translateY($transition-distance);
     } @else {
-        transform: translateX($transition-distance);
+        transform: translateX(calc(var(--g-flow-direction) * $transition-distance));
     }
 }
 

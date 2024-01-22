@@ -2,16 +2,14 @@ import React from 'react';
 
 import type {Decorator} from '@storybook/react';
 
-import {useMobile} from '../../src';
+import {MobileProvider} from '../../src';
 
 export const WithMobile: Decorator = (Story, context) => {
-    const mobileValue = context.globals.platform === 'mobile';
+    const platform = context.globals.platform;
 
-    const [, setMobile] = useMobile(); // eslint-disable-line react-hooks/rules-of-hooks
-
-    React.useEffect(() => {
-        setMobile(mobileValue);
-    }, [mobileValue]);
-
-    return <Story {...context} />;
+    return (
+        <MobileProvider mobile={platform === 'mobile'} platform={platform}>
+            <Story key={platform} {...context} />
+        </MobileProvider>
+    );
 };

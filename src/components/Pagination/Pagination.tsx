@@ -31,7 +31,7 @@ export const Pagination = ({
     className,
     qa,
 }: PaginationProps) => {
-    const [mobile] = useMobile();
+    const mobile = useMobile();
 
     const size = mobile ? 'l' : 'm';
     const compact = mobile ? true : propCompact;

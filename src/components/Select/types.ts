@@ -60,7 +60,10 @@ export type SelectProps<T = any> = QAProps &
         }) => React.ReactElement;
         renderOption?: SelectRenderOption<T>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
-        renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
+        renderSelectedOption?: (
+            option: SelectOption<T> | {value: string},
+            index: number,
+        ) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         getOptionHeight?: (option: SelectOption<T>, index: number) => number;
         getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;

@@ -244,13 +244,13 @@ export const SelectShowcase = (props: SelectProps) => {
                         return (
                             <span
                                 style={{
-                                    color: option.data?.color,
+                                    color: 'data' in option ? option.data?.color : undefined,
                                     height: 22,
                                     lineHeight: '22px',
                                     marginRight: '6px',
                                 }}
                             >
-                                {option.content}
+                                {'content' in option ? option.content : option.value}
                             </span>
                         );
                     },

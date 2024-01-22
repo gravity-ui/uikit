@@ -2,7 +2,7 @@ import React from 'react';
 
 import {useIntersection} from '../../../../hooks';
 import {Loader} from '../../../Loader/Loader';
-import {selectListBlock} from '../../constants';
+import {SelectQa, selectListBlock} from '../../constants';
 
 export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
     const ref = React.useRef<HTMLDivElement | null>(null);
@@ -13,11 +13,9 @@ export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
         <div
             ref={ref}
             className={selectListBlock('loading-indicator')}
-            data-qa={SelectLoadingIndicator.qa}
+            data-qa={SelectQa.SELECT_LOADING_INDICATOR}
         >
             <Loader />
         </div>
     );
 };
-
-SelectLoadingIndicator.qa = 'SELECT_LOADING_INFICATOR';

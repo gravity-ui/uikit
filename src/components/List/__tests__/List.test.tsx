@@ -2,7 +2,7 @@ import React from 'react';
 
 import {render, screen} from '@testing-library/react';
 
-import {SelectLoadingIndicator} from '../../Select/components/SelectList/SelectLoadingIndicator';
+import {SelectQa} from '../../Select/constants';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
@@ -37,5 +37,5 @@ test('List loading case', () => {
 
     expect(listItems.length).toBe(ITEMS.length + 1);
 
-    expect(screen.getByTestId(SelectLoadingIndicator.qa)).toBeVisible();
+    expect(screen.getByTestId(SelectQa.SELECT_LOADING_INDICATOR)).toBeVisible();
 });

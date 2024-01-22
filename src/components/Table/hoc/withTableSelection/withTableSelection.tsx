@@ -40,7 +40,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 onSelectionChange, // eslint-disable-line @typescript-eslint/no-unused-vars
                 columns,
                 onRowClick,
-                getRowClassNames,
+                getRowDescriptor,
                 ...restTableProps
             } = this.props;
 
@@ -49,7 +49,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     {...(restTableProps as Omit<TableProps<I>, 'columns'> & E)}
                     columns={this.enhanceColumns(columns)}
                     onRowClick={this.enhanceOnRowClick(onRowClick)}
-                    getRowClassNames={this.enhanceGetRowClassNames(getRowClassNames)}
+                    getRowDescriptor={this.enhanceGetRowDescriptor(getRowDescriptor)}
                 />
             );
         }
@@ -201,13 +201,15 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         );
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        private enhanceGetRowClassNames = _memoize(
-            (getRowClassNames?: (item: I, index: number) => string[]) => {
+        private enhanceGetRowDescriptor = _memoize(
+            (getRowDescriptor?: TableProps<I>['getRowDescriptor']) => {
                 return (item: I, index: number) => {
-                    const {selectedIds} = this.props;
-                    const classNames = getRowClassNames
-                        ? getRowClassNames(item, index).slice()
-                        : [];
+                    const {selectedIds, getRowClassNames} = this.props;
+                    const classNames =
+                        getRowDescriptor?.(item, index)?.classNames?.slice() ||
+                        getRowClassNames?.(item, index) ||
+                        [];
+
                     const id = Table.getRowId(this.props, item, index);
                     const selected = selectedIds.includes(id);
 
@@ -219,11 +221,13 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         );
 
         private isDisabled = (item: I, index: number) => {
-            const {isRowDisabled, isRowSelectionDisabled} = this.props;
+            const {isRowDisabled, isRowSelectionDisabled, getRowDescriptor} = this.props;
             if (isRowSelectionDisabled && isRowSelectionDisabled(item, index)) {
                 return true;
             }
-            return isRowDisabled ? isRowDisabled(item, index) : false;
+            return (
+                getRowDescriptor?.(item, index)?.disabled || isRowDisabled?.(item, index) || false
+            );
         };
     };
 }

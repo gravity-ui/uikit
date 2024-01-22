@@ -3,7 +3,7 @@ import React from 'react';
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Table} from '../Table';
+import {Table, TableProps} from '../Table';
 
 import {columns, data} from './utils';
 
@@ -151,5 +151,38 @@ describe('Table', () => {
         const table = screen.getByTestId(stickyHorizontalScrollBreakpointQa);
 
         expect(table).toHaveStyle(style);
+    });
+
+    test('getRowDescriptor property case', () => {
+        const EXPTECTED_CLASS_NAME = 'EXPTECTED_CLASS_NAME';
+        const EXPECTED_ID = 'EXPECTED_ID';
+
+        const ROW_ID = 1;
+
+        const getRowDescriptor: TableProps<unknown>['getRowDescriptor'] = (_, index) => {
+            if (index === ROW_ID) {
+                return {classNames: [EXPTECTED_CLASS_NAME], disabled: true, id: EXPECTED_ID};
+            }
+
+            return undefined;
+        };
+
+        render(
+            <Table data={data} columns={columns} getRowDescriptor={getRowDescriptor} qa={qaId} />,
+        );
+
+        const table = screen.getByTestId(qaId);
+        const tbody = within(table).getAllByRole('rowgroup');
+        const rows = within(tbody[1]).getAllByRole('row');
+
+        expect(rows.length).toBe(data.length);
+        expect(rows.length > 1).toBe(true);
+
+        rows.forEach((row, i) => {
+            const expectedFlag = ROW_ID === i;
+
+            expect(row.className.includes(EXPTECTED_CLASS_NAME)).toBe(expectedFlag);
+            expect(row.className.includes('yc-table__row_disabled')).toBe(expectedFlag);
+        });
     });
 });

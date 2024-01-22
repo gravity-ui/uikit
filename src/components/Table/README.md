@@ -29,6 +29,7 @@ Additional functionality is enabled via HOCs:
 | data                             | Data                                                                                                                                                                            |                                      `any[]`                                       |             |
 | columns                          | Column parameters                                                                                                                                                               |                               `TableColumnConfig[]`                                |             |
 | verticalAlign                    | Vertical alignment of contents                                                                                                                                                  |                                 `"top"` `"middle"`                                 |             |
+| getRowDescriptor                 | Row mouseleave handler                                                                                                                                                          |                   `(item: any, index: number) => DescriptorType`                   |             |
 | getRowId                         | The row ID, used when selecting and sorting rows. If you skip a row, its ID will be the value of the field in the row data with the same name as the column ID                  |                 `string` `((item: any, index: number) => string)`                  |             |
 | getRowClassNames                 | Row CSS classes                                                                                                                                                                 |                      `(item: any, index: number) => string[]`                      |             |
 | isRowDisabled                    | Condition for disabling columns                                                                                                                                                 |                      `(item: any, index: number) => boolean`                       |             |
@@ -40,6 +41,14 @@ Additional functionality is enabled via HOCs:
 | edgePadding                      | Adds horizontal padding for edge cells                                                                                                                                          |                                     `boolean`                                      |             |
 | stickyHorizontalScroll           | A horizontal sticky scroll in a table. NB: A table cannot have a fixed height and a sticky scroll at the same time. A sticky scroll will not work if the table has an overflow. |                                     `boolean`                                      |   `false`   |
 | stickyHorizontalScrollBreakpoint | The threshold that the parent block should reach before making a scroll sticky. This is useful in the console, for example, when the groupActions bar closes the scroll.        |                                      `number`                                      |     `0`     |
+
+### DescriptorType
+
+| Name       | Description                                      |          Type           |   Default   |
+| :--------- | :----------------------------------------------- | :---------------------: | :---------: |
+| id         | The row ID, used when selecting and sorting rows |  `string` `undefined`   | `undefined` |
+| disabled   | Column ID                                        |  `boolean` `undefined`  | `undefined` |
+| classNames | Row CSS classes                                  | ` string[]` `undefined` | `undefined` |
 
 ### TableColumnConfig
 

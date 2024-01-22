@@ -28,7 +28,7 @@ describe('Table', () => {
             const rows = within(tbody[1]).getAllByRole('row');
 
             rows.forEach((row) => {
-                expect(row).toHaveClass(`yc-table__row_vertical-align_${align}`);
+                expect(row).toHaveClass(`g-table__row_vertical-align_${align}`);
             });
         },
     );
@@ -56,7 +56,7 @@ describe('Table', () => {
         const cells = within(thead[0]).getAllByRole('columnheader');
 
         cells.forEach((cell) => {
-            expect(cell).toHaveClass(`yc-table__cell_edge-padding`);
+            expect(cell).toHaveClass(`g-table__cell_edge-padding`);
         });
     });
 
@@ -67,7 +67,7 @@ describe('Table', () => {
         const cells = within(thead[0]).getAllByRole('columnheader');
 
         cells.forEach((cell) => {
-            expect(cell).not.toHaveClass(`yc-table__cell_edge-padding`);
+            expect(cell).not.toHaveClass(`g-table__cell_edge-padding`);
         });
     });
 
@@ -83,7 +83,7 @@ describe('Table', () => {
         const tbody = within(table).getAllByRole('rowgroup');
         const rows = within(tbody[1]).getAllByRole('row');
 
-        const row = rows.filter((r) => r.className.includes('yc-table__row_disabled'));
+        const row = rows.filter((r) => r.className.includes('g-table__row_disabled'));
         expect(row.length).toBe(1);
     });
 
@@ -117,7 +117,7 @@ describe('Table', () => {
         render(<Table data={data} columns={columns} stickyHorizontalScroll={true} qa={qaId} />);
         const table = screen.getByTestId(qaId);
 
-        expect(table).toHaveClass('yc-table_with-sticky-scroll');
+        expect(table).toHaveClass('g-table_with-sticky-scroll');
     });
 
     test('call onRowClick', async () => {

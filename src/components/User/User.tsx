@@ -1,13 +1,13 @@
 import React from 'react';
 
 import {Avatar} from '../Avatar';
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 
 import type {UserProps} from './types';
 
 import './User.scss';
 
-const b = blockNew('user');
+const b = block('user');
 
 export const User = React.forwardRef<HTMLDivElement, UserProps>(
     (

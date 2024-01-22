@@ -1,7 +1,7 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
-$block: '.#{variables.$ns-new}disclosure';
+$block: '.#{variables.$ns}disclosure';
 $gap: 8px;
 
 #{$block} {

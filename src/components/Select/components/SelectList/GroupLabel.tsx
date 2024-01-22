@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {blockNew as block} from '../../../utils/cn';
+import {block as block} from '../../../utils/cn';
 import type {GroupTitleItem} from '../../utils';
 
 const b = block('select-list');

@@ -3,7 +3,7 @@ import React from 'react';
 import {Check} from '@gravity-ui/icons';
 
 import {Icon} from '../../../Icon';
-import {blockNew as block} from '../../../utils/cn';
+import {block as block} from '../../../utils/cn';
 import type {SelectOption, SelectProps} from '../../types';
 
 const b = block('select-list');

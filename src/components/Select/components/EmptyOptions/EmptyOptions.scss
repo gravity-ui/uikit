@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}select-empty-placeholder';
+$block: '.#{variables.$ns}select-empty-placeholder';
 
 #{$block} {
     margin: 4px;

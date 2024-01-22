@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}select-filter';
+$block: '.#{variables.$ns}select-filter';
 
 #{$block} {
     // To prevent border blink when the focus is set frequently (in case of option click)

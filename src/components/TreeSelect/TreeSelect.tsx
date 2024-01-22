@@ -59,7 +59,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onItemClick,
     } = props;
 
-    const [mobile] = useMobile();
+    const mobile = useMobile();
     const uniqId = useUniqId();
     const treeSelectId = id ?? uniqId;
 

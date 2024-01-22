@@ -1,0 +1,17 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}list-container-view';
+
+#{$block} {
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+
+    &_fixed-height {
+        height: var(--g-list-container-height, 300px);
+    }
+
+    &:not(#{$block}_fixed-height) {
+        overflow: auto;
+    }
+}

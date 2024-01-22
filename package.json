@@ -28,6 +28,11 @@
             "require": "./build/cjs/components/utils/addComponentKeysets.js",
             "import": "./build/esm/components/utils/addComponentKeysets.js"
         },
+        "./unstable": {
+            "types": "./build/esm/unstable.d.ts",
+            "require": "./build/cjs/unstable.js",
+            "import": "./build/esm/unstable.js"
+        },
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",
@@ -46,6 +51,9 @@
             ],
             "i18n": [
                 "./build/esm/components/utils/addComponentKeysets.d.ts"
+            ],
+            "unstable": [
+                "./build/esm/unstable.d.ts"
             ]
         }
     },

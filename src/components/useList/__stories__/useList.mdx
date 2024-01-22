@@ -1,0 +1,539 @@
+import {Meta} from '@storybook/addon-docs';
+
+<Meta title="Unstable/useList" />
+
+# useList
+
+A set of hooks for creating stateless `List` components;
+
+The basic idea is that hooks take all the complex logic on themselves, and all you have to do is implement the "dumb" components of the view;
+
+`Storybook` provides complex examples how to use this components from this documentation.
+
+### Hooks:
+
+-   [useList](#uselist-1);
+-   [useListKeydown](#uselistkeydown)
+-   [useListFilter](#uselistfilter);
+-   [useListState](#useliststate);
+
+### Components (View only):
+
+-   [ListItemView](#listitemview);
+-   [ListContainerView](#listcontainerview);
+-   [ListRecursiveRenderer](#listrecursiverenderer);
+
+### Utilitys:
+
+-   [computeItemSize](#computeitemsize);
+-   [scrollToListItem](#scrolltolistitem);
+-   [getItemRenderState](#getitemrenderstate);
+-   [getListParsedState](#getlistparsedstate);
+
+## Quick code snippets for beginners:
+
+### flatten items:
+
+```tsx
+import {
+    ListContainerView,
+    type ListItemId,
+    type ListItemType,
+    ListItemView,
+    getItemRenderState,
+    useList,
+    useListKeydown,
+    useListState,
+} from '@gravity-ui/uikit/unstable';
+
+const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
+
+function List() {
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    const listState = useListState();
+    const list = useList({
+        items,
+        ...listState,
+    });
+
+    useListKeydown({
+        onItemClick,
+        containerRef,
+        ...list,
+        ...listState,
+    });
+
+    return (
+        <ListContainerView ref={containerRef}>
+            {list.items.map((_, i) => {
+                const {
+                    data,
+                    props,
+                    context: _context,
+                } = getItemRenderState({
+                    id: String(i),
+                    onItemClick,
+                    ...list,
+                    ...listState,
+                });
+
+                return <ListItemView key={i} {...props} title={data} />;
+            })}
+        </ListContainerView>
+    );
+
+    // multiple selection
+    function onItemClick(id: ListItemId) {
+        listState.setSelected((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id],
+        }));
+
+        listState.setActiveItemId(id);
+    }
+}
+```
+
+### tree item structure:
+
+```tsx
+const items: ListItemType<string>[] = [
+    {data: 'one'},
+    {data: 'two', children: [{data: 'tree', children: [{data: 'four'}, {data: 'five'}]}]},
+];
+
+function List() {
+    // same as prev example
+    return (
+        <ListContainerView ref={containerRef}>
+            {list.items.map((item, index) => (
+                <ListItemRecursiveRenderer
+                    key={index}
+                    itemSchema={item}
+                    index={index}
+                    expandedById={expandedById}
+                >
+                    {(id) => {
+                        const {
+                            data,
+                            props,
+                            context: _context,
+                        } = getItemRenderState({
+                            id: String(i),
+                            onItemClick,
+                            ...list,
+                            ...listState,
+                        });
+
+                        return <ListItemView {...props} title={data} />;
+                    }}
+                </ListItemRecursiveRenderer>
+            ))}
+        </ListContainerView>
+    );
+}
+```
+
+## Hooks:
+
+### useList
+
+The main hook for creating a stateless version of the sheet.
+
+#### Props:
+
+-   `items` - `ListItemType<T>[]` - a flat or tree-like data structure, with `List` declaration:
+
+```tsx
+interface ListItemInitialProps {
+    /**
+     * If you need to control the state from the outside,
+     * you can set a unique id for each element
+     */
+    id?: string;
+    /**
+     * Initial disabled item state
+     */
+    disabled?: boolean;
+    /**
+     * Initial selected item state
+     */
+    selected?: boolean;
+    /**
+     * Default expanded state if group
+     */
+    expanded?: boolean;
+}
+
+type ListFlattenItemType<T> = T & ListItemInitialProps;
+
+interface ListTreeItemType<T> extends ListItemInitialProps {
+    data: T;
+    children?: ListTreeItemType<T>[];
+}
+
+export type ListItemType<T> = ListTreeItemType<T> | ListFlattenItemType<T>;
+```
+
+-   `expandedById` - state for open/closed `List` elements. Affects the formation of the `visibleFlattenIds` - if the element id in this object is set to `false` - all elements of this group and all nested groups will not be present in the final ids order;
+-   `getId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
+
+```tsx
+const items = [
+    {data: {id: 'id-1', title: 'some title 1'}, children: [...]},
+    {data: {id: 'id-2', title: 'some title 2'}, children: [...]},
+];
+
+/**
+ * itemsById: {
+ *  'id-1': {id: 'id-1', title: 'some title 1'},
+ *  'id-2': {id: 'id-2', title: 'some title 2'},
+ * }
+ */
+const {byid} = useList({
+    items,
+    getId: ({id}) => id,
+})
+```
+
+#### Returned data:
+
+-   `itemsState` - a normalized representation of meta information for each element of the list
+    features:
+
+    -   `parentId` - Id of the parent element, if there is a parent;
+    -   `indentation` - Nesting level;
+
+-   `itemsById` - normalized representation of list items:
+
+        ```tsx
+        export type ParsedState<T> = {
+            // ...
+            itemsById: Record<ListItemId, T>;
+            // ...
+        };
+
+        const items = [
+            {data: {title: 'title-1'}, children: [{data: {title: 'title-1-1'}, children: []}]},
+            {data: {title: 'title-2'}, children: []},
+        ];
+        // ->
+        const itemsById: {
+            0: {title: 'title-1'};
+            '0-0': {title: 'title-1-1'};
+            1: {title: 'title-2'};
+        };
+        ```
+
+    The default IDs are formed according to the principle `<ordinal index>-<ordinal index of the nested list>`. To make a custom `id`, you need to use it either when forming an array of `items` or through the`getId` function.
+
+-   `groupsState` - a normalized representation of metadata about a group if the item is both a list item and a group:
+    -   `childrenIds` - list of child element IDs;
+-   `visibleFlattenIds` - sequential representation of list items by id, taking into account invisible elements inside collapsed groups;
+
+### useListKeydown
+
+Keyboard support
+
+#### Props:
+
+-   `disabledById` - key-value representation of disabled elements that do not need to be taken into account when navigating through the `List`;
+-   `activeItemId` - current active item `id`;
+-   `visibleFlattenIds` - a flat list of elements to be navigated through; Collapsed groups must be taken into account in this array;
+-   `onItemClick` - callback will be called when pressing the `Enter`, `Space` keys;
+-   `containerRef` - a reference to the DOM element of the List container inside which to search for its elements;
+-   `setActiveItemId` - Callback for setting the current active element;
+-   `enabled` - on/off keyboard support. Use it if you need to change the behavior in runtime;
+
+```tsx
+const containerRef = React.useRef<HTMLDivElement>(null);
+const listState = useListState()
+const list = useList(...)
+
+const handleItemClick = () => {...};
+
+useListKeydown({
+    onItemClick: handleItemClick,
+    containerRef,
+    ...list,
+    ...listState,
+})
+```
+
+### useListFilter
+
+#### Props:
+
+-   `items` - original array of `listItemType<T>[]`, same us used in the `useList` hook;
+-   `initialFilterValue` - the initial value of the filter;
+-   `filterItem` - the predicate function determines the principle of leaving elements in the original array. It works recursively, there is no need to implement custom logic to bypass the tree structure;
+-   `filterItems` - completely redefine the filtering logic;
+-   `debounceTimeout` - with what delay to apply the filtering result. By default, `300ms`;
+
+#### Returns:
+
+-   `filterRef` - ref to the DOM element of the filtering component;
+-   `filter` - current filter value;
+-   `reset` - method for resetting the filter value;
+-   `items` - list of filtered sheet elements `listItemType<T>[]`;
+-   `onFilterUpdate` - callback for changing the filter value;
+
+```tsx
+const List = () => {
+    const {items, filter, onFilterUpdate, filterRef} = useListFilter({
+        items: [...]
+    })
+
+    const list = useList({
+        items,
+    })
+
+    return (
+        <>
+            <TextField
+                value={filter}
+                onUpdate={onFilterUpdate}
+                ref={filterRef}
+            />
+        </>
+    )
+}
+```
+
+### useListState
+
+The basic hook for managing the state of the `List`. You can use your own implementation, the main thing is to understand about the concept of the `state` of the sheet. Which corresponds to the following interface:
+
+```tsx
+type ListState = {
+    disabledById: Record<ListItemId, boolean>;
+    selectedById: Record<ListItemId, boolean>;
+    expandedById: Record<ListItemId, boolean>;
+    activeItemId?: ListItemId;
+};
+
+const {
+    disabledById,
+    setDisabled,
+    selectedById,
+    setSelected,
+    expandedById,
+    setExpanded,
+    activeItemId,
+    setActiveItemId,
+} = useListState();
+```
+
+## Components:
+
+### ListItemView
+
+The basic component responsible for the appearance of the list items.
+Use it even if the functionality of the `useList` hook seems redundant to you
+
+#### Props:
+
+-   `id` - required prop. Set `[data-list-item="${id}"]` data attribute. By this it core list engine finds elements to scroll to.
+-   `title` - base required prop to use. If passed string, applas default component styles according desig system. Pass you own componnet if you wont custom behaviour;
+-   `as` - if needed, override `html` tag. By default - `li`;
+-   `size` - the size of the element. By default, `m`. Available options are `s`, `m`, `L`, `xl`. It also affects the radii of the fillets;
+-   `height` - the height of the element in pixels. By default, it is calculated depending on the `size` parameter and the presence of the `subtitle` parameter;
+-   `selected` - the selected state of the component;
+-   `active` - the state when the element is in the user's focus, but not selected. It can also be used when you drag an element;
+-   `disabled` - The disabled state. It also prevents clicking on an element;
+-   `activeOnHover`- By default hovered elements has active styles. You can disable this behavior;
+-   `indentation` - Build in indentation component to render nested views structure;
+-   `hasSelectionIcon` - Show selected icon if selected and reserve space for this icon;
+-   `onClick` - on item click callback. !Note: if passed this and `disabled` option is `true` click will not be appear;
+-   `style` - optional react `React.CSSProperties` object;
+-   `subtitle` - Slot under `title`. If passed string apply prefefined styles. Or you can pass custom `React.ReactNode` to use you own behaviour;
+-   `startSlot` - custom slot before `title`;
+-   `endSlot` - custom slot after `title`;
+-   `corners` - Prop to remove default border radiuses from element;
+-   `className` - custom class name to mix with;
+-   `expanded` - Build in supoort expanded behaviour for list item groups;
+
+```tsx
+const items = [
+    {title: 'some title 1', subtitle: 'some subtitle 1', icon: <Icon data={Grip} size={16} />},
+    {title: 'some title 2', subtitle: 'some subtitle 2', icon: <Icon data={Grip} size={16} />},
+];
+
+const List = () => {
+    return (
+        <>
+            {items.map(item, i) => {
+                return (
+                    <ListItemView
+                        key={i}
+                        id={String(i)}
+                        title={item.title}
+                        subtitle={item.subtitle}
+                        endSlot={item.icon}
+                    />
+                )
+            }}
+        </>
+    )
+};
+```
+
+### ListContainerView
+
+The default container for all custom lists. Contains all html attributes and styles for quick use in your projects.
+
+#### Props:
+
+-   `id` - optional id attribute;
+-   `className` - custom class name to mix with;
+-   `fixedHeight` - removes default `overflow: auto` from container and set fixed container height (`--g-list-height` = `300px`);
+
+```tsx
+const containerRef = React.useRef<HTMLDivElement>(null);
+
+<ListContainerView ref={containerRef}>
+    <ListItemView title="123" id="1" />
+    <ListItemView title="456" id="2" />
+</ListContainerView>;
+```
+
+### ListRecursiveRenderer
+
+The basic "renderer" of the `List` elements. When rendering, it retains the nested html structure.
+You can use it as an example if you need to implement hiding/closing groups of elements with animation.
+For the virtualized version of the list, you need to implement a component with a similar interface, see the examples from storybook.
+
+#### Props:
+
+-   `itemSchema` - base list item (`ListItemType<T>`);
+-   `children` - render list item function;
+-   `index` - the ordinal index of the first level of the sheet elements;
+-   `expandedById` - state for hidden group elements, if the functionality of hiding/opening groups is supported
+-   `className` - custom class name to mix with;
+-   `getId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
+-   `style` - optional react `React.CSSProperties` object;
+
+```tsx
+<ListContainerView ref={containerRef}>
+    {items.map((item, index) => (
+        <ListItemRecursiveRenderer
+            key={index}
+            itemSchema={item}
+            index={index}
+            expandedById={expandedById}
+        >
+            {(id) => <ListItemView key={id} id={id} title={itemsById[id].title} />}
+        </ListItemRecursiveRenderer>
+    ))}
+</ListContainerView>
+```
+
+## Utilitys
+
+### computeItemSize;
+
+Utility to compute list item height:
+
+```tsx
+<VirtualizedListContainer // custom implementation
+    items={visibleFlattenIds}
+    itemSize={(index) =>
+        computeItemSize(
+            // list size
+            size,
+            // has subrows
+            Boolean(get(itemsById[visibleFlattenIds[index]], 'subtitle')),
+        )
+    }
+/>
+```
+
+### scrollToListItem;
+
+Utility to sroll into list item view by id and ref on container DOM element:
+
+```tsx
+const containerRef = React.useRef<HTMLDivElement>(null);
+// restoring focus when popup opens
+React.useLayoutEffect(() => {
+    if (open) {
+        containerRef.current?.focus();
+        listState.setActiveItemId(selectedId ?? list.visibleFlattenIds[0]);
+
+        if (selectedId) {
+            scrollToListItem(selectedId, containerRef.current);
+        }
+    }
+}, [open]);
+// ...
+<ListContainerView ref={containerRef} />;
+```
+
+### getItemRenderState;
+
+Map list state to item render props;
+
+#### Returns:
+
+-   item data (`T`);
+
+```tsx
+item = {
+    data: T,
+    children: [...]
+}
+// or, if flatten list declaration variant
+item = T
+```
+
+-   item state props:
+    -   `id` - item id;
+    -   `size` - item size;
+    -   `expanded` - expanded state if item group;
+    -   `active` - is item active;
+    -   `indentation` - item nest level;
+    -   `disabled` - is item disabled;
+    -   `selected` - is item selected;
+    -   `onClick` - on item click handle if exists;
+-   item list context:
+    -   `itemState`:
+        -   `parentId?` - id of parant element;
+        -   `indentation` - item nest level;
+    -   `groupState` - exists only if item is group:
+        -   `childrenIds` - List of child element IDs;
+    -   `isLastItem` - if item is last in the list. Useful in cases than you need to do somthing on last item appears. For example, implement custom infinity lists variants
+
+```tsx
+const listState = useListState();
+const list = useList({
+    items,
+    ...listState,
+});
+const handleItemClick = () => {};
+
+<ListItemRecursiveRenderer>
+    {(id) => {
+        const {data, props} = getItemRenderState({
+            id,
+            size, // list size
+            onItemClick: handleItemClick,
+            ...list,
+            ...listState,
+        });
+
+        return <ListItemView {...props} title={data.title} />;
+    }}
+</ListItemRecursiveRenderer>;
+```
+
+### getListParsedState;
+
+same as `useList` hook functionality in stateless function. Use it if you need to extract initial list state form declaration:
+
+```tsx
+// custom controlled state from computed initial state
+const [expandedById, setExpanded] = React.useState(
+    () => getListParsedState(items).initialState.expandedById,
+);
+```

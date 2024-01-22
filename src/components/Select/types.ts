@@ -14,7 +14,7 @@ export type SelectRenderClearArgs = {
 export type SelectRenderControlProps = {
     onClear: () => void;
     onClick: () => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
     ref: React.Ref<HTMLElement>;
     open: boolean;

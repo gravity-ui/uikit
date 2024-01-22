@@ -2,7 +2,7 @@
 @use '../variables.scss';
 @use './variables.scss' as control-variables;
 
-@mixin input-control($size) {
+@mixin input-control($size, $block) {
     @if $size == 's' {
         @include mixins.text-body-short;
 
@@ -26,5 +26,9 @@
 
         height: #{variables.$xl-height - control-variables.$border-width * 2};
         padding: 11px 12px;
+    }
+
+    @at-root #{$block}_mobile#{&} {
+        font-size: control-variables.$mobile-safari-font-size;
     }
 }

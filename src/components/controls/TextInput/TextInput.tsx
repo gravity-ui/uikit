@@ -6,6 +6,7 @@ import {useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize} from '../../../hooks/private';
 import {Icon} from '../../Icon';
 import {Popover} from '../../Popover';
+import {useMobile} from '../../mobile';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -79,6 +80,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         onUpdate,
         onChange,
     } = props;
+
+    const [mobile] = useMobile();
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
         error,
@@ -193,6 +196,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             style={style}
             className={b(
                 {
+                    mobile,
                     view,
                     size,
                     disabled,

@@ -20,25 +20,19 @@ configure({
 });
 
 const withContextProvider: Decorator = (Story, context) => {
+    const children = (
+        <ThemeProvider theme={context.globals.theme} direction={context.globals.direction}>
+            <MobileProvider>
+                <Story {...context} />
+            </MobileProvider>
+        </ThemeProvider>
+    );
+
     if (context.parameters?.disableStrictMode) {
-        return (
-            <ThemeProvider theme={context.globals.theme}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        );
+        return children;
     }
 
-    return (
-        <React.StrictMode>
-            <ThemeProvider theme={context.globals.theme} direction={context.globals.direction}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        </React.StrictMode>
-    );
+    return <React.StrictMode>{children}</React.StrictMode>;
 };
 
 const preview: Preview = {

@@ -80,10 +80,6 @@ export const SliderShowcase = () => {
                 />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="tooltip" withTooltip defaultValue={20} />
-                <ShowcaseBlock title="Range tooltip" withTooltip defaultValue={[20, 40]} />
-            </div>
-            <div className={blockCn}>
                 <ShowcaseBlock title="infoPointCount" infoPointCount={11} defaultValue={20} />
                 <ShowcaseBlock
                     title="Range infoPointCount"

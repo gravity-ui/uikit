@@ -27,8 +27,6 @@ export function withMobile<T extends WithMobileProps>(
                     platform={this.context.platform}
                     useHistory={this.context.useHistory}
                     useLocation={this.context.useLocation}
-                    setMobile={this.context.setMobile}
-                    setPlatform={this.context.setPlatform}
                 />
             );
         }

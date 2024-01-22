@@ -76,7 +76,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onClose,
         id,
     } = props;
-    const [mobile] = useMobile();
+    const mobile = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
     // to avoid problem with incorrect popper offset calculation
     // for example: https://github.com/radix-ui/primitives/issues/1567

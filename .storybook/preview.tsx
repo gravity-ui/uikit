@@ -3,46 +3,19 @@ import '../styles/fonts.scss';
 // eslint-disable-next-line import/order
 import '../styles/styles.scss';
 
-import React from 'react';
-
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
-import type {Decorator, Preview} from '@storybook/react';
+import type {Preview} from '@storybook/react';
 
-import {Lang, MobileProvider, ThemeProvider, configure} from '../src';
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
 
 import {WithLang} from './decorators/withLang';
 import {WithMobile} from './decorators/withMobile';
+import {WithStrictMode} from './decorators/withStrictMode';
+import {WithTheme} from './decorators/withTheme';
 import {themes} from './theme';
 
-configure({
-    lang: Lang.En,
-});
-
-const withContextProvider: Decorator = (Story, context) => {
-    if (context.parameters?.disableStrictMode) {
-        return (
-            <ThemeProvider theme={context.globals.theme}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        );
-    }
-
-    return (
-        <React.StrictMode>
-            <ThemeProvider theme={context.globals.theme} direction={context.globals.direction}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        </React.StrictMode>
-    );
-};
-
 const preview: Preview = {
-    decorators: [WithMobile, WithLang, withContextProvider],
+    decorators: [WithLang, WithMobile, WithTheme, WithStrictMode],
     parameters: {
         docs: {
             theme: themes.light,

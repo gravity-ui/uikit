@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.29.0](https://github.com/gravity-ui/uikit/compare/v5.28.0...v5.29.0) (2024-01-19)
+
+
+### Features
+
+* **Disclosure:** added qa attribute for details and summary nodes ([#1253](https://github.com/gravity-ui/uikit/issues/1253)) ([b1bbcd1](https://github.com/gravity-ui/uikit/commit/b1bbcd17203b7cad13eeed77c4aee937dbd0717a))
+
+
+### Bug Fixes
+
+* **Select:** add type="button" to SelectClear ([#1255](https://github.com/gravity-ui/uikit/issues/1255)) ([6a9e189](https://github.com/gravity-ui/uikit/commit/6a9e189561d986f1d498b610c0aeb2e5072348eb))
+
 ## [5.28.0](https://github.com/gravity-ui/uikit/compare/v5.27.0...v5.28.0) (2024-01-16)
 
 

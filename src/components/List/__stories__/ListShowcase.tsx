@@ -89,6 +89,7 @@ export function ListShowcase() {
                             <List
                                 ref={firstListRef}
                                 items={ITEMS}
+                                itemsHeight={200}
                                 onItemClick={(_, index) => setActiveItemIndex(index)}
                                 activeItemIndex={activeItemIndex}
                                 filterable={false}
@@ -152,6 +153,7 @@ export function ListShowcase() {
                         <div className={b('list-wrap')}>
                             <List
                                 items={virtualizedListItems}
+                                itemsHeight={200}
                                 sortable={true}
                                 onSortEnd={({oldIndex, newIndex}) => {
                                     setVirtualizedListItems((items) =>
@@ -186,6 +188,7 @@ export function ListShowcase() {
                         <div className={b('list-wrap')}>
                             <List
                                 items={GROUP_ITEMS}
+                                itemsHeight={200}
                                 onItemClick={(value) => console.log(value)}
                                 renderItem={(item) => {
                                     if (item.group) {

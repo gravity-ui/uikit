@@ -2,8 +2,8 @@
 @use '../../../../styles/mixins';
 
 .list-showcase {
-    --yc-list-height: 200px;
-    --yc-list-margin: 16px;
+    $item-padding: 16px;
+    --g-list-item-padding: 0 #{$item-padding};
 
     padding: 20px 20px 0;
 
@@ -17,7 +17,7 @@
         @include mixins.text-body-3();
         width: 100%;
         margin-block-end: 5px;
-        margin-inline-start: var(--yc-list-margin);
+        margin-inline-start: $item-padding;
         color: var(--g-color-text-secondary);
     }
 

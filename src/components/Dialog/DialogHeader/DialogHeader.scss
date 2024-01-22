@@ -4,7 +4,12 @@
 $block: '.#{variables.$ns}dialog-header';
 
 #{$block} {
-    padding: var(--yc-dialog-header-padding);
+    padding-block: 20px 10px;
+    padding-inline: var(--_--side-padding)
+        calc(
+            var(--_--side-padding) + var(--_--close-button-space) * var(--g-flow-is-ltr) +
+                var(--_--close-button-space) * var(--g-flow-is-rtl)
+        );
     line-height: 24px;
     display: flex;
     align-items: center;

@@ -19,8 +19,6 @@ export interface MobileContextProps {
     platform: Platform;
     useHistory: () => History;
     useLocation: () => Location;
-    setMobile: (mobile: boolean, platform?: Platform) => void;
-    setPlatform: (platform: Platform) => void;
 }
 
 const initialValue: MobileContextProps = {
@@ -28,8 +26,6 @@ const initialValue: MobileContextProps = {
     platform: Platform.BROWSER,
     useHistory: () => ({action: '', replace() {}, push() {}, goBack() {}}),
     useLocation: () => ({pathname: '', search: '', hash: ''}),
-    setMobile: () => {},
-    setPlatform: () => {},
 };
 
 export const MobileContext = React.createContext(initialValue);

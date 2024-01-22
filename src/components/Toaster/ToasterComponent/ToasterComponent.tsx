@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
-    const [defaultMobile] = useMobile();
+    const defaultMobile = useMobile();
     const {remove} = useToaster();
     const list = React.useContext(ToastsContext);
 

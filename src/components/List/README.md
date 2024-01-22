@@ -213,8 +213,7 @@ LANDING_BLOCK-->
 
 To enable virtualization, make sure one of these conditions is met:
 
-1. You set the `--yc-list-height` variable value. In this case, the list height will be fixed and equal to the value
-   specified in this variable.
+1. You set the `itemsHeight` property. In this case, the list height will be fixed and equal to that value.
 2. You set the `display: flex` style for the list parent container. In this case, the list will adapt to the container
    width.
 

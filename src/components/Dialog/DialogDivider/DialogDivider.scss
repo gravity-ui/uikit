@@ -4,5 +4,5 @@ $block: '.#{variables.$ns}dialog-divider';
 
 #{$block} {
     border-block-start: 1px solid var(--g-color-line-generic);
-    margin: var(--yc-dialog-divider-margin);
+    margin: 0 calc(-1 * var(--_--side-padding));
 }

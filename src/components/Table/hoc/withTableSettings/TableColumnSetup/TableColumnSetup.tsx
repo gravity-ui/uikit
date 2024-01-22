@@ -35,6 +35,7 @@ export interface TableColumnSetupProps {
 
     // for List
     items: Item[];
+    itemsHeight?: number | ((items: Item[]) => number);
     sortable?: boolean;
     filterable?: boolean;
 
@@ -55,6 +56,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         popupPlacement,
         className,
         items: propsItems,
+        itemsHeight,
         getItemTitle = (item: Item) => item.title,
         sortable = true,
         filterable = false,
@@ -95,12 +97,24 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     };
 
     const getListHeight = (list: Item[]) => {
-        const itemHeight = LIST_ITEM_HEIGHT;
-
-        return Math.min(5, list.length) * itemHeight + itemHeight / 2;
+        if (typeof itemsHeight === 'function') {
+            return itemsHeight(list);
+        } else if (typeof itemsHeight === 'number') {
+            return itemsHeight;
+        } else {
+            return Math.min(5, list.length) * LIST_ITEM_HEIGHT + LIST_ITEM_HEIGHT / 2;
+        }
     };
 
-    const getRequiredListHeight = (list: Item[]) => list.length * LIST_ITEM_HEIGHT;
+    const getRequiredListHeight = (list: Item[]) => {
+        if (typeof itemsHeight === 'function') {
+            return itemsHeight(list);
+        } else if (typeof itemsHeight === 'number') {
+            return itemsHeight;
+        } else {
+            return list.length * LIST_ITEM_HEIGHT;
+        }
+    };
 
     const getCountSelected = () => items.reduce((acc, cur) => (cur.selected ? acc + 1 : acc), 0);
 

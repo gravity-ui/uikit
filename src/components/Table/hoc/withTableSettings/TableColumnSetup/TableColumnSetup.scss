@@ -45,7 +45,6 @@ $block: '.#{variables.$ns}table-column-setup';
     }
 
     &__items {
-        height: var(--yc-list-height);
         overflow-x: auto;
     }
 

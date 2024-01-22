@@ -3,7 +3,7 @@
 $block: '.#{variables.$ns}dialog-footer';
 
 #{$block} {
-    padding: var(--yc-dialog-footer-padding);
+    padding: 28px var(--_--side-padding);
     display: flex;
     align-items: center;
 

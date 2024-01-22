@@ -47,7 +47,7 @@ Additional functionality is enabled via HOCs:
 | Name       | Description                                      |    Type     | Default |
 | :--------- | :----------------------------------------------- | :---------: | :-----: |
 | id         | The row ID, used when selecting and sorting rows |  `string`   |         |
-| disabled   | Column ID                                        |  `boolean`  |         |
+| disabled   | Condition for disabling columns                  |  `boolean`  |         |
 | classNames | Row CSS classes                                  | ` string[]` |         |
 
 ### TableColumnConfig

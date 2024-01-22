@@ -29,7 +29,7 @@ Additional functionality is enabled via HOCs:
 | data                             | Data                                                                                                                                                                            |                                      `any[]`                                       |             |
 | columns                          | Column parameters                                                                                                                                                               |                               `TableColumnConfig[]`                                |             |
 | verticalAlign                    | Vertical alignment of contents                                                                                                                                                  |                                 `"top"` `"middle"`                                 |             |
-| getRowDescriptor                 | Row mouseleave handler                                                                                                                                                          |                   `(item: any, index: number) => DescriptorType`                   |             |
+| getRowDescriptor                 | Handler to get row descriptor                                                                                                                                                   |                   `(item: any, index: number) => DescriptorType`                   |             |
 | getRowId                         | The row ID, used when selecting and sorting rows. If you skip a row, its ID will be the value of the field in the row data with the same name as the column ID                  |                 `string` `((item: any, index: number) => string)`                  |             |
 | getRowClassNames                 | Row CSS classes                                                                                                                                                                 |                      `(item: any, index: number) => string[]`                      |             |
 | isRowDisabled                    | Condition for disabling columns                                                                                                                                                 |                      `(item: any, index: number) => boolean`                       |             |
@@ -44,11 +44,11 @@ Additional functionality is enabled via HOCs:
 
 ### DescriptorType
 
-| Name       | Description                                      |          Type           |   Default   |
-| :--------- | :----------------------------------------------- | :---------------------: | :---------: |
-| id         | The row ID, used when selecting and sorting rows |  `string` `undefined`   | `undefined` |
-| disabled   | Column ID                                        |  `boolean` `undefined`  | `undefined` |
-| classNames | Row CSS classes                                  | ` string[]` `undefined` | `undefined` |
+| Name       | Description                                      |    Type     | Default |
+| :--------- | :----------------------------------------------- | :---------: | :-----: |
+| id         | The row ID, used when selecting and sorting rows |  `string`   |         |
+| disabled   | Column ID                                        |  `boolean`  |         |
+| classNames | Row CSS classes                                  | ` string[]` |         |
 
 ### TableColumnConfig
 

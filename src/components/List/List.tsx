@@ -2,6 +2,7 @@ import React from 'react';
 
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
+import _memoize from 'lodash/memoize';
 import {
     DragDropContext,
     Draggable,
@@ -100,22 +101,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     blurTimer: ReturnType<typeof setTimeout> | null = null;
     uniqId = getUniqId();
 
-    _itemsWithLoading: ListItemData<T>[] = this.createItemsWithLoading(
-        this.props.items,
-        this.props.loading,
-    );
-
     componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
-        if (
-            Boolean(this.props.loading) !== Boolean(prevProps.loading) ||
-            this.props.items !== prevProps.items
-        ) {
-            this._itemsWithLoading = this.createItemsWithLoading(
-                this.props.items,
-                this.props.loading,
-            );
-        }
-
         if (!isEqual(this.props.items, prevProps.items)) {
             const filter = this.getFilter();
             const internalFiltering = filter && !this.props.onFilterUpdate;
@@ -183,18 +169,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         );
     }
 
-    createItemsWithLoading(items: ListItemData<T>[], loading?: boolean) {
-        if (loading === true) {
-            return [...items, List.LOADING_ITEM as unknown as ListItemData<T>];
-        } else {
-            return items;
-        }
-    }
-
-    getItemsWithLoading() {
-        return this._itemsWithLoading;
-    }
-
     getItems() {
         return this.state.items;
     }
@@ -257,6 +231,21 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         }
     };
 
+    // eslint-disable-next-line @typescript-eslint/member-ordering
+    private getItemsWithLoading = _memoize(
+        (items: ListItemData<T>[], loading: boolean | undefined, sortable: boolean | undefined) => {
+            if (sortable) {
+                return items;
+            }
+
+            if (loading) {
+                return [...items, List.LOADING_ITEM as unknown as ListItemData<T>];
+            }
+
+            return items;
+        },
+    );
+
     private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
         const {onLoadMore} = this.props;
 
@@ -283,9 +272,15 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         isDragging?: boolean;
     }) => {
         const {sortHandleAlign, role} = this.props;
-        const {items, activeItem} = this.state;
+        const {activeItem} = this.state;
 
-        const itemsWithLoading = this.getItemsWithLoading();
+        const items = this.getItems();
+        const itemsWithLoading = this.getItemsWithLoading(
+            items,
+            this.props.loading,
+            this.props.sortable,
+        );
+
         const item = itemsWithLoading[index];
 
         const sortable = this.props.sortable && items.length > 1 && !this.getFilter();
@@ -360,8 +355,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     private renderSimpleContainer() {
-        const {sortable} = this.props;
-        const items = this.getItemsWithLoading();
+        const {sortable, loading} = this.props;
+
+        const items = this.getItems();
+        const itemsWithLoading = this.getItemsWithLoading(items, loading, sortable);
 
         if (sortable) {
             return (
@@ -383,11 +380,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                         {(droppableProvided: DroppableProvided) => (
                             <SimpleContainer
                                 ref={this.refContainer}
-                                itemCount={items.length}
+                                itemCount={itemsWithLoading.length}
                                 provided={droppableProvided}
                                 sortable={sortable}
                             >
-                                {items.map((_item, index) => {
+                                {itemsWithLoading.map((_item, index) => {
                                     return (
                                         <Draggable
                                             draggableId={String(index)}
@@ -416,8 +413,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         }
 
         return (
-            <SimpleContainer itemCount={items.length} ref={this.refContainer}>
-                {items.map((_item, index) =>
+            <SimpleContainer itemCount={itemsWithLoading.length} ref={this.refContainer}>
+                {itemsWithLoading.map((_item, index) =>
                     this.renderItem({index, style: {height: this.getItemHeight(index)}}),
                 )}
             </SimpleContainer>

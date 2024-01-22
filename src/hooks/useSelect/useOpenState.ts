@@ -4,7 +4,7 @@ import type {UseOpenProps} from './types';
 
 export const useOpenState = (props: UseOpenProps) => {
     const [open, setOpenState] = React.useState(props.defaultOpen || false);
-    const {onOpenChange} = props;
+    const {onOpenChange, onClose} = props;
     const isControlled = typeof props.open === 'boolean';
     const openValue = isControlled ? (props.open as boolean) : open;
 
@@ -17,8 +17,12 @@ export const useOpenState = (props: UseOpenProps) => {
                     setOpenState(newOpen);
                 }
             }
+
+            if (newOpen === false && onClose) {
+                onClose();
+            }
         },
-        [openValue, onOpenChange, isControlled],
+        [openValue, onOpenChange, isControlled, onClose],
     );
 
     return {

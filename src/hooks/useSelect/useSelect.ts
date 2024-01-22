@@ -3,13 +3,26 @@ import React from 'react';
 import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
-export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectResult<T> => {
-    const {value: valueProps, defaultValue = [], multiple, onUpdate} = props;
+export const useSelect = <T extends unknown>({
+    defaultOpen,
+    onClose,
+    onOpenChange,
+    open,
+    value: valueProps,
+    defaultValue = [],
+    multiple,
+    onUpdate,
+}: UseSelectProps): UseSelectResult<T> => {
     const [innerValue, setInnerValue] = React.useState(defaultValue);
     const [activeIndex, setActiveIndex] = React.useState<number>();
     const value = valueProps || innerValue;
     const uncontrolled = !valueProps;
-    const {toggleOpen, ...openState} = useOpenState(props);
+    const {toggleOpen, ...openState} = useOpenState({
+        defaultOpen,
+        onClose,
+        onOpenChange,
+        open,
+    });
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {

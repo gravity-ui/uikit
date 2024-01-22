@@ -1,5 +1,6 @@
 import React from 'react';
 
+import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 
 import {block} from '../../../utils/cn';
@@ -44,10 +45,10 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
     const displayName = `withTableSorting(${componentName})`;
 
     function defaultCompareFunction(itemA: I, itemB: I, columnId: string) {
-        if (itemA[columnId] === itemB[columnId]) {
+        if (_get(itemA, columnId) === _get(itemB, columnId)) {
             return 0;
         } else {
-            return itemA[columnId] > itemB[columnId] ? 1 : -1;
+            return _get(itemA, columnId) > _get(itemB, columnId) ? 1 : -1;
         }
     }
 

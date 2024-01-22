@@ -178,6 +178,7 @@ HOCWithTableSettingsFactory.parameters = {
 // ---------------------------------
 const columnsWithSorting = _cloneDeep(columns);
 columnsWithSorting[0].meta = {sort: true};
+columnsWithSorting[2].meta = {sort: true};
 columnsWithSorting[3].meta = {sort: true};
 columnsWithSorting[4].meta = {
     sort: (itemA: DataItem, itemB: DataItem) => Date.parse(itemA.date) - Date.parse(itemB.date),

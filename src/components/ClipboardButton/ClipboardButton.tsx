@@ -4,17 +4,14 @@ import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
-import type {CopyToClipboardBaseProps, CopyToClipboardStatus} from '../CopyToClipboard/types';
+import type {CopyToClipboardProps, CopyToClipboardStatus} from '../CopyToClipboard/types';
 import {Tooltip} from '../Tooltip';
 
 import i18n from './i18n';
 
 export interface ClipboardButtonProps
-    extends CopyToClipboardBaseProps,
-        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {
-    /** Time to restore initial state, ms */
-    timeout?: number;
-}
+    extends Omit<CopyToClipboardProps, 'children'>,
+        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {}
 
 interface ClipboardButtonComponentProps
     extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading' | 'children'> {

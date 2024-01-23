@@ -2,77 +2,38 @@ import React from 'react';
 
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
-import type {
-    CopyToClipboardBaseProps,
-    CopyToClipboardContent,
-    CopyToClipboardStatus,
-} from './types';
+import type {CopyToClipboardProps, CopyToClipboardStatus} from './types';
 
-interface CopyToClipboardGeneralProps extends CopyToClipboardBaseProps {
-    children: CopyToClipboardContent;
-}
+const INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 
-interface CopyToClipboardDefaultProps {
-    timeout: number;
-}
+export function CopyToClipboard(props: CopyToClipboardProps) {
+    const {children, text, options, timeout, onCopy} = props;
 
-interface CopyToClipboardInnerProps
-    extends CopyToClipboardGeneralProps,
-        CopyToClipboardDefaultProps {}
+    const [status, setStatus] = React.useState<CopyToClipboardStatus>(INITIAL_STATUS);
 
-export interface CopyToClipboardProps
-    extends CopyToClipboardGeneralProps,
-        Partial<CopyToClipboardDefaultProps> {}
+    const timerIdRef = React.useRef<number>();
 
-interface CopyToClipboardState {
-    status: CopyToClipboardStatus;
-}
+    const content = React.useMemo(() => children(status), [children, status]);
 
-export class CopyToClipboard extends React.Component<
-    CopyToClipboardInnerProps,
-    CopyToClipboardState
-> {
-    static INITIAL_STATUS: CopyToClipboardStatus = 'pending';
+    const handleCopy = React.useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
+        (copyText, result) => {
+            setStatus(result ? 'success' : 'error');
+            window.clearTimeout(timerIdRef.current);
+            timerIdRef.current = window.setTimeout(() => setStatus(INITIAL_STATUS), timeout);
+            onCopy?.(copyText, result);
+        },
+        [onCopy, timeout],
+    );
 
-    state: CopyToClipboardState = {
-        status: CopyToClipboard.INITIAL_STATUS,
-    };
+    React.useEffect(() => () => window.clearTimeout(timerIdRef.current), []);
 
-    private timerId?: number;
-
-    componentWillUnmount() {
-        clearTimeout(this.timerId);
+    if (!React.isValidElement(content)) {
+        throw new Error('Content must be a valid react element');
     }
 
-    render() {
-        const {children, text, options} = this.props;
-        const {status} = this.state;
-        const content = children(status);
-
-        if (!React.isValidElement(content)) {
-            throw new Error('Content must be a valid react element');
-        }
-
-        return (
-            <ReactCopyToClipboard text={String(text)} onCopy={this.handleCopy} options={options}>
-                {content}
-            </ReactCopyToClipboard>
-        );
-    }
-
-    private handleCopy = (text: string, result: boolean) => {
-        const {timeout, onCopy} = this.props;
-
-        this.setState({
-            status: result ? 'success' : 'error',
-        });
-
-        clearTimeout(this.timerId);
-        this.timerId = window.setTimeout(() => {
-            this.setState({status: CopyToClipboard.INITIAL_STATUS});
-            this.timerId = undefined;
-        }, timeout);
-
-        onCopy?.(text, result);
-    };
+    return (
+        <ReactCopyToClipboard text={text} onCopy={handleCopy} options={options}>
+            {content}
+        </ReactCopyToClipboard>
+    );
 }

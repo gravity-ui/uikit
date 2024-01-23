@@ -5,7 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {TextArea} from '../TextArea';
 import type {TextAreaProps} from '../TextArea';
 
-import {TextAreaShowcase} from './TextAreaShowcase';
+import {TextAreaCustomShowcase, TextAreaShowcase} from './TextAreaShowcase';
 
 export default {
     title: 'Components/Inputs/TextArea',
@@ -25,3 +25,6 @@ export const Default = DefaultTemplate.bind({});
 
 const ShowcaseTemplate: StoryFn = () => <TextAreaShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
+
+const CustomTemplate: StoryFn = () => <TextAreaCustomShowcase />;
+export const Custom = CustomTemplate.bind({});

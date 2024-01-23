@@ -84,3 +84,47 @@ export function TextAreaShowcase() {
         </div>
     );
 }
+
+export function TextAreaCustomShowcase() {
+    const [value, setValue] = React.useState('');
+    // const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
+
+    const textAreaProps: TextAreaProps = {
+        className: b('text-area'),
+        onUpdate: setValue,
+        value,
+        placeholder: 'placeholder',
+    };
+    return (
+        <div className={b('text-area-examples')}>
+            <div>
+                <h3 className={b('section-header')}>Normal</h3>
+                <TextArea
+                    {...textAreaProps}
+                    value={`
+multi
+line
+value`.trim()}
+                />
+                <TextArea {...textAreaProps} />
+                <TextArea {...textAreaProps} value="has clear" hasClear />
+                <TextArea {...textAreaProps} disabled />
+                <TextArea {...textAreaProps} error={'Error message'} />
+            </div>
+            <div className={b('custom-theme')}>
+                <h3 className={b('section-header')}>Custom theme</h3>
+                <TextArea
+                    {...textAreaProps}
+                    value={`
+multi
+line
+value`.trim()}
+                />
+                <TextArea {...textAreaProps} />
+                <TextArea {...textAreaProps} value="has clear" hasClear />
+                <TextArea {...textAreaProps} disabled />
+                <TextArea {...textAreaProps} error={'Error message'} />
+            </div>
+        </div>
+    );
+}

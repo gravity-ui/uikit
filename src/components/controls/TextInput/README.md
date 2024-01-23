@@ -268,3 +268,20 @@ LANDING_BLOCK-->
 | validationState | Validation state                                                                                                        |                              `"invalid"`                              |                 |
 | value           | The value of the control                                                                                                |                               `string`                                |                 |
 | view            | The view of the control                                                                                                 |                         `"normal"` `"clear"`                          |   `"normal"`    |
+
+## CSS API
+
+| Name                                       | Description                   |
+| :----------------------------------------- | :---------------------------- |
+| `--g-text-input-border-radius`             | Border radius                 |
+| `--g-text-input-text-color`                | Text color                    |
+| `--g-text-input-placeholder-color`         | Placeholder color             |
+| `--g-text-input-disabled-background-color` | Disabled background color     |
+| `--g-text-input-border-color`              | Border color                  |
+| `--g-text-input-border-color-hover`        | Border color hovered          |
+| `--g-text-input-border-color-active`       | Border color active           |
+| `--g-text-input-line-height`               | Line-height                   |
+| `--g-input-height`                         | Height                        |
+| `--g-text-input-border-width`              | Border width                  |
+| `--g-text-input-error-icon-padding-block`  | block padding for error icon  |
+| `--g-text-input-error-icon-padding-inline` | inline padding for error icon |

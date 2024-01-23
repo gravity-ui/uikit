@@ -11,25 +11,41 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
         --_--select-border-radius: var(--g-border-radius-s);
         height: #{variables.$s-height};
-        padding: 4px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 4px
+            calc(
+                var(--_--select-options-text-right-padding) +
+                    var(--g-select-border-width, var(--_--select-border-width))
+            ); // plus border-width
     }
     @if $size == 'm' {
         --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
         --_--select-border-radius: var(--g-border-radius-m);
         height: #{variables.$m-height};
-        padding: 6px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 6px
+            calc(
+                var(--_--select-options-text-right-padding) +
+                    var(--g-select-border-width, var(--_--select-border-width))
+            ); // plus border-width
     }
     @if $size == 'l' {
         --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
         --_--select-border-radius: var(--g-border-radius-l);
         height: #{variables.$l-height};
-        padding: 10px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 10px
+            calc(
+                var(--_--select-options-text-right-padding) +
+                    var(--g-select-border-width, var(--_--select-border-width))
+            ); // plus border-width
     }
     @if $size == 'xl' {
         --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
         --_--select-border-radius: var(--g-border-radius-xl);
         height: #{variables.$xl-height};
-        padding: 12px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 12px
+            calc(
+                var(--_--select-options-text-right-padding) +
+                    var(--g-select-border-width, var(--_--select-border-width))
+            ); // plus border-width
     }
 }
 
@@ -97,6 +113,16 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 }
 
 #{$block} {
+    --_--select-disabled-text-color: var(--g-color-text-hint);
+    --_--select-disabled-background-color: var(--g-color-base-generic-accent-disabled);
+    --_--select-color-error: var(--g-color-text-danger);
+    --_--select-placeholder-color: var(--g-color-text-hint);
+    --_--select-border-color-active: var(--g-color-line-generic-active);
+    --_--select-border-color-hover: var(--g-color-line-generic-hover);
+    --_--select-border-color: var(--g-color-line-generic);
+    --_--select-chevron-icon-color: var(--g-color-text-secondary);
+    --_--select-border-width: 1px;
+
     @include mixins.button-reset();
 
     position: relative;
@@ -129,7 +155,11 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__button {
         @include mixins.button-reset();
-        @include mixins.pin($blockButton, ('::before', '::after'), var(--_--select-border-radius));
+        @include mixins.pin(
+            $blockButton,
+            ('::before', '::after'),
+            var(--g-select-border-radius, var(--_--select-border-radius))
+        );
 
         display: inline-flex;
         align-items: center;
@@ -142,8 +172,11 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             content: '';
             position: absolute;
             inset: 0;
-            border: 1px solid var(--g-color-line-generic);
-            border-radius: var(--_--select-border-radius);
+
+            border-width: var(--g-select-border-width, var(--_--select-border-width));
+            border-style: solid;
+            border-color: var(--g-select-border-color, var(--_--select-border-color));
+            border-radius: var(--g-select-border-radius, var(--_--select-border-radius));
         }
 
         &::after {
@@ -174,7 +207,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_error::before {
-            border-color: var(--g-color-line-danger);
+            border-color: var(--g-select-color-error, var(--_--select-color-error));
         }
 
         &:hover::after {
@@ -182,11 +215,14 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_disabled {
-            color: var(--g-color-text-hint);
+            color: var(--g-select-disabled-text-color, var(--_--select-disabled-text-color));
             pointer-events: none;
 
             &::after {
-                background-color: var(--g-color-base-generic-accent-disabled);
+                background-color: var(
+                    --g-select-disabled-background-color,
+                    var(--_--select-disabled-background-color)
+                );
             }
 
             &::before {
@@ -195,12 +231,12 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &:not(&_error):not(&_disabled):hover::before {
-            border-color: var(--g-color-line-generic-hover);
+            border-color: var(--g-select-border-color-hover, var(--_--select-border-color-hover));
         }
 
         &_open:not(&_error)::before,
         &:not(&_error):focus-visible::before {
-            border-color: var(--g-color-line-generic-active);
+            border-color: var(--g-select-border-color-active, var(--_--select-border-color-active));
         }
     }
 
@@ -226,8 +262,12 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding-inline-end: var(--_--select-options-text-right-padding);
     }
 
+    &__option-text {
+        color: var(--g-select-text-color, inherit);
+    }
+
     &__placeholder {
-        color: var(--g-color-text-hint);
+        color: var(--g-select-placeholder-color, var(--_--select-placeholder-color));
 
         #{$blockButton}:not(#{$blockButton}_disabled) & {
             @include block_clear_reserved_width();
@@ -237,10 +277,11 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     &__chevron-icon {
         flex: 0 0 16px;
         margin-inline-start: auto;
-        color: var(--g-color-text-secondary);
+
+        color: var(--g-select-chevron-icon-color, var(--_--select-chevron-icon-color));
 
         &_disabled {
-            color: var(--g-color-text-hint);
+            color: var(--g-select-placeholder-color, var(--_--select-placeholder-color));
         }
     }
 
@@ -251,7 +292,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     &__error {
         @include mixins.text-body-1();
 
-        color: var(--g-color-text-danger);
+        color: var(--g-select-color-error, var(--_--select-color-error));
         margin-block-start: 2px;
     }
 }

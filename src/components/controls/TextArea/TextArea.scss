@@ -5,6 +5,15 @@
 $block: '.#{variables.$ns-new}text-area';
 
 #{$block} {
+    --_--text-area-disabled-background-color: var(--g-color-base-generic-accent-disabled);
+    --_--text-area-text-color: var(--g-color-text-primary);
+    --_--text-area-placeholder-color: var(--g-color-text-hint);
+    --_--text-area-border-color: var(--g-color-line-generic);
+    --_--text-area-border-color-hover: var(--g-color-line-generic-hover);
+    --_--text-area-border-color-active: var(--g-color-line-generic-active);
+    --_--text-area-border-color-error: var(--g-color-line-danger);
+    --_--text-area-border-width: 1px;
+
     display: inline-block;
     width: 100%;
     position: relative;
@@ -26,7 +35,7 @@ $block: '.#{variables.$ns-new}text-area';
         width: 100%;
         font-weight: var(--g-text-body-font-weight);
         font-family: var(--g-text-body-font-family);
-        color: var(--g-color-text-primary);
+        color: var(--g-text-area-text-color, var(--_--text-area-text-color));
         background-color: transparent;
         border: none;
         resize: none;
@@ -34,7 +43,7 @@ $block: '.#{variables.$ns-new}text-area';
         overflow-x: hidden;
 
         &::placeholder {
-            color: var(--g-color-text-hint);
+            color: var(--g-text-area-placeholder-color, var(--_--text-area-placeholder-color));
         }
 
         &:focus {
@@ -115,14 +124,22 @@ $block: '.#{variables.$ns-new}text-area';
     &_view {
         &_normal {
             #{$block}__content {
-                border: 1px solid var(--g-color-line-generic);
+                border-width: var(--g-text-area-border-width, var(--_--text-area-border-width));
+                border-style: solid;
+                border-color: var(--g-text-area-border-color, var(--_--text-area-border-color));
 
                 &:hover {
-                    border-color: var(--g-color-line-generic-hover);
+                    border-color: var(
+                        --g-text-area-border-color-hover,
+                        var(--_--text-area-border-color-hover)
+                    );
                 }
 
                 &:focus-within {
-                    border-color: var(--g-color-line-generic-active);
+                    border-color: var(
+                        --g-text-area-border-color-active,
+                        var(--_--text-area-border-color-active)
+                    );
                 }
             }
         }
@@ -143,13 +160,16 @@ $block: '.#{variables.$ns-new}text-area';
     @include mixins.pin(
         $block,
         #{$block}__content,
-        var(--_--text-area-border-radius),
+        var(--g-text-area-border-radius, var(--_--text-area-border-radius)),
         $append: false
     );
 
     &_disabled {
         #{$block}__content {
-            background-color: var(--g-color-base-generic-accent-disabled);
+            background-color: var(
+                --g-text-area-disabled-background-color,
+                var(--_--text-area-disabled-background-color)
+            );
             color: var(--g-color-text-hint);
             border-color: transparent;
 
@@ -173,22 +193,27 @@ $block: '.#{variables.$ns-new}text-area';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    border-color: var(--g-color-line-danger);
-
+                    &,
                     &:hover,
                     &:focus-within {
-                        border-color: var(--g-color-line-danger);
+                        border-color: var(
+                            --g-text-area-border-color-error,
+                            var(--_--text-area-border-color-error)
+                        );
                     }
                 }
             }
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-block-end: 1px solid var(--g-color-line-danger);
-
+                    &,
                     &:hover,
                     &:focus-within {
-                        border-block-end: 1px solid var(--g-color-line-danger);
+                        border-block-end: 1px solid
+                            var(
+                                --g-text-area-border-color-error,
+                                var(--_--text-area-border-color-error)
+                            );
                     }
                 }
             }

@@ -7,7 +7,11 @@
     @if $size == 's' {
         @include mixins.text-body-short;
 
-        line-height: #{variables.$s-height - control-variables.$border-width * 2};
+        --_--text-input-line-height: calc(
+            #{variables.$s-height} -
+                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+                2
+        );
         padding-block: 0;
         padding-inline: 8px 4px;
     }
@@ -15,7 +19,11 @@
     @if $size == 'm' {
         @include mixins.text-body-short;
 
-        line-height: #{variables.$m-height - control-variables.$border-width * 2};
+        --_--text-input-line-height: calc(
+            #{variables.$m-height} -
+                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+                2
+        );
         padding-block: 0;
         padding-inline: 8px 4px;
     }
@@ -23,7 +31,11 @@
     @if $size == 'l' {
         @include mixins.text-body-short;
 
-        line-height: #{variables.$l-height - control-variables.$border-width * 2};
+        --_--text-input-line-height: calc(
+            #{variables.$l-height} -
+                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+                2
+        );
         padding-block: 0;
         padding-inline: 12px 4px;
     }
@@ -31,10 +43,15 @@
     @if $size == 'xl' {
         @include mixins.text-body-2;
 
-        line-height: #{variables.$xl-height - control-variables.$border-width * 2};
+        --_--text-input-line-height: calc(
+            #{variables.$xl-height} -
+                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+                2
+        );
         padding-block: 0;
         padding-inline: 12px 4px;
     }
+    line-height: var(--g-text-input-line-height, var(--_--text-input-line-height));
 
     @include mixins.text-accent;
 }
@@ -42,6 +59,14 @@
 $block: '.#{variables.$ns}text-input';
 
 #{$block} {
+    --_--text-input-disabled-background-color: var(--g-color-base-generic-accent-disabled);
+    --_--text-input-text-color: var(--g-color-text-primary);
+    --_--text-input-placeholder-color: var(--g-color-text-hint);
+    --_--text-input-border-color: var(--g-color-line-generic);
+    --_--text-input-border-color-hover: var(--g-color-line-generic-hover);
+    --_--text-input-border-color-active: var(--g-color-line-generic-active);
+    --_--text-input-border-color-error: var(--g-color-line-danger);
+
     display: inline-block;
     width: 100%;
     position: relative;
@@ -63,12 +88,13 @@ $block: '.#{variables.$ns}text-input';
         width: 100%;
         font-weight: var(--g-text-body-font-weight);
         font-family: var(--g-text-body-font-family);
-        color: var(--g-color-text-primary);
+        color: var(--g-text-input-text-color, var(--_--text-input-text-color));
         background-color: transparent;
         border: none;
+        height: var(--g-text-input-height);
 
         &::placeholder {
-            color: var(--g-color-text-hint);
+            color: var(--g-text-input-placeholder-color, var(--_--text-input-placeholder-color));
             overflow: hidden;
             white-space: nowrap;
         }
@@ -89,6 +115,7 @@ $block: '.#{variables.$ns}text-input';
         text-overflow: ellipsis;
         white-space: nowrap;
         z-index: 1;
+        line-height: var(--_--text-input-label-line-height);
     }
 
     &__clear {
@@ -108,9 +135,15 @@ $block: '.#{variables.$ns}text-input';
 
     &__error-icon {
         box-sizing: content-box;
-        color: var(--g-color-text-danger);
-        padding-block: var(--_--text-input-error-icon-padding-block);
-        padding-inline: var(--_--text-input-error-icon-padding-inline);
+        color: var(--g-text-input-border-color-error, var(--_--text-input-border-color-error));
+        padding-block: var(
+            --g-text-input-error-icon-padding-block,
+            var(--_--text-input-error-icon-padding-block)
+        );
+        padding-inline: var(
+            --g-text-input-error-icon-padding-inline,
+            var(--_--text-input-error-icon-padding-inline)
+        );
     }
 
     &__additional-content {
@@ -247,14 +280,22 @@ $block: '.#{variables.$ns}text-input';
     &_view {
         &_normal {
             #{$block}__content {
-                border: 1px solid var(--g-color-line-generic);
+                border-width: var(--g-text-input-border-width, #{control-variables.$border-width});
+                border-style: solid;
+                border-color: var(--g-text-input-border-color, var(--_--text-input-border-color));
 
                 &:hover {
-                    border-color: var(--g-color-line-generic-hover);
+                    border-color: var(
+                        --g-text-input-border-color-hover,
+                        var(--_--text-input-border-color-hover)
+                    );
                 }
 
                 &:focus-within {
-                    border-color: var(--g-color-line-generic-active);
+                    border-color: var(
+                        --g-text-input-border-color-active,
+                        var(--_--text-input-border-color-active)
+                    );
                 }
             }
         }
@@ -275,13 +316,16 @@ $block: '.#{variables.$ns}text-input';
     @include mixins.pin(
         $block,
         #{$block}__content,
-        var(--_--text-input-border-radius),
+        var(--g-text-input-border-radius, var(--_--text-input-border-radius)),
         $append: false
     );
 
     &_disabled {
         #{$block}__content {
-            background-color: var(--g-color-base-generic-accent-disabled);
+            background-color: var(
+                --g-text-input-disabled-background-color,
+                var(--_--text-input-disabled-background-color)
+            );
             color: var(--g-color-text-hint);
             border-color: transparent;
 
@@ -321,22 +365,28 @@ $block: '.#{variables.$ns}text-input';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    border-color: var(--g-color-line-danger);
-
+                    // border-color: var(--g-color-line-danger);
+                    &,
                     &:hover,
                     &:focus-within {
-                        border-color: var(--g-color-line-danger);
+                        border-color: var(
+                            --g-text-input-border-color-error,
+                            var(--_--text-input-border-color-error)
+                        );
                     }
                 }
             }
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-block-end: 1px solid var(--g-color-line-danger);
-
+                    &,
                     &:hover,
                     &:focus-within {
-                        border-block-end: 1px solid var(--g-color-line-danger);
+                        border-block-end: 1px solid
+                            var(
+                                --g-text-input-border-color-error,
+                                var(--_--text-input-border-color-error)
+                            );
                     }
                 }
             }

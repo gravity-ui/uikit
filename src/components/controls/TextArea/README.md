@@ -214,3 +214,16 @@ LANDING_BLOCK-->
 | validationState | Validation state                                                                                                                  |                     `"invalid"`                     |                 |
 | value           | The control's value                                                                                                               |                      `string`                       |                 |
 | view            | The control's view                                                                                                                |                `"normal"` `"clear"`                 |   `"normal"`    |
+
+## CSS API
+
+| Name                                      | Description               |
+| :---------------------------------------- | :------------------------ |
+| `--g-text-area-border-radius`             | Border radius             |
+| `--g-text-area-text-color`                | Text color                |
+| `--g-text-area-placeholder-color`         | Placeholder color         |
+| `--g-text-area-disabled-background-color` | Disabled background color |
+| `--g-text-area-border-color`              | Border color              |
+| `--g-text-area-border-color-hover`        | Border color hovered      |
+| `--g-text-area-border-color-active`       | Border color active       |
+| `--g-text-area-border-width`              | Border width              |

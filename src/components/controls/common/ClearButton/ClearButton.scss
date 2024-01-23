@@ -3,8 +3,11 @@
 $block: '.#{variables.$ns-new}clear-button';
 
 #{$block} {
-    --g-button-text-color: var(--g-color-text-hint);
-    --g-button-text-color-hover: var(--g-color-text-primary);
+    --g-button-text-color: var(--g-text-input-border-color, var(--_--text-input-border-color));
+    --g-button-text-color-hover: var(
+        --g-text-input-border-color-hover,
+        var(--_--text-input-border-color-hover)
+    );
     --g-button-background-color: transparent;
     --g-button-background-color-hover: transparent;
 }

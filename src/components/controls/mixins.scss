@@ -10,26 +10,25 @@
     @if $size == 's' {
         @include mixins.text-body-short;
 
-        --_--input-height: calc(#{variables.$s-height} - var(--_--input-control-border-width) * 2);
+        height: calc(#{variables.$s-height} - var(--_--input-control-border-width) * 2);
         padding: 3px 8px;
     }
     @if $size == 'm' {
         @include mixins.text-body-short;
 
-        --_--input-height: calc(#{variables.$m-height} - var(--_--input-control-border-width) * 2);
+        height: calc(#{variables.$m-height} - var(--_--input-control-border-width) * 2);
         padding: 5px 8px;
     }
     @if $size == 'l' {
         @include mixins.text-body-short;
 
-        --_--input-height: calc(#{variables.$l-height} - var(--_--input-control-border-width) * 2);
+        height: calc(#{variables.$l-height} - var(--_--input-control-border-width) * 2);
         padding: 9px 12px;
     }
     @if $size == 'xl' {
         @include mixins.text-body-2;
 
-        --_--input-height: calc(#{variables.$xl-height} - var(--_--input-control-border-width) * 2);
+        height: calc(#{variables.$xl-height} - var(--_--input-control-border-width) * 2);
         padding: 11px 12px;
     }
-    height: var(--g-input-height, var(--_--input-height));
 }

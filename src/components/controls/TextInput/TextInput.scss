@@ -7,7 +7,7 @@
     @if $size == 's' {
         @include mixins.text-body-short;
 
-        --_--text-input-line-height: calc(
+        line-height: calc(
             #{variables.$s-height} -
                 var(--g-text-input-border-width, #{control-variables.$border-width}) *
                 2
@@ -19,7 +19,7 @@
     @if $size == 'm' {
         @include mixins.text-body-short;
 
-        --_--text-input-line-height: calc(
+        line-height: calc(
             #{variables.$m-height} -
                 var(--g-text-input-border-width, #{control-variables.$border-width}) *
                 2
@@ -31,7 +31,7 @@
     @if $size == 'l' {
         @include mixins.text-body-short;
 
-        --_--text-input-line-height: calc(
+        line-height: calc(
             #{variables.$l-height} -
                 var(--g-text-input-border-width, #{control-variables.$border-width}) *
                 2
@@ -43,7 +43,7 @@
     @if $size == 'xl' {
         @include mixins.text-body-2;
 
-        --_--text-input-line-height: calc(
+        line-height: calc(
             #{variables.$xl-height} -
                 var(--g-text-input-border-width, #{control-variables.$border-width}) *
                 2
@@ -51,7 +51,6 @@
         padding-block: 0;
         padding-inline: 12px 4px;
     }
-    line-height: var(--g-text-input-line-height, var(--_--text-input-line-height));
 
     @include mixins.text-accent;
 }
@@ -115,7 +114,6 @@ $block: '.#{variables.$ns}text-input';
         text-overflow: ellipsis;
         white-space: nowrap;
         z-index: 1;
-        line-height: var(--_--text-input-label-line-height);
     }
 
     &__clear {

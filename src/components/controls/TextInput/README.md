@@ -280,6 +280,5 @@ LANDING_BLOCK-->
 | `--g-text-input-border-color`              | Border color              |
 | `--g-text-input-border-color-hover`        | Border color hovered      |
 | `--g-text-input-border-color-active`       | Border color active       |
-| `--g-text-input-line-height`               | Line-height               |
-| `--g-input-height`                         | Height                    |
+| `--g-text-input-border-color-error`        | Border color error        |
 | `--g-text-input-border-width`              | Border width              |

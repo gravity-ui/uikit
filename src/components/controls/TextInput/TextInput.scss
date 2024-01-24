@@ -359,7 +359,6 @@ $block: '.#{variables.$ns}text-input';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    // border-color: var(--g-color-line-danger);
                     &,
                     &:hover,
                     &:focus-within {

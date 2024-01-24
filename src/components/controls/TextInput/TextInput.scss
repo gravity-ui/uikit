@@ -136,14 +136,8 @@ $block: '.#{variables.$ns}text-input';
     &__error-icon {
         box-sizing: content-box;
         color: var(--g-text-input-border-color-error, var(--_--text-input-border-color-error));
-        padding-block: var(
-            --g-text-input-error-icon-padding-block,
-            var(--_--text-input-error-icon-padding-block)
-        );
-        padding-inline: var(
-            --g-text-input-error-icon-padding-inline,
-            var(--_--text-input-error-icon-padding-inline)
-        );
+        padding-block: var(--_--text-input-error-icon-padding-block);
+        padding-inline: var(--_--text-input-error-icon-padding-inline);
     }
 
     &__additional-content {

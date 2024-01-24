@@ -118,16 +118,16 @@ const MyComponent = () => {
 
 ## CSS API
 
-| Name                                   | Description               |
-| :------------------------------------- | :------------------------ |
-| `--g-select-border-radius`             | Border radius             |
-| `--g-select-text-color`                | Text color                |
-| `--g-select-placeholder-color`         | Placeholder color         |
-| `--g-select-disabled-background-color` | Disabled background color |
-| `--g-select-disabled-text-color`       | Disabled text color       |
-| `--g-select-border-color`              | Border color              |
-| `--g-select-border-color-hover`        | Border color hovered      |
-| `--g-select-border-color-active`       | Border color active       |
-| `--g-select-border-width`              | Border width              |
-| `--g-select-color-error`               | Error color               |
-| `--g-select-chevron-icon-color`        | Color of arrow            |
+| Name                                           | Description               |
+| :--------------------------------------------- | :------------------------ |
+| `--g-select-control-border-radius`             | Border radius             |
+| `--g-select-control-text-color`                | Text color                |
+| `--g-select-control-placeholder-color`         | Placeholder color         |
+| `--g-select-control-disabled-background-color` | Disabled background color |
+| `--g-select-control-disabled-text-color`       | Disabled text color       |
+| `--g-select-control-border-color`              | Border color              |
+| `--g-select-control-border-color-hover`        | Border color hovered      |
+| `--g-select-control-border-color-active`       | Border color active       |
+| `--g-select-control-border-width`              | Border width              |
+| `--g-select-control-color-error`               | Error color               |
+| `--g-select-control-chevron-icon-color`        | Color of arrow            |

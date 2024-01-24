@@ -14,7 +14,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 4px
             calc(
                 var(--_--select-options-text-right-padding) +
-                    var(--g-select-border-width, var(--_--select-border-width))
+                    var(--g-select-control-border-width, var(--_--select-border-width))
             ); // plus border-width
     }
     @if $size == 'm' {
@@ -24,7 +24,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 6px
             calc(
                 var(--_--select-options-text-right-padding) +
-                    var(--g-select-border-width, var(--_--select-border-width))
+                    var(--g-select-control-border-width, var(--_--select-border-width))
             ); // plus border-width
     }
     @if $size == 'l' {
@@ -34,7 +34,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 10px
             calc(
                 var(--_--select-options-text-right-padding) +
-                    var(--g-select-border-width, var(--_--select-border-width))
+                    var(--g-select-control-border-width, var(--_--select-border-width))
             ); // plus border-width
     }
     @if $size == 'xl' {
@@ -44,7 +44,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 12px
             calc(
                 var(--_--select-options-text-right-padding) +
-                    var(--g-select-border-width, var(--_--select-border-width))
+                    var(--g-select-control-border-width, var(--_--select-border-width))
             ); // plus border-width
     }
 }
@@ -158,7 +158,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         @include mixins.pin(
             $blockButton,
             ('::before', '::after'),
-            var(--g-select-border-radius, var(--_--select-border-radius))
+            var(--g-select-control-border-radius, var(--_--select-border-radius))
         );
 
         display: inline-flex;
@@ -173,10 +173,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             position: absolute;
             inset: 0;
 
-            border-width: var(--g-select-border-width, var(--_--select-border-width));
+            border-width: var(--g-select-control-border-width, var(--_--select-border-width));
             border-style: solid;
-            border-color: var(--g-select-border-color, var(--_--select-border-color));
-            border-radius: var(--g-select-border-radius, var(--_--select-border-radius));
+            border-color: var(--g-select-control-border-color, var(--_--select-border-color));
+            border-radius: var(--g-select-control-border-radius, var(--_--select-border-radius));
         }
 
         &::after {
@@ -207,7 +207,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_error::before {
-            border-color: var(--g-select-color-error, var(--_--select-color-error));
+            border-color: var(--g-select-control-color-error, var(--_--select-color-error));
         }
 
         &:hover::after {
@@ -215,12 +215,15 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_disabled {
-            color: var(--g-select-disabled-text-color, var(--_--select-disabled-text-color));
+            color: var(
+                --g-select-control-disabled-text-color,
+                var(--_--select-disabled-text-color)
+            );
             pointer-events: none;
 
             &::after {
                 background-color: var(
-                    --g-select-disabled-background-color,
+                    --g-select-control-disabled-background-color,
                     var(--_--select-disabled-background-color)
                 );
             }
@@ -231,12 +234,18 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &:not(&_error):not(&_disabled):hover::before {
-            border-color: var(--g-select-border-color-hover, var(--_--select-border-color-hover));
+            border-color: var(
+                --g-select-control-border-color-hover,
+                var(--_--select-border-color-hover)
+            );
         }
 
         &_open:not(&_error)::before,
         &:not(&_error):focus-visible::before {
-            border-color: var(--g-select-border-color-active, var(--_--select-border-color-active));
+            border-color: var(
+                --g-select-control-border-color-active,
+                var(--_--select-border-color-active)
+            );
         }
     }
 
@@ -263,11 +272,11 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
 
     &__option-text {
-        color: var(--g-select-text-color, inherit);
+        color: var(--g-select-control-text-color, inherit);
     }
 
     &__placeholder {
-        color: var(--g-select-placeholder-color, var(--_--select-placeholder-color));
+        color: var(--g-select-control-placeholder-color, var(--_--select-placeholder-color));
 
         #{$blockButton}:not(#{$blockButton}_disabled) & {
             @include block_clear_reserved_width();
@@ -278,10 +287,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         flex: 0 0 16px;
         margin-inline-start: auto;
 
-        color: var(--g-select-chevron-icon-color, var(--_--select-chevron-icon-color));
+        color: var(--g-select-control-chevron-icon-color, var(--_--select-chevron-icon-color));
 
         &_disabled {
-            color: var(--g-select-placeholder-color, var(--_--select-placeholder-color));
+            color: var(--g-select-control-placeholder-color, var(--_--select-placeholder-color));
         }
     }
 
@@ -292,7 +301,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     &__error {
         @include mixins.text-body-1();
 
-        color: var(--g-select-color-error, var(--_--select-color-error));
+        color: var(--g-select-control-color-error, var(--_--select-color-error));
         margin-block-start: 2px;
     }
 }

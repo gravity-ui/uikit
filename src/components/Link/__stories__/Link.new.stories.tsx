@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {Link} from '../Link';
+import {Link, type LinkProps} from '../Link';
 
 export default {
     title: 'Components/Navigation/Link',
@@ -45,7 +45,7 @@ export default {
     },
 } as Meta;
 
-export const Playground: StoryFn = (args) => {
+export const Playground: StoryFn<LinkProps> = (args) => {
     return <Link {...args} />;
 };
 Playground.storyName = 'Link';

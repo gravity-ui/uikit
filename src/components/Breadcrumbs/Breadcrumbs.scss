@@ -1,4 +1,5 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}breadcrumbs';
 
@@ -12,7 +13,13 @@ $block: '.#{variables.$ns}breadcrumbs';
         gap: 4px;
     }
 
-    &__item {
+    &__switcher {
+        @include mixins.button-reset();
+        color: var(--g-color-text-secondary);
+    }
+
+    &__item,
+    &__switcher {
         flex-shrink: 1;
         display: inline-block;
         overflow: hidden;

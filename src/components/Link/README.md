@@ -110,16 +110,14 @@ LANDING_BLOCK-->
 
 ## Href
 
-The `href` property is optional. If it is skipped, the `Link` will behave like a `Button`.
+The `href` property is required.
 
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
 <Link href="#">Link with href</Link>
-<Link>Link without href</Link>
 `}>
     <UIKit.Link href="#">Link with href</UIKit.Link>
-    <UIKit.Link>Link without href</UIKit.Link>
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -127,7 +125,6 @@ LANDING_BLOCK-->
 
 ```tsx
 <Link href="#">Link with href</Link>
-<Link>Link without href</Link>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -140,17 +137,17 @@ A `Link` can be used both as an independent text element and as part of the text
 <ExampleBlock
     code={`
 <Text>
-    <Link>what roles are active in the service</Link>
+    <Link href="#">what roles are active in the service</Link>
 </Text>
 <Text>
-    Currently, this role can only be assigned to a <Link>folder</Link> or <Link>cloud</Link>
+    Currently, this role can only be assigned to a <Link href="#">folder</Link> or <Link href="#">cloud</Link>
 </Text>
 `}>
     <UIKit.Text>
-        <UIKit.Link>what roles are active in the service</UIKit.Link>
+        <UIKit.Link href="#">what roles are active in the service</UIKit.Link>
     </UIKit.Text>
     <UIKit.Text>
-        Currently, this role can only be assigned to a <UIKit.Link>folder</UIKit.Link> or <UIKit.Link>cloud</UIKit.Link>
+        Currently, this role can only be assigned to a <UIKit.Link href="#">folder</UIKit.Link> or <UIKit.Link href="#">cloud</UIKit.Link>
     </UIKit.Text>
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -159,10 +156,10 @@ LANDING_BLOCK-->
 
 ```tsx
 <Text>
-    <Link>What roles are available in the service</Link>
+    <Link href="#">What roles are available in the service</Link>
 </Text>
 <Text>
-    Currently, this role can only be assigned to a <Link>folder</Link> or <Link>cloud</Link>
+    Currently, this role can only be assigned to a <Link href="#">folder</Link> or <Link href="#">cloud</Link>
 </Text>
 ```
 
@@ -170,21 +167,21 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name       | Description                                |                                     Type                                     |  Default   |
-| :--------- | :----------------------------------------- | :--------------------------------------------------------------------------: | :--------: |
-| view       | Link appearance                            |                    `"normal" \| "primary" \| "secondary"`                    | `"normal"` |
-| visitable  | Display `:visitable` CSS state             |                            `boolean \| undefined`                            |
-| href       | HTML `href` attribute                      |                            `string \| undefined`                             |
-| target     | HTML `target` attribute                    |                            `string \| undefined`                             |
-| rel        | HTML `rel` attribute                       |                            `string \| undefined`                             |
-| title      | HTML `title` attribute                     |                            `string \| undefined`                             |
-| children   | Link content                               |                              `React.ReactNode`                               |
-| extraProps | Any additional props                       |                            `Record \| undefined`                             |
-| onClick    | `click` event handler                      | `React.MouseEventHandler<HTMLAnchorElement \| HTMLSpanElement> \| undefined` |
-| onFocus    | `focus` event handler                      | `React.FocusEventHandler<HTMLAnchorElement \| HTMLSpanElement> \| undefined` |
-| onBlur     | `blur` event handler                       | `React.FocusEventHandler<HTMLAnchorElement \| HTMLSpanElement> \| undefined` |
-| id         | HTML `id` attribute                        |                            `string \| undefined`                             |
-| style      | HTML `style` attribute                     |                      `React.CSSProperties \| undefined`                      |
-| className  | HTML `class` attribute                     |                            `string \| undefined`                             |
-| qa         | HTML `data-qa` attribute, used for testing |                            `string \| undefined`                             |
-| ref        | React ref to Link DOM node                 |                `React.ForwardedRef<HTMLElement> \| undefined`                |
+| Name       | Description                                |                           Type                            |  Default   |
+| :--------- | :----------------------------------------- | :-------------------------------------------------------: | :--------: |
+| view       | Link appearance                            |          `"normal" \| "primary" \| "secondary"`           | `"normal"` |
+| visitable  | Display `:visitable` CSS state             |                  `boolean \| undefined`                   |
+| href       | HTML `href` attribute                      |                   `string \| undefined`                   |
+| target     | HTML `target` attribute                    |                   `string \| undefined`                   |
+| rel        | HTML `rel` attribute                       |                   `string \| undefined`                   |
+| title      | HTML `title` attribute                     |                   `string \| undefined`                   |
+| children   | Link content                               |                     `React.ReactNode`                     |
+| extraProps | Any additional props                       |                   `Record \| undefined`                   |
+| onClick    | `click` event handler                      | `React.MouseEventHandler<HTMLAnchorElement> \| undefined` |
+| onFocus    | `focus` event handler                      | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
+| onBlur     | `blur` event handler                       | `React.FocusEventHandler<HTMLAnchorElement> \| undefined` |
+| id         | HTML `id` attribute                        |                   `string \| undefined`                   |
+| style      | HTML `style` attribute                     |            `React.CSSProperties \| undefined`             |
+| className  | HTML `class` attribute                     |                   `string \| undefined`                   |
+| qa         | HTML `data-qa` attribute, used for testing |                   `string \| undefined`                   |
+| ref        | React ref to Link DOM node                 |   `React.ForwardedRef<HTMLAnchorElement> \| undefined`    |

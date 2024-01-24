@@ -12,13 +12,22 @@ import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 
 import './Breadcrumbs.scss';
 
-export interface BreadcrumbsItem {
+type BaseBreadcrumbsItem = {
     text: string;
     action: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
-    href?: string;
     items?: BreadcrumbsItem[];
     title?: string;
-}
+};
+
+type LinkBreadcrumbsItem = {
+    href: string;
+} & BaseBreadcrumbsItem;
+
+type ButtonBreadcrumbsItem = {
+    href?: undefined;
+} & BaseBreadcrumbsItem;
+
+export type BreadcrumbsItem = LinkBreadcrumbsItem | ButtonBreadcrumbsItem;
 
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> extends QAProps {
     items: T[];

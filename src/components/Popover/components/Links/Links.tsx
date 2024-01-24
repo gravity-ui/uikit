@@ -6,7 +6,7 @@ import {cnPopover} from '../../Popover.classname';
 export type LinksProps = {
     links: Array<{
         text: string;
-        href?: string;
+        href: string;
         target?: '_self' | '_blank';
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
     }>;

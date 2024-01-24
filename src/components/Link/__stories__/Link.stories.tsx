@@ -2,8 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {Link} from '../Link';
-import type {LinkProps} from '../Link';
+import {Link, type LinkProps} from '../Link';
 import {LinkShowcase} from '../__stories__/LinkShowcase';
 
 export default {

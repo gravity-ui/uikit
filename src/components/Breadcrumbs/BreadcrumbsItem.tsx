@@ -4,6 +4,7 @@ import {Link} from '../Link';
 import {block} from '../utils/cn';
 
 import type {BreadcrumbsProps, BreadcrumbsItem as IBreadcrumbsItem} from './Breadcrumbs';
+import {BreadcrumbsButton} from './BreadcrumbsButton';
 
 interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
     data: T;
@@ -25,24 +26,34 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
     const {text, title, href, action} = data;
     const itemTitle = title || text;
 
+    const item = renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text;
+
     if (isPrevCurrent || !isCurrent) {
+        if (href) {
+            return (
+                <Link
+                    key={text}
+                    view="secondary"
+                    href={href}
+                    title={itemTitle}
+                    onClick={action}
+                    className={b('item', {'prev-current': isPrevCurrent})}
+                >
+                    {item}
+                </Link>
+            );
+        }
+
         return (
-            <Link
-                key={text}
-                view="secondary"
-                href={href}
-                title={itemTitle}
-                onClick={action}
-                className={b('item', {'prev-current': isPrevCurrent})}
-            >
-                {renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text}
-            </Link>
+            <BreadcrumbsButton key={text} title={itemTitle} onClick={action}>
+                {item}
+            </BreadcrumbsButton>
         );
     }
 
     return (
         <div title={itemTitle} className={b('item', {current: true})}>
-            {renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text}
+            {item}
         </div>
     );
 }

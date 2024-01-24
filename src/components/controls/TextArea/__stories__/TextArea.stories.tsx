@@ -27,4 +27,4 @@ const ShowcaseTemplate: StoryFn = () => <TextAreaShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
 
 const CustomTemplate: StoryFn = () => <TextAreaCustomShowcase />;
-export const Custom = CustomTemplate.bind({});
+export const CustomTheme = CustomTemplate.bind({});

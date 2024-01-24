@@ -43,4 +43,4 @@ Showcase.args = {
 
 const CustomTemplate = () => <CustomThemeShowcase />;
 
-export const Custom: StoryFn = CustomTemplate.bind({});
+export const CustomTheme: StoryFn = CustomTemplate.bind({});

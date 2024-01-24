@@ -41,6 +41,6 @@ Showcase.args = {
     hasClear: false,
 };
 
-const CustomTemplate = () => <CustomThemeShowcase />;
+const CustomThemeTemplate = () => <CustomThemeShowcase />;
 
-export const CustomTheme: StoryFn = CustomTemplate.bind({});
+export const CustomTheme: StoryFn = CustomThemeTemplate.bind({});

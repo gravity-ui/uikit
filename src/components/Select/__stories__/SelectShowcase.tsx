@@ -3,13 +3,13 @@ import React from 'react';
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import range from 'lodash/range';
 
-import {Select} from '..';
 import type {SelectOption, SelectProps} from '..';
+import {Select} from '..';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
 import {Icon} from '../../Icon';
-import {RadioButton} from '../../RadioButton';
 import type {RadioButtonOption} from '../../RadioButton';
+import {RadioButton} from '../../RadioButton';
 import {Tooltip} from '../../Tooltip';
 import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
@@ -30,7 +30,7 @@ import {
 import './SelectShowcase.scss';
 
 const b = block('select-showcase');
-const Mode = {
+export const Mode = {
     CODE: 'code',
     VIEW: 'view',
 };
@@ -46,7 +46,7 @@ const getEscapedString = (str: string) => {
     return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
-const radioButtonOptions: RadioButtonOption[] = [
+export const radioButtonOptions: RadioButtonOption[] = [
     {value: Mode.VIEW, content: 'View'},
     {value: Mode.CODE, content: 'Code'},
 ];

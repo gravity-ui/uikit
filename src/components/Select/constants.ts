@@ -36,4 +36,5 @@ export const SelectQa = {
     POPUP: 'select-popup',
     SHEET: 'select-sheet',
     CLEAR: 'select-clear',
+    SELECT_ALL: 'select-all-test-qa',
 };

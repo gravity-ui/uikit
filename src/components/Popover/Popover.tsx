@@ -11,14 +11,18 @@ import {cnPopover} from './Popover.classname';
 import {Buttons} from './components/Buttons/Buttons';
 import {Content} from './components/Content/Content';
 import {Links} from './components/Links/Links';
-import {Trigger} from './components/Trigger/Trigger';
+
 import {PopoverBehavior} from './config';
 import {useOpen} from './hooks/useOpen';
-import type {PopoverInstanceProps, PopoverProps} from './types';
+import type {PopoverControlProps, PopoverInstanceProps, PopoverProps} from './types';
 
 import './Popover.scss';
+import {getKeyDownHandler} from '../../hooks/useActionHandlers/useActionHandlers';
 
-export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAProps>(function (
+export const Popover = React.forwardRef<
+    PopoverInstanceProps,
+    PopoverProps<HTMLDivElement> & QAProps
+>(function (
     {
         initialOpen = false,
         disabled = false,
@@ -58,6 +62,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         autoFocus,
         restoreFocusRef,
         modifiers,
+        control,
     },
     ref,
 ) {
@@ -188,6 +193,62 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         closedManually.current = false;
     };
 
+    const onControlClick: PopoverControlProps<HTMLDivElement>['onClick'] =
+        disabled || onClick === undefined || (isOpen && openOnHover)
+            ? undefined
+            : async (event) => {
+                  const res = onClick(event);
+                  const shouldToggleOpen = res instanceof Promise ? await res : res;
+
+                  if (shouldToggleOpen === false) {
+                      return;
+                  }
+
+                  const shouldOpen = isOpen === false;
+
+                  if (shouldOpen) {
+                      openTooltip();
+                      closedManually.current = false;
+                  } else {
+                      closeTooltip;
+                      closedManually.current = true;
+                  }
+              };
+
+    const onControlKeyDown = onControlClick && getKeyDownHandler(onControlClick);
+
+    if (control || typeof children === 'function') {
+        const controlProps: PopoverControlProps<HTMLDivElement> = {
+            disabled,
+            className,
+            style: {top: offset.top, left: offset.left},
+            ref: controlRef,
+            ['data-qa']: qa,
+
+            onClick: onControlClick,
+            onKeyDown: onControlKeyDown,
+        };
+
+        if (openOnHover) {
+            controlProps.onMouseEnter = disabled ? undefined : onMouseEnter;
+            controlProps.onMouseLeave = onMouseLeave;
+
+            controlProps.onFocus = disabled ? undefined : onMouseEnter;
+            controlProps.onBlur = onMouseLeave;
+        }
+
+        return (
+            <React.Fragment>
+                {control
+                    ? control(controlProps)
+                    : typeof children === 'function'
+                    ? children!(controlProps)
+                    : undefined}
+                {tooltip}
+            </React.Fragment>
+        );
+    }
+
     return (
         <div
             ref={controlRef}
@@ -202,21 +263,19 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             }}
             data-qa={qa}
         >
-            <Trigger
-                closeTooltip={closeTooltip}
-                openTooltip={openTooltip}
-                open={isOpen}
-                openOnHover={openOnHover}
+            <div
                 className={cnPopover('handler')}
-                disabled={disabled}
-                onClick={onClick}
-                closedManually={closedManually}
+                onClick={onControlClick}
+                onKeyDown={onControlKeyDown}
             >
                 {children}
-            </Trigger>
+            </div>
             {tooltip}
         </div>
     );
-});
+}) as unknown as <ControlHTMLElement extends HTMLElement = HTMLElement>(
+    props: PopoverProps<ControlHTMLElement> &
+        QAProps & {ref?: React.ForwardedRef<PopoverInstanceProps>},
+) => React.JSX.Element;
 
-Popover.displayName = 'Popover';
+(Popover as React.NamedExoticComponent).displayName = 'Popover';

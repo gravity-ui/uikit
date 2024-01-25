@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {Popover, PopoverBehavior} from '../';
+import {Popover, PopoverBehavior, PopoverControlProps} from '../';
 import type {PopoverProps} from '../';
 import {Button} from '../../Button';
 
@@ -266,4 +266,21 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
 export const Accessible = AccessibleTemplate.bind({});
 Accessible.args = {
     content: 'Popover content',
+};
+
+const Qwe = (props: PopoverControlProps<HTMLDivElement>) => {
+    return <div {...props}>QWE</div>;
+};
+
+export const Qwerty = () => {
+    return (
+        <div>
+            <Popover
+                className={cnPopoverDemo('control')}
+                content="wwwwww"
+                control={Qwe}
+                placement={['bottom-end', 'auto']}
+            />
+        </div>
+    );
 };

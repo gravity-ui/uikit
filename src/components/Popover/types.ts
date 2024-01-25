@@ -3,7 +3,7 @@ import type {PopupAnchorRef, PopupProps} from '../Popup';
 import type {ButtonsProps} from './components/Buttons/Buttons';
 import type {ContentProps} from './components/Content/Content';
 import type {LinksProps} from './components/Links/Links';
-import type {TriggerProps} from './components/Trigger/Trigger';
+
 import type {PopoverBehavior} from './config';
 
 export type PopoverButtonProps = {
@@ -17,9 +17,29 @@ export type PopoverButtonProps = {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export interface PopoverExternalProps {
+export type PopoverControlProps<ControlHTMLElement extends HTMLElement> = {
+    onClick?: React.MouseEventHandler<ControlHTMLElement>;
+    onKeyDown?: React.KeyboardEventHandler;
+
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
+    onFocus?: () => void;
+    onBlur?: () => void;
+
+    className?: string;
+    style?: React.CSSProperties;
+    ref: React.LegacyRef<ControlHTMLElement>;
+    disabled?: boolean;
+    ['data-qa']?: string;
+};
+
+export interface PopoverExternalProps<ControlHTMLElement extends HTMLElement> {
     /** Tooltip's trigger content over which the tooltip is shown */
-    children?: TriggerProps['children'];
+    children?:
+        | React.ReactNode
+        | ((controlProps: PopoverControlProps<ControlHTMLElement>) => React.ReactNode);
+    control?: (controlProps: PopoverControlProps<ControlHTMLElement>) => React.ReactNode;
+
     /** Tooltip's title */
     title?: string;
     /** Tooltip's content */
@@ -52,7 +72,7 @@ export interface PopoverExternalProps {
      * Anchor click callback.
      * If the function returns `true', the tooltip will be open, otherwise it won't be opened.
      */
-    onClick?: TriggerProps['onClick'];
+    onClick?: (event: React.MouseEvent<ControlHTMLElement>) => boolean | Promise<boolean>;
     /**
      * Open state change handler
      * Might be useful for the delayed rendering of the tooltip's content.
@@ -119,8 +139,11 @@ export type PopoverDefaultProps = {
     size: 's' | 'l';
 };
 
-export type PopoverProps = Pick<PopupProps, 'anchorRef' | 'strategy' | 'placement' | 'modifiers'> &
-    PopoverExternalProps &
+export type PopoverProps<ControlHTMLElement extends HTMLElement = HTMLElement> = Pick<
+    PopupProps,
+    'anchorRef' | 'strategy' | 'placement' | 'modifiers'
+> &
+    PopoverExternalProps<ControlHTMLElement> &
     PopoverBehaviorProps &
     Partial<PopoverDefaultProps>;
 

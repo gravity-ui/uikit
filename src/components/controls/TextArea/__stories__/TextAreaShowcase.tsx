@@ -106,7 +106,7 @@ line
 value`.trim()}
                 />
                 <TextArea {...textAreaProps} />
-                <TextArea {...textAreaProps} defaultValue="has clear" hasClear />
+                <TextArea {...textAreaProps} value={undefined} defaultValue="has clear" hasClear />
                 <TextArea {...textAreaProps} disabled />
                 <TextArea {...textAreaProps} error={'Error message'} />
             </div>
@@ -120,7 +120,7 @@ line
 value`.trim()}
                 />
                 <TextArea {...textAreaProps} />
-                <TextArea {...textAreaProps} defaultValue="has clear" hasClear />
+                <TextArea {...textAreaProps} value={undefined} defaultValue="has clear" hasClear />
                 <TextArea {...textAreaProps} disabled />
                 <TextArea {...textAreaProps} error={'Error message'} />
             </div>

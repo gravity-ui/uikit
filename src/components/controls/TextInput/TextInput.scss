@@ -58,13 +58,13 @@
 $block: '.#{variables.$ns}text-input';
 
 #{$block} {
-    --_--text-input-disabled-background-color: var(--g-color-base-generic-accent-disabled);
-    --_--text-input-text-color: var(--g-color-text-primary);
-    --_--text-input-placeholder-color: var(--g-color-text-hint);
-    --_--text-input-border-color: var(--g-color-line-generic);
-    --_--text-input-border-color-hover: var(--g-color-line-generic-hover);
-    --_--text-input-border-color-active: var(--g-color-line-generic-active);
-    --_--text-input-border-color-error: var(--g-color-line-danger);
+    --_--text-color: var(--g-color-text-primary);
+    --_--placeholder-color: var(--g-color-text-hint);
+    --_--background-color: var(--g-color-base-generic-accent-disabled);
+    --_--border-color: var(--g-color-line-generic);
+    --_--border-color-hover: var(--g-color-line-generic-hover);
+    --_--border-color-active: var(--g-color-line-generic-active);
+    --_--border-color-error: var(--g-color-line-danger);
 
     display: inline-block;
     width: 100%;
@@ -87,13 +87,13 @@ $block: '.#{variables.$ns}text-input';
         width: 100%;
         font-weight: var(--g-text-body-font-weight);
         font-family: var(--g-text-body-font-family);
-        color: var(--g-text-input-text-color, var(--_--text-input-text-color));
+        color: var(--g-text-input-text-color, var(--_--text-color));
         background-color: transparent;
         border: none;
         height: var(--g-text-input-height);
 
         &::placeholder {
-            color: var(--g-text-input-placeholder-color, var(--_--text-input-placeholder-color));
+            color: var(--g-text-input-placeholder-color, var(--_--placeholder-color));
             overflow: hidden;
             white-space: nowrap;
         }
@@ -133,9 +133,9 @@ $block: '.#{variables.$ns}text-input';
 
     &__error-icon {
         box-sizing: content-box;
-        color: var(--g-text-input-border-color-error, var(--_--text-input-border-color-error));
-        padding-block: var(--_--text-input-error-icon-padding-block);
-        padding-inline: var(--_--text-input-error-icon-padding-inline);
+        color: var(--g-text-input-border-color-error, var(--_--border-color-error));
+        padding-block: var(--_--error-icon-padding-block);
+        padding-inline: var(--_--error-icon-padding-inline);
     }
 
     &__additional-content {
@@ -169,10 +169,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-inline-end: 1px;
             }
 
-            --_--text-input-error-icon-padding-block: 5px;
-            --_--text-input-error-icon-padding-inline: 0 5px;
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline: 0 5px;
 
-            --_--text-input-border-radius: var(--g-border-radius-s);
+            --_--border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -200,10 +200,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-inline-end: 1px;
             }
 
-            --_--text-input-error-icon-padding-block: 5px;
-            --_--text-input-error-icon-padding-inline: 0 5px;
+            --_--error-icon-padding-block: 5px;
+            --_--error-icon-padding-inline: 0 5px;
 
-            --_--text-input-border-radius: var(--g-border-radius-m);
+            --_--border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -231,10 +231,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-inline-end: 3px;
             }
 
-            --_--text-input-error-icon-padding-block: 9px;
-            --_--text-input-error-icon-padding-inline: 0 9px;
+            --_--error-icon-padding-block: 9px;
+            --_--error-icon-padding-inline: 0 9px;
 
-            --_--text-input-border-radius: var(--g-border-radius-l);
+            --_--border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -262,10 +262,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-inline-end: 3px;
             }
 
-            --_--text-input-error-icon-padding-block: 13px;
-            --_--text-input-error-icon-padding-inline: 0 13px;
+            --_--error-icon-padding-block: 13px;
+            --_--error-icon-padding-inline: 0 13px;
 
-            --_--text-input-border-radius: var(--g-border-radius-xl);
+            --_--border-radius: var(--g-border-radius-xl);
         }
     }
 
@@ -274,19 +274,19 @@ $block: '.#{variables.$ns}text-input';
             #{$block}__content {
                 border-width: var(--g-text-input-border-width, #{control-variables.$border-width});
                 border-style: solid;
-                border-color: var(--g-text-input-border-color, var(--_--text-input-border-color));
+                border-color: var(--g-text-input-border-color, var(--_--border-color));
 
                 &:hover {
                     border-color: var(
                         --g-text-input-border-color-hover,
-                        var(--_--text-input-border-color-hover)
+                        var(--_--border-color-hover)
                     );
                 }
 
                 &:focus-within {
                     border-color: var(
                         --g-text-input-border-color-active,
-                        var(--_--text-input-border-color-active)
+                        var(--_--border-color-active)
                     );
                 }
             }
@@ -308,16 +308,13 @@ $block: '.#{variables.$ns}text-input';
     @include mixins.pin(
         $block,
         #{$block}__content,
-        var(--g-text-input-border-radius, var(--_--text-input-border-radius)),
+        var(--g-text-input-border-radius, var(--_--border-radius)),
         $append: false
     );
 
     &_disabled {
         #{$block}__content {
-            background-color: var(
-                --g-text-input-disabled-background-color,
-                var(--_--text-input-disabled-background-color)
-            );
+            background-color: var(--g-text-input-background-color, var(--_--background-color));
             color: var(--g-color-text-hint);
             border-color: transparent;
 
@@ -362,7 +359,7 @@ $block: '.#{variables.$ns}text-input';
                     &:focus-within {
                         border-color: var(
                             --g-text-input-border-color-error,
-                            var(--_--text-input-border-color-error)
+                            var(--_--border-color-error)
                         );
                     }
                 }
@@ -374,10 +371,7 @@ $block: '.#{variables.$ns}text-input';
                     &:hover,
                     &:focus-within {
                         border-block-end: 1px solid
-                            var(
-                                --g-text-input-border-color-error,
-                                var(--_--text-input-border-color-error)
-                            );
+                            var(--g-text-input-border-color-error, var(--_--border-color-error));
                     }
                 }
             }

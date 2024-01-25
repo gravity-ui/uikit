@@ -271,14 +271,15 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                                 | Description               |
-| :----------------------------------- | :------------------------ |
-| `--g-text-input-text-color`          | Text color                |
-| `--g-text-input-placeholder-color`   | Placeholder color         |
-| `--g-text-input-background-color`    | Disabled background color |
-| `--g-text-input-border-radius`       | Border radius             |
-| `--g-text-input-border-width`        | Border width              |
-| `--g-text-input-border-color`        | Border color              |
-| `--g-text-input-border-color-hover`  | Border color hovered      |
-| `--g-text-input-border-color-active` | Border color active       |
-| `--g-text-input-border-color-error`  | Border color error        |
+| Name                                 | Description                      |
+| :----------------------------------- | :------------------------------- |
+| `--g-text-input-text-color`          | Text color                       |
+| `--g-text-input-text-color-error`    | Text color if error              |
+| `--g-text-input-placeholder-color`   | Placeholder color                |
+| `--g-text-input-background-color`    | Background color (when disabled) |
+| `--g-text-input-border-radius`       | Border radius                    |
+| `--g-text-input-border-width`        | Border width                     |
+| `--g-text-input-border-color`        | Border color                     |
+| `--g-text-input-border-color-hover`  | Border color if hovered          |
+| `--g-text-input-border-color-active` | Border color if active           |
+| `--g-text-input-border-color-error`  | Border color if error            |

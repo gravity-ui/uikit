@@ -217,14 +217,15 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                                | Description               |
-| :---------------------------------- | :------------------------ |
-| `--g-text-area-text-color`          | Text color                |
-| `--g-text-area-placeholder-color`   | Placeholder color         |
-| `--g-text-area-background-color`    | Disabled background color |
-| `--g-text-area-border-radius`       | Border radius             |
-| `--g-text-area-border-width`        | Border width              |
-| `--g-text-area-border-color`        | Border color              |
-| `--g-text-area-border-color-hover`  | Border color hovered      |
-| `--g-text-area-border-color-active` | Border color active       |
-| `--g-text-area-border-color-error`  | Border color error        |
+| Name                                | Description                      |
+| :---------------------------------- | :------------------------------- |
+| `--g-text-area-text-color`          | Text color                       |
+| `--g-text-area-text-color-error`    | Text color if error              |
+| `--g-text-area-placeholder-color`   | Placeholder color                |
+| `--g-text-area-background-color`    | Background color (when disabled) |
+| `--g-text-area-border-radius`       | Border radius                    |
+| `--g-text-area-border-width`        | Border width                     |
+| `--g-text-area-border-color`        | Border color                     |
+| `--g-text-area-border-color-hover`  | Border color if hovered          |
+| `--g-text-area-border-color-active` | Border color if active           |
+| `--g-text-area-border-color-error`  | Border color if error            |

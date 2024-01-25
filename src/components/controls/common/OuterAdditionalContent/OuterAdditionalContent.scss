@@ -17,8 +17,8 @@ $block: '.#{variables.$ns}outer-additional-content';
         @include mixins.text-body-1();
 
         color: var(
-            --g-text-input-border-color-error,
-            var(--g-text-area-border-color-error, var(--_--text-input-border-color-error))
+            --g-text-input-text-color-error,
+            var(--g-text-area-text-color-error, var(--g-color-text-danger))
         );
 
         &:not(:last-child) {

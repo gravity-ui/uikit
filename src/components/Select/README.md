@@ -118,16 +118,18 @@ const MyComponent = () => {
 
 ## CSS API
 
-| Name                                           | Description               |
-| :--------------------------------------------- | :------------------------ |
-| `--g-select-control-border-radius`             | Border radius             |
-| `--g-select-control-text-color`                | Text color                |
-| `--g-select-control-placeholder-color`         | Placeholder color         |
-| `--g-select-control-disabled-background-color` | Disabled background color |
-| `--g-select-control-disabled-text-color`       | Disabled text color       |
-| `--g-select-control-border-color`              | Border color              |
-| `--g-select-control-border-color-hover`        | Border color hovered      |
-| `--g-select-control-border-color-active`       | Border color active       |
-| `--g-select-control-border-width`              | Border width              |
-| `--g-select-control-color-error`               | Error color               |
-| `--g-select-control-chevron-icon-color`        | Color of arrow            |
+| Name                                        | Description              |
+| :------------------------------------------ | :----------------------- |
+| `--g-select-control-text-color`             | Text color               |
+| `--g-select-control-text-color-error`       | Text error color         |
+| `--g-select-control-placeholder-color`      | Placeholder color        |
+| `--g-select-control-background-color`       | Background color         |
+| `--g-select-control-background-color-hover` | Hovered background color |
+| `--g-select-control-border-width`           | Border width             |
+| `--g-select-control-border-radius`          | Border radius            |
+| `--g-select-control-border-color`           | Border color             |
+| `--g-select-control-border-color-hover`     | Border color hovered     |
+| `--g-select-control-border-color-active`    | Border color active      |
+| `--g-select-control-border-color-error`     | Border error color       |
+| `--g-select-control-chevron-color`          | Color of arrow           |
+| `--g-select-control-chevron-color-disabled` | Color of disabled arrow  |

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import {useControlledState} from './useControlledState';
 
-describe('useControlledState tests', function () {
+describe('useControlledState', function () {
     it('can handle default setValue behavior, wont invoke onChange for the same value twice in a row', () => {
         const onChangeSpy = jest.fn();
         const {result} = renderHook(() =>

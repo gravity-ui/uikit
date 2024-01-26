@@ -22,8 +22,8 @@ export function useControlledState<T, C extends T = T>(
     React.useEffect(() => {
         const wasControlled = isControlledRef.current;
         if (wasControlled !== isControlled) {
-            console.warn(
-                `WARN: A component changed from ${
+            console.error(
+                `[useControlledState] A component changed from ${
                     wasControlled ? 'controlled' : 'uncontrolled'
                 } to ${isControlled ? 'controlled' : 'uncontrolled'}.`,
             );

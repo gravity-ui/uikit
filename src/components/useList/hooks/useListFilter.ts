@@ -65,6 +65,7 @@ export function useListFilter<T>({
         [filterItem, filterItems],
     );
 
+    // https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
     if (externalItems !== prevItems) {
         setItems(filterItemsFn(filter, externalItems));
         setPrevItems(externalItems);

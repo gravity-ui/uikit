@@ -107,9 +107,9 @@ describe('useControlledState', function () {
         expect(onChangeSpy).not.toHaveBeenCalled();
     });
 
-    it('will console warn if the programmer tries to switch from controlled to uncontrolled', () => {
+    it('will console error if the programmer tries to switch from controlled to uncontrolled', () => {
         const onChangeSpy = jest.fn();
-        const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         const {result, rerender} = renderHook(
             ({value, defaultValue, onChange}) => useControlledState(value, defaultValue, onChange),
             {
@@ -125,14 +125,14 @@ describe('useControlledState', function () {
         expect(onChangeSpy).not.toHaveBeenCalled();
         // @ts-expect-error
         rerender({value: undefined, defaultValue: 'defaultValue', onChange: onChangeSpy});
-        expect(consoleWarnSpy).toHaveBeenLastCalledWith(
-            'WARN: A component changed from controlled to uncontrolled.',
+        expect(consoleErrorSpy).toHaveBeenLastCalledWith(
+            '[useControlledState] A component changed from controlled to uncontrolled.',
         );
     });
 
-    it('will console warn if the programmer tries to switch from uncontrolled to controlled', () => {
+    it('will console error if the programmer tries to switch from uncontrolled to controlled', () => {
         const onChangeSpy = jest.fn();
-        const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         const {result, rerender} = renderHook(
             ({value, defaultValue, onChange}) => useControlledState(value, defaultValue, onChange),
             {
@@ -148,8 +148,8 @@ describe('useControlledState', function () {
         expect(onChangeSpy).not.toHaveBeenCalled();
         // @ts-expect-error
         rerender({value: 'controlledValue', defaultValue: 'defaultValue', onChange: onChangeSpy});
-        expect(consoleWarnSpy).toHaveBeenLastCalledWith(
-            'WARN: A component changed from uncontrolled to controlled.',
+        expect(consoleErrorSpy).toHaveBeenLastCalledWith(
+            '[useControlledState] A component changed from uncontrolled to controlled.',
         );
     });
 

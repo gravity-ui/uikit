@@ -1,0 +1,12 @@
+@import '../../../styles/mixins.scss';
+@import '../variables';
+
+$block: '.#{$ns}button-attach';
+
+#{$block} {
+    display: inline-block;
+
+    &__input {
+        @include accessible-hidden;
+    }
+}

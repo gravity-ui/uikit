@@ -1,6 +1,7 @@
 export * from './useActionHandlers';
 export * from './useAsyncActionHandler';
 export * from './useBodyScrollLock';
+export * from './useControlledState';
 export * from './useFileInput';
 export * from './useFocusWithin';
 export * from './useForkRef';

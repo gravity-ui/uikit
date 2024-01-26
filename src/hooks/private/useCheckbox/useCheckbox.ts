@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useForkRef} from '../..';
+import {useControlledState, useForkRef} from '../..';
 import type {ControlProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
 
@@ -27,9 +27,12 @@ export function useCheckbox({
     disabled,
 }: UseCheckboxProps): UseCheckboxResult {
     const innerControlRef = React.useRef<HTMLInputElement>(null);
-    const [checkedState, setCheckedState] = React.useState(defaultChecked ?? false);
-    const isControlled = typeof checked === 'boolean';
-    const isChecked = isControlled ? checked : checkedState;
+    const [isChecked, setCheckedState] = useControlledState(
+        checked,
+        defaultChecked ?? false,
+        onUpdate,
+    );
+
     const inputChecked = indeterminate ? false : checked;
     const inputAriaChecked = indeterminate ? 'mixed' : isChecked;
 
@@ -42,16 +45,10 @@ export function useCheckbox({
     }, [indeterminate]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!isControlled) {
-            setCheckedState(event.target.checked);
-        }
+        setCheckedState(event.target.checked);
 
         if (onChange) {
             onChange(event);
-        }
-
-        if (onUpdate) {
-            onUpdate(event.target.checked);
         }
     };
 

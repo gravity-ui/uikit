@@ -30,6 +30,6 @@ The `useSelect` hook used to handle items selection in list
 | handleSelection | Handles item selection                                      | `function` |
 | open            | List container visibility state                             | `boolean`  |
 | setOpen         | (deprecated) use toggleOpen. Sets value for `open` property | `function` |
-| toggleOpen      | Inver the value of `open`                                   | `function` |
+| toggleOpen      | Invert the value of `open`                                  | `function` |
 | activeIndex     | Index of active option                                      |  `number`  |
 | setActiveIndex  | Sets value for `activeIndex` property                       | `function` |

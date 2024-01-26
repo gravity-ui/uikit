@@ -2,7 +2,7 @@ import React from 'react';
 
 import {TriangleExclamation} from '@gravity-ui/icons';
 
-import {useForkRef, useUniqId} from '../../../hooks';
+import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useElementSize} from '../../../hooks/private';
 import {Icon} from '../../Icon';
 import {Popover} from '../../Popover';
@@ -97,15 +97,13 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         validationState: validationStateProp,
     });
 
-    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
+    const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const labelRef = React.useRef<HTMLLabelElement>(null);
     const startContentRef = React.useRef<HTMLDivElement>(null);
     const state = getInputControlState(validationState);
 
-    const isControlled = value !== undefined;
-    const inputValue = isControlled ? value : uncontrolledValue;
     const isLabelVisible = Boolean(label);
     const isErrorMsgVisible =
         validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
@@ -149,15 +147,10 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
         tabIndex,
         name,
         onChange(event: React.ChangeEvent<HTMLInputElement>) {
-            const newValue = event.target.value;
-            if (!isControlled) {
-                setUncontrolledValue(newValue);
-            }
+            setInputValue(event.target.value);
+
             if (onChange) {
                 onChange(event);
-            }
-            if (onUpdate) {
-                onUpdate(newValue);
             }
         },
         autoComplete: isAutoCompleteOff ? 'off' : prepareAutoComplete(autoComplete),
@@ -165,8 +158,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
     };
 
     const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
-        const control = innerControlRef.current;
+        setInputValue('');
 
+        const control = innerControlRef.current;
         if (control) {
             control.focus();
 
@@ -179,14 +173,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(funct
             if (onChange) {
                 onChange(syntheticEvent);
             }
-
-            if (onUpdate) {
-                onUpdate('');
-            }
-        }
-
-        if (!isControlled) {
-            setUncontrolledValue('');
         }
     };
 

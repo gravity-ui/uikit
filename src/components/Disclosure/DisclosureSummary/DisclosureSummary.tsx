@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {ArrowToggle} from '../../ArrowToggle';
+import {warnOnce} from '../../utils/warn';
 import type {DisclosureSize} from '../Disclosure';
 import {useDisclosureAttributes, useToggleDisclosure} from '../DisclosureContext';
 import {b} from '../cn';
@@ -10,6 +11,12 @@ const ComponentSizeToIconSizeMap: Record<DisclosureSize, number> = {
     l: 16,
     xl: 20,
 };
+
+function warnAboutPhysicalValues() {
+    warnOnce(
+        '[Disclosure] Physical values (left, right) of "arrowPosition" property are deprecated. Use logical values (start, end) instead.',
+    );
+}
 
 interface DisclosureSummaryRenderFunctionProps {
     onClick: (e: React.SyntheticEvent) => void;
@@ -41,9 +48,11 @@ export function DefaultDisclosureSummary({
     let arrowMod = arrowPosition;
 
     if (arrowMod === 'left') {
+        warnAboutPhysicalValues();
         arrowMod = 'start';
     }
     if (arrowMod === 'right') {
+        warnAboutPhysicalValues();
         arrowMod = 'end';
     }
     return (

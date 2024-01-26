@@ -6,6 +6,7 @@ import _isNumber from 'lodash/isNumber';
 
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
+import {warnOnce} from '../utils/warn';
 
 import i18n from './i18n';
 
@@ -19,11 +20,22 @@ export interface TableDataItem {
 
 type ActiveScrollElementType = 'scrollBar' | 'scrollContainer';
 
-function normalizeSides(side: TableColumnConfig<any>['align'] | TableColumnConfig<any>['sticky']) {
+function warnAboutPhysicalValues(propName: string) {
+    warnOnce(
+        `[Table] Physical values (left, right) of "${propName}" property are deprecated. Use logical values (start, end) instead.`,
+    );
+}
+
+function normalizeSides(
+    side: TableColumnConfig<any>['align'] | TableColumnConfig<any>['sticky'],
+    propName: string,
+) {
     if (side === 'left') {
+        warnAboutPhysicalValues(propName);
         return 'start';
     }
     if (side === 'right') {
+        warnAboutPhysicalValues(propName);
         return 'end';
     }
     return side;
@@ -396,8 +408,8 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 <tr className={b('row')}>
                     {columns.map((column, index) => {
                         const {id, align: rawAlign, primary, sticky: rawSticky, className} = column;
-                        const align = normalizeSides(rawAlign);
-                        const sticky = normalizeSides(rawSticky);
+                        const align = normalizeSides(rawAlign, 'column.align');
+                        const sticky = normalizeSides(rawSticky, 'column.sticky');
                         const content = Table.getHeadCellContent(column);
 
                         return (
@@ -500,8 +512,8 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 {columns.map((column, colIndex) => {
                     const {id, align: rawAlign, primary, className, sticky: rawSticky} = column;
                     const content = Table.getBodyCellContent(column, item, rowIndex);
-                    const align = normalizeSides(rawAlign);
-                    const sticky = normalizeSides(rawSticky);
+                    const align = normalizeSides(rawAlign, 'column.align');
+                    const sticky = normalizeSides(rawSticky, 'column.sticky');
                     return (
                         <td
                             key={id}

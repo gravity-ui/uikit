@@ -6,6 +6,7 @@ import {Button} from '../Button';
 import {Icon} from '../Icon';
 import {Popup} from '../Popup';
 import type {QAProps} from '../types';
+import {warnOnce} from '../utils/warn';
 
 import {cnPopover} from './Popover.classname';
 import {Buttons} from './components/Buttons/Buttons';
@@ -187,6 +188,12 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
 
         closedManually.current = false;
     };
+
+    if (offset && (typeof offset.top === 'number' || typeof offset.left === 'number')) {
+        warnOnce(
+            '[Popover] Physical names (top, left) of "offset" property are deprecated. Use logical names (block, inline) instead.',
+        );
+    }
 
     return (
         <div

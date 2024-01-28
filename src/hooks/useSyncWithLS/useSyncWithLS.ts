@@ -15,7 +15,7 @@ export const useSyncWithLS = <T extends Function>({
     const key = `${dataSourceName}.${uniqueKey}`;
 
     const handler = (event: StorageEvent) => {
-        if (event.key === key) {
+        if (event.key === key && event.newValue) {
             return callback();
         }
         return undefined;

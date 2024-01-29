@@ -22,7 +22,7 @@ $block: '.#{variables.$ns-new}avatar-stack';
         --_--g-avatar-stack-overlap: var(--g-spacing-2);
     }
 
-    &_overlap-size_l:not(:first-child) {
+    &_overlap-size_l {
         --_--g-avatar-stack-overlap: var(--g-spacing-3);
     }
 

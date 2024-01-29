@@ -5,13 +5,13 @@ const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-dart-sass');
 const replace = require('gulp-replace');
 const ts = require('gulp-typescript');
-const rimraf = require('rimraf');
+const {rimrafSync} = require('rimraf');
 
 const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
-    rimraf.sync(BUILD_DIR);
-    rimraf.sync('styles/**/*.css');
+    rimrafSync(BUILD_DIR);
+    rimrafSync('styles/**/*.css');
     done();
 });
 

@@ -17,7 +17,9 @@ $block: '.#{variables.$ns}radio-button';
     &__plate {
         position: absolute;
         inset-block: 0;
-        transition: left 0.2s, width 0.2s;
+        transition:
+            left 0.2s,
+            width 0.2s;
 
         &[hidden] {
             display: none;

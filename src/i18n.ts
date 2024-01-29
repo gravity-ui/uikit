@@ -2,9 +2,9 @@ import {I18N} from '@gravity-ui/i18n';
 
 import {getConfig, subscribeConfigure} from './components/utils/configure';
 
-export const i18n = new I18N();
+const configLang = getConfig().lang;
 
-i18n.setLang(getConfig().lang);
+export const i18n = new I18N({lang: configLang, fallbackLang: configLang});
 
 subscribeConfigure((config) => {
     i18n.setLang(config.lang);

@@ -2,17 +2,16 @@ import React from 'react';
 
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
-import {
-    DragDropContext,
-    Draggable,
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import type {
     DraggableProvided,
     DraggableRubric,
     DraggableStateSnapshot,
     DropResult,
-    Droppable,
     DroppableProvided,
 } from 'react-beautiful-dnd';
-import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import type {Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
 import type {VariableSizeListProps} from 'react-window';
 

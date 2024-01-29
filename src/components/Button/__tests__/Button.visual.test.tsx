@@ -2,6 +2,8 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
+import {test} from '~playwright/core';
+
 import {
     Default,
     Disabled,
@@ -14,8 +16,6 @@ import {
     View,
     Width,
 } from './helpersPlaywright';
-
-import {test} from '~playwright/core';
 
 test.describe('Button', () => {
     test('render story: <Default>', async ({mount}) => {

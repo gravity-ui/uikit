@@ -2,6 +2,8 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
+import {test} from '~playwright/core';
+
 import {
     Close,
     Copy,
@@ -14,8 +16,6 @@ import {
     Theme,
     Value,
 } from './helpersPlaywright';
-
-import {test} from '~playwright/core';
 
 test.describe('Label', () => {
     test('render story: <Default>', async ({mount}) => {

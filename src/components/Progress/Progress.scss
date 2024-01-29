@@ -63,7 +63,10 @@ $progress-xs-height: 4px;
         height: 100%;
         overflow: hidden;
 
-        transition: transform 0.6s ease, width 0.6s ease, background-color 0.6s ease;
+        transition:
+            transform 0.6s ease,
+            width 0.6s ease,
+            background-color 0.6s ease;
 
         background-color: var(
             --g-progress-filled-background-color,

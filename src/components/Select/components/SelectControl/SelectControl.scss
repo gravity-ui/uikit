@@ -136,7 +136,9 @@ $blockButton: '.#{variables.$ns}select-control__button';
         overflow: hidden;
         width: 100%;
         height: 100%;
-        transition: color 0.15s linear, background-color 0.15s linear;
+        transition:
+            color 0.15s linear,
+            background-color 0.15s linear;
 
         &::before {
             content: '';

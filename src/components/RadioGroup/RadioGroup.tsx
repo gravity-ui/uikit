@@ -28,51 +28,50 @@ interface RadioGroupComponent
     Option: typeof Radio;
 }
 
-export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(
-    props,
-    ref,
-) {
-    const {
-        size = 'm',
-        direction = 'horizontal',
-        style,
-        className,
-        optionClassName,
-        qa,
-        children,
-    } = props;
-    let options = props.options;
+export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
+    function RadioGroup(props, ref) {
+        const {
+            size = 'm',
+            direction = 'horizontal',
+            style,
+            className,
+            optionClassName,
+            qa,
+            children,
+        } = props;
+        let options = props.options;
 
-    if (!options) {
-        options = (
-            React.Children.toArray(children) as React.ReactElement<RadioProps, typeof Radio>[]
-        ).map(({props}) => ({
-            value: props.value,
-            content: props.content || props.children,
-            disabled: props.disabled,
-        }));
-    }
+        if (!options) {
+            options = (
+                React.Children.toArray(children) as React.ReactElement<RadioProps, typeof Radio>[]
+            ).map(({props}) => ({
+                value: props.value,
+                content: props.content || props.children,
+                disabled: props.disabled,
+            }));
+        }
 
-    const {containerProps, optionsProps} = useRadioGroup({...props, options});
+        const {containerProps, optionsProps} = useRadioGroup({...props, options});
 
-    return (
-        <div
-            {...containerProps}
-            ref={ref}
-            style={style}
-            className={b({size, direction}, className)}
-            data-qa={qa}
-        >
-            {optionsProps.map((optionProps) => (
-                <Radio
-                    {...optionProps}
-                    key={optionProps.value}
-                    className={b('option', optionClassName)}
-                    size={size}
-                />
-            ))}
-        </div>
-    );
-}) as RadioGroupComponent;
+        return (
+            <div
+                {...containerProps}
+                ref={ref}
+                style={style}
+                className={b({size, direction}, className)}
+                data-qa={qa}
+            >
+                {optionsProps.map((optionProps) => (
+                    <Radio
+                        {...optionProps}
+                        key={optionProps.value}
+                        className={b('option', optionClassName)}
+                        size={size}
+                    />
+                ))}
+            </div>
+        );
+    },
+) as RadioGroupComponent;
 
 RadioGroup.Option = Radio;

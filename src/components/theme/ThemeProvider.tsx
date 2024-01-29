@@ -72,12 +72,12 @@ export function ThemeProvider({
                 theme,
                 themeValue,
                 direction,
-            } satisfies ThemeContextProps),
+            }) satisfies ThemeContextProps,
         [theme, themeValue, direction],
     );
 
     const themeSettingsContext = React.useMemo(
-        () => ({systemLightTheme, systemDarkTheme} satisfies ThemeSettings),
+        () => ({systemLightTheme, systemDarkTheme}) satisfies ThemeSettings,
         [systemLightTheme, systemDarkTheme],
     );
 

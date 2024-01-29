@@ -5,7 +5,7 @@
 $block: '.#{variables.$ns-new}avatar-stack';
 
 #{$block} {
-    $border-width: 1px;
+    --g-avatar-stack-border-width: 1px;
 
     display: inline-flex;
     justify-content: flex-end;
@@ -17,19 +17,19 @@ $block: '.#{variables.$ns-new}avatar-stack';
     &__item {
         display: flex;
         z-index: 0;
-        border: solid $border-width var(--g-color-line-generic-solid);
+        border: solid var(--g-avatar-stack-border-width) var(--g-color-line-generic-solid);
         border-radius: 100%;
 
         &_overlap-size_s:not(:first-child) {
-            margin-inline-end: calc(-1 * (var(--g-spacing-1) + #{$border-width}));
+            margin-inline-end: calc(-1 * (var(--g-spacing-1) + var(--g-avatar-stack-border-width)));
         }
 
         &_overlap-size_m:not(:first-child) {
-            margin-inline-end: calc(-1 * (var(--g-spacing-2) + #{$border-width}));
+            margin-inline-end: calc(-1 * (var(--g-spacing-2) + var(--g-avatar-stack-border-width)));
         }
 
         &_overlap-size_l:not(:first-child) {
-            margin-inline-end: calc(-1 * (var(--g-spacing-3) + #{$border-width}));
+            margin-inline-end: calc(-1 * (var(--g-spacing-3) + var(--g-avatar-stack-border-width)));
         }
     }
 

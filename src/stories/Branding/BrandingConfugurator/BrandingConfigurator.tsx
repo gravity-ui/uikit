@@ -47,10 +47,13 @@ function getInitialBrandColor() {
 
 function getInitialValues() {
     const rootStyle = window.getComputedStyle(document.body);
-    return variables.reduce((res, name) => {
-        res[name] = rootStyle.getPropertyValue(name);
-        return res;
-    }, {} as Record<string, string>);
+    return variables.reduce(
+        (res, name) => {
+            res[name] = rootStyle.getPropertyValue(name);
+            return res;
+        },
+        {} as Record<string, string>,
+    );
 }
 
 export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {

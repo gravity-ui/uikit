@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useArgs} from '@storybook/client-api';
+import {useArgs} from '@storybook/preview-api';
 import type {ComponentMeta, StoryFn} from '@storybook/react';
 
 import {Tabs} from '../Tabs';

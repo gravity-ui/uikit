@@ -75,8 +75,7 @@ $block: '.#{variables.$ns}sheet';
         width: 100%;
         padding: var(--g-sheet-content-padding, 0 10px);
         max-height: calc(90% - #{$top-height});
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden auto;
         overscroll-behavior-y: contain;
         background-color: var(--g-color-base-float);
 

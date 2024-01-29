@@ -13,8 +13,6 @@ import {
     Width,
 } from './helpersPlaywright';
 
-import {test} from '~playwright/core';
-
 test.describe('Button', () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<Default />);

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {useActionHandlers} from '../../hooks';
-import {Box, BoxProps} from '../layout';
+import {Box} from '../layout';
+import type {BoxProps} from '../layout';
 import {block} from '../utils/cn';
 
 import './Card.scss';

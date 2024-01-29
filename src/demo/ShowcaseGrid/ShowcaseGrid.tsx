@@ -27,16 +27,19 @@ export function ShowcaseGrid<ComponentType extends React.ElementType>({
     if (rowKey) {
         const names = propsCombinations[rowKey].map(({name}) => name);
 
-        const rows = combinations.reduce((result, combination) => {
-            names.forEach((name) => {
-                if (combination.names[rowKey] === name) {
-                    result[name] = result[name] || [];
-                    result[name].push(combination);
-                }
-            });
+        const rows = combinations.reduce(
+            (result, combination) => {
+                names.forEach((name) => {
+                    if (combination.names[rowKey] === name) {
+                        result[name] = result[name] || [];
+                        result[name].push(combination);
+                    }
+                });
 
-            return result;
-        }, {} as Record<string, PropSequences<React.ComponentProps<ComponentType>>>);
+                return result;
+            },
+            {} as Record<string, PropSequences<React.ComponentProps<ComponentType>>>,
+        );
 
         return (
             <table

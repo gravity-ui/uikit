@@ -2,7 +2,8 @@ import React from 'react';
 
 import {DocsExample} from '../../../../demo/DocsExample/DocsExample';
 import {Button} from '../../../Button';
-import {ArrowToggle, ArrowToggleProps} from '../../index';
+import {ArrowToggle} from '../../index';
+import type {ArrowToggleProps} from '../../index';
 
 export function ArrowToggleExampleViewDirection() {
     return (

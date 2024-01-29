@@ -7,7 +7,7 @@ export {
 } from './components/useList';
 export {
     TreeSelect as unstable_TreeSelect,
-    TreeSelectProps as unstable_TreeSelectProps,
+    type TreeSelectProps as unstable_TreeSelectProps,
     TreeSelectItem as unstable_TreeSelectItem,
-    TreeSelectItemProps as unstable_TreeSelectItemProps,
+    type TreeSelectItemProps as unstable_TreeSelectItemProps,
 } from './components/TreeSelect';

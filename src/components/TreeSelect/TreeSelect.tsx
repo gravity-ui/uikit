@@ -6,7 +6,6 @@ import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
 import {Flex} from '../layout';
 import {useMobile} from '../mobile';
 import {
-    type ListItemId,
     getItemRenderState,
     isKnownStructureGuard,
     scrollToListItem,
@@ -14,7 +13,9 @@ import {
     useListKeydown,
     useListState,
 } from '../useList';
-import {type CnMods, block} from '../utils/cn';
+import type {ListItemId} from '../useList';
+import {block} from '../utils/cn';
+import type {CnMods} from '../utils/cn';
 
 import {TreeSelectItem} from './TreeSelectItem';
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
@@ -292,8 +293,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                                 {...('renderControlContent' in props
                                     ? props.renderControlContent(itemData)
                                     : isKnownStructureGuard(itemData)
-                                    ? itemData
-                                    : {title: itemData as string})}
+                                      ? itemData
+                                      : {title: itemData as string})}
                                 {...renderContextProps}
                             />
                         );

@@ -2,9 +2,9 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {Icon, Image, ImageFallback, Showcase, Text, TextInitials, WithBorder} from './stories';
-
 import {test} from '~playwright/core';
+
+import {Icon, Image, ImageFallback, Showcase, Text, TextInitials, WithBorder} from './stories';
 
 test.describe('Avatar', () => {
     test('render story: <Image>', async ({mount}) => {

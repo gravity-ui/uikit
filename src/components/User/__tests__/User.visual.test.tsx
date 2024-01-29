@@ -2,9 +2,9 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {Default} from './stories';
-
 import {test} from '~playwright/core';
+
+import {Default} from './stories';
 
 test.describe('User', () => {
     test('render story: <Default>', async ({mount}) => {

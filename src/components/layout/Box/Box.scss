@@ -12,12 +12,10 @@
     }
 
     &_overflow_x {
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden auto;
     }
 
     &_overflow_y {
-        overflow-y: hidden;
-        overflow-x: auto;
+        overflow: auto hidden;
     }
 }

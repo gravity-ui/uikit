@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {useForkRef} from '../../hooks';
-import {type TooltipDelayProps, useTooltipVisible} from '../../hooks/private';
+import {useTooltipVisible} from '../../hooks/private';
+import type {TooltipDelayProps} from '../../hooks/private';
 import {Popup} from '../Popup';
 import type {PopupPlacement} from '../Popup';
 import {Text} from '../Text';

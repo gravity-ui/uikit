@@ -52,6 +52,7 @@ export class ToasterSingleton {
     }
 
     destroy() {
+        // eslint-disable-next-line react/no-deprecated
         ReactDOM.unmountComponentAtNode(this.rootNode);
         document.body.removeChild(this.rootNode);
     }
@@ -102,6 +103,7 @@ export class ToasterSingleton {
         if (this.reactRoot) {
             this.reactRoot.render(container);
         } else {
+            // eslint-disable-next-line react/no-deprecated
             ReactDOM.render(container, this.rootNode, () => Promise.resolve());
         }
     }

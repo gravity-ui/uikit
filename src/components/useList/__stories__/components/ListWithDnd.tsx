@@ -1,12 +1,10 @@
 import React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
-import {
-    DragDropContext,
-    Draggable,
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import type {
     DraggableProvided,
     DraggableStateSnapshot,
-    Droppable,
     DroppableProvided,
 } from 'react-beautiful-dnd';
 

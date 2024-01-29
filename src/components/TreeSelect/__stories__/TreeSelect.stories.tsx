@@ -7,23 +7,16 @@ import {createRandomizedData} from '../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../TreeSelect';
 import type {TreeSelectProps} from '../types';
 
-import {
-    InfinityScrollExample,
-    InfinityScrollExampleProps,
-} from './components/InfinityScrollExample';
-import {WithDndListExample, WithDndListExampleProps} from './components/WithDndListExample';
-import {
-    WithFiltrationAndControlsExample,
-    WithFiltrationAndControlsExampleProps,
-} from './components/WithFiltrationAndControlsExample';
-import {
-    WithGroupSelectionControlledStateAndCustomIconExample,
-    WithGroupSelectionControlledStateAndCustomIconExampleProps,
-} from './components/WithGroupSelectionControlledStateAndCustomIcon';
-import {
-    WithItemLinksAndActionsExample,
-    WithItemLinksAndActionsExampleProps,
-} from './components/WithItemLinksAndActionsExample';
+import {InfinityScrollExample} from './components/InfinityScrollExample';
+import type {InfinityScrollExampleProps} from './components/InfinityScrollExample';
+import {WithDndListExample} from './components/WithDndListExample';
+import type {WithDndListExampleProps} from './components/WithDndListExample';
+import {WithFiltrationAndControlsExample} from './components/WithFiltrationAndControlsExample';
+import type {WithFiltrationAndControlsExampleProps} from './components/WithFiltrationAndControlsExample';
+import {WithGroupSelectionControlledStateAndCustomIconExample} from './components/WithGroupSelectionControlledStateAndCustomIcon';
+import type {WithGroupSelectionControlledStateAndCustomIconExampleProps} from './components/WithGroupSelectionControlledStateAndCustomIcon';
+import {WithItemLinksAndActionsExample} from './components/WithItemLinksAndActionsExample';
+import type {WithItemLinksAndActionsExampleProps} from './components/WithItemLinksAndActionsExample';
 
 export default {
     title: 'Unstable/TreeSelect',

@@ -8,7 +8,7 @@
         "baseUrl": ".",
         "resolveJsonModule": true,
         "importHelpers": true,
-        "importsNotUsedAsValues": "error",
+        "verbatimModuleSyntax": true,
         "paths": {
             "~playwright/*": [
                 "playwright/*"

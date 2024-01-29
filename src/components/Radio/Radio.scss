@@ -36,7 +36,9 @@ $discMarginLSize: 6px;
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.1);
-        transition: opacity 0.1s, transform 0.2s;
+        transition:
+            opacity 0.1s,
+            transform 0.2s;
     }
 
     &__control {

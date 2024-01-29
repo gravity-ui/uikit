@@ -78,14 +78,11 @@
             text-align: right;
         }
 
-        &_sticky_left,
-        &_sticky_right {
+        #{variables.$block} &_sticky_left,
+        #{variables.$block} &_sticky_right {
             position: sticky;
             z-index: 2;
-        }
 
-        &_sticky_left,
-        &_sticky_right {
             background: var(--g-color-base-background);
         }
 

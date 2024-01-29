@@ -115,3 +115,18 @@ const MyComponent = () => {
   return <Select renderFilter={renderFilter}>/* Your options here */</Select>;
 };
 ```
+
+## CSS API
+
+| Name                                | Description                      |
+| :---------------------------------- | :------------------------------- |
+| `--g-select-text-color`             | Text color                       |
+| `--g-select-placeholder-color`      | Placeholder color                |
+| `--g-select-background-color`       | Background color (when disabled) |
+| `--g-select-background-color-hover` | Background color hovered         |
+| `--g-select-border-width`           | Border width                     |
+| `--g-select-border-radius`          | Border radius                    |
+| `--g-select-border-color`           | Border color                     |
+| `--g-select-border-color-hover`     | Border color if hovered          |
+| `--g-select-border-color-active`    | Border color if active           |
+| `--g-select-chevron-color`          | Color of arrow                   |

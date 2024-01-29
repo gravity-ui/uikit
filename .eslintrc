@@ -20,6 +20,16 @@
             }
         ],
         "jsx-a11y/no-autofocus": 0
+        ],
+        "jsx-a11y/no-redundant-roles": ["error", {
+            // https://www.w3.org/WAI/GL/wiki/Using_HTML5_nav_element#Example:The_.3Cnav.3E_element
+            "nav": [
+                "navigation"
+            ],
+            // Safari remove role=list with some styles, applied to li items, so we need
+            // to restore role manually
+            "ul": ["list"]
+        }]
     },
     "overrides": [
         {

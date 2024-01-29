@@ -51,7 +51,7 @@
 
     &__cell {
         box-sizing: content-box;
-        padding: 11px 10px;
+        padding: 11px var(--g-spacing-2) 10px;
         border-block-end: 1px solid var(--g-color-line-generic);
 
         line-height: variables.$tableLineHeight;
@@ -92,11 +92,11 @@
 
         &_edge-padding {
             &:first-child {
-                padding-inline-start: 15px;
+                padding-inline-start: var(--g-spacing-3);
             }
 
             &:last-child {
-                padding-inline-end: 15px;
+                padding-inline-end: var(--g-spacing-3);
             }
         }
     }

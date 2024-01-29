@@ -1,7 +1,7 @@
 @use '../../variables';
 
 $block: '.#{variables.$ns}select-showcase';
-$blockSelectClear: '.#{variables.$ns-new}select-clear';
+$blockSelectClear: '.#{variables.$ns}select-clear';
 
 .select-width-50 {
     width: 50px;
@@ -64,7 +64,7 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
         margin-block-start: 10px;
         border-radius: 12px;
 
-        .yc-list__item {
+        .g-list__item {
             margin: 4px;
             border-radius: 12px;
         }

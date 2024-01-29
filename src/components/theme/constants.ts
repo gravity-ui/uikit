@@ -6,4 +6,6 @@ export const LIGHT_THEMES = ['light', 'light-hc'];
 export const DARK_THEMES = ['dark', 'dark-hc'];
 export const THEMES = [...LIGHT_THEMES, ...DARK_THEMES];
 
+export const ROOT_CLASSNAME = 'root';
+
 export const DEFAULT_DIRECTION = 'ltr';

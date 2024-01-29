@@ -1,6 +1,6 @@
 @use '../variables';
 
-$block: '.#{variables.$ns-new}pagination';
+$block: '.#{variables.$ns}pagination';
 
 #{$block} {
     display: flex;

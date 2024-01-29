@@ -34,7 +34,7 @@ describe('Card', () => {
         );
         const card = screen.getByTestId(qaId);
 
-        expect(card).toHaveClass(`yc-card_theme_${theme}`);
+        expect(card).toHaveClass(`g-card_theme_${theme}`);
     });
 
     test.each(cardSizes)('render with given "%s" size', (size) => {
@@ -45,7 +45,7 @@ describe('Card', () => {
         );
         const card = screen.getByTestId(qaId);
 
-        expect(card).toHaveClass(`yc-card_size_${size}`);
+        expect(card).toHaveClass(`g-card_size_${size}`);
     });
 
     test.each(cardViews)('render with given "%s" view', (view) => {
@@ -56,7 +56,7 @@ describe('Card', () => {
         );
         const card = screen.getByTestId(qaId);
 
-        expect(card).toHaveClass(`yc-card_view_${view}`);
+        expect(card).toHaveClass(`g-card_view_${view}`);
     });
 
     test.each(cardTypes)('render with given "%s" type', (type) => {
@@ -67,7 +67,7 @@ describe('Card', () => {
         );
         const card = screen.getByTestId(qaId);
 
-        expect(card).toHaveClass(`yc-card_type_${type}`);
+        expect(card).toHaveClass(`g-card_type_${type}`);
     });
 
     test('selected when selected=true prop is given', () => {
@@ -79,7 +79,7 @@ describe('Card', () => {
         const card = screen.getByText(cardText);
 
         expect(card).toBeVisible();
-        expect(card).toHaveClass('yc-card_selected');
+        expect(card).toHaveClass('g-card_selected');
     });
 
     test('not selected when selected=false prop is given', () => {
@@ -91,7 +91,7 @@ describe('Card', () => {
         const card = screen.getByText(cardText);
 
         expect(card).toBeVisible();
-        expect(card).not.toHaveClass('yc-card_selected');
+        expect(card).not.toHaveClass('g-card_selected');
     });
 
     test('disabled when disabled=true prop is given', () => {
@@ -102,7 +102,7 @@ describe('Card', () => {
         );
         const card = screen.getByText(cardText);
 
-        expect(card).toHaveClass('yc-card_disabled');
+        expect(card).toHaveClass('g-card_disabled');
     });
 
     test('not disabled when disabled=false prop is given', () => {
@@ -113,7 +113,7 @@ describe('Card', () => {
         );
         const card = screen.getByText(cardText);
 
-        expect(card).not.toHaveClass('yc-card_disabled');
+        expect(card).not.toHaveClass('g-card_disabled');
     });
 
     test('show given content', () => {

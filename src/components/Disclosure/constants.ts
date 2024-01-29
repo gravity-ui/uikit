@@ -1,6 +1,6 @@
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 
-export const b = blockNew('disclosure');
+export const b = block('disclosure');
 
 export const DisclosureQa = {
     SUMMARY: 'disclosure-summary',

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {NAMESPACE_NEW} from '../../components/utils/cn';
+import {NAMESPACE} from '../../components/utils/cn';
 import {getUniqId} from '../../components/utils/common';
 
 export type UseUniqIdResult = string;
@@ -14,7 +14,7 @@ function useUniqIdFallback() {
 }
 
 function useIdNative() {
-    return `${NAMESPACE_NEW}${React.useId()}`;
+    return `${NAMESPACE}${React.useId()}`;
 }
 
 export const useUniqId: () => UseUniqIdResult =

@@ -1,7 +1,7 @@
 @use '../variables';
 @use '../../../styles/mixins.scss';
 
-$block: '.#{variables.$ns-new}toc';
+$block: '.#{variables.$ns}toc';
 
 #{$block} {
     &__title {

@@ -3,8 +3,8 @@
 @use '../../variables.scss' as select-css-variables;
 @use '../SelectClear/SelectClear';
 
-$block: '.#{variables.$ns-new}select-control';
-$blockButton: '.#{variables.$ns-new}select-control__button';
+$block: '.#{variables.$ns}select-control';
+$blockButton: '.#{variables.$ns}select-control__button';
 
 @mixin block_control($size: m) {
     @if $size == 's' {

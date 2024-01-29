@@ -1,7 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}pagination-ellipsis';
+$block: '.#{variables.$ns}pagination-ellipsis';
 
 #{$block} {
     @include mixins.text-body-1;

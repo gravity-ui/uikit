@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}pagination-input';
+$block: '.#{variables.$ns}pagination-input';
 
 #{$block} {
     &#{$block}_size_m {

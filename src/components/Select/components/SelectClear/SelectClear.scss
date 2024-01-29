@@ -1,7 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}select-clear';
+$block: '.#{variables.$ns}select-clear';
 
 #{$block} {
     @include mixins.button-reset();

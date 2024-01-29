@@ -1,7 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}pagination-page';
+$block: '.#{variables.$ns}pagination-page';
 
 #{$block} {
     &__simple {

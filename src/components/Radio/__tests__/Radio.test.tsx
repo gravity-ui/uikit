@@ -25,7 +25,7 @@ describe('Radio', () => {
         render(<Radio value={value} size={size} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(`yc-radio_size_${size}`);
+        expect(component).toHaveClass(`g-radio_size_${size}`);
     });
 
     test('disabled when disabled=true prop is given', () => {

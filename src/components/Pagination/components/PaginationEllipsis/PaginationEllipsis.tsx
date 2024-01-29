@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {blockNew} from '../../../utils/cn';
+import {block} from '../../../utils/cn';
 import type {PaginationSize} from '../../types';
 
 import './PaginationEllipsis.scss';
 
-const b = blockNew('pagination-ellipsis');
+const b = block('pagination-ellipsis');
 
 type Props = {
     size: PaginationSize;

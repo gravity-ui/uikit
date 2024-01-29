@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useMobile} from '../mobile';
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 
 import {
     PaginationButton,
@@ -17,7 +17,7 @@ import {getResultPage, getResultTotal} from './utils';
 
 import './Pagination.scss';
 
-const b = blockNew('pagination');
+const b = block('pagination');
 
 export const Pagination = ({
     page,

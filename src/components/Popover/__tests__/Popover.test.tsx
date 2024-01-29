@@ -29,14 +29,14 @@ const waitForTooltipOpenedStateChange = (shouldOpen?: boolean) =>
 const checkIfPopoverOpened = () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
-    expect(popover).toHaveClass('yc-popup_open');
+    expect(popover).toHaveClass('g-popup_open');
 };
 
 const checkIfPopoverClosed = () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
     if (popover) {
-        expect(popover).not.toHaveClass('yc-popup_open');
+        expect(popover).not.toHaveClass('g-popup_open');
     } else {
         expect(true).toBe(true);
     }

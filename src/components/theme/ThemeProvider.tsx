@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {block} from '../utils/cn';
+
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
 import type {ThemeSettings} from './ThemeSettingsContext';
@@ -8,11 +10,13 @@ import {
     DEFAULT_DIRECTION,
     DEFAULT_LIGHT_THEME,
     DEFAULT_THEME,
+    ROOT_CLASSNAME,
 } from './constants';
 import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
-import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
 import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
 import {useSystemTheme} from './useSystemTheme';
+
+const b = block(ROOT_CLASSNAME);
 
 export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     theme?: Theme;
@@ -87,15 +91,12 @@ export function ThemeProvider({
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 {scoped ? (
                     <div
-                        className={getRootClassName(
+                        className={b(
                             {
                                 theme: isNeedToSetTheme && themeValue,
                                 'native-scrollbar': nativeScrollbar !== false,
                             },
-                            [
-                                getDeprecatedRootClassName({theme: isNeedToSetTheme && themeValue}),
-                                rootClassName,
-                            ],
+                            rootClassName,
                         )}
                         dir={
                             hasParentProvider && direction === parentDirection

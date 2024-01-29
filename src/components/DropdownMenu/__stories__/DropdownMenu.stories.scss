@@ -1,14 +1,6 @@
 .dropdown-menu-stories {
     &__label-switcher-menu {
         width: 150px;
-
-        .yc-menu__list-item:nth-child(even) {
-            background-color: var(--g-color-base-generic);
-        }
-
-        .yc-menu__list-item:hover {
-            background-color: var(--g-color-base-selection);
-        }
     }
 
     &__label-switcher-switcher {

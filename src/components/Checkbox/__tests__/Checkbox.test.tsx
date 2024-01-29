@@ -22,7 +22,7 @@ describe('Checkbox', () => {
         render(<Checkbox size={size} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(`yc-checkbox_size_${size}`);
+        expect(component).toHaveClass(`g-checkbox_size_${size}`);
     });
 
     test('disabled when disabled=true prop is given', () => {

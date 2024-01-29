@@ -2,15 +2,8 @@ import type React from 'react';
 
 export type AvatarStackOverlapSize = 's' | 'm' | 'l';
 
-export interface AvatarStackProps<T extends object> {
-    items: T[];
-
-    renderItem(item: T): React.ReactNode;
-
-    renderMore(items: T[]): React.ReactNode;
-
-    /** Amount of items that should be visible */
-    displayCount?: number;
+export interface AvatarStackProps {
     overlapSize?: AvatarStackOverlapSize;
     className?: string;
+    children?: React.ReactNode;
 }

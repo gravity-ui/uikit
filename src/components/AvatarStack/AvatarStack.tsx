@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {blockNew} from '../utils/cn';
+import {isOfType} from '../utils/isOfType';
 
+import {AvatarStackItem} from './AvatarStackItem';
 import {AvatarStackMoreButton} from './AvatarStackMoreButton';
 import type {AvatarStackProps} from './types';
 
@@ -9,53 +11,37 @@ import './AvatarStack.scss';
 
 const b = blockNew('avatar-stack');
 
-function getSplitIndex<T>(items: T[], displayCount: number) {
-    return displayCount + 1 < items.length ? displayCount : items.length;
-}
+const isMoreButton = isOfType(AvatarStackMoreButton);
 
-function getVisibleItems<T>(items: T[], displayCount: number) {
-    return items.slice(0, getSplitIndex(items, displayCount)).reverse();
-}
+const AvatarStackComponent = ({overlapSize = 's', children, className}: AvatarStackProps) => {
+    const moreButton: React.ReactElement[] = [];
+    const visibleItems: React.ReactElement[] = [];
 
-function getRestItems<T>(items: T[], displayCount: number) {
-    return items.slice(getSplitIndex(items, displayCount));
-}
+    React.Children.forEach(children, (child) => {
+        if (!React.isValidElement(child)) {
+            return;
+        }
 
-const AvatarStackComponent = <T extends object>({
-    displayCount = 2,
-    overlapSize = 's',
-    className,
-    items,
-    renderItem,
-    renderMore,
-}: AvatarStackProps<T>) => {
-    const [visibleItems, setVisibleItems] = React.useState(() =>
-        getVisibleItems(items, displayCount),
-    );
-    const [restItems, setRestItems] = React.useState(() => getRestItems(items, displayCount));
+        const isButton = isMoreButton(child);
+        const item = (
+            <AvatarStackItem
+                key={isButton ? `more-button-${moreButton.length}` : visibleItems.length}
+            >
+                {child}
+            </AvatarStackItem>
+        );
 
-    React.useEffect(() => {
-        setVisibleItems(getVisibleItems(items, displayCount));
-        setRestItems(getRestItems(items, displayCount));
-    }, [displayCount, items]);
-
-    if (!items.length) {
-        return null;
-    }
+        if (isButton) {
+            moreButton.push(item);
+        } else {
+            visibleItems.unshift(item);
+        }
+    });
 
     return (
         <ul className={b({'overlap-size': overlapSize}, className)} role={'list'}>
-            {restItems.length > 0 ? (
-                <li key={'show-more'} className={b('item')}>
-                    {renderMore(restItems)}
-                </li>
-            ) : null}
-
-            {visibleItems.map((item, index) => (
-                <li key={index} className={b('item')}>
-                    {renderItem(item)}
-                </li>
-            ))}
+            {moreButton}
+            {visibleItems}
         </ul>
     );
 };

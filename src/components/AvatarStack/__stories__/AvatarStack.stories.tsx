@@ -22,7 +22,7 @@ function getChildren({
 }
 
 export default {
-    title: 'Components/AvatarStack',
+    title: 'Components/Data Display/AvatarStack',
     component: AvatarStack,
     args: {
         overlapSize: 's',

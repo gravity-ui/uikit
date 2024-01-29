@@ -5,6 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {TextInput} from '../TextInput';
 import type {TextInputProps} from '../TextInput';
 
+import {CustomThemeShowcase} from './TextInputCustomThemeShowcase';
 import {TextInputShowcase} from './TextInputShowcase';
 
 export default {
@@ -25,3 +26,6 @@ export const Default = DefaultTemplate.bind({});
 
 const ShowcaseTemplate: StoryFn = () => <TextInputShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
+
+const CustomThemeTemplate: StoryFn = () => <CustomThemeShowcase />;
+export const CustomTheme = CustomThemeTemplate.bind({});

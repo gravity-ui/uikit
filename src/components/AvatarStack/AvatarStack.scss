@@ -20,22 +20,22 @@ $block: '.#{variables.$ns-new}avatar-stack';
         border: solid var(--_--g-avatar-stack-border-width) var(--g-color-line-generic-solid);
         border-radius: 100%;
 
-        &_overlap-size_s:not(:first-child) {
+        &:not(:first-child) {
             margin-inline-end: calc(
-                -1 * (var(--g-spacing-1) + var(--_--g-avatar-stack-border-width))
+                -1 * (var(--_--g-avatar-stack-overlap) + var(--_--g-avatar-stack-border-width))
             );
         }
 
-        &_overlap-size_m:not(:first-child) {
-            margin-inline-end: calc(
-                -1 * (var(--g-spacing-2) + var(--_--g-avatar-stack-border-width))
-            );
+        &_overlap-size_s {
+            --_--g-avatar-stack-overlap: var(--g-spacing-1);
+        }
+
+        &_overlap-size_m {
+            --_--g-avatar-stack-overlap: var(--g-spacing-2);
         }
 
         &_overlap-size_l:not(:first-child) {
-            margin-inline-end: calc(
-                -1 * (var(--g-spacing-3) + var(--_--g-avatar-stack-border-width))
-            );
+            --_--g-avatar-stack-overlap: var(--g-spacing-3);
         }
     }
 

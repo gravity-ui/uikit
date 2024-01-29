@@ -3,18 +3,18 @@
 exports[`Alert has predicted styles if inline layout rendered 1`] = `
 <div>
   <div
-    class="yc-box yc-card yc-card_theme_danger yc-card_view_filled yc-card_type_container yc-card_size_m yc-alert yc-s__py_4 yc-s__px_5"
+    class="g-box g-card g-card_theme_danger g-card_view_filled g-card_type_container g-card_size_m g-alert g-s__py_4 g-s__px_5"
   >
     <div
-      class="yc-box yc-flex"
+      class="g-box g-flex"
       style="column-gap: 12px; row-gap: 12px; align-items: center;"
     >
       <div
-        class="yc-alert__icon yc-color-text yc-color-text_color_danger"
+        class="g-alert__icon g-color-text g-color-text_color_danger"
       >
         <svg
           aria-hidden="true"
-          class="yc-icon"
+          class="g-icon"
           fill="currentColor"
           height="18"
           stroke="none"
@@ -37,34 +37,34 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
         </svg>
       </div>
       <div
-        class="yc-box yc-flex"
+        class="g-box g-flex"
         style="flex-direction: row; flex-grow: 1; column-gap: 20px; row-gap: 20px;"
       >
         <div
-          class="yc-box yc-flex yc-alert__text-content"
+          class="g-box g-flex g-alert__text-content"
           style="flex-grow: 1; column-gap: 8px; row-gap: 8px;"
         >
           <div
-            class="yc-box yc-flex"
+            class="g-box g-flex"
             style="flex-direction: column; flex-grow: 1; column-gap: 4px; row-gap: 4px; justify-content: center;"
           >
             <span
-              class="yc-text yc-text_variant_subheader-2 yc-alert__title"
+              class="g-text g-text_variant_subheader-2 g-alert__title"
             >
               Where will you go, hero?
             </span>
           </div>
         </div>
         <div
-          class="yc-box yc-flex yc-alert__actions yc-alert__actions_minContent"
+          class="g-box g-flex g-alert__actions g-alert__actions_minContent"
           style="flex-direction: row; flex-wrap: wrap; column-gap: 12px; row-gap: 12px; align-items: center;"
         >
           <button
-            class="yc-button yc-button_view_normal yc-button_size_m yc-button_pin_round-round"
+            class="g-button g-button_view_normal g-button_size_m g-button_pin_round-round"
             type="button"
           >
             <span
-              class="yc-button__text"
+              class="g-button__text"
             >
               To the right (lose the horse)
             </span>
@@ -72,18 +72,18 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
         </div>
       </div>
       <button
-        class="yc-button yc-button_view_flat yc-button_size_m yc-button_pin_round-round"
+        class="g-button g-button_view_flat g-button_size_m g-button_pin_round-round"
         type="button"
       >
         <span
-          class="yc-button__icon"
+          class="g-button__icon"
         >
           <span
-            class="yc-button__icon-inner"
+            class="g-button__icon-inner"
           >
             <svg
               aria-hidden="true"
-              class="yc-icon yc-color-text yc-color-text_color_secondary"
+              class="g-icon g-color-text g-color-text_color_secondary"
               fill="currentColor"
               height="18"
               stroke="none"

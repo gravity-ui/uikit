@@ -8,11 +8,11 @@ import type {ToastAction, ToastProps} from '..';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
-import {block} from '../../utils/cn';
+import {cn} from '../../utils/cn';
 
 import './ToasterShowcase.scss';
 
-const b = block('toaster-story');
+const b = cn('toaster-showcase');
 
 const CONTENT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, atque!';
 

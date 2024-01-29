@@ -2,7 +2,7 @@
 @use '../../../variables';
 @use '../../variables.scss' as select-css-variables;
 
-$block: '.#{variables.$ns-new}select-list';
+$block: '.#{variables.$ns}select-list';
 $popupBlock: '.#{variables.$ns}popup';
 $listBlock: '.#{variables.$ns}list';
 $xl-right-padding: '12px';

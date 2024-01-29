@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useForkRef} from '../../../hooks';
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 
 import type {TextAreaProps} from './TextArea';
 
@@ -10,7 +10,7 @@ type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange'> & {
     autoComplete?: React.TextareaHTMLAttributes<HTMLTextAreaElement>['autoComplete'];
 };
 
-const b = blockNew('text-area');
+const b = block('text-area');
 
 const calculateLinesByScrollHeight = (args: {
     height: number;

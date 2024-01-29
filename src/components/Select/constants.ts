@@ -1,4 +1,4 @@
-import {blockNew as block} from '../utils/cn';
+import {block} from '../utils/cn';
 
 import type {SelectSize} from './types';
 

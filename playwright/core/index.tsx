@@ -1,7 +1,8 @@
 import React from 'react';
 
 import type {JsonObject} from '@playwright/experimental-ct-core/types/component';
-import {type MountOptions, test as base} from '@playwright/experimental-ct-react';
+import {test as base} from '@playwright/experimental-ct-react';
+import type {MountOptions} from '@playwright/experimental-ct-react';
 
 export const test = base.extend({
     mount: async ({mount: baseMount}, use) => {

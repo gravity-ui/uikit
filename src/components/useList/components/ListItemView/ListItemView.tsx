@@ -4,7 +4,8 @@ import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
 
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
-import {Flex, type FlexProps, spacing} from '../../../layout';
+import {Flex, spacing} from '../../../layout';
+import type {FlexProps} from '../../../layout';
 import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';

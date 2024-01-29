@@ -2,10 +2,8 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {
-    InfinityScrollList as InfinityScrollListExample,
-    type InfinityScrollListProps,
-} from './components/InfinityScrollList';
+import {InfinityScrollList as InfinityScrollListExample} from './components/InfinityScrollList';
+import type {InfinityScrollListProps} from './components/InfinityScrollList';
 
 export default {
     title: 'Unstable/useList/InfinityScrollList',

@@ -3,7 +3,7 @@ import React from 'react';
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Popup} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
-import {blockNew} from '../../../utils/cn';
+import {block} from '../../../utils/cn';
 import {BORDER_WIDTH, SelectQa} from '../../constants';
 
 import {getModifiers} from './modifiers';
@@ -11,7 +11,7 @@ import type {SelectPopupProps} from './types';
 
 import './SelectPopup.scss';
 
-const b = blockNew('select-popup');
+const b = block('select-popup');
 
 const DEFAULT_PLACEMENT: PopperPlacement = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
 

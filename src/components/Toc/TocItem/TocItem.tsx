@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {useActionHandlers} from '../../../hooks';
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 import type {TocItem as TocItemType} from '../types';
 
 import './TocItem.scss';
 
-const b = blockNew('toc-item');
+const b = block('toc-item');
 
 export interface TocItemProps extends TocItemType {
     childItem?: boolean;

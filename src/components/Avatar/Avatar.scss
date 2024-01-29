@@ -1,6 +1,6 @@
 @use '../variables';
 
-$block: '.#{variables.$ns-new}avatar';
+$block: '.#{variables.$ns}avatar';
 
 #{$block} {
     --_--size: 32px;

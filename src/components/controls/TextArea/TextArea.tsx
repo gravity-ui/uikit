@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {
@@ -16,7 +16,7 @@ import {TextAreaControl} from './TextAreaControl';
 
 import './TextArea.scss';
 
-const b = blockNew('text-area');
+const b = block('text-area');
 
 export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     /** The control's html attributes */

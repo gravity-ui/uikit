@@ -2,7 +2,7 @@
 @use '../../variables';
 @use '../mixins.scss' as control-mixins;
 
-$block: '.#{variables.$ns-new}text-area';
+$block: '.#{variables.$ns}text-area';
 
 #{$block} {
     display: inline-block;

@@ -1,12 +1,10 @@
-import {block, blockNew, modsClassName} from '../utils/cn';
+import {block, modsClassName} from '../utils/cn';
 
 import {DEFAULT_DIRECTION, ROOT_CLASS_NAME} from './constants';
 import type {Direction, RealTheme} from './types';
 
 const b = block(ROOT_CLASS_NAME);
-const bNew = blockNew(ROOT_CLASS_NAME);
 const rootClassName = b();
-const rootNewClassName = bNew();
 
 export function updateBodyClassName({
     theme,
@@ -23,10 +21,6 @@ export function updateBodyClassName({
         bodyEl.classList.add(rootClassName);
     }
 
-    if (!bodyEl.classList.contains(rootNewClassName)) {
-        bodyEl.classList.add(rootNewClassName);
-    }
-
     if (className) {
         const parsedCustomRootClassNames = className.split(' ');
         parsedCustomRootClassNames.forEach((cls) => {
@@ -40,13 +34,8 @@ export function updateBodyClassName({
         if (cls.startsWith(modsClassName(b({theme: true})))) {
             bodyEl.classList.remove(cls);
         }
-
-        if (cls.startsWith(modsClassName(bNew({theme: true})))) {
-            bodyEl.classList.remove(cls);
-        }
     });
     bodyEl.classList.add(modsClassName(b({theme})));
-    bodyEl.classList.add(modsClassName(bNew({theme})));
 
     const modifiers = {
         'native-scrollbar': nativeScrollbar,
@@ -54,7 +43,6 @@ export function updateBodyClassName({
 
     for (const [key, value] of Object.entries(modifiers)) {
         bodyEl.classList.toggle(modsClassName(b({[key]: true})), value);
-        bodyEl.classList.toggle(modsClassName(bNew({[key]: true})), value);
     }
 }
 

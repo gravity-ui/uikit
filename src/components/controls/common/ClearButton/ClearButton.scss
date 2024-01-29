@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}clear-button';
+$block: '.#{variables.$ns}clear-button';
 
 #{$block} {
     --g-button-text-color: var(--g-color-text-hint);

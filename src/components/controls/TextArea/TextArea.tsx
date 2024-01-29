@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {useForkRef, useUniqId} from '../../../hooks';
-import {blockNew} from '../../utils/cn';
+import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
+import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
 import type {
@@ -16,7 +16,7 @@ import {TextAreaControl} from './TextAreaControl';
 
 import './TextArea.scss';
 
-const b = blockNew('text-area');
+const b = block('text-area');
 
 export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     /** The control's html attributes */
@@ -69,15 +69,13 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         validationState: validationStateProp,
     });
 
-    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
+    const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
     const state = getInputControlState(validationState);
     const handleRef = useForkRef(props.controlRef, innerControlRef);
     const innerId = useUniqId();
 
-    const isControlled = value !== undefined;
-    const inputValue = isControlled ? value : uncontrolledValue;
     const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
     const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
     const id = originalId || innerId;
@@ -97,15 +95,9 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
         tabIndex,
         name,
         onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-            const newValue = event.target.value;
-            if (!isControlled) {
-                setUncontrolledValue(newValue);
-            }
+            setInputValue(event.target.value);
             if (onChange) {
                 onChange(event);
-            }
-            if (onUpdate) {
-                onUpdate(newValue);
             }
         },
         autoComplete: prepareAutoComplete(autoComplete),
@@ -131,15 +123,9 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(functio
             if (onChange) {
                 onChange(syntheticEvent);
             }
-
-            if (onUpdate) {
-                onUpdate('');
-            }
         }
 
-        if (!isControlled) {
-            setUncontrolledValue('');
-        }
+        setInputValue('');
     };
 
     React.useEffect(() => {

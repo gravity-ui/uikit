@@ -7,7 +7,7 @@ import type {API} from '@storybook/api';
 import {getThemeType} from '../../src/components/theme/getThemeType';
 import {themes} from '../theme';
 
-const ADDON_ID = 'yc-theme-addon';
+const ADDON_ID = 'g-theme-addon';
 const TOOL_ID = `${ADDON_ID}tool`;
 
 addons.register(ADDON_ID, (api) => {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Popup} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
-import {blockNew} from '../../../utils/cn';
+import {block} from '../../../utils/cn';
 import {BORDER_WIDTH, SelectQa} from '../../constants';
 
 import {getModifiers} from './modifiers';
@@ -10,7 +10,7 @@ import type {SelectPopupProps} from './types';
 
 import './SelectPopup.scss';
 
-const b = blockNew('select-popup');
+const b = block('select-popup');
 
 export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
     (

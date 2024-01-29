@@ -64,7 +64,6 @@ $block: '.#{variables.$ns}text-input';
     --_--border-color: var(--g-color-line-generic);
     --_--border-color-hover: var(--g-color-line-generic-hover);
     --_--border-color-active: var(--g-color-line-generic-active);
-    --_--border-color-error: var(--g-color-line-danger);
 
     display: inline-block;
     width: 100%;
@@ -133,7 +132,7 @@ $block: '.#{variables.$ns}text-input';
 
     &__error-icon {
         box-sizing: content-box;
-        color: var(--g-text-input-border-color-error, var(--_--border-color-error));
+        color: var(--g-color-line-danger);
         padding-block: var(--_--error-icon-padding-block);
         padding-inline: var(--_--error-icon-padding-inline);
     }
@@ -357,10 +356,7 @@ $block: '.#{variables.$ns}text-input';
                     &,
                     &:hover,
                     &:focus-within {
-                        border-color: var(
-                            --g-text-input-border-color-error,
-                            var(--_--border-color-error)
-                        );
+                        border-color: var(--g-color-line-danger);
                     }
                 }
             }
@@ -370,8 +366,7 @@ $block: '.#{variables.$ns}text-input';
                     &,
                     &:hover,
                     &:focus-within {
-                        border-block-end: 1px solid
-                            var(--g-text-input-border-color-error, var(--_--border-color-error));
+                        border-block-end: 1px solid var(--g-color-line-danger);
                     }
                 }
             }

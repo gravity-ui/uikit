@@ -220,7 +220,6 @@ LANDING_BLOCK-->
 | Name                                | Description                      |
 | :---------------------------------- | :------------------------------- |
 | `--g-text-area-text-color`          | Text color                       |
-| `--g-text-area-text-color-error`    | Text color if error              |
 | `--g-text-area-placeholder-color`   | Placeholder color                |
 | `--g-text-area-background-color`    | Background color (when disabled) |
 | `--g-text-area-border-radius`       | Border radius                    |
@@ -228,4 +227,3 @@ LANDING_BLOCK-->
 | `--g-text-area-border-color`        | Border color                     |
 | `--g-text-area-border-color-hover`  | Border color if hovered          |
 | `--g-text-area-border-color-active` | Border color if active           |
-| `--g-text-area-border-color-error`  | Border color if error            |

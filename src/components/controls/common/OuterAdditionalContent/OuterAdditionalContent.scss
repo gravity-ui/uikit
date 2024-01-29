@@ -16,10 +16,7 @@ $block: '.#{variables.$ns}outer-additional-content';
     &__error {
         @include mixins.text-body-1();
 
-        color: var(
-            --g-text-input-text-color-error,
-            var(--g-text-area-text-color-error, var(--g-color-text-danger))
-        );
+        color: var(--g-color-text-danger);
 
         &:not(:last-child) {
             margin-inline-end: var(--g-spacing-2);

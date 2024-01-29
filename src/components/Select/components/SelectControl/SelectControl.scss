@@ -14,7 +14,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 4px
             calc(
                 var(--_--options-text-right-padding) +
-                    var(--g-select-control-border-width, var(--_--border-width))
+                    var(--g-select-border-width, var(--_--border-width))
             ); // plus border-width
     }
     @if $size == 'm' {
@@ -24,7 +24,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 6px
             calc(
                 var(--_--options-text-right-padding) +
-                    var(--g-select-control-border-width, var(--_--border-width))
+                    var(--g-select-border-width, var(--_--border-width))
             ); // plus border-width
     }
     @if $size == 'l' {
@@ -34,7 +34,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 10px
             calc(
                 var(--_--options-text-right-padding) +
-                    var(--g-select-control-border-width, var(--_--border-width))
+                    var(--g-select-border-width, var(--_--border-width))
             ); // plus border-width
     }
     @if $size == 'xl' {
@@ -44,7 +44,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         padding: 12px
             calc(
                 var(--_--options-text-right-padding) +
-                    var(--g-select-control-border-width, var(--_--border-width))
+                    var(--g-select-border-width, var(--_--border-width))
             ); // plus border-width
     }
 }
@@ -104,9 +104,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     --_--border-color: var(--g-color-line-generic);
     --_--border-color-hover: var(--g-color-line-generic-hover);
     --_--border-color-active: var(--g-color-line-generic-active);
-    --_--border-color-error: var(--g-color-text-danger);
     --_--chevron-color: var(--g-color-text-secondary);
-    --_--chevron-color-disabled: var(--g-color-text-hint);
 
     @include mixins.button-reset();
 
@@ -143,7 +141,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         @include mixins.pin(
             $blockButton,
             ('::before', '::after'),
-            var(--g-select-control-border-radius, var(--_--border-radius))
+            var(--g-select-border-radius, var(--_--border-radius))
         );
 
         display: inline-flex;
@@ -158,10 +156,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
             position: absolute;
             inset: 0;
 
-            border-width: var(--g-select-control-border-width, var(--_--border-width));
+            border-width: var(--g-select-border-width, var(--_--border-width));
             border-style: solid;
-            border-color: var(--g-select-control-border-color, var(--_--border-color));
-            border-radius: var(--g-select-control-border-radius, var(--_--border-radius));
+            border-color: var(--g-select-border-color, var(--_--border-color));
+            border-radius: var(--g-select-border-radius, var(--_--border-radius));
         }
 
         &::after {
@@ -192,25 +190,22 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_error::before {
-            border-color: var(--g-select-control-border-color-error, var(--_--border-color-error));
+            border-color: var(--g-color-text-danger);
         }
 
         &:hover::after {
             background-color: var(
-                --g-select-control-background-color-hover,
+                --g-select-background-color-hover,
                 var(--_--background-color-hover)
             );
         }
 
         &_disabled {
-            color: var(--g-select-control-placeholder-color, var(--_--placeholder-color));
+            color: var(--g-select-placeholder-color, var(--_--placeholder-color));
             pointer-events: none;
 
             &::after {
-                background-color: var(
-                    --g-select-control-background-color,
-                    var(--_--background-color)
-                );
+                background-color: var(--g-select-background-color, var(--_--background-color));
             }
 
             &::before {
@@ -219,15 +214,12 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &:not(&_error):not(&_disabled):hover::before {
-            border-color: var(--g-select-control-border-color-hover, var(--_--border-color-hover));
+            border-color: var(--g-select-border-color-hover, var(--_--border-color-hover));
         }
 
         &_open:not(&_error)::before,
         &:not(&_error):focus-visible::before {
-            border-color: var(
-                --g-select-control-border-color-active,
-                var(--_--border-color-active)
-            );
+            border-color: var(--g-select-border-color-active, var(--_--border-color-active));
         }
     }
 
@@ -254,11 +246,11 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
 
     &__option-text {
-        color: var(--g-select-control-text-color, inherit);
+        color: var(--g-select-text-color, inherit);
     }
 
     &__placeholder {
-        color: var(--g-select-control-placeholder-color, var(--_--placeholder-color));
+        color: var(--g-select-placeholder-color, var(--_--placeholder-color));
 
         #{$blockButton}:not(#{$blockButton}_disabled) & {
             @include block_clear_reserved_width();
@@ -269,10 +261,10 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         flex: 0 0 16px;
         margin-inline-start: auto;
 
-        color: var(--g-select-control-chevron-color, var(--_--chevron-color));
+        color: var(--g-select-chevron-color, var(--_--chevron-color));
 
         &_disabled {
-            color: var(--g-select-control-chevron-color-disabled, var(--_--chevron-color-disabled));
+            color: var(--g-color-text-hint);
         }
     }
 
@@ -282,7 +274,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__error {
         @include mixins.text-body-1();
-        color: var(--g-select-control-text-color-error, var(--g-color-text-danger));
+        color: var(--g-color-text-danger);
         margin-block-start: 2px;
     }
 }

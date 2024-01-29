@@ -12,7 +12,6 @@ $block: '.#{variables.$ns-new}text-area';
     --_--border-width: 1px;
     --_--border-color-hover: var(--g-color-line-generic-hover);
     --_--border-color-active: var(--g-color-line-generic-active);
-    --_--border-color-error: var(--g-color-line-danger);
 
     display: inline-block;
     width: 100%;
@@ -193,10 +192,7 @@ $block: '.#{variables.$ns-new}text-area';
                     &,
                     &:hover,
                     &:focus-within {
-                        border-color: var(
-                            --g-text-area-border-color-error,
-                            var(--_--border-color-error)
-                        );
+                        border-color: var(--g-color-line-danger);
                     }
                 }
             }
@@ -206,8 +202,7 @@ $block: '.#{variables.$ns-new}text-area';
                     &,
                     &:hover,
                     &:focus-within {
-                        border-block-end: 1px solid
-                            var(--g-text-area-border-color-error, var(--_--border-color-error));
+                        border-block-end: 1px solid var(--g-color-line-danger);
                     }
                 }
             }

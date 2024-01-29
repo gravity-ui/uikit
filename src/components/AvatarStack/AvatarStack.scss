@@ -41,7 +41,7 @@ $block: '.#{variables.$ns-new}avatar-stack';
 
     &__more-button {
         @include mixins.button-reset;
-        @include mixins.button-outline;
+        @include mixins.focus-outline;
 
         border-radius: 100%;
 

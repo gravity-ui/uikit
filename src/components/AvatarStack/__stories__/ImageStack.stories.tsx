@@ -4,35 +4,28 @@ import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Popover} from '../../Popover';
-import {UserAvatar, UserAvatarSize} from '../../UserAvatar';
+import {UserAvatar, UserAvatarProps, UserAvatarSize} from '../../UserAvatar';
 import {AvatarStack} from '../AvatarStack';
-import type {AvatarStackProps} from '../index';
 import type {AvatarStackOverlapSize} from '../types';
 
 type ComponentType = typeof AvatarStack;
 
-type DemoItem = {
-    image: string;
-    name: string;
-};
-
-function getItems(count = faker.number.int({min: 1, max: 30})) {
+function getChildren({
+    count = faker.number.int({min: 1, max: 30}),
+    avatarSize = 'm',
+}: Partial<{count: number; avatarSize: UserAvatarSize}>) {
+    console.log('getChildren', avatarSize);
     return faker.helpers.uniqueArray(
-        () => ({
-            image: faker.image.avatar(),
-            name: faker.internet.userName().toLowerCase(),
-        }),
+        () => <UserAvatar imgUrl={faker.image.avatar()} size={avatarSize} />,
         count,
     );
 }
-
-const items = getItems();
 
 export default {
     title: 'Components/AvatarStack',
     component: AvatarStack,
     args: {
-        items,
+        overlapSize: 's',
     },
 } as Meta<ComponentType>;
 
@@ -44,40 +37,42 @@ const Template: StoryFn<ComponentType> = (args) => {
     };
 
     const avatarSize = overlapAvatarSizeMap[args.overlapSize || 's'];
+    const children =
+        React.Children.map(args.children, (child) =>
+            React.isValidElement<UserAvatarProps>(child)
+                ? React.cloneElement(child, {size: avatarSize})
+                : null,
+        ) || getChildren({avatarSize});
 
-    const renderItem: AvatarStackProps<DemoItem>['renderItem'] = (item) => (
-        <UserAvatar size={avatarSize} imgUrl={item.image} />
+    return (
+        <AvatarStack {...args}>
+            {children}
+            {React.Children.count(children) > 3 ? (
+                <Popover
+                    placement={['bottom', 'bottom-end', 'bottom-start']}
+                    content={
+                        <React.Fragment>Somehow display list of all other items</React.Fragment>
+                    }
+                >
+                    <AvatarStack.MoreButton
+                        size={avatarSize}
+                        aria-label={'Rest of the users'}
+                        count={React.Children.count(children) - 3}
+                    />
+                </Popover>
+            ) : null}
+        </AvatarStack>
     );
-
-    const renderMore: AvatarStackProps<DemoItem>['renderMore'] = (items) => (
-        <Popover
-            placement={['bottom', 'bottom-end', 'bottom-start']}
-            content={
-                <React.Fragment>
-                    Somehow display list of all other items {items.map(({name}) => name).join(', ')}
-                </React.Fragment>
-            }
-        >
-            <AvatarStack.MoreButton
-                size={avatarSize}
-                aria-label={'Rest of the users'}
-                count={items.length}
-            />
-        </Popover>
-    );
-
-    return <AvatarStack {...args} renderItem={renderItem} renderMore={renderMore} />;
 };
 
 export const Default = Template.bind({});
 
 export const WithOneItem = Template.bind({});
 WithOneItem.args = {
-    items: getItems(1),
+    children: getChildren({count: 1}),
 };
 
-export const WithEdgeItemsCount = Template.bind({});
-WithEdgeItemsCount.args = {
-    items: getItems(3),
-    displayCount: 2,
+export const WithMoreButton = Template.bind({});
+WithMoreButton.args = {
+    children: getChildren({count: 5}),
 };

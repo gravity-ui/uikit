@@ -5,7 +5,7 @@
 @mixin input-control($size) {
     --_--input-control-border-width: var(
         --g-text-input-border-width,
-        #{control-variables.$border-width}
+        var(--g-text-area-border-width, #{control-variables.$border-width})
     );
     @if $size == 's' {
         @include mixins.text-body-short;

@@ -44,7 +44,28 @@ export const RenderItem = RenderItemTemplate.bind({});
 RenderItem.args = {
     items,
     renderItem: (item) => `🔥🔥🔥 ${item} 🔥🔥🔥`,
+};
+
+const TemplateWithState: ComponentStory<ComponentType> = (args) => {
+    const [items, setItems] = React.useState(args.items);
+
+    const onLoadMore = () => {
+        // delay for fetching new real items
+        setTimeout(() => {
+            setItems([...items, ...args.items]);
+        }, 300);
+    };
+
+    return <List {...args} items={items} onLoadMore={onLoadMore} />;
+};
+
+export const WithLoadingMoreItems = TemplateWithState.bind({});
+WithLoadingMoreItems.args = {
+    items: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'],
     itemsHeight: 150,
+    itemHeight: 28,
+    loading: true,
+    virtualized: false,
 };
 
 const ShowcaseTemplate: ComponentStory<ComponentType> = () => <ListShowcase />;

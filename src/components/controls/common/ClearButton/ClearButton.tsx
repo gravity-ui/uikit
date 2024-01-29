@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
-import {Button, ButtonSize} from '../../../Button';
+import {Button, type ButtonSize} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {block} from '../../../utils/cn';
 import type {InputControlSize} from '../../types';

@@ -4,7 +4,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Flex} from '../../layout';
 
-import {FlattenList, FlattenListProps} from './components/FlattenList';
+import {FlattenList, type FlattenListProps} from './components/FlattenList';
 
 export default {
     title: 'Unstable/useList/VirtualizedList',

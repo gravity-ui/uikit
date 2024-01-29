@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button, ButtonProps} from '../../../components';
+import {Button, type ButtonProps} from '../../../components';
 import {useAsyncActionHandler} from '../useAsyncActionHandler';
 
 export type ProgressButtonProps = {

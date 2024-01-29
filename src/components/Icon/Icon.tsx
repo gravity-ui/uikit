@@ -71,7 +71,7 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
         } else if (isComponentSvgData(data)) {
             ({viewBox} = data.defaultProps);
         } else if (isSvgrData(data)) {
-            const el = data({});
+            const el = data({}) as React.ReactElement;
 
             if (el) {
                 ({viewBox} = el.props);

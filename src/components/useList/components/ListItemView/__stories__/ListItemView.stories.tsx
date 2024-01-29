@@ -6,7 +6,7 @@ import {Avatar} from '../../../../Avatar';
 import {Flex} from '../../../../layout';
 import {useListState} from '../../../hooks/useListState';
 import type {ListItemId} from '../../../types';
-import {ListItemView as ListItemViewComponent, ListItemViewProps} from '../ListItemView';
+import {ListItemView as ListItemViewComponent, type ListItemViewProps} from '../ListItemView';
 
 export default {
     title: 'Unstable/useList/ListItemView',

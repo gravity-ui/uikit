@@ -4,7 +4,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Flex} from '../../layout';
 
-import {ListWithDnd as ListWithDndExample, ListWithDndProps} from './components/ListWithDnd';
+import {ListWithDnd as ListWithDndExample, type ListWithDndProps} from './components/ListWithDnd';
 
 export default {
     title: 'Unstable/useList/ListWithDnd',

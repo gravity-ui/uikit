@@ -2,7 +2,7 @@ import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
 import {FaceRobot} from '@gravity-ui/icons';
-import {useArgs} from '@storybook/client-api';
+import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryFn, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';

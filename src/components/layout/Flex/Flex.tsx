@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
-import {Box, BoxProps} from '../Box/Box';
+import {Box, type BoxProps} from '../Box/Box';
 import {useLayoutContext} from '../hooks/useLayoutContext';
 import type {AdaptiveProp, MediaPartial, Space} from '../types';
 import {makeCssMod} from '../utils';

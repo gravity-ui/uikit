@@ -4,7 +4,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {
     InfinityScrollList as InfinityScrollListExample,
-    InfinityScrollListProps,
+    type InfinityScrollListProps,
 } from './components/InfinityScrollList';
 
 export default {

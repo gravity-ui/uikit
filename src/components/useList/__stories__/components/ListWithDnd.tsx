@@ -4,10 +4,10 @@ import {Grip} from '@gravity-ui/icons';
 import {
     DragDropContext,
     Draggable,
-    DraggableProvided,
-    DraggableStateSnapshot,
+    type DraggableProvided,
+    type DraggableStateSnapshot,
     Droppable,
-    DroppableProvided,
+    type DroppableProvided,
 } from 'react-beautiful-dnd';
 
 import {Icon} from '../../../Icon';

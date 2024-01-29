@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ListItemView, ListItemViewProps} from '../../useList';
+import {ListItemView, type ListItemViewProps} from '../../useList';
 import {block} from '../../utils/cn';
 
 import './TreeSelectItem.scss';

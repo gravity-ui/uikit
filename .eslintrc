@@ -21,7 +21,10 @@
             }
         ],
         "import/no-extraneous-dependencies": 0,
-        "jsx-a11y/no-autofocus": 0
+        "jsx-a11y/no-autofocus": 0,
+        "@typescript-eslint/consistent-type-imports": ["error", {
+            "fixStyle": "inline-type-imports"
+        }]
     },
     "overrides": [
         {

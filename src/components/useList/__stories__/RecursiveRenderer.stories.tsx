@@ -4,7 +4,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Flex} from '../../layout';
 
-import {RecursiveList, RecursiveListProps} from './components/RecursiveList';
+import {RecursiveList, type RecursiveListProps} from './components/RecursiveList';
 
 export default {
     title: 'Unstable/useList/RecursiveRenderer',

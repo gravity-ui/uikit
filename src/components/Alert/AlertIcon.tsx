@@ -13,8 +13,8 @@ import {
     TriangleExclamationFill,
 } from '@gravity-ui/icons';
 
-import {Icon, IconData} from '../Icon';
-import {ColorTextBaseProps, colorText} from '../Text/colorText/colorText';
+import {Icon, type IconData} from '../Icon';
+import {type ColorTextBaseProps, colorText} from '../Text/colorText/colorText';
 
 import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import type {AlertIconProps, AlertTheme} from './types';

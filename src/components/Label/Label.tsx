@@ -6,7 +6,7 @@ import {useActionHandlers} from '../../hooks';
 import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
-import {CopyToClipboard, CopyToClipboardStatus} from '../CopyToClipboard';
+import {CopyToClipboard, type CopyToClipboardStatus} from '../CopyToClipboard';
 import {Icon} from '../Icon';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';

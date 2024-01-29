@@ -3,7 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {block} from '../../utils/cn';
-import {Toc, TocProps} from '../Toc';
+import {Toc, type TocProps} from '../Toc';
 
 import './Toc.stories.scss';
 

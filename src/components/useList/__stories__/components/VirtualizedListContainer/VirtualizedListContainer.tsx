@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
+import AutoSizer, {type Size} from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
 
 import type {ListContainerRenderProps} from './types';

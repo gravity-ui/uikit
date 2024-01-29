@@ -5,7 +5,7 @@ import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icon
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {type KnownItemStructure, ListItemId, getListParsedState} from '../../../useList';
+import {type KnownItemStructure, type ListItemId, getListParsedState} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import {TreeSelectItem} from '../../TreeSelectItem';

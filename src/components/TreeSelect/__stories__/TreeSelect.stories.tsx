@@ -9,20 +9,20 @@ import type {TreeSelectProps} from '../types';
 
 import {
     InfinityScrollExample,
-    InfinityScrollExampleProps,
+    type InfinityScrollExampleProps,
 } from './components/InfinityScrollExample';
-import {WithDndListExample, WithDndListExampleProps} from './components/WithDndListExample';
+import {WithDndListExample, type WithDndListExampleProps} from './components/WithDndListExample';
 import {
     WithFiltrationAndControlsExample,
-    WithFiltrationAndControlsExampleProps,
+    type WithFiltrationAndControlsExampleProps,
 } from './components/WithFiltrationAndControlsExample';
 import {
     WithGroupSelectionControlledStateAndCustomIconExample,
-    WithGroupSelectionControlledStateAndCustomIconExampleProps,
+    type WithGroupSelectionControlledStateAndCustomIconExampleProps,
 } from './components/WithGroupSelectionControlledStateAndCustomIcon';
 import {
     WithItemLinksAndActionsExample,
-    WithItemLinksAndActionsExampleProps,
+    type WithItemLinksAndActionsExampleProps,
 } from './components/WithItemLinksAndActionsExample';
 
 export default {

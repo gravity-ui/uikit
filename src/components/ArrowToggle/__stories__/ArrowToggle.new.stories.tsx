@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {ArrowToggle, ArrowToggleProps} from '../ArrowToggle';
+import {ArrowToggle, type ArrowToggleProps} from '../ArrowToggle';
 
 const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
 

@@ -4,12 +4,12 @@ import {Grip} from '@gravity-ui/icons';
 import {
     DragDropContext,
     Draggable,
-    DraggableProvided,
-    DraggableRubric,
-    DraggableStateSnapshot,
+    type DraggableProvided,
+    type DraggableRubric,
+    type DraggableStateSnapshot,
     Droppable,
-    DroppableProvided,
-    OnDragEndResponder,
+    type DroppableProvided,
+    type OnDragEndResponder,
 } from 'react-beautiful-dnd';
 
 import {Icon} from '../../../Icon';
@@ -18,7 +18,7 @@ import {ListContainerView} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
 import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem, TreeSelectItemProps} from '../../TreeSelectItem';
+import {TreeSelectItem, type TreeSelectItemProps} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
 const DraggableListItem = ({

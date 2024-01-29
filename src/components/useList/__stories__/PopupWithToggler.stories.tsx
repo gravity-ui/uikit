@@ -4,7 +4,10 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import {Flex} from '../../layout';
 
-import {PopupWithTogglerList, PopupWithTogglerListProps} from './components/PopupWithTogglerList';
+import {
+    PopupWithTogglerList,
+    type PopupWithTogglerListProps,
+} from './components/PopupWithTogglerList';
 
 export default {
     title: 'Unstable/useList/PopupWithToggler',

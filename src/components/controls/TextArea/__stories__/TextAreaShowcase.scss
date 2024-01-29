@@ -56,4 +56,15 @@
     &__text-area:not(:last-child) {
         margin-block-end: 20px;
     }
+
+    &__custom-theme {
+        --g-text-area-text-color: hsl(38, 100%, 74%);
+        --g-text-area-placeholder-color: hsl(38, 100%, 81%);
+        --g-text-area-background-color: hsl(38, 89%, 89%);
+        --g-text-area-border-radius: 20px;
+        --g-text-area-border-width: 2px;
+        --g-text-area-border-color: hsl(38, 89%, 89%);
+        --g-text-area-border-color-hover: hsl(38, 93%, 83%);
+        --g-text-area-border-color-active: hsl(38, 100%, 73%);
+    }
 }

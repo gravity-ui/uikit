@@ -991,8 +991,6 @@ This behaviour can be changed with the `errorPlacement` property.
 </ExampleBlock>
 LANDING_BLOCK-->
 
-<!--GITHUB_BLOCK-->
-
 ## Properties
 
 | Name                                                      | Description                                                                                                                   | Type                                     | Default                                                  |
@@ -1038,3 +1036,18 @@ LANDING_BLOCK-->
 | errorMessage                                              | Error text                                                                                                                    | `string`                                 |                                                          |
 | errorPlacement                                            | Error placement                                                                                                               | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Validation state                                                                                                              | `"invalid"`                              |                                                          |
+
+## CSS API
+
+| Name                                | Description                      |
+| :---------------------------------- | :------------------------------- |
+| `--g-select-text-color`             | Text color                       |
+| `--g-select-placeholder-color`      | Placeholder color                |
+| `--g-select-background-color`       | Background color (when disabled) |
+| `--g-select-background-color-hover` | Background color hovered         |
+| `--g-select-border-width`           | Border width                     |
+| `--g-select-border-radius`          | Border radius                    |
+| `--g-select-border-color`           | Border color                     |
+| `--g-select-border-color-hover`     | Border color if hovered          |
+| `--g-select-border-color-active`    | Border color if active           |
+| `--g-select-chevron-color`          | Color of arrow                   |

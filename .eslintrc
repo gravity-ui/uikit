@@ -20,6 +20,7 @@
                 "message": "Don't use React.FC"
             }
         ],
+        "import/no-extraneous-dependencies": 0,
         "jsx-a11y/no-autofocus": 0
     },
     "overrides": [

@@ -292,8 +292,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                                 {...('renderControlContent' in props
                                     ? props.renderControlContent(itemData)
                                     : isKnownStructureGuard(itemData)
-                                    ? itemData
-                                    : {title: itemData as string})}
+                                      ? itemData
+                                      : {title: itemData as string})}
                                 {...renderContextProps}
                             />
                         );

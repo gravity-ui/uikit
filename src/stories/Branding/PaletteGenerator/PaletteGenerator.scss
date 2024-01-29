@@ -60,8 +60,7 @@
 
         &-item {
             &-number {
-                align-self: center;
-                justify-self: end;
+                place-self: center end;
                 padding-inline-end: 10px;
             }
 

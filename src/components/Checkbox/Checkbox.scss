@@ -36,7 +36,9 @@ $block: '.#{variables.$ns}checkbox';
         visibility: hidden;
         color: transparent;
         transform: translateY(-5px);
-        transition: color 0.1s, transform 0.2s;
+        transition:
+            color 0.1s,
+            transform 0.2s;
     }
 
     &__control {

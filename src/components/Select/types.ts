@@ -83,6 +83,9 @@ export type SelectProps<T = any> = QAProps &
         defaultValue?: string[];
         options?: (SelectOption<T> | SelectOptionGroup<T>)[];
         error?: string | boolean;
+        errorMessage?: React.ReactNode;
+        errorPlacement?: 'outside' | 'inside';
+        validationState?: 'invalid';
         multiple?: boolean;
         filterable?: boolean;
         disablePortal?: boolean;

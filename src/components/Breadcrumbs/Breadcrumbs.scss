@@ -9,11 +9,11 @@ $block: '.#{variables.$ns}breadcrumbs';
         width: 100%;
         min-height: 24px;
         overflow: hidden;
+        gap: 4px;
     }
 
     &__item {
         flex-shrink: 1;
-        padding: 4px 8px;
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
@@ -21,14 +21,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &:focus-visible {
             outline: 2px solid var(--g-color-line-focus);
-            outline-offset: -4px; // due to padding
-            border-radius: calc(
-                var(--g-focus-border-radius) + 4px
-            ); // +4px as outline-offset is -4px
-        }
-
-        &_current {
-            padding: 0 8px;
+            border-radius: var(--g-focus-border-radius);
         }
 
         &_more {

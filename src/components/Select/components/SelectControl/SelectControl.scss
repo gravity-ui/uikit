@@ -239,10 +239,9 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         margin-left: 0;
     }
 
-    &__error {
-        @include mixins.text-body-1();
-
+    &__error-icon {
+        box-sizing: content-box;
         color: var(--g-color-text-danger);
-        margin-top: 2px;
+        padding: var(--_--text-input-error-icon-padding);
     }
 }

@@ -3,6 +3,8 @@ import React from 'react';
 import {KeyCode} from '../../constants';
 import {useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
+import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
+import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
 
@@ -121,6 +123,19 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+
+    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
+        error,
+        errorMessage: props.errorMessage,
+        errorPlacement: props.errorPlacement,
+        validationState: props.validationState,
+    });
+    const errorMessageId = useUniqId();
+
+    const isErrorMsgVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
@@ -250,7 +265,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}
-                error={error}
+                isErrorVisible={isErrorIconVisible}
+                errorMessage={errorMessage}
                 open={open}
                 disabled={disabled}
                 onKeyDown={handleControlKeyDown}
@@ -260,6 +276,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 selectId={`select-${selectId}`}
                 activeIndex={activeIndex}
             />
+
             <SelectPopup
                 ref={controlWrapRef}
                 className={popupClassName}
@@ -307,6 +324,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
                 )}
             </SelectPopup>
+
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+            />
         </div>
     );
 }) as unknown as SelectComponent;

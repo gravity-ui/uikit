@@ -271,13 +271,14 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                                 | Description                      |
-| :----------------------------------- | :------------------------------- |
-| `--g-text-input-text-color`          | Text color                       |
-| `--g-text-input-placeholder-color`   | Placeholder color                |
-| `--g-text-input-background-color`    | Background color (when disabled) |
-| `--g-text-input-border-radius`       | Border radius                    |
-| `--g-text-input-border-width`        | Border width                     |
-| `--g-text-input-border-color`        | Border color                     |
-| `--g-text-input-border-color-hover`  | Border color if hovered          |
-| `--g-text-input-border-color-active` | Border color if active           |
+| Name                                 | Description             |
+| :----------------------------------- | :---------------------- |
+| `--g-text-input-text-color`          | Text color              |
+| `--g-text-input-label-color`         | Label color             |
+| `--g-text-input-placeholder-color`   | Placeholder color       |
+| `--g-text-input-background-color`    | Background color        |
+| `--g-text-input-border-radius`       | Border radius           |
+| `--g-text-input-border-width`        | Border width            |
+| `--g-text-input-border-color`        | Border color            |
+| `--g-text-input-border-color-hover`  | Border color if hovered |
+| `--g-text-input-border-color-active` | Border color if active  |

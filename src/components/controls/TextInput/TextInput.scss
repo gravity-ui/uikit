@@ -59,11 +59,10 @@ $block: '.#{variables.$ns}text-input';
 
 #{$block} {
     --_--text-color: var(--g-color-text-primary);
+    --_--label-color: inherit;
     --_--placeholder-color: var(--g-color-text-hint);
-    --_--background-color: var(--g-color-base-generic-accent-disabled);
-    --_--border-color: var(--g-color-line-generic);
-    --_--border-color-hover: var(--g-color-line-generic-hover);
-    --_--border-color-active: var(--g-color-line-generic-active);
+    --_--background-color: transparent;
+    --_--border-width: #{control-variables.$border-width};
 
     display: inline-block;
     width: 100%;
@@ -78,6 +77,19 @@ $block: '.#{variables.$ns}text-input';
         overflow: hidden;
         display: flex;
         width: 100%;
+        background-color: var(--g-text-input-background-color, var(--_--background-color));
+        border-width: var(--g-text-input-border-width, var(--_--border-width));
+        border-style: solid;
+        border-color: var(--g-text-input-border-color, var(--_--border-color));
+        color: var(--g-text-input-text-color, var(--_--text-color));
+
+        &:hover {
+            border-color: var(--g-text-input-border-color-hover, var(--_--border-color-hover));
+        }
+
+        &:focus-within {
+            border-color: var(--g-text-input-border-color-active, var(--_--border-color-active));
+        }
     }
 
     &__control {
@@ -91,7 +103,7 @@ $block: '.#{variables.$ns}text-input';
         width: 100%;
         font-weight: var(--g-text-body-font-weight);
         font-family: var(--g-text-body-font-family);
-        color: var(--g-text-input-text-color, var(--_--text-color));
+        color: inherit;
         background-color: transparent;
         border: none;
         height: var(--g-text-input-height);
@@ -118,6 +130,7 @@ $block: '.#{variables.$ns}text-input';
         text-overflow: ellipsis;
         white-space: nowrap;
         z-index: 1;
+        color: var(--g-text-input-label-color, var(--_--label-color));
     }
 
     &__clear {
@@ -137,7 +150,7 @@ $block: '.#{variables.$ns}text-input';
 
     &__error-icon {
         box-sizing: content-box;
-        color: var(--g-color-line-danger);
+        color: var(--g-color-text-danger);
         padding-block: var(--_--error-icon-padding-block);
         padding-inline: var(--_--error-icon-padding-inline);
     }
@@ -275,32 +288,19 @@ $block: '.#{variables.$ns}text-input';
 
     &_view {
         &_normal {
-            #{$block}__content {
-                border-width: var(--g-text-input-border-width, #{control-variables.$border-width});
-                border-style: solid;
-                border-color: var(--g-text-input-border-color, var(--_--border-color));
-
-                &:hover {
-                    border-color: var(
-                        --g-text-input-border-color-hover,
-                        var(--_--border-color-hover)
-                    );
-                }
-
-                &:focus-within {
-                    border-color: var(
-                        --g-text-input-border-color-active,
-                        var(--_--border-color-active)
-                    );
-                }
-            }
+            --_--border-color: var(--g-color-line-generic);
+            --_--border-color-hover: var(--g-color-line-generic-hover);
+            --_--border-color-active: var(--g-color-line-generic-active);
         }
 
         &_clear {
+            --_--border-color: transparent;
+            --_--border-color-hover: transparent;
+            --_--border-color-active: transparent;
+            --_--border-radius: 0;
+
             & #{$block}__content {
-                border: 1px solid transparent;
                 border-inline: 0;
-                border-radius: 0;
             }
 
             & #{$block}__control {
@@ -317,23 +317,11 @@ $block: '.#{variables.$ns}text-input';
     );
 
     &_disabled {
-        #{$block}__content {
-            background-color: var(--g-text-input-background-color, var(--_--background-color));
-            color: var(--g-color-text-hint);
-            border-color: transparent;
-
-            &:hover {
-                border-color: transparent;
-            }
-        }
-
-        #{$block}__control {
-            color: var(--g-color-text-hint);
-        }
-
-        #{$block}__label {
-            color: var(--g-color-text-hint);
-        }
+        --_--text-color: var(--g-color-text-hint);
+        --_--background-color: var(--g-color-base-generic-accent-disabled);
+        --_--border-color: transparent;
+        --_--border-color-hover: transparent;
+        --_--border-color-active: transparent;
     }
 
     &_has-scrollbar {

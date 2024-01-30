@@ -5,7 +5,6 @@ import type {Meta, StoryFn} from '@storybook/react';
 import {Select} from '..';
 import type {SelectProps} from '..';
 
-import {CustomThemeShowcase} from './SelectCustomThemeShowcase';
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
 
@@ -40,7 +39,3 @@ Showcase.args = {
     label: '',
     hasClear: false,
 };
-
-const CustomThemeTemplate = () => <CustomThemeShowcase />;
-
-export const CustomTheme: StoryFn = CustomThemeTemplate.bind({});

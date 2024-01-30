@@ -89,7 +89,7 @@ type TableActionConfig = TableAction | TableActionGroup;
 | text     | Text                                                               |               `string`               |            |
 | handler  | Click handler                                                      | `(item: any, index: number) => void` |            |
 | disabled | Action disabled                                                    |              `boolean`               |            |
-| href`    | Menu item with this prop becomes a link to the specified location. |               `string`               |            |
+| href     | Menu item with this prop becomes a link to the specified location. |               `string`               |            |
 | target   | Same as the `target` attribute of the `<a>` tag.                   |               `string`               |            |
 | rel      | Same as the `rel` attribute of the `<a>` tag.                      |               `string`               |            |
 | theme    | Theme                                                              |        `"normal"` `"danger"`         | `"normal"` |

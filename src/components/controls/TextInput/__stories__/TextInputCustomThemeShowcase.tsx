@@ -3,7 +3,8 @@ import React from 'react';
 import {Checkbox} from '../../../Checkbox';
 import {Text} from '../../../Text';
 import {cn} from '../../../utils/cn';
-import {TextInput, TextInputProps} from '../TextInput';
+import {TextInput} from '../TextInput';
+import type {TextInputProps} from '../TextInput';
 
 import './TextInputShowcase.scss';
 

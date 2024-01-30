@@ -1,17 +1,18 @@
 @use '../../../../styles/mixins';
 @use '../../variables';
 @use '../mixins.scss' as control-mixins;
+@use '../variables.scss' as control-variables;
 
 $block: '.#{variables.$ns}text-area';
 
 #{$block} {
     --_--text-color: var(--g-color-text-primary);
     --_--placeholder-color: var(--g-color-text-hint);
-    --_--background-color: var(--g-color-base-generic-accent-disabled);
-    --_--border-color: var(--g-color-line-generic);
-    --_--border-width: 1px;
-    --_--border-color-hover: var(--g-color-line-generic-hover);
-    --_--border-color-active: var(--g-color-line-generic-active);
+    --_--background-color: transparent;
+    --_--border-width: #{control-variables.$border-width};
+    --_--clear-offset: calc(
+        var(--g-text-area-border-width, #{control-variables.$border-width}) + 1px
+    );
 
     display: inline-block;
     width: 100%;
@@ -21,6 +22,19 @@ $block: '.#{variables.$ns}text-area';
         box-sizing: border-box;
         display: flex;
         width: 100%;
+        background-color: var(--g-text-area-background-color, var(--_--background-color));
+        border-width: var(--g-text-area-border-width, var(--_--border-width));
+        border-style: solid;
+        border-color: var(--g-text-area-border-color, var(--_--border-color));
+        color: var(--g-text-area-text-color, var(--_--text-color));
+
+        &:hover {
+            border-color: var(--g-text-area-border-color-hover, var(--_--border-color-hover));
+        }
+
+        &:focus-within {
+            border-color: var(--g-text-area-border-color-active, var(--_--border-color-active));
+        }
     }
 
     &__control {
@@ -34,7 +48,7 @@ $block: '.#{variables.$ns}text-area';
         width: 100%;
         font-weight: var(--g-text-body-font-weight);
         font-family: var(--g-text-body-font-family);
-        color: var(--g-text-area-text-color, var(--_--text-color));
+        color: inherit;
         background-color: transparent;
         border: none;
         resize: none;
@@ -59,14 +73,14 @@ $block: '.#{variables.$ns}text-area';
 
         &_size_s,
         &_size_m {
-            inset-inline-end: 2px;
-            inset-block-start: 2px;
+            inset-inline-end: var(--_--clear-offset);
+            inset-block-start: var(--_--clear-offset);
         }
 
         &_size_l,
         &_size_xl {
-            inset-inline-end: 3px;
-            inset-block-start: 4px;
+            inset-inline-end: calc(var(--_--clear-offset) + 1px);
+            inset-block-start: calc(var(--_--clear-offset) + 2px);
         }
     }
 
@@ -122,32 +136,19 @@ $block: '.#{variables.$ns}text-area';
 
     &_view {
         &_normal {
-            #{$block}__content {
-                border-width: var(--g-text-area-border-width, var(--_--border-width));
-                border-style: solid;
-                border-color: var(--g-text-area-border-color, var(--_--border-color));
-
-                &:hover {
-                    border-color: var(
-                        --g-text-area-border-color-hover,
-                        var(--_--border-color-hover)
-                    );
-                }
-
-                &:focus-within {
-                    border-color: var(
-                        --g-text-area-border-color-active,
-                        var(--_--border-color-active)
-                    );
-                }
-            }
+            --_--border-color: var(--g-color-line-generic);
+            --_--border-color-hover: var(--g-color-line-generic-hover);
+            --_--border-color-active: var(--g-color-line-generic-active);
         }
 
         &_clear {
+            --_--border-color: transparent;
+            --_--border-color-hover: transparent;
+            --_--border-color-active: transparent;
+            --_--border-radius: 0;
+
             & #{$block}__content {
-                border: 1px solid transparent;
                 border-inline: 0;
-                border-radius: 0;
             }
 
             & #{$block}__control {
@@ -164,19 +165,11 @@ $block: '.#{variables.$ns}text-area';
     );
 
     &_disabled {
-        #{$block}__content {
-            background-color: var(--g-text-area-background-color, var(--_--background-color));
-            color: var(--g-color-text-hint);
-            border-color: transparent;
-
-            &:hover {
-                border-color: transparent;
-            }
-        }
-
-        #{$block}__control {
-            color: var(--g-color-text-hint);
-        }
+        --_--text-color: var(--g-color-text-hint);
+        --_--background-color: var(--g-color-base-generic-accent-disabled);
+        --_--border-color: transparent;
+        --_--border-color-hover: transparent;
+        --_--border-color-active: transparent;
     }
 
     &_has-scrollbar {

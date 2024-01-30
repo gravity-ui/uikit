@@ -6,6 +6,7 @@ import {List, listDefaultProps} from '..';
 import type {ListProps} from '..';
 
 import {ListShowcase} from './ListShowcase';
+import {ListWithLoader} from './ListWithLoader';
 
 type ComponentType = React.JSXElementConstructor<ListProps<string>>;
 
@@ -46,18 +47,7 @@ RenderItem.args = {
     renderItem: (item) => `🔥🔥🔥 ${item} 🔥🔥🔥`,
 };
 
-const TemplateWithState: ComponentStory<ComponentType> = (args) => {
-    const [items, setItems] = React.useState(args.items);
-
-    const onLoadMore = () => {
-        // delay for fetching new real items
-        setTimeout(() => {
-            setItems([...items, ...args.items]);
-        }, 300);
-    };
-
-    return <List {...args} items={items} onLoadMore={onLoadMore} />;
-};
+const TemplateWithState: ComponentStory<ComponentType> = (args) => <ListWithLoader {...args} />;
 
 export const WithLoadingMoreItems = TemplateWithState.bind({});
 WithLoadingMoreItems.args = {

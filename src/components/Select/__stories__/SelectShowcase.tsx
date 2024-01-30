@@ -388,7 +388,6 @@ export const SelectShowcase = (props: SelectProps) => {
                     title="Select with outside error"
                     selectProps={{
                         ...props,
-                        validationState: 'invalid',
                         errorPlacement: 'outside',
                         errorMessage: 'A validation error has occurred',
                     }}
@@ -403,7 +402,6 @@ export const SelectShowcase = (props: SelectProps) => {
                     title="Select with inside error"
                     selectProps={{
                         ...props,
-                        validationState: 'invalid',
                         errorPlacement: 'inside',
                         errorMessage: 'A validation error has occurred',
                     }}

@@ -127,7 +127,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
         error,
         errorMessage: props.errorMessage,
-        errorPlacement: props.errorPlacement,
+        errorPlacement: props.errorPlacement || 'outside',
         validationState: props.validationState,
     });
     const errorMessageId = useUniqId();

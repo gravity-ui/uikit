@@ -9,5 +9,5 @@ export function BreadcrumbsButton(props: {
     onClick: React.MouseEventHandler<HTMLElement>;
     children: React.ReactNode;
 }) {
-    return <button {...props} className={b('switcher', {more: true})} />;
+    return <button {...props} type="button" className={b('switcher', {more: true})} />;
 }

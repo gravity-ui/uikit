@@ -23,20 +23,19 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
     isPrevCurrent,
     renderItem,
 }: Props<T>) {
-    const {text, title, href, action} = data;
-    const itemTitle = title || text;
+    const itemTitle = data.title || data.text;
 
-    const item = renderItem ? renderItem(data, isCurrent, isPrevCurrent) : text;
+    const item = renderItem ? renderItem(data, isCurrent, isPrevCurrent) : data.text;
 
     if (isPrevCurrent || !isCurrent) {
-        if (href) {
+        if (data.href !== undefined) {
             return (
                 <Link
-                    key={text}
+                    key={data.text}
                     view="secondary"
-                    href={href}
+                    href={data.href}
                     title={itemTitle}
-                    onClick={action}
+                    onClick={data.action}
                     className={b('item', {'prev-current': isPrevCurrent})}
                 >
                     {item}
@@ -45,7 +44,7 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
         }
 
         return (
-            <BreadcrumbsButton key={text} title={itemTitle} onClick={action}>
+            <BreadcrumbsButton key={data.text} title={itemTitle} onClick={data.action}>
                 {item}
             </BreadcrumbsButton>
         );

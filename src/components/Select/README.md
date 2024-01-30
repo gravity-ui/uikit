@@ -974,6 +974,25 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
+### Error
+
+The state of the `Select` in which you want to indicate incorrect user input. To change `Select` appearance, use the `validationState` property with the `"invalid"` value. An optional message text can be added via the `errorMessage` property. By default, message text is rendered outside the component.
+This behaviour can be changed with the `errorPlacement` property.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
+<Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
+`}
+>
+    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
+    <UIKit.Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid" />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
 ## Properties
 
 | Name                                                      | Description                                                                                                                   | Type                                     | Default                                                  |
@@ -1016,3 +1035,6 @@ const MyComponent = () => {
 | view                                                      | Control view                                                                                                                  | `string`                                 | `'normal'`                                               |
 | [virtualizationThreshold](#virtualized-list)              | The threshold of the options count after which virtualization is enabled                                                      | `number`                                 | `50`                                                     |
 | [width](#control-width)                                   | Control width                                                                                                                 | `string \| number`                       | `undefined`                                              |
+| errorMessage                                              | Error text                                                                                                                    | `string`                                 |                                                          |
+| errorPlacement                                            | Error placement                                                                                                               | `outside` `inside`                       | `outside`                                                |
+| validationState                                           | Validation state                                                                                                              | `"invalid"`                              |                                                          |

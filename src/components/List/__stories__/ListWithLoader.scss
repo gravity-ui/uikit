@@ -1,0 +1,6 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+.list-with-loader {
+    overflow: auto;
+}

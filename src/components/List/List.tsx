@@ -93,7 +93,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
-    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
+    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: false} as unknown as ListItemData<
         T & {value: string}
     >;
     uniqId = getUniqId();
@@ -518,11 +518,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private handleKeyMove(event: React.KeyboardEvent, step: number, defaultItemIndex = 0) {
-        event.preventDefault();
         const {activeItem = defaultItemIndex} = this.state;
-        this.activateItem(
-            List.findNextIndex<T>(this.state.items, activeItem + step, Math.sign(step)),
-        );
+
+        event.preventDefault();
+
+        const items = this.getItemsWithLoading();
+
+        this.activateItem(List.findNextIndex<T>(items, activeItem + step, Math.sign(step)));
     }
 
     private handleFocus = () => {

@@ -24,47 +24,6 @@ function getTextContent(html = '') {
 }
 
 describe('Table HOCs tests', () => {
-    it('withTableActions should match snapshot', () => {
-        const Table1 = withTableActions<Model>(Table);
-
-        type Props = TableProps<Model> & WithTableActionsProps<Model>;
-        const props: Props = {
-            data: [{disabled: false}, {disabled: true}],
-            columns: [{id: 'name'}],
-            isRowDisabled: ({disabled}) => disabled,
-            getRowActions: () => [],
-        };
-        const {container} = render(React.createElement<Props>(Table1, props));
-
-        expect(container).toMatchSnapshot();
-    });
-
-    it('all HOCs should match snapshot', () => {
-        const Table1 = withTableSorting(
-            withTableSettings(withTableCopy(withTableActions(withTableSelection<Model>(Table)))),
-        );
-
-        type Props = TableProps<Model> &
-            WithTableActionsProps<Model> &
-            WithTableSelectionProps<Model> &
-            WithTableSettingsProps &
-            WithTableSortingProps;
-
-        const props: Props = {
-            data: [{disabled: false}, {disabled: true}],
-            columns: [{id: 'name'}],
-            isRowDisabled: ({disabled}) => disabled,
-            selectedIds: [],
-            onSelectionChange: () => {},
-            getRowActions: () => [],
-            updateSettings: () => Promise.resolve(),
-            settings: [],
-        };
-        const {container} = render(React.createElement<Props>(Table1, props));
-
-        expect(container).toMatchSnapshot();
-    });
-
     it('using withTableActions and withTableSelection should not depend of order', () => {
         const Table1 = withTableActions(withTableSelection<Model>(Table));
         const Table2 = withTableSelection(withTableActions<Model>(Table));

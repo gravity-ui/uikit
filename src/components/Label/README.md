@@ -75,12 +75,12 @@ Adds various options to the `Label` using the `type` property.
 <ExampleBlock
     code={`
 <Label type="default" onClick={() => alert('On click label')} size="s">Clickable</Label>
-<Label type="close" onClose={() => alert('On click close')} size="s">Closable</Label>
+<Label type="close" onCloseClick={() => alert('On click close')} size="s">Closable</Label>
 <Label type="copy" copyText="Copy" onCopy={() => alert('On copy')} size="s">Copy</Label>
 `}
 >
     <UIKit.Label type="default" onClick={() => alert('On click label')} size="s">Clickable</UIKit.Label>
-    <UIKit.Label type="close" onClose={() => alert('On click close')} size="s">Closable</UIKit.Label>
+    <UIKit.Label type="close" onCloseClick={() => alert('On click close')} size="s">Closable</UIKit.Label>
     <UIKit.Label type="copy" copyText="Copy" onCopy={() => alert('On copy')} size="s">Copy</UIKit.Label>
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -89,7 +89,7 @@ LANDING_BLOCK-->
 
 ```tsx
 <Label type="default" onClick={() => alert('On click label')} size="s">Clickable</Label>
-<Label type="close" onClose={() => alert('On click close')} size="s">Closable</Label>
+<Label type="close" onCloseClick={() => alert('On click close')} size="s">Closable</Label>
 <Label type="copy" copyText="Copy" onCopy={() => alert('On copy')} size="s">Copy</Label>
 ```
 
@@ -262,7 +262,7 @@ LANDING_BLOCK-->
 | icon             | Label icon (on the left)                      |       `React.ReactNode`        |             |
 | interactive      | Enable hover effect                           |           `boolean`            |             |
 | onClick          | `click` event handler                         |           `Function`           |             |
-| onClose          | Close button `click` event handler            |           `Function`           |             |
+| onCloseClick     | Close button `click` event handler            |           `Function`           |             |
 | onCopy           | `copy` event handler                          |           `Function`           |             |
 | size             | Label size                                    |       `"xs"` `"s"` `"m"`       |    `"s"`    |
 | theme            | Label theme                                   |            `string`            | `"normal"`  |

@@ -67,11 +67,11 @@ This component is also interactive. It can be clickable or closable.
 <ExampleBlock
     code={`
 <UserLabel text="Charles Darwin" onClick={() => alert('onClick triggered')} />
-<UserLabel text="Charles Darwin" onClose={() => alert('onClose triggered')} />
+<UserLabel text="Charles Darwin" onCloseClick={() => alert('onCloseClick triggered')} />
 `}
 >
     <UIKit.UserLabel text="Charles Darwin" onClick={() => alert('onClick triggered')} />
-    <UIKit.UserLabel text="Charles Darwin" onClose={() => alert('onClose triggered')} />
+    <UIKit.UserLabel text="Charles Darwin" onCloseClick={() => alert('onCloseClick triggered')} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -79,21 +79,21 @@ LANDING_BLOCK-->
 
 ```tsx
 <UserLabel text="Charles Darwin" onClick={() => alert('onClick triggered')} />
-<UserLabel text="Charles Darwin" onClose={() => alert('onClose triggered')} />
+<UserLabel text="Charles Darwin" onCloseClick={() => alert('onCloseClick triggered')} />
 ```
 
 <!--/GITHUB_BLOCK-->
 
 ## Properties
 
-| Name      | Description                                 |                                    Type                                     |   Default    |
-| :-------- | :------------------------------------------ | :-------------------------------------------------------------------------: | :----------: |
-| type      | Avatar appearance                           |                       `'person'` `'email'` `'empty'`                        |  `'person'`  |
-| avatar    | User avatar                                 | [AvatarProps](../Avatar/README.md#properties) `string` `React.ReactElement` |              |
-| text      | Visible text                                |                                  `string`                                   |              |
-| view      | UserLabel view                              |                           `'outlined'` `'clear'`                            | `'outlined'` |
-| onClick   | `click` event handler for component itself  |                                 `Function`                                  |              |
-| onClose   | `click` event handler for button with cross |                                 `Function`                                  |              |
-| className | Custom CSS class for root element           |                                  `string`                                   |              |
-| style     | HTML style attribute                        |                            `React.CSSProperties`                            |              |
-| qa        | HTML `data-qa` attribute, used in tests     |                                  `string`                                   |              |
+| Name         | Description                                 |                                    Type                                     |   Default    |
+| :----------- | :------------------------------------------ | :-------------------------------------------------------------------------: | :----------: |
+| type         | Avatar appearance                           |                       `'person'` `'email'` `'empty'`                        |  `'person'`  |
+| avatar       | User avatar                                 | [AvatarProps](../Avatar/README.md#properties) `string` `React.ReactElement` |              |
+| text         | Visible text                                |                                  `string`                                   |              |
+| view         | UserLabel view                              |                           `'outlined'` `'clear'`                            | `'outlined'` |
+| onClick      | `click` event handler for component itself  |                                 `Function`                                  |              |
+| onCloseClick | `click` event handler for button with cross |                                 `Function`                                  |              |
+| className    | Custom CSS class for root element           |                                  `string`                                   |              |
+| style        | HTML style attribute                        |                            `React.CSSProperties`                            |              |
+| qa           | HTML `data-qa` attribute, used in tests     |                                  `string`                                   |              |

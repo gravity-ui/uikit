@@ -27,8 +27,10 @@ describe('UserLabel', () => {
         test.each<string>([MOCKED_TEXT])(
             'should return text value as onClose argument',
             async (text) => {
-                const onClose = jest.fn();
-                const {container} = render(<UserLabel onClose={onClose}>{text}</UserLabel>);
+                const onCloseClick = jest.fn();
+                const {container} = render(
+                    <UserLabel onCloseClick={onCloseClick}>{text}</UserLabel>,
+                );
                 const user = userEvent.setup();
                 const ariaLabelValue = i18n('label_remove-button');
                 const closeButtonNode = queryByAttribute('aria-label', container, ariaLabelValue);
@@ -38,7 +40,7 @@ describe('UserLabel', () => {
                 }
 
                 await user.click(closeButtonNode);
-                expect(onClose).toHaveBeenCalled();
+                expect(onCloseClick).toHaveBeenCalled();
             },
         );
         test('should render text as string', () => {

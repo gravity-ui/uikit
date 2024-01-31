@@ -1,0 +1,311 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table should correctly add custom row classnames 1`] = `
+<div>
+  <div
+    class="yc-table"
+  >
+    <table
+      class="yc-table__table"
+    >
+      <thead
+        class="yc-table__head"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            name
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="yc-table__body"
+      >
+        <tr
+          class="yc-table__row custom-row custom-row_mod"
+        >
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Table should correctly add disabled classname 1`] = `
+<div>
+  <div
+    class="yc-table"
+  >
+    <table
+      class="yc-table__table"
+    >
+      <thead
+        class="yc-table__head"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            name
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="yc-table__body"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+        </tr>
+        <tr
+          class="yc-table__row yc-table__row_disabled"
+        >
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Table should correctly apply \`align\` prop 1`] = `
+<div>
+  <div
+    class="yc-table"
+  >
+    <table
+      class="yc-table__table"
+    >
+      <thead
+        class="yc-table__head"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <th
+            class="yc-table__cell yc-table__cell_align_left yc-table__cell_edge-padding"
+          >
+            name1
+          </th>
+          <th
+            class="yc-table__cell yc-table__cell_align_right yc-table__cell_edge-padding"
+          >
+            name2
+          </th>
+          <th
+            class="yc-table__cell yc-table__cell_align_center yc-table__cell_edge-padding"
+          >
+            name3
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="yc-table__body"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <td
+            class="yc-table__cell yc-table__cell_align_left yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+          <td
+            class="yc-table__cell yc-table__cell_align_right yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+          <td
+            class="yc-table__cell yc-table__cell_align_center yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Table should correctly apply \`primary\` prop 1`] = `
+<div>
+  <div
+    class="yc-table yc-table_with-primary"
+  >
+    <table
+      class="yc-table__table"
+    >
+      <thead
+        class="yc-table__head"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <th
+            class="yc-table__cell yc-table__cell_primary yc-table__cell_edge-padding"
+          >
+            name1
+          </th>
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            name2
+          </th>
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            name3
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="yc-table__body"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <td
+            class="yc-table__cell yc-table__cell_primary yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            —
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Table should correctly apply \`width\` prop 1`] = `
+<div>
+  <div
+    class="yc-table"
+  >
+    <table
+      class="yc-table__table"
+    >
+      <thead
+        class="yc-table__head"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+            style="width: 100px;"
+          >
+            name1
+          </th>
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+            style="width: 200px;"
+          >
+            name2
+          </th>
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+            style="width: 300px;"
+          >
+            name3
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="yc-table__body"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+            style="width: 100px;"
+          >
+            —
+          </td>
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+            style="width: 200px;"
+          >
+            —
+          </td>
+          <td
+            class="yc-table__cell yc-table__cell_edge-padding"
+            style="width: 300px;"
+          >
+            —
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Table should render empty state 1`] = `
+<div>
+  <div
+    class="yc-table"
+  >
+    <table
+      class="yc-table__table"
+    >
+      <thead
+        class="yc-table__head"
+      >
+        <tr
+          class="yc-table__row"
+        >
+          <th
+            class="yc-table__cell yc-table__cell_edge-padding"
+          >
+            name
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="yc-table__body"
+      >
+        <tr
+          class="yc-table__row yc-table__row_empty"
+        >
+          <td
+            class="yc-table__cell"
+            colspan="1"
+          >
+            No data
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

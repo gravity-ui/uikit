@@ -1,7 +1,7 @@
 import type {SliderProps as RcSliderProps} from 'rc-slider';
 
 import {CLEAR_MARK_STYLE} from './constants';
-import type {SliderInnerState, SliderProps} from './sliderTypes';
+import type {SliderInnerState, SliderProps} from './types';
 
 function prepareSingleValue({value, min, max}: {value?: number; min: number; max: number}) {
     if (typeof value === 'undefined' || value < min) {

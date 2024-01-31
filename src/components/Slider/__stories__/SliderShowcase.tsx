@@ -4,7 +4,7 @@ import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {blockNew} from '../../utils/cn';
 import {Slider} from '../Slider';
-import type {SliderProps} from '../sliderTypes';
+import type {SliderProps} from '../types';
 
 import './SliderShowcase.scss';
 

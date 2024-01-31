@@ -4,7 +4,7 @@ import Slider from 'rc-slider';
 import type {SliderProps, SliderRef} from 'rc-slider';
 
 import {blockNew} from '../../utils/cn';
-import type {StyleModifiers} from '../sliderTypes';
+import type {StyleModifiers} from '../types';
 
 import './BaseSlider.scss';
 

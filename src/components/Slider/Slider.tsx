@@ -6,7 +6,7 @@ import {blockNew} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {SliderTooltip} from './SliderTooltip/SliderTooltip';
-import type {BaseSliderRefType, RcSliderValueType, SliderProps, SliderValue} from './sliderTypes';
+import type {BaseSliderRefType, RcSliderValueType, SliderProps, SliderValue} from './types';
 import {getInnerState} from './utils';
 
 import './Slider.scss';

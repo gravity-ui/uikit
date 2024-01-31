@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {blockNew} from '../../utils/cn';
-import type {StyleModifiers} from '../sliderTypes';
+import type {StyleModifiers} from '../types';
 
 import {SliderTooltipPin} from './SliderTooltipPin';
 

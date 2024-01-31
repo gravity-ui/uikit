@@ -2,11 +2,11 @@ import React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import isEmpty from 'lodash/isEmpty';
-import type {CnMods} from 'src/components/utils/cn';
 
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../Popover';
 import {CONTROL_ERROR_ICON_QA} from '../../../controls/utils';
+import type {CnMods} from '../../../utils/cn';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
 import type {
     SelectProps,
@@ -74,7 +74,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         size,
         pin,
         disabled,
-        error: Boolean(errorMessage),
+        error: isErrorVisible,
         'has-clear': hasClear,
         'no-active': isDisabledButtonAnimation,
         'has-value': hasValue,
@@ -86,7 +86,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         view,
         pin,
         disabled,
-        error: Boolean(errorMessage),
+        error: isErrorVisible,
     };
 
     const disableButtonAnimation = React.useCallback(() => {
@@ -168,7 +168,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 </button>
                 {renderClearIcon({})}
 
-                {isErrorVisible && (
+                {errorMessage && (
                     <Popover content={errorMessage}>
                         <span data-qa={CONTROL_ERROR_ICON_QA}>
                             <Icon

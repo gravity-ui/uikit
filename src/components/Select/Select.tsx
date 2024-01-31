@@ -136,6 +136,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
     const isErrorIconVisible =
         validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
+    const isErrorStateVisible = isErrorMsgVisible || isErrorIconVisible;
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
@@ -265,8 +266,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}
-                isErrorVisible={isErrorIconVisible}
-                errorMessage={errorMessage}
+                isErrorVisible={isErrorStateVisible}
+                errorMessage={isErrorIconVisible ? errorMessage : undefined}
                 open={open}
                 disabled={disabled}
                 onKeyDown={handleControlKeyDown}

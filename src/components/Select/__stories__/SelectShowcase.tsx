@@ -390,6 +390,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         ...props,
                         errorPlacement: 'outside',
                         errorMessage: 'A validation error has occurred',
+                        validationState: 'invalid',
                     }}
                 >
                     <Select.Option value="val1" content="Value1" />
@@ -404,6 +405,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         ...props,
                         errorPlacement: 'inside',
                         errorMessage: 'A validation error has occurred',
+                        validationState: 'invalid',
                     }}
                 >
                     <Select.Option value="val1" content="Value1" />

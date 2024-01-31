@@ -13,7 +13,7 @@ type SliderTooltipProps = {
     value: number;
     className?: string;
     style?: React.CSSProperties;
-    styleModifiers: Omit<StyleModifiers, 'withTooltip'>;
+    styleModifiers: Omit<StyleModifiers, 'hasTooltip'>;
 };
 
 export const SliderTooltip = ({value, className, style, styleModifiers}: SliderTooltipProps) => {

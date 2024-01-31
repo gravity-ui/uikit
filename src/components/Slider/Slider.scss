@@ -31,7 +31,7 @@ $block: '.#{variables.$ns-new}slider';
             var(--g-text-body-1-line-height) + 6px + #{slider-variables.$slider-tooltip-offset}
         );
         display: none;
-        &_withTooltip {
+        &_hasTooltip {
             display: block;
         }
         &_size_xl {

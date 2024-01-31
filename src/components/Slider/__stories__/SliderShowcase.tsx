@@ -53,14 +53,14 @@ export const SliderShowcase = () => {
                 />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="tooltip" withTooltip defaultValue={20} />
-                <ShowcaseBlock title="Range tooltip" withTooltip defaultValue={[20, 40]} />
+                <ShowcaseBlock title="tooltip" hasTooltip defaultValue={20} />
+                <ShowcaseBlock title="Range tooltip" hasTooltip defaultValue={[20, 40]} />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="tooltip disabled" withTooltip disabled defaultValue={20} />
+                <ShowcaseBlock title="tooltip disabled" hasTooltip disabled defaultValue={20} />
                 <ShowcaseBlock
                     title="Range tooltip disabled"
-                    withTooltip
+                    hasTooltip
                     disabled
                     defaultValue={[20, 40]}
                 />
@@ -68,13 +68,13 @@ export const SliderShowcase = () => {
             <div className={blockCn}>
                 <ShowcaseBlock
                     title="tooltip error"
-                    withTooltip
+                    hasTooltip
                     error={'Error description'}
                     defaultValue={20}
                 />
                 <ShowcaseBlock
                     title="Range tooltip error"
-                    withTooltip
+                    hasTooltip
                     error={'Error description'}
                     defaultValue={[20, 40]}
                 />

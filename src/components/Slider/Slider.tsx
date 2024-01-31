@@ -23,7 +23,7 @@ export const Slider = React.forwardRef(function Slider(
         step = 1,
         infoPointCount = 0,
         availableValues,
-        withTooltip = false,
+        hasTooltip = false,
         error,
         disabled = false,
         keyboard = true,
@@ -88,12 +88,12 @@ export const Slider = React.forwardRef(function Slider(
         size,
         error: Boolean(error) && !disabled,
         disabled,
-        withTooltip: Boolean(withTooltip),
+        hasTooltip: Boolean(hasTooltip),
     };
 
     return (
         <div className={b(null, className)}>
-            <div className={b('top', {size, withTooltip})}></div>
+            <div className={b('top', {size, hasTooltip})}></div>
             <BaseSlider
                 ref={baseSliderRef}
                 value={innerState.value}
@@ -115,7 +115,7 @@ export const Slider = React.forwardRef(function Slider(
                 tabIndex={tabIndex}
                 data-qa={qa}
                 handleRender={
-                    withTooltip
+                    hasTooltip
                         ? (originHandle, handleProps) => {
                               return (
                                   <React.Fragment>

@@ -63,4 +63,5 @@ LANDING_BLOCK-->
 | aria-label      | `aria-label` for user block             |                              `string`                              |         |
 | aria-labelledby | `aria-labelledby` for user block        |                              `string`                              |         |
 | className       | Custom CSS class for root element       |                              `string`                              |         |
+| style           | HTML style attribute                    |                       `React.CSSProperties`                        |         |
 | qa              | HTML `data-qa` attribute, used in tests |                              `string`                              |         |

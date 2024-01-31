@@ -15,13 +15,11 @@ export type SliderProps<ValueType = number | [number, number]> = {
     min?: number;
     max?: number;
     step?: number;
-    //не используется, если есть availableValues
     infoPointCount?: number;
     availableValues?: number[];
     hasTooltip?: boolean;
 
     disabled?: boolean;
-    keyboard?: boolean;
     error?: string;
 
     debounceDelay?: number;

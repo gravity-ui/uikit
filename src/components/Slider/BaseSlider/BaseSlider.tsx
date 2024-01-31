@@ -12,7 +12,7 @@ const b = blockNew('base-slider');
 
 type BaseSliderProps = {styleModifiers: StyleModifiers} & Omit<
     SliderProps,
-    'classNames' | 'prefixCls' | 'className' | 'pushable'
+    'classNames' | 'prefixCls' | 'className' | 'pushable' | 'keyboard'
 >;
 
 export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function BaseSlider(
@@ -31,6 +31,7 @@ export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function 
             }}
             pushable={false}
             dots={false}
+            keyboard={true}
         ></Slider>
     );
 });

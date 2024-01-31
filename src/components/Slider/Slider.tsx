@@ -26,7 +26,6 @@ export const Slider = React.forwardRef(function Slider(
         hasTooltip = false,
         error,
         disabled = false,
-        keyboard = true,
         debounceDelay = 0,
         onBlur,
         onChange,
@@ -103,7 +102,6 @@ export const Slider = React.forwardRef(function Slider(
                 step={innerState.step}
                 range={innerState.range}
                 disabled={disabled}
-                keyboard={keyboard}
                 marks={innerState.marks}
                 onBlur={onBlur}
                 onFocus={onFocus}

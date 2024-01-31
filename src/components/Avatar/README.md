@@ -178,6 +178,7 @@ LANDING_BLOCK-->
 | aria-label      | `aria-label` for avatar block           |            `string`             |          |
 | aria-labelledby | `aria-labelledby` for avatar block      |            `string`             |          |
 | className       | Custom CSS class for root element       |            `string`             |          |
+| style           | HTML style attribute                    |      `React.CSSProperties`      |          |
 | qa              | HTML `data-qa` attribute, used in tests |            `string`             |          |
 
 ### Image-specific

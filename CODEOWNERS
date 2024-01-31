@@ -23,7 +23,6 @@
 /src/components/Menu @NikitaCG
 /src/components/Modal @amje
 /src/components/Pagination @jhoncool
-/src/components/Persona @DaffPunks
 /src/components/Popover @kseniya57
 /src/components/Popup @amje
 /src/components/Portal @amje
@@ -32,6 +31,7 @@
 /src/components/RadioButton @zamkovskaya
 /src/components/RadioGroup @zamkovskaya
 /src/components/User @DakEnviy
+/src/components/UserLabel @DakEnviy
 /src/components/Select @korvin89
 /src/components/Sheet @mournfulCoroner
 /src/components/Skeleton @SeqviriouM

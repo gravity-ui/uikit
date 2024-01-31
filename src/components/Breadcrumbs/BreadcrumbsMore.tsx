@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {DropdownMenu} from '../DropdownMenu';
-import {Link} from '../Link';
 import {block} from '../utils/cn';
 
 import type {BreadcrumbsProps} from './Breadcrumbs';
+import {BreadcrumbsButton} from './BreadcrumbsButton';
 import i18n from './i18n';
 
 interface Props extends Pick<BreadcrumbsProps, 'popupPlacement' | 'popupStyle' | 'items'> {}
@@ -22,14 +22,9 @@ export function BreadcrumbsMore({popupStyle, popupPlacement, items}: Props) {
                 placement: popupPlacement,
             }}
             renderSwitcher={({onClick}) => (
-                <Link
-                    view="secondary"
-                    title={i18n('label_more')}
-                    className={b('item', {more: true})}
-                    onClick={onClick}
-                >
+                <BreadcrumbsButton title={i18n('label_more')} onClick={onClick}>
                     ...
-                </Link>
+                </BreadcrumbsButton>
             )}
         />
     );

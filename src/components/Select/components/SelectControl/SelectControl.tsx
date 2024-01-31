@@ -1,11 +1,13 @@
 import React from 'react';
 
-import {ChevronDown} from '@gravity-ui/icons';
+import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import isEmpty from 'lodash/isEmpty';
 
 import {Icon} from '../../../Icon';
+import {Popover} from '../../../Popover';
 import type {CnMods} from '../../../utils/cn';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
+import i18n from '../../i18n';
 import type {
     SelectProps,
     SelectRenderClearArgs,
@@ -28,7 +30,8 @@ type ControlProps = {
     qa?: string;
     label?: string;
     placeholder?: SelectProps['placeholder'];
-    error?: SelectProps['error'];
+    isErrorVisible?: boolean;
+    errorMessage?: SelectProps['errorMessage'];
     disabled?: boolean;
     value: SelectProps['value'];
     clearValue: () => void;
@@ -50,7 +53,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         name,
         label,
         placeholder,
-        error,
+        isErrorVisible,
+        errorMessage,
         open,
         disabled,
         value,
@@ -70,7 +74,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         size,
         pin,
         disabled,
-        error: Boolean(error),
+        error: isErrorVisible,
         'has-clear': hasClear,
         'no-active': isDisabledButtonAnimation,
         'has-value': hasValue,
@@ -82,7 +86,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         view,
         pin,
         disabled,
-        error: Boolean(error),
+        error: isErrorVisible,
     };
 
     const disableButtonAnimation = React.useCallback(() => {
@@ -163,15 +167,25 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     )}
                 </button>
                 {renderClearIcon({})}
+
+                {errorMessage && (
+                    <Popover content={errorMessage}>
+                        <span aria-label={i18n('label_show-error-info')}>
+                            <Icon
+                                data={TriangleExclamation}
+                                className={selectControlBlock('error-icon')}
+                                size={size === 's' ? 12 : 16}
+                            />
+                        </span>
+                    </Popover>
+                )}
+
                 <Icon
                     className={selectControlBlock('chevron-icon', {disabled})}
                     data={ChevronDown}
                     aria-hidden="true"
                 />
             </div>
-            {typeof error === 'string' && (
-                <div className={selectControlBlock('error')}>{error}</div>
-            )}
         </React.Fragment>
     );
 });

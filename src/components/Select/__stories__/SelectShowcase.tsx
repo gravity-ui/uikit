@@ -380,6 +380,40 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val3" content="Value3" />
                 <Select.Option value="val4" content="Value4" />
             </ExampleItem>
+
+            <div>
+                <h2>Select (with text error)</h2>
+
+                <ExampleItem
+                    title="Select with outside error"
+                    selectProps={{
+                        ...props,
+                        errorPlacement: 'outside',
+                        errorMessage: 'A validation error has occurred',
+                        validationState: 'invalid',
+                    }}
+                >
+                    <Select.Option value="val1" content="Value1" />
+                    <Select.Option value="val2" content="Value2" />
+                    <Select.Option value="val3" content="Value3" />
+                    <Select.Option value="val4" content="Value4" />
+                </ExampleItem>
+
+                <ExampleItem
+                    title="Select with inside error"
+                    selectProps={{
+                        ...props,
+                        errorPlacement: 'inside',
+                        errorMessage: 'A validation error has occurred',
+                        validationState: 'invalid',
+                    }}
+                >
+                    <Select.Option value="val1" content="Value1" />
+                    <Select.Option value="val2" content="Value2" />
+                    <Select.Option value="val3" content="Value3" />
+                    <Select.Option value="val4" content="Value4" />
+                </ExampleItem>
+            </div>
         </div>
     );
 };

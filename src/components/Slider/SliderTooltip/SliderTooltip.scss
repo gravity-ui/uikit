@@ -1,12 +1,12 @@
 @use '../../variables';
-@use '../sliderVariables';
+@use '../variables' as slider-variables;
 @use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}slider-tooltip';
 
 #{$block} {
     position: absolute;
-    top: -#{sliderVariables.$slider-tooltip-offset};
+    top: -#{slider-variables.$slider-tooltip-offset};
     transform: translate(-50%, -100%);
     cursor: default;
 
@@ -19,9 +19,9 @@ $block: '.#{variables.$ns-new}slider-tooltip';
         justify-content: center;
         border-radius: 4px;
         padding: 4px 4px 2px;
-        background-color: #{sliderVariables.$slider-color};
+        background-color: #{slider-variables.$slider-color};
         @include mixins.text-body-1;
-        color: #{sliderVariables.$handle-center-color};
+        color: #{slider-variables.$handle-center-color};
 
         &_size {
             &_xl {
@@ -37,15 +37,15 @@ $block: '.#{variables.$ns-new}slider-tooltip';
         left: 0;
         right: 0;
         justify-content: center;
-        color: #{sliderVariables.$slider-color};
+        color: #{slider-variables.$slider-color};
     }
 
     &_error &__card {
-        background-color: #{sliderVariables.$slider-error-color};
+        background-color: #{slider-variables.$slider-error-color};
     }
 
     &_disabled &__card {
-        background-color: #{sliderVariables.$slider-disabled-color};
+        background-color: #{slider-variables.$slider-disabled-color};
     }
 
     //use this element to prevent crossing effect
@@ -59,11 +59,11 @@ $block: '.#{variables.$ns-new}slider-tooltip';
     }
 
     &_error &__pin {
-        color: #{sliderVariables.$slider-error-color};
+        color: #{slider-variables.$slider-error-color};
     }
 
     &_disabled &__pin {
-        color: #{sliderVariables.$slider-disabled-color};
+        color: #{slider-variables.$slider-disabled-color};
         &_background {
             color: $base-background-color;
         }

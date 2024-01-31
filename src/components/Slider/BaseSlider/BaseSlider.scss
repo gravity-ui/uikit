@@ -1,6 +1,6 @@
 @use 'sass:math';
 @use '../../variables';
-@use '../sliderVariables';
+@use '../variables' as slider-variables;
 @use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}base-slider';
@@ -31,7 +31,7 @@ $mark-xl-offset: -1px;
 @mixin input-control($size) {
     position: absolute;
     content: '';
-    background-color: #{sliderVariables.$slider-color};
+    background-color: #{slider-variables.$slider-color};
     border-radius: 4px 0 0 4px;
 
     @if $size == 's' {
@@ -277,13 +277,13 @@ $mark-xl-offset: -1px;
         }
 
         &_error {
-            background-color: #{sliderVariables.$slider-error-color};
+            background-color: #{slider-variables.$slider-error-color};
         }
     }
 
     &__track {
         position: absolute;
-        background-color: #{sliderVariables.$slider-color};
+        background-color: #{slider-variables.$slider-color};
         &_size {
             &_s {
                 height: $rail-s-size;
@@ -324,10 +324,10 @@ $mark-xl-offset: -1px;
         z-index: 1;
         cursor: grab;
         touch-action: pan-x;
-        background-color: #{sliderVariables.$handle-center-color};
+        background-color: #{slider-variables.$handle-center-color};
         border-radius: 50%;
         border-style: solid;
-        border-color: #{sliderVariables.$slider-color};
+        border-color: #{slider-variables.$slider-color};
         top: 0;
 
         &_size {
@@ -357,7 +357,7 @@ $mark-xl-offset: -1px;
         }
 
         &:active {
-            box-shadow: 0 0 4px #{sliderVariables.$slider-color};
+            box-shadow: 0 0 4px #{slider-variables.$slider-color};
             cursor: grabbing;
         }
 
@@ -368,7 +368,7 @@ $mark-xl-offset: -1px;
 
         &_disabled {
             cursor: not-allowed;
-            border-color: #{sliderVariables.$slider-disabled-color};
+            border-color: #{slider-variables.$slider-disabled-color};
 
             &:active,
             &:focus {
@@ -378,7 +378,7 @@ $mark-xl-offset: -1px;
         }
 
         &_error {
-            border-color: #{sliderVariables.$slider-error-color};
+            border-color: #{slider-variables.$slider-error-color};
             &:active,
             &:focus {
                 box-shadow: 0 0 0 4px $handle-focus-error-color;
@@ -434,7 +434,7 @@ $mark-xl-offset: -1px;
     &-dot {
         position: absolute;
         border-radius: 50%;
-        background-color: #{sliderVariables.$slider-color};
+        background-color: #{slider-variables.$slider-color};
 
         &:first-of-type,
         &:last-of-type {

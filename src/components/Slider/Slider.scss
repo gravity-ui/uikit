@@ -1,5 +1,5 @@
 @use '../variables';
-@use './sliderVariables';
+@use './variables' as slider-variables;
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns-new}slider';
@@ -28,7 +28,7 @@ $block: '.#{variables.$ns-new}slider';
     &__top {
         //6px is padding inside tooltip card
         height: calc(
-            var(--g-text-body-1-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
+            var(--g-text-body-1-line-height) + 6px + #{slider-variables.$slider-tooltip-offset}
         );
         display: none;
         &_withTooltip {
@@ -36,7 +36,7 @@ $block: '.#{variables.$ns-new}slider';
         }
         &_size_xl {
             height: calc(
-                var(--g-text-body-2-line-height) + 6px + #{sliderVariables.$slider-tooltip-offset}
+                var(--g-text-body-2-line-height) + 6px + #{slider-variables.$slider-tooltip-offset}
             );
         }
     }

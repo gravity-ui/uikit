@@ -1,14 +1,14 @@
 import React from 'react';
 
 import {Showcase} from '../../../demo/Showcase';
-import {ShowcaseGrid} from '../../../demo/ShowcaseGrid';
+import {ShowcaseGrid} from '../../../demo/ShowcaseGrid/ShowcaseGrid';
 import {Link} from '../Link';
 
 export function LinkShowcase() {
     return (
         <Showcase title="Link">
             <ShowcaseGrid
-                rowKey="href"
+                rowKey="target"
                 component={Link}
                 propsCombinations={{
                     view: [
@@ -23,16 +23,6 @@ export function LinkShowcase() {
                         {
                             name: 'View secondary',
                             value: 'secondary',
-                        },
-                    ],
-                    href: [
-                        {
-                            name: 'With href',
-                            value: '#',
-                        },
-                        {
-                            name: 'Without href',
-                            value: undefined,
                         },
                     ],
                     visitable: [
@@ -58,6 +48,7 @@ export function LinkShowcase() {
                 }}
                 staticProps={{
                     children: 'Link',
+                    href: '#',
                 }}
             />
         </Showcase>

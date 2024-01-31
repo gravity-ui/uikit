@@ -2,7 +2,7 @@ import React from 'react';
 
 import {render, screen} from '@testing-library/react';
 
-import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
+import {CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
 import {Select} from '../Select';
 
 describe('Select error', () => {
@@ -31,7 +31,7 @@ describe('Select error', () => {
             <Select errorMessage="Some Error" validationState="invalid" errorPlacement="inside" />,
         );
 
-        expect(screen.getByTestId(CONTROL_ERROR_ICON_QA)).toBeInTheDocument();
+        expect(screen.getByLabelText('Show popup with error info')).toBeInTheDocument();
     });
 
     test('do not show error message without error/errorMessage prop', () => {
@@ -55,12 +55,12 @@ describe('Select error', () => {
     test('do not show error icon if error prop is an empty string', () => {
         render(<Select error={''} errorPlacement="inside" />);
 
-        expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
+        expect(screen.queryByLabelText('Show popup with error info')).not.toBeInTheDocument();
     });
 
     test('do not show error icon if errorMessage prop is an empty string', () => {
         render(<Select errorMessage={''} errorPlacement="inside" />);
 
-        expect(screen.queryByTestId(CONTROL_ERROR_ICON_QA)).not.toBeInTheDocument();
+        expect(screen.queryByLabelText('Show popup with error info')).not.toBeInTheDocument();
     });
 });

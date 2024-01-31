@@ -5,9 +5,9 @@ import isEmpty from 'lodash/isEmpty';
 
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../Popover';
-import {CONTROL_ERROR_ICON_QA} from '../../../controls/utils';
 import type {CnMods} from '../../../utils/cn';
 import {selectControlBlock, selectControlButtonBlock} from '../../constants';
+import i18n from '../../i18n';
 import type {
     SelectProps,
     SelectRenderClearArgs,
@@ -170,7 +170,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
 
                 {errorMessage && (
                     <Popover content={errorMessage}>
-                        <span data-qa={CONTROL_ERROR_ICON_QA}>
+                        <span aria-label={i18n('label_show-error-info')}>
                             <Icon
                                 data={TriangleExclamation}
                                 className={selectControlBlock('error-icon')}

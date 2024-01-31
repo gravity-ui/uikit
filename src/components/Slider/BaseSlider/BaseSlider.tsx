@@ -23,7 +23,6 @@ export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function 
         <Slider
             {...otherProps}
             ref={ref}
-            prefixCls={b()}
             className={b(styleModifiers)}
             classNames={{
                 handle: b('handle', styleModifiers),

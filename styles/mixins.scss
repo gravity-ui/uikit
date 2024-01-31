@@ -92,20 +92,20 @@ $-pin-mixin-variables-ns: --_--g-pin-mixin-border-radius;
 
     @each $selector in $selectors {
         &#{get-pin-selector(#{$block}_pin_round-round, $selector, $append)} {
-            @include -pin-mixin-variables-from-list($radius $radius $radius $radius);
+            @include -pin-mixin-variables-from-list($radius);
         }
 
         &#{get-pin-selector(#{$block}_pin_brick-brick, $selector, $append)} {
-            @include -pin-mixin-variables-from-list(0 0 0 0);
+            @include -pin-mixin-variables-from-list(0);
         }
 
         &#{get-pin-selector(#{$block}_pin_clear-clear, $selector, $append)} {
-            @include -pin-mixin-variables-from-list(0 0 0 0);
+            @include -pin-mixin-variables-from-list(0);
             border-inline: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_circle-circle, $selector, $append)} {
-            @include -pin-mixin-variables-from-list(100px 100px 100px 100px);
+            @include -pin-mixin-variables-from-list(100px);
         }
 
         &#{get-pin-selector(#{$block}_pin_round-brick, $selector, $append)} {
@@ -127,12 +127,12 @@ $-pin-mixin-variables-ns: --_--g-pin-mixin-border-radius;
         }
 
         &#{get-pin-selector(#{$block}_pin_brick-clear, $selector, $append)} {
-            @include -pin-mixin-variables-from-list(0 0 0 0);
+            @include -pin-mixin-variables-from-list(0);
             border-inline-end: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_clear-brick, $selector, $append)} {
-            @include -pin-mixin-variables-from-list(0 0 0 0);
+            @include -pin-mixin-variables-from-list(0);
             border-inline-start: 0;
         }
 

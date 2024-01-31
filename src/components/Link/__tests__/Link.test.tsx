@@ -12,15 +12,6 @@ describe('Link', () => {
         expect(link).toBeInTheDocument();
     });
 
-    test('Link is span', () => {
-        render(<Link qa="test" />);
-
-        // btw there should be role attribute at span
-        const link = screen.getByTestId('test');
-
-        expect(link.tagName).toBe('SPAN');
-    });
-
     test('rel attribute is present', () => {
         render(<Link href="#" target="_blank" />);
 

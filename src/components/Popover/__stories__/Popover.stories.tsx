@@ -151,10 +151,6 @@ FullFeatured.args = {
             text: 'Link with a href',
             href: 'https://yandex.ru',
         },
-        {
-            text: 'Link with an onClick handler',
-            onClick: () => alert('Link was clicked'),
-        },
     ],
     className: 'demo-icon-tooltip',
     openOnHover: false,

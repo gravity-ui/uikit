@@ -26,7 +26,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
             children,
             view = 'outlined',
             onClick,
-            onClose,
+            onCloseClick,
             className,
             style,
             qa,
@@ -34,7 +34,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
         ref,
     ) => {
         const clickable = Boolean(onClick);
-        const closeable = Boolean(onClose);
+        const closeable = Boolean(onCloseClick);
         const MainComponent = clickable ? 'button' : 'div';
 
         let avatarView: React.ReactNode = null;
@@ -83,12 +83,12 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                     {avatarView ? <div className={b('avatar')}>{avatarView}</div> : null}
                     <div className={b('text')}>{children}</div>
                 </MainComponent>
-                {onClose ? (
+                {onCloseClick ? (
                     <button
                         className={b('close')}
                         type="button"
                         aria-label={i18n('label_remove-button')}
-                        onClick={onClose}
+                        onClick={onCloseClick}
                     >
                         <Icon className={b('close-icon')} data={Xmark} size={12} />
                     </button>

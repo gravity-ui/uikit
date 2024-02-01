@@ -16,5 +16,5 @@ export interface UserLabelProps extends DOMProps, QAProps {
     children: React.ReactNode;
     view?: UserLabelView;
     onClick?: React.MouseEventHandler<HTMLElement>;
-    onClose?: React.MouseEventHandler<HTMLButtonElement>;
+    onCloseClick?: React.MouseEventHandler<HTMLButtonElement>;
 }

@@ -183,7 +183,7 @@ describe('Table', () => {
             const expectedFlag = ROW_ID === i;
 
             expect(row.className.includes(EXPTECTED_CLASS_NAME)).toBe(expectedFlag);
-            expect(row.className.includes('yc-table__row_disabled')).toBe(expectedFlag);
+            expect(row.className.includes('g-table__row_disabled')).toBe(expectedFlag);
         });
     });
 });

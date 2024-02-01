@@ -61,6 +61,6 @@ export const Clickable: Story = {
 export const Closable: Story = {
     args: {
         children: person,
-        onClose: (value) => console.log('closed', value),
+        onCloseClick: (value) => console.log('closed', value),
     },
 };

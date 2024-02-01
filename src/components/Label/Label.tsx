@@ -38,7 +38,7 @@ interface LabelOwnProps extends QAProps {
     /** Disabled state */
     disabled?: boolean;
     /** Handler for click on close button */
-    onClose?(event: React.MouseEvent<HTMLButtonElement>): void;
+    onCloseClick?(event: React.MouseEvent<HTMLButtonElement>): void;
     /** Text to copy */
     copyText?: string;
     /** `aria-label` of close button */
@@ -77,7 +77,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         size = 'xs',
         icon,
         children,
-        onClose,
+        onCloseClick,
         className,
         disabled,
         copyText,
@@ -123,8 +123,8 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
             event.stopPropagation();
         }
 
-        if (onClose) {
-            onClose(event);
+        if (onCloseClick) {
+            onCloseClick(event);
         }
     };
 
@@ -160,7 +160,7 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
             actionButton = (
                 <Button
                     ref={actionButtonRef}
-                    onClick={onClose ? handleCloseClick : undefined}
+                    onClick={onCloseClick ? handleCloseClick : undefined}
                     size={buttonSize}
                     extraProps={{'aria-label': closeButtonLabel || undefined}}
                     {...commonActionButtonProps}

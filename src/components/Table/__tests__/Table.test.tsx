@@ -3,9 +3,11 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
-import {Table, TableColumnConfig, TableProps} from '../Table';
+import type {TableColumnConfig, TableProps} from '../Table';
+import {Table} from '../Table';
 
-import {DataItem, columns, data} from './utils';
+import type {DataItem} from './utils';
+import {columns, data} from './utils';
 
 const qaId = 'table-component';
 

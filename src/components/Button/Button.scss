@@ -31,6 +31,7 @@ $iconWidth: 16px;
     --yc-button-font-size: var(--g-text-body-1-font-size);
 
     @include mixins.button-reset();
+    @include mixins.focus-outline;
     display: inline-block;
     position: relative;
     overflow: visible;
@@ -49,13 +50,6 @@ $iconWidth: 16px;
     transform: scale(1);
 
     &::before {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
         background-color: var(--yc-button-background-color);
         transition: background-color 0.15s linear;
     }
@@ -64,22 +58,11 @@ $iconWidth: 16px;
         background-color: var(--yc-button-background-color-hover);
     }
 
-    &:focus::before {
-        outline: 2px solid var(--yc-button-outline-color);
-    }
-
-    &:focus:not(:focus-visible)::before {
-        outline: none;
-    }
-
     &::after {
         content: '';
         position: absolute;
         z-index: -1;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         transform: scale(1);
         transition: none;
     }
@@ -440,10 +423,7 @@ $iconWidth: 16px;
 
         &-inner {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;

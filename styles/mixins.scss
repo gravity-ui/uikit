@@ -19,16 +19,32 @@
     cursor: pointer;
 }
 
+@mixin focus-outline($position: relative) {
+    position: $position;
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+    }
+
+    &:focus::before {
+        outline: 2px solid var(--g-color-line-focus);
+    }
+
+    &:focus:not(:focus-visible)::before {
+        outline: none;
+    }
+}
+
 @mixin expand-interactive-area($h: 4px, $v: $h) {
     position: relative;
 
     &::after {
         content: '';
         position: absolute;
-        top: -$v;
-        left: -$h;
-        right: -$h;
-        bottom: -$v;
+        inset: -$v -$h -$v -$h;
     }
 }
 
@@ -55,10 +71,7 @@
 
     > *:only-child {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
     }
 }
 

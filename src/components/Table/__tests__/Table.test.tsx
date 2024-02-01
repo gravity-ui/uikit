@@ -3,7 +3,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
-import {Table, TableProps} from '../Table';
+import type {TableProps} from '../Table';
+import {Table} from '../Table';
 
 import {columns, data} from './utils';
 

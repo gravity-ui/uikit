@@ -8,8 +8,10 @@
         @include mixins.text-body-short;
 
         line-height: calc(
-            #{variables.$s-height} -
-                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+            #{variables.$s-height} - var(
+                    --g-text-input-border-width,
+                    #{control-variables.$border-width}
+                ) *
                 2
         );
         padding-block: 0;
@@ -20,8 +22,10 @@
         @include mixins.text-body-short;
 
         line-height: calc(
-            #{variables.$m-height} -
-                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+            #{variables.$m-height} - var(
+                    --g-text-input-border-width,
+                    #{control-variables.$border-width}
+                ) *
                 2
         );
         padding-block: 0;
@@ -32,8 +36,10 @@
         @include mixins.text-body-short;
 
         line-height: calc(
-            #{variables.$l-height} -
-                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+            #{variables.$l-height} - var(
+                    --g-text-input-border-width,
+                    #{control-variables.$border-width}
+                ) *
                 2
         );
         padding-block: 0;
@@ -44,8 +50,10 @@
         @include mixins.text-body-2;
 
         line-height: calc(
-            #{variables.$xl-height} -
-                var(--g-text-input-border-width, #{control-variables.$border-width}) *
+            #{variables.$xl-height} - var(
+                    --g-text-input-border-width,
+                    #{control-variables.$border-width}
+                ) *
                 2
         );
         padding-block: 0;

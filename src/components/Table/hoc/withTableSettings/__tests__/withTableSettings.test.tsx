@@ -3,8 +3,10 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Table, TableColumnConfig} from '../../../Table';
-import {TableSettingsData, withTableSettings} from '../withTableSettings';
+import type {TableColumnConfig} from '../../../Table';
+import {Table} from '../../../Table';
+import type {TableSettingsData} from '../withTableSettings';
+import {withTableSettings} from '../withTableSettings';
 
 const item = {name: 'John Doe', occupation: 'Worker'};
 

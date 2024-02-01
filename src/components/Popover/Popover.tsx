@@ -4,7 +4,9 @@ import {Xmark} from '@gravity-ui/icons';
 
 import {Button} from '../Button';
 import {Icon} from '../Icon';
+import type {PopupPlacement} from '../Popup';
 import {Popup} from '../Popup';
+import {useDirection} from '../theme';
 import type {QAProps} from '../types';
 import {warnOnce} from '../utils/warn';
 
@@ -28,7 +30,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         delayOpening,
         delayClosing,
         behavior = PopoverBehavior.Delayed,
-        placement = ['right', 'bottom'],
+        placement,
         offset = {},
         tooltipOffset,
         tooltipClassName,
@@ -62,6 +64,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
     },
     ref,
 ) {
+    const direction = useDirection();
     const controlRef = React.useRef<HTMLDivElement>(null);
     const closedManually = React.useRef(false);
     const shouldBeOpen = React.useRef(initialOpen);
@@ -85,6 +88,14 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
         behavior,
         shouldBeOpen,
     });
+
+    const popupPlacement = React.useMemo<PopupPlacement>(() => {
+        if (placement) {
+            return placement;
+        }
+
+        return direction === 'rtl' ? ['left', 'bottom'] : ['right', 'bottom'];
+    }, [direction, placement]);
 
     React.useImperativeHandle(
         ref,
@@ -120,7 +131,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
             )}
             contentClassName={cnPopover('tooltip-popup-content', tooltipContentClassName)}
             open={isOpen}
-            placement={placement}
+            placement={popupPlacement}
             hasArrow={hasArrow}
             offset={tooltipOffset}
             onClose={anchorRef ? undefined : closeTooltip}

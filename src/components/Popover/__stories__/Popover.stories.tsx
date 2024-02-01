@@ -20,7 +20,6 @@ export default {
         disabled: false,
         autoclosable: true,
         openOnHover: true,
-        placement: ['right', 'bottom'],
         hasArrow: true,
         hasClose: false,
         theme: 'info',

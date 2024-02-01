@@ -3,7 +3,7 @@ import React from 'react';
 import {Bulb} from '@gravity-ui/icons';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
-import {Button, Icon, Tooltip} from '../../components';
+import {ActionTooltip, Button, Icon} from '../../components';
 
 import './ColorPanel.scss';
 
@@ -58,7 +58,7 @@ export function ColorPanel(props: ColorPanelProps) {
 
     return (
         <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
-            <Tooltip content="Switch background">
+            <ActionTooltip title="Switch background">
                 <Button
                     view={
                         currentBackgroundIndex % BACKGROUND_LIST.length === 0
@@ -70,7 +70,7 @@ export function ColorPanel(props: ColorPanelProps) {
                 >
                     <Icon data={Bulb} />
                 </Button>
-            </Tooltip>
+            </ActionTooltip>
             <div className="color-panel__title">{props.title}</div>
             <div className="color-panel__description">{props.description}</div>
             <div className="color-panel__colors">{renderColors(props.colors)}</div>

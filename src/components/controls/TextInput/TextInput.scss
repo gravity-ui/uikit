@@ -44,6 +44,10 @@ $block: '.#{variables.$ns}text-input';
 
     &__content {
         box-sizing: border-box;
+        // It's fixing input overflowed behaviour
+        // Input itself doesn't have a border radius, but content has.
+        // And it could cause a render problem,
+        // when input accidentally goes beyond the wrapper
         overflow: hidden;
         display: flex;
         width: 100%;

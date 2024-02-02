@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Button} from '../Button';
-import type {ButtonProps} from '../Button';
+import type {ButtonProps, ButtonView} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import {CopyToClipboardStatus} from '../CopyToClipboard/types';
@@ -25,6 +25,8 @@ export interface ClipboardButtonProps
 interface ClipboardButtonComponentProps extends QAProps {
     /** Icon size in pixels */
     size?: number;
+    /** View of a button */
+    view?: ButtonView;
     /** Element CSS class */
     className?: string;
     status: CopyToClipboardStatus;
@@ -44,6 +46,7 @@ const DEFAULT_TIMEOUT = 1000;
 
 const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     const {
+        view = 'flat',
         size = DEFAULT_ICON_SIZE,
         className,
         qa,
@@ -68,10 +71,10 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         >
             <Button
                 ref={buttonRef}
-                view="flat"
                 className={b(null, className)}
                 qa={qa}
                 onClick={onClick}
+                view={view}
             >
                 <Button.Icon>
                     <ClipboardIcon status={status} size={size} className={b('icon')} />

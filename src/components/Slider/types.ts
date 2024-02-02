@@ -15,7 +15,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     min?: number;
     max?: number;
     step?: number;
-    infoPointCount?: number;
+    marksCount?: number;
     availableValues?: number[];
     hasTooltip?: boolean;
 

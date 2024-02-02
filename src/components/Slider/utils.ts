@@ -93,7 +93,7 @@ export function getInnerState({
     min = 0,
     availableValues,
     defaultValue,
-    infoPointCount,
+    marksCount,
     step,
     value,
 }: {
@@ -101,7 +101,7 @@ export function getInnerState({
     min: number;
     availableValues: SliderProps['availableValues'];
     defaultValue: SliderProps['defaultValue'];
-    infoPointCount: SliderProps['infoPointCount'];
+    marksCount: SliderProps['marksCount'];
     step: SliderProps['step'];
     value: SliderProps['value'];
 }): SliderInnerState {
@@ -131,7 +131,7 @@ export function getInnerState({
         state.max = sortedAvailableValues[sortedAvailableValues.length - 1];
         state.marks = createMarks(sortedAvailableValues);
     } else {
-        state.marks = createMarks(calculateInfoPoints({count: infoPointCount, max, min}));
+        state.marks = createMarks(calculateInfoPoints({count: marksCount, max, min}));
     }
 
     if (value && Array.isArray(value)) {

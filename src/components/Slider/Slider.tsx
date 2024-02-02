@@ -21,7 +21,7 @@ export const Slider = React.forwardRef(function Slider(
         min = 0,
         max = 100,
         step = 1,
-        infoPointCount = 0,
+        marksCount = 0,
         availableValues,
         hasTooltip = false,
         error,
@@ -77,7 +77,7 @@ export const Slider = React.forwardRef(function Slider(
     const innerState = getInnerState({
         availableValues,
         defaultValue,
-        infoPointCount,
+        marksCount,
         max,
         min,
         step,

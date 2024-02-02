@@ -98,6 +98,7 @@ export type SelectProps<T = any> = QAProps &
         hasClear?: boolean;
         onFocus?: (e: React.FocusEvent) => void;
         onBlur?: (e: React.FocusEvent) => void;
+        onClearClick?: () => void;
         loading?: boolean;
         onLoadMore?: () => void;
         children?:

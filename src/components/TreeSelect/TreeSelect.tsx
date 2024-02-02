@@ -273,7 +273,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                         });
 
                         // assign components scope logic
-                        renderState.props.hasSelectionIcon = Boolean(multiple);
+                        renderState.props.hasSelectionIcon =
+                            Boolean(multiple) && !renderState.context.groupState;
 
                         if (renderItem) {
                             return renderItem(

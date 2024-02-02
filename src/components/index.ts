@@ -15,6 +15,7 @@ export * from './CopyToClipboard';
 export * from './Dialog';
 export * from './Disclosure';
 export * from './DropdownMenu';
+export * from './EmojiPalette';
 export * from './Hotkey';
 export * from './Icon';
 export * from './Label';

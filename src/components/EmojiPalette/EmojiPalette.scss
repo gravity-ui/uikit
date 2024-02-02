@@ -1,0 +1,21 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}emoji-palette';
+
+#{$block} {
+    display: inline-flex;
+    flex-wrap: wrap;
+
+    &_size_s &__option {
+        font-size: 18px;
+    }
+    &_size_m &__option {
+        font-size: 20px;
+    }
+    &_size_l &__option {
+        font-size: 24px;
+    }
+    &_size_xl &__option {
+        font-size: 28px;
+    }
+}

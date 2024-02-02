@@ -5,7 +5,7 @@ import {ChevronDown, ChevronUp, FolderOpen} from '@gravity-ui/icons';
 import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
-import {Flex, spacing} from '../../../layout';
+import {Flex} from '../../../layout';
 import type {ListItemId} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
@@ -42,7 +42,14 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                     setOpen((x) => !x);
                 }}
                 expandedById={expandedById}
-                renderItem={(item, state, {groupState}) => {
+                renderItem={(
+                    item,
+                    {
+                        expanded, // don't use build in expand icon ListItemView behavior
+                        ...state
+                    },
+                    {groupState},
+                ) => {
                     return (
                         // eslint-disable-next-line jsx-a11y/anchor-is-valid
                         <a
@@ -76,7 +83,6 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                                         <Button
                                             size="m"
                                             view="flat"
-                                            className={spacing({mr: 1})}
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 e.preventDefault();
@@ -92,12 +98,18 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                                             }}
                                         >
                                             <Icon
-                                                data={state.expanded ? ChevronDown : ChevronUp}
+                                                data={expanded ? ChevronDown : ChevronUp}
                                                 size={16}
                                             />
                                         </Button>
                                     ) : (
-                                        <Icon data={FolderOpen} size={16} />
+                                        <Flex
+                                            width={28}
+                                            justifyContent="center"
+                                            spacing={state.indentation > 0 ? {ml: 1} : undefined}
+                                        >
+                                            <Icon data={FolderOpen} size={16} />
+                                        </Flex>
                                     )
                                 }
                             />

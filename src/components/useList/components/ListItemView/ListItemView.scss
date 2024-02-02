@@ -5,6 +5,11 @@ $block: '.#{variables.$ns}list-item-view';
 #{$block} {
     flex-shrink: 0;
 
+    &__main-content {
+        display: grid;
+        gap: var(--g-spacing-half, 2px);
+    }
+
     &:hover#{$block}_activeOnHover,
     &_active#{$block}_activeOnHover,
     &_active {
@@ -33,7 +38,13 @@ $block: '.#{variables.$ns}list-item-view';
         border-radius: var(--g-list-item-border-radius, 8px);
     }
 
+    &__icon {
+        flex-shrink: 0;
+    }
+
     &__slot {
+        flex-shrink: 0;
+
         &_indent_1 {
             width: 16px;
         }

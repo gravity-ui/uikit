@@ -3,9 +3,9 @@ import React from 'react';
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {Table, TableProps} from '../Table';
+import {Table, TableColumnConfig, TableProps} from '../Table';
 
-import {columns, data} from './utils';
+import {DataItem, columns, data} from './utils';
 
 const qaId = 'table-component';
 
@@ -183,6 +183,150 @@ describe('Table', () => {
 
             expect(row.className.includes(EXPTECTED_CLASS_NAME)).toBe(expectedFlag);
             expect(row.className.includes('yc-table__row_disabled')).toBe(expectedFlag);
+        });
+    });
+
+    describe('getRowId static method', () => {
+        test('should return index by default', () => {
+            const props: TableProps<DataItem> = {data, columns: []};
+
+            expect(Table.getRowId(props, data[0])).toBe('0');
+            expect(Table.getRowId(props, data[1])).toBe('1');
+            expect(Table.getRowId(props, data[2])).toBe('2');
+        });
+
+        test('should use prop as function', () => {
+            const getRowIdMock = jest.fn((item: DataItem) => '__id__' + item.name);
+            const props: TableProps<DataItem> = {data, columns: [], getRowId: getRowIdMock};
+            const id = Table.getRowId(props, data[0]);
+
+            expect(getRowIdMock).toBeCalled();
+            expect(id).toBe('__id__' + data[0].name);
+        });
+
+        test('should call function with correct arguments', () => {
+            const getRowIdMock = jest.fn();
+            const props: TableProps<DataItem> = {data, columns: [], getRowId: getRowIdMock};
+
+            Table.getRowId(props, data[0]);
+            Table.getRowId(props, data[1]);
+            Table.getRowId(props, data[2]);
+
+            expect(getRowIdMock.mock.calls.length).toBe(3);
+            expect(getRowIdMock.mock.calls[0]).toEqual([data[0], 0]);
+            expect(getRowIdMock.mock.calls[1]).toEqual([data[1], 1]);
+            expect(getRowIdMock.mock.calls[2]).toEqual([data[2], 2]);
+        });
+
+        test('should use prop as object key', () => {
+            const props: TableProps<DataItem> = {data, columns: [], getRowId: 'name'};
+
+            expect(Table.getRowId(props, data[0])).toBe('Nomlanga Compton');
+            expect(Table.getRowId(props, data[1])).toBe('Paul Hatfield');
+            expect(Table.getRowId(props, data[2])).toBe('Phelan Daniel');
+        });
+
+        test('should fallback to index on prop as object key', () => {
+            const props: TableProps<DataItem> = {data, columns: [], getRowId: 'ts'};
+
+            expect(Table.getRowId(props, data[0])).toBe('0');
+            expect(Table.getRowId(props, data[1])).toBe('1');
+            expect(Table.getRowId(props, data[2])).toBe('2');
+        });
+    });
+
+    describe('getHeadCellContent static method', () => {
+        test('should return id prop value by default', () => {
+            const column: TableColumnConfig<DataItem> = {id: 'name'};
+            const {container} = render(Table.getHeadCellContent(column) as React.ReactElement);
+
+            expect(container).toHaveTextContent('name');
+        });
+
+        test('should use name prop as function', () => {
+            const nameMock = jest.fn(() => '__name__');
+            const column: TableColumnConfig<DataItem> = {id: 'name', name: nameMock};
+            const {container} = render(Table.getHeadCellContent(column) as React.ReactElement);
+
+            expect(nameMock).toBeCalled();
+            expect(container).toHaveTextContent('__name__');
+        });
+
+        test('should call function with correct arguments', () => {
+            const nameMock = jest.fn(() => '__name__');
+            const column: TableColumnConfig<DataItem> = {id: 'name', name: nameMock};
+            Table.getHeadCellContent(column);
+
+            expect(nameMock.mock.calls.length).toBe(1);
+            expect(nameMock.mock.calls[0]).toEqual([]);
+        });
+
+        test('should use name prop as string', () => {
+            const column: TableColumnConfig<DataItem> = {id: 'name', name: '__name__'};
+            const {container} = render(Table.getHeadCellContent(column) as React.ReactElement);
+
+            expect(container).toHaveTextContent('__name__');
+        });
+    });
+
+    describe('getBodyCellContent static method', () => {
+        test('should return dash by default', () => {
+            const column: TableColumnConfig<DataItem> = {id: '__unknown__'};
+            const content = Table.getBodyCellContent(column, data[0], 0);
+
+            expect(content).toBe('\u2014');
+        });
+
+        test('should return placeholder on empty value', () => {
+            const column: TableColumnConfig<any> = {id: 'name', placeholder: '-'};
+            const items = [{id: 'asdf'}, {name: null}, {name: undefined}, {name: ''}];
+
+            expect(Table.getBodyCellContent(column, items[0], 0)).toBe('-');
+            expect(Table.getBodyCellContent(column, items[0], 1)).toBe('-');
+            expect(Table.getBodyCellContent(column, items[0], 2)).toBe('-');
+            expect(Table.getBodyCellContent(column, items[0], 3)).toBe('-');
+        });
+
+        test('should use template prop as function', () => {
+            const templateMock = jest.fn(() => '__content__');
+            const column: TableColumnConfig<DataItem> = {id: 'name', template: templateMock};
+            const content = Table.getBodyCellContent(column, data[0], 0);
+
+            expect(templateMock).toBeCalled();
+            expect(content).toBe('__content__');
+        });
+
+        test('should call function with correct arguments', () => {
+            const templateMock = jest.fn();
+            const column: TableColumnConfig<DataItem> = {id: 'name', template: templateMock};
+            Table.getBodyCellContent(column, data[0], 0);
+            Table.getBodyCellContent(column, data[1], 1);
+            Table.getBodyCellContent(column, data[2], 2);
+
+            expect(templateMock.mock.calls.length).toBe(3);
+            expect(templateMock.mock.calls[0]).toEqual([data[0], 0]);
+            expect(templateMock.mock.calls[1]).toEqual([data[1], 1]);
+            expect(templateMock.mock.calls[2]).toEqual([data[2], 2]);
+        });
+
+        test('should use template prop as object key', () => {
+            const column1: TableColumnConfig<DataItem> = {id: 'name', template: 'count'};
+            const column2: TableColumnConfig<DataItem> = {id: 'name', template: 'city'};
+
+            expect(Table.getBodyCellContent(column1, data[0], 0)).toBe(82);
+            expect(Table.getBodyCellContent(column1, data[1], 1)).toBe(51);
+            expect(Table.getBodyCellContent(column1, data[2], 2)).toBe(10);
+            expect(Table.getBodyCellContent(column2, data[0], 0)).toBe('Erli');
+            expect(Table.getBodyCellContent(column2, data[1], 1)).toBe('Campitello di Fassa');
+            expect(Table.getBodyCellContent(column2, data[2], 2)).toBe('Meugliano');
+        });
+
+        test('should use id prop as object key', () => {
+            const column: TableColumnConfig<DataItem> = {id: 'name'};
+
+            expect(Table.getBodyCellContent(column, data[0], 0)).toBe('Nomlanga Compton');
+            expect(Table.getBodyCellContent(column, data[1], 1)).toBe('Paul Hatfield');
+            expect(Table.getBodyCellContent(column, data[2], 2)).toBe('Phelan Daniel');
         });
     });
 });

@@ -93,9 +93,14 @@ export const DropdownMenuPopup = <T,>({
                 case 'Enter':
                 case ' ': {
                     const activeItem = items[activeItemIndex];
-                    if (activeItem) {
-                        event.preventDefault();
+                    const isSubmenuToggleActive = activeItem?.items;
 
+                    if (isSubmenu || isSubmenuToggleActive) {
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+
+                    if (activeItem) {
                         handleSelect(activeItem, event);
                     }
 

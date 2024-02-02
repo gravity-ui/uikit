@@ -30,6 +30,8 @@ export type SliderProps<ValueType = number | [number, number]> = {
 
     autoFocus?: boolean;
     tabIndex?: ValueType;
+
+    apiRef: BaseSliderRefType;
 } & Pick<DOMProps, 'className'> &
     QAProps;
 

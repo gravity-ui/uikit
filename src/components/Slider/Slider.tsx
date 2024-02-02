@@ -6,7 +6,7 @@ import {blockNew} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {SliderTooltip} from './SliderTooltip/SliderTooltip';
-import type {BaseSliderRefType, RcSliderValueType, SliderProps, SliderValue} from './types';
+import type {RcSliderValueType, SliderProps, SliderValue} from './types';
 import {getInnerState} from './utils';
 
 import './Slider.scss';
@@ -35,20 +35,10 @@ export const Slider = React.forwardRef(function Slider(
         tabIndex,
         className,
         qa,
+        apiRef,
     }: SliderProps,
-    ref: React.ForwardedRef<BaseSliderRefType>,
+    ref: React.ForwardedRef<HTMLDivElement>,
 ) {
-    const baseSliderRef = React.useRef<BaseSliderRefType>(null);
-
-    React.useImperativeHandle(ref, () => ({
-        focus: () => {
-            baseSliderRef.current?.focus();
-        },
-        blur: () => {
-            baseSliderRef.current?.blur();
-        },
-    }));
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleChange = React.useCallback(
         debounce(
@@ -91,10 +81,10 @@ export const Slider = React.forwardRef(function Slider(
     };
 
     return (
-        <div className={b(null, className)}>
+        <div className={b(null, className)} ref={ref}>
             <div className={b('top', {size, hasTooltip})}></div>
             <BaseSlider
-                ref={baseSliderRef}
+                ref={apiRef}
                 value={innerState.value}
                 defaultValue={innerState.defaultValue}
                 min={innerState.min}

@@ -63,7 +63,12 @@ interface SlotProps extends FlexProps {
     indentation?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 }
 
-export const Slot = ({children, indentation: indent = 1, className, ...props}: SlotProps) => {
+export const ListItemViewSlot = ({
+    children,
+    indentation: indent = 1,
+    className,
+    ...props
+}: SlotProps) => {
     return (
         <Flex className={b('slot', {indent}, className)} {...props}>
             {children}
@@ -73,7 +78,9 @@ export const Slot = ({children, indentation: indent = 1, className, ...props}: S
 
 const renderSafeIndentation = (indentation?: number) => {
     if (indentation && indentation >= 1 && indentation < 11) {
-        return <Slot indentation={Math.floor(indentation) as SlotProps['indentation']} />;
+        return (
+            <ListItemViewSlot indentation={Math.floor(indentation) as SlotProps['indentation']} />
+        );
     }
     return null;
 };
@@ -123,7 +130,7 @@ export const ListItemView = React.forwardRef(
                     spacing({px: 2}, className),
                 )}
                 style={{
-                    height: height ?? modToHeight[size][Number(Boolean(subtitle))],
+                    minHeight: height ?? modToHeight[size][Number(Boolean(subtitle))],
                     ...style,
                 }}
                 as={as}
@@ -136,7 +143,8 @@ export const ListItemView = React.forwardRef(
             >
                 <Flex gap="2" alignItems="center">
                     {hasSelectionIcon && (
-                        <Slot>
+                        <ListItemViewSlot // reserve space
+                        >
                             {selected ? (
                                 <Icon
                                     data={Check}
@@ -144,17 +152,22 @@ export const ListItemView = React.forwardRef(
                                     className={colorText({color: 'info'})}
                                 />
                             ) : null}
-                        </Slot>
+                        </ListItemViewSlot>
                     )}
 
                     {renderSafeIndentation(indentation)}
 
-                    {startSlot ??
-                        (isGroup ? (
-                            <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
-                        ) : null)}
+                    {isGroup ? (
+                        <Icon
+                            className={b('icon', colorText({color: disabled ? 'hint' : undefined}))}
+                            data={expanded ? ChevronDown : ChevronUp}
+                            size={16}
+                        />
+                    ) : null}
 
-                    <Flex direction="column" gap="0.5">
+                    {startSlot}
+
+                    <div className={b('main-content')}>
                         {typeof title === 'string' ? (
                             <Text
                                 ellipsis
@@ -173,7 +186,7 @@ export const ListItemView = React.forwardRef(
                         ) : (
                             subtitle
                         )}
-                    </Flex>
+                    </div>
                 </Flex>
 
                 {endSlot}

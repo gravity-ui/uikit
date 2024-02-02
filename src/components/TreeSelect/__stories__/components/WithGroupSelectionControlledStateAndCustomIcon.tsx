@@ -53,7 +53,14 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                 renderControlContent={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
                 value={value}
-                renderItem={(item, state, {groupState}) => {
+                renderItem={(
+                    item,
+                    {
+                        expanded, // don't use default ListItemView expand icon
+                        ...state
+                    },
+                    {groupState},
+                ) => {
                     return (
                         <TreeSelectItem
                             {...state}
@@ -78,10 +85,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                             }));
                                         }}
                                     >
-                                        <Icon
-                                            data={state.expanded ? ChevronDown : ChevronUp}
-                                            size={16}
-                                        />
+                                        <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
                                     </Button>
                                 ) : undefined
                             }

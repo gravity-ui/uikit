@@ -25,11 +25,6 @@ $rail-m-size: 4px;
 $rail-l-size: 5px;
 $rail-xl-size: 6px;
 
-$mark-s-offset: 1px;
-$mark-m-offset: 1px;
-$mark-l-offset: -1px;
-$mark-xl-offset: -1px;
-
 @mixin input-control($size) {
     position: absolute;
     content: '';
@@ -65,31 +60,39 @@ $mark-xl-offset: -1px;
 @mixin slider-outer-style($size) {
     @if $size == 's' {
         $common-padding: calc(($handle-s-size - $rail-s-size) / 2);
-        $bottom-padding: calc($common-padding + var(--g-text-body-1-line-height) - $mark-s-offset);
-        padding: $common-padding 0 $bottom-padding;
-        height: calc($common-padding + $rail-s-size + $bottom-padding);
-        margin: 0 calc($handle-s-size / 2);
+        $bottom-margin: var(--g-text-body-1-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-s-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-s-size / 2) $bottom-margin;
     }
     @if $size == 'm' {
         $common-padding: calc(($handle-m-size - $rail-m-size) / 2);
-        $bottom-padding: calc($common-padding + var(--g-text-body-1-line-height) - $mark-m-offset);
-        padding: $common-padding 0 $bottom-padding;
-        height: calc($common-padding + $rail-m-size + $bottom-padding);
-        margin: 0 calc($handle-m-size / 2);
+        $bottom-margin: var(--g-text-body-1-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-m-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-m-size / 2) $bottom-margin;
     }
     @if $size == 'l' {
         $common-padding: calc(($handle-l-size - $rail-l-size) / 2);
-        $bottom-padding: calc($common-padding + var(--g-text-body-1-line-height) - $mark-l-offset);
-        padding: $common-padding 0 $bottom-padding;
-        height: calc($common-padding + $rail-l-size + $bottom-padding);
-        margin: 0 calc($handle-l-size / 2);
+        $bottom-margin: var(--g-text-body-1-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-l-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-l-size / 2) $bottom-margin;
     }
     @if $size == 'xl' {
         $common-padding: calc(($handle-xl-size - $rail-xl-size) / 2);
-        $bottom-padding: calc($common-padding + var(--g-text-body-2-line-height) - $mark-xl-offset);
-        padding: $common-padding 0 $bottom-padding;
-        height: calc($common-padding + $rail-xl-size + $bottom-padding);
-        margin: 0 calc($handle-xl-size / 2);
+        $bottom-margin: var(--g-text-body-2-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-xl-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-xl-size / 2) $bottom-margin;
     }
 }
 
@@ -425,7 +428,7 @@ $mark-xl-offset: -1px;
         text-align: center;
         vertical-align: middle;
         cursor: pointer;
-        bottom: 0;
+        top: 0;
     }
 
     &_disabled #{$mark-text} {

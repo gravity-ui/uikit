@@ -21,7 +21,7 @@ export const Slider = React.forwardRef(function Slider(
         min = 0,
         max = 100,
         step = 1,
-        marksCount = 0,
+        marksCount = 2,
         availableValues,
         hasTooltip = false,
         errorText,

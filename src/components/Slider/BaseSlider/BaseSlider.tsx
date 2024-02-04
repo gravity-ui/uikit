@@ -4,30 +4,30 @@ import Slider from 'rc-slider';
 import type {SliderProps, SliderRef} from 'rc-slider';
 
 import {blockNew} from '../../utils/cn';
-import type {StyleModifiers} from '../types';
+import type {StateModifiers} from '../types';
 
 import './BaseSlider.scss';
 
 const b = blockNew('base-slider');
 
-type BaseSliderProps = {styleModifiers: StyleModifiers} & Omit<
+type BaseSliderProps = {stateModifiers: StateModifiers} & Omit<
     SliderProps,
     'classNames' | 'prefixCls' | 'className' | 'pushable' | 'keyboard'
 >;
 
 export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function BaseSlider(
-    {styleModifiers, ...otherProps}: BaseSliderProps,
+    {stateModifiers, ...otherProps}: BaseSliderProps,
     ref: React.ForwardedRef<SliderRef>,
 ) {
     return (
         <Slider
             {...otherProps}
             ref={ref}
-            className={b(styleModifiers)}
+            className={b(stateModifiers)}
             classNames={{
-                handle: b('handle', styleModifiers),
-                rail: b('rail', styleModifiers),
-                track: b('track', styleModifiers),
+                handle: b('handle', stateModifiers),
+                rail: b('rail', stateModifiers),
+                track: b('track', stateModifiers),
             }}
             pushable={false}
             dots={false}

@@ -41,7 +41,7 @@ export type SliderInnerState = {
     min: number;
 } & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'>;
 
-export type StyleModifiers = {
+export type StateModifiers = {
     size: SliderSize;
     error: boolean;
     disabled: boolean;

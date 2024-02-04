@@ -74,7 +74,7 @@ export const Slider = React.forwardRef(function Slider(
         step,
         value,
     });
-    const styleModifiers = {
+    const stateModifiers = {
         size,
         error: validationState === 'invalid' && !disabled,
         disabled,
@@ -98,7 +98,7 @@ export const Slider = React.forwardRef(function Slider(
                 onFocus={onFocus}
                 onChange={handleChange}
                 onChangeComplete={handleChangeComplete}
-                styleModifiers={styleModifiers}
+                stateModifiers={stateModifiers}
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
@@ -113,7 +113,7 @@ export const Slider = React.forwardRef(function Slider(
                                           value={handleProps.value}
                                           className={b('tooltip')}
                                           style={{left: originHandle.props.style?.left}}
-                                          styleModifiers={styleModifiers}
+                                          stateModifiers={stateModifiers}
                                       />
                                   </React.Fragment>
                               );
@@ -121,7 +121,7 @@ export const Slider = React.forwardRef(function Slider(
                         : undefined
                 }
             ></BaseSlider>
-            {styleModifiers.error && errorText && (
+            {stateModifiers.error && errorText && (
                 <div className={b('error', {size})}>{errorText}</div>
             )}
         </div>

@@ -358,14 +358,13 @@ $mark-xl-offset: -1px;
             }
         }
 
-        &:active {
-            box-shadow: 0 0 4px #{slider-variables.$slider-color};
-            cursor: grabbing;
-        }
-
         &:focus {
-            box-shadow: 0 0 0 4px $handle-focus-color;
+            box-shadow: 0 0 0 3px $handle-focus-color;
             outline: none;
+            &:active {
+                box-shadow: 0 0 0 4px $handle-focus-color;
+                cursor: grabbing;
+            }
         }
 
         &_disabled {

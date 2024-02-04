@@ -24,7 +24,8 @@ export const Slider = React.forwardRef(function Slider(
         marksCount = 0,
         availableValues,
         hasTooltip = false,
-        error,
+        errorText,
+        validationState,
         disabled = false,
         debounceDelay = 0,
         onBlur,
@@ -75,7 +76,7 @@ export const Slider = React.forwardRef(function Slider(
     });
     const styleModifiers = {
         size,
-        error: Boolean(error) && !disabled,
+        error: validationState === 'invalid' && !disabled,
         disabled,
         hasTooltip: Boolean(hasTooltip),
     };
@@ -120,7 +121,9 @@ export const Slider = React.forwardRef(function Slider(
                         : undefined
                 }
             ></BaseSlider>
-            {styleModifiers.error && <div className={b('error', {size})}>{error}</div>}
+            {styleModifiers.error && errorText && (
+                <div className={b('error', {size})}>{errorText}</div>
+            )}
         </div>
     );
 });

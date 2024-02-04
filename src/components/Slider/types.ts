@@ -20,8 +20,9 @@ export type SliderProps<ValueType = number | [number, number]> = {
     hasTooltip?: boolean;
 
     disabled?: boolean;
-    error?: string;
-
+    errorText?: string;
+    /** Describes the validation state */
+    validationState?: 'invalid';
     debounceDelay?: number;
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLDivElement>) => void;
@@ -31,7 +32,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     autoFocus?: boolean;
     tabIndex?: ValueType;
 
-    apiRef: BaseSliderRefType;
+    apiRef: React.RefObject<BaseSliderRefType>;
 } & Pick<DOMProps, 'className'> &
     QAProps;
 

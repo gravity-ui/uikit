@@ -21,7 +21,7 @@ $block: '.#{variables.$ns-new}slider-tooltip';
         padding: 4px 4px 2px;
         background-color: #{slider-variables.$slider-color};
         @include mixins.text-body-1;
-        color: #{slider-variables.$handle-center-color};
+        color: var(--g-color-text-brand-contrast);
 
         &_size {
             &_xl {

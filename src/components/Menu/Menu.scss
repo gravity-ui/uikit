@@ -26,7 +26,6 @@ $block: '.#{variables.$ns}menu';
     &__item {
         display: flex;
         align-items: center;
-        cursor: pointer;
         color: var(--g-color-text-primary);
         text-decoration: none;
         outline: none;
@@ -47,8 +46,15 @@ $block: '.#{variables.$ns}menu';
             min-width: 0;
         }
 
-        &:hover,
-        &:focus,
+        &_interactive {
+            cursor: pointer;
+
+            &:hover,
+            &:focus {
+                background-color: var(--g-color-base-simple-hover);
+            }
+        }
+
         &_selected {
             background-color: var(--g-color-base-simple-hover);
         }

@@ -21,6 +21,10 @@
             {
                 "selector": "TSTypeReference>TSQualifiedName[left.name='React'][right.name='FC']",
                 "message": "Don't use React.FC"
+            },
+            {
+                "selector": "ImportDeclaration[source.value='@testing-library/react']",
+                "message": "Please use wrapper from 'test-utils/utils.tsx'."
             }
         ],
         "jsx-a11y/no-autofocus": "off",

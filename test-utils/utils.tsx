@@ -1,6 +1,8 @@
 import React from 'react';
 
+// eslint-disable-next-line no-restricted-syntax
 import {render} from '@testing-library/react';
+// eslint-disable-next-line no-restricted-syntax
 import type {RenderOptions} from '@testing-library/react';
 
 import type {ThemeContextProps} from '../src';

@@ -1,5 +1,105 @@
 # Changelog
 
+## [6.0.0](https://github.com/gravity-ui/uikit/compare/v5.30.1...v6.0.0) (2024-02-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename onClose to onCloseClick ([#1295](https://github.com/gravity-ui/uikit/issues/1295))
+* **Persona:** refactored and renamed to UserLabel ([#1292](https://github.com/gravity-ui/uikit/issues/1292))
+* **Link:** the "href" property is required ([#1270](https://github.com/gravity-ui/uikit/issues/1270))
+* **Breadcrumbs:** use gap property for gaps between breadcrumbs items instead of paddings ([#1185](https://github.com/gravity-ui/uikit/issues/1185))
+* rename .yc class prefix ([#1260](https://github.com/gravity-ui/uikit/issues/1260))
+* **Table:** update cell paddings ([#1271](https://github.com/gravity-ui/uikit/issues/1271))
+* remove setters from mobile hooks ([#1262](https://github.com/gravity-ui/uikit/issues/1262))
+* remove remaining `--yc-*` variables ([#1256](https://github.com/gravity-ui/uikit/issues/1256))
+* **Table:** update SortIndicator view ([#1220](https://github.com/gravity-ui/uikit/issues/1220))
+* delete deprecated hooks ([#1213](https://github.com/gravity-ui/uikit/issues/1213))
+* update avatar and user components ([#1221](https://github.com/gravity-ui/uikit/issues/1221))
+* **Table:** remove uppercase heading style ([#1222](https://github.com/gravity-ui/uikit/issues/1222))
+* merge old Tooltip with ActionTooltip and introduce new Tooltip ([#1189](https://github.com/gravity-ui/uikit/issues/1189))
+* **Toaster:** use theme prop instead of type ([#1198](https://github.com/gravity-ui/uikit/issues/1198))
+* add CSS API instead of `--yc-*` variables ([#1127](https://github.com/gravity-ui/uikit/issues/1127))
+* **Button:** use logical properties ([#1119](https://github.com/gravity-ui/uikit/issues/1119))
+* support RTL direction ([#1111](https://github.com/gravity-ui/uikit/issues/1111))
+* **Link:** Remove normal-visitable view ([#905](https://github.com/gravity-ui/uikit/issues/905))
+* rename theme prop `positive` -> `success` ([#1093](https://github.com/gravity-ui/uikit/issues/1093))
+* add css imports to cjs files ([#1101](https://github.com/gravity-ui/uikit/issues/1101))
+* remove old theme variables fallback ([#1092](https://github.com/gravity-ui/uikit/issues/1092))
+* remove focus visible fallback ([#1086](https://github.com/gravity-ui/uikit/issues/1086))
+* **Button:** add CSS API ([#1066](https://github.com/gravity-ui/uikit/issues/1066))
+
+### refactor
+
+* **Breadcrumbs:** use gap property for gaps between breadcrumbs items instead of paddings ([#1185](https://github.com/gravity-ui/uikit/issues/1185)) ([a31d7a1](https://github.com/gravity-ui/uikit/commit/a31d7a10ca9a4c8bbfca286c932f8611800b4d85))
+* **Link:** Remove normal-visitable view ([#905](https://github.com/gravity-ui/uikit/issues/905)) ([82f8afa](https://github.com/gravity-ui/uikit/commit/82f8afa0cd5dfce77a781b65798855e7172e415b))
+* remove remaining `--yc-*` variables ([#1256](https://github.com/gravity-ui/uikit/issues/1256)) ([69efabe](https://github.com/gravity-ui/uikit/commit/69efabe5416f89b841e093781ea33e53685b6038))
+* rename .yc class prefix ([#1260](https://github.com/gravity-ui/uikit/issues/1260)) ([c879bba](https://github.com/gravity-ui/uikit/commit/c879bba29b1d4ad0d78aa8953e36c2a395ea1ecb))
+
+
+### Features
+
+* add CSS API instead of `--yc-*` variables ([#1127](https://github.com/gravity-ui/uikit/issues/1127)) ([1250ba2](https://github.com/gravity-ui/uikit/commit/1250ba2e810fcb68b29c4b7151681a0fb055fa25))
+* add css imports to cjs files ([#1101](https://github.com/gravity-ui/uikit/issues/1101)) ([f10d616](https://github.com/gravity-ui/uikit/commit/f10d616a54f72d2208b1d0e5aca41bb2444699c7))
+* add new layout component `Box` ([#1121](https://github.com/gravity-ui/uikit/issues/1121)) ([cedc20b](https://github.com/gravity-ui/uikit/commit/cedc20b3da38c7530da0f80c56847c233bee1fd1))
+* add useControlledState hook ([#1276](https://github.com/gravity-ui/uikit/issues/1276)) ([9493062](https://github.com/gravity-ui/uikit/commit/94930620e0bb8bd6f31c1dfceace1912bc8e0ada))
+* added css api for TextInput TextArea and Select components ([#1269](https://github.com/gravity-ui/uikit/issues/1269)) ([75c3fd5](https://github.com/gravity-ui/uikit/commit/75c3fd514a5eb20d40469eab4024b93fd1aa53c2))
+* added CSS custom properties for RTL ([#1227](https://github.com/gravity-ui/uikit/issues/1227)) ([150204d](https://github.com/gravity-ui/uikit/commit/150204dac9958175664cfe7836273bedba90c806))
+* **Alert:** support RTL ([#1167](https://github.com/gravity-ui/uikit/issues/1167)) ([a5bf8eb](https://github.com/gravity-ui/uikit/commit/a5bf8eb3668c98905189931bc3772a880acf41d4))
+* **Box:** fix some unnecessary typings ([#1252](https://github.com/gravity-ui/uikit/issues/1252)) ([2229f37](https://github.com/gravity-ui/uikit/commit/2229f37be3cf4ffa97ede438efcd1f14c1d7143b))
+* **Button:** add CSS API ([#1066](https://github.com/gravity-ui/uikit/issues/1066)) ([7f70693](https://github.com/gravity-ui/uikit/commit/7f706935c2d10c821a8afbdd800e48f4665a0106))
+* **Button:** use logical properties ([#1119](https://github.com/gravity-ui/uikit/issues/1119)) ([b6d4200](https://github.com/gravity-ui/uikit/commit/b6d4200f93be2d4045402840b30a98f52585490f))
+* delete deprecated hooks ([#1213](https://github.com/gravity-ui/uikit/issues/1213)) ([2c16005](https://github.com/gravity-ui/uikit/commit/2c16005ce7d351d73656be656d0845803752392c))
+* **Dialog:** add prop contentOverflow to control overflow behaviour ([#1251](https://github.com/gravity-ui/uikit/issues/1251)) ([2b223d5](https://github.com/gravity-ui/uikit/commit/2b223d565e1f4345d36361dff34ef847f3d6f94a))
+* **Disclosure:** use logical properties ([#1140](https://github.com/gravity-ui/uikit/issues/1140)) ([345ce4d](https://github.com/gravity-ui/uikit/commit/345ce4d97aa0b84c655139500e07cf1a20b37b15))
+* **Link:** the "href" property is required ([#1270](https://github.com/gravity-ui/uikit/issues/1270)) ([347c64d](https://github.com/gravity-ui/uikit/commit/347c64d23dba1b07803b4efa97200fe7015479c0))
+* **List:** support RTL ([#1145](https://github.com/gravity-ui/uikit/issues/1145)) ([dd554bb](https://github.com/gravity-ui/uikit/commit/dd554bb5a31b86e1ca6a733af70b9193faca171e))
+* merge old Tooltip with ActionTooltip and introduce new Tooltip ([#1189](https://github.com/gravity-ui/uikit/issues/1189)) ([c2719ae](https://github.com/gravity-ui/uikit/commit/c2719ae7160ecb7cac756351b9d2f11e77eb9719))
+* **Persona:** refactored and renamed to UserLabel ([#1292](https://github.com/gravity-ui/uikit/issues/1292)) ([ef6762a](https://github.com/gravity-ui/uikit/commit/ef6762a473bf6f92d2e39ac08e8667d159edf07b))
+* **Progress:** support customization ([#1193](https://github.com/gravity-ui/uikit/issues/1193)) ([0c67d85](https://github.com/gravity-ui/uikit/commit/0c67d85fb0a2c5397e7d3b5bc2ce868b49ebaf02))
+* **Progress:** support rtl ([#1141](https://github.com/gravity-ui/uikit/issues/1141)) ([caaf06b](https://github.com/gravity-ui/uikit/commit/caaf06b0adf1aec853a4f0a67e8a7de7474eb029))
+* remove focus visible fallback ([#1086](https://github.com/gravity-ui/uikit/issues/1086)) ([193d856](https://github.com/gravity-ui/uikit/commit/193d85694f0fabf5d34da8f757262b43b18c7112))
+* remove old theme variables fallback ([#1092](https://github.com/gravity-ui/uikit/issues/1092)) ([ecdd1aa](https://github.com/gravity-ui/uikit/commit/ecdd1aab498e4563c50a315bfc62e865c73b2641))
+* remove setters from mobile hooks ([#1262](https://github.com/gravity-ui/uikit/issues/1262)) ([07c9f4f](https://github.com/gravity-ui/uikit/commit/07c9f4f02c4ebe08325f3626d1221d23c36c18a7))
+* rename onClose to onCloseClick ([#1295](https://github.com/gravity-ui/uikit/issues/1295)) ([00531ad](https://github.com/gravity-ui/uikit/commit/00531ad1e6626812e74d6beb8a456abfc00e76ea))
+* rename theme prop `positive` -&gt; `success` ([#1093](https://github.com/gravity-ui/uikit/issues/1093)) ([bf6f77d](https://github.com/gravity-ui/uikit/commit/bf6f77de0c44c6f64afdda7bfc90c09cf8e28c9f))
+* **Sheet:** support RTL ([#1138](https://github.com/gravity-ui/uikit/issues/1138)) ([815f5a8](https://github.com/gravity-ui/uikit/commit/815f5a85729d31c11e5f6c1786ed8bf5038b9823))
+* **Skeleton:** support RTL ([#1136](https://github.com/gravity-ui/uikit/issues/1136)) ([bdf4d5b](https://github.com/gravity-ui/uikit/commit/bdf4d5b5a6a4fe9ff932c82981ebc50882cad6b2))
+* support RTL direction ([#1111](https://github.com/gravity-ui/uikit/issues/1111)) ([a28abcf](https://github.com/gravity-ui/uikit/commit/a28abcf12e057e45daef78e3488096494442a14f))
+* support RTL in components ([#1125](https://github.com/gravity-ui/uikit/issues/1125)) ([47f7b84](https://github.com/gravity-ui/uikit/commit/47f7b84ff94f21e8802f616f7dea1f077a34a310))
+* **Switch:** support RTL ([#1120](https://github.com/gravity-ui/uikit/issues/1120)) ([3cdca3d](https://github.com/gravity-ui/uikit/commit/3cdca3df19f75da09d5bf270557e930c4f1787d8))
+* **Table:** remove uppercase heading style ([#1222](https://github.com/gravity-ui/uikit/issues/1222)) ([92fe12f](https://github.com/gravity-ui/uikit/commit/92fe12f1b52ddcf3449da89510e9fbda764a426f))
+* **Table:** support rtl ([#1152](https://github.com/gravity-ui/uikit/issues/1152)) ([52b2794](https://github.com/gravity-ui/uikit/commit/52b2794fdd680f357fa1dcbf4f348e7898e9dcc6))
+* **Table:** update cell paddings ([#1271](https://github.com/gravity-ui/uikit/issues/1271)) ([4f3be2d](https://github.com/gravity-ui/uikit/commit/4f3be2d27712cc6ce504aedb27c1bfa622d47e02))
+* **Table:** update SortIndicator view ([#1220](https://github.com/gravity-ui/uikit/issues/1220)) ([6749bb8](https://github.com/gravity-ui/uikit/commit/6749bb8e7ac3905213eb69ef0caf654c6176ae39))
+* **Table:** use uikit icons ([#1151](https://github.com/gravity-ui/uikit/issues/1151)) ([a08f03c](https://github.com/gravity-ui/uikit/commit/a08f03cdaba2c0be9fe6747c2d69be78f949eb66))
+* **TextInput:** support rtl ([#1207](https://github.com/gravity-ui/uikit/issues/1207)) ([343b94c](https://github.com/gravity-ui/uikit/commit/343b94c33eecd1277d6c5fb72984f0991dd4d779))
+* **Text:** rtl support ([#1143](https://github.com/gravity-ui/uikit/issues/1143)) ([a82ad0a](https://github.com/gravity-ui/uikit/commit/a82ad0a7d0804cfca72958f28e90145d7987f049))
+* **Text:** support multiline and fixed width ellipsis ([#1122](https://github.com/gravity-ui/uikit/issues/1122)) ([bc63378](https://github.com/gravity-ui/uikit/commit/bc633783102b2d4bfaeaf759d3abcc134f58529c))
+* **Toaster:** use theme prop instead of type ([#1198](https://github.com/gravity-ui/uikit/issues/1198)) ([cdabe24](https://github.com/gravity-ui/uikit/commit/cdabe246a33d21b8c624b5d3662ac2fc39cc01ed))
+* **TreeSelect:** added TreeSelect unstable component and new list hooks ([#1090](https://github.com/gravity-ui/uikit/issues/1090)) ([07a2009](https://github.com/gravity-ui/uikit/commit/07a200903176ca34163e5e0dcfef42b8c530bbc9))
+* update avatar and user components ([#1221](https://github.com/gravity-ui/uikit/issues/1221)) ([fbf41d3](https://github.com/gravity-ui/uikit/commit/fbf41d32820ba26b86a48457b2361832a937f387))
+* updated TextInput "type" property to allow using only well-know… ([#1158](https://github.com/gravity-ui/uikit/issues/1158)) ([5a44a5f](https://github.com/gravity-ui/uikit/commit/5a44a5f151703c60801826fe1772a08676060703))
+
+
+### Bug Fixes
+
+* **Button:** fix disabled raised view style ([#1226](https://github.com/gravity-ui/uikit/issues/1226)) ([fb62985](https://github.com/gravity-ui/uikit/commit/fb62985081d9a3dd999f3e9fc3a7563cf3df39ac))
+* **DropdownMenu:** fix rtl behaviour ([3f3a805](https://github.com/gravity-ui/uikit/commit/3f3a805025d46de651f86a648fe2e6cea0043e9e))
+* fix controls css api ([#1289](https://github.com/gravity-ui/uikit/issues/1289)) ([9882c53](https://github.com/gravity-ui/uikit/commit/9882c532e6c503e053790cd6816421f28a17b2b5))
+* fix unit tests ([99e454f](https://github.com/gravity-ui/uikit/commit/99e454fa2762c304c5812ec5d88f362b390bf6c1))
+* fix visual tests ([4baeef9](https://github.com/gravity-ui/uikit/commit/4baeef9693082ac8b15619f454781c2019f975d8))
+* **Popover:** fix rtl placement ([62405d5](https://github.com/gravity-ui/uikit/commit/62405d5811f626c3cc40e93ffad9f6775c649beb))
+* rebase fixes ([b272b72](https://github.com/gravity-ui/uikit/commit/b272b7291ef0f214b059de0d5898d1926608cad1))
+* rebase issues ([4f9d2ec](https://github.com/gravity-ui/uikit/commit/4f9d2ec3c688272b687de957c28219bf8ab1261c))
+* rebase issues ([39b4694](https://github.com/gravity-ui/uikit/commit/39b4694dbea58a1f02d593706f3a7efd99ec4a07))
+* rework new ListItemView text crop behaviour ([#1301](https://github.com/gravity-ui/uikit/issues/1301)) ([5f123e9](https://github.com/gravity-ui/uikit/commit/5f123e99c93cb65c48ec04165e0ded6ae1ee6138))
+* **ThemeProvider:** inner provider should overwrite specified props and only them ([#1235](https://github.com/gravity-ui/uikit/issues/1235)) ([aaf9b0f](https://github.com/gravity-ui/uikit/commit/aaf9b0f0c9356748040984fc89013edf0e761dcc))
+* **Toaster:** use logical css values in stories ([#1142](https://github.com/gravity-ui/uikit/issues/1142)) ([6dcbdae](https://github.com/gravity-ui/uikit/commit/6dcbdae9cea330afd7de4869140ec422f91236ed))
+* TreeSelect component after useMobile refactoring ([#1265](https://github.com/gravity-ui/uikit/issues/1265)) ([9c23dae](https://github.com/gravity-ui/uikit/commit/9c23dae0c257f81e9b97076e4131ffeff747c35d))
+* **TreeSelect:** removed select indentation from group items ([#1303](https://github.com/gravity-ui/uikit/issues/1303)) ([e0471d6](https://github.com/gravity-ui/uikit/commit/e0471d6fcdbeb924ab65402b39fbbad5cd739a5e))
+* use ActionTooltip in components ([1042ac3](https://github.com/gravity-ui/uikit/commit/1042ac35f1f89c3f6cd4e3ceec6336bc1e3d7340))
+
 ## [5.30.1](https://github.com/gravity-ui/uikit/compare/v5.30.0...v5.30.1) (2024-02-06)
 
 

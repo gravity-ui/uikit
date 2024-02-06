@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.30.0](https://github.com/gravity-ui/uikit/compare/v5.29.0...v5.30.0) (2024-01-31)
+
+
+### Features
+
+* **Select:** added errorMessage, errorPlacement and validationType props ([#1291](https://github.com/gravity-ui/uikit/issues/1291)) ([8f2f07b](https://github.com/gravity-ui/uikit/commit/8f2f07b798b5776adc94a4442fd6a725911b8048))
+* **Table:** added link as Table action element ([#1290](https://github.com/gravity-ui/uikit/issues/1290)) ([de63cef](https://github.com/gravity-ui/uikit/commit/de63cef2b043e835c6663dfa79a9c99424998ae1))
+
+
+### Bug Fixes
+
+* **Label:** missing text overflow ([#1206](https://github.com/gravity-ui/uikit/issues/1206)) ([60357cd](https://github.com/gravity-ui/uikit/commit/60357cd34c04c1b6f1af04125d5cea77319dea65))
+* **List:** calling onLoadMore function while using keyboard ([#1284](https://github.com/gravity-ui/uikit/issues/1284)) ([1760166](https://github.com/gravity-ui/uikit/commit/176016620612b3c6a120a0dea770b5fc5927c964))
+* **Pagination:** stories controls ([#1281](https://github.com/gravity-ui/uikit/issues/1281)) ([a6fac44](https://github.com/gravity-ui/uikit/commit/a6fac442b82ac585397d0b5cf5f59ec5df625deb))
+* **Table:** sticky column ([#1283](https://github.com/gravity-ui/uikit/issues/1283)) ([7366c9b](https://github.com/gravity-ui/uikit/commit/7366c9bdf7fd3e7f526c8a3d60e49191f7385539))
+* **Table:** withTableSorting can get sort value using column's ID written as path ([#640](https://github.com/gravity-ui/uikit/issues/640)) ([d5bb68b](https://github.com/gravity-ui/uikit/commit/d5bb68bcbc9ebca4f54d501aa34b597e92ee3702))
+
 ## [5.29.0](https://github.com/gravity-ui/uikit/compare/v5.28.0...v5.29.0) (2024-01-19)
 
 

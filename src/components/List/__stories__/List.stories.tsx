@@ -6,6 +6,7 @@ import {List, listDefaultProps} from '..';
 import type {ListProps} from '..';
 
 import {ListShowcase} from './ListShowcase';
+import {ListWithLoader} from './ListWithLoader';
 
 type ComponentType = React.JSXElementConstructor<ListProps<string>>;
 
@@ -44,7 +45,17 @@ export const RenderItem = RenderItemTemplate.bind({});
 RenderItem.args = {
     items,
     renderItem: (item) => `🔥🔥🔥 ${item} 🔥🔥🔥`,
+};
+
+const TemplateWithState: ComponentStory<ComponentType> = (args) => <ListWithLoader {...args} />;
+
+export const WithLoadingMoreItems = TemplateWithState.bind({});
+WithLoadingMoreItems.args = {
+    items: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'],
     itemsHeight: 150,
+    itemHeight: 28,
+    loading: true,
+    virtualized: false,
 };
 
 const ShowcaseTemplate: ComponentStory<ComponentType> = () => <ListShowcase />;

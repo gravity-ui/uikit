@@ -44,6 +44,9 @@ export interface TableAction<I> {
         index: number,
         event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>,
     ) => void;
+    href?: string;
+    target?: string;
+    rel?: string;
     disabled?: boolean;
     theme?: MenuItemProps['theme'];
     icon?: MenuItemProps['iconStart'];
@@ -174,16 +177,17 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     </Menu.Group>
                 );
             } else {
+                const {text, icon, handler, ...restProps} = action;
+
                 return (
                     <Menu.Item
                         key={index}
-                        disabled={action.disabled}
-                        onClick={this.handleActionClick.bind(this, action, popupData!)}
-                        theme={action.theme}
-                        iconStart={action.icon}
+                        onClick={this.handleActionClick.bind(this, handler, popupData!)}
+                        iconStart={icon}
                         className={bPopup('menu-item')}
+                        {...restProps}
                     >
-                        {action.text}
+                        {text}
                     </Menu.Item>
                 );
             }
@@ -204,11 +208,12 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
         };
 
         private handleActionClick = (
-            action: TableAction<I>,
+            handler: TableAction<I>['handler'],
             data: PopupData<I>,
             event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>,
         ) => {
-            action.handler(data.item, data.index, event);
+            handler(data.item, data.index, event);
+
             this.closePopup();
         };
 

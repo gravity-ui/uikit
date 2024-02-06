@@ -118,6 +118,14 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 action('danger')(handlerArgs);
             },
         },
+        {
+            text: 'with href',
+            theme: 'normal',
+            href: 'https://cloud.yandex.com',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            handler: () => {},
+        },
     ];
     return <TableWithAction {...args} getRowActions={getRowActions} />;
 };

@@ -85,11 +85,7 @@ const ExampleItem = (props: {
                 )}
             </h3>
             {mode === Mode.VIEW ? (
-                <Select
-                    {...selectProps}
-                    value={value}
-                    onUpdate={(nextValue) => setValue(nextValue)}
-                >
+                <Select {...selectProps} value={value} onUpdate={setValue}>
                     {children}
                 </Select>
             ) : (
@@ -414,6 +410,30 @@ export const SelectShowcase = (props: SelectProps) => {
                     <Select.Option value="val4" content="Value4" />
                 </ExampleItem>
             </div>
+
+            <ExampleItem
+                title="Select with custom popup"
+                selectProps={{
+                    ...props,
+                    filterable: true,
+                    renderPopup: ({renderFilter, renderList}) => {
+                        return (
+                            <React.Fragment>
+                                <div>{'---- Before Filter ----'}</div>
+                                {renderFilter()}
+                                <div>{'---- After Filter, Before List ----'}</div>
+                                {renderList()}
+                                <div>{'---- After List ----'}</div>
+                            </React.Fragment>
+                        );
+                    },
+                }}
+            >
+                <Select.Option value="val1" content="Value1" />
+                <Select.Option value="val2" content="Value2" />
+                <Select.Option value="val3" content="Value3" />
+                <Select.Option value="val4" content="Value4" />
+            </ExampleItem>
         </div>
     );
 };

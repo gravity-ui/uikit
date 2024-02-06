@@ -66,6 +66,7 @@ export interface ButtonProps extends DOMProps, QAProps {
     tabIndex?: number;
     id?: string;
     type?: 'button' | 'submit' | 'reset';
+    form?: string;
     component?: React.ElementType;
     href?: string;
     target?: string;
@@ -96,6 +97,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         title,
         tabIndex,
         type = 'button',
+        form,
         component,
         href,
         target,
@@ -179,6 +181,7 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
                 {...commonProps}
                 ref={ref as React.Ref<HTMLButtonElement>}
                 type={type}
+                form={form}
                 disabled={disabled || loading}
                 aria-pressed={selected}
             >

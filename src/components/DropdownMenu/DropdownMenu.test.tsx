@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event';
 
 import {render, screen} from '../../../test-utils/utils';
 
-import {DropdownMenu, DropdownMenuItem} from './DropdownMenu';
+import type {DropdownMenuItem} from './DropdownMenu';
+import {DropdownMenu} from './DropdownMenu';
 
 export const optionsWithSubItems: DropdownMenuItem<unknown>[] = [
     {text: 'Edit', action: () => {}},

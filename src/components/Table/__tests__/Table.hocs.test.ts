@@ -1,13 +1,15 @@
 import React from 'react';
 
-import {render} from '@testing-library/react';
-
-import {Table, type TableProps} from '../Table';
+import {render} from '../../../../test-utils/utils';
+import type {TableProps} from '../Table';
+import {Table} from '../Table';
+import type {
+    WithTableActionsProps,
+    WithTableSelectionProps,
+    WithTableSettingsProps,
+    WithTableSortingProps,
+} from '../hoc';
 import {
-    type WithTableActionsProps,
-    type WithTableSelectionProps,
-    type WithTableSettingsProps,
-    type WithTableSortingProps,
     withTableActions,
     withTableCopy,
     withTableSelection,

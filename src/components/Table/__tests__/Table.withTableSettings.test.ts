@@ -1,8 +1,8 @@
 import type {TableColumnConfig} from '../Table';
 import {enhanceSystemColumn} from '../hoc/withTableActions/withTableActions';
 import {selectionColumnId} from '../hoc/withTableSelection/withTableSelection';
+import type {TableSettingsData} from '../hoc/withTableSettings/withTableSettings';
 import {
-    TableSettingsData,
     filterColumns,
     getActualItems,
     getColumnStringTitle,

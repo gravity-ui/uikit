@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.30.1](https://github.com/gravity-ui/uikit/compare/v5.30.0...v5.30.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* **Dropdown:** opening sub menus in dropdown menu with using keyboard ([#1298](https://github.com/gravity-ui/uikit/issues/1298)) ([1aed302](https://github.com/gravity-ui/uikit/commit/1aed30299889c658e55461318d43f94c2eb7241a))
+* **MenuItem:** fix non interactive MenuItem style ([#1307](https://github.com/gravity-ui/uikit/issues/1307)) ([b1a386d](https://github.com/gravity-ui/uikit/commit/b1a386d9552d98bd3c2f8e74518ac580c7ce4394))
+* **TextInput:** add overflow hidden to text-input__content wrapper ([#1293](https://github.com/gravity-ui/uikit/issues/1293)) ([d52a7bd](https://github.com/gravity-ui/uikit/commit/d52a7bdf3e4ca99b1902b0341468eb975f036f36))
+
 ## [5.30.0](https://github.com/gravity-ui/uikit/compare/v5.29.0...v5.30.0) (2024-01-31)
 
 

@@ -2,7 +2,7 @@
 @use './variables' as slider-variables;
 @use '../../../styles/mixins';
 
-$block: '.#{variables.$ns-new}slider';
+$block: '.#{variables.$ns}slider';
 
 #{$block} {
     display: flex;

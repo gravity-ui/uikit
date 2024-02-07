@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$block: '.#{variables.$ns-new}slider-showcase';
+$block: '.#{variables.$ns}slider-showcase';
 
 #{$block} {
     display: grid;

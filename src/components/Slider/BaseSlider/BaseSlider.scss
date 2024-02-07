@@ -4,7 +4,7 @@
 @use '../../../../styles/mixins';
 
 $original-class: 'rc-slider';
-$block: '.#{variables.$ns-new}base-slider';
+$block: '.#{variables.$ns}base-slider';
 $mark: '.#{$original-class}-mark';
 $mark-text: '#{$mark}-text';
 $dot: '.#{$original-class}-dot';

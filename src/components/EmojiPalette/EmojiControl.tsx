@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Button, ButtonSize} from '../Button';
+import type {ButtonSize} from '../Button';
+import {Button} from '../Button';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 
 export interface EmojiControlProps extends Pick<ControlProps, 'disabled'>, DOMProps, QAProps {

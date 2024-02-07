@@ -1,10 +1,11 @@
 import React from 'react';
 
-import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen, within} from '../../../../test-utils/utils';
 import type {ButtonSize} from '../../Button/Button';
-import {EmojiOption, EmojiPalette} from '../EmojiPalette';
+import type {EmojiOption} from '../EmojiPalette';
+import {EmojiPalette} from '../EmojiPalette';
 
 const qaId = 'emoji-palette-component';
 
@@ -27,7 +28,7 @@ describe('EmojiPalette', () => {
 
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(`yc-emoji-palette_size_${size}`);
+        expect(component).toHaveClass(`g-emoji-palette_size_${size}`);
     });
 
     test('all children are disabled when disabled=true prop is given', () => {

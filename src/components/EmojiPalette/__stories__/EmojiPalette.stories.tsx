@@ -6,7 +6,8 @@ import type {Meta} from '@storybook/react';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem/ShowcaseItem';
 import {Icon} from '../../Icon/Icon';
-import {EmojiOption, EmojiPalette, EmojiPaletteProps, EmojiValue} from '../EmojiPalette';
+import type {EmojiOption, EmojiPaletteProps, EmojiValue} from '../EmojiPalette';
+import {EmojiPalette} from '../EmojiPalette';
 
 export default {
     title: 'Components/Inputs/EmojiPalette',

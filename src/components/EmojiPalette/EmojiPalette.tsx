@@ -3,7 +3,8 @@ import React from 'react';
 import {useForkRef} from '../../hooks/useForkRef/useForkRef';
 import type {ControlGroupProps, DOMProps, QAProps} from '../types';
 
-import {EmojiControl, EmojiControlProps} from './EmojiControl';
+import type {EmojiControlProps} from './EmojiControl';
+import {EmojiControl} from './EmojiControl';
 import {emojiPaletteClassNames} from './definitions';
 import {useEmojiPaletteColumns} from './hooks';
 

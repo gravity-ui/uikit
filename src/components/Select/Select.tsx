@@ -98,6 +98,23 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
+
+    const handleFilterChange = React.useCallback(
+        (nextFilter: string) => {
+            onFilterChange?.(nextFilter);
+            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
+        },
+        [onFilterChange],
+    );
+
+    const handleOpenChange = React.useCallback((open: boolean) => {
+        onOpenChange?.(open);
+
+        if (!open && filterable) {
+            handleFilterChange('');
+        }
+    }, []);
+
     const {
         value,
         open,
@@ -114,7 +131,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple,
         open: propsOpen,
         onClose,
-        onOpenChange,
+        onOpenChange: handleOpenChange,
     });
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;
@@ -197,14 +214,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         listRef?.current?.onKeyDown(e);
     }, []);
 
-    const handleFilterChange = React.useCallback(
-        (nextFilter: string) => {
-            onFilterChange?.(nextFilter);
-            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
-        },
-        [onFilterChange],
-    );
-
     const handleQuickSearchChange = React.useCallback((search: string) => {
         if (search) {
             const itemIndex = findItemIndexByQuickSearch(search, getListItems(listRef));
@@ -228,10 +237,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if (filterable) {
                 filterRef.current?.focus();
             }
-        } else {
-            handleFilterChange('');
         }
-    }, [open, filterable, handleFilterChange]);
+    }, [open, filterable]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),

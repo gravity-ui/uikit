@@ -974,6 +974,92 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
+### Render custom popup
+
+To render custom popup use the `renderPopup` property.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select
+  filterable
+  renderSelectedOption={({renderList, renderFilter}) => {
+    return (
+      <React.Fragment>
+        {renderFilter()}
+        <div className="CustomElement" />
+        {renderList()}
+      </React.Fragment>
+    );
+  }}
+>
+  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
+  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
+  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
+  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select
+    filterable
+    placeholder="Custom selected options"
+    renderSelectedOption={({renderList, renderFilter}) => {
+      return (
+        <React.Fragment>
+          {renderFilter()}
+          <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
+          {renderList()}
+        </React.Fragment>
+      );
+    }}
+  >
+    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+  return (
+    <React.Fragment>
+      {renderFilter()}
+      <div className="CustomElement" />
+      {renderList()}
+    </React.Fragment>
+  );
+};
+
+const MyComponent = () => {
+  return (
+    <Select filterable renderPopup={renderPopup}>
+      <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+        Value 1
+      </Select.Option>
+      <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+        Value 2
+      </Select.Option>
+      <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+        Value 3
+      </Select.Option>
+      <Select.Option value="val_4" data={{color: '#534581'}}>
+        Value 4
+      </Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
 ### Error
 
 The state of the `Select` in which you want to indicate incorrect user input. To change `Select` appearance, use the `validationState` property with the `"invalid"` value. An optional message text can be added via the `errorMessage` property. By default, message text is rendered outside the component.
@@ -1028,6 +1114,7 @@ LANDING_BLOCK-->
 | [renderOption](#render-custom-options)                    | Used to render user options                                                                                                   | `function`                               |                                                          |
 | renderOptionGroup                                         | Used to render user option groups                                                                                             | `function`                               |                                                          |
 | [renderSelectedOption](#render-custom-selected-options)   | Used to render user selected options                                                                                          | `function`                               |                                                          |
+| [renderPopup](#render-custom-popup)                       | Used to render user popup content                                                                                             | `function`                               |                                                          |
 | [size](#size)                                             | Control / options size                                                                                                        | `string`                                 | `'m'`                                                    |
 | value                                                     | Values that represent selected options                                                                                        | `string[]`                               |                                                          |
 | view                                                      | Control view                                                                                                                  | `string`                                 | `'normal'`                                               |

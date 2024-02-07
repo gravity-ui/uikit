@@ -45,10 +45,16 @@ export const SliderShowcase = () => {
                 <ShowcaseBlock title="Range disabled" disabled defaultValue={[20, 40]} />
             </div>
             <div className={blockCn}>
-                <ShowcaseBlock title="error" errorText={'Error description'} defaultValue={20} />
+                <ShowcaseBlock
+                    title="error"
+                    errorText={'Error description'}
+                    validationState="invalid"
+                    defaultValue={20}
+                />
                 <ShowcaseBlock
                     title="Range error"
                     errorText={'Error description'}
+                    validationState="invalid"
                     defaultValue={[20, 40]}
                 />
             </div>
@@ -70,12 +76,14 @@ export const SliderShowcase = () => {
                     title="tooltip error"
                     hasTooltip
                     errorText={'Error description'}
+                    validationState="invalid"
                     defaultValue={20}
                 />
                 <ShowcaseBlock
                     title="Range tooltip error"
                     hasTooltip
                     errorText={'Error description'}
+                    validationState="invalid"
                     defaultValue={[20, 40]}
                 />
             </div>

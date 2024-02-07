@@ -64,7 +64,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-s-size + $common-padding);
-        //add inset-inline-start and right offsets for edge position of the handler
+        //add left and right offsets for edge position of the handler
         margin: 0 calc($handle-s-size / 2) $bottom-margin;
     }
     @if $size == 'm' {
@@ -73,7 +73,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-m-size + $common-padding);
-        //add inset-inline-start and right offsets for edge position of the handler
+        //add left and right offsets for edge position of the handler
         margin: 0 calc($handle-m-size / 2) $bottom-margin;
     }
     @if $size == 'l' {
@@ -82,7 +82,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-l-size + $common-padding);
-        //add inset-inline-start and right offsets for edge position of the handler
+        //add left and right offsets for edge position of the handler
         margin: 0 calc($handle-l-size / 2) $bottom-margin;
     }
     @if $size == 'xl' {
@@ -91,7 +91,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-xl-size + $common-padding);
-        //add inset-inline-start and right offsets for edge position of the handler
+        //add left and right offsets for edge position of the handler
         margin: 0 calc($handle-xl-size / 2) $bottom-margin;
     }
 }
@@ -127,26 +127,22 @@ $rail-xl-size: 6px;
     @if $size == 's' {
         $offset: math.floor(calc($handle-s-size / 2)) * -1;
         height: $rail-s-size;
-        inset-block-end: $offset;
-        inset-inline-start: $offset;
+        inset-inline: $offset;
     }
     @if $size == 'm' {
         $offset: math.floor(calc($handle-m-size / 2)) * -1;
         height: $rail-m-size;
-        inset-block-end: $offset;
-        inset-inline-start: $offset;
+        inset-inline: $offset;
     }
     @if $size == 'l' {
         $offset: math.floor(calc($handle-l-size / 2)) * -1;
         height: $rail-l-size;
-        inset-block-end: $offset;
-        inset-inline-start: $offset;
+        inset-inline: $offset;
     }
     @if $size == 'xl' {
         $offset: math.floor(calc($handle-xl-size / 2)) * -1;
         height: $rail-xl-size;
-        inset-block-end: $offset;
-        inset-inline-start: $offset;
+        inset-inline: $offset;
     }
 }
 
@@ -173,11 +169,11 @@ $rail-xl-size: 6px;
                 //we override last of type style in the situation when we have only one mark
                 //so we should have this style sequence
                 &-text:last-of-type {
-                    inset-block-end: $edge-mark-offset;
+                    inset-inline-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    inset-block-end: unset;
+                    inset-inline-end: unset;
                     inset-inline-start: $edge-mark-offset;
                 }
             }
@@ -195,11 +191,11 @@ $rail-xl-size: 6px;
                 $edge-mark-offset: calc($handle-m-size / -2);
 
                 &-text:last-of-type {
-                    inset-block-end: $edge-mark-offset;
+                    inset-inline-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    inset-block-end: unset;
+                    inset-inline-end: unset;
                     inset-inline-start: $edge-mark-offset;
                 }
             }
@@ -217,11 +213,11 @@ $rail-xl-size: 6px;
                 $edge-mark-offset: calc($handle-l-size / -2);
 
                 &-text:last-of-type {
-                    inset-block-end: $edge-mark-offset;
+                    inset-inline-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    inset-block-end: unset;
+                    inset-inline-end: unset;
                     inset-inline-start: $edge-mark-offset;
                 }
             }
@@ -239,11 +235,11 @@ $rail-xl-size: 6px;
                 $edge-mark-offset: calc($handle-xl-size / -2);
 
                 &-text:last-of-type {
-                    inset-block-end: $edge-mark-offset;
+                    inset-inline-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    inset-block-end: unset;
+                    inset-inline-end: unset;
                     inset-inline-start: $edge-mark-offset;
                 }
             }

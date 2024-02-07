@@ -34,25 +34,25 @@ $rail-xl-size: 6px;
     @if $size == 's' {
         $width: math.floor(calc($handle-s-size / 2));
         width: $width;
-        left: calc($width * -1);
+        inset-inline-start: calc($width * -1);
         height: $rail-s-size;
     }
     @if $size == 'm' {
         $width: math.floor(calc($handle-m-size / 2));
         width: $width;
-        left: calc($width * -1);
+        inset-inline-start: calc($width * -1);
         height: $rail-m-size;
     }
     @if $size == 'l' {
         $width: math.floor(calc($handle-l-size / 2));
         width: $width;
-        left: calc($width * -1);
+        inset-inline-start: calc($width * -1);
         height: $rail-l-size;
     }
     @if $size == 'xl' {
         $width: math.floor(calc($handle-xl-size / 2));
         width: $width;
-        left: calc($width * -1);
+        inset-inline-start: calc($width * -1);
         height: $rail-xl-size;
     }
 }
@@ -64,7 +64,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-s-size + $common-padding);
-        //add left and right offsets for edge position of the handler
+        //add inset-inline-start and right offsets for edge position of the handler
         margin: 0 calc($handle-s-size / 2) $bottom-margin;
     }
     @if $size == 'm' {
@@ -73,7 +73,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-m-size + $common-padding);
-        //add left and right offsets for edge position of the handler
+        //add inset-inline-start and right offsets for edge position of the handler
         margin: 0 calc($handle-m-size / 2) $bottom-margin;
     }
     @if $size == 'l' {
@@ -82,7 +82,7 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-l-size + $common-padding);
-        //add left and right offsets for edge position of the handler
+        //add inset-inline-start and right offsets for edge position of the handler
         margin: 0 calc($handle-l-size / 2) $bottom-margin;
     }
     @if $size == 'xl' {
@@ -91,32 +91,32 @@ $rail-xl-size: 6px;
         padding: $common-padding 0 $common-padding;
 
         height: calc($common-padding + $rail-xl-size + $common-padding);
-        //add left and right offsets for edge position of the handler
+        //add inset-inline-start and right offsets for edge position of the handler
         margin: 0 calc($handle-xl-size / 2) $bottom-margin;
     }
 }
 
 @mixin dot-style($size) {
     @if $size == 's' {
-        top: calc((($handle-s-size - $rail-s-size) / 2) + 1px);
+        inset-block-start: calc((($handle-s-size - $rail-s-size) / 2) + 1px);
         $dot-size: calc($rail-s-size - 2px);
         height: $dot-size;
         width: $dot-size;
     }
     @if $size == 'm' {
-        top: calc((($handle-m-size - $rail-m-size) / 2) + 1px);
+        inset-block-start: calc((($handle-m-size - $rail-m-size) / 2) + 1px);
         $dot-size: calc($rail-m-size - 2px);
         height: $dot-size;
         width: $dot-size;
     }
     @if $size == 'l' {
-        top: calc((($handle-l-size - $rail-l-size) / 2) + 1px);
+        inset-block-start: calc((($handle-l-size - $rail-l-size) / 2) + 1px);
         $dot-size: calc($rail-l-size - 2px);
         height: $dot-size;
         width: $dot-size;
     }
     @if $size == 'xl' {
-        top: calc((($handle-xl-size - $rail-xl-size) / 2) + 1px);
+        inset-block-start: calc((($handle-xl-size - $rail-xl-size) / 2) + 1px);
         $dot-size: calc($rail-xl-size - 2px);
         height: $dot-size;
         width: $dot-size;
@@ -127,26 +127,26 @@ $rail-xl-size: 6px;
     @if $size == 's' {
         $offset: math.floor(calc($handle-s-size / 2)) * -1;
         height: $rail-s-size;
-        right: $offset;
-        left: $offset;
+        inset-block-end: $offset;
+        inset-inline-start: $offset;
     }
     @if $size == 'm' {
         $offset: math.floor(calc($handle-m-size / 2)) * -1;
         height: $rail-m-size;
-        right: $offset;
-        left: $offset;
+        inset-block-end: $offset;
+        inset-inline-start: $offset;
     }
     @if $size == 'l' {
         $offset: math.floor(calc($handle-l-size / 2)) * -1;
         height: $rail-l-size;
-        right: $offset;
-        left: $offset;
+        inset-block-end: $offset;
+        inset-inline-start: $offset;
     }
     @if $size == 'xl' {
         $offset: math.floor(calc($handle-xl-size / 2)) * -1;
         height: $rail-xl-size;
-        right: $offset;
-        left: $offset;
+        inset-block-end: $offset;
+        inset-inline-start: $offset;
     }
 }
 
@@ -173,12 +173,12 @@ $rail-xl-size: 6px;
                 //we override last of type style in the situation when we have only one mark
                 //so we should have this style sequence
                 &-text:last-of-type {
-                    right: $edge-mark-offset;
+                    inset-block-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    right: unset;
-                    left: $edge-mark-offset;
+                    inset-block-end: unset;
+                    inset-inline-start: $edge-mark-offset;
                 }
             }
 
@@ -195,12 +195,12 @@ $rail-xl-size: 6px;
                 $edge-mark-offset: calc($handle-m-size / -2);
 
                 &-text:last-of-type {
-                    right: $edge-mark-offset;
+                    inset-block-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    right: unset;
-                    left: $edge-mark-offset;
+                    inset-block-end: unset;
+                    inset-inline-start: $edge-mark-offset;
                 }
             }
 
@@ -217,12 +217,12 @@ $rail-xl-size: 6px;
                 $edge-mark-offset: calc($handle-l-size / -2);
 
                 &-text:last-of-type {
-                    right: $edge-mark-offset;
+                    inset-block-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    right: unset;
-                    left: $edge-mark-offset;
+                    inset-block-end: unset;
+                    inset-inline-start: $edge-mark-offset;
                 }
             }
 
@@ -239,12 +239,12 @@ $rail-xl-size: 6px;
                 $edge-mark-offset: calc($handle-xl-size / -2);
 
                 &-text:last-of-type {
-                    right: $edge-mark-offset;
+                    inset-block-end: $edge-mark-offset;
                 }
 
                 &-text:first-of-type {
-                    right: unset;
-                    left: $edge-mark-offset;
+                    inset-block-end: unset;
+                    inset-inline-start: $edge-mark-offset;
                 }
             }
 
@@ -333,7 +333,7 @@ $rail-xl-size: 6px;
         border-radius: 50%;
         border-style: solid;
         border-color: #{slider-variables.$slider-color};
-        top: 0;
+        inset-block-start: 0;
 
         &_size {
             &_s {
@@ -416,10 +416,10 @@ $rail-xl-size: 6px;
 
     #{$mark} {
         position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         color: var(--g-color-text-secondary);
-        bottom: 0;
+        inset-block-end: 0;
     }
 
     #{$mark-text} {
@@ -428,7 +428,7 @@ $rail-xl-size: 6px;
         text-align: center;
         vertical-align: middle;
         cursor: pointer;
-        top: 0;
+        inset-block-start: 0;
     }
 
     &_disabled #{$mark-text} {

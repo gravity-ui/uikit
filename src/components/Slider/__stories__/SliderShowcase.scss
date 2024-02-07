@@ -18,6 +18,6 @@ $block: '.#{variables.$ns-new}slider-showcase';
         display: grid;
         gap: 20px;
         grid-template-columns: 20px auto;
-        margin-bottom: 5px;
+        margin-block-end: 5px;
     }
 }

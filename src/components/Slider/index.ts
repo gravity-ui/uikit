@@ -1,2 +1,2 @@
 export * from './Slider';
-export {SliderSize, SliderValue, SliderProps, BaseSliderRefType} from './types';
+export type {SliderSize, SliderValue, SliderProps, BaseSliderRefType} from './types';

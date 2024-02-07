@@ -3,5 +3,5 @@
 $block: '.#{variables.$ns}tree-select-item';
 
 #{$block} {
-    padding: 0 4px;
+    padding: 0 var(--g-spacing-1);
 }

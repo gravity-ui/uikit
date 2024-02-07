@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {render, screen} from '../../../../../../test-utils/utils';
 import type {TableColumnConfig} from '../../../Table';
 import {Table} from '../../../Table';
-import type {TableSettingsData} from '../withTableSettings';
+import type {TableSetting} from '../withTableSettings';
 import {withTableSettings} from '../withTableSettings';
 
 const item = {name: 'John Doe', occupation: 'Worker'};
@@ -23,7 +23,7 @@ const columns: TableColumnConfig<typeof item>[] = [
 
 const data = [item];
 
-const settings: TableSettingsData = columns.map((column) => ({id: column.id, isSelected: true}));
+const settings = columns.map<TableSetting>((column) => ({id: column.id, isSelected: true}));
 
 test('should change table columns', async () => {
     const updateSettings = jest.fn();

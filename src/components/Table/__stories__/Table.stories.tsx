@@ -178,9 +178,32 @@ const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context)
     }
 };
 export const HOCWithTableSettings = WithTableSettingsTemplate.bind({});
+HOCWithTableSettings.parameters = {
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
+};
+const columnsWithSettings = _cloneDeep(columns);
+const markColumnAsSelectedAlways = (idx: number) => {
+    const column = columnsWithSettings[idx];
+    column.meta = column.meta || {};
+    column.meta.selectedAlways = true;
+};
+
+markColumnAsSelectedAlways(2);
+markColumnAsSelectedAlways(3);
+
+HOCWithTableSettings.args = {
+    columns: columnsWithSettings,
+};
+
 export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});
 HOCWithTableSettingsFactory.parameters = {
     isFactory: true,
+
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
 };
 
 // ---------------------------------

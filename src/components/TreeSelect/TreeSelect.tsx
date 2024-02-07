@@ -58,6 +58,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         renderItem,
         renderContainer = TreeListContainer,
         onItemClick,
+        placement,
     } = props;
 
     const mobile = useMobile();
@@ -255,6 +256,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 className={b('popup', popupClassName)}
                 controlRef={controlRef}
                 width={popupWidth}
+                placement={placement}
                 open={open}
                 handleClose={handleClose}
                 disablePortal={popupDisablePortal}

@@ -3,61 +3,18 @@
 $block: '.#{variables.$ns}table-column-setup';
 
 #{$block} {
-    &__controls {
-        padding: 4px;
+    &__apply {
+        margin: var(--g-spacing-1) var(--g-spacing-1) 0;
     }
 
-    &__status {
-        margin-inline-start: 5px;
-        color: var(--g-color-text-secondary);
-    }
+    // to override this https://github.com/gravity-ui/uikit/blob/main/src/components/useList/components/ListItemView/ListItemView.scss#L25
+    &__required-item {
+        background: inherit;
 
-    &__tick-wrap {
-        position: absolute;
-        inset-inline-start: 14px;
-        inset-block-start: 50%;
-        transform: translateY(-50%);
-        width: 10px;
-        height: 10px;
-        visibility: hidden;
-
-        &_visible {
-            visibility: visible;
-        }
-    }
-
-    &__tick {
-        color: var(--g-color-base-brand);
-    }
-
-    &__lock-wrap {
-        position: absolute;
-        inset-inline-start: 10px;
-        inset-block-start: 50%;
-        transform: translateY(-50%);
-        color: var(--g-color-text-hint);
-    }
-
-    &__title {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    &__items {
-        overflow-x: auto;
-    }
-
-    &__item {
-        // Increasing specificity for overrides
-        &#{&} {
-            padding-inline: 32px 8px;
-            cursor: pointer;
-            position: relative;
-
-            .#{variables.$ns}list__item-sort-icon {
-                cursor: move;
-            }
+        &:hover {
+            /* stylelint-disable declaration-no-important */
+            background: var(--g-color-base-simple-hover-solid) !important;
+            /* stylelint-enable declaration-no-important */
         }
     }
 }

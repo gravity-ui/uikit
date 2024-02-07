@@ -1,270 +1,157 @@
 import React from 'react';
 
-import {Check, Gear, Lock} from '@gravity-ui/icons';
+import {Gear, Lock} from '@gravity-ui/icons';
 
 import type {PopperPlacement} from '../../../../../hooks/private';
-import {useActionHandlers} from '../../../../../hooks/useActionHandlers';
+import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
-import {List} from '../../../../List';
-import {Popup} from '../../../../Popup';
+import type {TreeSelectProps} from '../../../../TreeSelect';
 import {block} from '../../../../utils/cn';
-import type {TableColumnSetupItem} from '../withTableSettings';
+import type {TableColumnSetupItem, TableSetting} from '../withTableSettings';
 
+import {DndTreeSelect} from './DndTreeSelect';
+import type {DndTreeSelectItem, DndTreeSelectProps, RenderDndContainer} from './DndTreeSelect';
 import i18n from './i18n';
 
 import './TableColumnSetup.scss';
 
 const b = block('table-column-setup');
-
-type Item = TableColumnSetupItem;
+const tableColumnSetupCn = b(null);
+const applyButtonCn = b('apply');
+const requiredDndItemCn = b('required-item');
 
 interface SwitcherProps {
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
 }
 
+type Item = TableColumnSetupItem & DndTreeSelectItem;
+
 export interface TableColumnSetupProps {
-    // for Button
-    disabled?: boolean;
-    /**
-     * @deprecated Use renderSwitcher instead
-     */
-    switcher?: React.ReactElement | undefined;
-    renderSwitcher?: (props: SwitcherProps) => React.ReactElement | undefined;
+    renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
 
-    // for List
-    items: Item[];
-    itemsHeight?: number | ((items: Item[]) => number);
+    items: TableColumnSetupItem[];
     sortable?: boolean;
-    filterable?: boolean;
 
-    onUpdate: (updated: Item[]) => void;
-    popupWidth?: number | string;
+    onUpdate: (newSettings: TableSetting[]) => void;
+    popupWidth?: DndTreeSelectProps<any>['popupWidth'];
     popupPlacement?: PopperPlacement;
-    getItemTitle?: (item: Item) => TableColumnSetupItem['title'];
-    showStatus?: boolean;
-    className?: string;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const {
-        switcher,
         renderSwitcher,
-        disabled,
         popupWidth,
         popupPlacement,
-        className,
         items: propsItems,
-        itemsHeight,
-        getItemTitle = (item: Item) => item.title,
-        sortable = true,
-        filterable = false,
-        showStatus,
+        onUpdate: propsOnUpdate,
+        sortable,
     } = props;
 
-    const [focused, setFocused] = React.useState(false);
-    const [items, setItems] = React.useState<Item[]>([]);
-    const [currentItems, setCurrentItems] = React.useState<Item[]>([]);
-    const [requiredItems, setRequiredItems] = React.useState<Item[]>([]);
+    const [open, setOpen] = React.useState(false);
 
-    const refControl = React.useRef(null);
+    const prepareItems = React.useCallback((tableColumnItems: TableColumnSetupItem[]) => {
+        return tableColumnItems.map<Item>((tableColumnItem) => {
+            const hasSelectionIcon = tableColumnItem.isRequired === false;
 
-    const LIST_ITEM_HEIGHT = 36;
+            return {
+                ...tableColumnItem,
+                startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
+                isDragDisabled: sortable === false,
+                hasSelectionIcon,
 
-    const getRequiredItems = (list: Item[]) =>
-        list
-            .filter(({required}) => required)
-            .map((column) => ({
-                ...column,
-                disabled: true,
+                // to overwrite select background effect - https://github.com/gravity-ui/uikit/blob/main/src/components/useList/components/ListItemView/ListItemView.tsx#L125
+                className: hasSelectionIcon ? undefined : requiredDndItemCn,
+            };
+        });
+    }, []);
+
+    const [items, setItems] = React.useState(prepareItems(propsItems));
+
+    const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
+    if (propsItems !== prevPropsItems) {
+        setPrevPropsItems(propsItems);
+
+        const newItems = prepareItems(propsItems);
+        setItems(newItems);
+    }
+
+    const onApply = () => {
+        const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
+        propsOnUpdate(newSettings);
+        setOpen(false);
+    };
+
+    const renderContainer: RenderDndContainer = ({renderList}) => {
+        return (
+            <React.Fragment>
+                {renderList()}
+                <Button view="action" className={applyButtonCn} onClick={onApply}>
+                    {i18n('button_apply')}
+                </Button>
+            </React.Fragment>
+        );
+    };
+
+    const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
+        const onKeyDown = createOnKeyDownHandler(toggleOpen);
+
+        return (
+            renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
+                <Button onClick={toggleOpen} extraProps={{onKeyDown}}>
+                    <Icon data={Gear} />
+                    {i18n('button_switcher')}
+                </Button>
+            )
+        );
+    };
+
+    const onOpenChange = (open: boolean) => {
+        setOpen(open);
+
+        if (open === false) {
+            const initialItems = prepareItems(propsItems);
+            setItems(initialItems);
+        }
+    };
+
+    const onUpdate = React.useCallback((selectedItemsIds: string[]) => {
+        setItems((prevItems) => {
+            return prevItems.map((item) => ({
+                ...item,
+                isSelected: selectedItemsIds.includes(item.id),
             }));
+        });
+    }, []);
 
-    const getConfigurableItems = (list: Item[]) => list.filter(({required}) => !required);
+    const value = React.useMemo(() => {
+        const selectedIds: string[] = [];
 
-    React.useEffect(() => {
-        if (propsItems !== items) {
-            setItems(propsItems);
-            setRequiredItems(getRequiredItems(propsItems));
-            setCurrentItems(getConfigurableItems(propsItems));
-        }
-    }, [items, propsItems]);
+        items.forEach(({id, isSelected}) => {
+            if (isSelected) {
+                selectedIds.push(id);
+            }
+        });
 
-    const setInitialState = () => {
-        setFocused(false);
-        setRequiredItems(getRequiredItems(items));
-        setCurrentItems(getConfigurableItems(items));
-    };
-
-    const getListHeight = (list: Item[]) => {
-        if (typeof itemsHeight === 'function') {
-            return itemsHeight(list);
-        } else if (typeof itemsHeight === 'number') {
-            return itemsHeight;
-        } else {
-            return Math.min(5, list.length) * LIST_ITEM_HEIGHT + LIST_ITEM_HEIGHT / 2;
-        }
-    };
-
-    const getRequiredListHeight = (list: Item[]) => {
-        if (typeof itemsHeight === 'function') {
-            return itemsHeight(list);
-        } else if (typeof itemsHeight === 'number') {
-            return itemsHeight;
-        } else {
-            return list.length * LIST_ITEM_HEIGHT;
-        }
-    };
-
-    const getCountSelected = () => items.reduce((acc, cur) => (cur.selected ? acc + 1 : acc), 0);
-
-    const makeOnSortEnd =
-        (list: Item[]) =>
-        ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => {
-            setCurrentItems(List.moveListElement(list.slice(), oldIndex, newIndex));
-        };
-
-    const handleUpdate = (value: Item[]) => setCurrentItems(value);
-
-    const handleClosePopup = () => setInitialState();
-
-    const handleControlClick = React.useCallback(() => {
-        if (!disabled) {
-            setFocused(!focused);
-            setRequiredItems(getRequiredItems(items));
-            setCurrentItems(getConfigurableItems(items));
-        }
-    }, [disabled, focused, items]);
-
-    const handleApplyClick = () => {
-        setInitialState();
-
-        const newItems = requiredItems.concat(currentItems);
-
-        if (items !== newItems) {
-            props.onUpdate(newItems);
-        }
-    };
-
-    const handleItemClick = (value: Item) => {
-        const newItems = currentItems.map((item) =>
-            item === value ? {...item, selected: !item.selected} : item,
-        );
-        handleUpdate(newItems);
-    };
-
-    const renderItem = (item: Item) => {
-        return (
-            <div className={b('item-content')}>
-                {item.required ? (
-                    <div className={b('lock-wrap', {visible: item.selected})}>
-                        <Icon data={Lock} />
-                    </div>
-                ) : (
-                    <div className={b('tick-wrap', {visible: item.selected})}>
-                        <Icon data={Check} className={b('tick')} width={10} height={10} />
-                    </div>
-                )}
-                <div className={b('title')}>{getItemTitle(item)}</div>
-            </div>
-        );
-    };
-
-    const renderStatus = () => {
-        if (!showStatus) {
-            return null;
-        }
-
-        const selected = getCountSelected();
-        const all = propsItems.length;
-        const status = `${selected}/${all}`;
-
-        return <span className={b('status')}>{status}</span>;
-    };
-
-    const renderRequiredColumns = () => {
-        const hasRequiredColumns = requiredItems.length;
-
-        if (!hasRequiredColumns) {
-            return null;
-        }
-
-        return (
-            <List
-                items={requiredItems}
-                itemHeight={LIST_ITEM_HEIGHT}
-                itemsHeight={getRequiredListHeight}
-                filterable={filterable}
-                renderItem={renderItem}
-                itemsClassName={b('items')}
-                itemClassName={b('item')}
-                virtualized={false}
-            />
-        );
-    };
-
-    const renderConfigurableColumns = () => {
-        return (
-            <List
-                items={currentItems}
-                itemHeight={LIST_ITEM_HEIGHT}
-                itemsHeight={getListHeight}
-                sortable={sortable}
-                filterable={filterable}
-                sortHandleAlign={'right'}
-                onSortEnd={makeOnSortEnd(currentItems)}
-                onItemClick={handleItemClick}
-                renderItem={renderItem}
-                itemsClassName={b('items')}
-                itemClassName={b('item')}
-                virtualized={false}
-            />
-        );
-    };
-
-    const {onKeyDown: handleControlKeyDown} = useActionHandlers(handleControlClick);
-
-    const switcherProps = React.useMemo<SwitcherProps>(
-        () => ({
-            onClick: handleControlClick,
-            onKeyDown: handleControlKeyDown,
-        }),
-        [handleControlClick, handleControlKeyDown],
-    );
+        return selectedIds;
+    }, [items]);
 
     return (
-        <div className={b(null, className)}>
-            {/* FIXME remove switcher prop and this wrapper */}
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div
-                className={b('control')}
-                ref={refControl}
-                {...(renderSwitcher ? {} : switcherProps)}
-            >
-                {renderSwitcher?.(switcherProps) || switcher || (
-                    <Button disabled={disabled}>
-                        <Icon data={Gear} />
-                        {i18n('button_switcher')}
-                        {renderStatus()}
-                    </Button>
-                )}
-            </div>
-            <Popup
-                anchorRef={refControl}
-                placement={popupPlacement || ['bottom-start', 'bottom-end', 'top-start', 'top-end']}
-                open={focused}
-                onClose={handleClosePopup}
-                className={b('popup')}
-                style={{width: popupWidth}}
-            >
-                {renderRequiredColumns()}
-                {renderConfigurableColumns()}
-                <div className={b('controls')}>
-                    <Button view="action" width="max" onClick={handleApplyClick}>
-                        {i18n('button_apply')}
-                    </Button>
-                </div>
-            </Popup>
-        </div>
+        <DndTreeSelect
+            className={tableColumnSetupCn}
+            multiple
+            size="l"
+            open={open}
+            value={value}
+            onUpdate={onUpdate}
+            popupWidth={popupWidth}
+            onOpenChange={onOpenChange}
+            placement={popupPlacement}
+            renderContainer={renderContainer}
+            renderControl={renderControl}
+            items={items}
+            setItems={setItems}
+        />
     );
 };

@@ -5,6 +5,7 @@ import _get from 'lodash/get';
 import _isString from 'lodash/isString';
 import _last from 'lodash/last';
 
+import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {block} from '../../../utils/cn';
@@ -13,27 +14,23 @@ import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
+import type {DndTreeSelectProps} from './TableColumnSetup/DndTreeSelect';
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
 import i18n from './i18n';
 
 import './withTableSettings.scss';
 
-interface SortableItem {
-    id: string;
-    title: React.ReactNode;
-    isSelected?: boolean;
-    isProtected?: boolean;
-}
-export interface TableColumnSetupItem {
-    id: string;
-    title: React.ReactNode;
-    selected?: boolean;
-    required?: boolean;
-}
-export type TableSettingsData = Array<{
+export type TableSetting = {
     id: string;
     isSelected?: boolean;
-}>;
+};
+
+export type TableSettingsData = TableSetting[];
+
+export type TableColumnSetupItem = TableSetting & {
+    title: React.ReactNode;
+    isRequired?: boolean;
+};
 
 export function filterColumns<I>(
     columns: TableColumnConfig<I>[],
@@ -69,54 +66,49 @@ export function getColumnStringTitle<Data>(column: TableColumnConfig<Data>) {
     return column.id;
 }
 
+const getTableColumnSetupItem = <I extends unknown>(
+    id: string,
+    isSelected: boolean | undefined,
+    column: TableColumnConfig<I> | undefined,
+): TableColumnSetupItem => {
+    const isProtected = Boolean(column?.meta?.selectedAlways);
+
+    return {
+        id,
+        isSelected: isProtected ? true : isSelected,
+        isRequired: isProtected,
+        title: column ? getColumnStringTitle(column) : id,
+    };
+};
+
 export function getActualItems<I>(
     columns: TableColumnConfig<I>[],
     settings: TableSettingsData,
-): SortableItem[] {
-    const newColumnSettings = columns
-        .filter(
-            ({id}) =>
-                id !== actionsColumnId &&
-                id !== selectionColumnId &&
-                settings.every((setting) => setting.id !== id),
-        )
-        .map((column) => ({
-            id: column.id,
-            isSelected: column.meta?.selectedByDefault !== false,
-        }));
-    return settings
-        .filter(({id}) => columns.some((column) => id === column.id))
-        .concat(newColumnSettings)
-        .map(({id, isSelected}) => {
-            const foundColumn = columns.find((column) => column.id === id);
-            const isProtected = Boolean(foundColumn?.meta?.selectedAlways);
-            return {
-                id,
-                isSelected: isProtected ? true : isSelected,
-                isProtected,
-                title: foundColumn ? getColumnStringTitle(foundColumn) : id,
-            };
-        });
-}
+): TableColumnSetupItem[] {
+    const sortableItems: TableColumnSetupItem[] = [];
 
-function prepareColumnSetupItems(items: SortableItem[]): TableColumnSetupItem[] {
-    return items.map(({id, title, isSelected, isProtected}) => ({
-        id,
-        title,
-        selected: isSelected,
-        required: isProtected,
-    }));
-}
+    settings.forEach(({id, isSelected}) => {
+        if (columns.some((column) => id === column.id)) {
+            sortableItems.push(getTableColumnSetupItem(id, isSelected, undefined));
+        }
+    });
 
-function prepareUpdateSettings(items: TableColumnSetupItem[]): TableSettingsData {
-    return items.map(({id, selected}) => ({
-        id,
-        isSelected: selected,
-    }));
+    columns.forEach((column) => {
+        if (
+            column.id !== actionsColumnId &&
+            column.id !== selectionColumnId &&
+            settings.every((setting) => setting.id !== column.id)
+        ) {
+            const isSelected = column.meta?.selectedByDefault !== false;
+            sortableItems.push(getTableColumnSetupItem(column.id, isSelected, column));
+        }
+    });
+
+    return sortableItems;
 }
 
 export interface WithTableSettingsOptions {
-    width?: number | string;
+    width?: DndTreeSelectProps<any>['popupWidth'];
     sortable?: boolean;
 }
 
@@ -124,12 +116,15 @@ export interface WithTableSettingsProps {
     /**
      * @deprecated Use factory notation: "withTableSettings({width: <value>})(Table)"
      */
-    settingsPopupWidth?: number | string;
+    settingsPopupWidth?: DndTreeSelectProps<any>['popupWidth'];
+
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;
 }
 
 const b = block('table');
+
+const POPUP_PLACEMENT: PopperPlacement = ['bottom-end', 'bottom', 'top-end', 'top', 'auto'];
 
 export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
     Component: React.ComponentType<TableProps<I> & E>,
@@ -159,51 +154,33 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             settingsPopupWidth,
             ...restTableProps
         }: TableProps<I> & WithTableSettingsProps & E) {
-            const actualItems = React.useMemo(
-                () => getActualItems(columns, settings || []),
-                [columns, settings],
-            );
+            const enhancedColumns = React.useMemo(() => {
+                const actualItems = getActualItems(columns, settings || []);
 
-            const onUpdateColumns = React.useCallback(
-                (newItems: TableColumnSetupItem[]) => {
-                    updateSettings(prepareUpdateSettings(newItems));
-                },
-                [updateSettings],
-            );
-
-            const columnSetupItems = React.useMemo(
-                () => prepareColumnSetupItems(actualItems),
-                [actualItems],
-            );
-
-            const enhancedColumns = React.useMemo(
-                () =>
-                    enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
-                        // eslint-disable-next-line react/display-name
-                        systemColumn.name = () => (
-                            <div className={b('settings')}>
-                                <TableColumnSetup
-                                    popupWidth={settingsPopupWidth || width}
-                                    popupPlacement={['bottom-end', 'bottom', 'top-end', 'top']}
-                                    sortable={sortable}
-                                    onUpdate={onUpdateColumns}
-                                    items={columnSetupItems}
-                                    renderSwitcher={({onClick}) => (
-                                        <Button
-                                            view="flat"
-                                            className={b('settings-button')}
-                                            extraProps={{'aria-label': i18n('label_settings')}}
-                                            onClick={onClick}
-                                        >
-                                            <Icon data={Gear} />
-                                        </Button>
-                                    )}
-                                />
-                            </div>
-                        );
-                    }),
-                [actualItems, columnSetupItems, columns, onUpdateColumns, settingsPopupWidth],
-            );
+                return enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
+                    systemColumn.name = () => (
+                        <div className={b('settings')}>
+                            <TableColumnSetup
+                                popupWidth={settingsPopupWidth || width}
+                                popupPlacement={POPUP_PLACEMENT}
+                                sortable={sortable}
+                                onUpdate={updateSettings}
+                                items={actualItems}
+                                renderSwitcher={({onClick}) => (
+                                    <Button
+                                        view="flat"
+                                        className={b('settings-button')}
+                                        extraProps={{'aria-label': i18n('label_settings')}}
+                                        onClick={onClick}
+                                    >
+                                        <Icon data={Gear} />
+                                    </Button>
+                                )}
+                            />
+                        </div>
+                    );
+                });
+            }, [columns, settings, updateSettings, settingsPopupWidth]);
 
             return (
                 <React.Fragment>

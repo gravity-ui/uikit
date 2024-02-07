@@ -12,7 +12,7 @@ describe('Divider', () => {
     test('Should passed className', () => {
         render(<Divider className={b()} qa={qa} />);
 
-        expect(screen.getByTestId(qa)).toHaveClass('yc-my-divider');
+        expect(screen.getByTestId(qa)).toHaveClass('g-my-divider');
     });
     test('Should passed style', () => {
         render(<Divider style={{borderWidth: '2px'}} qa={qa} />);
@@ -25,7 +25,7 @@ describe('Divider', () => {
         const element = screen.getByTestId(qa);
 
         expect(element).toHaveAttribute('aria-orientation', 'horizontal');
-        expect(element).toHaveClass('yc-divider_orientation_horizontal');
+        expect(element).toHaveClass('g-divider_orientation_horizontal');
     });
     test('Should render with orientation=vertical', () => {
         render(<Divider orientation="vertical" qa={qa} />);
@@ -33,6 +33,6 @@ describe('Divider', () => {
         const element = screen.getByTestId(qa);
 
         expect(element).toHaveAttribute('aria-orientation', 'vertical');
-        expect(element).toHaveClass('yc-divider_orientation_vertical');
+        expect(element).toHaveClass('g-divider_orientation_vertical');
     });
 });

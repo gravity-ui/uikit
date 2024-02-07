@@ -2,13 +2,13 @@ import React from 'react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 import {Slider} from '../Slider';
 import type {SliderProps} from '../types';
 
 import './SliderShowcase.scss';
 
-const b = blockNew('slider-showcase');
+const b = block('slider-showcase');
 const blockCn = b('block');
 const rowCn = b('row');
 

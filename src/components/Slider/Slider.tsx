@@ -2,7 +2,7 @@ import React from 'react';
 
 import debounce from 'lodash/debounce';
 
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {SliderTooltip} from './SliderTooltip/SliderTooltip';
@@ -11,7 +11,7 @@ import {getInnerState} from './utils';
 
 import './Slider.scss';
 
-const b = blockNew('slider');
+const b = block('slider');
 
 export const Slider = React.forwardRef(function Slider(
     {

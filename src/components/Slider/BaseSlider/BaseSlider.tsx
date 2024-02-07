@@ -3,12 +3,12 @@ import React from 'react';
 import Slider from 'rc-slider';
 import type {SliderProps, SliderRef} from 'rc-slider';
 
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 import type {StateModifiers} from '../types';
 
 import './BaseSlider.scss';
 
-const b = blockNew('base-slider');
+const b = block('base-slider');
 
 type BaseSliderProps = {stateModifiers: StateModifiers} & Omit<
     SliderProps,

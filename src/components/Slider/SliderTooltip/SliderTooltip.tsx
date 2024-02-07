@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {blockNew} from '../../utils/cn';
+import {block} from '../../utils/cn';
 import type {StateModifiers} from '../types';
 
 import {SliderTooltipPin} from './SliderTooltipPin';
 
 import './SliderTooltip.scss';
 
-const b = blockNew('slider-tooltip');
+const b = block('slider-tooltip');
 
 type SliderTooltipProps = {
     value: number;

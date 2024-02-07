@@ -407,7 +407,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     private renderVirtualizedContainer() {
-        const items = this.getItems();
+        // Otherwise, react-window will not update the list items
+        const items = [...this.getItems()];
 
         if (this.props.sortable) {
             return (

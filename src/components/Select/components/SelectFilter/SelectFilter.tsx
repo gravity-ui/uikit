@@ -2,6 +2,7 @@ import React from 'react';
 
 import {TextInput} from '../../../controls';
 import {blockNew as block} from '../../../utils/cn';
+import {SelectQa} from '../../constants';
 import type {SelectProps} from '../../types';
 import type {SelectFilterRef} from '../../types-misc';
 
@@ -21,6 +22,8 @@ type SelectFilterProps = {
 const style = {
     padding: '4px 4px 0',
 };
+
+export const SELECT_FILTER_QA = 'SELECT_FILTER_QA';
 
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
     const {onChange, onKeyDown, renderFilter, size, value, placeholder} = props;
@@ -46,6 +49,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
                 placeholder={placeholder}
                 onUpdate={onChange}
                 onKeyDown={onKeyDown}
+                qa={SelectQa.FILTER_INPUT}
             />
         </div>
     );

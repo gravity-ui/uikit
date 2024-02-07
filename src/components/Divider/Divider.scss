@@ -12,11 +12,11 @@ $block: '.#{variables.$ns}divider';
 
     &_orientation {
         &_vertical {
-            border-left: 1px solid var(--g-color-line-generic);
+            border-inline-start: 1px solid var(--g-color-line-generic);
         }
 
         &_horizontal {
-            border-top: 1px solid var(--g-color-line-generic);
+            border-block-start: 1px solid var(--g-color-line-generic);
         }
     }
 }

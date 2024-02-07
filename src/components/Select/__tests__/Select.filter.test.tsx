@@ -4,7 +4,7 @@ import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {TextInput} from '../../controls';
-import type {SelectOption, SelectProps} from '../types';
+import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
 import {TEST_QA, generateOptions, generateOptionsGroups, setup} from './utils';
 
@@ -17,7 +17,7 @@ const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
 
-const renderCustomFilter: SelectProps['renderFilter'] = (props) => {
+const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
     const {value, ref, onChange, onKeyDown} = props;
 
     return (
@@ -31,17 +31,28 @@ const renderCustomFilter: SelectProps['renderFilter'] = (props) => {
     );
 };
 
+const RENDER_POPUP: SelectRenderPopup = ({renderList, renderFilter}) => {
+    return (
+        <React.Fragment>
+            {renderFilter()}
+            {renderList()}
+        </React.Fragment>
+    );
+};
+
 describe('Select filter', () => {
-    test.each<[string, Partial<SelectProps>]>([
-        ['default', {renderFilter: undefined}],
-        ['custom', {renderFilter: renderCustomFilter}],
-    ])('base functional with %s filter section', async (_, {renderFilter}) => {
+    test.each([
+        ['default', undefined, undefined],
+        ['custom', RENDER_CUSTOM_FILTER, RENDER_POPUP],
+        ['custom', RENDER_CUSTOM_FILTER, undefined],
+    ])('base functional with %s filter section', async (_, renderFilter, renderPopup) => {
         const {getByTestId, getByPlaceholderText, getAllByRole, queryAllByRole} = setup({
             options: generateOptions(40),
             filterPlaceholder: FILTER_PLACEHOLDER,
             filterable: true,
             onFilterChange,
             renderFilter,
+            renderPopup,
         });
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);

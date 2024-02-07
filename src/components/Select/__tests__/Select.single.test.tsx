@@ -1,6 +1,8 @@
 import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import type {SelectRenderPopup} from '../types';
+
 import {
     DEFAULT_OPTIONS,
     GROUPED_OPTIONS,
@@ -18,15 +20,18 @@ afterEach(() => {
 const onUpdate = jest.fn();
 const onOpenChange = jest.fn();
 const SELECTED_OPTION = DEFAULT_OPTIONS[0];
+const RENDER_POPUP: SelectRenderPopup = ({renderList}) => renderList();
 
 describe('Select single mode actions', () => {
     describe('select option by click in', () => {
         test.each([
-            [OptionsListType.FLAT, SELECTED_OPTION],
-            [OptionsListType.GROUPED, SELECTED_OPTION],
-        ])('%s list', async (type, selectedOption) => {
+            [OptionsListType.FLAT, SELECTED_OPTION, RENDER_POPUP],
+            [OptionsListType.GROUPED, SELECTED_OPTION, RENDER_POPUP],
+            [OptionsListType.FLAT, SELECTED_OPTION, undefined],
+            [OptionsListType.GROUPED, SELECTED_OPTION, undefined],
+        ])('%s list', async (type, selectedOption, renderPopup) => {
             const options = type === 'grouped' ? GROUPED_OPTIONS : DEFAULT_OPTIONS;
-            const {getByTestId, getByText} = setup({options, onUpdate, onOpenChange});
+            const {getByTestId, getByText} = setup({options, onUpdate, onOpenChange, renderPopup});
             const user = userEvent.setup();
             const selectControl = getByTestId(TEST_QA);
             // open select popup
@@ -42,13 +47,17 @@ describe('Select single mode actions', () => {
 
     describe('select option by', () => {
         test.each([
-            ['Enter', OptionsListType.FLAT, SELECTED_OPTION],
-            ['Enter', OptionsListType.GROUPED, SELECTED_OPTION],
-            ['Space', OptionsListType.FLAT, SELECTED_OPTION],
-            ['Space', OptionsListType.GROUPED, SELECTED_OPTION],
-        ])('%s in %s list', async (key, type, selectedOption) => {
+            ['Enter', OptionsListType.FLAT, SELECTED_OPTION, RENDER_POPUP],
+            ['Enter', OptionsListType.GROUPED, SELECTED_OPTION, RENDER_POPUP],
+            ['Space', OptionsListType.FLAT, SELECTED_OPTION, RENDER_POPUP],
+            ['Space', OptionsListType.GROUPED, SELECTED_OPTION, RENDER_POPUP],
+            ['Enter', OptionsListType.FLAT, SELECTED_OPTION, undefined],
+            ['Enter', OptionsListType.GROUPED, SELECTED_OPTION, undefined],
+            ['Space', OptionsListType.FLAT, SELECTED_OPTION, undefined],
+            ['Space', OptionsListType.GROUPED, SELECTED_OPTION, undefined],
+        ])('%s in %s list', async (key, type, selectedOption, renderPopup) => {
             const options = type === 'grouped' ? GROUPED_OPTIONS : DEFAULT_OPTIONS;
-            const {getByTestId} = setup({options, onUpdate, onOpenChange});
+            const {getByTestId} = setup({options, onUpdate, onOpenChange, renderPopup});
             const user = userEvent.setup();
             const selectControl = getByTestId(TEST_QA);
             await user.keyboard('[Tab]');

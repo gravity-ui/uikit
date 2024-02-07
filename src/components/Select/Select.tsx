@@ -3,6 +3,8 @@ import React from 'react';
 import {KeyCode} from '../../constants';
 import {useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
+import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
+import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
 
@@ -77,7 +79,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onClose,
         id,
     } = props;
-    const [mobile] = useMobile();
+    const mobile = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
     // to avoid problem with incorrect popper offset calculation
     // for example: https://github.com/radix-ui/primitives/issues/1567
@@ -121,6 +123,20 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderSelectedOption,
     );
     const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+
+    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
+        error,
+        errorMessage: props.errorMessage,
+        errorPlacement: props.errorPlacement || 'outside',
+        validationState: props.validationState,
+    });
+    const errorMessageId = useUniqId();
+
+    const isErrorMsgVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
+    const isErrorStateVisible = isErrorMsgVisible || isErrorIconVisible;
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
@@ -250,7 +266,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 label={label}
                 placeholder={placeholder}
                 selectedOptionsContent={selectedOptionsContent}
-                error={error}
+                isErrorVisible={isErrorStateVisible}
+                errorMessage={isErrorIconVisible ? errorMessage : undefined}
                 open={open}
                 disabled={disabled}
                 onKeyDown={handleControlKeyDown}
@@ -260,6 +277,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 selectId={`select-${selectId}`}
                 activeIndex={activeIndex}
             />
+
             <SelectPopup
                 ref={controlWrapRef}
                 className={popupClassName}
@@ -307,6 +325,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
                 )}
             </SelectPopup>
+
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+            />
         </div>
     );
 }) as unknown as SelectComponent;

@@ -1,4 +1,4 @@
-.yc-toaster-story {
+.toaster-showcase {
     &__mobile-promotion {
         width: 450px;
         border: 2px solid #1a8dff;
@@ -18,7 +18,7 @@
             color: var(--g-color-text-warning-heavy);
         }
 
-        &_error {
+        &_danger {
             color: var(--g-color-text-danger-heavy);
         }
 

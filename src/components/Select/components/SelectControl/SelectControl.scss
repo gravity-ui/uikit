@@ -3,33 +3,33 @@
 @use '../../variables.scss' as select-css-variables;
 @use '../SelectClear/SelectClear';
 
-$block: '.#{variables.$ns-new}select-control';
-$blockButton: '.#{variables.$ns-new}select-control__button';
+$block: '.#{variables.$ns}select-control';
+$blockButton: '.#{variables.$ns}select-control__button';
 
 @mixin block_control($size: m) {
     @if $size == 's' {
-        --_--select-options-text-right-padding: #{select-css-variables.$s-hor-padding};
-        --_--select-border-radius: var(--g-border-radius-s);
+        --_--text-right-padding: #{select-css-variables.$s-hor-padding};
+        --_--border-radius: var(--g-border-radius-s);
         height: #{variables.$s-height};
-        padding: 4px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 4px calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'm' {
-        --_--select-options-text-right-padding: #{select-css-variables.$m-hor-padding};
-        --_--select-border-radius: var(--g-border-radius-m);
+        --_--text-right-padding: #{select-css-variables.$m-hor-padding};
+        --_--border-radius: var(--g-border-radius-m);
         height: #{variables.$m-height};
-        padding: 6px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 6px calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'l' {
-        --_--select-options-text-right-padding: #{select-css-variables.$l-hor-padding};
-        --_--select-border-radius: var(--g-border-radius-l);
+        --_--text-right-padding: #{select-css-variables.$l-hor-padding};
+        --_--border-radius: var(--g-border-radius-l);
         height: #{variables.$l-height};
-        padding: 10px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 10px calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'xl' {
-        --_--select-options-text-right-padding: #{select-css-variables.$xl-hor-padding};
-        --_--select-border-radius: var(--g-border-radius-xl);
+        --_--text-right-padding: #{select-css-variables.$xl-hor-padding};
+        --_--border-radius: var(--g-border-radius-xl);
         height: #{variables.$xl-height};
-        padding: 12px calc(var(--_--select-options-text-right-padding) + 1px); // plus border-width
+        padding: 12px calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
 }
 
@@ -51,32 +51,32 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 @mixin block_clear_reserved_width() {
     // reserving place for clear icon to fix width changing on displaying clear
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_s & {
-        padding-right: calc(#{variables.$s-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$s-height} + var(--_--text-right-padding));
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_m & {
-        padding-right: calc(#{variables.$m-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$m-height} + var(--_--text-right-padding));
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_l & {
-        padding-right: calc(#{variables.$l-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$l-height} + var(--_--text-right-padding));
     }
     #{$block}_has-clear:not(#{$block}_has-value)#{$block}_size_xl & {
-        padding-right: calc(#{variables.$xl-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$xl-height} + var(--_--text-right-padding));
     }
 }
 
 @mixin block_clear_reserved_disabled_width() {
     // reserving place for clear icon to fix width changing on displaying clear for disabled select
     #{$block}_has-clear#{$block}_size_s #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$s-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$s-height} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_m #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$m-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$m-height} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_l #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$l-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$l-height} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_xl #{$blockButton}_disabled & {
-        padding-right: calc(#{variables.$xl-height} + var(--_--select-options-text-right-padding));
+        padding-inline-end: calc(#{variables.$xl-height} + var(--_--text-right-padding));
     }
 }
 
@@ -113,21 +113,23 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__button {
         @include mixins.button-reset();
-        @include mixins.pin($blockButton, ('::before', '::after'), var(--_--select-border-radius));
+        @include mixins.pin($blockButton, ('::before', '::after'), var(--_--border-radius));
 
         display: inline-flex;
         align-items: center;
         overflow: hidden;
         width: 100%;
         height: 100%;
-        transition: color 0.15s linear, background-color 0.15s linear;
+        transition:
+            color 0.15s linear,
+            background-color 0.15s linear;
 
         &::before {
             content: '';
             position: absolute;
             inset: 0;
             border: 1px solid var(--g-color-line-generic);
-            border-radius: var(--_--select-border-radius);
+            border-radius: var(--_--border-radius);
         }
 
         &::after {
@@ -190,7 +192,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         }
 
         &_open:not(&_error):not(&_view_clear)::before,
-        &:not(&_error):focus-visible::before {
+        &:not(&_error):not(&_view_clear):focus-visible::before {
             border-color: var(--g-color-line-generic-active);
         }
     }
@@ -205,7 +207,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
         flex-shrink: 0;
         max-width: 50%;
-        margin-right: 4px;
+        margin-inline-end: 4px;
         white-space: nowrap;
     }
 
@@ -214,7 +216,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
         @include mixins.overflow-ellipsis();
         @include block_clear_reserved_disabled_width();
 
-        padding-right: var(--_--select-options-text-right-padding);
+        padding-inline-end: var(--_--text-right-padding);
     }
 
     &__placeholder {
@@ -227,7 +229,7 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
 
     &__chevron-icon {
         flex: 0 0 16px;
-        margin-left: auto;
+        margin-inline-start: auto;
         color: var(--g-color-text-secondary);
 
         &_disabled {
@@ -236,13 +238,12 @@ $blockButton: '.#{variables.$ns-new}select-control__button';
     }
 
     #{SelectClear.$block} + &__chevron-icon {
-        margin-left: 0;
+        margin-inline-start: 0;
     }
 
-    &__error {
-        @include mixins.text-body-1();
-
+    &__error-icon {
+        box-sizing: content-box;
         color: var(--g-color-text-danger);
-        margin-top: 2px;
+        padding: var(--_--text-input-error-icon-padding);
     }
 }

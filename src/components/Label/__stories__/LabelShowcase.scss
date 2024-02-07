@@ -16,7 +16,7 @@
         gap: 10px;
         & > * {
             width: min-content;
-            margin-left: unset;
+            margin-inline-start: unset;
         }
     }
 }

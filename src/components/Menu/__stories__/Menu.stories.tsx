@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {CircleExclamationFill, Gear} from '@gravity-ui/icons';
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Icon} from '../../Icon';
@@ -12,24 +13,36 @@ export default {
     component: Menu,
 } as Meta<typeof Menu>;
 
+const createItemClickHandler = (text: string) => () => {
+    action(`Click ${text} item`);
+    alert(`${text} item clicked`);
+};
+
 export const Default: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>First</Menu.Item>
-        <Menu.Item>Second</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Second')}>Second</Menu.Item>
     </Menu>
 );
 
 export const ItemActive: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item active>First</Menu.Item>
-        <Menu.Item>Second</Menu.Item>
-        <Menu.Item>Third</Menu.Item>
+        <Menu.Item active onClick={createItemClickHandler('First')}>
+            First
+        </Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Second')}>Second</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Third')}>Third</Menu.Item>
     </Menu>
 );
 
 export const ItemIcon: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item iconStart={<Icon data={Gear} size={16} />}>Settings</Menu.Item>
+        <Menu.Item
+            iconStart={<Icon data={Gear} size={16} />}
+            onClick={createItemClickHandler('Settings')}
+        >
+            Settings
+        </Menu.Item>
     </Menu>
 );
 
@@ -38,6 +51,7 @@ export const ItemBothIcons: StoryFn<MenuProps> = (args) => (
         <Menu.Item
             iconStart={<Icon data={Gear} size={16} />}
             iconEnd={<Icon data={CircleExclamationFill} size={16} />}
+            onClick={createItemClickHandler('Settings')}
         >
             Settings
         </Menu.Item>
@@ -46,25 +60,31 @@ export const ItemBothIcons: StoryFn<MenuProps> = (args) => (
 
 export const ItemDisabled: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>First</Menu.Item>
-        <Menu.Item disabled>Second (unavailable)</Menu.Item>
-        <Menu.Item>Third</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Second')} disabled>
+            Second (unavailable)
+        </Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Third')}>Third</Menu.Item>
     </Menu>
 );
 
 export const ItemSelected: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>First</Menu.Item>
-        <Menu.Item>Second</Menu.Item>
-        <Menu.Item selected>Third</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Second')}>Second</Menu.Item>
+        <Menu.Item selected onClick={createItemClickHandler('Third')}>
+            Third
+        </Menu.Item>
     </Menu>
 );
 
 export const ItemTheme: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>Normal</Menu.Item>
-        <Menu.Item theme="danger">Danger</Menu.Item>
-        <Menu.Item theme="danger" disabled>
+        <Menu.Item onClick={createItemClickHandler('Normal')}>Normal</Menu.Item>
+        <Menu.Item theme="danger" onClick={createItemClickHandler('Danger')}>
+            Danger
+        </Menu.Item>
+        <Menu.Item theme="danger" disabled onClick={createItemClickHandler('Danger (disabled)')}>
             Danger (disabled)
         </Menu.Item>
     </Menu>
@@ -86,20 +106,20 @@ export const ItemLink: StoryFn<MenuProps> = (args) => (
 
 export const Group: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item>First</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
         <Menu.Group label="Group One">
-            <Menu.Item>One</Menu.Item>
-            <Menu.Item>Two</Menu.Item>
+            <Menu.Item onClick={createItemClickHandler('Group One: One')}>One</Menu.Item>
+            <Menu.Item onClick={createItemClickHandler('Group One: Two')}>Two</Menu.Item>
         </Menu.Group>
         <Menu.Group label="Group Two">
-            <Menu.Item>One</Menu.Item>
-            <Menu.Item>Two</Menu.Item>
+            <Menu.Item onClick={createItemClickHandler('Group Two: One')}>One</Menu.Item>
+            <Menu.Item onClick={createItemClickHandler('Group Two: Two')}>Two</Menu.Item>
         </Menu.Group>
-        <Menu.Item>Middle</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Middle')}>Middle</Menu.Item>
         <Menu.Group label="Group Three">
-            <Menu.Item>One</Menu.Item>
-            <Menu.Item>Two</Menu.Item>
+            <Menu.Item onClick={createItemClickHandler('Group Three: One')}>One</Menu.Item>
+            <Menu.Item onClick={createItemClickHandler('Group Three: Two')}>Two</Menu.Item>
         </Menu.Group>
-        <Menu.Item>Last</Menu.Item>
+        <Menu.Item onClick={createItemClickHandler('Last')}>Last</Menu.Item>
     </Menu>
 );

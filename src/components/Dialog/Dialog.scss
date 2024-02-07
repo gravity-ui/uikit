@@ -3,39 +3,36 @@
 $block: '.#{variables.$ns}dialog';
 
 #{$block} {
+    --_--side-padding: 32px;
+    --_--close-button-space: 0;
+
     position: relative;
+    display: flex;
+    flex-direction: column;
+    width: var(--_--width, var(--g-dialog-width));
+
+    &_has-scroll {
+        overflow-y: auto;
+        max-height: calc(
+            100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+        );
+    }
 
     &_size {
         &_s {
-            width: var(--yc-dialog-size-s);
+            --_--width: 480px;
         }
 
         &_m {
-            width: var(--yc-dialog-size-m);
+            --_--width: 720px;
         }
 
         &_l {
-            width: var(--yc-dialog-size-l);
+            --_--width: 900px;
         }
     }
 
     &_has-close {
-        --yc-dialog-header-padding: var(--yc-dialog-header-padding-top)
-            calc(var(--yc-dialog-side-padding) + 28px) var(--yc-dialog-header-padding-bottom)
-            var(--yc-dialog-side-padding);
+        --_--close-button-space: 24px;
     }
-}
-
-:root {
-    --yc-dialog-size-s: 480px;
-    --yc-dialog-size-m: 720px;
-    --yc-dialog-size-l: 900px;
-    --yc-dialog-side-padding: 32px;
-    --yc-dialog-header-padding-top: 20px;
-    --yc-dialog-header-padding-bottom: 10px;
-    --yc-dialog-header-padding: var(--yc-dialog-header-padding-top) var(--yc-dialog-side-padding)
-        var(--yc-dialog-header-padding-bottom) var(--yc-dialog-side-padding);
-    --yc-dialog-body-padding: 10px var(--yc-dialog-side-padding);
-    --yc-dialog-footer-padding: 28px var(--yc-dialog-side-padding);
-    --yc-dialog-divider-margin: 0 calc(-1 * var(--yc-dialog-side-padding));
 }

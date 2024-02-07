@@ -1,4 +1,5 @@
 /* stylelint-disable declaration-no-important */
+
 @use '../variables.scss' as v;
 
 #{v.$flexBlock} {
@@ -8,14 +9,19 @@
         display: inline-flex;
     }
 
+    &_center-content {
+        justify-content: center;
+        align-items: center;
+    }
+
     @each $space, $value in v.$SPACE {
         &_s_#{$space} {
-            margin-top: calc(-1 * $value) !important;
-            margin-left: calc(-1 * $value) !important;
+            margin-block-start: calc(-1 * $value) !important;
+            margin-inline-start: calc(-1 * $value) !important;
 
             & > * {
-                padding-top: $value !important;
-                padding-left: $value !important;
+                padding-block-start: $value !important;
+                padding-inline-start: $value !important;
             }
         }
     }

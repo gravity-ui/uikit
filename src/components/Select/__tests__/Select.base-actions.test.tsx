@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
+import {act, render, screen} from '../../../../test-utils/utils';
 import {ListQa} from '../../List';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, QUICK_SEARCH_TIMEOUT} from '../constants';
 

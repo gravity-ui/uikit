@@ -19,7 +19,7 @@
 
     &__horizontal-scroll-bar {
         overflow-x: auto;
-        margin-top: -1px;
+        margin-block-start: -1px;
 
         &-inner {
             height: 1px;
@@ -31,8 +31,8 @@
                 position: absolute;
                 width: 1px;
                 height: 1px;
-                top: 0;
-                left: 0;
+                inset-block-start: 0;
+                inset-inline-start: 0;
                 background-color: rgba(255, 255, 255, 0.01);
             }
         }
@@ -51,19 +51,19 @@
 
     &__cell {
         box-sizing: content-box;
-        padding: 11px 10px;
-        border-bottom: 1px solid var(--g-color-line-generic);
+        padding: 11px var(--g-spacing-2) 10px;
+        border-block-end: 1px solid var(--g-color-line-generic);
 
         line-height: variables.$tableLineHeight;
-        text-align: left;
+        text-align: start;
         overflow-wrap: break-word;
 
         &:first-child {
-            padding-left: 0;
+            padding-inline-start: 0;
         }
 
         &:last-child {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
 
         &:not(&_word-wrap) {
@@ -74,32 +74,29 @@
             text-align: center;
         }
 
-        &_align_right {
-            text-align: right;
+        &_align_end {
+            text-align: end;
         }
 
-        &_sticky_left,
-        &_sticky_right {
+        #{variables.$block} &_sticky_start,
+        #{variables.$block} &_sticky_end {
             position: sticky;
             z-index: 2;
-        }
 
-        &_sticky_left,
-        &_sticky_right {
             background: var(--g-color-base-background);
         }
 
         &_border_right {
-            border-right: 1px solid var(--g-color-line-generic);
+            border-inline-end: 1px solid var(--g-color-line-generic);
         }
 
         &_edge-padding {
             &:first-child {
-                padding-left: 15px;
+                padding-inline-start: var(--g-spacing-3);
             }
 
             &:last-child {
-                padding-right: 15px;
+                padding-inline-end: var(--g-spacing-3);
             }
         }
     }
@@ -119,22 +116,19 @@
     }
 
     &__body &__row:last-child &__cell {
-        border-bottom-color: transparent;
+        border-block-end-color: transparent;
     }
 
     &__head &__cell {
         @include mixins.text-accent;
-        &::first-letter {
-            text-transform: uppercase;
-        }
     }
 
     &__body &__row_interactive:hover {
         background-color: var(--g-color-base-simple-hover-solid);
         cursor: pointer;
 
-        #{variables.$block}__cell_sticky_left,
-        #{variables.$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_start,
+        #{variables.$block}__cell_sticky_end {
             background: var(--g-color-base-simple-hover-solid);
         }
     }

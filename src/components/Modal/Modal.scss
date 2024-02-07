@@ -1,14 +1,12 @@
 @use '../variables';
 
 $block: '.#{variables.$ns}modal';
+$modal-default-border-radius: 5px;
 
 #{$block} {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 1000;
 
     visibility: hidden;
@@ -19,24 +17,31 @@ $block: '.#{variables.$ns}modal';
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-    &__table {
-        display: table;
-        width: 100%;
-        height: 100%;
+    &__content-aligner {
+        min-width: 100%;
+        min-height: 100%;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    &__cell {
-        display: table-cell;
-        text-align: center;
-        vertical-align: middle;
+    &__content-wrapper {
+        margin: var(--g-modal-margin, #{variables.$modal-default-margin});
+        border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
+        overflow-x: hidden;
     }
 
     &__content {
-        display: inline-block;
-        margin: var(--yc-modal-margin);
-        text-align: left;
         background-color: var(--g-color-base-modal);
-        border-radius: var(--yc-modal-border-radius);
+        border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
+
+        &_has-scroll {
+            overflow-y: auto;
+            max-height: calc(
+                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            );
+        }
     }
 
     &,
@@ -97,9 +102,4 @@ $block: '.#{variables.$ns}modal';
     100% {
         transform: scale(1);
     }
-}
-
-:root {
-    --yc-modal-border-radius: 5px;
-    --yc-modal-margin: 20px;
 }

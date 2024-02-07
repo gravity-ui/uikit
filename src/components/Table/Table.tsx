@@ -6,6 +6,7 @@ import _isNumber from 'lodash/isNumber';
 
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
+import {warnOnce} from '../utils/warn';
 
 import i18n from './i18n';
 
@@ -18,6 +19,27 @@ export interface TableDataItem {
 }
 
 type ActiveScrollElementType = 'scrollBar' | 'scrollContainer';
+
+function warnAboutPhysicalValues(propName: string) {
+    warnOnce(
+        `[Table] Physical values (left, right) of "${propName}" property are deprecated. Use logical values (start, end) instead.`,
+    );
+}
+
+function normalizeSides(
+    side: TableColumnConfig<any>['align'] | TableColumnConfig<any>['sticky'],
+    propName: string,
+) {
+    if (side === 'left') {
+        warnAboutPhysicalValues(propName);
+        return 'start';
+    }
+    if (side === 'right') {
+        warnAboutPhysicalValues(propName);
+        return 'end';
+    }
+    return side;
+}
 
 interface TableState {
     // activeScrollElement is required so listener on table scroll won't fire when scrollbar will appear (and vice-versa)
@@ -39,15 +61,33 @@ export interface TableColumnConfig<I> {
     /** Cell contents. If you pass a row, the cell contents will be the value of the field named the same as this row. By default: The value of the field with the name equal to the column ID */
     template?: string | ((item: I, index: number) => React.ReactNode);
     /** Content alignment. */
-    align?: 'left' | 'center' | 'right';
+    align?: 'start' | 'end' | 'center' | 'left' | 'right';
     /** Sticky column. */
-    sticky?: 'left' | 'right';
+    sticky?: 'start' | 'end' | 'left' | 'right';
     /** Distinguishes a column among other. */
     primary?: boolean;
     /** Column width in px or in %. Width can behave unexpectedly (it's more like min-width in block-elements). Sometimes you want to use `table-layout: fixed` */
     width?: number | string;
     /** Various data, HOC settings. */
     meta?: Record<string, any>;
+}
+
+export interface DescriptorType {
+    /**
+     * Row ID.
+     * Used when selecting and sorting rows.
+     */
+    id?: string;
+
+    /**
+     * Row CSS classes.
+     */
+    classNames?: string[];
+
+    /**
+     * Condition for disabling columns.
+     */
+    disabled?: boolean;
 }
 
 // TODO: Replace @default in props description with defaultProps in order to work with Storybook.
@@ -75,15 +115,32 @@ export interface TableProps<I> extends QAProps {
      */
     stickyHorizontalScrollBreakpoint?: number;
     /**
+     * @deprecated Use getRowDescriptor instead
+     *
      * Row ID.
      * Used when selecting and sorting rows. If you pass a row,
      * its ID will be the value of the field in the row data named the same as the column ID.
      */
     getRowId?: string | ((item: I, index: number) => string);
-    /** Row CSS classes. */
+    /**
+     * @deprecated Use getRowDescriptor instead
+     *
+     * Row CSS classes.
+     * */
     getRowClassNames?: (item: I, index: number) => string[];
-    /** Condition for disabling columns. */
+    /**
+     * @deprecated Use getRowDescriptor instead
+     *
+     * Condition for disabling columns.
+     * */
     isRowDisabled?: (item: I, index: number) => boolean;
+
+    /**
+     *
+     * @returns {DescriptorType} {@link DescriptorType}
+     */
+    getRowDescriptor?: (item: I, index: number) => DescriptorType | undefined;
+
     /** Row click handler. When passed row's hover is visible. */
     onRowClick?: (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => void;
     /** Row mouseenter handler. */
@@ -124,8 +181,14 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
 
     // Static methods may be used by HOCs
     static getRowId<I extends TableDataItem>(props: TableProps<I>, item: I, rowIndex?: number) {
-        const {data, getRowId} = props;
+        const {data, getRowId, getRowDescriptor} = props;
         const index = rowIndex ?? data.indexOf(item);
+
+        const descriptor = getRowDescriptor?.(item, index);
+
+        if (descriptor?.id !== undefined) {
+            return descriptor.id;
+        }
 
         if (typeof getRowId === 'function') {
             return getRowId(item, index);
@@ -336,29 +399,6 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         );
     }
 
-    private renderColgroup() {
-        const {columns} = this.props;
-        const {columnsStyles} = this.state;
-
-        if (!columnsStyles.length) {
-            return null;
-        }
-
-        return (
-            <colgroup>
-                {columnsStyles.flatMap(({width}, index) => {
-                    const key = columns[index]?.id;
-
-                    if (!key) {
-                        return [];
-                    }
-
-                    return <col style={{width}} key={key} />;
-                })}
-            </colgroup>
-        );
-    }
-
     private renderHead() {
         const {columns, edgePadding, wordWrap} = this.props;
         const {columnsStyles} = this.state;
@@ -367,14 +407,16 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             <thead className={b('head')}>
                 <tr className={b('row')}>
                     {columns.map((column, index) => {
-                        const {id, align, primary, sticky, className} = column;
+                        const {id, align: rawAlign, primary, sticky: rawSticky, className} = column;
+                        const align = normalizeSides(rawAlign, 'column.align');
+                        const sticky = normalizeSides(rawSticky, 'column.sticky');
                         const content = Table.getHeadCellContent(column);
 
                         return (
                             <th
                                 key={id}
                                 ref={this.state.columnHeaderRefs[index]}
-                                style={this.getCellStyles(columnsStyles[index])}
+                                style={columnsStyles[index]}
                                 className={b(
                                     'cell',
                                     {
@@ -409,7 +451,6 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
     private renderTable() {
         return (
             <table ref={this.tableRef} className={b('table')}>
-                {this.renderColgroup()}
                 {this.renderHead()}
                 {this.renderBody()}
             </table>
@@ -428,12 +469,18 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
             verticalAlign,
             edgePadding,
             wordWrap,
+            getRowDescriptor,
         } = this.props;
         const {columnsStyles} = this.state;
 
-        const disabled = isRowDisabled ? isRowDisabled(item, rowIndex) : false;
+        const descriptor = getRowDescriptor?.(item, rowIndex);
+
+        const disabled = descriptor?.disabled || isRowDisabled?.(item, rowIndex) || false;
+
+        const additionalClassNames =
+            descriptor?.classNames || getRowClassNames?.(item, rowIndex) || [];
+
         const interactive = Boolean(!disabled && onRowClick);
-        const additionalClassNames = getRowClassNames ? getRowClassNames(item, rowIndex) : [];
 
         return (
             <tr
@@ -463,13 +510,14 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
                 )}
             >
                 {columns.map((column, colIndex) => {
-                    const {id, align, primary, className, sticky} = column;
+                    const {id, align: rawAlign, primary, className, sticky: rawSticky} = column;
                     const content = Table.getBodyCellContent(column, item, rowIndex);
-
+                    const align = normalizeSides(rawAlign, 'column.align');
+                    const sticky = normalizeSides(rawSticky, 'column.sticky');
                     return (
                         <td
                             key={id}
-                            style={this.getCellStyles(columnsStyles[colIndex])}
+                            style={columnsStyles[colIndex]}
                             className={b(
                                 'cell',
                                 {
@@ -551,20 +599,18 @@ export class Table<I extends TableDataItem = Record<string, string>> extends Rea
         }
 
         const filteredColumns =
-            column.sticky === 'left' ? columnsWidth.slice(0, index) : columnsWidth.slice(index + 1);
-        style[column.sticky] = filteredColumns.reduce<number>((left, width) => {
-            return _isNumber(width) ? left + width : left;
+            column.sticky === 'left' || column.sticky === 'start'
+                ? columnsWidth.slice(0, index)
+                : columnsWidth.slice(index + 1);
+        const styleName: keyof React.CSSProperties =
+            column.sticky === 'left' || column.sticky === 'start'
+                ? 'insetInlineStart'
+                : 'insetInlineEnd';
+        style[styleName] = filteredColumns.reduce<number>((start, width) => {
+            return _isNumber(width) ? start + width : start;
         }, 0);
 
         return style;
-    }
-
-    private getCellStyles(
-        columnStyles: React.CSSProperties | undefined,
-    ): React.CSSProperties | undefined {
-        const {width: _width, ...styles} = columnStyles || {};
-
-        return Object.keys(styles).length ? styles : undefined;
     }
 
     private handleScrollContainerMouseenter = () => {

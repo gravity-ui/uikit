@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {KeyCode} from '../../../../constants';
-import {TextInput, TextInputProps} from '../../../controls';
-import {blockNew} from '../../../utils/cn';
+import {TextInput} from '../../../controls';
+import type {TextInputProps} from '../../../controls';
+import {block} from '../../../utils/cn';
 import i18n from '../../i18n';
 import type {PaginationProps, PaginationSize} from '../../types';
 
 import './PaginationInput.scss';
 
-const b = blockNew('pagination-input');
+const b = block('pagination-input');
 
 type Props = {
     numberOfPages: number;

@@ -8,7 +8,7 @@ import {Row} from '../Row';
 import type {RowProps} from '../Row';
 
 export default {
-    title: 'Layout/Row',
+    title: 'Components/Layout/Row',
     component: Row,
 } as Meta;
 

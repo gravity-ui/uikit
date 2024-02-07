@@ -13,12 +13,9 @@ $checkboxWidth: 17px;
         display: flex;
         align-items: center;
         padding: inherit;
-        border-bottom: none;
+        border-block-end: none;
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
 
         &_vertical-align_top {
             align-items: start;
@@ -28,8 +25,8 @@ $checkboxWidth: 17px;
     &__row_selected {
         background: var(--g-color-base-selection);
 
-        #{variables.$block}__cell_sticky_left,
-        #{variables.$block}__cell_sticky_right {
+        #{variables.$block}__cell_sticky_start,
+        #{variables.$block}__cell_sticky_end {
             background: linear-gradient(
                     to right,
                     var(--g-color-base-selection),
@@ -45,8 +42,8 @@ $checkboxWidth: 17px;
         &#{variables.$block}__row_interactive:hover {
             background: var(--g-color-base-selection-hover);
 
-            #{variables.$block}__cell_sticky_left,
-            #{variables.$block}__cell_sticky_right {
+            #{variables.$block}__cell_sticky_start,
+            #{variables.$block}__cell_sticky_end {
                 background: linear-gradient(
                         to right,
                         var(--g-color-base-selection-hover),

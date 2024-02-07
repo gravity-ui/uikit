@@ -114,17 +114,17 @@ import {toaster} from '@gravity-ui/uikit/toaster-singleton-react-18';
 
 Accepts the argument `toastOptions` with ongoing notification details:
 
-| Parameter  | Type                                    | Required | Default     | Description                                                                                                                                                                |
-| :--------- | :-------------------------------------- | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name       | `string`                                | yes      |             | A unique notification name. Notifications with identical names are collapsed into one                                                                                      |
-| title      | `string`                                |          |             | Notification title                                                                                                                                                         |
-| className  | `string`                                |          |             | CSS-class                                                                                                                                                                  |
-| autoHiding | `number` or `false`                     |          | 5000        | Number of ms to delay before hiding the notification. Use `false` to disable toast hiding after timeout.                                                                   |
-| content    | `node`                                  |          | `undefined` | Notification content. [Anything that can be rendered: numbers, strings, elements or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)         |
-| type       | `string`                                |          | `undefined` | A notification type. Possible values: `error`, `success`. If `type` is set, the icon (success/error) will be added into notification title. _By default, there is no icon_ |
-| isClosable | `boolean`                               |          | `true`      | A configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                 |
-| actions    | `ToastAction[]`                         |          | `undefined` | An array of [actions](./types.ts#L9) that display after `content`                                                                                                          |
-| renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                   |
+| Parameter  | Type                                    | Required | Default     | Description                                                                                                                                                                                                                              |
+| :--------- | :-------------------------------------- | :------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name       | `string`                                | yes      |             | A unique notification name. Notifications with identical names are collapsed into one                                                                                                                                                    |
+| title      | `string`                                |          |             | Notification title                                                                                                                                                                                                                       |
+| className  | `string`                                |          |             | CSS-class                                                                                                                                                                                                                                |
+| autoHiding | `number` or `false`                     |          | 5000        | Number of ms to delay before hiding the notification. Use `false` to disable toast hiding after timeout.                                                                                                                                 |
+| content    | `node`                                  |          | `undefined` | Notification content. [Anything that can be rendered: numbers, strings, elements or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)                                                                       |
+| theme      | `string`                                |          | `"normal"`  | A notification theme. Possible values: `"normal"`, `"info"`, `"success"`, `"warning"`, `danger`, `"utility"`. If `theme` is set to other than `"normal"`, the icon will be added into notification title. _By default, there is no icon_ |
+| isClosable | `boolean`                               |          | `true`      | A configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                                                                               |
+| actions    | `ToastAction[]`                         |          | `undefined` | An array of [actions](./types.ts#L9) that display after `content`                                                                                                                                                                        |
+| renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                                                                                 |
 
 Every `action` is an object with following parameters:
 
@@ -134,3 +134,11 @@ Every `action` is an object with following parameters:
 | onClick          | `() => void`                              | yes      |            | On action click handler                                                 |
 | view             | [`ButtonView`](../Button/README.md#props) |          | `outlined` | The appearance of the action, the same as the `view` of the `<Button/>` |
 | removeAfterClick | `boolean`                                 |          | `true`     | If the notification should close after the action is clicked            |
+
+## CSS API
+
+| Name                       | Description     |
+| :------------------------- | :-------------- |
+| `--g-toaster-width`        | Container width |
+| `--g-toaster-item-padding` | Item padding    |
+| `--g-toaster-item-gap`     | Item gap        |

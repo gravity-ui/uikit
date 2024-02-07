@@ -1,5 +1,4 @@
 @import './themes';
-@import './old-variables';
 
 .g-root {
     background: var(--g-color-base-background);
@@ -22,11 +21,9 @@
     &_theme_dark-hc {
         @include g-theme-dark-hc;
     }
-
-    @include g-variables-fallback;
 }
 
-body.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
+.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
         width: var(--g-scrollbar-width);
@@ -54,13 +51,11 @@ body.g-root:not(.g-root_mobile):not(.g-root_native-scrollbar) {
         background: var(--g-color-scroll-handle-hover);
     }
 
-    // stylelint-disable-next-line property-no-unknown
     scrollbar-width: var(--g-scrollbar-width);
-    // stylelint-disable-next-line property-no-unknown
     scrollbar-color: var(--g-color-scroll-handle) var(--g-color-scroll-track);
 }
 
-@keyframes yc-loading-animation {
+@keyframes g-loading-animation {
     from {
         background-position: -12px 0;
     }

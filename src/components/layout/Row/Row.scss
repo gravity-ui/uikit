@@ -1,4 +1,5 @@
 /* stylelint-disable declaration-no-important */
+
 @use '../variables.scss';
 
 #{variables.$rowBlock} {
@@ -9,20 +10,20 @@
     @each $space, $value in variables.$SPACE {
         // space
         &_s_#{$space} {
-            margin-top: calc(-1 * $value);
-            margin-left: calc(-1 * $value);
+            margin-block-start: calc(-1 * $value);
+            margin-inline-start: calc(-1 * $value);
 
             & > #{variables.$colBlock} {
-                padding-top: $value;
-                padding-left: $value;
+                padding-block-start: $value;
+                padding-inline-start: $value;
             }
         }
         // space-row
         &_sr_#{$space} {
-            margin-top: calc(-1 * $value) !important;
+            margin-block-start: calc(-1 * $value) !important;
 
             & > #{variables.$colBlock} {
-                padding-top: $value !important;
+                padding-block-start: $value !important;
             }
         }
     }

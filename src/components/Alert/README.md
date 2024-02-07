@@ -93,19 +93,19 @@ of text.
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
-<Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<Button>button</Button>} />
-<Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<Button>button</Button>} />
+<Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<Alert.Action>button</Alert.Action>} />
+<Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<Alert.Action>button</Alert.Action>} />
 `}>
-    <UIKit.Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<UIKit.Button>button</UIKit.Button>} />
-    <UIKit.Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<UIKit.Button>button</UIKit.Button>} />
+    <UIKit.Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} />
+    <UIKit.Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<Button>button</Button>}/>
-<Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<Button>button</Button>}/>
+<Alert layout="vertical" title="Vertical" message="Vertical direction" actions={<Alert.Action>button</Alert.Action>}/>
+<Alert layout="horizontal" title="Horizontal" message="Horizontal direction" actions={<Alert.Action>button</Alert.Action>}/>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -202,19 +202,19 @@ or if the icon must be in the middle of the card.
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
-<Alert align="baseline" theme="info" title="Baseline" message="Baseline align" actions={<Button>button</Button>} />
-<Alert align="center" theme="info" title="Center" message="Center align" actions={<Button>button</Button>} align="center"/>
+<Alert align="baseline" theme="info" title="Baseline" message="Baseline align" actions={<Alert.Action>button</Alert.Action>} />
+<Alert align="center" theme="info" title="Center" message="Center align" actions={<Alert.Action>button</Alert.Action>} align="center"/>
 `}>
-    <UIKit.Alert align="baseline" theme="info" title="Baseline" message="Baseline align" actions={<UIKit.Button>button</UIKit.Button>} />
-    <UIKit.Alert align="center" theme="info" title="Center" message="Center align" actions={<UIKit.Button>button</UIKit.Button>} align="center"/>
+    <UIKit.Alert align="baseline" theme="info" title="Baseline" message="Baseline align" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} />
+    <UIKit.Alert align="center" theme="info" title="Center" message="Center align" actions={<UIKit.Alert.Action>button</UIKit.Alert.Action>} align="center"/>
 </ExampleBlock>
 LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Alert align="vertical" title="Vertical" message="Vertical direction" actions={<Button>button</Button>}/>
-<Alert align="horizontal" title="Horizontal" message="Horizontal direction" actions={<Button>button</Button>}/>
+<Alert align="vertical" title="Vertical" message="Vertical direction" actions={<Alert.Action>button</Alert.Action>}/>
+<Alert align="horizontal" title="Horizontal" message="Horizontal direction" actions={<Alert.Action>button</Alert.Action>}/>
 ```
 
 <!--/GITHUB_BLOCK-->

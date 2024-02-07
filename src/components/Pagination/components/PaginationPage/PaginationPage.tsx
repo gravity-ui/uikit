@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {Button} from '../../../Button';
-import {blockNew} from '../../../utils/cn';
+import {block} from '../../../utils/cn';
 import type {PageItem, PaginationProps, PaginationSize} from '../../types';
 
 import './PaginationPage.scss';
 
-const b = blockNew('pagination-page');
+const b = block('pagination-page');
 
 type Props = {
     item: PageItem;

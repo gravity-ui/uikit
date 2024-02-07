@@ -1,19 +1,28 @@
 import type React from 'react';
 
+import type {ButtonProps} from '../Button';
 import type {QAProps} from '../types';
 
-export type AlertTheme =
-    | 'normal'
-    | 'info'
-    | 'success'
-    | /** @deprecated */ 'positive'
-    | 'warning'
-    | 'danger'
-    | 'utility';
+export type AlertTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 export type AlertView = 'filled' | 'outlined';
+export type AlertLayout = 'vertical' | 'horizontal';
 export type AlertCorners = 'rounded' | 'square';
 
-export interface AlertProps extends QAProps {
+export type AlertContextType = {
+    /**
+     * Override actions position
+     *
+     * variants:
+     * - `vertical` - bottom (default);
+     * - `horizontal` - right;
+     */
+    layout: AlertLayout;
+    view: AlertView;
+};
+
+export type AlertContextProviderProps = React.PropsWithChildren<AlertContextType>;
+
+export interface AlertProps extends QAProps, Partial<AlertContextType> {
     title?: React.ReactNode;
     message?: React.ReactNode;
     theme?: AlertTheme;
@@ -25,15 +34,6 @@ export interface AlertProps extends QAProps {
      * @default - normal
      */
     corners?: AlertCorners;
-    /**
-     * Override actions position
-     *
-     * variants:
-     * - `vertical` - bottom (default);
-     * - `horizontal` - right;
-     */
-    layout?: 'vertical' | 'horizontal';
-    view?: AlertView;
     onClose?: () => void;
     /**
      * Add you Actions to alert component:
@@ -45,7 +45,7 @@ export interface AlertProps extends QAProps {
      * ```tsx
      * actions: (
      *  <Alert.Actions>
-     *      <Button onClick={...}>...</Button>
+     *      <Alert.Action onClick={...}>...</Alert.Action>
      *  </Alert.Actions>
      * )
      * ```
@@ -88,8 +88,8 @@ export interface AlertActionsProps {
     className?: string;
     items?: AlertAction[];
     children?: React.ReactNode | React.ReactNode[];
-    parentLayout?: 'vertical' | 'horizontal';
 }
+export interface AlertActionProps extends ButtonProps {}
 export interface AlertTitleProps {
     className?: string;
     text: string;

@@ -3,8 +3,9 @@ export * from './mobile';
 export * from './theme';
 
 export * from './ActionTooltip';
-export * from './ArrowToggle';
 export * from './Alert';
+export * from './ArrowToggle';
+export * from './Avatar';
 export * from './Breadcrumbs';
 export * from './Button';
 export * from './Checkbox';
@@ -25,7 +26,7 @@ export * from './Loader';
 export * from './Menu';
 export * from './Modal';
 export * from './Pagination';
-export * from './Persona';
+export * from './UserLabel';
 export * from './Popover';
 export * from './Popup';
 export * from './Portal';
@@ -44,7 +45,6 @@ export * from './Text';
 export * from './Toaster';
 export * from './Tooltip';
 export * from './User';
-export * from './UserAvatar';
 export * from './controls';
 export * from './layout';
 
@@ -54,7 +54,5 @@ export {getComponentName} from './utils/getComponentName';
 export * from './utils/withEventBrokerDomHandlers';
 export * from './utils/layer-manager';
 export {Lang, configure} from './utils/configure';
-/** @deprecated, drop on next major */
-export {useOnFocusOutside} from './utils/useOnFocusOutside';
 export * from './utils/xpath';
 export {getUniqId} from './utils/common';

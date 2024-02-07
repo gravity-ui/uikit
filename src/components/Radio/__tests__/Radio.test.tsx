@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../../test-utils/utils';
 import {Radio} from '../Radio';
 import type {RadioSize} from '../Radio';
 
@@ -25,7 +25,7 @@ describe('Radio', () => {
         render(<Radio value={value} size={size} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(`yc-radio_size_${size}`);
+        expect(component).toHaveClass(`g-radio_size_${size}`);
     });
 
     test('disabled when disabled=true prop is given', () => {

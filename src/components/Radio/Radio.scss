@@ -13,10 +13,7 @@ $discMarginLSize: 6px;
         &::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
 
             background-color: transparent;
             border: 1px solid var(--g-color-line-generic-accent);
@@ -39,13 +36,15 @@ $discMarginLSize: 6px;
         border-radius: 50%;
         opacity: 0;
         transform: scale(0.1);
-        transition: opacity 0.1s, transform 0.2s;
+        transition:
+            opacity 0.1s,
+            transform 0.2s;
     }
 
     &__control {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 100%;
         margin: 0;
@@ -59,8 +58,8 @@ $discMarginLSize: 6px;
 
     &__outline {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 100%;
         background: none;
@@ -68,12 +67,8 @@ $discMarginLSize: 6px;
         border-radius: 50%;
     }
 
-    &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--g-color-line-focus);
-    }
-
-    &__control:focus:not(:focus-visible) + &__outline {
-        box-shadow: none;
+    &__control:focus-visible + &__outline {
+        outline: 2px solid var(--g-color-line-focus);
     }
 
     &_size {
@@ -84,10 +79,7 @@ $discMarginLSize: 6px;
             }
 
             #{$block}__disc::before {
-                top: $discMarginMSize;
-                left: $discMarginMSize;
-                right: $discMarginMSize;
-                bottom: $discMarginMSize;
+                inset: $discMarginMSize;
             }
         }
 
@@ -98,10 +90,7 @@ $discMarginLSize: 6px;
             }
 
             #{$block}__disc::before {
-                top: $discMarginLSize;
-                left: $discMarginLSize;
-                right: $discMarginLSize;
-                bottom: $discMarginLSize;
+                inset: $discMarginLSize;
             }
         }
     }

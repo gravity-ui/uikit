@@ -8,11 +8,11 @@ import type {ToastAction, ToastProps} from '..';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {Icon} from '../../Icon';
-import {block} from '../../utils/cn';
+import {cn} from '../../utils/cn';
 
 import './ToasterShowcase.scss';
 
-const b = block('toaster-story');
+const b = cn('toaster-showcase');
 
 const CONTENT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, atque!';
 
@@ -72,7 +72,7 @@ export const ToasterDemo = ({
     function getToastProps(extra: {
         name: string;
         title?: string;
-        type?: ToastProps['type'];
+        theme?: ToastProps['theme'];
         className?: string;
         content?: React.ReactNode;
         actions?: ToastAction[];
@@ -101,7 +101,7 @@ export const ToasterDemo = ({
             name: getToastName(extra.name),
             className: extra.className,
             title,
-            type: extra.type,
+            theme: extra.theme,
             isClosable: showCloseIcon,
             autoHiding: timeout,
             actions: setActions
@@ -113,10 +113,10 @@ export const ToasterDemo = ({
         };
     }
 
-    const createDefaultToast = () => {
+    const createNormalToast = () => {
         const toastProps = getToastProps({
-            name: 'default',
-            title: 'Default toast',
+            name: 'normal',
+            title: 'Normal toast',
         });
 
         toaster.add(toastProps);
@@ -127,7 +127,7 @@ export const ToasterDemo = ({
     const createInfoToast = () => {
         const toastProps = getToastProps({
             name: 'info',
-            type: 'info',
+            theme: 'info',
             title: 'Info toast',
         });
 
@@ -139,7 +139,7 @@ export const ToasterDemo = ({
     const createSuccessToast = () => {
         const toastProps = getToastProps({
             name: 'success',
-            type: 'success',
+            theme: 'success',
             title: 'Success toast',
         });
 
@@ -151,7 +151,7 @@ export const ToasterDemo = ({
     const createWarningToast = () => {
         const toastProps = getToastProps({
             name: 'warning',
-            type: 'warning',
+            theme: 'warning',
             title: 'Warning toast',
         });
 
@@ -160,11 +160,11 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: toastProps.name}));
     };
 
-    const createErrorToast = () => {
+    const createDangerToast = () => {
         const toastProps = getToastProps({
-            name: 'error',
-            type: 'error',
-            title: 'Error toast',
+            name: 'danger',
+            theme: 'danger',
+            title: 'Danger toast',
         });
 
         toaster.add(toastProps);
@@ -175,7 +175,7 @@ export const ToasterDemo = ({
     const createUtilityToast = () => {
         const toastProps = getToastProps({
             name: 'utility',
-            type: 'utility',
+            theme: 'utility',
             title: 'Utility toast',
         });
 
@@ -187,7 +187,7 @@ export const ToasterDemo = ({
     const createCustomToast = () => {
         const content = (
             <div style={{display: 'flex'}}>
-                <div style={{maxWidth: '86px', maxHeight: '86px', marginRight: '16px'}}>
+                <div style={{maxWidth: '86px', maxHeight: '86px', marginInlineEnd: '16px'}}>
                     <Icon size={86} data={CircleCheck} />
                 </div>
                 <div
@@ -236,7 +236,7 @@ export const ToasterDemo = ({
     const createToastLongContent = () => {
         const toastProps = getToastProps({
             name: 'overflow',
-            type: 'error',
+            theme: 'danger',
             title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
             content:
                 'Excepturi cumque dicta, et a repellat culpa totam minus vero, error ducimus nesciunt? Dicta soluta earum sapiente explicabo commodi pariatur nulla eius?',
@@ -298,11 +298,11 @@ export const ToasterDemo = ({
         setState((state) => ({...state, lastToastName: ''}));
     };
 
-    const btnStyle = {marginLeft: 20};
+    const btnStyle = {marginInlineStart: 20};
 
-    const defaultToastBtn = (
-        <Button view="outlined" size="l" onClick={createDefaultToast} style={btnStyle}>
-            Create default toast
+    const normalToastBtn = (
+        <Button view="outlined" size="l" onClick={createNormalToast} style={btnStyle}>
+            Create normal toast
         </Button>
     );
 
@@ -327,10 +327,10 @@ export const ToasterDemo = ({
         </Button>
     );
 
-    const errorToastBtn = (
-        <Button view="outlined" size="l" onClick={createErrorToast} style={btnStyle}>
-            <Icon className={b('icon', {error: true})} data={TriangleExclamation} />
-            Create error toast
+    const dangerToastBtn = (
+        <Button view="outlined" size="l" onClick={createDangerToast} style={btnStyle}>
+            <Icon className={b('icon', {danger: true})} data={TriangleExclamation} />
+            Create danger toast
         </Button>
     );
 
@@ -375,11 +375,11 @@ export const ToasterDemo = ({
 
     return (
         <React.Fragment>
-            <p>{defaultToastBtn}</p>
+            <p>{normalToastBtn}</p>
             <p>{infoToastBtn}</p>
             <p>{successToastBtn}</p>
             <p>{warningToastBtn}</p>
-            <p>{errorToastBtn}</p>
+            <p>{dangerToastBtn}</p>
             <p>{utilityToastBtn}</p>
             <p>{customToastBtn}</p>
             <p>{toastWithLongContent}</p>

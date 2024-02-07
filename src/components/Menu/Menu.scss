@@ -9,8 +9,7 @@ $block: '.#{variables.$ns}menu';
     margin: 0;
     padding: 0;
     list-style: none;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
     font-size: var(--g-text-body-1-font-size);
     color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
@@ -20,13 +19,12 @@ $block: '.#{variables.$ns}menu';
     &__list-group-item + &__list-group-item,
     &__list-item + &__list-group-item,
     &__list-group-item + &__list-item {
-        border-top: 1px solid var(--g-color-line-generic);
+        border-block-start: 1px solid var(--g-color-line-generic);
     }
 
     &__item {
         display: flex;
         align-items: center;
-        cursor: pointer;
         color: var(--g-color-text-primary);
         text-decoration: none;
         outline: none;
@@ -39,7 +37,7 @@ $block: '.#{variables.$ns}menu';
 
         &-icon-end {
             display: flex;
-            margin-right: 0;
+            margin-inline-end: 0;
         }
 
         &-content {
@@ -47,14 +45,17 @@ $block: '.#{variables.$ns}menu';
             min-width: 0;
         }
 
-        &:hover,
-        &:focus,
-        &_selected {
-            background-color: var(--g-color-base-simple-hover);
+        &_interactive {
+            cursor: pointer;
+
+            &:hover,
+            &:focus-visible {
+                background-color: var(--g-color-base-simple-hover);
+            }
         }
 
-        &:focus:not(:focus-visible):not(:hover):not(&_active) {
-            background-color: transparent;
+        &_selected {
+            background-color: var(--g-color-base-simple-hover);
         }
 
         &_disabled {
@@ -72,7 +73,7 @@ $block: '.#{variables.$ns}menu';
             background-color: var(--g-color-base-selection);
 
             &:hover,
-            &:focus {
+            &:focus-visible {
                 background-color: var(--g-color-base-selection-hover);
             }
         }
@@ -106,18 +107,18 @@ $block: '.#{variables.$ns}menu';
             }
 
             #{$block}__item-icon {
-                margin-right: 3px;
+                margin-inline-end: 3px;
             }
 
             #{$block}__item-icon-end {
-                margin-left: 3px;
+                margin-inline-start: 3px;
             }
 
             #{$block}__list-group-item + #{$block}__list-group-item,
             #{$block}__list-item + #{$block}__list-group-item,
             #{$block}__list-group-item + #{$block}__list-item {
-                margin-top: 3px;
-                padding-top: 3px;
+                margin-block-start: 3px;
+                padding-block-start: 3px;
             }
         }
 
@@ -131,18 +132,18 @@ $block: '.#{variables.$ns}menu';
             }
 
             #{$block}__item-icon {
-                margin-right: 4px;
+                margin-inline-end: 4px;
             }
 
             #{$block}__item-icon-end {
-                margin-left: 4px;
+                margin-inline-start: 4px;
             }
 
             #{$block}__list-group-item + #{$block}__list-group-item,
             #{$block}__list-item + #{$block}__list-group-item,
             #{$block}__list-group-item + #{$block}__list-item {
-                margin-top: 4px;
-                padding-top: 4px;
+                margin-block-start: 4px;
+                padding-block-start: 4px;
             }
         }
 
@@ -156,18 +157,18 @@ $block: '.#{variables.$ns}menu';
             }
 
             #{$block}__item-icon {
-                margin-right: 5px;
+                margin-inline-end: 5px;
             }
 
             #{$block}__item-icon-end {
-                margin-left: 5px;
+                margin-inline-start: 5px;
             }
 
             #{$block}__list-group-item + #{$block}__list-group-item,
             #{$block}__list-item + #{$block}__list-group-item,
             #{$block}__list-group-item + #{$block}__list-item {
-                margin-top: 5px;
-                padding-top: 5px;
+                margin-block-start: 5px;
+                padding-block-start: 5px;
             }
         }
 
@@ -182,21 +183,21 @@ $block: '.#{variables.$ns}menu';
             }
 
             #{$block}__item-icon {
-                margin-right: 6px;
+                margin-inline-end: 6px;
             }
 
             #{$block}__item-icon-end {
-                margin-left: 6px;
+                margin-inline-start: 6px;
             }
 
             #{$block}__list-group-item:not(:first-child) {
-                margin-top: 6px;
-                padding-top: 6px;
+                margin-block-start: 6px;
+                padding-block-start: 6px;
             }
 
             #{$block}__list-group-item:not(:last-child) {
-                margin-bottom: 6px;
-                padding-bottom: 6px;
+                margin-block-end: 6px;
+                padding-block-end: 6px;
             }
         }
     }

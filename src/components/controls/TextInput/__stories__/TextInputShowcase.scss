@@ -39,6 +39,16 @@
         padding: 20px;
     }
 
+    &__text-input-custom-css {
+        grid-area: text-area;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'states themed' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
     &__title {
         grid-area: title;
         margin: 0;
@@ -60,6 +70,18 @@
     &__additional-content-examples {
         grid-area: additional-content;
     }
+    &__custom-theme-examples {
+        grid-area: themed;
+
+        --g-text-input-text-color: hsl(40, 100%, 40%);
+        --g-text-input-placeholder-color: hsl(24, 8%, 51%);
+        --g-text-input-background-color: hsl(38, 89%, 89%);
+        --g-text-input-border-width: 2px;
+        --g-text-input-border-radius: 40px 20px;
+        --g-text-input-border-color: hsl(38, 89%, 89%);
+        --g-text-input-border-color-hover: hsl(38, 93%, 83%);
+        --g-text-input-border-color-active: hsl(38, 100%, 73%);
+    }
 
     &__row {
         display: flex;
@@ -68,6 +90,6 @@
 
     &__input:not(:last-child),
     &__text-area:not(:last-child) {
-        margin-bottom: 20px;
+        margin-block-end: 20px;
     }
 }

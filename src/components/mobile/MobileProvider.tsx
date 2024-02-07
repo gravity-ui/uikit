@@ -28,9 +28,6 @@ export function MobileProvider({
     useLocation = useLocationMock,
     children,
 }: MobileProviderProps) {
-    const [mobileValue, setMobile] = React.useState(mobile);
-    const [platformValue, setPlatform] = React.useState(platform);
-
     const useHistoryFunction: MobileContextProps['useHistory'] = React.useCallback(
         function useHistoryFunction() {
             const {goBack, back, ...props} = useHistory();
@@ -51,19 +48,17 @@ export function MobileProvider({
     );
 
     React.useEffect(() => {
-        document.body.classList.toggle(rootMobileClassName, mobileValue);
-    }, [rootMobileClassName, mobileValue]);
+        document.body.classList.toggle(rootMobileClassName, mobile);
+    }, [rootMobileClassName, mobile]);
 
-    const state: MobileContextProps = React.useMemo(() => {
+    const contextValue: MobileContextProps = React.useMemo(() => {
         return {
-            mobile: mobileValue,
-            setMobile,
-            platform: platformValue,
-            setPlatform,
+            mobile,
+            platform,
             useLocation,
             useHistory: useHistoryFunction,
         };
-    }, [mobileValue, platformValue, useLocation, useHistoryFunction]);
+    }, [mobile, platform, useLocation, useHistoryFunction]);
 
-    return <MobileContext.Provider value={state}>{children}</MobileContext.Provider>;
+    return <MobileContext.Provider value={contextValue}>{children}</MobileContext.Provider>;
 }

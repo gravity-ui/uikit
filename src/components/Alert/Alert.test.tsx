@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../test-utils/utils';
 import {Flex} from '../layout';
 
 import {Alert} from './Alert';
+import {bAlert} from './constants';
 import type {AlertTheme} from './types';
 
 const title = 'Where will you go, hero?';
@@ -72,7 +73,7 @@ describe('Alert', () => {
         expect(container).toMatchSnapshot();
     });
 
-    test.each<AlertTheme>(['danger', 'info', 'positive', 'success', 'warning', 'utility'])(
+    test.each<AlertTheme>(['danger', 'info', 'success', 'warning', 'utility'])(
         'render correct icon if not normal theme',
         async (theme) => {
             const {container} = render(
@@ -80,7 +81,7 @@ describe('Alert', () => {
             );
 
             // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-            const icon = await container.querySelector('.yc-alert__icon');
+            const icon = await container.querySelector(`.${bAlert('icon')}`);
 
             expect(icon).toBeInTheDocument();
         },
@@ -90,7 +91,7 @@ describe('Alert', () => {
         const {container} = render(<Alert title={title} message={message} onClose={jest.fn()} />);
 
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        const icon = await container.querySelector('.yc-alert__icon');
+        const icon = await container.querySelector(`.${bAlert('icon')}`);
 
         expect(icon).not.toBeInTheDocument();
     });

@@ -31,7 +31,9 @@ export default {
     },
 } as Meta<TableProps<DataItem>>;
 
-const DefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => <Table {...args} />;
+const DefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+    return <Table {...args} />;
+};
 export const Default = DefaultTemplate.bind({});
 
 const EmptyDefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => <Table {...args} />;
@@ -116,6 +118,14 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                 action('danger')(handlerArgs);
             },
         },
+        {
+            text: 'with href',
+            theme: 'normal',
+            href: 'https://cloud.yandex.com',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            handler: () => {},
+        },
     ];
     return <TableWithAction {...args} getRowActions={getRowActions} />;
 };
@@ -176,6 +186,7 @@ HOCWithTableSettingsFactory.parameters = {
 // ---------------------------------
 const columnsWithSorting = _cloneDeep(columns);
 columnsWithSorting[0].meta = {sort: true};
+columnsWithSorting[2].meta = {sort: true};
 columnsWithSorting[3].meta = {sort: true};
 columnsWithSorting[4].meta = {
     sort: (itemA: DataItem, itemB: DataItem) => Date.parse(itemA.date) - Date.parse(itemB.date),

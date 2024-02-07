@@ -1,4 +1,5 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}breadcrumbs';
 
@@ -9,29 +10,29 @@ $block: '.#{variables.$ns}breadcrumbs';
         width: 100%;
         min-height: 24px;
         overflow: hidden;
+        gap: 4px;
     }
 
-    &__item {
+    &__switcher {
+        @include mixins.button-reset();
+        color: var(--g-color-text-secondary);
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
+        }
+    }
+
+    &__item,
+    &__switcher {
         flex-shrink: 1;
-        padding: 4px 8px;
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
 
-        &:focus {
+        &:focus-visible {
             outline: 2px solid var(--g-color-line-focus);
-            outline-offset: -4px; // due to padding
-            border-radius: calc(
-                var(--g-focus-border-radius) + 4px
-            ); // +4px as outline-offset is -4px
-        }
-        &:focus:not(:focus-visible) {
-            outline: 0;
-        }
-
-        &_current {
-            padding: 0 8px;
+            border-radius: var(--g-focus-border-radius);
         }
 
         &_more {
@@ -58,7 +59,7 @@ $block: '.#{variables.$ns}breadcrumbs';
             #{$menu}__list-item {
                 #{$menu}__item {
                     /* stylelint-disable declaration-no-important */
-                    padding-left: 8px * $staircaseLength !important;
+                    padding-inline-start: 8px * $staircaseLength !important;
                     /* stylelint-enable declaration-no-important */
                 }
             }
@@ -67,7 +68,7 @@ $block: '.#{variables.$ns}breadcrumbs';
                 #{$menu}__list-item:nth-child(#{$i}) {
                     #{$menu}__item {
                         /* stylelint-disable declaration-no-important */
-                        padding-left: 8px * $i !important;
+                        padding-inline-start: 8px * $i !important;
                         /* stylelint-enable declaration-no-important */
                     }
                 }

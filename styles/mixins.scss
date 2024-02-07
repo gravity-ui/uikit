@@ -5,7 +5,6 @@
 }
 
 @mixin button-reset() {
-    margin: 0;
     padding: 0;
 
     font-family: var(--g-text-body-font-family);
@@ -25,10 +24,7 @@
     &::after {
         content: '';
         position: absolute;
-        top: -$v;
-        left: -$h;
-        right: -$h;
-        bottom: -$v;
+        inset: logical (-$v) (-$h) (-$v);
     }
 }
 
@@ -50,15 +46,12 @@
         display: block;
         content: '';
         width: 100%;
-        padding-top: $ratio * 100%;
+        padding-block-start: $ratio * 100%;
     }
 
     > *:only-child {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
     }
 }
 
@@ -82,8 +75,7 @@
 
         &#{get-pin-selector(#{$block}_pin_clear-clear, $selector, $append)} {
             border-radius: 0;
-            border-left: 0;
-            border-right: 0;
+            border-inline: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_circle-circle, $selector, $append)} {
@@ -91,49 +83,73 @@
         }
 
         &#{get-pin-selector(#{$block}_pin_round-brick, $selector, $append)} {
-            border-radius: $radius 0 0 $radius;
+            border-start-start-radius: $radius;
+            border-start-end-radius: 0;
+            border-end-start-radius: $radius;
+            border-end-end-radius: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_brick-round, $selector, $append)} {
-            border-radius: 0 $radius $radius 0;
+            border-start-start-radius: 0;
+            border-start-end-radius: $radius;
+            border-end-start-radius: 0;
+            border-end-end-radius: $radius;
         }
 
         &#{get-pin-selector(#{$block}_pin_round-clear, $selector, $append)} {
-            border-radius: $radius 0 0 $radius;
-            border-right: 0;
+            border-start-start-radius: $radius;
+            border-start-end-radius: 0;
+            border-end-start-radius: $radius;
+            border-end-end-radius: 0;
+            border-inline-end: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_clear-round, $selector, $append)} {
-            border-radius: 0 $radius $radius 0;
-            border-left: 0;
+            border-start-start-radius: 0;
+            border-start-end-radius: $radius;
+            border-end-start-radius: 0;
+            border-end-end-radius: $radius;
+            border-inline-start: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_brick-clear, $selector, $append)} {
             border-radius: 0;
-            border-right: 0;
+            border-inline-end: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_clear-brick, $selector, $append)} {
             border-radius: 0;
-            border-left: 0;
+            border-inline-start: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_circle-brick, $selector, $append)} {
-            border-radius: 100px 0 0 100px;
+            border-start-start-radius: 100px;
+            border-start-end-radius: 0;
+            border-end-start-radius: 100px;
+            border-end-end-radius: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_brick-circle, $selector, $append)} {
-            border-radius: 0 100px 100px 0;
+            border-start-start-radius: 0;
+            border-start-end-radius: 100px;
+            border-end-start-radius: 0;
+            border-end-end-radius: 100px;
         }
 
         &#{get-pin-selector(#{$block}_pin_circle-clear, $selector, $append)} {
-            border-radius: 100px 0 0 100px;
-            border-right: 0;
+            border-start-start-radius: 100px;
+            border-start-end-radius: 0;
+            border-end-start-radius: 100px;
+            border-end-end-radius: 0;
+            border-inline-end: 0;
         }
 
         &#{get-pin-selector(#{$block}_pin_clear-circle, $selector, $append)} {
-            border-radius: 0 100px 100px 0;
-            border-left: 0;
+            border-start-start-radius: 0;
+            border-start-end-radius: 100px;
+            border-end-start-radius: 0;
+            border-end-end-radius: 100px;
+            border-inline-start: 0;
         }
     }
 }
@@ -288,5 +304,5 @@
     background-clip: padding-box;
 
     // stylelint-disable-next-line no-unknown-animations
-    animation: yc-loading-animation 0.5s linear infinite;
+    animation: g-loading-animation 0.5s linear infinite;
 }

@@ -8,17 +8,18 @@ $block: '.#{variables.$ns}radio-button';
     flex-direction: row;
     font-family: var(--g-text-body-font-family);
     font-weight: var(--g-text-body-font-weight);
-    border-radius: var(--yc-radio-button-border-radius);
+    border-radius: var(--_--border-radius);
     background-color: var(--g-color-base-generic);
     position: relative;
 
-    --yc-radio-button-inner-border-radius: calc(var(--yc-radio-button-border-radius) - 3px);
+    --_--border-radius-inner: calc(var(--_--border-radius) - 3px);
 
     &__plate {
         position: absolute;
-        top: 0;
-        bottom: 0;
-        transition: left 0.2s, width 0.2s;
+        inset-block: 0;
+        transition:
+            left 0.2s,
+            width 0.2s;
 
         &[hidden] {
             display: none;
@@ -30,7 +31,7 @@ $block: '.#{variables.$ns}radio-button';
         user-select: none;
         font-size: var(--g-text-body-1-font-size);
         text-align: center;
-        border-radius: var(--yc-radio-button-inner-border-radius);
+        border-radius: var(--_--border-radius-inner);
         cursor: pointer;
         transform: scale(1);
         transition: color 0.15s linear;
@@ -39,17 +40,14 @@ $block: '.#{variables.$ns}radio-button';
             content: '';
             position: absolute;
             z-index: -1;
-            top: 3px;
-            left: 3px;
-            right: 3px;
-            bottom: 3px;
-            border-radius: var(--yc-radio-button-inner-border-radius);
+            inset: 3px;
+            border-radius: var(--_--border-radius-inner);
         }
 
         &-control {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset-block-start: 0;
+            inset-inline-start: 0;
             width: 100%;
             height: 100%;
             margin: 0;
@@ -59,12 +57,8 @@ $block: '.#{variables.$ns}radio-button';
             opacity: 0;
             cursor: inherit;
 
-            &:focus + #{$block}__option-outline {
-                box-shadow: 0 0 0 2px var(--g-color-line-focus);
-            }
-
-            &:focus:not(:focus-visible) + #{$block}__option-outline {
-                box-shadow: none;
+            &:focus-visible + #{$block}__option-outline {
+                outline: 2px solid var(--g-color-line-focus);
             }
         }
 
@@ -104,11 +98,8 @@ $block: '.#{variables.$ns}radio-button';
     &__plate::before,
     &__option::before {
         position: absolute;
-        top: 3px;
-        left: 3px;
-        right: 3px;
-        bottom: 3px;
-        border-radius: var(--yc-radio-button-inner-border-radius);
+        inset: 3px;
+        border-radius: var(--_--border-radius-inner);
     }
 
     &__option::before {
@@ -133,7 +124,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--g-border-radius-s);
+            --_--border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -146,7 +137,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--g-border-radius-m);
+            --_--border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -159,7 +150,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--g-border-radius-l);
+            --_--border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -173,7 +164,7 @@ $block: '.#{variables.$ns}radio-button';
                 }
             }
 
-            --yc-radio-button-border-radius: var(--g-border-radius-xl);
+            --_--border-radius: var(--g-border-radius-xl);
         }
     }
 

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {act, fireEvent, render, screen} from '@testing-library/react';
-
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
+import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Popover} from '../Popover';
 import {PopoverBehavior, delayByBehavior} from '../config';
 import type {PopoverProps} from '../types';
@@ -30,14 +29,14 @@ const waitForTooltipOpenedStateChange = (shouldOpen?: boolean) =>
 const checkIfPopoverOpened = () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
-    expect(popover).toHaveClass('yc-popup_open');
+    expect(popover).toHaveClass('g-popup_open');
 };
 
 const checkIfPopoverClosed = () => {
     const popover = screen.queryByTestId('popover-tooltip');
 
     if (popover) {
-        expect(popover).not.toHaveClass('yc-popup_open');
+        expect(popover).not.toHaveClass('g-popup_open');
     } else {
         expect(true).toBe(true);
     }
@@ -240,20 +239,14 @@ test('Renders with html content', () => {
 });
 
 test('Renders with links', () => {
-    const onLinkClick = jest.fn();
-
     const linkWithHrefConfig = {
         text: 'Link with a href',
         href: 'https://yandex.ru',
     };
-    const linkWithClickHandlerConfig = {
-        text: 'Link with an onClick handler',
-        onClick: onLinkClick,
-    };
 
     render(
         renderPopover({
-            links: [linkWithHrefConfig, linkWithClickHandlerConfig],
+            links: [linkWithHrefConfig],
         }),
     );
 
@@ -261,12 +254,7 @@ test('Renders with links', () => {
     fireEvent.click(popoverTrigger);
 
     const linkWithHref = screen.getByText(linkWithHrefConfig.text);
-    const linkWithClickHandler = screen.getByText(linkWithClickHandlerConfig.text);
     expect(linkWithHref).toBeInTheDocument();
-    expect(linkWithClickHandler).toBeInTheDocument();
-
-    fireEvent.click(linkWithClickHandler);
-    expect(onLinkClick).toHaveBeenCalledTimes(1);
 });
 
 test('Renders with buttons', () => {

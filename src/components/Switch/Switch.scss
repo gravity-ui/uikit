@@ -17,10 +17,7 @@ $block: '.#{variables.$ns}switch';
         &::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
 
             background-color: var(--g-color-base-generic-medium);
             transition: background 0.1s linear;
@@ -42,20 +39,16 @@ $block: '.#{variables.$ns}switch';
 
     &__outline {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 100%;
         background: none;
         pointer-events: none;
     }
 
-    &__control:focus + &__outline {
-        box-shadow: 0 0 0 2px var(--g-color-line-focus);
-    }
-
-    &__control:focus:not(:focus-visible) + &__outline {
-        box-shadow: none;
+    &__control:focus-visible + &__outline {
+        outline: 2px solid var(--g-color-line-focus);
     }
 
     &_size {
@@ -69,14 +62,14 @@ $block: '.#{variables.$ns}switch';
             }
 
             #{$block}__slider {
-                top: 2px;
-                left: 2px;
+                inset-block-start: 2px;
+                inset-inline-start: 2px;
                 width: 16px;
                 height: 16px;
             }
 
             #{$block}__text {
-                margin-top: 3px;
+                margin-block-start: 3px;
             }
         }
 
@@ -90,14 +83,14 @@ $block: '.#{variables.$ns}switch';
             }
 
             #{$block}__slider {
-                top: 3px;
-                left: 3px;
+                inset-block-start: 3px;
+                inset-inline-start: 3px;
                 width: 18px;
                 height: 18px;
             }
 
             #{$block}__text {
-                margin-top: 4px;
+                margin-block-start: 4px;
             }
         }
     }
@@ -109,7 +102,8 @@ $block: '.#{variables.$ns}switch';
     }
 
     &_checked &__slider {
-        transform: translateX(100%);
+        --_--translate-x: calc(100% * var(--g-flow-direction));
+        transform: translateX(var(--_--translate-x));
     }
 
     &_checked,

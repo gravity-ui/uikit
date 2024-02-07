@@ -1,85 +1,108 @@
 import React from 'react';
 
+import {block} from '../utils/cn';
+
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
-import {DEFAULT_DARK_THEME, DEFAULT_LIGHT_THEME, DEFAULT_THEME} from './constants';
-import {getDeprecatedRootClassName, getRootClassName} from './getBodyClassName';
-import type {RealTheme, Theme} from './types';
-import {updateBodyClassName} from './updateBodyClassName';
+import type {ThemeSettings} from './ThemeSettingsContext';
+import {
+    DEFAULT_DARK_THEME,
+    DEFAULT_DIRECTION,
+    DEFAULT_LIGHT_THEME,
+    DEFAULT_THEME,
+    ROOT_CLASSNAME,
+} from './constants';
+import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
+import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
 import {useSystemTheme} from './useSystemTheme';
 
-interface ThemeProviderExternalProps {}
+const b = block(ROOT_CLASSNAME);
 
-interface ThemeProviderDefaultProps {
-    theme: Theme;
-    systemLightTheme: RealTheme;
-    systemDarkTheme: RealTheme;
-    nativeScrollbar: boolean;
-    scoped: boolean;
-    rootClassName: string;
+export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
+    theme?: Theme;
+    systemLightTheme?: RealTheme;
+    systemDarkTheme?: RealTheme;
+    direction?: Direction;
+    nativeScrollbar?: boolean;
+    scoped?: boolean;
+    rootClassName?: string;
 }
 
-export interface ThemeProviderProps
-    extends ThemeProviderExternalProps,
-        Partial<ThemeProviderDefaultProps>,
-        React.PropsWithChildren<{}> {}
-
 export function ThemeProvider({
-    theme = DEFAULT_THEME,
-    systemLightTheme = DEFAULT_LIGHT_THEME,
-    systemDarkTheme = DEFAULT_DARK_THEME,
-    nativeScrollbar = false,
-    scoped = false,
+    theme: themeProp,
+    systemLightTheme: systemLightThemeProp,
+    systemDarkTheme: systemDarkThemeProp,
+    direction: directionProp,
+    nativeScrollbar,
+    scoped: scopedProp = false,
     rootClassName = '',
     children,
 }: ThemeProviderProps) {
-    const systemTheme = (
-        useSystemTheme() === 'light' ? systemLightTheme : systemDarkTheme
-    ) as RealTheme;
+    const parentThemeState = React.useContext(ThemeContext);
+    const systemThemeState = React.useContext(ThemeSettingsContext);
+
+    const hasParentProvider = parentThemeState !== undefined;
+    const scoped = hasParentProvider || scopedProp;
+    const parentTheme = parentThemeState?.theme ?? DEFAULT_THEME;
+    const theme = themeProp ?? parentTheme;
+    const systemLightTheme =
+        systemLightThemeProp ?? systemThemeState?.systemLightTheme ?? DEFAULT_LIGHT_THEME;
+    const systemDarkTheme =
+        systemDarkThemeProp ?? systemThemeState?.systemDarkTheme ?? DEFAULT_DARK_THEME;
+    const parentDirection = parentThemeState?.direction ?? DEFAULT_DIRECTION;
+    const direction = directionProp ?? parentDirection;
+
+    const systemTheme = useSystemTheme() === 'light' ? systemLightTheme : systemDarkTheme;
     const themeValue = theme === 'system' ? systemTheme : theme;
 
     const prevRootClassName = React.useRef('');
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (!scoped) {
-            updateBodyClassName(
-                themeValue,
-                {'native-scrollbar': nativeScrollbar},
-                rootClassName,
-                prevRootClassName.current,
-            );
+            updateBodyClassName({
+                theme: themeValue,
+                nativeScrollbar,
+                className: rootClassName,
+                prevClassName: prevRootClassName.current,
+            });
+            updateBodyDirection(direction);
             prevRootClassName.current = rootClassName;
         }
-    }, [nativeScrollbar, themeValue, scoped, rootClassName]);
+    }, [scoped, themeValue, direction, nativeScrollbar, rootClassName]);
 
     const contextValue = React.useMemo(
-        () => ({
-            theme,
-            themeValue,
-        }),
-        [theme, themeValue],
+        () =>
+            ({
+                theme,
+                themeValue,
+                direction,
+            }) satisfies ThemeContextProps,
+        [theme, themeValue, direction],
     );
 
     const themeSettingsContext = React.useMemo(
-        () => ({systemLightTheme, systemDarkTheme}),
+        () => ({systemLightTheme, systemDarkTheme}) satisfies ThemeSettings,
         [systemLightTheme, systemDarkTheme],
     );
 
+    const isNeedToSetTheme = !hasParentProvider || themeValue !== parentThemeState.themeValue;
     return (
         <ThemeContext.Provider value={contextValue}>
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 {scoped ? (
                     <div
-                        className={getRootClassName(
-                            {theme: themeValue, 'native-scrollbar': nativeScrollbar},
-                            [
-                                getDeprecatedRootClassName({
-                                    theme: themeValue,
-                                    'native-scrollbar': nativeScrollbar,
-                                }),
-                                rootClassName,
-                            ],
+                        className={b(
+                            {
+                                theme: isNeedToSetTheme && themeValue,
+                                'native-scrollbar': nativeScrollbar !== false,
+                            },
+                            rootClassName,
                         )}
+                        dir={
+                            hasParentProvider && direction === parentDirection
+                                ? undefined
+                                : direction
+                        }
                     >
                         {children}
                     </div>

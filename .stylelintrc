@@ -1,6 +1,8 @@
 {
     "extends": ["@gravity-ui/stylelint-config", "@gravity-ui/stylelint-config/prettier"],
+    "plugins": ["stylelint-use-logical"],
     "rules": {
+        "csstools/use-logical": ["always", {"except": ["float", "width", "min-width", "max-width", "height", "min-height", "max-height"]}],
         "declaration-colon-space-after": "always-single-line"
     }
 }

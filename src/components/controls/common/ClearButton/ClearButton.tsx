@@ -2,16 +2,17 @@ import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
-import {Button, ButtonSize} from '../../../Button';
+import {Button} from '../../../Button';
+import type {ButtonSize} from '../../../Button';
 import {Icon} from '../../../Icon';
-import {blockNew} from '../../../utils/cn';
+import {block} from '../../../utils/cn';
 import type {InputControlSize} from '../../types';
 
 import i18n from './i18n';
 
 import './ClearButton.scss';
 
-const b = blockNew('clear-button');
+const b = block('clear-button');
 const ICON_SIZE = 16;
 
 type Props = {

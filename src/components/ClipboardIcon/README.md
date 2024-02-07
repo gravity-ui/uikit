@@ -8,11 +8,11 @@
 import {ClipboardIcon} from '@gravity-ui/uikit';
 ```
 
-ClipboardIcon is a svg copy-paste icon. This component is mainly used together with `CopyToClipboard` as wrap component.
+This component is mainly used together with `CopyToClipboard` as wrap component.
 
 ### Status
 
-Depends on `status` property additionally draws animated successful (✓ sign) or failed (X️ sign) operation indicators.
+Depends on `status` property icon is changed.
 
 <!--LANDING_BLOCK
 
@@ -43,6 +43,6 @@ LANDING_BLOCK-->
 
 | Name      | Description                                     | Type     | Default |
 | :-------- | :---------------------------------------------- | :------- | :------ |
-| classname | HTML `class` attribute                          | `string` |         |
+| className | HTML `class` attribute                          | `string` |         |
 | size      | Sets icon size                                  | `number` |         |
 | status    | Available values: `pending`, `success`, `error` | `string` |         |

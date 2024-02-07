@@ -5,28 +5,25 @@ $block: '.#{variables.$ns}table';
 #{$block} {
     &__sort {
         display: inline-flex;
-        align-items: center;
+        align-items: baseline;
+        gap: var(--g-spacing-1);
         // `top` to avoid redundant height to appear
         vertical-align: top;
         cursor: pointer;
         user-select: none;
-
-        &-spacer {
-            width: 5px;
-        }
+        border-radius: var(--g-border-radius-xs);
 
         &-indicator {
+            flex-shrink: 0;
             color: var(--g-color-text-hint);
-            opacity: 0;
         }
 
         &_active &-indicator {
             color: var(--g-color-text-primary);
-            opacity: 1;
         }
 
-        &:hover &-indicator {
-            opacity: 1;
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
         }
     }
 }

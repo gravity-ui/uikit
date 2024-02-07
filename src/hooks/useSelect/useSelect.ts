@@ -1,30 +1,39 @@
 import React from 'react';
 
+import {useControlledState} from '../useControlledState';
+
 import type {UseSelectOption, UseSelectProps, UseSelectResult} from './types';
 import {useOpenState} from './useOpenState';
 
-export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectResult<T> => {
-    const {value: valueProps, defaultValue = [], multiple, onUpdate} = props;
-    const [innerValue, setInnerValue] = React.useState(defaultValue);
+export const useSelect = <T extends unknown>({
+    defaultOpen,
+    onClose,
+    onOpenChange,
+    open,
+    value: valueProps,
+    defaultValue = [],
+    multiple,
+    onUpdate,
+}: UseSelectProps): UseSelectResult<T> => {
+    const [value, setValue] = useControlledState(valueProps, defaultValue, onUpdate);
     const [activeIndex, setActiveIndex] = React.useState<number>();
-    const value = valueProps || innerValue;
-    const uncontrolled = !valueProps;
-    const {toggleOpen, ...openState} = useOpenState(props);
+    const {toggleOpen, ...openState} = useOpenState({
+        defaultOpen,
+        onClose,
+        onOpenChange,
+        open,
+    });
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {
             if (!value.includes(option.value)) {
                 const nextValue = [option.value];
-                onUpdate?.(nextValue);
-
-                if (uncontrolled) {
-                    setInnerValue(nextValue);
-                }
+                setValue(nextValue);
             }
 
             toggleOpen(false);
         },
-        [value, uncontrolled, onUpdate, toggleOpen],
+        [value, setValue, toggleOpen],
     );
 
     const handleMultipleSelection = React.useCallback(
@@ -34,13 +43,9 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
                 ? value.filter((iteratedVal) => iteratedVal !== option.value)
                 : [...value, option.value];
 
-            onUpdate?.(nextValue);
-
-            if (uncontrolled) {
-                setInnerValue(nextValue);
-            }
+            setValue(nextValue);
         },
-        [value, uncontrolled, onUpdate],
+        [value, setValue],
     );
 
     const handleSelection = React.useCallback(
@@ -55,19 +60,14 @@ export const useSelect = <T extends unknown>(props: UseSelectProps): UseSelectRe
     );
 
     const handleClearValue = React.useCallback(() => {
-        onUpdate?.([]);
-        setInnerValue([]);
-    }, [onUpdate]);
+        setValue([]);
+    }, [setValue]);
 
     return {
         value,
         activeIndex,
         handleSelection,
         handleClearValue,
-        /**
-         * @deprecated use toggleOpen
-         */
-        setOpen: toggleOpen,
         toggleOpen,
         setActiveIndex,
         ...openState,

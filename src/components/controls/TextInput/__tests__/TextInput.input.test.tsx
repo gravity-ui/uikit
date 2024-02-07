@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {fireEvent, queryHelpers, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {fireEvent, queryHelpers, render, screen} from '../../../../../test-utils/utils';
 import {CONTROL_ERROR_ICON_QA, CONTROL_ERROR_MESSAGE_QA} from '../../utils';
 import {TextInput} from '../TextInput';
 
@@ -30,10 +30,9 @@ describe('TextInput input', () => {
             });
 
             test('do not show error without error prop', () => {
-                const {container} = render(<TextInput />);
+                render(<TextInput />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                expect(container.querySelector('.yc-text-input__error')).not.toBeInTheDocument();
+                expect(screen.queryByTestId('control-error-message-qa')).not.toBeInTheDocument();
             });
 
             test('check clear button visibility with hasClear prop', async () => {
@@ -184,14 +183,13 @@ describe('TextInput input', () => {
     describe('with label prop', () => {
         describe('basic', () => {
             test('render input with label', () => {
-                const {container} = render(<TextInput label="Label:" />);
+                render(<TextInput label="Label:" />);
 
-                // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-                const label = container.querySelector('.yc-text-input__label');
+                const label = screen.getByText('Label:');
 
                 expect(label).toBeInTheDocument();
-                expect(label?.tagName.toLowerCase()).toBe('label');
-                expect(screen.getByText('Label:')).toBeVisible();
+                expect(label.tagName.toLowerCase()).toBe('label');
+                expect(label).toBeVisible();
             });
 
             test('render described input with error message and note', () => {
@@ -229,14 +227,14 @@ describe('TextInput input', () => {
             });
 
             test('render no autocomplete attribute when no autoComplete prop, but id prop set', () => {
-                render(<TextInput id="yc-id" label="Label:" />);
+                render(<TextInput id="id" label="Label:" />);
                 const input = screen.getByRole('textbox');
 
                 expect(input.getAttribute('autocomplete')).toBeNull();
             });
 
             test('render no autocomplete attribute when no autoComplete prop, but name prop set', () => {
-                render(<TextInput name="yc-name" label="Label:" />);
+                render(<TextInput name="name" label="Label:" />);
                 const input = screen.getByRole('textbox');
 
                 expect(input.getAttribute('autocomplete')).toBeNull();

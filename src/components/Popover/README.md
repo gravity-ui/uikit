@@ -293,3 +293,8 @@ const close = () => {
 | ------- | ----------------------------------------------------------------------------- | :--------: | :-----: |
 | text    | Button's text                                                                 |  `string`  |         |
 | onClick | Button's click handler `(event: React.MouseEvent<HTMLButtonElement>) => void` | `Function` |         |
+
+| Name                    | Description       |
+| :---------------------- | :---------------- |
+| `--g-popover-padding`   | Content padding   |
+| `--g-popover-max-width` | Content max width |

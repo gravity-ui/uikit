@@ -21,11 +21,11 @@ $hover-opacity: 0.7;
     }
 
     &#{$block}_has-right-addon #{$block}__text {
-        margin-right: $rAddon;
+        margin-inline-end: $rAddon;
     }
 
     &#{$block}_has-left-addon #{$block}__text {
-        margin-left: $lAddon;
+        margin-inline-start: $lAddon;
     }
 }
 
@@ -47,6 +47,11 @@ $hover-opacity: 0.7;
         font-size: var(--g-text-body-1-font-size);
         text-align: center;
         white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__content,
+    &__key {
         text-overflow: ellipsis;
         overflow: hidden;
     }
@@ -54,6 +59,7 @@ $hover-opacity: 0.7;
     &__value {
         display: flex;
         opacity: $hover-opacity;
+        overflow: hidden;
     }
 
     &__separator {
@@ -69,19 +75,19 @@ $hover-opacity: 0.7;
         &_side_left,
         &_side_right {
             position: absolute;
-            top: 0;
+            inset-block-start: 0;
         }
 
         &_side_left {
-            left: 2px;
+            inset-inline-start: 2px;
         }
 
         &_side_right {
-            right: 0;
+            inset-inline-end: 0;
         }
 
         &_interactive {
-            --yc-button-background-color: transparent;
+            --g-button-background-color: transparent;
 
             cursor: pointer;
             color: inherit;
@@ -186,7 +192,7 @@ $hover-opacity: 0.7;
 
     // hover on action button
     &:not(#{$disabled}) #{$block}__addon_interactive {
-        --yc-button-background-color-hover: var(--_-bg-hover-color);
+        --g-button-background-color-hover: var(--_-bg-hover-color);
 
         &:hover,
         &:focus,

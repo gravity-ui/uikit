@@ -8,11 +8,10 @@ $block: '.#{variables.$ns}persona';
     $transitionDuration: 0.1s;
     $transitionTimingFunction: ease-in-out;
 
-    height: $avatarSize;
-    display: inline-flex;
-    align-items: center;
     position: relative;
     z-index: 0;
+    display: inline-flex;
+    height: $avatarSize;
     border-radius: 20px;
 
     transition-property: background-color;
@@ -23,10 +22,7 @@ $block: '.#{variables.$ns}persona';
         &:after {
             position: absolute;
             z-index: -1;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            inset: 0;
             content: '';
             border: 1px solid var(--g-color-line-generic);
             border-radius: 20px;
@@ -39,11 +35,11 @@ $block: '.#{variables.$ns}persona';
 
     &_empty {
         &#{$block}_size_s {
-            padding-left: 12px;
+            padding-inline-start: 12px;
         }
 
         &#{$block}_size_n {
-            padding-left: 16px;
+            padding-inline-start: 16px;
         }
     }
 
@@ -59,14 +55,13 @@ $block: '.#{variables.$ns}persona';
     &__main {
         @include mixins.button-reset();
 
-        height: $avatarSize;
         display: inline-flex;
         align-items: center;
-        padding-right: 6px;
         border-radius: inherit;
+        padding-inline-end: 6px;
 
         #{$block}_closeable & {
-            padding-right: 0;
+            padding-inline-end: 0;
         }
         #{$block}_clickable & {
             outline-offset: -1px;
@@ -74,6 +69,7 @@ $block: '.#{variables.$ns}persona';
             &:focus {
                 outline: 2px solid var(--g-color-line-focus);
             }
+
             &:focus:not(:focus-visible) {
                 outline: 0;
             }
@@ -81,69 +77,41 @@ $block: '.#{variables.$ns}persona';
     }
 
     &__avatar {
-        width: $avatarSize;
-        height: $avatarSize;
-        display: flex;
-        align-items: center;
-        border-radius: 50%;
-        overflow: hidden;
-        justify-content: center;
-        background-color: var(--g-color-base-generic-accent);
-
-        transition-property: background-color;
-        transition-duration: $transitionDuration;
-        transition-timing-function: $transitionTimingFunction;
+        --g-avatar-background-color: var(--g-color-base-generic-accent);
+        --g-avatar-color: var(--g-color-text-primary);
 
         #{$block}_size_n & {
-            margin-right: 12px;
+            margin-inline-end: 12px;
         }
 
         #{$block}_size_s & {
-            margin-right: 6px;
-        }
-
-        #{$block}_clickable:hover & {
-            background-color: var(--g-color-base-generic);
-        }
-
-        span {
-            @include mixins.text-accent;
-            text-transform: uppercase;
-            font-size: 11px;
-            line-height: 11px;
-        }
-
-        img {
-            width: $avatarSize;
-            height: $avatarSize;
-            object-fit: cover;
+            margin-inline-end: 6px;
         }
     }
 
     &__text {
         #{$block}_size_n & {
             @include mixins.text-body-2;
-            margin-right: 10px;
+            margin-inline-end: 10px;
         }
 
         #{$block}_size_s & {
             @include mixins.text-body-1;
-            margin-right: 6px;
+            margin-inline-end: 6px;
         }
     }
 
     &__close {
         @include mixins.button-reset();
 
-        height: $avatarSize;
-        width: 16px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding-right: 6px;
-        color: var(--g-color-text-secondary);
         box-sizing: initial;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 16px;
+        cursor: pointer;
+        padding-inline-end: 6px;
+        color: var(--g-color-text-secondary);
 
         transition-property: color;
         transition-duration: $transitionDuration;
@@ -160,6 +128,7 @@ $block: '.#{variables.$ns}persona';
         #{$block}__close:focus & {
             outline: 2px solid var(--g-color-line-focus);
         }
+
         #{$block}__close:focus:not(:focus-visible) & {
             outline: 0;
         }

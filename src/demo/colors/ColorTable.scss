@@ -16,15 +16,15 @@ $block: '.color-table';
 
     &__color-name {
         width: 120px;
-        padding-right: 20px;
-        text-align: right;
+        padding-inline-end: 20px;
+        text-align: end;
         white-space: nowrap;
     }
 
     &__step-name {
         text-align: center;
         width: 40px;
-        padding-bottom: 10px;
+        padding-block-end: 10px;
     }
 
     &__color {

@@ -29,6 +29,7 @@ Additional functionality is enabled via HOCs:
 | data                             | Data                                                                                                                                                                            |                                      `any[]`                                       |             |
 | columns                          | Column parameters                                                                                                                                                               |                               `TableColumnConfig[]`                                |             |
 | verticalAlign                    | Vertical alignment of contents                                                                                                                                                  |                                 `"top"` `"middle"`                                 |             |
+| getRowDescriptor                 | Handler to get row descriptor                                                                                                                                                   |                   `(item: any, index: number) => DescriptorType`                   |             |
 | getRowId                         | The row ID, used when selecting and sorting rows. If you skip a row, its ID will be the value of the field in the row data with the same name as the column ID                  |                 `string` `((item: any, index: number) => string)`                  |             |
 | getRowClassNames                 | Row CSS classes                                                                                                                                                                 |                      `(item: any, index: number) => string[]`                      |             |
 | isRowDisabled                    | Condition for disabling columns                                                                                                                                                 |                      `(item: any, index: number) => boolean`                       |             |
@@ -41,18 +42,27 @@ Additional functionality is enabled via HOCs:
 | stickyHorizontalScroll           | A horizontal sticky scroll in a table. NB: A table cannot have a fixed height and a sticky scroll at the same time. A sticky scroll will not work if the table has an overflow. |                                     `boolean`                                      |   `false`   |
 | stickyHorizontalScrollBreakpoint | The threshold that the parent block should reach before making a scroll sticky. This is useful in the console, for example, when the groupActions bar closes the scroll.        |                                      `number`                                      |     `0`     |
 
+### DescriptorType
+
+| Name       | Description                                      |    Type     | Default |
+| :--------- | :----------------------------------------------- | :---------: | :-----: |
+| id         | The row ID, used when selecting and sorting rows |  `string`   |         |
+| disabled   | Condition for disabling columns                  |  `boolean`  |         |
+| classNames | Row CSS classes                                  | ` string[]` |         |
+
 ### TableColumnConfig
 
 | Name        | Description                                                                                                        |                            Type                            |                           Default                           |
 | :---------- | :----------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------: | :---------------------------------------------------------: |
-| id          | Column ID                                                                                                          |                          `any[]`                           |                                                             |
+| id          | Column ID                                                                                                          |                          `string`                          |                                                             |
 | name        | Column name (header)                                                                                               |             `string` `(() => React.ReactNode)`             |                          column ID                          |
+| className   | CSS-class that will be added to all cells in the column                                                            |                          `string`                          |                                                             |
 | placeholder | The stub when there is no data in a cell                                                                           | `string` `((item: any, index: number) => React.ReactNode)` |                        `— (&mdash;)`                        |
 | template    | Cell contents. If you skip a row, the cell contents will be the value of the field with the same name as this row. | `string` `((item: any, index: number) => React.ReactNode)` | The value of the field with the name equal to the column ID |
-| align       | Content alignment                                                                                                  |               `"left"` `"center"` `"right"`                |                                                             |
-| sticky      | Sticky column                                                                                                      |                     `"left"` `"right"`                     |                                                             |
+| align       | Content alignment                                                                                                  |                `"start"` `"center"` `"end"`                |                                                             |
+| sticky      | Sticky column                                                                                                      |                     `"start"` `"end"`                      |                                                             |
 | primary     | Distinguishes a column among other                                                                                 |                         `boolean`                          |                                                             |
-| width       | Column width in px                                                                                                 |                          `number`                          |                                                             |
+| width       | Column's content width in px                                                                                       |                     `number` `string`                      |                                                             |
 | meta        | Various data, HOC settings                                                                                         |                   `Record<string, any>`                    |                                                             |
 
 ## Usage with HOC `withTableActions`
@@ -74,12 +84,15 @@ type TableActionConfig = TableAction | TableActionGroup;
 
 #### TableAction
 
-| Name     | Description     |                 Type                 |  Default   |
-| :------- | :-------------- | :----------------------------------: | :--------: |
-| text     | Text            |               `string`               |            |
-| handler  | Click handler   | `(item: any, index: number) => void` |            |
-| disabled | Action disabled |              `boolean `              |            |
-| theme    | Theme           |        `"normal"` `"danger"`         | `"normal"` |
+| Name     | Description                                                        |                 Type                 |  Default   |
+| :------- | :----------------------------------------------------------------- | :----------------------------------: | :--------: |
+| text     | Text                                                               |               `string`               |            |
+| handler  | Click handler                                                      | `(item: any, index: number) => void` |            |
+| disabled | Action disabled                                                    |              `boolean`               |            |
+| href     | Menu item with this prop becomes a link to the specified location. |               `string`               |            |
+| target   | Same as the `target` attribute of the `<a>` tag.                   |               `string`               |            |
+| rel      | Same as the `rel` attribute of the `<a>` tag.                      |               `string`               |            |
+| theme    | Theme                                                              |        `"normal"` `"danger"`         | `"normal"` |
 
 #### TableActionGroup
 

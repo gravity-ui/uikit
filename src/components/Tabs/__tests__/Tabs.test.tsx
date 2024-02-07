@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../../test-utils/utils';
 import {Tabs, TabsDirection} from '../Tabs';
 import type {TabsItemProps, TabsSize} from '../Tabs';
 
@@ -21,8 +21,8 @@ test('should render tabs by default', () => {
     const component = screen.getByRole('tablist');
 
     expect(component).toBeVisible();
-    expect(component).toHaveClass('yc-tabs_size_m');
-    expect(component).toHaveClass('yc-tabs_direction_horizontal');
+    expect(component).toHaveClass('g-tabs_size_m');
+    expect(component).toHaveClass('g-tabs_direction_horizontal');
 });
 
 test('should not render tabs if no items', () => {
@@ -38,7 +38,7 @@ test.each(new Array<TabsSize>('m', 'l', 'xl'))('should render with given "%s" si
     render(<Tabs items={[]} size={size} qa={qaId} />);
     const component = screen.getByTestId(qaId);
 
-    expect(component).toHaveClass(`yc-tabs_size_${size}`);
+    expect(component).toHaveClass(`g-tabs_size_${size}`);
 });
 
 test.each(new Array<TabsDirection>(TabsDirection.Horizontal, TabsDirection.Vertical))(
@@ -47,7 +47,7 @@ test.each(new Array<TabsDirection>(TabsDirection.Horizontal, TabsDirection.Verti
         render(<Tabs items={[]} direction={direction} qa={qaId} />);
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(`yc-tabs_direction_${direction}`);
+        expect(component).toHaveClass(`g-tabs_direction_${direction}`);
     },
 );
 
@@ -65,10 +65,10 @@ test('should not select tab if allow not selected', () => {
     const tabComponent1 = screen.getByTitle(tabTitle1);
     const tabComponent2 = screen.getByTitle(tabTitle2);
 
-    expect(tabComponent1).not.toHaveClass('yc-tabs__item_active');
+    expect(tabComponent1).not.toHaveClass('g-tabs__item_active');
     expect(tabComponent1).toHaveAttribute('aria-selected', 'false');
 
-    expect(tabComponent2).not.toHaveClass('yc-tabs__item_active');
+    expect(tabComponent2).not.toHaveClass('g-tabs__item_active');
     expect(tabComponent2).toHaveAttribute('aria-selected', 'false');
 });
 
@@ -77,10 +77,10 @@ test('should select first tab as active', () => {
     const tabComponent1 = screen.getByTitle(tabTitle1);
     const tabComponent2 = screen.getByTitle(tabTitle2);
 
-    expect(tabComponent1).toHaveClass('yc-tabs__item_active');
+    expect(tabComponent1).toHaveClass('g-tabs__item_active');
     expect(tabComponent1).toHaveAttribute('aria-selected', 'true');
 
-    expect(tabComponent2).not.toHaveClass('yc-tabs__item_active');
+    expect(tabComponent2).not.toHaveClass('g-tabs__item_active');
     expect(tabComponent2).toHaveAttribute('aria-selected', 'false');
 });
 
@@ -89,10 +89,10 @@ test('should passed active tab', () => {
     const tabComponent1 = screen.getByTitle(tabTitle1);
     const tabComponent2 = screen.getByTitle(tabTitle2);
 
-    expect(tabComponent1).not.toHaveClass('yc-tabs__item_active');
+    expect(tabComponent1).not.toHaveClass('g-tabs__item_active');
     expect(tabComponent1).toHaveAttribute('aria-selected', 'false');
 
-    expect(tabComponent2).toHaveClass('yc-tabs__item_active');
+    expect(tabComponent2).toHaveClass('g-tabs__item_active');
     expect(tabComponent2).toHaveAttribute('aria-selected', 'true');
 });
 

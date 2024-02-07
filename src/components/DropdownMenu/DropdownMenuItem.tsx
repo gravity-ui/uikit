@@ -1,15 +1,15 @@
 import React from 'react';
 
-import {ChevronRight} from '@gravity-ui/icons';
+import {ChevronLeft, ChevronRight} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
 import {Menu} from '../Menu';
-import type {PopupProps} from '../Popup';
+import type {PopupPlacement, PopupProps} from '../Popup';
+import {useDirection} from '../theme';
 
 import {cnDropdownMenu} from './DropdownMenu.classname';
 import {DropdownMenuContext} from './DropdownMenuContext';
 import {DropdownMenuPopup} from './DropdownMenuPopup';
-import {subMenuPlacement} from './constants';
 import {useSubmenu} from './hooks/useSubmenu';
 import type {DropdownMenuListItem} from './types';
 
@@ -32,6 +32,7 @@ export const DropdownMenuItem = <T,>({
 }: DropdownMenuItemProps<T>) => {
     const {toggle, data} = React.useContext(DropdownMenuContext);
     const menuItemRef = React.useRef(null);
+    const direction = useDirection();
 
     const {hasSubmenu, isSubmenuOpen, closeSubmenu, openSubmenu} = useSubmenu({
         items: subMenuItems,
@@ -92,10 +93,23 @@ export const DropdownMenuItem = <T,>({
         };
     }, [props.extraProps, closeSubmenu, hasSubmenu, openSubmenu]);
 
-    const iconEnd = hasSubmenu ? (
-        <Icon data={ChevronRight} size={10} className={cnDropdownMenu('sub-menu-arrow')} />
-    ) : (
-        props.iconEnd
+    const subMenuPlacement = React.useMemo<PopupPlacement>(
+        () => (direction === 'rtl' ? ['left-start', 'right-start'] : ['right-start', 'left-start']),
+        [direction],
+    );
+
+    const iconEnd = React.useMemo(
+        () =>
+            hasSubmenu ? (
+                <Icon
+                    data={direction === 'rtl' ? ChevronLeft : ChevronRight}
+                    size={10}
+                    className={cnDropdownMenu('sub-menu-arrow')}
+                />
+            ) : (
+                props.iconEnd
+            ),
+        [hasSubmenu, direction, props.iconEnd],
     );
 
     return (

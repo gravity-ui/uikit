@@ -1,7 +1,7 @@
 @use '../../variables';
 
 $block: '.#{variables.$ns}select-showcase';
-$blockSelectClear: '.#{variables.$ns-new}select-clear';
+$blockSelectClear: '.#{variables.$ns}select-clear';
 
 .select-width-50 {
     width: 50px;
@@ -28,17 +28,17 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
     }
 
     &__example-item {
-        margin-bottom: 15px;
+        margin-block-end: 15px;
     }
 
     &__example-item-radio {
-        margin-left: 10px;
+        margin-inline-start: 10px;
     }
 
     &__copy-button {
         position: absolute;
-        top: 6px;
-        right: 6px;
+        inset-block-start: 6px;
+        inset-inline-end: 6px;
         z-index: 1;
     }
 
@@ -57,14 +57,14 @@ $blockSelectClear: '.#{variables.$ns-new}select-clear';
     }
 
     &__user-clear-icon {
-        margin-left: 6px;
+        margin-inline-start: 6px;
     }
 
     &__custom-popup {
-        margin-top: 10px;
+        margin-block-start: 10px;
         border-radius: 12px;
 
-        .yc-list__item {
+        .g-list__item {
             margin: 4px;
             border-radius: 12px;
         }

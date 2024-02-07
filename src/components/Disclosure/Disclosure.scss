@@ -1,7 +1,7 @@
 @use '../variables';
 @use '../../../styles/mixins';
 
-$block: '.#{variables.$ns-new}disclosure';
+$block: '.#{variables.$ns}disclosure';
 $gap: 8px;
 
 #{$block} {
@@ -26,15 +26,11 @@ $gap: 8px;
         font-weight: inherit;
         border-radius: var(--g-focus-border-radius);
 
-        &:focus {
+        &:focus-visible {
             outline: 2px solid var(--g-color-line-focus);
         }
-
-        &:focus:not(:focus-visible) {
-            outline: 0;
-        }
     }
-    &__trigger_arrow-right {
+    &__trigger_arrow_end {
         flex-direction: row-reverse;
     }
     &__trigger_disabled {

@@ -1,14 +1,14 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}select-clear';
+$block: '.#{variables.$ns}select-clear';
 
 #{$block} {
     @include mixins.button-reset();
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin-left: auto;
+    margin-inline-start: auto;
     z-index: 1;
 
     &:focus-visible {
@@ -18,31 +18,28 @@ $block: '.#{variables.$ns-new}select-clear';
     &_size_s {
         height: #{variables.$s-height};
         width: #{variables.$s-height};
-        border-radius: var(--yc-border-radius-s);
+        border-radius: var(--g-border-radius-s);
     }
 
     &_size_m {
         height: #{variables.$m-height};
         width: #{variables.$m-height};
-        border-radius: var(--yc-border-radius-m);
+        border-radius: var(--g-border-radius-m);
     }
 
     &_size_l {
         height: #{variables.$l-height};
         width: #{variables.$l-height};
-        border-radius: var(--yc-border-radius-l);
+        border-radius: var(--g-border-radius-l);
     }
 
     &_size_xl {
         height: #{variables.$xl-height};
         width: #{variables.$xl-height};
-        border-radius: var(--yc-border-radius-xl);
+        border-radius: var(--g-border-radius-xl);
     }
 
     &__clear {
-        --yc-button-background-color: transparent;
-        --yc-button-background-color-hover: transparent;
-
         color: var(--g-color-text-secondary);
 
         #{$block}:hover & {

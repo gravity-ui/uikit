@@ -9,10 +9,11 @@ const b = block('dialog-body');
 export interface DialogBodyProps {
     children: React.ReactNode;
     className?: string;
+    hasBorders?: boolean;
 }
 
 export function DialogBody(props: DialogBodyProps) {
-    const {className} = props;
+    const {className, hasBorders = false} = props;
 
-    return <div className={b(null, className)}>{props.children}</div>;
+    return <div className={b({'has-borders': hasBorders}, className)}>{props.children}</div>;
 }

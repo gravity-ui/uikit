@@ -56,17 +56,20 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
     const [lowContrastBase, setLowContrastBase] = React.useState(lowContrastBaseByTheme[theme]);
     const [highContrastBase, setHighContrastBase] = React.useState(highContrastBaseByTheme[theme]);
     const palette = React.useMemo(() => {
-        return Object.entries(colorsMap).reduce((res, [key, {a, c}]) => {
-            const i = Number(key);
-            const solidColor = chroma
-                .mix(color, c > 0 ? highContrastBase : lowContrastBase, 1 - a, 'rgb')
-                .css();
-            const alphaColor = i > 500 ? '' : chroma(color).alpha(a).css();
+        return Object.entries(colorsMap).reduce(
+            (res, [key, {a, c}]) => {
+                const i = Number(key);
+                const solidColor = chroma
+                    .mix(color, c > 0 ? highContrastBase : lowContrastBase, 1 - a, 'rgb')
+                    .css();
+                const alphaColor = i > 500 ? '' : chroma(color).alpha(a).css();
 
-            res[key] = [solidColor, alphaColor];
+                res[key] = [solidColor, alphaColor];
 
-            return res;
-        }, {} as Record<string, [string, string]>);
+                return res;
+            },
+            {} as Record<string, [string, string]>,
+        );
     }, [color, lowContrastBase, highContrastBase]);
 
     const resultText = React.useMemo(() => {
@@ -198,7 +201,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
             <div className={b('result')}>
                 <Card view="filled" theme="normal" className={b('result-card')}>
                     <div className={b('result-text')}>{resultText}</div>
-                    <ClipboardButton text={resultText} size={16} className={b('result-copy')} />
+                    <ClipboardButton text={resultText} size="xs" className={b('result-copy')} />
                 </Card>
             </div>
         </div>

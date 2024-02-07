@@ -3,12 +3,13 @@
 $block: '.#{variables.$ns}dialog-footer';
 
 #{$block} {
-    padding: var(--yc-dialog-footer-padding);
+    padding: 28px var(--_--side-padding);
     display: flex;
     align-items: center;
 
     &__bts-wrapper {
         display: flex;
+        gap: 10px;
     }
 
     &__children {
@@ -21,10 +22,6 @@ $block: '.#{variables.$ns}dialog-footer';
     &__button {
         min-width: 128px;
         position: relative;
-    }
-
-    &__bts-wrapper > &__button {
-        margin-left: 10px;
     }
 
     &__error {

@@ -7,23 +7,21 @@ $block: '.#{variables.$ns}toast';
     $closeButtonSize: 24px;
     $closeButtonEdgesSpacing: 16px;
     $closeButtonTitleSpacing: 8px;
-    $containerClass: #{&}__container;
-    $iconClass: #{&}__icon;
 
-    // These custom properties used in ToastAnimation
-    --yc-toaster-margin: 10px;
-    --yc-toaster-padding: 16px;
+    --_--item-gap: 10px;
+    --_--item-padding: 16px;
+    --_--background-color: var(--g-color-base-background);
 
     display: flex;
     box-sizing: border-box;
     position: relative;
     width: inherit;
-    margin-bottom: var(--yc-toaster-margin);
-    padding: var(--yc-toaster-padding);
+    margin-block-end: var(--g-toaster-item-gap, var(--_--item-gap));
+    padding: var(--g-toaster-item-padding, var(--_--item-padding));
     font-size: var(--g-text-body-2-font-size);
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--g-color-sfx-shadow);
-    background-color: var(--g-color-base-background);
+    background-color: var(--_--background-color);
     overflow: hidden;
     z-index: 0;
 
@@ -31,61 +29,38 @@ $block: '.#{variables.$ns}toast';
         width: 100%;
     }
 
-    &_default {
-        background-color: var(--g-color-base-float);
-    }
-
-    &_info {
-        & #{$containerClass}:before {
-            background-color: var(--g-color-base-info-light);
+    &_theme {
+        &_normal {
+            --_--background-color: var(--g-color-base-float);
         }
 
-        & #{$iconClass} {
-            color: var(--g-color-text-info-heavy);
-        }
-    }
-
-    &_success {
-        & #{$containerClass}:before {
-            background-color: var(--g-color-base-positive-light);
+        &_info {
+            --_--container-background-color: var(--g-color-base-info-light);
+            --_--icon-color: var(--g-color-text-info-heavy);
         }
 
-        & #{$iconClass} {
-            color: var(--g-color-text-positive-heavy);
-        }
-    }
-
-    &_warning {
-        & #{$containerClass}:before {
-            background-color: var(--g-color-base-warning-light);
+        &_success {
+            --_--container-background-color: var(--g-color-base-positive-light);
+            --_--icon-color: var(--g-color-text-positive-heavy);
         }
 
-        & #{$iconClass} {
-            color: var(--g-color-text-warning-heavy);
+        &_warning {
+            --_--container-background-color: var(--g-color-base-warning-light);
+            --_--icon-color: var(--g-color-text-warning-heavy);
+        }
+
+        &_danger {
+            --_--container-background-color: var(--g-color-base-danger-light);
+            --_--icon-color: var(--g-color-text-danger-heavy);
+        }
+
+        &_utility {
+            --_--container-background-color: var(--g-color-base-utility-light);
+            --_--icon-color: var(--g-color-text-utility-heavy);
         }
     }
 
-    &_error {
-        & #{$containerClass}:before {
-            background-color: var(--g-color-base-danger-light);
-        }
-
-        & #{$iconClass} {
-            color: var(--g-color-text-danger-heavy);
-        }
-    }
-
-    &_utility {
-        & #{$containerClass}:before {
-            background-color: var(--g-color-base-utility-light);
-        }
-
-        & #{$iconClass} {
-            color: var(--g-color-text-utility-heavy);
-        }
-    }
-
-    #{$containerClass} {
+    &__container {
         flex: 1 1 auto;
         display: grid;
         row-gap: 8px;
@@ -98,38 +73,40 @@ $block: '.#{variables.$ns}toast';
         &:before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
+            inset-block-start: 0;
+            inset-inline-start: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
             z-index: -1;
+            background-color: var(--_--container-background-color);
         }
     }
 
     &__icon-container {
         flex: 0 0 auto;
-        padding-right: 8px;
-        padding-top: 2px;
+        padding-inline-end: 8px;
+        padding-block-start: 2px;
+        color: var(--_--icon-color);
     }
 
     &__title {
         @include mixins.text-subheader-3;
         margin: 0;
-        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
+        padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__content_without-title {
-        padding-right: $closeButtonTitleSpacing + $closeButtonSize;
+        padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
     }
 
     &__action {
-        margin-right: 8px;
+        margin-inline-end: 8px;
     }
 
     & &__btn-close {
         position: absolute;
-        top: $closeButtonEdgesSpacing;
-        right: $closeButtonEdgesSpacing;
+        inset-block-start: $closeButtonEdgesSpacing;
+        inset-inline-end: $closeButtonEdgesSpacing;
     }
 }

@@ -1,9 +1,6 @@
-import React from 'react';
-
-import {ThemeContext} from './ThemeContext';
-import type {ThemeContextProps} from './ThemeContext';
+import type {ThemeContextProps} from './types';
+import {useThemeContext} from './useThemeContext';
 
 export function useTheme(): ThemeContextProps['theme'] {
-    const {theme} = React.useContext(ThemeContext);
-    return theme;
+    return useThemeContext().theme;
 }

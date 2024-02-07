@@ -1,14 +1,14 @@
 import React from 'react';
 
 import type {QAProps} from '../types';
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 
 import {TocItem} from './TocItem/TocItem';
 import type {TocItem as TocItemType} from './types';
 
 import './Toc.scss';
 
-const b = blockNew('toc');
+const b = block('toc');
 
 export interface TocProps extends QAProps {
     className?: string;

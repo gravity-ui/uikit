@@ -1,12 +1,12 @@
 @use '../variables';
 
-$block: '.#{variables.$ns-new}pagination';
+$block: '.#{variables.$ns}pagination';
 
 #{$block} {
     display: flex;
 
     &__pagination-item {
-        margin-right: 4px;
+        margin-inline-end: 4px;
         flex-shrink: 0;
     }
 

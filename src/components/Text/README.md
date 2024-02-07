@@ -163,16 +163,17 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name       | Description                                             |                   Type                   |  Default   |
-| :--------- | :------------------------------------------------------ | :--------------------------------------: | :--------: |
-| children   | Text content                                            |            `React.ReactNode`             |            |
-| className  | HTML `class` attribute                                  |                 `string`                 |            |
-| as         | Ability to override default html tag                    |         `React.ElementType<any>`         |            |
-| style      | HTML `style` attribute                                  |          `React.CSSProperties`           |            |
-| variant    | Font of the text                                        |                 `string`                 | `"body-1"` |
-| ellipsis   | Hidden overflow content will be replaced by an ellipsis |                `boolean`                 |            |
-| whiteSpace | The white-space css property                            |       `"nowrap"` `"break-spaces"`        |            |
-| wordBreak  | The word-break css property                             |              `"break-all"`               |            |
-| color      | Color of the text                                       | `string` (see values in "Color" section) |            |
-| ref        |                                                         |                  `any`                   |            |
-| qa         | HTML `data-qa` attribute, used in tests                 |                 `string`                 |            |
+| Name          | Description                                                               |                   Type                   |  Default   |
+| :------------ | :------------------------------------------------------------------------ | :--------------------------------------: | :--------: |
+| children      | Text content                                                              |            `React.ReactNode`             |            |
+| className     | HTML `class` attribute                                                    |                 `string`                 |            |
+| id            | HTML `id` attribute                                                       |                 `string`                 |            |
+| as            | Ability to override default html tag                                      |         `React.ElementType<any>`         |            |
+| style         | HTML `style` attribute                                                    |          `React.CSSProperties`           |            |
+| variant       | Font of the text                                                          |                 `string`                 | `"body-1"` |
+| ellipsis      | Hidden overflow content will be replaced by an ellipsis                   |                `boolean`                 |            |
+| ellipsisLines | The number of whole lines of text after which the content will be cut off |                 `number`                 |            |
+| whiteSpace    | The white-space css property                                              |       `"nowrap"` `"break-spaces"`        |            |
+| wordBreak     | The word-break css property                                               |              `"break-all"`               |            |
+| color         | Color of the text                                                         | `string` (see values in "Color" section) |            |
+| qa            | HTML `data-qa` attribute, used in tests                                   |                 `string`                 |            |

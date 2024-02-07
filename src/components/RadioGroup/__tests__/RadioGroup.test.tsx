@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen, within} from '../../../../test-utils/utils';
 import {RadioGroup} from '../RadioGroup';
 import type {RadioGroupDirection, RadioGroupOption, RadioGroupSize} from '../RadioGroup';
 
@@ -28,7 +28,7 @@ describe('RadioGroup', () => {
         );
         const component = screen.getByTestId(qaId);
 
-        expect(component).toHaveClass(`yc-radio-group_size_${size}`);
+        expect(component).toHaveClass(`g-radio-group_size_${size}`);
     });
 
     test('all children are disabled when disabled=true prop is given', () => {
@@ -193,7 +193,7 @@ describe('RadioGroup', () => {
             );
             const component = screen.getByTestId(qaId);
 
-            expect(component).toHaveClass(`yc-radio-group_direction_${direction}`);
+            expect(component).toHaveClass(`g-radio-group_direction_${direction}`);
         },
     );
 });

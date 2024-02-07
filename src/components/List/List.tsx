@@ -2,22 +2,23 @@ import React from 'react';
 
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
-import {
-    DragDropContext,
-    Draggable,
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import type {
     DraggableProvided,
     DraggableRubric,
     DraggableStateSnapshot,
     DropResult,
-    Droppable,
     DroppableProvided,
 } from 'react-beautiful-dnd';
-import AutoSizer, {Size} from 'react-virtualized-auto-sizer';
-import {VariableSizeList as ListContainer} from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import type {Size} from 'react-virtualized-auto-sizer';
+import {VariableSizeList} from 'react-window';
+import type {VariableSizeListProps} from 'react-window';
 
 import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoadingIndicator';
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
+import {useDirection} from '../theme';
 import {block} from '../utils/cn';
 import {getUniqId} from '../utils/common';
 
@@ -54,6 +55,11 @@ const reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: num
 
     return result;
 };
+
+const ListContainer = React.forwardRef<VariableSizeList, VariableSizeListProps>((props, ref) => {
+    return <VariableSizeList ref={ref} {...props} direction={useDirection()} />;
+});
+ListContainer.displayName = 'ListContainer';
 
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
     static defaultProps: Partial<ListProps<ListItemData<unknown>>> = listDefaultProps;
@@ -93,7 +99,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     refFilter = React.createRef<HTMLInputElement>();
     refContainer = React.createRef<any>();
     blurTimer: ReturnType<typeof setTimeout> | null = null;
-    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: true} as unknown as ListItemData<
+    loadingItem = {value: '__LIST_ITEM_LOADING__', disabled: false} as unknown as ListItemData<
         T & {value: string}
     >;
     uniqId = getUniqId();
@@ -401,7 +407,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     private renderVirtualizedContainer() {
-        const items = this.getItems();
+        // Otherwise, react-window will not update the list items
+        const items = [...this.getItems()];
 
         if (this.props.sortable) {
             return (
@@ -518,11 +525,13 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private handleKeyMove(event: React.KeyboardEvent, step: number, defaultItemIndex = 0) {
-        event.preventDefault();
         const {activeItem = defaultItemIndex} = this.state;
-        this.activateItem(
-            List.findNextIndex<T>(this.state.items, activeItem + step, Math.sign(step)),
-        );
+
+        event.preventDefault();
+
+        const items = this.getItemsWithLoading();
+
+        this.activateItem(List.findNextIndex<T>(items, activeItem + step, Math.sign(step)));
     }
 
     private handleFocus = () => {

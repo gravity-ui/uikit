@@ -8,17 +8,18 @@ import {Icon} from '../../Icon';
 import type {IconProps} from '../../Icon';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
-import type {InternalToastProps, ToastAction, ToastType} from '../types';
+import type {InternalToastProps, ToastAction, ToastTheme} from '../types';
 
 import './Toast.scss';
 
 const b = block('toast');
 const DEFAULT_TIMEOUT = 5000;
-const TITLE_ICONS: Record<ToastType, IconProps['data']> = {
+const TITLE_ICONS: Record<ToastTheme, IconProps['data'] | null> = {
+    normal: null,
     info: CircleInfo,
     success: CircleCheck,
     warning: TriangleExclamation,
-    error: TriangleExclamation,
+    danger: TriangleExclamation,
     utility: Thunderbolt,
 };
 
@@ -68,15 +69,15 @@ function renderActions({actions, onClose}: RenderActionsProps) {
 }
 
 interface RenderIconProps {
-    type?: ToastType;
+    theme?: ToastTheme;
 }
 
-function renderIconByType({type}: RenderIconProps) {
-    if (!type) {
+function renderIconByType({theme}: RenderIconProps) {
+    if (!theme || !TITLE_ICONS[theme]) {
         return null;
     }
 
-    return <Icon data={TITLE_ICONS[type]} size={20} className={b('icon', {[type]: true})} />;
+    return <Icon data={TITLE_ICONS[theme]!} size={20} className={b('icon', {[theme]: true})} />;
 }
 
 export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function Toast(props, ref) {
@@ -86,7 +87,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
         actions,
         title,
         className,
-        type,
+        theme = 'normal',
         renderIcon,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
@@ -100,13 +101,13 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
 
     const mods = {
         mobile,
-        [type || 'default']: true,
+        theme,
     };
 
     const hasTitle = Boolean(title);
     const hasContent = Boolean(content);
 
-    const icon = renderIcon ? renderIcon(props) : renderIconByType({type});
+    const icon = renderIcon ? renderIcon(props) : renderIconByType({theme});
     return (
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
             {icon && <div className={b('icon-container')}>{icon}</div>}

@@ -3,46 +3,19 @@ import '../styles/fonts.scss';
 // eslint-disable-next-line import/order
 import '../styles/styles.scss';
 
-import React from 'react';
-
 import {MINIMAL_VIEWPORTS} from '@storybook/addon-viewport';
-import type {Decorator, Preview} from '@storybook/react';
+import type {Preview} from '@storybook/react';
 
-import {Lang, MobileProvider, ThemeProvider, configure} from '../src';
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
 
 import {WithLang} from './decorators/withLang';
 import {WithMobile} from './decorators/withMobile';
+import {WithStrictMode} from './decorators/withStrictMode';
+import {WithTheme} from './decorators/withTheme';
 import {themes} from './theme';
 
-configure({
-    lang: Lang.En,
-});
-
-const withContextProvider: Decorator = (Story, context) => {
-    if (context.parameters?.disableStrictMode) {
-        return (
-            <ThemeProvider theme={context.globals.theme}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        );
-    }
-
-    return (
-        <React.StrictMode>
-            <ThemeProvider theme={context.globals.theme}>
-                <MobileProvider>
-                    <Story {...context} />
-                </MobileProvider>
-            </ThemeProvider>
-        </React.StrictMode>
-    );
-};
-
 const preview: Preview = {
-    decorators: [WithMobile, WithLang, withContextProvider],
+    decorators: [WithLang, WithMobile, WithTheme, WithStrictMode],
     parameters: {
         docs: {
             theme: themes.light,
@@ -79,9 +52,10 @@ const preview: Preview = {
                 items: [
                     {value: 'light', right: '☼', title: 'Light'},
                     {value: 'dark', right: '☾', title: 'Dark'},
-                    {value: 'light-hc', right: '☼', title: 'High Contrast Light (beta)'},
-                    {value: 'dark-hc', right: '☾', title: 'High Contrast Dark (beta)'},
+                    {value: 'light-hc', right: '☼', title: 'Light (high contrast)'},
+                    {value: 'dark-hc', right: '☾', title: 'Dark (high contrast)'},
                 ],
+                dynamicTitle: true,
             },
         },
         lang: {
@@ -93,6 +67,19 @@ const preview: Preview = {
                     {value: 'en', right: '🇬🇧', title: 'En'},
                     {value: 'ru', right: '🇷🇺', title: 'Ru'},
                 ],
+                dynamicTitle: true,
+            },
+        },
+        direction: {
+            defaultValue: 'ltr',
+            toolbar: {
+                title: 'Direction',
+                icon: 'menu',
+                items: [
+                    {value: 'ltr', title: 'Left to Right', icon: 'arrowrightalt'},
+                    {value: 'rtl', title: 'Right to Left', icon: 'arrowleftalt'},
+                ],
+                dynamicTitle: true,
             },
         },
         platform: {
@@ -103,6 +90,7 @@ const preview: Preview = {
                     {value: 'desktop', title: 'Desktop', icon: 'browser'},
                     {value: 'mobile', title: 'Mobile', icon: 'mobile'},
                 ],
+                dynamicTitle: true,
             },
         },
     },

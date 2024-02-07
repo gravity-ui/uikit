@@ -4,7 +4,11 @@ $block: '.#{variables.$ns}dialog-btn-close';
 
 #{$block} {
     position: absolute;
-    top: calc(var(--yc-dialog-header-padding-top) - 6px);
-    right: calc(var(--yc-dialog-side-padding) - 12px);
+    // Offset from icon to the edges should be 20px (36px is Button's size, 8px is half of Button's padding)
+    // Icon size = 20px
+    // Button size = 36px
+    // Offset = 20 - ((36 - 20) / 2) = 14
+    inset-block-start: 14px;
+    inset-inline-end: 14px;
     z-index: 1;
 }

@@ -1,5 +1,6 @@
 @use '../variables.scss';
 
+$boxBlock: '.#{variables.$ns}box';
 $colBlock: '.#{variables.$ns}col';
 $rowBlock: '.#{variables.$ns}row';
 $flexBlock: '.#{variables.$ns}flex';
@@ -54,6 +55,7 @@ $MEDIA_TO_BREAKPOINT_WIDTH: (
 
 // mobile first
 // for example if we set `m` breakpoint condition, then the same condition will be applied to `l`, `xl`, `xxl` and 'xxxl' breakpoints
+
 @mixin use-media($size) {
     @if $size == s {
         @content;

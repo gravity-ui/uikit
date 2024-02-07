@@ -5,10 +5,10 @@
 
     &__show-btn {
         position: sticky;
-        top: 0;
+        inset-block-start: 0;
         display: flex;
         justify-content: center;
-        margin-bottom: 20px;
+        margin-block-end: 20px;
         background-color: var(--g-color-base-background);
         z-index: 1;
     }
@@ -25,10 +25,10 @@
     }
 
     &__content-item {
-        margin-bottom: 15px;
+        margin-block-end: 15px;
 
         &:last-child {
-            margin-bottom: 25px;
+            margin-block-end: 25px;
         }
     }
 }

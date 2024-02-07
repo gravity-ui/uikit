@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
-import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {render, screen} from '../../../../test-utils/utils';
 import {Button} from '../Button';
 import type {ButtonPin, ButtonProps, ButtonSize, ButtonView} from '../Button';
 
@@ -57,7 +57,7 @@ describe('Button', () => {
             render(<Button size={size} qa={qaId} />);
             const button = screen.getByTestId(qaId);
 
-            expect(button).toHaveClass(`yc-button_size_${size}`);
+            expect(button).toHaveClass(`g-button_size_${size}`);
         },
     );
 
@@ -65,14 +65,14 @@ describe('Button', () => {
         render(<Button view={view} qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
-        expect(button).toHaveClass(`yc-button_view_${view}`);
+        expect(button).toHaveClass(`g-button_view_${view}`);
     });
 
     test.each(new Array<ButtonPin>(...buttonPins))('render with given "%s" pin', (pin) => {
         render(<Button pin={pin} qa={qaId} />);
         const button = screen.getByTestId(qaId);
 
-        expect(button).toHaveClass(`yc-button_pin_${pin}`);
+        expect(button).toHaveClass(`g-button_pin_${pin}`);
     });
 
     test.each(new Array<'button' | 'submit' | 'reset'>('button', 'submit', 'reset'))(
@@ -91,7 +91,7 @@ describe('Button', () => {
         render(
             <Button>
                 <Gear data-qa={iconQaId} width={20} height={20} />
-                Left
+                Start
             </Button>,
         );
 
@@ -127,7 +127,7 @@ describe('Button', () => {
                 <Button.Icon>
                     <Gear data-qa={iconQaId} width={20} height={20} />
                 </Button.Icon>
-                Left
+                Start
             </Button>,
         );
 
@@ -143,7 +143,7 @@ describe('Button', () => {
         const button = screen.getByRole('button');
 
         expect(button).toBeVisible();
-        expect(button).toHaveClass('yc-button_selected');
+        expect(button).toHaveClass('g-button_selected');
     });
 
     test('should render <a /> tag', () => {
@@ -163,7 +163,7 @@ describe('Button', () => {
         const button = screen.getByRole('button');
 
         expect(button).toBeVisible();
-        expect(button).not.toHaveClass('yc-button_selected');
+        expect(button).not.toHaveClass('g-button_selected');
     });
 
     test('loading when loading=true prop is given', () => {
@@ -171,7 +171,7 @@ describe('Button', () => {
         const button = screen.getByRole('button');
 
         expect(button).toBeVisible();
-        expect(button).toHaveClass('yc-button_loading');
+        expect(button).toHaveClass('g-button_loading');
     });
 
     test('not loading when loading=false prop is given', () => {
@@ -179,7 +179,7 @@ describe('Button', () => {
         const button = screen.getByRole('button');
 
         expect(button).toBeVisible();
-        expect(button).not.toHaveClass('yc-button_loading');
+        expect(button).not.toHaveClass('g-button_loading');
     });
 
     test('disabled when disabled=true prop is given', () => {

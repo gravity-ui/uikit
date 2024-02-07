@@ -2,12 +2,19 @@ import React from 'react';
 
 import type {Meta, Story} from '@storybook/react';
 
-import {Pagination, PaginationProps} from '../../Pagination';
+import {Pagination} from '../../Pagination';
+import type {PaginationProps} from '../../Pagination';
 
 const useState = (args: PaginationProps) => {
     const [state, setState] = React.useState({...args});
+
     const onUpdate: PaginationProps['onUpdate'] = (page, pageSize) =>
         setState((prevState) => ({...prevState, page, pageSize}));
+
+    React.useEffect(() => {
+        setState({...args});
+    }, [args]);
+
     return {...state, onUpdate};
 };
 

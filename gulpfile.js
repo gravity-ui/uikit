@@ -5,13 +5,13 @@ const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-dart-sass');
 const replace = require('gulp-replace');
 const ts = require('gulp-typescript');
-const rimraf = require('rimraf');
+const {rimrafSync} = require('rimraf');
 
 const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
-    rimraf.sync(BUILD_DIR);
-    rimraf.sync('styles/**/*.css');
+    rimrafSync(BUILD_DIR);
+    rimrafSync('styles/**/*.css');
     done();
 });
 
@@ -19,8 +19,7 @@ function compileTs(modules = false) {
     const tsProject = ts.createProject('tsconfig.json', {
         declaration: true,
         module: modules ? 'esnext' : 'commonjs',
-        // uncomment after switching to typescript 5 with verbatimModuleSyntax: true
-        // ...(modules ? undefined : {verbatimModuleSyntax: false}),
+        ...(modules ? undefined : {verbatimModuleSyntax: false}),
     });
 
     return src([
@@ -33,11 +32,7 @@ function compileTs(modules = false) {
         '!src/**/*.test.{ts,tsx}',
         '!src/**/__snapshots__/**/*',
     ])
-        .pipe(
-            replace(/import '.+\.scss';/g, (match) =>
-                modules ? match.replace('.scss', '.css') : '',
-            ),
-        )
+        .pipe(replace(/(import.+)\.scss/g, '$1.css'))
         .pipe(tsProject())
         .pipe(dest(path.resolve(BUILD_DIR, modules ? 'esm' : 'cjs')));
 }

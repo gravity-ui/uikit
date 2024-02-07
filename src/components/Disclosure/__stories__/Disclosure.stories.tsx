@@ -19,7 +19,7 @@ export default {
         summary: 'Default summary',
         size: 'm',
         disabled: false,
-        arrowPosition: 'left',
+        arrowPosition: 'start',
     },
 } as Meta;
 
@@ -48,8 +48,8 @@ export const Size = SizeTemplate.bind({});
 const ArrowPositionTemplate: StoryFn<DisclosureProps> = (args) => {
     return (
         <div className="disclosure-stories">
-            <Disclosure {...args} arrowPosition="left" />
-            <Disclosure {...args} arrowPosition="right" />
+            <Disclosure {...args} arrowPosition="start" />
+            <Disclosure {...args} arrowPosition="end" />
         </div>
     );
 };

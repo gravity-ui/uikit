@@ -3,7 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Progress} from '../Progress';
-import type {ProgressTheme} from '../Progress';
+import type {ProgressTheme} from '../types';
 
 export default {
     title: 'Components/Feedback/Progress',
@@ -33,6 +33,22 @@ const ThemeTemplate: StoryFn<typeof Progress> = (args) => {
 };
 
 export const Theme = ThemeTemplate.bind({});
+
+export const Custom: StoryFn<typeof Progress> = (args) => {
+    return (
+        <React.Fragment>
+            <style>
+                {`.g-root {
+                    --g-progress-empty-text-color: var(--g-color-text-primary);
+                    --g-progress-filled-text-color:  var(--g-color-text-light-primary);
+                    --g-progress-empty-background-color: var(--branding-base-selection, rgba(82, 130, 255, 0.15));
+                    --g-progress-filled-background-color: #5282FF;
+                }`}
+            </style>
+            <Progress {...args} value={50} text="custom" />
+        </React.Fragment>
+    );
+};
 
 const StackTemplate: StoryFn<typeof Progress> = (args) => {
     return (

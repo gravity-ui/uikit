@@ -3,11 +3,15 @@
         "@gravity-ui/eslint-config",
         "@gravity-ui/eslint-config/client",
         "@gravity-ui/eslint-config/prettier",
+        "@gravity-ui/eslint-config/import-order",
         "@gravity-ui/eslint-config/a11y"
     ],
     "root": true,
     "rules": {
-        "react/jsx-fragments": ["error", "element"],
+        "react/jsx-fragments": [
+            "error",
+            "element"
+        ],
         "no-restricted-syntax": [
             "error",
             {
@@ -17,9 +21,16 @@
             {
                 "selector": "TSTypeReference>TSQualifiedName[left.name='React'][right.name='FC']",
                 "message": "Don't use React.FC"
+            },
+            {
+                "selector": "ImportDeclaration[source.value='@testing-library/react']",
+                "message": "Please use wrapper from 'test-utils/utils.tsx'."
             }
         ],
-        "jsx-a11y/no-autofocus": 0
+        "jsx-a11y/no-autofocus": "off",
+        "import/no-extraneous-dependencies": "off",
+        "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+        "@typescript-eslint/consistent-type-imports": ["error", {"prefer":  "type-imports", "fixStyle": "separate-type-imports"}]
     },
     "overrides": [
         {
@@ -30,7 +41,7 @@
             },
             "extends": ["plugin:testing-library/react"],
             "rules": {
-                "jsx-a11y/no-static-element-interactions": 0
+                "jsx-a11y/no-static-element-interactions": "off"
             },
             "excludedFiles": "**/__tests__/**/*.visual.test.*"
         },

@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$block: '.#{variables.$ns-new}toc-stories';
+$block: '.#{variables.$ns}toc-stories';
 
 #{$block} {
     $class: &;

@@ -4,7 +4,12 @@
 $block: '.#{variables.$ns}action-tooltip';
 
 #{$block} {
-    &__layout {
+    --g-popup-border-width: 0;
+    --g-popup-background-color: var(--g-color-base-float-heavy);
+
+    &__content {
+        padding: 6px 12px;
+        color: var(--g-color-text-light-primary);
         max-width: 300px;
         box-sizing: border-box;
     }
@@ -20,11 +25,11 @@ $block: '.#{variables.$ns}action-tooltip';
     }
 
     &__hotkey {
-        margin-left: 8px;
+        margin-inline-start: 8px;
     }
 
     &__description {
-        margin-top: 4px;
+        margin-block-start: 4px;
         color: var(--g-color-text-light-secondary);
     }
 }

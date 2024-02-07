@@ -1,10 +1,19 @@
 @use '../../../../styles/mixins';
 @use '../../variables';
 @use '../mixins.scss' as control-mixins;
+@use '../variables.scss' as control-variables;
 
-$block: '.#{variables.$ns-new}text-area';
+$block: '.#{variables.$ns}text-area';
 
 #{$block} {
+    --_--text-color: var(--g-color-text-primary);
+    --_--placeholder-color: var(--g-color-text-hint);
+    --_--background-color: transparent;
+    --_--border-width: #{control-variables.$border-width};
+    --_--clear-offset: calc(
+        var(--g-text-area-border-width, #{control-variables.$border-width}) + 1px
+    );
+
     display: inline-block;
     width: 100%;
     position: relative;
@@ -13,6 +22,19 @@ $block: '.#{variables.$ns-new}text-area';
         box-sizing: border-box;
         display: flex;
         width: 100%;
+        background-color: var(--g-text-area-background-color, var(--_--background-color));
+        border-width: var(--g-text-area-border-width, var(--_--border-width));
+        border-style: solid;
+        border-color: var(--g-text-area-border-color, var(--_--border-color));
+        color: var(--g-text-area-text-color, var(--_--text-color));
+
+        &:hover {
+            border-color: var(--g-text-area-border-color-hover, var(--_--border-color-hover));
+        }
+
+        &:focus-within {
+            border-color: var(--g-text-area-border-color-active, var(--_--border-color-active));
+        }
     }
 
     &__control {
@@ -26,7 +48,7 @@ $block: '.#{variables.$ns-new}text-area';
         width: 100%;
         font-weight: var(--g-text-body-font-weight);
         font-family: var(--g-text-body-font-family);
-        color: var(--g-color-text-primary);
+        color: inherit;
         background-color: transparent;
         border: none;
         resize: none;
@@ -34,7 +56,7 @@ $block: '.#{variables.$ns-new}text-area';
         overflow-x: hidden;
 
         &::placeholder {
-            color: var(--g-color-text-hint);
+            color: var(--g-text-area-placeholder-color, var(--_--placeholder-color));
         }
 
         &:focus {
@@ -48,16 +70,17 @@ $block: '.#{variables.$ns-new}text-area';
 
     &__clear {
         position: absolute;
-        right: 1px;
 
         &_size_s,
         &_size_m {
-            top: 2px;
+            inset-inline-end: var(--_--clear-offset);
+            inset-block-start: var(--_--clear-offset);
         }
 
         &_size_l,
         &_size_xl {
-            top: 4px;
+            inset-inline-end: calc(var(--_--clear-offset) + 1px);
+            inset-block-start: calc(var(--_--clear-offset) + 2px);
         }
     }
 
@@ -68,10 +91,10 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             &#{$block}_has-clear #{$block}__control {
-                padding-right: 26px;
+                padding-inline-end: 26px;
             }
 
-            --_--text-area-border-radius: var(--g-border-radius-s);
+            --_--border-radius: var(--g-border-radius-s);
         }
 
         &_m {
@@ -80,10 +103,10 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             &#{$block}_has-clear #{$block}__control {
-                padding-right: 26px;
+                padding-inline-end: 26px;
             }
 
-            --_--text-area-border-radius: var(--g-border-radius-m);
+            --_--border-radius: var(--g-border-radius-m);
         }
 
         &_l {
@@ -92,10 +115,10 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             &#{$block}_has-clear #{$block}__control {
-                padding-right: 36px;
+                padding-inline-end: 36px;
             }
 
-            --_--text-area-border-radius: var(--g-border-radius-l);
+            --_--border-radius: var(--g-border-radius-l);
         }
 
         &_xl {
@@ -104,39 +127,32 @@ $block: '.#{variables.$ns-new}text-area';
             }
 
             &#{$block}_has-clear #{$block}__control {
-                padding-right: 36px;
+                padding-inline-end: 36px;
             }
 
-            --_--text-area-border-radius: var(--g-border-radius-xl);
+            --_--border-radius: var(--g-border-radius-xl);
         }
     }
 
     &_view {
         &_normal {
-            #{$block}__content {
-                border: 1px solid var(--g-color-line-generic);
-
-                &:hover {
-                    border-color: var(--g-color-line-generic-hover);
-                }
-
-                &:focus-within {
-                    border-color: var(--g-color-line-generic-active);
-                }
-            }
+            --_--border-color: var(--g-color-line-generic);
+            --_--border-color-hover: var(--g-color-line-generic-hover);
+            --_--border-color-active: var(--g-color-line-generic-active);
         }
 
         &_clear {
+            --_--border-color: transparent;
+            --_--border-color-hover: transparent;
+            --_--border-color-active: transparent;
+            --_--border-radius: 0;
+
             & #{$block}__content {
-                border: 1px solid transparent;
-                border-left: 0;
-                border-right: 0;
-                border-radius: 0;
+                border-inline: 0;
             }
 
             & #{$block}__control {
-                padding-left: 0;
-                padding-right: 0;
+                padding-inline: 0;
             }
         }
     }
@@ -144,29 +160,21 @@ $block: '.#{variables.$ns-new}text-area';
     @include mixins.pin(
         $block,
         #{$block}__content,
-        var(--_--text-area-border-radius),
+        var(--g-text-area-border-radius, var(--_--border-radius)),
         $append: false
     );
 
     &_disabled {
-        #{$block}__content {
-            background-color: var(--g-color-base-generic-accent-disabled);
-            color: var(--g-color-text-hint);
-            border-color: transparent;
-
-            &:hover {
-                border-color: transparent;
-            }
-        }
-
-        #{$block}__control {
-            color: var(--g-color-text-hint);
-        }
+        --_--text-color: var(--g-color-text-hint);
+        --_--background-color: var(--g-color-base-generic-accent-disabled);
+        --_--border-color: transparent;
+        --_--border-color-hover: transparent;
+        --_--border-color-active: transparent;
     }
 
     &_has-scrollbar {
         #{$block}__clear {
-            right: var(--g-scrollbar-width);
+            inset-inline-end: var(--g-scrollbar-width);
         }
     }
 
@@ -174,8 +182,7 @@ $block: '.#{variables.$ns-new}text-area';
         &_error {
             &#{$block}_view_normal {
                 #{$block}__content {
-                    border-color: var(--g-color-line-danger);
-
+                    &,
                     &:hover,
                     &:focus-within {
                         border-color: var(--g-color-line-danger);
@@ -185,11 +192,10 @@ $block: '.#{variables.$ns-new}text-area';
 
             &#{$block}_view_clear {
                 #{$block}__content {
-                    border-bottom: 1px solid var(--g-color-line-danger);
-
+                    &,
                     &:hover,
                     &:focus-within {
-                        border-bottom: 1px solid var(--g-color-line-danger);
+                        border-block-end: 1px solid var(--g-color-line-danger);
                     }
                 }
             }

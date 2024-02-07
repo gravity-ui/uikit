@@ -7,7 +7,7 @@ import {withTableActions, withTableCopy, withTableSettings, withTableSorting} fr
 
 export interface DataItem {
     name: string;
-    city?: string;
+    location?: {region: string; city?: string};
     phone: string;
     count: number;
     date: string;
@@ -17,29 +17,29 @@ export interface DataItem {
 export const data: DataItem[] = [
     {
         name: 'Nomlanga Compton',
-        city: 'Erli',
+        location: {region: 'Liguria', city: 'Erli'},
         phone: '+7 (923) 737-89-72',
         count: 82,
         date: '2019-03-15',
     },
     {
         name: 'Paul Hatfield',
-        city: 'Campitello di Fassa',
+        location: {region: 'Trentino-Alto Adige/Südtirol', city: 'Campitello di Fassa'},
         phone: '+7 (900) 333-82-02',
         count: 51,
         date: '2019-11-23',
     },
     {
         name: 'Phelan Daniel',
-        city: 'Meugliano',
+        location: {region: 'Piedmont', city: 'Meugliano'},
         phone: '+7 (925) 549-50-23',
         count: 10,
         date: '2019-05-14',
     },
     {
         name: 'Hiram Mayer',
-        city: '',
         phone: '+7 (950) 372-56-84',
+        location: {region: 'Calabria'},
         count: 54,
         date: '2019-03-29',
     },
@@ -71,7 +71,11 @@ export const columns: TableColumnConfig<DataItem>[] = [
         },
     },
     {
-        id: 'city',
+        id: 'location.region',
+        name: 'Region',
+    },
+    {
+        id: 'location.city',
         name: 'City',
     },
     {
@@ -81,7 +85,7 @@ export const columns: TableColumnConfig<DataItem>[] = [
     {
         id: 'count',
         name: 'Count',
-        align: 'right',
+        align: 'end',
     },
     {
         id: 'date',

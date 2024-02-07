@@ -1,6 +1,6 @@
 @use '../../../variables';
 
-$block: '.#{variables.$ns-new}select-popup';
+$block: '.#{variables.$ns}select-popup';
 
 #{$block} {
     display: flex;

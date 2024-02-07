@@ -3,28 +3,32 @@
 @use './variables.scss' as control-variables;
 
 @mixin input-control($size) {
+    --_--input-control-border-width: var(
+        --g-text-input-border-width,
+        var(--g-text-area-border-width, #{control-variables.$border-width})
+    );
     @if $size == 's' {
         @include mixins.text-body-short;
 
-        height: #{variables.$s-height - control-variables.$border-width * 2};
+        height: calc(#{variables.$s-height} - var(--_--input-control-border-width) * 2);
         padding: 3px 8px;
     }
     @if $size == 'm' {
         @include mixins.text-body-short;
 
-        height: #{variables.$m-height - control-variables.$border-width * 2};
+        height: calc(#{variables.$m-height} - var(--_--input-control-border-width) * 2);
         padding: 5px 8px;
     }
     @if $size == 'l' {
         @include mixins.text-body-short;
 
-        height: #{variables.$l-height - control-variables.$border-width * 2};
+        height: calc(#{variables.$l-height} - var(--_--input-control-border-width) * 2);
         padding: 9px 12px;
     }
     @if $size == 'xl' {
         @include mixins.text-body-2;
 
-        height: #{variables.$xl-height - control-variables.$border-width * 2};
+        height: calc(#{variables.$xl-height} - var(--_--input-control-border-width) * 2);
         padding: 11px 12px;
     }
 }

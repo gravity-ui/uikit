@@ -139,21 +139,24 @@ const getOptionsFromOptgroupChildren = (children: SelectOptionGroup['children'])
 };
 
 export const getOptionsFromChildren = (children: SelectProps['children']) => {
-    return getTypedChildrenArray(children).reduce((acc, {props}) => {
-        if ('label' in props) {
-            const options = props.options || getOptionsFromOptgroupChildren(props.children);
-            acc.push({
-                options,
-                label: props.label,
-            });
-        }
+    return getTypedChildrenArray(children).reduce(
+        (acc, {props}) => {
+            if ('label' in props) {
+                const options = props.options || getOptionsFromOptgroupChildren(props.children);
+                acc.push({
+                    options,
+                    label: props.label,
+                });
+            }
 
-        if ('value' in props) {
-            acc.push({...props});
-        }
+            if ('value' in props) {
+                acc.push({...props});
+            }
 
-        return acc;
-    }, [] as (SelectOption | SelectOptionGroup)[]);
+            return acc;
+        },
+        [] as (SelectOption | SelectOptionGroup)[],
+    );
 };
 
 export const getNextQuickSearch = (keyCode: string, quickSearch: string) => {

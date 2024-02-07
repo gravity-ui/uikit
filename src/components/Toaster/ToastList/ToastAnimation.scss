@@ -4,15 +4,15 @@ $transition-distance: 10px;
 $animation-duration: 0.6s;
 
 @mixin hidden-toast-height {
-    margin-bottom: 0;
+    margin-block-end: 0;
     padding: 0;
     height: 0;
 }
 
 @mixin visible-toast-height {
-    margin-bottom: var(--yc-toaster-margin);
-    padding: var(--yc-toaster-padding);
-    height: var(--yc-toast-height);
+    margin-block-end: var(--g-toaster-item-gap, var(--_--item-gap));
+    padding: var(--g-toaster-item-padding, var(--_--item-padding));
+    height: var(--_--item-height);
 }
 
 @mixin hidden-toast-move($platform) {
@@ -20,7 +20,7 @@ $animation-duration: 0.6s;
     @if ($platform == 'mobile') {
         transform: translateY($transition-distance);
     } @else {
-        transform: translateX($transition-distance);
+        transform: translateX(calc(var(--g-flow-direction) * $transition-distance));
     }
 }
 

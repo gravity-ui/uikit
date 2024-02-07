@@ -10,10 +10,9 @@ $arrow-circle-height: 30px;
 $transition-distance: 10px;
 
 #{$block} {
-    // Can be overridden, see Tooltip
-    --yc-popup-background-color: var(--g-color-base-float);
-    --yc-popup-border-color: var(--g-color-line-generic-solid);
-    --yc-popup-border-width: 1px;
+    --_--background-color: var(--g-popup-background-color, var(--g-color-base-float));
+    --_--border-color: var(--g-popup-border-color, var(--g-color-line-generic-solid));
+    --_--border-width: var(--g-popup-border-width, 1px);
 
     z-index: 1000;
     visibility: hidden;
@@ -63,11 +62,11 @@ $transition-distance: 10px;
 
     // arrow
     &[data-popper-placement*='bottom'] #{$block}__arrow {
-        top: -$arrow-offset;
+        inset-block-start: -$arrow-offset;
     }
 
     &[data-popper-placement*='top'] #{$block}__arrow {
-        bottom: -$arrow-offset;
+        inset-block-end: -$arrow-offset;
 
         &-content {
             transform: rotate(180deg);
@@ -75,6 +74,7 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='left'] #{$block}__arrow {
+        // stylelint-disable-next-line csstools/use-logical
         right: -$arrow-offset;
 
         &-content {
@@ -83,6 +83,7 @@ $transition-distance: 10px;
     }
 
     &[data-popper-placement*='right'] #{$block}__arrow {
+        // stylelint-disable-next-line csstools/use-logical
         left: -$arrow-offset;
 
         &-content {
@@ -96,21 +97,22 @@ $transition-distance: 10px;
         animation-timing-function: ease-out;
         animation-fill-mode: forwards;
         border-radius: 4px;
-        background-color: var(--yc-popup-background-color);
-        box-shadow: 0 0 0 var(--yc-popup-border-width) var(--yc-popup-border-color),
-            0 8px 20px var(--yc-popup-border-width) var(--g-color-sfx-shadow);
+        background-color: var(--_--background-color);
+        box-shadow:
+            0 0 0 var(--_--border-width) var(--_--border-color),
+            0 8px 20px var(--_--border-width) var(--g-color-sfx-shadow);
         outline: none;
 
         // Corners rounding for content
         & > :first-child:not(#{$block}__arrow),
         & > #{$block}__arrow + * {
-            border-top-left-radius: inherit;
-            border-top-right-radius: inherit;
+            border-start-start-radius: inherit;
+            border-start-end-radius: inherit;
         }
 
         & > :last-child {
-            border-bottom-left-radius: inherit;
-            border-bottom-right-radius: inherit;
+            border-end-start-radius: inherit;
+            border-end-end-radius: inherit;
         }
     }
 
@@ -133,21 +135,21 @@ $transition-distance: 10px;
     &__arrow-circle {
         box-sizing: border-box;
         border-radius: 50%;
-        box-shadow: inset 0 0 0 calc(#{$arrow-border} - var(--yc-popup-border-width))
-                var(--yc-popup-background-color),
-            inset 0 0 0 $arrow-border var(--yc-popup-border-color);
+        box-shadow:
+            inset 0 0 0 calc(#{$arrow-border} - var(--_--border-width)) var(--_--background-color),
+            inset 0 0 0 $arrow-border var(--_--border-color);
         width: $arrow-circle-width;
         height: $arrow-circle-height;
         position: absolute;
 
         &_left {
-            right: -5px;
-            bottom: -4px;
+            inset-inline-end: -5px;
+            inset-block-end: -4px;
         }
 
         &_right {
-            left: -5px;
-            bottom: -4px;
+            inset-inline-start: -5px;
+            inset-block-end: -4px;
         }
     }
 }

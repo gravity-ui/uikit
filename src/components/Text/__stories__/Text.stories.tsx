@@ -2,8 +2,9 @@ import React from 'react';
 
 import type {Meta, StoryFn} from '@storybook/react';
 
-import {Text, colorText, text} from '../.';
-import type {TextProps} from '../.';
+import {Flex} from '../../layout';
+import type {TextProps} from '../index';
+import {Text, colorText, text} from '../index';
 
 export default {
     title: 'Components/Data Display/Text',
@@ -26,16 +27,36 @@ export const UsingTextUtilities = () => (
     </div>
 );
 
-const EllipsisDefault: StoryFn<TextProps> = (args) => <Text {...args} />;
+const EllipsisDefault: StoryFn<TextProps> = (args) => (
+    <Flex gap={5} direction="column">
+        <Flex gap={5} width={200} direction="column">
+            <Text variant="header-1">With fixed container size (ellipsis=true)</Text>
+            <Text {...args} ellipsis />
+        </Flex>
+        <Flex gap={5} width={200} direction="column">
+            <Text variant="header-1">
+                With text utility and fixed container size (ellipsis=true)
+            </Text>
+            <span className={text({ellipsis: true})}>{args.children}</span>
+        </Flex>
+        <Flex gap={5} direction="column">
+            <Text variant="header-1">
+                With text utility (ellipsisLines=true, style: WebkitLineClamp: 3)
+            </Text>
+            <span style={{WebkitLineClamp: 3}} className={text({ellipsisLines: true})}>
+                {args.children}
+            </span>
+        </Flex>
+        <Flex gap={5} direction="column">
+            <Text variant="header-1">With line clamp property (ellipsisLines={3})</Text>
+            <Text {...args} ellipsisLines={3} />
+        </Flex>
+    </Flex>
+);
 
 export const Ellipsis = EllipsisDefault.bind({});
 
 Ellipsis.args = {
-    as: 'div',
-    ellipsis: true,
-    style: {
-        width: 200,
-    },
     children:
         'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam! Debitis eos unde, blanditiis ipsam adipisci, soluta incidunt architecto quidem, repellat commodi tempore! Enim assumenda nam esse laudantium sequi quaerat maiores, voluptatum quibusdam temporibus nulla perspiciatis! Corrupti error aliquid iure asperiores voluptate. Nisi temporibus nesciunt quasi animi, accusamus officia debitis voluptatum ratione ullam delectus, adipisci, repellendus vitae in amet sit magni iste impedit? Exercitationem rerum impedit sed earum iusto modi et officia aspernatur quibusdam? Fugit.',
 };

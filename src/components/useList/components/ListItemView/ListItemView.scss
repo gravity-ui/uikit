@@ -1,0 +1,79 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}list-item-view';
+
+#{$block} {
+    flex-shrink: 0;
+
+    &__main-content {
+        display: grid;
+        gap: var(--g-spacing-half, 2px);
+    }
+
+    &:hover#{$block}_activeOnHover,
+    &_active#{$block}_activeOnHover,
+    &_active {
+        background: var(--g-color-base-simple-hover-solid);
+    }
+
+    &_clickable {
+        cursor: pointer;
+    }
+
+    &_selected,
+    &_selected:hover#{$block}_activeOnHover {
+        background: var(--g-color-base-selection);
+    }
+
+    &_radius_s {
+        border-radius: var(--g-list-item-border-radius, 3px);
+    }
+    &_radius_m {
+        border-radius: var(--g-list-item-border-radius, 6px);
+    }
+    &_radius_l {
+        border-radius: var(--g-list-item-border-radius, 8px);
+    }
+    &_radius_xl {
+        border-radius: var(--g-list-item-border-radius, 8px);
+    }
+
+    &__icon {
+        flex-shrink: 0;
+    }
+
+    &__slot {
+        flex-shrink: 0;
+
+        &_indent_1 {
+            width: 16px;
+        }
+        &_indent_2 {
+            width: 32px;
+        }
+        &_indent_3 {
+            width: 48px;
+        }
+        &_indent_4 {
+            width: 64px;
+        }
+        &_indent_5 {
+            width: 80px;
+        }
+        &_indent_6 {
+            width: 96px;
+        }
+        &_indent_7 {
+            width: 112px;
+        }
+        &_indent_8 {
+            width: 128px;
+        }
+        &_indent_9 {
+            width: 144px;
+        }
+        &_indent_10 {
+            width: 160px;
+        }
+    }
+}

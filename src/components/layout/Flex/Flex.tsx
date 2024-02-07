@@ -2,6 +2,8 @@ import React from 'react';
 
 import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
+import {Box} from '../Box/Box';
+import type {BoxProps} from '../Box/Box';
 import {useLayoutContext} from '../hooks/useLayoutContext';
 import type {AdaptiveProp, MediaPartial, Space} from '../types';
 import {makeCssMod} from '../utils';
@@ -10,8 +12,7 @@ import './Flex.scss';
 
 const b = block('flex');
 
-export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps {
-    as?: T;
+export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps, BoxProps<T> {
     /**
      * `flex-direction` property
      */
@@ -41,12 +42,20 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
     justifyItems?: AdaptiveProp<'justifyItems'>;
     justifySelf?: AdaptiveProp<'justifySelf'>;
     /**
+     * Shortcut for:
+     * 
+     * ```css
+     *  justify-content: center;
+        align-items: center;
+     * ```
+     */
+    centerContent?: true;
+    /**
      * `flex-wrap` property
      *
      * If value equals `true`, add css property `flex-wrap: wrap`;
      */
     wrap?: true | React.CSSProperties['flexWrap'];
-    width?: number;
     /**
      * display: inline-flex;
      */
@@ -54,6 +63,7 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
     gap?: Space | MediaPartial<Space>;
     gapRow?: Space | MediaPartial<Space>;
     /**
+     * @deprecated - use native gap property
      * Space between children. Works like gap but supports in old browsers. Under the hoods uses negative margins. Vertical and horizontal directions are also supported
      *
      * ---
@@ -78,11 +88,6 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
      * ```
      */
     space?: Space | MediaPartial<Space>;
-    children?: React.ReactNode;
-    style?: React.CSSProperties;
-    className?: string;
-    title?: string;
-    ref?: React.ComponentPropsWithRef<T>['ref'];
 }
 
 /**
@@ -120,13 +125,11 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps 
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#flex
  */
 export const Flex = React.forwardRef(function Flex<T extends React.ElementType = 'div'>(
-    props: Omit<FlexProps<T>, 'ref'>,
+    props: FlexProps<T>,
     ref: React.ComponentPropsWithRef<T>['ref'],
 ) {
     const {
-        as: Tag = 'div',
         direction,
-        width,
         grow,
         basis,
         children,
@@ -140,12 +143,11 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         shrink,
         wrap,
         inline,
-        title,
         gap,
         gapRow,
         className,
         space,
-        qa,
+        centerContent,
         ...restProps
     } = props;
 
@@ -171,16 +173,16 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
     const s = !gap && !gapRow && spaceSize ? makeCssMod(spaceSize) : undefined;
 
     return (
-        <Tag
+        <Box
             className={b(
                 {
+                    'center-content': centerContent,
                     inline,
                     s,
                 },
                 className,
             )}
             style={{
-                width,
                 flexDirection: applyMediaProps(direction),
                 flexGrow: grow === true ? 1 : grow,
                 flexWrap: wrap === true ? 'wrap' : wrap,
@@ -196,9 +198,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
                 justifySelf: applyMediaProps(justifySelf),
                 ...style,
             }}
-            title={title}
             ref={ref}
-            data-qa={qa}
             {...restProps}
         >
             {space
@@ -207,6 +207,6 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
                       child ? <div className={b('wr')}>{child}</div> : child,
                   )
                 : children}
-        </Tag>
+        </Box>
     );
 });

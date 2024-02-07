@@ -70,7 +70,11 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         onClickCapture: disabled ? undefined : handleClickCapture,
         style,
         tabIndex: disabled ? -1 : 0,
-        className: b('item', {disabled, active, selected, theme}, className),
+        className: b(
+            'item',
+            {disabled, active, selected, theme, interactive: Boolean(onClick)},
+            className,
+        ),
         'data-qa': qa,
     };
     const content = [

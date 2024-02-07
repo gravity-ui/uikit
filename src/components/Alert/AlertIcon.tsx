@@ -13,8 +13,10 @@ import {
     TriangleExclamationFill,
 } from '@gravity-ui/icons';
 
-import {Icon, IconData} from '../Icon';
-import {ColorTextBaseProps, colorText} from '../Text/colorText/colorText';
+import {Icon} from '../Icon';
+import type {IconData} from '../Icon';
+import {colorText} from '../Text/colorText/colorText';
+import type {ColorTextBaseProps} from '../Text/colorText/colorText';
 
 import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import type {AlertIconProps, AlertTheme} from './types';
@@ -30,10 +32,6 @@ const typeToIcon: Record<
     info: {
         filled: CircleInfoFill,
         outlined: CircleInfo,
-    },
-    positive: {
-        filled: CircleCheckFill,
-        outlined: CircleCheck,
     },
     success: {
         filled: CircleCheckFill,

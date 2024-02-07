@@ -20,7 +20,6 @@ export default {
         disabled: false,
         autoclosable: true,
         openOnHover: true,
-        placement: ['right', 'bottom'],
         hasArrow: true,
         hasClose: false,
         theme: 'info',
@@ -150,10 +149,6 @@ FullFeatured.args = {
         {
             text: 'Link with a href',
             href: 'https://yandex.ru',
-        },
-        {
-            text: 'Link with an onClick handler',
-            onClick: () => alert('Link was clicked'),
         },
     ],
     className: 'demo-icon-tooltip',

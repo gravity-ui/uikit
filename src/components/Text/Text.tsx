@@ -7,20 +7,27 @@ import type {ColorTextBaseProps} from './colorText/colorText';
 import {text} from './text/text';
 import type {TextBaseProps} from './text/text';
 
-export interface TextProps extends TextBaseProps, ColorTextBaseProps, QAProps {
+export interface TextProps
+    extends Omit<TextBaseProps, 'ellipsisLines'>,
+        ColorTextBaseProps,
+        QAProps {
     /**
      * Ability to override default html tag
      */
     as?: keyof JSX.IntrinsicElements;
     style?: React.CSSProperties;
     className?: string;
+    id?: string;
     children?: React.ReactNode;
     title?: string;
+    ellipsisLines?: number;
 }
 
 type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
 
-type TextPropsWithoutRef<C extends React.ElementType> = {as?: C} & Omit<TextProps, 'as'>;
+type TextPropsWithoutRef<C extends React.ElementType> = {
+    as?: C;
+} & Omit<TextProps, 'as'>;
 
 /**
  * A component for working with typography.
@@ -48,39 +55,54 @@ type TextPropsWithoutRef<C extends React.ElementType> = {as?: C} & Omit<TextProp
  * <span className={textStyles}>some text</span>
  * ```
  */
-export const Text = React.forwardRef(
-    <C extends React.ElementType = 'span'>(
-        {
-            as,
-            children,
-            variant,
-            className,
-            ellipsis,
-            color,
-            whiteSpace,
-            wordBreak,
-            qa,
-            ...rest
-        }: TextPropsWithoutRef<C>,
-        ref?: TextRef<C>,
-    ) => {
-        const Tag: React.ElementType = as || 'span';
+export const Text = React.forwardRef(function Text<C extends React.ElementType = 'span'>(
+    {
+        as,
+        children,
+        variant,
+        className,
+        ellipsis,
+        color,
+        whiteSpace,
+        wordBreak,
+        ellipsisLines,
+        style: outerStyle,
+        qa,
+        ...rest
+    }: TextPropsWithoutRef<C>,
+    ref?: TextRef<C>,
+) {
+    const Tag: React.ElementType = as || 'span';
 
-        return (
-            <Tag
-                ref={ref}
-                className={text(
-                    {variant, ellipsis, whiteSpace, wordBreak},
-                    color ? colorText({color}, className) : className,
-                )}
-                data-qa={qa}
-                {...rest}
-            >
-                {children}
-            </Tag>
-        );
-    },
-) as (<C extends React.ElementType = 'span'>({
+    const style: React.CSSProperties = {
+        ...outerStyle,
+    };
+
+    if (typeof ellipsisLines === 'number') {
+        style.WebkitLineClamp = ellipsisLines;
+    }
+
+    return (
+        <Tag
+            ref={ref}
+            className={text(
+                {
+                    variant,
+                    ellipsis,
+                    whiteSpace,
+                    wordBreak,
+                    ellipsisLines: typeof ellipsisLines === 'number',
+                },
+                color ? colorText({color}, className) : className,
+            )}
+            style={style}
+            data-qa={qa}
+            {...rest}
+        >
+            {children}
+        </Tag>
+    );
+}) as (<C extends React.ElementType = 'span'>({
     ref,
     ...props
 }: TextPropsWithoutRef<C> & {ref?: TextRef<C>}) => React.ReactElement) & {displayName: string};

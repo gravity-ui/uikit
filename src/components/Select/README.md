@@ -1008,7 +1008,7 @@ To render custom popup use the `renderPopup` property.
       return (
         <React.Fragment>
           {renderFilter()}
-          <div className="CustomElement" />
+          <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
           {renderList()}
         </React.Fragment>
       );

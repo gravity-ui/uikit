@@ -195,6 +195,14 @@ $blockButton: '.#{variables.$ns}select-control__button';
         &:not(&_error):not(&_view_clear):focus-visible::before {
             border-color: var(--g-color-line-generic-active);
         }
+
+        &:focus::before {
+            outline: 2px solid var(--g-select-outline-color-focus);
+            outline-offset: -1px;
+        }
+        &:focus:not(:focus-visible)::before {
+            outline: 0;
+        }
     }
 
     &:not(&_disabled):not(&_no-active):active {

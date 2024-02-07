@@ -4,6 +4,10 @@
 
 $block: '.#{variables.$ns}slider-tooltip';
 
+[dir='rtl'] #{$block} {
+    transform: translate(50%, -100%);
+}
+
 #{$block} {
     position: absolute;
     inset-block-start: -#{slider-variables.$slider-tooltip-offset};

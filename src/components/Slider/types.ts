@@ -65,6 +65,7 @@ export type StateModifiers = {
     error: boolean;
     disabled: boolean;
     hasTooltip: boolean;
+    rtl: boolean;
 };
 
 export type BaseSliderRefType = RcSliderRef;

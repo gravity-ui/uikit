@@ -29,7 +29,8 @@ $rail-xl-size: 6px;
     position: absolute;
     content: '';
     background-color: #{slider-variables.$slider-color};
-    border-radius: 4px 0 0 4px;
+    border-start-start-radius: 4px;
+    border-end-start-radius: 4px;
 
     @if $size == 's' {
         $width: math.floor(calc($handle-s-size / 2));
@@ -288,28 +289,28 @@ $rail-xl-size: 6px;
         &_size {
             &_s {
                 height: $rail-s-size;
-                &::after {
+                &::before {
                     @include input-control(s);
                 }
             }
 
             &_m {
                 height: $rail-m-size;
-                &::after {
+                &::before {
                     @include input-control(m);
                 }
             }
 
             &_l {
                 height: $rail-l-size;
-                &::after {
+                &::before {
                     @include input-control(l);
                 }
             }
 
             &_xl {
                 height: $rail-xl-size;
-                &::after {
+                &::before {
                     @include input-control(xl);
                 }
             }
@@ -360,10 +361,10 @@ $rail-xl-size: 6px;
         &:focus {
             box-shadow: 0 0 0 3px $handle-focus-color;
             outline: none;
-            &:active {
-                box-shadow: 0 0 0 4px $handle-focus-color;
-                cursor: grabbing;
-            }
+        }
+        &:active {
+            box-shadow: 0 0 0 4px $handle-focus-color;
+            cursor: grabbing;
         }
 
         &_disabled {
@@ -379,8 +380,10 @@ $rail-xl-size: 6px;
 
         &_error {
             border-color: #{slider-variables.$slider-error-color};
-            &:active,
             &:focus {
+                box-shadow: 0 0 0 3px $handle-focus-error-color;
+            }
+            &:active {
                 box-shadow: 0 0 0 4px $handle-focus-error-color;
             }
         }

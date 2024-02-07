@@ -2,11 +2,12 @@ import React from 'react';
 
 import debounce from 'lodash/debounce';
 
+import {useDirection} from '../theme';
 import {block} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {SliderTooltip} from './SliderTooltip/SliderTooltip';
-import type {RcSliderValueType, SliderProps, SliderValue} from './types';
+import type {RcSliderValueType, SliderProps, SliderValue, StateModifiers} from './types';
 import {getInnerState} from './utils';
 
 import './Slider.scss';
@@ -40,6 +41,7 @@ export const Slider = React.forwardRef(function Slider(
     }: SliderProps,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+    const direction = useDirection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleChange = React.useCallback(
         debounce(
@@ -74,11 +76,12 @@ export const Slider = React.forwardRef(function Slider(
         step,
         value,
     });
-    const stateModifiers = {
+    const stateModifiers: StateModifiers = {
         size,
         error: validationState === 'invalid' && !disabled,
         disabled,
         hasTooltip: Boolean(hasTooltip),
+        rtl: direction === 'rtl',
     };
 
     return (
@@ -106,13 +109,17 @@ export const Slider = React.forwardRef(function Slider(
                 handleRender={
                     hasTooltip
                         ? (originHandle, handleProps) => {
+                              const styleProp = stateModifiers.rtl ? 'right' : 'left';
                               return (
                                   <React.Fragment>
                                       {originHandle}
                                       <SliderTooltip
                                           value={handleProps.value}
                                           className={b('tooltip')}
-                                          style={{left: originHandle.props.style?.left}}
+                                          style={{
+                                              insetInlineStart:
+                                                  originHandle.props.style?.[styleProp],
+                                          }}
                                           stateModifiers={stateModifiers}
                                       />
                                   </React.Fragment>
@@ -120,6 +127,7 @@ export const Slider = React.forwardRef(function Slider(
                           }
                         : undefined
                 }
+                reverse={stateModifiers.rtl}
             ></BaseSlider>
             {stateModifiers.error && errorText && (
                 <div className={b('error', {size})}>{errorText}</div>

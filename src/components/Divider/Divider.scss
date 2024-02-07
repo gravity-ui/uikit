@@ -1,0 +1,22 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}divider';
+
+#{$block} {
+    align-self: stretch;
+    display: block;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    position: relative;
+    height: auto;
+
+    &_orientation {
+        &_vertical {
+            border-left: 1px solid var(--g-color-line-generic);
+        }
+
+        &_horizontal {
+            border-top: 1px solid var(--g-color-line-generic);
+        }
+    }
+}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {SELECT_FILTER_QA} from '../components/SelectFilter/SelectFilter';
 import {SelectQa} from '../constants';
 
 import {DEFAULT_OPTIONS, TEST_QA, setup} from './utils';
@@ -30,7 +29,7 @@ describe('Select renderPopup', () => {
         // open select popup
         await user.click(selectControl);
 
-        const filterInput = getByTestId(SELECT_FILTER_QA);
+        const filterInput = getByTestId(SelectQa.FILTER_INPUT);
         expect(filterInput).toBeVisible();
 
         const list = getByTestId(SelectQa.LIST);

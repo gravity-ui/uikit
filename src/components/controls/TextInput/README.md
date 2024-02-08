@@ -282,4 +282,4 @@ LANDING_BLOCK-->
 | `--g-text-input-border-color`        | Border color             |
 | `--g-text-input-border-color-hover`  | Border color if hovered  |
 | `--g-text-input-border-color-active` | Border color if active   |
-| `--g-text-input-outline-color-focus` | Outline color if focused |
+| `--g-text-input-focus-outline-color` | Outline color if focused |

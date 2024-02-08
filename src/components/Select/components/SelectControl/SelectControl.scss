@@ -197,7 +197,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
         }
 
         &:focus::before {
-            outline: 2px solid var(--g-select-outline-color-focus);
+            outline: 2px solid var(--g-select-focus-outline-color);
             outline-offset: -1px;
         }
         &:focus:not(:focus-visible)::before {

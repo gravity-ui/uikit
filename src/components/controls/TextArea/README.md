@@ -227,4 +227,4 @@ LANDING_BLOCK-->
 | `--g-text-area-border-color`        | Border color             |
 | `--g-text-area-border-color-hover`  | Border color if hovered  |
 | `--g-text-area-border-color-active` | Border color if active   |
-| `--g-text-area-outline-color-focus` | Outline color if focused |
+| `--g-text-area-focus-outline-color` | Outline color if focused |

@@ -1128,4 +1128,4 @@ LANDING_BLOCK-->
 
 | Name                             | Description              |
 | :------------------------------- | :----------------------- |
-| `--g-select-outline-color-focus` | Outline color if focused |
+| `--g-select-focus-outline-color` | Outline color if focused |

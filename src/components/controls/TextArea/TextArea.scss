@@ -34,7 +34,7 @@ $block: '.#{variables.$ns}text-area';
 
         &:focus-within {
             border-color: var(--g-text-area-border-color-active, var(--_--border-color-active));
-            outline: 2px solid var(--g-text-area-outline-color-focus);
+            outline: 2px solid var(--g-text-area-focus-outline-color);
             outline-offset: -1px;
         }
     }

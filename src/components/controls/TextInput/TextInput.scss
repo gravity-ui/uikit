@@ -118,7 +118,7 @@ $block: '.#{variables.$ns}text-input';
 
         &:focus-within {
             border-color: var(--g-text-input-border-color-active, var(--_--border-color-active));
-            outline: 2px solid var(--g-text-input-outline-color-focus);
+            outline: 2px solid var(--g-text-input-focus-outline-color);
             outline-offset: -1px;
         }
     }

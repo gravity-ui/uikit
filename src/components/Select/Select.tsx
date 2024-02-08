@@ -99,14 +99,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const handleFilterChange = React.useCallback(
-        (nextFilter: string) => {
-            onFilterChange?.(nextFilter);
-            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
-        },
-        [onFilterChange],
-    );
-
     const handleOpenChange = React.useCallback((open: boolean) => {
         onOpenChange?.(open);
 
@@ -213,6 +205,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         listRef?.current?.onKeyDown(e);
     }, []);
+
+    const handleFilterChange = React.useCallback(
+        (nextFilter: string) => {
+            onFilterChange?.(nextFilter);
+            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
+        },
+        [onFilterChange],
+    );
 
     const handleQuickSearchChange = React.useCallback((search: string) => {
         if (search) {

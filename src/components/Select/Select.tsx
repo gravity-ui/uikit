@@ -99,13 +99,24 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const handleOpenChange = React.useCallback((open: boolean) => {
-        onOpenChange?.(open);
+    const handleFilterChange = React.useCallback(
+        (nextFilter: string) => {
+            onFilterChange?.(nextFilter);
+            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
+        },
+        [onFilterChange],
+    );
 
-        if (!open && filterable) {
-            handleFilterChange('');
-        }
-    }, []);
+    const handleOpenChange = React.useCallback(
+        (open: boolean) => {
+            onOpenChange?.(open);
+
+            if (!open && filterable) {
+                handleFilterChange('');
+            }
+        },
+        [filterable, onOpenChange, handleFilterChange],
+    );
 
     const {
         value,
@@ -205,14 +216,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         listRef?.current?.onKeyDown(e);
     }, []);
-
-    const handleFilterChange = React.useCallback(
-        (nextFilter: string) => {
-            onFilterChange?.(nextFilter);
-            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
-        },
-        [onFilterChange],
-    );
 
     const handleQuickSearchChange = React.useCallback((search: string) => {
         if (search) {

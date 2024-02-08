@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.31.0](https://github.com/gravity-ui/uikit/compare/v5.30.1...v5.31.0) (2024-02-08)
+
+
+### Features
+
+* **Select:** add renderPopup property ([#1317](https://github.com/gravity-ui/uikit/issues/1317)) ([32e160f](https://github.com/gravity-ui/uikit/commit/32e160f693443bf6f36a1a53c20052b01e671476))
+
+
+### Bug Fixes
+
+* **Select:** do not call onFilterChange on mount ([#1326](https://github.com/gravity-ui/uikit/issues/1326)) ([64e5860](https://github.com/gravity-ui/uikit/commit/64e5860aa8a4f8999cc5b507a508d07b0c285700))
+
 ## [5.30.1](https://github.com/gravity-ui/uikit/compare/v5.30.0...v5.30.1) (2024-02-06)
 
 

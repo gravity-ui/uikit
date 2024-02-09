@@ -30,8 +30,8 @@ export const Slider = React.forwardRef(function Slider(
         disabled = false,
         debounceDelay = 0,
         onBlur,
-        onChange,
-        onChangeComplete,
+        onUpdate,
+        onUpdateComplete,
         onFocus,
         autoFocus = false,
         tabIndex,
@@ -43,29 +43,29 @@ export const Slider = React.forwardRef(function Slider(
 ) {
     const direction = useDirection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleChange = React.useCallback(
+    const handleUpdate = React.useCallback(
         debounce(
-            (changedValue: RcSliderValueType) => onChange?.(changedValue as SliderValue),
+            (changedValue: RcSliderValueType) => onUpdate?.(changedValue as SliderValue),
             debounceDelay,
         ),
-        [onChange, debounceDelay],
+        [onUpdate, debounceDelay],
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleChangeComplete = React.useCallback(
+    const handleUpdateComplete = React.useCallback(
         debounce(
-            (changedValue: RcSliderValueType) => onChangeComplete?.(changedValue as SliderValue),
+            (changedValue: RcSliderValueType) => onUpdateComplete?.(changedValue as SliderValue),
             debounceDelay,
         ),
-        [onChangeComplete, debounceDelay],
+        [onUpdateComplete, debounceDelay],
     );
 
     React.useEffect(() => {
         return () => {
-            handleChange.cancel();
-            handleChangeComplete.cancel();
+            handleUpdate.cancel();
+            handleUpdateComplete.cancel();
         };
-    }, [handleChange, handleChangeComplete]);
+    }, [handleUpdate, handleUpdateComplete]);
 
     const innerState = getInnerState({
         availableValues,
@@ -99,8 +99,8 @@ export const Slider = React.forwardRef(function Slider(
                 marks={innerState.marks}
                 onBlur={onBlur}
                 onFocus={onFocus}
-                onChange={handleChange}
-                onChangeComplete={handleChangeComplete}
+                onChange={handleUpdate}
+                onChangeComplete={handleUpdateComplete}
                 stateModifiers={stateModifiers}
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus={autoFocus}

@@ -97,7 +97,12 @@ export type ListState = {
     activeItemId?: ListItemId;
 };
 
-export type ListParsedState<T> = ParsedState<T> & {
-    items: ListItemType<T>[];
+export type ParsedFlattenState = {
     visibleFlattenIds: ListItemId[];
+    idToFlattenIndex: Record<ListItemId, number>;
 };
+
+export type ListParsedState<T> = ParsedState<T> &
+    ParsedFlattenState & {
+        items: ListItemType<T>[];
+    };

@@ -30,6 +30,7 @@ export type RenderItem<T> = (
     state: RenderItemState,
     // internal list context props
     context: RenderItemContext,
+    index: number,
     renderContextProps?: Object,
 ) => React.JSX.Element;
 
@@ -37,10 +38,12 @@ export type RenderContainerProps<T> = ListParsedState<T> &
     ListState & {
         id: string;
         size: ListItemSize;
-        renderItem(id: ListItemId, renderContextProps?: Object): React.JSX.Element;
+        renderItem(id: ListItemId, index: number, renderContextProps?: Object): React.JSX.Element;
         containerRef: React.RefObject<HTMLDivElement>;
         className?: string;
     };
+
+export type RenderTreeListContainer<T> = (props: RenderContainerProps<T>) => React.JSX.Element;
 
 interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
@@ -93,13 +96,13 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     onClose?(): void;
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
-    renderContainer?(props: RenderContainerProps<T>): React.JSX.Element;
+    renderContainer?: RenderTreeListContainer<T>;
     /**
      * If you wont to disable default behavior pass `disabled` as a value;
      */
     onItemClick?:
         | 'disabled'
-        | ((defaultClickCallback: () => void, content: OverrideItemContext) => void);
+        | ((data: T, content: OverrideItemContext, defaultClickCallback: () => void) => void);
 }
 
 type TreeSelectKnownProps<T> = TreeSelectBaseProps<T> & {

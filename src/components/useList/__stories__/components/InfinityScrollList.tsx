@@ -89,6 +89,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                                     key={index}
                                     index={index}
                                     expandedById={listState.expandedById}
+                                    idToFlattenIndex={list.idToFlattenIndex}
                                 >
                                     {(id) => {
                                         const {data, props, context} = getItemRenderState({

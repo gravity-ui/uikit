@@ -23,7 +23,7 @@ export const useList = <T>({items, expandedById, getId}: UseListProps<T>): UseLi
         getId,
     });
 
-    const visibleFlattenIds = useFlattenListItems({
+    const {visibleFlattenIds, idToFlattenIndex} = useFlattenListItems({
         items,
         /**
          * By default controlled from list items declaration state
@@ -32,5 +32,5 @@ export const useList = <T>({items, expandedById, getId}: UseListProps<T>): UseLi
         getId,
     });
 
-    return {items, visibleFlattenIds, itemsById, groupsState, itemsState};
+    return {items, visibleFlattenIds, idToFlattenIndex, itemsById, groupsState, itemsState};
 };

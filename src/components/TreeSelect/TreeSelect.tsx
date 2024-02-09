@@ -135,15 +135,19 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             };
 
             if (onItemClick) {
-                return onItemClick(defaultHandleClick, {
-                    id,
-                    isGroup: id in listParsedState.groupsState,
-                    isLastItem:
-                        listParsedState.visibleFlattenIds[
-                            listParsedState.visibleFlattenIds.length - 1
-                        ] === id,
-                    disabled: listState.disabledById[id],
-                });
+                return onItemClick(
+                    listParsedState.itemsById[id],
+                    {
+                        id,
+                        isGroup: id in listParsedState.groupsState,
+                        isLastItem:
+                            listParsedState.visibleFlattenIds[
+                                listParsedState.visibleFlattenIds.length - 1
+                            ] === id,
+                        disabled: listState.disabledById[id],
+                    },
+                    defaultHandleClick,
+                );
             }
 
             return defaultHandleClick();
@@ -152,6 +156,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             onItemClick,
             listState,
             listParsedState.groupsState,
+            listParsedState.itemsById,
             listParsedState.visibleFlattenIds,
             groupsBehavior,
             multiple,
@@ -263,7 +268,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     id={`list-${treeSelectId}`}
                     {...listParsedState}
                     {...listState}
-                    renderItem={(id, renderContextProps) => {
+                    renderItem={(id, index, renderContextProps) => {
                         const renderState = getItemRenderState({
                             id,
                             size,
@@ -281,6 +286,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                                 renderState.data,
                                 renderState.props,
                                 renderState.context,
+                                index,
                                 renderContextProps,
                             );
                         }

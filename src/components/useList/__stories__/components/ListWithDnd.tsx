@@ -39,6 +39,7 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
     const listState = useListState();
 
     const list = useList({
+        getId: ({title}) => title,
         items: filterState.items,
         ...listState,
     });

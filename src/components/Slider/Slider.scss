@@ -9,6 +9,8 @@ $block: '.#{variables.$ns}slider';
     flex-direction: column;
 
     &__error {
+        @include mixins.text-body-1;
+        color: var(--g-color-text-danger);
         &_size {
             &_s {
                 margin-block-start: 0px;
@@ -39,10 +41,5 @@ $block: '.#{variables.$ns}slider';
                 var(--g-text-body-2-line-height) + 6px + #{slider-variables.$slider-tooltip-offset}
             );
         }
-    }
-
-    &__error {
-        @include mixins.text-body-1;
-        color: var(--g-color-text-danger);
     }
 }

@@ -31,7 +31,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Indicates that the user cannot interact with the control */
     disabled?: boolean;
     /** Text of an error to show */
-    errorText?: string;
+    errorMessage?: string;
     /** Describes the validation state */
     validationState?: 'invalid';
 

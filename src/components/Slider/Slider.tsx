@@ -25,7 +25,7 @@ export const Slider = React.forwardRef(function Slider(
         marksCount = 2,
         availableValues,
         hasTooltip = false,
-        errorText,
+        errorMessage,
         validationState,
         disabled = false,
         debounceDelay = 0,
@@ -129,8 +129,8 @@ export const Slider = React.forwardRef(function Slider(
                 }
                 reverse={stateModifiers.rtl}
             ></BaseSlider>
-            {stateModifiers.error && errorText && (
-                <div className={b('error', {size})}>{errorText}</div>
+            {stateModifiers.error && errorMessage && (
+                <div className={b('error', {size})}>{errorMessage}</div>
             )}
         </div>
     );

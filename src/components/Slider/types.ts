@@ -41,9 +41,9 @@ export type SliderProps<ValueType = number | [number, number]> = {
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
     /** Fires when the control lost focus. Provides focus event as a callback's argument */
     onBlur?: (e: React.FocusEvent<HTMLDivElement>) => void;
-    /** Fires when the slider’s value is changed by the user. Provides change event as an callback's argument */
+    /** Fires when the slider’s value is updated by the user. Provides update event as an callback's argument */
     onUpdate?: (value: ValueType) => void;
-    /** Fires when ontouchend or onmouseup is triggered. Provides change event as an callback's argument */
+    /** Fires when ontouchend or onmouseup is triggered. Provides update event as an callback's argument */
     onUpdateComplete?: (value: ValueType) => void;
 
     /** The control's autoFocus attribute */

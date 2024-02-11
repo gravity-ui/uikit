@@ -48,7 +48,7 @@ const randomItems: CustomDataType[] = createRandomizedData({
     getData: (title) => title,
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
-export const WithDndListExample = (props: WithDndListExampleProps) => {
+export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
     const [items, setItems] = React.useState(randomItems);
     const [value, setValue] = React.useState<string[]>([]);
 
@@ -61,7 +61,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
     return (
         <Flex>
             <TreeSelect
-                {...props}
+                {...storyProps}
                 value={value}
                 items={items}
                 // you can omit this prop here. Id if passed, would taken by default
@@ -111,11 +111,11 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                         </DragDropContext>
                     );
                 }}
-                renderItem={(item, state, _context, index, renderContextProps) => {
+                renderItem={({data, props, index, renderContext: renderContextProps}) => {
                     const commonProps = {
-                        ...state,
+                        ...props,
                         // selected: value.initem.uniqId,
-                        title: item.someRandomKey,
+                        title: data.someRandomKey,
                         endSlot: <Icon data={Grip} size={16} />,
                     };
 

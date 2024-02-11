@@ -20,7 +20,7 @@ import type {CnMods} from '../utils/cn';
 import {TreeSelectItem} from './TreeSelectItem';
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
 import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
-import type {RenderControlProps, TreeSelectProps} from './types';
+import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
 
 import './TreeSelect.scss';
 
@@ -193,7 +193,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
 
-    const controlProps: RenderControlProps = {
+    const controlProps: TreeSelectRenderControlProps = {
         open,
         toggleOpen,
         clearValue: handleClearValue,
@@ -282,13 +282,13 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                             Boolean(multiple) && !renderState.context.groupState;
 
                         if (renderItem) {
-                            return renderItem(
-                                renderState.data,
-                                renderState.props,
-                                renderState.context,
+                            return renderItem({
+                                data: renderState.data,
+                                props: renderState.props,
+                                itemState: renderState.context,
                                 index,
-                                renderContextProps,
-                            );
+                                renderContext: renderContextProps,
+                            });
                         }
 
                         const itemData = listParsedState.itemsById[id];

@@ -54,6 +54,11 @@ export interface OverrideItemContext {
 }
 
 export type RenderItemContext = {
+    /**
+     * optional, because ids may be skipped in the flatten order list,
+     * depending on the expanded state
+     */
+    visibleFlattenIndex?: number;
     itemState: ItemState;
     /**
      * Exists if item is group

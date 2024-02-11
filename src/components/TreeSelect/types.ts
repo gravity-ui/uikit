@@ -13,7 +13,7 @@ import type {
     RenderItemState,
 } from '../useList';
 
-export type RenderControlProps = {
+export type TreeSelectRenderControlProps = {
     open: boolean;
     toggleOpen(): void;
     clearValue(): void;
@@ -24,17 +24,17 @@ export type RenderControlProps = {
     activeItemId?: ListItemId;
 };
 
-export type RenderItem<T> = (
-    item: T,
+export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
+    data: T;
     // required item props to render
-    state: RenderItemState,
+    props: RenderItemState;
     // internal list context props
-    context: RenderItemContext,
-    index: number,
-    renderContextProps?: Object,
-) => React.JSX.Element;
+    itemState: RenderItemContext;
+    index: number;
+    renderContext?: P;
+}) => React.JSX.Element;
 
-export type RenderContainerProps<T> = ListParsedState<T> &
+export type TreeSelectRenderContainerProps<T> = ListParsedState<T> &
     ListState & {
         id: string;
         size: ListItemSize;
@@ -43,7 +43,9 @@ export type RenderContainerProps<T> = ListParsedState<T> &
         className?: string;
     };
 
-export type RenderTreeListContainer<T> = (props: RenderContainerProps<T>) => React.JSX.Element;
+export type TreeSelectRenderContainer<T> = (
+    props: TreeSelectRenderContainerProps<T>,
+) => React.JSX.Element;
 
 interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
@@ -88,15 +90,15 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     /**
      * Ability to override custom toggler btn
      */
-    renderControl?(props: RenderControlProps): React.JSX.Element;
+    renderControl?(props: TreeSelectRenderControlProps): React.JSX.Element;
     /**
      * Override list item content by you custom node.
      */
-    renderItem?: RenderItem<T>;
+    renderItem?: TreeSelectRenderItem<T>;
     onClose?(): void;
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
-    renderContainer?: RenderTreeListContainer<T>;
+    renderContainer?: TreeSelectRenderContainer<T>;
     /**
      * If you wont to disable default behavior pass `disabled` as a value;
      */

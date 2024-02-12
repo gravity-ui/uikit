@@ -64,7 +64,6 @@ export default {
                 ],
             },
             options: {},
-            // manual: true,
         },
     },
 } as ComponentMeta<typeof Tabs>;

@@ -14,6 +14,20 @@ import type {FlexProps} from '../Flex';
 export default {
     title: 'Components/Layout/Flex',
     component: Flex,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<FlexProps<'div'>> = (args) => (

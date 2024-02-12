@@ -73,7 +73,6 @@ export default {
                 ],
             },
             options: {},
-            // manual: true,
         },
     },
 } as Meta<typeof ListItem>;

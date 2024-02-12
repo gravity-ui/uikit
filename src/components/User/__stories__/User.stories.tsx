@@ -17,7 +17,6 @@ const meta: Meta<typeof User> = {
                 ],
             },
             options: {},
-            // manual: true,
         },
     },
 };

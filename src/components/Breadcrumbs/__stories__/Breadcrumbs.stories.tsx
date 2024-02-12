@@ -61,7 +61,6 @@ export default {
                 ],
             },
             options: {},
-            // manual: true,
         },
     },
 };

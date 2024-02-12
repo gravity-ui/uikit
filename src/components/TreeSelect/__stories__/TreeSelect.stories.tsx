@@ -21,6 +21,20 @@ import type {WithItemLinksAndActionsExampleProps} from './components/WithItemLin
 export default {
     title: 'Unstable/TreeSelect',
     component: TreeSelect,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'button-name',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<

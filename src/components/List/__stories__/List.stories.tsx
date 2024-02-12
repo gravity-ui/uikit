@@ -47,7 +47,6 @@ export default {
                 ],
             },
             options: {},
-            // manual: true,
         },
     },
 } as ComponentMeta<ComponentType>;

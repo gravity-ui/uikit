@@ -39,6 +39,20 @@ const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex
     return result;
 };
 
+const prepareItems = (tableColumnItems: TableColumnSetupItem[]) => {
+    return tableColumnItems.map<Item>((tableColumnItem) => {
+        const hasSelectionIcon = tableColumnItem.isRequired === false;
+
+        return {
+            ...tableColumnItem,
+            startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
+            hasSelectionIcon,
+            // to overwrite select background effect - https://github.com/gravity-ui/uikit/blob/main/src/components/useList/components/ListItemView/ListItemView.tsx#L125
+            className: hasSelectionIcon ? undefined : requiredDndItemCn,
+        };
+    });
+};
+
 interface SwitcherProps {
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
@@ -74,22 +88,6 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const uniqId = useUniqId();
 
     const [open, setOpen] = React.useState(false);
-
-    const prepareItems = React.useCallback((tableColumnItems: TableColumnSetupItem[]) => {
-        return tableColumnItems.map<Item>((tableColumnItem) => {
-            const hasSelectionIcon = tableColumnItem.isRequired === false;
-
-            return {
-                ...tableColumnItem,
-                startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
-                isDragDisabled: sortable === false,
-                hasSelectionIcon,
-
-                // to overwrite select background effect - https://github.com/gravity-ui/uikit/blob/main/src/components/useList/components/ListItemView/ListItemView.tsx#L125
-                className: hasSelectionIcon ? undefined : requiredDndItemCn,
-            };
-        });
-    }, []);
 
     const [items, setItems] = React.useState(prepareItems(propsItems));
 
@@ -180,48 +178,53 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         [],
     );
 
-    const renderItem = React.useCallback<TreeSelectRenderItem<Item>>(({data, props, index}) => {
-        const endSlot =
-            data.endSlot ?? (data.isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
+    const renderItem = React.useCallback<TreeSelectRenderItem<Item>>(
+        ({data, props, index}) => {
+            const isDragDisabled = sortable === false;
 
-        const commonProps = {
-            ...props,
-            ...data,
-            endSlot,
-        };
+            const endSlot =
+                data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
 
-        return (
-            <Draggable
-                draggableId={data.id}
-                index={index}
-                key={`item-key-${data.id}`}
-                isDragDisabled={data.isDragDisabled}
-            >
-                {(provided, snapshot) => {
-                    const style: React.CSSProperties = {
-                        ...provided.draggableProps.style,
-                    };
+            const commonProps = {
+                ...props,
+                ...data,
+                endSlot,
+            };
 
-                    // not expected offset appears, one way to fix - remove this offsets explicitly
-                    if (snapshot.isDragging) {
-                        style.left = undefined;
-                        style.top = undefined;
-                    }
+            return (
+                <Draggable
+                    draggableId={data.id}
+                    index={index}
+                    key={`item-key-${data.id}`}
+                    isDragDisabled={isDragDisabled}
+                >
+                    {(provided, snapshot) => {
+                        const style: React.CSSProperties = {
+                            ...provided.draggableProps.style,
+                        };
 
-                    return (
-                        <TreeSelectItem
-                            ref={provided.innerRef}
-                            {...commonProps}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={style}
-                            active={snapshot.isDragging}
-                        />
-                    );
-                }}
-            </Draggable>
-        );
-    }, []);
+                        // not expected offset appears, one way to fix - remove this offsets explicitly
+                        if (snapshot.isDragging) {
+                            style.left = undefined;
+                            style.top = undefined;
+                        }
+
+                        return (
+                            <TreeSelectItem
+                                ref={provided.innerRef}
+                                {...commonProps}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={style}
+                                active={snapshot.isDragging}
+                            />
+                        );
+                    }}
+                </Draggable>
+            );
+        },
+        [sortable],
+    );
 
     const value = React.useMemo(() => {
         const selectedIds: string[] = [];

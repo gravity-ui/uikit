@@ -64,7 +64,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 {...storyProps}
                 value={value}
                 items={items}
-                // you can omit this prop here. Id if passed, would taken by default
+                // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
                 getId={({id}) => id}
                 renderControlContent={({someRandomKey}) => ({
                     title: someRandomKey,
@@ -114,7 +114,6 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 renderItem={({data, props, index, renderContext: renderContextProps}) => {
                     const commonProps = {
                         ...props,
-                        // selected: value.initem.uniqId,
                         title: data.someRandomKey,
                         endSlot: <Icon data={Grip} size={16} />,
                     };

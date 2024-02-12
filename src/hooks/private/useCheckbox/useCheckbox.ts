@@ -80,6 +80,7 @@ export function useCheckbox({
         onClickCapture: handleClickCapture,
         defaultChecked: defaultChecked,
         checked: inputChecked,
+        role: 'switch',
         'aria-checked': inputAriaChecked,
         ref: handleRef,
     };

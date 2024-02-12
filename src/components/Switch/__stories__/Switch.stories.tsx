@@ -10,6 +10,22 @@ import {SwitchShowcase} from './SwitchShowcase';
 export default {
     title: 'Components/Inputs/Switch',
     component: Switch,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'label',
+                        enabled: true,
+                        selector: '[id^="with-title"]', // other cases can not use labels
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 type Story = StoryObj<typeof Switch>;

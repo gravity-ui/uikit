@@ -109,7 +109,10 @@ export function Popup({
             // Properly display arrow within rounded container
             {name: 'arrow', options: {enabled: hasArrow, padding: 4}},
             // Prevent border hiding
-            {name: 'preventOverflow', options: {padding: 1, altBoundary: disablePortal}},
+            {
+                name: 'preventOverflow',
+                options: {padding: 1, altBoundary: disablePortal, altAxis: true},
+            },
             ...modifiers,
         ],
     });

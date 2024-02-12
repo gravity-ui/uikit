@@ -5,6 +5,8 @@ import _get from 'lodash/get';
 import _isString from 'lodash/isString';
 import _last from 'lodash/last';
 
+import type {TreeSelectProps} from 'src/components/TreeSelect';
+
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -14,7 +16,6 @@ import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
-import type {DndTreeSelectProps} from './TableColumnSetup/DndTreeSelect';
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
 import i18n from './i18n';
 
@@ -88,8 +89,10 @@ export function getActualItems<I>(
     const sortableItems: TableColumnSetupItem[] = [];
 
     settings.forEach(({id, isSelected}) => {
-        if (columns.some((column) => id === column.id)) {
-            sortableItems.push(getTableColumnSetupItem(id, isSelected, undefined));
+        const column = columns.find((column) => id === column.id);
+
+        if (column) {
+            sortableItems.push(getTableColumnSetupItem(id, isSelected, column));
         }
     });
 
@@ -108,7 +111,7 @@ export function getActualItems<I>(
 }
 
 export interface WithTableSettingsOptions {
-    width?: DndTreeSelectProps<any>['popupWidth'];
+    width?: TreeSelectProps<any>['popupWidth'];
     sortable?: boolean;
 }
 
@@ -116,7 +119,7 @@ export interface WithTableSettingsProps {
     /**
      * @deprecated Use factory notation: "withTableSettings({width: <value>})(Table)"
      */
-    settingsPopupWidth?: DndTreeSelectProps<any>['popupWidth'];
+    settingsPopupWidth?: TreeSelectProps<any>['popupWidth'];
 
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;

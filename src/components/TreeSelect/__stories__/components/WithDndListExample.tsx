@@ -2,29 +2,36 @@ import React from 'react';
 
 import {Grip} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import type {OnDragEndResponder} from 'react-beautiful-dnd';
+import type {
+    DraggableProvided,
+    DraggableRubric,
+    DraggableStateSnapshot,
+    DroppableProvided,
+    OnDragEndResponder,
+} from 'react-beautiful-dnd';
 
-import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
 import {ListContainerView} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
+import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
 import {TreeSelect} from '../../TreeSelect';
 import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectItemProps} from '../../TreeSelectItem';
 import type {TreeSelectProps, TreeSelectRenderContainer, TreeSelectRenderItem} from '../../types';
 
-const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
-    const result = [...list];
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-};
-
-type Item = {
-    title: React.ReactNode;
-    id: string;
+const DraggableListItem = ({
+    provided,
+    ...props
+}: {provided?: DraggableProvided} & TreeSelectItemProps) => {
+    return (
+        <TreeSelectItem
+            {...provided?.dragHandleProps}
+            {...provided?.draggableProps}
+            ref={provided?.innerRef}
+            {...props}
+        />
+    );
 };
 
 type CustomDataType = {someRandomKey: string; id: string};

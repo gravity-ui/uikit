@@ -5,9 +5,9 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {OnDragEndResponder} from 'react-beautiful-dnd';
 
 import type {
-    RenderContainerType,
-    RenderItem,
     TreeSelectProps,
+    TreeSelectRenderContainer,
+    TreeSelectRenderItem,
 } from 'src/components/TreeSelect/types';
 
 import {useUniqId} from '../../../../../hooks';
@@ -138,7 +138,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         });
     };
 
-    const renderContainer = React.useCallback<RenderContainerType<Item>>(
+    const renderContainer = React.useCallback<TreeSelectRenderContainer<Item>>(
         ({renderItem, visibleFlattenIds, items: _items, containerRef, id}) => {
             const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
                 if (destination?.index !== undefined && destination?.index !== source.index) {
@@ -180,22 +180,22 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         [],
     );
 
-    const renderItem = React.useCallback<RenderItem<Item>>((item, state, _, idx) => {
+    const renderItem = React.useCallback<TreeSelectRenderItem<Item>>(({data, props, index}) => {
         const endSlot =
-            item.endSlot ?? (item.isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
+            data.endSlot ?? (data.isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
 
         const commonProps = {
-            ...state,
-            ...item,
+            ...props,
+            ...data,
             endSlot,
         };
 
         return (
             <Draggable
-                draggableId={state.id}
-                index={Number(idx)}
-                key={`item-key-${state.id}`}
-                isDragDisabled={item.isDragDisabled}
+                draggableId={data.id}
+                index={index}
+                key={`item-key-${data.id}`}
+                isDragDisabled={data.isDragDisabled}
             >
                 {(provided, snapshot) => {
                     const style: React.CSSProperties = {

@@ -20,7 +20,11 @@ import './Popup.scss';
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
-export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
+export interface PopupProps
+    extends DOMProps,
+        LayerExtendableProps,
+        Pick<PopperProps, 'anchorRef' | 'modifiers' | 'placement' | 'offset' | 'strategy'>,
+        QAProps {
     open?: boolean;
     children?: React.ReactNode;
     keepMounted?: boolean;
@@ -145,7 +149,7 @@ export function Popup({
                     aria-label={ariaLabel}
                     aria-labelledby={ariaLabelledBy}
                 >
-                    <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
+                    <FocusTrap enabled={focusTrap && open} autoFocus={autoFocus}>
                         {/* FIXME The onClick event handler is deprecated and should be removed */}
                         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
                         <div

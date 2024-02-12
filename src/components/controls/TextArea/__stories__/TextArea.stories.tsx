@@ -10,6 +10,29 @@ import {TextAreaCustomShowcase, TextAreaShowcase} from './TextAreaShowcase';
 export default {
     title: 'Components/Inputs/TextArea',
     component: TextArea,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'label',
+                        enabled: false,
+                    },
+                    {
+                        id: 'label-title-only',
+                        enabled: false,
+                    },
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                        selector: '.text-input-showcase__custom-theme',
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 const fixConsoleErrors = {

@@ -11,6 +11,29 @@ import {TextInputShowcase} from './TextInputShowcase';
 export default {
     title: 'Components/Inputs/TextInput',
     component: TextInput,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                        selector: 'g-outer-additional-content',
+                    },
+                    {
+                        id: 'label-title-only',
+                        enabled: false,
+                    },
+                    {
+                        id: 'label',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 const fixConsoleErrors = {

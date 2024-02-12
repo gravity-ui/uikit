@@ -17,6 +17,8 @@ const b = cn('text-input-showcase');
 
 const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
+const showLabel = 'Show';
+const hideLabel = 'Hide';
 
 const EyeButton = (props: {
     size?: TextInputProps['size'];
@@ -32,6 +34,7 @@ const EyeButton = (props: {
             view="flat"
             disabled={disabled}
             onClick={onClick}
+            extraProps={{'aria-label': opened ? showLabel : hideLabel}}
         >
             <Icon data={opened ? Eye : EyeSlash} />
         </Button>

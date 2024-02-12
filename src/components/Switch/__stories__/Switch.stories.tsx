@@ -23,7 +23,6 @@ export default {
                 ],
             },
             options: {},
-            // manual: true,
         },
     },
 } as Meta;

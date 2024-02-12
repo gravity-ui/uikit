@@ -1,6 +1,6 @@
 import {faker} from '@faker-js/faker/locale/en';
 
-import type {ListItemType, ListTreeItemType} from '../../types';
+import type {ListTreeItemType} from '../../types';
 
 const RANDOM_WORDS = Array(50)
     .fill(null)
@@ -18,7 +18,7 @@ export function createRandomizedData<T = {title: string}>({
     num: number;
     depth?: number;
     getData?: (title: string) => T;
-}): ListItemType<T>[] {
+}): ListTreeItemType<T>[] {
     const data = [];
 
     for (let i = 0; i < num; i++) {

@@ -34,17 +34,26 @@ const DraggableListItem = ({
     );
 };
 
-export interface WithDndListExampleProps
-    extends Omit<TreeSelectProps<string>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> {}
+type CustomDataType = {someRandomKey: string; id: string};
 
-export const WithDndListExample = (props: WithDndListExampleProps) => {
-    const [items, setItems] = React.useState(() =>
-        createRandomizedData({num: 10, depth: 0, getData: (title) => title}),
-    );
+export interface WithDndListExampleProps
+    extends Omit<
+        TreeSelectProps<CustomDataType>,
+        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'renderControlContent'
+    > {}
+
+const randomItems: CustomDataType[] = createRandomizedData({
+    num: 10,
+    depth: 0,
+    getData: (title) => title,
+}).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
+
+export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
+    const [items, setItems] = React.useState(randomItems);
     const [value, setValue] = React.useState<string[]>([]);
 
     const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
-        if (destination?.index && destination?.index !== source.index) {
+        if (typeof destination?.index === 'number' && destination.index !== source.index) {
             setItems((items) => reorderArray(items, source.index, destination.index));
         }
     };
@@ -52,10 +61,15 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
     return (
         <Flex>
             <TreeSelect
-                {...props}
+                {...storyProps}
                 value={value}
                 items={items}
-                onItemClick={(_, {id, isGroup, disabled}) => {
+                // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
+                getId={({id}) => id}
+                renderControlContent={({someRandomKey}) => ({
+                    title: someRandomKey,
+                })}
+                onItemClick={(_data, {id, isGroup, disabled}) => {
                     if (!isGroup && !disabled) {
                         setValue([id]);
                     }
@@ -70,10 +84,14 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                     snapshot: DraggableStateSnapshot,
                                     rubric: DraggableRubric,
                                 ) => {
-                                    return renderItem(visibleFlattenIds[rubric.source.index], {
-                                        provided,
-                                        active: snapshot.isDragging,
-                                    });
+                                    return renderItem(
+                                        visibleFlattenIds[rubric.source.index],
+                                        rubric.source.index,
+                                        {
+                                            provided,
+                                            active: snapshot.isDragging,
+                                        },
+                                    );
                                 }}
                             >
                                 {(droppableProvided: DroppableProvided) => (
@@ -82,7 +100,9 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
                                         >
-                                            {visibleFlattenIds.map((id) => renderItem(id))}
+                                            {visibleFlattenIds.map((id, index) =>
+                                                renderItem(id, index),
+                                            )}
                                             {droppableProvided.placeholder}
                                         </div>
                                     </ListContainerView>
@@ -91,10 +111,10 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                         </DragDropContext>
                     );
                 }}
-                renderItem={(item, state, _listContext, renderContextProps) => {
+                renderItem={({data, props, index, renderContext: renderContextProps}) => {
                     const commonProps = {
-                        ...state,
-                        title: item,
+                        ...props,
+                        title: data.someRandomKey,
                         endSlot: <Icon data={Grip} size={16} />,
                     };
 
@@ -102,7 +122,7 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                     if (renderContextProps) {
                         return (
                             <DraggableListItem
-                                key={`item-key-${state.id}`}
+                                key={`item-key-${index}`}
                                 {...commonProps}
                                 {...renderContextProps}
                             />
@@ -110,9 +130,9 @@ export const WithDndListExample = (props: WithDndListExampleProps) => {
                     }
                     return (
                         <Draggable
-                            draggableId={state.id}
-                            index={Number(state.id)}
-                            key={`item-key-${state.id}`}
+                            draggableId={String(index)}
+                            index={index}
+                            key={`item-key-${index}`}
                         >
                             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
                                 <DraggableListItem

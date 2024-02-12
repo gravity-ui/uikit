@@ -1,4 +1,4 @@
-import type {ListItemId, ListItemType} from '../types';
+import type {ListItemId, ListItemType, ParsedFlattenState} from '../types';
 
 import {getListItemId} from './getListItemId';
 import {getGroupItemId} from './groupItemId';
@@ -8,7 +8,7 @@ export function flattenItems<T>(
     items: ListItemType<T>[],
     expandedById: Record<ListItemId, boolean> = {},
     getId?: (item: T) => ListItemId,
-): ListItemId[] {
+): ParsedFlattenState {
     if (process.env.NODE_ENV !== 'production') {
         console.time('flattenItems');
     }
@@ -39,10 +39,22 @@ export function flattenItems<T>(
         return order;
     };
 
-    const result = items.reduce<string[]>((acc, item, index) => getNestedIds(acc, item, index), []);
+    const visibleFlattenIds = items.reduce<string[]>(
+        (acc, item, index) => getNestedIds(acc, item, index),
+        [],
+    );
+
+    const idToFlattenIndex: Record<ListItemId, number> = {};
+
+    for (const [item, index] of visibleFlattenIds.entries()) {
+        idToFlattenIndex[index] = item;
+    }
 
     if (process.env.NODE_ENV !== 'production') {
         console.timeEnd('flattenItems');
     }
-    return result;
+    return {
+        visibleFlattenIds,
+        idToFlattenIndex,
+    };
 }

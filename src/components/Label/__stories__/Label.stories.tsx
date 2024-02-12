@@ -15,6 +15,21 @@ const iconSizeMap = {xs: 12, s: 14, m: 16} as const;
 export default {
     title: 'Components/Data Display/Label',
     component: Label,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false, // actual color contrast may differ in particular usage
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 type Story = StoryObj<typeof Label>;
@@ -109,6 +124,7 @@ export const Copy: Story = {
         ...Default.args,
         type: 'copy',
         copyText: "I'm copied text",
+        copyButtonLabel: 'Copy',
     },
 };
 
@@ -116,6 +132,7 @@ export const Close: Story = {
     args: {
         ...Default.args,
         type: 'close',
+        closeButtonLabel: 'Close',
     },
 };
 

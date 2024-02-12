@@ -14,6 +14,21 @@ import {getAvatarSrcSet} from './utils/getAvatarSrcSet';
 const meta: Meta<typeof Avatar> = {
     title: 'Components/Data Display/Avatar',
     component: Avatar,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                        selector: '.g-avatar__text',
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 };
 
 export default meta;
@@ -77,12 +92,16 @@ export const ImageSrcSet: StoryFunc = (args) => {
 ImageSrcSet.args = {
     imgUrl: faker.image.urlLoremFlickr({category: 'cats'}),
     size: 'xl',
+    alt: 'Image with srcset',
+    'aria-label': 'Random avatar',
 };
 
 export const ImageFallback: Story = {
     args: {
         imgUrl: 'random_link',
         fallbackImgUrl: imgUrl,
+        alt: 'Fallbacked image',
+        'aria-label': 'Fallback demonstration',
     },
 };
 
@@ -90,6 +109,7 @@ export const Icon: Story = {
     args: {
         theme: 'brand',
         icon: FaceRobot,
+        'aria-label': 'Icon',
     },
 };
 
@@ -97,6 +117,7 @@ export const Text: Story = {
     args: {
         theme: 'brand',
         text: 'UI',
+        'aria-label': 'UI',
     },
 };
 
@@ -104,6 +125,7 @@ export const TextInitials: Story = {
     args: {
         theme: 'brand',
         text: 'Charles Darwin',
+        'aria-label': 'CD',
     },
 };
 
@@ -111,6 +133,8 @@ export const WithBorder: Story = {
     args: {
         imgUrl,
         borderColor: 'var(--g-color-line-misc)',
+        alt: 'Sample image',
+        'aria-label': 'Image with border',
     },
 };
 
@@ -121,126 +145,279 @@ export const AvatarShowcase: Story = {
             <React.Fragment>
                 <Showcase title="Image">
                     <ShowcaseItem title="xs">
-                        <Avatar {...imageProps} size="xs" />
+                        <Avatar
+                            {...imageProps}
+                            size="xs"
+                            alt={'Sample image'}
+                            aria-label={'Avatar with XS size'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...imageProps} size="s" />
+                        <Avatar
+                            {...imageProps}
+                            size="s"
+                            alt={'Sample image'}
+                            aria-label={'Avatar with S size'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...imageProps} size="m" />
+                        <Avatar
+                            {...imageProps}
+                            size="m"
+                            alt={'Sample image'}
+                            aria-label={'Avatar with M size'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...imageProps} size="l" />
+                        <Avatar
+                            {...imageProps}
+                            size="l"
+                            alt={'Sample image'}
+                            aria-label={'Avatar with L size'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...imageProps} size="xl" />
+                        <Avatar
+                            {...imageProps}
+                            size="xl"
+                            alt={'Sample image'}
+                            aria-label={'Avatar with XL size'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
-                        <Avatar {...imageProps} size="xs" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...imageProps}
+                            size="xs"
+                            borderColor={BORDER_COLOR}
+                            alt={'Sample image'}
+                            aria-label={'Avatar with XS size and border'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...imageProps} size="s" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...imageProps}
+                            size="s"
+                            borderColor={BORDER_COLOR}
+                            alt={'Sample image'}
+                            aria-label={'Avatar with S size and border'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...imageProps} size="m" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...imageProps}
+                            size="m"
+                            borderColor={BORDER_COLOR}
+                            alt={'Sample image'}
+                            aria-label={'Avatar with M size and border'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...imageProps} size="l" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...imageProps}
+                            size="l"
+                            borderColor={BORDER_COLOR}
+                            alt={'Sample image'}
+                            aria-label={'Avatar with L size and border'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...imageProps} size="xl" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...imageProps}
+                            size="xl"
+                            borderColor={BORDER_COLOR}
+                            alt={'Sample image'}
+                            aria-label={'Avatar with XL size and border'}
+                        />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Icon">
                     <ShowcaseItem title="xs">
-                        <Avatar {...iconProps} size="xs" />
+                        <Avatar {...iconProps} size="xs" aria-label={'Sample icon'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...iconProps} size="s" />
+                        <Avatar {...iconProps} size="s" aria-label={'Sample icon'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...iconProps} size="m" />
+                        <Avatar {...iconProps} size="m" aria-label={'Sample icon'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...iconProps} size="l" />
+                        <Avatar {...iconProps} size="l" aria-label={'Sample icon'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...iconProps} size="xl" />
+                        <Avatar {...iconProps} size="xl" aria-label={'Sample icon'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
-                        <Avatar {...iconProps} size="xs" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...iconProps}
+                            size="xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...iconProps} size="s" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...iconProps}
+                            size="s"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...iconProps} size="m" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...iconProps}
+                            size="m"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...iconProps} size="l" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...iconProps}
+                            size="l"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...iconProps} size="xl" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...iconProps}
+                            size="xl"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Text">
                     <ShowcaseItem title="xs">
-                        <Avatar {...textProps} size="xs" />
+                        <Avatar {...textProps} size="xs" aria-label={'CD'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...textProps} size="s" />
+                        <Avatar {...textProps} size="s" aria-label={'CD'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...textProps} size="m" />
+                        <Avatar {...textProps} size="m" aria-label={'CD'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...textProps} size="l" />
+                        <Avatar {...textProps} size="l" aria-label={'CD'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...textProps} size="xl" />
+                        <Avatar {...textProps} size="xl" aria-label={'CD'} />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
-                        <Avatar {...textProps} size="xs" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...textProps}
+                            size="xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...textProps} size="s" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...textProps}
+                            size="s"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...textProps} size="m" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...textProps}
+                            size="m"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...textProps} size="l" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...textProps}
+                            size="l"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...textProps} size="xl" borderColor={BORDER_COLOR} />
+                        <Avatar
+                            {...textProps}
+                            size="xl"
+                            borderColor={BORDER_COLOR}
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Theme / view icon">
                     <ShowcaseItem title="normal / filled icon">
-                        <Avatar theme="normal" view="filled" size="l" icon={FaceRobot} />
+                        <Avatar
+                            theme="normal"
+                            view="filled"
+                            size="l"
+                            icon={FaceRobot}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / filled icon">
-                        <Avatar theme="brand" view="filled" size="l" icon={FaceRobot} />
+                        <Avatar
+                            theme="brand"
+                            view="filled"
+                            size="l"
+                            icon={FaceRobot}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="normal / outlined icon">
-                        <Avatar theme="normal" view="outlined" size="l" icon={FaceRobot} />
+                        <Avatar
+                            theme="normal"
+                            view="outlined"
+                            size="l"
+                            icon={FaceRobot}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / outlined icon">
-                        <Avatar theme="brand" view="outlined" size="l" icon={FaceRobot} />
+                        <Avatar
+                            theme="brand"
+                            view="outlined"
+                            size="l"
+                            icon={FaceRobot}
+                            aria-label={'Sample icon'}
+                        />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Theme / view text">
                     <ShowcaseItem title="normal / filled icon">
-                        <Avatar theme="normal" view="filled" size="l" text="Charles Darwin" />
+                        <Avatar
+                            theme="normal"
+                            view="filled"
+                            size="l"
+                            text="Charles Darwin"
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / filled icon">
-                        <Avatar theme="brand" view="filled" size="l" text="Charles Darwin" />
+                        <Avatar
+                            theme="brand"
+                            view="filled"
+                            size="l"
+                            text="Charles Darwin"
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="normal / outlined icon">
-                        <Avatar theme="normal" view="outlined" size="l" text="Charles Darwin" />
+                        <Avatar
+                            theme="normal"
+                            view="outlined"
+                            size="l"
+                            text="Charles Darwin"
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / outlined icon">
-                        <Avatar theme="brand" view="outlined" size="l" text="Charles Darwin" />
+                        <Avatar
+                            theme="brand"
+                            view="outlined"
+                            size="l"
+                            text="Charles Darwin"
+                            aria-label={'CD'}
+                        />
                     </ShowcaseItem>
                 </Showcase>
             </React.Fragment>

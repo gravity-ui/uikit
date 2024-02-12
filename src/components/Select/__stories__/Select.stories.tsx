@@ -20,7 +20,7 @@ export default {
                     {
                         id: 'color-contrast',
                         enabled: true,
-                        selector: 'g-select-control__placeholder', // todo: https://github.com/gravity-ui/uikit/issues/1334
+                        selector: '.g-select-control__placeholder', // todo: https://github.com/gravity-ui/uikit/issues/1334
                     },
                 ],
             },

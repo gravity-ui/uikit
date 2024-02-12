@@ -19,7 +19,7 @@ export default {
                     {
                         id: 'color-contrast',
                         enabled: false,
-                        selector: 'g-outer-additional-content',
+                        selector: '.g-outer-additional-content',
                     },
                     {
                         id: 'label-title-only',

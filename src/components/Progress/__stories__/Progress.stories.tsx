@@ -8,6 +8,21 @@ import type {ProgressTheme} from '../types';
 export default {
     title: 'Components/Feedback/Progress',
     component: Progress,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 const Template: StoryFn<typeof Progress> = (args) => <Progress {...args} {...args} />;

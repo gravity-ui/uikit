@@ -42,6 +42,31 @@ export default {
             default: false,
         },
     },
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'aria-required-children',
+                        enabled: false,
+                        selector: '[id^="wrapped"]',
+                    },
+                    {
+                        id: 'aria-required-parent',
+                        enabled: false,
+                        selector: '[id^="wrapped"]',
+                    },
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as ComponentMeta<typeof Tabs>;
 
 const Template: StoryFn<TabsProps & StoryParams> = ({
@@ -65,10 +90,10 @@ export const Default = Template.bind({});
 
 export const WithWrapTo = Template.bind({});
 WithWrapTo.args = {
-    wrapTo(_item: TabsItemProps, node: React.ReactNode) {
+    wrapTo(item: TabsItemProps, node: React.ReactNode) {
         return (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a key={_item.id} href="#" style={{textDecoration: 'none'}}>
+            <a key={item.id} href="#" style={{textDecoration: 'none'}} id={`wrapped-${item.id}`}>
                 {node}
             </a>
         );

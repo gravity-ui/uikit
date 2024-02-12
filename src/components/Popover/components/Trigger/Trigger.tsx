@@ -5,6 +5,7 @@ import {useActionHandlers} from '../../../../hooks';
 interface TriggerArgs {
     onClick: React.MouseEventHandler;
     onKeyDown: React.KeyboardEventHandler;
+    open: boolean;
 }
 
 export interface TriggerProps {
@@ -87,7 +88,7 @@ export const Trigger = ({
     const {onKeyDown} = useActionHandlers(handleClick);
 
     return typeof children === 'function' ? (
-        <React.Fragment>{children({onClick: handleClick, onKeyDown})}</React.Fragment>
+        <React.Fragment>{children({onClick: handleClick, onKeyDown, open})}</React.Fragment>
     ) : (
         // The event handler should only be used to capture bubbled events
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions

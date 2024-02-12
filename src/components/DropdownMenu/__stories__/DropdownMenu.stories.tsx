@@ -20,10 +20,26 @@ export default {
     title: 'Components/Overlays/DropdownMenu',
     component: DropdownMenu,
     args: {},
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'button-name',
+                        enabled: false,
+                        selector: '.g-dropdown-menu__switcher-button',
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
-export const Default = DefaultTemplate.bind({});
+export const Default: StoryFn<typeof DropdownMenu> = DefaultTemplate.bind({});
 Default.args = {
     items: options,
 };

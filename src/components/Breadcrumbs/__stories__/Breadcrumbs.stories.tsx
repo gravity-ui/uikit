@@ -49,6 +49,21 @@ export default {
             },
         },
     },
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1334
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 };
 
 const DefaultTemplate: StoryFn<BreadcrumbsProps> = (args) => <Breadcrumbs {...args} />;

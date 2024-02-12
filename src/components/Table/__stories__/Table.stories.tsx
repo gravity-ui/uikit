@@ -31,6 +31,22 @@ export default {
         columns,
         data,
     },
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'empty-table-header',
+                        enabled: false,
+                        selector: '.g-table__head > .g-table__row > .g-table__cell_sticky_end',
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta<TableProps<DataItem>>;
 
 const DefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => {

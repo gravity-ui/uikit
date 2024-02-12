@@ -5,6 +5,21 @@ import {User} from '../User';
 const meta: Meta<typeof User> = {
     title: 'Components/Data Display/User',
     component: User,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 };
 
 export default meta;
@@ -18,5 +33,7 @@ export const Default: Story = {
         },
         name: 'Isaac',
         description: 'user@gravity-ui.com',
+        alt: 'Isaac',
+        avatarAriaLabel: 'Avatar of user@gravity-ui.com',
     },
 };

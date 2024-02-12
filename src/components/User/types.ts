@@ -13,4 +13,7 @@ export interface UserProps extends DOMProps, QAProps {
     size?: UserSize;
     'aria-label'?: string;
     'aria-labelledby'?: string;
+    avatarAriaLabel?: string;
+    avatarAriaLabelledBy?: string;
+    alt?: string;
 }

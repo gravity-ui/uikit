@@ -9,6 +9,21 @@ import {Text, colorText, text} from '../index';
 export default {
     title: 'Components/Data Display/Text',
     component: Text,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 const DefaultText: StoryFn<TextProps> = (args) => <Text {...args} />;

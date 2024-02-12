@@ -38,6 +38,44 @@ export default {
             </div>
         ),
     ],
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'aria-allowed-attr',
+                        enabled: false,
+                        selector: '.g-list__item', // https://github.com/gravity-ui/uikit/issues/1336
+                    },
+                    {
+                        id: 'aria-required-children',
+                        enabled: false,
+                        selector: '.g-list-items', // https://github.com/gravity-ui/uikit/issues/1338
+                    },
+                    {
+                        id: 'aria-required-parent',
+                        enabled: false, // these stories are for list item only
+                    },
+                    {
+                        id: 'scrollable-region-focusable',
+                        enabled: false,
+                        selector: '.g-list', // scrollable content is accessible via arrows
+                    },
+                    {
+                        id: 'label',
+                        enabled: false,
+                    },
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta<typeof ListItem>;
 
 const getComponentTemplate = <

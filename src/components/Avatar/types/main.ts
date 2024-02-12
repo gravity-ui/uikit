@@ -9,16 +9,22 @@ import type {AvatarCommonProps, AvatarSize} from './common';
 export type AvatarTheme = 'normal' | 'brand';
 export type AvatarView = 'filled' | 'outlined';
 
-interface AvatarBaseProps extends DOMProps, QAProps {
+interface AvatarAriaProps {
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+}
+
+interface AvatarBaseProps extends DOMProps, QAProps, AvatarAriaProps {
     size?: AvatarSize;
     theme?: AvatarTheme;
     view?: AvatarView;
     backgroundColor?: string;
     borderColor?: string;
     title?: string;
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
 }
 
 export type AvatarProps = AvatarBaseProps &
-    DistributiveOmit<AvatarImageProps | AvatarIconProps | AvatarTextProps, keyof AvatarCommonProps>;
+    DistributiveOmit<
+        AvatarImageProps | AvatarIconProps | AvatarTextProps | AvatarAriaProps,
+        keyof AvatarCommonProps
+    >;

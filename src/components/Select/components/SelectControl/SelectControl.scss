@@ -242,6 +242,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
     }
 
     &__error-icon {
+        @include mixins.button-reset();
         box-sizing: content-box;
         color: var(--g-color-text-danger);
         padding: var(--_--text-input-error-icon-padding);

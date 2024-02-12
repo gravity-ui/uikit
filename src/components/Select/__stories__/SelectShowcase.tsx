@@ -85,7 +85,7 @@ const ExampleItem = (props: {
                 )}
             </h3>
             {mode === Mode.VIEW ? (
-                <Select {...selectProps} value={value} onUpdate={setValue}>
+                <Select {...selectProps} value={value} onUpdate={setValue} title={'Sample select'}>
                     {children}
                 </Select>
             ) : (
@@ -307,6 +307,7 @@ export const SelectShowcase = (props: SelectProps) => {
                                 onClick={onClick}
                                 extraProps={{
                                     onKeyDown,
+                                    'aria-label': 'Add',
                                 }}
                             >
                                 <Icon data={Plus} />

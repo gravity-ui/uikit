@@ -19,6 +19,26 @@ import {ButtonViewShowcase} from './ButtonViewShowcase';
 export default {
     title: 'Components/Inputs/Button',
     component: Button,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false, // actual color contrast may differ in particular usage
+                    },
+                    {
+                        id: 'duplicate-id',
+                        enabled: false,
+                        selector: 'defs', // one may use same id in different <defs>
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 type Story = StoryObj<typeof Button>;
@@ -68,7 +88,7 @@ export const Icon: Story = {
                 Both
                 <IconComponent data={ChevronDown} />
             </Button>
-            <Button {...args}>
+            <Button {...args} title={'Copy'}>
                 <IconComponent data={Copy} />
             </Button>
         </Showcase>

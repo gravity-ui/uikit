@@ -22,32 +22,59 @@ export const SelectPopupWidthShowcase = (args: any) => {
     return (
         <React.Fragment>
             <h2>Static width (props.popupWidth)</h2>
-            <Select {...args} className="select-width-50" options={extralong} popupWidth={200} />
-            <Select {...args} options={extralong} width={'max'} popupWidth={200} />
+            <Select
+                {...args}
+                className="select-width-50"
+                options={extralong}
+                popupWidth={200}
+                title={'Sample select'}
+            />
+            <Select
+                {...args}
+                options={extralong}
+                width={'max'}
+                popupWidth={200}
+                title={'Sample select'}
+            />
 
             <h2>Short values. Adjust to Control width</h2>
-            <Select {...args} className="select-width-300" options={short} />
-            <Select {...args} options={short} width={'max'} />
+            <Select
+                {...args}
+                className="select-width-300"
+                options={short}
+                title={'Sample select'}
+            />
+            <Select {...args} options={short} width={'max'} title={'Sample select'} />
 
             <h2>Modes default/fit</h2>
             <Flex gap={10}>
                 <div>
                     Extra long values. DEFAULT (apply max-width: 90vw)
                     <div>
-                        <Select {...args} className="select-width-300" options={extralong} />
+                        <Select
+                            {...args}
+                            className="select-width-300"
+                            options={extralong}
+                            title={'Sample select'}
+                        />
                     </div>
                 </div>
                 <div>
                     Short values. DEFAULT
                     <div>
-                        <Select {...args} className="select-width-50" options={short} />
+                        <Select
+                            {...args}
+                            className="select-width-50"
+                            options={short}
+                            title={'Sample select'}
+                        />
                     </div>
                 </div>
             </Flex>
             <div>
                 Extra long values. DEFAULT Fullscreen
                 <div>
-                    <Select {...args} width={'max'} options={extralong} />
+                    <Select {...args} width={'max'} options={extralong} title={'Sample select'} />
                 </div>
             </div>
 
@@ -63,6 +90,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             className="select-width-300"
                             options={extralong}
                             popupWidth={'fit'}
+                            title={'Sample select'}
                         />
                     </div>
                 </div>
@@ -75,6 +103,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             className="select-width-50"
                             options={short}
                             popupWidth={'fit'}
+                            title={'Sample select'}
                         />
                     </div>
                 </div>
@@ -82,7 +111,13 @@ export const SelectPopupWidthShowcase = (args: any) => {
             <div>
                 Extra long values. FIT. Fullscreen
                 <div>
-                    <Select {...args} width={'max'} options={extralong} popupWidth={'fit'} />
+                    <Select
+                        {...args}
+                        width={'max'}
+                        options={extralong}
+                        popupWidth={'fit'}
+                        title={'Sample select'}
+                    />
                 </div>
             </div>
 
@@ -97,13 +132,19 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-300"
                             options={extralongVirtualized}
+                            title={'Sample select'}
                         />
                     </div>
                 </div>
                 <div>
                     Short values. DEFAULT. Virtualized (use predefined width: 100px)
                     <div>
-                        <Select {...args} className="select-width-50" options={shortVirtualized} />
+                        <Select
+                            {...args}
+                            className="select-width-50"
+                            options={shortVirtualized}
+                            title={'Sample select'}
+                        />
                     </div>
                 </div>
             </Flex>
@@ -117,6 +158,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             className="select-width-300"
                             options={extralongVirtualized}
                             popupWidth={'fit'}
+                            title={'Sample select'}
                         />
                     </div>
                 </div>
@@ -129,6 +171,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             className="select-width-50"
                             options={shortVirtualized}
                             popupWidth={'fit'}
+                            title={'Sample select'}
                         />
                     </div>
                 </div>
@@ -138,7 +181,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
 
             <div>
                 <div>Keep popup width while picking</div>
-                <Select multiple {...args} options={short} />
+                <Select multiple {...args} options={short} title={'Sample select'} />
             </div>
         </React.Fragment>
     );

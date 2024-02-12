@@ -12,10 +12,26 @@ import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 export default {
     title: 'Components/Inputs/Select',
     component: Select,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: true,
+                        selector: 'g-select-control__placeholder', // todo: https://github.com/gravity-ui/uikit/issues/1334
+                    },
+                ],
+            },
+            options: {},
+            // manual: true,
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<SelectProps> = (args) => (
-    <Select {...args}>
+    <Select {...args} title={'Select sample'}>
         <Select.Option value="val1" content="Value1" />
         <Select.Option value="val2" content="Value2" />
         <Select.Option value="val3" content="Value3" />

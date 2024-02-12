@@ -11,6 +11,7 @@ export interface RadioButtonOptionProps<ValueType extends string> extends Contro
     value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;
+    title?: string;
 }
 
 type RadioButtonOptionComponentType = <T extends string>(
@@ -21,7 +22,7 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
     props: RadioButtonOptionProps<T>,
     ref: React.ForwardedRef<HTMLLabelElement>,
 ) {
-    const {disabled = false, content, children} = props;
+    const {disabled = false, content, children, title} = props;
     const {checked, inputProps} = useRadio(props);
     const inner = content || children;
     const icon = isIcon(inner);
@@ -33,6 +34,7 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
                 checked,
             })}
             ref={ref}
+            title={title}
         >
             <input {...inputProps} className={b('option-control')} />
             <span className={b('option-outline')} />

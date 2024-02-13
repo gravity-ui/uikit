@@ -69,97 +69,22 @@ interface SwitcherProps {
     onClick: React.MouseEventHandler<HTMLElement>;
 }
 
-type Item = TableColumnSetupItem &
-    TreeSelectItemProps & {
-        id: string;
-        isDragDisabled?: boolean;
-    };
-
-export interface TableColumnSetupProps {
-    renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
-
-    items: TableColumnSetupItem[];
-    sortable?: boolean;
-
-    onUpdate: (newSettings: TableSetting[]) => void;
-    popupWidth?: TreeSelectProps<any>['popupWidth'];
-    popupPlacement?: PopperPlacement;
-}
-
-export const TableColumnSetup = (props: TableColumnSetupProps) => {
-    const {
-        renderSwitcher,
-        popupWidth,
-        popupPlacement,
-        items: propsItems,
-        onUpdate: propsOnUpdate,
-        sortable,
-    } = props;
-
+const useDndRenderContainer = ({
+    onApply,
+    onDragEnd,
+}: {
+    onDragEnd: OnDragEndResponder;
+    onApply: () => void;
+}) => {
     const uniqId = useUniqId();
 
-    const [open, setOpen] = React.useState(false);
-
-    const [items, setItems] = React.useState(propsItems);
-    const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
-    if (propsItems !== prevPropsItems) {
-        setPrevPropsItems(propsItems);
-
-        const newItems = propsItems;
-        setItems(newItems);
-    }
-
-    const onApply = () => {
-        const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
-        propsOnUpdate(newSettings);
-        setOpen(false);
-    };
-
-    const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
-        const onKeyDown = createOnKeyDownHandler(toggleOpen);
-
-        return (
-            renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
-                <Button onClick={toggleOpen} extraProps={{onKeyDown}}>
-                    <Icon data={Gear} />
-                    {i18n('button_switcher')}
-                </Button>
-            )
-        );
-    };
-
-    const onOpenChange = (open: boolean) => {
-        setOpen(open);
-
-        if (open === false) {
-            setItems(propsItems);
-        }
-    };
-
-    const onUpdate = (selectedItemsIds: string[]) => {
-        setItems((prevItems) => {
-            return prevItems.map((item) => ({
-                ...item,
-                isSelected: selectedItemsIds.includes(item.id),
-            }));
-        });
-    };
-
-    const renderContainer: TreeSelectRenderContainer<Item> = ({
+    const dndRenderContainer: TreeSelectRenderContainer<Item> = ({
         renderItem,
         visibleFlattenIds,
         items: _items,
         containerRef,
         id,
     }) => {
-        const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
-            if (destination?.index !== undefined && destination?.index !== source.index) {
-                setItems((prevItems) => {
-                    return reorderArray(prevItems, source.index, destination.index);
-                });
-            }
-        };
-
         const visibleFlattenItemList = visibleFlattenIds.map((visibleFlattenId, idx) =>
             renderItem(visibleFlattenId, idx),
         );
@@ -167,7 +92,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         return (
             <React.Fragment>
                 <ListContainerView ref={containerRef} id={id}>
-                    <DragDropContext onDragEnd={handleDrugEnd}>
+                    <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId={uniqId}>
                             {(droppableProvided) => {
                                 return (
@@ -190,7 +115,11 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         );
     };
 
-    const renderItem: TreeSelectRenderItem<Item> = ({data, props, index}) => {
+    return dndRenderContainer;
+};
+
+const useDndRenderItem = (sortable: boolean | undefined) => {
+    const renderDndItem: TreeSelectRenderItem<Item> = ({data, props, index}) => {
         const isDragDisabled = sortable === false;
 
         const endSlot =
@@ -235,6 +164,95 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         );
     };
 
+    return renderDndItem;
+};
+
+type Item = TableColumnSetupItem &
+    TreeSelectItemProps & {
+        id: string;
+        isDragDisabled?: boolean;
+    };
+
+export interface TableColumnSetupProps {
+    renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
+
+    items: TableColumnSetupItem[];
+    sortable?: boolean;
+
+    onUpdate: (newSettings: TableSetting[]) => void;
+    popupWidth?: TreeSelectProps<any>['popupWidth'];
+    popupPlacement?: PopperPlacement;
+}
+
+export const TableColumnSetup = (props: TableColumnSetupProps) => {
+    const {
+        renderSwitcher,
+        popupWidth,
+        popupPlacement,
+        items: propsItems,
+        onUpdate: propsOnUpdate,
+        sortable,
+    } = props;
+
+    const [open, setOpen] = React.useState(false);
+
+    const [items, setItems] = React.useState(propsItems);
+    const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
+    if (propsItems !== prevPropsItems) {
+        setPrevPropsItems(propsItems);
+
+        const newItems = propsItems;
+        setItems(newItems);
+    }
+
+    const onApply = () => {
+        const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
+        propsOnUpdate(newSettings);
+        setOpen(false);
+    };
+
+    const onDragEnd: OnDragEndResponder = ({destination, source}) => {
+        if (destination?.index !== undefined && destination?.index !== source.index) {
+            setItems((prevItems) => {
+                return reorderArray(prevItems, source.index, destination.index);
+            });
+        }
+    };
+
+    const dndRenderContainer = useDndRenderContainer({onApply, onDragEnd});
+
+    const dndRenderItem = useDndRenderItem(sortable);
+
+    const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
+        const onKeyDown = createOnKeyDownHandler(toggleOpen);
+
+        return (
+            renderSwitcher?.({onClick: toggleOpen, onKeyDown}) || (
+                <Button onClick={toggleOpen} extraProps={{onKeyDown}}>
+                    <Icon data={Gear} />
+                    {i18n('button_switcher')}
+                </Button>
+            )
+        );
+    };
+
+    const onOpenChange = (open: boolean) => {
+        setOpen(open);
+
+        if (open === false) {
+            setItems(propsItems);
+        }
+    };
+
+    const onUpdate = (selectedItemsIds: string[]) => {
+        setItems((prevItems) => {
+            return prevItems.map((item) => ({
+                ...item,
+                isSelected: selectedItemsIds.includes(item.id),
+            }));
+        });
+    };
+
     const valueRef = React.useRef<string[]>();
     if (valueRef.current === undefined || items !== prevPropsItems) {
         valueRef.current = prepareValue(items);
@@ -257,9 +275,9 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}
             placement={popupPlacement}
-            renderContainer={renderContainer}
+            renderContainer={dndRenderContainer}
             renderControl={renderControl}
-            renderItem={renderItem}
+            renderItem={dndRenderItem}
         />
     );
 };

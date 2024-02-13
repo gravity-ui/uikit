@@ -31,10 +31,12 @@ export const getItemRenderState = <T,>(
         selectedById,
         activeItemId,
         id,
+        idToFlattenIndex,
     }: ItemRendererProps<T>,
     {defaultExpanded = true}: {defaultExpanded?: boolean} = {},
 ) => {
     const context: RenderItemContext = {
+        visibleFlattenIndex: idToFlattenIndex[id],
         itemState: itemsState[id],
         groupState: groupsState[id],
         isLastItem: id === visibleFlattenIds[visibleFlattenIds.length - 1],

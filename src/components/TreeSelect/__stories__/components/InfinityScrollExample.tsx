@@ -18,10 +18,13 @@ export interface InfinityScrollExampleProps
     itemsCount?: number;
 }
 
-export const InfinityScrollExample = ({itemsCount = 5, ...props}: InfinityScrollExampleProps) => {
+export const InfinityScrollExample = ({
+    itemsCount = 5,
+    ...storyProps
+}: InfinityScrollExampleProps) => {
     const [value, setValue] = React.useState<string[]>([]);
     const {
-        data = [],
+        data: items = [],
         onFetchMore,
         canFetchMore,
         isLoading,
@@ -30,14 +33,14 @@ export const InfinityScrollExample = ({itemsCount = 5, ...props}: InfinityScroll
     return (
         <Flex>
             <TreeSelect<{title: string}>
-                {...props}
-                items={data}
+                {...storyProps}
+                items={items}
                 value={value}
-                renderItem={(item, state, {isLastItem, groupState}) => {
+                renderItem={({data, props, itemState: {isLastItem, groupState}}) => {
                     const node = (
                         <TreeSelectItem
-                            {...state}
-                            {...item}
+                            {...props}
+                            {...data}
                             endSlot={
                                 groupState ? (
                                     <Label>{groupState.childrenIds.length}</Label>

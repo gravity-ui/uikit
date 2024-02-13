@@ -20,7 +20,7 @@ import type {CnMods} from '../utils/cn';
 import {TreeSelectItem} from './TreeSelectItem';
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
 import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
-import type {RenderControlProps, TreeSelectProps} from './types';
+import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
 
 import './TreeSelect.scss';
 
@@ -135,15 +135,19 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             };
 
             if (onItemClick) {
-                return onItemClick(defaultHandleClick, {
-                    id,
-                    isGroup: id in listParsedState.groupsState,
-                    isLastItem:
-                        listParsedState.visibleFlattenIds[
-                            listParsedState.visibleFlattenIds.length - 1
-                        ] === id,
-                    disabled: listState.disabledById[id],
-                });
+                return onItemClick(
+                    listParsedState.itemsById[id],
+                    {
+                        id,
+                        isGroup: id in listParsedState.groupsState,
+                        isLastItem:
+                            listParsedState.visibleFlattenIds[
+                                listParsedState.visibleFlattenIds.length - 1
+                            ] === id,
+                        disabled: listState.disabledById[id],
+                    },
+                    defaultHandleClick,
+                );
             }
 
             return defaultHandleClick();
@@ -152,6 +156,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             onItemClick,
             listState,
             listParsedState.groupsState,
+            listParsedState.itemsById,
             listParsedState.visibleFlattenIds,
             groupsBehavior,
             multiple,
@@ -188,7 +193,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
 
-    const controlProps: RenderControlProps = {
+    const controlProps: TreeSelectRenderControlProps = {
         open,
         toggleOpen,
         clearValue: handleClearValue,
@@ -263,7 +268,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     id={`list-${treeSelectId}`}
                     {...listParsedState}
                     {...listState}
-                    renderItem={(id, renderContextProps) => {
+                    renderItem={(id, index, renderContextProps) => {
                         const renderState = getItemRenderState({
                             id,
                             size,
@@ -277,12 +282,13 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                             Boolean(multiple) && !renderState.context.groupState;
 
                         if (renderItem) {
-                            return renderItem(
-                                renderState.data,
-                                renderState.props,
-                                renderState.context,
-                                renderContextProps,
-                            );
+                            return renderItem({
+                                data: renderState.data,
+                                props: renderState.props,
+                                itemState: renderState.context,
+                                index,
+                                renderContext: renderContextProps,
+                            });
                         }
 
                         const itemData = listParsedState.itemsById[id];

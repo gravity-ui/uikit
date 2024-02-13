@@ -2,6 +2,7 @@ import React from 'react';
 
 import {TextInput} from '../../../controls';
 import {block} from '../../../utils/cn';
+import {SelectQa} from '../../constants';
 import type {SelectProps} from '../../types';
 import type {SelectFilterRef} from '../../types-misc';
 
@@ -46,6 +47,7 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
                 placeholder={placeholder}
                 onUpdate={onChange}
                 onKeyDown={onKeyDown}
+                qa={SelectQa.FILTER_INPUT}
             />
         </div>
     );

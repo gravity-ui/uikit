@@ -13,7 +13,7 @@ import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectProps} from './types';
+import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import {
     activateFirstClickableItem,
@@ -34,6 +34,15 @@ type SelectComponent = (<T = any>(
     p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
 ) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
+export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderList}) => {
+    return (
+        <React.Fragment>
+            {renderFilter()}
+            {renderList()}
+        </React.Fragment>
+    );
+};
+
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
     props: SelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
@@ -48,6 +57,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderOptionGroup,
         renderSelectedOption,
         renderEmptyOptions,
+        renderPopup = DEFAULT_RENDER_POPUP,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -88,6 +98,26 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
+
+    const handleFilterChange = React.useCallback(
+        (nextFilter: string) => {
+            onFilterChange?.(nextFilter);
+            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
+        },
+        [onFilterChange],
+    );
+
+    const handleOpenChange = React.useCallback(
+        (open: boolean) => {
+            onOpenChange?.(open);
+
+            if (!open && filterable) {
+                handleFilterChange('');
+            }
+        },
+        [filterable, onOpenChange, handleFilterChange],
+    );
+
     const {
         value,
         open,
@@ -104,7 +134,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple,
         open: propsOpen,
         onClose,
-        onOpenChange,
+        onOpenChange: handleOpenChange,
     });
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;
@@ -187,14 +217,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         listRef?.current?.onKeyDown(e);
     }, []);
 
-    const handleFilterChange = React.useCallback(
-        (nextFilter: string) => {
-            onFilterChange?.(nextFilter);
-            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
-        },
-        [onFilterChange],
-    );
-
     const handleQuickSearchChange = React.useCallback((search: string) => {
         if (search) {
             const itemIndex = findItemIndexByQuickSearch(search, getListItems(listRef));
@@ -218,10 +240,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             if (filterable) {
                 filterRef.current?.focus();
             }
-        } else {
-            handleFilterChange('');
         }
-    }, [open, filterable, handleFilterChange]);
+    }, [open, filterable]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),
@@ -244,6 +264,51 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             [handleClose, onBlur],
         ),
     });
+
+    const _renderFilter = () => {
+        if (filterable) {
+            return (
+                <SelectFilter
+                    ref={filterRef}
+                    size={size}
+                    value={filter}
+                    placeholder={filterPlaceholder}
+                    onChange={handleFilterChange}
+                    onKeyDown={handleFilterKeyDown}
+                    renderFilter={renderFilter}
+                />
+            );
+        }
+
+        return null;
+    };
+
+    const _renderList = () => {
+        if (filteredFlattenOptions.length || props.loading) {
+            return (
+                <SelectList
+                    ref={listRef}
+                    size={size}
+                    value={value}
+                    mobile={mobile}
+                    flattenOptions={filteredFlattenOptions}
+                    multiple={multiple}
+                    virtualized={virtualized}
+                    onOptionClick={handleOptionClick}
+                    renderOption={renderOption}
+                    renderOptionGroup={renderOptionGroup}
+                    getOptionHeight={getOptionHeight}
+                    getOptionGroupHeight={getOptionGroupHeight}
+                    loading={props.loading}
+                    onLoadMore={props.onLoadMore}
+                    selectId={`select-${selectId}`}
+                    onChangeActive={setActiveIndex}
+                />
+            );
+        }
+
+        return <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />;
+    };
 
     return (
         <div
@@ -291,39 +356,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 id={`select-popup-${selectId}`}
                 placement={popupPlacement}
             >
-                {filterable && (
-                    <SelectFilter
-                        ref={filterRef}
-                        size={size}
-                        value={filter}
-                        placeholder={filterPlaceholder}
-                        onChange={handleFilterChange}
-                        onKeyDown={handleFilterKeyDown}
-                        renderFilter={renderFilter}
-                    />
-                )}
-                {filteredFlattenOptions.length || props.loading ? (
-                    <SelectList
-                        ref={listRef}
-                        size={size}
-                        value={value}
-                        mobile={mobile}
-                        flattenOptions={filteredFlattenOptions}
-                        multiple={multiple}
-                        virtualized={virtualized}
-                        onOptionClick={handleOptionClick}
-                        renderOption={renderOption}
-                        renderOptionGroup={renderOptionGroup}
-                        getOptionHeight={getOptionHeight}
-                        getOptionGroupHeight={getOptionGroupHeight}
-                        loading={props.loading}
-                        onLoadMore={props.onLoadMore}
-                        selectId={`select-${selectId}`}
-                        onChangeActive={setActiveIndex}
-                    />
-                ) : (
-                    <EmptyOptions filter={filter} renderEmptyOptions={renderEmptyOptions} />
-                )}
+                {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
             </SelectPopup>
 
             <OuterAdditionalContent

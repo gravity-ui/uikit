@@ -62,6 +62,27 @@
 
     @include mixins.text-accent;
 }
+// We use this mixin to correct the positioning of the text inside the input
+// See https://github.com/gravity-ui/uikit/issues/975
+
+@mixin input-control($size) {
+    @include control-mixins.input-control($size);
+    @if $size == 's' {
+        line-height: #{variables.$s-height - control-variables.$border-width * 2};
+    }
+
+    @if $size == 'm' {
+        line-height: #{variables.$m-height - control-variables.$border-width * 2};
+    }
+
+    @if $size == 'l' {
+        line-height: #{variables.$l-height - control-variables.$border-width * 2};
+    }
+
+    @if $size == 'xl' {
+        line-height: #{variables.$xl-height - control-variables.$border-width * 2};
+    }
+}
 
 $block: '.#{variables.$ns}text-input';
 
@@ -171,7 +192,7 @@ $block: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             #{$block}__control {
-                @include control-mixins.input-control(s);
+                @include input-control(s);
             }
 
             #{$block}__label {
@@ -202,7 +223,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_m {
             #{$block}__control {
-                @include control-mixins.input-control(m);
+                @include input-control(m);
             }
 
             #{$block}__label {
@@ -233,7 +254,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_l {
             #{$block}__control {
-                @include control-mixins.input-control(l);
+                @include input-control(l);
             }
 
             #{$block}__label {
@@ -264,7 +285,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_xl {
             #{$block}__control {
-                @include control-mixins.input-control(xl);
+                @include input-control(xl);
             }
 
             #{$block}__label {

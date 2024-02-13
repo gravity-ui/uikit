@@ -201,8 +201,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     if (propsItems !== prevPropsItems) {
         setPrevPropsItems(propsItems);
 
-        const newItems = propsItems;
-        setItems(newItems);
+        setItems(propsItems);
     }
 
     const onApply = () => {
@@ -240,7 +239,9 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setOpen(open);
 
         if (open === false) {
-            setItems(propsItems);
+            // we want to set items to initial and anyone who subscribed on items know it
+            const newItems = [...propsItems];
+            setItems(newItems);
         }
     };
 

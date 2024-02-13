@@ -4,12 +4,6 @@ import {Gear, Grip, Lock} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {OnDragEndResponder} from 'react-beautiful-dnd';
 
-import type {
-    TreeSelectProps,
-    TreeSelectRenderContainer,
-    TreeSelectRenderItem,
-} from 'src/components/TreeSelect/types';
-
 import {useUniqId} from '../../../../../hooks';
 import type {PopperPlacement} from '../../../../../hooks/private';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
@@ -18,6 +12,11 @@ import {Icon} from '../../../../Icon';
 import {TreeSelect} from '../../../../TreeSelect/TreeSelect';
 import {TreeSelectItem} from '../../../../TreeSelect/TreeSelectItem';
 import type {TreeSelectItemProps} from '../../../../TreeSelect/TreeSelectItem';
+import type {
+    TreeSelectProps,
+    TreeSelectRenderContainer,
+    TreeSelectRenderItem,
+} from '../../../../TreeSelect/types';
 import {ListContainerView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnSetupItem, TableSetting} from '../withTableSettings';
@@ -136,95 +135,95 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         });
     };
 
-    const renderContainer = React.useCallback<TreeSelectRenderContainer<Item>>(
-        ({renderItem, visibleFlattenIds, items: _items, containerRef, id}) => {
-            const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
-                if (destination?.index !== undefined && destination?.index !== source.index) {
-                    setItems((prevItems) => {
-                        return reorderArray(prevItems, source.index, destination.index);
-                    });
-                }
-            };
+    const renderContainer: TreeSelectRenderContainer<Item> = ({
+        renderItem,
+        visibleFlattenIds,
+        items: _items,
+        containerRef,
+        id,
+    }) => {
+        const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
+            if (destination?.index !== undefined && destination?.index !== source.index) {
+                setItems((prevItems) => {
+                    return reorderArray(prevItems, source.index, destination.index);
+                });
+            }
+        };
 
-            const visibleFlattenItemList = visibleFlattenIds.map((visibleFlattenId, idx) =>
-                renderItem(visibleFlattenId, idx),
-            );
+        const visibleFlattenItemList = visibleFlattenIds.map((visibleFlattenId, idx) =>
+            renderItem(visibleFlattenId, idx),
+        );
 
-            return (
-                <React.Fragment>
-                    <ListContainerView ref={containerRef} id={id}>
-                        <DragDropContext onDragEnd={handleDrugEnd}>
-                            <Droppable droppableId={uniqId}>
-                                {(droppableProvided) => {
-                                    return (
-                                        <div
-                                            {...droppableProvided.droppableProps}
-                                            ref={droppableProvided.innerRef}
-                                        >
-                                            {visibleFlattenItemList}
-                                            {droppableProvided.placeholder}
-                                        </div>
-                                    );
-                                }}
-                            </Droppable>
-                        </DragDropContext>
-                    </ListContainerView>
-                    <Button view="action" className={applyButtonCn} onClick={onApply}>
-                        {i18n('button_apply')}
-                    </Button>
-                </React.Fragment>
-            );
-        },
-        [],
-    );
+        return (
+            <React.Fragment>
+                <ListContainerView ref={containerRef} id={id}>
+                    <DragDropContext onDragEnd={handleDrugEnd}>
+                        <Droppable droppableId={uniqId}>
+                            {(droppableProvided) => {
+                                return (
+                                    <div
+                                        {...droppableProvided.droppableProps}
+                                        ref={droppableProvided.innerRef}
+                                    >
+                                        {visibleFlattenItemList}
+                                        {droppableProvided.placeholder}
+                                    </div>
+                                );
+                            }}
+                        </Droppable>
+                    </DragDropContext>
+                </ListContainerView>
+                <Button view="action" className={applyButtonCn} onClick={onApply}>
+                    {i18n('button_apply')}
+                </Button>
+            </React.Fragment>
+        );
+    };
 
-    const renderItem = React.useCallback<TreeSelectRenderItem<Item>>(
-        ({data, props, index}) => {
-            const isDragDisabled = sortable === false;
+    const renderItem: TreeSelectRenderItem<Item> = ({data, props, index}) => {
+        const isDragDisabled = sortable === false;
 
-            const endSlot =
-                data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
+        const endSlot =
+            data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
 
-            const commonProps = {
-                ...props,
-                ...data,
-                endSlot,
-            };
+        const commonProps = {
+            ...props,
+            ...data,
+            endSlot,
+        };
 
-            return (
-                <Draggable
-                    draggableId={data.id}
-                    index={index}
-                    key={`item-key-${data.id}`}
-                    isDragDisabled={isDragDisabled}
-                >
-                    {(provided, snapshot) => {
-                        const style: React.CSSProperties = {
-                            ...provided.draggableProps.style,
-                        };
+        return (
+            <Draggable
+                draggableId={data.id}
+                index={index}
+                key={`item-key-${data.id}`}
+                isDragDisabled={isDragDisabled}
+            >
+                {(provided, snapshot) => {
+                    const style: React.CSSProperties = {
+                        ...provided.draggableProps.style,
+                    };
 
-                        // not expected offset appears, one way to fix - remove this offsets explicitly
-                        if (snapshot.isDragging) {
-                            style.left = undefined;
-                            style.top = undefined;
-                        }
+                    // not expected offset appears, one way to fix - remove this offsets explicitly
+                    if (snapshot.isDragging) {
+                        style.left = undefined;
+                        style.top = undefined;
+                    }
 
-                        return (
-                            <TreeSelectItem
-                                ref={provided.innerRef}
-                                {...commonProps}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={style}
-                                active={snapshot.isDragging}
-                            />
-                        );
-                    }}
-                </Draggable>
-            );
-        },
-        [sortable],
-    );
+                    return (
+                        <TreeSelectItem
+                            ref={provided.innerRef}
+                            {...commonProps}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={style}
+                            active={snapshot.isDragging}
+                        />
+                    );
+                }}
+            </Draggable>
+        );
+    };
 
     const value = React.useMemo(() => {
         const selectedIds: string[] = [];

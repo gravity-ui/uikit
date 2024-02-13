@@ -5,11 +5,10 @@ import _get from 'lodash/get';
 import _isString from 'lodash/isString';
 import _last from 'lodash/last';
 
-import type {TreeSelectProps} from 'src/components/TreeSelect';
-
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
+import type {TreeSelectProps} from '../../../TreeSelect';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';

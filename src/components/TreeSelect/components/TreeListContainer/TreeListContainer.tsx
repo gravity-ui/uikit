@@ -1,9 +1,8 @@
 import React from 'react';
 
-import type {TreeSelectRenderContainerProps} from 'src/components/TreeSelect/types';
-
 import {ListContainerView} from '../../../useList';
 import {ListItemRecursiveRenderer} from '../../../useList/components/ListRecursiveRenderer/ListRecursiveRenderer';
+import type {TreeSelectRenderContainerProps} from '../../types';
 
 export const TreeListContainer = <T,>({
     items,

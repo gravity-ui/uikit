@@ -42,14 +42,14 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                     setOpen((x) => !x);
                 }}
                 expandedById={expandedById}
-                renderItem={(
-                    item,
-                    {
+                renderItem={({
+                    data,
+                    props: {
                         expanded, // don't use build in expand icon ListItemView behavior
                         ...state
                     },
-                    {groupState},
-                ) => {
+                    itemState: {groupState},
+                }) => {
                     return (
                         // eslint-disable-next-line jsx-a11y/anchor-is-valid
                         <a
@@ -57,7 +57,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                             style={{textDecoration: 'none', color: 'inherit', width: '100%'}}
                         >
                             <TreeSelectItem
-                                {...item}
+                                {...data}
                                 {...state}
                                 endSlot={
                                     <DropdownMenu

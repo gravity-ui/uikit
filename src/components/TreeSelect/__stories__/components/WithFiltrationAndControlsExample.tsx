@@ -7,7 +7,7 @@ import {Flex, spacing} from '../../../layout';
 import {useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
-import type {RenderContainerProps, TreeSelectProps} from '../../types';
+import type {TreeSelectProps, TreeSelectRenderContainerProps} from '../../types';
 
 import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
 
@@ -21,11 +21,11 @@ export interface WithFiltrationAndControlsExampleProps
 
 export const WithFiltrationAndControlsExample = ({
     itemsCount = 5,
-    ...props
+    ...treeSelectProps
 }: WithFiltrationAndControlsExampleProps) => {
     const {items, renderContainer} = React.useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
-        const containerRenderer = (props: RenderContainerProps<{title: string}>) => {
+        const containerRenderer = (props: TreeSelectRenderContainerProps<{title: string}>) => {
             if (props.items.length === 0 && baseItems.length > 0) {
                 return (
                     <Flex centerContent className={spacing({p: 2})} height="300px">
@@ -47,13 +47,12 @@ export const WithFiltrationAndControlsExample = ({
     return (
         <Flex>
             <TreeSelect
-                {...props}
+                {...treeSelectProps}
                 multiple
                 open={open}
                 onOpenChange={onOpenChange}
                 slotBeforeListBody={
                     <TextInput
-                        autoFocus
                         hasClear
                         placeholder="Type for search..."
                         className={spacing({px: 2, py: 1})}

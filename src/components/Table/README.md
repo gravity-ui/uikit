@@ -211,10 +211,10 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Options
 
-| Name     | Description                                       |       Type        | Default |
-| :------- | :------------------------------------------------ | :---------------: | :-----: |
-| width    | Settings' popup width                             | `number` `string` |         |
-| sortable | Whether or not add ability to sort settings items |     `boolean`     | `true`  |
+| Name     | Description                                       |      Type      | Default |
+| :------- | :------------------------------------------------ | :------------: | :-----: |
+| width    | Settings' popup width                             | `number` `fit` |         |
+| sortable | Whether or not add ability to sort settings items |   `boolean`    | `true`  |
 
 ### ColumnMeta
 
@@ -227,7 +227,7 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 | Name               | Description                   |                     Type                     |
 | :----------------- | :---------------------------- | :------------------------------------------: |
-| settingsPopupWidth | TableColumnSetup pop-up width |              `number` `string`               |
+| settingsPopupWidth | TableColumnSetup pop-up width |                `number` `fit`                |
 | settings           | Current settings              |             `TableSettingsData`              |
 | updateSettings     | Settings update handle        | `(data: TableSettingsData) => Promise<void>` |
 

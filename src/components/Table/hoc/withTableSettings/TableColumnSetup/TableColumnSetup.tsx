@@ -239,9 +239,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setOpen(open);
 
         if (open === false) {
-            // we want to set items to initial and anyone who subscribed on items know it
-            const newItems = [...propsItems];
-            setItems(newItems);
+            setItems(propsItems);
         }
     };
 
@@ -254,15 +252,10 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         });
     };
 
-    const valueRef = React.useRef<string[]>();
-    if (valueRef.current === undefined || items !== prevPropsItems) {
-        valueRef.current = prepareValue(items);
-    }
-
-    const dndItemsRef = React.useRef<Item[]>();
-    if (dndItemsRef.current === undefined || items !== prevPropsItems) {
-        dndItemsRef.current = prepareDndItems(items);
-    }
+    const [value, dndItems] = React.useMemo(
+        () => [prepareValue(items), prepareDndItems(items)] as const,
+        [items],
+    );
 
     return (
         <TreeSelect
@@ -270,8 +263,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             multiple
             size="l"
             open={open}
-            value={valueRef.current}
-            items={dndItemsRef.current}
+            value={value}
+            items={dndItems}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}

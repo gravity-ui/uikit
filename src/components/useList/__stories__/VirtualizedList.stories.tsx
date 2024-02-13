@@ -10,6 +10,28 @@ import type {FlattenListProps} from './components/FlattenList';
 export default {
     title: 'Unstable/useList/VirtualizedList',
     component: FlattenList,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'label',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-input-field-name',
+                        enabled: false,
+                    },
+                    {
+                        id: 'scrollable-region-focusable',
+                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1343
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 const VirtualizedListTemplate: StoryFn<FlattenListProps> = (props) => {

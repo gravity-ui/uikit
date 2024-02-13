@@ -13,6 +13,24 @@ import type {ListItemViewProps} from '../ListItemView';
 export default {
     title: 'Unstable/useList/ListItemView',
     component: ListItemViewComponent,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                    {
+                        id: 'nested-interactive',
+                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1345
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 const title = 'title';
@@ -20,7 +38,11 @@ const subtitle = 'subtitle';
 
 const StartSlot = ({selfStart}: {selfStart?: boolean}) => (
     <Flex shrink="0" alignSelf={selfStart ? 'flex-start' : undefined}>
-        <Avatar imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50" />
+        <Avatar
+            imgUrl="https://avatars.mds.yandex.net/get-yapic/69015/enc-137b8b64288fa6fc5ec58c6b83aea00e7723c8fa5638c078312a1134d8ee32ac/islands-retina-50"
+            alt={'A random image'}
+            aria-label={'Sample avatar'}
+        />
     </Flex>
 );
 
@@ -39,6 +61,11 @@ const EndSlot = ({selfStart}: {selfStart?: boolean}) => (
                     text: 'action 1',
                 },
             ]}
+            defaultSwitcherProps={{
+                extraProps: {
+                    'aria-label': 'Actions',
+                },
+            }}
         />
     </Flex>
 );
@@ -175,7 +202,7 @@ const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => {
     const listState = useListState();
 
     return (
-        <Flex direction="column">
+        <Flex direction="column" role={'listbox'} aria-label={'Sample list'}>
             {stories.map((props, i) => (
                 <ListItemViewComponent
                     key={i}

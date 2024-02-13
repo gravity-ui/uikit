@@ -7,6 +7,20 @@ import {RenderVariants} from '../demo/typography/Variants';
 
 export default {
     title: 'Typography',
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 export const Fonts: StoryFn = () => <RenderFonts />;

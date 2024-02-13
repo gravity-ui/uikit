@@ -38,7 +38,7 @@ const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex
     return result;
 };
 
-const prepareItems = (tableColumnItems: TableColumnSetupItem[]) => {
+const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
     return tableColumnItems.map<Item>((tableColumnItem) => {
         const hasSelectionIcon = tableColumnItem.isRequired === false;
 
@@ -50,6 +50,18 @@ const prepareItems = (tableColumnItems: TableColumnSetupItem[]) => {
             className: hasSelectionIcon ? undefined : requiredDndItemCn,
         };
     });
+};
+
+const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
+    const selectedIds: string[] = [];
+
+    tableColumnItems.forEach(({id, isSelected}) => {
+        if (isSelected) {
+            selectedIds.push(id);
+        }
+    });
+
+    return selectedIds;
 };
 
 interface SwitcherProps {
@@ -88,13 +100,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const [open, setOpen] = React.useState(false);
 
-    const [items, setItems] = React.useState(prepareItems(propsItems));
-
+    const [items, setItems] = React.useState(propsItems);
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
     if (propsItems !== prevPropsItems) {
         setPrevPropsItems(propsItems);
 
-        const newItems = prepareItems(propsItems);
+        const newItems = propsItems;
         setItems(newItems);
     }
 
@@ -121,8 +132,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setOpen(open);
 
         if (open === false) {
-            const initialItems = prepareItems(propsItems);
-            setItems(initialItems);
+            setItems(propsItems);
         }
     };
 
@@ -225,17 +235,15 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         );
     };
 
-    const value = React.useMemo(() => {
-        const selectedIds: string[] = [];
+    const valueRef = React.useRef<string[]>();
+    if (valueRef.current === undefined || items !== prevPropsItems) {
+        valueRef.current = prepareValue(items);
+    }
 
-        items.forEach(({id, isSelected}) => {
-            if (isSelected) {
-                selectedIds.push(id);
-            }
-        });
-
-        return selectedIds;
-    }, [items]);
+    const dndItemsRef = React.useRef<Item[]>();
+    if (dndItemsRef.current === undefined || items !== prevPropsItems) {
+        dndItemsRef.current = prepareDndItems(items);
+    }
 
     return (
         <TreeSelect
@@ -243,7 +251,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             multiple
             size="l"
             open={open}
-            value={value}
+            value={valueRef.current}
+            items={dndItemsRef.current}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}
@@ -251,7 +260,6 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             renderContainer={renderContainer}
             renderControl={renderControl}
             renderItem={renderItem}
-            items={items}
         />
     );
 };

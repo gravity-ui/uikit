@@ -4,27 +4,28 @@ import type {ButtonSize} from '../Button';
 import {Button} from '../Button';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 
-export interface EmojiControlProps extends Pick<ControlProps, 'disabled'>, DOMProps, QAProps {
-    icon: React.ReactNode;
+export interface PaletteControlProps extends Pick<ControlProps, 'disabled'>, DOMProps, QAProps {
+    content: React.ReactNode;
     value?: string;
     size?: ButtonSize;
     title?: string;
     iconClassName?: string;
     checked?: boolean;
+    focused?: boolean;
 
     onUpdate?: (updated: boolean) => void;
     onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
     onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
 }
 
-export const EmojiControl = React.forwardRef<HTMLButtonElement, EmojiControlProps>(
-    function EmojiControl(props, ref) {
+export const PaletteControl = React.forwardRef<HTMLButtonElement, PaletteControlProps>(
+    function PaletteControl(props, ref) {
         const {
             value,
             size = 's',
             disabled = false,
             title,
-            icon,
+            content,
             style,
             className,
             iconClassName,
@@ -37,8 +38,8 @@ export const EmojiControl = React.forwardRef<HTMLButtonElement, EmojiControlProp
         } = props;
 
         const extraProps: React.ButtonHTMLAttributes<HTMLButtonElement> = React.useMemo(
-            () => ({value}),
-            [value],
+            () => ({value, role: 'checkbox', 'aria-checked': checked ? 'true' : 'false'}),
+            [value, checked],
         );
 
         const onClick = React.useCallback(() => onUpdate?.(!checked), [checked, onUpdate]);
@@ -46,6 +47,7 @@ export const EmojiControl = React.forwardRef<HTMLButtonElement, EmojiControlProp
         return (
             <Button
                 className={className}
+                tabIndex={-1}
                 style={style}
                 disabled={disabled}
                 title={title}
@@ -59,10 +61,10 @@ export const EmojiControl = React.forwardRef<HTMLButtonElement, EmojiControlProp
                 onFocus={onFocus}
                 onBlur={onBlur}
             >
-                <Button.Icon className={iconClassName}>{icon}</Button.Icon>
+                <Button.Icon className={iconClassName}>{content}</Button.Icon>
             </Button>
         );
     },
 );
 
-EmojiControl.displayName = 'EmojiControl';
+PaletteControl.displayName = 'PaletteControl';

@@ -50,6 +50,7 @@ export const WithFiltrationAndControlsExample = ({
                 {...treeSelectProps}
                 multiple
                 open={open}
+                popupWidth={350}
                 onOpenChange={onOpenChange}
                 slotBeforeListBody={
                     <TextInput

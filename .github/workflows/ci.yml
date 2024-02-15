@@ -43,6 +43,4 @@ jobs:
       run: npm run build-storybook
     - name: Storybook Tests
       run: npm run test-storybook:ci
-      with:
-        src-path: storybook-static
 

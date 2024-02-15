@@ -8,6 +8,8 @@ import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './
 import type {Option, OptionGroup} from './tech-components';
 import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
 
+export const FLATTEN_KEY = Symbol('flatten');
+
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem = {label: string; disabled: true};
 
@@ -21,6 +23,14 @@ export const getFlattenOptions = (
             acc.push({label: option.label, disabled: true});
             acc.push(...(option.options || []));
         } else {
+            if (!option.data) {
+                option.data = {};
+            }
+
+            Object.defineProperty(option.data, FLATTEN_KEY, {
+                enumerable: false,
+                value: true,
+            });
             acc.push(option);
         }
 

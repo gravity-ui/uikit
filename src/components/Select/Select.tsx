@@ -11,6 +11,7 @@ import type {CnMods} from '../utils/cn';
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
+import {useSelectOptions} from './hooks-public';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
@@ -19,8 +20,8 @@ import {
     activateFirstClickableItem,
     findItemIndexByQuickSearch,
     getActiveItem,
-    getFilteredFlattenOptions,
-    getFlattenOptions,
+    // getFilteredFlattenOptions,
+    // getFlattenOptions,
     getListItems,
     getOptionsFromChildren,
     getSelectedOptionsContent,
@@ -138,21 +139,32 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;
-    const options = props.options || getOptionsFromChildren(props.children);
-    const flattenOptions = getFlattenOptions(options);
-    const filteredFlattenOptions = filterable
-        ? getFilteredFlattenOptions({
-              options: flattenOptions,
-              filter,
-              filterOption,
-          })
-        : flattenOptions;
+    // const options = props.options || getOptionsFromChildren(props.children);
+    const propsOptions = React.useMemo(() => {
+        return props.options || getOptionsFromChildren(props.children);
+    }, [props.options, props.children]);
+    const {options, filteredOptions} = useSelectOptions({
+        options: propsOptions,
+        filter,
+        filterable,
+        filterOption,
+    });
+    // const flattenOptions = getFlattenOptions(options);
+    // const filteredFlattenOptions = filterable
+    //     ? getFilteredFlattenOptions({
+    //           options: flattenOptions,
+    //           filter,
+    //           filterOption,
+    //       })
+    //     : flattenOptions;
     const selectedOptionsContent = getSelectedOptionsContent(
-        flattenOptions,
+        // flattenOptions,
+        options,
         value,
         renderSelectedOption,
     );
-    const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+    // const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+    const virtualized = filteredOptions.length >= virtualizationThreshold;
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
         error,
@@ -284,14 +296,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     };
 
     const _renderList = () => {
-        if (filteredFlattenOptions.length || props.loading) {
+        if (filteredOptions.length || props.loading) {
             return (
                 <SelectList
                     ref={listRef}
                     size={size}
                     value={value}
                     mobile={mobile}
-                    flattenOptions={filteredFlattenOptions}
+                    flattenOptions={filteredOptions}
                     multiple={multiple}
                     virtualized={virtualized}
                     onOptionClick={handleOptionClick}

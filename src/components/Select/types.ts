@@ -6,6 +6,7 @@ import type {InputControlPin, InputControlSize, InputControlView} from '../contr
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 
 import type {Option, OptionGroup} from './tech-components';
+import type {FlattenOption} from './utils';
 
 export type SelectRenderClearArgs = {
     renderIcon?: () => React.ReactNode;
@@ -87,7 +88,7 @@ export type SelectProps<T = any> = QAProps &
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
-        options?: (SelectOption<T> | SelectOptionGroup<T>)[];
+        options?: (SelectOption<T> | SelectOptionGroup<T> | FlattenOption)[];
         /**
          * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
          */

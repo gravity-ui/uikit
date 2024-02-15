@@ -20,8 +20,6 @@ import {
     activateFirstClickableItem,
     findItemIndexByQuickSearch,
     getActiveItem,
-    // getFilteredFlattenOptions,
-    // getFlattenOptions,
     getListItems,
     getOptionsFromChildren,
     getSelectedOptionsContent,
@@ -113,7 +111,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             onOpenChange?.(open);
 
             if (!open && filterable) {
-                handleFilterChange('');
+                // FIXME: rework after https://github.com/gravity-ui/uikit/issues/1354
+                setTimeout(() => {
+                    handleFilterChange('');
+                }, 100);
             }
         },
         [filterable, onOpenChange, handleFilterChange],
@@ -139,7 +140,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;
-    // const options = props.options || getOptionsFromChildren(props.children);
     const propsOptions = React.useMemo(() => {
         return props.options || getOptionsFromChildren(props.children);
     }, [props.options, props.children]);
@@ -149,21 +149,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filterable,
         filterOption,
     });
-    // const flattenOptions = getFlattenOptions(options);
-    // const filteredFlattenOptions = filterable
-    //     ? getFilteredFlattenOptions({
-    //           options: flattenOptions,
-    //           filter,
-    //           filterOption,
-    //       })
-    //     : flattenOptions;
-    const selectedOptionsContent = getSelectedOptionsContent(
-        // flattenOptions,
-        options,
-        value,
-        renderSelectedOption,
-    );
-    // const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+    const selectedOptionsContent = getSelectedOptionsContent(options, value, renderSelectedOption);
     const virtualized = filteredOptions.length >= virtualizationThreshold;
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({

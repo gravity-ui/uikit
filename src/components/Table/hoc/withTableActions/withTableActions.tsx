@@ -65,7 +65,8 @@ export type TableActionConfig<I> = TableAction<I> | TableActionGroup<I>;
 export type TableRowActionsSize = 's' | 'm' | 'l' | 'xl';
 
 export interface WithTableActionsProps<I> {
-    getRowActions: (item: I, index: number) => TableActionConfig<I>[];
+    getRowActions?: (item: I, index: number) => TableActionConfig<I>[];
+    renderRowActions?: (item: I, index: number) => React.JSX.Element;
     rowActionsSize?: TableRowActionsSize;
 }
 
@@ -99,6 +100,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
 
         render() {
             const {
+                renderRowActions, // eslint-disable-line @typescript-eslint/no-unused-vars
                 getRowActions, // eslint-disable-line @typescript-eslint/no-unused-vars
                 columns,
                 onRowClick,
@@ -118,7 +120,22 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
         }
 
         private renderBodyCell = (item: I, index: number) => {
-            const {isRowDisabled, getRowActions, rowActionsSize, getRowDescriptor} = this.props;
+            const {
+                isRowDisabled,
+                getRowActions,
+                rowActionsSize,
+                getRowDescriptor,
+                renderRowActions,
+            } = this.props;
+
+            if (renderRowActions) {
+                return <div className={b('actions')}>{renderRowActions(item, index)}</div>;
+            }
+
+            if (getRowActions === undefined) {
+                return null;
+            }
+
             const actions = getRowActions(item, index);
 
             if (actions.length === 0) {
@@ -148,6 +165,10 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
             const {popupOpen, popupData} = this.state;
 
             if (!popupData) {
+                return null;
+            }
+
+            if (getRowActions === undefined) {
                 return null;
             }
 

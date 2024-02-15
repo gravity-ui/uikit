@@ -39,4 +39,10 @@ jobs:
       run: npm ci
     - name: Unit Tests
       run: npm run test
+    - name: Build Storybook
+      run: npm run build-storybook
+    - name: Storybook Tests
+      run: npm run test-storybook:ci
+      with:
+        src-path: storybook-static
 

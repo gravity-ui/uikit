@@ -19,7 +19,7 @@ export default {
                 rules: [
                     {
                         id: 'color-contrast',
-                        enabled: true,
+                        enabled: false,
                         selector: '.g-select-control__placeholder', // todo: https://github.com/gravity-ui/uikit/issues/1334
                     },
                 ],

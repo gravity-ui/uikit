@@ -74,6 +74,8 @@ const BORDER_COLOR = 'var(--g-color-line-misc)';
 export const Image: Story = {
     args: {
         imgUrl,
+        'aria-label': 'Sample avatar',
+        alt: 'Generated avatar',
     },
 };
 

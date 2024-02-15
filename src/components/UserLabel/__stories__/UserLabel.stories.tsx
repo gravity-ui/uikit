@@ -40,6 +40,10 @@ export const Email: Story = {
     args: {
         type: 'email',
         children: email,
+        avatar: {
+            'aria-label': "Charles Darwin's avatar",
+            alt: 'Sample envelope icon',
+        },
     },
 };
 

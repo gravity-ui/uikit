@@ -41,7 +41,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
 
         switch (type) {
             case 'email':
-                avatarView = <Avatar icon={Envelope} {...COMMON_AVATAR_PROPS} />;
+                avatarView = <Avatar icon={Envelope} {...avatar} {...COMMON_AVATAR_PROPS} />;
                 break;
             case 'empty':
                 avatarView = null;

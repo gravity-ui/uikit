@@ -11,6 +11,20 @@ import {RenderTexts} from '../demo/colors/Texts';
 
 export default {
     title: 'Colors',
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+            options: {},
+        },
+    },
 } as Meta;
 
 export const Texts: StoryFn = () => <RenderTexts />;

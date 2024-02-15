@@ -21,6 +21,7 @@ interface ColorPanelProps {
 }
 
 const BACKGROUND_LIST = ['normal', 'brand', 'dark'];
+const switchBackgroundTitle = 'Switch background';
 
 export function ColorPanel(props: ColorPanelProps) {
     const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(0);
@@ -58,7 +59,7 @@ export function ColorPanel(props: ColorPanelProps) {
 
     return (
         <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
-            <ActionTooltip title="Switch background">
+            <ActionTooltip title={switchBackgroundTitle}>
                 <Button
                     view={
                         currentBackgroundIndex % BACKGROUND_LIST.length === 0
@@ -67,6 +68,9 @@ export function ColorPanel(props: ColorPanelProps) {
                     }
                     className="color-panel__bg-switcher"
                     onClick={() => rotateBackground()}
+                    extraProps={{
+                        'aria-label': switchBackgroundTitle,
+                    }}
                 >
                     <Icon data={Bulb} />
                 </Button>

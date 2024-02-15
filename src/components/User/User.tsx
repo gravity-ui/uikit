@@ -49,11 +49,11 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
                             avatar
                         ) : (
                             <Avatar
-                                {...avatar}
                                 size={size}
                                 alt={alt}
                                 aria-label={avatarAriaLabel}
                                 aria-labelledby={avatarAriaLabelledBy}
+                                {...avatar}
                             />
                         )}
                     </div>

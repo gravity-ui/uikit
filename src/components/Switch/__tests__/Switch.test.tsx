@@ -10,7 +10,7 @@ const qaId = 'switch';
 describe('Switch', () => {
     test('render switch with the unchecked state by default', () => {
         render(<Switch />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         expect(component).toBeVisible();
         expect(component).not.toBeDisabled();
@@ -19,7 +19,7 @@ describe('Switch', () => {
 
     test('render switch with the checked state when defaultChecked', () => {
         render(<Switch defaultChecked />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         expect(component).toBeVisible();
         expect(component).not.toBeDisabled();
@@ -88,7 +88,7 @@ describe('Switch', () => {
         const user = userEvent.setup();
 
         render(<Switch />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         await user.click(component);
         expect(component).toBeChecked();
@@ -101,7 +101,7 @@ describe('Switch', () => {
         const user = userEvent.setup();
 
         render(<Switch disabled={true} />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         await user.click(component);
 
@@ -111,7 +111,7 @@ describe('Switch', () => {
 
     test('toggle on pressed spacebar', async () => {
         render(<Switch />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         component.focus();
 
@@ -127,7 +127,7 @@ describe('Switch', () => {
         const user = userEvent.setup();
 
         render(<Switch onUpdate={onUpdateFn} />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         await user.click(component);
         expect(onUpdateFn).toBeCalledWith(true);
@@ -138,14 +138,14 @@ describe('Switch', () => {
 
     test('set checked=true attribute for controlled component', () => {
         render(<Switch checked={true} />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         expect(component).toBeChecked();
     });
 
     test('set checked=false attribute for controlled component', () => {
         render(<Switch checked={false} />);
-        const component = screen.getByRole('checkbox');
+        const component = screen.getByRole('switch');
 
         expect(component).not.toBeChecked();
     });

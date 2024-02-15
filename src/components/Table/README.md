@@ -71,10 +71,11 @@ Adds a special column with actions to table columns.
 
 ### Properties
 
-| Name           | Description                                 |                        Type                         |
-| :------------- | :------------------------------------------ | :-------------------------------------------------: |
-| getRowActions  | Array of action configs for each row        | `(item: any, index: number) => TableActionConfig[]` |
-| rowActionsSize | Size of actions button and popup menu items |              `"s"` `"m"` `"l"` `"xl"`               |
+| Name             | Description                                 |                           Type                           |
+| :--------------- | :------------------------------------------ | :------------------------------------------------------: |
+| getRowActions    | Array of action configs for each row        |   `(item: any, index: number) => TableActionConfig[]`    |
+| renderRowActions | render function for Actions Cell            | `(props: {item: any; index: number}) => React.ReactNode` |
+| rowActionsSize   | Size of actions button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
 
 ### TableActionConfig
 
@@ -127,6 +128,31 @@ const getRowActions = () => {
 };
 
 const table = <MyTable data={data} columns={columns} getRowActions={getRowActions} />;
+```
+
+```jsx
+import {Table, withTableActions, RenderRowActionsProps} from '@gravity-ui/uikit';
+
+const MyTable = withTableActions(Table);
+type Item = {id: number; text: string};
+
+const data: Item[] = [
+  {id: 1, text: 'Hello'},
+  {id: 2, text: 'World'},
+];
+const columns = [{id: 'id'}, {id: 'text'}];
+
+const RowAction = ({item}: RenderRowActionsProps<Item>) => {
+    return <React.Fragment>{`Action for - ${item.text}`}</React.Fragment>;
+};
+
+const table = (
+  <MyTable
+    data={data}
+    columns={columns}
+    renderRowActions={RowAction}
+  />
+);
 ```
 
 ## Usage with HOC `withTableCopy`

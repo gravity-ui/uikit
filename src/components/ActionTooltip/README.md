@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# ActionTooltip
+# ActionTooltip &middot; [![storybook](https://img.shields.io/badge/Storybook-ActionTooltip-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-actiontooltip--default)
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Label
+# Label &middot; [![storybook](https://img.shields.io/badge/Storybook-Label-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-data-display-label--docs)
 
 <!--/GITHUB_BLOCK-->
 

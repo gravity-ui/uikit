@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Hotkey
+# Hotkey &middot; [![storybook](https://img.shields.io/badge/Storybook-Hotkey-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-hotkey--default)
 
 <!--/GITHUB_BLOCK-->
 

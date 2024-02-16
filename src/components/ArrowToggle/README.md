@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# ArrowToggle
+# ArrowToggle &middot; [![storybook](https://img.shields.io/badge/Storybook-ArrowToggle-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-utils-arrowtoggle--playground)
 
 <!--/GITHUB_BLOCK-->
 

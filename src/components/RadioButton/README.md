@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# RadioButton
+# RadioButton &middot; [![storybook](https://img.shields.io/badge/Storybook-RadioButton-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-inputs-radiobutton--docs)
 
 <!--/GITHUB_BLOCK-->
 

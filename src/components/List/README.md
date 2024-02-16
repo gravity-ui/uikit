@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# List
+# List &middot; [![storybook](https://img.shields.io/badge/Storybook-List-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-data-display-label--docs)
 
 <!--/GITHUB_BLOCK-->
 

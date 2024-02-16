@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Switch
+# Switch &middot; [![storybook](https://img.shields.io/badge/Storybook-Switch-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-inputs-switch--docs)
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Card
+# Card &middot; [![storybook](https://img.shields.io/badge/Storybook-Card-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-data-display-card--docs)
 
 <!--/GITHUB_BLOCK-->
 

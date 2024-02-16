@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# User
+# User &middot; [![storybook](https://img.shields.io/badge/Storybook-User-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-user--default)
 
 <!--/GITHUB_BLOCK-->
 

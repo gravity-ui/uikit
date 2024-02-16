@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Text
+# Text &middot; [![storybook](https://img.shields.io/badge/Storybook-Text-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-text--default)
 
 <!--/GITHUB_BLOCK-->
 

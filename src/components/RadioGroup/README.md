@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# RadioGroup
+# RadioGroup &middot; [![storybook](https://img.shields.io/badge/Storybook-RadioGroup-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-inputs-radiogroup--docs)
 
 <!--/GITHUB_BLOCK-->
 

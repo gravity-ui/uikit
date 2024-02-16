@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Loader
+# Loader &middot; [![storybook](https://img.shields.io/badge/Storybook-Loader-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-feedback-loader--default)
 
 <!--/GITHUB_BLOCK-->
 

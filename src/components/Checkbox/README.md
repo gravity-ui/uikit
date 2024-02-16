@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Checkbox
+# Checkbox &middot; [![storybook](https://img.shields.io/badge/Storybook-Checkbox-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-inputs-checkbox--docs)
 
 <!--/GITHUB_BLOCK-->
 

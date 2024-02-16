@@ -1,4 +1,8 @@
-# Sheet
+<!--GITHUB_BLOCK-->
+
+# Sheet &middot; [![storybook](https://img.shields.io/badge/Storybook-Sheet-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-sheet--showcase)
+
+<!--/GITHUB_BLOCK-->
 
 Sheet component for mobile devices
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Avatar
+# Avatar &middot; [![storybook](https://img.shields.io/badge/Storybook-Avatar-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-avatar--image)
 
 <!--/GITHUB_BLOCK-->
 

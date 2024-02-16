@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# useFileInput
+# useFileInput &middot; [![storybook](https://img.shields.io/badge/Storybook-useFileInput-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/hooks-usefileinput--default)
 
 <!--/GITHUB_BLOCK-->
 

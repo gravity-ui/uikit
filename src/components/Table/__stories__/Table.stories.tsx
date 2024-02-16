@@ -7,6 +7,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../Icon';
+import {TreeSelect} from '../../TreeSelect/TreeSelect';
 import {Table} from '../Table';
 import type {TableProps} from '../Table';
 
@@ -127,7 +128,25 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
             handler: () => {},
         },
     ];
-    return <TableWithAction {...args} getRowActions={getRowActions} />;
+    return (
+        <React.Fragment>
+            <h3>{'with getRowActions property'}</h3>
+            <TableWithAction {...args} getRowActions={getRowActions} />
+            <br />
+            <h3>{'with renderRowActions property'}</h3>
+            <TableWithAction
+                {...args}
+                renderRowActions={({index}) => {
+                    if (index % 2) {
+                        return null;
+                    }
+
+                    const items = ['action 1', 'action 2', 'action 3'];
+                    return <TreeSelect items={items} size="s" />;
+                }}
+            />
+        </React.Fragment>
+    );
 };
 export const HOCWithTableActions = WithTableActionsTemplate.bind({});
 

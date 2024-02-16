@@ -128,30 +128,27 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
             handler: () => {},
         },
     ];
-    return <TableWithAction {...args} getRowActions={getRowActions} />;
-};
-export const HOCWithTableActions = WithTableActionsTemplate.bind({});
-
-// ---------------------------------
-const WithTableActionsRenderRowActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     return (
-        <TableWithAction
-            {...args}
-            renderRowActions={({index}) => {
-                if (index % 2) {
-                    return null;
-                }
+        <React.Fragment>
+            <h3>{'with getRowActions property'}</h3>
+            <TableWithAction {...args} getRowActions={getRowActions} />
+            <br />
+            <h3>{'with renderRowActions property'}</h3>
+            <TableWithAction
+                {...args}
+                renderRowActions={({index}) => {
+                    if (index % 2) {
+                        return null;
+                    }
 
-                const items = ['action 1', 'action 2', 'action 3'];
-                return <TreeSelect items={items} size="s" />;
-            }}
-        />
+                    const items = ['action 1', 'action 2', 'action 3'];
+                    return <TreeSelect items={items} size="s" />;
+                }}
+            />
+        </React.Fragment>
     );
 };
-export const HOCWithTableActionsRenderRowActions = WithTableActionsRenderRowActionsTemplate.bind(
-    {},
-);
-// ---------------------------------
+export const HOCWithTableActions = WithTableActionsTemplate.bind({});
 
 // ---------------------------------
 const columnsWithCopy = _cloneDeep(columns);

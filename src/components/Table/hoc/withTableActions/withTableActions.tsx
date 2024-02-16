@@ -85,7 +85,7 @@ const isActionGroup = <I extends TableDataItem>(
 
 const b = block('table');
 const actionsCn = b('actions');
-const BUTTON_CLASS_NAME = b('actions-button');
+const actionsButtonCn = b('actions-button');
 
 const bPopup = block('table-action-popup');
 const menuCn = bPopup('menu');
@@ -163,7 +163,7 @@ const DefaultRenderRowActions = <I extends TableDataItem>({
             </Popup>
             <Button
                 view="flat-secondary"
-                className={BUTTON_CLASS_NAME}
+                className={actionsButtonCn}
                 onClick={() => setOpen(!open)}
                 size={rowActionsSize}
                 ref={anchorRef}
@@ -259,7 +259,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                     if (
                         // @ts-ignore
                         event.nativeEvent.target.matches(
-                            `.${BUTTON_CLASS_NAME}, .${BUTTON_CLASS_NAME} *`,
+                            `.${actionsButtonCn}, .${actionsButtonCn} *`,
                         )
                     ) {
                         return undefined;

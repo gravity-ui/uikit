@@ -93,7 +93,7 @@ const menuItemCn = bPopup('menu-item');
 
 const DEFAULT_PLACEMENT: PopperPlacement = ['bottom-end', 'top-end', 'auto'];
 
-type DefaultRenderRowActionsProps<I extends TableDataItem> = Pick<
+type DefaultRowActionsProps<I extends TableDataItem> = Pick<
     WithTableActionsProps<I>,
     'getRowActions' | 'rowActionsSize'
 > &
@@ -102,14 +102,14 @@ type DefaultRenderRowActionsProps<I extends TableDataItem> = Pick<
         index: number;
     };
 
-const DefaultRenderRowActions = <I extends TableDataItem>({
+const DefaultRowActions = <I extends TableDataItem>({
     index,
     item,
     getRowActions,
     getRowDescriptor,
     rowActionsSize,
     isRowDisabled,
-}: DefaultRenderRowActionsProps<I>) => {
+}: DefaultRowActionsProps<I>) => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -224,7 +224,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
             }
 
             return (
-                <DefaultRenderRowActions
+                <DefaultRowActions
                     index={index}
                     item={item}
                     getRowActions={getRowActions}

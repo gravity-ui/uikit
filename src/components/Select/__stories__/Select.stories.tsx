@@ -7,6 +7,7 @@ import type {SelectProps} from '..';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
+import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 
 export default {
     title: 'Components/Inputs/Select',
@@ -25,9 +26,13 @@ const ShowcaseTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectSho
 const SelectPopupWidthShowcaseTemplate: StoryFn<SelectProps> = (args) => (
     <SelectPopupWidthShowcase {...args} />
 );
+const UseSelectOptionsShowcaseTemplate = () => {
+    return <UseSelectOptionsShowcase />;
+};
 export const Default = DefaultTemplate.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
 export const PopupWidth = SelectPopupWidthShowcaseTemplate.bind({});
+export const UseSelectOptions = UseSelectOptionsShowcaseTemplate.bind({});
 
 Showcase.args = {
     view: 'normal',

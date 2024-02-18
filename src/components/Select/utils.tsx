@@ -4,19 +4,34 @@ import {KeyCode} from '../../constants';
 import {List} from '../List';
 import type {ListItemData} from '../List';
 
-import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
+import {
+    FLATTEN_KEY,
+    GROUP_ITEM_MARGIN_TOP,
+    MOBILE_ITEM_HEIGHT,
+    SIZE_TO_ITEM_HEIGHT,
+} from './constants';
 import type {Option, OptionGroup} from './tech-components';
-import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
+import type {
+    SelectOption,
+    SelectOptionGroup,
+    SelectOptions,
+    SelectProps,
+    SelectSize,
+} from './types';
 
 // "disable" property needs to deactivate group title item in List
 export type GroupTitleItem = {label: string; disabled: true};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
 
-export const getFlattenOptions = (
-    options: (SelectOption | SelectOptionGroup)[],
-): FlattenOption[] => {
-    return options.reduce((acc, option) => {
+export const isSelectGroupTitle = (
+    option?: SelectOption | SelectOptionGroup,
+): option is GroupTitleItem => {
+    return Boolean(option && 'label' in option);
+};
+
+export const getFlattenOptions = (options: SelectOptions): FlattenOption[] => {
+    const flatten = options.reduce((acc, option) => {
         if ('label' in option) {
             acc.push({label: option.label, disabled: true});
             acc.push(...(option.options || []));
@@ -26,6 +41,11 @@ export const getFlattenOptions = (
 
         return acc;
     }, [] as FlattenOption[]);
+    Object.defineProperty(flatten, FLATTEN_KEY, {
+        enumerable: false,
+        value: {},
+    });
+    return flatten;
 };
 
 export const getPopupItemHeight = (args: {
@@ -40,7 +60,7 @@ export const getPopupItemHeight = (args: {
 
     let itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
 
-    if ('label' in option) {
+    if (isSelectGroupTitle(option)) {
         const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;
         itemHeight = option.label === '' ? 0 : itemHeight;
 
@@ -83,7 +103,7 @@ const getOptionText = (option: SelectOption): string => {
 };
 
 export const getSelectedOptionsContent = (
-    flattenOptions: FlattenOption[],
+    options: SelectOptions,
     value: string[],
     renderSelectedOption?: SelectProps['renderSelectedOption'],
 ): React.ReactNode => {
@@ -91,8 +111,8 @@ export const getSelectedOptionsContent = (
         return null;
     }
 
-    const flattenSimpleOptions = flattenOptions.filter(
-        (opt) => !('label' in opt),
+    const flattenSimpleOptions = options.filter(
+        (opt) => !isSelectGroupTitle(opt),
     ) as SelectOption[];
 
     const selectedOptions = value.reduce((acc, val) => {
@@ -187,7 +207,7 @@ export const findItemIndexByQuickSearch = (
     }
 
     return items.findIndex((item) => {
-        if ('label' in item) {
+        if (isSelectGroupTitle(item)) {
             return false;
         }
 
@@ -224,10 +244,6 @@ const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
     return lowerOptionText.indexOf(lowerFilter) !== -1;
 };
 
-const isGroupTitle = (option?: FlattenOption): option is GroupTitleItem => {
-    return Boolean(option && 'label' in option);
-};
-
 export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
     filter: string;
@@ -235,7 +251,7 @@ export const getFilteredFlattenOptions = (args: {
 }) => {
     const {options, filter, filterOption} = args;
     const filteredOptions = options.filter((option) => {
-        if (isGroupTitle(option)) {
+        if (isSelectGroupTitle(option)) {
             return true;
         }
 
@@ -245,8 +261,8 @@ export const getFilteredFlattenOptions = (args: {
     });
 
     return filteredOptions.reduce((acc, option, index) => {
-        const groupTitle = isGroupTitle(option);
-        const previousGroupTitle = isGroupTitle(acc[acc.length - 1]);
+        const groupTitle = isSelectGroupTitle(option);
+        const previousGroupTitle = isSelectGroupTitle(acc[acc.length - 1]);
         const isLastOption = index === filteredOptions.length - 1;
 
         if (groupTitle && previousGroupTitle) {

@@ -2,14 +2,14 @@ import React from 'react';
 
 import {Button} from '../../Button';
 import {TextInput} from '../../controls';
-import {Select, useSelectOptions} from '../index';
+import {Select, getSelectFilteredOptions, isSelectGroupTitle, useSelectOptions} from '../index';
 import type {SelectOption, SelectProps} from '../index';
 
 export const UseSelectOptionsShowcase = () => {
     const [value, setValue] = React.useState<string[]>([]);
     const [filter, setFilter] = React.useState('');
     const filterable = true;
-    const {options, filteredOptions} = useSelectOptions({
+    const options = useSelectOptions({
         options: [
             {
                 label: 'Group 1',
@@ -33,6 +33,7 @@ export const UseSelectOptionsShowcase = () => {
         filter,
         filterable,
     });
+    const filteredOptions = getSelectFilteredOptions(options);
 
     const renderFilter: SelectProps['renderFilter'] = ({
         value: filterValue,
@@ -41,10 +42,10 @@ export const UseSelectOptionsShowcase = () => {
         onKeyDown,
     }) => {
         const optionsWithoutGroupLabels = options.filter(
-            (option) => !('label' in option),
+            (option) => !isSelectGroupTitle(option),
         ) as SelectOption[];
         const filteredOptionsWithoutGroupLabels = filteredOptions.filter(
-            (option) => !('label' in option),
+            (option) => !isSelectGroupTitle(option),
         ) as SelectOption[];
         const allOptionsSelected = Boolean(
             value.length && optionsWithoutGroupLabels.length === value.length,
@@ -64,9 +65,10 @@ export const UseSelectOptionsShowcase = () => {
         };
 
         const handleAllVisibleOptionsButtonClick = () => {
+            const filteredValue = filteredOptionsWithoutGroupLabels.map((o) => o.value);
             const nextValue = allVisibleOptionsSelected
-                ? []
-                : filteredOptionsWithoutGroupLabels.map((option) => option.value);
+                ? value.filter((v) => !filteredValue.includes(v))
+                : filteredOptionsWithoutGroupLabels.map((o) => o.value);
             setValue(nextValue);
         };
 

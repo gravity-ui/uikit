@@ -1,77 +1,112 @@
 import React from 'react';
 
+import clone from 'lodash/clone';
+
 import {KeyCode} from '../../constants';
 import {List} from '../List';
 import type {ListItemData} from '../List';
 
-import {GROUP_ITEM_MARGIN_TOP, MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
-import type {Option, OptionGroup} from './tech-components';
+import {MOBILE_ITEM_HEIGHT, SIZE_TO_ITEM_HEIGHT} from './constants';
+import type {SelectOptions} from './hooks-public';
+import {Option, OptionGroup} from './tech-components';
 import type {SelectOption, SelectOptionGroup, SelectProps, SelectSize} from './types';
 
 export const FLATTEN_KEY = Symbol('flatten');
 
 // "disable" property needs to deactivate group title item in List
-export type GroupTitleItem = {label: string; disabled: true};
+export type GroupTitleItem = {label: string; disabled?: true};
 
-export type FlattenOption = SelectOption | GroupTitleItem;
+export type FlattenOption<T = SelectOption | GroupTitleItem> = T & {
+    [FLATTEN_KEY]: {
+        group: number;
+    };
+};
+
+export function getFlattenOption<T = SelectOption | GroupTitleItem>(
+    option: T,
+    config: {group: number},
+) {
+    const flattenOption = clone(option);
+    Object.defineProperty(flattenOption, FLATTEN_KEY, {
+        enumerable: false,
+        value: config,
+    });
+    return flattenOption as FlattenOption<T>;
+}
 
 export const getFlattenOptions = (
     options: (SelectOption | SelectOptionGroup)[],
 ): FlattenOption[] => {
-    return options.reduce((acc, option) => {
+    const flatten: FlattenOption[] = [];
+    let group = 0;
+    Object.defineProperty(flatten, FLATTEN_KEY, {
+        enumerable: false,
+        value: {},
+    });
+    for (const option of options) {
         if ('label' in option) {
-            acc.push({label: option.label, disabled: true});
-            acc.push(...(option.options || []));
-        } else {
-            if (!option.data) {
-                option.data = {};
+            group += 1;
+            flatten.push(getFlattenOption({label: option.label, disabled: true}, {group}));
+
+            if (Array.isArray(option.options)) {
+                // eslint-disable-next-line @typescript-eslint/no-loop-func
+                flatten.push(...option.options.map((o) => getFlattenOption(o, {group})));
             }
-
-            Object.defineProperty(option.data, FLATTEN_KEY, {
-                enumerable: false,
-                value: true,
-            });
-            acc.push(option);
+        } else {
+            flatten.push(getFlattenOption(option, {group: 0}));
         }
+    }
+    return flatten;
+};
 
-        return acc;
-    }, [] as FlattenOption[]);
+export const isSelectGroupTitle = (
+    option?: SelectOption | SelectOptionGroup,
+): option is GroupTitleItem => {
+    return Boolean(option && 'label' in option);
 };
 
 export const getPopupItemHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
     getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: SelectSize;
-    option: FlattenOption;
-    index: number;
+    option: SelectOption | SelectOptionGroup;
     mobile: boolean;
 }) => {
-    const {getOptionHeight, getOptionGroupHeight, size, option, index, mobile} = args;
+    const {getOptionHeight, getOptionGroupHeight, size, option, mobile} = args;
 
     let itemHeight = mobile ? MOBILE_ITEM_HEIGHT : SIZE_TO_ITEM_HEIGHT[size];
 
     if ('label' in option) {
-        const marginTop = index === 0 ? 0 : GROUP_ITEM_MARGIN_TOP;
         itemHeight = option.label === '' ? 0 : itemHeight;
 
-        return getOptionGroupHeight ? getOptionGroupHeight(option, index) : itemHeight + marginTop;
+        return getOptionGroupHeight ? getOptionGroupHeight(option) : itemHeight;
+    } else if (option.value === '__DIVIDER__') {
+        return 5;
+    } else if (option.value === '__SELECT_LIST_ITEM_LOADING__') {
+        return itemHeight;
     }
 
-    return getOptionHeight ? getOptionHeight(option, index) : itemHeight;
+    return getOptionHeight ? getOptionHeight(option) : itemHeight;
 };
 
 export const getOptionsHeight = (args: {
     getOptionHeight?: SelectProps['getOptionHeight'];
     getOptionGroupHeight?: SelectProps['getOptionGroupHeight'];
     size: NonNullable<SelectProps['size']>;
-    options: FlattenOption[];
+    options: (SelectOption | SelectOptionGroup)[];
     mobile: boolean;
 }) => {
     const {getOptionHeight, getOptionGroupHeight, size, options, mobile} = args;
-    return options.reduce((height, option, index) => {
+    return options.reduce((height, option) => {
         return (
             height +
-            getPopupItemHeight({getOptionHeight, getOptionGroupHeight, size, option, index, mobile})
+            getPopupItemHeight({
+                getOptionHeight,
+                getOptionGroupHeight,
+                size,
+                option,
+                mobile,
+            })
         );
     }, 0);
 };
@@ -93,7 +128,7 @@ const getOptionText = (option: SelectOption): string => {
 };
 
 export const getSelectedOptionsContent = (
-    flattenOptions: FlattenOption[],
+    flattenOptions: (SelectOption | SelectOptionGroup)[],
     value: string[],
     renderSelectedOption?: SelectProps['renderSelectedOption'],
 ): React.ReactNode => {
@@ -102,22 +137,20 @@ export const getSelectedOptionsContent = (
     }
 
     const flattenSimpleOptions = flattenOptions.filter(
-        (opt) => !('label' in opt),
+        (opt) => !isSelectGroupTitle(opt),
     ) as SelectOption[];
 
-    const selectedOptions = value.reduce((acc, val) => {
+    const selectedOptions = value.reduce<SelectOption[]>((acc, val) => {
         const selectedOption = flattenSimpleOptions.find((opt) => opt.value === val);
 
         acc.push(selectedOption || {value: val});
         return acc;
-    }, [] as SelectOption[]);
+    }, []);
 
     if (renderSelectedOption) {
-        return selectedOptions.map((option, index) => {
+        return selectedOptions.map((option) => {
             return (
-                <React.Fragment key={option.value}>
-                    {renderSelectedOption(option, index)}
-                </React.Fragment>
+                <React.Fragment key={option.value}>{renderSelectedOption(option)}</React.Fragment>
             );
         });
     } else {
@@ -129,44 +162,35 @@ export const getSelectedOptionsContent = (
     }
 };
 
-const getTypedChildrenArray = (children: SelectProps['children']) => {
-    return React.Children.toArray(children) as (
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOptionGroup, typeof OptionGroup>
-    )[];
-};
-
-const getOptionsFromOptgroupChildren = (children: SelectOptionGroup['children']) => {
-    return (
-        React.Children.toArray(children) as React.ReactElement<SelectOption, typeof Option>[]
-    ).reduce((acc, {props}) => {
-        if ('value' in props) {
-            acc.push(props);
+const getOptionsFromOptgroupChildren = (children: React.ReactNode) => {
+    const options: SelectOptions = [];
+    React.Children.map(children, (element) => {
+        if (React.isValidElement(element)) {
+            if (element.type === Option) {
+                options.push(element.props);
+            }
         }
-
-        return acc;
-    }, [] as SelectOption[]);
+    });
+    return options;
 };
 
-export const getOptionsFromChildren = (children: SelectProps['children']) => {
-    return getTypedChildrenArray(children).reduce(
-        (acc, {props}) => {
-            if ('label' in props) {
-                const options = props.options || getOptionsFromOptgroupChildren(props.children);
-                acc.push({
-                    options,
-                    label: props.label,
+export const getOptionsFromChildren = (children: React.ReactNode) => {
+    const options: SelectOptions = [];
+    React.Children.map(children, (element) => {
+        if (React.isValidElement(element)) {
+            if (element.type === Option) {
+                options.push(element.props);
+            } else if (element.type === OptionGroup) {
+                const groupOptions =
+                    element.props.options || getOptionsFromOptgroupChildren(element.props.children);
+                options.push({
+                    options: groupOptions,
+                    label: element.props.label,
                 });
             }
-
-            if ('value' in props) {
-                acc.push({...props});
-            }
-
-            return acc;
-        },
-        [] as (SelectOption | SelectOptionGroup)[],
-    );
+        }
+    });
+    return options;
 };
 
 export const getNextQuickSearch = (keyCode: string, quickSearch: string) => {
@@ -190,7 +214,7 @@ const getEscapedRegExp = (string: string) => {
 
 export const findItemIndexByQuickSearch = (
     quickSearch: string,
-    items?: ListItemData<FlattenOption>[],
+    items?: ListItemData<SelectOption | SelectOptionGroup>[],
 ) => {
     if (!items) {
         return -1;
@@ -211,18 +235,20 @@ export const findItemIndexByQuickSearch = (
     });
 };
 
-export const getListItems = (listRef: React.RefObject<List<FlattenOption>>) => {
+export const getListItems = (listRef: React.RefObject<List<SelectOption | SelectOptionGroup>>) => {
     return listRef?.current?.getItems() || [];
 };
 
-export const getActiveItem = (listRef: React.RefObject<List<FlattenOption>>) => {
+export const getActiveItem = (listRef: React.RefObject<List<SelectOption | SelectOptionGroup>>) => {
     const items = getListItems(listRef);
     const activeItemIndex = listRef?.current?.getActiveItem();
 
     return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
 };
 
-export const activateFirstClickableItem = (listRef: React.RefObject<List<FlattenOption>>) => {
+export const activateFirstClickableItem = (
+    listRef: React.RefObject<List<SelectOption | SelectOptionGroup>>,
+) => {
     const items = getListItems(listRef);
     listRef?.current?.activateItem(List.findNextIndex(items, 0, 1), false);
 };
@@ -234,10 +260,6 @@ const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {
     return lowerOptionText.indexOf(lowerFilter) !== -1;
 };
 
-const isGroupTitle = (option?: FlattenOption): option is GroupTitleItem => {
-    return Boolean(option && 'label' in option);
-};
-
 export const getFilteredFlattenOptions = (args: {
     options: FlattenOption[];
     filter: string;
@@ -245,7 +267,7 @@ export const getFilteredFlattenOptions = (args: {
 }) => {
     const {options, filter, filterOption} = args;
     const filteredOptions = options.filter((option) => {
-        if (isGroupTitle(option)) {
+        if (isSelectGroupTitle(option)) {
             return true;
         }
 
@@ -254,19 +276,23 @@ export const getFilteredFlattenOptions = (args: {
             : isOptionMatchedByFilter(option, filter);
     });
 
-    return filteredOptions.reduce((acc, option, index) => {
-        const groupTitle = isGroupTitle(option);
-        const previousGroupTitle = isGroupTitle(acc[acc.length - 1]);
+    return filteredOptions.reduce<FlattenOption[]>((acc, option, index) => {
+        const groupTitle = isSelectGroupTitle(option);
         const isLastOption = index === filteredOptions.length - 1;
 
-        if (groupTitle && previousGroupTitle) {
-            acc.pop();
+        if (
+            !(
+                (groupTitle &&
+                    !isLastOption &&
+                    option[FLATTEN_KEY].group === filteredOptions[index + 1][FLATTEN_KEY].group) ||
+                !groupTitle
+            )
+        ) {
+            return acc;
         }
 
-        if (!groupTitle || (groupTitle && !isLastOption)) {
-            acc.push(option);
-        }
+        acc.push(option);
 
         return acc;
-    }, [] as FlattenOption[]);
+    }, []);
 };

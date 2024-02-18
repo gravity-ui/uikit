@@ -40,14 +40,14 @@ describe('getSelectedOptionsContent', () => {
             getSelectedOptionsContent(options, presenceValue, renderSelectedOption);
 
             expect(renderSelectedOption).toBeCalledTimes(1);
-            expect(renderSelectedOption).toBeCalledWith(options[0], 0);
+            expect(renderSelectedOption).toBeCalledWith(options[0]);
         });
         test('option NOT presence. Should be called with generated object', async () => {
             renderSelectedOption.mockClear();
             getSelectedOptionsContent(options, notPresenceValue, renderSelectedOption);
 
             expect(renderSelectedOption).toBeCalledTimes(1);
-            expect(renderSelectedOption).toBeCalledWith({value: notPresenceValue[0]}, 0);
+            expect(renderSelectedOption).toBeCalledWith({value: notPresenceValue[0]});
         });
     });
 });

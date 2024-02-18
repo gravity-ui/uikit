@@ -20,6 +20,12 @@ const DefaultTemplate: StoryFn<SelectProps> = (args) => (
         <Select.Option value="val2" content="Value2" />
         <Select.Option value="val3" content="Value3" />
         <Select.Option value="val4" content="Value4" />
+        <Select.OptionGroup label="asdasd">
+            <Select.Option value="val5" content="Value5" />
+            <Select.Option value="val6" content="Value6" />
+        </Select.OptionGroup>
+        <Select.Option value="val7" content="Value7" />
+        <Select.Option value="val8" content="Value8" />
     </Select>
 );
 const ShowcaseTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectShowcase {...args} />;

@@ -6,7 +6,6 @@ import type {InputControlPin, InputControlSize, InputControlView} from '../contr
 import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
 
 import type {Option, OptionGroup} from './tech-components';
-import type {FlattenOption} from './utils';
 
 export type SelectRenderClearArgs = {
     renderIcon?: () => React.ReactNode;
@@ -67,11 +66,13 @@ export type SelectProps<T = any> = QAProps &
         }) => React.ReactElement;
         renderOption?: SelectRenderOption<T>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
-        renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
+        renderSelectedOption?: (option: SelectOption<T>) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
+        renderDivider?: () => React.ReactElement;
         renderPopup?: SelectRenderPopup;
-        getOptionHeight?: (option: SelectOption<T>, index: number) => number;
-        getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
+        getOptionHeight?: (option: SelectOption<T>) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroup<T>) => number;
+        getDividerHeight?: (option: SelectOptionGroup<T>) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;
@@ -88,7 +89,7 @@ export type SelectProps<T = any> = QAProps &
         filterPlaceholder?: string;
         value?: string[];
         defaultValue?: string[];
-        options?: (SelectOption<T> | SelectOptionGroup<T> | FlattenOption)[];
+        options?: (SelectOption<T> | SelectOptionGroup<T>)[];
         /**
          * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
          */

@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
+import {SelectQa} from '../constants';
 import type {SelectSize} from '../types';
 
 import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup} from './utils';
@@ -60,40 +60,6 @@ describe('Select popup', () => {
             expect(renderOption).toHaveBeenCalledWith(
                 expect.anything(),
                 expect.objectContaining({itemHeight: height}),
-            );
-        },
-    );
-
-    test.each([
-        ['s', {mobile: false, size: 's', height: 28}],
-        ['m', {mobile: false, size: 'm', height: 28}],
-        ['l', {mobile: false, size: 'l', height: 32}],
-        ['xl', {mobile: false, size: 'xl', height: 36}],
-        ['mobile', {mobile: true, size: undefined, height: 32}],
-    ])(
-        'should return correct height for option group depends on size (%s)',
-        async (_type, {size, height, mobile}) => {
-            expect.assertions(2);
-
-            const renderOptionGroup = jest.fn();
-
-            const {getByTestId} = setup(
-                {size: size as SelectSize, renderOptionGroup, onUpdate, options: GROUPED_OPTIONS},
-                mobile,
-            );
-
-            const user = userEvent.setup();
-            const selectControl = getByTestId(TEST_QA);
-            // open select popup
-            await user.click(selectControl);
-
-            expect(renderOptionGroup).toHaveBeenCalledWith(
-                expect.anything(),
-                expect.objectContaining({itemHeight: height}),
-            );
-            expect(renderOptionGroup).toHaveBeenCalledWith(
-                expect.anything(),
-                expect.objectContaining({itemHeight: height + GROUP_ITEM_MARGIN_TOP}),
             );
         },
     );

@@ -66,11 +66,13 @@ export type SelectProps<T = any> = QAProps &
         }) => React.ReactElement;
         renderOption?: SelectRenderOption<T>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
-        renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
+        renderSelectedOption?: (option: SelectOption<T>) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
+        renderDivider?: () => React.ReactElement;
         renderPopup?: SelectRenderPopup;
-        getOptionHeight?: (option: SelectOption<T>, index: number) => number;
-        getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
+        getOptionHeight?: (option: SelectOption<T>) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroup<T>) => number;
+        getDividerHeight?: (option: SelectOptionGroup<T>) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;

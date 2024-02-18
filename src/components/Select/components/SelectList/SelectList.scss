@@ -63,20 +63,6 @@ $xl-right-padding: '12px';
             padding: 12px #{select-css-variables.$l-hor-padding} 8px;
             font-size: var(--g-text-body-2-font-size);
         }
-
-        #{$block}__item:not(:first-child) & {
-            margin-block-start: 5px;
-
-            &::before {
-                content: '';
-                position: absolute;
-                inset-block-start: -3px;
-                inset-inline-start: 0;
-                width: 100%;
-                height: 1px;
-                background-color: var(--g-color-line-generic);
-            }
-        }
     }
 
     &__group-label-content {

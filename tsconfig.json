@@ -13,7 +13,8 @@
             "~playwright/*": [
                 "playwright/*"
             ]
-        }
+        },
+        "noErrorTruncation": true
     },
     "include": [
         "src/**/*.ts",

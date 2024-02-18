@@ -15,9 +15,11 @@ export const GroupLabel = ({option, renderOptionGroup}: GroupLabelProps) => {
         return <div className={b('group-label-custom')}>{renderOptionGroup(option)}</div>;
     } else {
         return (
+            // <div className={b('group-label-custom')}>
             <div className={b('group-label', {empty: option.label === ''})}>
                 <div className={b('group-label-content')}>{option.label}</div>
             </div>
+            // </div>
         );
     }
 };

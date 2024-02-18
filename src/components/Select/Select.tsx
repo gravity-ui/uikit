@@ -2,7 +2,7 @@ import React from 'react';
 
 import {KeyCode} from '../../constants';
 import {useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
-import type {List} from '../List';
+import type {List, ListItemData} from '../List';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
@@ -11,16 +11,15 @@ import type {CnMods} from '../utils/cn';
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
+import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
-import type {SelectProps, SelectRenderPopup} from './types';
+import type {SelectOption, SelectOptionGroup, SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import {
     activateFirstClickableItem,
     findItemIndexByQuickSearch,
     getActiveItem,
-    getFilteredFlattenOptions,
-    getFlattenOptions,
     getListItems,
     getOptionsFromChildren,
     getSelectedOptionsContent,
@@ -52,14 +51,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onOpenChange,
         onFilterChange,
         renderControl,
-        renderFilter,
-        renderOption,
-        renderOptionGroup,
-        renderSelectedOption,
-        renderEmptyOptions,
+        renderFilter, //
+        renderOption, //
+        renderOptionGroup, //
+        renderSelectedOption, //
+        renderEmptyOptions, //
         renderPopup = DEFAULT_RENDER_POPUP,
-        getOptionHeight,
-        getOptionGroupHeight,
+        renderDivider, //
+        getOptionHeight, //
+        getOptionGroupHeight, //
+        getDividerHeight, //
         filterOption,
         name,
         className,
@@ -96,7 +97,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const controlWrapRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
-    const listRef = React.useRef<List<FlattenOption>>(null);
+    const listRef = React.useRef<List<SelectOption | SelectOptionGroup>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
 
     const handleFilterChange = React.useCallback(
@@ -112,7 +113,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             onOpenChange?.(open);
 
             if (!open && filterable) {
-                handleFilterChange('');
+                // FIXME: rework after https://github.com/gravity-ui/uikit/issues/1354
+                setTimeout(() => {
+                    handleFilterChange('');
+                }, 100);
             }
         },
         [filterable, onOpenChange, handleFilterChange],
@@ -138,21 +142,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;
-    const options = props.options || getOptionsFromChildren(props.children);
-    const flattenOptions = getFlattenOptions(options);
-    const filteredFlattenOptions = filterable
-        ? getFilteredFlattenOptions({
-              options: flattenOptions,
-              filter,
-              filterOption,
-          })
-        : flattenOptions;
-    const selectedOptionsContent = getSelectedOptionsContent(
-        flattenOptions,
-        value,
-        renderSelectedOption,
-    );
-    const virtualized = filteredFlattenOptions.length >= virtualizationThreshold;
+    const propsOptions = props.options || getOptionsFromChildren(props.children);
+    const options = useSelectOptions({
+        options: propsOptions,
+        filter,
+        filterable,
+        filterOption,
+    });
+    const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
+    const selectedOptionsContent = getSelectedOptionsContent(options, value, renderSelectedOption);
+    const virtualized = filteredOptions.length >= virtualizationThreshold;
 
     const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
         error,
@@ -169,7 +168,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const isErrorStateVisible = isErrorMsgVisible || isErrorIconVisible;
 
     const handleOptionClick = React.useCallback(
-        (option?: FlattenOption) => {
+        (option?: ListItemData<SelectOption | SelectOptionGroup>) => {
             if (!option || option?.disabled || 'label' in option) {
                 return;
             }
@@ -284,21 +283,23 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     };
 
     const _renderList = () => {
-        if (filteredFlattenOptions.length || props.loading) {
+        if (filteredOptions.length || props.loading) {
             return (
                 <SelectList
                     ref={listRef}
                     size={size}
                     value={value}
                     mobile={mobile}
-                    flattenOptions={filteredFlattenOptions}
+                    flattenOptions={filteredOptions}
                     multiple={multiple}
                     virtualized={virtualized}
                     onOptionClick={handleOptionClick}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
+                    renderDivider={renderDivider}
                     getOptionHeight={getOptionHeight}
                     getOptionGroupHeight={getOptionGroupHeight}
+                    getDividerHeight={getDividerHeight}
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
                     selectId={`select-${selectId}`}

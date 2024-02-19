@@ -1,0 +1,452 @@
+@use 'sass:math';
+@use '../../variables';
+@use '../variables' as slider-variables;
+@use '../../../../styles/mixins';
+
+$original-class: 'rc-slider';
+$block: '.#{variables.$ns}base-slider';
+$mark: '.#{$original-class}-mark';
+$mark-text: '#{$mark}-text';
+$dot: '.#{$original-class}-dot';
+
+$rail-color: var(--g-color-base-selection);
+$rail-disabled-color: var(--g-color-base-generic-accent-disabled);
+
+$handle-focus-color: var(--g-color-base-selection-hover);
+$handle-focus-error-color: var(--g-color-base-danger-light-hover);
+
+$handle-s-size: 15px;
+$handle-m-size: 18px;
+$handle-l-size: 21px;
+$handle-xl-size: 24px;
+
+$rail-s-size: 3px;
+$rail-m-size: 4px;
+$rail-l-size: 5px;
+$rail-xl-size: 6px;
+
+@mixin input-control($size) {
+    position: absolute;
+    content: '';
+    background-color: #{slider-variables.$slider-color};
+    border-start-start-radius: 4px;
+    border-end-start-radius: 4px;
+
+    @if $size == 's' {
+        $width: math.floor(calc($handle-s-size / 2));
+        width: $width;
+        inset-inline-start: calc($width * -1);
+        height: $rail-s-size;
+    }
+    @if $size == 'm' {
+        $width: math.floor(calc($handle-m-size / 2));
+        width: $width;
+        inset-inline-start: calc($width * -1);
+        height: $rail-m-size;
+    }
+    @if $size == 'l' {
+        $width: math.floor(calc($handle-l-size / 2));
+        width: $width;
+        inset-inline-start: calc($width * -1);
+        height: $rail-l-size;
+    }
+    @if $size == 'xl' {
+        $width: math.floor(calc($handle-xl-size / 2));
+        width: $width;
+        inset-inline-start: calc($width * -1);
+        height: $rail-xl-size;
+    }
+}
+
+@mixin slider-outer-style($size) {
+    @if $size == 's' {
+        $common-padding: calc(($handle-s-size - $rail-s-size) / 2);
+        $bottom-margin: var(--g-text-body-1-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-s-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-s-size / 2) $bottom-margin;
+    }
+    @if $size == 'm' {
+        $common-padding: calc(($handle-m-size - $rail-m-size) / 2);
+        $bottom-margin: var(--g-text-body-1-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-m-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-m-size / 2) $bottom-margin;
+    }
+    @if $size == 'l' {
+        $common-padding: calc(($handle-l-size - $rail-l-size) / 2);
+        $bottom-margin: var(--g-text-body-1-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-l-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-l-size / 2) $bottom-margin;
+    }
+    @if $size == 'xl' {
+        $common-padding: calc(($handle-xl-size - $rail-xl-size) / 2);
+        $bottom-margin: var(--g-text-body-2-line-height);
+        padding: $common-padding 0 $common-padding;
+
+        height: calc($common-padding + $rail-xl-size + $common-padding);
+        //add left and right offsets for edge position of the handler
+        margin: 0 calc($handle-xl-size / 2) $bottom-margin;
+    }
+}
+
+@mixin dot-style($size) {
+    @if $size == 's' {
+        inset-block-start: calc((($handle-s-size - $rail-s-size) / 2) + 1px);
+        $dot-size: calc($rail-s-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+    @if $size == 'm' {
+        inset-block-start: calc((($handle-m-size - $rail-m-size) / 2) + 1px);
+        $dot-size: calc($rail-m-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+    @if $size == 'l' {
+        inset-block-start: calc((($handle-l-size - $rail-l-size) / 2) + 1px);
+        $dot-size: calc($rail-l-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+    @if $size == 'xl' {
+        inset-block-start: calc((($handle-xl-size - $rail-xl-size) / 2) + 1px);
+        $dot-size: calc($rail-xl-size - 2px);
+        height: $dot-size;
+        width: $dot-size;
+    }
+}
+
+@mixin rail-size-style($size) {
+    @if $size == 's' {
+        $offset: math.floor(calc($handle-s-size / 2)) * -1;
+        height: $rail-s-size;
+        inset-inline: $offset;
+    }
+    @if $size == 'm' {
+        $offset: math.floor(calc($handle-m-size / 2)) * -1;
+        height: $rail-m-size;
+        inset-inline: $offset;
+    }
+    @if $size == 'l' {
+        $offset: math.floor(calc($handle-l-size / 2)) * -1;
+        height: $rail-l-size;
+        inset-inline: $offset;
+    }
+    @if $size == 'xl' {
+        $offset: math.floor(calc($handle-xl-size / 2)) * -1;
+        height: $rail-xl-size;
+        inset-inline: $offset;
+    }
+}
+
+#{$block} {
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    position: relative;
+    flex-grow: 1;
+    touch-action: none;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    &_size {
+        &_s {
+            @include slider-outer-style(s);
+
+            #{$mark} {
+                @include mixins.text-body-1;
+                $edge-mark-offset: calc($handle-s-size / -2);
+
+                //we override last of type style in the situation when we have only one mark
+                //so we should have this style sequence
+                &-text:last-of-type {
+                    inset-inline-end: $edge-mark-offset;
+                }
+
+                &-text:first-of-type {
+                    inset-inline-end: unset;
+                    inset-inline-start: $edge-mark-offset;
+                }
+            }
+
+            #{$dot} {
+                @include dot-style(s);
+            }
+        }
+
+        &_m {
+            @include slider-outer-style(m);
+
+            #{$mark} {
+                @include mixins.text-body-1;
+                $edge-mark-offset: calc($handle-m-size / -2);
+
+                &-text:last-of-type {
+                    inset-inline-end: $edge-mark-offset;
+                }
+
+                &-text:first-of-type {
+                    inset-inline-end: unset;
+                    inset-inline-start: $edge-mark-offset;
+                }
+            }
+
+            #{$dot} {
+                @include dot-style(m);
+            }
+        }
+
+        &_l {
+            @include slider-outer-style(l);
+
+            #{$mark} {
+                @include mixins.text-body-1;
+                $edge-mark-offset: calc($handle-l-size / -2);
+
+                &-text:last-of-type {
+                    inset-inline-end: $edge-mark-offset;
+                }
+
+                &-text:first-of-type {
+                    inset-inline-end: unset;
+                    inset-inline-start: $edge-mark-offset;
+                }
+            }
+
+            #{$dot} {
+                @include dot-style(l);
+            }
+        }
+
+        &_xl {
+            @include slider-outer-style(xl);
+
+            #{$mark} {
+                @include mixins.text-body-2;
+                $edge-mark-offset: calc($handle-xl-size / -2);
+
+                &-text:last-of-type {
+                    inset-inline-end: $edge-mark-offset;
+                }
+
+                &-text:first-of-type {
+                    inset-inline-end: unset;
+                    inset-inline-start: $edge-mark-offset;
+                }
+            }
+
+            #{$dot} {
+                @include dot-style(xl);
+            }
+        }
+    }
+
+    &__rail {
+        position: absolute;
+        border-radius: 4px;
+        background-color: $rail-color;
+
+        &_size {
+            &_s {
+                @include rail-size-style(s);
+            }
+
+            &_m {
+                @include rail-size-style(m);
+            }
+
+            &_l {
+                @include rail-size-style(l);
+            }
+
+            &_xl {
+                @include rail-size-style(xl);
+            }
+        }
+
+        &_disabled {
+            background-color: $rail-disabled-color;
+        }
+
+        &_error {
+            background-color: #{slider-variables.$slider-error-color};
+        }
+    }
+
+    &__track {
+        position: absolute;
+        background-color: #{slider-variables.$slider-color};
+        &_size {
+            &_s {
+                height: $rail-s-size;
+                &::before {
+                    @include input-control(s);
+                }
+            }
+
+            &_m {
+                height: $rail-m-size;
+                &::before {
+                    @include input-control(m);
+                }
+            }
+
+            &_l {
+                height: $rail-l-size;
+                &::before {
+                    @include input-control(l);
+                }
+            }
+
+            &_xl {
+                height: $rail-xl-size;
+                &::before {
+                    @include input-control(xl);
+                }
+            }
+        }
+        &_disabled,
+        &_error {
+            visibility: hidden;
+        }
+    }
+
+    &__handle {
+        position: absolute;
+        z-index: 1;
+        cursor: grab;
+        touch-action: pan-x;
+        background-color: #{slider-variables.$handle-center-color};
+        border-radius: 50%;
+        border-style: solid;
+        border-color: #{slider-variables.$slider-color};
+        inset-block-start: 0;
+
+        &_size {
+            &_s {
+                height: $handle-s-size;
+                width: $handle-s-size;
+                border-width: $rail-s-size;
+            }
+
+            &_m {
+                height: $handle-m-size;
+                width: $handle-m-size;
+                border-width: $rail-m-size;
+            }
+
+            &_l {
+                height: $handle-l-size;
+                width: $handle-l-size;
+                border-width: $rail-l-size;
+            }
+
+            &_xl {
+                height: $handle-xl-size;
+                width: $handle-xl-size;
+                border-width: $rail-xl-size;
+            }
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 3px $handle-focus-color;
+            outline: none;
+        }
+        &:active {
+            box-shadow: 0 0 0 4px $handle-focus-color;
+            cursor: grabbing;
+        }
+
+        &_disabled {
+            cursor: not-allowed;
+            border-color: #{slider-variables.$slider-disabled-color};
+
+            &:active,
+            &:focus {
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+        }
+
+        &_error {
+            border-color: #{slider-variables.$slider-error-color};
+            &:focus {
+                box-shadow: 0 0 0 3px $handle-focus-error-color;
+            }
+            &:active {
+                box-shadow: 0 0 0 4px $handle-focus-error-color;
+            }
+        }
+    }
+
+    &__step {
+        position: absolute;
+        width: 100%;
+        background: transparent;
+
+        &_size {
+            &_s {
+                height: $rail-s-size;
+            }
+
+            &_m {
+                height: $rail-m-size;
+            }
+
+            &_l {
+                height: $rail-l-size;
+            }
+
+            &_xl {
+                height: $rail-xl-size;
+            }
+        }
+    }
+
+    #{$mark} {
+        position: absolute;
+        inset-inline-start: 0;
+        width: 100%;
+        color: var(--g-color-text-secondary);
+        inset-block-end: 0;
+    }
+
+    #{$mark-text} {
+        position: absolute;
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        inset-block-start: 0;
+    }
+
+    &_disabled #{$mark-text} {
+        cursor: not-allowed;
+    }
+
+    #{$dot} {
+        position: absolute;
+        border-radius: 50%;
+        background-color: #{slider-variables.$slider-color};
+
+        &:first-of-type,
+        &:last-of-type {
+            display: none;
+        }
+    }
+
+    &_disabled #{$dot},
+    &_error #{$dot} {
+        display: none;
+    }
+}

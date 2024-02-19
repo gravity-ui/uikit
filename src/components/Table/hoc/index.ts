@@ -2,6 +2,7 @@ export {withTableSelection} from './withTableSelection/withTableSelection';
 export type {WithTableSelectionProps} from './withTableSelection/withTableSelection';
 export {withTableActions} from './withTableActions/withTableActions';
 export type {
+    RenderRowActionsProps,
     WithTableActionsProps,
     TableActionConfig,
     TableAction,

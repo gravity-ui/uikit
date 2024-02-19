@@ -62,6 +62,7 @@ export const InfinityScrollExample = ({
                     return node;
                 }}
                 renderContainer={RenderVirtualizedContainer}
+                popupWidth={300}
                 onUpdate={setValue}
                 slotAfterListBody={
                     isLoading && (

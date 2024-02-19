@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import type {PopperPlacement} from '../../hooks/private';
+import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {QAProps} from '../types';
 import type {
     KnownItemStructure,
@@ -54,7 +56,8 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     open?: boolean;
     id?: string | undefined;
     popupClassName?: string;
-    popupWidth?: number;
+    popupWidth?: SelectPopupProps['width'];
+    placement?: PopperPlacement;
     width?: 'auto' | 'max' | number;
     className?: string;
     popupDisablePortal?: boolean;

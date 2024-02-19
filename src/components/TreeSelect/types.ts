@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import type {PopperPlacement} from '../../hooks/private';
+import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {QAProps} from '../types';
 import type {
     KnownItemStructure,
@@ -13,7 +15,7 @@ import type {
     RenderItemState,
 } from '../useList';
 
-export type RenderControlProps = {
+export type TreeSelectRenderControlProps = {
     open: boolean;
     toggleOpen(): void;
     clearValue(): void;
@@ -24,23 +26,28 @@ export type RenderControlProps = {
     activeItemId?: ListItemId;
 };
 
-export type RenderItem<T> = (
-    item: T,
+export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
+    data: T;
     // required item props to render
-    state: RenderItemState,
+    props: RenderItemState;
     // internal list context props
-    context: RenderItemContext,
-    renderContextProps?: Object,
-) => React.JSX.Element;
+    itemState: RenderItemContext;
+    index: number;
+    renderContext?: P;
+}) => React.JSX.Element;
 
-export type RenderContainerProps<T> = ListParsedState<T> &
+export type TreeSelectRenderContainerProps<T> = ListParsedState<T> &
     ListState & {
         id: string;
         size: ListItemSize;
-        renderItem(id: ListItemId, renderContextProps?: Object): React.JSX.Element;
+        renderItem(id: ListItemId, index: number, renderContextProps?: Object): React.JSX.Element;
         containerRef: React.RefObject<HTMLDivElement>;
         className?: string;
     };
+
+export type TreeSelectRenderContainer<T> = (
+    props: TreeSelectRenderContainerProps<T>,
+) => React.JSX.Element;
 
 interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
@@ -49,7 +56,8 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     open?: boolean;
     id?: string | undefined;
     popupClassName?: string;
-    popupWidth?: number;
+    popupWidth?: SelectPopupProps['width'];
+    placement?: PopperPlacement;
     width?: 'auto' | 'max' | number;
     className?: string;
     popupDisablePortal?: boolean;
@@ -85,21 +93,21 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     /**
      * Ability to override custom toggler btn
      */
-    renderControl?(props: RenderControlProps): React.JSX.Element;
+    renderControl?(props: TreeSelectRenderControlProps): React.JSX.Element;
     /**
      * Override list item content by you custom node.
      */
-    renderItem?: RenderItem<T>;
+    renderItem?: TreeSelectRenderItem<T>;
     onClose?(): void;
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
-    renderContainer?(props: RenderContainerProps<T>): React.JSX.Element;
+    renderContainer?: TreeSelectRenderContainer<T>;
     /**
      * If you wont to disable default behavior pass `disabled` as a value;
      */
     onItemClick?:
         | 'disabled'
-        | ((defaultClickCallback: () => void, content: OverrideItemContext) => void);
+        | ((data: T, content: OverrideItemContext, defaultClickCallback: () => void) => void);
 }
 
 type TreeSelectKnownProps<T> = TreeSelectBaseProps<T> & {

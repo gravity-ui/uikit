@@ -54,6 +54,11 @@ export interface OverrideItemContext {
 }
 
 export type RenderItemContext = {
+    /**
+     * optional, because ids may be skipped in the flatten order list,
+     * depending on the expanded state
+     */
+    visibleFlattenIndex?: number;
     itemState: ItemState;
     /**
      * Exists if item is group
@@ -97,7 +102,12 @@ export type ListState = {
     activeItemId?: ListItemId;
 };
 
-export type ListParsedState<T> = ParsedState<T> & {
-    items: ListItemType<T>[];
+export type ParsedFlattenState = {
     visibleFlattenIds: ListItemId[];
+    idToFlattenIndex: Record<ListItemId, number>;
 };
+
+export type ListParsedState<T> = ParsedState<T> &
+    ParsedFlattenState & {
+        items: ListItemType<T>[];
+    };

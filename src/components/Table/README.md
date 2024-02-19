@@ -71,10 +71,11 @@ Adds a special column with actions to table columns.
 
 ### Properties
 
-| Name           | Description                                 |                        Type                         |
-| :------------- | :------------------------------------------ | :-------------------------------------------------: |
-| getRowActions  | Array of action configs for each row        | `(item: any, index: number) => TableActionConfig[]` |
-| rowActionsSize | Size of actions button and popup menu items |              `"s"` `"m"` `"l"` `"xl"`               |
+| Name             | Description                                 |                           Type                           |
+| :--------------- | :------------------------------------------ | :------------------------------------------------------: |
+| getRowActions    | Array of action configs for each row        |   `(item: any, index: number) => TableActionConfig[]`    |
+| renderRowActions | render function for Actions Cell            | `(props: {item: any; index: number}) => React.ReactNode` |
+| rowActionsSize   | Size of actions button and popup menu items |                 `"s"` `"m"` `"l"` `"xl"`                 |
 
 ### TableActionConfig
 
@@ -127,6 +128,31 @@ const getRowActions = () => {
 };
 
 const table = <MyTable data={data} columns={columns} getRowActions={getRowActions} />;
+```
+
+```jsx
+import {Table, withTableActions, RenderRowActionsProps} from '@gravity-ui/uikit';
+
+const MyTable = withTableActions(Table);
+type Item = {id: number; text: string};
+
+const data: Item[] = [
+  {id: 1, text: 'Hello'},
+  {id: 2, text: 'World'},
+];
+const columns = [{id: 'id'}, {id: 'text'}];
+
+const RowAction = ({item}: RenderRowActionsProps<Item>) => {
+    return <React.Fragment>{`Action for - ${item.text}`}</React.Fragment>;
+};
+
+const table = (
+  <MyTable
+    data={data}
+    columns={columns}
+    renderRowActions={RowAction}
+  />
+);
 ```
 
 ## Usage with HOC `withTableCopy`
@@ -211,10 +237,10 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Options
 
-| Name     | Description                                       |       Type        | Default |
-| :------- | :------------------------------------------------ | :---------------: | :-----: |
-| width    | Settings' popup width                             | `number` `string` |         |
-| sortable | Whether or not add ability to sort settings items |     `boolean`     | `true`  |
+| Name     | Description                                       |      Type      | Default |
+| :------- | :------------------------------------------------ | :------------: | :-----: |
+| width    | Settings' popup width                             | `number` `fit` |         |
+| sortable | Whether or not add ability to sort settings items |   `boolean`    | `true`  |
 
 ### ColumnMeta
 
@@ -227,7 +253,7 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 | Name               | Description                   |                     Type                     |
 | :----------------- | :---------------------------- | :------------------------------------------: |
-| settingsPopupWidth | TableColumnSetup pop-up width |              `number` `string`               |
+| settingsPopupWidth | TableColumnSetup pop-up width |                `number` `fit`                |
 | settings           | Current settings              |             `TableSettingsData`              |
 | updateSettings     | Settings update handle        | `(data: TableSettingsData) => Promise<void>` |
 

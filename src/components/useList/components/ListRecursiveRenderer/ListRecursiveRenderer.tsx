@@ -12,12 +12,13 @@ const b = block('list-recursive-renderer');
 
 export interface ListRecursiveRendererProps<T> extends Partial<Pick<ListState, 'expandedById'>> {
     itemSchema: ListItemType<T>;
-    children(id: ListItemId): React.JSX.Element;
+    children(id: ListItemId, index: number): React.JSX.Element;
     index: number;
     parentId?: string;
     className?: string;
     getId?(item: T): ListItemId;
     style?: React.CSSProperties;
+    idToFlattenIndex: Record<ListItemId, number>;
 }
 
 // Saves the nested html structure for tree data structure
@@ -30,7 +31,7 @@ export function ListItemRecursiveRenderer<T>({
     const groupedId = getGroupItemId(index, parentId);
     const id = getListItemId({item: itemSchema, groupedId, getId: props.getId});
 
-    const node = props.children(id);
+    const node = props.children(id, props.idToFlattenIndex[id]);
 
     if (isTreeItemGuard(itemSchema) && itemSchema.children) {
         const isExpanded =

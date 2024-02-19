@@ -11,7 +11,7 @@ export const scrollToListItem = (
         );
 
         if (element) {
-            element.scrollIntoView({
+            element.scrollIntoView?.({
                 block: 'nearest',
             });
         }

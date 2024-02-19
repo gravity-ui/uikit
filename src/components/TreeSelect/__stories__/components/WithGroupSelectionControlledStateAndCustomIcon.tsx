@@ -53,18 +53,18 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                 renderControlContent={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
                 value={value}
-                renderItem={(
-                    item,
-                    {
+                renderItem={({
+                    data,
+                    props: {
                         expanded, // don't use default ListItemView expand icon
                         ...state
                     },
-                    {groupState},
-                ) => {
+                    itemState: {groupState},
+                }) => {
                     return (
                         <TreeSelectItem
                             {...state}
-                            {...mapCustomDataStructureToKnownProps(item)}
+                            {...mapCustomDataStructureToKnownProps(data)}
                             startSlot={
                                 <Icon size={16} data={groupState ? Database : PlugConnection} />
                             }

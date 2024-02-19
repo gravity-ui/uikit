@@ -31,7 +31,10 @@ const data = [
 
 describe('flattenItems', () => {
     test('should return expected result', () => {
-        expect(flattenItems(data)).toEqual(['0', '1', '1-0', '1-1', '1-1-0', '1-2', '2']);
+        expect(flattenItems(data)).toEqual({
+            visibleFlattenIds: ['0', '1', '1-0', '1-1', '1-1-0', '1-2', '2'],
+            idToFlattenIndex: {0: 0, 1: 1, '1-0': 2, '1-1': 3, '1-1-0': 4, '1-2': 5, 2: 6},
+        });
     });
 
     test('should return expected result with expanded state', () => {
@@ -39,14 +42,17 @@ describe('flattenItems', () => {
             flattenItems(data, {
                 '1': false,
             }),
-        ).toEqual(['0', '1', '2']);
+        ).toEqual({visibleFlattenIds: ['0', '1', '2'], idToFlattenIndex: {0: 0, 1: 1, 2: 2}});
     });
     test('should return expected result with expanded state 2', () => {
         expect(
             flattenItems(data, {
                 '1-1': false,
             }),
-        ).toEqual(['0', '1', '1-0', '1-1', '1-2', '2']);
+        ).toEqual({
+            visibleFlattenIds: ['0', '1', '1-0', '1-1', '1-2', '2'],
+            idToFlattenIndex: {0: 0, 1: 1, '1-0': 2, '1-1': 3, '1-2': 4, 2: 5},
+        });
     });
 
     test('should return expected result with expanded state and id getter override', () => {
@@ -58,6 +64,13 @@ describe('flattenItems', () => {
                 },
                 ({title}) => title,
             ),
-        ).toEqual(['item-0', 'item-1', 'item-2']);
+        ).toEqual({
+            visibleFlattenIds: ['item-0', 'item-1', 'item-2'],
+            idToFlattenIndex: {
+                'item-0': 0,
+                'item-1': 1,
+                'item-2': 2,
+            },
+        });
     });
 });

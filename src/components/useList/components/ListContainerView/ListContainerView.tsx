@@ -1,8 +1,7 @@
 import React from 'react';
 
-import type {QAProps} from 'src/components/types';
-
 import {Flex} from '../../../layout';
+import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 
 import './ListContainerView.scss';

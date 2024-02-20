@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Pagination
+# Pagination &middot; [![storybook](https://img.shields.io/badge/Storybook-Pagination-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-navigation-pagination--default)
 
 <!--/GITHUB_BLOCK-->
 

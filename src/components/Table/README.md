@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-## Table
+## Table &middot; [![storybook](https://img.shields.io/badge/Storybook-Table-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-table--default)
 
 <!--/GITHUB_BLOCK-->
 

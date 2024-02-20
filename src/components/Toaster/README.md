@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Toaster
+# Toaster &middot; [![storybook](https://img.shields.io/badge/Storybook-Toaster-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-feedback-toaster--default)
 
 <!--/GITHUB_BLOCK-->
 

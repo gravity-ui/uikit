@@ -1,6 +1,10 @@
 [readme](#readme)
 
-## Dialog
+<!--GITHUB_BLOCK-->
+
+## Dialog &middot; [![storybook](https://img.shields.io/badge/Storybook-Dialog-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-dialog--default)
+
+<!--/GITHUB_BLOCK-->
 
 Dialog component
 

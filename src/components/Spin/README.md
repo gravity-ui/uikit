@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Spin
+# Spin &middot; [![storybook](https://img.shields.io/badge/Storybook-Spin-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-feedback-spin--default)
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# TextArea &middot; [![storybook](https://img.shields.io/badge/Storybook-TextArea-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-inputs-textarea--default)
+# TextArea
 
 <!--/GITHUB_BLOCK-->
 

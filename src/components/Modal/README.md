@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Modal &middot; [![storybook](https://img.shields.io/badge/Storybook-Modal-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-modal--default)
+# Modal
 
 <!--/GITHUB_BLOCK-->
 

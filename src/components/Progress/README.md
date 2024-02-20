@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Progress &middot; [![storybook](https://img.shields.io/badge/Storybook-Progress-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-feedback-progress--default)
+# Progress
 
 <!--/GITHUB_BLOCK-->
 

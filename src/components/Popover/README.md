@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Popover &middot; [![storybook](https://img.shields.io/badge/Storybook-Popover-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-popover--playground)
+# Popover
 
 <!--/GITHUB_BLOCK-->
 

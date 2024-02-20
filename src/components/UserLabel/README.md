@@ -1,8 +1,4 @@
-<!--GITHUB_BLOCK-->
-
-# UserLabel &middot; [![storybook](https://img.shields.io/badge/Storybook-UserLabel-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-userlabel--default)
-
-<!--/GITHUB_BLOCK-->
+# UserLabel
 
 The `UserLabel` component can be used to display users or user-related information.
 

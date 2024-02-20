@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# DropdownMenu &middot; [![storybook](https://img.shields.io/badge/Storybook-DropdownMenu-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-dropdownmenu--default)
+# DropdownMenu
 
 <!--/GITHUB_BLOCK-->
 

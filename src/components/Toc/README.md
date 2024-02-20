@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Toc &middot; [![storybook](https://img.shields.io/badge/Storybook-Toc-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-data-display-toc--default)
+# Toc
 
 <!--/GITHUB_BLOCK-->
 

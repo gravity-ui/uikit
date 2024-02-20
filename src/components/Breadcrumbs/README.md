@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Breadcrumbs &middot; [![storybook](https://img.shields.io/badge/Storybook-Breadcrumbs-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-navigation-breadcrumbs--default)
+# Breadcrumbs
 
 <!--/GITHUB_BLOCK-->
 

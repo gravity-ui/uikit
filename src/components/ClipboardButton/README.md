@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# ClipboardButton &middot; [![storybook](https://img.shields.io/badge/Storybook-ClipboardButton-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-utils-clipboardbutton--default)
+# ClipboardButton
 
 <!--/GITHUB_BLOCK-->
 

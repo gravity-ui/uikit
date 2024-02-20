@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Link &middot; [![storybook](https://img.shields.io/badge/Storybook-Link-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-navigation-link--docs)
+# Link
 
 <!--/GITHUB_BLOCK-->
 

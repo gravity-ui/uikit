@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Icon &middot; [![storybook](https://img.shields.io/badge/Storybook-Icon-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-data-display-icon--docs)
+# Icon
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Select &middot; [![storybook](https://img.shields.io/badge/Storybook-Select-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-inputs-select--default)
+# Select
 
 <!--/GITHUB_BLOCK-->
 

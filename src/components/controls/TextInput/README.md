@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# TextInput &middot; [![storybook](https://img.shields.io/badge/Storybook-TextInput-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-inputs-textinput--default)
+# TextInput
 
 <!--/GITHUB_BLOCK-->
 

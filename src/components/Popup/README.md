@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Popup &middot; [![storybook](https://img.shields.io/badge/Storybook-Popup-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-popup--default)
+# Popup
 
 <!--/GITHUB_BLOCK-->
 

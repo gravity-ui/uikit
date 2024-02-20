@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Tabs &middot; [![storybook](https://img.shields.io/badge/Storybook-Tabs-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-navigation-tabs--default)
+# Tabs
 
 <!--/GITHUB_BLOCK-->
 

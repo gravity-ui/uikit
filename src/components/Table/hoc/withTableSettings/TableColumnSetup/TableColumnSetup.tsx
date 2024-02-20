@@ -27,7 +27,7 @@ import './TableColumnSetup.scss';
 
 const b = block('table-column-setup');
 const tableColumnSetupCn = b(null);
-const applyButtonCn = b('apply');
+const controlsCn = b('controls');
 const requiredDndItemCn = b('required-item');
 
 const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
@@ -69,13 +69,11 @@ interface SwitcherProps {
     onClick: React.MouseEventHandler<HTMLElement>;
 }
 
-const useDndRenderContainer = ({
-    onApply,
-    onDragEnd,
-}: {
+interface UseDndRenderContainerParams {
     onDragEnd: OnDragEndResponder;
-    onApply: () => void;
-}) => {
+    renderControls: () => React.ReactNode;
+}
+const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContainerParams) => {
     const uniqId = useUniqId();
 
     const dndRenderContainer: TreeSelectRenderContainer<Item> = ({
@@ -108,9 +106,7 @@ const useDndRenderContainer = ({
                         </Droppable>
                     </DragDropContext>
                 </ListContainerView>
-                <Button view="action" className={applyButtonCn} onClick={onApply}>
-                    {i18n('button_apply')}
-                </Button>
+                <div className={controlsCn}>{renderControls()}</div>
             </React.Fragment>
         );
     };
@@ -173,6 +169,14 @@ type Item = TableColumnSetupItem &
         isDragDisabled?: boolean;
     };
 
+export type RenderControls = (params: {
+    DefaultApplyButton: React.ComponentType;
+    /**
+     * Is used to apply new settings and close the popup
+     */
+    onApply: () => void;
+}) => React.ReactNode;
+
 export interface TableColumnSetupProps {
     renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
 
@@ -182,6 +186,8 @@ export interface TableColumnSetupProps {
     onUpdate: (newSettings: TableSetting[]) => void;
     popupWidth?: TreeSelectProps<any>['popupWidth'];
     popupPlacement?: PopperPlacement;
+
+    renderControls?: RenderControls;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -192,6 +198,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         items: propsItems,
         onUpdate: propsOnUpdate,
         sortable,
+        renderControls,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -210,6 +217,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setOpen(false);
     };
 
+    const DefaultApplyButton = () => (
+        <Button view="action" width="max" onClick={onApply}>
+            {i18n('button_apply')}
+        </Button>
+    );
+
     const onDragEnd: OnDragEndResponder = ({destination, source}) => {
         if (destination?.index !== undefined && destination?.index !== source.index) {
             setItems((prevItems) => {
@@ -218,7 +231,11 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         }
     };
 
-    const dndRenderContainer = useDndRenderContainer({onApply, onDragEnd});
+    const dndRenderContainer = useDndRenderContainer({
+        onDragEnd,
+        renderControls: () =>
+            renderControls ? renderControls({DefaultApplyButton, onApply}) : <DefaultApplyButton />,
+    });
 
     const dndRenderItem = useDndRenderItem(sortable);
 

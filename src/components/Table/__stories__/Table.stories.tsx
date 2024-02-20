@@ -11,6 +11,7 @@ import {TreeSelect} from '../../TreeSelect/TreeSelect';
 import {Table} from '../Table';
 import type {TableProps} from '../Table';
 
+import {WithTableSettingsCustomActionsShowcase} from './WithTableSettingsCustomActions';
 import {
     TableWithAction,
     TableWithCopy,
@@ -220,6 +221,27 @@ export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});
 HOCWithTableSettingsFactory.parameters = {
     isFactory: true,
 
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
+};
+
+const WithTableSettingsCustomActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+    const settings = React.useMemo(() => {
+        const newSettings: TableSettingsData = columns.map((x) => ({
+            id: x.id,
+            isSelected: true,
+        }));
+        newSettings[0].isSelected = false;
+        newSettings[2].isSelected = false;
+
+        return newSettings;
+    }, []);
+
+    return <WithTableSettingsCustomActionsShowcase {...args} defaultSettings={settings} />;
+};
+export const HOCWithTableSettingsCustomActions = WithTableSettingsCustomActionsTemplate.bind({});
+HOCWithTableSettingsCustomActions.parameters = {
     // Strict mode ruins sortable list due to this react-beautiful-dnd issue
     // https://github.com/atlassian/react-beautiful-dnd/issues/2350
     disableStrictMode: true,

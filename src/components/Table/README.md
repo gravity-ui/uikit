@@ -251,11 +251,12 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Properties
 
-| Name               | Description                   |                     Type                     |
-| :----------------- | :---------------------------- | :------------------------------------------: |
-| settingsPopupWidth | TableColumnSetup pop-up width |                `number` `fit`                |
-| settings           | Current settings              |             `TableSettingsData`              |
-| updateSettings     | Settings update handle        | `(data: TableSettingsData) => Promise<void>` |
+| Name               | Description                     |                     Type                     |
+| :----------------- | :------------------------------ | :------------------------------------------: |
+| settingsPopupWidth | TableColumnSetup pop-up width   |                `number` `fit`                |
+| settings           | Current settings                |             `TableSettingsData`              |
+| updateSettings     | Settings update handle          | `(data: TableSettingsData) => Promise<void>` |
+| renderControls     | Allows to render custom actions |               `RenderControls`               |
 
 ### TableSettingsData
 
@@ -264,6 +265,15 @@ type TableSettingsData = Array<{
   id: string;
   isSelected?: boolean;
 }>;
+```
+
+### RenderControls
+
+```ts
+type RenderControls = (params: {
+  DefaultApplyButton: React.ComponentType;
+  onApply: () => void;
+}) => React.ReactNode;
 ```
 
 ### Example
@@ -277,12 +287,12 @@ const data = [
   {id: 2, text: 'World'},
 ];
 const columns = [{id: 'id'}, {id: 'text'}];
+const initialSettings = [
+  {id: 'id', isSelected: false},
+  {id: 'text', isSelected: true},
+];
 
 function SelectionTable() {
-  const initialSettings = [
-    {id: 'id', isSelected: false},
-    {id: 'text', isSelected: true},
-  ];
   const [settings, setSettings] = React.useState(initialSettings);
 
   return (
@@ -294,6 +304,20 @@ function SelectionTable() {
         setSettings(settings);
         return Promise.resolve();
       }}
+      renderControls={({DefaultApplyButton, onApply}) => (
+        <Flex gapRow="1" direction="column">
+          <Button
+            view="outlined-warning"
+            onClick={() => {
+              onApply();
+              setSettings(initialSettings);
+            }}
+          >
+            Reset
+          </Button>
+          <DefaultApplyButton />
+        </Flex>
+      )}
     />
   );
 }

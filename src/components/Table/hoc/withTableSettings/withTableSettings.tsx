@@ -16,6 +16,7 @@ import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTabl
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
+import type {RenderControls} from './TableColumnSetup/TableColumnSetup';
 import i18n from './i18n';
 
 import './withTableSettings.scss';
@@ -122,6 +123,8 @@ export interface WithTableSettingsProps {
 
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;
+
+    renderControls?: RenderControls;
 }
 
 const b = block('table');
@@ -154,6 +157,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             settings,
             columns,
             settingsPopupWidth,
+            renderControls,
             ...restTableProps
         }: TableProps<I> & WithTableSettingsProps & E) {
             const enhancedColumns = React.useMemo(() => {
@@ -178,11 +182,12 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                         <Icon data={Gear} />
                                     </Button>
                                 )}
+                                renderControls={renderControls}
                             />
                         </div>
                     );
                 });
-            }, [columns, settings, updateSettings, settingsPopupWidth]);
+            }, [columns, settings, updateSettings, settingsPopupWidth, renderControls]);
 
             return (
                 <React.Fragment>

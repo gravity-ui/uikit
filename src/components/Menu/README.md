@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Menu &middot; [![storybook](https://img.shields.io/badge/Storybook-Menu-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-navigation-menu--default)
+# Menu
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Alert &middot; [![storybook](https://img.shields.io/badge/Storybook-Alert-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-feedback-alert--docs)
+# Alert
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# useActionHandlers &middot; [![storybook](https://img.shields.io/badge/Storybook-useActionHandlers-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/hooks-useasyncactionhandler--showcase)
+# useActionHandlers
 
 <!--/GITHUB_BLOCK-->
 

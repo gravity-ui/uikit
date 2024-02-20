@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Tooltip &middot; [![storybook](https://img.shields.io/badge/Storybook-Tooltip-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-overlays-tooltip--default)
+# Tooltip
 
 <!--/GITHUB_BLOCK-->
 

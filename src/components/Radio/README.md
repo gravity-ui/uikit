@@ -1,6 +1,6 @@
 <!--GITHUB_BLOCK-->
 
-# Radio &middot; [![storybook](https://img.shields.io/badge/Storybook-Radio-3bc935)](https://preview.gravity-ui.com/uikit/?path=/docs/components-inputs-radio--docs)
+# Radio
 
 <!--/GITHUB_BLOCK-->
 

@@ -1,8 +1,4 @@
-<!--GITHUB_BLOCK-->
-
-## Disclosure &middot; [![storybook](https://img.shields.io/badge/Storybook-Disclosure-3bc935)](https://preview.gravity-ui.com/uikit/?path=/story/components-utils-disclosure--default)
-
-<!--/GITHUB_BLOCK-->
+## Disclosure
 
 Disclosure component that shows and hides enclosed content.
 

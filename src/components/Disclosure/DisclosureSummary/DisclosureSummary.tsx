@@ -27,14 +27,18 @@ interface DisclosureSummaryRenderFunctionProps {
 }
 
 export interface DisclosureSummaryProps {
-    children: (props: DisclosureSummaryRenderFunctionProps) => React.ReactElement;
+    children: (
+        props: DisclosureSummaryRenderFunctionProps,
+        defaultSummary: React.ReactElement,
+    ) => React.ReactElement;
 }
 
 export function DisclosureSummary({children: renderFunction}: DisclosureSummaryProps) {
     const handleToggle = useToggleDisclosure();
     const {ariaControls, ariaLabelledby: id, expanded, disabled} = useDisclosureAttributes();
+    const props = {onClick: handleToggle, ariaControls, id, expanded, disabled};
 
-    return renderFunction({onClick: handleToggle, ariaControls, id, expanded, disabled});
+    return renderFunction(props, <DefaultDisclosureSummary {...props} />);
 }
 
 export function DefaultDisclosureSummary({

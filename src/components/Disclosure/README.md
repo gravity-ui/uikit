@@ -22,7 +22,7 @@ Disclosure component that shows and hides enclosed content.
 Base:
 
 ```jsx
-<Disclosure>Content</Disclosure>
+<Disclosure summary="summary">Content</Disclosure>
 ```
 
 With custom summary:
@@ -40,5 +40,19 @@ With custom summary:
   </Disclosure.Summary>
   <div>Custom details</div>
   <div>More custom details</div>
+</Disclosure>
+```
+
+```jsx
+<Disclosure>
+  <Disclosure.Summary>
+    {(_props, defaultButton) => (
+      <Flex gap={4}>
+        {defaultButton}
+        <Icon data={Check} size={14} />
+      </Flex>
+    )}
+  </Disclosure.Summary>
+  Details
 </Disclosure>
 ```

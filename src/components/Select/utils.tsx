@@ -24,14 +24,20 @@ export type GroupTitleItem = {label: string; disabled: true};
 
 export type FlattenOption = SelectOption | GroupTitleItem;
 
+export type FlattenOptions = FlattenOption[] & {
+    [FLATTEN_KEY]: {
+        filteredOptions: FlattenOption[];
+    };
+};
+
 export const isSelectGroupTitle = (
     option?: SelectOption | SelectOptionGroup,
 ): option is GroupTitleItem => {
     return Boolean(option && 'label' in option);
 };
 
-export const getFlattenOptions = (options: SelectOptions): FlattenOption[] => {
-    const flatten = options.reduce((acc, option) => {
+export const getFlattenOptions = (options: SelectOptions): FlattenOptions => {
+    const flatten = options.reduce<FlattenOption[]>((acc, option) => {
         if ('label' in option) {
             acc.push({label: option.label, disabled: true});
             acc.push(...(option.options || []));
@@ -40,12 +46,12 @@ export const getFlattenOptions = (options: SelectOptions): FlattenOption[] => {
         }
 
         return acc;
-    }, [] as FlattenOption[]);
+    }, []);
     Object.defineProperty(flatten, FLATTEN_KEY, {
         enumerable: false,
         value: {},
     });
-    return flatten;
+    return flatten as FlattenOptions;
 };
 
 export const getPopupItemHeight = (args: {

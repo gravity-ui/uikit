@@ -5,13 +5,7 @@ import get from 'lodash/get';
 import {FLATTEN_KEY} from '../../constants';
 import type {SelectOptions, SelectProps} from '../../types';
 import {getFilteredFlattenOptions, getFlattenOptions} from '../../utils';
-import type {FlattenOption} from '../../utils';
-
-type FlattenOptions = FlattenOption[] & {
-    [FLATTEN_KEY]: {
-        filteredOptions: FlattenOption[];
-    };
-};
+import type {FlattenOptions} from '../../utils';
 
 export interface UseSelectOptionsProps<T = any> {
     /** [Select options](https://gravity-ui.com/components/uikit/select#options). */

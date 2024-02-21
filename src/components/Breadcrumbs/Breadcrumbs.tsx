@@ -53,7 +53,7 @@ interface BreadcrumbsState<T extends BreadcrumbsItem> {
 const RESIZE_THROTTLE = 200;
 const MORE_ITEM_WIDTH = 34;
 const DEFAULT_POPUP_PLACEMENT = ['bottom', 'top'];
-const GAP_WIDTH = 4 * 2;
+const GAP_WIDTH = 4;
 
 const b = block('breadcrumbs');
 
@@ -105,7 +105,9 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
         super(props);
 
         this.handleResize = _throttle(this.handleResize, RESIZE_THROTTLE);
-        this.resizeObserver = new ResizeObserver(this.handleResize);
+        if (typeof window !== 'undefined') {
+            this.resizeObserver = new ResizeObserver(this.handleResize);
+        }
         this.container = React.createRef();
         this.state = Breadcrumbs.prepareInitialState(props);
     }
@@ -232,7 +234,10 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
             ];
 
             const availableWidth = this.container.current.offsetWidth;
-            const itemsWidths = items.map((elem) => elem.scrollWidth + GAP_WIDTH);
+            const itemsWidths = items.map(
+                (elem, i) =>
+                    elem.scrollWidth + (i === items.length - 1 ? GAP_WIDTH : GAP_WIDTH * 2),
+            );
             const dividersWidths = dividers.map((elem) => elem.offsetWidth);
             const buttonsWidth = itemsWidths.reduce((total, width, index, widths) => {
                 const isLastItem = widths.length - 1 === index;

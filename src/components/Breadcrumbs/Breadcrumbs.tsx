@@ -53,6 +53,7 @@ interface BreadcrumbsState<T extends BreadcrumbsItem> {
 const RESIZE_THROTTLE = 200;
 const MORE_ITEM_WIDTH = 34;
 const DEFAULT_POPUP_PLACEMENT = ['bottom', 'top'];
+const GAP_WIDTH = 4 * 2;
 
 const b = block('breadcrumbs');
 
@@ -98,7 +99,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
     }
 
     private container: React.RefObject<HTMLDivElement>;
-    private resizeObserver: ResizeObserver;
+    private resizeObserver?: ResizeObserver;
 
     constructor(props: BreadcrumbsProps<T>) {
         super(props);
@@ -111,7 +112,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
 
     componentDidMount() {
         this.recalculate();
-        this.resizeObserver.observe(this.container.current as Element);
+        this.resizeObserver?.observe(this.container.current as Element);
     }
 
     componentDidUpdate(prevProps: BreadcrumbsProps<T>) {
@@ -121,7 +122,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
     }
 
     componentWillUnmount() {
-        this.resizeObserver.disconnect();
+        this.resizeObserver?.disconnect();
     }
 
     render() {
@@ -221,12 +222,17 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
             const dividers: HTMLElement[] = Array.from(
                 this.container.current.querySelectorAll(`.${b('divider')}`),
             );
-            const items: HTMLElement[] = Array.from(
-                this.container.current.querySelectorAll(`.${b('item')}`),
-            );
+            const items: HTMLElement[] = [
+                ...(Array.from(
+                    this.container.current.querySelectorAll(`.${b('switcher')}`),
+                ) as HTMLElement[]),
+                ...(Array.from(
+                    this.container.current.querySelectorAll(`.${b('item')}`),
+                ) as HTMLElement[]),
+            ];
 
             const availableWidth = this.container.current.offsetWidth;
-            const itemsWidths = items.map((elem) => elem.scrollWidth);
+            const itemsWidths = items.map((elem) => elem.scrollWidth + GAP_WIDTH);
             const dividersWidths = dividers.map((elem) => elem.offsetWidth);
             const buttonsWidth = itemsWidths.reduce((total, width, index, widths) => {
                 const isLastItem = widths.length - 1 === index;

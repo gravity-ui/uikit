@@ -1,0 +1,23 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}slider-showcase';
+
+#{$block} {
+    display: grid;
+    gap: 50px;
+    padding: 0 40px;
+
+    &__block {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        width: 100%;
+    }
+
+    &__row {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 20px auto;
+        margin-block-end: 5px;
+    }
+}

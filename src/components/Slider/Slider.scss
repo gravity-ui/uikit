@@ -1,0 +1,45 @@
+@use '../variables';
+@use './variables' as slider-variables;
+@use '../../../styles/mixins';
+
+$block: '.#{variables.$ns}slider';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+
+    &__error {
+        @include mixins.text-body-1;
+        color: var(--g-color-text-danger);
+        &_size {
+            &_s {
+                margin-block-start: 0px;
+            }
+            &_m {
+                margin-block-start: 2px;
+            }
+            &_l {
+                margin-block-start: 4px;
+            }
+            &_xl {
+                margin-block-start: 6px;
+            }
+        }
+    }
+
+    &__top {
+        //6px is padding inside tooltip card
+        height: calc(
+            var(--g-text-body-1-line-height) + 6px + #{slider-variables.$slider-tooltip-offset}
+        );
+        display: none;
+        &_hasTooltip {
+            display: block;
+        }
+        &_size_xl {
+            height: calc(
+                var(--g-text-body-2-line-height) + 6px + #{slider-variables.$slider-tooltip-offset}
+            );
+        }
+    }
+}

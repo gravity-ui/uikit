@@ -3,7 +3,7 @@
 $block: '.#{variables.$ns}table-column-setup';
 
 #{$block} {
-    &__apply {
+    &__controls {
         margin: var(--g-spacing-1) var(--g-spacing-1) 0;
     }
 

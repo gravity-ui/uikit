@@ -146,3 +146,5 @@ export type SelectClearProps = SelectClearIconProps & {
     onMouseEnter: (e: React.MouseEvent) => void;
     onMouseLeave: (e: React.MouseEvent) => void;
 };
+
+export type SelectOptions<T = any> = NonNullable<SelectProps<T>['options']>;

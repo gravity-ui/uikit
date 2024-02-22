@@ -219,8 +219,9 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
 
     private recalculate() {
         const {items: allItems, lastDisplayedItemsCount, firstDisplayedItemsCount} = this.props;
+        const availableWidth = this.container.current?.offsetWidth || 0;
 
-        if (this.container.current) {
+        if (this.container.current && availableWidth > 0) {
             const dividers: HTMLElement[] = Array.from(
                 this.container.current.querySelectorAll(`.${b('divider')}`),
             );
@@ -233,7 +234,6 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
                 ) as HTMLElement[]),
             ];
 
-            const availableWidth = this.container.current.offsetWidth;
             const itemsWidths = items.map(
                 (elem, i) =>
                     elem.scrollWidth + (i === items.length - 1 ? GAP_WIDTH : GAP_WIDTH * 2),

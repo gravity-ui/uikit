@@ -24,6 +24,8 @@ import {
 } from './utils';
 import type {DataItem} from './utils';
 
+import './Table.stories.scss';
+
 export default {
     title: 'Components/Data Display/Table',
     component: Table,
@@ -67,11 +69,20 @@ OnRowClick.args = {
 
 // ---------------------------------
 const oneColumn = _cloneDeep(columns);
-oneColumn[1].width = '100%';
+oneColumn.pop(); // remove the last column. there're five now.
+oneColumn[0].width = '20%';
+oneColumn[1].width = '20%';
+oneColumn[2].width = '20%';
+oneColumn[3].width = '20%';
+oneColumn[4].width = '20%';
 
 const twoColumns = _cloneDeep(columns);
-twoColumns[1].width = '50%';
-twoColumns[2].width = '50%';
+twoColumns[0].width = '16.6%';
+twoColumns[1].width = '16.6%';
+twoColumns[2].width = '16.6%';
+twoColumns[3].width = '16.6%';
+twoColumns[4].width = '16.6%';
+twoColumns[5].width = '16.6%';
 
 const threeColumns = _cloneDeep(columns);
 threeColumns[0].width = '33%';
@@ -80,10 +91,10 @@ threeColumns[2].width = '33%';
 
 const AdaptiveTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     return (
-        <div>
-            <Table {...args} columns={oneColumn} />
-            <Table {...args} columns={twoColumns} />
-            <Table {...args} columns={threeColumns} />
+        <div className="table-stories-adaptive">
+            <Table {...args} className="adaptive-table1" columns={oneColumn} />
+            <Table {...args} className="adaptive-table2" columns={twoColumns} />
+            {/*<Table {...args} columns={threeColumns} />*/}
         </div>
     );
 };

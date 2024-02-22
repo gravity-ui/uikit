@@ -1,0 +1,17 @@
+.table-stories-adaptive {
+    .g-table__table {
+        width: 100%;
+    }
+
+    .g-table__cell {
+        border-inline-start: 1px solid #32a1ce;
+    }
+
+    .adaptive-table1 .g-table__table {
+        table-layout: fixed;
+    }
+
+    .adaptive-table2 .g-table__table {
+        table-layout: fixed;
+    }
+}

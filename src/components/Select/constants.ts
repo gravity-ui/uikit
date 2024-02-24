@@ -38,3 +38,5 @@ export const SelectQa = {
     CLEAR: 'select-clear',
     FILTER_INPUT: 'select-filter-input',
 };
+
+export const FLATTEN_KEY = Symbol('flatten');

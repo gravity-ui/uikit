@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {render, screen} from '../../../../test-utils/utils';
 import {Disclosure} from '../Disclosure';
 import type {DisclosureSize} from '../Disclosure';
+import {DisclosureQa} from '../constants';
 
 const qaId = 'disclosure-component';
 
@@ -58,7 +59,48 @@ describe.only('Disclosure', () => {
 
         render(<Disclosure summary={content} />);
         const component = screen.getByTestId(qaId);
+        const wrapperComponent = screen.getByTestId(DisclosureQa.SUMMARY);
 
+        expect(wrapperComponent).toBeVisible();
+        expect(component).toHaveClass(className);
+    });
+    test('render custom summary without default', () => {
+        const className = 'content';
+        render(
+            <Disclosure>
+                <Disclosure.Summary>
+                    {() => (
+                        <div data-qa={qaId} className={className}>
+                            Some content
+                        </div>
+                    )}
+                </Disclosure.Summary>
+            </Disclosure>,
+        );
+        const component = screen.getByTestId(qaId);
+        const wrapperComponent = screen.queryByTestId(DisclosureQa.SUMMARY);
+
+        expect(wrapperComponent).toBeNull();
+        expect(component).toHaveClass(className);
+    });
+    test('render custom summary with default', () => {
+        const className = 'content';
+        render(
+            <Disclosure>
+                <Disclosure.Summary>
+                    {(_, defaultButton) => (
+                        <div data-qa={qaId} className={className}>
+                            {defaultButton}
+                            Some content
+                        </div>
+                    )}
+                </Disclosure.Summary>
+            </Disclosure>,
+        );
+        const component = screen.getByTestId(qaId);
+        const wrapperComponent = screen.getByTestId(DisclosureQa.SUMMARY);
+
+        expect(wrapperComponent).toBeVisible();
         expect(component).toHaveClass(className);
     });
 

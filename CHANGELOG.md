@@ -1,5 +1,26 @@
 # Changelog
 
+## [6.1.0](https://github.com/gravity-ui/uikit/compare/v6.0.0...v6.1.0) (2024-02-21)
+
+
+### Features
+
+* **Disclosure:** possibility to use DefaultDisclosureSummary inside … ([#1359](https://github.com/gravity-ui/uikit/issues/1359)) ([f8b52b9](https://github.com/gravity-ui/uikit/commit/f8b52b92c854dc65206106fa2d3ed40ee21157ac))
+* **Select:** add useSelectOptions hook ([#1356](https://github.com/gravity-ui/uikit/issues/1356)) ([456ffaa](https://github.com/gravity-ui/uikit/commit/456ffaacbf20e1e0b5150d86abee1201d9ac3dad))
+* **Slider:** introduce Slider component ([#1243](https://github.com/gravity-ui/uikit/issues/1243)) ([a1bf754](https://github.com/gravity-ui/uikit/commit/a1bf75495902b67750660620ea0e8e90c7a50f63))
+* **Table:** add renderRowActions property ([#1353](https://github.com/gravity-ui/uikit/issues/1353)) ([e074b1a](https://github.com/gravity-ui/uikit/commit/e074b1a6913c2f3ec9773974672b17e7d35c9006))
+* **withTableSettings:** add the renderControls prop ([#1357](https://github.com/gravity-ui/uikit/issues/1357)) ([b3f0d78](https://github.com/gravity-ui/uikit/commit/b3f0d789b131e9b5677e134eee668361ce50fcf6))
+
+
+### Bug Fixes
+
+* **List:** fix virtualized list items rerender ([#1314](https://github.com/gravity-ui/uikit/issues/1314)) ([8c45f7c](https://github.com/gravity-ui/uikit/commit/8c45f7c55784a4eac88747b4a9db1745d53f0e6c))
+* **Select:** do not call onFilterChange on mount ([#1321](https://github.com/gravity-ui/uikit/issues/1321)) ([0bb7c66](https://github.com/gravity-ui/uikit/commit/0bb7c661212630c993574d7f82392e7e9c3c1dad))
+* **TextInput:** unequal text alignment in textinput ([#1306](https://github.com/gravity-ui/uikit/issues/1306)) ([c9cdbd0](https://github.com/gravity-ui/uikit/commit/c9cdbd0bba86573d35ec03b1766af4e0c8f5253b))
+* **TreeSelect:** fix render container method ([#1344](https://github.com/gravity-ui/uikit/issues/1344)) ([1ab9d59](https://github.com/gravity-ui/uikit/commit/1ab9d591c271d4a9c922b3b1aecbb734338e1f98))
+* **TreeSelect:** fixed dnd examples with selected values ([#1329](https://github.com/gravity-ui/uikit/issues/1329)) ([14d6ceb](https://github.com/gravity-ui/uikit/commit/14d6cebe875fef88c9066dbf5aa186aeb615d5f2))
+* **TreeSelect:** remove default popup width ([#1350](https://github.com/gravity-ui/uikit/issues/1350)) ([84044f0](https://github.com/gravity-ui/uikit/commit/84044f0f41e9caae4812563ab690e13067d82aad))
+
 ## [6.0.0](https://github.com/gravity-ui/uikit/compare/v5.30.1...v6.0.0) (2024-02-06)
 
 

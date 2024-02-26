@@ -1,0 +1,35 @@
+@use '../../../../../styles/mixins';
+@use '../../../variables';
+@use '../../variables.scss' as select-css-variables;
+
+$block: '.#{variables.$ns}select-counter';
+
+#{$block} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-inline: auto 2px;
+    background-color: var(--g-color-base-generic);
+    @include mixins.text-body-short;
+    border-radius: 5px;
+    &_size {
+        &_s {
+            height: calc(#{variables.$s-height} - 6px);
+            padding: 0 4px;
+        }
+        &_m {
+            height: calc(#{variables.$m-height} - 6px);
+            padding: 0 5px;
+        }
+        &_l {
+            height: calc(#{variables.$l-height} - 6px);
+            padding: 0 6px;
+        }
+
+        &_xl {
+            @include mixins.text-body-2;
+            height: calc(#{variables.$xl-height} - 6px);
+            padding: 0 8px;
+        }
+    }
+}

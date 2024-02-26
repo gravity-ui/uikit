@@ -13,14 +13,17 @@ import type {
     SelectRenderClearArgs,
     SelectRenderControl,
     SelectRenderControlProps,
+    SelectRenderCounter,
 } from '../../types';
 import {SelectClear} from '../SelectClear/SelectClear';
+import {SelectCounter} from '../SelectCounter/SelectCounter';
 
 import './SelectControl.scss';
 
 type ControlProps = {
     toggleOpen: () => void;
     renderControl?: SelectRenderControl;
+    renderCounter?: SelectRenderCounter;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
@@ -36,7 +39,8 @@ type ControlProps = {
     value: SelectProps['value'];
     clearValue: () => void;
     hasClear?: boolean;
-} & Omit<SelectRenderControlProps, 'onClick' | 'onClear'>;
+    hasCounter?: boolean;
+} & Omit<SelectRenderControlProps, 'onClick' | 'onClear' | 'renderCounter'>;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
     const {
@@ -62,6 +66,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         popupId,
         selectId,
         activeIndex,
+        renderCounter,
+        hasCounter,
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
@@ -101,6 +107,18 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         clearValue();
     }, [clearValue]);
 
+    const renderCounterComponent = () => {
+        if (!hasCounter) {
+            return null;
+        }
+        const count = Number(value?.length) || 0;
+        const counterComponent = <SelectCounter count={count} size={size} />;
+        if (renderCounter) {
+            return renderCounter(size, count, counterComponent);
+        }
+        return counterComponent;
+    };
+
     const renderClearIcon = (args: SelectRenderClearArgs) => {
         const hideOnEmpty = !value?.[0];
         if (!hasClear || !clearValue || hideOnEmpty || disabled) {
@@ -124,6 +142,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 onClear: clearValue,
                 onClick: toggleOpen,
                 renderClear: (arg) => renderClearIcon(arg),
+                renderCounter: renderCounterComponent,
                 ref,
                 open: Boolean(open),
                 popupId,
@@ -166,6 +185,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                         </span>
                     )}
                 </button>
+                {renderCounterComponent()}
                 {renderClearIcon({})}
 
                 {errorMessage && (

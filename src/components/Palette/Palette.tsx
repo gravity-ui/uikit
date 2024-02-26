@@ -1,36 +1,87 @@
 import React from 'react';
 
-import {useControlledState} from '../../hooks/useControlledState/useControlledState';
+import {useSelect} from '../../hooks';
 import {useForkRef} from '../../hooks/useForkRef/useForkRef';
+import type {ButtonProps} from '../Button';
+import {Button} from '../Button';
 import type {ControlGroupProps, DOMProps, QAProps} from '../types';
+import {block} from '../utils/cn';
 
-import type {PaletteControlProps} from './PaletteControl';
-import {PaletteControl} from './PaletteControl';
-import {paletteClassNames} from './definitions';
+import {usePaletteGrid} from './hooks';
+import {getPaletteRows} from './utils';
 
 import './Palette.scss';
 
-export type PaletteValue = string | number;
-export type PaletteOption = {
-    value: PaletteValue;
+const b = block('palette');
+
+export type PaletteOption = Pick<ButtonProps, 'disabled' | 'title'> & {
+    /**
+     * Option value, which you can use in state or send to back-end and so on.
+     */
+    value: string;
+    /**
+     * Content inside the option (emoji/image/GIF/symbol etc).
+     *
+     * Uses `value` as default, if `value` is a number, then it is treated as a unicode symbol (emoji for example).
+     *
+     * @default props.value
+     */
     content?: React.ReactNode;
-    title?: string; // HTML title
-    disabled?: boolean;
 };
 
 export interface PaletteProps
     extends Pick<ControlGroupProps, 'aria-label' | 'aria-labelledby'>,
-        Pick<PaletteControlProps, 'onFocus' | 'onBlur' | 'disabled' | 'size'>,
+        Pick<ButtonProps, 'disabled' | 'size'>,
         DOMProps,
         QAProps {
-    value?: PaletteValue[];
-    defaultValue?: PaletteValue[];
+    /**
+     * Allows selecting multiple options.
+     *
+     * @default true
+     */
+    multiple?: boolean;
+    /**
+     * Current value (which options are selected).
+     */
+    value?: string[];
+    /**
+     * The control's default value. Use when the component is not controlled.
+     */
+    defaultValue?: string[];
+    /**
+     * List of Palette options (the grid).
+     */
     options?: PaletteOption[];
+    /**
+     * How many options are there per row.
+     *
+     * @default 6
+     */
     columns?: number;
+    /**
+     * HTML class attribute for a grid row.
+     */
     rowClassName?: string;
+    /**
+     * HTML class attribute for a grid option.
+     */
     optionClassName?: string;
+    /**
+     * HTML class attribute for the `<Button.Icon />` inside a grid option.
+     */
     iconClassName?: string;
-    onUpdate?: (value: PaletteValue[]) => void;
+    /**
+     * Fires when a user (un)selects an option.
+     */
+    onUpdate?: (value: string[]) => void;
+    /**
+     * Fires when a user focuses on the Palette.
+     */
+    onFocus?: (event: React.FocusEvent) => void;
+    /**
+     * Fires when a user blurs from the Palette.
+     */
+    onBlur?: (event: React.FocusEvent) => void;
 }
 
 interface PaletteComponent
@@ -39,8 +90,7 @@ interface PaletteComponent
 export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function Palette(props, ref) {
     const {
         size = 's',
-        defaultValue,
-        value,
+        multiple = true,
         options = [],
         columns = 6,
         disabled,
@@ -50,7 +100,6 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
         optionClassName,
         iconClassName,
         qa,
-        onUpdate,
         onFocus,
         onBlur,
     } = props;
@@ -58,146 +107,107 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
     const [focusedOptionIndex, setFocusedOptionIndex] = React.useState<number | undefined>(
         undefined,
     );
-    const focusedRow =
-        focusedOptionIndex === undefined ? undefined : Math.floor(focusedOptionIndex / columns);
-    const focusedColumn =
-        focusedOptionIndex === undefined ? undefined : focusedOptionIndex % columns;
+    const focusedOption =
+        focusedOptionIndex === undefined ? undefined : options[focusedOptionIndex];
 
     const innerRef = React.useRef<HTMLDivElement>(null);
     const handleRef = useForkRef(ref, innerRef);
 
-    const [currentValue, setCurrentValue] = useControlledState(value, defaultValue ?? [], onUpdate);
+    const {value, handleSelection} = useSelect({
+        value: props.value,
+        defaultValue: props.defaultValue,
+        multiple,
+        onUpdate: props.onUpdate,
+    });
 
-    const containerProps: React.ButtonHTMLAttributes<HTMLDivElement> = {
-        'aria-disabled': disabled,
-        'aria-label': props['aria-label'],
-        'aria-labelledby': props['aria-labelledby'],
-    };
-
-    const rows = React.useMemo(() => getRows(options, columns), [columns, options]);
+    const rows = React.useMemo(() => getPaletteRows(options, columns), [columns, options]);
 
     const focusOnOptionWithIndex = React.useCallback((index: number) => {
         if (!innerRef.current) return;
 
-        const $options: HTMLButtonElement[] = Array.from(
-            innerRef.current.querySelectorAll(`.${paletteClassNames.option()}`),
-        );
+        const $options = Array.from(
+            innerRef.current.querySelectorAll(`.${b('option')}`),
+        ) as HTMLButtonElement[];
+
+        if (!$options[index]) return;
 
         $options[index].focus();
 
         setFocusedOptionIndex(index);
     }, []);
 
-    const onKeyDown = React.useCallback(
-        (event: KeyboardEvent) => {
-            if (
-                focusedOptionIndex === undefined ||
-                focusedRow === undefined ||
-                focusedColumn === undefined
-            ) {
-                return;
-            }
+    const tryToFocus = (newIndex: number) => {
+        if (newIndex === focusedOptionIndex || newIndex < 0 || newIndex >= options.length) {
+            return;
+        }
 
-            let newIndex = focusedOptionIndex;
+        focusOnOptionWithIndex(newIndex);
+    };
 
-            if (event.code === 'ArrowUp') {
-                event.preventDefault();
-                newIndex = focusedOptionIndex - columns;
-            } else if (event.code === 'ArrowRight') {
-                event.preventDefault();
-                newIndex = focusedOptionIndex + 1;
-            } else if (event.code === 'ArrowDown') {
-                event.preventDefault();
-                newIndex = focusedOptionIndex + columns;
-            } else if (event.code === 'ArrowLeft') {
-                event.preventDefault();
-                newIndex = focusedOptionIndex - 1;
-            }
-
-            if (newIndex === focusedOptionIndex || newIndex < 0 || newIndex >= options.length) {
-                return;
-            }
-
-            focusOnOptionWithIndex(newIndex);
-        },
-        [
-            focusedOptionIndex,
-            focusedRow,
-            focusedColumn,
-            options.length,
-            focusOnOptionWithIndex,
-            columns,
-        ],
-    );
-
-    React.useEffect(() => {
-        document.addEventListener('keydown', onKeyDown);
-        return () => document.removeEventListener('keydown', onKeyDown);
-    }, [onKeyDown]);
-
-    const onFocusGrid = React.useCallback(() => {
-        focusOnOptionWithIndex(0);
-    }, [focusOnOptionWithIndex]);
-
-    const onBlurGrid = React.useCallback(() => {
-        setFocusedOptionIndex(undefined);
-    }, []);
-
-    const onFocusOption = React.useCallback(
-        (event: React.FocusEvent<HTMLButtonElement>) => {
-            const newIndex = options.findIndex((option) => option.value === event.target.value);
-            if (newIndex >= 0) {
-                focusOnOptionWithIndex(newIndex);
-            }
-
+    const gridProps = usePaletteGrid({
+        disabled,
+        onFocus: (event) => {
+            focusOnOptionWithIndex(0);
             onFocus?.(event);
-            event.stopPropagation();
         },
-        [options, focusOnOptionWithIndex, onFocus],
-    );
-
-    const onBlurOption = React.useCallback(
-        (event: React.FocusEvent<HTMLButtonElement>) => {
-            onBlur?.(event);
+        onBlur: (event) => {
             setFocusedOptionIndex(undefined);
-            event.stopPropagation();
+            onBlur?.(event);
         },
-        [onBlur],
-    );
+        whenFocused:
+            focusedOptionIndex !== undefined && focusedOption
+                ? {
+                      selectItem: () => handleSelection(focusedOption),
+                      nextItem: () => tryToFocus(focusedOptionIndex + 1),
+                      previousItem: () => tryToFocus(focusedOptionIndex - 1),
+                      nextRow: () => tryToFocus(focusedOptionIndex + columns),
+                      previousRow: () => tryToFocus(focusedOptionIndex - columns),
+                  }
+                : undefined,
+    });
 
     return (
         <div
-            {...containerProps}
-            role={'grid'}
+            {...gridProps}
+            aria-label={props['aria-label']}
+            aria-labelledby={props['aria-labelledby']}
             ref={handleRef}
-            className={paletteClassNames.palette({size}, className)}
-            onFocus={focusedOptionIndex === undefined ? onFocusGrid : undefined}
-            onBlur={onBlurGrid}
+            className={b({size}, className)}
             style={style}
             data-qa={qa}
-            tabIndex={focusedOptionIndex === undefined ? 0 : -1}
         >
             {rows.map((row, rowNumber) => (
-                <div
-                    className={paletteClassNames.row(rowClassName)}
-                    key={`row-${rowNumber}`}
-                    role={'row'}
-                >
-                    {row.map((option) => (
-                        <PaletteOptionItem
-                            key={option.value}
-                            value={currentValue}
-                            option={option}
-                            checked={currentValue?.includes(option.value) ?? false}
-                            disabled={disabled}
-                            size={size}
-                            optionClassName={optionClassName}
-                            iconClassName={iconClassName}
-                            onUpdate={setCurrentValue}
-                            onFocus={onFocusOption}
-                            onBlur={onBlurOption}
-                        />
-                    ))}
+                <div className={b('row', rowClassName)} key={`row-${rowNumber}`} role="row">
+                    {row.map((option) => {
+                        const isSelected = Boolean(value.includes(option.value));
+                        const focused = option === focusedOption;
+
+                        return (
+                            <div
+                                key={option.value}
+                                role="gridcell"
+                                aria-selected={focused ? 'true' : undefined}
+                                aria-readonly={option.disabled}
+                            >
+                                <Button
+                                    className={b('option', optionClassName)}
+                                    tabIndex={-1}
+                                    style={style}
+                                    disabled={disabled}
+                                    title={option.title}
+                                    view={isSelected ? 'normal' : 'flat'}
+                                    selected={isSelected}
+                                    extraProps={{value: option.value}}
+                                    size={size}
+                                    onClick={() => handleSelection(option)}
+                                >
+                                    <Button.Icon className={iconClassName}>
+                                        {option.content ?? option.value}
+                                    </Button.Icon>
+                                </Button>
+                            </div>
+                        );
+                    })}
                 </div>
             ))}
         </div>
@@ -205,83 +215,3 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
 }) as PaletteComponent;
 
 Palette.displayName = 'Palette';
-
-function getRows(options: PaletteOption[], columns: number): PaletteOption[][] {
-    const rows: PaletteOption[][] = [];
-    let row: PaletteOption[] = [];
-
-    let column = 0;
-    for (const option of options) {
-        row.push(option);
-        column += 1;
-        if (column === columns) {
-            rows.push(row);
-            row = [];
-            column = 0;
-        }
-    }
-
-    if (row.length > 0) {
-        rows.push(row);
-    }
-
-    return rows;
-}
-
-function PaletteOptionItem({
-    value,
-    option,
-    checked,
-    disabled,
-    size,
-    optionClassName,
-    iconClassName,
-    onUpdate,
-    onFocus,
-    onBlur,
-}: {option: PaletteOption; checked: boolean} & Pick<
-    PaletteProps,
-    | 'value'
-    | 'disabled'
-    | 'size'
-    | 'optionClassName'
-    | 'iconClassName'
-    | 'onUpdate'
-    | 'onFocus'
-    | 'onBlur'
->) {
-    const onUpdateOption = React.useCallback(() => {
-        if (!onUpdate) return;
-
-        if (value) {
-            const newValue = value.includes(option.value)
-                ? value.filter((v) => v !== option.value)
-                : [...value, option.value];
-
-            onUpdate(newValue);
-        } else {
-            onUpdate([option.value]);
-        }
-    }, [onUpdate, option.value, value]);
-
-    return (
-        <PaletteControl
-            className={paletteClassNames.option(optionClassName)}
-            content={getOptionIcon(option)}
-            title={option.title}
-            value={String(option.value)}
-            disabled={disabled || option.disabled}
-            iconClassName={iconClassName}
-            size={size}
-            checked={checked}
-            onUpdate={onUpdateOption}
-            onFocus={onFocus}
-            onBlur={onBlur}
-        />
-    );
-}
-
-function getOptionIcon(option: PaletteOption): React.ReactNode {
-    if (option.content) return option.content;
-    return typeof option.value === 'string' ? option.value : String.fromCodePoint(option.value);
-}

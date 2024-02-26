@@ -35,7 +35,7 @@ describe('Palette', () => {
         render(<Palette options={defaultOptions} disabled={true} qa={qaId} />);
 
         const $component = screen.getByTestId(qaId);
-        const $options = within($component).getAllByRole('checkbox');
+        const $options = within($component).getAllByRole('button');
 
         $options.forEach(($option: HTMLElement) => {
             expect($option).toBeDisabled();
@@ -46,7 +46,7 @@ describe('Palette', () => {
         render(<Palette options={defaultOptions} disabled={false} qa={qaId} />);
 
         const $component = screen.getByTestId(qaId);
-        const $options = within($component).getAllByRole('checkbox');
+        const $options = within($component).getAllByRole('button');
 
         $options.forEach(($option: HTMLElement) => {
             expect($option).not.toBeDisabled();
@@ -62,7 +62,7 @@ describe('Palette', () => {
         render(<Palette options={customOptions} disabled={false} qa={qaId} />);
 
         const $component = screen.getByTestId(qaId);
-        const $options = within($component).getAllByRole('checkbox');
+        const $options = within($component).getAllByRole('button');
 
         $options.forEach(($option: HTMLElement) => {
             const value = $option.getAttribute('value');
@@ -113,7 +113,7 @@ describe('Palette', () => {
         );
 
         const $component = screen.getByTestId(qaId);
-        const $options = within($component).getAllByRole('checkbox');
+        const $options = within($component).getAllByRole('button');
 
         const $firstOption = await screen.findByText(defaultOptions[0].content as string);
         const $secondOption = await screen.findByText(defaultOptions[1].content as string);

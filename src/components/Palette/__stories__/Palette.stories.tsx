@@ -6,7 +6,7 @@ import type {Meta} from '@storybook/react';
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem/ShowcaseItem';
 import {Icon} from '../../Icon/Icon';
-import type {PaletteOption, PaletteProps, PaletteValue} from '../Palette';
+import type {PaletteOption, PaletteProps} from '../Palette';
 import {Palette} from '../Palette';
 
 export default {
@@ -41,6 +41,10 @@ export const Default = () => {
     return <PaletteBase />;
 };
 
+export const SingleSelect = () => {
+    return <PaletteBase multiple={false} />;
+};
+
 export const Disabled = () => {
     return (
         <Showcase>
@@ -62,19 +66,19 @@ export const Sizes = () => {
     return (
         <Showcase>
             <ShowcaseItem title="Size xs">
-                <PaletteBase size={'xs'} />
+                <PaletteBase size="xs" />
             </ShowcaseItem>
             <ShowcaseItem title="Size s">
-                <PaletteBase size={'s'} />
+                <PaletteBase size="s" />
             </ShowcaseItem>
             <ShowcaseItem title="Size m">
-                <PaletteBase size={'m'} />
+                <PaletteBase size="m" />
             </ShowcaseItem>
             <ShowcaseItem title="Size l">
-                <PaletteBase size={'l'} />
+                <PaletteBase size="l" />
             </ShowcaseItem>
             <ShowcaseItem title="Size xl">
-                <PaletteBase size={'xl'} />
+                <PaletteBase size="xl" />
             </ShowcaseItem>
         </Showcase>
     );
@@ -119,7 +123,7 @@ export const Alphabet = () => {
 };
 
 function PaletteBase(props: PaletteProps) {
-    const [value, setValue] = React.useState<PaletteValue[]>([]);
+    const [value, setValue] = React.useState<string[]>([]);
 
     return <Palette options={options} value={value} onUpdate={setValue} {...props} />;
 }

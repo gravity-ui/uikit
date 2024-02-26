@@ -17,6 +17,9 @@ $block: '.#{variables.$ns}palette';
         gap: 8px;
     }
 
+    &_size_xs &__option {
+        font-size: 16px;
+    }
     &_size_s &__option {
         font-size: 18px;
     }

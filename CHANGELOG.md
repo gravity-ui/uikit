@@ -1,5 +1,14 @@
 # Changelog
 
+## [6.1.1](https://github.com/gravity-ui/uikit/compare/v6.1.0...v6.1.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* **breadcrumbs:** fix adaptive more view and define ResizeObserver in ssr apps ([#1364](https://github.com/gravity-ui/uikit/issues/1364)) ([dc6e514](https://github.com/gravity-ui/uikit/commit/dc6e514d058268f2ea482e4d78383a44e400d5e2))
+* **controls:** allow disable input via controlProps ([#1371](https://github.com/gravity-ui/uikit/issues/1371)) ([3228dca](https://github.com/gravity-ui/uikit/commit/3228dcab413a5dff9e3dc2353f1ddfa6235643e8))
+* **CopyToClipboard:** return CopyToClipboardProps type ([#1367](https://github.com/gravity-ui/uikit/issues/1367)) ([43599c2](https://github.com/gravity-ui/uikit/commit/43599c2d435b51e73bd581b73ac9ab3d72584adb))
+
 ## [6.1.0](https://github.com/gravity-ui/uikit/compare/v6.0.0...v6.1.0) (2024-02-21)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.31.1](https://github.com/gravity-ui/uikit/compare/v5.31.0...v5.31.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* **List:** fix virtualized list items rerender ([#1380](https://github.com/gravity-ui/uikit/issues/1380)) ([4252620](https://github.com/gravity-ui/uikit/commit/42526209ed65e9c124636aedaad2e5f7f20eb28a))
+
 ## [5.31.0](https://github.com/gravity-ui/uikit/compare/v5.30.1...v5.31.0) (2024-02-26)
 
 

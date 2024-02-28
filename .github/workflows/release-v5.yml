@@ -15,5 +15,3 @@ jobs:
           node-version: 18
           default-branch: v5
           npm-dist-tag: untagged
-          skip-github-release: true
-          skip-labeling: true

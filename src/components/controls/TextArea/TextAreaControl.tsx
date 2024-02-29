@@ -5,9 +5,10 @@ import {block} from '../../utils/cn';
 
 import type {TextAreaProps} from './TextArea';
 
-type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange'> & {
+type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange' | 'controlProps'> & {
     onChange: NonNullable<TextAreaProps['onChange']>;
     autoComplete?: React.TextareaHTMLAttributes<HTMLTextAreaElement>['autoComplete'];
+    controlProps: NonNullable<TextAreaProps['controlProps']>;
 };
 
 const b = block('text-area');
@@ -86,13 +87,13 @@ export function TextAreaControl(props: Props) {
 
     return (
         <textarea
-            {...(controlProps as React.InputHTMLAttributes<HTMLTextAreaElement>)}
-            ref={handleRef as React.Ref<HTMLTextAreaElement>}
+            {...controlProps}
+            ref={handleRef}
             style={{
-                ...(controlProps as React.InputHTMLAttributes<HTMLTextAreaElement>)?.style,
+                ...controlProps.style,
                 height: rows ? 'auto' : undefined,
             }}
-            className={b('control', controlProps?.className)}
+            className={b('control', controlProps.className)}
             name={name}
             id={id}
             tabIndex={tabIndex}
@@ -108,7 +109,7 @@ export function TextAreaControl(props: Props) {
             onKeyDown={onKeyDown}
             onKeyUp={onKeyUp}
             onKeyPress={onKeyPress}
-            disabled={disabled}
+            disabled={disabled ?? controlProps.disabled}
         />
     );
 }

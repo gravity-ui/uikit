@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Text} from '../../../Text';
 import {block} from '../../../utils/cn';
 import type {SelectCounterProps} from '../../types';
 
@@ -13,7 +14,7 @@ export const SelectCounter = React.forwardRef(function SelectCouner(
 ) {
     return (
         <div className={b({size})} ref={ref}>
-            {count}
+            <Text variant={size === 'xl' ? 'body-2' : 'body-1'}>{count}</Text>
         </div>
     );
 });

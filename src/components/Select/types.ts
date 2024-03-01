@@ -158,8 +158,12 @@ export type SelectClearProps = SelectClearIconProps & {
 };
 
 export type SelectCounterProps = {
+    /** number of selected elements to show */
     count: number;
+    /** size of the parent elemnent */
     size: SelectSize;
+    /** additional classname for component */
+    className?: string;
 };
 
 export type SelectOptions<T = any> = NonNullable<SelectProps<T>['options']>;

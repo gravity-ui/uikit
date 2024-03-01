@@ -20,8 +20,6 @@ import './Popup.scss';
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
-type VoidFunction = () => void;
-
 export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
     children?: React.ReactNode;
     /** Manages `Popup` visibility */

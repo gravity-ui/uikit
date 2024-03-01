@@ -20,6 +20,8 @@ import './Popup.scss';
 export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
+type VoidFunction = () => void;
+
 export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
     open?: boolean;
     children?: React.ReactNode;
@@ -32,6 +34,10 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
     onFocus?: React.FocusEventHandler<HTMLDivElement>;
     onBlur?: React.FocusEventHandler<HTMLDivElement>;
+    onTransitionEnter?: VoidFunction;
+    onTransitionEntered?: VoidFunction;
+    onTransitionExit?: VoidFunction;
+    onTransitionExited?: VoidFunction;
     disablePortal?: boolean;
     container?: HTMLElement;
     contentClassName?: string;
@@ -71,6 +77,10 @@ export function Popup({
     onMouseLeave,
     onFocus,
     onBlur,
+    onTransitionEnter,
+    onTransitionEntered,
+    onTransitionExit,
+    onTransitionExited,
     disablePortal,
     container,
     strategy,
@@ -132,6 +142,18 @@ export function Popup({
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
                 appear={true}
+                onEnter={() => {
+                    onTransitionEnter?.();
+                }}
+                onEntered={() => {
+                    onTransitionEntered?.();
+                }}
+                onExit={() => {
+                    onTransitionExit?.();
+                }}
+                onExited={() => {
+                    onTransitionExited?.();
+                }}
             >
                 <div
                     ref={handleRef}

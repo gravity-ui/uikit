@@ -203,20 +203,26 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         // eslint-disable-next-line @typescript-eslint/member-ordering
         private enhanceGetRowDescriptor = _memoize(
             (getRowDescriptor?: TableProps<I>['getRowDescriptor']) => {
-                return (item: I, index: number) => {
+                const currentGetRowDescriptor: TableProps<I>['getRowDescriptor'] = (
+                    item: I,
+                    index: number,
+                ) => {
                     const {selectedIds, getRowClassNames} = this.props;
-                    const classNames =
-                        getRowDescriptor?.(item, index)?.classNames?.slice() ||
-                        getRowClassNames?.(item, index) ||
-                        [];
+                    const descriptor = getRowDescriptor?.(item, index) || {};
+
+                    if (descriptor.classNames === undefined) {
+                        descriptor.classNames = getRowClassNames?.(item, index) || [];
+                    }
 
                     const id = Table.getRowId(this.props, item, index);
                     const selected = selectedIds.includes(id);
 
-                    classNames.push(b('row', {selected}));
+                    descriptor.classNames.push(b('row', {selected}));
 
-                    return classNames;
+                    return descriptor;
                 };
+
+                return currentGetRowDescriptor;
             },
         );
 

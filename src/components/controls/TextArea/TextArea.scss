@@ -189,6 +189,10 @@ $block: '.#{variables.$ns}text-area';
                     &:focus-within {
                         border-color: var(--g-color-line-danger);
                     }
+
+                    &:focus-within {
+                        --g-text-area-focus-outline-color: var(--g-color-line-danger);
+                    }
                 }
             }
 
@@ -198,6 +202,10 @@ $block: '.#{variables.$ns}text-area';
                     &:hover,
                     &:focus-within {
                         border-block-end: 1px solid var(--g-color-line-danger);
+                    }
+
+                    &:focus-within {
+                        --g-text-area-focus-outline-color: var(--g-color-line-danger);
                     }
                 }
             }

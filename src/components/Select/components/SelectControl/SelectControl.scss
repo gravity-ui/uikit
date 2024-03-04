@@ -168,6 +168,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
 
         &_error::before {
             border-color: var(--g-color-line-danger);
+            --g-select-focus-outline-color: var(--g-color-line-danger);
         }
 
         &:hover::after {

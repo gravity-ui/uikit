@@ -53,7 +53,11 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Ref to Slider's component props of focus and blur */
     apiRef?: React.RefObject<BaseSliderRefType>;
 } & Pick<DOMProps, 'className'> &
-    QAProps;
+    QAProps &
+    Pick<
+        RcSliderProps,
+        'ariaLabelForHandle' | 'ariaLabelledByForHandle' | 'ariaValueTextFormatterForHandle'
+    >;
 
 export type SliderInnerState = {
     max: number;

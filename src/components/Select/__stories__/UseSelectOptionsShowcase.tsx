@@ -5,6 +5,8 @@ import {TextInput} from '../../controls';
 import {Select, getSelectFilteredOptions, isSelectGroupTitle, useSelectOptions} from '../index';
 import type {SelectOption, SelectProps} from '../index';
 
+const title = 'Select example with useSelectOptions hook';
+
 export const UseSelectOptionsShowcase = () => {
     const [value, setValue] = React.useState<string[]>([]);
     const [filter, setFilter] = React.useState('');
@@ -110,6 +112,7 @@ export const UseSelectOptionsShowcase = () => {
             renderFilter={renderFilter}
             onFilterChange={setFilter}
             onUpdate={setValue}
+            title={title}
         />
     );
 };

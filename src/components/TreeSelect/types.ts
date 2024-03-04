@@ -27,6 +27,7 @@ export type TreeSelectRenderControlProps = {
     value: ListItemId[];
     id: string;
     activeItemId?: ListItemId;
+    title?: string;
 };
 
 export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
@@ -104,4 +105,8 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
      */
     mapItemDataToProps: TreeListMapItemDataToProps<T>;
     setActiveItemId?(listItemId?: ListItemId): void;
+    /**
+     * Control's title attribute value
+     */
+    title?: string;
 }

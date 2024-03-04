@@ -59,6 +59,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onItemClick,
         setActiveItemId: propsSetActiveItemId,
         mapItemDataToProps,
+        title,
     }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -189,6 +190,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         value,
         id: treeSelectId,
         activeItemId: listState.activeItemId,
+        title,
     };
 
     const togglerNode = renderControl ? (

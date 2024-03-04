@@ -12,26 +12,30 @@ const b = block('slider-showcase');
 const blockCn = b('block');
 const rowCn = b('row');
 
-const ShowcaseBlock = ({title, ...sliderProps}: Partial<SliderProps> & {title: string}) => (
-    <ShowcaseItem title={title}>
-        <div className={rowCn}>
-            <div>s:</div>
-            <Slider size="s" {...sliderProps} />
-        </div>
-        <div className={rowCn}>
-            <div>m:</div>
-            <Slider size="m" {...sliderProps} />
-        </div>
-        <div className={rowCn}>
-            <div>l:</div>
-            <Slider size="l" {...sliderProps} />
-        </div>
-        <div className={rowCn}>
-            <div>xl:</div>
-            <Slider size="xl" {...sliderProps} />
-        </div>
-    </ShowcaseItem>
-);
+const ShowcaseBlock = ({title, ...sliderProps}: Partial<SliderProps> & {title: string}) => {
+    const sliderLabel = `${title} slider example`;
+
+    return (
+        <ShowcaseItem title={title}>
+            <div className={rowCn}>
+                <div>s:</div>
+                <Slider size="s" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+            </div>
+            <div className={rowCn}>
+                <div>m:</div>
+                <Slider size="m" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+            </div>
+            <div className={rowCn}>
+                <div>l:</div>
+                <Slider size="l" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+            </div>
+            <div className={rowCn}>
+                <div>xl:</div>
+                <Slider size="xl" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+            </div>
+        </ShowcaseItem>
+    );
+};
 
 export const SliderShowcase = () => {
     return (

@@ -43,6 +43,7 @@ export * from './Table';
 export * from './Tabs';
 export * from './Text';
 export * from './Toaster';
+export * from './Toc';
 export * from './Tooltip';
 export * from './User';
 export * from './controls';

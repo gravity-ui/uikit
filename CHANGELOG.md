@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.2.0](https://github.com/gravity-ui/uikit/compare/v6.1.1...v6.2.0) (2024-03-05)
+
+
+### Features
+
+* **Popup:** add transition callbacks ([#1388](https://github.com/gravity-ui/uikit/issues/1388)) ([089beac](https://github.com/gravity-ui/uikit/commit/089beac6f98bf7a81b111fe4316cf8fd26a3f063))
+* update i18n pkg ([#1402](https://github.com/gravity-ui/uikit/issues/1402)) ([2fbf2c9](https://github.com/gravity-ui/uikit/commit/2fbf2c96f01d25db1fcf4150e57a63cf057e6cd0))
+
+
+### Bug Fixes
+
+* **Slider:** add export for Slider ([#1390](https://github.com/gravity-ui/uikit/issues/1390)) ([8eb741f](https://github.com/gravity-ui/uikit/commit/8eb741fc45b4c02e340eda82b492394f4d9d0daa))
+* **Toc:** add component import ([#1396](https://github.com/gravity-ui/uikit/issues/1396)) ([f737c0c](https://github.com/gravity-ui/uikit/commit/f737c0cb41117f862aea98ff1e6c5571ff8d3667))
+
 ## [6.1.1](https://github.com/gravity-ui/uikit/compare/v6.1.0...v6.1.1) (2024-02-26)
 
 

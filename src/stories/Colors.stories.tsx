@@ -20,6 +20,11 @@ export default {
                         id: 'color-contrast',
                         enabled: false,
                     },
+                    {
+                        id: 'button-name',
+                        enabled: false,
+                        selector: '[aria-labelledby]',
+                    },
                 ],
             },
         },

@@ -4,6 +4,7 @@ import {Bulb} from '@gravity-ui/icons';
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
 import {ActionTooltip, Button, Icon} from '../../components';
+import {useUniqId} from '../../hooks';
 
 import './ColorPanel.scss';
 
@@ -25,6 +26,7 @@ const switchBackgroundTitle = 'Switch background';
 
 export function ColorPanel(props: ColorPanelProps) {
     const [currentBackgroundIndex, setCurrentBackgroundIndex] = React.useState(0);
+    const tooltipId = useUniqId();
 
     function rotateBackground() {
         setCurrentBackgroundIndex((index) => (index + 1) % BACKGROUND_LIST.length);
@@ -59,7 +61,7 @@ export function ColorPanel(props: ColorPanelProps) {
 
     return (
         <div className={`color-panel color-panel_bg_${BACKGROUND_LIST[currentBackgroundIndex]}`}>
-            <ActionTooltip title={switchBackgroundTitle}>
+            <ActionTooltip title={switchBackgroundTitle} id={tooltipId}>
                 <Button
                     view={
                         currentBackgroundIndex % BACKGROUND_LIST.length === 0
@@ -69,7 +71,7 @@ export function ColorPanel(props: ColorPanelProps) {
                     className="color-panel__bg-switcher"
                     onClick={() => rotateBackground()}
                     extraProps={{
-                        'aria-label': switchBackgroundTitle,
+                        'aria-labelledby': tooltipId,
                     }}
                 >
                     <Icon data={Bulb} />

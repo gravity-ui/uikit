@@ -131,7 +131,10 @@ const DefaultRowActions = <I extends TableDataItem>({
         return (
             <Menu.Item
                 key={index}
-                onClick={(event) => handler(item, index, event)}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    handler(item, index, event);
+                }}
                 iconStart={icon}
                 className={menuItemCn}
                 {...restProps}

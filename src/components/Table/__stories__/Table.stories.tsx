@@ -150,6 +150,9 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     );
 };
 export const HOCWithTableActions = WithTableActionsTemplate.bind({});
+HOCWithTableActions.args = {
+    onRowClick: () => action('default')('click'),
+};
 
 // ---------------------------------
 const columnsWithCopy = _cloneDeep(columns);

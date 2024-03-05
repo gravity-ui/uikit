@@ -69,7 +69,7 @@
         "prepare": "husky",
         "test": "jest",
         "test-storybook": "test-storybook --url http://localhost:7007",
-        "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"http-server storybook-static --port 7007 --silent\" \"wait-on tcp:127.0.0.1:7007 && test-storybook --ci --url http://127.0.0.1:7007\"",
+        "test-storybook:ci": "if [ ! -z \"$PR_NUMBER\" ]; then wait-on https://preview.gravity-ui.com/uikit/$PR_NUMBER && test-storybook --ci --url https://preview.gravity-ui.com/uikit/$PR_NUMBER; else echo \"Variable PR_NUMBER is not specified.\" && exit 1; fi",
         "test:coverage": "jest --coverage",
         "test:watch": "jest --watchAll",
         "clean": "gulp clean",

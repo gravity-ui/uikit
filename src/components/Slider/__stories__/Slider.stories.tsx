@@ -12,7 +12,7 @@ export default {
     title: 'Components/Inputs/Slider',
     component: Slider,
     args: {
-        ariaLabelForHandle: 'Example slider field',
+        'aria-label': 'Example slider field',
     },
     parameters: {
         a11y: {

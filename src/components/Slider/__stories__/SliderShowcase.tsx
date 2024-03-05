@@ -19,19 +19,19 @@ const ShowcaseBlock = ({title, ...sliderProps}: Partial<SliderProps> & {title: s
         <ShowcaseItem title={title}>
             <div className={rowCn}>
                 <div>s:</div>
-                <Slider size="s" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+                <Slider size="s" aria-label={sliderLabel} {...sliderProps} />
             </div>
             <div className={rowCn}>
                 <div>m:</div>
-                <Slider size="m" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+                <Slider size="m" aria-label={sliderLabel} {...sliderProps} />
             </div>
             <div className={rowCn}>
                 <div>l:</div>
-                <Slider size="l" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+                <Slider size="l" aria-label={sliderLabel} {...sliderProps} />
             </div>
             <div className={rowCn}>
                 <div>xl:</div>
-                <Slider size="xl" ariaLabelForHandle={sliderLabel} {...sliderProps} />
+                <Slider size="xl" aria-label={sliderLabel} {...sliderProps} />
             </div>
         </ShowcaseItem>
     );

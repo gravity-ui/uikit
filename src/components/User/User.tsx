@@ -27,8 +27,6 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
             style,
             qa,
             alt,
-            avatarAriaLabel,
-            avatarAriaLabelledBy,
         },
         ref,
     ) => {
@@ -48,13 +46,7 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
                         {React.isValidElement(avatar) ? (
                             avatar
                         ) : (
-                            <Avatar
-                                size={size}
-                                alt={alt}
-                                aria-label={avatarAriaLabel}
-                                aria-labelledby={avatarAriaLabelledBy}
-                                {...avatar}
-                            />
+                            <Avatar size={size} alt={alt} {...avatar} />
                         )}
                     </div>
                 ) : null}

@@ -29,7 +29,6 @@ export default {
                     },
                 ],
             },
-            options: {},
         },
     },
 } as Meta;

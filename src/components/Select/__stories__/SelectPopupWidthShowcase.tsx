@@ -27,24 +27,19 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 className="select-width-50"
                 options={extralong}
                 popupWidth={200}
-                title={'Sample select'}
+                title="Sample select"
             />
             <Select
                 {...args}
                 options={extralong}
-                width={'max'}
+                width="max"
                 popupWidth={200}
-                title={'Sample select'}
+                title="Sample select"
             />
 
             <h2>Short values. Adjust to Control width</h2>
-            <Select
-                {...args}
-                className="select-width-300"
-                options={short}
-                title={'Sample select'}
-            />
-            <Select {...args} options={short} width={'max'} title={'Sample select'} />
+            <Select {...args} className="select-width-300" options={short} title="Sample select" />
+            <Select {...args} options={short} width="max" title="Sample select" />
 
             <h2>Modes default/fit</h2>
             <Flex gap={10}>
@@ -55,7 +50,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-300"
                             options={extralong}
-                            title={'Sample select'}
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -66,7 +61,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-50"
                             options={short}
-                            title={'Sample select'}
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -74,11 +69,11 @@ export const SelectPopupWidthShowcase = (args: any) => {
             <div>
                 Extra long values. DEFAULT Fullscreen
                 <div>
-                    <Select {...args} width={'max'} options={extralong} title={'Sample select'} />
+                    <Select {...args} width="max" options={extralong} title="Sample select" />
                 </div>
             </div>
 
-            <Flex justifyContent={'center'} style={{marginTop: '20px'}}>
+            <Flex justifyContent="center" style={{marginTop: '20px'}}>
                 Enclosed with 100px margin container
             </Flex>
             <Flex gap={10} style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
@@ -89,8 +84,8 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-300"
                             options={extralong}
-                            popupWidth={'fit'}
-                            title={'Sample select'}
+                            popupWidth="fit"
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -102,8 +97,8 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-50"
                             options={short}
-                            popupWidth={'fit'}
-                            title={'Sample select'}
+                            popupWidth="fit"
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -113,10 +108,10 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 <div>
                     <Select
                         {...args}
-                        width={'max'}
+                        width="max"
                         options={extralong}
-                        popupWidth={'fit'}
-                        title={'Sample select'}
+                        popupWidth="fit"
+                        title="Sample select"
                     />
                 </div>
             </div>
@@ -132,7 +127,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-300"
                             options={extralongVirtualized}
-                            title={'Sample select'}
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -143,7 +138,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-50"
                             options={shortVirtualized}
-                            title={'Sample select'}
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -157,8 +152,8 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-300"
                             options={extralongVirtualized}
-                            popupWidth={'fit'}
-                            title={'Sample select'}
+                            popupWidth="fit"
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -170,8 +165,8 @@ export const SelectPopupWidthShowcase = (args: any) => {
                             {...args}
                             className="select-width-50"
                             options={shortVirtualized}
-                            popupWidth={'fit'}
-                            title={'Sample select'}
+                            popupWidth="fit"
+                            title="Sample select"
                         />
                     </div>
                 </div>
@@ -181,7 +176,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
 
             <div>
                 <div>Keep popup width while picking</div>
-                <Select multiple {...args} options={short} title={'Sample select'} />
+                <Select multiple {...args} options={short} title="Sample select" />
             </div>
         </React.Fragment>
     );

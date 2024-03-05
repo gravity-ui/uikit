@@ -217,7 +217,7 @@ describe('getXpath', () => {
         it('should ignore class name convert if id exist', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className={'class__name'} id={'id'}>
+                <div onClick={onClick} className="class__name" id="id">
                     {clickText}
                 </div>,
             );
@@ -233,7 +233,7 @@ describe('getXpath', () => {
         it('should not ignore class name convert if withoutId', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className={'class__name'} id={'id'}>
+                <div onClick={onClick} className="class__name" id="id">
                     {clickText}
                 </div>,
             );
@@ -252,8 +252,8 @@ describe('getXpath', () => {
             render(
                 <div
                     onClick={onClick}
-                    className={'class class__name class__name_mod target_status_important'}
-                    id={'id'}
+                    className="class class__name class__name_mod target_status_important"
+                    id="id"
                 >
                     {clickText}
                 </div>,
@@ -273,8 +273,8 @@ describe('getXpath', () => {
             render(
                 <div
                     onClick={onClick}
-                    className={'class class__name class__name_mod target_status_important'}
-                    id={'id'}
+                    className="class class__name class__name_mod target_status_important"
+                    id="id"
                 >
                     {clickText}
                 </div>,
@@ -297,7 +297,7 @@ describe('getXpath', () => {
         it('should get tags', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className={'class'}>
+                <div onClick={onClick} className="class">
                     {clickText}
                 </div>,
             );
@@ -318,7 +318,7 @@ describe('getXpath', () => {
             render(
                 <div onClick={onClick} id={'remove-too'}>
                     <div id={'keep-this'} className={'class-2'}>
-                        <div id={'remove'} className={'target class-3'}>
+                        <div id="remove" className={'target class-3'}>
                             {clickText}
                         </div>
                     </div>
@@ -341,7 +341,7 @@ describe('getXpath', () => {
             render(
                 <div onClick={onClick} className={'class-1'} id={'convert-too'}>
                     <div id={'keep-this'} className={'class-2'}>
-                        <div id={'convert'} className={'target class-3'}>
+                        <div id="convert" className={'target class-3'}>
                             {clickText}
                         </div>
                     </div>

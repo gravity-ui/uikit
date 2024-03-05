@@ -24,13 +24,12 @@ export default {
                     },
                 ],
             },
-            options: {},
         },
     },
 } as Meta;
 
 const DefaultTemplate: StoryFn<SelectProps> = (args) => (
-    <Select {...args} title={'Select sample'}>
+    <Select {...args} title="Select sample">
         <Select.Option value="val1" content="Value1" />
         <Select.Option value="val2" content="Value2" />
         <Select.Option value="val3" content="Value3" />

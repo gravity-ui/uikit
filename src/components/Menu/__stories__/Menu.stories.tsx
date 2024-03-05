@@ -34,7 +34,6 @@ export default {
                     },
                 ],
             },
-            options: {},
         },
     },
 } as Meta<typeof Menu>;

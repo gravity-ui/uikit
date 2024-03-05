@@ -21,7 +21,6 @@ export default {
                     },
                 ],
             },
-            options: {},
         },
     },
 } as Meta;
@@ -29,7 +28,7 @@ export default {
 const RecursiveRendererTemplate: StoryFn<RecursiveListProps> = (props) => {
     return (
         <Flex width={400}>
-            <RecursiveList aria-label={'Recursive list sample'} {...props} />
+            <RecursiveList aria-label="Recursive list sample" {...props} />
         </Flex>
     );
 };

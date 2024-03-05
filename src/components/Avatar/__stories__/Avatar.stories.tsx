@@ -26,7 +26,6 @@ const meta: Meta<typeof Avatar> = {
                     },
                 ],
             },
-            options: {},
         },
     },
 };
@@ -150,40 +149,40 @@ export const AvatarShowcase: Story = {
                         <Avatar
                             {...imageProps}
                             size="xs"
-                            alt={'Sample image'}
-                            aria-label={'Avatar with XS size'}
+                            alt="Sample image"
+                            aria-label="Avatar with XS size"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
                         <Avatar
                             {...imageProps}
                             size="s"
-                            alt={'Sample image'}
-                            aria-label={'Avatar with S size'}
+                            alt="Sample image"
+                            aria-label="Avatar with S size"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
                         <Avatar
                             {...imageProps}
                             size="m"
-                            alt={'Sample image'}
-                            aria-label={'Avatar with M size'}
+                            alt="Sample image"
+                            aria-label="Avatar with M size"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
                         <Avatar
                             {...imageProps}
                             size="l"
-                            alt={'Sample image'}
-                            aria-label={'Avatar with L size'}
+                            alt="Sample image"
+                            aria-label="Avatar with L size"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
                         <Avatar
                             {...imageProps}
                             size="xl"
-                            alt={'Sample image'}
-                            aria-label={'Avatar with XL size'}
+                            alt="Sample image"
+                            aria-label="Avatar with XL size"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
@@ -191,8 +190,8 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="xs"
                             borderColor={BORDER_COLOR}
-                            alt={'Sample image'}
-                            aria-label={'Avatar with XS size and border'}
+                            alt="Sample image"
+                            aria-label="Avatar with XS size and border"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
@@ -200,8 +199,8 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="s"
                             borderColor={BORDER_COLOR}
-                            alt={'Sample image'}
-                            aria-label={'Avatar with S size and border'}
+                            alt="Sample image"
+                            aria-label="Avatar with S size and border"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
@@ -209,8 +208,8 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="m"
                             borderColor={BORDER_COLOR}
-                            alt={'Sample image'}
-                            aria-label={'Avatar with M size and border'}
+                            alt="Sample image"
+                            aria-label="Avatar with M size and border"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
@@ -218,8 +217,8 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="l"
                             borderColor={BORDER_COLOR}
-                            alt={'Sample image'}
-                            aria-label={'Avatar with L size and border'}
+                            alt="Sample image"
+                            aria-label="Avatar with L size and border"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
@@ -227,33 +226,33 @@ export const AvatarShowcase: Story = {
                             {...imageProps}
                             size="xl"
                             borderColor={BORDER_COLOR}
-                            alt={'Sample image'}
-                            aria-label={'Avatar with XL size and border'}
+                            alt="Sample image"
+                            aria-label="Avatar with XL size and border"
                         />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Icon">
                     <ShowcaseItem title="xs">
-                        <Avatar {...iconProps} size="xs" aria-label={'Sample icon'} />
+                        <Avatar {...iconProps} size="xs" aria-label="Sample icon" />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...iconProps} size="s" aria-label={'Sample icon'} />
+                        <Avatar {...iconProps} size="s" aria-label="Sample icon" />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...iconProps} size="m" aria-label={'Sample icon'} />
+                        <Avatar {...iconProps} size="m" aria-label="Sample icon" />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...iconProps} size="l" aria-label={'Sample icon'} />
+                        <Avatar {...iconProps} size="l" aria-label="Sample icon" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...iconProps} size="xl" aria-label={'Sample icon'} />
+                        <Avatar {...iconProps} size="xl" aria-label="Sample icon" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar
                             {...iconProps}
                             size="xs"
                             borderColor={BORDER_COLOR}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
@@ -261,7 +260,7 @@ export const AvatarShowcase: Story = {
                             {...iconProps}
                             size="s"
                             borderColor={BORDER_COLOR}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
@@ -269,7 +268,7 @@ export const AvatarShowcase: Story = {
                             {...iconProps}
                             size="m"
                             borderColor={BORDER_COLOR}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
@@ -277,7 +276,7 @@ export const AvatarShowcase: Story = {
                             {...iconProps}
                             size="l"
                             borderColor={BORDER_COLOR}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
@@ -285,32 +284,32 @@ export const AvatarShowcase: Story = {
                             {...iconProps}
                             size="xl"
                             borderColor={BORDER_COLOR}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Text">
                     <ShowcaseItem title="xs">
-                        <Avatar {...textProps} size="xs" aria-label={'CD'} />
+                        <Avatar {...textProps} size="xs" aria-label="CD" />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
-                        <Avatar {...textProps} size="s" aria-label={'CD'} />
+                        <Avatar {...textProps} size="s" aria-label="CD" />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
-                        <Avatar {...textProps} size="m" aria-label={'CD'} />
+                        <Avatar {...textProps} size="m" aria-label="CD" />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
-                        <Avatar {...textProps} size="l" aria-label={'CD'} />
+                        <Avatar {...textProps} size="l" aria-label="CD" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
-                        <Avatar {...textProps} size="xl" aria-label={'CD'} />
+                        <Avatar {...textProps} size="xl" aria-label="CD" />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar
                             {...textProps}
                             size="xs"
                             borderColor={BORDER_COLOR}
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="s">
@@ -318,7 +317,7 @@ export const AvatarShowcase: Story = {
                             {...textProps}
                             size="s"
                             borderColor={BORDER_COLOR}
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="m">
@@ -326,7 +325,7 @@ export const AvatarShowcase: Story = {
                             {...textProps}
                             size="m"
                             borderColor={BORDER_COLOR}
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="l">
@@ -334,7 +333,7 @@ export const AvatarShowcase: Story = {
                             {...textProps}
                             size="l"
                             borderColor={BORDER_COLOR}
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
@@ -342,7 +341,7 @@ export const AvatarShowcase: Story = {
                             {...textProps}
                             size="xl"
                             borderColor={BORDER_COLOR}
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                 </Showcase>
@@ -353,7 +352,7 @@ export const AvatarShowcase: Story = {
                             view="filled"
                             size="l"
                             icon={FaceRobot}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / filled icon">
@@ -362,7 +361,7 @@ export const AvatarShowcase: Story = {
                             view="filled"
                             size="l"
                             icon={FaceRobot}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="normal / outlined icon">
@@ -371,7 +370,7 @@ export const AvatarShowcase: Story = {
                             view="outlined"
                             size="l"
                             icon={FaceRobot}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / outlined icon">
@@ -380,7 +379,7 @@ export const AvatarShowcase: Story = {
                             view="outlined"
                             size="l"
                             icon={FaceRobot}
-                            aria-label={'Sample icon'}
+                            aria-label="Sample icon"
                         />
                     </ShowcaseItem>
                 </Showcase>
@@ -391,7 +390,7 @@ export const AvatarShowcase: Story = {
                             view="filled"
                             size="l"
                             text="Charles Darwin"
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / filled icon">
@@ -400,7 +399,7 @@ export const AvatarShowcase: Story = {
                             view="filled"
                             size="l"
                             text="Charles Darwin"
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="normal / outlined icon">
@@ -409,7 +408,7 @@ export const AvatarShowcase: Story = {
                             view="outlined"
                             size="l"
                             text="Charles Darwin"
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="brand / outlined icon">
@@ -418,7 +417,7 @@ export const AvatarShowcase: Story = {
                             view="outlined"
                             size="l"
                             text="Charles Darwin"
-                            aria-label={'CD'}
+                            aria-label="CD"
                         />
                     </ShowcaseItem>
                 </Showcase>

@@ -43,7 +43,6 @@ export default {
                     },
                 ],
             },
-            options: {},
         },
     },
 } as Meta<TableProps<DataItem>>;
@@ -164,7 +163,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                             items={items}
                             size="s"
                             mapItemDataToProps={(title) => ({title})}
-                            title={'Actions select example'}
+                            title="Actions select example"
                         />
                     );
                 }}

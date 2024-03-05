@@ -35,7 +35,6 @@ export default {
                     },
                 ],
             },
-            options: {},
         },
     },
 } as Meta;
@@ -87,7 +86,7 @@ export const Icon: Story = {
                 Both
                 <IconComponent data={ChevronDown} />
             </Button>
-            <Button {...args} title={'Copy'}>
+            <Button {...args} title="Copy">
                 <IconComponent data={Copy} />
             </Button>
         </Showcase>

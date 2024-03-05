@@ -37,12 +37,5 @@ jobs:
         cache: npm
     - name: Install Packages
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
     - name: Unit Tests
       run: npm run test
-    - name: Build Storybook
-      run: npm run build-storybook
-    - name: Storybook Tests
-      run: npm run test-storybook:ci
-

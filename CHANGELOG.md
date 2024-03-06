@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.31.2](https://github.com/gravity-ui/uikit/compare/v5.31.1...v5.31.2) (2024-03-06)
+
+
+### Bug Fixes
+
+* (Table) withTableSelection HOC background color fix  ([#1401](https://github.com/gravity-ui/uikit/issues/1401)) ([6cae52d](https://github.com/gravity-ui/uikit/commit/6cae52d5e9c96153951576979d66986b55fa7334))
+
 ## [5.31.1](https://github.com/gravity-ui/uikit/compare/v5.31.0...v5.31.1) (2024-02-28)
 
 

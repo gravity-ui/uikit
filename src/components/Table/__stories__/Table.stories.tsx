@@ -25,10 +25,7 @@ import type {DataItem} from './utils';
 export default {
     title: 'Components/Data Display/Table',
     component: Table,
-    args: {
-        columns,
-        data,
-    },
+    args: {columns, data},
 } as Meta<TableProps<DataItem>>;
 
 const DefaultTemplate: StoryFn<TableProps<DataItem>> = (args) => {

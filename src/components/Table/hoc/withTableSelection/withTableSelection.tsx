@@ -73,18 +73,24 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 checked = false;
             }
 
-            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxUpdate});
+            return this.renderCheckBox({
+                disabled,
+                checked,
+                handler: this.handleAllCheckBoxUpdate,
+                qa: withTableSelection.headerCheckboxQa,
+            });
         };
 
         private renderBodyCell = (item: I, index: number) => {
             const {selectedIds} = this.props;
-            const id = Table.getRowId(this.props, item, index);
-            const checked = selectedIds.includes(id);
+            const rowId = Table.getRowId(this.props, item, index);
+            const checked = selectedIds.includes(rowId);
 
             return this.renderCheckBox({
                 disabled: this.isDisabled(item, index),
                 checked,
-                handler: this.handleCheckBoxUpdate.bind(this, id, index),
+                handler: this.handleCheckBoxUpdate.bind(this, rowId, index),
+                qa: withTableSelection.getCheckboxQa(rowId),
             });
         };
 
@@ -92,10 +98,12 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             disabled,
             checked,
             handler,
+            qa,
         }: {
             checked: boolean;
             disabled: boolean;
             handler: React.ChangeEventHandler<HTMLInputElement>;
+            qa: string;
         }) {
             return (
                 <Checkbox
@@ -106,6 +114,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     className={b('selection-checkbox', {
                         'vertical-align': this.props.verticalAlign,
                     })}
+                    qa={qa}
                 />
             );
         }
@@ -237,3 +246,6 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         };
     };
 }
+
+withTableSelection.headerCheckboxQa = 'headerCheckboxQa';
+withTableSelection.getCheckboxQa = (id: string) => `CheckboxQa_${id}`;

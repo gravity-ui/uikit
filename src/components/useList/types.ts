@@ -102,6 +102,11 @@ export type ListState = {
     activeItemId?: ListItemId;
 };
 
+export type InitialListParsedState = Pick<
+    ListState,
+    'disabledById' | 'expandedById' | 'selectedById'
+>;
+
 export type ParsedFlattenState = {
     visibleFlattenIds: ListItemId[];
     idToFlattenIndex: Record<ListItemId, number>;

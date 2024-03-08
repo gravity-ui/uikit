@@ -2,7 +2,7 @@ import React from 'react';
 
 import {cn} from '../../utils/cn';
 import {Breadcrumbs} from '../Breadcrumbs';
-import type {BreadcrumbsProps} from '../Breadcrumbs';
+import type {BreadcrumbsProps, RenderItemProps} from '../Breadcrumbs';
 
 import './BreadcrumbsShowcase.scss';
 
@@ -58,6 +58,10 @@ const sizes = [100, 150, 200, 250, 300];
 
 interface BreadcrumbsShowcaseProps extends Omit<BreadcrumbsProps, 'items'> {}
 
+const Container = ({children, isCurrent}: RenderItemProps) => {
+    return <div style={isCurrent ? undefined : {border: '1px solid tomato'}}>{children}</div>;
+};
+
 export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
     const defaultBreadcrumbsList = sizes.map((size) => (
         <div
@@ -94,6 +98,14 @@ export function BreadcrumbsShowcase(props: BreadcrumbsShowcaseProps) {
                         title: `Custom title for ${text}`,
                         action: () => {},
                     }))}
+                />
+            </div>
+            <div className={b('item')}>
+                <p>Custom render item</p>
+                <Breadcrumbs
+                    {...props}
+                    items={breadcrumbsItems.map(({text}) => ({text, action: () => {}}))}
+                    renderItem={Container}
                 />
             </div>
         </div>

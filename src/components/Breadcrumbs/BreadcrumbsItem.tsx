@@ -3,56 +3,67 @@ import React from 'react';
 import {Link} from '../Link';
 import {block} from '../utils/cn';
 
-import type {BreadcrumbsProps, BreadcrumbsItem as IBreadcrumbsItem} from './Breadcrumbs';
+import type {
+    BreadcrumbsItem as IBreadcrumbsItem,
+    RenderItem,
+    RenderItemContent,
+    RenderRootContent,
+} from './Breadcrumbs';
 import {BreadcrumbsButton} from './BreadcrumbsButton';
 
-interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
-    data: T;
+export interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
+    item: T;
     isCurrent: boolean;
     isPrevCurrent: boolean;
-    renderItem?:
-        | BreadcrumbsProps<T>['renderItemContent']
-        | BreadcrumbsProps<T>['renderRootContent'];
+    renderItemContent?: RenderItemContent<T> | RenderRootContent<T>;
+    renderItem?: RenderItem<T>;
 }
 
 const b = block('breadcrumbs');
 
 function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
-    data,
+    item,
     isCurrent,
     isPrevCurrent,
+    renderItemContent,
     renderItem,
 }: Props<T>) {
-    const itemTitle = data.title || data.text;
+    const children = renderItemContent
+        ? renderItemContent(item, isCurrent, isPrevCurrent)
+        : item.text;
 
-    const item = renderItem ? renderItem(data, isCurrent, isPrevCurrent) : data.text;
+    if (renderItem) {
+        return renderItem({item, children, isCurrent, isPrevCurrent});
+    }
+
+    const itemTitle = item.title || item.text;
 
     if (isPrevCurrent || !isCurrent) {
-        if (data.href !== undefined) {
+        if (item.href !== undefined) {
             return (
                 <Link
-                    key={data.text}
+                    key={item.text}
                     view="secondary"
-                    href={data.href}
+                    href={item.href}
                     title={itemTitle}
-                    onClick={data.action}
+                    onClick={item.action}
                     className={b('item', {'prev-current': isPrevCurrent})}
                 >
-                    {item}
+                    {children}
                 </Link>
             );
         }
 
         return (
-            <BreadcrumbsButton key={data.text} title={itemTitle} onClick={data.action}>
-                {item}
+            <BreadcrumbsButton key={item.text} title={itemTitle} onClick={item.action}>
+                {children}
             </BreadcrumbsButton>
         );
     }
 
     return (
         <div title={itemTitle} className={b('item', {current: true})}>
-            {item}
+            {children}
         </div>
     );
 }

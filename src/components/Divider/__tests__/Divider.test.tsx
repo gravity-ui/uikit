@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react';
-
+import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Divider} from '../Divider';
 

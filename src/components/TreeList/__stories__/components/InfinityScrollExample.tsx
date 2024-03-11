@@ -13,7 +13,7 @@ import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
 export interface InfinityScrollExampleProps
     extends Omit<
         TreeListProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'multiple'
+        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'multiple' | 'size'
     > {
     itemsCount?: number;
 }
@@ -54,7 +54,8 @@ export const InfinityScrollExample = ({
 
     return (
         <Flex direction="column">
-            <TreeList<{title: string}>
+            <TreeList
+                size="l"
                 {...storyProps}
                 {...listState}
                 items={items}

@@ -2,13 +2,17 @@ import type React from 'react';
 
 import type {PopperPlacement} from '../../hooks/private';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
+import type {
+    TreeListRenderContainer,
+    TreeListRenderContainerProps,
+    TreeListRenderContent,
+} from '../TreeList/types';
 import type {QAProps} from '../types';
 import type {
     KnownItemStructure,
     ListItemId,
     ListItemSize,
     ListItemType,
-    ListParsedState,
     ListState,
     OverrideItemContext,
     RenderItemContext,
@@ -36,18 +40,8 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
     renderContext?: P;
 }) => React.JSX.Element;
 
-export type TreeSelectRenderContainerProps<T> = ListParsedState<T> &
-    ListState & {
-        id: string;
-        size: ListItemSize;
-        renderItem(id: ListItemId, index: number, renderContextProps?: Object): React.JSX.Element;
-        containerRef: React.RefObject<HTMLDivElement>;
-        className?: string;
-    };
-
-export type TreeSelectRenderContainer<T> = (
-    props: TreeSelectRenderContainerProps<T>,
-) => React.JSX.Element;
+export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
+export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
 interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
@@ -60,6 +54,8 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     placement?: PopperPlacement;
     width?: 'auto' | 'max' | number;
     className?: string;
+    containerRef?: React.RefObject<HTMLDivElement>;
+    containerClassName?: string;
     popupDisablePortal?: boolean;
     multiple?: boolean;
     /**
@@ -108,16 +104,18 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     onItemClick?:
         | 'disabled'
         | ((data: T, content: OverrideItemContext, defaultClickCallback: () => void) => void);
+    items: ListItemType<T>[];
 }
 
-type TreeSelectKnownProps<T> = TreeSelectBaseProps<T> & {
-    items: ListItemType<T>[];
-};
+type TreeSelectKnownProps<T> = TreeSelectBaseProps<T>;
 type TreeSelectUnknownProps<T> = TreeSelectBaseProps<T> & {
-    items: ListItemType<T>[];
-    renderControlContent(item: T): KnownItemStructure;
+    getItemContent: TreeListRenderContent<T>;
 };
 
 export type TreeSelectProps<T> = T extends KnownItemStructure | string
     ? TreeSelectKnownProps<T>
     : TreeSelectUnknownProps<T>;
+
+export type TreeSelectPublicProps<T> = TreeSelectBaseProps<T> & {
+    getItemContent?: TreeListRenderContent<T>;
+};

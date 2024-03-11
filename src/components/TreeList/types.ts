@@ -22,14 +22,6 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     renderContext?: P;
 }) => React.JSX.Element;
 
-export type TreeListRenderContainerProps<T> = ListParsedState<T> &
-    Partial<ListState> & {
-        id: string;
-        size: ListItemSize;
-        renderItem(id: ListItemId, index: number, renderContextProps?: Object): React.JSX.Element;
-        containerRef?: React.RefObject<HTMLDivElement>;
-        className?: string;
-    };
 interface ItemClickContext {
     id: ListItemId;
     isGroup: boolean;
@@ -39,9 +31,20 @@ interface ItemClickContext {
 
 export type TreeListOnItemClick<T> = (data: T, ctx: ItemClickContext) => void;
 
+export type TreeListRenderContainerProps<T> = ListParsedState<T> &
+    Partial<ListState> & {
+        id: string;
+        size: ListItemSize;
+        renderItem(id: ListItemId, index: number, renderContextProps?: Object): React.JSX.Element;
+        containerRef?: React.RefObject<HTMLDivElement>;
+        className?: string;
+    };
+
 export type TreeListRenderContainer<T> = (
     props: TreeListRenderContainerProps<T>,
 ) => React.JSX.Element;
+
+export type TreeListRenderContent<T> = (item: T) => KnownItemStructure;
 
 interface TreeListBaseProps<T> extends QAProps, Partial<ListState> {
     /**
@@ -54,7 +57,7 @@ interface TreeListBaseProps<T> extends QAProps, Partial<ListState> {
     containerRef?: React.RefObject<HTMLDivElement>;
     id?: string | undefined;
     className?: string;
-    size: ListItemSize;
+    size?: ListItemSize;
     /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
@@ -72,14 +75,18 @@ interface TreeListBaseProps<T> extends QAProps, Partial<ListState> {
     multiple?: boolean;
 }
 
-type TreeListKnownProps<T> = TreeListBaseProps<T> & {
-    items: ListItemType<T>[];
-};
+type TreeListKnownProps<T> = TreeListBaseProps<T>;
 type TreeListUnknownProps<T> = TreeListBaseProps<T> & {
-    items: ListItemType<T>[];
-    getItemContent(item: T): KnownItemStructure;
+    getItemContent: TreeListRenderContent<T>;
 };
 
 export type TreeListProps<T> = T extends KnownItemStructure | string
     ? TreeListKnownProps<T>
     : TreeListUnknownProps<T>;
+
+/**
+ * Needed if TreeList component will be used in composition with `T` generic data type
+ */
+export type TreeListPublicProps<T> = TreeListBaseProps<T> & {
+    getItemContent?: TreeListRenderContent<T>;
+};

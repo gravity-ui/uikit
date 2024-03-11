@@ -50,7 +50,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
             <TreeSelect
                 {...props}
                 size="l"
-                renderControlContent={mapCustomDataStructureToKnownProps}
+                getItemContent={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
                 value={value}
                 renderItem={({

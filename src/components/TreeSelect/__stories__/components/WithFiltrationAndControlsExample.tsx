@@ -2,14 +2,13 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {Text} from '../../../Text';
+import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {TextInput} from '../../../controls';
 import {Flex, spacing} from '../../../layout';
 import {useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
-import type {TreeSelectProps, TreeSelectRenderContainerProps} from '../../types';
-
-import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
+import type {TreeSelectProps, TreeSelectRenderContainer} from '../../types';
 
 export interface WithFiltrationAndControlsExampleProps
     extends Omit<
@@ -25,7 +24,7 @@ export const WithFiltrationAndControlsExample = ({
 }: WithFiltrationAndControlsExampleProps) => {
     const {items, renderContainer} = React.useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
-        const containerRenderer = (props: TreeSelectRenderContainerProps<{title: string}>) => {
+        const containerRenderer: TreeSelectRenderContainer<{title: string}> = (props) => {
             if (props.items.length === 0 && baseItems.length > 0) {
                 return (
                     <Flex centerContent className={spacing({p: 2})} height="300px">

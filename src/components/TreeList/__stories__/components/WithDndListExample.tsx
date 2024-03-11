@@ -35,10 +35,7 @@ const DraggableListItem = ({
 type CustomDataType = {someRandomKey: string; id: string};
 
 export interface WithDndListExampleProps
-    extends Omit<
-        TreeListProps<CustomDataType>,
-        'items' | 'getItemContent' | 'renderControlContent'
-    > {}
+    extends Omit<TreeListProps<CustomDataType>, 'items' | 'getItemContent' | 'getItemContent'> {}
 
 const randomItems: CustomDataType[] = createRandomizedData({
     num: 10,
@@ -129,7 +126,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                     <DraggableListItem
                         provided={provided}
                         {...commonProps}
-                        active={snapshot.isDragging}
+                        active={snapshot.isDragging || commonProps.active}
                     />
                 )}
             </Draggable>

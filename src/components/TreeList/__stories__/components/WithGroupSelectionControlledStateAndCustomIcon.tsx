@@ -21,7 +21,7 @@ interface CustomDataStructure {
 export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
     extends Omit<
         TreeListProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef'
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size'
     > {
     itemsCount?: number;
 }

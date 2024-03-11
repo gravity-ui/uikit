@@ -24,10 +24,7 @@ export default {
 } as Meta;
 
 const DefaultTemplate: StoryFn<
-    Omit<
-        TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'renderControlContent'
-    > & {
+    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
         itemsCount?: number;
     }
 > = ({itemsCount = 5, ...props}) => {

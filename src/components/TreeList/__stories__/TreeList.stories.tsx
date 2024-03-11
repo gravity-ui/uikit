@@ -24,10 +24,7 @@ export default {
 } as Meta;
 
 const DefaultTemplate: StoryFn<
-    Omit<
-        TreeListProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'renderControlContent'
-    > & {
+    Omit<TreeListProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
         itemsCount?: number;
     }
 > = ({itemsCount = 5, ...props}) => {
@@ -58,9 +55,7 @@ const InfinityScrollTemplate: StoryFn<InfinityScrollExampleProps> = (props) => {
     return <InfinityScrollExample {...props} />;
 };
 export const InfinityScroll = InfinityScrollTemplate.bind({});
-InfinityScroll.args = {
-    size: 'm',
-};
+InfinityScroll.args = {};
 
 const WithFiltrationAndControlsTemplate: StoryFn<WithFiltrationAndControlsExampleProps> = (
     props,

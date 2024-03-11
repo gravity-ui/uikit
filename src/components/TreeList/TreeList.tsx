@@ -53,8 +53,9 @@ export const TreeList = <T,>(props: TreeListProps<T>) => {
 
     const handleItemClick = React.useCallback(
         (listItemId: ListItemId) => {
-            onItemClick?.(listParsedState.itemsById[listItemId], {
+            onItemClick?.({
                 id: listItemId,
+                data: listParsedState.itemsById[listItemId],
                 isGroup: listItemId in listParsedState.groupsState,
                 disabled: disabledById
                     ? Boolean(disabledById[listItemId])
@@ -126,7 +127,7 @@ export const TreeList = <T,>(props: TreeListProps<T>) => {
         );
     };
 
-    // not JSX decl here is weird `react-beautiful-dnd` render bug
+    // not JSX decl here is from weird `react-beautiful-dnd` render bug
     return renderContainer({
         id: `list-${treeListId}`,
         size,

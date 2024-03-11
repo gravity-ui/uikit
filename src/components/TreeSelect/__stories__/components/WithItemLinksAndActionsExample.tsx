@@ -33,7 +33,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                 size="l"
                 value={value}
                 items={items}
-                onItemClick={(_, {id, isGroup, disabled}) => {
+                onItemClick={({id, isGroup, disabled}) => {
                     if (!isGroup && !disabled) {
                         setValue([id]);
                     }

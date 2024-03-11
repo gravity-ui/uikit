@@ -56,7 +56,7 @@ export const WithFiltrationAndControlsExample = ({
             <TreeList
                 {...treeSelectProps}
                 {...listState}
-                onItemClick={(_data, {id, isGroup, disabled}) => {
+                onItemClick={({id, isGroup, disabled}) => {
                     if (disabled) return;
 
                     if (isGroup) {

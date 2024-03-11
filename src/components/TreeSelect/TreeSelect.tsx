@@ -114,10 +114,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         });
 
     const handleItemClick = React.useCallback<TreeListOnItemClick<T>>(
-        (data, {id: listItemId, isGroup, isLastItem}) => {
-            // onItemClick = disabled - switch off default click behavior
-            if (onItemClick === 'disabled') return undefined;
-
+        ({id: listItemId, data, isGroup, isLastItem}) => {
             const defaultHandleClick = () => {
                 if (listState.disabledById[listItemId]) return;
 
@@ -140,16 +137,14 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             };
 
             if (onItemClick) {
-                return onItemClick(
+                return onItemClick({
+                    id: listItemId,
                     data,
-                    {
-                        id: listItemId,
-                        isGroup,
-                        isLastItem,
-                        disabled: listState.disabledById[listItemId],
-                    },
-                    defaultHandleClick,
-                );
+                    isGroup,
+                    isLastItem,
+                    disabled: listState.disabledById[listItemId],
+                    defaultClickCallback: defaultHandleClick,
+                });
             }
 
             return defaultHandleClick();

@@ -24,10 +24,7 @@ export const InfinityScrollExample = ({
 }: InfinityScrollExampleProps) => {
     const listState = useListState();
 
-    const handleItemClick: TreeListOnItemClick<{title: string}> = (
-        _data,
-        {id, isGroup, disabled},
-    ) => {
+    const handleItemClick: TreeListOnItemClick<{title: string}> = ({id, isGroup, disabled}) => {
         if (disabled) return;
 
         listState.setActiveItemId(id);

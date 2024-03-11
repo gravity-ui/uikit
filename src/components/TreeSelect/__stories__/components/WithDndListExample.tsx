@@ -149,7 +149,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 getItemContent={({someRandomKey}) => ({
                     title: someRandomKey,
                 })}
-                onItemClick={(_data, {id, isGroup, disabled}) => {
+                onItemClick={({id, isGroup, disabled}) => {
                     if (!isGroup && !disabled) {
                         setValue([id]);
                     }

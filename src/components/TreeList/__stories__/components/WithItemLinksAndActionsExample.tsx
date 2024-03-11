@@ -25,7 +25,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
             {...listState}
             size="l"
             items={items}
-            onItemClick={(_, {id, isGroup, disabled}) => {
+            onItemClick={({id, isGroup, disabled}) => {
                 if (!isGroup && !disabled) {
                     listState.setSelected((prevState) => ({[id]: !prevState[id]}));
                 }

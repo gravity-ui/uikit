@@ -22,14 +22,15 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     renderContext?: P;
 }) => React.JSX.Element;
 
-interface ItemClickContext {
+interface ItemClickContext<T> {
     id: ListItemId;
     isGroup: boolean;
     isLastItem: boolean;
     disabled: boolean;
+    data: T;
 }
 
-export type TreeListOnItemClick<T> = (data: T, ctx: ItemClickContext) => void;
+export type TreeListOnItemClick<T> = (ctx: ItemClickContext<T>) => void;
 
 export type TreeListRenderContainerProps<T> = ListParsedState<T> &
     Partial<ListState> & {

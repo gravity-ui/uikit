@@ -41,7 +41,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
 
     const listState = useListState();
 
-    const handleItemClick: TreeListOnItemClick<CustomDataStructure> = (_data, {id, disabled}) => {
+    const handleItemClick: TreeListOnItemClick<CustomDataStructure> = ({id, disabled}) => {
         if (disabled) return;
         console.log(1);
 

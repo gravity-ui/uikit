@@ -98,12 +98,7 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
-    /**
-     * If you wont to disable default behavior pass `disabled` as a value;
-     */
-    onItemClick?:
-        | 'disabled'
-        | ((data: T, content: OverrideItemContext, defaultClickCallback: () => void) => void);
+    onItemClick?: (ctx: OverrideItemContext<T>) => void;
     items: ListItemType<T>[];
 }
 

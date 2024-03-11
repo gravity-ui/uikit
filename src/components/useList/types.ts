@@ -46,11 +46,17 @@ export type KnownItemStructure = {
     endSlot?: React.ReactNode;
 };
 
-export interface OverrideItemContext {
+export interface OverrideItemContext<T> {
     id: ListItemId;
     isGroup: boolean;
     disabled: boolean;
     isLastItem: boolean;
+    data: T;
+    /**
+     * Use this callback if you don't wont to copy all selection logic (single|multiple variant).
+     * For example, you wont to add some additional logic on click
+     */
+    defaultClickCallback: () => void;
 }
 
 export type RenderItemContext = {

@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: init
     steps:
+      - uses: actions/checkout@v3
       - name: Run Playwright tests
         run: npm run playwright
         env:
@@ -51,5 +52,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: init
     steps:
+      - uses: actions/checkout@v3
       - name: Storybook Tests
         run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci

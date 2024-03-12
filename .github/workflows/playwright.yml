@@ -18,10 +18,10 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npm run playwright
-      - name: Storybook Tests
-        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci
         env:
           CI: 'true'
+      - name: Storybook Tests
+        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci
       - name: Upload Playwright playwright report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3

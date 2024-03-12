@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: Test component
+  init:
+    name: Install dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,12 +16,16 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
       - name: Run Playwright tests
         run: npm run playwright
         env:
           CI: 'true'
-      - name: Storybook Tests
-        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci
       - name: Upload Playwright playwright report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3
@@ -41,3 +45,11 @@ jobs:
         with:
           name: pr
           path: ./pr-id.txt
+
+  test-storybook:
+    name: Storybook Tests
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Storybook Tests
+        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci

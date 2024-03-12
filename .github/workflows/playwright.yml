@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  init:
-    name: Install dependencies
+  test:
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,17 +16,19 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-    needs: init
-    steps:
-      - uses: actions/checkout@v3
       - name: Run Playwright tests
         run: npm run playwright
         env:
           CI: 'true'
+      - name: Wait for tests to succeed
+        uses: lewagon/wait-on-check-action@v1.3.3
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'Deploy'
+          repo-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
+          wait-interval: 10
+      - name: Storybook Tests
+        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci
       - name: Upload Playwright playwright report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3
@@ -46,12 +48,3 @@ jobs:
         with:
           name: pr
           path: ./pr-id.txt
-
-  test-storybook:
-    name: Storybook Tests
-    runs-on: ubuntu-latest
-    needs: init
-    steps:
-      - uses: actions/checkout@v3
-      - name: Storybook Tests
-        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci

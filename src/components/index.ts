@@ -14,6 +14,7 @@ export * from './ClipboardButton';
 export * from './ClipboardIcon';
 export * from './CopyToClipboard';
 export * from './Dialog';
+export * from './Confirm';
 export * from './Disclosure';
 export * from './DropdownMenu';
 export * from './Hotkey';

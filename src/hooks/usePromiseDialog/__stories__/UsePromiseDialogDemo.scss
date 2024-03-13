@@ -1,0 +1,10 @@
+@import '../../../components/variables';
+
+$block: '.#{$ns}promise-dialog-demo';
+
+#{$block} {
+    &__buttons {
+        display: flex;
+        gap: 16px;
+    }
+}

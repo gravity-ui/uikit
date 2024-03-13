@@ -1,0 +1,11 @@
+@use '../../../styles/mixins.scss';
+@use '../../components/variables';
+
+$block: '.#{variables.$ns}confirm';
+
+#{$block} {
+    &__message {
+        margin: 0;
+        @include mixins.text-body-2;
+    }
+}

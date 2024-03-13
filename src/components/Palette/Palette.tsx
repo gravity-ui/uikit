@@ -67,10 +67,6 @@ export interface PaletteProps
      */
     optionClassName?: string;
     /**
-     * HTML class attribute for the `<Button.Icon />` inside a grid option.
-     */
-    iconClassName?: string;
-    /**
      * Fires when a user (un)selects an option.
      */
     onUpdate?: (value: string[]) => void;
@@ -89,7 +85,7 @@ interface PaletteComponent
 
 export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function Palette(props, ref) {
     const {
-        size = 's',
+        size = 'm',
         multiple = true,
         options = [],
         columns = 6,
@@ -98,7 +94,6 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
         className,
         rowClassName,
         optionClassName,
-        iconClassName,
         qa,
         onFocus,
         onBlur,
@@ -201,9 +196,7 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
                                     size={size}
                                     onClick={() => handleSelection(option)}
                                 >
-                                    <Button.Icon className={iconClassName}>
-                                        {option.content ?? option.value}
-                                    </Button.Icon>
+                                    <Button.Icon>{option.content ?? option.value}</Button.Icon>
                                 </Button>
                             </div>
                         );

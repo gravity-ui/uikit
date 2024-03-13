@@ -1,18 +1,36 @@
 import React from 'react';
 
-import * as icons from '@gravity-ui/icons';
-import type {Meta} from '@storybook/react';
+import {
+    ArrowDown,
+    ArrowDownFromLine,
+    ArrowDownToLine,
+    ArrowDownToSquare,
+    ArrowLeft,
+    ArrowLeftFromLine,
+    ArrowLeftToLine,
+    ArrowRight,
+    ArrowRightArrowLeft,
+    ArrowRightFromLine,
+    ArrowRightFromSquare,
+    ArrowRightToLine,
+    ArrowRightToSquare,
+    ArrowRotateLeft,
+    ArrowRotateRight,
+} from '@gravity-ui/icons';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem/ShowcaseItem';
 import {Icon} from '../../Icon/Icon';
-import type {PaletteOption, PaletteProps} from '../Palette';
+import type {PaletteOption} from '../Palette';
 import {Palette} from '../Palette';
 
 export default {
     title: 'Components/Inputs/Palette',
     component: Palette,
 } as Meta;
+
+type Story = StoryObj<typeof Palette>;
 
 const options: PaletteOption[] = [
     {content: '😊', value: 'value-1', title: 'smiling-face'},
@@ -37,69 +55,85 @@ const options: PaletteOption[] = [
     {content: '🥶', value: 'value-20', title: 'cold-face'},
 ];
 
-export const Default = () => {
-    return <PaletteBase />;
+export const Default: Story = {args: {options}};
+
+export const SingleSelect: Story = {
+    args: {...Default.args, multiple: false},
 };
 
-export const SingleSelect = () => {
-    return <PaletteBase multiple={false} />;
-};
-
-export const Disabled = () => {
-    return (
+export const Disabled: Story = {
+    render: (args) => (
         <Showcase>
             <ShowcaseItem title="All disabled">
-                <PaletteBase disabled={true} />
+                <Palette {...Default.args} {...args} disabled={true} />
             </ShowcaseItem>
             <ShowcaseItem title="Some disabled">
-                <PaletteBase
+                <Palette
+                    {...args}
                     options={options.map((option, i) =>
                         i < 5 ? {...option, disabled: true} : option,
                     )}
                 />
             </ShowcaseItem>
         </Showcase>
-    );
+    ),
 };
 
-export const Sizes = () => {
-    return (
+export const Sizes: Story = {
+    render: (args) => (
         <Showcase>
             <ShowcaseItem title="Size xs">
-                <PaletteBase size="xs" />
+                <Palette {...Default.args} {...args} size="xs" />
             </ShowcaseItem>
             <ShowcaseItem title="Size s">
-                <PaletteBase size="s" />
+                <Palette {...Default.args} {...args} size="s" />
             </ShowcaseItem>
             <ShowcaseItem title="Size m">
-                <PaletteBase size="m" />
+                <Palette {...Default.args} {...args} size="m" />
             </ShowcaseItem>
             <ShowcaseItem title="Size l">
-                <PaletteBase size="l" />
+                <Palette {...Default.args} {...args} size="l" />
             </ShowcaseItem>
             <ShowcaseItem title="Size xl">
-                <PaletteBase size="xl" />
+                <Palette {...Default.args} {...args} size="xl" />
             </ShowcaseItem>
         </Showcase>
-    );
+    ),
 };
 
-export const Columns = () => {
-    return (
+export const Columns: Story = {
+    render: (args) => (
         <Showcase>
             <ShowcaseItem title="1 column">
-                <PaletteBase columns={1} />
+                <Palette {...Default.args} {...args} columns={1} />
             </ShowcaseItem>
             <ShowcaseItem title="10 columns">
-                <PaletteBase columns={10} />
+                <Palette {...Default.args} {...args} columns={10} />
             </ShowcaseItem>
             <ShowcaseItem title="20 columns">
-                <PaletteBase columns={20} />
+                <Palette {...Default.args} {...args} columns={20} />
             </ShowcaseItem>
         </Showcase>
-    );
+    ),
 };
 
+const icons = {
+    ArrowDown,
+    ArrowDownFromLine,
+    ArrowDownToLine,
+    ArrowDownToSquare,
+    ArrowLeft,
+    ArrowLeftFromLine,
+    ArrowLeftToLine,
+    ArrowRight,
+    ArrowRightArrowLeft,
+    ArrowRightFromLine,
+    ArrowRightFromSquare,
+    ArrowRightToLine,
+    ArrowRightToSquare,
+    ArrowRotateLeft,
+    ArrowRotateRight,
+};
 const iconsOptions = Object.entries(icons).map(
     ([key, icon]): PaletteOption => ({
         content: <Icon data={icon} />,
@@ -108,8 +142,8 @@ const iconsOptions = Object.entries(icons).map(
     }),
 );
 
-export const Icons = () => {
-    return <PaletteBase options={iconsOptions} columns={24} />;
+export const Icons: Story = {
+    args: {...Default.args, options: iconsOptions},
 };
 
 const alphabetOptions = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(
@@ -118,12 +152,6 @@ const alphabetOptions = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(
     }),
 );
 
-export const Alphabet = () => {
-    return <PaletteBase options={alphabetOptions} columns={13} />;
+export const Alphabet: Story = {
+    args: {...Default.args, options: alphabetOptions},
 };
-
-function PaletteBase(props: PaletteProps) {
-    const [value, setValue] = React.useState<string[]>([]);
-
-    return <Palette options={options} value={value} onUpdate={setValue} {...props} />;
-}

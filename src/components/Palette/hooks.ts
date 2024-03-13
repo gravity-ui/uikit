@@ -1,4 +1,5 @@
 import {useFocusWithin} from '../../hooks/useFocusWithin/useFocusWithin';
+import {useDirection} from '../theme/useDirection';
 
 export interface PaletteGridProps {
     disabled?: boolean;
@@ -14,6 +15,8 @@ export interface PaletteGridProps {
 }
 
 export function usePaletteGrid(props: PaletteGridProps): React.HTMLAttributes<HTMLElement> {
+    const direction = useDirection();
+
     const {focusWithinProps} = useFocusWithin({
         onFocusWithin: (event) => props.onFocus?.(event),
         onBlurWithin: (event) => props.onBlur?.(event),
@@ -38,10 +41,18 @@ export function usePaletteGrid(props: PaletteGridProps): React.HTMLAttributes<HT
         onKeyDown: (event) => {
             if (event.code === 'ArrowRight') {
                 event.preventDefault();
-                whenFocused.nextItem();
+                if (direction === 'ltr') {
+                    whenFocused.nextItem();
+                } else {
+                    whenFocused.previousItem();
+                }
             } else if (event.code === 'ArrowLeft') {
                 event.preventDefault();
-                whenFocused.previousItem();
+                if (direction === 'ltr') {
+                    whenFocused.previousItem();
+                } else {
+                    whenFocused.nextItem();
+                }
             } else if (event.code === 'ArrowDown') {
                 event.preventDefault();
                 whenFocused.nextRow();

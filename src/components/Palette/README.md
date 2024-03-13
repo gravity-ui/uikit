@@ -217,7 +217,6 @@ const options: PaletteOption[] = [
 | columns         | Number of elements per row.                                                             |                        `number`                        |   `6`   |
 | defaultValue    | Sets the initial value state when the component is mounted.                             |                       `string[]`                       |         |
 | disabled        | Disables the options.                                                                   |                       `boolean`                        | `false` |
-| iconClassName   | HTML `class` attribute for the icon inside button.                                      |                        `string`                        |         |
 | multiple        | Allows selecting multiple options.                                                      |                       `boolean`                        | `true`  |
 | onBlur          | `onBlur` event handler.                                                                 | `(event: React.FocusEvent<HTMLButtonElement>) => void` |         |
 | onFocus         | `onFocus` event handler.                                                                | `(event: React.FocusEvent<HTMLButtonElement>) => void` |         |
@@ -226,7 +225,7 @@ const options: PaletteOption[] = [
 | options         | List of options (palette elements).                                                     |                   `PaletteOption[]`                    |  `[]`   |
 | qa              | HTML `data-qa` attribute, used in tests.                                                |                        `string`                        |         |
 | rowClassName    | HTML `class` attribute for a palette row.                                               |                        `string`                        |         |
-| size            | Sets the size of the elements.                                                          |                    `s` `m` `l` `xl`                    |   `s`   |
+| size            | Sets the size of the elements.                                                          |                 `xs` `s` `m` `l` `xl`                  |   `m`   |
 | style           | HTML `style` attribute.                                                                 |                 `React.CSSProperties`                  |         |
 | value           | Current value for controlled usage of the component.                                    |                       `string[]`                       |         |
 

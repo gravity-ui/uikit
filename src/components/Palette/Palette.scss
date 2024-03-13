@@ -18,18 +18,18 @@ $block: '.#{variables.$ns}palette';
     }
 
     &_size_xs &__option {
-        font-size: 16px;
+        font-size: 12px;
     }
     &_size_s &__option {
-        font-size: 18px;
+        font-size: 16px;
     }
     &_size_m &__option {
-        font-size: 20px;
+        font-size: 16px;
     }
     &_size_l &__option {
-        font-size: 24px;
+        font-size: 16px;
     }
     &_size_xl &__option {
-        font-size: 28px;
+        font-size: 20px;
     }
 }

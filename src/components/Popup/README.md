@@ -110,6 +110,10 @@ LANDING_BLOCK-->
 | onMouseEnter         | `mouseenter` event handler                                                         |                `Function`                |                 |
 | onMouseLeave         | `mouseleave` event handler                                                         |                `Function`                |                 |
 | onOutsideClick       | Outside click event handler                                                        |                `Function`                |                 |
+| onTransitionEnter    | On start open popup animation                                                      |                `Function`                |                 |
+| onTransitionEntered  | On finish open popup animation                                                     |                `Function`                |                 |
+| onTransitionExit     | On start close popup animation                                                     |                `Function`                |                 |
+| onTransitionExited   | On finish close popup animation                                                    |                `Function`                |                 |
 | open                 | Manages `Popup` visibility                                                         |                `boolean`                 |     `false`     |
 | placement            | `Popper.js` placement                                                              | `PopupPlacement` `Array<PopupPlacement>` |                 |
 | qa                   | Test attribute (`data-qa`)                                                         |                 `string`                 |                 |

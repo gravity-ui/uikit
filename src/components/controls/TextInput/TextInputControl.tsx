@@ -4,8 +4,9 @@ import {block} from '../../utils/cn';
 
 import type {TextInputProps} from './TextInput';
 
-type Props = Omit<TextInputProps, 'autoComplete'> & {
+type Props = Omit<TextInputProps, 'autoComplete' | 'controlProps'> & {
     autoComplete?: React.TextareaHTMLAttributes<HTMLInputElement>['autoComplete'];
+    controlProps: NonNullable<TextInputProps['controlProps']>;
 };
 
 const b = block('text-input');
@@ -36,7 +37,7 @@ export function TextInputControl(props: Props) {
         <input
             {...controlProps}
             ref={controlRef}
-            className={b('control', {type: 'input'}, controlProps?.className)}
+            className={b('control', {type: 'input'}, controlProps.className)}
             type={type}
             name={name}
             id={id}
@@ -52,7 +53,7 @@ export function TextInputControl(props: Props) {
             onKeyDown={onKeyDown}
             onKeyUp={onKeyUp}
             onKeyPress={onKeyPress}
-            disabled={disabled}
+            disabled={disabled ?? controlProps.disabled}
         />
     );
 }

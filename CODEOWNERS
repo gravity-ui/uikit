@@ -46,7 +46,6 @@
 /src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
-/src/components/theme @resure
 
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89

@@ -23,20 +23,20 @@ export function updateBodyClassName({
         bodyEl.classList.add(rootClassName);
     }
 
-    if (className) {
-        const parsedCustomRootClassNames = className.split(' ');
-        parsedCustomRootClassNames.forEach((cls) => {
-            if (cls && !bodyEl.classList.contains(cls)) {
-                bodyEl.classList.add(cls);
-            }
-        });
-    }
-
     if (prevClassName) {
         const parsedPrevCustomRootClassNames = prevClassName.split(' ');
         parsedPrevCustomRootClassNames.forEach((cls) => {
             if (cls) {
                 bodyEl.classList.remove(cls);
+            }
+        });
+    }
+
+    if (className) {
+        const parsedCustomRootClassNames = className.split(' ');
+        parsedCustomRootClassNames.forEach((cls) => {
+            if (cls && !bodyEl.classList.contains(cls)) {
+                bodyEl.classList.add(cls);
             }
         });
     }

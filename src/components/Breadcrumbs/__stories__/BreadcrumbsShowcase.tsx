@@ -2,7 +2,8 @@ import React from 'react';
 
 import {cn} from '../../utils/cn';
 import {Breadcrumbs} from '../Breadcrumbs';
-import type {BreadcrumbsProps, RenderItemProps} from '../Breadcrumbs';
+import type {BreadcrumbsProps} from '../Breadcrumbs';
+import type {RenderBreadcrumbsItemProps} from '../types';
 
 import './BreadcrumbsShowcase.scss';
 
@@ -58,7 +59,7 @@ const sizes = [100, 150, 200, 250, 300];
 
 interface BreadcrumbsShowcaseProps extends Omit<BreadcrumbsProps, 'items'> {}
 
-const Container = ({children, isCurrent}: RenderItemProps) => {
+const Container = ({children, isCurrent}: RenderBreadcrumbsItemProps) => {
     return <div style={isCurrent ? undefined : {border: '1px solid tomato'}}>{children}</div>;
 };
 

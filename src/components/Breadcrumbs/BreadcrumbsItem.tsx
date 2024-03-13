@@ -3,19 +3,15 @@ import React from 'react';
 import {Link} from '../Link';
 import {block} from '../utils/cn';
 
-import type {
-    BreadcrumbsItem as IBreadcrumbsItem,
-    RenderItem,
-    RenderItemContent,
-    RenderRootContent,
-} from './Breadcrumbs';
+import type {BreadcrumbsItem as IBreadcrumbsItem, RenderItem} from './Breadcrumbs';
 import {BreadcrumbsButton} from './BreadcrumbsButton';
+import type {RenderBreadcrumbsItemContent, RenderBreadcrumbsRootContent} from './types';
 
 export interface Props<T extends IBreadcrumbsItem = IBreadcrumbsItem> {
     item: T;
     isCurrent: boolean;
     isPrevCurrent: boolean;
-    renderItemContent?: RenderItemContent<T> | RenderRootContent<T>;
+    renderItemContent?: RenderBreadcrumbsItemContent<T> | RenderBreadcrumbsRootContent<T>;
     renderItem?: RenderItem<T>;
 }
 

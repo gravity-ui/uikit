@@ -10,6 +10,11 @@ import type {Props as BreadcrumbsItemProps} from './BreadcrumbsItem';
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
 import {BreadcrumbsMore} from './BreadcrumbsMore';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
+import type {
+    RenderBreadcrumbsItemContent,
+    RenderBreadcrumbsItemProps,
+    RenderBreadcrumbsRootContent,
+} from './types';
 
 import './Breadcrumbs.scss';
 
@@ -31,31 +36,15 @@ type ButtonBreadcrumbsItem = {
 
 export type BreadcrumbsItem = LinkBreadcrumbsItem | ButtonBreadcrumbsItem;
 
-export type RenderItemContent<T extends BreadcrumbsItem> = (
-    item: T,
-    isCurrent: boolean,
-    isPrevCurrent: boolean,
+export type RenderItem<T extends BreadcrumbsItem> = (
+    props: RenderBreadcrumbsItemProps<T>,
 ) => React.ReactNode;
-
-export type RenderRootContent<T extends BreadcrumbsItem> = (
-    item: T,
-    isCurrent: boolean,
-) => React.ReactNode;
-
-export type RenderItemProps<T extends BreadcrumbsItem = BreadcrumbsItem> = {
-    children: React.ReactNode;
-    item: T;
-    isCurrent: boolean;
-    isPrevCurrent: boolean;
-};
-
-export type RenderItem<T extends BreadcrumbsItem> = (props: RenderItemProps<T>) => React.ReactNode;
 
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> extends QAProps {
     items: T[];
     className?: string;
-    renderRootContent?: RenderRootContent<T>;
-    renderItemContent?: RenderItemContent<T>;
+    renderRootContent?: RenderBreadcrumbsRootContent<T>;
+    renderItemContent?: RenderBreadcrumbsItemContent<T>;
     renderItemDivider?: () => React.ReactNode;
     renderItem?: RenderItem<T>;
     lastDisplayedItemsCount: LastDisplayedItemsCount;

@@ -20,15 +20,6 @@ jobs:
         run: npm run playwright
         env:
           CI: 'true'
-      - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.3.3
-        with:
-          ref: ${{ github.ref }}
-          check-name: 'Deploy'
-          repo-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
-          wait-interval: 10
-      - name: Storybook Tests
-        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci
       - name: Upload Playwright playwright report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3

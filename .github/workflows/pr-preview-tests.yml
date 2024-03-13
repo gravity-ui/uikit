@@ -1,0 +1,23 @@
+name: PR Preview Tests
+
+on:
+  workflow_run:
+    workflows: ['PR Preview Deploy']
+    types:
+    - completed
+
+jobs:
+  test:
+    name: Run tests on deployed preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Storybook Tests
+        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci

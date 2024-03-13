@@ -2,10 +2,6 @@ name: Playwright Tests
 
 on:
   pull_request:
-  workflow_run:
-    workflows: [ 'PR Preview Deploy' ]
-    types:
-      - completed
 
 jobs:
   test:
@@ -24,8 +20,6 @@ jobs:
         run: npm run playwright
         env:
           CI: 'true'
-      - name: Storybook Tests
-        run: PR_NUMBER=${{github.event.pull_request.number}} npm run test-storybook:ci
       - name: Upload Playwright playwright report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3

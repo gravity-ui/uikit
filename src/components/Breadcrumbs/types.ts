@@ -17,3 +17,7 @@ export type RenderBreadcrumbsItemProps<T extends BreadcrumbsItem = BreadcrumbsIt
     isCurrent: boolean;
     isPrevCurrent: boolean;
 };
+
+export type RenderBreadcrumbsItem<T extends BreadcrumbsItem> = (
+    props: RenderBreadcrumbsItemProps<T>,
+) => React.ReactNode;

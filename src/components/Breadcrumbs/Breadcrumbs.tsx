@@ -11,8 +11,8 @@ import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
 import {BreadcrumbsMore} from './BreadcrumbsMore';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
 import type {
+    RenderBreadcrumbsItem,
     RenderBreadcrumbsItemContent,
-    RenderBreadcrumbsItemProps,
     RenderBreadcrumbsRootContent,
 } from './types';
 
@@ -36,17 +36,13 @@ type ButtonBreadcrumbsItem = {
 
 export type BreadcrumbsItem = LinkBreadcrumbsItem | ButtonBreadcrumbsItem;
 
-export type RenderItem<T extends BreadcrumbsItem> = (
-    props: RenderBreadcrumbsItemProps<T>,
-) => React.ReactNode;
-
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> extends QAProps {
     items: T[];
     className?: string;
     renderRootContent?: RenderBreadcrumbsRootContent<T>;
     renderItemContent?: RenderBreadcrumbsItemContent<T>;
     renderItemDivider?: () => React.ReactNode;
-    renderItem?: RenderItem<T>;
+    renderItem?: RenderBreadcrumbsItem<T>;
     lastDisplayedItemsCount: LastDisplayedItemsCount;
     firstDisplayedItemsCount: FirstDisplayedItemsCount;
     popupStyle?: 'staircase';

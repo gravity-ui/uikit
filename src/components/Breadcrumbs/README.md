@@ -340,10 +340,20 @@ return (
 | renderRootContent        | Custom render function of first item                    | `((item: BreadcrumbsItem, isCurrent: boolean) => React.ReactNode) \| undefined`                         |         |
 | renderItemContent        | Custom render function of N+1 item                      | `((item: BreadcrumbsItem, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode) \| undefined` |         |
 | renderItemDivider        | Custom render function of items separator               | `(() => React.ReactNode) \| undefined`                                                                  |         |
+| renderItem               | Custom render function of items                         | `(props: RenderBreadcrumbsItemProps<T>) => React.ReactNode) \| undefined`                               |         |
 | firstDisplayedItemsCount | Number of items to display before item collapse control | `FirstDisplayedItemsCount.Zero \| FirstDisplayedItemsCount.One`                                         |         |
 | lastDisplayedItemsCount  | Number of items to display after item collapse control  | `LastDisplayedItemsCount.One \| LastDisplayedItemsCount.Two`                                            |         |
 | popupStyle               | Style of collapsed item popup                           | `"staircase" \| undefined`                                                                              |         |
 | qa                       | HTML `data-qa` attribute, used in tests                 | `string`                                                                                                |         |
+
+### RenderBreadcrumbsItemProps<T>
+
+| Name          |       Type        |
+| :------------ | :---------------: |
+| children      | `React.ReactNode` |
+| item          |        `T`        |
+| isCurrent     |     `boolean`     |
+| isPrevCurrent |     `boolean`     |
 
 ### BreadcrumbsItem
 

@@ -81,6 +81,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
 }
 
 #{$block} {
+    --_--focus-outline-color: var(--g-select-focus-outline-color);
     @include mixins.button-reset();
 
     position: relative;
@@ -167,8 +168,9 @@ $blockButton: '.#{variables.$ns}select-control__button';
         }
 
         &_error::before {
+            --_--focus-outline-color: var(--g-color-line-danger);
+
             border-color: var(--g-color-line-danger);
-            --g-select-focus-outline-color: var(--g-color-line-danger);
         }
 
         &:hover::after {
@@ -198,7 +200,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
         }
 
         &:focus::before {
-            outline: 2px solid var(--g-select-focus-outline-color);
+            outline: 2px solid var(--g-select-focus-outline-color, var(--_--focus-outline-color));
             outline-offset: -1px;
         }
         &:focus:not(:focus-visible)::before {

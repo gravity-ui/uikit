@@ -13,6 +13,7 @@ $block: '.#{variables.$ns}text-area';
     --_--clear-offset: calc(
         var(--g-text-area-border-width, #{control-variables.$border-width}) + 1px
     );
+    --_--focus-outline-color: var(--g-text-area-focus-outline-color);
 
     display: inline-block;
     width: 100%;
@@ -34,7 +35,7 @@ $block: '.#{variables.$ns}text-area';
 
         &:focus-within {
             border-color: var(--g-text-area-border-color-active, var(--_--border-color-active));
-            outline: 2px solid var(--g-text-area-focus-outline-color);
+            outline: 2px solid var(--g-text-area-focus-outline-color, var(--_--focus-outline-color));
             outline-offset: -1px;
         }
     }
@@ -191,7 +192,7 @@ $block: '.#{variables.$ns}text-area';
                     }
 
                     &:focus-within {
-                        --g-text-area-focus-outline-color: var(--g-color-line-danger);
+                        --_--focus-outline-color: var(--g-color-line-danger);
                     }
                 }
             }
@@ -205,7 +206,7 @@ $block: '.#{variables.$ns}text-area';
                     }
 
                     &:focus-within {
-                        --g-text-area-focus-outline-color: var(--g-color-line-danger);
+                        --_--focus-outline-color: var(--g-color-line-danger);
                     }
                 }
             }

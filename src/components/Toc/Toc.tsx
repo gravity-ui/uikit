@@ -29,6 +29,7 @@ export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, r
                             content={content}
                             value={value}
                             href={href}
+                            qa={qa ? `${qa}-item` : ''}
                             active={activeValue === value}
                             onClick={onUpdate}
                         />
@@ -46,6 +47,7 @@ export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, r
                                                 value={childrenValue}
                                                 href={childrenHref}
                                                 childItem={true}
+                                                qa={qa ? `${qa}-item` : ''}
                                                 active={activeValue === childrenValue}
                                                 onClick={onUpdate}
                                             />

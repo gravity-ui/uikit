@@ -103,7 +103,7 @@ LANDING_BLOCK-->
 
 ### Word Break
 
-The word-break css property. Can be `break-all`.
+The word-break css property. Can be `break-all` | `brea-workd`.
 
 <!--LANDING_BLOCK
 
@@ -174,6 +174,6 @@ LANDING_BLOCK-->
 | ellipsis      | Hidden overflow content will be replaced by an ellipsis                   |                `boolean`                 |            |
 | ellipsisLines | The number of whole lines of text after which the content will be cut off |                 `number`                 |            |
 | whiteSpace    | The white-space css property                                              |       `"nowrap"` `"break-spaces"`        |            |
-| wordBreak     | The word-break css property                                               |              `"break-all"`               |            |
+| wordBreak     | The word-break css property                                               |       `"break-all"` `"break-word"`       |            |
 | color         | Color of the text                                                         | `string` (see values in "Color" section) |            |
 | qa            | HTML `data-qa` attribute, used in tests                                   |                 `string`                 |            |

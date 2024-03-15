@@ -24,7 +24,7 @@ export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, r
         <nav className={b(null, className)} ref={ref} data-qa={qa}>
             <ul className={b('sections')}>
                 {items.map(({value, content, href, items: childrenItems}) => (
-                    <li key={value ?? href}>
+                    <li key={value ?? href} aria-current={activeValue === value}>
                         <TocItem
                             content={content}
                             value={value}
@@ -40,7 +40,10 @@ export const Toc = React.forwardRef<HTMLElement, TocProps>(function Toc(props, r
                                         content: childrenContent,
                                         href: childrenHref,
                                     }) => (
-                                        <li key={childrenValue ?? childrenHref}>
+                                        <li
+                                            key={childrenValue ?? childrenHref}
+                                            aria-current={activeValue === childrenValue}
+                                        >
                                             <TocItem
                                                 content={childrenContent}
                                                 value={childrenValue}

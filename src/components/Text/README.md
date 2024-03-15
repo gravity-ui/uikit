@@ -103,7 +103,7 @@ LANDING_BLOCK-->
 
 ### Word Break
 
-The word-break css property. Can be `break-all` | `brea-workd`.
+The word-break css property. Can be `break-all` | `break-word`.
 
 <!--LANDING_BLOCK
 

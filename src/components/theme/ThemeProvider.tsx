@@ -85,7 +85,6 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
-    const isNeedToSetTheme = !hasParentProvider || themeValue !== parentThemeState.themeValue;
     return (
         <ThemeContext.Provider value={contextValue}>
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
@@ -93,7 +92,7 @@ export function ThemeProvider({
                     <div
                         className={b(
                             {
-                                theme: isNeedToSetTheme && themeValue,
+                                theme: themeValue,
                                 'native-scrollbar': nativeScrollbar !== false,
                             },
                             rootClassName,

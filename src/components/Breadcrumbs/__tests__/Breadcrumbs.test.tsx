@@ -105,3 +105,20 @@ test('should display custom title', () => {
     expect(screen.getByTitle('Custom title for Root')).toBeInTheDocument();
     expect(screen.getByTitle('Custom title for Street')).toBeInTheDocument();
 });
+
+test('renderItem property', () => {
+    const getText = (text: string) => `qwerty_${text}`;
+
+    render(
+        <Breadcrumbs
+            items={items}
+            firstDisplayedItemsCount={0}
+            lastDisplayedItemsCount={1}
+            renderItem={({item}) => <div>{getText(item.text)}</div>}
+        />,
+    );
+
+    items.forEach(({text}) => {
+        expect(screen.getByText(getText(text))).toBeInTheDocument();
+    });
+});

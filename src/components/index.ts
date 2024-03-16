@@ -25,6 +25,7 @@ export * from './Loader';
 export * from './Menu';
 export * from './Modal';
 export * from './Pagination';
+export * from './Palette';
 export * from './UserLabel';
 export * from './Popover';
 export * from './Popup';

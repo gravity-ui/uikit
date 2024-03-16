@@ -8,20 +8,21 @@ import {IntersectionContainer} from '../../../useList/__stories__/components/Int
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
 import {TreeList} from '../../TreeList';
 import type {TreeListOnItemClick, TreeListProps} from '../../types';
+import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
-import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
-export interface InfinityScrollExampleProps
+function identity<T>(value: T): T {
+    return value;
+}
+
+export interface InfinityScrollStoryProps
     extends Omit<
         TreeListProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'multiple' | 'size'
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'getItemContent'
     > {
     itemsCount?: number;
 }
 
-export const InfinityScrollExample = ({
-    itemsCount = 5,
-    ...storyProps
-}: InfinityScrollExampleProps) => {
+export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScrollStoryProps) => {
     const listState = useListState();
 
     const handleItemClick: TreeListOnItemClick<{title: string}> = ({id, isGroup, disabled}) => {
@@ -55,6 +56,7 @@ export const InfinityScrollExample = ({
                 size="l"
                 {...storyProps}
                 {...listState}
+                getItemContent={identity}
                 items={items}
                 multiple
                 onItemClick={handleItemClick}

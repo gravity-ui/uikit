@@ -3,16 +3,11 @@ import React from 'react';
 import {useForkRef, useUniqId} from '../../hooks';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
-import {TreeList as treeList} from '../TreeList';
-import type {
-    TreeListOnItemClick,
-    TreeListProps,
-    TreeListPublicProps,
-    TreeListRenderItem,
-} from '../TreeList/types';
+import {TreeList} from '../TreeList';
+import type {TreeListOnItemClick, TreeListRenderItem} from '../TreeList/types';
 import {Flex} from '../layout';
 import {useMobile} from '../mobile';
-import {isKnownStructureGuard, scrollToListItem, useList, useListState} from '../useList';
+import {scrollToListItem, useList, useListState} from '../useList';
 import type {ListItemId} from '../useList';
 import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
@@ -26,10 +21,7 @@ import './TreeSelect.scss';
 const b = block('tree-select');
 
 export const TreeSelect = React.forwardRef(function TreeSelect<T>(
-    props: TreeSelectProps<T>,
-    ref: React.Ref<HTMLButtonElement>,
-) {
-    const {
+    {
         id,
         slotBeforeListBody,
         slotAfterListBody,
@@ -61,8 +53,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onItemClick,
         placement,
         qa,
-    } = props;
-
+        getItemContent,
+    }: TreeSelectProps<T>,
+    ref: React.Ref<HTMLButtonElement>,
+) {
     const mobile = useMobile();
     const uniqId = useUniqId();
     const treeSelectId = id ?? uniqId;
@@ -86,7 +80,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         selectedById: selected,
     });
 
-    // used for control render. Needed a smart way to share list context here
     const listParsedState = useList({
         items,
         getId,
@@ -195,19 +188,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map((itemId) => {
-                    if ('getItemContent' in props) {
-                        return props.getItemContent(listParsedState.itemsById[itemId]).title;
-                    }
-
-                    const item = listParsedState.itemsById[itemId];
-
-                    if (isKnownStructureGuard(item)) {
-                        return item.title;
-                    }
-
-                    return item as string;
-                }),
+                value.map((itemId) => getItemContent(listParsedState.itemsById[itemId]).title),
             ).join(', ')}
             view="normal"
             pin="round-round"
@@ -232,35 +213,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         return (
             <TreeSelectItem
                 {...renderState.props}
-                // eslint-disable-next-line no-nested-ternary
-                {...('getItemContent' in props
-                    ? props.getItemContent(itemData)
-                    : isKnownStructureGuard(itemData)
-                      ? itemData
-                      : {title: itemData as string})}
+                {...getItemContent(itemData)}
                 {...renderState.renderContext}
             />
         );
-    };
-
-    const treeListProps: TreeListPublicProps<T> = {
-        size,
-        className: containerClassName,
-        qa,
-        multiple,
-        id: `list-${treeSelectId}`,
-        containerRef,
-        getId,
-        disabledById: listState.disabledById,
-        selectedById: listState.selectedById,
-        expandedById: listState.expandedById,
-        activeItemId: listState.activeItemId,
-        setActiveItemId: listState.setActiveItemId,
-        onItemClick: handleItemClick,
-        items,
-        renderContainer,
-        getItemContent: 'getItemContent' in props ? props.getItemContent : undefined,
-        renderItem: renderItem ?? defaultItemRenderer,
     };
 
     return (
@@ -286,7 +242,27 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             >
                 {slotBeforeListBody}
 
-                {treeList<T>(treeListProps as TreeListProps<T>)}
+                <TreeList<T>
+                    {...{
+                        size,
+                        className: containerClassName,
+                        qa,
+                        multiple,
+                        id: `list-${treeSelectId}`,
+                        containerRef,
+                        getId,
+                        disabledById: listState.disabledById,
+                        selectedById: listState.selectedById,
+                        expandedById: listState.expandedById,
+                        activeItemId: listState.activeItemId,
+                        setActiveItemId: listState.setActiveItemId,
+                        onItemClick: handleItemClick,
+                        items,
+                        renderContainer,
+                        getItemContent,
+                        renderItem: renderItem ?? defaultItemRenderer,
+                    }}
+                />
 
                 {slotAfterListBody}
             </SelectPopup>

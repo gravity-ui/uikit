@@ -10,6 +10,10 @@ import {createRandomizedData} from '../../../useList/__stories__/utils/makeData'
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps, TreeSelectRenderContainer} from '../../types';
 
+function identity<T>(value: T): T {
+    return value;
+}
+
 export interface WithFiltrationAndControlsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
@@ -47,6 +51,7 @@ export const WithFiltrationAndControlsExample = ({
         <Flex>
             <TreeSelect
                 {...treeSelectProps}
+                getItemContent={identity}
                 multiple
                 open={open}
                 popupWidth={350}

@@ -18,10 +18,10 @@ interface CustomDataStructure {
     a: string;
 }
 
-export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
+export interface WithGroupSelectionAndCustomIconStoryProps
     extends Omit<
         TreeListProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size'
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size' | 'getItemContent'
     > {
     itemsCount?: number;
 }
@@ -30,10 +30,10 @@ const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): KnownIt
     title: props.a,
 });
 
-export const WithGroupSelectionControlledStateAndCustomIconExample = ({
+export const WithGroupSelectionAndCustomIconStory = ({
     itemsCount = 5,
     ...props
-}: WithGroupSelectionControlledStateAndCustomIconExampleProps) => {
+}: WithGroupSelectionAndCustomIconStoryProps) => {
     const items = React.useMemo(
         () => createRandomizedData({num: itemsCount, getData: (a) => ({a})}),
         [itemsCount],
@@ -83,6 +83,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             listState.setExpanded((prevExpandedState) => ({
+                                                ...prevExpandedState,
                                                 // by default all groups expanded
                                                 [state.id]:
                                                     state.id in prevExpandedState

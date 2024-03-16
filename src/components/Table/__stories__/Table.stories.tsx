@@ -143,7 +143,10 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                     }
 
                     const items = ['action 1', 'action 2', 'action 3'];
-                    return <TreeSelect items={items} size="s" />;
+
+                    return (
+                        <TreeSelect items={items} size="s" getItemContent={(title) => ({title})} />
+                    );
                 }}
             />
         </React.Fragment>

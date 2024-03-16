@@ -8,18 +8,20 @@ import {useListFilter, useListState} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
 import type {TreeListProps, TreeListRenderContainerProps} from '../../types';
+import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
-import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
-
-export interface WithFiltrationAndControlsExampleProps
-    extends Omit<TreeListProps<{title: string}>, 'value' | 'onUpdate' | 'items'> {
+export interface WithFiltrationAndControlsStoryProps
+    extends Omit<
+        TreeListProps<{title: string}>,
+        'value' | 'onUpdate' | 'items' | 'getItemContent'
+    > {
     itemsCount?: number;
 }
 
-export const WithFiltrationAndControlsExample = ({
+export const WithFiltrationAndControlsStory = ({
     itemsCount = 5,
     ...treeSelectProps
-}: WithFiltrationAndControlsExampleProps) => {
+}: WithFiltrationAndControlsStoryProps) => {
     const {items, renderContainer} = React.useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
         const containerRenderer = (props: TreeListRenderContainerProps<{title: string}>) => {
@@ -60,16 +62,10 @@ export const WithFiltrationAndControlsExample = ({
                     if (disabled) return;
 
                     if (isGroup) {
-                        listState.setExpanded((prevState) =>
-                            treeSelectProps.multiple
-                                ? {
-                                      ...prevState,
-                                      [id]: id in prevState ? !prevState[id] : false,
-                                  }
-                                : {
-                                      [id]: id in prevState ? !prevState[id] : false,
-                                  },
-                        );
+                        listState.setExpanded((prevState) => ({
+                            ...prevState,
+                            [id]: id in prevState ? !prevState[id] : false,
+                        }));
                     } else {
                         listState.setSelected((prevState) =>
                             treeSelectProps.multiple
@@ -85,6 +81,7 @@ export const WithFiltrationAndControlsExample = ({
 
                     listState.setActiveItemId(id);
                 }}
+                getItemContent={(x) => x}
                 renderContainer={renderContainer}
                 items={filterState.items}
             />

@@ -9,7 +9,6 @@ import type {
 } from '../TreeList/types';
 import type {QAProps} from '../types';
 import type {
-    KnownItemStructure,
     ListItemId,
     ListItemSize,
     ListItemType,
@@ -43,7 +42,7 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
 export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
-interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
+export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
     defaultOpen?: boolean;
     defaultValue?: ListItemId[];
@@ -99,18 +98,9 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
     onItemClick?: (ctx: OverrideItemContext<T>) => void;
+    /**
+     * Map item data to view props
+     */
+    getItemContent: TreeListRenderContent<T>;
     items: ListItemType<T>[];
 }
-
-type TreeSelectKnownProps<T> = TreeSelectBaseProps<T>;
-type TreeSelectUnknownProps<T> = TreeSelectBaseProps<T> & {
-    getItemContent: TreeListRenderContent<T>;
-};
-
-export type TreeSelectProps<T> = T extends KnownItemStructure | string
-    ? TreeSelectKnownProps<T>
-    : TreeSelectUnknownProps<T>;
-
-export type TreeSelectPublicProps<T> = TreeSelectBaseProps<T> & {
-    getItemContent?: TreeListRenderContent<T>;
-};

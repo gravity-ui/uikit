@@ -30,6 +30,10 @@ const tableColumnSetupCn = b(null);
 const controlsCn = b('controls');
 const requiredDndItemCn = b('required-item');
 
+function identity<T>(value: T): T {
+    return value;
+}
+
 const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
@@ -277,6 +281,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     return (
         <TreeSelect
             className={tableColumnSetupCn}
+            getItemContent={identity}
             multiple
             size="l"
             open={open}

@@ -34,16 +34,16 @@ const DraggableListItem = ({
 
 type CustomDataType = {someRandomKey: string; id: string};
 
-export interface WithDndListExampleProps
-    extends Omit<TreeListProps<CustomDataType>, 'items' | 'getItemContent' | 'getItemContent'> {}
-
 const randomItems: CustomDataType[] = createRandomizedData({
     num: 10,
     depth: 0,
     getData: (title) => title,
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
-export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
+export interface WithDndListStoryProps
+    extends Omit<TreeListProps<CustomDataType>, 'items' | 'getItemContent' | 'getItemContent'> {}
+
+export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
     const [items, setItems] = React.useState(randomItems);
     const listState = useListState();
 

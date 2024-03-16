@@ -12,6 +12,9 @@ import {TreeSelect} from '../../TreeSelect';
 import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
+function identity<T>(value: T): T {
+    return value;
+}
 export interface WithItemLinksAndActionsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
@@ -28,6 +31,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
         <Flex>
             <TreeSelect
                 {...props}
+                getItemContent={identity}
                 open={open}
                 onOpenChange={setOpen}
                 size="l"

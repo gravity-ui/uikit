@@ -10,6 +10,10 @@ import {TreeSelect} from '../../TreeSelect';
 import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
+function identity<T>(value: T): T {
+    return value;
+}
+
 export interface InfinityScrollExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
@@ -34,6 +38,7 @@ export const InfinityScrollExample = ({
         <Flex>
             <TreeSelect<{title: string}>
                 {...storyProps}
+                getItemContent={identity}
                 items={items}
                 value={value}
                 renderItem={({data, props, itemState: {isLastItem, groupState}}) => {

@@ -34,6 +34,7 @@ const DefaultTemplate: StoryFn<
         <Flex>
             <TreeSelect
                 {...props}
+                getItemContent={(x) => x}
                 items={items}
                 onUpdate={(...args) =>
                     console.log('Uncontrolled `TreeSelect onUpdate args: `', ...args)

@@ -1,42 +1,33 @@
 import React from 'react';
 
 import {useUniqId} from '../../hooks';
-import {
-    ListItemView,
-    getItemRenderState,
-    isKnownStructureGuard,
-    useList,
-    useListKeydown,
-} from '../useList';
+import {ListItemView, getItemRenderState, useList, useListKeydown} from '../useList';
 import type {ListItemId} from '../useList';
 import {block} from '../utils/cn';
 
 import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
 import type {TreeListProps, TreeListRenderContainerProps} from './types';
 
-import './TreeList.scss';
-
 const b = block('tree-list');
 
-export const TreeList = <T,>(props: TreeListProps<T>) => {
-    const {
-        id,
-        size = 'm',
-        items,
-        className,
-        expandedById,
-        disabledById,
-        activeItemId,
-        selectedById,
-        getId,
-        renderItem: propsRenderItem,
-        renderContainer = TreeListContainer,
-        onItemClick,
-        multiple,
-        setActiveItemId,
-        containerRef: propsContainerRef,
-    } = props; // do not use props spread. Pass props explicitly
-
+export const TreeList = <T,>({
+    id,
+    size = 'm',
+    items,
+    className,
+    expandedById,
+    disabledById,
+    activeItemId,
+    selectedById,
+    getId,
+    renderItem: propsRenderItem,
+    renderContainer = TreeListContainer,
+    onItemClick,
+    multiple,
+    setActiveItemId,
+    containerRef: propsContainerRef,
+    getItemContent,
+}: TreeListProps<T>) => {
     const uniqId = useUniqId();
     const treeListId = id ?? uniqId;
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
@@ -95,10 +86,13 @@ export const TreeList = <T,>(props: TreeListProps<T>) => {
             size,
             onItemClick: handleItemClick,
             ...listParsedState,
-            ...{expandedById, disabledById, activeItemId, selectedById},
+            expandedById,
+            disabledById,
+            activeItemId,
+            selectedById,
         });
 
-        // assign components scope logic
+        // redefining the view logic for groups and multiple selection of list items
         renderState.props.hasSelectionIcon = Boolean(multiple) && !renderState.context.groupState;
 
         if (propsRenderItem) {
@@ -111,17 +105,10 @@ export const TreeList = <T,>(props: TreeListProps<T>) => {
             });
         }
 
-        const itemData = listParsedState.itemsById[itemId];
-
         return (
             <ListItemView
                 {...renderState.props}
-                // eslint-disable-next-line no-nested-ternary
-                {...('getItemContent' in props
-                    ? props.getItemContent(itemData)
-                    : isKnownStructureGuard(itemData)
-                      ? itemData
-                      : {title: itemData as string})}
+                {...getItemContent(listParsedState.itemsById[itemId])}
                 {...renderContextProps}
             />
         );

@@ -11,10 +11,17 @@ import {createRandomizedData} from '../../../useList/__stories__/utils/makeData'
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
 
-export interface WithItemLinksAndActionsExampleProps
-    extends Omit<TreeListProps<{title: string}>, 'items' | 'size' | 'multiple'> {}
+function identity<T>(value: T): T {
+    return value;
+}
 
-export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
+export interface WithItemLinksAndActionsStoryProps
+    extends Omit<
+        TreeListProps<{title: string}>,
+        'items' | 'size' | 'multiple' | 'getItemContent'
+    > {}
+
+export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStoryProps) => {
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
     const listState = useListState();
@@ -23,6 +30,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
         <TreeList
             {...props}
             {...listState}
+            getItemContent={identity}
             size="l"
             items={items}
             onItemClick={({id, isGroup, disabled}) => {

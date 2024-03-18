@@ -23,6 +23,8 @@ const b = block('tree-select');
 export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     {
         id,
+        qa,
+        placement,
         slotBeforeListBody,
         slotAfterListBody,
         size,
@@ -51,8 +53,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         renderItem,
         renderContainer,
         onItemClick,
-        placement,
-        qa,
+        setActiveItemId: propsSetActiveItemId,
         getItemContent,
     }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
@@ -79,6 +80,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         activeItemId,
         selectedById: selected,
     });
+
+    const setActiveItemId = propsSetActiveItemId ?? listState.setActiveItemId;
 
     const listParsedState = useList({
         items,
@@ -112,7 +115,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 if (listState.disabledById[listItemId]) return;
 
                 // always activate selected item
-                listState.setActiveItemId(listItemId);
+                setActiveItemId(listItemId);
 
                 if (isGroup && groupsBehavior === 'expandable') {
                     listState.setExpanded((state) => ({
@@ -145,6 +148,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         [
             onItemClick,
             listState,
+            setActiveItemId,
             groupsBehavior,
             multiple,
             handleMultipleSelection,
@@ -159,7 +163,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             const lastSelectedItemId = value[value.length - 1];
             containerRef.current?.focus();
 
-            listState.setActiveItemId(lastSelectedItemId);
+            setActiveItemId(lastSelectedItemId);
 
             if (lastSelectedItemId) {
                 scrollToListItem(lastSelectedItemId, containerRef.current);
@@ -255,7 +259,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                         selectedById: listState.selectedById,
                         expandedById: listState.expandedById,
                         activeItemId: listState.activeItemId,
-                        setActiveItemId: listState.setActiveItemId,
+                        setActiveItemId,
                         onItemClick: handleItemClick,
                         items,
                         renderContainer,

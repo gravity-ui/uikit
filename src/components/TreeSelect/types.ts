@@ -81,6 +81,7 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
+    items: ListItemType<T>[];
     /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
@@ -102,5 +103,5 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
      * Map item data to view props
      */
     getItemContent: TreeListRenderContent<T>;
-    items: ListItemType<T>[];
+    setActiveItemId?(listItemId?: ListItemId): void;
 }

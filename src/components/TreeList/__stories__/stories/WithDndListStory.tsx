@@ -45,7 +45,12 @@ export interface WithDndListStoryProps
 
 export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
     const [items, setItems] = React.useState(randomItems);
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const listState = useListState();
+
+    React.useLayoutEffect(() => {
+        containerRef?.current?.focus();
+    }, []);
 
     const renderContainer: TreeListRenderContainer<CustomDataType> = ({
         renderItem,
@@ -58,6 +63,8 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                 setItems((currentItems) =>
                     reorderArray(currentItems, source.index, destination.index),
                 );
+
+                listState.setActiveItemId(`${destination.index}`);
             }
         };
 
@@ -75,7 +82,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                             rubric.source.index,
                             {
                                 provided,
-                                active: snapshot.isDragging,
+                                isDragging: snapshot.isDragging,
                             },
                         );
                     }}
@@ -126,7 +133,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                     <DraggableListItem
                         provided={provided}
                         {...commonProps}
-                        active={snapshot.isDragging || commonProps.active}
+                        isDragging={snapshot.isDragging}
                     />
                 )}
             </Draggable>
@@ -135,9 +142,10 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
 
     return (
         <TreeList
+            containerRef={containerRef}
             {...storyProps}
-            {...listState}
             items={items}
+            {...listState}
             getItemContent={({someRandomKey}) => ({title: someRandomKey})}
             // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
             getId={({id}) => id}

@@ -113,7 +113,7 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                                                     {...data}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
-                                                    active={snapshot.isDragging}
+                                                    isDragging={snapshot.isDragging}
                                                     ref={provided.innerRef}
                                                     endSlot={<Icon data={Grip} size={16} />}
                                                 />

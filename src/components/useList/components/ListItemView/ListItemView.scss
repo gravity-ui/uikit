@@ -21,7 +21,7 @@ $block: '.#{variables.$ns}list-item-view';
     }
 
     &_selected,
-    &_selected#{$block}_active, // if active and selected selected bgc more priority
+    &_selected:not(#{$block}_isDragging)#{$block}_active, // if active and selected selected bgc more priority
     &_selected:hover#{$block}_activeOnHover {
         background: var(--g-color-base-selection);
     }

@@ -50,6 +50,7 @@ const randomItems: CustomDataType[] = createRandomizedData({
 
 export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
     const [items, setItems] = React.useState(randomItems);
+    const [activeItemId, setActiveItemId] = React.useState<string | undefined>(undefined);
     const [value, setValue] = React.useState<string[]>([]);
 
     const renderContainer: TreeSelectRenderContainer<CustomDataType> = ({
@@ -63,6 +64,8 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 setItems((currentItems) =>
                     reorderArray(currentItems, source.index, destination.index),
                 );
+
+                setActiveItemId(`${destination.index}`);
             }
         };
 
@@ -80,7 +83,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                             rubric.source.index,
                             {
                                 provided,
-                                active: snapshot.isDragging,
+                                isDragging: snapshot.isDragging,
                             },
                         );
                     }}
@@ -131,7 +134,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                     <DraggableListItem
                         provided={provided}
                         {...commonProps}
-                        active={snapshot.isDragging || commonProps.active}
+                        isDragging={snapshot.isDragging}
                     />
                 )}
             </Draggable>
@@ -144,6 +147,8 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 {...storyProps}
                 value={value}
                 items={items}
+                activeItemId={activeItemId}
+                setActiveItemId={setActiveItemId}
                 // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
                 getId={({id}) => id}
                 getItemContent={({someRandomKey}) => ({
@@ -152,6 +157,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 onItemClick={({id, isGroup, disabled}) => {
                     if (!isGroup && !disabled) {
                         setValue([id]);
+                        setActiveItemId(id);
                     }
                 }}
                 renderContainer={renderContainer}

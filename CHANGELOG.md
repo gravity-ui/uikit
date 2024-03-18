@@ -1,5 +1,24 @@
 # Changelog
 
+## [6.3.0](https://github.com/gravity-ui/uikit/compare/v6.2.0...v6.3.0) (2024-03-18)
+
+
+### Features
+
+* add Palette component ([#1304](https://github.com/gravity-ui/uikit/issues/1304)) ([e731838](https://github.com/gravity-ui/uikit/commit/e731838318635659183a05feb0ef630683ec7d67))
+* **Alert:** added ability to pass null as icon prop value ([#1407](https://github.com/gravity-ui/uikit/issues/1407)) ([180edd0](https://github.com/gravity-ui/uikit/commit/180edd0dd703e96ae13120a332573f92af34f7d0))
+* **Breadcrumbs:** add `renderItem` property ([#1413](https://github.com/gravity-ui/uikit/issues/1413)) ([d1c800f](https://github.com/gravity-ui/uikit/commit/d1c800fed670563a2fff12cb5b51da1f74045042))
+* **Text:** added `break-word` to `wordBreak` property ([#1424](https://github.com/gravity-ui/uikit/issues/1424)) ([607c3ea](https://github.com/gravity-ui/uikit/commit/607c3eac7c6f70a61fd68350bfe65227d2d3b9cc))
+
+
+### Bug Fixes
+
+* adding new classes in rootClassName before removing ([#1411](https://github.com/gravity-ui/uikit/issues/1411)) ([e29cde1](https://github.com/gravity-ui/uikit/commit/e29cde168077652d217585cd30bae10ee7e2747e))
+* **DropdownMenu:** fix opening from keyboard ([#1404](https://github.com/gravity-ui/uikit/issues/1404)) ([9251714](https://github.com/gravity-ui/uikit/commit/9251714e4aae50f91d4e5082f2f7151a71321c30))
+* prevent event bubbling for table item action ([#1399](https://github.com/gravity-ui/uikit/issues/1399)) ([d2e9d41](https://github.com/gravity-ui/uikit/commit/d2e9d411fd268d6628b2eef2bd3f8abd5f3da7b0))
+* **ThemeProvider:** always set CSS class when scoped ([#1423](https://github.com/gravity-ui/uikit/issues/1423)) ([c787b5b](https://github.com/gravity-ui/uikit/commit/c787b5b30cdedad6e466fa0bbfc46b51313ee114))
+* **Toc:** set aria-current attribute to selected item ([#1426](https://github.com/gravity-ui/uikit/issues/1426)) ([682444a](https://github.com/gravity-ui/uikit/commit/682444a2bd792936735275f73781f3e853597d0a))
+
 ## [6.2.0](https://github.com/gravity-ui/uikit/compare/v6.1.1...v6.2.0) (2024-03-05)
 
 

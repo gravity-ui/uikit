@@ -187,6 +187,9 @@ export interface TableColumnSetupProps {
     popupWidth?: TreeSelectProps<any>['popupWidth'];
     popupPlacement?: PopperPlacement;
 
+    /**
+     * @deprecated
+     */
     renderControls?: RenderControls;
 }
 

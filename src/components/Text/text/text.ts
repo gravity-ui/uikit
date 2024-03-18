@@ -85,7 +85,7 @@ export interface TextBaseProps {
     /**
      * word-break css property
      */
-    wordBreak?: 'break-all';
+    wordBreak?: 'break-all' | 'break-word';
 }
 
 /**

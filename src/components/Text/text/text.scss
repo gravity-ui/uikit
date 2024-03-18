@@ -91,4 +91,7 @@ $block: '.#{variables.$ns}text';
     &_wb_break-all {
         word-break: break-all;
     }
+    &_wb_break-word {
+        word-break: break-word;
+    }
 }

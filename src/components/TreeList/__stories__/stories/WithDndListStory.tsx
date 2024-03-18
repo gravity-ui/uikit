@@ -11,21 +11,19 @@ import type {
 } from 'react-beautiful-dnd';
 
 import {Icon} from '../../../Icon';
-import {Flex} from '../../../layout';
-import {ListContainerView} from '../../../useList';
+import {ListContainerView, ListItemView, useListState} from '../../../useList';
+import type {ListItemViewProps} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
-import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem} from '../../TreeSelectItem';
-import type {TreeSelectItemProps} from '../../TreeSelectItem';
-import type {TreeSelectProps, TreeSelectRenderContainer, TreeSelectRenderItem} from '../../types';
+import {TreeList} from '../../TreeList';
+import type {TreeListProps, TreeListRenderContainer, TreeListRenderItem} from '../../types';
 
 const DraggableListItem = ({
     provided,
     ...props
-}: {provided?: DraggableProvided} & TreeSelectItemProps) => {
+}: {provided?: DraggableProvided} & ListItemViewProps) => {
     return (
-        <TreeSelectItem
+        <ListItemView
             {...provided?.dragHandleProps}
             {...provided?.draggableProps}
             ref={provided?.innerRef}
@@ -36,24 +34,25 @@ const DraggableListItem = ({
 
 type CustomDataType = {someRandomKey: string; id: string};
 
-export interface WithDndListExampleProps
-    extends Omit<
-        TreeSelectProps<CustomDataType>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
-    > {}
-
 const randomItems: CustomDataType[] = createRandomizedData({
     num: 10,
     depth: 0,
     getData: (title) => title,
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
-export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
-    const [items, setItems] = React.useState(randomItems);
-    const [activeItemId, setActiveItemId] = React.useState<string | undefined>(undefined);
-    const [value, setValue] = React.useState<string[]>([]);
+export interface WithDndListStoryProps
+    extends Omit<TreeListProps<CustomDataType>, 'items' | 'mapItemDataToProps'> {}
 
-    const renderContainer: TreeSelectRenderContainer<CustomDataType> = ({
+export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
+    const [items, setItems] = React.useState(randomItems);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const listState = useListState();
+
+    React.useLayoutEffect(() => {
+        containerRef?.current?.focus();
+    }, []);
+
+    const renderContainer: TreeListRenderContainer<CustomDataType> = ({
         renderItem,
         visibleFlattenIds,
         containerRef,
@@ -65,7 +64,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                     reorderArray(currentItems, source.index, destination.index),
                 );
 
-                setActiveItemId(`${destination.index}`);
+                listState.setActiveItemId(`${destination.index}`);
             }
         };
 
@@ -106,7 +105,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
         );
     };
 
-    const renderItem: TreeSelectRenderItem<CustomDataType> = ({
+    const renderItem: TreeListRenderItem<CustomDataType> = ({
         data,
         props,
         index,
@@ -142,27 +141,25 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
     };
 
     return (
-        <Flex>
-            <TreeSelect
-                {...storyProps}
-                value={value}
-                items={items}
-                activeItemId={activeItemId}
-                setActiveItemId={setActiveItemId}
-                // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
-                getId={({id}) => id}
-                mapItemDataToProps={({someRandomKey}) => ({
-                    title: someRandomKey,
-                })}
-                onItemClick={({id, groupState, disabled}) => {
-                    if (!groupState && !disabled) {
-                        setValue([id]);
-                        setActiveItemId(id);
-                    }
-                }}
-                renderContainer={renderContainer}
-                renderItem={renderItem}
-            />
-        </Flex>
+        <TreeList
+            containerRef={containerRef}
+            {...storyProps}
+            items={items}
+            {...listState}
+            mapItemDataToProps={({someRandomKey}) => ({title: someRandomKey})}
+            // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
+            getId={({id}) => id}
+            onItemClick={({id, groupState, disabled}) => {
+                if (!groupState && !disabled) {
+                    listState.setSelected((prevState) => ({
+                        [id]: !prevState[id],
+                    }));
+
+                    listState.setActiveItemId(id);
+                }
+            }}
+            renderContainer={renderContainer}
+            renderItem={renderItem}
+        />
     );
 };

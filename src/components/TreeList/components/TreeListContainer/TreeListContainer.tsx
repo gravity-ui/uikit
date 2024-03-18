@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ListContainerView} from '../../../useList';
 import {ListItemRecursiveRenderer} from '../../../useList/components/ListRecursiveRenderer/ListRecursiveRenderer';
-import type {TreeSelectRenderContainerProps} from '../../types';
+import type {TreeListRenderContainerProps} from '../../types';
 
 export const TreeListContainer = <T,>({
     items,
@@ -12,7 +12,7 @@ export const TreeListContainer = <T,>({
     renderItem,
     className,
     idToFlattenIndex,
-}: TreeSelectRenderContainerProps<T> & {className?: string}) => {
+}: TreeListRenderContainerProps<T> & {className?: string}) => {
     return (
         <ListContainerView ref={containerRef} className={className} id={id}>
             {items.map((itemSchema, index) => (

@@ -2,31 +2,47 @@ import React from 'react';
 
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
-import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {Flex, spacing} from '../../../layout';
+import {ListItemView, useListState} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
-import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem} from '../../TreeSelectItem';
-import type {TreeSelectProps} from '../../types';
+import {TreeList} from '../../TreeList';
+import type {TreeListOnItemClick, TreeListProps} from '../../types';
+import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
 function identity<T>(value: T): T {
     return value;
 }
 
-export interface InfinityScrollExampleProps
+export interface InfinityScrollStoryProps
     extends Omit<
-        TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
+        TreeListProps<{title: string}>,
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
 
-export const InfinityScrollExample = ({
-    itemsCount = 5,
-    ...storyProps
-}: InfinityScrollExampleProps) => {
-    const [value, setValue] = React.useState<string[]>([]);
+export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScrollStoryProps) => {
+    const listState = useListState();
+
+    const handleItemClick: TreeListOnItemClick<{title: string}> = ({id, groupState, disabled}) => {
+        if (disabled) return;
+
+        listState.setActiveItemId(id);
+
+        if (groupState) {
+            listState.setExpanded((prevState) => ({
+                ...prevState,
+                [id]: id in prevState ? !prevState[id] : false,
+            }));
+        } else {
+            listState.setSelected((prevState) => ({
+                ...prevState,
+                [id]: !prevState[id],
+            }));
+        }
+    };
+
     const {
         data: items = [],
         onFetchMore,
@@ -35,15 +51,18 @@ export const InfinityScrollExample = ({
     } = useInfinityFetch<{title: string}>(itemsCount, true);
 
     return (
-        <Flex>
-            <TreeSelect<{title: string}>
+        <Flex direction="column">
+            <TreeList
+                size="l"
                 {...storyProps}
+                {...listState}
                 mapItemDataToProps={identity}
                 items={items}
-                value={value}
+                multiple
+                onItemClick={handleItemClick}
                 renderItem={({data, props, itemState: {isLastItem, groupState}}) => {
                     const node = (
-                        <TreeSelectItem
+                        <ListItemView
                             {...props}
                             {...data}
                             endSlot={
@@ -67,16 +86,12 @@ export const InfinityScrollExample = ({
                     return node;
                 }}
                 renderContainer={RenderVirtualizedContainer}
-                popupWidth={300}
-                onUpdate={setValue}
-                slotAfterListBody={
-                    isLoading && (
-                        <Flex justifyContent="center" className={spacing({py: 2})}>
-                            <Loader size={'m'} />
-                        </Flex>
-                    )
-                }
             />
+            {isLoading && (
+                <Flex justifyContent="center" className={spacing({py: 2})}>
+                    <Loader size={'m'} />
+                </Flex>
+            )}
         </Flex>
     );
 };

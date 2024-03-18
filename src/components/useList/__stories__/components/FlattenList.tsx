@@ -84,14 +84,15 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
                     }
                 >
                     {(id) => {
-                        const {data, props} = getItemRenderState({
+                        const {props} = getItemRenderState({
                             id,
                             size,
                             onItemClick,
+                            mapItemDataToProps: (x) => x,
                             ...list,
                             ...listState,
                         });
-                        return <ListItemView {...props} {...data} hasSelectionIcon={false} />;
+                        return <ListItemView {...props} hasSelectionIcon={false} />;
                     }}
                 </VirtualizedListContainer>
             </ListContainerView>

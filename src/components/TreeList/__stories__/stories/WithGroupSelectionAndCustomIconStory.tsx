@@ -5,12 +5,11 @@ import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icon
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {getListParsedState} from '../../../useList';
-import type {KnownItemStructure, ListItemId} from '../../../useList';
+import {ListItemView, useListState} from '../../../useList';
+import type {KnownItemStructure} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
-import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem} from '../../TreeSelectItem';
-import type {TreeSelectProps} from '../../types';
+import {TreeList} from '../../TreeList';
+import type {TreeListOnItemClick, TreeListProps} from '../../types';
 
 /**
  * Just for example how to work with data
@@ -19,10 +18,10 @@ interface CustomDataStructure {
     a: string;
 }
 
-export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
+export interface WithGroupSelectionAndCustomIconStoryProps
     extends Omit<
-        TreeSelectProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'size'
+        TreeListProps<CustomDataStructure>,
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -31,28 +30,35 @@ const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): KnownIt
     title: props.a,
 });
 
-export const WithGroupSelectionControlledStateAndCustomIconExample = ({
+export const WithGroupSelectionAndCustomIconStory = ({
     itemsCount = 5,
     ...props
-}: WithGroupSelectionControlledStateAndCustomIconExampleProps) => {
+}: WithGroupSelectionAndCustomIconStoryProps) => {
     const items = React.useMemo(
         () => createRandomizedData({num: itemsCount, getData: (a) => ({a})}),
         [itemsCount],
     );
 
-    const [value, setValue] = React.useState<string[]>([]);
-    const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>(
-        () => getListParsedState(items).initialState.expandedById,
-    );
+    const listState = useListState();
+
+    const handleItemClick: TreeListOnItemClick<CustomDataStructure> = ({id, disabled}) => {
+        if (disabled) return;
+
+        listState.setSelected((prevState) => ({
+            [id]: !prevState[id],
+        }));
+
+        listState.setActiveItemId(id);
+    };
 
     return (
-        <Flex>
-            <TreeSelect
+        <Flex direction="column" gap="3">
+            <TreeList
                 {...props}
                 size="l"
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
-                expandedById={expandedById}
-                value={value}
+                {...listState}
+                onItemClick={handleItemClick}
                 renderItem={({
                     data,
                     props: {
@@ -62,7 +68,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                     itemState: {groupState},
                 }) => {
                     return (
-                        <TreeSelectItem
+                        <ListItemView
                             {...state}
                             {...mapCustomDataStructureToKnownProps(data)}
                             startSlot={
@@ -75,7 +81,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                         className={spacing({mr: 1})}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setExpanded((prevExpandedState) => ({
+                                            listState.setExpanded((prevExpandedState) => ({
                                                 ...prevExpandedState,
                                                 // by default all groups expanded
                                                 [state.id]:
@@ -93,7 +99,6 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                     );
                 }}
                 items={items}
-                onUpdate={setValue}
             />
         </Flex>
     );

@@ -53,6 +53,10 @@ export interface ListItemViewProps extends QAProps {
     role?: React.AriaRole;
     expanded?: boolean;
     /**
+     * Add active styles and change selection behavior during dnd is performing
+     */
+    dragging?: boolean;
+    /**
      * `[${LIST_ITEM_DATA_ATR}="${id}"]` data attribute to find element.
      * For example for scroll to
      */
@@ -104,6 +108,7 @@ export const ListItemView = React.forwardRef(
             title,
             height,
             expanded,
+            dragging,
             style,
             role = 'option',
             onClick: _onClick,
@@ -121,10 +126,11 @@ export const ListItemView = React.forwardRef(
                 onClick={onClick}
                 className={b(
                     {
-                        active,
+                        active: dragging || active,
                         selected: selected && !hasSelectionIcon,
                         activeOnHover,
                         radius: size,
+                        dragging,
                         clickable: Boolean(onClick),
                     },
                     spacing({px: 2}, className),

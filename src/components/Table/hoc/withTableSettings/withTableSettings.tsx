@@ -124,6 +124,9 @@ export interface WithTableSettingsProps {
     settings: TableSettingsData;
     updateSettings: (data: TableSettingsData) => void;
 
+    /**
+     * @deprecated
+     */
     renderControls?: RenderControls;
 }
 

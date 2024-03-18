@@ -2,17 +2,20 @@ import type React from 'react';
 
 import type {PopperPlacement} from '../../hooks/private';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
+import type {
+    TreeListMapItemDataToProps,
+    TreeListOnItemClick,
+    TreeListRenderContainer,
+    TreeListRenderContainerProps,
+} from '../TreeList/types';
 import type {QAProps} from '../types';
 import type {
-    KnownItemStructure,
     ListItemId,
     ListItemSize,
     ListItemType,
-    ListParsedState,
     ListState,
-    OverrideItemContext,
     RenderItemContext,
-    RenderItemState,
+    RenderItemProps,
 } from '../useList';
 
 export type TreeSelectRenderControlProps = {
@@ -29,27 +32,17 @@ export type TreeSelectRenderControlProps = {
 export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
     data: T;
     // required item props to render
-    props: RenderItemState;
+    props: RenderItemProps;
     // internal list context props
     itemState: RenderItemContext;
     index: number;
     renderContext?: P;
 }) => React.JSX.Element;
 
-export type TreeSelectRenderContainerProps<T> = ListParsedState<T> &
-    ListState & {
-        id: string;
-        size: ListItemSize;
-        renderItem(id: ListItemId, index: number, renderContextProps?: Object): React.JSX.Element;
-        containerRef: React.RefObject<HTMLDivElement>;
-        className?: string;
-    };
+export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
+export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
-export type TreeSelectRenderContainer<T> = (
-    props: TreeSelectRenderContainerProps<T>,
-) => React.JSX.Element;
-
-interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
+export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
     defaultOpen?: boolean;
     defaultValue?: ListItemId[];
@@ -60,6 +53,8 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     placement?: PopperPlacement;
     width?: 'auto' | 'max' | number;
     className?: string;
+    containerRef?: React.RefObject<HTMLDivElement>;
+    containerClassName?: string;
     popupDisablePortal?: boolean;
     multiple?: boolean;
     /**
@@ -86,6 +81,7 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
+    items: ListItemType<T>[];
     /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
@@ -102,22 +98,10 @@ interface TreeSelectBaseProps<T> extends QAProps, Partial<Omit<ListState, 'selec
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
+    onItemClick?: TreeListOnItemClick<T, {defaultClickCallback(): void}>;
     /**
-     * If you wont to disable default behavior pass `disabled` as a value;
+     * Map item data to view props
      */
-    onItemClick?:
-        | 'disabled'
-        | ((data: T, content: OverrideItemContext, defaultClickCallback: () => void) => void);
+    mapItemDataToProps: TreeListMapItemDataToProps<T>;
+    setActiveItemId?(listItemId?: ListItemId): void;
 }
-
-type TreeSelectKnownProps<T> = TreeSelectBaseProps<T> & {
-    items: ListItemType<T>[];
-};
-type TreeSelectUnknownProps<T> = TreeSelectBaseProps<T> & {
-    items: ListItemType<T>[];
-    renderControlContent(item: T): KnownItemStructure;
-};
-
-export type TreeSelectProps<T> = T extends KnownItemStructure | string
-    ? TreeSelectKnownProps<T>
-    : TreeSelectUnknownProps<T>;

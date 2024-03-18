@@ -92,14 +92,15 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                                     idToFlattenIndex={list.idToFlattenIndex}
                                 >
                                     {(id) => {
-                                        const {data, props, context} = getItemRenderState({
+                                        const {props, context} = getItemRenderState({
                                             id,
                                             size,
                                             onItemClick,
+                                            mapItemDataToProps: (x) => x,
                                             ...list,
                                             ...listState,
                                         });
-                                        const node = <ListItemView {...props} {...data} />;
+                                        const node = <ListItemView {...props} />;
 
                                         if (context.isLastItem) {
                                             return (

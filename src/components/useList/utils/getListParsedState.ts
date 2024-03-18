@@ -1,8 +1,8 @@
 import type {
+    InitialListParsedState,
     ListFlattenItemType,
     ListItemId,
     ListItemType,
-    ListState,
     ListTreeItemType,
     ParsedState,
 } from '../types';
@@ -28,7 +28,7 @@ interface TraverseTreeItemProps<T> {
 }
 
 type ListParsedStateResult<T> = ParsedState<T> & {
-    initialState: Pick<ListState, 'disabledById' | 'expandedById' | 'selectedById'>;
+    initialState: InitialListParsedState;
 };
 
 export function getListParsedState<T>(

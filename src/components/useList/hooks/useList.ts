@@ -1,5 +1,11 @@
 /* eslint-disable valid-jsdoc */
-import type {ListItemId, ListItemType, ListParsedState, ListState} from '../types';
+import type {
+    InitialListParsedState,
+    ListItemId,
+    ListItemType,
+    ListParsedState,
+    ListState,
+} from '../types';
 
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
@@ -12,7 +18,7 @@ export interface UseListProps<T> extends Partial<ListState> {
     getId?(item: T): ListItemId;
 }
 
-export type UseListResult<T> = ListParsedState<T>;
+export type UseListResult<T> = ListParsedState<T> & {initialState: InitialListParsedState};
 
 /**
  * Take array of items as a argument and returns parsed representation of this data structure to work with
@@ -32,5 +38,13 @@ export const useList = <T>({items, expandedById, getId}: UseListProps<T>): UseLi
         getId,
     });
 
-    return {items, visibleFlattenIds, idToFlattenIndex, itemsById, groupsState, itemsState};
+    return {
+        items,
+        visibleFlattenIds,
+        idToFlattenIndex,
+        itemsById,
+        groupsState,
+        itemsState,
+        initialState,
+    };
 };

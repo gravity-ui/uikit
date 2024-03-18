@@ -11,4 +11,3 @@ export * from './utils/getItemRenderState';
 export * from './utils/scrollToListItem';
 export * from './utils/getListParsedState';
 export {modToHeight} from './constants';
-export {isKnownStructureGuard} from './utils';

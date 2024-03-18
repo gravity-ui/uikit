@@ -12,10 +12,13 @@ import {TreeSelect} from '../../TreeSelect';
 import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
+function identity<T>(value: T): T {
+    return value;
+}
 export interface WithItemLinksAndActionsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'size' | 'open' | 'onOpenChange'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'size' | 'open' | 'onOpenChange'
     > {}
 
 export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
@@ -28,13 +31,14 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
         <Flex>
             <TreeSelect
                 {...props}
+                mapItemDataToProps={identity}
                 open={open}
                 onOpenChange={setOpen}
                 size="l"
                 value={value}
                 items={items}
-                onItemClick={(_, {id, isGroup, disabled}) => {
-                    if (!isGroup && !disabled) {
+                onItemClick={({id, groupState, disabled}) => {
+                    if (!groupState && !disabled) {
                         setValue([id]);
                     }
 

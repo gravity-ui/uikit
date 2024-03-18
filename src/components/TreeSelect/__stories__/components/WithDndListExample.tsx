@@ -83,7 +83,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                             rubric.source.index,
                             {
                                 provided,
-                                isDragging: snapshot.isDragging,
+                                dragging: snapshot.isDragging,
                             },
                         );
                     }}
@@ -134,7 +134,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                     <DraggableListItem
                         provided={provided}
                         {...commonProps}
-                        isDragging={snapshot.isDragging}
+                        dragging={snapshot.isDragging}
                     />
                 )}
             </Draggable>

@@ -156,7 +156,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             style={style}
-                            active={snapshot.isDragging}
+                            dragging={snapshot.isDragging}
                         />
                     );
                 }}

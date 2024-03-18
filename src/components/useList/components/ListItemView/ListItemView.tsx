@@ -55,7 +55,7 @@ export interface ListItemViewProps extends QAProps {
     /**
      * Add active styles and change selection behavior during dnd is performing
      */
-    isDragging?: boolean;
+    dragging?: boolean;
     /**
      * `[${LIST_ITEM_DATA_ATR}="${id}"]` data attribute to find element.
      * For example for scroll to
@@ -108,8 +108,8 @@ export const ListItemView = React.forwardRef(
             title,
             height,
             expanded,
+            dragging,
             style,
-            isDragging,
             role = 'option',
             onClick: _onClick,
             ...rest
@@ -126,11 +126,11 @@ export const ListItemView = React.forwardRef(
                 onClick={onClick}
                 className={b(
                     {
-                        active: isDragging || active,
+                        active: dragging || active,
                         selected: selected && !hasSelectionIcon,
                         activeOnHover,
                         radius: size,
-                        isDragging,
+                        dragging,
                         clickable: Boolean(onClick),
                     },
                     spacing({px: 2}, className),

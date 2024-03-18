@@ -18,7 +18,7 @@ function identity<T>(value: T): T {
 export interface WithItemLinksAndActionsStoryProps
     extends Omit<
         TreeListProps<{title: string}>,
-        'items' | 'size' | 'multiple' | 'getItemContent'
+        'items' | 'size' | 'multiple' | 'mapItemDataToProps'
     > {}
 
 export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStoryProps) => {
@@ -30,11 +30,11 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
         <TreeList
             {...props}
             {...listState}
-            getItemContent={identity}
+            mapItemDataToProps={identity}
             size="l"
             items={items}
-            onItemClick={({id, isGroup, disabled}) => {
-                if (!isGroup && !disabled) {
+            onItemClick={({id, groupState, disabled}) => {
+                if (!groupState && !disabled) {
                     listState.setSelected((prevState) => ({[id]: !prevState[id]}));
                 }
             }}

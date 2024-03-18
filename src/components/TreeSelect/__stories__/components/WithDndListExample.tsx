@@ -39,7 +39,7 @@ type CustomDataType = {someRandomKey: string; id: string};
 export interface WithDndListExampleProps
     extends Omit<
         TreeSelectProps<CustomDataType>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
     > {}
 
 const randomItems: CustomDataType[] = createRandomizedData({
@@ -151,11 +151,11 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 setActiveItemId={setActiveItemId}
                 // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
                 getId={({id}) => id}
-                getItemContent={({someRandomKey}) => ({
+                mapItemDataToProps={({someRandomKey}) => ({
                     title: someRandomKey,
                 })}
-                onItemClick={({id, isGroup, disabled}) => {
-                    if (!isGroup && !disabled) {
+                onItemClick={({id, groupState, disabled}) => {
+                    if (!groupState && !disabled) {
                         setValue([id]);
                         setActiveItemId(id);
                     }

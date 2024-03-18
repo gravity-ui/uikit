@@ -46,19 +46,6 @@ export type KnownItemStructure = {
     endSlot?: React.ReactNode;
 };
 
-export interface OverrideItemContext<T> {
-    id: ListItemId;
-    isGroup: boolean;
-    disabled: boolean;
-    isLastItem: boolean;
-    data: T;
-    /**
-     * Use this callback if you don't wont to copy all selection logic (single|multiple variant).
-     * For example, you wont to add some additional logic on click
-     */
-    defaultClickCallback: () => void;
-}
-
 export type RenderItemContext = {
     /**
      * optional, because ids may be skipped in the flatten order list,
@@ -73,7 +60,7 @@ export type RenderItemContext = {
     isLastItem: boolean;
 };
 
-export type RenderItemState = {
+export type RenderItemProps = {
     size: ListItemSize;
     id: ListItemId;
     onClick?(): void;
@@ -83,7 +70,7 @@ export type RenderItemState = {
     active: boolean;
     indentation: number;
     hasSelectionIcon?: boolean;
-};
+} & KnownItemStructure;
 
 export type ParsedState<T> = {
     /**

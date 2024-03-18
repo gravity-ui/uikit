@@ -21,7 +21,7 @@ interface CustomDataStructure {
 export interface WithGroupSelectionAndCustomIconStoryProps
     extends Omit<
         TreeListProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -43,7 +43,6 @@ export const WithGroupSelectionAndCustomIconStory = ({
 
     const handleItemClick: TreeListOnItemClick<CustomDataStructure> = ({id, disabled}) => {
         if (disabled) return;
-        console.log(1);
 
         listState.setSelected((prevState) => ({
             [id]: !prevState[id],
@@ -57,7 +56,7 @@ export const WithGroupSelectionAndCustomIconStory = ({
             <TreeList
                 {...props}
                 size="l"
-                getItemContent={mapCustomDataStructureToKnownProps}
+                mapItemDataToProps={mapCustomDataStructureToKnownProps}
                 {...listState}
                 onItemClick={handleItemClick}
                 renderItem={({

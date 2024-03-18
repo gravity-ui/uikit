@@ -107,10 +107,11 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                             idToFlattenIndex={list.idToFlattenIndex}
                         >
                             {(id) => {
-                                const {data, props, context} = getItemRenderState({
+                                const {props, context} = getItemRenderState({
                                     id,
                                     size,
                                     onItemClick,
+                                    mapItemDataToProps: (x) => x,
                                     ...list,
                                     ...listState,
                                 });
@@ -118,7 +119,6 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                                 return (
                                     <ListItemView
                                         {...props}
-                                        {...data}
                                         hasSelectionIcon={!context.groupState}
                                     />
                                 );

@@ -18,7 +18,7 @@ function identity<T>(value: T): T {
 export interface WithItemLinksAndActionsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'size' | 'open' | 'onOpenChange'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'size' | 'open' | 'onOpenChange'
     > {}
 
 export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
@@ -31,14 +31,14 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
         <Flex>
             <TreeSelect
                 {...props}
-                getItemContent={identity}
+                mapItemDataToProps={identity}
                 open={open}
                 onOpenChange={setOpen}
                 size="l"
                 value={value}
                 items={items}
-                onItemClick={({id, isGroup, disabled}) => {
-                    if (!isGroup && !disabled) {
+                onItemClick={({id, groupState, disabled}) => {
+                    if (!groupState && !disabled) {
                         setValue([id]);
                     }
 

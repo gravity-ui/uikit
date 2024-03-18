@@ -1,17 +1,19 @@
 /* eslint-disable valid-jsdoc */
 import type {
+    KnownItemStructure,
     ListItemId,
     ListItemSize,
     ListParsedState,
     ListState,
     RenderItemContext,
-    RenderItemState,
+    RenderItemProps,
 } from '../types';
 
 type ItemRendererProps<T> = Partial<ListState> &
     ListParsedState<T> & {
         size?: ListItemSize;
         id: ListItemId;
+        mapItemDataToProps(data: T): KnownItemStructure;
         onItemClick?(id: ListItemId): void;
     };
 
@@ -25,6 +27,7 @@ export const getItemRenderState = <T,>(
         expandedById,
         groupsState,
         onItemClick,
+        mapItemDataToProps,
         visibleFlattenIds,
         size = 'm',
         itemsState,
@@ -49,7 +52,7 @@ export const getItemRenderState = <T,>(
         expanded = expandedById[id] ?? defaultExpanded;
     }
 
-    const stateProps: RenderItemState = {
+    const stateProps: RenderItemProps = {
         id,
         size,
         expanded,
@@ -58,6 +61,7 @@ export const getItemRenderState = <T,>(
         disabled: Boolean(disabledById?.[id]),
         selected: Boolean(selectedById?.[id]),
         onClick: onItemClick ? () => onItemClick(id) : undefined,
+        ...mapItemDataToProps(itemsById[id]),
     };
 
     return {data: itemsById[id], props: stateProps, context};

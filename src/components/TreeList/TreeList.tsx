@@ -26,7 +26,7 @@ export const TreeList = <T,>({
     multiple,
     setActiveItemId,
     containerRef: propsContainerRef,
-    getItemContent,
+    mapItemDataToProps,
 }: TreeListProps<T>) => {
     const uniqId = useUniqId();
     const treeListId = id ?? uniqId;
@@ -47,7 +47,6 @@ export const TreeList = <T,>({
             onItemClick?.({
                 id: listItemId,
                 data: listParsedState.itemsById[listItemId],
-                isGroup: listItemId in listParsedState.groupsState,
                 disabled: disabledById
                     ? Boolean(disabledById[listItemId])
                     : Boolean(listParsedState.initialState.disabledById[listItemId]),
@@ -55,6 +54,8 @@ export const TreeList = <T,>({
                     listParsedState.visibleFlattenIds[
                         listParsedState.visibleFlattenIds.length - 1
                     ] === listItemId,
+                groupState: listParsedState.groupsState[listItemId],
+                itemState: listParsedState.itemsState[listItemId],
             });
         },
         [
@@ -62,6 +63,7 @@ export const TreeList = <T,>({
             listParsedState.groupsState,
             listParsedState.initialState.disabledById,
             listParsedState.itemsById,
+            listParsedState.itemsState,
             listParsedState.visibleFlattenIds,
             onItemClick,
         ],
@@ -84,6 +86,7 @@ export const TreeList = <T,>({
         const renderState = getItemRenderState({
             id: itemId,
             size,
+            mapItemDataToProps,
             onItemClick: handleItemClick,
             ...listParsedState,
             expandedById,
@@ -105,13 +108,7 @@ export const TreeList = <T,>({
             });
         }
 
-        return (
-            <ListItemView
-                {...renderState.props}
-                {...getItemContent(listParsedState.itemsById[itemId])}
-                {...renderContextProps}
-            />
-        );
+        return <ListItemView {...renderState.props} {...renderContextProps} />;
     };
 
     // not JSX decl here is from weird `react-beautiful-dnd` render bug
@@ -121,7 +118,10 @@ export const TreeList = <T,>({
         containerRef,
         className: b(null, className),
         ...listParsedState,
-        ...{expandedById, disabledById, activeItemId, selectedById},
+        expandedById,
+        disabledById,
+        activeItemId,
+        selectedById,
         renderItem,
     });
 };

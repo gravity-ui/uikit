@@ -13,7 +13,7 @@ import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContain
 export interface WithFiltrationAndControlsStoryProps
     extends Omit<
         TreeListProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -58,10 +58,10 @@ export const WithFiltrationAndControlsStory = ({
             <TreeList
                 {...treeSelectProps}
                 {...listState}
-                onItemClick={({id, isGroup, disabled}) => {
+                onItemClick={({id, groupState, disabled}) => {
                     if (disabled) return;
 
-                    if (isGroup) {
+                    if (groupState) {
                         listState.setExpanded((prevState) => ({
                             ...prevState,
                             [id]: id in prevState ? !prevState[id] : false,
@@ -81,7 +81,7 @@ export const WithFiltrationAndControlsStory = ({
 
                     listState.setActiveItemId(id);
                 }}
-                getItemContent={(x) => x}
+                mapItemDataToProps={(x) => x}
                 renderContainer={renderContainer}
                 items={filterState.items}
             />

@@ -41,7 +41,7 @@ const randomItems: CustomDataType[] = createRandomizedData({
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
 export interface WithDndListStoryProps
-    extends Omit<TreeListProps<CustomDataType>, 'items' | 'getItemContent' | 'getItemContent'> {}
+    extends Omit<TreeListProps<CustomDataType>, 'items' | 'mapItemDataToProps'> {}
 
 export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
     const [items, setItems] = React.useState(randomItems);
@@ -146,11 +146,11 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
             {...storyProps}
             items={items}
             {...listState}
-            getItemContent={({someRandomKey}) => ({title: someRandomKey})}
+            mapItemDataToProps={({someRandomKey}) => ({title: someRandomKey})}
             // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
             getId={({id}) => id}
-            onItemClick={({id, isGroup, disabled}) => {
-                if (!isGroup && !disabled) {
+            onItemClick={({id, groupState, disabled}) => {
+                if (!groupState && !disabled) {
                     listState.setSelected((prevState) => ({
                         [id]: !prevState[id],
                     }));

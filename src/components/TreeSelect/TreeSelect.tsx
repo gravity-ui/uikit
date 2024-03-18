@@ -20,6 +20,10 @@ import './TreeSelect.scss';
 
 const b = block('tree-select');
 
+const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
+    return <TreeSelectItem {...renderState.props} {...renderState.renderContext} />;
+};
+
 export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     {
         id,
@@ -50,11 +54,11 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         getId,
         onOpenChange,
         renderControl,
-        renderItem,
+        renderItem = defaultItemRenderer as TreeListRenderItem<T>,
         renderContainer,
         onItemClick,
         setActiveItemId: propsSetActiveItemId,
-        getItemContent,
+        mapItemDataToProps,
     }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -110,14 +114,14 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         });
 
     const handleItemClick = React.useCallback<TreeListOnItemClick<T>>(
-        ({id: listItemId, data, isGroup, isLastItem}) => {
+        ({id: listItemId, data, groupState, isLastItem, itemState}) => {
             const defaultHandleClick = () => {
                 if (listState.disabledById[listItemId]) return;
 
                 // always activate selected item
                 setActiveItemId(listItemId);
 
-                if (isGroup && groupsBehavior === 'expandable') {
+                if (groupState && groupsBehavior === 'expandable') {
                     listState.setExpanded((state) => ({
                         ...state,
                         // toggle expanded state by id, by default all groups expanded
@@ -136,7 +140,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 return onItemClick({
                     id: listItemId,
                     data,
-                    isGroup,
+                    groupState,
+                    itemState,
                     isLastItem,
                     disabled: listState.disabledById[listItemId],
                     defaultClickCallback: defaultHandleClick,
@@ -192,7 +197,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map((itemId) => getItemContent(listParsedState.itemsById[itemId]).title),
+                value.map((itemId) => mapItemDataToProps(listParsedState.itemsById[itemId]).title),
             ).join(', ')}
             view="normal"
             pin="round-round"
@@ -210,18 +215,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     if (typeof width === 'number') {
         inlineStyles.width = width;
     }
-
-    const defaultItemRenderer: TreeListRenderItem<T> = (renderState) => {
-        const itemData = renderState.data;
-
-        return (
-            <TreeSelectItem
-                {...renderState.props}
-                {...getItemContent(itemData)}
-                {...renderState.renderContext}
-            />
-        );
-    };
 
     return (
         <Flex
@@ -247,25 +240,23 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 {slotBeforeListBody}
 
                 <TreeList<T>
-                    {...{
-                        size,
-                        className: containerClassName,
-                        qa,
-                        multiple,
-                        id: `list-${treeSelectId}`,
-                        containerRef,
-                        getId,
-                        disabledById: listState.disabledById,
-                        selectedById: listState.selectedById,
-                        expandedById: listState.expandedById,
-                        activeItemId: listState.activeItemId,
-                        setActiveItemId,
-                        onItemClick: handleItemClick,
-                        items,
-                        renderContainer,
-                        getItemContent,
-                        renderItem: renderItem ?? defaultItemRenderer,
-                    }}
+                    size={size}
+                    className={containerClassName}
+                    qa={qa}
+                    multiple={multiple}
+                    id={`list-${treeSelectId}`}
+                    containerRef={containerRef}
+                    getId={getId}
+                    disabledById={listState.disabledById}
+                    selectedById={listState.selectedById}
+                    expandedById={listState.expandedById}
+                    activeItemId={listState.activeItemId}
+                    setActiveItemId={setActiveItemId}
+                    onItemClick={handleItemClick}
+                    items={items}
+                    renderContainer={renderContainer}
+                    mapItemDataToProps={mapItemDataToProps}
+                    renderItem={renderItem ?? defaultItemRenderer}
                 />
 
                 {slotAfterListBody}

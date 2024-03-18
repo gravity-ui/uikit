@@ -9,13 +9,13 @@ import type {
     ListParsedState,
     ListState,
     RenderItemContext,
-    RenderItemState,
+    RenderItemProps,
 } from '../useList';
 
 export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     data: T;
     // required item props to render
-    props: RenderItemState;
+    props: RenderItemProps;
     // internal list context props
     itemState: RenderItemContext;
     index: number;
@@ -24,13 +24,17 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
 
 interface ItemClickContext<T> {
     id: ListItemId;
-    isGroup: boolean;
+    /**
+     * Defined only if item is group
+     */
+    groupState?: ListParsedState<T>['groupsState'][number];
+    itemState: ListParsedState<T>['itemsState'][number];
     isLastItem: boolean;
     disabled: boolean;
     data: T;
 }
 
-export type TreeListOnItemClick<T> = (ctx: ItemClickContext<T>) => void;
+export type TreeListOnItemClick<T, R = {}> = (ctx: ItemClickContext<T> & R) => void;
 
 export type TreeListRenderContainerProps<T> = ListParsedState<T> &
     Partial<ListState> & {
@@ -52,7 +56,7 @@ export type TreeListRenderContainer<T> = (
     props: TreeListRenderContainerProps<T>,
 ) => React.JSX.Element;
 
-export type TreeListRenderContent<T> = (item: T) => KnownItemStructure;
+export type TreeListMapItemDataToProps<T> = (item: T) => KnownItemStructure;
 
 export interface TreeListProps<T> extends QAProps, Partial<ListState> {
     /**
@@ -77,7 +81,7 @@ export interface TreeListProps<T> extends QAProps, Partial<ListState> {
      * If you want to disable default behavior pass `disabled` as a value;
      */
     onItemClick?: TreeListOnItemClick<T>;
-    getItemContent: TreeListRenderContent<T>;
+    mapItemDataToProps: TreeListMapItemDataToProps<T>;
     /**
      * Required for keyboard correct work
      */

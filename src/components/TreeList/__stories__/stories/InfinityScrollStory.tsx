@@ -17,7 +17,7 @@ function identity<T>(value: T): T {
 export interface InfinityScrollStoryProps
     extends Omit<
         TreeListProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -25,12 +25,12 @@ export interface InfinityScrollStoryProps
 export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScrollStoryProps) => {
     const listState = useListState();
 
-    const handleItemClick: TreeListOnItemClick<{title: string}> = ({id, isGroup, disabled}) => {
+    const handleItemClick: TreeListOnItemClick<{title: string}> = ({id, groupState, disabled}) => {
         if (disabled) return;
 
         listState.setActiveItemId(id);
 
-        if (isGroup) {
+        if (groupState) {
             listState.setExpanded((prevState) => ({
                 ...prevState,
                 [id]: id in prevState ? !prevState[id] : false,
@@ -56,7 +56,7 @@ export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScr
                 size="l"
                 {...storyProps}
                 {...listState}
-                getItemContent={identity}
+                mapItemDataToProps={identity}
                 items={items}
                 multiple
                 onItemClick={handleItemClick}

@@ -17,7 +17,7 @@ function identity<T>(value: T): T {
 export interface WithFiltrationAndControlsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -51,7 +51,7 @@ export const WithFiltrationAndControlsExample = ({
         <Flex>
             <TreeSelect
                 {...treeSelectProps}
-                getItemContent={identity}
+                mapItemDataToProps={identity}
                 multiple
                 open={open}
                 popupWidth={350}

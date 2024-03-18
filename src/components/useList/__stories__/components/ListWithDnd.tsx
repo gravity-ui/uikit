@@ -90,10 +90,11 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                         <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
                             <ListContainerView ref={containerRef}>
                                 {list.visibleFlattenIds.map((id, index) => {
-                                    const {data, props} = getItemRenderState({
+                                    const {props} = getItemRenderState({
                                         id,
                                         size,
                                         onItemClick,
+                                        mapItemDataToProps: (x) => x,
                                         ...list,
                                         ...listState,
                                     });
@@ -110,7 +111,6 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                                             ) => (
                                                 <ListItemView
                                                     {...props}
-                                                    {...data}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                     dragging={snapshot.isDragging}

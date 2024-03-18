@@ -25,14 +25,13 @@ import i18n from './i18n';
 
 import './TableColumnSetup.scss';
 
-const b = block('table-column-setup');
-const tableColumnSetupCn = b(null);
-const controlsCn = b('controls');
-const requiredDndItemCn = b('required-item');
-
 function identity<T>(value: T): T {
     return value;
 }
+
+const b = block('table-column-setup');
+const tableColumnSetupCn = b(null);
+const controlsCn = b('controls');
 
 const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
     const result = [...list];
@@ -50,8 +49,7 @@ const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
             ...tableColumnItem,
             startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
             hasSelectionIcon,
-            // to overwrite select background effect - https://github.com/gravity-ui/uikit/blob/main/src/components/useList/components/ListItemView/ListItemView.tsx#L125
-            className: hasSelectionIcon ? undefined : requiredDndItemCn,
+            selected: hasSelectionIcon ? tableColumnItem.isSelected : undefined,
         };
     });
 };
@@ -281,7 +279,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     return (
         <TreeSelect
             className={tableColumnSetupCn}
-            getItemContent={identity}
+            mapItemDataToProps={identity}
             multiple
             size="l"
             open={open}

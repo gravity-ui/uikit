@@ -6,15 +6,4 @@ $block: '.#{variables.$ns}table-column-setup';
     &__controls {
         margin: var(--g-spacing-1) var(--g-spacing-1) 0;
     }
-
-    // to override this https://github.com/gravity-ui/uikit/blob/main/src/components/useList/components/ListItemView/ListItemView.scss#L25
-    &__required-item {
-        background: inherit;
-
-        &:hover {
-            /* stylelint-disable declaration-no-important */
-            background: var(--g-color-base-simple-hover-solid) !important;
-            /* stylelint-enable declaration-no-important */
-        }
-    }
 }

@@ -24,7 +24,10 @@ export default {
 } as Meta;
 
 const DefaultTemplate: StoryFn<
-    Omit<TreeSelectProps<{title: string}>, 'value' | 'onUpdate' | 'items' | 'getItemContent'> & {
+    Omit<
+        TreeSelectProps<{title: string}>,
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
+    > & {
         itemsCount?: number;
     }
 > = ({itemsCount = 5, ...props}) => {
@@ -34,7 +37,7 @@ const DefaultTemplate: StoryFn<
         <Flex>
             <TreeSelect
                 {...props}
-                getItemContent={(x) => x}
+                mapItemDataToProps={(x) => x}
                 items={items}
                 onUpdate={(...args) =>
                     console.log('Uncontrolled `TreeSelect onUpdate args: `', ...args)

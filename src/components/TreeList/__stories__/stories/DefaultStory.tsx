@@ -10,7 +10,7 @@ function identity<T>(value: T): T {
 }
 
 export interface DefaultStoryProps
-    extends Omit<TreeListProps<{title: string}>, 'items' | 'getItemContent'> {
+    extends Omit<TreeListProps<{title: string}>, 'items' | 'mapItemDataToProps'> {
     itemsCount?: number;
 }
 
@@ -19,7 +19,7 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
 
     return (
         <Flex width="500">
-            <TreeList {...props} items={items} getItemContent={identity} />
+            <TreeList {...props} items={items} mapItemDataToProps={identity} />
         </Flex>
     );
 };

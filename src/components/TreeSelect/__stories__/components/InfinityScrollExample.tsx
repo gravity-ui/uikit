@@ -17,7 +17,7 @@ function identity<T>(value: T): T {
 export interface InfinityScrollExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -38,7 +38,7 @@ export const InfinityScrollExample = ({
         <Flex>
             <TreeSelect<{title: string}>
                 {...storyProps}
-                getItemContent={identity}
+                mapItemDataToProps={identity}
                 items={items}
                 value={value}
                 renderItem={({data, props, itemState: {isLastItem, groupState}}) => {

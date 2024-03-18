@@ -3,9 +3,10 @@ import type React from 'react';
 import type {PopperPlacement} from '../../hooks/private';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {
+    TreeListMapItemDataToProps,
+    TreeListOnItemClick,
     TreeListRenderContainer,
     TreeListRenderContainerProps,
-    TreeListRenderContent,
 } from '../TreeList/types';
 import type {QAProps} from '../types';
 import type {
@@ -13,9 +14,8 @@ import type {
     ListItemSize,
     ListItemType,
     ListState,
-    OverrideItemContext,
     RenderItemContext,
-    RenderItemState,
+    RenderItemProps,
 } from '../useList';
 
 export type TreeSelectRenderControlProps = {
@@ -32,7 +32,7 @@ export type TreeSelectRenderControlProps = {
 export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
     data: T;
     // required item props to render
-    props: RenderItemState;
+    props: RenderItemProps;
     // internal list context props
     itemState: RenderItemContext;
     index: number;
@@ -98,10 +98,10 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
-    onItemClick?: (ctx: OverrideItemContext<T>) => void;
+    onItemClick?: TreeListOnItemClick<T, {defaultClickCallback(): void}>;
     /**
      * Map item data to view props
      */
-    getItemContent: TreeListRenderContent<T>;
+    mapItemDataToProps: TreeListMapItemDataToProps<T>;
     setActiveItemId?(listItemId?: ListItemId): void;
 }

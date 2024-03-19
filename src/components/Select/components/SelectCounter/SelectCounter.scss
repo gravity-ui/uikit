@@ -7,9 +7,19 @@ $block: '.#{variables.$ns}select-counter';
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-inline: auto 2px;
+    margin-inline: 4px;
+
     background-color: var(--g-color-base-generic);
-    padding-inline: 4px;
+
+    &__text {
+        margin-inline: 4px;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    &_size_xl &__text {
+        margin-inline: 6px;
+    }
 
     &_size {
         &_s {
@@ -30,8 +40,7 @@ $block: '.#{variables.$ns}select-counter';
 
         &_xl {
             border-radius: var(--g-border-radius-l);
-            margin-inline-end: 4px;
-            padding-inline: 6px;
+            margin-inline: 4px;
             height: 36px;
             min-width: 36px;
         }

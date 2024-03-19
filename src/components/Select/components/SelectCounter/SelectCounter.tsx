@@ -14,7 +14,9 @@ export const SelectCounter = React.forwardRef(function SelectCouner(
 ) {
     return (
         <div className={b({size}, className)} ref={ref}>
-            <Text variant={size === 'xl' ? 'body-2' : 'body-1'}>{count}</Text>
+            <Text variant={size === 'xl' ? 'body-2' : 'body-1'} className={b('text')}>
+                {count}
+            </Text>
         </div>
     );
 });

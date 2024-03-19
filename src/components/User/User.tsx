@@ -9,6 +9,10 @@ import './User.scss';
 
 const b = block('user');
 
+export const UserQa = {
+    NAME: 'user-name',
+    DESCRIPTION: 'user-description',
+};
 export const User = React.forwardRef<HTMLDivElement, UserProps>(
     (
         {
@@ -42,9 +46,15 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
                 ) : null}
                 {name || showDescription ? (
                     <div className={b('info')}>
-                        {name ? <span className={b('name')}>{name}</span> : null}
+                        {name ? (
+                            <span data-qa={UserQa.NAME} className={b('name')}>
+                                {name}
+                            </span>
+                        ) : null}
                         {showDescription ? (
-                            <span className={b('description')}>{description}</span>
+                            <span data-qa={UserQa.DESCRIPTION} className={b('description')}>
+                                {description}
+                            </span>
                         ) : null}
                     </div>
                 ) : null}

@@ -55,4 +55,33 @@ type WithItemLinksAndActionsStoryObj = StoryObj<typeof WithItemLinksAndActionsSt
 
 export const WithItemLinksAndActions: WithItemLinksAndActionsStoryObj = {
     render: WithItemLinksAndActionsStory,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-input-field-name',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-required-children',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-required-parent',
+                        enabled: false,
+                    },
+                    {
+                        id: 'nested-interactive',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 };

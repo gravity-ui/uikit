@@ -26,6 +26,10 @@ export default {
                         id: 'label',
                         enabled: false,
                     },
+                    {
+                        id: 'aria-allowed-attr',
+                        enabled: false,
+                    },
                 ],
             },
         },

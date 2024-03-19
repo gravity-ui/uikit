@@ -19,22 +19,47 @@ You can disable every option with the `disabled` property. If you want to disabl
 <ExampleBlock
     code={`
 const options: UIKit.PaletteOption[] = [
-    // disable a single item
     {content: 'A', value: 'ID-cool', disabled: true},
     {content: 'B', value: 'ID-woozy'},
 ];
-// or disable all of them
 <UIKit.Palette options={options} disabled={true} />
 `}
 >
     <UIKit.Palette
         options={[
-            // disable a single item
             {content: 'A', value: 'ID-cool', disabled: true},
             {content: 'B', value: 'ID-woozy'},
         ]}
         disabled={true}
     />
-</ExampleBlock>;
+</ExampleBlock>
+
+<ExampleBlock
+    code={`
+const options: UIKit.PaletteOption[] = [
+    {content: '😎', value: 'ID-cool', disabled: true},
+    {content: '🥴', value: 'ID-woozy'},
+];
+<UIKit.Palette options={options} disabled={true} />
+`}
+>
+    <UIKit.Palette
+        options={[
+            {content: '😎', value: 'ID-cool', disabled: true},
+            {content: '🥴', value: 'ID-woozy'},
+        ]}
+        disabled={true}
+    />
+</ExampleBlock>
 
 LANDING_BLOCK-->
+
+<!-- <ExampleBlock
+    code={\`
+<Alert title="Filled" message="Filled view" view="filled" />
+<Alert title="Outlined" message="Outlined theme" view="outlined" />
+\`}
+>
+    <UIKit.Alert title="Filled" message="Filled view" view="filled" />
+    <UIKit.Alert title="Outlined" message="Outlined theme" view="outlined" />
+</ExampleBlock> -->

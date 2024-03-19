@@ -19,21 +19,27 @@ You can disable every option with the `disabled` property. If you want to disabl
 <ExampleBlock
     code={`
 const options: UIKit.PaletteOption[] = [
-    // disable a single item
-    {content: '😎', value: 'ID-cool', disabled: true},
+    {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
+// disable the first item
+<Palette options={[{ ...options[0], disabled: true }, options[1]]} disabled={true} />
 // or disable all of them
-<UIKit.Palette options={options} disabled={true} />
+<Palette options={options} disabled={true} />
 `}
 >
     <UIKit.Palette
         options={[
-            // disable a single item
-            {content: '😎', value: 'ID-cool', disabled: true},
+            {content: '😎', value: 'ID-cool'},
             {content: '🥴', value: 'ID-woozy'},
         ]}
         disabled={true}
+    />
+    <UIKit.Palette
+        options={[
+            {content: '😎', value: 'ID-cool', disabled: true},
+            {content: '🥴', value: 'ID-woozy'},
+        ]}
     />
 </ExampleBlock>
 
@@ -65,11 +71,11 @@ const options: UIKit.PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<UIKit.Palette options={options} size={"xs"} />
-<UIKit.Palette options={options} size={"s"} /> // «s» is the default
-<UIKit.Palette options={options} size={"m"} />
-<UIKit.Palette options={options} size={"l"} />
-<UIKit.Palette options={options} size={"xl"} />
+<Palette options={options} size={"xs"} />
+<Palette options={options} size={"s"} />
+<Palette options={options} size={"m"} />
+<Palette options={options} size={"l"} />
+<Palette options={options} size={"xl"} />
 `}
 >
     <UIKit.Palette
@@ -119,7 +125,7 @@ const options: PaletteOption[] = [
     {content: '🥴', value: 'ID-woozy'},
 ];
 <Palette options={options} size={"xs"} />
-<Palette options={options} size={"s"} /> // «s» is the default
+<Palette options={options} size={"s"} />
 <Palette options={options} size={"m"} />
 <Palette options={options} size={"l"} />
 <Palette options={options} size={"xl"} />
@@ -177,7 +183,7 @@ const options: UIKit.PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<UIKit.Palette options={options} multiple={false} />
+<Palette options={options} multiple={false} />
 `}
 >
     <UIKit.Palette
@@ -185,7 +191,7 @@ const options: UIKit.PaletteOption[] = [
             {content: '😎', value: 'ID-cool'},
             {content: '🥴', value: 'ID-woozy'},
         ]}
-        columns={1}
+        multiple={false}
     />
 </ExampleBlock>
 

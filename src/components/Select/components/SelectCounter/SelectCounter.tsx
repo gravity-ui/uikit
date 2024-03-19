@@ -9,12 +9,16 @@ import './SelectCounter.scss';
 const b = block('select-counter');
 
 export const SelectCounter = React.forwardRef(function SelectCouner(
-    {count, size, className}: SelectCounterProps,
+    {count, size, disabled, className}: SelectCounterProps,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
     return (
         <div className={b({size}, className)} ref={ref}>
-            <Text variant={size === 'xl' ? 'body-2' : 'body-1'} className={b('text')}>
+            <Text
+                variant={size === 'xl' ? 'body-2' : 'body-1'}
+                color={disabled ? 'hint' : 'primary'}
+                className={b('text')}
+            >
                 {count}
             </Text>
         </div>

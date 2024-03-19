@@ -55,6 +55,7 @@ export type SelectSize = InputControlSize;
 export type SelectRenderCounter = (
     size: SelectSize,
     count: number,
+    disabled: boolean,
     originalComponent: React.ReactNode,
 ) => React.ReactNode;
 
@@ -160,8 +161,10 @@ export type SelectClearProps = SelectClearIconProps & {
 export type SelectCounterProps = {
     /** number of selected elements to show */
     count: number;
-    /** size of the parent elemnent */
+    /** size of the parent element */
     size: SelectSize;
+    /** disabled state of the parent element*/
+    disabled?: boolean;
     /** additional classname for component */
     className?: string;
 };

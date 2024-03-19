@@ -40,7 +40,11 @@ export const Alert = (props: AlertProps) => {
                 qa={qa}
             >
                 <Flex gap="3" alignItems={align}>
-                    {props.icon || <Alert.Icon theme={theme} view={view} />}
+                    {typeof props.icon === 'undefined' ? (
+                        <Alert.Icon theme={theme} view={view} />
+                    ) : (
+                        props.icon // ability to pass `null` as `icon` prop value
+                    )}
                     <Flex direction={layout === 'vertical' ? 'column' : 'row'} gap="5" grow>
                         <Flex gap="2" grow className={bAlert('text-content')}>
                             <Flex direction="column" gap="1" grow justifyContent={align}>

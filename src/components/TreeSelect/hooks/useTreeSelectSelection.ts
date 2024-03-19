@@ -4,12 +4,6 @@ import type {UseOpenProps} from '../../../hooks/useSelect/types';
 import {useOpenState} from '../../../hooks/useSelect/useOpenState';
 import type {ListItemId} from '../../useList/types';
 
-type UseTreeSelectSelectionProps = {
-    value: ListItemId[];
-    setInnerValue?(ids: ListItemId[]): void;
-    onUpdate?: (value: ListItemId[]) => void;
-} & UseOpenProps;
-
 type UseValueProps = {
     value?: ListItemId[];
     defaultValue?: ListItemId[];
@@ -39,6 +33,12 @@ export const useValue = ({defaultValue, value: valueProps}: UseValueProps) => {
         setInnerValue: uncontrolled ? setInnerValue : undefined,
     };
 };
+
+type UseTreeSelectSelectionProps = {
+    value: ListItemId[];
+    setInnerValue?(ids: ListItemId[]): void;
+    onUpdate?: (value: ListItemId[]) => void;
+} & UseOpenProps;
 
 export const useTreeSelectSelection = ({
     value,

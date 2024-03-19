@@ -22,7 +22,7 @@ interface CustomDataStructure {
 export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
     extends Omit<
         TreeSelectProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'size'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'size'
     > {
     itemsCount?: number;
 }
@@ -50,7 +50,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
             <TreeSelect
                 {...props}
                 size="l"
-                renderControlContent={mapCustomDataStructureToKnownProps}
+                mapItemDataToProps={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
                 value={value}
                 renderItem={({

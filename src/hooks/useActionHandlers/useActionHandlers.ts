@@ -16,6 +16,7 @@ export function createOnKeyDownHandler<T>(callback?: AnyFunction) {
             callback &&
             [KeyCode.ENTER, KeyCode.SPACEBAR, KeyCode.SPACEBAR_OLD].includes(event.key)
         ) {
+            event.preventDefault();
             callback(event);
         }
     };

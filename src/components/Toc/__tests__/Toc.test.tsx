@@ -139,4 +139,15 @@ describe('Toc', () => {
 
         expect(ref.current).toBe(component);
     });
+
+    test('value item should have aria-current attribute', async () => {
+        const value = defaultItems[0].value;
+        const content = defaultItems[0].content;
+
+        render(<Toc value={value} items={defaultItems} qa={qaId} />);
+
+        const currentItem = screen.getByRole('listitem', {current: true});
+
+        expect(currentItem.textContent).toContain(content);
+    });
 });

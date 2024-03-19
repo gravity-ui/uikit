@@ -11,7 +11,7 @@ import './Toc.stories.scss';
 const b = block('toc-stories');
 
 export default {
-    title: 'Components/Data Display/Toc',
+    title: 'Components/Navigation/Toc',
     component: Toc,
     argTypes: {},
 } as Meta;

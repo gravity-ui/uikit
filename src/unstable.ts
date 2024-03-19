@@ -11,3 +11,7 @@ export {
     TreeSelectItem as unstable_TreeSelectItem,
     type TreeSelectItemProps as unstable_TreeSelectItemProps,
 } from './components/TreeSelect';
+export {
+    TreeList as unstable_TreeList,
+    type TreeListProps as unstable_TreeListProps,
+} from './components/TreeList';

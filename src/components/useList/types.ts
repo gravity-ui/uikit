@@ -46,13 +46,6 @@ export type KnownItemStructure = {
     endSlot?: React.ReactNode;
 };
 
-export interface OverrideItemContext {
-    id: ListItemId;
-    isGroup: boolean;
-    disabled: boolean;
-    isLastItem: boolean;
-}
-
 export type RenderItemContext = {
     /**
      * optional, because ids may be skipped in the flatten order list,
@@ -67,7 +60,7 @@ export type RenderItemContext = {
     isLastItem: boolean;
 };
 
-export type RenderItemState = {
+export type RenderItemProps = {
     size: ListItemSize;
     id: ListItemId;
     onClick?(): void;
@@ -77,7 +70,7 @@ export type RenderItemState = {
     active: boolean;
     indentation: number;
     hasSelectionIcon?: boolean;
-};
+} & KnownItemStructure;
 
 export type ParsedState<T> = {
     /**
@@ -101,6 +94,11 @@ export type ListState = {
     expandedById: Record<ListItemId, boolean>;
     activeItemId?: ListItemId;
 };
+
+export type InitialListParsedState = Pick<
+    ListState,
+    'disabledById' | 'expandedById' | 'selectedById'
+>;
 
 export type ParsedFlattenState = {
     visibleFlattenIds: ListItemId[];

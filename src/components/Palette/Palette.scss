@@ -1,0 +1,35 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}palette';
+
+#{$block} {
+    display: inline-flex;
+    flex-flow: column wrap;
+    gap: 8px;
+
+    &:focus {
+        border: none;
+        outline: none;
+    }
+
+    &__row {
+        display: inline-flex;
+        gap: 8px;
+    }
+
+    &_size_xs &__option {
+        font-size: 12px;
+    }
+    &_size_s &__option {
+        font-size: 16px;
+    }
+    &_size_m &__option {
+        font-size: 16px;
+    }
+    &_size_l &__option {
+        font-size: 16px;
+    }
+    &_size_xl &__option {
+        font-size: 20px;
+    }
+}

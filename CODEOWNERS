@@ -35,6 +35,7 @@
 /src/components/Select @korvin89
 /src/components/Sheet @mournfulCoroner
 /src/components/Skeleton @SeqviriouM
+/src/components/Slider @Arucard89
 /src/components/Spin @SeqviriouM
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
@@ -45,7 +46,6 @@
 /src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
-/src/components/theme @resure
 
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89

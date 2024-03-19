@@ -6,9 +6,15 @@ import type {PopupPlacement} from '../Popup';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
+import type {Props as BreadcrumbsItemProps} from './BreadcrumbsItem';
 import {BreadcrumbsItem as Item} from './BreadcrumbsItem';
 import {BreadcrumbsMore} from './BreadcrumbsMore';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
+import type {
+    RenderBreadcrumbsItem,
+    RenderBreadcrumbsItemContent,
+    RenderBreadcrumbsRootContent,
+} from './types';
 
 import './Breadcrumbs.scss';
 
@@ -33,9 +39,10 @@ export type BreadcrumbsItem = LinkBreadcrumbsItem | ButtonBreadcrumbsItem;
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> extends QAProps {
     items: T[];
     className?: string;
-    renderRootContent?: (item: T, isCurrent: boolean) => React.ReactNode;
-    renderItemContent?: (item: T, isCurrent: boolean, isPrevCurrent: boolean) => React.ReactNode;
+    renderRootContent?: RenderBreadcrumbsRootContent<T>;
+    renderItemContent?: RenderBreadcrumbsItemContent<T>;
     renderItemDivider?: () => React.ReactNode;
+    renderItem?: RenderBreadcrumbsItem<T>;
     lastDisplayedItemsCount: LastDisplayedItemsCount;
     firstDisplayedItemsCount: FirstDisplayedItemsCount;
     popupStyle?: 'staircase';
@@ -131,12 +138,10 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
         const {className, qa} = this.props;
         const {calculated} = this.state;
 
-        const rootItem = this.renderRootItem();
-
         return (
             <div className={b({calculated: calculated ? 'yes' : 'no'}, className)} data-qa={qa}>
                 <div className={b('inner')} ref={this.container}>
-                    {rootItem}
+                    {this.renderRootItem()}
                     {this.renderMoreItem()}
                     {this.renderVisibleItems()}
                 </div>
@@ -144,15 +149,19 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
         );
     }
 
-    renderItem(data: T, isCurrent: boolean, isPrevCurrent: boolean) {
-        const {renderItemContent} = this.props;
-
+    renderItem(
+        item: T,
+        isCurrent: boolean,
+        isPrevCurrent: boolean,
+        renderItemContent?: BreadcrumbsItemProps<T>['renderItemContent'],
+    ) {
         return (
             <Item
-                data={data}
+                item={item}
                 isCurrent={isCurrent}
                 isPrevCurrent={isPrevCurrent}
-                renderItem={renderItemContent}
+                renderItemContent={renderItemContent || this.props.renderItemContent}
+                renderItem={this.props.renderItem}
             />
         );
     }
@@ -164,7 +173,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
     }
 
     renderRootItem() {
-        const {renderRootContent, renderItemContent} = this.props;
+        const {renderRootContent} = this.props;
         const {rootItem, visibleItems} = this.state;
         const isCurrent = visibleItems.length === 0;
 
@@ -172,14 +181,7 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
             return null;
         }
 
-        return (
-            <Item
-                data={rootItem}
-                isCurrent={isCurrent}
-                isPrevCurrent={false}
-                renderItem={renderRootContent || renderItemContent}
-            />
-        );
+        return this.renderItem(rootItem, isCurrent, false, renderRootContent);
     }
 
     renderVisibleItems() {

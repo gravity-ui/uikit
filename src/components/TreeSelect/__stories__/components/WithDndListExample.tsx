@@ -39,7 +39,7 @@ type CustomDataType = {someRandomKey: string; id: string};
 export interface WithDndListExampleProps
     extends Omit<
         TreeSelectProps<CustomDataType>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent' | 'renderControlContent'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
     > {}
 
 const randomItems: CustomDataType[] = createRandomizedData({
@@ -50,89 +50,96 @@ const randomItems: CustomDataType[] = createRandomizedData({
 
 export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
     const [items, setItems] = React.useState(randomItems);
+    const [activeItemId, setActiveItemId] = React.useState<string | undefined>(undefined);
     const [value, setValue] = React.useState<string[]>([]);
 
-    const renderContainer: TreeSelectRenderContainer<CustomDataType> = React.useCallback(
-        ({renderItem, visibleFlattenIds, containerRef, id}) => {
-            const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
-                if (typeof destination?.index === 'number' && destination.index !== source.index) {
-                    setItems((currentItems) =>
-                        reorderArray(currentItems, source.index, destination.index),
-                    );
-                }
-            };
-
-            return (
-                <DragDropContext onDragEnd={handleDrugEnd}>
-                    <Droppable
-                        droppableId="droppable"
-                        renderClone={(
-                            provided: DraggableProvided,
-                            snapshot: DraggableStateSnapshot,
-                            rubric: DraggableRubric,
-                        ) => {
-                            return renderItem(
-                                visibleFlattenIds[rubric.source.index],
-                                rubric.source.index,
-                                {
-                                    provided,
-                                    active: snapshot.isDragging,
-                                },
-                            );
-                        }}
-                    >
-                        {(droppableProvided: DroppableProvided) => (
-                            <ListContainerView ref={containerRef} id={id}>
-                                <div
-                                    {...droppableProvided.droppableProps}
-                                    ref={droppableProvided.innerRef}
-                                >
-                                    {visibleFlattenIds.map((listItemId, index) =>
-                                        renderItem(listItemId, index),
-                                    )}
-                                    {droppableProvided.placeholder}
-                                </div>
-                            </ListContainerView>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-            );
-        },
-        [setItems],
-    );
-
-    const renderItem: TreeSelectRenderItem<CustomDataType> = React.useCallback(
-        ({data, props, index, renderContext: renderContextProps}) => {
-            const commonProps = {
-                ...props,
-                title: data.someRandomKey,
-                endSlot: <Icon data={Grip} size={16} />,
-            };
-
-            // here passed props from `renderContainer` method.
-            if (renderContextProps) {
-                return (
-                    <DraggableListItem
-                        key={`item-key-${index}`}
-                        {...commonProps}
-                        {...renderContextProps}
-                    />
+    const renderContainer: TreeSelectRenderContainer<CustomDataType> = ({
+        renderItem,
+        visibleFlattenIds,
+        containerRef,
+        id,
+    }) => {
+        const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
+            if (typeof destination?.index === 'number' && destination.index !== source.index) {
+                setItems((currentItems) =>
+                    reorderArray(currentItems, source.index, destination.index),
                 );
+
+                setActiveItemId(`${destination.index}`);
             }
-            return (
-                <Draggable draggableId={String(index)} index={index} key={`item-key-${index}`}>
-                    {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-                        <DraggableListItem
-                            provided={provided}
-                            {...commonProps}
-                            active={snapshot.isDragging}
-                        />
+        };
+
+        return (
+            <DragDropContext onDragEnd={handleDrugEnd}>
+                <Droppable
+                    droppableId="droppable"
+                    renderClone={(
+                        provided: DraggableProvided,
+                        snapshot: DraggableStateSnapshot,
+                        rubric: DraggableRubric,
+                    ) => {
+                        return renderItem(
+                            visibleFlattenIds[rubric.source.index],
+                            rubric.source.index,
+                            {
+                                provided,
+                                dragging: snapshot.isDragging,
+                            },
+                        );
+                    }}
+                >
+                    {(droppableProvided: DroppableProvided) => (
+                        <ListContainerView ref={containerRef} id={id}>
+                            <div
+                                {...droppableProvided.droppableProps}
+                                ref={droppableProvided.innerRef}
+                            >
+                                {visibleFlattenIds.map((listItemId, index) =>
+                                    renderItem(listItemId, index),
+                                )}
+                                {droppableProvided.placeholder}
+                            </div>
+                        </ListContainerView>
                     )}
-                </Draggable>
+                </Droppable>
+            </DragDropContext>
+        );
+    };
+
+    const renderItem: TreeSelectRenderItem<CustomDataType> = ({
+        data,
+        props,
+        index,
+        renderContext: renderContextProps,
+    }) => {
+        const commonProps = {
+            ...props,
+            title: data.someRandomKey,
+            endSlot: <Icon data={Grip} size={16} />,
+        };
+
+        // here passed props from `renderContainer` method.
+        if (renderContextProps) {
+            return (
+                <DraggableListItem
+                    key={`item-key-${index}`}
+                    {...commonProps}
+                    {...renderContextProps}
+                />
             );
-        },
-        [],
-    );
+        }
+        return (
+            <Draggable draggableId={String(index)} index={index} key={`item-key-${index}`}>
+                {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
+                    <DraggableListItem
+                        provided={provided}
+                        {...commonProps}
+                        dragging={snapshot.isDragging}
+                    />
+                )}
+            </Draggable>
+        );
+    };
 
     return (
         <Flex>
@@ -140,14 +147,17 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 {...storyProps}
                 value={value}
                 items={items}
+                activeItemId={activeItemId}
+                setActiveItemId={setActiveItemId}
                 // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
                 getId={({id}) => id}
-                renderControlContent={({someRandomKey}) => ({
+                mapItemDataToProps={({someRandomKey}) => ({
                     title: someRandomKey,
                 })}
-                onItemClick={(_data, {id, isGroup, disabled}) => {
-                    if (!isGroup && !disabled) {
+                onItemClick={({id, groupState, disabled}) => {
+                    if (!groupState && !disabled) {
                         setValue([id]);
+                        setActiveItemId(id);
                     }
                 }}
                 renderContainer={renderContainer}

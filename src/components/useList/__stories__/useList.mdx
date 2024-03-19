@@ -73,6 +73,7 @@ function List() {
                     context: _context,
                 } = getItemRenderState({
                     id: String(i),
+                    mapItemDataToProps: (title) => ({title}),
                     onItemClick,
                     ...list,
                     ...listState,
@@ -121,6 +122,7 @@ function List() {
                             context: _context,
                         } = getItemRenderState({
                             id: String(i),
+                            mapItemDataToProps: (title) => ({title}),
                             onItemClick,
                             ...list,
                             ...listState,
@@ -496,6 +498,7 @@ item = T
     -   `disabled` - is item disabled;
     -   `selected` - is item selected;
     -   `onClick` - on item click handle if exists;
+    -   `mapItemDataToProps` - map item data to view render props with `KnownItemStructure` interface
 -   item list context:
     -   `itemState`:
         -   `parentId?` - id of parant element;
@@ -518,6 +521,7 @@ const handleItemClick = () => {};
             id,
             size, // list size
             onItemClick: handleItemClick,
+            mapItemDataToProps,
             ...list,
             ...listState,
         });

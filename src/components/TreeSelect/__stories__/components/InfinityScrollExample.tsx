@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
+import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {Flex, spacing} from '../../../layout';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
@@ -9,11 +10,14 @@ import {TreeSelect} from '../../TreeSelect';
 import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
-import {RenderVirtualizedContainer} from './RenderVirtualizedContainer';
+function identity<T>(value: T): T {
+    return value;
+}
+
 export interface InfinityScrollExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'getItemContent'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -34,6 +38,7 @@ export const InfinityScrollExample = ({
         <Flex>
             <TreeSelect<{title: string}>
                 {...storyProps}
+                mapItemDataToProps={identity}
                 items={items}
                 value={value}
                 renderItem={({data, props, itemState: {isLastItem, groupState}}) => {

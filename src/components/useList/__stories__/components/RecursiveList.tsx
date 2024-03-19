@@ -82,20 +82,17 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
                         idToFlattenIndex={list.idToFlattenIndex}
                     >
                         {(id) => {
-                            const {data, props, context} = getItemRenderState({
+                            const {props, context} = getItemRenderState({
                                 id,
                                 size,
                                 onItemClick,
+                                mapItemDataToProps: (x) => x,
                                 ...list,
                                 ...listState,
                             });
 
                             return (
-                                <ListItemView
-                                    {...props}
-                                    {...data}
-                                    hasSelectionIcon={!context.groupState}
-                                />
+                                <ListItemView {...props} hasSelectionIcon={!context.groupState} />
                             );
                         }}
                     </ListItemRecursiveRenderer>

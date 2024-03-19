@@ -11,7 +11,7 @@ const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
     rimrafSync(BUILD_DIR);
-    rimrafSync('styles/**/*.css');
+    rimrafSync('styles/**/*.css', {glob: true});
     done();
 });
 

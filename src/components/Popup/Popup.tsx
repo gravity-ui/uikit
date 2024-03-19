@@ -21,33 +21,59 @@ export type PopupPlacement = PopperPlacement;
 export type PopupAnchorRef = PopperAnchorRef;
 
 export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps, QAProps {
-    open?: boolean;
     children?: React.ReactNode;
+    /** Manages `Popup` visibility */
+    open?: boolean;
+    /** `Popup` will not be removed from the DOM upon hiding */
     keepMounted?: boolean;
+    /** Render an arrow pointing to the anchor */
     hasArrow?: boolean;
+    /** Do not use `LayerManager` on stacking popups */
     disableLayer?: boolean;
     /** @deprecated Add onClick handler to children */
     onClick?: React.MouseEventHandler<HTMLDivElement>;
+    /** `mouseenter` event handler */
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+    /** `mouseleave` event handler */
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+    /** `focus` event handler */
     onFocus?: React.FocusEventHandler<HTMLDivElement>;
+    /** `blur` event handler */
     onBlur?: React.FocusEventHandler<HTMLDivElement>;
+    /** On start open popup animation void callback */
+    onTransitionEnter?: VoidFunction;
+    /** On finish open popup animation void callback */
+    onTransitionEntered?: VoidFunction;
+    /** On start close popup animation void callback */
+    onTransitionExit?: VoidFunction;
+    /** On finish close popup animation void callback */
+    onTransitionExited?: VoidFunction;
+    /** Do not use `Portal` for children */
     disablePortal?: boolean;
+    /** DOM element children to be mounted to */
     container?: HTMLElement;
+    /** HTML `class` attribute for content node */
     contentClassName?: string;
+    /** If true, the focus will return to the anchor element */
     restoreFocus?: boolean;
+    /** Element the focus will be restored to, depends on `restoreFocus` */
     restoreFocusRef?: React.RefObject<HTMLElement>;
+    /** `aria-label` attribute, use this attribute only if you didn't have visible caption */
     'aria-label'?: React.AriaAttributes['aria-label'];
+    /** `aria-labelledby` attribute, prefer this attribute if you have visible caption */
     'aria-labelledby'?: React.AriaAttributes['aria-labelledby'];
+    /** `aria-role` attribute */
     role?: React.AriaRole;
+    /** HTML `id` attribute */
     id?: string;
+    /** Enable focus trapping behavior */
     focusTrap?: boolean;
+    /** While open, the focus will be set to the first interactive element in the content */
     autoFocus?: boolean;
 }
 
 const b = block('popup');
 const ARROW_SIZE = 8;
-
 export function Popup({
     keepMounted = false,
     hasArrow = false,
@@ -71,6 +97,10 @@ export function Popup({
     onMouseLeave,
     onFocus,
     onBlur,
+    onTransitionEnter,
+    onTransitionEntered,
+    onTransitionExit,
+    onTransitionExited,
     disablePortal,
     container,
     strategy,
@@ -132,6 +162,18 @@ export function Popup({
                 mountOnEnter={!keepMounted}
                 unmountOnExit={!keepMounted}
                 appear={true}
+                onEnter={() => {
+                    onTransitionEnter?.();
+                }}
+                onEntered={() => {
+                    onTransitionEntered?.();
+                }}
+                onExit={() => {
+                    onTransitionExit?.();
+                }}
+                onExited={() => {
+                    onTransitionExited?.();
+                }}
             >
                 <div
                     ref={handleRef}

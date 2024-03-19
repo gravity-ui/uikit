@@ -9,29 +9,31 @@ $block: '.#{variables.$ns}select-counter';
     align-items: center;
     margin-inline: auto 2px;
     background-color: var(--g-color-base-generic);
+    padding-inline: 4px;
+
     &_size {
         &_s {
-            border-radius: var(--g-border-radius-s);
-            height: calc(#{variables.$s-height} - 4px);
-            padding-inline: 6px;
+            border-radius: var(--g-border-radius-xs);
+            height: 20px;
+            min-width: 20px;
         }
         &_m {
-            height: calc(#{variables.$m-height} - 4px);
-            border-radius: var(--g-border-radius-m);
-            padding-inline: 8px;
+            border-radius: var(--g-border-radius-s);
+            height: 24px;
+            min-width: 24px;
         }
         &_l {
-            height: calc(#{variables.$l-height} - 8px);
-            border-radius: var(--g-border-radius-l);
-            margin-inline-end: 4px;
-            padding-inline: 10px;
+            border-radius: var(--g-border-radius-m);
+            height: 28px;
+            min-width: 28px;
         }
 
         &_xl {
-            height: calc(#{variables.$xl-height} - 8px);
-            border-radius: var(--g-border-radius-xl);
+            border-radius: var(--g-border-radius-l);
             margin-inline-end: 4px;
-            padding-inline: 14px;
+            padding-inline: 6px;
+            height: 36px;
+            min-width: 36px;
         }
     }
 }

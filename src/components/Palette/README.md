@@ -10,8 +10,6 @@ import {Palette} from '@gravity-ui/uikit';
 
 The `Palette` component is used display a grid of icons/emojis/reactions/symbols which you can select or unselect.
 
-<!--/GITHUB_BLOCK-->
-
 ### Disabled state
 
 You can disable every option with the `disabled` property. If you want to disable only a portion of options, you can change the `disabled` property of some of the `options` (`PaletteOption[]`).

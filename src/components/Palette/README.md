@@ -20,8 +20,8 @@ You can disable every option with the `disabled` property. If you want to disabl
     code={`
 const options: UIKit.PaletteOption[] = [
     // disable a single item
-    {content: '😎', value: 'ID-cool', disabled: true},
-    {content: '🥴', value: 'ID-woozy'},
+    {content: 'A', value: 'ID-cool', disabled: true},
+    {content: 'B', value: 'ID-woozy'},
 ];
 // or disable all of them
 <UIKit.Palette options={options} disabled={true} />
@@ -30,8 +30,8 @@ const options: UIKit.PaletteOption[] = [
     <UIKit.Palette
         options={[
             // disable a single item
-            {content: '😎', value: 'ID-cool', disabled: true},
-            {content: '🥴', value: 'ID-woozy'},
+            {content: 'A', value: 'ID-cool', disabled: true},
+            {content: 'B', value: 'ID-woozy'},
         ]}
         disabled={true}
     />

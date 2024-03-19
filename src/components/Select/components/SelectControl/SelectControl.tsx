@@ -114,7 +114,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         const count = Number(value?.length) || 0;
         const counterComponent = <SelectCounter count={count} size={size} disabled={disabled} />;
         if (renderCounter) {
-            return renderCounter(size, count, disabled, counterComponent);
+            return renderCounter(size, count, Boolean(disabled), counterComponent);
         }
         return counterComponent;
     };

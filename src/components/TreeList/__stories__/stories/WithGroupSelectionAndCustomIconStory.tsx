@@ -11,6 +11,9 @@ import {createRandomizedData} from '../../../useList/__stories__/utils/makeData'
 import {TreeList} from '../../TreeList';
 import type {TreeListOnItemClick, TreeListProps} from '../../types';
 
+const expandButtonLabel = 'Expand';
+const closeButtonLabel = 'Close';
+
 /**
  * Just for example how to work with data
  */
@@ -89,6 +92,11 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                                         ? !prevExpandedState[state.id]
                                                         : false,
                                             }));
+                                        }}
+                                        extraProps={{
+                                            'aria-label': expanded
+                                                ? closeButtonLabel
+                                                : expandButtonLabel,
                                         }}
                                     >
                                         <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />

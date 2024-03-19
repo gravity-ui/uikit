@@ -18,7 +18,7 @@ You can disable every option with the `disabled` property. If you want to disabl
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
@@ -30,16 +30,16 @@ const options: UIKit.PaletteOption[] = [
 >
     <UIKit.Palette
         options={[
+            {content: '😎', value: 'ID-cool', disabled: true},
+            {content: '🥴', value: 'ID-woozy'},
+        ]}
+    />
+    <UIKit.Palette
+        options={[
             {content: '😎', value: 'ID-cool'},
             {content: '🥴', value: 'ID-woozy'},
         ]}
         disabled={true}
-    />
-    <UIKit.Palette
-        options={[
-            {content: '😎', value: 'ID-cool', disabled: true},
-            {content: '🥴', value: 'ID-woozy'},
-        ]}
     />
 </ExampleBlock>
 
@@ -67,7 +67,7 @@ To control the size of the `Palette`, use the `size` property. The default size 
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
@@ -141,11 +141,11 @@ You can change the number of columns in the grid by changing the `columns` prope
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<UIKit.Palette options={options} columns={1} />
+<Palette options={options} columns={1} />
 `}
 >
     <UIKit.Palette
@@ -173,13 +173,13 @@ const options: PaletteOption[] = [
 
 ### Multiple
 
-By default you can (un)select multiple option, but in case you want only one option to be selected, you can disable the `multiple` property.
+By default you can (un)select multiple options, but in case you want only one option to be selected, you can disable the `multiple` property.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];

@@ -13,6 +13,7 @@ export const UserQa = {
     NAME: 'user-name',
     DESCRIPTION: 'user-description',
 };
+
 export const User = React.forwardRef<HTMLDivElement, UserProps>(
     (
         {
@@ -47,12 +48,12 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
                 {name || showDescription ? (
                     <div className={b('info')}>
                         {name ? (
-                            <span data-qa={UserQa.NAME} className={b('name')}>
+                            <span className={b('name')} data-qa={UserQa.NAME}>
                                 {name}
                             </span>
                         ) : null}
                         {showDescription ? (
-                            <span data-qa={UserQa.DESCRIPTION} className={b('description')}>
+                            <span className={b('description')} data-qa={UserQa.DESCRIPTION}>
                                 {description}
                             </span>
                         ) : null}

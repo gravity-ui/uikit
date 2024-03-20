@@ -10,8 +10,6 @@ import {Palette} from '@gravity-ui/uikit';
 
 The `Palette` component is used display a grid of icons/emojis/reactions/symbols which you can select or unselect.
 
-<!--/GITHUB_BLOCK-->
-
 ### Disabled state
 
 You can disable every option with the `disabled` property. If you want to disable only a portion of options, you can change the `disabled` property of some of the `options` (`PaletteOption[]`).
@@ -20,24 +18,30 @@ You can disable every option with the `disabled` property. If you want to disabl
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
-    // disable a single item
-    {content: '😎', value: 'ID-cool', disabled: true},
+const options: PaletteOption[] = [
+    {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
+// disable the first item
+<Palette options={[{ ...options[0], disabled: true }, options[1]]} disabled={true} />
 // or disable all of them
-<UIKit.Palette options={options} disabled={true} />
+<Palette options={options} disabled={true} />
 `}
 >
     <UIKit.Palette
         options={[
-            // disable a single item
             {content: '😎', value: 'ID-cool', disabled: true},
+            {content: '🥴', value: 'ID-woozy'},
+        ]}
+    />
+    <UIKit.Palette
+        options={[
+            {content: '😎', value: 'ID-cool'},
             {content: '🥴', value: 'ID-woozy'},
         ]}
         disabled={true}
     />
-</ExampleBlock>;
+</ExampleBlock>
 
 LANDING_BLOCK-->
 
@@ -63,15 +67,15 @@ To control the size of the `Palette`, use the `size` property. The default size 
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<UIKit.Palette options={options} size={"xs"} />
-<UIKit.Palette options={options} size={"s"} /> // «s» is the default
-<UIKit.Palette options={options} size={"m"} />
-<UIKit.Palette options={options} size={"l"} />
-<UIKit.Palette options={options} size={"xl"} />
+<Palette options={options} size={"xs"} />
+<Palette options={options} size={"s"} />
+<Palette options={options} size={"m"} />
+<Palette options={options} size={"l"} />
+<Palette options={options} size={"xl"} />
 `}
 >
     <UIKit.Palette
@@ -109,7 +113,7 @@ const options: UIKit.PaletteOption[] = [
         ]}
         size="xl"
     />
-</ExampleBlock>;
+</ExampleBlock>
 
 LANDING_BLOCK-->
 
@@ -121,7 +125,7 @@ const options: PaletteOption[] = [
     {content: '🥴', value: 'ID-woozy'},
 ];
 <Palette options={options} size={"xs"} />
-<Palette options={options} size={"s"} /> // «s» is the default
+<Palette options={options} size={"s"} />
 <Palette options={options} size={"m"} />
 <Palette options={options} size={"l"} />
 <Palette options={options} size={"xl"} />
@@ -137,11 +141,11 @@ You can change the number of columns in the grid by changing the `columns` prope
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<UIKit.Palette options={options} columns={1} />
+<Palette options={options} columns={1} />
 `}
 >
     <UIKit.Palette
@@ -151,7 +155,7 @@ const options: UIKit.PaletteOption[] = [
         ]}
         columns={1}
     />
-</ExampleBlock>;
+</ExampleBlock>
 
 LANDING_BLOCK-->
 
@@ -169,17 +173,17 @@ const options: PaletteOption[] = [
 
 ### Multiple
 
-By default you can (un)select multiple option, but in case you want only one option to be selected, you can disable the `multiple` property.
+By default you can (un)select multiple options, but in case you want only one option to be selected, you can disable the `multiple` property.
 
 <!--LANDING_BLOCK
 
 <ExampleBlock
     code={`
-const options: UIKit.PaletteOption[] = [
+const options: PaletteOption[] = [
     {content: '😎', value: 'ID-cool'},
     {content: '🥴', value: 'ID-woozy'},
 ];
-<UIKit.Palette options={options} multiple={false} />
+<Palette options={options} multiple={false} />
 `}
 >
     <UIKit.Palette
@@ -187,9 +191,9 @@ const options: UIKit.PaletteOption[] = [
             {content: '😎', value: 'ID-cool'},
             {content: '🥴', value: 'ID-woozy'},
         ]}
-        columns={1}
+        multiple={false}
     />
-</ExampleBlock>;
+</ExampleBlock>
 
 LANDING_BLOCK-->
 

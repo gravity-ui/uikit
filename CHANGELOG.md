@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.4.0](https://github.com/gravity-ui/uikit/compare/v6.3.0...v6.4.0) (2024-03-20)
+
+
+### Features
+
+* **TreeList:** new useList family component ([#1417](https://github.com/gravity-ui/uikit/issues/1417)) ([5e7d8b9](https://github.com/gravity-ui/uikit/commit/5e7d8b9af214ecc084375e681e0f8d64dc933c2c))
+* **User:** added qa attribute for name and description nodes ([#1429](https://github.com/gravity-ui/uikit/issues/1429)) ([ef6143a](https://github.com/gravity-ui/uikit/commit/ef6143a2b5247904b57c4c60fb718f47c6550f20))
+
+
+### Bug Fixes
+
+* **Palette:** fixed README.md for the landing ([#1431](https://github.com/gravity-ui/uikit/issues/1431)) ([c15f2e3](https://github.com/gravity-ui/uikit/commit/c15f2e342dd2c90fcc1703c6f713180b23d135e2))
+* **withTableSettings:** deprecate the renderControls prop ([#1427](https://github.com/gravity-ui/uikit/issues/1427)) ([27be674](https://github.com/gravity-ui/uikit/commit/27be6742fca41cac2f74b23f1db84276cdb7933d))
+
 ## [6.3.0](https://github.com/gravity-ui/uikit/compare/v6.2.0...v6.3.0) (2024-03-18)
 
 

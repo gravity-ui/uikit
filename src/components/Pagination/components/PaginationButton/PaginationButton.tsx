@@ -4,6 +4,7 @@ import {ChevronLeft, ChevronRight, ChevronsLeft} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
+import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
 import type {ButtonItem, PaginationProps, PaginationSize} from '../../types';
 
@@ -39,6 +40,7 @@ export const PaginationButton = ({
                     onClick={() => onUpdate(1, pageSize)}
                     title={compact ? i18n('button_first') : undefined}
                     disabled={disabled}
+                    qa={PaginationQa.PaginationButtonFirst}
                 >
                     <Icon data={ChevronsLeft} size="16" />
                     {compact ? undefined : i18n('button_first')}
@@ -54,6 +56,7 @@ export const PaginationButton = ({
                     onClick={() => onUpdate(page - 1, pageSize)}
                     title={compact ? i18n('button_previous') : undefined}
                     disabled={disabled}
+                    qa={PaginationQa.PaginationButtonPrevious}
                 >
                     <Icon data={ChevronLeft} size="16" />
                     {compact ? undefined : i18n('button_previous')}
@@ -69,6 +72,7 @@ export const PaginationButton = ({
                     onClick={() => onUpdate(page + 1, pageSize)}
                     title={compact ? i18n('button_next') : undefined}
                     disabled={disabled}
+                    qa={PaginationQa.PaginationButtonNext}
                 >
                     <Icon data={ChevronRight} size="16" />
                     {compact ? undefined : i18n('button_next')}

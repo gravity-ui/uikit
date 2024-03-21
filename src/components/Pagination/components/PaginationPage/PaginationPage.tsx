@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {block} from '../../../utils/cn';
+import {PaginationQa} from '../../constants';
 import type {PageItem, PaginationProps, PaginationSize} from '../../types';
 
 import './PaginationPage.scss';
@@ -17,8 +18,13 @@ type Props = {
 };
 
 export const PaginationPage = ({item, size, pageSize, className, onUpdate}: Props) => {
+    const qa = `${PaginationQa.PaginationPage}-${item.page}`;
     if (item.simple) {
-        return <div className={b('simple', {size}, className)}>{item.page}</div>;
+        return (
+            <div data-qa={qa} className={b('simple', {size}, className)}>
+                {item.page}
+            </div>
+        );
     }
 
     const view = item.current ? 'normal' : 'flat';
@@ -31,6 +37,7 @@ export const PaginationPage = ({item, size, pageSize, className, onUpdate}: Prop
             selected={item.current}
             className={className}
             onClick={() => onUpdate(item.page, pageSize)}
+            qa={qa}
         >
             {item.page}
         </Button>

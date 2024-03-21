@@ -1126,6 +1126,6 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                             | Description              |
-| :------------------------------- | :----------------------- |
-| `--g-select-focus-outline-color` | Outline color if focused |
+| Name                             | Description                                         |
+| :------------------------------- | :-------------------------------------------------- |
+| `--g-select-focus-outline-color` | Outline color if focused (by default not presented) |

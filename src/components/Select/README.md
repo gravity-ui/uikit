@@ -1123,3 +1123,9 @@ LANDING_BLOCK-->
 | errorMessage                                              | Error text                                                                                                                    | `string`                                 |                                                          |
 | errorPlacement                                            | Error placement                                                                                                               | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Validation state                                                                                                              | `"invalid"`                              |                                                          |
+
+## CSS API
+
+| Name                             | Description                                         |
+| :------------------------------- | :-------------------------------------------------- |
+| `--g-select-focus-outline-color` | Outline color if focused (by default not presented) |

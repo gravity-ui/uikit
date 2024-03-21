@@ -92,6 +92,7 @@ $block: '.#{variables.$ns}text-input';
     --_--placeholder-color: var(--g-color-text-hint);
     --_--background-color: transparent;
     --_--border-width: #{control-variables.$border-width};
+    --_--focus-outline-color: var(--g-text-input-focus-outline-color);
 
     display: inline-block;
     width: 100%;
@@ -118,6 +119,9 @@ $block: '.#{variables.$ns}text-input';
 
         &:focus-within {
             border-color: var(--g-text-input-border-color-active, var(--_--border-color-active));
+            outline: 2px solid
+                var(--g-text-input-focus-outline-color, var(--_--focus-outline-color));
+            outline-offset: -1px;
         }
     }
 
@@ -380,6 +384,10 @@ $block: '.#{variables.$ns}text-input';
                     &:focus-within {
                         border-color: var(--g-color-line-danger);
                     }
+
+                    &:focus-within {
+                        --_--focus-outline-color: var(--g-color-line-danger);
+                    }
                 }
             }
 
@@ -389,6 +397,10 @@ $block: '.#{variables.$ns}text-input';
                     &:hover,
                     &:focus-within {
                         border-block-end: 1px solid var(--g-color-line-danger);
+                    }
+
+                    &:focus-within {
+                        --_--focus-outline-color: var(--g-color-line-danger);
                     }
                 }
             }

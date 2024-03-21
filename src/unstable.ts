@@ -8,8 +8,6 @@ export {
 export {
     TreeSelect as unstable_TreeSelect,
     type TreeSelectProps as unstable_TreeSelectProps,
-    TreeSelectItem as unstable_TreeSelectItem,
-    type TreeSelectItemProps as unstable_TreeSelectItemProps,
 } from './components/TreeSelect';
 export {
     TreeList as unstable_TreeList,

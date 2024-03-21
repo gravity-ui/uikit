@@ -24,12 +24,12 @@ type BaseBreadcrumbsItem = {
     title?: string;
 };
 
-type LinkBreadcrumbsItem = {
+export type LinkBreadcrumbsItem = {
     href: string;
     action?: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
 } & BaseBreadcrumbsItem;
 
-type ButtonBreadcrumbsItem = {
+export type ButtonBreadcrumbsItem = {
     href?: undefined;
     action: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
 } & BaseBreadcrumbsItem;

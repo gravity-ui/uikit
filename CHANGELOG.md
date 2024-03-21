@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.5.0](https://github.com/gravity-ui/uikit/compare/v6.4.0...v6.5.0) (2024-03-21)
+
+
+### Features
+
+* **Breadcrumbs:** export `LinkBreadcrumbsItem` & `ButtonBreadcrumbsItem` types ([#1435](https://github.com/gravity-ui/uikit/issues/1435)) ([e5fde1b](https://github.com/gravity-ui/uikit/commit/e5fde1bb07c440e155dd51af3b2853dfab8c5b78))
+* **Pagination:** add qa attributes ([#1438](https://github.com/gravity-ui/uikit/issues/1438)) ([785079a](https://github.com/gravity-ui/uikit/commit/785079a91d5a6fe0b1bfd2fe76e5cfbf321f9502))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** renamed `LinkBreadcrumbsItem` and `ButtonBreadcrumbsItem` types ([#1437](https://github.com/gravity-ui/uikit/issues/1437)) ([db09f93](https://github.com/gravity-ui/uikit/commit/db09f93624b3cdeaaa72498a7dea73c5b5416844))
+* **UserLabel:** replace text to children in README ([#1432](https://github.com/gravity-ui/uikit/issues/1432)) ([b8c79e1](https://github.com/gravity-ui/uikit/commit/b8c79e1b444e46f240425bf9942642fdab02259f))
+
 ## [6.4.0](https://github.com/gravity-ui/uikit/compare/v6.3.0...v6.4.0) (2024-03-20)
 
 

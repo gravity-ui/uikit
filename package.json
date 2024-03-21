@@ -68,8 +68,7 @@
     "scripts": {
         "prepare": "husky",
         "test": "jest",
-        "test-storybook": "test-storybook --url http://localhost:7007",
-        "test-storybook:ci": "if [ ! -z \"$PR_NUMBER\" ]; then test-storybook --ci --url https://preview.gravity-ui.com/uikit/$PR_NUMBER; else echo \"Variable PR_NUMBER is not specified.\" && exit 1; fi",
+        "test-storybook": "test-storybook --url ${PR_PREVIEW_URL:-http://localhost:7007}",
         "test:coverage": "jest --coverage",
         "test:watch": "jest --watchAll",
         "clean": "gulp clean",

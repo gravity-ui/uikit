@@ -42,7 +42,7 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
             >
                 {avatar ? (
                     <div className={b('avatar')}>
-                        {React.isValidElement(avatar) ? avatar : <Avatar size={size} {...avatar} />}
+                        {React.isValidElement(avatar) ? avatar : <Avatar {...avatar} size={size} />}
                     </div>
                 ) : null}
                 {name || showDescription ? (

@@ -6,12 +6,37 @@ import {eventBroker} from '../event-broker';
 export type LayerCloseReason = 'outsideClick' | 'escapeKeyDown';
 
 export interface LayerExtendableProps {
+    /**
+     * Do not handle click outside
+     */
     disableOutsideClick?: boolean;
+    /**
+     * Do not handle Escape key press on keyboard
+     */
     disableEscapeKeyDown?: boolean;
+    /**
+     * This callback will be called when Escape key pressed on keyboard
+     * This behaviour could be disabled with `disableEscapeKeyDown` option
+     */
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
+    /**
+     * This callback will be called when Enter key is pressed on keyboard
+     */
     onEnterKeyDown?: (event: KeyboardEvent) => void;
+    /**
+     * This callback will be called when click is outside of elements of "top layer"
+     * This behaviour could be disabled with `disableOutsideClick` option
+     */
     onOutsideClick?: (event: MouseEvent) => void;
+    /**
+     * This callback will be called when Escape key pressed on keyboard, or click outside was made
+     * This behaviour could be disabled with `disableEscapeKeyDown`
+     * and `disableOutsideClick` options
+     */
     onClose?: (event: MouseEvent | KeyboardEvent, reason: LayerCloseReason) => void;
+    /**
+     * Type of layer, returns from `getLayers`
+     */
     type?: string;
 }
 

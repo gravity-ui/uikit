@@ -43,17 +43,16 @@ export const InfinityScrollExample = ({
                 value={value}
                 renderItem={({data, props, itemState: {isLastItem, groupState}}) => {
                     const node = (
-                        <div style={{paddingInline: 4}}>
-                            <ListItemView
-                                {...props}
-                                {...data}
-                                endSlot={
-                                    groupState ? (
-                                        <Label>{groupState.childrenIds.length}</Label>
-                                    ) : undefined
-                                }
-                            />
-                        </div>
+                        <ListItemView
+                            {...props}
+                            {...data}
+                            style={{marginInline: 4}}
+                            endSlot={
+                                groupState ? (
+                                    <Label>{groupState.childrenIds.length}</Label>
+                                ) : undefined
+                            }
+                        />
                     );
 
                     if (isLastItem) {

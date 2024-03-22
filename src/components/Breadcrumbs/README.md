@@ -346,7 +346,7 @@ return (
 | popupStyle               | Style of collapsed item popup                           | `"staircase" \| undefined`                                                                              |         |
 | qa                       | HTML `data-qa` attribute, used in tests                 | `string`                                                                                                |         |
 
-### RenderBreadcrumbsItemProps<T>
+### RenderBreadcrumbsItemProps
 
 | Name          |       Type        |
 | :------------ | :---------------: |

@@ -10,14 +10,13 @@ import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/use
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
 import {TreeSelect} from '../../../../TreeSelect/TreeSelect';
-import {TreeSelectItem} from '../../../../TreeSelect/TreeSelectItem';
-import type {TreeSelectItemProps} from '../../../../TreeSelect/TreeSelectItem';
 import type {
     TreeSelectProps,
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
-import {ListContainerView} from '../../../../useList';
+import type {ListItemViewProps} from '../../../../useList';
+import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnSetupItem, TableSetting} from '../withTableSettings';
 
@@ -84,6 +83,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
         items: _items,
         containerRef,
         id,
+        className,
     }) => {
         const visibleFlattenItemList = visibleFlattenIds.map((visibleFlattenId, idx) =>
             renderItem(visibleFlattenId, idx),
@@ -91,7 +91,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 
         return (
             <React.Fragment>
-                <ListContainerView ref={containerRef} id={id}>
+                <ListContainerView ref={containerRef} id={id} className={className}>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId={uniqId}>
                             {(droppableProvided) => {
@@ -148,7 +148,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
                     }
 
                     return (
-                        <TreeSelectItem
+                        <ListItemView
                             ref={provided.innerRef}
                             {...commonProps}
                             {...provided.draggableProps}
@@ -166,7 +166,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
 };
 
 type Item = TableColumnSetupItem &
-    TreeSelectItemProps & {
+    ListItemViewProps & {
         id: string;
         isDragDisabled?: boolean;
     };

@@ -4,10 +4,10 @@ import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {Flex, spacing} from '../../../layout';
+import {ListItemView} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
 import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
 function identity<T>(value: T): T {
@@ -43,9 +43,10 @@ export const InfinityScrollExample = ({
                 value={value}
                 renderItem={({data, props, itemState: {isLastItem, groupState}}) => {
                     const node = (
-                        <TreeSelectItem
+                        <ListItemView
                             {...props}
                             {...data}
+                            style={{marginInline: 4}}
                             endSlot={
                                 groupState ? (
                                     <Label>{groupState.childrenIds.length}</Label>

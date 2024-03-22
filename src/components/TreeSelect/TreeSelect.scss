@@ -14,4 +14,8 @@ $block: '.#{variables.$ns}tree-select';
         border-radius: 6px;
         overflow: hidden;
     }
+
+    &__list {
+        padding: 0 4px;
+    }
 }

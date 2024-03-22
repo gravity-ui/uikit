@@ -7,12 +7,11 @@ import {TreeList} from '../TreeList';
 import type {TreeListOnItemClick, TreeListRenderItem} from '../TreeList/types';
 import {Flex} from '../layout';
 import {useMobile} from '../mobile';
-import {scrollToListItem, useList, useListState} from '../useList';
+import {ListItemView, scrollToListItem, useList, useListState} from '../useList';
 import type {ListItemId} from '../useList';
 import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
 
-import {TreeSelectItem} from './TreeSelectItem';
 import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
 import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
 
@@ -21,7 +20,7 @@ import './TreeSelect.scss';
 const b = block('tree-select');
 
 const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
-    return <TreeSelectItem {...renderState.props} {...renderState.renderContext} />;
+    return <ListItemView {...renderState.props} {...renderState.renderContext} />;
 };
 
 export const TreeSelect = React.forwardRef(function TreeSelect<T>(
@@ -243,7 +242,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
                 <TreeList<T>
                     size={size}
-                    className={containerClassName}
+                    className={b('list', containerClassName)}
                     qa={qa}
                     multiple={multiple}
                     id={`list-${treeSelectId}`}

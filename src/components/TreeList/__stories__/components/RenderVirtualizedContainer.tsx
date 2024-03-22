@@ -11,9 +11,16 @@ export const RenderVirtualizedContainer = <T,>({
     visibleFlattenIds,
     renderItem,
     size,
+    className,
 }: TreeListRenderContainerProps<T>) => {
     return (
-        <ListContainerView fixedHeight id={id} ref={containerRef}>
+        <ListContainerView
+            fixedHeight
+            id={id}
+            ref={containerRef}
+            className={className}
+            extraProps={{style: {padding: 0}}}
+        >
             <VirtualizedListContainer
                 items={visibleFlattenIds}
                 itemSize={(_index) => computeItemSize(size)}

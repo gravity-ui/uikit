@@ -12,20 +12,19 @@ import type {
 
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../../useList';
+import type {ListItemViewProps} from '../../../useList';
+import {ListContainerView, ListItemView} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
 import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem} from '../../TreeSelectItem';
-import type {TreeSelectItemProps} from '../../TreeSelectItem';
 import type {TreeSelectProps, TreeSelectRenderContainer, TreeSelectRenderItem} from '../../types';
 
 const DraggableListItem = ({
     provided,
     ...props
-}: {provided?: DraggableProvided} & TreeSelectItemProps) => {
+}: {provided?: DraggableProvided} & ListItemViewProps) => {
     return (
-        <TreeSelectItem
+        <ListItemView
             {...provided?.dragHandleProps}
             {...provided?.draggableProps}
             ref={provided?.innerRef}
@@ -58,6 +57,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
         visibleFlattenIds,
         containerRef,
         id,
+        className,
     }) => {
         const handleDrugEnd: OnDragEndResponder = ({destination, source}) => {
             if (typeof destination?.index === 'number' && destination.index !== source.index) {
@@ -89,7 +89,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                     }}
                 >
                     {(droppableProvided: DroppableProvided) => (
-                        <ListContainerView ref={containerRef} id={id}>
+                        <ListContainerView ref={containerRef} id={id} className={className}>
                             <div
                                 {...droppableProvided.droppableProps}
                                 ref={droppableProvided.innerRef}

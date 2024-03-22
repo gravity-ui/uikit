@@ -10,7 +10,13 @@ import {cn} from '../../utils/cn';
 import {DropdownMenu} from '../DropdownMenu';
 import type {DropdownMenuItem} from '../DropdownMenu';
 
-import {options, optionsAssorted, optionsWithGroups, optionsWithSubItems} from './options';
+import {
+    options,
+    optionsAssorted,
+    optionsWithGroups,
+    optionsWithNestedItems,
+    optionsWithNestedItemsAndGroups,
+} from './options';
 
 import './DropdownMenu.stories.scss';
 
@@ -58,12 +64,21 @@ WithGroups.args = {
 };
 WithGroups.storyName = 'Options with groups';
 
-const WithSubmenuTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
-export const WithSubmenu = WithSubmenuTemplate.bind({});
-WithSubmenu.args = {
-    items: optionsWithSubItems,
+// ----------------------------------------
+const WithNestedItemsTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
+export const WithNestedItems = WithNestedItemsTemplate.bind({});
+WithNestedItems.args = {
+    items: optionsWithNestedItems,
 };
-WithSubmenu.storyName = 'Submenu';
+WithNestedItems.storyName = 'With nested items';
+
+// ----------------------------------------
+const WithNestedItemsAndGroupsTemplate: StoryFn = (args) => <DropdownMenu {...args} />;
+export const WithNestedItemsAndGroups = WithNestedItemsAndGroupsTemplate.bind({});
+WithNestedItemsAndGroups.args = {
+    items: optionsWithNestedItemsAndGroups,
+};
+WithNestedItemsAndGroups.storyName = 'With nested items and groups';
 
 // ----------------------------------------
 const AssortedTemplate: StoryFn = (args) => <DropdownMenu {...args} />;

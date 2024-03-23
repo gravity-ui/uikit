@@ -20,7 +20,7 @@ import './TreeSelect.scss';
 const b = block('tree-select');
 
 const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
-    return <ListItemView {...renderState.props} {...renderState.renderContext} />;
+    return <ListItemView {...renderState.props} {...renderState.renderContainerProps} />;
 };
 
 export const TreeSelect = React.forwardRef(function TreeSelect<T>(
@@ -48,6 +48,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         popupDisablePortal,
         groupsBehavior = 'expandable',
         value: propsValue,
+        defaultGroupsExpanded,
         onClose,
         onUpdate,
         getId,
@@ -114,38 +115,30 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         });
 
     const handleItemClick = React.useCallback<TreeListOnItemClick<T>>(
-        ({id: listItemId, data, groupState, isLastItem, itemState}) => {
+        (onClickProps) => {
+            const {groupState} = onClickProps.context;
+
             const defaultHandleClick = () => {
-                if (listState.disabledById[listItemId]) return;
+                if (listState.disabledById[onClickProps.id]) return;
 
                 // always activate selected item
-                setActiveItemId(listItemId);
+                setActiveItemId(onClickProps.id);
 
                 if (groupState && groupsBehavior === 'expandable') {
-                    listState.setExpanded((state) => ({
-                        ...state,
-                        // toggle expanded state by id, by default all groups expanded
-                        [listItemId]:
-                            typeof state[listItemId] === 'boolean' ? !state[listItemId] : false,
+                    listState.setExpanded((prvState) => ({
+                        ...prvState,
+                        [onClickProps.id]: !onClickProps.expanded,
                     }));
                 } else if (multiple) {
-                    handleMultipleSelection(listItemId);
+                    handleMultipleSelection(onClickProps.id);
                 } else {
-                    handleSingleSelection(listItemId);
+                    handleSingleSelection(onClickProps.id);
                     toggleOpen(false);
                 }
             };
 
             if (onItemClick) {
-                return onItemClick({
-                    id: listItemId,
-                    data,
-                    groupState,
-                    itemState,
-                    isLastItem,
-                    disabled: listState.disabledById[listItemId],
-                    defaultClickCallback: defaultHandleClick,
-                });
+                return onItemClick(onClickProps, defaultHandleClick);
             }
 
             return defaultHandleClick();
@@ -255,6 +248,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     setActiveItemId={setActiveItemId}
                     onItemClick={handleItemClick}
                     items={items}
+                    defaultGroupsExpanded={defaultGroupsExpanded}
                     renderContainer={renderContainer}
                     mapItemDataToProps={mapItemDataToProps}
                     renderItem={renderItem ?? defaultItemRenderer}

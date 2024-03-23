@@ -41,7 +41,7 @@ export const InfinityScrollExample = ({
                 mapItemDataToProps={identity}
                 items={items}
                 value={value}
-                renderItem={({data, props, itemState: {isLastItem, groupState}}) => {
+                renderItem={({data, props, context: {isLastItem, groupState}}) => {
                     const node = (
                         <ListItemView
                             {...props}

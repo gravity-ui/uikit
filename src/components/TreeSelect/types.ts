@@ -35,9 +35,9 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
     // required item props to render
     props: RenderItemProps;
     // internal list context props
-    itemState: RenderItemContext;
+    context: RenderItemContext;
     index: number;
-    renderContext?: P;
+    renderContainerProps?: P;
 }) => React.JSX.Element;
 
 export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
@@ -77,6 +77,7 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
      * In other situations use `renderContainer` method
      */
     slotBeforeListBody?: React.ReactNode;
+    defaultGroupsExpanded?: boolean;
     /**
      * Use slots if you don't need access to internal TreeListState.
      * In other situations use `renderContainer` method
@@ -99,7 +100,7 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
-    onItemClick?: TreeListOnItemClick<T, {defaultClickCallback(): void}>;
+    onItemClick?: TreeListOnItemClick<T, () => void>;
     /**
      * Map item data to view props
      */

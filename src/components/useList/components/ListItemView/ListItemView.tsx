@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
 
+import {QA_DATA_ATTR} from '../../../../constants';
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
 import {Flex, spacing} from '../../../layout';
@@ -92,13 +93,14 @@ const renderSafeIndentation = (indentation?: number) => {
 export const ListItemView = React.forwardRef(
     (
         {
+            qa,
             id,
             as = 'div',
             size = 'm',
             active,
             selected,
             disabled,
-            activeOnHover = true,
+            activeOnHover: propsActiveOnHover,
             className,
             hasSelectionIcon = true,
             indentation,
@@ -118,9 +120,12 @@ export const ListItemView = React.forwardRef(
     ) => {
         const isGroup = typeof expanded === 'boolean';
         const onClick = disabled ? undefined : _onClick;
+        const activeOnHover =
+            typeof propsActiveOnHover === 'boolean' ? propsActiveOnHover : Boolean(onClick);
 
         return (
             <Flex
+                {...{[LIST_ITEM_DATA_ATR]: id, [QA_DATA_ATTR]: qa}}
                 role={role}
                 aria-selected={selected}
                 onClick={onClick}
@@ -141,7 +146,6 @@ export const ListItemView = React.forwardRef(
                 }}
                 as={as}
                 ref={ref}
-                {...{[LIST_ITEM_DATA_ATR]: id ? id : undefined}}
                 alignItems="center"
                 gap="4"
                 justifyContent="space-between"

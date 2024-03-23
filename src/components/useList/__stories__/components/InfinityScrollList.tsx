@@ -96,6 +96,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                                             id,
                                             size,
                                             onItemClick,
+                                            multiple: true,
                                             mapItemDataToProps: (x) => x,
                                             ...list,
                                             ...listState,

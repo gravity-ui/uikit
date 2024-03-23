@@ -7,6 +7,7 @@ import type {TreeListRenderContainerProps} from '../../types';
 // custom container renderer example
 export const RenderVirtualizedContainer = <T,>({
     id,
+    qa,
     containerRef,
     visibleFlattenIds,
     renderItem,
@@ -15,6 +16,7 @@ export const RenderVirtualizedContainer = <T,>({
 }: TreeListRenderContainerProps<T>) => {
     return (
         <ListContainerView
+            qa={qa}
             fixedHeight
             id={id}
             ref={containerRef}

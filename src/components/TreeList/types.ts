@@ -17,26 +17,37 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     // required item props to render
     props: RenderItemProps;
     // internal list context props
-    itemState: RenderItemContext;
+    context: RenderItemContext;
     index: number;
-    renderContext?: P;
+    renderContainerProps?: P;
 }) => React.JSX.Element;
 
 interface ItemClickContext<T> {
     id: ListItemId;
-    /**
-     * Defined only if item is group
-     */
-    groupState?: ListParsedState<T>['groupsState'][number];
-    itemState: ListParsedState<T>['itemsState'][number];
-    isLastItem: boolean;
-    disabled: boolean;
     data: T;
+    index: number;
+    /**
+     * Current item `disabled` value
+     */
+    disabled: boolean;
+    /**
+     * Current item `selected` value
+     */
+    selected: boolean;
+    /**
+     * Current item `expanded` value for group
+     */
+    expanded: boolean;
+    /**
+     * List content item info
+     */
+    context: RenderItemContext;
 }
 
-export type TreeListOnItemClick<T, R = {}> = (ctx: ItemClickContext<T> & R) => void;
+export type TreeListOnItemClick<T, R = void> = (ctx: ItemClickContext<T>, defaultCb: R) => void;
 
 export type TreeListRenderContainerProps<T> = ListParsedState<T> &
+    QAProps &
     Partial<ListState> & {
         id: string;
         size: ListItemSize;
@@ -46,7 +57,7 @@ export type TreeListRenderContainerProps<T> = ListParsedState<T> &
             /**
              * Ability to transfer props from an overridden container render
              */
-            renderContextProps?: Object,
+            renderContainerProps?: Object,
         ): React.JSX.Element;
         containerRef?: React.RefObject<HTMLDivElement>;
         className?: string;
@@ -69,6 +80,13 @@ export interface TreeListProps<T> extends QAProps, Partial<ListState> {
     multiple?: boolean;
     size?: ListItemSize;
     /**
+     * @default true
+     *
+     * Ability to handle default groups expanded behavior.
+     * Works if `expandedById` state passed
+     */
+    defaultGroupsExpanded?: boolean;
+    /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
     getId?(item: T): ListItemId;
@@ -77,9 +95,6 @@ export interface TreeListProps<T> extends QAProps, Partial<ListState> {
      */
     renderItem?: TreeListRenderItem<T>;
     renderContainer?: TreeListRenderContainer<T>;
-    /**
-     * If you want to disable default behavior pass `disabled` as a value;
-     */
     onItemClick?: TreeListOnItemClick<T>;
     mapItemDataToProps: TreeListMapItemDataToProps<T>;
     /**

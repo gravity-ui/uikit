@@ -68,7 +68,7 @@ export const WithGroupSelectionAndCustomIconStory = ({
                         expanded, // don't use default ListItemView expand icon
                         ...state
                     },
-                    itemState: {groupState},
+                    context: {groupState},
                 }) => {
                     return (
                         <ListItemView

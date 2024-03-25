@@ -3,7 +3,7 @@
 set -euo pipefail
 
 IMAGE_NAME="mcr.microsoft.com/playwright"
-IMAGE_TAG="v1.38.1-jammy" # This version have to be synchronized with playwright version from package.json
+IMAGE_TAG="v1.42.1-jammy" # This version have to be synchronized with playwright version from package.json
 
 NODE_MODULES_CACHE_DIR="$HOME/.cache/uikit-playwright-docker-node-modules"
 

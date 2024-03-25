@@ -12,24 +12,9 @@ $block: '.#{variables.$ns}button';
     --_--border-color: currentColor;
     --_--focus-outline-color: var(--g-color-line-focus);
     --_--focus-outline-offset: 0;
-    --_--icon-space: calc(
-        var(--g-button-padding, var(--_--padding)) + var(--g-button-icon-size, var(--_--icon-size)) +
-            var(--g-button-icon-offset, var(--_--icon-offset))
-    );
-    --_--icon-position: calc(
-        var(--g-button-padding, var(--_--padding)) -
-            (
-                var(--g-button-height, var(--_--height)) - var(
-                        --g-button-icon-size,
-                        var(--_--icon-size)
-                    )
-            ) / 2
-    );
     --_--font-size: var(--g-text-body-1-font-size);
 
     @include mixins.button-reset();
-    display: inline-block;
-    position: relative;
     overflow: visible;
     box-sizing: border-box;
     height: var(--g-button-height, var(--_--height));
@@ -47,6 +32,10 @@ $block: '.#{variables.$ns}button';
         transform 0.1s ease-out,
         color 0.15s linear;
     transform: scale(1);
+    display: inline-flex;
+    justify-content: center;
+    padding: 0 var(--g-button-padding, var(--_--padding));
+    gap: var(--g-button-icon-offset, var(--_--icon-offset));
 
     &::before {
         content: '';
@@ -266,49 +255,27 @@ $block: '.#{variables.$ns}button';
     &__text {
         display: inline-block;
         white-space: nowrap;
-        padding: 0 var(--g-button-padding, var(--_--padding));
     }
 
     &__icon {
-        display: inline-block;
-        position: relative;
-        width: var(--g-button-height, var(--_--height));
+        display: inline-flex;
+        justify-content: center;
+        width: var(--g-button-height, var(--_--icon-size));
         height: var(--g-button-height, var(--_--height));
         pointer-events: none;
 
-        &::after {
-            content: '\00a0';
-            visibility: hidden;
-        }
-
         &-inner {
-            position: absolute;
-            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        &_side_start,
-        &_side_end {
-            position: absolute;
-            inset-block-start: 0;
-        }
-
         &_side_start {
-            inset-inline-start: var(--_--icon-position);
-
-            & ~ #{$block}__text {
-                padding-inline-start: var(--_--icon-space);
-            }
+            order: 0;
         }
 
         &_side_end {
-            inset-inline-end: var(--_--icon-position);
-
-            & ~ #{$block}__text {
-                padding-inline-end: var(--_--icon-space);
-            }
+            order: 2;
         }
     }
 

@@ -24,7 +24,10 @@ import i18n from './i18n';
 
 import './TableColumnSetup.scss';
 
-function identity<T>(value: T): T {
+function identity(value: Item): ItemRenderProps {
+    delete value.isSelected;
+    delete value.isRequired;
+
     return value;
 }
 
@@ -170,6 +173,8 @@ type Item = TableColumnSetupItem &
         id: string;
         isDragDisabled?: boolean;
     };
+
+type ItemRenderProps = Omit<Item, 'isSelected' | 'isRequired'>;
 
 export type RenderControls = (params: {
     DefaultApplyButton: React.ComponentType;

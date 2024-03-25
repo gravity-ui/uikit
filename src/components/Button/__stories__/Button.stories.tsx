@@ -97,6 +97,9 @@ export const Loading: Story = {
 };
 
 export const Width: Story = {
+    args: {
+        ...Default.args,
+    },
     render: (args) => {
         return (
             <div style={{width: 100, border: '2px dashed gray', overflow: 'hidden', padding: 2}}>
@@ -119,6 +122,9 @@ export const Width: Story = {
 };
 
 export const Pin: Story = {
+    args: {
+        ...Default.args,
+    },
     render: (args) => {
         return (
             <Showcase>
@@ -136,11 +142,30 @@ export const Pin: Story = {
 
 export const Link: Story = {
     args: {
+        ...Default.args,
         children: ['Link Button', <IconComponent key="icon" data={ArrowUpRightFromSquare} />],
         href: 'https://gravity-ui.com',
         target: '_blank',
     },
     name: 'As Link',
+};
+
+export const InsideText: Story = {
+    args: {
+        ...Default.args,
+    },
+    render: (args) => {
+        return (
+            <div>
+                Lorem ipsum
+                <br />
+                <Button {...args} /> dolor
+                <br />
+                sit amet
+            </div>
+        );
+    },
+    name: 'Inside Text',
 };
 
 export const Custom: Story = {

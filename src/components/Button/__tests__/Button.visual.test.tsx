@@ -6,6 +6,7 @@ import {
     Default,
     Disabled,
     Icon,
+    InsideText,
     Link,
     Loading,
     Pin,
@@ -72,6 +73,12 @@ test.describe('Button', () => {
 
     test('render story: <Width>', async ({mount, expectScreenshot}) => {
         await mount(<Width />);
+
+        await expectScreenshot();
+    });
+
+    test('render story: <InsideText>', async ({mount, expectScreenshot}) => {
+        await mount(<InsideText />);
 
         await expectScreenshot();
     });

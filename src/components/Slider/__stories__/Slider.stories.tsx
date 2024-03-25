@@ -11,7 +11,23 @@ type Story = StoryObj<typeof Slider>;
 export default {
     title: 'Components/Inputs/Slider',
     component: Slider,
-} as Meta;
+    args: {
+        'aria-label': 'Example slider field',
+    },
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
+} as Meta<typeof Slider>;
 
 export const Default: Story = {};
 

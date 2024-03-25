@@ -5,7 +5,7 @@ import {ListItem} from '../components';
 import type {ListItemData, ListItemProps} from '../types';
 
 function ListWrapper({children}: React.PropsWithChildren) {
-    return <div role={'list'}>{children}</div>;
+    return <div role="list">{children}</div>;
 }
 
 function setup<T extends unknown>(props: Partial<ListItemProps<T>> = {}) {

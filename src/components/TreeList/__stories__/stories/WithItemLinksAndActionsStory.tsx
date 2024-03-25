@@ -11,6 +11,10 @@ import {createRandomizedData} from '../../../useList/__stories__/utils/makeData'
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
 
+const expandButtonLabel = 'Expand';
+const closeButtonLabel = 'Close';
+const moreOptionsButton = 'More options';
+
 function identity<T>(value: T): T {
     return value;
 }
@@ -69,6 +73,11 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                             text: 'action 1',
                                         },
                                     ]}
+                                    defaultSwitcherProps={{
+                                        extraProps: {
+                                            'aria-label': moreOptionsButton,
+                                        },
+                                    }}
                                 />
                             }
                             startSlot={
@@ -88,6 +97,11 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                                         ? !prevExpandedState[state.id]
                                                         : false,
                                             }));
+                                        }}
+                                        extraProps={{
+                                            'aria-label': expanded
+                                                ? closeButtonLabel
+                                                : expandButtonLabel,
                                         }}
                                     >
                                         <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />

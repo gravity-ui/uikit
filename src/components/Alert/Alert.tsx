@@ -14,6 +14,7 @@ import {AlertContextProvider} from './AlertContextProvider';
 import {AlertIcon} from './AlertIcon';
 import {AlertTitle} from './AlertTitle';
 import {DEFAULT_ICON_SIZE, bAlert} from './constants';
+import i18n from './i18n';
 import type {AlertProps} from './types';
 
 export const Alert = (props: AlertProps) => {
@@ -63,7 +64,13 @@ export const Alert = (props: AlertProps) => {
                         )}
                     </Flex>
                     {onClose && (
-                        <Button view="flat" onClick={onClose}>
+                        <Button
+                            view="flat"
+                            onClick={onClose}
+                            extraProps={{
+                                'aria-label': i18n('label_close'),
+                            }}
+                        >
                             <Icon
                                 data={Xmark}
                                 size={DEFAULT_ICON_SIZE}

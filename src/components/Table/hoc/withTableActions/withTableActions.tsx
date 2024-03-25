@@ -3,6 +3,7 @@ import React from 'react';
 import {Ellipsis} from '@gravity-ui/icons';
 import _memoize from 'lodash/memoize';
 
+import {useUniqId} from '../../../../hooks';
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -12,6 +13,7 @@ import {Popup} from '../../../Popup';
 import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import i18n from '../../i18n';
 
 import './withTableActions.scss';
 
@@ -112,6 +114,7 @@ const DefaultRowActions = <I extends TableDataItem>({
 }: DefaultRowActionsProps<I>) => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
+    const rowId = useUniqId();
 
     if (getRowActions === undefined) {
         return null;
@@ -159,6 +162,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 anchorRef={anchorRef}
                 placement={DEFAULT_PLACEMENT}
                 onOutsideClick={() => setOpen(false)}
+                id={rowId}
             >
                 <Menu className={menuCn} size={rowActionsSize}>
                     {actions.map(renderPopupMenuItem)}
@@ -171,6 +175,11 @@ const DefaultRowActions = <I extends TableDataItem>({
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
+                extraProps={{
+                    'aria-label': i18n('label-actions'),
+                    'aria-expanded': open,
+                    'aria-controls': rowId,
+                }}
             >
                 <Icon data={Ellipsis} />
             </Button>

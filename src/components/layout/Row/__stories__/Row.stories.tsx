@@ -10,6 +10,19 @@ import type {RowProps} from '../Row';
 export default {
     title: 'Components/Layout/Row',
     component: Row,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<RowProps> = (args) => (

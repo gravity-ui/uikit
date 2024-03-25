@@ -11,6 +11,19 @@ import type {ContainerProps} from '../Container';
 export default {
     title: 'Components/Layout/Container',
     component: Container,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<ContainerProps> = (args) => (

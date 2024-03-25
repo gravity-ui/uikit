@@ -26,6 +26,20 @@ export default {
     args: {
         data: 'Gear',
     },
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'duplicate-id',
+                        enabled: false,
+                        selector: 'defs', // one may use same id in different <defs>
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 type Story = StoryObj<typeof Icon>;

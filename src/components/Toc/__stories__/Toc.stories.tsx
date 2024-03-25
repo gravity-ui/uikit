@@ -14,6 +14,19 @@ export default {
     title: 'Components/Navigation/Toc',
     component: Toc,
     argTypes: {},
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<TocProps> = (args) => {

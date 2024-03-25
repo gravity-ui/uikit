@@ -73,7 +73,7 @@ export const InfinityScrollExample = ({
                 slotAfterListBody={
                     isLoading && (
                         <Flex justifyContent="center" className={spacing({py: 2})}>
-                            <Loader size={'m'} />
+                            <Loader size="m" />
                         </Flex>
                     )
                 }

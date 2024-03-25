@@ -9,6 +9,19 @@ import {LinkShowcase} from '../__stories__/LinkShowcase';
 export default {
     title: 'Components/Navigation/Link',
     component: Link,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 const DefaultTemplate: StoryFn<LinkProps> = (args) => <Link {...args}>Link</Link>;

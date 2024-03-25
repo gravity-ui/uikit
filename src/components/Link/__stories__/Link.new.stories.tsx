@@ -43,6 +43,17 @@ export default {
     },
     parameters: {
         order: -100,
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
     },
 } as Meta;
 

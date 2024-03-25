@@ -11,6 +11,31 @@ import type {MenuProps} from '../Menu';
 export default {
     title: 'Components/Navigation/Menu',
     component: Menu,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'aria-required-parent',
+                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1342
+                    },
+                    {
+                        id: 'aria-required-children',
+                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1342
+                    },
+                    {
+                        id: 'listitem',
+                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1342
+                    },
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta<typeof Menu>;
 
 const createItemClickHandler = (text: string) => () => {

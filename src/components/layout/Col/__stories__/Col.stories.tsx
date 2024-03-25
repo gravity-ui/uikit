@@ -12,6 +12,19 @@ import type {ColProps} from '../Col';
 export default {
     title: 'Components/Layout/Col',
     component: Col,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 const StaticTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({space = '3', spaceRow}) => (

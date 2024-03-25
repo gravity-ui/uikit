@@ -17,6 +17,8 @@ const b = cn('text-input-showcase');
 
 const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
+const showLabel = 'Show';
+const hideLabel = 'Hide';
 
 const EyeButton = (props: {
     size?: TextInputProps['size'];
@@ -32,6 +34,7 @@ const EyeButton = (props: {
             view="flat"
             disabled={disabled}
             onClick={onClick}
+            extraProps={{'aria-label': opened ? showLabel : hideLabel}}
         >
             <Icon data={opened ? Eye : EyeSlash} />
         </Button>
@@ -279,24 +282,24 @@ export function TextInputShowcase() {
                         {...textInputProps}
                         size="s"
                         placeholder="s"
-                        error={'A validation error has occurred'}
+                        error="A validation error has occurred"
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="m"
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                     />
                     <TextInput
                         {...textInputProps}
                         size="l"
                         placeholder="l"
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                     />
                     <TextInput
                         {...textInputProps}
                         size="xl"
                         placeholder="xl"
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                     />
                 </div>
 
@@ -304,7 +307,7 @@ export function TextInputShowcase() {
                     <h3 className={b('section-header')}>With additional content:</h3>
                     <TextInput
                         {...textInputProps}
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
                         label={LABEL}
@@ -316,7 +319,7 @@ export function TextInputShowcase() {
                     />
                     <TextInput
                         {...textInputProps}
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         placeholder="default value"
                         value={undefined}
                         defaultValue="defaultValue"
@@ -341,27 +344,27 @@ export function TextInputShowcase() {
                         {...textInputProps}
                         size="s"
                         placeholder="s"
-                        error={'A validation error has occurred'}
+                        error="A validation error has occurred"
                         errorPlacement="inside"
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="m"
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         errorPlacement="inside"
                     />
                     <TextInput
                         {...textInputProps}
                         size="l"
                         placeholder="l"
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         errorPlacement="inside"
                     />
                     <TextInput
                         {...textInputProps}
                         size="xl"
                         placeholder="xl"
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         errorPlacement="inside"
                     />
                 </div>
@@ -370,7 +373,7 @@ export function TextInputShowcase() {
                     <h3 className={b('section-header')}>With additional content:</h3>
                     <TextInput
                         {...textInputProps}
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         errorPlacement="inside"
                         placeholder="clear"
                         type={additionalContentExmpleInputType}
@@ -383,7 +386,7 @@ export function TextInputShowcase() {
                     />
                     <TextInput
                         {...textInputProps}
-                        errorMessage={'A validation error has occurred'}
+                        errorMessage="A validation error has occurred"
                         errorPlacement="inside"
                         placeholder="default value"
                         value={undefined}

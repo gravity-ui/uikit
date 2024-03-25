@@ -250,8 +250,17 @@ $blockButton: '.#{variables.$ns}select-control__button';
     }
 
     &__error-icon {
+        @include mixins.button-reset();
         box-sizing: content-box;
         color: var(--g-color-text-danger);
         padding: var(--_--text-input-error-icon-padding);
+        border-radius: var(--g-focus-border-radius);
+
+        &:focus {
+            outline: 2px solid var(--g-color-line-focus);
+        }
+        &:focus:not(:focus-visible) {
+            outline: 0;
+        }
     }
 }

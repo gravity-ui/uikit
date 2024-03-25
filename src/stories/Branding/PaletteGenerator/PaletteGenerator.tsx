@@ -5,6 +5,7 @@ import chroma from 'chroma-js';
 
 import {Button, Card, ClipboardButton, Icon, TextInput} from '../../../components';
 import {cn} from '../../../components/utils/cn';
+import {useUniqId} from '../../../hooks';
 
 import './PaletteGenerator.scss';
 
@@ -109,15 +110,26 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
         }
     }, [color]);
 
+    const colorNameId = useUniqId();
+    const mainColorValueId = useUniqId();
+
     return (
         <div className={b()}>
             <div className={b('title')}>Parameters</div>
             <div className={b('parameters')}>
-                <div className={b('parameters-name')}>Name</div>
-                <div className={b('parameters-control')}>
-                    <TextInput value={name} onUpdate={setName} />
+                <div className={b('parameters-name')} id={colorNameId}>
+                    Name
                 </div>
-                <div className={b('parameters-name')}>Main Color</div>
+                <div className={b('parameters-control')}>
+                    <TextInput
+                        value={name}
+                        onUpdate={setName}
+                        controlProps={{'aria-labelledby': colorNameId}}
+                    />
+                </div>
+                <div className={b('parameters-name')} id={mainColorValueId}>
+                    Main Color
+                </div>
                 <div className={b('parameters-control')}>
                     <div className={b('color-picker-wrapper')}>
                         <label className={b('color-picker')} style={{backgroundColor: color}}>
@@ -132,6 +144,9 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                             controlRef={colorTextRef}
                             defaultValue={color}
                             onUpdate={handleColorTextUpdate}
+                            controlProps={{
+                                'aria-labelledby': mainColorValueId,
+                            }}
                         />
                     </div>
                 </div>
@@ -148,7 +163,14 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                 </div>
                 <div className={b('parameters-name')} />
                 <div className={b('parameters-control')}>
-                    <Button view="outlined" size="l" onClick={handleSwapContrastClick}>
+                    <Button
+                        view="outlined"
+                        size="l"
+                        onClick={handleSwapContrastClick}
+                        extraProps={{
+                            'aria-label': 'Switch colors',
+                        }}
+                    >
                         <Icon data={ArrowUpArrowDown} size={18} />
                     </Button>
                 </div>

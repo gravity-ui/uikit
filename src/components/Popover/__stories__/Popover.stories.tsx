@@ -211,10 +211,10 @@ const AccessibleTemplate: StoryFn<PopoverProps> = () => {
     return (
         <div className={cnPopoverDemo('variants')}>
             <Base content="Accessible tooltip" tooltipId={tooltipId}>
-                {({onClick}) => (
+                {({onClick, open}) => (
                     <Button
                         extraProps={{
-                            'aria-controls': tooltipId,
+                            'aria-controls': open ? tooltipId : undefined,
                             'aria-describedby': tooltipId,
                         }}
                         onClick={onClick}

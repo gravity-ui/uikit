@@ -109,7 +109,14 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
             <div className={b('title')}>Palette</div>
             <div className={b('palette')}>
                 <div className={b('random-color')}>
-                    <Button view="outlined" size="xl" onClick={handleRandomClick}>
+                    <Button
+                        view="outlined"
+                        size="xl"
+                        onClick={handleRandomClick}
+                        extraProps={{
+                            'aria-label': 'Regenerate colors',
+                        }}
+                    >
                         <Icon data={ArrowsRotateRight} size={20} />
                     </Button>
                 </div>

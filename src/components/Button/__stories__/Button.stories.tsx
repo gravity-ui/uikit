@@ -89,6 +89,14 @@ export const Icon: Story = {
             <Button {...args} title="Copy">
                 <IconComponent data={Copy} />
             </Button>
+            <Button {...args}>
+                <IconComponent size={20} data={Globe} />
+            </Button>
+            <Button {...args}>
+                <IconComponent size={20} data={Globe} />
+                Both bigger icons
+                <IconComponent size={20} data={ChevronDown} />
+            </Button>
         </Showcase>
     ),
 };

@@ -12,10 +12,11 @@ export interface TocItemProps extends TocItemType {
     childItem?: boolean;
     active?: boolean;
     onClick?: (value: string) => void;
+    qa?: string;
 }
 
 export const TocItem = (props: TocItemProps) => {
-    const {active = false, childItem = false, content, href, value, onClick} = props;
+    const {active = false, childItem = false, content, href, value, onClick, qa} = props;
 
     const handleClick = React.useCallback(() => {
         if (value === undefined || !onClick) {
@@ -44,5 +45,15 @@ export const TocItem = (props: TocItemProps) => {
             </a>
         );
 
-    return <div className={b('section', {child: childItem, active})}>{item}</div>;
+    let testId = '';
+
+    if (qa) {
+        testId = active ? qa : `${qa}-active`;
+    }
+
+    return (
+        <div className={b('section', {child: childItem, active})} data-qa={testId}>
+            {item}
+        </div>
+    );
 };

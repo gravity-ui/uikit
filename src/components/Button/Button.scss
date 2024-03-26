@@ -259,13 +259,20 @@ $block: '.#{variables.$ns}button';
     }
 
     &__icon {
-        display: inline-flex;
-        justify-content: center;
+        display: inline-block;
+        position: relative;
         width: var(--g-button-height, var(--_--icon-size));
         height: var(--g-button-height, var(--_--height));
         pointer-events: none;
 
+        &::after {
+            content: '\00a0';
+            visibility: hidden;
+        }
+
         &-inner {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;

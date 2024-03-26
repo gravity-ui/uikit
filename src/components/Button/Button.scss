@@ -261,7 +261,16 @@ $block: '.#{variables.$ns}button';
     &__icon {
         display: inline-block;
         position: relative;
-        width: var(--g-button-height, var(--_--icon-size));
+        margin: 0
+            calc(
+                (
+                        var(--g-button-height, var(--_--height)) - var(
+                                --g-button-icon-size,
+                                var(--_--icon-size)
+                            )
+                    ) / 2 * -1
+            );
+        width: var(--g-button-height, var(--_--height));
         height: var(--g-button-height, var(--_--height));
         pointer-events: none;
 

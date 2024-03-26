@@ -179,7 +179,11 @@ export const InsideText: Story = {
                 <br />
                 <Button {...args} /> dolor
                 <br />
-                sit amet
+                sit{' '}
+                <Button {...args}>
+                    <IconComponent data={Globe} />
+                </Button>{' '}
+                amet
             </div>
         );
     },

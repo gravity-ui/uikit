@@ -30,17 +30,17 @@ The basic component for working with lists, including tree-like ones. Under the 
 ### Basic example:
 
 ```tsx
-import {type ListItemType, getItemRenderState, TreeList} from '@gravity-ui/uikit';
+import {type ListItemType, TreeList} from '@gravity-ui/uikit';
 
 const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
 
-<TreeList items={items} mapItemDataToProps={(title) => ({title})} />;
+<TreeList items={items} mapItemDataToProps={(item) => ({title: item})} />;
 ```
 
 ### Example with state:
 
 ```tsx
-import {type ListItemType, getItemRenderState, TreeList} from '@gravity-ui/uikit';
+import {type ListItemType, TreeList} from '@gravity-ui/uikit';
 
 const items: ListItemType<string>[] = [
     {title: 'one'},
@@ -81,7 +81,7 @@ const Component = () => {
 };
 ```
 
-> If you want to display the nodes of the list as regular elements without the possibility of hiding the folded elements of the sheet, then just do not pass the `expandedById` object from the tate to the component itself:
+> If you want to display the nodes of the list as regular elements without the possibility of hiding the folded elements of the sheet, then just do not pass the `expandedById` object from the state to the component itself:
 
 ```ts
 const {expandedById, setExpandedById, ...listState} = useListState();
@@ -93,19 +93,19 @@ const {expandedById, setExpandedById, ...listState} = useListState();
 
 ### items
 
-array of list item. More details about data structure and properties you can find [here](/docs/unstable-uselist--docs#items-supported-data-structure);
+Array of list items. More details about data structure and properties you can find [here](/docs/unstable-uselist--docs#items-supported-data-structure);
 
 ### mapItemDataToProps
 
-map list item data structire to `ListItemView` [props](/docs/unstable-uselist--docs#listitemview);
+Map list item data structire to `ListItemView` [props](/docs/unstable-uselist--docs#listitemview);
 
 ### containerRef
 
-The ability to pass a link to the DOM element of the container. For example, in order to control the focus of the list to activate keyboard navigation support;
+Pass a ref to pass a link to the DOM element of the container. For example, in order to control the focus of the list to activate keyboard navigation support;
 
 ```tsx
 import React from 'react';
-import {type ListItemType, getItemRenderState, TreeList, Button, Alert} from '@gravity-ui/uikit';
+import {type ListItemType, TreeList, Button, Alert} from '@gravity-ui/uikit';
 
 const items: ListItemType<string>[] = [
     {data: {title: 'one'}},
@@ -132,7 +132,7 @@ const Component = () => {
     return (
         <>
             <Alert
-                message="by button click. After click you can navigate list during keyboard"
+                message="After clicking the button you can navigate list during keyboard"
                 theme="info"
             />
             <Button
@@ -156,7 +156,7 @@ const Component = () => {
 
 ### getId
 
-Ability to generate an id for a list item depending on the list data. It is necessary to have access to more custom management of the state of the list. The property is optional.
+Generate an id for a list item depending on the list data. If it's necessary to have access to more custom management of the state of the list. The property is optional.
 
 ```tsx
 const items = [
@@ -169,7 +169,7 @@ const items = [
 
 ### qa
 
-The ability to set a qa attribute for the container and sheet elements. The Qa attribute is also passed to the ListItemView.
+Set `qa` attribute for the container and sheet elements. `qa` attribute is also passed to the `ListItemView`.
 
 > Use the [getListItemQa](/docs/unstable-uselist--docs#getlistitemqa) is used to generate `qa` attributes in list items; also use this function in tests to compute a unique data attribute to access a specific list item
 
@@ -179,26 +179,23 @@ The ability to set a qa attribute for the container and sheet elements. The Qa a
 
 ### className
 
-The ability to transfer custom css class name for the list container;
+Pass custom CSS class for the list container.
 
 ### id
 
-The ability to set a custom id data attribute. By default, a unique identifier will be assigned;
+Set a custom id data attribute. By default, a unique identifier will be assigned.
 
 ### multiple
 
-Since the state of the selected elements is controlled from above the component, this prop is necessary for the correct visual display of the selected elements;
+This prop is necessary for the correct view of the selected elements since the state of the selected elements is controlled from the parent component.
 
 ### setActiveItemId
 
-> Required for keyboard correct work. Because when navigating from the keyboard, you need to set the next active element
+Required for correct keyboard interactions. While navigating through the keyboard, you need to set the next active element.
 
 ### defaultGroupsExpanded
 
-default value - true
-
-Ability to handle default groups expanded behavior.
-Works if `expandedById` state passed
+Control the default expanded state of items' groups. Default - `true`.
 
 ### renderItem
 

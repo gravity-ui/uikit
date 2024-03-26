@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.6.0](https://github.com/gravity-ui/uikit/compare/v6.5.0...v6.6.0) (2024-03-26)
+
+
+### Features
+
+* improve focus outline styles for text/select inputs ([#1318](https://github.com/gravity-ui/uikit/issues/1318)) ([ce75de8](https://github.com/gravity-ui/uikit/commit/ce75de8899488f0e98a4c0d4e10a593d44b6fe61))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** fix gravity-ui doc generation ([#1446](https://github.com/gravity-ui/uikit/issues/1446)) ([ce4bca5](https://github.com/gravity-ui/uikit/commit/ce4bca5ec548ad09df9c992a4cca6885a6d4e485))
+* **DropdownMenu:** fix hiding group subitems ([#1444](https://github.com/gravity-ui/uikit/issues/1444)) ([4cf7d39](https://github.com/gravity-ui/uikit/commit/4cf7d39e0334087fc54d7c509312121aabd9ed2c))
+* **TreeList:** refactor item styles ([#1439](https://github.com/gravity-ui/uikit/issues/1439)) ([fdbb052](https://github.com/gravity-ui/uikit/commit/fdbb0525bf9991baa68ff0d3786050cac480f78f))
+
 ## [6.5.0](https://github.com/gravity-ui/uikit/compare/v6.4.0...v6.5.0) (2024-03-21)
 
 

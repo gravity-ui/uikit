@@ -22,7 +22,8 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function D
             ref={ref}
             style={style}
             data-qa={qa}
+            role="separator"
             aria-orientation={orientation}
-        ></div>
+        />
     );
 });

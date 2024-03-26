@@ -8,10 +8,12 @@ import {ListItem} from '../../List';
 import {Flex} from '../../layout';
 import {Divider} from '../Divider';
 
-export default {
+const meta: Meta<typeof Divider> = {
     title: 'Components/Utils/Divider',
     component: Divider,
-} as Meta;
+};
+
+export default meta;
 
 type Story = StoryObj<typeof Divider>;
 

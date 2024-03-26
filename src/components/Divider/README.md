@@ -85,7 +85,7 @@ import {Container, Text, Divider} from '@gravity-ui/uikit';
 <ExampleBlock
     code={`
         <Container>
-            <Flex space={3}>
+            <Flex gap={3}>
                 <Label>Label</Label>
                 <Divider orientation="vertical"/>
                 <Label>Label</Label>
@@ -98,7 +98,7 @@ import {Container, Text, Divider} from '@gravity-ui/uikit';
     `}
 >
     <UIKit.Container>
-        <UIKit.Flex space={3}>
+        <UIKit.Flex gap={3}>
             <UIKit.Label>Label</UIKit.Label>
             <UIKit.Divider orientation="vertical"/>
             <UIKit.Label>Label</UIKit.Label>
@@ -118,7 +118,7 @@ LANDING_BLOCK-->
 import {Flex, Label, Divider} from '@gravity-ui/uikit';
 
 <Container>
-  <Flex space={3}>
+  <Flex gap={3}>
     <Label>Label</Label>
     <Divider orientation="vertical" />
     <Label>Label</Label>

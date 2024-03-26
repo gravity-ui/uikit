@@ -25,10 +25,9 @@ import i18n from './i18n';
 import './TableColumnSetup.scss';
 
 function identity(value: Item): ItemRenderProps {
-    delete value.isSelected;
-    delete value.isRequired;
+    const {isSelected: _isSelected, isRequired: _isRequired, ...omittedValue} = value;
 
-    return value;
+    return omittedValue;
 }
 
 const b = block('table-column-setup');

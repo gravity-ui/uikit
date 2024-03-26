@@ -15,6 +15,7 @@ $block: '.#{variables.$ns}button';
     --_--font-size: var(--g-text-body-1-font-size);
 
     @include mixins.button-reset();
+    position: relative;
     overflow: visible;
     box-sizing: border-box;
     height: var(--g-button-height, var(--_--height));

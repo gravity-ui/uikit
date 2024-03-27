@@ -6,7 +6,7 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView, useListState} from '../../../useList';
-import type {KnownItemStructure} from '../../../useList';
+import type {ListItemCommonProps} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
 import type {TreeListOnItemClick, TreeListProps} from '../../types';
@@ -29,7 +29,7 @@ export interface WithGroupSelectionAndCustomIconStoryProps
     itemsCount?: number;
 }
 
-const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): KnownItemStructure => ({
+const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): ListItemCommonProps => ({
     title: props.a,
 });
 

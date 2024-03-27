@@ -10,13 +10,13 @@ import type {FlexProps} from '../../../layout';
 import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
-import type {ListItemId, ListItemSize} from '../../types';
+import type {ListItemCommonProps, ListItemId, ListItemSize} from '../../types';
 
 import './ListItemView.scss';
 
 const b = block('list-item-view');
 
-export interface ListItemViewProps extends QAProps {
+export interface ListItemViewProps extends QAProps, ListItemCommonProps {
     /**
      * Ability to override default html tag
      */
@@ -46,10 +46,6 @@ export interface ListItemViewProps extends QAProps {
      */
     onClick?(): void;
     style?: React.CSSProperties;
-    title: React.ReactNode;
-    subtitle?: React.ReactNode;
-    startSlot?: React.ReactNode;
-    endSlot?: React.ReactNode;
     className?: string;
     role?: React.AriaRole;
     expanded?: boolean;

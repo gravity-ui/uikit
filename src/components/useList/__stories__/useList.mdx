@@ -148,7 +148,7 @@ The main hook for creating a stateless version of the sheet.
 
 -   `items` - `ListItemType<T>[]` - a flat or tree-like data structure, with `List` declaration:
 
-    ##### items supported data structure:
+    ##### Item structure variants
 
     ```ts
     const simple: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
@@ -181,8 +181,6 @@ The main hook for creating a stateless version of the sheet.
         },
     ];
     ```
-
-    > It is **not recommended** to control the state of a list through an array of its elements, recreating it every time the state changes. Use `useListState` hook to control list state
 
     ##### Object decl reserved propeties:
 
@@ -378,17 +376,12 @@ Use it even if the functionality of the `useList` hook seems redundant to you
 -   `id` - required prop. Set `[data-list-item="${id}"]` data attribute. By this it core list engine finds elements to scroll to.
 -   `title` - base required prop to use. If passed string, applas default component styles according desig system. Pass you own componnet if you wont custom behaviour;
 -   `as` - if needed, override `html` tag. By default - `li`;
--   `size` - the size of the element. This also affects the rounding radius of the list element . By default, `m`.
-    ##### Size available options:
-    -   `s`,
-    -   `m`,
-    -   `l`,
-    -   `xl`.
+-   `size` - the size of the element. This also affects the rounding radius of the list element . By default, `m`. Available sizes are `s`, `m`, `l` and `xl`;
 -   `height` - the height of the element in pixels. By default, it is calculated depending on the `size` parameter and the presence of the `subtitle` parameter;
 -   `selected` - the selected state of the component; affects the `activeOnHover` if value if the value is different from `undefined`;
 -   `active` - the state when the element is in the user's focus, but not selected. It can also be used when you drag an element;
 -   `disabled` - the disabled state. It also prevents clicking on an element;
--   `activeOnHover`- directly control on hover behaviour;
+-   `activeOnHover`- directly control hover behaviour;
 -   `indentation` - affects the visual indentation of the element content;
 -   `hasSelectionIcon` - show selected icon if selected and reserve space for this icon;
 -   `onClick` - on item click callback. !Note: if passed this and `disabled` option is `true` click will not be appear;
@@ -520,16 +513,57 @@ React.useLayoutEffect(() => {
 
 Map list state to ListItemView render props;
 
+```tsx
+const list = useList();
+const listState = useListState();
+
+const {data, props, context} = getItemRenderState({
+    qa: 'some-qa-id',
+    id,
+    multiple: false,
+    size, // list size
+    onItemClick: (id: ListItemId) => {},
+    mapItemDataToProps: (item) => ({title: item.title}),
+    ...list,
+    ...listState,
+});
+
+return <ListItemView {...props} />;
+```
+
 #### Props:
 
--   `mapItemDataToProps` - map item data to view render props with `KnownItemStructure` interface;
--   `size` - list item size;
--   `multiple` - Affects the view of the selected items;
--   `defaultExpanded` - Group expanded initial state. Default value `true`
--   `id` - of list item;
--   `onItemClick` - item click handler;
--   `[...useList]` - result of hook `useList`;
--   `[...useListState]` - retult of hook `useListState`;
+```tsx
+type ListItemSize = 's' | 'm' | 'l' | 'xl';
+type ListItemid = string;
+
+type GetItemRenderStateProps<T> = {
+    /**
+     * `id` of list item;
+     */
+    id: ListItemid;
+    /**
+     * map item data to view render props with `ListItemCommonProps` interface
+     */
+    mapItemDataToProps(data: T): {
+        title: React.ReactNode;
+        endIcon?: React.ReactNode;
+        startIcon: React.ReactNode;
+        subtitle?: React.ReactNode;
+    };
+    size: ListItemSize;
+    /**
+     * Affects the view of the selected items;
+     */
+    multiple?: boolean;
+    /**
+     * Group expanded initial state. Default value `true`
+     */
+    defaultExpanded?: boolean;
+    onItemClick?(id: ListItemid): void;
+} & ReturnType<typeof useList> &
+    ReturnType<typeof useListState>;
+```
 
 #### Returns:
 
@@ -546,18 +580,58 @@ item = T
 
 ##### item state props:
 
-    -   `id` - item id;
-    -   `qa` - qa attribute for tests;
-    -   `size` - item size;
-    -   `expanded` - expanded state if item group;
-    -   `active` - is item active;
-    -   `indentation` - item nest level;
-    -   `disabled` - is item disabled;
-    -   `selected` - is item selected;
-    -   `onClick` - on item click handle if exists;
-    -   `hasSelectionIcon` - affects the view of the selected items;
+```tsx
+type ListItemSize = 's' | 'm' | 'l' | 'xl';
+
+interface ItemRenderProps {
+    // item id;
+    id: string;
+    // qa attribute for tests
+    qa?: string;
+    // item size;
+    size: ListItemSize;
+    // expanded state if item group;
+    expanded?: boolean;
+    // is item active
+    active: boolean;
+    // item nest level;
+    indentation: number;
+    // is item disabled;
+    disabled: boolean;
+    // is item selected;
+    selected?: boolean;
+    // on item click handle if exists;
+    onClick?(): void;
+    // affects the view of the selected items;
+    hasSelectionIcon?: boolean;
+    // one required field of result `mapItemDataToProps` function work;
+    title: React.ReactNode;
+}
+```
 
 ##### item list context:
+
+```tsx
+/**
+ * useful information about the current list item:
+ */
+interface ItemContext {
+    // meta info about item
+    itemState: {
+        // integer number, representing nested list level
+        indentation: number;
+        // `id` of parent list item if it exists
+        parentId?: string;
+    };
+    // An optional parameter. If the list item is also the first item of the nested list
+    groupState: {
+        // array of `id` of nested list items;
+        childrenIds: string[];
+    };
+    // is the current item the last one in the list
+    isLastItem: boolean;
+}
+```
 
     -   `itemState`:
         -   `parentId?` - id of parant element;
@@ -605,9 +679,9 @@ const [expandedById, setExpanded] = React.useState(
 
 ### getListItemQa
 
-Функция используется для генерации `qa` атрибутов в элементах списка;
-Также используйте эту функцию в тестах для составления уникального data атрибута для доступа к конкретному элементу списка
+Function is used to generate `qa` attributes in list items;
+Also use this function in tests to create a unique data attribute for accessing a specific list item.
 
 ```ts
-await locator.getByTestId(getListItemQa('some-list-qa', '0')); // выбрать первый элемент списка, если не используются автосгенеренные id
+await locator.getByTestId(getListItemQa('some-list-qa', '0')); // select the first item in the list if auto-generated `id` are used
 ```

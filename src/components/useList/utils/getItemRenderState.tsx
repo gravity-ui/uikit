@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import type {QAProps} from '../../types';
 import type {
-    KnownItemStructure,
+    ListItemCommonProps,
     ListItemId,
     ListItemSize,
     ListParsedState,
@@ -27,7 +27,7 @@ type ItemRendererProps<T> = Partial<ListState> &
          */
         defaultExpanded?: boolean;
         id: ListItemId;
-        mapItemDataToProps(data: T): KnownItemStructure;
+        mapItemDataToProps(data: T): ListItemCommonProps;
         onItemClick?(id: ListItemId): void;
     };
 

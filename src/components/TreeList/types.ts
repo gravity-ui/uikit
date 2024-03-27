@@ -2,7 +2,7 @@ import type React from 'react';
 
 import type {QAProps} from '../types';
 import type {
-    KnownItemStructure,
+    ListItemCommonProps,
     ListItemId,
     ListItemSize,
     ListItemType,
@@ -67,7 +67,7 @@ export type TreeListRenderContainer<T> = (
     props: TreeListRenderContainerProps<T>,
 ) => React.JSX.Element;
 
-export type TreeListMapItemDataToProps<T> = (item: T) => KnownItemStructure;
+export type TreeListMapItemDataToProps<T> = (item: T) => ListItemCommonProps;
 
 export interface TreeListProps<T> extends QAProps, Partial<ListState> {
     /**

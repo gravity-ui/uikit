@@ -41,7 +41,7 @@ export type ItemState = {
     indentation: number;
 };
 
-export type KnownItemStructure = {
+export type ListItemCommonProps = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
     startSlot?: React.ReactNode;
@@ -67,7 +67,7 @@ export type RenderItemProps = {
     active: boolean;
     indentation: number;
     hasSelectionIcon?: boolean;
-} & KnownItemStructure &
+} & ListItemCommonProps &
     QAProps;
 
 export type ParsedState<T> = {

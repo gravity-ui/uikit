@@ -11,8 +11,16 @@ $block: '.#{variables.$ns}tree-select';
 
     &__popup {
         padding: 4px 0;
-        border-radius: 6px;
+        border-radius: 6px; // for `s` and `m` size
         overflow: hidden;
+
+        &_size_l {
+            border-radius: 8px;
+        }
+
+        &_size_xl {
+            border-radius: 10px;
+        }
     }
 
     &__list {

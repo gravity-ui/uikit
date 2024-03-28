@@ -13,9 +13,9 @@ export const ButtonStories = composeStories(DefaultButtonStories);
 export const CustomIconSizeButton = () => (
     <Showcase>
         <Button size="xs">
-            <Icon size={20} data={Globe} />
+            <Icon size={16} data={Globe} />
             Both bigger icons
-            <Icon size={20} data={ChevronDown} />
+            <Icon size={16} data={ChevronDown} />
         </Button>
         <Button size="s">
             <Icon size={20} data={Globe} />
@@ -33,9 +33,9 @@ export const CustomIconSizeButton = () => (
             <Icon size={20} data={ChevronDown} />
         </Button>
         <Button size="xl">
-            <Icon size={20} data={Globe} />
+            <Icon size={24} data={Globe} />
             Both bigger icons
-            <Icon size={20} data={ChevronDown} />
+            <Icon size={24} data={ChevronDown} />
         </Button>
     </Showcase>
 );

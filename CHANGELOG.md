@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.7.0](https://github.com/gravity-ui/uikit/compare/v6.6.0...v6.7.0) (2024-03-28)
+
+
+### Features
+
+* **Divider:** add the Divider component ([#1322](https://github.com/gravity-ui/uikit/issues/1322)) ([9a19806](https://github.com/gravity-ui/uikit/commit/9a198065d40466f43eedb4f479140f43e231ee8f))
+
+
+### Bug Fixes
+
+* **Tooltip:** fix appearing & disappearing ([#1460](https://github.com/gravity-ui/uikit/issues/1460)) ([b0b3ec8](https://github.com/gravity-ui/uikit/commit/b0b3ec8bc18713dd782f477429182ed65c527a04))
+
 ## [6.6.0](https://github.com/gravity-ui/uikit/compare/v6.5.0...v6.6.0) (2024-03-26)
 
 

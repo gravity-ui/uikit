@@ -11,7 +11,7 @@ import {Divider} from '@gravity-ui/uikit';
 The `Divider` component is used as a thin line for delimiting and grouping elements to reinforce visual hierarchy.
 
 ```tsx
-<Divider className="my-divider" direction="horizontal" />
+<Divider className="custom-divider" direction="horizontal" />
 ```
 
 ### Orientation
@@ -134,9 +134,15 @@ import {Flex, Label, Divider} from '@gravity-ui/uikit';
 
 ### Properties
 
-| Name        | Description                             |          Type           |   Default    |
-| :---------- | :-------------------------------------- | :---------------------: | :----------: |
-| className   | HTML `class` attribute                  |        `string`         |      -       |
+| Name        | Description                             | Type                    | Default      |
+| :---------- | :-------------------------------------- | :---------------------- | :----------- |
+| className   | HTML `class` attribute                  | `string`                | -            |
 | orientation | Sets the direction of divider           | `horizontal - vertical` | `horizontal` |
-| style       | HTML `style` attribute                  |  `React.CSSProperties`  |              |
-| qa          | HTML `data-qa` attribute, used in tests |        `string`         |              |
+| style       | HTML `style` attribute                  | `React.CSSProperties`   |              |
+| qa          | HTML `data-qa` attribute, used in tests | `string`                |              |
+
+### CSS API
+
+| Name                | Description   |
+| :------------------ | :------------ |
+| `--g-divider-color` | Divider color |

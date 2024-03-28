@@ -23,7 +23,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function D
             style={style}
             data-qa={qa}
             role="separator"
-            aria-orientation={orientation}
+            aria-orientation={orientation === 'vertical' ? 'vertical' : undefined}
         />
     );
 });

@@ -4,14 +4,14 @@ import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Divider} from '../Divider';
 
-const b = block('my-divider');
+const b = block('custom-divider');
 const qa = 'divider';
 
 describe('Divider', () => {
     test('Should passed className', () => {
         render(<Divider className={b()} qa={qa} />);
 
-        expect(screen.getByTestId(qa)).toHaveClass('g-my-divider');
+        expect(screen.getByTestId(qa)).toHaveClass('g-custom-divider');
     });
     test('Should passed style', () => {
         render(<Divider style={{borderWidth: '2px'}} qa={qa} />);

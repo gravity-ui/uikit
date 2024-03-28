@@ -5,11 +5,11 @@ $block: '.#{variables.$ns}divider';
 #{$block} {
     &_orientation {
         &_vertical {
-            border-inline-start: 1px solid var(--g-color-line-generic);
+            border-inline-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
 
         &_horizontal {
-            border-block-start: 1px solid var(--g-color-line-generic);
+            border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
     }
 }

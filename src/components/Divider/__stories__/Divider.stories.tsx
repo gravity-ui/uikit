@@ -37,6 +37,9 @@ export const Horizontal: Story = {
     },
     argTypes: {
         orientation: disabledControl,
+        style: disabledControl,
+        qa: disabledControl,
+        className: disabledControl,
     },
     render: (args) => {
         return (
@@ -70,6 +73,9 @@ export const Vertical: Story = {
     },
     argTypes: {
         orientation: disabledControl,
+        style: disabledControl,
+        qa: disabledControl,
+        className: disabledControl,
     },
     render: (args) => (
         <Showcase>
@@ -98,11 +104,16 @@ export const Vertical: Story = {
 export const Custom: Story = {
     args: {
         orientation: 'vertical',
-        className: 'my-divider',
+        className: 'custom-divider',
         style: {borderWidth: '2px'},
     },
     render: (args) => (
         <Showcase>
+            <style>
+                {`.g-root {
+                  --g-divider-color: #027bf3;
+                }`}
+            </style>
             <Card theme="normal" type="container">
                 <Flex direction={args.orientation === 'vertical' ? 'row' : 'column'}>
                     {listItems.map((value, index) => (

@@ -16,8 +16,6 @@ import {Button} from '../Button';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
 
-type ExtendedForTestsButtonProps = React.ComponentProps<typeof Button> & {isTest?: boolean};
-
 export default {
     title: 'Components/Inputs/Button',
     component: Button,
@@ -39,9 +37,9 @@ export default {
             },
         },
     },
-} as Meta<ExtendedForTestsButtonProps>;
+} as Meta;
 
-type Story = StoryObj<ExtendedForTestsButtonProps>;
+type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {args: {children: 'Button'}};
 
@@ -91,13 +89,6 @@ export const Icon: Story = {
             <Button {...args} title="Copy">
                 <IconComponent data={Copy} />
             </Button>
-            {args.isTest && (
-                <Button {...args}>
-                    <IconComponent size={20} data={Globe} />
-                    Both bigger icons
-                    <IconComponent size={20} data={ChevronDown} />
-                </Button>
-            )}
         </Showcase>
     ),
 };

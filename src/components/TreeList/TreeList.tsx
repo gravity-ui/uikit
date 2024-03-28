@@ -11,6 +11,7 @@ import type {TreeListProps, TreeListRenderContainerProps} from './types';
 const b = block('tree-list');
 
 export const TreeList = <T,>({
+    qa,
     id,
     size = 'm',
     items,
@@ -19,6 +20,7 @@ export const TreeList = <T,>({
     disabledById,
     activeItemId,
     selectedById,
+    defaultGroupsExpanded = true,
     getId,
     renderItem: propsRenderItem,
     renderContainer = TreeListContainer,
@@ -42,32 +44,48 @@ export const TreeList = <T,>({
         selectedById,
     });
 
-    const handleItemClick = React.useCallback(
-        (listItemId: ListItemId) => {
-            onItemClick?.({
-                id: listItemId,
-                data: listParsedState.itemsById[listItemId],
-                disabled: disabledById
-                    ? Boolean(disabledById[listItemId])
-                    : Boolean(listParsedState.initialState.disabledById[listItemId]),
-                isLastItem:
-                    listParsedState.visibleFlattenIds[
-                        listParsedState.visibleFlattenIds.length - 1
-                    ] === listItemId,
-                groupState: listParsedState.groupsState[listItemId],
-                itemState: listParsedState.itemsState[listItemId],
-            });
-        },
-        [
-            disabledById,
-            listParsedState.groupsState,
-            listParsedState.initialState.disabledById,
-            listParsedState.itemsById,
-            listParsedState.itemsState,
-            listParsedState.visibleFlattenIds,
-            onItemClick,
-        ],
-    );
+    const handleItemClick = React.useMemo(() => {
+        if (onItemClick) {
+            return (listItemId: ListItemId) => {
+                onItemClick?.({
+                    id: listItemId,
+                    index: listParsedState.idToFlattenIndex[listItemId],
+                    data: listParsedState.itemsById[listItemId],
+                    expanded:
+                        // eslint-disable-next-line no-nested-ternary
+                        expandedById && listItemId in expandedById
+                            ? expandedById[listItemId]
+                            : listItemId in listParsedState.initialState.expandedById
+                              ? listParsedState.initialState.expandedById[listItemId]
+                              : defaultGroupsExpanded,
+                    disabled: disabledById
+                        ? Boolean(disabledById[listItemId])
+                        : Boolean(listParsedState.initialState.disabledById[listItemId]),
+                    selected: selectedById
+                        ? Boolean(selectedById[listItemId])
+                        : Boolean(listParsedState.initialState.selectedById[listItemId]),
+
+                    context: {
+                        isLastItem:
+                            listParsedState.visibleFlattenIds[
+                                listParsedState.visibleFlattenIds.length - 1
+                            ] === listItemId,
+                        groupState: listParsedState.groupsState[listItemId],
+                        itemState: listParsedState.itemsState[listItemId],
+                    },
+                });
+            };
+        }
+
+        return undefined;
+    }, [
+        defaultGroupsExpanded,
+        disabledById,
+        expandedById,
+        selectedById,
+        listParsedState,
+        onItemClick,
+    ]);
 
     useListKeydown({
         containerRef,
@@ -81,11 +99,13 @@ export const TreeList = <T,>({
     const renderItem: TreeListRenderContainerProps<T>['renderItem'] = (
         itemId,
         index,
-        renderContextProps,
+        renderContainerProps,
     ) => {
         const renderState = getItemRenderState({
+            qa,
             id: itemId,
             size,
+            multiple,
             mapItemDataToProps,
             onItemClick: handleItemClick,
             ...listParsedState,
@@ -93,26 +113,25 @@ export const TreeList = <T,>({
             disabledById,
             activeItemId,
             selectedById,
+            defaultExpanded: defaultGroupsExpanded,
         });
-
-        // redefining the view logic for groups and multiple selection of list items
-        renderState.props.hasSelectionIcon = Boolean(multiple) && !renderState.context.groupState;
 
         if (propsRenderItem) {
             return propsRenderItem({
                 data: renderState.data,
                 props: renderState.props,
-                itemState: renderState.context,
+                context: renderState.context,
                 index,
-                renderContext: renderContextProps,
+                renderContainerProps,
             });
         }
 
-        return <ListItemView {...renderState.props} {...renderContextProps} />;
+        return <ListItemView {...renderState.props} {...renderContainerProps} />;
     };
 
     // not JSX decl here is from weird `react-beautiful-dnd` render bug
     return renderContainer({
+        qa,
         id: `list-${treeListId}`,
         size,
         containerRef,

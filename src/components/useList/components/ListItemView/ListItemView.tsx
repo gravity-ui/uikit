@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
 
+import {QA_DATA_ATTR} from '../../../../constants';
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
 import {Flex, spacing} from '../../../layout';
@@ -9,13 +10,13 @@ import type {FlexProps} from '../../../layout';
 import type {QAProps} from '../../../types';
 import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
-import type {ListItemId, ListItemSize} from '../../types';
+import type {ListItemCommonProps, ListItemId, ListItemSize} from '../../types';
 
 import './ListItemView.scss';
 
 const b = block('list-item-view');
 
-export interface ListItemViewProps extends QAProps {
+export interface ListItemViewProps extends QAProps, ListItemCommonProps {
     /**
      * Ability to override default html tag
      */
@@ -45,10 +46,6 @@ export interface ListItemViewProps extends QAProps {
      */
     onClick?(): void;
     style?: React.CSSProperties;
-    title: React.ReactNode;
-    subtitle?: React.ReactNode;
-    startSlot?: React.ReactNode;
-    endSlot?: React.ReactNode;
     className?: string;
     role?: React.AriaRole;
     expanded?: boolean;
@@ -92,13 +89,14 @@ const renderSafeIndentation = (indentation?: number) => {
 export const ListItemView = React.forwardRef(
     (
         {
+            qa,
             id,
             as = 'div',
             size = 'm',
             active,
             selected,
             disabled,
-            activeOnHover = true,
+            activeOnHover: propsActiveOnHover,
             className,
             hasSelectionIcon = true,
             indentation,
@@ -118,9 +116,12 @@ export const ListItemView = React.forwardRef(
     ) => {
         const isGroup = typeof expanded === 'boolean';
         const onClick = disabled ? undefined : _onClick;
+        const activeOnHover =
+            typeof propsActiveOnHover === 'boolean' ? propsActiveOnHover : Boolean(onClick);
 
         return (
             <Flex
+                {...{[LIST_ITEM_DATA_ATR]: id, [QA_DATA_ATTR]: qa}}
                 role={role}
                 aria-selected={selected}
                 onClick={onClick}
@@ -141,7 +142,6 @@ export const ListItemView = React.forwardRef(
                 }}
                 as={as}
                 ref={ref}
-                {...{[LIST_ITEM_DATA_ATR]: id ? id : undefined}}
                 alignItems="center"
                 gap="4"
                 justifyContent="space-between"

@@ -87,6 +87,7 @@ export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: Recur
                                 id,
                                 size,
                                 onItemClick,
+                                multiple: true,
                                 mapItemDataToProps: (x) => x,
                                 ...list,
                                 ...listState,

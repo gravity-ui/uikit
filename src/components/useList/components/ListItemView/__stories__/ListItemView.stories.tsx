@@ -81,7 +81,7 @@ const stories: ListItemViewProps[] = [
     {
         id: '2',
         title,
-        subtitle,
+        subtitle: 'activeOnHover - false',
         activeOnHover: false,
         endSlot: <EndSlot />,
     },

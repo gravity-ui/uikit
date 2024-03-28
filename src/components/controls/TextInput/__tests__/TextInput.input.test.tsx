@@ -46,6 +46,37 @@ describe('TextInput input', () => {
                 expect(clearButton).toBeInTheDocument();
             });
 
+            test('check click on clear button not triggered onBlur event on input', async () => {
+                const onBlurFn = jest.fn();
+
+                render(<TextInput hasClear onBlur={onBlurFn} />);
+                const user = userEvent.setup();
+                const input = screen.getByRole('textbox');
+                await user.type(input, 'abc');
+                const clearButton = screen.getByRole('button', {name: 'Clear'});
+                await user.click(clearButton);
+
+                expect(onBlurFn).not.toHaveBeenCalled();
+            });
+
+            test('check trigger onBlur event on input', async () => {
+                const onBlurFn = jest.fn();
+
+                render(
+                    <React.Fragment>
+                        <TextInput hasClear onBlur={onBlurFn} />
+                        <div>outer</div>
+                    </React.Fragment>,
+                );
+                const user = userEvent.setup();
+                const input = screen.getByRole('textbox');
+                const outerDiv = screen.getByText('outer');
+                await user.type(input, 'abc');
+                await user.click(outerDiv);
+
+                expect(onBlurFn).toHaveBeenCalled();
+            });
+
             test('do not render clear button without hasClear prop', () => {
                 render(<TextInput />);
 

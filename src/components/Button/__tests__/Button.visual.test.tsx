@@ -2,7 +2,7 @@ import React from 'react';
 
 import {test} from '~playwright/core';
 
-import {ButtonStories} from './helpersPlaywright';
+import {ButtonStories, CustomIconSizeButton} from './helpersPlaywright';
 
 test.describe('Button', () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
@@ -67,6 +67,12 @@ test.describe('Button', () => {
 
     test('render story: <InsideText>', async ({mount, expectScreenshot}) => {
         await mount(<ButtonStories.InsideText />);
+
+        await expectScreenshot();
+    });
+
+    test('render custom Icon size', async ({mount, expectScreenshot}) => {
+        await mount(<CustomIconSizeButton />);
 
         await expectScreenshot();
     });

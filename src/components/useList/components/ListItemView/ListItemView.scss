@@ -30,10 +30,10 @@ $block: '.#{variables.$ns}list-item-view';
         border-radius: var(--g-list-item-border-radius, 3px);
     }
     &_radius_m {
-        border-radius: var(--g-list-item-border-radius, 6px);
+        border-radius: var(--g-list-item-border-radius, 5px);
     }
     &_radius_l {
-        border-radius: var(--g-list-item-border-radius, 8px);
+        border-radius: var(--g-list-item-border-radius, 6px);
     }
     &_radius_xl {
         border-radius: var(--g-list-item-border-radius, 8px);

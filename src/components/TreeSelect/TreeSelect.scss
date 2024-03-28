@@ -11,8 +11,23 @@ $block: '.#{variables.$ns}tree-select';
 
     &__popup {
         padding: 4px 0;
-        border-radius: 6px;
         overflow: hidden;
+
+        &_size_s {
+            border-radius: var(--g-list-container-border-radius, 5px);
+        }
+
+        &_size_m {
+            border-radius: var(--g-list-container-border-radius, 6px);
+        }
+
+        &_size_l {
+            border-radius: var(--g-list-container-border-radius, 8px);
+        }
+
+        &_size_xl {
+            border-radius: var(--g-list-container-border-radius, 10px);
+        }
     }
 
     &__list {

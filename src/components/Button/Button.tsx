@@ -76,6 +76,8 @@ export interface ButtonProps extends DOMProps, QAProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
+    onMouseDown?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
+    onMouseUp?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     onFocus?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     onBlur?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     /** Button content. You can mix button text with `<Icon/>` component */
@@ -104,6 +106,8 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         onClick,
         onMouseEnter,
         onMouseLeave,
+        onMouseDown,
+        onMouseUp,
         onFocus,
         onBlur,
         children,
@@ -136,6 +140,8 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         onClickCapture: handleClickCapture,
         onMouseEnter,
         onMouseLeave,
+        onMouseDown,
+        onMouseUp,
         onFocus,
         onBlur,
         id,

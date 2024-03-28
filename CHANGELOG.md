@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.7.1](https://github.com/gravity-ui/uikit/compare/v6.7.0...v6.7.1) (2024-03-28)
+
+
+### Bug Fixes
+
+* **Divider:** add export of Divider to Components/index ([#1461](https://github.com/gravity-ui/uikit/issues/1461)) ([bdab522](https://github.com/gravity-ui/uikit/commit/bdab522a06429d935cc3a4fb5a9b785c3eb8330d))
+
 ## [6.7.0](https://github.com/gravity-ui/uikit/compare/v6.6.0...v6.7.0) (2024-03-28)
 
 

@@ -14,19 +14,19 @@ $block: '.#{variables.$ns}tree-select';
         overflow: hidden;
 
         &_size_s {
-            border-radius: 5px;
+            border-radius: var(--g-list-container-border-radius, 5px);
         }
 
         &_size_m {
-            border-radius: 6px;
+            border-radius: var(--g-list-container-border-radius, 6px);
         }
 
         &_size_l {
-            border-radius: 8px;
+            border-radius: var(--g-list-container-border-radius, 8px);
         }
 
         &_size_xl {
-            border-radius: 10px;
+            border-radius: var(--g-list-container-border-radius, 10px);
         }
     }
 

@@ -23,7 +23,8 @@ describe('Divider', () => {
 
         const element = screen.getByTestId(qa);
 
-        expect(element).toHaveAttribute('aria-orientation', 'horizontal');
+        expect(element).not.toHaveAttribute('aria-orientation');
+        expect(element).toHaveAttribute('role', 'separator');
         expect(element).toHaveClass('g-divider_orientation_horizontal');
     });
     test('Should render with orientation=vertical', () => {
@@ -32,6 +33,7 @@ describe('Divider', () => {
         const element = screen.getByTestId(qa);
 
         expect(element).toHaveAttribute('aria-orientation', 'vertical');
+        expect(element).toHaveAttribute('role', 'separator');
         expect(element).toHaveClass('g-divider_orientation_vertical');
     });
 });

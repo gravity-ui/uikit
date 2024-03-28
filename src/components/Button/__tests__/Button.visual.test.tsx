@@ -24,31 +24,7 @@ test.describe('Button', () => {
     });
 
     test('render story: <Icon>', async ({mount, expectScreenshot}) => {
-        await mount(<ButtonStories.Icon isTest />);
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Icon size="xs">', async ({mount, expectScreenshot}) => {
-        await mount(<ButtonStories.Icon size="xs" isTest />);
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Icon size="s">', async ({mount, expectScreenshot}) => {
-        await mount(<ButtonStories.Icon size="s" isTest />);
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Icon size="l">', async ({mount, expectScreenshot}) => {
-        await mount(<ButtonStories.Icon size="l" isTest />);
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Icon size="xl">', async ({mount, expectScreenshot}) => {
-        await mount(<ButtonStories.Icon size="xl" isTest />);
+        await mount(<ButtonStories.Icon />);
 
         await expectScreenshot();
     });

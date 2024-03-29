@@ -2,7 +2,11 @@ import React from 'react';
 
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import type {OnDragEndResponder} from 'react-beautiful-dnd';
+import type {
+    DraggableProvided,
+    DraggableStateSnapshot,
+    OnDragEndResponder,
+} from 'react-beautiful-dnd';
 
 import {useUniqId} from '../../../../../hooks';
 import type {PopperPlacement} from '../../../../../hooks/private';
@@ -65,6 +69,11 @@ const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
     return selectedIds;
 };
 
+interface RenderContextProps {
+    provided: DraggableProvided;
+    snapshot: DraggableStateSnapshot;
+}
+
 interface SwitcherProps {
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
@@ -93,7 +102,17 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
             <React.Fragment>
                 <ListContainerView ref={containerRef} id={id} className={className}>
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId={uniqId}>
+                        <Droppable
+                            droppableId={uniqId}
+                            renderClone={(provided, snapshot, rubric) => {
+                                const renderContextProps: RenderContextProps = {provided, snapshot};
+                                return renderItem(
+                                    visibleFlattenIds[rubric.source.index],
+                                    rubric.source.index,
+                                    renderContextProps,
+                                );
+                            }}
+                        >
                             {(droppableProvided) => {
                                 return (
                                     <div
@@ -117,7 +136,12 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 };
 
 const useDndRenderItem = (sortable: boolean | undefined) => {
-    const renderDndItem: TreeSelectRenderItem<Item> = ({data, props, index}) => {
+    const renderDndItem: TreeSelectRenderItem<Item, RenderContextProps> = ({
+        data,
+        props,
+        index,
+        renderContext: renderContextProps,
+    }) => {
         const isDragDisabled = sortable === false;
 
         const endSlot =
@@ -129,6 +153,20 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
             endSlot,
         };
 
+        const renderItem = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
+            <ListItemView
+                {...commonProps}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                active={snapshot.isDragging}
+            />
+        );
+
+        if (renderContextProps) {
+            return renderItem(renderContextProps.provided, renderContextProps.snapshot);
+        }
+
         return (
             <Draggable
                 draggableId={data.id}
@@ -136,28 +174,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
                 key={`item-key-${data.id}`}
                 isDragDisabled={isDragDisabled}
             >
-                {(provided, snapshot) => {
-                    const style: React.CSSProperties = {
-                        ...provided.draggableProps.style,
-                    };
-
-                    // not expected offset appears, one way to fix - remove this offsets explicitly
-                    if (snapshot.isDragging) {
-                        style.left = undefined;
-                        style.top = undefined;
-                    }
-
-                    return (
-                        <ListItemView
-                            ref={provided.innerRef}
-                            {...commonProps}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={style}
-                            dragging={snapshot.isDragging}
-                        />
-                    );
-                }}
+                {renderItem}
             </Draggable>
         );
     };
@@ -186,7 +203,7 @@ export interface TableColumnSetupProps {
     sortable?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
-    popupWidth?: TreeSelectProps<any>['popupWidth'];
+    popupWidth?: TreeSelectProps<unknown>['popupWidth'];
     popupPlacement?: PopperPlacement;
 
     /**

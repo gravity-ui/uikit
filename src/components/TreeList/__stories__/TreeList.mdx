@@ -30,7 +30,10 @@ The basic component for working with lists, including tree-like ones. Under the 
 ### Basic example:
 
 ```tsx
-import {type ListItemType, TreeList} from '@gravity-ui/uikit';
+import {
+    type unstable_ListItemType as ListItemType,
+    unstable_TreeList as TreeList,
+} from '@gravity-ui/uikit/unstable';
 
 const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
 
@@ -40,7 +43,11 @@ const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
 ### Example with state:
 
 ```tsx
-import {type ListItemType, TreeList} from '@gravity-ui/uikit';
+import {
+    type unstable_ListItemType as ListItemType,
+    unstable_TreeList as TreeList,
+    unstable_useListState as useListState,
+} from '@gravity-ui/uikit/unstable';
 
 const items: ListItemType<string>[] = [
     {title: 'one'},
@@ -105,7 +112,12 @@ Pass a ref to pass a link to the DOM element of the container. For example, in o
 
 ```tsx
 import React from 'react';
-import {type ListItemType, TreeList, Button, Alert} from '@gravity-ui/uikit';
+import {Button, Alert} from '@gravity-ui/uikit';
+import {
+    type unstable_ListItemType as ListItemType,
+    unstable_TreeList sa TreeList,
+    unstable_useListState as useListState,
+} from '@gravity-ui/uikit/unstable';
 
 const items: ListItemType<string>[] = [
     {data: {title: 'one'}},
@@ -202,17 +214,22 @@ Control the default expanded state of items' groups. Default - `true`.
 Redefine the rendering of a list item. For example, add dividers between list items or wrap an item in a link component. As a view component to display a list item, use [ListItemView](/docs/unstable-uselist--docs#listitemview);
 
 ```tsx
+import {
+    unstable_TreeList as TreeList,
+    unstable_ListItemView as ListItemView,
+} from '@gravity-ui/uikit/unstable';
+
 <TreeList
     renderItem={({
-        data,
         props,
-        index,
         renderContainerProps,
-        itemState: {groupState, isLastItem, itemState},
+        context: {groupState, isLastItem, itemState},
+        data,
+        index,
     }) => {
         return <ListItemView {...props} {...renderContainerProps} />;
     }}
-/>
+/>;
 ```
 
 #### renderItem function argument object:
@@ -289,6 +306,11 @@ interface RenderItemProps {
 Render custom list container.
 
 ```tsx
+import {
+    unstable_TreeList as TreeList,
+    unstable_ListContainerView as ListContainerView,
+} from '@gravity-ui/uikit/unstable';
+
 <TreeList
     renderContainer={({
         id,
@@ -322,7 +344,7 @@ Render custom list container.
             </ListContainerView>
         );
     }}
-/>
+/>;
 ```
 
 ### onItemClick
@@ -330,6 +352,8 @@ Render custom list container.
 Item's click callback. It also will be called on keyboard actions.
 
 ```tsx
+import {unstable_TreeList as TreeList} from '@gravity-ui/uikit/unstable';
+
 <TreeList
     onItemClick={({
         id,
@@ -345,7 +369,7 @@ Item's click callback. It also will be called on keyboard actions.
     }) => {
         // just do it!
     }}
-/>
+/>;
 ```
 
 #### onItemClick function argument object:

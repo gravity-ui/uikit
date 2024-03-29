@@ -110,7 +110,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
         data,
         props,
         index,
-        renderContext: renderContextProps,
+        renderContainerProps,
     }) => {
         const commonProps = {
             ...props,
@@ -119,12 +119,12 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
         };
 
         // here passed props from `renderContainer` method.
-        if (renderContextProps) {
+        if (renderContainerProps) {
             return (
                 <DraggableListItem
                     key={`item-key-${index}`}
                     {...commonProps}
-                    {...renderContextProps}
+                    {...renderContainerProps}
                 />
             );
         }
@@ -154,7 +154,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 mapItemDataToProps={({someRandomKey}) => ({
                     title: someRandomKey,
                 })}
-                onItemClick={({id, groupState, disabled}) => {
+                onItemClick={({id, disabled, context: {groupState}}) => {
                     if (!groupState && !disabled) {
                         setValue([id]);
                         setActiveItemId(id);

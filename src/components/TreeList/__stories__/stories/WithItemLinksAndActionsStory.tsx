@@ -37,9 +37,9 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
             mapItemDataToProps={identity}
             size="l"
             items={items}
-            onItemClick={({id, groupState, disabled}) => {
+            onItemClick={({id, selected, disabled, context: {groupState}}) => {
                 if (!groupState && !disabled) {
-                    listState.setSelected((prevState) => ({[id]: !prevState[id]}));
+                    listState.setSelected({[id]: !selected});
                 }
             }}
             renderItem={({
@@ -48,7 +48,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                     expanded, // don't use build in expand icon ListItemView behavior
                     ...state
                 },
-                itemState: {groupState},
+                context: {groupState},
             }) => {
                 return (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid

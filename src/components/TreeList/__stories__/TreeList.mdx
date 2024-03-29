@@ -1,0 +1,401 @@
+import {Meta} from '@storybook/addon-docs';
+
+<Meta title="Unstable/TreeList" />
+
+# TreeList
+
+The basic component for working with lists, including tree-like ones. Under the hood, it uses the [useList](/docs/unstable-uselist--docs). To manage the state, it is recommended to use the [useListState](/docs/unstable-uselist--docs#useliststate) hook.
+
+`Storybook` provides complex examples how to use this components from this documentation.
+
+## Props:
+
+-   [items](#items);
+-   [mapItemDataToProps](#mapitemdatatoprops);
+-   [qa](#qa);
+-   [id](#id);
+-   [containerRef](#containerref);
+-   [className](#classname);
+-   [multiple](#multiple);
+-   [size](#size-available-options);
+-   [defaultGroupsExpanded](#defaultgroupsexpanded);
+-   [getId](#getid);
+-   [renderItem](#renderitem);
+-   [renderContainer](#rendercontainer);
+-   [onItemClick](#onitemclick);
+-   [...useListState](/docs/unstable-uselist--docs#useliststate)
+
+## Quick start:
+
+### Basic example:
+
+```tsx
+import {type ListItemType, TreeList} from '@gravity-ui/uikit';
+
+const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
+
+<TreeList items={items} mapItemDataToProps={(item) => ({title: item})} />;
+```
+
+### Example with state:
+
+```tsx
+import {type ListItemType, TreeList} from '@gravity-ui/uikit';
+
+const items: ListItemType<string>[] = [
+    {title: 'one'},
+    {title: 'two'},
+    {title: 'free'},
+    {title: 'four'},
+    {title: 'five'},
+];
+
+const Component = () => {
+    const listState = useListState();
+
+    const handleItemClick: TreeListOnItemClick<string> = ({id, disabled, groupState}) => {
+        if (disabled) return;
+
+        if (groupState) {
+            listState.setExpanded((prevState) => ({
+                ...prevState,
+                [id]: id in prevState ? !prevState[id] : false,
+            }));
+        } else {
+            listState.setSelected((prevState) => ({
+                [id]: !prevState[id],
+            }));
+        }
+
+        listState.setActiveItemId(id);
+    };
+
+    return (
+        <TreeList
+            items={items}
+            {...listState}
+            onItemClick={handleItemClick}
+            mapItemDataToProps={({title}) => ({title})}
+        />
+    );
+};
+```
+
+> If you want to display the nodes of the list as regular elements without the possibility of hiding the folded elements of the sheet, then just do not pass the `expandedById` object from the state to the component itself:
+
+```ts
+const {expandedById, setExpandedById, ...listState} = useListState();
+
+<TreeList {...listSttate} />
+```
+
+## Component props:
+
+### items
+
+Array of list items. More details about data structure and properties you can find [here](/docs/unstable-uselist--docs#items-supported-data-structure);
+
+### mapItemDataToProps
+
+Map list item data structire to `ListItemView` [props](/docs/unstable-uselist--docs#listitemview);
+
+### containerRef
+
+Pass a ref to pass a link to the DOM element of the container. For example, in order to control the focus of the list to activate keyboard navigation support;
+
+```tsx
+import React from 'react';
+import {type ListItemType, TreeList, Button, Alert} from '@gravity-ui/uikit';
+
+const items: ListItemType<string>[] = [
+    {data: {title: 'one'}},
+    {data: {title: 'two'}},
+    {data: {title: 'free'}},
+    {data: {title: 'four'}},
+    {data: {title: 'five'}},
+];
+
+const Component = () => {
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const listState = useListState();
+
+    const handleItemClick: TreeListOnItemClick<string> = ({
+        id,
+        disabled,
+        selected,
+        expanded,
+        groupState,
+    }) => {
+        // ...
+    };
+
+    return (
+        <>
+            <Alert
+                message="After clicking the button you can navigate list during keyboard"
+                theme="info"
+            />
+            <Button
+                onClick={() => {
+                    containerRef?.current?.focus();
+                }}
+            >
+                focus list
+            </Button>
+            <TreeList
+                items={items}
+                {...listState}
+                containerRef={containerRef}
+                onItemClick={handleItemClick}
+                mapItemDataToProps={({title}) => ({title})}
+            />
+        </>
+    );
+};
+```
+
+### getId
+
+Generate an id for a list item depending on the list data. If it's necessary to have access to more custom management of the state of the list. The property is optional.
+
+```tsx
+const items = [
+    {data: {id: 'id-1', title: 'some title 1'}, children: [...]},
+    {data: {id: 'id-2', title: 'some title 2'}, children: [...]},
+];
+
+<TreeList items={items} getId={({id})=> id}  />
+```
+
+### qa
+
+Set `qa` attribute for the container and sheet elements. `qa` attribute is also passed to the `ListItemView`.
+
+> Use the [getListItemQa](/docs/unstable-uselist--docs#getlistitemqa) is used to generate `qa` attributes in list items; also use this function in tests to compute a unique data attribute to access a specific list item
+
+    ```ts
+    await locator.getByTestId(getListItemQa('some-list-qa', '0')); // select the first item in the list if auto-generated IDs are not used
+    ```
+
+### className
+
+Pass custom CSS class for the list container.
+
+### id
+
+Set a custom id data attribute. By default, a unique identifier will be assigned.
+
+### multiple
+
+This prop is necessary for the correct view of the selected elements since the state of the selected elements is controlled from the parent component.
+
+### setActiveItemId
+
+Required for correct keyboard interactions. While navigating through the keyboard, you need to set the next active element.
+
+### defaultGroupsExpanded
+
+Control the default expanded state of items' groups. Default - `true`.
+
+### renderItem
+
+Redefine the rendering of a list item. For example, add dividers between list items or wrap an item in a link component. As a view component to display a list item, use [ListItemView](/docs/unstable-uselist--docs#listitemview);
+
+```tsx
+<TreeList
+    renderItem={({
+        data,
+        props,
+        index,
+        renderContainerProps,
+        itemState: {groupState, isLastItem, itemState},
+    }) => {
+        return <ListItemView {...props} {...renderContainerProps} />;
+    }}
+/>
+```
+
+#### renderItem function argument object:
+
+```tsx
+type ListItemSize = 's' | 'm' | 'l' | 'xl';
+
+interface RenderItemProps {
+    /**
+     * access to the original object with the data of the list element
+     */
+    data: T;
+    /**
+     * ordinal index of the element, taking into account that with a tree-like data structure, the list elements have a flatten representation;
+     */
+    index: number;
+    /**
+     * default props generated by the component taking into account the state (whether the element is selected or not, active, disclosed). The set of returned passes corresponds to the result of the function execution [getItemRenderState](/docs/unstable-uselist--docs#item-state-props)
+     */
+    props: {
+        // item id;
+        id: string;
+        // qa attribute for tests
+        qa?: string;
+        // item size;
+        size: ListItemSize;
+        // expanded state if item group;
+        expanded?: boolean;
+        // is item active
+        active: boolean;
+        // item nest level;
+        indentation: number;
+        // is item disabled;
+        disabled: boolean;
+        // is item selected;
+        selected?: boolean;
+        // on item click handle if exists;
+        onClick?(): void;
+        // affects the view of the selected items;
+        hasSelectionIcon?: boolean;
+        // one required field of result `mapItemDataToProps` function work;
+        title: React.ReactNode;
+    };
+    /**
+     * during `renderContainer` props you can pass render container context props to items;
+     */
+    renderContainerProps?: Object;
+    /**
+     * useful information about the current list item:
+     */
+    context: {
+        // meta info about item
+        itemState: {
+            // integer number, representing nested list level
+            indentation: number;
+            // `id` of parent list item if it exists
+            parentId?: string;
+        };
+        // An optional parameter. If the list item is also the first item of the nested list
+        groupState: {
+            // array of `id` of nested list items;
+            childrenIds: string[];
+        };
+        // is the current item the last one in the list
+        isLastItem: boolean;
+    };
+}
+```
+
+> Important! Absolutely all the props for [ListItemView](/docs/unstable-uselist--docs#listitemview) can be redefined in the renderItem method. This is the preferred method for changing the view of the list elements.
+
+### renderContainer
+
+Render custom list container.
+
+```tsx
+<TreeList
+    renderContainer={({
+        id,
+        containerRef,
+        visibleFlattenIds,
+        renderItem,
+        size,
+        className,
+        qa,
+    }: TreeListRenderContainerProps<T>) => {
+        return (
+            <ListContainerView
+                qa={qa}
+                className={className}
+                fixedHeight // by default 300px. Use `--g-list-height` css custom propery to override container height if this prop active
+                id={id}
+                ref={containerRef}
+            >
+                <VirtualizedListContainer // your own implementation based on the choice of a library for virtualization
+                    items={visibleFlattenIds}
+                    itemSize={(_index) => computeItemSize(size)}
+                >
+                    {(id, index) =>
+                        renderItem(
+                            id,
+                            index,
+                            _, // here you can optionally pass any props depending of render context */,
+                        )
+                    }
+                </VirtualizedListContainer>
+            </ListContainerView>
+        );
+    }}
+/>
+```
+
+### onItemClick
+
+Item's click callback. It also will be called on keyboard actions.
+
+```tsx
+<TreeList
+    onItemClick={({
+        id,
+        index,
+        selected,
+        disabled,
+        expanded,
+        context: {
+            itemState: {indentation, parentId},
+            groupState: {childrenIds},
+            isLastItem,
+        },
+    }) => {
+        // just do it!
+    }}
+/>
+```
+
+#### onItemClick function argument object:
+
+```tsx
+type OnItemClick<T> = (props: OnItemClickProps<T>) => void;
+
+interface OnItemClickProps<T> {
+    /**
+     * `id` of the current element;
+     */
+    id: string;
+    /**
+     * access to the original payload (`T`) list item;
+     */
+    data: T;
+    /**
+     * the ordinal index of the element, taking into account that with a tree-like data structure, the list elements have a flatten representation;
+     */
+    index: number;
+    /**
+     * whether the item is selected or not;
+     */
+    selected: boolean;
+    /**
+     * is the element disabled;
+     */
+    disabled: boolean;
+    /**
+     * are nested child elements hidden;
+     */
+    expanded: boolean;
+    /**
+     * useful information about the current list item:
+     */
+    context: {
+        // meta info about item
+        itemState: {
+            // integer number, representing nested list level
+            indentation: number;
+            // `id` of parent list item if it exists
+            parentId?: string;
+        };
+        // An optional parameter. If the list item is also the first item of the nested list
+        groupState: {
+            // array of `id` of nested list items;
+            childrenIds: string[];
+        };
+        // is the current item the last one in the list
+        isLastItem: boolean;
+    };
+}
+```

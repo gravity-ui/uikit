@@ -6,7 +6,7 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView, getListParsedState} from '../../../useList';
-import type {KnownItemStructure, ListItemId} from '../../../useList';
+import type {ListItemCommonProps, ListItemId} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -26,7 +26,7 @@ export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
     itemsCount?: number;
 }
 
-const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): KnownItemStructure => ({
+const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): ListItemCommonProps => ({
     title: props.a,
 });
 
@@ -58,7 +58,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                         expanded, // don't use default ListItemView expand icon
                         ...state
                     },
-                    itemState: {groupState},
+                    context: {groupState},
                 }) => {
                     return (
                         <ListItemView

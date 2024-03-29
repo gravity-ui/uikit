@@ -26,11 +26,12 @@ export interface ListContainerViewProps extends QAProps {
 
 export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerViewProps>(
     function ListContainerView(
-        {as = 'div', role = 'listbox', children, id, className, fixedHeight, extraProps},
+        {as = 'div', role = 'listbox', children, id, className, fixedHeight, extraProps, qa},
         ref,
     ) {
         return (
             <Flex
+                data-qa={qa}
                 as={as}
                 direction="column"
                 ref={ref}

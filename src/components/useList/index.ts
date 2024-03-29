@@ -3,7 +3,7 @@ export * from './hooks/useList';
 export * from './hooks/useListKeydown';
 export * from './hooks/useListState';
 export * from './types';
-export * from './components/ListItemView/ListItemView';
+export * from './components/ListItemView';
 export * from './components/ListRecursiveRenderer/ListRecursiveRenderer';
 export * from './components/ListContainerView/ListContainerView';
 export * from './utils/computeItemSize';

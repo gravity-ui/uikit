@@ -1,3 +1,5 @@
+import type {QAProps} from '../types';
+
 export type ListItemId = string;
 
 export type ListItemSize = 's' | 'm' | 'l' | 'xl';
@@ -39,7 +41,7 @@ export type ItemState = {
     indentation: number;
 };
 
-export type KnownItemStructure = {
+export type ListItemCommonProps = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
     startSlot?: React.ReactNode;
@@ -47,11 +49,6 @@ export type KnownItemStructure = {
 };
 
 export type RenderItemContext = {
-    /**
-     * optional, because ids may be skipped in the flatten order list,
-     * depending on the expanded state
-     */
-    visibleFlattenIndex?: number;
     itemState: ItemState;
     /**
      * Exists if item is group
@@ -63,14 +60,15 @@ export type RenderItemContext = {
 export type RenderItemProps = {
     size: ListItemSize;
     id: ListItemId;
-    onClick?(): void;
-    selected: boolean;
+    onClick: (() => void) | undefined;
+    selected: boolean | undefined;
     disabled: boolean;
-    expanded?: boolean;
+    expanded: boolean | undefined;
     active: boolean;
     indentation: number;
     hasSelectionIcon?: boolean;
-} & KnownItemStructure;
+} & ListItemCommonProps &
+    QAProps;
 
 export type ParsedState<T> = {
     /**

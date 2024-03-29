@@ -1,0 +1,45 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}overlay';
+
+#{$block} {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    visibility: hidden;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+
+    transition:
+        visibility 0.1s linear,
+        opacity 0.1s linear;
+
+    &_visible {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &__background {
+        position: absolute;
+        inset: 0;
+
+        opacity: 80%;
+
+        &_view {
+            &_base {
+                background-color: var(--g-color-base-background);
+            }
+
+            &_float {
+                background-color: var(--g-color-base-float);
+            }
+        }
+    }
+
+    &__children {
+        z-index: 0;
+    }
+}

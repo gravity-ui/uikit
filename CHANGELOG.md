@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.8.0](https://github.com/gravity-ui/uikit/compare/v6.7.0...v6.8.0) (2024-03-29)
+
+
+### Features
+
+* **TreeSelect:** rework popup border radius ([#1456](https://github.com/gravity-ui/uikit/issues/1456)) ([0cf2f95](https://github.com/gravity-ui/uikit/commit/0cf2f95907ba1a6164086578d239f905bd15a445))
+
+
+### Bug Fixes
+
+* **Divider:** add export of Divider to Components/index ([#1461](https://github.com/gravity-ui/uikit/issues/1461)) ([bdab522](https://github.com/gravity-ui/uikit/commit/bdab522a06429d935cc3a4fb5a9b785c3eb8330d))
+* **TextInput:** turn off event onBlur on input when use clear button ([#1458](https://github.com/gravity-ui/uikit/issues/1458)) ([3274c04](https://github.com/gravity-ui/uikit/commit/3274c042f27af6ee39ef77b14ac45289a0b2f1a2))
+
 ## [6.7.0](https://github.com/gravity-ui/uikit/compare/v6.6.0...v6.7.0) (2024-03-28)
 
 

@@ -13,6 +13,7 @@ export {
     getItemRenderState as unstable_getItemRenderState,
     scrollToListItem as unstable_scrollToListItem,
     getListItemQa as unstable_getListItemQa,
+    getListParsedState as unstable_getListParsedState,
 } from './components/useList';
 export {
     TreeSelect as unstable_TreeSelect,

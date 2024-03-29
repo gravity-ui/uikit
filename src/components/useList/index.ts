@@ -10,4 +10,5 @@ export * from './utils/computeItemSize';
 export * from './utils/getItemRenderState';
 export * from './utils/scrollToListItem';
 export * from './utils/getListParsedState';
+export * from './utils/getListItemQa';
 export {modToHeight} from './constants';

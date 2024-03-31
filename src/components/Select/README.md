@@ -241,6 +241,45 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### Counter
+
+You can add counter of the selected items to the component by using property `hasCounter`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select multiple={true} hasCounter={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select multiple={true} hasCounter={true}>
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Select multiple={true} hasCounter={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Filtering options
 
 To enable filter section use the `filterable` property. Default to `false`.
@@ -1123,7 +1162,7 @@ LANDING_BLOCK-->
 | errorMessage                                              | Error text                                                                                                                          | `string`                                 |                                                          |
 | errorPlacement                                            | Error placement                                                                                                                     | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Validation state                                                                                                                    | `"invalid"`                              |                                                          |
-| hasCounter                                                | Indicates count of the selected options. Counter appears only when [multiple](#selecting-multiple-options) selection enabled. state | `boolean`                                |
+| [hasCounter](#counter)                                    | Indicates count of the selected options. Counter appears only when [multiple](#selecting-multiple-options) selection enabled. state | `boolean`                                |
 
 ## CSS API
 

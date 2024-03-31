@@ -11,6 +11,7 @@ import {block} from '../../../utils/cn';
 import {getComponentName} from '../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import i18n from '../../i18n';
 
 import './withTableSelection.scss';
 
@@ -106,6 +107,9 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                     className={b('selection-checkbox', {
                         'vertical-align': this.props.verticalAlign,
                     })}
+                    controlProps={{
+                        'aria-label': i18n('label-row-select'),
+                    }}
                 />
             );
         }

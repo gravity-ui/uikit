@@ -62,6 +62,7 @@ export function useFileInput({onUpdate, onChange}: UseFileInputProps): UseFileIn
                 tabIndex: -1,
                 style: {opacity: 0, position: 'absolute', width: 1, height: 1},
                 onChange: handleChange,
+                'aria-hidden': true,
             },
             triggerProps: {
                 onClick: openDeviceStorage,

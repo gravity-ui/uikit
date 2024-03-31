@@ -1,5 +1,72 @@
 # Changelog
 
+## [6.8.0](https://github.com/gravity-ui/uikit/compare/v6.7.0...v6.8.0) (2024-03-29)
+
+
+### Features
+
+* **TreeSelect:** rework popup border radius ([#1456](https://github.com/gravity-ui/uikit/issues/1456)) ([0cf2f95](https://github.com/gravity-ui/uikit/commit/0cf2f95907ba1a6164086578d239f905bd15a445))
+
+
+### Bug Fixes
+
+* **Divider:** add export of Divider to Components/index ([#1461](https://github.com/gravity-ui/uikit/issues/1461)) ([bdab522](https://github.com/gravity-ui/uikit/commit/bdab522a06429d935cc3a4fb5a9b785c3eb8330d))
+* **TextInput:** turn off event onBlur on input when use clear button ([#1458](https://github.com/gravity-ui/uikit/issues/1458)) ([3274c04](https://github.com/gravity-ui/uikit/commit/3274c042f27af6ee39ef77b14ac45289a0b2f1a2))
+
+## [6.7.0](https://github.com/gravity-ui/uikit/compare/v6.6.0...v6.7.0) (2024-03-28)
+
+
+### Features
+
+* **Divider:** add the Divider component ([#1322](https://github.com/gravity-ui/uikit/issues/1322)) ([9a19806](https://github.com/gravity-ui/uikit/commit/9a198065d40466f43eedb4f479140f43e231ee8f))
+
+
+### Bug Fixes
+
+* **Tooltip:** fix appearing & disappearing ([#1460](https://github.com/gravity-ui/uikit/issues/1460)) ([b0b3ec8](https://github.com/gravity-ui/uikit/commit/b0b3ec8bc18713dd782f477429182ed65c527a04))
+
+## [6.6.0](https://github.com/gravity-ui/uikit/compare/v6.5.0...v6.6.0) (2024-03-26)
+
+
+### Features
+
+* improve focus outline styles for text/select inputs ([#1318](https://github.com/gravity-ui/uikit/issues/1318)) ([ce75de8](https://github.com/gravity-ui/uikit/commit/ce75de8899488f0e98a4c0d4e10a593d44b6fe61))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** fix gravity-ui doc generation ([#1446](https://github.com/gravity-ui/uikit/issues/1446)) ([ce4bca5](https://github.com/gravity-ui/uikit/commit/ce4bca5ec548ad09df9c992a4cca6885a6d4e485))
+* **DropdownMenu:** fix hiding group subitems ([#1444](https://github.com/gravity-ui/uikit/issues/1444)) ([4cf7d39](https://github.com/gravity-ui/uikit/commit/4cf7d39e0334087fc54d7c509312121aabd9ed2c))
+* **TreeList:** refactor item styles ([#1439](https://github.com/gravity-ui/uikit/issues/1439)) ([fdbb052](https://github.com/gravity-ui/uikit/commit/fdbb0525bf9991baa68ff0d3786050cac480f78f))
+
+## [6.5.0](https://github.com/gravity-ui/uikit/compare/v6.4.0...v6.5.0) (2024-03-21)
+
+
+### Features
+
+* **Breadcrumbs:** export `LinkBreadcrumbsItem` & `ButtonBreadcrumbsItem` types ([#1435](https://github.com/gravity-ui/uikit/issues/1435)) ([e5fde1b](https://github.com/gravity-ui/uikit/commit/e5fde1bb07c440e155dd51af3b2853dfab8c5b78))
+* **Pagination:** add qa attributes ([#1438](https://github.com/gravity-ui/uikit/issues/1438)) ([785079a](https://github.com/gravity-ui/uikit/commit/785079a91d5a6fe0b1bfd2fe76e5cfbf321f9502))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** renamed `LinkBreadcrumbsItem` and `ButtonBreadcrumbsItem` types ([#1437](https://github.com/gravity-ui/uikit/issues/1437)) ([db09f93](https://github.com/gravity-ui/uikit/commit/db09f93624b3cdeaaa72498a7dea73c5b5416844))
+* **UserLabel:** replace text to children in README ([#1432](https://github.com/gravity-ui/uikit/issues/1432)) ([b8c79e1](https://github.com/gravity-ui/uikit/commit/b8c79e1b444e46f240425bf9942642fdab02259f))
+
+## [6.4.0](https://github.com/gravity-ui/uikit/compare/v6.3.0...v6.4.0) (2024-03-20)
+
+
+### Features
+
+* **TreeList:** new useList family component ([#1417](https://github.com/gravity-ui/uikit/issues/1417)) ([5e7d8b9](https://github.com/gravity-ui/uikit/commit/5e7d8b9af214ecc084375e681e0f8d64dc933c2c))
+* **User:** added qa attribute for name and description nodes ([#1429](https://github.com/gravity-ui/uikit/issues/1429)) ([ef6143a](https://github.com/gravity-ui/uikit/commit/ef6143a2b5247904b57c4c60fb718f47c6550f20))
+
+
+### Bug Fixes
+
+* **Palette:** fixed README.md for the landing ([#1431](https://github.com/gravity-ui/uikit/issues/1431)) ([c15f2e3](https://github.com/gravity-ui/uikit/commit/c15f2e342dd2c90fcc1703c6f713180b23d135e2))
+* **withTableSettings:** deprecate the renderControls prop ([#1427](https://github.com/gravity-ui/uikit/issues/1427)) ([27be674](https://github.com/gravity-ui/uikit/commit/27be6742fca41cac2f74b23f1db84276cdb7933d))
+
 ## [6.3.0](https://github.com/gravity-ui/uikit/compare/v6.2.0...v6.3.0) (2024-03-18)
 
 

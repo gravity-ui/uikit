@@ -123,6 +123,7 @@ export type SelectProps<T = any> = QAProps &
         id?: string;
         /**Shows selected options count if multiple selection is avalable */
         hasCounter?: boolean;
+        title?: string;
     };
 
 export type SelectOption<T = any> = QAProps &

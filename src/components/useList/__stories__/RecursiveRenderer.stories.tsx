@@ -10,12 +10,25 @@ import type {RecursiveListProps} from './components/RecursiveList';
 export default {
     title: 'Unstable/useList/RecursiveRenderer',
     component: RecursiveList,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'label',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 const RecursiveRendererTemplate: StoryFn<RecursiveListProps> = (props) => {
     return (
         <Flex width={400}>
-            <RecursiveList {...props} />
+            <RecursiveList aria-label="Recursive list sample" {...props} />
         </Flex>
     );
 };

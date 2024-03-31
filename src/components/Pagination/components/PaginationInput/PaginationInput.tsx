@@ -4,6 +4,7 @@ import {KeyCode} from '../../../../constants';
 import {TextInput} from '../../../controls';
 import type {TextInputProps} from '../../../controls';
 import {block} from '../../../utils/cn';
+import {PaginationQa} from '../../constants';
 import i18n from '../../i18n';
 import type {PaginationProps, PaginationSize} from '../../types';
 
@@ -67,6 +68,7 @@ export const PaginationInput = ({numberOfPages, size, pageSize, onUpdate, classN
             onUpdate={handleUpdateValue}
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
+            qa={PaginationQa.PaginationInput}
         />
     );
 };

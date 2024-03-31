@@ -47,6 +47,7 @@ export interface ControlGroupOption<ValueType extends string = string> {
     content?: React.ReactNode;
     children?: React.ReactNode;
     disabled?: boolean;
+    title?: string;
 }
 
 export interface ControlGroupProps<ValueType extends string = string> {

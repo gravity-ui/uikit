@@ -12,26 +12,30 @@ const b = block('slider-showcase');
 const blockCn = b('block');
 const rowCn = b('row');
 
-const ShowcaseBlock = ({title, ...sliderProps}: Partial<SliderProps> & {title: string}) => (
-    <ShowcaseItem title={title}>
-        <div className={rowCn}>
-            <div>s:</div>
-            <Slider size="s" {...sliderProps} />
-        </div>
-        <div className={rowCn}>
-            <div>m:</div>
-            <Slider size="m" {...sliderProps} />
-        </div>
-        <div className={rowCn}>
-            <div>l:</div>
-            <Slider size="l" {...sliderProps} />
-        </div>
-        <div className={rowCn}>
-            <div>xl:</div>
-            <Slider size="xl" {...sliderProps} />
-        </div>
-    </ShowcaseItem>
-);
+const ShowcaseBlock = ({title, ...sliderProps}: Partial<SliderProps> & {title: string}) => {
+    const sliderLabel = `${title} slider example`;
+
+    return (
+        <ShowcaseItem title={title}>
+            <div className={rowCn}>
+                <div>s:</div>
+                <Slider size="s" aria-label={sliderLabel} {...sliderProps} />
+            </div>
+            <div className={rowCn}>
+                <div>m:</div>
+                <Slider size="m" aria-label={sliderLabel} {...sliderProps} />
+            </div>
+            <div className={rowCn}>
+                <div>l:</div>
+                <Slider size="l" aria-label={sliderLabel} {...sliderProps} />
+            </div>
+            <div className={rowCn}>
+                <div>xl:</div>
+                <Slider size="xl" aria-label={sliderLabel} {...sliderProps} />
+            </div>
+        </ShowcaseItem>
+    );
+};
 
 export const SliderShowcase = () => {
     return (
@@ -47,13 +51,13 @@ export const SliderShowcase = () => {
             <div className={blockCn}>
                 <ShowcaseBlock
                     title="error"
-                    errorMessage={'Error description'}
+                    errorMessage="Error description"
                     validationState="invalid"
                     defaultValue={20}
                 />
                 <ShowcaseBlock
                     title="Range error"
-                    errorMessage={'Error description'}
+                    errorMessage="Error description"
                     validationState="invalid"
                     defaultValue={[20, 40]}
                 />
@@ -75,14 +79,14 @@ export const SliderShowcase = () => {
                 <ShowcaseBlock
                     title="tooltip error"
                     hasTooltip
-                    errorMessage={'Error description'}
+                    errorMessage="Error description"
                     validationState="invalid"
                     defaultValue={20}
                 />
                 <ShowcaseBlock
                     title="Range tooltip error"
                     hasTooltip
-                    errorMessage={'Error description'}
+                    errorMessage="Error description"
                     validationState="invalid"
                     defaultValue={[20, 40]}
                 />

@@ -5,6 +5,7 @@ import {ListItemRecursiveRenderer} from '../../../useList/components/ListRecursi
 import type {TreeListRenderContainerProps} from '../../types';
 
 export const TreeListContainer = <T,>({
+    qa,
     items,
     id,
     containerRef,
@@ -14,7 +15,7 @@ export const TreeListContainer = <T,>({
     idToFlattenIndex,
 }: TreeListRenderContainerProps<T> & {className?: string}) => {
     return (
-        <ListContainerView ref={containerRef} className={className} id={id}>
+        <ListContainerView ref={containerRef} className={className} id={id} qa={qa}>
             {items.map((itemSchema, index) => (
                 <ListItemRecursiveRenderer
                     key={index}

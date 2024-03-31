@@ -21,7 +21,10 @@ export interface SwitchProps extends ControlProps, DOMProps, QAProps {
 
 export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function Switch(props, ref) {
     const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
-    const {checked, inputProps} = useCheckbox(props);
+    const {checked, inputProps} = useCheckbox({
+        ...props,
+        controlProps: {...props.controlProps, role: 'switch'},
+    });
     const text = content || children;
 
     const control = (

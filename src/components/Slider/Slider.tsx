@@ -38,6 +38,8 @@ export const Slider = React.forwardRef(function Slider(
         className,
         qa,
         apiRef,
+        'aria-label': ariaLabelForHandle,
+        'aria-labelledby': ariaLabelledByForHandle,
     }: SliderProps,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
@@ -128,6 +130,8 @@ export const Slider = React.forwardRef(function Slider(
                         : undefined
                 }
                 reverse={stateModifiers.rtl}
+                ariaLabelForHandle={ariaLabelForHandle}
+                ariaLabelledByForHandle={ariaLabelledByForHandle}
             ></BaseSlider>
             {stateModifiers.error && errorMessage && (
                 <div className={b('error', {size})}>{errorMessage}</div>

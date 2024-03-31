@@ -41,7 +41,7 @@ export const CustomThemeShowcase = () => {
                 <TextInput
                     {...textInputProps}
                     placeholder="inline error"
-                    error={'A validation error has occurred'}
+                    error="A validation error has occurred"
                     errorPlacement="inside"
                 />
                 <TextInput {...textInputProps} placeholder="disabled" disabled />
@@ -78,7 +78,7 @@ export const CustomThemeShowcase = () => {
                 <TextInput
                     {...textInputProps}
                     placeholder="inline error"
-                    error={'A validation error has occurred'}
+                    error="A validation error has occurred"
                     errorPlacement="inside"
                 />
                 <TextInput {...textInputProps} placeholder="disabled" disabled />

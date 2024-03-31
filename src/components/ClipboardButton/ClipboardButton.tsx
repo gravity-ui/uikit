@@ -42,6 +42,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         tooltipSuccessText = i18n('endCopy'),
         status,
         view = 'flat',
+        extraProps = {},
         ...rest
     } = props;
 
@@ -50,7 +51,15 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
             disabled={!hasTooltip}
             title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
         >
-            <Button view={view} size={size} {...rest}>
+            <Button
+                view={view}
+                size={size}
+                extraProps={{
+                    'aria-label': tooltipInitialText,
+                    ...extraProps,
+                }}
+                {...rest}
+            >
                 <Button.Icon>
                     <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
                 </Button.Icon>

@@ -11,6 +11,10 @@ import {createRandomizedData} from '../../../useList/__stories__/utils/makeData'
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
 
+const expandButtonLabel = 'Expand';
+const closeButtonLabel = 'Close';
+const moreOptionsButton = 'More options';
+
 function identity<T>(value: T): T {
     return value;
 }
@@ -33,9 +37,9 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
             mapItemDataToProps={identity}
             size="l"
             items={items}
-            onItemClick={({id, groupState, disabled}) => {
+            onItemClick={({id, selected, disabled, context: {groupState}}) => {
                 if (!groupState && !disabled) {
-                    listState.setSelected((prevState) => ({[id]: !prevState[id]}));
+                    listState.setSelected({[id]: !selected});
                 }
             }}
             renderItem={({
@@ -44,7 +48,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                     expanded, // don't use build in expand icon ListItemView behavior
                     ...state
                 },
-                itemState: {groupState},
+                context: {groupState},
             }) => {
                 return (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -69,6 +73,11 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                             text: 'action 1',
                                         },
                                     ]}
+                                    defaultSwitcherProps={{
+                                        extraProps: {
+                                            'aria-label': moreOptionsButton,
+                                        },
+                                    }}
                                 />
                             }
                             startSlot={
@@ -88,6 +97,11 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                                         ? !prevExpandedState[state.id]
                                                         : false,
                                             }));
+                                        }}
+                                        extraProps={{
+                                            'aria-label': expanded
+                                                ? closeButtonLabel
+                                                : expandButtonLabel,
                                         }}
                                     >
                                         <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />

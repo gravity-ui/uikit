@@ -7,9 +7,9 @@ import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
 import type {ListItemId} from '../../../useList';
+import {ListItemView} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
-import {TreeSelectItem} from '../../TreeSelectItem';
 import type {TreeSelectProps} from '../../types';
 
 function identity<T>(value: T): T {
@@ -37,7 +37,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                 size="l"
                 value={value}
                 items={items}
-                onItemClick={({id, groupState, disabled}) => {
+                onItemClick={({id, context: {groupState}, disabled}) => {
                     if (!groupState && !disabled) {
                         setValue([id]);
                     }
@@ -52,7 +52,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                         expanded, // don't use build in expand icon ListItemView behavior
                         ...state
                     },
-                    itemState: {groupState},
+                    context: {groupState},
                 }) => {
                     return (
                         // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -60,7 +60,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                             href="#"
                             style={{textDecoration: 'none', color: 'inherit', width: '100%'}}
                         >
-                            <TreeSelectItem
+                            <ListItemView
                                 {...data}
                                 {...state}
                                 endSlot={

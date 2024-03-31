@@ -6,10 +6,13 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView, useListState} from '../../../useList';
-import type {KnownItemStructure} from '../../../useList';
+import type {ListItemCommonProps} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
 import type {TreeListOnItemClick, TreeListProps} from '../../types';
+
+const expandButtonLabel = 'Expand';
+const closeButtonLabel = 'Close';
 
 /**
  * Just for example how to work with data
@@ -26,7 +29,7 @@ export interface WithGroupSelectionAndCustomIconStoryProps
     itemsCount?: number;
 }
 
-const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): KnownItemStructure => ({
+const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): ListItemCommonProps => ({
     title: props.a,
 });
 
@@ -65,7 +68,7 @@ export const WithGroupSelectionAndCustomIconStory = ({
                         expanded, // don't use default ListItemView expand icon
                         ...state
                     },
-                    itemState: {groupState},
+                    context: {groupState},
                 }) => {
                     return (
                         <ListItemView
@@ -89,6 +92,11 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                                         ? !prevExpandedState[state.id]
                                                         : false,
                                             }));
+                                        }}
+                                        extraProps={{
+                                            'aria-label': expanded
+                                                ? closeButtonLabel
+                                                : expandButtonLabel,
                                         }}
                                     >
                                         <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />

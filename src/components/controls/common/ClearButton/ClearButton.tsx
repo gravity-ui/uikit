@@ -44,13 +44,22 @@ export const mapTextInputSizeToButtonSize = (textInputSize: InputControlSize): B
 export const ClearButton = (props: Props) => {
     const {size, className, onClick} = props;
 
-    // TODO: remove using of Button component after https://github.com/gravity-ui/uikit/issues/645
+    /**
+     * Turn off event onBlur on input when use clear button
+     */
+    const preventDefaultHandler: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+        event.preventDefault();
+    };
+
     return (
         <Button
             size={size}
             className={b(null, className)}
             onClick={onClick}
-            extraProps={{'aria-label': i18n('label_clear-button')}}
+            extraProps={{
+                onMouseDown: preventDefaultHandler,
+                'aria-label': i18n('label_clear-button'),
+            }}
         >
             <Icon data={Xmark} size={ICON_SIZE} />
         </Button>

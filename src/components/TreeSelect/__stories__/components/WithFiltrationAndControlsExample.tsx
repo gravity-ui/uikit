@@ -5,7 +5,7 @@ import {Text} from '../../../Text';
 import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {TextInput} from '../../../controls';
 import {Flex, spacing} from '../../../layout';
-import {useListFilter} from '../../../useList';
+import {ListItemView, useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps, TreeSelectRenderContainer} from '../../types';
@@ -68,6 +68,11 @@ export const WithFiltrationAndControlsExample = ({
                         ref={filterState.filterRef}
                     />
                 }
+                renderItem={({props, data}) => (
+                    <div style={{paddingInline: 8}}>
+                        <ListItemView {...props} {...data} />
+                    </div>
+                )}
                 renderContainer={renderContainer}
                 slotAfterListBody={
                     <Flex gap="2" className={spacing({px: 2, py: 1})}>

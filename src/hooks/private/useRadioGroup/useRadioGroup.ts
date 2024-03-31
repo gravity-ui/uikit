@@ -71,6 +71,7 @@ export function useRadioGroup<ValueType extends string = string>(
         name: name || controlId,
         value: option.value,
         content: option.content,
+        title: option.title,
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,
         onChange: handleChange,

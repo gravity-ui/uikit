@@ -1,6 +1,9 @@
 import React from 'react';
 
 import {Select} from '../../../Select';
+import type {SelectOption} from '../../../Select';
+import {PaginationQa} from '../../constants';
+import i18n from '../../i18n';
 import type {PaginationProps, PaginationSize} from '../../types';
 import {getNumberOfPages} from '../../utils';
 
@@ -23,10 +26,13 @@ export const PaginationPageSizer = ({
     total,
     className,
 }: Props) => {
-    const options = pageSizeOptions.map((pageSizeOption) => ({
-        value: String(pageSizeOption),
-        content: pageSizeOption,
-    }));
+    const options = pageSizeOptions.map(
+        (pageSizeOption): SelectOption => ({
+            value: String(pageSizeOption),
+            content: pageSizeOption,
+            qa: `${PaginationQa.PaginationPageSizerOption}-${pageSizeOption}`,
+        }),
+    );
 
     const handleUpdate = ([newPageSizeOnUpdate]: string[]) => {
         const newPageSize = Number(newPageSizeOnUpdate);
@@ -46,11 +52,13 @@ export const PaginationPageSizer = ({
 
     return (
         <Select
+            qa={PaginationQa.PaginationPageSizer}
             className={className}
             size={size}
             onUpdate={handleUpdate}
             options={options}
             value={[String(pageSize)]}
+            title={i18n('label_select_size')}
         />
     );
 };

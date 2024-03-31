@@ -25,7 +25,13 @@ export interface InfinityScrollStoryProps
 export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScrollStoryProps) => {
     const listState = useListState();
 
-    const handleItemClick: TreeListOnItemClick<{title: string}> = ({id, groupState, disabled}) => {
+    const handleItemClick: TreeListOnItemClick<{title: string}> = ({
+        id,
+        disabled,
+        expanded,
+        selected,
+        context: {groupState},
+    }) => {
         if (disabled) return;
 
         listState.setActiveItemId(id);
@@ -33,12 +39,12 @@ export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScr
         if (groupState) {
             listState.setExpanded((prevState) => ({
                 ...prevState,
-                [id]: id in prevState ? !prevState[id] : false,
+                [id]: !expanded,
             }));
         } else {
             listState.setSelected((prevState) => ({
                 ...prevState,
-                [id]: !prevState[id],
+                [id]: !selected,
             }));
         }
     };
@@ -60,7 +66,7 @@ export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScr
                 items={items}
                 multiple
                 onItemClick={handleItemClick}
-                renderItem={({data, props, itemState: {isLastItem, groupState}}) => {
+                renderItem={({data, props, context: {isLastItem, groupState}}) => {
                     const node = (
                         <ListItemView
                             {...props}

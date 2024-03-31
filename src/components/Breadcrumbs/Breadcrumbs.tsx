@@ -24,17 +24,17 @@ type BaseBreadcrumbsItem = {
     title?: string;
 };
 
-type LinkBreadcrumbsItem = {
+export type BreadcrumbsLinkItem = {
     href: string;
     action?: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
 } & BaseBreadcrumbsItem;
 
-type ButtonBreadcrumbsItem = {
+export type BreadcrumbsButtonItem = {
     href?: undefined;
     action: (event: React.MouseEvent<HTMLElement, MouseEvent> | KeyboardEvent) => void;
 } & BaseBreadcrumbsItem;
 
-export type BreadcrumbsItem = LinkBreadcrumbsItem | ButtonBreadcrumbsItem;
+export type BreadcrumbsItem = BreadcrumbsLinkItem | BreadcrumbsButtonItem;
 
 export interface BreadcrumbsProps<T extends BreadcrumbsItem = BreadcrumbsItem> extends QAProps {
     items: T[];

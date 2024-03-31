@@ -28,9 +28,9 @@ export const SwitchShowcase = () => {
             </ShowcaseItem>
             <ShowcaseItem title="with label">
                 <p>
-                    <Switch content="Label s" className="row" />
+                    <Switch content="Label s" className="row" id={'with-title-1'} />
                     <span style={{margin: '8px'}} />
-                    <Switch content="Label l" size="l" className="row" />
+                    <Switch content="Label l" size="l" className="row" id={'with-title-2'} />
                 </p>
             </ShowcaseItem>
             <ShowcaseItem title="controlled">

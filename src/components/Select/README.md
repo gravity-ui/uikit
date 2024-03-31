@@ -1123,4 +1123,10 @@ LANDING_BLOCK-->
 | errorMessage                                              | Error text                                                                                                                          | `string`                                 |                                                          |
 | errorPlacement                                            | Error placement                                                                                                                     | `outside` `inside`                       | `outside`                                                |
 | validationState                                           | Validation state                                                                                                                    | `"invalid"`                              |                                                          |
-| hasCounter                                                | Indicates count of the selected options. Counter appears only when [multiple](#selecting-multiple-options) selection enabled. state | `boolean`                                |                                                          |
+| hasCounter                                                | Indicates count of the selected options. Counter appears only when [multiple](#selecting-multiple-options) selection enabled. state | `boolean`                                |
+
+## CSS API
+
+| Name                             | Description                                         |
+| :------------------------------- | :-------------------------------------------------- |
+| `--g-select-focus-outline-color` | Outline color if focused (by default not presented) |

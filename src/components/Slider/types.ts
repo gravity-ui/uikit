@@ -52,6 +52,8 @@ export type SliderProps<ValueType = number | [number, number]> = {
     tabIndex?: ValueType;
     /** Ref to Slider's component props of focus and blur */
     apiRef?: React.RefObject<BaseSliderRefType>;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 } & Pick<DOMProps, 'className'> &
     QAProps;
 

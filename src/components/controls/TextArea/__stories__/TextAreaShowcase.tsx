@@ -108,7 +108,7 @@ value`.trim()}
                 <TextArea {...textAreaProps} />
                 <TextArea {...textAreaProps} value={undefined} defaultValue="has clear" hasClear />
                 <TextArea {...textAreaProps} disabled />
-                <TextArea {...textAreaProps} error={'Error message'} />
+                <TextArea {...textAreaProps} error="Error message" />
             </div>
             <div className={b('custom-theme')}>
                 <h3 className={b('section-header')}>Custom theme</h3>
@@ -122,7 +122,7 @@ value`.trim()}
                 <TextArea {...textAreaProps} />
                 <TextArea {...textAreaProps} value={undefined} defaultValue="has clear" hasClear />
                 <TextArea {...textAreaProps} disabled />
-                <TextArea {...textAreaProps} error={'Error message'} />
+                <TextArea {...textAreaProps} error="Error message" />
             </div>
         </div>
     );

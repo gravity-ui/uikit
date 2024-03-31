@@ -39,23 +39,34 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
 
         let avatarView: React.ReactNode = null;
 
+        let avatarProps;
+        if (typeof avatar === 'string') {
+            avatarProps = {
+                imgUrl: avatar,
+            };
+        } else if (avatar && !React.isValidElement(avatar)) {
+            avatarProps = avatar;
+        } else if (!avatar && typeof children === 'string') {
+            avatarProps = {
+                text: children,
+            };
+        }
+
         switch (type) {
             case 'email':
-                avatarView = <Avatar icon={Envelope} {...COMMON_AVATAR_PROPS} />;
+                avatarView = (
+                    <Avatar icon={Envelope} {...(avatarProps || {})} {...COMMON_AVATAR_PROPS} />
+                );
                 break;
             case 'empty':
                 avatarView = null;
                 break;
             case 'person':
             default:
-                if (!avatar && typeof children === 'string') {
-                    avatarView = <Avatar text={children} {...COMMON_AVATAR_PROPS} />;
-                } else if (typeof avatar === 'string') {
-                    avatarView = <Avatar imgUrl={avatar} {...COMMON_AVATAR_PROPS} />;
-                } else if (React.isValidElement(avatar)) {
+                if (React.isValidElement(avatar)) {
                     avatarView = avatar;
-                } else if (avatar) {
-                    avatarView = <Avatar {...avatar} {...COMMON_AVATAR_PROPS} />;
+                } else if (avatarProps) {
+                    avatarView = <Avatar {...avatarProps} {...COMMON_AVATAR_PROPS} />;
                 }
                 break;
         }

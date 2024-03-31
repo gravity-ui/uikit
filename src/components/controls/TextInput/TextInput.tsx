@@ -163,8 +163,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
 
             const control = innerControlRef.current;
             if (control) {
-                control.focus();
-
                 const syntheticEvent = Object.create(event);
                 syntheticEvent.target = control;
                 syntheticEvent.currentTarget = control;

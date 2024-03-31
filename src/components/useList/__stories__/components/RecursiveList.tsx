@@ -16,9 +16,10 @@ import {createRandomizedData} from '../utils/makeData';
 export interface RecursiveListProps {
     itemsCount: number;
     size: ListItemSize;
+    'aria-label'?: string;
 }
 
-export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
+export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: RecursiveListProps) => {
     const containerRef = React.useRef(null);
 
     const items = React.useMemo(
@@ -72,7 +73,7 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
             />
-            <ListContainerView ref={containerRef}>
+            <ListContainerView ref={containerRef} extraProps={{'aria-label': ariaLabel}}>
                 {filterState.items.map((item, index) => (
                     <ListItemRecursiveRenderer
                         itemSchema={item}
@@ -86,6 +87,7 @@ export const RecursiveList = ({size, itemsCount}: RecursiveListProps) => {
                                 id,
                                 size,
                                 onItemClick,
+                                multiple: true,
                                 mapItemDataToProps: (x) => x,
                                 ...list,
                                 ...listState,

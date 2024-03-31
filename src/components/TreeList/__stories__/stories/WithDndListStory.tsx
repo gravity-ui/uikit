@@ -109,7 +109,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
         data,
         props,
         index,
-        renderContext: renderContextProps,
+        renderContainerProps,
     }) => {
         const commonProps = {
             ...props,
@@ -118,12 +118,12 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
         };
 
         // here passed props from `renderContainer` method.
-        if (renderContextProps) {
+        if (renderContainerProps) {
             return (
                 <DraggableListItem
                     key={`item-key-${index}`}
                     {...commonProps}
-                    {...renderContextProps}
+                    {...renderContainerProps}
                 />
             );
         }
@@ -149,7 +149,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
             mapItemDataToProps={({someRandomKey}) => ({title: someRandomKey})}
             // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
             getId={({id}) => id}
-            onItemClick={({id, groupState, disabled}) => {
+            onItemClick={({id, disabled, context: {groupState}}) => {
                 if (!groupState && !disabled) {
                     listState.setSelected((prevState) => ({
                         [id]: !prevState[id],

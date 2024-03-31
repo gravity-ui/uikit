@@ -45,6 +45,7 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
             value: props.value,
             content: props.content || props.children,
             disabled: props.disabled,
+            title: props.title,
         }));
     }
 

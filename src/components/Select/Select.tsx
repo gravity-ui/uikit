@@ -89,6 +89,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         id,
         hasCounter,
         renderCounter,
+        title,
     } = props;
     const mobile = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
@@ -342,6 +343,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 activeIndex={activeIndex}
                 hasCounter={multiple && hasCounter}
                 renderCounter={renderCounter}
+                title={title}
             />
 
             <SelectPopup

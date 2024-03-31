@@ -19,6 +19,24 @@ import {ButtonViewShowcase} from './ButtonViewShowcase';
 export default {
     title: 'Components/Inputs/Button',
     component: Button,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false, // actual color contrast may differ in particular usage
+                    },
+                    {
+                        id: 'duplicate-id',
+                        enabled: false,
+                        selector: 'defs', // one may use same id in different <defs>
+                    },
+                ],
+            },
+        },
+    },
 } as Meta;
 
 type Story = StoryObj<typeof Button>;
@@ -68,7 +86,7 @@ export const Icon: Story = {
                 Both
                 <IconComponent data={ChevronDown} />
             </Button>
-            <Button {...args}>
+            <Button {...args} title="Copy">
                 <IconComponent data={Copy} />
             </Button>
         </Showcase>
@@ -97,6 +115,9 @@ export const Loading: Story = {
 };
 
 export const Width: Story = {
+    args: {
+        ...Default.args,
+    },
     render: (args) => {
         return (
             <div style={{width: 100, border: '2px dashed gray', overflow: 'hidden', padding: 2}}>
@@ -119,6 +140,9 @@ export const Width: Story = {
 };
 
 export const Pin: Story = {
+    args: {
+        ...Default.args,
+    },
     render: (args) => {
         return (
             <Showcase>
@@ -136,11 +160,34 @@ export const Pin: Story = {
 
 export const Link: Story = {
     args: {
+        ...Default.args,
         children: ['Link Button', <IconComponent key="icon" data={ArrowUpRightFromSquare} />],
         href: 'https://gravity-ui.com',
         target: '_blank',
     },
     name: 'As Link',
+};
+
+export const InsideText: Story = {
+    args: {
+        ...Default.args,
+    },
+    render: (args) => {
+        return (
+            <div>
+                Lorem ipsum
+                <br />
+                <Button {...args} /> dolor
+                <br />
+                sit{' '}
+                <Button {...args}>
+                    <IconComponent data={Globe} />
+                </Button>{' '}
+                amet
+            </div>
+        );
+    },
+    name: 'Inside Text',
 };
 
 export const Custom: Story = {

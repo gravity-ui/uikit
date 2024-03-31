@@ -56,7 +56,7 @@ function renderActions({actions, onClose}: RenderActionsProps) {
                         className={b('action')}
                         onClick={onActionClick}
                         type="button"
-                        size={'l'}
+                        size="l"
                         view={view}
                         width="auto"
                     >
@@ -115,7 +115,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                 {hasTitle && <h3 className={b('title')}>{title}</h3>}
                 {isClosable && (
                     <Button
-                        size={'s'}
+                        size="s"
                         view="flat"
                         className={b('btn-close')}
                         onClick={onClose}

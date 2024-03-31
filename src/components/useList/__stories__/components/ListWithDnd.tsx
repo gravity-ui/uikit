@@ -25,9 +25,10 @@ import {reorderArray} from '../utils/reorderArray';
 export interface ListWithDndProps {
     itemsCount: number;
     size: ListItemSize;
+    'aria-label'?: string;
 }
 
-export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
+export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWithDndProps) => {
     const containerRef = React.useRef(null);
 
     const [items, setItems] = React.useState(
@@ -88,7 +89,10 @@ export const ListWithDnd = ({size, itemsCount}: ListWithDndProps) => {
                 <Droppable droppableId="droppable">
                     {(droppableProvided: DroppableProvided) => (
                         <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
-                            <ListContainerView ref={containerRef}>
+                            <ListContainerView
+                                ref={containerRef}
+                                extraProps={{'aria-label': ariaLabel}}
+                            >
                                 {list.visibleFlattenIds.map((id, index) => {
                                     const {props} = getItemRenderState({
                                         id,

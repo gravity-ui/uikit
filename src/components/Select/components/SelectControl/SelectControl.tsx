@@ -3,6 +3,7 @@ import React from 'react';
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 import isEmpty from 'lodash/isEmpty';
 
+import {useUniqId} from '../../../../hooks';
 import {Icon} from '../../../Icon';
 import {Popover} from '../../../Popover';
 import type {CnMods} from '../../../utils/cn';
@@ -40,6 +41,7 @@ type ControlProps = {
     clearValue: () => void;
     hasClear?: boolean;
     hasCounter?: boolean;
+    title?: string;
 } & Omit<SelectRenderControlProps, 'onClick' | 'onClear' | 'renderCounter'>;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
@@ -68,10 +70,12 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         activeIndex,
         renderCounter,
         hasCounter,
+        title,
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
     const hasValue = Array.isArray(value) && !isEmpty(value.filter(Boolean));
+    const errorTooltipId = useUniqId();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
@@ -174,6 +178,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     onKeyDown={onKeyDown}
                     type="button"
                     data-qa={qa}
+                    title={title}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (
@@ -189,14 +194,14 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 {renderClearIcon({})}
 
                 {errorMessage && (
-                    <Popover content={errorMessage}>
-                        <span aria-label={i18n('label_show-error-info')}>
-                            <Icon
-                                data={TriangleExclamation}
-                                className={selectControlBlock('error-icon')}
-                                size={size === 's' ? 12 : 16}
-                            />
-                        </span>
+                    <Popover content={errorMessage} tooltipId={errorTooltipId}>
+                        <button
+                            aria-label={i18n('label_show-error-info')}
+                            aria-describedby={errorTooltipId}
+                            className={selectControlBlock('error-icon')}
+                        >
+                            <Icon data={TriangleExclamation} size={size === 's' ? 12 : 16} />
+                        </button>
                     </Popover>
                 )}
 

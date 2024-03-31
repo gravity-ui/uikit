@@ -15,7 +15,7 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         const captureScreenshot = async (theme: string) => {
             const root = page.locator('#root');
 
-            await root.evaluate((el, newTheme) => {
+            await root.evaluate((el: HTMLElement | SVGElement, newTheme: string) => {
                 el.setAttribute('class', `g-root g-root_theme_${newTheme}`);
             }, theme);
 

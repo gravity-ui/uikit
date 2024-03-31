@@ -53,11 +53,9 @@ export type SelectRenderPopup = (popupItems: {
 export type SelectSize = InputControlSize;
 
 export type SelectRenderCounter = (
-    size: SelectSize,
-    count: number,
-    disabled: boolean,
-    originalComponent: React.ReactNode,
-) => React.ReactNode;
+    originalComponent: React.ReactElement<SelectCounterProps>,
+    counterProps: SelectCounterProps,
+) => React.ReactElement;
 
 export type SelectProps<T = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
@@ -166,8 +164,6 @@ export type SelectCounterProps = {
     size: SelectSize;
     /** disabled state of the parent element*/
     disabled?: boolean;
-    /** additional classname for component */
-    className?: string;
 };
 
 export type SelectOptions<T = any> = NonNullable<SelectProps<T>['options']>;

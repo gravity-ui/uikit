@@ -111,6 +111,9 @@
 
 ## [6.1.0](https://github.com/gravity-ui/uikit/compare/v6.0.0...v6.1.0) (2024-02-21)
 
+### ⚠ BREAKING CHANGES
+
+* **Table** properties `required` and `selected` from `TableColumnSetupItem` are renamed to `isRequired` and `isSelected` respectivelly ([#1248](https://github.com/gravity-ui/uikit/issues/1248)) ([422a7dc](https://github.com/gravity-ui/uikit/commit/422a7dcaacbf2bf30728dd08c0866aff13eebe2d))
 
 ### Features
 
@@ -129,6 +132,9 @@
 * **TreeSelect:** fix render container method ([#1344](https://github.com/gravity-ui/uikit/issues/1344)) ([1ab9d59](https://github.com/gravity-ui/uikit/commit/1ab9d591c271d4a9c922b3b1aecbb734338e1f98))
 * **TreeSelect:** fixed dnd examples with selected values ([#1329](https://github.com/gravity-ui/uikit/issues/1329)) ([14d6ceb](https://github.com/gravity-ui/uikit/commit/14d6cebe875fef88c9066dbf5aa186aeb615d5f2))
 * **TreeSelect:** remove default popup width ([#1350](https://github.com/gravity-ui/uikit/issues/1350)) ([84044f0](https://github.com/gravity-ui/uikit/commit/84044f0f41e9caae4812563ab690e13067d82aad))
+
+### Refactor
+* **Table** move withTableSettings to TreeSelect ([#1248](https://github.com/gravity-ui/uikit/issues/1248)) ([422a7dc](https://github.com/gravity-ui/uikit/commit/422a7dcaacbf2bf30728dd08c0866aff13eebe2d))
 
 ## [6.0.0](https://github.com/gravity-ui/uikit/compare/v5.30.1...v6.0.0) (2024-02-06)
 

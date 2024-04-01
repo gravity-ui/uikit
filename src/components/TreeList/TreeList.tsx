@@ -142,5 +142,6 @@ export const TreeList = <T,>({
         activeItemId,
         selectedById,
         renderItem,
+        getId,
     });
 };

@@ -150,7 +150,7 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 activeItemId={activeItemId}
                 setActiveItemId={setActiveItemId}
                 // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
-                getId={({id}) => id}
+                getItemId={({id}) => id}
                 mapItemDataToProps={({someRandomKey}) => ({
                     title: someRandomKey,
                 })}

@@ -148,7 +148,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
             {...listState}
             mapItemDataToProps={({someRandomKey}) => ({title: someRandomKey})}
             // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
-            getId={({id}) => id}
+            getItemId={({id}) => id}
             onItemClick={({id, disabled, context: {groupState}}) => {
                 if (!groupState && !disabled) {
                     listState.setSelected((prevState) => ({

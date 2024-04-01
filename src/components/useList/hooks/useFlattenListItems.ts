@@ -7,7 +7,7 @@ import {flattenItems} from '../utils/flattenItems';
 interface UseFlattenListItemsProps<T> {
     items: ListItemType<T>[];
     expandedById?: Record<ListItemId, boolean>;
-    getId?(item: T): ListItemId;
+    getItemId?(item: T): ListItemId;
 }
 
 /**
@@ -15,10 +15,14 @@ interface UseFlattenListItemsProps<T> {
  * Returns flatten ids list tree structure representation.
  * Not included items if they in `expandedById` map
  */
-export function useFlattenListItems<T>({items, expandedById, getId}: UseFlattenListItemsProps<T>) {
+export function useFlattenListItems<T>({
+    items,
+    expandedById,
+    getItemId,
+}: UseFlattenListItemsProps<T>) {
     const order = React.useMemo(() => {
-        return flattenItems(items, expandedById, getId);
-    }, [items, expandedById, getId]);
+        return flattenItems(items, expandedById, getItemId);
+    }, [items, expandedById, getItemId]);
 
     return order;
 }

@@ -16,7 +16,7 @@ export interface ListRecursiveRendererProps<T> extends Partial<Pick<ListState, '
     index: number;
     parentId?: string;
     className?: string;
-    getId?(item: T): ListItemId;
+    getItemId?(item: T): ListItemId;
     style?: React.CSSProperties;
     idToFlattenIndex: Record<ListItemId, number>;
 }
@@ -29,7 +29,7 @@ export function ListItemRecursiveRenderer<T>({
     ...props
 }: ListRecursiveRendererProps<T>) {
     const groupedId = getGroupItemId(index, parentId);
-    const id = getListItemId({item: itemSchema, groupedId, getId: props.getId});
+    const id = getListItemId({item: itemSchema, groupedId, getItemId: props.getItemId});
 
     const node = props.children(id, props.idToFlattenIndex[id]);
 

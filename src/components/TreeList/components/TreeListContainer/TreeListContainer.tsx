@@ -13,7 +13,8 @@ export const TreeListContainer = <T,>({
     renderItem,
     className,
     idToFlattenIndex,
-}: TreeListRenderContainerProps<T> & {className?: string}) => {
+    getItemId,
+}: TreeListRenderContainerProps<T>) => {
     return (
         <ListContainerView ref={containerRef} className={className} id={id} qa={qa}>
             {items.map((itemSchema, index) => (
@@ -23,6 +24,7 @@ export const TreeListContainer = <T,>({
                     itemSchema={itemSchema}
                     index={index}
                     expandedById={expandedById}
+                    getItemId={getItemId}
                 >
                     {renderItem}
                 </ListItemRecursiveRenderer>

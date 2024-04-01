@@ -160,6 +160,11 @@ LANDING_BLOCK-->
 
 The `items` property on an individual menu item adds nested subitems to this menu item.
 
+Menu items with submenus obtain the following additional class names to allow for extra styling:
+
+- the class name `.g-dropdown-menu__menu-item_with-submenu` is added to items with more than 1 nested item;
+- the class name `.g-dropdown-menu__menu-item_active-parent` is added to an item whose submenu is currently open.
+
 <!--LANDING_BLOCK
 
 <ExampleBlock

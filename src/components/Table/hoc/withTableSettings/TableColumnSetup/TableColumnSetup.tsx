@@ -159,7 +159,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
-                active={snapshot.isDragging}
+                dragging={snapshot.isDragging}
             />
         );
 

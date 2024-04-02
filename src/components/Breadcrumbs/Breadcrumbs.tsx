@@ -221,9 +221,10 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
 
     private recalculate() {
         const {items: allItems, lastDisplayedItemsCount, firstDisplayedItemsCount} = this.props;
-        const availableWidth = this.container.current?.offsetWidth || 0;
+        let availableWidth = this.container.current?.offsetWidth || 0;
 
         if (this.container.current && availableWidth > 0) {
+            availableWidth += GAP_WIDTH;
             const dividers: HTMLElement[] = Array.from(
                 this.container.current.querySelectorAll(`.${b('divider')}`),
             );

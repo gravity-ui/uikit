@@ -69,7 +69,7 @@ const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
     return selectedIds;
 };
 
-interface RenderContextProps {
+interface RenderContainerProps {
     provided: DraggableProvided;
     snapshot: DraggableStateSnapshot;
 }
@@ -105,11 +105,15 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
                         <Droppable
                             droppableId={uniqId}
                             renderClone={(provided, snapshot, rubric) => {
-                                const renderContextProps: RenderContextProps = {provided, snapshot};
+                                const renderContainerProps: RenderContainerProps = {
+                                    provided,
+                                    snapshot,
+                                };
+
                                 return renderItem(
                                     visibleFlattenIds[rubric.source.index],
                                     rubric.source.index,
-                                    renderContextProps,
+                                    renderContainerProps,
                                 );
                             }}
                         >
@@ -136,11 +140,11 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 };
 
 const useDndRenderItem = (sortable: boolean | undefined) => {
-    const renderDndItem: TreeSelectRenderItem<Item, RenderContextProps> = ({
+    const renderDndItem: TreeSelectRenderItem<Item, RenderContainerProps> = ({
         data,
         props,
         index,
-        renderContext: renderContextProps,
+        renderContainerProps,
     }) => {
         const isDragDisabled = sortable === false;
 
@@ -163,8 +167,8 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
             />
         );
 
-        if (renderContextProps) {
-            return renderItem(renderContextProps.provided, renderContextProps.snapshot);
+        if (renderContainerProps) {
+            return renderItem(renderContainerProps.provided, renderContainerProps.snapshot);
         }
 
         return (

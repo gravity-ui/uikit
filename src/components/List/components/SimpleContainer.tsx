@@ -15,8 +15,6 @@ type RefsList = Record<number, React.RefObject<ListItem>>;
 
 export type SimpleContainerState = {
     refsList: RefsList;
-    minWidth?: number;
-    minHeight?: number;
 };
 
 function getRefs(count: number) {
@@ -50,24 +48,12 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
         };
     }
 
-    componentDidMount() {
-        if (this.node && this.props.sortable) {
-            const {width, height} = this.node.getBoundingClientRect();
-            this.setState({minWidth: width, minHeight: height});
-        }
-    }
-
     render() {
-        const {minWidth, minHeight} = this.state;
         const children = React.Children.map(this.props.children, (child, index) =>
             React.cloneElement(child as React.ReactElement, {ref: this.state.refsList[index]}),
         );
 
-        return (
-            <div ref={this.setRef} style={{minWidth, minHeight}}>
-                {children}
-            </div>
-        );
+        return <div ref={this.setRef}>{children}</div>;
     }
 
     scrollToItem(index: number) {

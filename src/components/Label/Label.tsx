@@ -2,7 +2,6 @@ import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
-import {useActionHandlers} from '../../hooks';
 import {Button} from '../Button';
 import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
@@ -32,7 +31,7 @@ const commonActionButtonProps: ButtonProps = {
     }),
 };
 
-interface LabelOwnProps extends QAProps {
+export interface LabelProps extends QAProps {
     /** Label icon (at left) */
     icon?: React.ReactNode;
     /** Disabled state */
@@ -48,7 +47,7 @@ interface LabelOwnProps extends QAProps {
     /** Handler for copy event */
     onCopy?(text: string, result: boolean): void;
     /** Handler for click on label itself */
-    onClick?(event: React.MouseEvent<HTMLDivElement>): void;
+    onClick?(event: React.MouseEvent<HTMLElement>): void;
     /** Class name */
     className?: string;
     /** Content */
@@ -57,20 +56,18 @@ interface LabelOwnProps extends QAProps {
     interactive?: boolean;
     /** Label value (shows as "children : value") */
     value?: string;
-}
-
-interface LabelDefaultProps {
     /** Label color */
-    theme: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'utility' | 'unknown' | 'clear';
+    theme?: 'normal' | 'info' | 'danger' | 'warning' | 'success' | 'utility' | 'unknown' | 'clear';
     /** Label type (plain, with copy text button or with close button) */
-    type: 'default' | 'copy' | 'close';
+    type?: 'default' | 'copy' | 'close';
     /** Label size */
-    size: 'xs' | 's' | 'm';
+    size?: 'xs' | 's' | 'm';
 }
 
-export interface LabelProps extends LabelOwnProps, Partial<LabelDefaultProps> {}
-
-export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label(props, ref) {
+export const Label = React.forwardRef(function Label(
+    props: LabelProps,
+    ref: React.Ref<HTMLDivElement>,
+) {
     const {
         type = 'default',
         theme = 'normal',
@@ -89,15 +86,12 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         onClick,
         qa,
     } = props;
-
-    const actionButtonRef = React.useRef<HTMLButtonElement>(null);
-
     const hasContent = Boolean(children !== '' && React.Children.count(children) > 0);
 
     const typeClose = type === 'close' && hasContent;
     const typeCopy = type === 'copy' && hasContent;
 
-    const hasOnClick = Boolean(onClick);
+    const hasOnClick = typeof onClick === 'function';
     const hasCopy = Boolean(typeCopy && copyText);
     const isInteractive = (hasOnClick || hasCopy || interactive) && !disabled;
     const {copyIconSize, closeIconSize, buttonSize} = sizeMap[size];
@@ -117,38 +111,16 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         </div>
     );
 
-    const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (hasOnClick) {
-            /* preventing event from bubbling */
-            event.stopPropagation();
-        }
-
-        if (onCloseClick) {
-            onCloseClick(event);
-        }
-    };
-
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        /**
-         * Triggered only if the handler was triggered on the element itself, and not on the actionButton
-         * It is necessary that keyboard navigation works correctly
-         */
-        if (!actionButtonRef.current?.contains(event.target as Node)) {
-            onClick?.(event);
-        }
-    };
-
-    const {onKeyDown} = useActionHandlers(handleClick);
-
     const renderLabel = (status?: CopyToClipboardStatus) => {
         let actionButton: React.ReactNode;
 
         if (typeCopy) {
             actionButton = (
                 <Button
-                    ref={actionButtonRef}
                     size={buttonSize}
                     extraProps={{'aria-label': copyButtonLabel || undefined}}
+                    onClick={hasOnClick ? onClick : undefined}
+                    disabled={disabled}
                     {...commonActionButtonProps}
                 >
                     <Button.Icon>
@@ -159,10 +131,10 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         } else if (typeClose) {
             actionButton = (
                 <Button
-                    ref={actionButtonRef}
-                    onClick={onCloseClick ? handleCloseClick : undefined}
+                    onClick={onCloseClick}
                     size={buttonSize}
                     extraProps={{'aria-label': closeButtonLabel || undefined}}
+                    disabled={disabled}
                     {...commonActionButtonProps}
                 >
                     <Icon size={closeIconSize} data={Xmark} />
@@ -173,10 +145,6 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
         return (
             <div
                 ref={ref}
-                role={hasOnClick ? 'button' : undefined}
-                tabIndex={hasOnClick ? 0 : undefined}
-                onClick={hasOnClick ? handleClick : undefined}
-                onKeyDown={hasOnClick ? onKeyDown : undefined}
                 className={b(
                     {
                         theme,
@@ -192,7 +160,18 @@ export const Label = React.forwardRef<HTMLDivElement, LabelProps>(function Label
                 data-qa={qa}
             >
                 {leftIcon}
-                {content}
+                {hasOnClick ? (
+                    <button
+                        disabled={disabled}
+                        type="button"
+                        onClick={onClick}
+                        className={b('action-button')}
+                    >
+                        {content}
+                    </button>
+                ) : (
+                    content
+                )}
                 {actionButton}
             </div>
         );

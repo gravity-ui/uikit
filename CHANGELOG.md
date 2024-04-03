@@ -1,5 +1,25 @@
 # Changelog
 
+## [6.9.0](https://github.com/gravity-ui/uikit/compare/v6.8.0...v6.9.0) (2024-04-03)
+
+
+### Features
+
+* **DropdownMenu:** add class name for submenu parents ([#1465](https://github.com/gravity-ui/uikit/issues/1465)) ([a314081](https://github.com/gravity-ui/uikit/commit/a3140811d9c80fb1e61e315c838f4209d7a23459))
+* **useList:** update codeowners ([#1473](https://github.com/gravity-ui/uikit/issues/1473)) ([d8b71e9](https://github.com/gravity-ui/uikit/commit/d8b71e937d113d6a291849e9515b922083702f18))
+
+
+### Bug Fixes
+
+* **Breadcrumbs:** fix recalculate method ([#1475](https://github.com/gravity-ui/uikit/issues/1475)) ([2f8acf7](https://github.com/gravity-ui/uikit/commit/2f8acf7f8278d704a6cbb5351ef73dd4774c1d5d))
+* **List:** fix `onSortEnd` method ([#1476](https://github.com/gravity-ui/uikit/issues/1476)) ([1567248](https://github.com/gravity-ui/uikit/commit/156724825d12c4e3c185fa766c74c212838ead8c))
+* **TextInput:** fix control line height ([#1477](https://github.com/gravity-ui/uikit/issues/1477)) ([e5438ed](https://github.com/gravity-ui/uikit/commit/e5438ed8fb9b8ae9e9497b8448a67512e9e0983c))
+* **TreeList:** add getId prop drilling to list container ([#1469](https://github.com/gravity-ui/uikit/issues/1469)) ([484cac7](https://github.com/gravity-ui/uikit/commit/484cac79bfa6f408d833cfdd33c20dac33bf66ac))
+* **TreeList:** fixes + documentation ([#1447](https://github.com/gravity-ui/uikit/issues/1447)) ([46b2850](https://github.com/gravity-ui/uikit/commit/46b2850731b1699c517c2787a6b370a219323e52))
+* **useList:** add export of computeItemSize to useList ([#1472](https://github.com/gravity-ui/uikit/issues/1472)) ([c6c8ed4](https://github.com/gravity-ui/uikit/commit/c6c8ed428053e7f18634d827990ef97dabf5700f))
+* **useList:** added dragging property to ListItemView docs ([#1470](https://github.com/gravity-ui/uikit/issues/1470)) ([750e5ba](https://github.com/gravity-ui/uikit/commit/750e5ba829fbfea798412f3192406b400007bdfc))
+* **useList:** added missing imports to docs ([#1466](https://github.com/gravity-ui/uikit/issues/1466)) ([4940a9a](https://github.com/gravity-ui/uikit/commit/4940a9adc0fb036aa2b39b0c67283ac75443be53))
+
 ## [6.8.0](https://github.com/gravity-ui/uikit/compare/v6.7.0...v6.8.0) (2024-03-29)
 
 

@@ -288,11 +288,11 @@ $block: '.#{variables.$ns}button';
         }
 
         &_side_start {
-            order: 0;
+            order: -1;
         }
 
         &_side_end {
-            order: 2;
+            order: 1;
         }
     }
 

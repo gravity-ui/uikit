@@ -70,9 +70,15 @@ $hover-opacity: 0.7;
     &__action-button {
         @include mixins.button-reset();
         border-radius: inherit;
+        z-index: 1;
 
         &:focus-visible {
             outline: 2px solid var(--g-color-line-focus);
+        }
+
+        &:empty {
+            position: absolute;
+            inset: 0;
         }
     }
 
@@ -94,6 +100,7 @@ $hover-opacity: 0.7;
 
         &_side_right {
             inset-inline-end: 0;
+            z-index: 2;
         }
 
         &_interactive {

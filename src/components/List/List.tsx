@@ -367,7 +367,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                 ref={this.refContainer}
                                 itemCount={items.length}
                                 provided={droppableProvided}
-                                sortable={sortable}
                             >
                                 {items.map((_item, index) => {
                                     return (

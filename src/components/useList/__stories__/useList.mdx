@@ -380,6 +380,32 @@ const {
 } = useListState();
 ```
 
+#### props:
+
+```tsx
+interface UseListStateProps {
+    /**
+     * Initial state values
+     */
+    initialValues?: Partial<ListState>;
+    /**
+     * Ability to pass link to another state value
+     */
+    controlledValues?: Partial<ListState>;
+}
+```
+
+##### controlledValues example:
+
+```tsx
+const listState = useListState();
+
+// inside your component
+const innerListState = useListState({
+    controlledValues: listState,
+});
+```
+
 ## Components:
 
 ### ListItemView
@@ -389,33 +415,33 @@ Use it even if the functionality of the `useList` hook seems redundant to you
 
 ```tsx
 import {
-    type unstable_ListItemType as ListItemType,
-    unstable_ListItemView as ListItemView,
+   type unstable_ListItemType as ListItemType,
+   unstable_ListItemView as ListItemView,
 } from '@gravity-ui/uikit/unstable';
 
 type Entity = {title: stirng, subtitle: string, icon: React.ReactNode};
 
 const items: ListItemType<Entity>[] = [
-    {title: 'some title 1', subtitle: 'some subtitle 1', icon: <Icon data={Grip} size={16} />},
-    {title: 'some title 2', subtitle: 'some subtitle 2', icon: <Icon data={Grip} size={16} />},
+   {title: 'some title 1', subtitle: 'some subtitle 1', icon: <Icon data={Grip} size={16} />},
+   {title: 'some title 2', subtitle: 'some subtitle 2', icon: <Icon data={Grip} size={16} />},
 ];
 
 const List = () => {
-    return (
-        <>
-            {items.map(item, i) => {
-                return (
-                    <ListItemView
-                        key={i}
-                        id={String(i)}
-                        title={item.title}
-                        subtitle={item.subtitle}
-                        endSlot={item.icon}
-                    />
-                )
-            }}
-        </>
-    )
+   return (
+       <>
+           {items.map(item, i) => {
+               return (
+                   <ListItemView
+                       key={i}
+                       id={String(i)}
+                       title={item.title}
+                       subtitle={item.subtitle}
+                       endSlot={item.icon}
+                   />
+               )
+           }}
+       </>
+   )
 };
 ```
 

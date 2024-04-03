@@ -8,7 +8,6 @@ import type {ListItem} from './ListItem';
 export type SimpleContainerProps = React.PropsWithChildren<{
     itemCount: number;
     provided?: DroppableProvided;
-    sortable?: boolean;
 }>;
 
 type RefsList = Record<number, React.RefObject<ListItem>>;

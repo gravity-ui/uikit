@@ -22,7 +22,7 @@ import type {
 import type {ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
-import type {TableColumnSetupItem, TableSetting} from '../withTableSettings';
+import type {TableSetting} from '../withTableSettings';
 
 import i18n from './i18n';
 
@@ -184,6 +184,11 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
     };
 
     return renderDndItem;
+};
+
+export type TableColumnSetupItem = TableSetting & {
+    title: React.ReactNode;
+    isRequired?: boolean;
 };
 
 type Item = TableColumnSetupItem &

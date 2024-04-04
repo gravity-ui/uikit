@@ -20,6 +20,5 @@ export {withTableSettings} from './withTableSettings/withTableSettings';
 export type {
     WithTableSettingsProps,
     TableSettingsData,
-    TableColumnSetupItem,
 } from './withTableSettings/withTableSettings';
 export * from './withTableSettings/TableColumnSetup/TableColumnSetup';

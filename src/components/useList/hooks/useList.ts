@@ -15,7 +15,7 @@ export interface UseListProps<T> extends Partial<ListState> {
     /**
      * Control expanded items state from external source
      */
-    getId?(item: T): ListItemId;
+    getItemId?(item: T): ListItemId;
 }
 
 export type UseListResult<T> = ListParsedState<T> & {initialState: InitialListParsedState};
@@ -23,10 +23,10 @@ export type UseListResult<T> = ListParsedState<T> & {initialState: InitialListPa
 /**
  * Take array of items as a argument and returns parsed representation of this data structure to work with
  */
-export const useList = <T>({items, expandedById, getId}: UseListProps<T>): UseListResult<T> => {
+export const useList = <T>({items, expandedById, getItemId}: UseListProps<T>): UseListResult<T> => {
     const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
         items,
-        getId,
+        getItemId,
     });
 
     const {visibleFlattenIds, idToFlattenIndex} = useFlattenListItems({
@@ -35,7 +35,7 @@ export const useList = <T>({items, expandedById, getId}: UseListProps<T>): UseLi
          * By default controlled from list items declaration state
          */
         expandedById: expandedById || initialState.expandedById,
-        getId,
+        getItemId,
     });
 
     return {

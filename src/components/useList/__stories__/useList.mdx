@@ -219,7 +219,7 @@ The main hook for creating a stateless version of the sheet.
     ```
 
 -   `expandedById` - state for open/closed `List` elements. Affects the formation of the `visibleFlattenIds` - if the element id in this object is set to `false` - all elements of this group and all nested groups will not be present in the final ids order;
--   `getId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
+-   `getItemId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
 
 ```tsx
 const items = [
@@ -235,7 +235,7 @@ const items = [
  */
 const {byid} = useList({
     items,
-    getId: ({id}) => id,
+    getItemId: ({id}) => id,
 })
 ```
 
@@ -268,7 +268,7 @@ const {byid} = useList({
         };
         ```
 
-    The default IDs are formed according to the principle `<ordinal index>-<ordinal index of the nested list>`. To make a custom `id`, you need to use it either when forming an array of `items` or through the`getId` function.
+    The default IDs are formed according to the principle `<ordinal index>-<ordinal index of the nested list>`. To make a custom `id`, you need to use it either when forming an array of `items` or through the`getItemId` function.
 
 -   `groupsState` - a normalized representation of metadata about a group if the item is both a list item and a group:
     -   `childrenIds` - list of child element IDs;
@@ -440,6 +440,7 @@ const List = () => {
 -   `corners` - Prop to remove default border radiuses from element;
 -   `className` - custom class name to mix with;
 -   `expanded` - adds a visual representation of a group element if the value is different from `undefined`;
+-   `dragging` - manage view of dragging element. Required for graggable list implementation
 
 ### ListContainerView
 
@@ -473,7 +474,7 @@ For the virtualized version of the list, you need to implement a component with 
 -   `index` - the ordinal index of the first level of the sheet elements;
 -   `expandedById` - state for hidden group elements, if the functionality of hiding/opening groups is supported
 -   `className` - custom class name to mix with;
--   `getId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
+-   `getItemId` - the property is optional. Allows you to generate an id for a list item depending on the list data:
 -   `style` - optional react `React.CSSProperties` object;
 
 ```tsx

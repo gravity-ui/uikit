@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {ComponentMeta, ComponentStory} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {List, listDefaultProps} from '..';
 import type {ListProps} from '..';
@@ -48,18 +48,18 @@ export default {
             },
         },
     },
-} as ComponentMeta<ComponentType>;
+} as Meta<ComponentType>;
 
 const items = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
 
-const DefaultTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
+const DefaultTemplate: StoryFn<ComponentType> = (args) => <List {...args} />;
 export const Default = DefaultTemplate.bind({});
 Default.args = {
     items,
     itemsHeight: 150,
 };
 
-const SortableTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
+const SortableTemplate: StoryFn<ComponentType> = (args) => <List {...args} />;
 export const Sortable = SortableTemplate.bind({});
 Sortable.args = {
     items,
@@ -72,14 +72,14 @@ Sortable.parameters = {
     disableStrictMode: true,
 };
 
-const RenderItemTemplate: ComponentStory<ComponentType> = (args) => <List {...args} />;
+const RenderItemTemplate: StoryFn<ComponentType> = (args) => <List {...args} />;
 export const RenderItem = RenderItemTemplate.bind({});
 RenderItem.args = {
     items,
     renderItem: (item) => `🔥🔥🔥 ${item} 🔥🔥🔥`,
 };
 
-const TemplateWithState: ComponentStory<ComponentType> = (args) => <ListWithLoader {...args} />;
+const TemplateWithState: StoryFn<ComponentType> = (args) => <ListWithLoader {...args} />;
 
 export const WithLoadingMoreItems = TemplateWithState.bind({});
 WithLoadingMoreItems.args = {
@@ -90,7 +90,7 @@ WithLoadingMoreItems.args = {
     virtualized: false,
 };
 
-const ShowcaseTemplate: ComponentStory<ComponentType> = () => <ListShowcase />;
+const ShowcaseTemplate: StoryFn<ComponentType> = () => <ListShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
 Showcase.parameters = {
     // Strict mode ruins sortable list due to this react-beautiful-dnd issue

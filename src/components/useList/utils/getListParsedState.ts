@@ -20,7 +20,7 @@ interface TraverseTreeItemProps<T> {
      * For example T is entity type with id what represents db id
      * So now you can use it id as a list item id in internal state
      */
-    getId?(item: T): ListItemId;
+    getItemId?(item: T): ListItemId;
     item: ListTreeItemType<T>;
     index: number;
     parentId?: ListItemId;
@@ -37,7 +37,7 @@ export function getListParsedState<T>(
      * For example T is entity type with id what represents db id
      * So now you can use it id as a list item id in internal state
      */
-    getId?: (item: T) => ListItemId,
+    getItemId?: (item: T) => ListItemId,
 ): ListParsedStateResult<T> {
     if (process.env.NODE_ENV !== 'production') {
         console.time('getListParsedState');
@@ -55,7 +55,7 @@ export function getListParsedState<T>(
     };
 
     const traverseItem = ({item, index}: TraverseItemProps<T>) => {
-        const id = getListItemId({groupedId: String(index), item, getId});
+        const id = getListItemId({groupedId: String(index), item, getItemId});
 
         result.itemsById[id] = item;
 
@@ -83,7 +83,7 @@ export function getListParsedState<T>(
         parentId,
     }: TraverseTreeItemProps<T>) => {
         const groupedId = getGroupItemId(index, parentGroupedId);
-        const id = getListItemId({groupedId, item, getId});
+        const id = getListItemId({groupedId, item, getItemId});
 
         if (parentId) {
             result.groupsState[parentId].childrenIds.push(id);

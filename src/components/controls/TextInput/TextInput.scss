@@ -7,81 +7,32 @@
     @if $size == 's' {
         @include mixins.text-body-short;
 
-        line-height: calc(
-            #{variables.$s-height} - var(
-                    --g-text-input-border-width,
-                    #{control-variables.$border-width}
-                ) *
-                2
-        );
-        padding-block: 0;
+        padding-block: 3px;
         padding-inline: 8px 4px;
     }
 
     @if $size == 'm' {
         @include mixins.text-body-short;
 
-        line-height: calc(
-            #{variables.$m-height} - var(
-                    --g-text-input-border-width,
-                    #{control-variables.$border-width}
-                ) *
-                2
-        );
-        padding-block: 0;
+        padding-block: 5px;
         padding-inline: 8px 4px;
     }
 
     @if $size == 'l' {
         @include mixins.text-body-short;
 
-        line-height: calc(
-            #{variables.$l-height} - var(
-                    --g-text-input-border-width,
-                    #{control-variables.$border-width}
-                ) *
-                2
-        );
-        padding-block: 0;
+        padding-block: 9px;
         padding-inline: 12px 4px;
     }
 
     @if $size == 'xl' {
         @include mixins.text-body-2;
 
-        line-height: calc(
-            #{variables.$xl-height} - var(
-                    --g-text-input-border-width,
-                    #{control-variables.$border-width}
-                ) *
-                2
-        );
-        padding-block: 0;
+        padding-block: 11px;
         padding-inline: 12px 4px;
     }
 
     @include mixins.text-accent;
-}
-// We use this mixin to correct the positioning of the text inside the input
-// See https://github.com/gravity-ui/uikit/issues/975
-
-@mixin input-control($size) {
-    @include control-mixins.input-control($size);
-    @if $size == 's' {
-        line-height: #{variables.$s-height - control-variables.$border-width * 2};
-    }
-
-    @if $size == 'm' {
-        line-height: #{variables.$m-height - control-variables.$border-width * 2};
-    }
-
-    @if $size == 'l' {
-        line-height: #{variables.$l-height - control-variables.$border-width * 2};
-    }
-
-    @if $size == 'xl' {
-        line-height: #{variables.$xl-height - control-variables.$border-width * 2};
-    }
 }
 
 $block: '.#{variables.$ns}text-input';
@@ -196,7 +147,7 @@ $block: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             #{$block}__control {
-                @include input-control(s);
+                @include control-mixins.input-control(s);
             }
 
             #{$block}__label {
@@ -227,7 +178,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_m {
             #{$block}__control {
-                @include input-control(m);
+                @include control-mixins.input-control(m);
             }
 
             #{$block}__label {
@@ -258,7 +209,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_l {
             #{$block}__control {
-                @include input-control(l);
+                @include control-mixins.input-control(l);
             }
 
             #{$block}__label {
@@ -289,7 +240,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_xl {
             #{$block}__control {
-                @include input-control(xl);
+                @include control-mixins.input-control(xl);
             }
 
             #{$block}__label {

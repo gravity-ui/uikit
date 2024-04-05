@@ -11,9 +11,8 @@ $block: '.#{variables.$ns}list-item-view';
     }
 
     &:hover#{$block}_activeOnHover,
-    &_active#{$block}_activeOnHover,
     &_active {
-        background: var(--g-color-base-simple-hover-solid);
+        background: var(--g-color-base-simple-hover);
     }
 
     &_clickable {
@@ -21,9 +20,15 @@ $block: '.#{variables.$ns}list-item-view';
     }
 
     &_selected,
-    &_selected:not(#{$block}_dragging)#{$block}_active, // if active and selected selected bgc more priority
+    &_selected#{$block}_active, // if active and selected selected bgc more priority
     &_selected:hover#{$block}_activeOnHover {
         background: var(--g-color-base-selection);
+    }
+
+    &_dragging,
+    &_dragging#{$block}_selected,
+    &_dragging#{$block}_active {
+        background: var(--g-color-base-simple-hover-solid);
     }
 
     &_radius_s {

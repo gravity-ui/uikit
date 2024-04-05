@@ -42,6 +42,7 @@ $block: '.#{variables.$ns}popover';
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
+            margin-block-start: 20px;
         }
 
         &-button {

@@ -21,4 +21,3 @@ export type {
     WithTableSettingsProps,
     TableSettingsData,
 } from './withTableSettings/withTableSettings';
-export * from './withTableSettings/TableColumnSetup/TableColumnSetup';

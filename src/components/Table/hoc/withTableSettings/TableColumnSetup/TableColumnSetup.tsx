@@ -32,11 +32,14 @@ function identity<T>(value: T): T {
     return value;
 }
 
-const b = block('table-column-setup');
-const tableColumnSetupCn = b(null);
+const b = block('inner-table-column-setup');
 const controlsCn = b('controls');
 
-const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
+const reorderArray = <T extends TableColumnSetupItem>(
+    list: T[],
+    startIndex: number,
+    endIndex: number,
+): T[] => {
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -46,7 +49,7 @@ const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex
 
 const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
     return tableColumnItems.map<Item>((tableColumnItem) => {
-        const hasSelectionIcon = tableColumnItem.isRequired === false;
+        const hasSelectionIcon = !tableColumnItem.isRequired;
 
         return {
             ...tableColumnItem,
@@ -219,6 +222,8 @@ export interface TableColumnSetupProps {
      * @deprecated
      */
     renderControls?: RenderControls;
+
+    className?: string;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -230,6 +235,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         onUpdate: propsOnUpdate,
         sortable,
         renderControls,
+        className,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -307,7 +313,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     return (
         <TreeSelect
-            className={tableColumnSetupCn}
+            className={b(null, className)}
             mapItemDataToProps={identity}
             multiple
             size="l"

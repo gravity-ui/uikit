@@ -123,7 +123,7 @@ describe('getListParsedState', () => {
         });
     });
 
-    test('get expected result with getId function passed', () => {
+    test('get expected result with getItemId function passed', () => {
         const data: ListItemType<{title: string; id: string}>[] = [
             {
                 data: {title: 'item-0', id: 'id-1'},

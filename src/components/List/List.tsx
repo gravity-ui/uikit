@@ -367,7 +367,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                 ref={this.refContainer}
                                 itemCount={items.length}
                                 provided={droppableProvided}
-                                sortable={sortable}
                             >
                                 {items.map((_item, index) => {
                                     return (
@@ -598,10 +597,12 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private onSortEnd = (result: DropResult) => {
         if (!result.destination) {
+            this.setState({sorting: false});
             return;
         }
 
         if (result.source.index === result.destination.index) {
+            this.setState({sorting: false});
             return;
         }
 

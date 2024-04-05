@@ -87,7 +87,7 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
     /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
-    getId?(item: T): ListItemId;
+    getItemId?(item: T): ListItemId;
     /**
      * Ability to override custom toggler btn
      */

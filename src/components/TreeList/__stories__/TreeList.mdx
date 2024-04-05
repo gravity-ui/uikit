@@ -19,7 +19,7 @@ The basic component for working with lists, including tree-like ones. Under the 
 -   [multiple](#multiple);
 -   [size](#size-available-options);
 -   [defaultGroupsExpanded](#defaultgroupsexpanded);
--   [getId](#getid);
+-   [getItemId](#getItemId);
 -   [renderItem](#renderitem);
 -   [renderContainer](#rendercontainer);
 -   [onItemClick](#onitemclick);
@@ -166,7 +166,7 @@ const Component = () => {
 };
 ```
 
-### getId
+### getItemId
 
 Generate an id for a list item depending on the list data. If it's necessary to have access to more custom management of the state of the list. The property is optional.
 
@@ -176,7 +176,7 @@ const items = [
     {data: {id: 'id-2', title: 'some title 2'}, children: [...]},
 ];
 
-<TreeList items={items} getId={({id})=> id}  />
+<TreeList items={items} getItemId={({id})=> id}  />
 ```
 
 ### qa

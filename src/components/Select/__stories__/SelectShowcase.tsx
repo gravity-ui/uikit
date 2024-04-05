@@ -435,25 +435,6 @@ export const SelectShowcase = (props: SelectProps) => {
                 <Select.Option value="val3" content="Value3" />
                 <Select.Option value="val4" content="Value4" />
             </ExampleItem>
-            <ExampleItem
-                title="Select with selected items count"
-                selectProps={{
-                    ...props,
-                    multiple: true,
-                    hasCounter: true,
-                }}
-            >
-                <Select.Option value="val1" content="Value1" />
-                <Select.Option value="val2" content="Value2" />
-                <Select.Option value="val3" content="Value3" />
-                <Select.Option value="val4" content="Value4" />
-                <Select.Option value="val5" content="Value5" />
-                <Select.Option value="val6" content="Value6" />
-                <Select.Option value="val7" content="Value7" />
-                <Select.Option value="val8" content="Value8" />
-                <Select.Option value="val9" content="Value9" />
-                <Select.Option value="val10" content="Value10" />
-            </ExampleItem>
         </div>
     );
 };

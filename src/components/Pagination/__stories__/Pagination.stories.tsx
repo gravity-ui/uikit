@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {Meta, Story} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
 import {Pagination} from '../../Pagination';
 import type {PaginationProps} from '../../Pagination';
@@ -23,7 +23,7 @@ export default {
     component: Pagination,
 } as Meta;
 
-const Template: Story<PaginationProps> = (args) => {
+const Template: StoryFn<PaginationProps> = (args) => {
     const state = useState(args);
     return <Pagination {...state} />;
 };
@@ -38,7 +38,7 @@ Default.args = {
     compact: false,
 };
 
-const TotalUnknownTemplate: Story<PaginationProps> = (args) => {
+const TotalUnknownTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState(args);
     return <Pagination {...state} />;
 };
@@ -52,7 +52,7 @@ TotalUnknown.args = {
     compact: false,
 };
 
-const CompactTemplate: Story<PaginationProps> = (args) => {
+const CompactTemplate: StoryFn<PaginationProps> = (args) => {
     const state = useState(args);
     return <Pagination {...state} />;
 };
@@ -66,7 +66,7 @@ Compact.args = {
     compact: true,
 };
 
-const HidePagesTemplate: Story<PaginationProps> = (args) => {
+const HidePagesTemplate: StoryFn<PaginationProps> = (args) => {
     const state1 = useState({
         ...args,
         page: 1,
@@ -98,7 +98,7 @@ const HidePagesTemplate: Story<PaginationProps> = (args) => {
 
 export const HidePages = HidePagesTemplate.bind({});
 
-const PagesSetTemplate: Story<PaginationProps> = (args) => {
+const PagesSetTemplate: StoryFn<PaginationProps> = (args) => {
     const state1 = useState({...args, page: 1, pageSize: 1, total: 1});
     const state2 = useState({...args, page: 1, pageSize: 1, total: 2});
     const state3 = useState({...args, page: 1, pageSize: 1, total: 3});

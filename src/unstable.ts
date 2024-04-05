@@ -14,6 +14,7 @@ export {
     scrollToListItem as unstable_scrollToListItem,
     getListItemQa as unstable_getListItemQa,
     getListParsedState as unstable_getListParsedState,
+    computeItemSize as unstable_computeItemSize,
 } from './components/useList';
 export {
     TreeSelect as unstable_TreeSelect,

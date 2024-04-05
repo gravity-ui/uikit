@@ -12,7 +12,7 @@ import {LabelShowcase} from './LabelShowcase';
 
 const iconSizeMap = {xs: 12, s: 14, m: 16} as const;
 
-export default {
+const meta: Meta<typeof Label> = {
     title: 'Components/Data Display/Label',
     component: Label,
     parameters: {
@@ -28,7 +28,9 @@ export default {
             },
         },
     },
-} as Meta;
+};
+
+export default meta;
 
 type Story = StoryObj<typeof Label>;
 

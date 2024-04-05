@@ -1,45 +1,25 @@
 import React from 'react';
 
 import {useArgs} from '@storybook/preview-api';
-import type {ComponentMeta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn} from '@storybook/react';
 
-import {Tabs} from '../Tabs';
+import {Tabs, TabsDirection} from '../Tabs';
 import type {TabsItemProps, TabsProps} from '../Tabs';
 
 import {getTabsMock} from './getTabsMock';
 import type {StoryParams} from './types';
 
-export default {
+const meta: Meta<typeof Tabs> = {
     title: 'Components/Navigation/Tabs',
     component: Tabs,
     args: {
-        direction: 'horizontal',
+        direction: TabsDirection.Horizontal,
         activeTab: 'active',
     },
     argTypes: {
         activeTab: {
             control: {type: 'select'},
             options: getTabsMock({})?.map(({id}) => id),
-        },
-        withIcon: {
-            name: 'Icons',
-            type: 'boolean',
-            default: false,
-        },
-        withCounter: {
-            name: 'Counters',
-            type: 'boolean',
-            default: false,
-        },
-        withLabel: {
-            name: 'Labels',
-            type: 'boolean',
-            default: false,
-        },
-        withOverflow: {
-            name: 'Overflow',
-            type: 'boolean',
-            default: false,
         },
     },
     parameters: {
@@ -65,7 +45,9 @@ export default {
             },
         },
     },
-} as ComponentMeta<typeof Tabs>;
+};
+
+export default meta;
 
 const Template: StoryFn<TabsProps & StoryParams> = ({
     withIcon,

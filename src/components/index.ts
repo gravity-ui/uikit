@@ -42,6 +42,7 @@ export * from './Slider';
 export * from './Spin';
 export * from './Switch';
 export * from './Table';
+export * from './TableColumnSetup';
 export * from './Tabs';
 export * from './Text';
 export * from './Toaster';

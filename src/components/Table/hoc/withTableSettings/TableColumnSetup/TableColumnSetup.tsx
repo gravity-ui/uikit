@@ -20,7 +20,7 @@ import type {
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
-import type {ListItemType, ListItemViewProps} from '../../../../useList';
+import type {ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnConfig} from '../../../Table';
@@ -66,11 +66,11 @@ const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
     });
 };
 
-const prepareStikyState = (items: ListItemType<Item>[], visibleFlattenIds: string[]) => {
+const prepareStikyState = (itemsById: Record<string, Item>, visibleFlattenIds: string[]) => {
     let lastStickyLeftIdx = 0;
     for (; lastStickyLeftIdx !== visibleFlattenIds.length; lastStickyLeftIdx++) {
         const visibleFlattenId = visibleFlattenIds[lastStickyLeftIdx];
-        const item = items.find((item) => item.id === visibleFlattenId) as Item | undefined;
+        const item = itemsById[visibleFlattenId];
 
         if (item?.sticky !== 'left' && item?.sticky !== 'start') {
             break;
@@ -80,7 +80,7 @@ const prepareStikyState = (items: ListItemType<Item>[], visibleFlattenIds: strin
     let firstStickyRightIdx = visibleFlattenIds.length;
     for (; firstStickyRightIdx !== 0; firstStickyRightIdx--) {
         const visibleFlattenId = visibleFlattenIds[firstStickyRightIdx - 1];
-        const item = items.find((item) => item.id === visibleFlattenId) as Item | undefined;
+        const item = itemsById[visibleFlattenId];
 
         if (item?.sticky !== 'right' && item?.sticky !== 'end') {
             break;
@@ -143,7 +143,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
     const dndRenderContainer: TreeSelectRenderContainer<Item> = ({
         renderItem,
         visibleFlattenIds,
-        items,
+        itemsById,
         containerRef,
         id,
         className,
@@ -162,7 +162,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
         };
 
         const {stickyLeftItemIdList, sortableItemIdList, stickyRightItemIdList} = prepareStikyState(
-            items,
+            itemsById,
             visibleFlattenIds,
         );
 

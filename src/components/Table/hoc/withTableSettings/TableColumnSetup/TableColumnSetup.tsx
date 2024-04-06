@@ -3,10 +3,13 @@ import React from 'react';
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {
+    DraggableChildrenFn,
     DraggableProvided,
     DraggableStateSnapshot,
     OnDragEndResponder,
 } from 'react-beautiful-dnd';
+
+import type {TableColumnConfig} from 'src/components/Table/Table';
 
 import {useUniqId} from '../../../../../hooks';
 import type {PopperPlacement} from '../../../../../hooks/private';
@@ -19,7 +22,7 @@ import type {
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
-import type {ListItemViewProps} from '../../../../useList';
+import type {ListItemType, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableSetting} from '../withTableSettings';
@@ -52,12 +55,58 @@ const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
         const hasSelectionIcon = !tableColumnItem.isRequired;
 
         return {
-            ...tableColumnItem,
+            id: tableColumnItem.id,
+            title: tableColumnItem.title,
+            isRequired: tableColumnItem.isRequired,
+            isSelected: tableColumnItem.isSelected,
+            sticky: tableColumnItem.sticky,
             startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
             hasSelectionIcon,
             selected: hasSelectionIcon ? tableColumnItem.isSelected : undefined,
         };
     });
+};
+
+const prepareStikyState = (items: ListItemType<Item>[], visibleFlattenIds: string[]) => {
+    let lastStickyLeftIdx = 0;
+    for (; lastStickyLeftIdx !== visibleFlattenIds.length; lastStickyLeftIdx++) {
+        const visibleFlattenId = visibleFlattenIds[lastStickyLeftIdx];
+        const item = items.find((item) => item.id === visibleFlattenId) as Item | undefined;
+
+        if (item?.sticky !== 'left' && item?.sticky !== 'start') {
+            break;
+        }
+    }
+
+    let firstStickyRightIdx = visibleFlattenIds.length;
+    for (; firstStickyRightIdx !== 0; firstStickyRightIdx--) {
+        const visibleFlattenId = visibleFlattenIds[firstStickyRightIdx - 1];
+        const item = items.find((item) => item.id === visibleFlattenId) as Item | undefined;
+
+        if (item?.sticky !== 'right' && item?.sticky !== 'end') {
+            break;
+        }
+    }
+
+    const stickyLeftItemIdList: string[] = [];
+    for (let i = 0; i < lastStickyLeftIdx; i++) {
+        const visibleFlattenId = visibleFlattenIds[i];
+        stickyLeftItemIdList.push(visibleFlattenId);
+    }
+
+    const sortableItemIdList: string[] = [];
+    for (let i = lastStickyLeftIdx; i < firstStickyRightIdx; i++) {
+        const visibleFlattenId = visibleFlattenIds[i];
+        sortableItemIdList.push(visibleFlattenId);
+    }
+
+    const stickyRightItemIdList: string[] = [];
+    for (let i = firstStickyRightIdx; i < visibleFlattenIds.length; i++) {
+        const visibleFlattenId = visibleFlattenIds[i];
+        stickyRightItemIdList.push(visibleFlattenId);
+    }
+
+    return {stickyLeftItemIdList, sortableItemIdList, stickyRightItemIdList};
 };
 
 const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
@@ -73,9 +122,12 @@ const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
 };
 
 interface RenderContainerProps {
-    provided: DraggableProvided;
-    snapshot: DraggableStateSnapshot;
+    isDragDisabled?: boolean;
+    provided?: DraggableProvided;
+    snapshot?: DraggableStateSnapshot;
 }
+
+const RENDER_DRAG_DISABLED_CONTAINER_PROPS: RenderContainerProps = {isDragDisabled: true};
 
 interface SwitcherProps {
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
@@ -92,47 +144,61 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
     const dndRenderContainer: TreeSelectRenderContainer<Item> = ({
         renderItem,
         visibleFlattenIds,
-        items: _items,
+        items,
         containerRef,
         id,
         className,
     }) => {
-        const visibleFlattenItemList = visibleFlattenIds.map((visibleFlattenId, idx) =>
-            renderItem(visibleFlattenId, idx),
+        const renderDndActiveItem: DraggableChildrenFn = (provided, snapshot, rubric) => {
+            const renderContainerProps: RenderContainerProps = {
+                provided,
+                snapshot,
+            };
+
+            return renderItem(
+                visibleFlattenIds[rubric.source.index],
+                rubric.source.index,
+                renderContainerProps,
+            );
+        };
+
+        const {stickyLeftItemIdList, sortableItemIdList, stickyRightItemIdList} = prepareStikyState(
+            items,
+            visibleFlattenIds,
         );
+
+        const stickyLeftItemList = stickyLeftItemIdList.map((visibleFlattenId, idx) => {
+            return renderItem(visibleFlattenId, idx, RENDER_DRAG_DISABLED_CONTAINER_PROPS);
+        });
+
+        const sortableItemList = sortableItemIdList.map((visibleFlattenId, idx) => {
+            return renderItem(visibleFlattenId, idx + stickyLeftItemIdList.length);
+        });
+
+        const stickyRightItemList = stickyRightItemIdList.map((visibleFlattenId, idx) => {
+            return renderItem(visibleFlattenId, idx, RENDER_DRAG_DISABLED_CONTAINER_PROPS);
+        });
 
         return (
             <React.Fragment>
                 <ListContainerView ref={containerRef} id={id} className={className}>
+                    {stickyLeftItemList}
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable
-                            droppableId={uniqId}
-                            renderClone={(provided, snapshot, rubric) => {
-                                const renderContainerProps: RenderContainerProps = {
-                                    provided,
-                                    snapshot,
-                                };
-
-                                return renderItem(
-                                    visibleFlattenIds[rubric.source.index],
-                                    rubric.source.index,
-                                    renderContainerProps,
-                                );
-                            }}
-                        >
+                        <Droppable droppableId={uniqId} renderClone={renderDndActiveItem}>
                             {(droppableProvided) => {
                                 return (
                                     <div
                                         {...droppableProvided.droppableProps}
                                         ref={droppableProvided.innerRef}
                                     >
-                                        {visibleFlattenItemList}
+                                        {sortableItemList}
                                         {droppableProvided.placeholder}
                                     </div>
                                 );
                             }}
                         </Droppable>
                     </DragDropContext>
+                    {stickyRightItemList}
                 </ListContainerView>
                 <div className={controlsCn}>{renderControls()}</div>
             </React.Fragment>
@@ -149,7 +215,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
         index,
         renderContainerProps,
     }) => {
-        const isDragDisabled = sortable === false;
+        const isDragDisabled = sortable === false || renderContainerProps?.isDragDisabled === true;
 
         const endSlot =
             data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
@@ -159,6 +225,10 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
             ...data,
             endSlot,
         };
+
+        if (isDragDisabled) {
+            return <ListItemView {...commonProps} />;
+        }
 
         const renderItem = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
             <ListItemView
@@ -170,7 +240,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
             />
         );
 
-        if (renderContainerProps) {
+        if (renderContainerProps?.provided && renderContainerProps.snapshot) {
             return renderItem(renderContainerProps.provided, renderContainerProps.snapshot);
         }
 
@@ -192,6 +262,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
 export type TableColumnSetupItem = TableSetting & {
     title: React.ReactNode;
     isRequired?: boolean;
+    sticky?: TableColumnConfig<unknown>['sticky'];
 };
 
 type Item = TableColumnSetupItem &

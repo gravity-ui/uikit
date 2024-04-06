@@ -74,6 +74,7 @@ const getTableColumnSetupItem = <I extends unknown>(
         isSelected: isProtected ? true : isSelected,
         isRequired: isProtected,
         title: column ? getColumnStringTitle(column) : id,
+        sticky: column?.sticky,
     };
 };
 

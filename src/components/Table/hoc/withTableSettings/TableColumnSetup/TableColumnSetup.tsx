@@ -9,8 +9,6 @@ import type {
     OnDragEndResponder,
 } from 'react-beautiful-dnd';
 
-import type {TableColumnConfig} from 'src/components/Table/Table';
-
 import {useUniqId} from '../../../../../hooks';
 import type {PopperPlacement} from '../../../../../hooks/private';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
@@ -25,6 +23,7 @@ import type {
 import type {ListItemType, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
+import type {TableColumnConfig} from '../../../Table';
 import type {TableSetting} from '../withTableSettings';
 
 import i18n from './i18n';

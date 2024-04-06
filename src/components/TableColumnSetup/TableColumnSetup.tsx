@@ -5,7 +5,9 @@ import {Gear} from '@gravity-ui/icons';
 import type {PopperPlacement} from '../../hooks/private';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
-import {TableColumnSetup as TableColumnSetupComponent} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
+import type {TableColumnConfig} from '../Table/Table';
+import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
+import {TableColumnSetup as NewTableColumnSetup} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import type {TableSetting} from '../Table/hoc/withTableSettings/withTableSettings';
 import {block} from '../utils/cn';
 
@@ -20,6 +22,7 @@ export interface TableColumnSetupItem {
     title: React.ReactNode;
     selected?: boolean;
     required?: boolean;
+    sticky?: TableColumnConfig<unknown>['sticky'];
 }
 
 type Item = TableColumnSetupItem;
@@ -88,12 +91,15 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         );
     };
 
-    const items = propsItems.map(({id, title, required, selected}) => ({
-        id,
-        title,
-        isRequired: required,
-        isSelected: selected,
-    }));
+    const items = propsItems.map<NewTableColumnSetupItem>(
+        ({id, title, required, selected, sticky}) => ({
+            id,
+            title,
+            isRequired: required,
+            isSelected: selected,
+            sticky,
+        }),
+    );
 
     const onUpdate = (newSettings: TableSetting[]) => {
         propsOnUpdate(
@@ -111,7 +117,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     };
 
     return (
-        <TableColumnSetupComponent
+        <NewTableColumnSetup
             items={items}
             onUpdate={onUpdate}
             popupPlacement={popupPlacement}

@@ -83,25 +83,11 @@ const prepareStikyState = (itemsById: Record<string, Item>, visibleFlattenIds: s
         }
     }
 
-    const stickyStartItemIdList: string[] = [];
-    for (let i = 0; i < lastStickyStartIdx; i++) {
-        const visibleFlattenId = visibleFlattenIds[i];
-        stickyStartItemIdList.push(visibleFlattenId);
-    }
-
-    const sortableItemIdList: string[] = [];
-    for (let i = lastStickyStartIdx; i < firstStickyEndIdx; i++) {
-        const visibleFlattenId = visibleFlattenIds[i];
-        sortableItemIdList.push(visibleFlattenId);
-    }
-
-    const stickyEndItemIdList: string[] = [];
-    for (let i = firstStickyEndIdx; i < visibleFlattenIds.length; i++) {
-        const visibleFlattenId = visibleFlattenIds[i];
-        stickyEndItemIdList.push(visibleFlattenId);
-    }
-
-    return {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList};
+    return {
+        stickyStartItemIdList: visibleFlattenIds.slice(0, lastStickyStartIdx),
+        sortableItemIdList: visibleFlattenIds.slice(lastStickyStartIdx, firstStickyEndIdx),
+        stickyEndItemIdList: visibleFlattenIds.slice(firstStickyEndIdx),
+    };
 };
 
 const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {

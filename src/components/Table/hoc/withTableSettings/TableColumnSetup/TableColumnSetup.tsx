@@ -63,9 +63,9 @@ const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
 };
 
 const prepareStikyState = (itemsById: Record<string, Item>, visibleFlattenIds: string[]) => {
-    let lastStickyLeftIdx = 0;
-    for (; lastStickyLeftIdx !== visibleFlattenIds.length; lastStickyLeftIdx++) {
-        const visibleFlattenId = visibleFlattenIds[lastStickyLeftIdx];
+    let lastStickyStartIdx = 0;
+    for (; lastStickyStartIdx !== visibleFlattenIds.length; lastStickyStartIdx++) {
+        const visibleFlattenId = visibleFlattenIds[lastStickyStartIdx];
         const item = itemsById[visibleFlattenId];
 
         if (item?.sticky !== 'left' && item?.sticky !== 'start') {
@@ -73,9 +73,9 @@ const prepareStikyState = (itemsById: Record<string, Item>, visibleFlattenIds: s
         }
     }
 
-    let firstStickyRightIdx = visibleFlattenIds.length;
-    for (; firstStickyRightIdx !== 0; firstStickyRightIdx--) {
-        const visibleFlattenId = visibleFlattenIds[firstStickyRightIdx - 1];
+    let firstStickyEndIdx = visibleFlattenIds.length;
+    for (; firstStickyEndIdx !== 0; firstStickyEndIdx--) {
+        const visibleFlattenId = visibleFlattenIds[firstStickyEndIdx - 1];
         const item = itemsById[visibleFlattenId];
 
         if (item?.sticky !== 'right' && item?.sticky !== 'end') {
@@ -83,25 +83,25 @@ const prepareStikyState = (itemsById: Record<string, Item>, visibleFlattenIds: s
         }
     }
 
-    const stickyLeftItemIdList: string[] = [];
-    for (let i = 0; i < lastStickyLeftIdx; i++) {
+    const stickyStartItemIdList: string[] = [];
+    for (let i = 0; i < lastStickyStartIdx; i++) {
         const visibleFlattenId = visibleFlattenIds[i];
-        stickyLeftItemIdList.push(visibleFlattenId);
+        stickyStartItemIdList.push(visibleFlattenId);
     }
 
     const sortableItemIdList: string[] = [];
-    for (let i = lastStickyLeftIdx; i < firstStickyRightIdx; i++) {
+    for (let i = lastStickyStartIdx; i < firstStickyEndIdx; i++) {
         const visibleFlattenId = visibleFlattenIds[i];
         sortableItemIdList.push(visibleFlattenId);
     }
 
-    const stickyRightItemIdList: string[] = [];
-    for (let i = firstStickyRightIdx; i < visibleFlattenIds.length; i++) {
+    const stickyEndItemIdList: string[] = [];
+    for (let i = firstStickyEndIdx; i < visibleFlattenIds.length; i++) {
         const visibleFlattenId = visibleFlattenIds[i];
-        stickyRightItemIdList.push(visibleFlattenId);
+        stickyEndItemIdList.push(visibleFlattenId);
     }
 
-    return {stickyLeftItemIdList, sortableItemIdList, stickyRightItemIdList};
+    return {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList};
 };
 
 const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
@@ -157,27 +157,27 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
             );
         };
 
-        const {stickyLeftItemIdList, sortableItemIdList, stickyRightItemIdList} = prepareStikyState(
+        const {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList} = prepareStikyState(
             itemsById,
             visibleFlattenIds,
         );
 
-        const stickyLeftItemList = stickyLeftItemIdList.map((visibleFlattenId, idx) => {
+        const stickyStartItemList = stickyStartItemIdList.map((visibleFlattenId, idx) => {
             return renderItem(visibleFlattenId, idx, RENDER_DRAG_DISABLED_CONTAINER_PROPS);
         });
 
         const sortableItemList = sortableItemIdList.map((visibleFlattenId, idx) => {
-            return renderItem(visibleFlattenId, idx + stickyLeftItemIdList.length);
+            return renderItem(visibleFlattenId, idx + stickyStartItemIdList.length);
         });
 
-        const stickyRightItemList = stickyRightItemIdList.map((visibleFlattenId, idx) => {
+        const stickyEndItemList = stickyEndItemIdList.map((visibleFlattenId, idx) => {
             return renderItem(visibleFlattenId, idx, RENDER_DRAG_DISABLED_CONTAINER_PROPS);
         });
 
         return (
             <React.Fragment>
                 <ListContainerView ref={containerRef} id={id} className={className}>
-                    {stickyLeftItemList}
+                    {stickyStartItemList}
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId={uniqId} renderClone={renderDndActiveItem}>
                             {(droppableProvided) => {
@@ -193,7 +193,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
                             }}
                         </Droppable>
                     </DragDropContext>
-                    {stickyRightItemList}
+                    {stickyEndItemList}
                 </ListContainerView>
                 <div className={controlsCn}>{renderControls()}</div>
             </React.Fragment>

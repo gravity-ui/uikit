@@ -43,7 +43,9 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
 export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
-export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'selectedById'>> {
+export interface TreeSelectProps<T, P extends {} = {}>
+    extends QAProps,
+        Partial<Omit<ListState, 'selectedById'>> {
     value?: ListItemId[];
     defaultOpen?: boolean;
     defaultValue?: ListItemId[];
@@ -95,7 +97,7 @@ export interface TreeSelectProps<T> extends QAProps, Partial<Omit<ListState, 'se
     /**
      * Override list item content by you custom node.
      */
-    renderItem?: TreeSelectRenderItem<T>;
+    renderItem?: TreeSelectRenderItem<T, P>;
     onClose?(): void;
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;

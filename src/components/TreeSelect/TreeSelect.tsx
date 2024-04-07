@@ -258,4 +258,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             </SelectPopup>
         </Flex>
     );
-}) as <T>(props: TreeSelectProps<T> & {ref?: React.Ref<HTMLDivElement>}) => React.ReactElement;
+}) as <T, P extends {} = {}>(
+    props: TreeSelectProps<T, P> & {ref?: React.Ref<HTMLDivElement>},
+) => React.ReactElement;

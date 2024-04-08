@@ -16,6 +16,7 @@ export {
     getListParsedState as unstable_getListParsedState,
     computeItemSize as unstable_computeItemSize,
 } from './components/useList';
+export {modToHeight as unstable_modToHeight} from './components/useList/constants';
 export {
     TreeSelect as unstable_TreeSelect,
     type TreeSelectProps as unstable_TreeSelectProps,

@@ -4,7 +4,7 @@ $block: '.#{variables.$ns}dialog';
 
 #{$block} {
     --_--side-padding: 32px;
-    --_--close-button-space: 0;
+    --_--close-button-space: 0px;
 
     position: relative;
     display: flex;

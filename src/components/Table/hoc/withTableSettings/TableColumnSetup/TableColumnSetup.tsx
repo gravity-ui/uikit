@@ -20,7 +20,7 @@ import type {
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
-import type {ListItemViewProps} from '../../../../useList';
+import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnConfig} from '../../../Table';
@@ -41,24 +41,10 @@ const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex
     return result;
 };
 
-const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
-    return tableColumnItems.map<Item>((tableColumnItem) => {
-        const hasSelectionIcon = !tableColumnItem.isRequired;
-
-        return {
-            id: tableColumnItem.id,
-            title: tableColumnItem.title,
-            isRequired: tableColumnItem.isRequired,
-            isSelected: tableColumnItem.isSelected,
-            sticky: tableColumnItem.sticky,
-            startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
-            hasSelectionIcon,
-            selected: hasSelectionIcon ? tableColumnItem.isSelected : undefined,
-        };
-    });
-};
-
-const prepareStikyState = (itemsById: Record<string, Item>, visibleFlattenIds: string[]) => {
+const prepareStikyState = (
+    itemsById: Record<string, TableColumnSetupItem>,
+    visibleFlattenIds: string[],
+) => {
     let lastStickyStartIdx = 0;
     for (; lastStickyStartIdx !== visibleFlattenIds.length; lastStickyStartIdx++) {
         const visibleFlattenId = visibleFlattenIds[lastStickyStartIdx];
@@ -118,7 +104,7 @@ interface UseDndRenderContainerParams {
 const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContainerParams) => {
     const uniqId = useUniqId();
 
-    const dndRenderContainer: TreeSelectRenderContainer<Item> = ({
+    const dndRenderContainer: TreeSelectRenderContainer<TableColumnSetupItem> = ({
         renderItem,
         visibleFlattenIds,
         itemsById,
@@ -155,7 +141,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
         const stickyEndItemList = stickyEndItemIdList.map((visibleFlattenId, idx) => {
             return renderItem(
                 visibleFlattenId,
-                idx + sortableItemList.length,
+                stickyStartItemList.length + sortableItemList.length + idx,
                 RENDER_DRAG_DISABLED_CONTAINER_PROPS,
             );
         });
@@ -190,27 +176,28 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 };
 
 const useDndRenderItem = (sortable: boolean | undefined) => {
-    const renderDndItem: TreeSelectRenderItem<Item, RenderContainerProps> = ({
-        data,
+    const renderDndItem: TreeSelectRenderItem<TableColumnSetupItem, RenderContainerProps> = ({
+        data: item,
         props,
         index,
         renderContainerProps,
     }) => {
         const isDragDisabled = sortable === false || renderContainerProps?.isDragDisabled === true;
-
-        const endSlot =
-            data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
-
-        const {isRequired: _isRequired, isSelected: _isSelected, ...itemViewPropsFromData} = data;
+        const endSlot = isDragDisabled ? undefined : <Icon data={Grip} size={16} />;
+        const hasSelectionIcon = !item.isRequired;
+        const startSlot = item.isRequired ? <Icon data={Lock} /> : undefined;
+        const selected = item.isRequired ? false : props.selected;
 
         const commonProps: ListItemViewProps = {
             ...props,
-            ...itemViewPropsFromData,
+            selected,
+            startSlot,
+            hasSelectionIcon,
             endSlot,
         };
 
         if (isDragDisabled) {
-            return <ListItemView {...commonProps} />;
+            return <ListItemView {...commonProps} key={commonProps.id} />;
         }
 
         const renderItem = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -220,7 +207,6 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
                 dragging={snapshot.isDragging}
-                key={commonProps.id}
             />
         );
 
@@ -230,9 +216,9 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
 
         return (
             <Draggable
-                draggableId={data.id}
+                draggableId={props.id}
                 index={index}
-                key={`item-key-${data.id}`}
+                key={`item-key-${props.id}`}
                 isDragDisabled={isDragDisabled}
             >
                 {renderItem}
@@ -249,18 +235,9 @@ export type TableColumnSetupItem = TableSetting & {
     sticky?: TableColumnConfig<unknown>['sticky'];
 };
 
-type Item = TableColumnSetupItem &
-    ListItemViewProps & {
-        id: string;
-    };
-
-const mapItemDataToProps = (item: Item) => {
+const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => {
     return {
-        id: item.id,
         title: item.title,
-        startSlot: item.isRequired ? <Icon data={Lock} /> : undefined,
-        hasSelectionIcon: !item.isRequired,
-        selected: item.selected,
     };
 };
 
@@ -370,10 +347,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         });
     };
 
-    const [value, dndItems] = React.useMemo(
-        () => [prepareValue(items), prepareDndItems(items)] as const,
-        [items],
-    );
+    const value = React.useMemo(() => prepareValue(items), [items]);
 
     return (
         <TreeSelect
@@ -383,7 +357,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             size="l"
             open={open}
             value={value}
-            items={dndItems}
+            items={items}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}

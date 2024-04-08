@@ -249,7 +249,6 @@ export type TableColumnSetupItem = TableSetting & {
 type Item = TableColumnSetupItem &
     ListItemViewProps & {
         id: string;
-        isDragDisabled?: boolean;
     };
 
 export type RenderControls = (params: {

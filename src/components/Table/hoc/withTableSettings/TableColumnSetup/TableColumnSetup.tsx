@@ -30,10 +30,6 @@ import i18n from './i18n';
 
 import './TableColumnSetup.scss';
 
-function identity<T>(value: T): T {
-    return value;
-}
-
 const b = block('inner-table-column-setup');
 const controlsCn = b('controls');
 
@@ -157,7 +153,11 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
         });
 
         const stickyEndItemList = stickyEndItemIdList.map((visibleFlattenId, idx) => {
-            return renderItem(visibleFlattenId, idx, RENDER_DRAG_DISABLED_CONTAINER_PROPS);
+            return renderItem(
+                visibleFlattenId,
+                idx + sortableItemList.length,
+                RENDER_DRAG_DISABLED_CONTAINER_PROPS,
+            );
         });
 
         return (
@@ -201,9 +201,11 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
         const endSlot =
             data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
 
-        const commonProps = {
+        const {isRequired: _isRequired, isSelected: _isSelected, ...itemViewPropsFromData} = data;
+
+        const commonProps: ListItemViewProps = {
             ...props,
-            ...data,
+            ...itemViewPropsFromData,
             endSlot,
         };
 
@@ -218,6 +220,7 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
                 dragging={snapshot.isDragging}
+                key={commonProps.id}
             />
         );
 
@@ -250,6 +253,16 @@ type Item = TableColumnSetupItem &
     ListItemViewProps & {
         id: string;
     };
+
+const mapItemDataToProps = (item: Item) => {
+    return {
+        id: item.id,
+        title: item.title,
+        startSlot: item.isRequired ? <Icon data={Lock} /> : undefined,
+        hasSelectionIcon: !item.isRequired,
+        selected: item.selected,
+    };
+};
 
 export type RenderControls = (params: {
     DefaultApplyButton: React.ComponentType;
@@ -365,7 +378,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     return (
         <TreeSelect
             className={b(null, className)}
-            mapItemDataToProps={identity}
+            mapItemDataToProps={mapItemDataToProps}
             multiple
             size="l"
             open={open}

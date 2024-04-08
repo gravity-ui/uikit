@@ -241,6 +241,45 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+### Counter
+
+You can add counter of the selected items to the component by using property `hasCounter`.
+
+<!--LANDING_BLOCK
+
+<ExampleBlock
+    code={`
+<Select multiple={true} hasCounter={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+`}
+>
+  <UIKit.Select multiple={true} hasCounter={true}>
+    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
+    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
+  </UIKit.Select>
+</ExampleBlock>
+
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Select multiple={true} hasCounter={true}>
+  <Select.Option value="val_1">Value 1</Select.Option>
+  <Select.Option value="val_2">Value 2</Select.Option>
+  <Select.Option value="val_3">Value 3</Select.Option>
+  <Select.Option value="val_4">Value 4</Select.Option>
+</Select>
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Filtering options
 
 To enable filter section use the `filterable` property. Default to `false`.
@@ -1079,50 +1118,51 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Name                                                      | Description                                                                                                                   | Type                                     | Default                                                  |
-| :-------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------- |
-| className                                                 | Control className                                                                                                             | `string`                                 |                                                          |
-| defaultValue                                              | Default values that represent selected options in case of using uncontrolled state                                            | `string[]`                               |                                                          |
-| disabled                                                  | Indicates that the user cannot interact with the control                                                                      | `boolean`                                | `false`                                                  |
-| [filterable](#filtering-options)                          | Indicates that select popup have filter section                                                                               | `boolean`                                | `false`                                                  |
-| filterOption                                              | Used to compare option with filter                                                                                            | `function`                               |                                                          |
-| filterPlaceholder                                         | Default filter input placeholder text                                                                                         | `string`                                 |                                                          |
-| [getOptionHeight](#render-options-with-different-heights) | Used to set height of customized user options                                                                                 | `function`                               |                                                          |
-| getOptionGroupHeight                                      | Used to set height of customized user option group                                                                            | `function`                               |                                                          |
-| hasClear                                                  | Enable displaying icon for clear selected options                                                                             | `boolean`                                | `false`                                                  |
-| id                                                        | HTML `id` attribute                                                                                                           | `string`                                 |                                                          |
-| label                                                     | Control label                                                                                                                 | `string`                                 |                                                          |
-| loading                                                   | Add the loading item to the end of the options list. Works like persistant loading indicator while the options list is empty. | `boolean`                                |                                                          |
-| [multiple](#selecting-multiple-options)                   | Indicates that multiple options can be selected in the list                                                                   | `boolean`                                | `false`                                                  |
-| name                                                      | Name of the control                                                                                                           | `string`                                 |                                                          |
-| onBlur                                                    | Handler that is called when the element loses focus.                                                                          | `function`                               |                                                          |
-| onFilterChange                                            | Fires every time after changing filter                                                                                        | `function`                               |                                                          |
-| onFocus                                                   | Handler that is called when the element receives focus.                                                                       | `function`                               |                                                          |
-| onLoadMore                                                | Fires when loading indicator gets visible.                                                                                    | `function`                               |                                                          |
-| onOpenChange                                              | Fires every time after changing popup visibility                                                                              | `function`                               |                                                          |
-| onUpdate                                                  | Fires when an alteration to the Select value is committed by the user                                                         | `function`                               |                                                          |
-| [options](#options)                                       | Options to select                                                                                                             | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
-| pin                                                       | Control border view                                                                                                           | `string`                                 | `'round-round'`                                          |
-| placeholder                                               | Placeholder text                                                                                                              | `string`                                 |                                                          |
-| popupClassName                                            | Popup with options list className                                                                                             | `string`                                 |                                                          |
-| popupPlacement                                            | `Popper.js` placement                                                                                                         | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
-| [popupWidth](#popup-width)                                | Popup width                                                                                                                   | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
-| qa                                                        | Test id attribute (`data-qa`)                                                                                                 | `string`                                 |                                                          |
-| [renderControl](#render-custom-control)                   | Used to render user control                                                                                                   | `function`                               |                                                          |
-| renderEmptyOptions                                        | Used to render node for an empty options list                                                                                 | `function`                               |                                                          |
-| [renderFilter](#render-custom-filter-section)             | Used to render user filter section                                                                                            | `function`                               |                                                          |
-| [renderOption](#render-custom-options)                    | Used to render user options                                                                                                   | `function`                               |                                                          |
-| renderOptionGroup                                         | Used to render user option groups                                                                                             | `function`                               |                                                          |
-| [renderSelectedOption](#render-custom-selected-options)   | Used to render user selected options                                                                                          | `function`                               |                                                          |
-| [renderPopup](#render-custom-popup)                       | Used to render user popup content                                                                                             | `function`                               |                                                          |
-| [size](#size)                                             | Control / options size                                                                                                        | `string`                                 | `'m'`                                                    |
-| value                                                     | Values that represent selected options                                                                                        | `string[]`                               |                                                          |
-| view                                                      | Control view                                                                                                                  | `string`                                 | `'normal'`                                               |
-| [virtualizationThreshold](#virtualized-list)              | The threshold of the options count after which virtualization is enabled                                                      | `number`                                 | `50`                                                     |
-| [width](#control-width)                                   | Control width                                                                                                                 | `string \| number`                       | `undefined`                                              |
-| errorMessage                                              | Error text                                                                                                                    | `string`                                 |                                                          |
-| errorPlacement                                            | Error placement                                                                                                               | `outside` `inside`                       | `outside`                                                |
-| validationState                                           | Validation state                                                                                                              | `"invalid"`                              |                                                          |
+| Name                                                      | Description                                                                                                                         | Type                                     | Default                                                  |
+| :-------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------- |
+| className                                                 | Control className                                                                                                                   | `string`                                 |                                                          |
+| defaultValue                                              | Default values that represent selected options in case of using uncontrolled state                                                  | `string[]`                               |                                                          |
+| disabled                                                  | Indicates that the user cannot interact with the control                                                                            | `boolean`                                | `false`                                                  |
+| [filterable](#filtering-options)                          | Indicates that select popup have filter section                                                                                     | `boolean`                                | `false`                                                  |
+| filterOption                                              | Used to compare option with filter                                                                                                  | `function`                               |                                                          |
+| filterPlaceholder                                         | Default filter input placeholder text                                                                                               | `string`                                 |                                                          |
+| [getOptionHeight](#render-options-with-different-heights) | Used to set height of customized user options                                                                                       | `function`                               |                                                          |
+| getOptionGroupHeight                                      | Used to set height of customized user option group                                                                                  | `function`                               |                                                          |
+| hasClear                                                  | Enable displaying icon for clear selected options                                                                                   | `boolean`                                | `false`                                                  |
+| id                                                        | HTML `id` attribute                                                                                                                 | `string`                                 |                                                          |
+| label                                                     | Control label                                                                                                                       | `string`                                 |                                                          |
+| loading                                                   | Add the loading item to the end of the options list. Works like persistant loading indicator while the options list is empty.       | `boolean`                                |                                                          |
+| [multiple](#selecting-multiple-options)                   | Indicates that multiple options can be selected in the list                                                                         | `boolean`                                | `false`                                                  |
+| name                                                      | Name of the control                                                                                                                 | `string`                                 |                                                          |
+| onBlur                                                    | Handler that is called when the element loses focus.                                                                                | `function`                               |                                                          |
+| onFilterChange                                            | Fires every time after changing filter                                                                                              | `function`                               |                                                          |
+| onFocus                                                   | Handler that is called when the element receives focus.                                                                             | `function`                               |                                                          |
+| onLoadMore                                                | Fires when loading indicator gets visible.                                                                                          | `function`                               |                                                          |
+| onOpenChange                                              | Fires every time after changing popup visibility                                                                                    | `function`                               |                                                          |
+| onUpdate                                                  | Fires when an alteration to the Select value is committed by the user                                                               | `function`                               |                                                          |
+| [options](#options)                                       | Options to select                                                                                                                   | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
+| pin                                                       | Control border view                                                                                                                 | `string`                                 | `'round-round'`                                          |
+| placeholder                                               | Placeholder text                                                                                                                    | `string`                                 |                                                          |
+| popupClassName                                            | Popup with options list className                                                                                                   | `string`                                 |                                                          |
+| popupPlacement                                            | `Popper.js` placement                                                                                                               | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
+| [popupWidth](#popup-width)                                | Popup width                                                                                                                         | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
+| qa                                                        | Test id attribute (`data-qa`)                                                                                                       | `string`                                 |                                                          |
+| [renderControl](#render-custom-control)                   | Used to render user control                                                                                                         | `function`                               |                                                          |
+| renderEmptyOptions                                        | Used to render node for an empty options list                                                                                       | `function`                               |                                                          |
+| [renderFilter](#render-custom-filter-section)             | Used to render user filter section                                                                                                  | `function`                               |                                                          |
+| [renderOption](#render-custom-options)                    | Used to render user options                                                                                                         | `function`                               |                                                          |
+| renderOptionGroup                                         | Used to render user option groups                                                                                                   | `function`                               |                                                          |
+| [renderSelectedOption](#render-custom-selected-options)   | Used to render user selected options                                                                                                | `function`                               |                                                          |
+| [renderPopup](#render-custom-popup)                       | Used to render user popup content                                                                                                   | `function`                               |                                                          |
+| [size](#size)                                             | Control / options size                                                                                                              | `string`                                 | `'m'`                                                    |
+| value                                                     | Values that represent selected options                                                                                              | `string[]`                               |                                                          |
+| view                                                      | Control view                                                                                                                        | `string`                                 | `'normal'`                                               |
+| [virtualizationThreshold](#virtualized-list)              | The threshold of the options count after which virtualization is enabled                                                            | `number`                                 | `50`                                                     |
+| [width](#control-width)                                   | Control width                                                                                                                       | `string \| number`                       | `undefined`                                              |
+| errorMessage                                              | Error text                                                                                                                          | `string`                                 |                                                          |
+| errorPlacement                                            | Error placement                                                                                                                     | `outside` `inside`                       | `outside`                                                |
+| validationState                                           | Validation state                                                                                                                    | `"invalid"`                              |                                                          |
+| [hasCounter](#counter)                                    | Indicates count of the selected options. Counter appears only when [multiple](#selecting-multiple-options) selection enabled. state | `boolean`                                |
 
 ## CSS API
 

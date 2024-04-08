@@ -16,6 +16,7 @@ export type SelectRenderControlProps = {
     onClick: () => void;
     onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
+    renderCounter?: () => React.ReactNode;
     ref: React.Ref<HTMLElement>;
     open: boolean;
     popupId: string;
@@ -51,6 +52,11 @@ export type SelectRenderPopup = (popupItems: {
 
 export type SelectSize = InputControlSize;
 
+export type SelectRenderCounter = (
+    originalComponent: React.ReactElement<SelectCounterProps>,
+    counterProps: SelectCounterProps,
+) => React.ReactElement;
+
 export type SelectProps<T = any> = QAProps &
     Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
@@ -69,6 +75,7 @@ export type SelectProps<T = any> = QAProps &
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
+        renderCounter?: SelectRenderCounter;
         getOptionHeight?: (option: SelectOption<T>, index: number) => number;
         getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
         filterOption?: (option: SelectOption<T>, filter: string) => boolean;
@@ -112,6 +119,8 @@ export type SelectProps<T = any> = QAProps &
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
             | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
         id?: string;
+        /**Shows selected options count if multiple selection is avalable */
+        hasCounter?: boolean;
         title?: string;
     };
 
@@ -146,6 +155,15 @@ export type SelectClearProps = SelectClearIconProps & {
      */
     onMouseEnter: (e: React.MouseEvent) => void;
     onMouseLeave: (e: React.MouseEvent) => void;
+};
+
+export type SelectCounterProps = {
+    /** amount of selected elements to show */
+    count: number;
+    /** size of the parent element */
+    size: SelectSize;
+    /** disabled state of the parent element*/
+    disabled?: boolean;
 };
 
 export type SelectOptions<T = any> = NonNullable<SelectProps<T>['options']>;

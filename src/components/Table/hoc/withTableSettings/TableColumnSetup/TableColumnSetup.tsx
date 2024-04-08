@@ -41,7 +41,7 @@ const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex
     return result;
 };
 
-const prepareStikyState = (
+const prepareStickyState = (
     itemsById: Record<string, TableColumnSetupItem>,
     visibleFlattenIds: string[],
 ) => {
@@ -125,7 +125,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
             );
         };
 
-        const {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList} = prepareStikyState(
+        const {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList} = prepareStickyState(
             itemsById,
             visibleFlattenIds,
         );

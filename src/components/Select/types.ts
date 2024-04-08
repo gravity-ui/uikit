@@ -158,7 +158,7 @@ export type SelectClearProps = SelectClearIconProps & {
 };
 
 export type SelectCounterProps = {
-    /** number of selected elements to show */
+    /** amount of selected elements to show */
     count: number;
     /** size of the parent element */
     size: SelectSize;

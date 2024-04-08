@@ -1,0 +1,87 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}number-input';
+
+#{$block} {
+    --_--border-radius: var(--g-border-radius-s);
+    --_--border-color: var(--g-color-line-generic);
+
+    &.g-text-input_state_error {
+        --_--border-color: var(--g-color-line-danger);
+    }
+
+    &__controls {
+        display: flex;
+        flex-direction: column;
+        margin-inline: auto 0;
+        max-width: calc(14px * 1.7);
+        width: 1.5rem;
+
+        &_size_s {
+            height: calc(#{variables.$s-height} - 2px);
+        }
+        &_size_m {
+            height: calc(#{variables.$m-height} - 2px);
+        }
+        &_size_l {
+            height: calc(#{variables.$l-height} - 2px);
+        }
+        &_size_xl {
+            height: calc(#{variables.$xl-height} - 2px);
+        }
+    }
+
+    &__left-control,
+    &__right-control {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        opacity: 100%;
+        cursor: pointer;
+        padding: 0;
+        border-inline-start-color: var(--_--border-color);
+        border-inline-start-width: 1px;
+        border-style: solid;
+        border-inline-end: none;
+        flex: 0 0 50%;
+
+        &:disabled {
+            background-color: transparent;
+            cursor: not-allowed;
+            opacity: 60%;
+        }
+
+        &_size_s {
+            height: calc(#{variables.$s-height} / 2 - 1px);
+        }
+        &_size_m {
+            height: calc(#{variables.$m-height} / 2 - 1px);
+        }
+        &_size_l {
+            height: calc(#{variables.$l-height} / 2 - 1px);
+        }
+        &_size_xl {
+            height: calc(#{variables.$xl-height} / 2 - 1px);
+        }
+    }
+
+    &__left-control {
+        border-block-end-color: var(--_--border-color);
+        border-block-end-width: 0.5px;
+        border-start-end-radius: calc(var(--_--border-radius) - 1px);
+        border-block-start: none;
+    }
+
+    &__right-control {
+        border-block-start-color: var(--_--border-color);
+        border-block-start-width: 0.5px;
+        border-end-end-radius: calc(var(--_--border-radius) - 1px);
+        border-block-end: none;
+    }
+
+    &__control-arrow {
+        color: var(--_--text-color);
+    }
+}

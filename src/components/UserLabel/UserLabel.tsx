@@ -41,9 +41,16 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
 
         let avatarProps;
         if (typeof avatar === 'string') {
-            avatarProps = {
-                imgUrl: avatar,
-            };
+            if (!avatar && typeof children === 'string') {
+                avatarProps = {
+                    imgUrl: avatar,
+                    text: children,
+                };
+            } else {
+                avatarProps = {
+                    imgUrl: avatar,
+                };
+            }
         } else if (avatar && !React.isValidElement(avatar)) {
             avatarProps = avatar;
         } else if (!avatar && typeof children === 'string') {

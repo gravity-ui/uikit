@@ -33,6 +33,7 @@
 /src/components/RadioGroup @zamkovskaya
 /src/components/User @DakEnviy
 /src/components/UserLabel @DakEnviy
+/src/components/useList @IsaevAlexandr
 /src/components/Select @korvin89
 /src/components/Sheet @mournfulCoroner
 /src/components/Skeleton @SeqviriouM
@@ -43,6 +44,8 @@
 /src/components/Table @Raubzeug
 /src/components/Tabs @sofiushko
 /src/components/Text @IsaevAlexandr
+/src/components/TreeList @IsaevAlexandr
+/src/components/TreeSelect @IsaevAlexandr
 /src/components/controls/TextArea @korvin89
 /src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov

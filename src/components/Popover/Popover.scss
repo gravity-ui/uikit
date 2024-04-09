@@ -24,8 +24,6 @@ $block: '.#{variables.$ns}popover';
         --_--close-offset: 8px;
         --_--close-size: 24px;
 
-        $buttonGap: 5px;
-
         &-popup-content {
             box-sizing: border-box;
             min-height: 40px;
@@ -43,16 +41,11 @@ $block: '.#{variables.$ns}popover';
         &-buttons {
             display: flex;
             flex-wrap: wrap;
-            // giving additional -5 margin
-            // this is taking into account the margins of buttons
-            // to imitate the `gap` property for flexbox
-            margin: (20px - $buttonGap) (-$buttonGap) (-$buttonGap);
-
-            $buttonClass: #{$class}__tooltip-button;
+            gap: 5px;
+            margin-block-start: 20px;
         }
 
         &-button {
-            margin: $buttonGap;
             flex: 1;
         }
 

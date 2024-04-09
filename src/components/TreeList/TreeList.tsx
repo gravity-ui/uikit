@@ -21,7 +21,7 @@ export const TreeList = <T,>({
     activeItemId,
     selectedById,
     defaultGroupsExpanded = true,
-    getId,
+    getItemId,
     renderItem: propsRenderItem,
     renderContainer = TreeListContainer,
     onItemClick,
@@ -37,7 +37,7 @@ export const TreeList = <T,>({
 
     const listParsedState = useList({
         items,
-        getId,
+        getItemId,
         expandedById,
         disabledById,
         activeItemId,
@@ -142,5 +142,6 @@ export const TreeList = <T,>({
         activeItemId,
         selectedById,
         renderItem,
+        getItemId,
     });
 };

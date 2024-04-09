@@ -2,7 +2,12 @@ import React from 'react';
 
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import type {OnDragEndResponder} from 'react-beautiful-dnd';
+import type {
+    DraggableChildrenFn,
+    DraggableProvided,
+    DraggableStateSnapshot,
+    OnDragEndResponder,
+} from 'react-beautiful-dnd';
 
 import {useUniqId} from '../../../../../hooks';
 import type {PopperPlacement} from '../../../../../hooks/private';
@@ -15,21 +20,17 @@ import type {
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
-import type {ListItemViewProps} from '../../../../useList';
+import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
-import type {TableColumnSetupItem, TableSetting} from '../withTableSettings';
+import type {TableColumnConfig} from '../../../Table';
+import type {TableSetting} from '../withTableSettings';
 
 import i18n from './i18n';
 
 import './TableColumnSetup.scss';
 
-function identity<T>(value: T): T {
-    return value;
-}
-
-const b = block('table-column-setup');
-const tableColumnSetupCn = b(null);
+const b = block('inner-table-column-setup');
 const controlsCn = b('controls');
 
 const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
@@ -40,17 +41,35 @@ const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex
     return result;
 };
 
-const prepareDndItems = (tableColumnItems: TableColumnSetupItem[]) => {
-    return tableColumnItems.map<Item>((tableColumnItem) => {
-        const hasSelectionIcon = tableColumnItem.isRequired === false;
+const prepareStickyState = (
+    itemsById: Record<string, TableColumnSetupItem>,
+    visibleFlattenIds: string[],
+) => {
+    let lastStickyStartIdx = 0;
+    for (; lastStickyStartIdx !== visibleFlattenIds.length; lastStickyStartIdx++) {
+        const visibleFlattenId = visibleFlattenIds[lastStickyStartIdx];
+        const item = itemsById[visibleFlattenId];
 
-        return {
-            ...tableColumnItem,
-            startSlot: tableColumnItem.isRequired ? <Icon data={Lock} /> : undefined,
-            hasSelectionIcon,
-            selected: hasSelectionIcon ? tableColumnItem.isSelected : undefined,
-        };
-    });
+        if (item?.sticky !== 'left' && item?.sticky !== 'start') {
+            break;
+        }
+    }
+
+    let firstStickyEndIdx = visibleFlattenIds.length;
+    for (; firstStickyEndIdx !== 0; firstStickyEndIdx--) {
+        const visibleFlattenId = visibleFlattenIds[firstStickyEndIdx - 1];
+        const item = itemsById[visibleFlattenId];
+
+        if (item?.sticky !== 'right' && item?.sticky !== 'end') {
+            break;
+        }
+    }
+
+    return {
+        stickyStartItemIdList: visibleFlattenIds.slice(0, lastStickyStartIdx),
+        sortableItemIdList: visibleFlattenIds.slice(lastStickyStartIdx, firstStickyEndIdx),
+        stickyEndItemIdList: visibleFlattenIds.slice(firstStickyEndIdx),
+    };
 };
 
 const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
@@ -65,6 +84,14 @@ const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
     return selectedIds;
 };
 
+interface RenderContainerProps {
+    isDragDisabled?: boolean;
+    provided?: DraggableProvided;
+    snapshot?: DraggableStateSnapshot;
+}
+
+const RENDER_DRAG_DISABLED_CONTAINER_PROPS: RenderContainerProps = {isDragDisabled: true};
+
 interface SwitcherProps {
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
@@ -77,36 +104,68 @@ interface UseDndRenderContainerParams {
 const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContainerParams) => {
     const uniqId = useUniqId();
 
-    const dndRenderContainer: TreeSelectRenderContainer<Item> = ({
+    const dndRenderContainer: TreeSelectRenderContainer<TableColumnSetupItem> = ({
         renderItem,
         visibleFlattenIds,
-        items: _items,
+        itemsById,
         containerRef,
         id,
         className,
     }) => {
-        const visibleFlattenItemList = visibleFlattenIds.map((visibleFlattenId, idx) =>
-            renderItem(visibleFlattenId, idx),
+        const renderDndActiveItem: DraggableChildrenFn = (provided, snapshot, rubric) => {
+            const renderContainerProps: RenderContainerProps = {
+                provided,
+                snapshot,
+            };
+
+            return renderItem(
+                visibleFlattenIds[rubric.source.index],
+                rubric.source.index,
+                renderContainerProps,
+            );
+        };
+
+        const {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList} = prepareStickyState(
+            itemsById,
+            visibleFlattenIds,
         );
+
+        const stickyStartItemList = stickyStartItemIdList.map((visibleFlattenId, idx) => {
+            return renderItem(visibleFlattenId, idx, RENDER_DRAG_DISABLED_CONTAINER_PROPS);
+        });
+
+        const sortableItemList = sortableItemIdList.map((visibleFlattenId, idx) => {
+            return renderItem(visibleFlattenId, idx + stickyStartItemIdList.length);
+        });
+
+        const stickyEndItemList = stickyEndItemIdList.map((visibleFlattenId, idx) => {
+            return renderItem(
+                visibleFlattenId,
+                stickyStartItemList.length + sortableItemList.length + idx,
+                RENDER_DRAG_DISABLED_CONTAINER_PROPS,
+            );
+        });
 
         return (
             <React.Fragment>
                 <ListContainerView ref={containerRef} id={id} className={className}>
+                    {stickyStartItemList}
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId={uniqId}>
+                        <Droppable droppableId={uniqId} renderClone={renderDndActiveItem}>
                             {(droppableProvided) => {
                                 return (
                                     <div
                                         {...droppableProvided.droppableProps}
                                         ref={droppableProvided.innerRef}
                                     >
-                                        {visibleFlattenItemList}
+                                        {sortableItemList}
                                         {droppableProvided.placeholder}
                                     </div>
                                 );
                             }}
                         </Droppable>
                     </DragDropContext>
+                    {stickyEndItemList}
                 </ListContainerView>
                 <div className={controlsCn}>{renderControls()}</div>
             </React.Fragment>
@@ -117,47 +176,52 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 };
 
 const useDndRenderItem = (sortable: boolean | undefined) => {
-    const renderDndItem: TreeSelectRenderItem<Item> = ({data, props, index}) => {
-        const isDragDisabled = sortable === false;
+    const renderDndItem: TreeSelectRenderItem<TableColumnSetupItem, RenderContainerProps> = ({
+        data: item,
+        props,
+        index,
+        renderContainerProps,
+    }) => {
+        const isDragDisabled = sortable === false || renderContainerProps?.isDragDisabled === true;
+        const endSlot = isDragDisabled ? undefined : <Icon data={Grip} size={16} />;
+        const hasSelectionIcon = !item.isRequired;
+        const startSlot = item.isRequired ? <Icon data={Lock} /> : undefined;
+        const selected = item.isRequired ? false : props.selected;
 
-        const endSlot =
-            data.endSlot ?? (isDragDisabled ? undefined : <Icon data={Grip} size={16} />);
-
-        const commonProps = {
+        const commonProps: ListItemViewProps = {
             ...props,
-            ...data,
+            selected,
+            startSlot,
+            hasSelectionIcon,
             endSlot,
         };
 
+        if (isDragDisabled) {
+            return <ListItemView {...commonProps} key={commonProps.id} />;
+        }
+
+        const renderItem = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
+            <ListItemView
+                {...commonProps}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                dragging={snapshot.isDragging}
+            />
+        );
+
+        if (renderContainerProps?.provided && renderContainerProps.snapshot) {
+            return renderItem(renderContainerProps.provided, renderContainerProps.snapshot);
+        }
+
         return (
             <Draggable
-                draggableId={data.id}
+                draggableId={props.id}
                 index={index}
-                key={`item-key-${data.id}`}
+                key={`item-key-${props.id}`}
                 isDragDisabled={isDragDisabled}
             >
-                {(provided, snapshot) => {
-                    const style: React.CSSProperties = {
-                        ...provided.draggableProps.style,
-                    };
-
-                    // not expected offset appears, one way to fix - remove this offsets explicitly
-                    if (snapshot.isDragging) {
-                        style.left = undefined;
-                        style.top = undefined;
-                    }
-
-                    return (
-                        <ListItemView
-                            ref={provided.innerRef}
-                            {...commonProps}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={style}
-                            dragging={snapshot.isDragging}
-                        />
-                    );
-                }}
+                {renderItem}
             </Draggable>
         );
     };
@@ -165,11 +229,17 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
     return renderDndItem;
 };
 
-type Item = TableColumnSetupItem &
-    ListItemViewProps & {
-        id: string;
-        isDragDisabled?: boolean;
+export type TableColumnSetupItem = TableSetting & {
+    title: React.ReactNode;
+    isRequired?: boolean;
+    sticky?: TableColumnConfig<unknown>['sticky'];
+};
+
+const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => {
+    return {
+        title: item.title,
     };
+};
 
 export type RenderControls = (params: {
     DefaultApplyButton: React.ComponentType;
@@ -186,13 +256,15 @@ export interface TableColumnSetupProps {
     sortable?: boolean;
 
     onUpdate: (newSettings: TableSetting[]) => void;
-    popupWidth?: TreeSelectProps<any>['popupWidth'];
+    popupWidth?: TreeSelectProps<unknown>['popupWidth'];
     popupPlacement?: PopperPlacement;
 
     /**
      * @deprecated
      */
     renderControls?: RenderControls;
+
+    className?: string;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -204,6 +276,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         onUpdate: propsOnUpdate,
         sortable,
         renderControls,
+        className,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -274,20 +347,17 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         });
     };
 
-    const [value, dndItems] = React.useMemo(
-        () => [prepareValue(items), prepareDndItems(items)] as const,
-        [items],
-    );
+    const value = React.useMemo(() => prepareValue(items), [items]);
 
     return (
         <TreeSelect
-            className={tableColumnSetupCn}
-            mapItemDataToProps={identity}
+            className={b(null, className)}
+            mapItemDataToProps={mapItemDataToProps}
             multiple
             size="l"
             open={open}
             value={value}
-            items={dndItems}
+            items={items}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}

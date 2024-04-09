@@ -203,6 +203,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             return;
         }
 
+        const isInputTarget = event.target instanceof HTMLInputElement;
+
         switch (event.key) {
             case 'ArrowDown': {
                 this.handleKeyMove(event, 1, -1);
@@ -221,10 +223,22 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                 break;
             }
             case 'Home': {
+                // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+                // ... if the combobox is editable, returns focus to the combobox and places the cursor on the first character (c)
+                if (isInputTarget) {
+                    return;
+                }
+
                 this.handleKeyMove(event, this.state.items.length - (activeItem || 0));
                 break;
             }
             case 'End': {
+                // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+                // ... if the combobox is editable, returns focus to the combobox and places the cursor after the last character (c)
+                if (isInputTarget) {
+                    return;
+                }
+
                 this.handleKeyMove(event, -(activeItem || 0) - 1);
                 break;
             }
@@ -367,7 +381,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                                 ref={this.refContainer}
                                 itemCount={items.length}
                                 provided={droppableProvided}
-                                sortable={sortable}
                             >
                                 {items.map((_item, index) => {
                                     return (
@@ -598,10 +611,12 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private onSortEnd = (result: DropResult) => {
         if (!result.destination) {
+            this.setState({sorting: false});
             return;
         }
 
         if (result.source.index === result.destination.index) {
+            this.setState({sorting: false});
             return;
         }
 

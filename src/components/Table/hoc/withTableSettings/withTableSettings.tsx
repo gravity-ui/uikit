@@ -16,7 +16,7 @@ import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTabl
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
 import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
-import type {RenderControls} from './TableColumnSetup/TableColumnSetup';
+import type {RenderControls, TableColumnSetupItem} from './TableColumnSetup/TableColumnSetup';
 import i18n from './i18n';
 
 import './withTableSettings.scss';
@@ -27,11 +27,6 @@ export type TableSetting = {
 };
 
 export type TableSettingsData = TableSetting[];
-
-export type TableColumnSetupItem = TableSetting & {
-    title: React.ReactNode;
-    isRequired?: boolean;
-};
 
 export function filterColumns<I>(
     columns: TableColumnConfig<I>[],
@@ -79,6 +74,7 @@ const getTableColumnSetupItem = <I extends unknown>(
         isSelected: isProtected ? true : isSelected,
         isRequired: isProtected,
         title: column ? getColumnStringTitle(column) : id,
+        sticky: column?.sticky,
     };
 };
 

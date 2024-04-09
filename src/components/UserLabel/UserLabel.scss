@@ -77,6 +77,8 @@ $block: '.#{variables.$ns}user-label';
     }
 
     &__text {
+        font-size: var(--g-user-label-font-size, inherit);
+        line-height: var(--g-user-label-line-height, inherit);
         min-width: 0;
         margin-inline-end: 6px;
         white-space: nowrap;

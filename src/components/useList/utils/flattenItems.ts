@@ -7,7 +7,7 @@ import {isTreeItemGuard} from './isTreeItemGuard';
 export function flattenItems<T>(
     items: ListItemType<T>[],
     expandedById: Record<ListItemId, boolean> = {},
-    getId?: (item: T) => ListItemId,
+    getItemId?: (item: T) => ListItemId,
 ): ParsedFlattenState {
     if (process.env.NODE_ENV !== 'production') {
         console.time('flattenItems');
@@ -20,7 +20,7 @@ export function flattenItems<T>(
         parentId?: string,
     ) => {
         const groupedId = getGroupItemId(index, parentId);
-        const id = getListItemId({groupedId, item, getId});
+        const id = getListItemId({groupedId, item, getItemId});
 
         order.push(id);
 

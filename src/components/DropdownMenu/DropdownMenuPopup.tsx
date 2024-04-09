@@ -150,6 +150,13 @@ export const DropdownMenuPopup = <T,>({
                         const isActive = isNavigationActive && activeItemIndex === index;
                         const activate = () => setActiveItemIndex(index);
 
+                        const isActiveParent =
+                            open &&
+                            !isActive &&
+                            activeMenuPath.length !== 0 &&
+                            stringifyNavigationPath(item.path) ===
+                                stringifyNavigationPath(activeMenuPath.slice(0, item.path.length));
+
                         const extraProps = {
                             ...item.extraProps,
                             onMouseEnter: activate,
@@ -160,7 +167,11 @@ export const DropdownMenuPopup = <T,>({
                                 key={index}
                                 className={cnDropdownMenu(
                                     'menu-item',
-                                    {separator: isSeparator(item)},
+                                    {
+                                        separator: isSeparator(item),
+                                        'active-parent': isActiveParent,
+                                        'with-submenu': Boolean(item.items?.length),
+                                    },
                                     item.className,
                                 )}
                                 selected={isActive}

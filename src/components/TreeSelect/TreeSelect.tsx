@@ -51,7 +51,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         defaultGroupsExpanded,
         onClose,
         onUpdate,
-        getId,
+        getItemId,
         onOpenChange,
         renderControl,
         renderItem = defaultItemRenderer as TreeListRenderItem<T>,
@@ -90,7 +90,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const listParsedState = useList({
         items,
-        getId,
+        getItemId,
         ...listState,
     });
 
@@ -240,7 +240,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     multiple={multiple}
                     id={`list-${treeSelectId}`}
                     containerRef={containerRef}
-                    getId={getId}
+                    getItemId={getItemId}
                     disabledById={listState.disabledById}
                     selectedById={listState.selectedById}
                     expandedById={listState.expandedById}
@@ -258,4 +258,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             </SelectPopup>
         </Flex>
     );
-}) as <T>(props: TreeSelectProps<T> & {ref?: React.Ref<HTMLDivElement>}) => React.ReactElement;
+}) as <T, P extends {} = {}>(
+    props: TreeSelectProps<T, P> & {ref?: React.Ref<HTMLDivElement>},
+) => React.ReactElement;

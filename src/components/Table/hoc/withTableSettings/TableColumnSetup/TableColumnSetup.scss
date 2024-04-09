@@ -1,6 +1,6 @@
 @use '../../../../variables';
 
-$block: '.#{variables.$ns}table-column-setup';
+$block: '.#{variables.$ns}inner-table-column-setup';
 
 #{$block} {
     &__controls {

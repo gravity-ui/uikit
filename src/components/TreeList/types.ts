@@ -51,6 +51,12 @@ export type TreeListRenderContainerProps<T> = ListParsedState<T> &
     Partial<ListState> & {
         id: string;
         size: ListItemSize;
+        containerRef?: React.RefObject<HTMLDivElement>;
+        className?: string;
+        /**
+         * Define custom id depended on item data value to use in controlled state component variant
+         */
+        getItemId?(item: T): ListItemId;
         renderItem(
             id: ListItemId,
             index: number,
@@ -59,8 +65,6 @@ export type TreeListRenderContainerProps<T> = ListParsedState<T> &
              */
             renderContainerProps?: Object,
         ): React.JSX.Element;
-        containerRef?: React.RefObject<HTMLDivElement>;
-        className?: string;
     };
 
 export type TreeListRenderContainer<T> = (
@@ -89,7 +93,7 @@ export interface TreeListProps<T> extends QAProps, Partial<ListState> {
     /**
      * Define custom id depended on item data value to use in controlled state component variant
      */
-    getId?(item: T): ListItemId;
+    getItemId?(item: T): ListItemId;
     /**
      * Override list item content by you custom node.
      */

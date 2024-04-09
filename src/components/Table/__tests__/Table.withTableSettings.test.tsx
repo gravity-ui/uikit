@@ -288,7 +288,7 @@ describe('withTableSettings', () => {
 
             await userEvent.click(screen.getByRole('button', {name: 'Table settings'}));
             await userEvent.click(await screen.findByRole('button', {name: 'description'}));
-            await userEvent.click(screen.getByRole('button', {name: 'Apply'}));
+            await userEvent.click(screen.getByRole('button', {name: 'button_apply'}));
 
             expect(updateSettings).toHaveBeenCalledWith([
                 {

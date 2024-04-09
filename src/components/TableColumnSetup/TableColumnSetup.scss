@@ -1,0 +1,10 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}table-column-setup';
+
+#{$block} {
+    &__status {
+        margin-inline-start: 5px;
+        color: var(--g-color-text-secondary);
+    }
+}

@@ -4,9 +4,6 @@
 $block: '.#{variables.$ns}user-label';
 
 #{$block} {
-    --_--font-size: var(--g-text-body-1-font-size);
-    --_--line-height: var(--g-text-body-1-line-height);
-
     $transitionDuration: 0.1s;
     $transitionTimingFunction: ease-in-out;
 
@@ -80,8 +77,8 @@ $block: '.#{variables.$ns}user-label';
     }
 
     &__text {
-        font-size: var(--g-avatar-font-size, var(--_--font-size));
-        line-height: var(--g-avatar-line-height, var(--_--line-height));
+        font-size: var(--g-user-label-font-size, inherit);
+        line-height: var(--g-user-label-line-height, inherit);
         min-width: 0;
         margin-inline-end: 6px;
         white-space: nowrap;

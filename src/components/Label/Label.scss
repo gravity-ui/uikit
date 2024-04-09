@@ -42,10 +42,10 @@ $hover-opacity: 0.7;
     --border-size: 0px;
 
     &__text {
+        @include mixins.text-body-1();
         display: flex;
         align-items: baseline;
         width: 100%;
-        font-size: var(--g-text-body-1-font-size);
         text-align: center;
         white-space: nowrap;
         overflow: hidden;

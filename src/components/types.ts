@@ -63,3 +63,32 @@ export interface ControlGroupProps<ValueType extends string = string> {
     'aria-label'?: string;
     'aria-labelledby'?: string;
 }
+
+export type Key = string | number;
+
+export interface RouterConfig {}
+
+export type Href = RouterConfig extends {href: infer H} ? H : string;
+export type RouterOptions = RouterConfig extends {routerOptions: infer O} ? O : never;
+
+export interface AriaLabelingProps {
+    /**
+     * Defines a string value that labels the current element.
+     */
+    'aria-label'?: string;
+
+    /**
+     * Identifies the element (or elements) that labels the current element.
+     */
+    'aria-labelledby'?: string;
+
+    /**
+     * Identifies the element (or elements) that describes the object.
+     */
+    'aria-describedby'?: string;
+
+    /**
+     * Identifies the element (or elements) that provide a detailed, extended description for the object.
+     */
+    'aria-details'?: string;
+}

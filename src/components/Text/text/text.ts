@@ -61,7 +61,7 @@ export interface TextBaseProps {
      *      - inline-2: font-size: 14px; line-height: 16px; font-weight: 400; font-family: var(--g-font-family-monospace);
      *      - inline-3: font-size: 16px; line-height: 20px; font-weight: 400; font-family: var(--g-font-family-monospace);
      */
-    variant?: (typeof TEXT_VARIANTS)[number];
+    variant?: (typeof TEXT_VARIANTS)[number] | 'inherit';
 
     /**
      * hidden overflow content will be displayed with ellipsis `…`

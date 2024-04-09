@@ -97,3 +97,10 @@ LANDING_BLOCK-->
 | className    | Custom CSS class for root element           |                                  `string`                                   |              |
 | style        | HTML style attribute                        |                            `React.CSSProperties`                            |              |
 | qa           | HTML `data-qa` attribute, used in tests     |                                  `string`                                   |              |
+
+## CSS API
+
+| Name                         | Description      |
+| :--------------------------- | :--------------- |
+| `--g-user-label-font-size`   | Text font size   |
+| `--g-user-label-line-height` | Text line height |

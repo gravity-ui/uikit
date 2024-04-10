@@ -3,8 +3,6 @@
 $block: '.#{variables.$ns}table-column-setup';
 
 #{$block} {
-    display: inline-block;
-
     &__status {
         margin-inline-start: 5px;
         color: var(--g-color-text-secondary);

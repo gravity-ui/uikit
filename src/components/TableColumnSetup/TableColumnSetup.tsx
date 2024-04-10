@@ -124,7 +124,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             popupWidth={popupWidth}
             renderSwitcher={renderSwitcher}
             sortable={sortable}
-            className={className}
+            className={b(null, className)}
         />
     );
 };

@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.10.2](https://github.com/gravity-ui/uikit/compare/v6.10.1...v6.10.2) (2024-04-10)
+
+
+### Bug Fixes
+
+* **TableColumnSetup:** switcher wrapper styles ([#1500](https://github.com/gravity-ui/uikit/issues/1500)) ([d871319](https://github.com/gravity-ui/uikit/commit/d871319789d52cb4075025748ee9ad980d617659))
+
 ## [6.10.1](https://github.com/gravity-ui/uikit/compare/v6.10.0...v6.10.1) (2024-04-10)
 
 

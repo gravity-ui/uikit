@@ -15,8 +15,11 @@ import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
-import {TableColumnSetup} from './TableColumnSetup/TableColumnSetup';
-import type {RenderControls, TableColumnSetupItem} from './TableColumnSetup/TableColumnSetup';
+import {InnerTableColumnSetup} from './InnerTableColumnSetup/InnerTableColumnSetup';
+import type {
+    RenderControls,
+    TableColumnSetupItem,
+} from './InnerTableColumnSetup/InnerTableColumnSetup';
 import i18n from './i18n';
 
 import './withTableSettings.scss';
@@ -165,7 +168,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                 return enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
                     systemColumn.name = () => (
                         <div className={b('settings')}>
-                            <TableColumnSetup
+                            <InnerTableColumnSetup
                                 popupWidth={settingsPopupWidth || width}
                                 popupPlacement={POPUP_PLACEMENT}
                                 sortable={sortable}

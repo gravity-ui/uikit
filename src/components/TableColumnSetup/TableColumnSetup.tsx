@@ -6,8 +6,8 @@ import type {PopperPlacement} from '../../hooks/private';
 import {Button} from '../Button';
 import {Icon} from '../Icon';
 import type {TableColumnConfig} from '../Table/Table';
-import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
-import {TableColumnSetup as NewTableColumnSetup} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
+import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/InnerTableColumnSetup/InnerTableColumnSetup';
+import {InnerTableColumnSetup} from '../Table/hoc/withTableSettings/InnerTableColumnSetup/InnerTableColumnSetup';
 import type {TableSetting} from '../Table/hoc/withTableSettings/withTableSettings';
 import {block} from '../utils/cn';
 
@@ -117,7 +117,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     };
 
     return (
-        <NewTableColumnSetup
+        <InnerTableColumnSetup
             items={items}
             onUpdate={onUpdate}
             popupPlacement={popupPlacement}

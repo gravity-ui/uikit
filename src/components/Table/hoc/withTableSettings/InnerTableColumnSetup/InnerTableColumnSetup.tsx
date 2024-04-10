@@ -28,7 +28,7 @@ import type {TableSetting} from '../withTableSettings';
 
 import i18n from './i18n';
 
-import './TableColumnSetup.scss';
+import './InnerTableColumnSetup.scss';
 
 const b = block('inner-table-column-setup');
 const controlsCn = b('controls');
@@ -249,7 +249,7 @@ export type RenderControls = (params: {
     onApply: () => void;
 }) => React.ReactNode;
 
-export interface TableColumnSetupProps {
+export interface InnerTableColumnSetupProps {
     renderSwitcher?: (props: SwitcherProps) => React.JSX.Element;
 
     items: TableColumnSetupItem[];
@@ -267,7 +267,7 @@ export interface TableColumnSetupProps {
     className?: string;
 }
 
-export const TableColumnSetup = (props: TableColumnSetupProps) => {
+export const InnerTableColumnSetup = (props: InnerTableColumnSetupProps) => {
     const {
         renderSwitcher,
         popupWidth,

@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.10.1](https://github.com/gravity-ui/uikit/compare/v6.10.0...v6.10.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* **TableColumnSetup:** uniq i18n keysets, styles ([#1498](https://github.com/gravity-ui/uikit/issues/1498)) ([271ae3f](https://github.com/gravity-ui/uikit/commit/271ae3f6b138e9a3e23fb29e8e652c5cece246e9))
+
 ## [6.10.0](https://github.com/gravity-ui/uikit/compare/v6.9.0...v6.10.0) (2024-04-09)
 
 

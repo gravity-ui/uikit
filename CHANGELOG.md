@@ -1,5 +1,26 @@
 # Changelog
 
+## [6.10.0](https://github.com/gravity-ui/uikit/compare/v6.9.0...v6.10.0) (2024-04-09)
+
+
+### Features
+
+* **Select:** add selected elements counter on multiple selection ([#1368](https://github.com/gravity-ui/uikit/issues/1368)) ([9f6aa9c](https://github.com/gravity-ui/uikit/commit/9f6aa9cadd3821f3aa8501f705a5980171d1d98c))
+* **Text:** add variant inherit ([#1492](https://github.com/gravity-ui/uikit/issues/1492)) ([7157c70](https://github.com/gravity-ui/uikit/commit/7157c70a9817470db6a8643a6c9c7f713361b8f5))
+* userLabel  text depends on vars ([#1493](https://github.com/gravity-ui/uikit/issues/1493)) ([d826ca7](https://github.com/gravity-ui/uikit/commit/d826ca7f2db7166cc39542ae4e67c4f8630f3b7b))
+
+
+### Bug Fixes
+
+* **Dialog:** fix header paddings without close button ([#1495](https://github.com/gravity-ui/uikit/issues/1495)) ([820dd60](https://github.com/gravity-ui/uikit/commit/820dd605b71df426c2df178dc247caad3a9dbdd6))
+* **Label:** correctly work with keyboard ([#1485](https://github.com/gravity-ui/uikit/issues/1485)) ([1e5380f](https://github.com/gravity-ui/uikit/commit/1e5380f4300f2c872fa6c55b6bdd3d8435d38499))
+* **Label:** do not inherit parent's font weight ([#1496](https://github.com/gravity-ui/uikit/issues/1496)) ([8a8c2e5](https://github.com/gravity-ui/uikit/commit/8a8c2e51e74ec4e6555953033f27d078a711d1b0))
+* **List:** fix `Home` & `End` keys handle ([#1491](https://github.com/gravity-ui/uikit/issues/1491)) ([77156ff](https://github.com/gravity-ui/uikit/commit/77156ffacb5860551cc255c5f10b4c3bd69a11a0))
+* **List:** fix `SimpleContainer` dimensions handle ([#1479](https://github.com/gravity-ui/uikit/issues/1479)) ([68243be](https://github.com/gravity-ui/uikit/commit/68243be3827b9e6aa9ebed7d45b49609d7f7500f))
+* **Popover:** remove flex gap workaround ([#1489](https://github.com/gravity-ui/uikit/issues/1489)) ([ad997e5](https://github.com/gravity-ui/uikit/commit/ad997e5cc2ac861f50d527b00d9742e4642cda65))
+* **withTableSettings:** isSelected -&gt; selected, isRequired -> required ([#1478](https://github.com/gravity-ui/uikit/issues/1478)) ([cf1dfb0](https://github.com/gravity-ui/uikit/commit/cf1dfb08ae2a23106eac3f18169b2f47bd690b8d))
+* **withTableSettings:** renderClone for dnd ([#1463](https://github.com/gravity-ui/uikit/issues/1463)) ([76409f4](https://github.com/gravity-ui/uikit/commit/76409f4c382bf9a73a9619cde84f11d77e78f3d7))
+
 ## [6.9.0](https://github.com/gravity-ui/uikit/compare/v6.8.0...v6.9.0) (2024-04-03)
 
 

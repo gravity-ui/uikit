@@ -3,6 +3,8 @@
 $block: '.#{variables.$ns}inner-table-column-setup';
 
 #{$block} {
+    display: inline-block;
+
     &__controls {
         margin: var(--g-spacing-1) var(--g-spacing-1) 0;
     }

@@ -34,10 +34,6 @@ $block: '.#{variables.$ns}breadcrumbs';
             outline: 2px solid var(--g-color-line-focus);
             border-radius: var(--g-focus-border-radius);
         }
-
-        &_more {
-            vertical-align: top;
-        }
     }
 
     &_calculated_no {

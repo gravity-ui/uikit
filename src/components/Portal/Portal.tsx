@@ -3,6 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {usePortalContainer} from '../../hooks';
+import {ThemeProvider} from '../theme';
+import {block} from '../utils/cn';
+
+import './Portal.scss';
+
+const b = block('portal');
 
 export interface PortalProps {
     container?: HTMLElement;
@@ -19,5 +25,12 @@ export function Portal({container, children, disablePortal}: PortalProps) {
         return <React.Fragment>{children}</React.Fragment>;
     }
 
-    return containerNode ? ReactDOM.createPortal(children, containerNode) : null;
+    return containerNode
+        ? ReactDOM.createPortal(
+              <ThemeProvider rootClassName={b('theme-wrapper')} scoped>
+                  {children}
+              </ThemeProvider>,
+              containerNode,
+          )
+        : null;
 }

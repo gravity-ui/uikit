@@ -3,7 +3,9 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Button} from '../../Button';
+import {Dialog} from '../../Dialog';
 import {Text} from '../../Text';
+import {Tooltip} from '../../Tooltip';
 import {ThemeProvider} from '../ThemeProvider';
 import {useDirection} from '../useDirection';
 
@@ -38,9 +40,20 @@ export default meta;
 type Story = StoryObj<typeof ThemeProvider>;
 
 function ScopedComponent() {
+    const [open, setOpen] = React.useState(false);
     return (
-        <div style={{transform: 'scaleX(var(--g-flow-direction))'}}>
-            <Button>{`current direction: ${useDirection()}`}</Button>
+        <div>
+            <Tooltip content="tooltip">
+                <Button
+                    onClick={() => {
+                        setOpen(!open);
+                    }}
+                >{`current direction: ${useDirection()}`}</Button>
+            </Tooltip>
+            <Dialog open={open} onClose={() => setOpen(false)}>
+                <Dialog.Header caption="Dialog.Header" />
+                <Dialog.Body>Dialog.Body</Dialog.Body>
+            </Dialog>
         </div>
     );
 }

@@ -102,11 +102,7 @@ export function ThemeProvider({
                                 },
                                 rootClassName,
                             )}
-                            dir={
-                                hasParentProvider && direction === parentDirection
-                                    ? undefined
-                                    : direction
-                            }
+                            dir={direction}
                         >
                             {children}
                         </div>

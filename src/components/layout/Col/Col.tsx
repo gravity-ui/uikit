@@ -3,6 +3,7 @@ import React from 'react';
 
 import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
+import {useLayoutContext} from '../hooks/useLayoutContext';
 import type {ColSize, MediaPartial} from '../types';
 import {makeCssMod} from '../utils';
 
@@ -41,14 +42,15 @@ export interface ColProps extends MediaPartial<ColSize>, QAProps {
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#col
  */
 export const Col = ({children, style, className, qa, ...media}: ColProps) => {
-    const mods = Object.entries(media).reduce<Record<string, string>>((acc, [mod, modSize]) => {
-        acc[`s-${mod}`] = makeCssMod(modSize);
-
-        return acc;
-    }, {});
+    const {getClosestMediaProps} = useLayoutContext();
+    const sizeModValue = getClosestMediaProps(media);
 
     return (
-        <div style={style} className={b(mods, className)} data-qa={qa}>
+        <div
+            style={style}
+            className={b({size: sizeModValue ? makeCssMod(sizeModValue) : undefined}, className)}
+            data-qa={qa}
+        >
             {children}
         </div>
     );

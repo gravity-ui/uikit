@@ -25,7 +25,7 @@ export function LayoutProvider({
     theme: override,
     initialMediaQuery,
 }: LayoutProviderProps) {
-    const theme = makeLayoutDefaultTheme({override});
+    const theme = React.useMemo(() => makeLayoutDefaultTheme({override}), [override]);
     const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints, initialMediaQuery);
 
     return (

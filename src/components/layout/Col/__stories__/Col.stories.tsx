@@ -107,6 +107,61 @@ Dynamic.args = {
     space: '2',
 };
 
+const theme = {
+    breakpoints: {
+        s: 500,
+        m: 500,
+        l: 1200,
+        xl: 1200,
+        xxl: 1900,
+        xxxl: 1900,
+    },
+};
+
+const DynamicWithOverriddenBreakpointsTemplate: StoryFn<{space?: Space; spaceRow?: Space}> = ({
+    space = '2',
+    spaceRow,
+}) => (
+    <LayoutPresenter theme={theme}>
+        <Container spaceRow="8">
+            <Row {...{space, spaceRow}}>
+                <ColPresenter s="1" l="12" />
+                <ColPresenter s="1" l="12" />
+                <ColPresenter s="1" l="11" />
+                <ColPresenter s="1" l="1" />
+                <ColPresenter s="1" l="10" />
+                <ColPresenter s="1" l="2" />
+                <ColPresenter s="1" l="9" />
+                <ColPresenter s="1" l="3" />
+                <ColPresenter s="1" l="8" />
+                <ColPresenter s="1" l="4" />
+                <ColPresenter s="1" l="7" />
+                <ColPresenter s="1" l="5" />
+            </Row>
+            <Row {...{space, spaceRow}}>
+                <ColPresenter s="7" l="1" />
+                <ColPresenter s="5" l="1" />
+                <ColPresenter s="8" l="1" />
+                <ColPresenter s="4" l="1" />
+                <ColPresenter s="9" l="1" />
+                <ColPresenter s="3" l="1" />
+                <ColPresenter s="10" l="1" />
+                <ColPresenter s="2" l="1" />
+                <ColPresenter s="11" l="1" />
+                <ColPresenter s="1" l="1" />
+                <ColPresenter s="12" l="1" />
+                <ColPresenter s="12" l="1" />
+            </Row>
+        </Container>
+    </LayoutPresenter>
+);
+
+export const DynamicWithOverriddenBreakpoints = DynamicWithOverriddenBreakpointsTemplate.bind({});
+
+DynamicWithOverriddenBreakpoints.args = {
+    space: '2',
+};
+
 const AllModsTemplate: StoryFn<ColProps & {space?: Space; spaceRow?: Space}> = ({
     space = '3',
     spaceRow,

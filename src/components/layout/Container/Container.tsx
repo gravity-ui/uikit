@@ -63,7 +63,7 @@ export interface ContainerProps extends QAProps {
  */
 export const Container = ({
     children,
-    style,
+    style: propsStyle,
     as: Tag = 'div',
     className,
     maxWidth,
@@ -71,7 +71,16 @@ export const Container = ({
     spaceRow,
     qa,
 }: ContainerProps) => {
-    const {getClosestMediaProps, containerThemeProps} = useContainerThemeProps();
+    const {getClosestMediaProps, containerThemeProps, breakpoints} = useContainerThemeProps();
+
+    const style = {
+        ...(maxWidth
+            ? {
+                  maxWidth: breakpoints[maxWidth],
+              }
+            : {}),
+        ...propsStyle,
+    };
 
     let sr: string | undefined;
 
@@ -90,7 +99,6 @@ export const Container = ({
             style={style}
             className={b(
                 {
-                    mw: maxWidth,
                     sr,
                 },
                 gutters === false

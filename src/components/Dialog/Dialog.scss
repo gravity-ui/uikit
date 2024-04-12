@@ -9,7 +9,7 @@ $block: '.#{variables.$ns}dialog';
     position: relative;
     display: flex;
     flex-direction: column;
-    width: var(--_--width, var(--g-dialog-width));
+    width: var(--g-dialog-width, var(--_--width));
 
     &_has-scroll {
         overflow-y: auto;

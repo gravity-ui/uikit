@@ -342,7 +342,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setItems((prevItems) => {
             return prevItems.map((item) => ({
                 ...item,
-                isSelected: selectedItemsIds.includes(item.id),
+                isSelected: item.isRequired || selectedItemsIds.includes(item.id),
             }));
         });
     };

@@ -63,3 +63,13 @@
         background-position: 0 0;
     }
 }
+
+:root:has(body.g-root_theme_light),
+:root:has(body.g-root_theme_light-hc) {
+    color-scheme: light;
+}
+
+:root:has(body.g-root_theme_dark),
+:root:has(body.g-root_theme_dark-hc) {
+    color-scheme: dark;
+}

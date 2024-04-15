@@ -2,7 +2,6 @@ import React from 'react';
 
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {
     DraggableProvided,
     DraggableRubric,
@@ -10,10 +9,11 @@ import type {
     DropResult,
     DroppableProvided,
 } from 'react-beautiful-dnd';
-import AutoSizer from 'react-virtualized-auto-sizer';
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {Size} from 'react-virtualized-auto-sizer';
-import {VariableSizeList} from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import type {VariableSizeListProps} from 'react-window';
+import {VariableSizeList} from 'react-window';
 
 import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoadingIndicator';
 import {TextInput} from '../controls';
@@ -421,7 +421,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private renderVirtualizedContainer() {
         // Otherwise, react-window will not update the list items
-        const items = [...this.getItems()];
+        const items = [...this.getItemsWithLoading()];
 
         if (this.props.sortable) {
             return (

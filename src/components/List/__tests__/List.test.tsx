@@ -37,13 +37,13 @@ describe('base List', () => {
     it('should render loading indicator', () => {
         setup({virtualized: false, onLoadMore: mockOnLoadMorFn, loading: true});
 
-        const loader = screen.getByRole('list').querySelector('.g-loader');
+        const loader = screen.getByTestId('loader');
         expect(loader).toBeInTheDocument();
     });
     it('should call onLoadMore callback when loading indicator is visible', () => {
         setup({virtualized: false, onLoadMore: mockOnLoadMorFn, loading: true});
 
-        const loader = screen.getByRole('list').querySelector('.g-loader');
+        const loader = screen.getByTestId('loader');
 
         expect(loader).toBeVisible();
         expect(mockOnLoadMorFn).toHaveBeenCalled();
@@ -54,14 +54,14 @@ describe('virtualized List', () => {
     it('should render loading indicator', () => {
         setup({virtualized: true, onLoadMore: mockOnLoadMorFn, loading: true});
 
-        const loader = screen.getByRole('list').querySelector('.g-loader');
+        const loader = screen.getByTestId('loader');
         expect(loader).toBeInTheDocument();
     });
 
     it('should call onLoadMore callback when loading indicator is visible', () => {
         setup({virtualized: true, onLoadMore: mockOnLoadMorFn, loading: true});
 
-        const loader = screen.getByRole('list').querySelector('.g-loader');
+        const loader = screen.getByTestId('loader');
         expect(loader).toBeVisible();
         expect(mockOnLoadMorFn).toHaveBeenCalled();
     });

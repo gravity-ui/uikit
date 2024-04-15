@@ -80,8 +80,9 @@ export function ThemeProvider({
                 theme,
                 themeValue,
                 direction,
+                scoped,
             }) satisfies ThemeContextProps,
-        [theme, themeValue, direction],
+        [theme, themeValue, direction, scoped],
     );
 
     const themeSettingsContext = React.useMemo(

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 import {usePortalContainer} from '../../hooks';
 import {ThemeProvider} from '../theme';
+import {useThemeContext} from '../theme/useThemeContext';
 import {block} from '../utils/cn';
 
 import './Portal.scss';
@@ -18,6 +19,7 @@ export interface PortalProps {
 
 export function Portal({container, children, disablePortal}: PortalProps) {
     const defaultContainer = usePortalContainer();
+    const {scoped} = useThemeContext();
 
     const containerNode = container ?? defaultContainer;
 
@@ -27,9 +29,13 @@ export function Portal({container, children, disablePortal}: PortalProps) {
 
     return containerNode
         ? ReactDOM.createPortal(
-              <ThemeProvider rootClassName={b('theme-wrapper')} scoped>
-                  {children}
-              </ThemeProvider>,
+              scoped ? (
+                  <ThemeProvider rootClassName={b('theme-wrapper')} scoped>
+                      {children}
+                  </ThemeProvider>
+              ) : (
+                  children
+              ),
               containerNode,
           )
         : null;

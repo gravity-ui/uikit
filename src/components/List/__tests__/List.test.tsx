@@ -2,6 +2,7 @@ import React from 'react';
 
 import _ from 'react-virtualized-auto-sizer';
 
+import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
 import {cleanup, render, screen} from '../../../../test-utils/utils';
 import {List} from '../List';
 import type {ListProps} from '../types';
@@ -22,6 +23,10 @@ function setup(props: Partial<ListProps<string>> = {}) {
 }
 
 const mockOnLoadMorFn = jest.fn();
+
+beforeAll(() => {
+    setupIntersectionObserverMock();
+});
 
 afterEach(() => {
     cleanup();

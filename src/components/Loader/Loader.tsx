@@ -14,7 +14,7 @@ export interface LoaderProps extends QAProps {
     size?: LoaderSize;
 }
 
-export function Loader({size = 's', className, qa = 'loader'}: LoaderProps) {
+export function Loader({size = 's', className, qa}: LoaderProps) {
     return (
         <div className={b({size}, className)} data-qa={qa}>
             <div className={b('left')} />

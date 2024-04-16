@@ -9,5 +9,3 @@ export const KeyCode = {
     ARROW_UP: 'ArrowUp',
     ARROW_DOWN: 'ArrowDown',
 };
-
-export const QA_DATA_ATTR = 'data-qa';

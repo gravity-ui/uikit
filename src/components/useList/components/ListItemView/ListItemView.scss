@@ -45,36 +45,5 @@ $block: '.#{variables.$ns}list-item-view';
 
     &__slot {
         flex-shrink: 0;
-
-        &_indent_1 {
-            width: 16px;
-        }
-        &_indent_2 {
-            width: 32px;
-        }
-        &_indent_3 {
-            width: 48px;
-        }
-        &_indent_4 {
-            width: 64px;
-        }
-        &_indent_5 {
-            width: 80px;
-        }
-        &_indent_6 {
-            width: 96px;
-        }
-        &_indent_7 {
-            width: 112px;
-        }
-        &_indent_8 {
-            width: 128px;
-        }
-        &_indent_9 {
-            width: 144px;
-        }
-        &_indent_10 {
-            width: 160px;
-        }
     }
 }

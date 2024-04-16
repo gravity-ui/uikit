@@ -71,7 +71,7 @@ export const ListItemViewSlot = ({
     ...props
 }: SlotProps) => {
     return (
-        <Flex className={b('slot', {indent}, className)} {...props}>
+        <Flex width={indent * 16} className={b('slot', className)} {...props}>
             {children}
         </Flex>
     );

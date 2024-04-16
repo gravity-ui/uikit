@@ -9,13 +9,15 @@ import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
 interface LayoutProviderProps {
     theme?: RecursivePartial<LayoutTheme>;
     /**
-     * During ssr you can override default (`s`) media screen size
+     * During ssr you can override default (`s`) media screen size if needed
      */
     initialMediaQuery?: MediaType;
     children: React.ReactNode;
 }
 
 /**
+ * @deprecated - pass theme directly to `ThemeProvider`
+ *
  * Provide context for layout components and current media queries.
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#layoutprovider-and-layouttheme

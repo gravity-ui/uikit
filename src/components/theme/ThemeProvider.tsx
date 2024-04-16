@@ -1,5 +1,8 @@
 import React from 'react';
 
+import {LayoutProvider} from '../layout';
+import type {LayoutTheme} from '../layout';
+import type {MediaType, RecursivePartial} from '../layout/types';
 import {block} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
@@ -26,6 +29,14 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     nativeScrollbar?: boolean;
     scoped?: boolean;
     rootClassName?: string;
+    /**
+     * Pass theme to override default breakpoint or spacing
+     */
+    layoutTheme?: RecursivePartial<LayoutTheme>;
+    /**
+     * During ssr you can override default (`s`) media screen size if needed
+     */
+    initialMediaQuery?: MediaType;
 }
 
 export function ThemeProvider({
@@ -37,6 +48,8 @@ export function ThemeProvider({
     scoped: scopedProp = false,
     rootClassName = '',
     children,
+    layoutTheme,
+    initialMediaQuery,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
@@ -85,7 +98,7 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
-    return (
+    let node = (
         <ThemeContext.Provider value={contextValue}>
             <ThemeSettingsContext.Provider value={themeSettingsContext}>
                 {scoped ? (
@@ -111,6 +124,16 @@ export function ThemeProvider({
             </ThemeSettingsContext.Provider>
         </ThemeContext.Provider>
     );
+
+    if (layoutTheme || initialMediaQuery) {
+        node = (
+            <LayoutProvider theme={layoutTheme} initialMediaQuery={initialMediaQuery}>
+                {node}
+            </LayoutProvider>
+        );
+    }
+
+    return node;
 }
 
 ThemeProvider.displayName = 'ThemeProvider';

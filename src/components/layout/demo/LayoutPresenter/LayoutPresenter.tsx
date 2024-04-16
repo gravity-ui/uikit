@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Text} from '../../../Text';
+import type {LayoutTheme} from '../../../layout';
 import {Flex} from '../../Flex/Flex';
 import {LayoutProvider} from '../../LayoutProvider/LayoutProvider';
 import {useLayoutContext} from '../../hooks/useLayoutContext';
@@ -9,10 +10,14 @@ import {sp} from '../../spacing/spacing';
 interface LayoutPresenterProps {
     children?: React.ReactNode;
     title?: string;
+    theme?: LayoutTheme;
 }
 
 function Title({title}: {title?: string}) {
-    const {activeMediaQuery} = useLayoutContext();
+    const {
+        activeMediaQuery,
+        theme: {breakpoints},
+    } = useLayoutContext();
     return (
         <Flex direction="column" space="5" className={sp({mb: '5'})}>
             {title && (
@@ -21,15 +26,16 @@ function Title({title}: {title?: string}) {
                 </Text>
             )}
             <Text color="secondary" as="div">
-                Active media query: {activeMediaQuery}
+                Active media query: {activeMediaQuery}, breakpoint value:{' '}
+                {breakpoints[activeMediaQuery]}
             </Text>
         </Flex>
     );
 }
 
-export const LayoutPresenter = ({children, title}: LayoutPresenterProps) => {
+export const LayoutPresenter = ({children, title, theme}: LayoutPresenterProps) => {
     return (
-        <LayoutProvider>
+        <LayoutProvider theme={theme}>
             <Title title={title} />
             <div
                 style={{

@@ -22,7 +22,7 @@ const mediaOrder = ['s', 'm', 'l', 'xl', 'xxl', 'xxxl'] as const;
 
 export const getClosestMediaPropsFactory =
     (currentActive: MediaType) =>
-    <T = unknown>(medias: MediaPartial<T> = {}): T | undefined => {
+    <T>(medias: MediaPartial<T> = {}): T | undefined => {
         if (!currentActive) {
             return undefined;
         }

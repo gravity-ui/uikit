@@ -83,8 +83,6 @@ interface ComponentProps {
 export interface LayoutTheme {
     /**
      * Override default breakpoints values.
-     *
-     * @important **you must override corresponding scss variables**
      */
     breakpoints: MediaProps<number>;
     /**

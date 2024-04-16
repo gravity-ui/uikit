@@ -118,6 +118,21 @@ We use `mobile-first` approach. It means that you should adapt you app to deskto
 -   `xxl` - 1400px;
 -   `xxxl` - 1920px;
 
+> To override breakpoint use `theme` breakpoints property;
+
+    ```tsx
+    export const APP_LAYOUT_THEME: LayoutTheme = {
+        breakpoints: {
+            s: 320,
+            l: 980,
+        }
+    };
+
+    <LayoutProvider theme={APP_LAYOUT_THEME}>
+        {...}
+    </LayoutProvider>
+    ```
+
 ## LayoutProvider and LayoutTheme
 
 Through `LayoutProvider` components can get default props which are corresponding to different screen sizes.

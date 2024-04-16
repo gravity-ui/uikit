@@ -34,5 +34,6 @@ export const useContainerThemeProps = () => {
     return {
         getClosestMediaProps,
         containerThemeProps,
+        breakpoints: theme.breakpoints,
     };
 };

@@ -6,15 +6,9 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {Showcase} from '../../../demo/Showcase';
 import {Icon} from '../Icon';
 
-const icons = [Gear, Envelope, Rocket].reduce(
-    (acc, fn) => {
-        acc[fn.name] = fn;
-        return acc;
-    },
-    {} as {[key: string]: React.FunctionComponent},
-);
+const icons = {Gear, Envelope, Rocket};
 
-export default {
+const meta: Meta<typeof Icon> = {
     title: 'Components/Data Display/Icon',
     component: Icon,
     argTypes: {
@@ -40,7 +34,9 @@ export default {
             },
         },
     },
-} as Meta;
+};
+
+export default meta;
 
 type Story = StoryObj<typeof Icon>;
 

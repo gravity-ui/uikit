@@ -9,7 +9,6 @@ $xl-right-padding: '12px';
 
 #{$block} {
     display: flex;
-    margin: 4px 0;
     overflow: hidden;
 
     #{$popupBlock} &:first-child,
@@ -86,6 +85,10 @@ $xl-right-padding: '12px';
         width: 100%;
     }
 
+    &__items {
+        padding: 0 4px;
+    }
+
     &__item#{$listBlock} {
         &__item_selected {
             background: none;
@@ -97,82 +100,6 @@ $xl-right-padding: '12px';
 
         &__item_active {
             background: var(--g-color-base-simple-hover);
-        }
-    }
-
-    &__option {
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-
-        #{$block}_size_s & {
-            padding: 0 #{select-css-variables.$s-hor-padding};
-
-            & #{$block}__option-default-label {
-                height: #{variables.$s-height};
-                line-height: #{variables.$s-height};
-            }
-
-            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$s-hor-padding} / 2);
-        }
-
-        #{$block}_size_m & {
-            padding: 0 #{select-css-variables.$m-hor-padding} 0 #{select-css-variables.$m-hor-padding};
-
-            & #{$block}__option-default-label {
-                height: #{variables.$m-height};
-                line-height: #{variables.$m-height};
-            }
-
-            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$m-hor-padding} / 2);
-        }
-
-        #{$block}_size_l & {
-            padding: 0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding};
-
-            & #{$block}__option-default-label {
-                height: #{variables.$l-height};
-                line-height: #{variables.$l-height};
-            }
-
-            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$l-hor-padding} / 2);
-        }
-
-        #{$block}_size_xl & {
-            padding: 0 #{select-css-variables.$xl-hor-padding};
-
-            & #{$block}__option-default-label {
-                height: #{variables.$xl-height};
-                line-height: #{variables.$xl-height};
-                font-size: var(--g-text-body-2-font-size);
-            }
-
-            --_--select-tick-icon-padding-right: calc(#{select-css-variables.$xl-hor-padding} / 2);
-        }
-
-        #{$block}_mobile & {
-            padding: 0 #{select-css-variables.$l-hor-padding} 0 #{select-css-variables.$l-hor-padding};
-
-            & #{$block}__option-default-label {
-                height: #{variables.$l-height};
-                line-height: #{variables.$l-height};
-                font-size: var(--g-text-body-2-font-size);
-            }
-
-            & #{$block}__tick-icon {
-                padding-inline-end: calc(#{select-css-variables.$l-hor-padding} / 2);
-            }
-        }
-
-        &_colored {
-            background-color: var(--g-color-base-selection);
-        }
-
-        &_disabled {
-            cursor: default;
         }
     }
 
@@ -196,12 +123,5 @@ $xl-right-padding: '12px';
         &_shown {
             visibility: visible;
         }
-    }
-
-    &__loading-indicator {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
     }
 }

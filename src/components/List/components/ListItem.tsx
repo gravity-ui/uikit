@@ -4,6 +4,7 @@ import {Grip} from '@gravity-ui/icons';
 import type {DraggableProvided} from 'react-beautiful-dnd';
 
 import {Icon} from '../../Icon';
+import {ListItemView} from '../../useList';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
@@ -37,7 +38,9 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             sortHandleAlign,
             itemClassName,
             selected,
+            hasSelectionIcon,
             active,
+            size,
             role = 'listitem',
             isDragging = false,
         } = this.props;
@@ -52,20 +55,21 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         };
 
         return (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <div
+            <ListItemView
+                size={size}
                 role={role}
+                selected={selected}
                 aria-selected={selected}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
+                dragging={isDragging}
+                active={active}
+                hasSelectionIcon={hasSelectionIcon}
+                disabled={item.disabled}
                 className={b(
                     'item',
                     {
                         sortable,
-                        active,
-                        selected,
-                        inactive: item.disabled,
                         'sort-handle-align': sortHandleAlign,
-                        dragging: isDragging,
                     },
                     itemClassName,
                 )}
@@ -73,15 +77,14 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 {...this.props.provided?.dragHandleProps}
                 style={getStyle(this.props.provided, fixedStyle)}
                 onClick={item.disabled ? undefined : this.onClick}
-                onClickCapture={item.disabled ? undefined : this.onClickCapture}
+                onClickCapture={this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 ref={this.setRef}
                 id={`${this.props.listId}-item-${this.props.itemIndex}`}
-            >
-                {this.renderSortIcon()}
-                {this.renderContent()}
-            </div>
+                startSlot={this.renderSortIcon()}
+                title={this.renderContent()}
+            />
         );
     }
 
@@ -103,7 +106,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
 
     private renderContent() {
         const {renderItem = defaultRenderItem, item, active, itemIndex} = this.props;
-        return <div className={b('item-content')}>{renderItem(item, active, itemIndex)}</div>;
+        return renderItem(item, active, itemIndex);
     }
 
     private onClick = () => this.props.onClick?.(this.props.item, this.props.itemIndex);

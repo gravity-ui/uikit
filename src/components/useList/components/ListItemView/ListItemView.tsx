@@ -45,6 +45,9 @@ export interface ListItemViewProps extends QAProps, ListItemCommonProps {
      * Note: if passed and `disabled` option is `true` click will not be appear
      */
     onClick?(): void;
+    onMouseEnter?(): void;
+    onMouseLeave?(): void;
+    onClickCapture?(e: unknown): void;
     style?: React.CSSProperties;
     className?: string;
     role?: React.AriaRole;
@@ -110,12 +113,14 @@ export const ListItemView = React.forwardRef(
             style,
             role = 'option',
             onClick: _onClick,
+            onClickCapture: _onClickCapture,
             ...rest
         }: ListItemViewProps,
         ref?: any,
     ) => {
         const isGroup = typeof expanded === 'boolean';
         const onClick = disabled ? undefined : _onClick;
+        const onClickCapture = disabled ? undefined : _onClickCapture;
         const activeOnHover =
             typeof propsActiveOnHover === 'boolean' ? propsActiveOnHover : Boolean(onClick);
 
@@ -125,6 +130,7 @@ export const ListItemView = React.forwardRef(
                 role={role}
                 aria-selected={selected}
                 onClick={onClick}
+                onClickCapture={onClickCapture}
                 className={b(
                     {
                         active: dragging || active,
@@ -147,7 +153,7 @@ export const ListItemView = React.forwardRef(
                 justifyContent="space-between"
                 {...rest}
             >
-                <Flex gap="2" alignItems="center">
+                <Flex gap="2" alignItems="center" grow>
                     {hasSelectionIcon && (
                         <ListItemViewSlot // reserve space
                         >

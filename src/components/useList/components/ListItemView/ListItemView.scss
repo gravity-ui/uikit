@@ -6,6 +6,7 @@ $block: '.#{variables.$ns}list-item-view';
     flex-shrink: 0;
 
     &__main-content {
+        width: 100%;
         display: grid;
         gap: var(--g-spacing-half, 2px);
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Text} from '../../../Text';
 import {block} from '../../../utils/cn';
 import type {GroupTitleItem} from '../../utils';
 
@@ -15,9 +16,9 @@ export const GroupLabel = ({option, renderOptionGroup}: GroupLabelProps) => {
         return <div className={b('group-label-custom')}>{renderOptionGroup(option)}</div>;
     } else {
         return (
-            <div className={b('group-label', {empty: option.label === ''})}>
-                <div className={b('group-label-content')}>{option.label}</div>
-            </div>
+            <Text variant="subheader-1" ellipsis>
+                {option.label}
+            </Text>
         );
     }
 };

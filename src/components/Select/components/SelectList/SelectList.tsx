@@ -104,6 +104,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             if (option.value === loadingOption.value) {
                 return (
                     <SelectLoadingIndicator
+                        size={size}
                         onIntersect={itemIndex === 0 ? undefined : onLoadMore}
                     />
                 );
@@ -126,15 +127,18 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                 />
             );
         },
-        [renderOption, renderOptionGroup, value, multiple, getItemHeight, onLoadMore],
+        [renderOption, value, multiple, renderOptionGroup, getItemHeight, size, onLoadMore],
     );
 
     return (
         <List
             ref={ref}
+            size={size}
+            multiple={multiple}
             className={selectListBlock({size, virtualized, mobile})}
             qa={SelectQa.LIST}
             itemClassName={selectListBlock('item')}
+            itemsClassName={selectListBlock('items')}
             itemHeight={getItemHeight}
             itemsHeight={virtualized ? optionsHeight : undefined}
             items={items}

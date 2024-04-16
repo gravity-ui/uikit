@@ -348,7 +348,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             <SelectPopup
                 ref={controlWrapRef}
-                className={popupClassName}
+                className={selectBlock('popup', {size}, popupClassName)}
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}

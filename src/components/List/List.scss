@@ -26,40 +26,13 @@ $block: '.#{variables.$ns}list';
         box-sizing: border-box;
         display: flex;
         align-items: center;
-        padding: var(--_--item-padding);
         user-select: none;
         overflow: hidden;
     }
 
     &__item {
-        &_active {
-            background: var(--g-color-base-simple-hover);
-        }
-
-        &_selected {
-            background: var(--g-color-base-selection);
-
-            &:hover {
-                background: var(--g-color-base-selection-hover);
-            }
-        }
-
-        &_sort-handle-align_right {
-            flex-direction: row-reverse;
-
-            #{$block}__item-sort-icon {
-                margin-inline: 10px 0;
-            }
-        }
-
-        // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/guides/preset-styles.md#phase-dragging-droppable-element
         &_sortable[data-rbd-drag-handle-context-id]:active {
             cursor: grabbing;
-        }
-
-        &_dragging {
-            background: var(--g-color-base-simple-hover-solid);
-            z-index: 100001;
         }
     }
 
@@ -68,15 +41,6 @@ $block: '.#{variables.$ns}list';
         color: var(--g-color-text-hint);
         min-height: 36px;
         padding-block: 8px;
-    }
-
-    &__item-content {
-        flex: 1 1 auto;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 100%;
     }
 
     &__item-sort-icon {
@@ -89,12 +53,5 @@ $block: '.#{variables.$ns}list';
         margin-inline-end: $space-from-edge - $icon-width;
         flex: 0 0 auto;
         color: var(--g-color-text-hint);
-    }
-
-    &__loading-indicator {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
     }
 }

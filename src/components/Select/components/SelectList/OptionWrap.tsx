@@ -1,8 +1,5 @@
 import React from 'react';
 
-import {Check} from '@gravity-ui/icons';
-
-import {Icon} from '../../../Icon';
 import {block} from '../../../utils/cn';
 import type {SelectOption, SelectProps} from '../../types';
 
@@ -25,19 +22,9 @@ const DefaultOption = ({option}: DefaultOptionProps) => {
 };
 
 export const OptionWrap = (props: OptionWrapProps) => {
-    const {renderOption, value, option, multiple} = props;
-    const selected = value.indexOf(option.value) !== -1;
+    const {renderOption, option} = props;
+
     const optionContent = renderOption ? renderOption(option) : <DefaultOption option={option} />;
 
-    return (
-        <div
-            data-qa={option.qa}
-            className={b('option', {colored: selected && !multiple, disabled: option.disabled})}
-        >
-            {multiple && (
-                <Icon className={b('tick-icon', {shown: selected && multiple})} data={Check} />
-            )}
-            {optionContent}
-        </div>
-    );
+    return optionContent;
 };

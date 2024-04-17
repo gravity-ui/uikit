@@ -4,6 +4,7 @@ import type {DraggableProvided} from 'react-beautiful-dnd';
 
 import type {TextInputSize} from '../controls';
 import type {QAProps} from '../types';
+import type {ListItemSize} from '../useList';
 
 export type ListSortHandleAlign = 'left' | 'right';
 
@@ -14,6 +15,10 @@ export type ListItemData<T> = T & {disabled?: boolean};
 export type ListProps<T = unknown> = QAProps & {
     items: ListItemData<T>[];
     className?: string;
+    /**
+     * Affects only items selected view
+     */
+    multiple?: boolean;
     itemClassName?: string;
     itemsClassName?: string;
     filterClassName?: string;
@@ -54,6 +59,10 @@ export type ListItemProps<T> = {
     active: boolean;
     selected: boolean;
     itemClassName?: string;
+    /**
+     * switch selection view from background to selected icon
+     */
+    hasSelectionIcon?: boolean;
     sortable?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
     style?: React.CSSProperties;
@@ -64,4 +73,5 @@ export type ListItemProps<T> = {
     listId?: string;
     provided?: DraggableProvided;
     isDragging?: boolean;
+    size?: ListItemSize;
 };

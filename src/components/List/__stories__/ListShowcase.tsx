@@ -4,7 +4,9 @@ import _random from 'lodash/random';
 import _range from 'lodash/range';
 
 import {Button} from '../../Button';
+import {Text} from '../../Text';
 import {TextInput} from '../../controls';
+import {Flex} from '../../layout';
 import {cn} from '../../utils/cn';
 import {List} from '../List';
 
@@ -164,8 +166,8 @@ export function ListShowcase() {
                                 onItemClick={(value) => console.log(value)}
                                 renderItem={(item, _isActive, index) => {
                                     return (
-                                        <div className={b('select')}>
-                                            <div className={b('select-text')}>{item.title}</div>
+                                        <Flex className={b('select')} gap="1">
+                                            <Text ellipsis>{item.title}</Text>
                                             <Button
                                                 view="flat"
                                                 size="s"
@@ -176,7 +178,7 @@ export function ListShowcase() {
                                             >
                                                 Select
                                             </Button>
-                                        </div>
+                                        </Flex>
                                     );
                                 }}
                                 filterItem={(filter) => (item) => item.title.includes(filter)}

@@ -20,6 +20,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
         {
             handleClose,
             width,
+            size,
             open,
             placement = DEFAULT_PLACEMENT,
             controlRef,
@@ -43,7 +44,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             </Sheet>
         ) : (
             <Popup
-                contentClassName={b(null, className)}
+                contentClassName={b({size}, className)}
                 qa={SelectQa.POPUP}
                 anchorRef={ref as React.RefObject<HTMLDivElement>}
                 placement={placement}

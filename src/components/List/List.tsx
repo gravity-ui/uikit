@@ -257,14 +257,6 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
-        const {onLoadMore} = this.props;
-
-        if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
-            return (
-                <SelectLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
-            );
-        }
-
         return this.props.renderItem
             ? this.props.renderItem(item, isItemActive, itemIndex)
             : defaultRenderItem(item);
@@ -290,11 +282,23 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             ? this.props.selectedItemIndex.includes(index)
             : index === this.props.selectedItemIndex;
 
+        const {onLoadMore} = this.props;
+
+        if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
+            return (
+                <SelectLoadingIndicator
+                    size={this.props.size || 'm'}
+                    onIntersect={index === 0 ? undefined : onLoadMore}
+                />
+            );
+        }
+
         return (
             <ListItem
                 key={index}
                 style={style}
                 itemIndex={index}
+                hasSelectionIcon={Boolean(this.props.multiple)}
                 item={item}
                 sortable={sortable}
                 sortHandleAlign={sortHandleAlign}

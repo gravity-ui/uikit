@@ -2,16 +2,23 @@ import React from 'react';
 
 import {useIntersection} from '../../../../hooks';
 import {Loader} from '../../../Loader/Loader';
-import {selectListBlock} from '../../constants';
+import {Flex} from '../../../layout';
+import {computeItemSize} from '../../../useList';
+import type {ListItemSize} from '../../../useList';
 
-export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
+export interface SelectLoadingIndicatorProps {
+    size: ListItemSize;
+    onIntersect: (() => void) | undefined;
+}
+
+export const SelectLoadingIndicator = ({size, onIntersect}: SelectLoadingIndicatorProps) => {
     const ref = React.useRef<HTMLDivElement | null>(null);
 
-    useIntersection({element: ref.current, onIntersect: props?.onIntersect});
+    useIntersection({element: ref.current, onIntersect});
 
     return (
-        <div ref={ref} className={selectListBlock('loading-indicator')}>
+        <Flex ref={ref} justifyContent="center" height={computeItemSize(size)}>
             <Loader />
-        </div>
+        </Flex>
     );
 };

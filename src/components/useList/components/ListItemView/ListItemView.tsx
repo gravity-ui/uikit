@@ -2,7 +2,6 @@ import React from 'react';
 
 import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
 
-import {QA_DATA_ATTR} from '../../../../constants';
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
 import {Flex, spacing} from '../../../layout';
@@ -89,7 +88,6 @@ const renderSafeIndentation = (indentation?: number) => {
 export const ListItemView = React.forwardRef(
     (
         {
-            qa,
             id,
             as = 'div',
             size = 'm',
@@ -121,7 +119,7 @@ export const ListItemView = React.forwardRef(
 
         return (
             <Flex
-                {...{[LIST_ITEM_DATA_ATR]: id, [QA_DATA_ATTR]: qa}}
+                {...{[LIST_ITEM_DATA_ATR]: id}}
                 role={role}
                 aria-selected={selected}
                 onClick={onClick}
@@ -147,7 +145,7 @@ export const ListItemView = React.forwardRef(
                 justifyContent="space-between"
                 {...rest}
             >
-                <Flex gap="2" alignItems="center">
+                <Flex gap="2" alignItems="center" grow>
                     {hasSelectionIcon && (
                         <ListItemViewSlot // reserve space
                         >

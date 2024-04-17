@@ -38,6 +38,8 @@ $hover-opacity: 0.7;
     transition-duration: $transitionDuration;
     transition-timing-function: $transitionTimingFunction;
     box-sizing: border-box;
+    /* make new stacking context to isolate z-indexes */
+    isolation: isolate;
 
     --border-size: 0px;
 

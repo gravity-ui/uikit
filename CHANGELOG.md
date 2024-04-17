@@ -1,5 +1,26 @@
 # Changelog
 
+## [6.11.0](https://github.com/gravity-ui/uikit/compare/v6.10.2...v6.11.0) (2024-04-17)
+
+
+### Features
+
+* **Button:** refactor to flex and center icons ([#1452](https://github.com/gravity-ui/uikit/issues/1452)) ([31c22e8](https://github.com/gravity-ui/uikit/commit/31c22e8418f67cb2df3354350f19e44471918aa4))
+
+
+### Bug Fixes
+
+* add load more functionallity to virtualized list ([#1490](https://github.com/gravity-ui/uikit/issues/1490)) ([#1513](https://github.com/gravity-ui/uikit/issues/1513)) ([8de1653](https://github.com/gravity-ui/uikit/commit/8de16536b7541835d58cc651a3ab4248f0e1ebf0))
+* **Breadcrumbs:** unset more item alignment ([#1505](https://github.com/gravity-ui/uikit/issues/1505)) ([7d9797a](https://github.com/gravity-ui/uikit/commit/7d9797ad0b1389b2e732ebeafcae312f750ae9d8))
+* **Dialog:** correct width's vars order ([#1510](https://github.com/gravity-ui/uikit/issues/1510)) ([f54da2d](https://github.com/gravity-ui/uikit/commit/f54da2de711e738a2089f26833be4dc2fa01ec6b))
+* **Label:** isolate inner z-indexes ([#1519](https://github.com/gravity-ui/uikit/issues/1519)) ([200c052](https://github.com/gravity-ui/uikit/commit/200c0522dfeedd637f0656fa27c23a2cb9f844bf))
+* **layout:** ability to override breakpoint during theme ([#1512](https://github.com/gravity-ui/uikit/issues/1512)) ([bad4fa9](https://github.com/gravity-ui/uikit/commit/bad4fa9e8336cd4b06a9875aef948fc8caaaf293))
+* **ListItemView:** fix indentation in depth more than 10 ([#1517](https://github.com/gravity-ui/uikit/issues/1517)) ([2cde017](https://github.com/gravity-ui/uikit/commit/2cde017be22a58b331a4aecff40ca3e83cb23e26))
+* **ListItemView:** some changes after feedback ([#1516](https://github.com/gravity-ui/uikit/issues/1516)) ([b274498](https://github.com/gravity-ui/uikit/commit/b2744989b4398ae7755e8ea9ae6fed0516bf8618))
+* prevent deselection of required table column items ([#1508](https://github.com/gravity-ui/uikit/issues/1508)) ([a69050c](https://github.com/gravity-ui/uikit/commit/a69050cd7213dacce7868a0259359d59e52a1743))
+* return `--g-color-private-white-20-solid` css variable ([#1511](https://github.com/gravity-ui/uikit/issues/1511)) ([4a366be](https://github.com/gravity-ui/uikit/commit/4a366be252609c1369262a2e76101e82b6d87a67))
+* **theme:** add option for controlling :root color-scheme ([#1468](https://github.com/gravity-ui/uikit/issues/1468)) ([f6237e1](https://github.com/gravity-ui/uikit/commit/f6237e1356248668693f1cc34c7515a8e6a52e41))
+
 ## [6.10.2](https://github.com/gravity-ui/uikit/compare/v6.10.1...v6.10.2) (2024-04-10)
 
 

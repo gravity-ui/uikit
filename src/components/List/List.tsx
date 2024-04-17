@@ -2,7 +2,6 @@ import React from 'react';
 
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {
     DraggableProvided,
     DraggableRubric,
@@ -10,18 +9,19 @@ import type {
     DropResult,
     DroppableProvided,
 } from 'react-beautiful-dnd';
-import AutoSizer from 'react-virtualized-auto-sizer';
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import type {Size} from 'react-virtualized-auto-sizer';
-import {VariableSizeList} from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import type {VariableSizeListProps} from 'react-window';
+import {VariableSizeList} from 'react-window';
 
-import {SelectLoadingIndicator} from '../Select/components/SelectList/SelectLoadingIndicator';
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
 import {useDirection} from '../theme';
 import {block} from '../utils/cn';
 import {getUniqId} from '../utils/common';
 
+import {ListLoadingIndicator} from './ListLoadingIndicator';
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
 import type {ListItemData, ListItemProps, ListProps} from './types';
@@ -260,9 +260,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         const {onLoadMore} = this.props;
 
         if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
-            return (
-                <SelectLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
-            );
+            return <ListLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />;
         }
 
         return this.props.renderItem
@@ -421,7 +419,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     private renderVirtualizedContainer() {
         // Otherwise, react-window will not update the list items
-        const items = [...this.getItems()];
+        const items = [...this.getItemsWithLoading()];
 
         if (this.props.sortable) {
             return (

@@ -5,14 +5,14 @@ import {Loader} from '../Loader';
 import {block} from '../utils/cn';
 
 const b = block('list');
-export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
+export const ListLoadingIndicator = (props: {onIntersect?: () => void}) => {
     const ref = React.useRef<HTMLDivElement | null>(null);
 
     useIntersection({element: ref.current, onIntersect: props?.onIntersect});
 
     return (
         <div ref={ref} className={b('loading-indicator')}>
-            <Loader />
+            <Loader qa={'list-loader'} />
         </div>
     );
 };

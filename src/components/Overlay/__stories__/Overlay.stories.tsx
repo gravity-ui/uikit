@@ -8,6 +8,7 @@ import {Dialog as DialogComponent} from '../../Dialog';
 import {Icon} from '../../Icon';
 import {Loader} from '../../Loader';
 import {Table as TableComponent} from '../../Table';
+import {Box, Flex} from '../../layout';
 import {block} from '../../utils/cn';
 import {Overlay} from '../Overlay';
 import type {OverlayProps} from '../Overlay';
@@ -31,7 +32,7 @@ const DefaultTemplate: StoryFn<OverlayProps> = (args) => {
                 <div>Example of overlay</div>
                 <div>with loader</div>
                 <Overlay {...args}>
-                    <Loader />
+                    <Loader size="m" />
                 </Overlay>
             </div>
             <div className={b('content')}>
@@ -95,17 +96,23 @@ const DialogTemplate: StoryFn<OverlayProps> = (args) => {
             }}
             aria-labelledby={dialogTitleId}
         >
-            <div className={b('content')}>
-                <DialogComponent.Header caption="Caption" id={dialogTitleId} />
-                <DialogComponent.Body>Dialog.Body</DialogComponent.Body>
-                <DialogComponent.Footer
-                    onClickButtonApply={() => alert('onApply')}
-                    textButtonApply="Apply"
-                />
+            <DialogComponent.Header caption="Caption" id={dialogTitleId} />
+            <div className={b('dialog-content')}>
+                <DialogComponent.Body>Some text to show in dialog body</DialogComponent.Body>
                 <Overlay {...args}>
-                    <Loader size="m" />
+                    <Flex direction="column" centerContent>
+                        <Loader size="m" />
+                        <Box style={{textAlign: 'center'}} spacing={{mt: 3}}>
+                            Loading text about process with long description to show
+                            <br /> max content-width
+                        </Box>
+                    </Flex>
                 </Overlay>
             </div>
+            <DialogComponent.Footer
+                onClickButtonApply={() => alert('onApply')}
+                textButtonApply="Apply"
+            />
         </DialogComponent>
     );
 };

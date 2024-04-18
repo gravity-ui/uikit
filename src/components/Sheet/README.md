@@ -8,7 +8,7 @@
 import {Sheet} from '@gravity-ui/uikit';
 ```
 
-`Sheet` is a component designed to be used in a mobile context to replace modals or other information elements. It allows for the placement of content of any size and supports internal scrolling and dynamic resizing.
+`Sheet` is a component designed to be used in a mobile context as an information or interactive element. You can place content of any size in it - internal scrolling and dynamic resizing are supported.
 
 On mobile devices, you can move `Sheet` by pulling on its main part or the swipe area. To close it, swipe down or touch the area outside the `Sheet`.
 

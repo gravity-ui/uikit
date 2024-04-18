@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.12.0](https://github.com/gravity-ui/uikit/compare/v6.11.0...v6.12.0) (2024-04-18)
+
+
+### Features
+
+* **useList:** added ability to define initial value to useListState ([#1483](https://github.com/gravity-ui/uikit/issues/1483)) ([7f66d28](https://github.com/gravity-ui/uikit/commit/7f66d28d9e3b43ebe388b90b6bc8e2799962d0c0))
+
+
+### Bug Fixes
+
+* do not call warnOnce function in production ([#1520](https://github.com/gravity-ui/uikit/issues/1520)) ([9ab7d7c](https://github.com/gravity-ui/uikit/commit/9ab7d7c86a06a6f94126a87acfb23033709ec8a1))
+
 ## [6.11.0](https://github.com/gravity-ui/uikit/compare/v6.10.2...v6.11.0) (2024-04-17)
 
 

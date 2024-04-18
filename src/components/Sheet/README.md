@@ -9,7 +9,8 @@ import {Sheet} from '@gravity-ui/uikit';
 ```
 
 `Sheet` is a component designed to be used in a mobile context to replace modals or other information elements. It allows for the placement of content of any size and supports internal scrolling and dynamic resizing.
-On mobile devices, you can move the sheet by touching the body of the sheet or the swipe area. You can also close it by swiping down.
+
+On mobile devices, you can move the sheet by touching the body of `Sheet` or the swipe area. You can close it by swiping down or touching the area outside `Sheet`.
 
 ## Usage
 
@@ -20,24 +21,10 @@ import {Button, Sheet} from '@gravity-ui/uikit';
 const [visible, setVisible] = React.useState(false);
 
 <Button onClick={() => setVisible(true)}>Open Sheet</Button>
-<Sheet visible={visible} onClose={() => setVisible(false)} title={'Content Sheet'}>
+<Sheet visible={visible} onClose={() => setVisible(false)} title="Content Sheet">
     Content
 </Sheet>
 ```
-
-## Hide top
-
-<!--LANDING_BLOCK
-
-<ExampleBlock
-    code={`
-<Sheet visible={true} hideTop={true}>Disabled</Sheet>
-`}
->
-    <UIKit.Sheet visible={true} hideTop={true}>Disabled</UIKit.Sheet>
-</ExampleBlock>
-
-LANDING_BLOCK-->
 
 ## Properties
 

@@ -18,12 +18,18 @@ On mobile devices, you can move `Sheet` by pulling on its main part or the swipe
 import React from 'react';
 import {Button, Sheet} from '@gravity-ui/uikit';
 
-const [visible, setVisible] = React.useState(false);
+const SheetExample = () => {
+  const [visible, setVisible] = React.useState(false);
 
-<Button onClick={() => setVisible(true)}>Open Sheet</Button>
-<Sheet visible={visible} onClose={() => setVisible(false)} title="Content Sheet">
-    Content
-</Sheet>
+  return (
+    <React.Fragment>
+      <Button onClick={() => setVisible(true)}>Open Sheet</Button>
+      <Sheet visible={visible} onClose={() => setVisible(false)} title="Content Sheet">
+        Content
+      </Sheet>
+    </React.Fragment>
+  );
+};
 ```
 
 ## Properties

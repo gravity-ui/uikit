@@ -33,9 +33,9 @@ function Title({title}: {title?: string}) {
     );
 }
 
-export const LayoutPresenter = ({children, title, theme}: LayoutPresenterProps) => {
+export const LayoutPresenter = ({children, title, theme: config}: LayoutPresenterProps) => {
     return (
-        <ThemeProvider layout={{theme}}>
+        <ThemeProvider layout={{config}}>
             <Title title={title} />
             <div
                 style={{

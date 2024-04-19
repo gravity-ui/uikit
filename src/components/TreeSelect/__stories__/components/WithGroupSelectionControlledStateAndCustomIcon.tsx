@@ -5,8 +5,8 @@ import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icon
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView, getListParsedState} from '../../../useList';
-import type {ListItemCommonProps, ListItemId} from '../../../useList';
+import {ListItemView, getListParsedState, useListState} from '../../../useList';
+import type {ListItemCommonProps} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -40,9 +40,12 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     );
 
     const [value, setValue] = React.useState<string[]>([]);
-    const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>(
-        () => getListParsedState(items).initialState.expandedById,
-    );
+
+    const {expandedById, setExpanded} = useListState({
+        initialValues: {
+            expandedById: getListParsedState(items).initialState.expandedById,
+        },
+    });
 
     return (
         <Flex>

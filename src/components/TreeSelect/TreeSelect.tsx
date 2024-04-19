@@ -80,10 +80,12 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     });
 
     const listState = useListState({
-        expandedById,
-        disabledById,
-        activeItemId,
-        selectedById: selected,
+        controlledValues: {
+            expandedById,
+            disabledById,
+            activeItemId,
+            selectedById: selected,
+        },
     });
 
     const setActiveItemId = propsSetActiveItemId ?? listState.setActiveItemId;

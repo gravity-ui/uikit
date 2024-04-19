@@ -1023,15 +1023,16 @@ To render custom popup use the `renderPopup` property.
     code={`
 <Select
   filterable
+  placeholder="Custom popup"
   renderPopup={({renderList, renderFilter}) => {
-  return (
-    <React.Fragment>
-      {renderFilter()}
-      <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
-      {renderList()}
-    </React.Fragment>
-  );
-}}
+    return (
+      <React.Fragment>
+        {renderFilter()}
+        <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
+        {renderList()}
+      </React.Fragment>
+    );
+  }}
 >
   <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
   <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
@@ -1042,7 +1043,7 @@ To render custom popup use the `renderPopup` property.
 >
   <UIKit.Select
     filterable
-    placeholder="Custom selected options"
+    placeholder="Custom popup"
     renderPopup={({renderList, renderFilter}) => {
       return (
         <React.Fragment>

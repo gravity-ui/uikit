@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
-import type {LayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
+import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
@@ -28,7 +28,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     nativeScrollbar?: boolean;
     scoped?: boolean;
     rootClassName?: string;
-    layout?: Omit<LayoutProviderProps, 'children'>;
+    layout?: Omit<PrivateLayoutProviderProps, 'children'>;
 }
 
 export function ThemeProvider({

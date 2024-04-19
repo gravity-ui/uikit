@@ -3,8 +3,8 @@ import React from 'react';
 import {Pencil} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
-import {isEqual} from 'lodash';
 import _cloneDeep from 'lodash/cloneDeep';
+import _isEqual from 'lodash/isEqual';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../Icon';
@@ -265,7 +265,7 @@ const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args)
             settings={settings}
             updateSettings={updateSettings}
             defaultSettings={DEFAULT_SETTINGS}
-            showResetButton={!isEqual(DEFAULT_SETTINGS, settings)}
+            showResetButton={!_isEqual(DEFAULT_SETTINGS, settings)}
         />
     );
 };

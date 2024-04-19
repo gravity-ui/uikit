@@ -6,7 +6,7 @@ import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
 import type {LayoutTheme, MediaType, RecursivePartial} from '../types';
 import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
 
-interface LayoutProviderProps {
+export interface LayoutProviderProps {
     theme?: RecursivePartial<LayoutTheme>;
     /**
      * During ssr you can override default (`s`) media screen size if needed
@@ -15,14 +15,7 @@ interface LayoutProviderProps {
     children: React.ReactNode;
 }
 
-/**
- * @deprecated - pass theme directly to `ThemeProvider`
- *
- * Provide context for layout components and current media queries.
- * ---
- * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#layoutprovider-and-layouttheme
- */
-export function LayoutProvider({
+export function PrivateLayoutProvider({
     children,
     theme: override,
     initialMediaQuery,
@@ -40,4 +33,15 @@ export function LayoutProvider({
             {children}
         </LayoutContext.Provider>
     );
+}
+
+/**
+ * @deprecated - already used as part of ThemeProvider. To override layout theme use `layout` prop
+ *
+ * Provide context for layout components and current media queries.
+ * ---
+ * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#layoutprovider-and-layouttheme
+ */
+export function LayoutProvider({children}: LayoutProviderProps) {
+    return children;
 }

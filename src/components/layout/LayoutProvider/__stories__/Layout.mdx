@@ -76,13 +76,13 @@ _You can override default values on project level:_
 ```tsx
 import {ThemeProvider, LayoutTheme} from '@gravity-ui/uikit';
 
-const layoutTheme: LayoutTheme = {
+const theme: LayoutTheme = {
     spaceBaseSize: 5,
 };
 
 export const App = () => {
     return (
-        <ThemeProvider layoutTheme={layoutTheme}>
+        <ThemeProvider layout={{theme}}>
             {...}
         </ThemeProvider>
     );
@@ -138,7 +138,7 @@ We use `mobile-first` approach. It means that you should adapt you app to deskto
         }
     };
 
-    <ThemeProvider layoutTheme={APP_LAYOUT_THEME}>
+    <ThemeProvider layout={{theme: APP_LAYOUT_THEME}}>
         {...}
     </ThemeProvider>
     ```

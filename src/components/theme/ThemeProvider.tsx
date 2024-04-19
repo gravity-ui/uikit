@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {LayoutProvider} from '../layout';
-import type {LayoutTheme} from '../layout';
-import type {MediaType, RecursivePartial} from '../layout/types';
+import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
+import type {LayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
@@ -29,14 +28,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     nativeScrollbar?: boolean;
     scoped?: boolean;
     rootClassName?: string;
-    /**
-     * Pass theme to override default breakpoint or spacing
-     */
-    layoutTheme?: RecursivePartial<LayoutTheme>;
-    /**
-     * During ssr you can override default (`s`) media screen size if needed
-     */
-    initialMediaQuery?: MediaType;
+    layout?: Omit<LayoutProviderProps, 'children'>;
 }
 
 export function ThemeProvider({
@@ -48,8 +40,7 @@ export function ThemeProvider({
     scoped: scopedProp = false,
     rootClassName = '',
     children,
-    layoutTheme,
-    initialMediaQuery,
+    layout,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
@@ -98,42 +89,34 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
-    let node = (
-        <ThemeContext.Provider value={contextValue}>
-            <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                {scoped ? (
-                    <div
-                        className={b(
-                            {
-                                theme: themeValue,
-                                'native-scrollbar': nativeScrollbar !== false,
-                            },
-                            rootClassName,
-                        )}
-                        dir={
-                            hasParentProvider && direction === parentDirection
-                                ? undefined
-                                : direction
-                        }
-                    >
-                        {children}
-                    </div>
-                ) : (
-                    children
-                )}
-            </ThemeSettingsContext.Provider>
-        </ThemeContext.Provider>
+    return (
+        <PrivateLayoutProvider {...layout}>
+            <ThemeContext.Provider value={contextValue}>
+                <ThemeSettingsContext.Provider value={themeSettingsContext}>
+                    {scoped ? (
+                        <div
+                            className={b(
+                                {
+                                    theme: themeValue,
+                                    'native-scrollbar': nativeScrollbar !== false,
+                                },
+                                rootClassName,
+                            )}
+                            dir={
+                                hasParentProvider && direction === parentDirection
+                                    ? undefined
+                                    : direction
+                            }
+                        >
+                            {children}
+                        </div>
+                    ) : (
+                        children
+                    )}
+                </ThemeSettingsContext.Provider>
+            </ThemeContext.Provider>
+        </PrivateLayoutProvider>
     );
-
-    if (layoutTheme || initialMediaQuery) {
-        node = (
-            <LayoutProvider theme={layoutTheme} initialMediaQuery={initialMediaQuery}>
-                {node}
-            </LayoutProvider>
-        );
-    }
-
-    return node;
 }
 
 ThemeProvider.displayName = 'ThemeProvider';

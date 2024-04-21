@@ -60,7 +60,7 @@ export interface ListItemViewProps extends QAProps, ListItemCommonProps {
 }
 
 interface SlotProps extends FlexProps {
-    indentation?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+    indentation?: number;
 }
 
 export const ListItemViewSlot = ({
@@ -77,7 +77,7 @@ export const ListItemViewSlot = ({
 };
 
 const renderSafeIndentation = (indentation?: number) => {
-    if (indentation && indentation >= 1 && indentation < 11) {
+    if (indentation && indentation >= 1) {
         return (
             <ListItemViewSlot indentation={Math.floor(indentation) as SlotProps['indentation']} />
         );

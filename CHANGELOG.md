@@ -1,5 +1,20 @@
 # Changelog
 
+## [6.13.0](https://github.com/gravity-ui/uikit/compare/v6.12.0...v6.13.0) (2024-04-22)
+
+
+### Features
+
+* **layout:** unification of Theme and Layout Providers ([#1518](https://github.com/gravity-ui/uikit/issues/1518)) ([d89610a](https://github.com/gravity-ui/uikit/commit/d89610a8c7bc952ecf0db4c2548c8c5dde9bc710))
+
+
+### Bug Fixes
+
+* **Card:** reset box shadow styles for the root ([#1537](https://github.com/gravity-ui/uikit/issues/1537)) ([39b7fe8](https://github.com/gravity-ui/uikit/commit/39b7fe801593151094759503e4f8c706cece38c8))
+* **ListItemView:** fix bg color ([#1488](https://github.com/gravity-ui/uikit/issues/1488)) ([2ae45ef](https://github.com/gravity-ui/uikit/commit/2ae45ef9a997f8d0cdd8687116044239e1ba710c))
+* **ListItemView:** removed max identation ([#1535](https://github.com/gravity-ui/uikit/issues/1535)) ([d7d45db](https://github.com/gravity-ui/uikit/commit/d7d45db53338b5e623bb81b59e7b66a588c18e28))
+* **ThemeProvider:** changed theme to config prop name ([#1528](https://github.com/gravity-ui/uikit/issues/1528)) ([62431ca](https://github.com/gravity-ui/uikit/commit/62431ca72c220f9a434d065c87b33cf060cd7f7a))
+
 ## [6.12.0](https://github.com/gravity-ui/uikit/compare/v6.11.0...v6.12.0) (2024-04-18)
 
 

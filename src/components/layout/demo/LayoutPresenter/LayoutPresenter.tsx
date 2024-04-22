@@ -2,8 +2,8 @@ import React from 'react';
 
 import {Text} from '../../../Text';
 import type {LayoutTheme} from '../../../layout';
+import {ThemeProvider} from '../../../theme';
 import {Flex} from '../../Flex/Flex';
-import {LayoutProvider} from '../../LayoutProvider/LayoutProvider';
 import {useLayoutContext} from '../../hooks/useLayoutContext';
 import {sp} from '../../spacing/spacing';
 
@@ -33,9 +33,9 @@ function Title({title}: {title?: string}) {
     );
 }
 
-export const LayoutPresenter = ({children, title, theme}: LayoutPresenterProps) => {
+export const LayoutPresenter = ({children, title, theme: config}: LayoutPresenterProps) => {
     return (
-        <LayoutProvider theme={theme}>
+        <ThemeProvider layout={{config}}>
             <Title title={title} />
             <div
                 style={{
@@ -46,6 +46,6 @@ export const LayoutPresenter = ({children, title, theme}: LayoutPresenterProps) 
             >
                 {children}
             </div>
-        </LayoutProvider>
+        </ThemeProvider>
     );
 };

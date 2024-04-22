@@ -180,6 +180,38 @@ The row count of the `TextArea` is controlled by the `rows`, `minRows` and `maxR
 </ExampleBlock>
 LANDING_BLOCK-->
 
+## Resizable TextArea
+
+You can get resizable behaviour by providing `resize` style to `controlProps` property.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+<TextArea
+    rows={4}
+    placeholder="Placeholder"
+    style={{width: "auto", maxWidth: "100%"}}
+    controlProps={{style: {resize: "both"}}}
+/>
+`}
+>
+    <UIKit.TextArea
+        rows={4}
+        placeholder="Placeholder"
+        style={{width: "auto", maxWidth: "100%"}}
+        controlProps={{style: {resize: "both"}}}
+    />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<TextArea rows={4} controlProps={{style: {resize: 'both'}}} />
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Properties
 
 | Name            | Description                                                                                                                       |                        Type                         |     Default     |

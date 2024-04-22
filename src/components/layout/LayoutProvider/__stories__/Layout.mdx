@@ -32,7 +32,6 @@ import {Container, Row, Col, Flex} from '@gravity-ui/uikit';
 
 ### Components:
 
--   [LayoutProvider and LayoutTheme](#layoutprovider-and-layouttheme)
 -   [Layout Grid](#layout-grid)
     -   [Row](#row)
     -   [Col](#col)
@@ -75,17 +74,17 @@ _You can override default values on project level:_
 ```
 
 ```tsx
-import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit';
+import {ThemeProvider, LayoutTheme} from '@gravity-ui/uikit';
 
-const layoutTheme: LayoutTheme = {
+const theme: LayoutTheme = {
     spaceBaseSize: 5,
 };
 
 export const App = () => {
     return (
-        <LayoutProvider theme={layoutTheme}>
+        <ThemeProvider layout={{theme}}>
             {...}
-        </LayoutProvider>
+        </ThemeProvider>
     );
 };
 ```
@@ -121,54 +120,28 @@ We use `mobile-first` approach. It means that you should adapt you app to deskto
 > To override breakpoint use `theme` breakpoints property;
 
     ```tsx
-    export const APP_LAYOUT_THEME: LayoutTheme = {
+    const APP_LAYOUT_THEME: LayoutTheme = {
+        spaceBaseSize: 4,
+        components: {
+            container: {
+                gutters: 3,
+                media: {
+                    l: {
+                        gutters: 5,
+                    },
+                },
+            },
+        },
         breakpoints: {
             s: 320,
             l: 980,
         }
     };
 
-    <LayoutProvider theme={APP_LAYOUT_THEME}>
+    <ThemeProvider layout={{theme: APP_LAYOUT_THEME}}>
         {...}
-    </LayoutProvider>
+    </ThemeProvider>
     ```
-
-## LayoutProvider and LayoutTheme
-
-Through `LayoutProvider` components can get default props which are corresponding to different screen sizes.
-
-Usage of `LayoutProvider` is optional. Use it if you need to override default spacing or add default behaviour to connected to theme compoennts (now only `Container`)
-
-### props:
-
--   `theme` - partial LayoutTheme onject that will be override original theme;
--   `initialMediaQuery` - use can directly pass initial
-
-```tsx
-import {LayoutProvider, LayoutTheme} from '@gravity-ui/uikit';
-
-export const APP_LAYOUT_THEME: LayoutTheme = {
-    spaceBaseSize: 4,
-    components: {
-        container: {
-            gutters: 3,
-            media: {
-                l: {
-                    gutters: 5,
-                },
-            },
-        },
-    },
-};
-
-export const App = () => {
-    return (
-        <LayoutProvider theme={AWESOME_LAYOUT_THEME}>
-            <Router />
-        </LayoutProvider>
-    );
-};
-```
 
 ## Box
 

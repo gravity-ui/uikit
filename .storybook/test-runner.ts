@@ -17,9 +17,11 @@ const config: TestRunnerConfig = {
         // Apply story-level a11y rules
         await configureAxe(page, {
             rules: storyContext.parameters?.a11y?.config?.rules,
+            reporter: 'no-passes',
         });
 
         await checkA11y(page, '#storybook-root', {
+            verbose: false,
             detailedReport: true,
             detailedReportOptions: {
                 html: true,

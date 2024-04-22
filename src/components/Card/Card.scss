@@ -6,6 +6,7 @@ $block: '.#{variables.$ns}card';
     --_--background-color: transparent;
     --_--border-color: transparent;
     --_--border-width: 0;
+    --_--box-shadow: none;
 
     box-shadow: var(--g-card-box-shadow, var(--_--box-shadow));
     box-sizing: border-box;

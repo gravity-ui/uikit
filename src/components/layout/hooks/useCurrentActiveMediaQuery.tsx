@@ -25,12 +25,12 @@ export const makeCurrentActiveMediaExpressions = (
     xxxl: `(min-width: ${mediaToValue.xxxl}px)`,
 });
 
-const safeMatchMedia = (query: string | number): MediaQueryList => {
+const safeMatchMedia = (query: string): MediaQueryList => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
         return mockMediaQueryList;
     }
 
-    return window.matchMedia(String(query));
+    return window.matchMedia(query);
 };
 
 class Queries {
@@ -81,33 +81,20 @@ export const useCurrentActiveMediaQuery = (
     const [state, _setState] = React.useState<MediaType>(initialMediaQuery);
 
     React.useLayoutEffect(() => {
-        let mounted = true;
-
         const queries = new Queries(breakpointsMap);
 
         const setState = () => {
             _setState(queries.getCurrentActiveMedia());
         };
 
-        const onChange = () => {
-            if (!mounted) {
-                return;
-            }
-
-            setState();
-        };
-
-        queries.addListeners(onChange);
+        queries.addListeners(setState);
 
         setState();
 
         return () => {
-            mounted = false;
-            queries.removeListeners(onChange);
+            queries.removeListeners(setState);
         };
-        // don't support runtime breakpoint redefinition. Breakpoints defined only one at LayoutTheme
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [breakpointsMap]);
 
     return state;
 };

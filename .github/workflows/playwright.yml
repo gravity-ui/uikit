@@ -43,6 +43,10 @@ jobs:
     name: Storybook Tests
     runs-on: ubuntu-latest
     steps:
+      - name: Test Step
+        run: 'pwd'
+      - name: Test Step 2
+        run: 'ls'
       - name: Wait for workflow with Storybook Tests
         run: '${{ github.action_path }}/scripts/wait-for-workflow.sh'
         shell: bash

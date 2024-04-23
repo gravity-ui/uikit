@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for workflow with Storybook Tests
-        uses: kamilchodola/wait-for-workflow-action@1.1.0
+        uses: kamilchodola/wait-for-workflow-action
         with:
           GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
           workflow_id: 'pr-storybook-tests.yml'

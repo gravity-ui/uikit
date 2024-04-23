@@ -21,14 +21,25 @@ $block: '.#{variables.$ns}list';
         flex: 1 1 auto;
     }
 
+    &__item-new,
     &__item,
     &__empty-placeholder {
         box-sizing: border-box;
         display: flex;
         align-items: center;
-        padding: var(--_--item-padding);
         user-select: none;
         overflow: hidden;
+    }
+
+    &__item,
+    &__empty-placeholder {
+        padding: var(--_--item-padding);
+    }
+
+    &__item-new {
+        &_sortable[data-rbd-drag-handle-context-id]:active {
+            cursor: grabbing;
+        }
     }
 
     &__item {

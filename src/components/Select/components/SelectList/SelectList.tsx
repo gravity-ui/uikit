@@ -9,6 +9,7 @@ import type {FlattenOption, GroupTitleItem} from '../../utils';
 import {GroupLabel} from './GroupLabel';
 import {OptionWrap} from './OptionWrap';
 import {SelectLoadingIndicator} from './SelectLoadingIndicator';
+import {SelectLoadingIndicatorNew} from './SelectLoadingIndicatorNew';
 
 import './SelectList.scss';
 
@@ -26,6 +27,8 @@ type SelectListProps = {
     virtualized?: boolean;
     loading?: boolean;
     onLoadMore?: () => void;
+    // TODO: надпись про soft миграцию
+    newListView?: boolean;
     selectId: string;
     onChangeActive: (index?: number) => void;
 };
@@ -45,6 +48,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         multiple,
         virtualized,
         mobile,
+        newListView,
         loading,
         onLoadMore,
         selectId,
@@ -99,9 +103,24 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                       }
                     : undefined;
 
-                return <GroupLabel option={option} renderOptionGroup={wrappedRenderOptionGroup} />;
+                return (
+                    <GroupLabel
+                        option={option}
+                        renderOptionGroup={wrappedRenderOptionGroup}
+                        newListNew={newListView}
+                    />
+                );
             }
             if (option.value === loadingOption.value) {
+                if (newListView) {
+                    return (
+                        <SelectLoadingIndicatorNew
+                            size={size}
+                            onIntersect={itemIndex === 0 ? undefined : onLoadMore}
+                        />
+                    );
+                }
+
                 return (
                     <SelectLoadingIndicator
                         onIntersect={itemIndex === 0 ? undefined : onLoadMore}
@@ -119,6 +138,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
 
             return (
                 <OptionWrap
+                    newListView={newListView}
                     option={option}
                     value={value}
                     multiple={multiple}
@@ -126,15 +146,28 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
                 />
             );
         },
-        [renderOption, renderOptionGroup, value, multiple, getItemHeight, onLoadMore],
+        [
+            renderOption,
+            value,
+            multiple,
+            renderOptionGroup,
+            getItemHeight,
+            newListView,
+            onLoadMore,
+            size,
+        ],
     );
 
     return (
         <List
             ref={ref}
-            className={selectListBlock({size, virtualized, mobile})}
+            size={size}
+            newListView={newListView}
+            multiple={multiple}
+            className={selectListBlock({size, virtualized, mobile, newListView})}
             qa={SelectQa.LIST}
             itemClassName={selectListBlock('item')}
+            itemsClassName={newListView ? selectListBlock('items') : undefined}
             itemHeight={getItemHeight}
             itemsHeight={virtualized ? optionsHeight : undefined}
             items={items}

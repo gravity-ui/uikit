@@ -60,6 +60,7 @@
     }
 
     &__select {
+        overflow: hidden;
         $button: '.#{variables.$ns}button';
         box-sizing: border-box;
         display: flex;
@@ -77,11 +78,5 @@
                 display: block;
             }
         }
-    }
-
-    &__select-text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1 1 auto;
     }
 }

@@ -223,7 +223,9 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             {togglerNode}
             <SelectPopup
                 ref={controlWrapRef}
-                className={b('popup', {size}, popupClassName)}
+                size={size}
+                newListView
+                className={popupClassName}
                 controlRef={controlRef}
                 width={popupWidth}
                 placement={placement}

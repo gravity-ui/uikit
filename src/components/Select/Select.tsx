@@ -6,6 +6,7 @@ import type {List} from '../List';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
+import {useThemeContext} from '../theme/useThemeContext';
 import type {CnMods} from '../utils/cn';
 
 import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
@@ -90,6 +91,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         hasCounter,
         renderCounter,
         title,
+        newListView: propsNewListView,
     } = props;
     const mobile = useMobile();
     const [{filter}, dispatch] = React.useReducer(reducer, initialState);
@@ -100,6 +102,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
+    const theme = useThemeContext();
+
+    const newListView =
+        typeof propsNewListView === 'undefined' ? Boolean(theme?._newListView) : propsNewListView;
 
     const handleFilterChange = React.useCallback(
         (nextFilter: string) => {
@@ -288,6 +294,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             return (
                 <SelectList
                     ref={listRef}
+                    newListView={newListView}
                     size={size}
                     value={value}
                     mobile={mobile}
@@ -348,6 +355,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
             <SelectPopup
                 ref={controlWrapRef}
+                size={size}
+                newListView={newListView}
                 className={popupClassName}
                 controlRef={controlRef}
                 width={popupWidth}

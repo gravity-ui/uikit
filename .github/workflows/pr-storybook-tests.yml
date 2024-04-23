@@ -1,0 +1,25 @@
+name: PR Storybook Tests
+
+on:
+  workflow_run:
+    workflows: ['PR Preview Deploy']
+    types:
+    - completed
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Storybook Tests
+        env:
+          PR_PREVIEW_URL: "https://preview.gravity-ui.com/uikit/${{github.event.pull_request.number}}"
+        run: npm run test-storybook

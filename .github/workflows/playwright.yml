@@ -43,11 +43,10 @@ jobs:
     name: Storybook Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Set execute permissions for script
-        run: 'chmod +x $GITHUB_WORKSPACE/../scripts/wait-for-workflow.sh'
-        shell: bash
+      - uses: actions/checkout@v3
       - name: Wait for workflow with Storybook Tests
-        run: 'bash $GITHUB_WORKSPACE/../scripts/wait-for-workflow.sh'
+        run: 'scripts/wait-for-workflow.sh'
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WORKFLOW_ID: 'pr-storybook-tests.yml'

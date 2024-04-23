@@ -46,7 +46,8 @@ jobs:
       - name: Test Step
         run: 'pwd'
       - name: Test Step 2
-        run: 'ls'
+        shell: bash
+        run: 'ls -l'
       - name: Wait for workflow with Storybook Tests
         run: '${{ github.action_path }}/scripts/wait-for-workflow.sh'
         shell: bash

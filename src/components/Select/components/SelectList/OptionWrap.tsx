@@ -17,6 +17,7 @@ type OptionWrapProps = {
     value: NonNullable<SelectProps['value']>;
     option: SelectOption;
     multiple?: boolean;
+    newListView?: boolean;
 };
 
 const DefaultOption = ({option}: DefaultOptionProps) => {
@@ -25,9 +26,13 @@ const DefaultOption = ({option}: DefaultOptionProps) => {
 };
 
 export const OptionWrap = (props: OptionWrapProps) => {
-    const {renderOption, value, option, multiple} = props;
+    const {renderOption, value, option, multiple, newListView} = props;
     const selected = value.indexOf(option.value) !== -1;
     const optionContent = renderOption ? renderOption(option) : <DefaultOption option={option} />;
+
+    if (newListView) {
+        return optionContent;
+    }
 
     return (
         <div

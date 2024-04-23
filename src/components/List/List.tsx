@@ -17,11 +17,12 @@ import {VariableSizeList} from 'react-window';
 
 import {TextInput} from '../controls';
 import {MobileContext} from '../mobile';
-import {useDirection} from '../theme';
+import {ThemeContext, useDirection} from '../theme';
 import {block} from '../utils/cn';
 import {getUniqId} from '../utils/common';
 
 import {ListLoadingIndicator} from './ListLoadingIndicator';
+import {ListLoadingIndicatorNew} from './ListLoadingIndicatorNew';
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
 import type {ListItemData, ListItemProps, ListProps} from './types';
@@ -62,6 +63,8 @@ const ListContainer = React.forwardRef<VariableSizeList, VariableSizeListProps>(
 ListContainer.displayName = 'ListContainer';
 
 export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T>> {
+    static contextType = ThemeContext;
+
     static defaultProps: Partial<ListProps<ListItemData<unknown>>> = listDefaultProps;
 
     static moveListElement<T = unknown>(
@@ -90,6 +93,8 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
         return undefined;
     }
+
+    context: React.ContextType<typeof ThemeContext>;
 
     state: ListState<T> = {
         items: this.props.items,
@@ -256,11 +261,21 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         }
     };
 
-    private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
-        const {onLoadMore} = this.props;
+    private get newListViewMigration() {
+        return typeof this.props.newListView === 'undefined'
+            ? Boolean(this.context?._newListView)
+            : this.props.newListView;
+    }
 
-        if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
-            return <ListLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />;
+    private renderItemContent: ListItemProps<T>['renderItem'] = (item, isItemActive, itemIndex) => {
+        if (!this.newListViewMigration) {
+            const {onLoadMore} = this.props;
+
+            if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
+                return (
+                    <ListLoadingIndicator onIntersect={itemIndex === 0 ? undefined : onLoadMore} />
+                );
+            }
         }
 
         return this.props.renderItem
@@ -288,11 +303,26 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             ? this.props.selectedItemIndex.includes(index)
             : index === this.props.selectedItemIndex;
 
+        if (this.newListViewMigration) {
+            const {onLoadMore} = this.props;
+
+            if (isObject(item) && 'value' in item && item.value === this.loadingItem.value) {
+                return (
+                    <ListLoadingIndicatorNew
+                        size={this.props.size || 'm'}
+                        onIntersect={index === 0 ? undefined : onLoadMore}
+                    />
+                );
+            }
+        }
+
         return (
             <ListItem
                 key={index}
+                newListView={this.newListViewMigration}
                 style={style}
                 itemIndex={index}
+                hasSelectionIcon={Boolean(this.props.multiple)}
                 item={item}
                 sortable={sortable}
                 sortHandleAlign={sortHandleAlign}

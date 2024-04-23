@@ -7,6 +7,7 @@ import type {SelectProps} from '..';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
+import {SelectWithLoader} from './SelectWithLoader';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 
 export default {
@@ -36,6 +37,7 @@ const DefaultTemplate: StoryFn<SelectProps> = (args) => (
         <Select.Option value="val4" content="Value4" />
     </Select>
 );
+
 const ShowcaseTemplate: StoryFn<SelectProps> = (args: SelectProps) => <SelectShowcase {...args} />;
 const SelectPopupWidthShowcaseTemplate: StoryFn<SelectProps> = (args) => (
     <SelectPopupWidthShowcase {...args} />
@@ -43,7 +45,11 @@ const SelectPopupWidthShowcaseTemplate: StoryFn<SelectProps> = (args) => (
 const UseSelectOptionsShowcaseTemplate = () => {
     return <UseSelectOptionsShowcase />;
 };
+
+const TemplateWithState: StoryFn<SelectProps> = (args) => <SelectWithLoader {...args} />;
+
 export const Default = DefaultTemplate.bind({});
+export const WithLoadingMoreItems = TemplateWithState.bind({});
 export const Showcase = ShowcaseTemplate.bind({});
 export const PopupWidth = SelectPopupWidthShowcaseTemplate.bind({});
 export const UseSelectOptions = UseSelectOptionsShowcaseTemplate.bind({});
@@ -58,3 +64,5 @@ Showcase.args = {
     label: '',
     hasClear: false,
 };
+
+WithLoadingMoreItems.args = {};

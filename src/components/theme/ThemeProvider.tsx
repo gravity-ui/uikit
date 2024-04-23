@@ -29,6 +29,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     scoped?: boolean;
     rootClassName?: string;
     layout?: Omit<PrivateLayoutProviderProps, 'children'>;
+    experiments?: {_newListView?: boolean};
 }
 
 export function ThemeProvider({
@@ -40,6 +41,7 @@ export function ThemeProvider({
     scoped: scopedProp = false,
     rootClassName = '',
     children,
+    experiments = {_newListView: false},
     layout,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
@@ -80,8 +82,9 @@ export function ThemeProvider({
                 theme,
                 themeValue,
                 direction,
+                _newListView: experiments._newListView,
             }) satisfies ThemeContextProps,
-        [theme, themeValue, direction],
+        [theme, themeValue, direction, experiments._newListView],
     );
 
     const themeSettingsContext = React.useMemo(

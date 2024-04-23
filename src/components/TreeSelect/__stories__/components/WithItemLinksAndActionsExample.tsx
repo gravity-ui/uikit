@@ -84,28 +84,30 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                                 }
                                 startSlot={
                                     groupState ? (
-                                        <Button
-                                            size="m"
-                                            view="flat"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                e.preventDefault();
+                                        <Flex shrink={0}>
+                                            <Button
+                                                size="m"
+                                                view="flat"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
 
-                                                setExpanded((prevExpandedState) => ({
-                                                    ...prevExpandedState,
-                                                    // by default all groups expanded
-                                                    [state.id]:
-                                                        state.id in prevExpandedState
-                                                            ? !prevExpandedState[state.id]
-                                                            : false,
-                                                }));
-                                            }}
-                                        >
-                                            <Icon
-                                                data={expanded ? ChevronDown : ChevronUp}
-                                                size={16}
-                                            />
-                                        </Button>
+                                                    setExpanded((prevExpandedState) => ({
+                                                        ...prevExpandedState,
+                                                        // by default all groups expanded
+                                                        [state.id]:
+                                                            state.id in prevExpandedState
+                                                                ? !prevExpandedState[state.id]
+                                                                : false,
+                                                    }));
+                                                }}
+                                            >
+                                                <Icon
+                                                    data={expanded ? ChevronDown : ChevronUp}
+                                                    size={16}
+                                                />
+                                            </Button>
+                                        </Flex>
                                     ) : (
                                         <Flex
                                             width={28}

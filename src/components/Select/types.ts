@@ -85,6 +85,8 @@ export type SelectProps<T = any> = QAProps &
         width?: 'auto' | 'max' | number;
         popupWidth?: 'fit' | number;
         virtualizationThreshold?: number;
+        // TODO: про soft миграцию
+        newListView?: boolean;
         className?: string;
         controlClassName?: string;
         popupClassName?: string;

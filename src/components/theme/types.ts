@@ -8,4 +8,8 @@ export interface ThemeContextProps {
     theme: Theme;
     themeValue: RealTheme;
     direction: Direction;
+    /**
+     * Ability to define soft migration for new list item view
+     */
+    _newListView?: boolean;
 }

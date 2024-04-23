@@ -4,6 +4,7 @@ import {Grip} from '@gravity-ui/icons';
 import type {DraggableProvided} from 'react-beautiful-dnd';
 
 import {Icon} from '../../Icon';
+import {ListItemView} from '../../useList';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
@@ -37,7 +38,10 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             sortHandleAlign,
             itemClassName,
             selected,
+            hasSelectionIcon,
             active,
+            size,
+            newListView,
             role = 'listitem',
             isDragging = false,
         } = this.props;
@@ -50,6 +54,41 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             ...style,
             right: undefined,
         };
+
+        if (newListView) {
+            return (
+                <ListItemView
+                    size={size}
+                    role={role}
+                    selected={selected}
+                    aria-selected={selected}
+                    qa={active ? ListQa.ACTIVE_ITEM : undefined}
+                    dragging={isDragging}
+                    active={active}
+                    hasSelectionIcon={hasSelectionIcon}
+                    disabled={item.disabled}
+                    className={b(
+                        'item-new',
+                        {
+                            sortable,
+                            'sort-handle-align': sortHandleAlign,
+                        },
+                        itemClassName,
+                    )}
+                    {...this.props.provided?.draggableProps}
+                    {...this.props.provided?.dragHandleProps}
+                    style={getStyle(this.props.provided, fixedStyle)}
+                    onClick={item.disabled ? undefined : this.onClick}
+                    onClickCapture={this.onClickCapture}
+                    onMouseEnter={this.onMouseEnter}
+                    onMouseLeave={this.onMouseLeave}
+                    ref={this.setRef}
+                    id={`${this.props.listId}-item-${this.props.itemIndex}`}
+                    startSlot={this.renderSortIcon()}
+                    title={this.renderContent()}
+                />
+            );
+        }
 
         return (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -102,7 +141,12 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     }
 
     private renderContent() {
-        const {renderItem = defaultRenderItem, item, active, itemIndex} = this.props;
+        const {renderItem = defaultRenderItem, item, active, itemIndex, newListView} = this.props;
+
+        if (newListView) {
+            return renderItem(item, active, itemIndex);
+        }
+
         return <div className={b('item-content')}>{renderItem(item, active, itemIndex)}</div>;
     }
 

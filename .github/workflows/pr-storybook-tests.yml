@@ -18,10 +18,8 @@ jobs:
         run: npx playwright install --with-deps
       - name: Build Storybook Static
         run: npm run build-storybook
-      - name: Serve Storybook Static
-        uses: Eun/http-server-action@v1.0.11
-        with:
-          directory: storybook-static
-          port: 7007
-      - name: Run Storybook Tests
-        run: npm run test-storybook
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 7007 --silent" \
+            "npx wait-on tcp:6006 && npm run test-storybook"

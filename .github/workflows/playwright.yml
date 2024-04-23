@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test Step
-        run: 'pwd'
+        run: 'cd ${{github.workspace}}'
       - name: Test Step 2
         shell: bash
         run: 'ls -l'

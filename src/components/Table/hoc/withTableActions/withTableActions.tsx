@@ -4,6 +4,7 @@ import {Ellipsis} from '@gravity-ui/icons';
 import _memoize from 'lodash/memoize';
 
 import {useUniqId} from '../../../../hooks';
+import {useBoolean} from '../../../../hooks/private';
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -112,7 +113,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     rowActionsSize,
     isRowDisabled,
 }: DefaultRowActionsProps<I>) => {
-    const [open, setOpen] = React.useState(false);
+    const [isPopupOpen, , closePopup, togglePopup] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
     const rowId = useUniqId();
 
@@ -137,6 +138,8 @@ const DefaultRowActions = <I extends TableDataItem>({
                 onClick={(event) => {
                     event.stopPropagation();
                     handler(item, index, event);
+
+                    closePopup();
                 }}
                 iconStart={icon}
                 className={menuItemCn}
@@ -158,10 +161,10 @@ const DefaultRowActions = <I extends TableDataItem>({
     return (
         <div className={actionsCn}>
             <Popup
-                open={open}
+                open={isPopupOpen}
                 anchorRef={anchorRef}
                 placement={DEFAULT_PLACEMENT}
-                onOutsideClick={() => setOpen(false)}
+                onOutsideClick={closePopup}
                 id={rowId}
             >
                 <Menu className={menuCn} size={rowActionsSize}>
@@ -171,13 +174,13 @@ const DefaultRowActions = <I extends TableDataItem>({
             <Button
                 view="flat-secondary"
                 className={actionsButtonCn}
-                onClick={() => setOpen(!open)}
+                onClick={togglePopup}
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
                 extraProps={{
                     'aria-label': i18n('label-actions'),
-                    'aria-expanded': open,
+                    'aria-expanded': isPopupOpen,
                     'aria-controls': rowId,
                 }}
             >

@@ -56,6 +56,7 @@ else
       exit 1
     fi
 
+    echo $response
     sleep $interval
   done
 fi

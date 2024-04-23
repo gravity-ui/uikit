@@ -4,6 +4,7 @@ import {Ellipsis} from '@gravity-ui/icons';
 import _memoize from 'lodash/memoize';
 
 import {useUniqId} from '../../../../hooks';
+import {useBoolean} from '../../../../hooks/private';
 import type {PopperPlacement} from '../../../../hooks/private';
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
@@ -112,7 +113,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     rowActionsSize,
     isRowDisabled,
 }: DefaultRowActionsProps<I>) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, , onClose, onToggle] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
     const rowId = useUniqId();
 
@@ -137,6 +138,8 @@ const DefaultRowActions = <I extends TableDataItem>({
                 onClick={(event) => {
                     event.stopPropagation();
                     handler(item, index, event);
+
+                    onClose();
                 }}
                 iconStart={icon}
                 className={menuItemCn}
@@ -161,7 +164,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                 open={open}
                 anchorRef={anchorRef}
                 placement={DEFAULT_PLACEMENT}
-                onOutsideClick={() => setOpen(false)}
+                onOutsideClick={onClose}
                 id={rowId}
             >
                 <Menu className={menuCn} size={rowActionsSize}>
@@ -171,7 +174,7 @@ const DefaultRowActions = <I extends TableDataItem>({
             <Button
                 view="flat-secondary"
                 className={actionsButtonCn}
-                onClick={() => setOpen(!open)}
+                onClick={onToggle}
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}

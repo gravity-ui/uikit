@@ -56,7 +56,7 @@ else
       exit 1
     fi
 
-    echo $response
+    echo $response | jq '.workflow_runs[].head_branch'
     sleep $interval
   done
 fi

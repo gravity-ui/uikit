@@ -40,7 +40,7 @@ jobs:
           name: pr
           path: ./pr-id.txt
   storybook-tests:
-    name: Storybook Tests result
+    name: Storybook Tests
     runs-on: ubuntu-latest
     steps:
       - name: Wait for workflow with Storybook Tests

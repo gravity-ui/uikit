@@ -12,7 +12,7 @@ export default {
 };
 
 const DefaultTemplate: StoryFn<ActionTooltipProps> = (args) => <ActionTooltip {...args} />;
-// test comment
+// test comment 2
 
 export const Default = DefaultTemplate.bind({});
 

@@ -44,4 +44,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for workflow with Storybook Tests
-        run: 'curl -s -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/gravity-ui/uikit/actions/workflows/pr-storybook-tests.yml/runs"'
+        run: './scripts/wait-for-workflow.sh'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WORKFLOW_ID: 'pr-storybook-tests.yml'
+          MAX_WAIT_MINUTES: 10
+          INTERVAL: 30
+          TIMEOUT: 600
+          ORG_NAME: gravity-ui
+          REPO_NAME: uikit
+          REF: ${{ github.ref }}
+
+

@@ -44,10 +44,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set execute permissions for script
-        run: chmod +x ${{ github.action_path }}/scripts/wait-for-workflow.sh
+        run: chmod +x scripts/wait-for-workflow.sh
         shell: bash
       - name: Wait for workflow with Storybook Tests
-        run: '${{ github.action_path }}/scripts/wait-for-workflow.sh'
+        run: 'scripts/wait-for-workflow.sh'
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

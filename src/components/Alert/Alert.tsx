@@ -17,10 +17,6 @@ import {DEFAULT_ICON_SIZE, bAlert} from './constants';
 import i18n from './i18n';
 import type {AlertProps} from './types';
 
-const closeBtnExtraProps = {
-    'aria-label': i18n('label_close'),
-};
-
 export const Alert = (props: AlertProps) => {
     const {
         theme = 'normal',
@@ -72,7 +68,9 @@ export const Alert = (props: AlertProps) => {
                             view="flat"
                             className={bAlert('close-btn')}
                             onClick={onClose}
-                            extraProps={closeBtnExtraProps}
+                            extraProps={{
+                                'aria-label': i18n('label_close'),
+                            }}
                         >
                             <Icon
                                 data={Xmark}

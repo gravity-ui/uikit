@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for workflow with Storybook Tests
-        run: './scripts/wait-for-workflow.sh'
+        run: 'scripts/wait-for-workflow.sh'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WORKFLOW_ID: 'pr-storybook-tests.yml'

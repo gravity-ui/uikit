@@ -66,6 +66,7 @@ export const Alert = (props: AlertProps) => {
                     {onClose && (
                         <Button
                             view="flat"
+                            className={bAlert('close-btn')}
                             onClick={onClose}
                             extraProps={{
                                 'aria-label': i18n('label_close'),

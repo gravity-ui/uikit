@@ -11,6 +11,23 @@ import {Divider} from '../Divider';
 const meta: Meta<typeof Divider> = {
     title: 'Components/Utils/Divider',
     component: Divider,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'aria-allowed-attr', // https://github.com/gravity-ui/uikit/issues/1336
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-required-parent', // https://github.com/gravity-ui/uikit/issues/1336
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 };
 
 export default meta;

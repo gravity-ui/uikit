@@ -51,6 +51,6 @@ jobs:
           max_wait_minutes: '10'
           interval: '1'
           timeout: '600'
-          org_name: 'gravity-ui'
+          org_name: 'Kyzyl-ool'
           repo_name: 'uikit'
           ref: '${{ github.ref }}'

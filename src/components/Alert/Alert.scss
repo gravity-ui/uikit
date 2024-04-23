@@ -14,4 +14,8 @@ $block: '.#{variables.$ns}alert';
     &__actions_minContent {
         width: min-content;
     }
+
+    &__close-btn {
+        flex-shrink: 0;
+    }
 }

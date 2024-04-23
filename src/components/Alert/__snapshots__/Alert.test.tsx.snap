@@ -73,7 +73,7 @@ exports[`Alert has predicted styles if inline layout rendered 1`] = `
       </div>
       <button
         aria-label="Close"
-        class="g-button g-button_view_flat g-button_size_m g-button_pin_round-round"
+        class="g-button g-button_view_flat g-button_size_m g-button_pin_round-round g-alert__close-btn"
         type="button"
       >
         <span

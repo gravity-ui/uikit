@@ -6,8 +6,8 @@ import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
 import type {LayoutTheme, MediaType, RecursivePartial} from '../types';
 import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
 
-export interface LayoutProviderProps {
-    theme?: RecursivePartial<LayoutTheme>;
+export interface PrivateLayoutProviderProps {
+    config?: RecursivePartial<LayoutTheme>;
     /**
      * During ssr you can override default (`s`) media screen size if needed
      */
@@ -17,9 +17,9 @@ export interface LayoutProviderProps {
 
 export function PrivateLayoutProvider({
     children,
-    theme: override,
+    config: override,
     initialMediaQuery,
-}: LayoutProviderProps) {
+}: PrivateLayoutProviderProps) {
     const theme = React.useMemo(() => makeLayoutDefaultTheme({override}), [override]);
     const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints, initialMediaQuery);
 
@@ -33,6 +33,15 @@ export function PrivateLayoutProvider({
             {children}
         </LayoutContext.Provider>
     );
+}
+
+interface LayoutProviderProps {
+    theme?: RecursivePartial<LayoutTheme>;
+    /**
+     * During ssr you can override default (`s`) media screen size if needed
+     */
+    initialMediaQuery?: MediaType;
+    children: React.ReactNode;
 }
 
 /**

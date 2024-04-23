@@ -1,10 +1,7 @@
 name: PR Storybook Tests
 
 on:
-  workflow_run:
-    workflows: ['PR Preview Deploy']
-    types:
-    - completed
+  pull_request:
 
 jobs:
   tests:
@@ -19,7 +16,12 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Storybook Tests
+      - name: Build Storybook Static
+        run: npm run build-storybook
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 7007 --silent" \
+            "npx wait-on $PR_PREVIEW_URL && npm run test-storybook"
         env:
-          PR_PREVIEW_URL: "https://preview.gravity-ui.com/uikit/${{github.event.pull_request.number}}"
-        run: npm run test-storybook
+          PR_PREVIEW_URL: http://127.0.0.1:7007

@@ -19,7 +19,7 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Storybook Tests
+      - name: Run Storybook Tests
         env:
           PR_PREVIEW_URL: "https://preview.gravity-ui.com/uikit/${{github.event.pull_request.number}}"
         run: exit 0

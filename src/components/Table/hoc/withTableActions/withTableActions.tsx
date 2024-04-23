@@ -113,7 +113,7 @@ const DefaultRowActions = <I extends TableDataItem>({
     rowActionsSize,
     isRowDisabled,
 }: DefaultRowActionsProps<I>) => {
-    const [open, , onClose, onToggle] = useBoolean(false);
+    const [isPopupOpen, , closePopup, togglePopup] = useBoolean(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
     const rowId = useUniqId();
 
@@ -139,7 +139,7 @@ const DefaultRowActions = <I extends TableDataItem>({
                     event.stopPropagation();
                     handler(item, index, event);
 
-                    onClose();
+                    closePopup();
                 }}
                 iconStart={icon}
                 className={menuItemCn}
@@ -161,10 +161,10 @@ const DefaultRowActions = <I extends TableDataItem>({
     return (
         <div className={actionsCn}>
             <Popup
-                open={open}
+                open={isPopupOpen}
                 anchorRef={anchorRef}
                 placement={DEFAULT_PLACEMENT}
-                onOutsideClick={onClose}
+                onOutsideClick={closePopup}
                 id={rowId}
             >
                 <Menu className={menuCn} size={rowActionsSize}>
@@ -174,13 +174,13 @@ const DefaultRowActions = <I extends TableDataItem>({
             <Button
                 view="flat-secondary"
                 className={actionsButtonCn}
-                onClick={onToggle}
+                onClick={togglePopup}
                 size={rowActionsSize}
                 ref={anchorRef}
                 disabled={disabled}
                 extraProps={{
                     'aria-label': i18n('label-actions'),
-                    'aria-expanded': open,
+                    'aria-expanded': isPopupOpen,
                     'aria-controls': rowId,
                 }}
             >

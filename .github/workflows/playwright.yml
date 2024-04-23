@@ -47,10 +47,10 @@ jobs:
         uses: kamilchodola/wait-for-workflow-action@1.1.0
         with:
           GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
-          workflow_id: 'gravity-ui/uikit/.github/workflows/pr-storybook-tests.yml'
+          workflow_id: 'pr-storybook-tests.yml'
           max_wait_minutes: '10'
           interval: '1'
           timeout: '600'
-          org_name: 'Kyzyl-ool'
+          org_name: 'gravity-ui'
           repo_name: 'uikit'
           ref: '${{ github.ref }}'

@@ -25,6 +25,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
         | React.HTMLAttributes<HTMLDivElement>
         | React.AnchorHTMLAttributes<HTMLAnchorElement>;
     children?: React.ReactNode;
+    itemRole?: React.AriaRole;
 }
 
 export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function MenuItem(
@@ -46,6 +47,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         extraProps,
         children,
         qa,
+        itemRole,
     },
     ref,
 ) {
@@ -123,7 +125,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         <li
             ref={ref as React.ForwardedRef<HTMLLIElement>}
             className={b('list-item')}
-            role={'menuitem'}
+            role={itemRole}
         >
             {item}
         </li>

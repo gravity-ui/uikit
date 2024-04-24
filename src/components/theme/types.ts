@@ -8,4 +8,5 @@ export interface ThemeContextProps {
     theme: Theme;
     themeValue: RealTheme;
     direction: Direction;
+    scoped?: boolean;
 }

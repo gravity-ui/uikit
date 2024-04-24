@@ -17,6 +17,7 @@ export type MenuSize = 's' | 'm' | 'l' | 'xl';
 export interface MenuProps extends DOMProps, QAProps {
     size?: MenuSize;
     children?: React.ReactNode;
+    role?: React.AriaRole;
 }
 
 export type {MenuItemProps, MenuGroupProps};
@@ -29,13 +30,13 @@ interface MenuComponent
 
 // TODO: keyboard navigation, Up/Down arrows and Enter
 export const Menu = React.forwardRef<HTMLUListElement, MenuProps>(function Menu(
-    {size = 'm', children, style, className, qa},
+    {size = 'm', children, style, className, qa, role},
     ref,
 ) {
     return (
         <ul
             ref={ref}
-            role="menu"
+            role={role || 'menu'}
             // tabIndex={0}
             style={style}
             className={b({size}, className)}

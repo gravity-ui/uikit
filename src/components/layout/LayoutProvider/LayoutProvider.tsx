@@ -4,7 +4,7 @@ import React from 'react';
 import {LayoutContext} from '../contexts/LayoutContext';
 import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
 import type {LayoutTheme, MediaType, RecursivePartial} from '../types';
-import {makeLayoutDefaultTheme} from '../utils/makeLayoutDefaultTheme';
+import {overrideLayoutTheme} from '../utils/overrideLayoutTheme';
 
 export interface PrivateLayoutProviderProps {
     config?: RecursivePartial<LayoutTheme>;
@@ -20,19 +20,15 @@ export function PrivateLayoutProvider({
     config: override,
     initialMediaQuery,
 }: PrivateLayoutProviderProps) {
-    const theme = React.useMemo(() => makeLayoutDefaultTheme({override}), [override]);
+    const parentContext = React.useContext(LayoutContext);
+    const theme = React.useMemo(
+        () => overrideLayoutTheme({theme: parentContext.theme, override}),
+        [override, parentContext.theme],
+    );
     const activeMediaQuery = useCurrentActiveMediaQuery(theme.breakpoints, initialMediaQuery);
 
-    return (
-        <LayoutContext.Provider
-            value={{
-                activeMediaQuery,
-                theme,
-            }}
-        >
-            {children}
-        </LayoutContext.Provider>
-    );
+    const value = React.useMemo(() => ({activeMediaQuery, theme}), [activeMediaQuery, theme]);
+    return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
 }
 
 interface LayoutProviderProps {

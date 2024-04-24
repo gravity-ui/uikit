@@ -1,0 +1,9 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}portal';
+
+#{$block} {
+    &__theme-wrapper {
+        display: contents;
+    }
+}

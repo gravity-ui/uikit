@@ -1,7 +1,7 @@
-import {getDarkMediaMatch} from './getDarkMediaMatch';
+import {getDarkMediaMatch, supportsMatchMedia} from './getDarkMediaMatch';
 
 export function getSystemTheme() {
-    if (typeof window === 'object') {
+    if (supportsMatchMedia) {
         return getDarkMediaMatch().matches ? 'dark' : 'light';
     } else {
         return 'light';

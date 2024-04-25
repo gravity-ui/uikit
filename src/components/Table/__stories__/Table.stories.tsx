@@ -205,21 +205,12 @@ const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
 const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context) => {
     const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
 
-    const updateSettings = React.useCallback(
-        async (updatedSettings: TableSettingsData) => setSettings(updatedSettings),
-        [],
-    );
-
     if (context.parameters.isFactory) {
         return (
-            <TableWithSettingsFactory
-                {...args}
-                settings={settings}
-                updateSettings={updateSettings}
-            />
+            <TableWithSettingsFactory {...args} settings={settings} updateSettings={setSettings} />
         );
     } else {
-        return <TableWithSettings {...args} settings={settings} updateSettings={updateSettings} />;
+        return <TableWithSettings {...args} settings={settings} updateSettings={setSettings} />;
     }
 };
 export const HOCWithTableSettings = WithTableSettingsTemplate.bind({});
@@ -254,16 +245,11 @@ HOCWithTableSettingsFactory.parameters = {
 const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args) => {
     const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
 
-    const updateSettings = React.useCallback(
-        async (updatedSettings: TableSettingsData) => setSettings(updatedSettings),
-        [],
-    );
-
     return (
         <TableWithSettings
             {...args}
             settings={settings}
-            updateSettings={updateSettings}
+            updateSettings={setSettings}
             defaultSettings={DEFAULT_SETTINGS}
             showResetButton={!_isEqual(DEFAULT_SETTINGS, settings)}
         />

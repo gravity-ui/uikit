@@ -11,6 +11,10 @@ $blockSelectClear: '.#{variables.$ns}select-clear';
     width: 300px;
 }
 
+.select-example {
+    margin: 5px 0;
+}
+
 #{$block} {
     display: flex;
     flex-direction: column;

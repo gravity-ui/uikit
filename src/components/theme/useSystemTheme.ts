@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getDarkMediaMatch} from './getDarkMediaMatch';
+import {getDarkMediaMatch, supportsMatchMedia} from './getDarkMediaMatch';
 import {getSystemTheme} from './getSystemTheme';
 import type {ThemeType} from './types';
 
@@ -29,6 +29,10 @@ export function useSystemTheme(): ThemeType {
     const [theme, setTheme] = React.useState<ThemeType>(getSystemTheme());
 
     React.useEffect(() => {
+        if (!supportsMatchMedia) {
+            return undefined;
+        }
+
         function onChange(event: MediaQueryListEvent) {
             setTheme(event.matches ? 'dark' : 'light');
         }

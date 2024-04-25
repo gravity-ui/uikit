@@ -24,7 +24,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
             <h2>Static width (props.popupWidth)</h2>
             <Select
                 {...args}
-                className="select-width-50"
+                className="select-example select-width-50"
                 options={extralong}
                 popupWidth={200}
                 title="Sample select"
@@ -34,12 +34,24 @@ export const SelectPopupWidthShowcase = (args: any) => {
                 options={extralong}
                 width="max"
                 popupWidth={200}
+                className="select-example"
                 title="Sample select"
             />
 
             <h2>Short values. Adjust to Control width</h2>
-            <Select {...args} className="select-width-300" options={short} title="Sample select" />
-            <Select {...args} options={short} width="max" title="Sample select" />
+            <Select
+                {...args}
+                className="select-example select-width-300"
+                options={short}
+                title="Sample select"
+            />
+            <Select
+                {...args}
+                className="select-example"
+                options={short}
+                width="max"
+                title="Sample select"
+            />
 
             <h2>Modes default/fit</h2>
             <Flex gap={10}>

@@ -17,6 +17,7 @@ import {block} from '../../utils/cn';
 import {
     EXAMPLE_CHILDREN_OPTIONS,
     EXAMPLE_CUSTOM_FILTER_SECTION,
+    EXAMPLE_CUSTOM_POPUP,
     EXAMPLE_CUSTOM_RENDERER_WITH_DISABLED_ITEM,
     EXAMPLE_DISABLED_OPTIONS,
     EXAMPLE_GROUP_CHILDREN_OPTIONS,
@@ -366,10 +367,21 @@ export const SelectShowcase = (props: SelectProps) => {
             </ExampleItem>
             <ExampleItem
                 title="Select with custom popup"
-                code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}
+                code={[EXAMPLE_CUSTOM_POPUP]}
                 selectProps={{
                     ...props,
-                    popupClassName: b('custom-popup'),
+                    filterable: true,
+                    renderPopup: ({renderFilter, renderList}) => {
+                        return (
+                            <React.Fragment>
+                                <div>{'---- Before Filter ----'}</div>
+                                {renderFilter()}
+                                <div>{'---- After Filter, Before List ----'}</div>
+                                {renderList()}
+                                <div>{'---- After List ----'}</div>
+                            </React.Fragment>
+                        );
+                    },
                 }}
             >
                 <Select.Option value="val1" content="Value1" />
@@ -411,30 +423,6 @@ export const SelectShowcase = (props: SelectProps) => {
                     <Select.Option value="val4" content="Value4" />
                 </ExampleItem>
             </div>
-
-            <ExampleItem
-                title="Select with custom popup"
-                selectProps={{
-                    ...props,
-                    filterable: true,
-                    renderPopup: ({renderFilter, renderList}) => {
-                        return (
-                            <React.Fragment>
-                                <div>{'---- Before Filter ----'}</div>
-                                {renderFilter()}
-                                <div>{'---- After Filter, Before List ----'}</div>
-                                {renderList()}
-                                <div>{'---- After List ----'}</div>
-                            </React.Fragment>
-                        );
-                    },
-                }}
-            >
-                <Select.Option value="val1" content="Value1" />
-                <Select.Option value="val2" content="Value2" />
-                <Select.Option value="val3" content="Value3" />
-                <Select.Option value="val4" content="Value4" />
-            </ExampleItem>
         </div>
     );
 };

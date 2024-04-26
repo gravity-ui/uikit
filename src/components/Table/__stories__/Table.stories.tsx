@@ -4,6 +4,7 @@ import {Pencil} from '@gravity-ui/icons';
 import {action} from '@storybook/addon-actions';
 import type {Meta, StoryFn} from '@storybook/react';
 import _cloneDeep from 'lodash/cloneDeep';
+import _isEqual from 'lodash/isEqual';
 
 import type {TableAction, TableSettingsData} from '..';
 import {Icon} from '../../Icon';
@@ -199,27 +200,17 @@ const WithTableSelectionTemplate: StoryFn<TableProps<DataItem>> = (args) => {
 };
 export const HOCWithTableSelection = WithTableSelectionTemplate.bind({});
 
+const DEFAULT_SETTINGS = columns.map((x) => ({id: x.id, isSelected: true}));
 // ---------------------------------
 const WithTableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args, context) => {
-    const [settings, setSettings] = React.useState<TableSettingsData>(() =>
-        columns.map((x) => ({id: x.id, isSelected: true})),
-    );
-
-    const updateSettings = React.useCallback(
-        async (updatedSettings: TableSettingsData) => setSettings(updatedSettings),
-        [],
-    );
+    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
 
     if (context.parameters.isFactory) {
         return (
-            <TableWithSettingsFactory
-                {...args}
-                settings={settings}
-                updateSettings={updateSettings}
-            />
+            <TableWithSettingsFactory {...args} settings={settings} updateSettings={setSettings} />
         );
     } else {
-        return <TableWithSettings {...args} settings={settings} updateSettings={updateSettings} />;
+        return <TableWithSettings {...args} settings={settings} updateSettings={setSettings} />;
     }
 };
 export const HOCWithTableSettings = WithTableSettingsTemplate.bind({});
@@ -246,6 +237,27 @@ export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});
 HOCWithTableSettingsFactory.parameters = {
     isFactory: true,
 
+    // Strict mode ruins sortable list due to this react-beautiful-dnd issue
+    // https://github.com/atlassian/react-beautiful-dnd/issues/2350
+    disableStrictMode: true,
+};
+
+const WithTableSettingsWithResetTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
+
+    return (
+        <TableWithSettings
+            {...args}
+            settings={settings}
+            updateSettings={setSettings}
+            defaultSettings={DEFAULT_SETTINGS}
+            showResetButton={!_isEqual(DEFAULT_SETTINGS, settings)}
+        />
+    );
+};
+
+export const HOCWithTableSettingsWithReset = WithTableSettingsWithResetTemplate.bind({});
+HOCWithTableSettingsWithReset.parameters = {
     // Strict mode ruins sortable list due to this react-beautiful-dnd issue
     // https://github.com/atlassian/react-beautiful-dnd/issues/2350
     disableStrictMode: true,

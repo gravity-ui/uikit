@@ -20,6 +20,7 @@ import type {
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
+import {Flex} from '../../../../layout/Flex/Flex';
 import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
@@ -265,6 +266,9 @@ export interface TableColumnSetupProps {
     renderControls?: RenderControls;
 
     className?: string;
+
+    defaultItems?: TableColumnSetupItem[];
+    showResetButton?: boolean | ((currentItems: TableColumnSetupItem[]) => boolean);
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -277,6 +281,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         sortable,
         renderControls,
         className,
+        defaultItems = propsItems,
+        showResetButton: propsShowResetButton,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -309,10 +315,31 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         }
     };
 
+    const showResetButton =
+        typeof propsShowResetButton === 'function'
+            ? propsShowResetButton(items)
+            : propsShowResetButton;
+
     const dndRenderContainer = useDndRenderContainer({
         onDragEnd,
         renderControls: () =>
-            renderControls ? renderControls({DefaultApplyButton, onApply}) : <DefaultApplyButton />,
+            renderControls ? (
+                renderControls({DefaultApplyButton, onApply})
+            ) : (
+                <Flex gapRow={1} direction="column" className={controlsCn}>
+                    {showResetButton && (
+                        <Button
+                            onClick={() => {
+                                setItems(defaultItems);
+                            }}
+                            width="max"
+                        >
+                            {i18n('button_reset')}
+                        </Button>
+                    )}
+                    <DefaultApplyButton />
+                </Flex>
+            ),
     });
 
     const dndRenderItem = useDndRenderItem(sortable);

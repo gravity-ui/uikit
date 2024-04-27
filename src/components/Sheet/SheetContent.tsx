@@ -140,14 +140,20 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         return (
             <React.Fragment>
-                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div
                     ref={this.veilRef}
                     className={sheetBlock('veil', veilTransitionMod)}
                     onClick={isAnimating ? undefined : this.onVeilClick}
                     onTransitionEnd={this.onVeilTransitionEnd}
+                    role="presentation"
                 />
-                <div ref={this.sheetRef} className={sheetBlock('sheet', sheetTransitionMod)}>
+                <div
+                    ref={this.sheetRef}
+                    className={sheetBlock('sheet', sheetTransitionMod)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={title}
+                >
                     {!hideTopBar && (
                         <div ref={this.sheetTopRef} className={sheetBlock('sheet-top')}>
                             <div className={sheetBlock('sheet-top-resizer')} />

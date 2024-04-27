@@ -15,6 +15,7 @@ export const OptionsListType = {
 export const TEST_QA = 'select-test-qa';
 export const SELECT_CONTROL_OPEN_CLASS = selectControlBlock({open: true});
 export const SELECT_CONTROL_BUTTON_OPEN_CLASS = selectControlButtonBlock({open: true});
+export const SELECT_CONTROL_BUTTON_ERROR_CLASS = selectControlButtonBlock({error: true});
 export const SELECT_LIST_VIRTUALIZED_CLASS = selectListBlock({virtualized: true});
 export const DEFAULT_OPTIONS = generateOptions([
     ['js', 'JavaScript'],

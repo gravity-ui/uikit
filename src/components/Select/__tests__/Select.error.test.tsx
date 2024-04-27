@@ -4,7 +4,15 @@ import {render, screen} from '../../../../test-utils/utils';
 import {CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
 import {Select} from '../Select';
 
+import {SELECT_CONTROL_BUTTON_ERROR_CLASS, TEST_QA, setup} from './utils';
+
 describe('Select error', () => {
+    test('render error appearance with invalid state and without errorMessage', () => {
+        const {getByTestId} = setup({validationState: 'invalid'});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_ERROR_CLASS);
+    });
     test('render error message with error prop (if it is not an empty string)', () => {
         render(<Select error="Some Error" />);
 

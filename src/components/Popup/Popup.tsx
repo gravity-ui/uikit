@@ -151,30 +151,28 @@ export function Popup({
     });
 
     return (
-        <Portal container={container} disablePortal={disablePortal}>
-            <CSSTransition
-                nodeRef={containerRef}
-                in={open}
-                addEndListener={(done) =>
-                    containerRef.current?.addEventListener('animationend', done)
-                }
-                classNames={getCSSTransitionClassNames(b)}
-                mountOnEnter={!keepMounted}
-                unmountOnExit={!keepMounted}
-                appear={true}
-                onEnter={() => {
-                    onTransitionEnter?.();
-                }}
-                onEntered={() => {
-                    onTransitionEntered?.();
-                }}
-                onExit={() => {
-                    onTransitionExit?.();
-                }}
-                onExited={() => {
-                    onTransitionExited?.();
-                }}
-            >
+        <CSSTransition
+            nodeRef={containerRef}
+            in={open}
+            addEndListener={(done) => containerRef.current?.addEventListener('animationend', done)}
+            classNames={getCSSTransitionClassNames(b)}
+            mountOnEnter={!keepMounted}
+            unmountOnExit={!keepMounted}
+            appear={true}
+            onEnter={() => {
+                onTransitionEnter?.();
+            }}
+            onEntered={() => {
+                onTransitionEntered?.();
+            }}
+            onExit={() => {
+                onTransitionExit?.();
+            }}
+            onExited={() => {
+                onTransitionExited?.();
+            }}
+        >
+            <Portal container={container} disablePortal={disablePortal}>
                 <div
                     ref={handleRef}
                     style={styles.popper}
@@ -211,7 +209,7 @@ export function Popup({
                         </div>
                     </FocusTrap>
                 </div>
-            </CSSTransition>
-        </Portal>
+            </Portal>
+        </CSSTransition>
     );
 }

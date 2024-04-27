@@ -1,4 +1,5 @@
 {
-  "button_switcher": "Columns",
-  "button_apply": "Apply"
+  "button_apply": "Apply",
+  "button_reset": "Reset",
+  "button_switcher": "Columns"
 }

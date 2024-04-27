@@ -1,4 +1,5 @@
 {
-  "button_switcher": "Колонки",
-  "button_apply": "Применить"
+  "button_apply": "Применить",
+  "button_reset": "Сбросить",
+  "button_switcher": "Колонки"
 }

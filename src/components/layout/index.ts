@@ -4,7 +4,7 @@ export * from './Row/Row';
 export * from './Flex/Flex';
 export * from './Box/Box';
 export * from './Container/Container';
-export * from './LayoutProvider/LayoutProvider';
+export {LayoutProvider} from './LayoutProvider/LayoutProvider';
 export * from './spacing/spacing';
 
 export * from './hooks/useLayoutContext';

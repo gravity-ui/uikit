@@ -102,34 +102,32 @@ export function Modal({
     });
 
     return (
-        <Portal container={container}>
-            <CSSTransition
-                nodeRef={containerRef}
-                in={open}
-                addEndListener={(done) =>
-                    containerRef.current?.addEventListener('animationend', done)
-                }
-                classNames={getCSSTransitionClassNames(b)}
-                mountOnEnter={!keepMounted}
-                unmountOnExit={!keepMounted}
-                appear={true}
-                onEnter={() => {
-                    setInTransition(true);
-                    onTransitionEnter?.();
-                }}
-                onExit={() => {
-                    setInTransition(true);
-                    onTransitionExit?.();
-                }}
-                onEntered={() => {
-                    setInTransition(false);
-                    onTransitionEntered?.();
-                }}
-                onExited={() => {
-                    setInTransition(false);
-                    onTransitionExited?.();
-                }}
-            >
+        <CSSTransition
+            nodeRef={containerRef}
+            in={open}
+            addEndListener={(done) => containerRef.current?.addEventListener('animationend', done)}
+            classNames={getCSSTransitionClassNames(b)}
+            mountOnEnter={!keepMounted}
+            unmountOnExit={!keepMounted}
+            appear={true}
+            onEnter={() => {
+                setInTransition(true);
+                onTransitionEnter?.();
+            }}
+            onExit={() => {
+                setInTransition(true);
+                onTransitionExit?.();
+            }}
+            onEntered={() => {
+                setInTransition(false);
+                onTransitionEntered?.();
+            }}
+            onExited={() => {
+                setInTransition(false);
+                onTransitionExited?.();
+            }}
+        >
+            <Portal container={container}>
                 <div ref={containerRef} style={style} className={b({open}, className)} data-qa={qa}>
                     <div className={b('content-aligner')}>
                         <div className={b('content-wrapper')}>
@@ -157,7 +155,7 @@ export function Modal({
                         </div>
                     </div>
                 </div>
-            </CSSTransition>
-        </Portal>
+            </Portal>
+        </CSSTransition>
     );
 }

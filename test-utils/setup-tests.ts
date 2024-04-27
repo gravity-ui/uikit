@@ -14,3 +14,13 @@ global.ResizeObserver = class implements ResizeObserver {
     observe(_target: Element, _options?: ResizeObserverOptions) {}
     unobserve(_target: Element) {}
 };
+
+// mock AutoSizer to properly test functionality related to virtualization
+// 400 x 400 is a random size and might be changed if needed
+jest.mock(
+    'react-virtualized-auto-sizer',
+    () =>
+        //@ts-ignore
+        ({children}) =>
+            children({height: 400, width: 400}),
+);

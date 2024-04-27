@@ -4,6 +4,7 @@ import {TreeList} from '../TreeList';
 
 import {DefaultStory} from './stories/DefaultStory';
 import {InfinityScrollStory} from './stories/InfinityScrollStory';
+import {WithDisabledElementsStory} from './stories/WithDisabledElementsStory';
 import {WithDndListStory} from './stories/WithDndListStory';
 import {WithFiltrationAndControlsStory} from './stories/WithFiltrationAndControlsStory';
 import {WithGroupSelectionAndCustomIconStory} from './stories/WithGroupSelectionAndCustomIconStory';
@@ -183,6 +184,41 @@ type WithItemLinksAndActionsStoryObj = StoryObj<typeof WithItemLinksAndActionsSt
 
 export const WithItemLinksAndActions: WithItemLinksAndActionsStoryObj = {
     render: WithItemLinksAndActionsStory,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-input-field-name',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-required-children',
+                        enabled: false,
+                    },
+                    {
+                        id: 'aria-required-parent',
+                        enabled: false,
+                    },
+                    {
+                        id: 'nested-interactive',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
+};
+
+type WithDisabledElementsStoryObj = StoryObj<typeof WithDisabledElementsStory>;
+
+export const WithDisabledElements: WithDisabledElementsStoryObj = {
+    render: WithDisabledElementsStory,
     parameters: {
         a11y: {
             element: '#storybook-root',

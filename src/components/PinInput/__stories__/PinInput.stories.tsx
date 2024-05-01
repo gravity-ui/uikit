@@ -19,6 +19,7 @@ export const Default: Story = {
     args: {
         onUpdate: action('onUpdate'),
         onUpdateComplete: action('onUpdateComplete'),
+        'aria-label': 'PIN code',
     },
 };
 

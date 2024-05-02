@@ -1,9 +1,11 @@
+'use client';
+
 import React from 'react';
 
 import {useRadio} from '../../hooks/private';
 import type {ControlProps} from '../types';
 import {block} from '../utils/cn';
-import {isIcon} from '../utils/common';
+import {isIcon, isSvg} from '../utils/common';
 
 const b = block('radio-button');
 
@@ -25,7 +27,7 @@ export const RadioButtonOption = React.forwardRef(function RadioButtonOption<T e
     const {disabled = false, content, children, title} = props;
     const {checked, inputProps} = useRadio(props);
     const inner = content || children;
-    const icon = isIcon(inner);
+    const icon = isIcon(inner) || isSvg(inner);
 
     return (
         <label

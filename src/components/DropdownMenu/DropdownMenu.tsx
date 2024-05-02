@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';

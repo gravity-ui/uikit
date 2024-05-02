@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import ReactCopyToClipboard from 'react-copy-to-clipboard';

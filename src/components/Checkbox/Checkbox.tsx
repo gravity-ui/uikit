@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {useCheckbox} from '../../hooks/private';

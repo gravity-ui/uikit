@@ -17,6 +17,24 @@ function warnAboutPhysicalValues() {
 }
 
 export const ButtonIcon = ({side, className, children}: Props) => {
+    return (
+        <span
+            className={b(
+                'icon',
+                {
+                    side: getIconSide(side),
+                },
+                className,
+            )}
+        >
+            <span className={b('icon-inner')}>{children}</span>
+        </span>
+    );
+};
+
+ButtonIcon.displayName = 'Button.Icon';
+
+export function getIconSide(side?: 'left' | 'right' | 'start' | 'end') {
     let sideMod = side;
 
     if (sideMod === 'left') {
@@ -28,19 +46,5 @@ export const ButtonIcon = ({side, className, children}: Props) => {
         sideMod = 'end';
     }
 
-    return (
-        <span
-            className={b(
-                'icon',
-                {
-                    side: sideMod,
-                },
-                className,
-            )}
-        >
-            <span className={b('icon-inner')}>{children}</span>
-        </span>
-    );
-};
-
-ButtonIcon.displayName = 'Button.Icon';
+    return sideMod;
+}

@@ -1,18 +1,23 @@
 import React from 'react';
 
-export function isOfType<P = {}>(Component: React.ComponentType<P>) {
+export function isOfType<P = {}>(Component: React.ComponentType<P> | string) {
     return function isMatching(
-        component: React.ReactNode,
-    ): component is React.ReactElement<P, typeof React.Component> {
+        component: unknown,
+    ): component is React.ReactElement<P, typeof Component> {
         if (!React.isValidElement(component)) {
             return false;
         }
 
         const {type} = component;
+        if (type === Component) {
+            return true;
+        }
 
-        return (
-            type === React.Component ||
-            (type as React.ComponentType).displayName === Component.displayName
-        );
+        if (typeof Component === 'string' || typeof type === 'string') {
+            return false;
+        }
+
+        const displayName = (type as React.ComponentType).displayName;
+        return Boolean(displayName && displayName === Component.displayName);
     };
 }

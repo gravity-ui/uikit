@@ -1,0 +1,18 @@
+@use '../../../components/variables.scss';
+
+$block: '.#{variables.$ns}generator-color';
+
+#{$block} {
+    &__actions {
+        display: flex;
+        gap: 4px;
+        margin-block-end: 20px;
+        align-items: center;
+    }
+
+    &__color-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}

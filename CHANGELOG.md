@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.14.1](https://github.com/gravity-ui/uikit/compare/v6.14.0...v6.14.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* **TextInput:** fix `handleAdditionalContentClick` handler ([#1558](https://github.com/gravity-ui/uikit/issues/1558)) ([911624f](https://github.com/gravity-ui/uikit/commit/911624f7c9a411ae57d417f5e81f13a4a671a4a0))
+* **utils:** correctly check type of element ([#1560](https://github.com/gravity-ui/uikit/issues/1560)) ([c854f4f](https://github.com/gravity-ui/uikit/commit/c854f4f42ed0294907114e07cf0d6c07f149c975))
+
 ## [6.14.0](https://github.com/gravity-ui/uikit/compare/v6.13.0...v6.14.0) (2024-04-27)
 
 

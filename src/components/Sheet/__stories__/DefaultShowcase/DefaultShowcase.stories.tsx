@@ -32,7 +32,10 @@ export default {
     component: Sheet,
 } as Meta;
 
-export const Showcase: StoryFn<SheetProps> = (args: SheetProps) => {
+export const Default: StoryFn<SheetProps> = ({
+    allowHideOnContentScroll = false,
+    ...args
+}: SheetProps) => {
     const [visible, setVisible] = React.useState(false);
     const [withExtraOuterContent, setWithExtraOuterContent] = React.useState(false);
     const [withExtraInnerContent, setWithExtraInnerContent] = React.useState(false);
@@ -64,6 +67,7 @@ export const Showcase: StoryFn<SheetProps> = (args: SheetProps) => {
             )}
             <Sheet
                 {...args}
+                allowHideOnContentScroll={allowHideOnContentScroll}
                 visible={visible}
                 onClose={() => setVisible(false)}
                 title={withTitle ? 'Sheet title' : undefined}

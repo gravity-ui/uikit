@@ -1,0 +1,15 @@
+.sheet-stories-with-multiple-sheets {
+    display: flex;
+    justify-content: center;
+
+    &__show-btn {
+        margin: 20px 0;
+    }
+
+    img {
+        object-fit: contain;
+        border: none;
+        max-width: 100%;
+        vertical-align: middle;
+    }
+}

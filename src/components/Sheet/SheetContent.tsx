@@ -431,13 +431,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private addListeners() {
         window.addEventListener('resize', this.onResizeWindow);
 
-        if (this.sheetContentRef.current) {
+        if (this.sheetInnerContentRef.current) {
             this.observer = new ResizeObserver(() => {
                 if (!this.state.inWindowResizeScope) {
                     this.onResize();
                 }
             });
-            this.observer.observe(this.sheetContentRef.current);
+            this.observer.observe(this.sheetInnerContentRef.current);
         }
     }
 

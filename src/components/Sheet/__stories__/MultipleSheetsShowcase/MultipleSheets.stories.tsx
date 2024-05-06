@@ -9,7 +9,7 @@ import type {SheetProps} from '../../Sheet';
 
 import './MultipleSheets.scss';
 
-const b = cn('sheet-stories-with-image-showcase');
+const b = cn('sheet-stories-with-multiple-sheets');
 
 export default {
     title: 'Components/Overlays/Sheet',

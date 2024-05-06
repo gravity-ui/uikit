@@ -9,10 +9,6 @@ export function flattenItems<T>(
     expandedById: Record<ListItemId, boolean> = {},
     getItemId?: (item: T) => ListItemId,
 ): ParsedFlattenState {
-    if (process.env.NODE_ENV !== 'production') {
-        console.time('flattenItems');
-    }
-
     const getNestedIds = (
         order: string[],
         item: ListItemType<T>,
@@ -50,9 +46,6 @@ export function flattenItems<T>(
         idToFlattenIndex[index] = item;
     }
 
-    if (process.env.NODE_ENV !== 'production') {
-        console.timeEnd('flattenItems');
-    }
     return {
         visibleFlattenIds,
         idToFlattenIndex,

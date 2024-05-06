@@ -285,3 +285,30 @@ const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyD
 </Select>
 
 `;
+
+export const EXAMPLE_CUSTOM_POPUP = `const [value, setValue] = React.useState<string[]>([]);
+
+<Select
+    value={value}
+    placeholder="Values",
+    onUpdate={(nextValue) => setValue(nextValue)}
+    filterable: true,
+    renderPopup: ({renderFilter, renderList}) => {
+        return (
+            <React.Fragment>
+                <div>{'---- Before Filter ----'}</div>
+                {renderFilter()}
+                <div>{'---- After Filter, Before List ----'}</div>
+                {renderList()}
+                <div>{'---- After List ----'}</div>
+            </React.Fragment>
+        );
+    },
+>
+    <Select.Option value="val1" content="Value1" />
+    <Select.Option value="val2" content="Value2" />
+    <Select.Option value="val3" content="Value3" />
+    <Select.Option value="val4" content="Value4" />
+</Select>
+
+`;

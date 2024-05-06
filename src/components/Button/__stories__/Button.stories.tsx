@@ -180,7 +180,7 @@ export const InsideText: Story = {
                 <Button {...args} /> dolor
                 <br />
                 sit{' '}
-                <Button {...args}>
+                <Button {...args} extraProps={{'aria-label': 'Icon button inside text'}}>
                     <IconComponent data={Globe} />
                 </Button>{' '}
                 amet

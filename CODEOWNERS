@@ -50,6 +50,7 @@
 /src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
+/src/components/layout @IsaevAlexandr
 
 /src/hooks/useActionHandlers @ogonkov
 /src/hooks/useFileInput @korvin89

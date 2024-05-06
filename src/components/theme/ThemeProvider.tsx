@@ -80,8 +80,9 @@ export function ThemeProvider({
                 theme,
                 themeValue,
                 direction,
+                scoped,
             }) satisfies ThemeContextProps,
-        [theme, themeValue, direction],
+        [theme, themeValue, direction, scoped],
     );
 
     const themeSettingsContext = React.useMemo(
@@ -102,11 +103,7 @@ export function ThemeProvider({
                                 },
                                 rootClassName,
                             )}
-                            dir={
-                                hasParentProvider && direction === parentDirection
-                                    ? undefined
-                                    : direction
-                            }
+                            dir={direction}
                         >
                             {children}
                         </div>

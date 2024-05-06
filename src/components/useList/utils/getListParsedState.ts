@@ -39,10 +39,6 @@ export function getListParsedState<T>(
      */
     getItemId?: (item: T) => ListItemId,
 ): ListParsedStateResult<T> {
-    if (process.env.NODE_ENV !== 'production') {
-        console.time('getListParsedState');
-    }
-
     const result: ListParsedStateResult<T> = {
         itemsById: {},
         groupsState: {},
@@ -136,10 +132,6 @@ export function getListParsedState<T>(
     items.forEach((item, index) =>
         isTreeItemGuard(item) ? traverseTreeItem({item, index}) : traverseItem({item, index}),
     );
-
-    if (process.env.NODE_ENV !== 'production') {
-        console.timeEnd('getListParsedState');
-    }
 
     return result;
 }

@@ -16,10 +16,10 @@ export const TreeList = <T,>({
     size = 'm',
     items,
     className,
-    expandedById,
-    disabledById,
+    expandedById: propsExpandedById,
+    disabledById: propsDisabledById,
+    selectedById: propsSelectedById,
     activeItemId,
-    selectedById,
     defaultGroupsExpanded = true,
     getItemId,
     renderItem: propsRenderItem,
@@ -38,11 +38,16 @@ export const TreeList = <T,>({
     const listParsedState = useList({
         items,
         getItemId,
-        expandedById,
-        disabledById,
+        // used not all of all properties but it may be needed in future
+        expandedById: propsExpandedById,
+        disabledById: propsDisabledById,
+        selectedById: propsSelectedById,
         activeItemId,
-        selectedById,
     });
+
+    const expandedById = propsExpandedById || listParsedState.initialState.expandedById;
+    const disabledById = propsDisabledById || listParsedState.initialState.disabledById;
+    const selectedById = propsSelectedById || listParsedState.initialState.selectedById;
 
     const handleItemClick = React.useMemo(() => {
         if (onItemClick) {

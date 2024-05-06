@@ -1,5 +1,49 @@
 # Changelog
 
+## [6.14.1](https://github.com/gravity-ui/uikit/compare/v6.14.0...v6.14.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* **TextInput:** fix `handleAdditionalContentClick` handler ([#1558](https://github.com/gravity-ui/uikit/issues/1558)) ([911624f](https://github.com/gravity-ui/uikit/commit/911624f7c9a411ae57d417f5e81f13a4a671a4a0))
+* **utils:** correctly check type of element ([#1560](https://github.com/gravity-ui/uikit/issues/1560)) ([c854f4f](https://github.com/gravity-ui/uikit/commit/c854f4f42ed0294907114e07cf0d6c07f149c975))
+
+## [6.14.0](https://github.com/gravity-ui/uikit/compare/v6.13.0...v6.14.0) (2024-04-27)
+
+
+### Features
+
+* **Portal:** take in consideration parent theme ([#1506](https://github.com/gravity-ui/uikit/issues/1506)) ([8c7ca2d](https://github.com/gravity-ui/uikit/commit/8c7ca2dca5a4a52cf9714b25aa8c8d85d4394f39))
+* **Sheet:** add aria attributes ([#1555](https://github.com/gravity-ui/uikit/issues/1555)) ([b71ea01](https://github.com/gravity-ui/uikit/commit/b71ea0111c56f577fc88aa64bc292c95d0be67c7))
+* **Table:** close table actions popup after click ([#1546](https://github.com/gravity-ui/uikit/issues/1546)) ([0ab21bb](https://github.com/gravity-ui/uikit/commit/0ab21bbc204f5e26dccfaea865331d3f984af8ed))
+* **withTableSettings:** add a reset action ([#1526](https://github.com/gravity-ui/uikit/issues/1526)) ([9e93c91](https://github.com/gravity-ui/uikit/commit/9e93c917e3aa13b262dc3c33b960fa39e84902b7))
+
+
+### Bug Fixes
+
+* **Alert:** fix close button width ([#1542](https://github.com/gravity-ui/uikit/issues/1542)) ([f916681](https://github.com/gravity-ui/uikit/commit/f91668105abdb06a59891872b3202f5d0152bb9e))
+* **layout:** update layout docs ([#1550](https://github.com/gravity-ui/uikit/issues/1550)) ([575477a](https://github.com/gravity-ui/uikit/commit/575477a1901d3dbd4c84d8320bad5a0201b6c589))
+* **Select:** add onLoadMore to useCallback deps in SelectList ([#1041](https://github.com/gravity-ui/uikit/issues/1041)) ([c34590e](https://github.com/gravity-ui/uikit/commit/c34590e40fa49333f990271ec70dbbd290c51b86))
+* **Select:** fix examples in docs and storybook ([#1553](https://github.com/gravity-ui/uikit/issues/1553)) ([3a46421](https://github.com/gravity-ui/uikit/commit/3a464218a54f524f490f91cbe5a1c3d6132b44e6))
+* **Select:** show invalid state without passing error message ([#1554](https://github.com/gravity-ui/uikit/issues/1554)) ([882c9a9](https://github.com/gravity-ui/uikit/commit/882c9a9dbdae0d9bb0002b0a8a15515de42c48dc))
+* **TreeList:** added missed initial state for elements ([#1524](https://github.com/gravity-ui/uikit/issues/1524)) ([5d3b154](https://github.com/gravity-ui/uikit/commit/5d3b1544a8dea0b8464a0e0d5148509f43e7a415))
+* **useList:** remove debug dev only information ([#1552](https://github.com/gravity-ui/uikit/issues/1552)) ([02bf33c](https://github.com/gravity-ui/uikit/commit/02bf33c1cb277e29866c86c4e7264b618feebfe1))
+
+## [6.13.0](https://github.com/gravity-ui/uikit/compare/v6.12.0...v6.13.0) (2024-04-22)
+
+
+### Features
+
+* **layout:** unification of Theme and Layout Providers ([#1518](https://github.com/gravity-ui/uikit/issues/1518)) ([d89610a](https://github.com/gravity-ui/uikit/commit/d89610a8c7bc952ecf0db4c2548c8c5dde9bc710))
+
+
+### Bug Fixes
+
+* **Card:** reset box shadow styles for the root ([#1537](https://github.com/gravity-ui/uikit/issues/1537)) ([39b7fe8](https://github.com/gravity-ui/uikit/commit/39b7fe801593151094759503e4f8c706cece38c8))
+* **ListItemView:** fix bg color ([#1488](https://github.com/gravity-ui/uikit/issues/1488)) ([2ae45ef](https://github.com/gravity-ui/uikit/commit/2ae45ef9a997f8d0cdd8687116044239e1ba710c))
+* **ListItemView:** removed max identation ([#1535](https://github.com/gravity-ui/uikit/issues/1535)) ([d7d45db](https://github.com/gravity-ui/uikit/commit/d7d45db53338b5e623bb81b59e7b66a588c18e28))
+* **ThemeProvider:** changed theme to config prop name ([#1528](https://github.com/gravity-ui/uikit/issues/1528)) ([62431ca](https://github.com/gravity-ui/uikit/commit/62431ca72c220f9a434d065c87b33cf060cd7f7a))
+
 ## [6.12.0](https://github.com/gravity-ui/uikit/compare/v6.11.0...v6.12.0) (2024-04-18)
 
 

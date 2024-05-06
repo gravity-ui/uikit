@@ -162,11 +162,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     });
     const errorMessageId = useUniqId();
 
+    const isErrorStateVisible = validationState === 'invalid';
     const isErrorMsgVisible =
-        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+        isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'outside';
     const isErrorIconVisible =
-        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
-    const isErrorStateVisible = isErrorMsgVisible || isErrorIconVisible;
+        isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {

@@ -71,7 +71,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetInnerContentRef = React.createRef<HTMLDivElement>();
     sheetTitleRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
-    observer: MutationObserver | null = null;
+    observer: ResizeObserver | null = null;
 
     state: SheetContentState = {
         startScrollTop: 0,
@@ -140,14 +140,20 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         return (
             <React.Fragment>
-                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div
                     ref={this.veilRef}
                     className={sheetBlock('veil', veilTransitionMod)}
                     onClick={isAnimating ? undefined : this.onVeilClick}
                     onTransitionEnd={this.onVeilTransitionEnd}
+                    role="presentation"
                 />
-                <div ref={this.sheetRef} className={sheetBlock('sheet', sheetTransitionMod)}>
+                <div
+                    ref={this.sheetRef}
+                    className={sheetBlock('sheet', sheetTransitionMod)}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={title}
+                >
                     {!hideTopBar && (
                         <div ref={this.sheetTopRef} className={sheetBlock('sheet-top')}>
                             <div className={sheetBlock('sheet-top-resizer')} />
@@ -402,6 +408,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         const sheetHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
 
+        if (sheetHeight === this.state.prevSheetHeight && !this.state.inWindowResizeScope) {
+            return;
+        }
+
         const availableViewportHeight =
             window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
 
@@ -421,10 +431,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private addListeners() {
         window.addEventListener('resize', this.onResizeWindow);
 
-        if (this.sheetRef.current) {
-            const config = {subtree: true, childList: true};
-            this.observer = new MutationObserver(this.onResize);
-            this.observer.observe(this.sheetRef.current, config);
+        if (this.sheetInnerContentRef.current) {
+            this.observer = new ResizeObserver(() => {
+                if (!this.state.inWindowResizeScope) {
+                    this.onResize();
+                }
+            });
+            this.observer.observe(this.sheetInnerContentRef.current);
         }
     }
 

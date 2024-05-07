@@ -38,6 +38,8 @@ $block: '.#{variables.$ns}text-area';
             outline: 2px solid var(--g-text-area-focus-outline-color, var(--_--focus-outline-color));
             outline-offset: -1px;
         }
+
+        overflow: hidden;
     }
 
     &__control {

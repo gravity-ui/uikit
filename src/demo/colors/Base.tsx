@@ -339,6 +339,11 @@ const floats = [
         description: 'Hover for Float.',
     },
     {
+        name: 'base-float-medium',
+        title: 'Float Medium',
+        description: 'Float for medium contrast.',
+    },
+    {
         name: 'base-float-heavy',
         title: 'Float Heavy',
         description: 'Float for strong contrast.',

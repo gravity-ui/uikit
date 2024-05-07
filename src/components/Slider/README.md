@@ -22,7 +22,7 @@ Slider with one handle to select single value. This Slider is used by default.
 <Slider />
 `}
 >
-    <UIKit.Slider/>
+    <UIKitExamples.SliderExample />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -44,7 +44,7 @@ Slider with two handles to select range. To use this slider you should set `defa
 <Slider defaultValue={[20, 40]} />
 `}
 >
-    <UIKit.Slider defaultValue={[20, 40]} />
+    <UIKitExamples.SliderExample defaultValue={[20, 40]} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -68,7 +68,7 @@ The state of the `Slider` where you don't want the user to be able to interact w
 <Slider disabled={true} />
 `}
 >
-    <UIKit.Slider disabled={true} />
+    <UIKitExamples.SliderExample disabled={true} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -91,8 +91,8 @@ The state of the `Slider` in which you want to indicate incorrect user input. To
 <Slider validationState={"invalid"} errorMessage="Error message" />
 `}
 >
-    <UIKit.Slider validationState={"invalid"} />
-    <UIKit.Slider validationState={"invalid"} errorMessage="Error message" />
+    <UIKitExamples.SliderExample validationState={"invalid"} />
+    <UIKitExamples.SliderExample validationState={"invalid"} errorMessage="Error message" />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -118,10 +118,10 @@ To control the size of the `Slider` use the `size` property. Default size is `m`
 <Slider size="xl" />
 `}
 >
-    <UIKit.Slider size="s" />
-    <UIKit.Slider size="m" />
-    <UIKit.Slider size="l" />
-    <UIKit.Slider size="xl" />
+    <UIKitExamples.SliderExample size="s" />
+    <UIKitExamples.SliderExample size="m" />
+    <UIKitExamples.SliderExample size="l" />
+    <UIKitExamples.SliderExample size="xl" />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -150,9 +150,9 @@ The `min` and `max` properties define the limits of the range that the `Slider` 
 <Slider min={20} max={60} />
 `}
 >
-    <UIKit.Slider min={10} />
-    <UIKit.Slider max={50} />
-    <UIKit.Slider min={20} max={60} />
+    <UIKitExamples.SliderExample min={10} />
+    <UIKitExamples.SliderExample max={50} />
+    <UIKitExamples.SliderExample min={20} max={60} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -176,7 +176,7 @@ The `step` property for `Slider` component determines the incremental steps betw
 <Slider step={10} />
 `}
 >
-    <UIKit.Slider step={10} />
+    <UIKitExamples.SliderExample step={10} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -198,7 +198,7 @@ LANDING_BLOCK-->
 <Slider marksCount={11} />
 `}
 >
-    <UIKit.Slider marksCount={11} />
+    <UIKitExamples.SliderExample marksCount={11} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -222,7 +222,7 @@ The `availableValues` property is used in `Slider` component to define a set of 
 <Slider availableValues={[10, 20, 50, 55, 65, 80]} />
 `}
 >
-    <UIKit.Slider availableValues={[10, 20, 50, 55, 65, 80]} />
+    <UIKitExamples.SliderExample availableValues={[10, 20, 50, 55, 65, 80]} />
 </ExampleBlock>
 LANDING_BLOCK-->
 
@@ -244,7 +244,7 @@ The `hasTooltip` property is a boolean attribute used in `Slider` component to c
 <Slider hasTooltip={true} />
 `}
 >
-    <UIKit.Slider hasTooltip={true} />
+    <UIKitExamples.SliderExample hasTooltip={true} />
 </ExampleBlock>
 LANDING_BLOCK-->
 

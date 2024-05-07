@@ -99,6 +99,19 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         error: isErrorVisible,
     };
 
+    const handleControlClick = React.useCallback(
+        (e?: React.MouseEvent<HTMLElement>) => {
+            // Fix for Safari
+            // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#clicking_and_focus
+            if (e && e.currentTarget !== document.activeElement && 'focus' in e.currentTarget) {
+                (e.currentTarget as HTMLButtonElement).focus();
+            }
+
+            toggleOpen();
+        },
+        [toggleOpen],
+    );
+
     const disableButtonAnimation = React.useCallback(() => {
         setIsDisabledButtonAnimation(true);
     }, []);
@@ -143,7 +156,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
             {
                 onKeyDown,
                 onClear: clearValue,
-                onClick: toggleOpen,
+                onClick: handleControlClick,
                 renderClear: (arg) => renderClearIcon(arg),
                 renderCounter: renderCounterComponent,
                 ref,
@@ -173,7 +186,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     }
                     name={name}
                     disabled={disabled}
-                    onClick={toggleOpen}
+                    onClick={handleControlClick}
                     onKeyDown={onKeyDown}
                     type="button"
                     data-qa={qa}

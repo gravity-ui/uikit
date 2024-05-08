@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.15.0](https://github.com/gravity-ui/uikit/compare/v6.14.1...v6.15.0) (2024-05-08)
+
+
+### Features
+
+* add new css variable `--g-color-base-float-medium` ([#1572](https://github.com/gravity-ui/uikit/issues/1572)) ([aeda6fe](https://github.com/gravity-ui/uikit/commit/aeda6fee49a184ba84fa77bbe65c1827f76c353d))
+
+
+### Bug Fixes
+
+* **Select:** fix focus state on control click in Safari ([#1132](https://github.com/gravity-ui/uikit/issues/1132)) ([80730cc](https://github.com/gravity-ui/uikit/commit/80730cc0dff90f86976b10198878a1ca369e239f))
+* **Sheet:** resize sheet if image in content is loaded ([#1566](https://github.com/gravity-ui/uikit/issues/1566)) ([8b56abd](https://github.com/gravity-ui/uikit/commit/8b56abdc46f66a6eb1eb0e0fcde765857a170a83))
+
 ## [6.14.1](https://github.com/gravity-ui/uikit/compare/v6.14.0...v6.14.1) (2024-05-02)
 
 

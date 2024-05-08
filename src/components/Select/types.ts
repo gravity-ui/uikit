@@ -13,7 +13,7 @@ export type SelectRenderClearArgs = {
 
 export type SelectRenderControlProps = {
     onClear: () => void;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
     onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
     renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
     renderCounter?: () => React.ReactNode;

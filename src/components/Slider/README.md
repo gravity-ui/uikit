@@ -190,7 +190,9 @@ LANDING_BLOCK-->
 
 ### Marks
 
-`marksCount` property is utilized in `Slider` component to specify the number of visual markers along the slider that help to indicate various points between the minimum and maximum value. This property enhances the usability and visual interface of the slider, especially for denoting specific intervals. By default it is 2 (min and max values) but you can set the higher value.
+The `marksCount` property is utilized in `Slider` component to specify the number of visual markers along the slider that help to indicate various points between the minimum and maximum value. This property enhances the usability and visual interface of the slider, especially for denoting specific intervals. By default it is 2 (min and max values) but you can set the higher value.
+
+> The mark value is available for selection, even if it does not match the `step` value condition
 
 <!--LANDING_BLOCK
 <ExampleBlock

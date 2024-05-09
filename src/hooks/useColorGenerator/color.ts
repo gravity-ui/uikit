@@ -1,13 +1,9 @@
 /* eslint-disable no-bitwise */
-import type {ColorProps, ThemeColorSettings} from '../types';
-
 import {BLACK_COLOR, WHITE_COLOR, colorOptions} from './constants';
-import {getHue} from './getHue';
-import {hashFnv32a} from './hashFnv32a';
-import {normalizeHash} from './normalizeHash';
-import {randomIndex} from './randomIndex';
+import type {ColorProps, ThemeColorSettings} from './types';
+import {getHue, hashFnv32a, normalizeHash, randomIndex} from './utils';
 
-class Color {
+export class ColorGenerator {
     private _colorKeys?: string[];
     private _saturation?: number;
     private _lightness?: number;
@@ -40,14 +36,12 @@ class Color {
         return this.hslColor();
     }
 
-    get oppositeColor() {
+    get textColor() {
         if (!this._hue || !this._saturation || !this._lightness) {
             return WHITE_COLOR;
         }
 
-        const luminance = this.getLuminance(this._hue, this._saturation, this._lightness);
-
-        return luminance > 0.7 ? BLACK_COLOR : WHITE_COLOR;
+        return this.getTextColor(this._hue, this._saturation, this._lightness);
     }
 
     private getColorKeysIndex() {
@@ -58,6 +52,7 @@ class Color {
         return randomIndex(this._token, this._colorKeys.length);
     }
 
+    // https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
     private hslToRgb = (h: number, s: number, l: number) => {
         s /= 100;
         l /= 100;
@@ -76,15 +71,35 @@ class Color {
         return [r, g, b] as [number, number, number];
     };
 
-    private rgbToLuminance(r: number, g: number, b: number) {
-        return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-    }
-
-    private getLuminance(h: number, s: number, l: number) {
+    // https://www.w3.org/TR/WCAG20/#relativeluminancedef
+    private getTextColor(
+        h: number,
+        s: number,
+        l: number,
+        lightColor = WHITE_COLOR,
+        darkColor = BLACK_COLOR,
+    ) {
         const rgb = this.hslToRgb(h, s, l);
-        const luminance = this.rgbToLuminance(...rgb);
+        const N = rgb.length;
+        const normalizedValues = Array(N);
 
-        return luminance;
+        for (let i = 0; i < N; i++) {
+            let c = rgb[i];
+            c /= 255.0;
+
+            if (c <= 0.04045) {
+                c /= 12.92;
+            } else {
+                c = Math.pow((c + 0.055) / 1.055, 2.4);
+            }
+
+            normalizedValues[i] = c;
+        }
+
+        const [r, g, b] = normalizedValues;
+        const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+        return L > 0.179 ? darkColor : lightColor;
     }
 
     private hslColor() {
@@ -113,7 +128,3 @@ class Color {
         return hash;
     }
 }
-
-export const colorGenerator = (args: ColorProps) => {
-    return new Color(args);
-};

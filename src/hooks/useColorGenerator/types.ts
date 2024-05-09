@@ -16,7 +16,7 @@ export type ColorProps = {
     theme: string;
 };
 
-export type UseGeneratorColorProps = {
+export type UseColorGeneratorProps = {
     colorKeys?: string[];
     mode?: 'saturated' | 'unsaturated' | 'bright';
     token: string;

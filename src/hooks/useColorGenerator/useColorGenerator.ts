@@ -1,8 +1,8 @@
 /* eslint-disable valid-jsdoc */
 import {useThemeType} from '../../components/theme/useThemeType';
 
-import type {UseGeneratorColorProps} from './types';
-import {colorGenerator} from './utils/color';
+import {ColorGenerator} from './color';
+import type {UseColorGeneratorProps} from './types';
 
 /**
  * It is used to create a unique color from a token (string) and to obtain an inverted color (black or white), 
@@ -14,7 +14,7 @@ import {colorGenerator} from './utils/color';
     import {Avatar} from '@gravity-ui/uikit';
 
     const Component = ({ token, text, ...avatarProps }) => {
-        const {color, oppositeColor} = useGeneratorColor({
+        const {color, textColor} = useColorGenerator({
             token,
         });
 
@@ -22,17 +22,17 @@ import {colorGenerator} from './utils/color';
             <Avatar
                 {...avatarProps}
                 text={text}
-                color={text ? oppositeColor : undefined}
+                color={text ? textColor : undefined}
                 backgroundColor={color}
             />
         );
     };
 ```
 */
-export function useGeneratorColor(props: UseGeneratorColorProps) {
+export function useColorGenerator(props: UseColorGeneratorProps) {
     const theme = useThemeType();
 
-    const options = colorGenerator({
+    const options = new ColorGenerator({
         ...props,
         theme,
     });

@@ -1,4 +1,4 @@
-import type {ColorOptions, ThemeColorSettings} from '../types';
+import type {ColorOptions, ThemeColorSettings} from './types';
 
 const bright: ColorOptions = {
     lightness: [45, 55],

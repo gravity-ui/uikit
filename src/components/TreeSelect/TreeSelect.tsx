@@ -7,13 +7,23 @@ import {TreeList} from '../TreeList';
 import type {TreeListOnItemClick, TreeListRenderItem} from '../TreeList/types';
 import {Flex} from '../layout';
 import {useMobile} from '../mobile';
-import {ListItemView, scrollToListItem, useList, useListState} from '../useList';
+import {
+    ListItemView,
+    getListParsedState,
+    scrollToListItem,
+    useList,
+    useListState,
+} from '../useList';
 import type {ListItemId} from '../useList';
 import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
 
 import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
-import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
+import type {
+    TreeSelectDefaultOnClickCb,
+    TreeSelectProps,
+    TreeSelectRenderControlProps,
+} from './types';
 
 import './TreeSelect.scss';
 
@@ -30,7 +40,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         placement,
         slotBeforeListBody,
         slotAfterListBody,
-        size,
+        size = 'm',
         items,
         defaultOpen,
         width,
@@ -79,6 +89,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         defaultValue,
     });
 
+    const initialValues = React.useMemo(() => getListParsedState(items).initialState, [items]);
+
     const listState = useListState({
         controlledValues: {
             expandedById,
@@ -86,6 +98,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             activeItemId,
             selectedById: selected,
         },
+        initialValues,
     });
 
     const setActiveItemId = propsSetActiveItemId ?? listState.setActiveItemId;
@@ -120,7 +133,9 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         (onClickProps) => {
             const {groupState} = onClickProps.context;
 
-            const defaultHandleClick = () => {
+            const defaultHandleClick: TreeSelectDefaultOnClickCb = ({
+                defaultSelectionLogic,
+            } = {}) => {
                 if (listState.disabledById[onClickProps.id]) return;
 
                 // always activate selected item
@@ -131,10 +146,15 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                         ...prvState,
                         [onClickProps.id]: !onClickProps.expanded,
                     }));
+                } else if (defaultSelectionLogic === false) {
+                    // do nothing - client know what to do
                 } else if (multiple) {
                     handleMultipleSelection(onClickProps.id);
                 } else {
                     handleSingleSelection(onClickProps.id);
+                }
+
+                if (!multiple) {
                     toggleOpen(false);
                 }
             };
@@ -160,13 +180,13 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
         if (open) {
-            const lastSelectedItemId = value[value.length - 1];
+            const firstSelectedItemId = value[0];
             containerRef.current?.focus();
 
-            setActiveItemId(lastSelectedItemId);
+            setActiveItemId(firstSelectedItemId);
 
-            if (lastSelectedItemId) {
-                scrollToListItem(lastSelectedItemId, containerRef.current);
+            if (firstSelectedItemId) {
+                scrollToListItem(firstSelectedItemId, containerRef.current);
             }
         }
         // subscribe only in open event

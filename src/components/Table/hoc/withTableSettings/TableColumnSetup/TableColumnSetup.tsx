@@ -16,12 +16,13 @@ import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
 import {TreeSelect} from '../../../../TreeSelect/TreeSelect';
 import type {
+    TreeSelectOnItemClick,
     TreeSelectProps,
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
 import {Flex} from '../../../../layout/Flex/Flex';
-import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
+import type {ListItemCommonProps, ListItemViewProps, RenderItemProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnConfig} from '../../../Table';
@@ -71,18 +72,6 @@ const prepareStickyState = (
         sortableItemIdList: visibleFlattenIds.slice(lastStickyStartIdx, firstStickyEndIdx),
         stickyEndItemIdList: visibleFlattenIds.slice(firstStickyEndIdx),
     };
-};
-
-const prepareValue = (tableColumnItems: TableColumnSetupItem[]) => {
-    const selectedIds: string[] = [];
-
-    tableColumnItems.forEach(({id, isSelected}) => {
-        if (isSelected) {
-            selectedIds.push(id);
-        }
-    });
-
-    return selectedIds;
 };
 
 interface RenderContainerProps {
@@ -236,9 +225,12 @@ export type TableColumnSetupItem = TableSetting & {
     sticky?: TableColumnConfig<unknown>['sticky'];
 };
 
-const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => {
+const mapItemDataToProps = (
+    item: TableColumnSetupItem,
+): ListItemCommonProps & Partial<RenderItemProps> => {
     return {
         title: item.title,
+        selected: item.isSelected,
     };
 };
 
@@ -365,27 +357,27 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         }
     };
 
-    const onUpdate = (selectedItemsIds: string[]) => {
-        setItems((prevItems) => {
-            return prevItems.map((item) => ({
+    const handleItemClick: TreeSelectOnItemClick<TableColumnSetupItem> = ({id}, defaultClickCb) => {
+        setItems((prevItems) =>
+            prevItems.map((item) => ({
                 ...item,
-                isSelected: item.isRequired || selectedItemsIds.includes(item.id),
-            }));
-        });
+                ...(id === item.id ? {isSelected: item.isRequired || !item.isSelected} : {}),
+            })),
+        );
+        // for active list element selection after click
+        defaultClickCb({defaultSelectionLogic: false});
     };
-
-    const value = React.useMemo(() => prepareValue(items), [items]);
 
     return (
         <TreeSelect
             className={b(null, className)}
+            // `selected` value comes from items decl
             mapItemDataToProps={mapItemDataToProps}
             multiple
             size="l"
             open={open}
-            value={value}
             items={items}
-            onUpdate={onUpdate}
+            onItemClick={handleItemClick}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}
             placement={popupPlacement}

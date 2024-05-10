@@ -3,20 +3,13 @@ import type React from 'react';
 import type {PopperPlacement} from '../../hooks/private';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {
-    TreeListMapItemDataToProps,
     TreeListOnItemClick,
+    TreeListProps,
     TreeListRenderContainer,
     TreeListRenderContainerProps,
+    TreeListRenderItem,
 } from '../TreeList/types';
-import type {QAProps} from '../types';
-import type {
-    ListItemId,
-    ListItemSize,
-    ListItemType,
-    ListState,
-    RenderItemContext,
-    RenderItemProps,
-} from '../useList';
+import type {ListItemId, ListItemSize} from '../useList';
 
 export type TreeSelectRenderControlProps = {
     open: boolean;
@@ -30,36 +23,24 @@ export type TreeSelectRenderControlProps = {
     title?: string;
 };
 
-export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
-    data: T;
-    // required item props to render
-    props: RenderItemProps;
-    // internal list context props
-    context: RenderItemContext;
-    index: number;
-    renderContainerProps?: P;
-}) => React.JSX.Element;
-
+export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P>;
 export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
+export type TreeSelectDefaultOnClickCb = (args?: {defaultSelectionLogic?: false}) => void;
+export type TreeSelectOnItemClick<T> = TreeListOnItemClick<T, TreeSelectDefaultOnClickCb>;
 
 export interface TreeSelectProps<T, P extends {} = {}>
-    extends QAProps,
-        Partial<Omit<ListState, 'selectedById'>> {
+    extends Omit<TreeListProps<T>, 'onItemClick' | 'selectedById' | 'renderItem'> {
     value?: ListItemId[];
     defaultOpen?: boolean;
     defaultValue?: ListItemId[];
     open?: boolean;
-    id?: string | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];
     placement?: PopperPlacement;
     width?: 'auto' | 'max' | number;
-    className?: string;
-    containerRef?: React.RefObject<HTMLDivElement>;
     containerClassName?: string;
     popupDisablePortal?: boolean;
-    multiple?: boolean;
     /**
      * The ability to set the default behavior for group elements
      *
@@ -70,26 +51,15 @@ export interface TreeSelectProps<T, P extends {} = {}>
      */
     groupsBehavior?: 'expandable' | 'selectable';
     /**
-     * List popup has fixes size - 6px. This prop is used to control only list item size view.
-     * To override popup border radius use `popupClassName` class
-     */
-    size: ListItemSize;
-    /**
      * Use slots if you don't need access to internal TreeListState.
      * In other situations use `renderContainer` method
      */
     slotBeforeListBody?: React.ReactNode;
-    defaultGroupsExpanded?: boolean;
     /**
      * Use slots if you don't need access to internal TreeListState.
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
-    items: ListItemType<T>[];
-    /**
-     * Define custom id depended on item data value to use in controlled state component variant
-     */
-    getItemId?(item: T): ListItemId;
     /**
      * Ability to override custom toggler btn
      */
@@ -102,12 +72,17 @@ export interface TreeSelectProps<T, P extends {} = {}>
     onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
-    onItemClick?: TreeListOnItemClick<T, () => void>;
     /**
-     * Map item data to view props
+     * You can user default onItemClick handles as second argument here
+     * ```tsx
+     * onItemClick={(ctx, cb) => {
+     *  // do something with item click context here
+     *
+     *  cb(); // call default on item click handler
+     * }}
+     * ```
      */
-    mapItemDataToProps: TreeListMapItemDataToProps<T>;
-    setActiveItemId?(listItemId?: ListItemId): void;
+    onItemClick?: TreeSelectOnItemClick<T>;
     /**
      * Control's title attribute value
      */

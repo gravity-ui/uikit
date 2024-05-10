@@ -10,7 +10,7 @@ import type {
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
 
-export interface UseListProps<T> extends Partial<ListState> {
+export interface UseListProps<T> extends Pick<Partial<ListState>, 'expandedById'> {
     items: ListItemType<T>[];
     /**
      * Control expanded items state from external source

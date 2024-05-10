@@ -30,6 +30,9 @@ $block: '.#{variables.$ns}list-item-view';
     &_dragging#{$block}_selected,
     &_dragging#{$block}_active {
         background: var(--g-color-base-simple-hover-solid);
+        // more than `Sheet` z-index (100000) if `ListItemView` used in this component
+        /* stylelint-disable-next-line declaration-no-important */
+        z-index: 100001 !important;
     }
 
     &_radius_s {

@@ -4,7 +4,7 @@ import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView} from '../../../useList';
+import {ListItemView, useListState} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
 import {TreeSelect} from '../../TreeSelect';
@@ -26,7 +26,8 @@ export const InfinityScrollExample = ({
     itemsCount = 5,
     ...storyProps
 }: InfinityScrollExampleProps) => {
-    const [value, setValue] = React.useState<string[]>([]);
+    const listState = useListState();
+
     const {
         data: items = [],
         onFetchMore,
@@ -38,9 +39,9 @@ export const InfinityScrollExample = ({
         <Flex>
             <TreeSelect<{title: string}>
                 {...storyProps}
+                {...listState}
                 mapItemDataToProps={identity}
                 items={items}
-                value={value}
                 renderItem={({data, props, context: {isLastItem, groupState}}) => {
                     const node = (
                         <ListItemView
@@ -69,7 +70,6 @@ export const InfinityScrollExample = ({
                 }}
                 renderContainer={RenderVirtualizedContainer}
                 popupWidth={300}
-                onUpdate={setValue}
                 slotAfterListBody={
                     isLoading && (
                         <Flex justifyContent="center" className={spacing({py: 2})}>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useForkRef, useUniqId} from '../../hooks';
+import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
 import {TreeList} from '../TreeList';
@@ -18,7 +19,6 @@ import type {ListItemId} from '../useList';
 import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
 
-import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
 import type {
     TreeSelectDefaultOnClickCb,
     TreeSelectProps,
@@ -37,6 +37,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     {
         id,
         qa,
+        title,
         placement,
         slotBeforeListBody,
         slotAfterListBody,
@@ -51,25 +52,24 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         open: propsOpen,
         multiple,
         popupWidth,
+        selectedById,
         expandedById,
         disabledById,
         activeItemId,
-        defaultValue,
         popupDisablePortal,
         groupsBehavior = 'expandable',
-        value: propsValue,
         defaultGroupsExpanded,
         onClose,
-        onUpdate,
         getItemId,
         onOpenChange,
         renderControl,
         renderItem = defaultItemRenderer as TreeListRenderItem<T>,
         renderContainer,
         onItemClick,
+        setSelected: propsSetSelected,
+        setExpanded: propsSetExpanded,
         setActiveItemId: propsSetActiveItemId,
         mapItemDataToProps,
-        title,
     }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -84,11 +84,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const {value, setInnerValue, selected} = useValue({
-        value: propsValue,
-        defaultValue,
-    });
-
     const initialValues = React.useMemo(() => getListParsedState(items).initialState, [items]);
 
     const listState = useListState({
@@ -96,62 +91,52 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             expandedById,
             disabledById,
             activeItemId,
-            selectedById: selected,
+            selectedById,
         },
         initialValues,
     });
 
+    const setSelected = propsSetSelected ?? listState.setSelected;
+    const setExpanded = propsSetExpanded ?? listState.setExpanded;
     const setActiveItemId = propsSetActiveItemId ?? listState.setActiveItemId;
 
     const listParsedState = useList({
         items,
         getItemId,
-        ...listState,
+        expandedById: listState.expandedById,
     });
 
-    const wrappedOnUpdate = React.useCallback(
-        (ids: ListItemId[]) =>
-            onUpdate?.(
-                ids,
-                ids.map((id) => listParsedState.itemsById[id]),
-            ),
-        [listParsedState.itemsById, onUpdate],
-    );
-
-    const {open, toggleOpen, handleClearValue, handleMultipleSelection, handleSingleSelection} =
-        useTreeSelectSelection({
-            setInnerValue,
-            value,
-            onUpdate: wrappedOnUpdate,
-            defaultOpen,
-            open: propsOpen,
-            onClose,
-            onOpenChange,
-        });
+    const {toggleOpen, open} = useOpenState({
+        defaultOpen,
+        onClose,
+        onOpenChange,
+        open: propsOpen,
+    });
 
     const handleItemClick = React.useCallback<TreeListOnItemClick<T>>(
         (onClickProps) => {
-            const {groupState} = onClickProps.context;
-
             const defaultHandleClick: TreeSelectDefaultOnClickCb = ({
                 defaultSelectionLogic,
             } = {}) => {
                 if (listState.disabledById[onClickProps.id]) return;
 
+                const {groupState} = onClickProps.context;
+
                 // always activate selected item
                 setActiveItemId(onClickProps.id);
 
                 if (groupState && groupsBehavior === 'expandable') {
-                    listState.setExpanded((prvState) => ({
+                    setExpanded((prvState) => ({
                         ...prvState,
                         [onClickProps.id]: !onClickProps.expanded,
                     }));
                 } else if (defaultSelectionLogic === false) {
                     // do nothing - client know what to do
-                } else if (multiple) {
-                    handleMultipleSelection(onClickProps.id);
                 } else {
-                    handleSingleSelection(onClickProps.id);
+                    setSelected((prevSelectedState) => ({
+                        ...(multiple ? prevSelectedState : {}),
+                        [onClickProps.id]: !prevSelectedState[onClickProps.id],
+                    }));
                 }
 
                 if (!multiple) {
@@ -167,14 +152,29 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         },
         [
             onItemClick,
-            listState,
+            listState.disabledById,
             setActiveItemId,
             groupsBehavior,
             multiple,
-            handleMultipleSelection,
-            handleSingleSelection,
+            setExpanded,
+            setSelected,
             toggleOpen,
         ],
+    );
+
+    const value = React.useMemo(
+        () =>
+            Object.entries(listState.selectedById).reduce<ListItemId[]>(
+                (acc, [listItemId, listItemValue]) => {
+                    if (listItemValue) {
+                        acc.push(listItemId);
+                    }
+
+                    return acc;
+                },
+                [],
+            ),
+        [listState.selectedById],
     );
 
     // restoring focus when popup opens
@@ -198,7 +198,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     const controlProps: TreeSelectRenderControlProps = {
         open,
         toggleOpen,
-        clearValue: handleClearValue,
+        clearValue: () => setSelected({}),
         ref: handleControlRef,
         size,
         value,

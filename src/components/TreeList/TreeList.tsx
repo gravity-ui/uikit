@@ -38,11 +38,7 @@ export const TreeList = <T,>({
     const listParsedState = useList({
         items,
         getItemId,
-        // used not all of all properties but it may be needed in future
         expandedById: propsExpandedById,
-        disabledById: propsDisabledById,
-        selectedById: propsSelectedById,
-        activeItemId,
     });
 
     const expandedById = propsExpandedById || listParsedState.initialState.expandedById;

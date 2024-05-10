@@ -9,7 +9,7 @@ import type {
     TreeListRenderContainerProps,
     TreeListRenderItem,
 } from '../TreeList/types';
-import type {ListItemId, ListItemSize} from '../useList';
+import type {ListItemId, ListItemSize, useListState} from '../useList';
 
 export type TreeSelectRenderControlProps = {
     open: boolean;
@@ -30,10 +30,14 @@ export type TreeSelectDefaultOnClickCb = (args?: {defaultSelectionLogic?: false}
 export type TreeSelectOnItemClick<T> = TreeListOnItemClick<T, TreeSelectDefaultOnClickCb>;
 
 export interface TreeSelectProps<T, P extends {} = {}>
-    extends Omit<TreeListProps<T>, 'onItemClick' | 'selectedById' | 'renderItem'> {
-    value?: ListItemId[];
+    extends Omit<TreeListProps<T>, 'onItemClick' | 'renderItem'> {
+    /**
+     * Control's title attribute value
+     */
+    title?: string;
+    setSelected?: ReturnType<typeof useListState>['setSelected'];
+    setExpanded?: ReturnType<typeof useListState>['setExpanded'];
     defaultOpen?: boolean;
-    defaultValue?: ListItemId[];
     open?: boolean;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];
@@ -69,7 +73,6 @@ export interface TreeSelectProps<T, P extends {} = {}>
      */
     renderItem?: TreeSelectRenderItem<T, P>;
     onClose?(): void;
-    onUpdate?(value: ListItemId[], selectedItems: T[]): void;
     onOpenChange?(open: boolean): void;
     renderContainer?: TreeSelectRenderContainer<T>;
     /**
@@ -83,8 +86,4 @@ export interface TreeSelectProps<T, P extends {} = {}>
      * ```
      */
     onItemClick?: TreeSelectOnItemClick<T>;
-    /**
-     * Control's title attribute value
-     */
-    title?: string;
 }

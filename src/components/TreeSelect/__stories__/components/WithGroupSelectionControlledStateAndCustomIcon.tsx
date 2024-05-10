@@ -39,8 +39,6 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
         [itemsCount],
     );
 
-    const [value, setValue] = React.useState<string[]>([]);
-
     const {expandedById, setExpanded} = useListState({
         initialValues: {
             expandedById: getListParsedState(items).initialState.expandedById,
@@ -54,7 +52,6 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                 size="l"
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
                 expandedById={expandedById}
-                value={value}
                 renderItem={({
                     data,
                     props: {
@@ -95,7 +92,6 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                     );
                 }}
                 items={items}
-                onUpdate={setValue}
             />
         </Flex>
     );

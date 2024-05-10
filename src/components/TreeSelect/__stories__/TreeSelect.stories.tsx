@@ -52,9 +52,11 @@ const DefaultTemplate: StoryFn<
                 {...props}
                 mapItemDataToProps={(x) => x}
                 items={items}
-                onUpdate={(...args) =>
-                    console.log('Uncontrolled `TreeSelect onUpdate args: `', ...args)
-                }
+                onItemClick={(clickCtx, defaultClickCb) => {
+                    console.log('onItemClick overrided with defult cb call: `', clickCtx);
+
+                    defaultClickCb();
+                }}
             />
         </Flex>
     );

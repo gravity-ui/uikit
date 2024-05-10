@@ -50,7 +50,6 @@ const randomItems: CustomDataType[] = createRandomizedData({
 export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
     const [items, setItems] = React.useState(randomItems);
     const [activeItemId, setActiveItemId] = React.useState<string | undefined>(undefined);
-    const [value, setValue] = React.useState<string[]>([]);
 
     const renderContainer: TreeSelectRenderContainer<CustomDataType> = ({
         renderItem,
@@ -145,7 +144,6 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
         <Flex>
             <TreeSelect
                 {...storyProps}
-                value={value}
                 items={items}
                 activeItemId={activeItemId}
                 setActiveItemId={setActiveItemId}
@@ -154,12 +152,6 @@ export const WithDndListExample = (storyProps: WithDndListExampleProps) => {
                 mapItemDataToProps={({someRandomKey}) => ({
                     title: someRandomKey,
                 })}
-                onItemClick={({id, disabled, context: {groupState}}) => {
-                    if (!groupState && !disabled) {
-                        setValue([id]);
-                        setActiveItemId(id);
-                    }
-                }}
                 renderContainer={renderContainer}
                 renderItem={renderItem}
             />

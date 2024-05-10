@@ -73,7 +73,7 @@ export type TreeListRenderContainer<T> = (
 
 export type TreeListMapItemDataToProps<T> = (item: T) => ListItemCommonProps;
 
-export interface TreeListProps<T> extends QAProps, Partial<ListState> {
+export interface TreeListProps<T, P extends {} = {}> extends QAProps, Partial<ListState> {
     /**
      * Control outside list container dom element. For example for keyboard
      */
@@ -97,7 +97,7 @@ export interface TreeListProps<T> extends QAProps, Partial<ListState> {
     /**
      * Override list item content by you custom node.
      */
-    renderItem?: TreeListRenderItem<T>;
+    renderItem?: TreeListRenderItem<T, P>;
     renderContainer?: TreeListRenderContainer<T>;
     onItemClick?: TreeListOnItemClick<T>;
     mapItemDataToProps: TreeListMapItemDataToProps<T>;

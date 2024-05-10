@@ -22,9 +22,8 @@ export interface WithItemLinksAndActionsExampleProps
     > {}
 
 export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
-    const [value, setValue] = React.useState<string[]>([]);
     const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>({});
 
     return (
@@ -35,16 +34,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                 open={open}
                 onOpenChange={setOpen}
                 size="l"
-                value={value}
                 items={items}
-                onItemClick={({id, context: {groupState}, disabled}) => {
-                    if (!groupState && !disabled) {
-                        setValue([id]);
-                    }
-
-                    // navigation logic here to support keyboard
-                    setOpen((x) => !x);
-                }}
                 expandedById={expandedById}
                 renderItem={({
                     data,

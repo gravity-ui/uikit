@@ -1,0 +1,73 @@
+import {Meta} from '@storybook/addon-docs';
+
+<Meta title="Unstable/TreeSelect" />
+
+# TreeList - migration during unsable version
+
+## 6.16.0
+
+-   depricated `value`, `defaultValue` and `onUpdate` props;
+-   added `selectedById`, `setSelected` and `setExpanded` props;
+
+Now `TreeSelect` inherits the `TreeList` component more explicitly, which will facilitate its further support.
+
+Since the component is designed to solve a wider range of tasks, it was decided to return to the original idea and control the state of the selected elements in a normalized way.
+
+Previously, a simple `value` inside the list was converted to a normalized value, which entailed conversion overhead. There were also many vague questions about the definition of nested selected elements inside the list, since it was not clear from the id of the list element which group it belongs to.
+
+Similar functionality can be easily repeated locally in a specific task:
+
+    ```tsx
+    const [values, setValues] = React.useState<ListItemId[]>([]);
+    const multiple = true;
+
+    <TreeSelect
+        // other props
+        multiple={multiple}
+        onItemClick={(clickCtx, defaultClickCb) => {
+            setValues((prevValues) => {
+                const hasNoSelectedIdIsValues = !prevValues.includes(clickCtx.id);
+
+                if (hasNoSelectedIdIsValues) {
+                    return [...(multiple ? prevValues : []), clickCtx.id];
+                }
+
+                return prevValues.filter((id) => id !== clickCtx.id);
+            });
+
+            defaultClickCb();
+        }}
+    />;
+    ```
+
+with initial values:
+
+    ```tsx
+    const ititialSelectedId = ['1', '100'];
+
+    const listState = useListState({
+        initialState: {
+            selectedById: ititialSelectedId.reduce(
+                (acc, listItemId) => {
+                    acc[listItemId] = true;
+
+                    return acc;
+                },
+                {} as Record<ListItemId, boolean>,
+            ),
+        },
+    });
+
+    const [values, setValues] = React.useState<ListItemId[]>(ititialSelectedId);
+    const multiple = true;
+
+    <TreeSelect
+        {...listState}
+        multiple={multiple}
+        onItemClick={(clickCtx, defaultClickCb) => {
+            // ...
+        }}
+    />;
+    ```
+
+> _If necessary, you can add a hook with click processing logic to the library itself_

@@ -82,8 +82,6 @@
         #{variables.$block} &_sticky_end {
             position: sticky;
             z-index: 2;
-
-            background: var(--g-color-base-background);
         }
 
         &_border_right {

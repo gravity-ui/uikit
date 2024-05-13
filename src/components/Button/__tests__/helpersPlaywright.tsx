@@ -1,12 +1,17 @@
 import React from 'react';
 
-import {ChevronDown, Globe} from '@gravity-ui/icons';
+import {ChevronDown, Globe, Xmark} from '@gravity-ui/icons';
 import {composeStories} from '@storybook/react';
 
 import {Button} from '..';
 import {Showcase} from '../../../demo/Showcase';
 import {Icon} from '../../Icon';
+import {cn} from '../../utils/cn';
 import * as DefaultButtonStories from '../__stories__/Button.stories';
+
+import './helpersPlaywright.scss';
+
+const b = cn('button-view-showcase-shrinked-container');
 
 export const ButtonStories = composeStories(DefaultButtonStories);
 
@@ -36,6 +41,14 @@ export const CustomIconSizeButton = () => (
             <Icon size={24} data={Globe} />
             Both bigger icons
             <Icon size={24} data={ChevronDown} />
+        </Button>
+    </Showcase>
+);
+
+export const SingleIconButtonInShrinkedContainer = () => (
+    <Showcase className={b()}>
+        <Button size="xl">
+            <Icon size={24} data={Xmark} />
         </Button>
     </Showcase>
 );

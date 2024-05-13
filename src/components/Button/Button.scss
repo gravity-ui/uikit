@@ -34,6 +34,7 @@ $block: '.#{variables.$ns}button';
         color 0.15s linear;
     transform: scale(1);
     display: inline-flex;
+    flex-shrink: 0;
     justify-content: center;
     padding: 0 var(--g-button-padding, var(--_--padding));
     gap: var(--g-button-icon-offset, var(--_--icon-offset));

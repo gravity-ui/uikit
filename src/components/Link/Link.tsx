@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Tooltip} from '../Tooltip';
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {eventBroker} from '../utils/event-broker';
@@ -12,10 +13,12 @@ export interface LinkProps extends DOMProps, QAProps {
     view?: LinkView;
     visitable?: boolean;
     title?: string;
+    ariaLabel?: string;
     href: string;
     target?: string;
     rel?: string;
     id?: string;
+    useGravityTooltip?: boolean;
     children?: React.ReactNode;
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
     onFocus?: React.FocusEventHandler<HTMLAnchorElement>;
@@ -33,6 +36,8 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         target,
         rel,
         title,
+        ariaLabel,
+        useGravityTooltip,
         children,
         extraProps,
         onClick,
@@ -54,7 +59,6 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
     }, []);
 
     const commonProps = {
-        title,
         onClick,
         onClickCapture: handleClickCapture,
         onFocus,
@@ -67,8 +71,34 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
 
     const relProp = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
 
+    if (useGravityTooltip) {
+        return (
+            <Tooltip content={ariaLabel}>
+                <a
+                    {...extraProps}
+                    {...commonProps}
+                    aria-label={ariaLabel}
+                    ref={ref}
+                    href={href}
+                    target={target}
+                    rel={relProp}
+                >
+                    {children}
+                </a>
+            </Tooltip>
+        );
+    }
+
     return (
-        <a {...extraProps} {...commonProps} ref={ref} href={href} target={target} rel={relProp}>
+        <a
+            {...extraProps}
+            {...commonProps}
+            title={title}
+            ref={ref}
+            href={href}
+            target={target}
+            rel={relProp}
+        >
             {children}
         </a>
     );

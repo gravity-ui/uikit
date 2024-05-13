@@ -29,3 +29,10 @@ export const Default = DefaultTemplate.bind({});
 
 const ShowcaseTemplate: StoryFn = () => <LinkShowcase />;
 export const Showcase = ShowcaseTemplate.bind({});
+
+const LinkGravityTooltipTemplate: StoryFn<LinkProps> = (args) => (
+    <Link {...args} useGravityTooltip ariaLabel="Link">
+        Link
+    </Link>
+);
+export const LinkGravityTooltip = LinkGravityTooltipTemplate.bind({});

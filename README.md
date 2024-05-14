@@ -2,6 +2,8 @@
 
 A set of flexible, highly practical, and efficient React components for creating rich web applications.
 
+<!--GITHUB_BLOCK-->
+
 <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/uikit_cover.png" width="800" />
 
 ## Resources
@@ -11,6 +13,8 @@ A set of flexible, highly practical, and efficient React components for creating
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma.svg" width="16px" height="16px" /> [Figma](https://www.figma.com/community/file/1271150067798118027/Gravity-UI-Design-System-(Beta))
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/storybook.svg" width="16px" height="16px" /> [Storybook](https://preview.gravity-ui.com/uikit/)
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/telegram.svg" width="16px" height="16px" /> [Community](https://t.me/gravity_ui)
+
+<!--/GITHUB_BLOCK-->
 
 ## Install
 

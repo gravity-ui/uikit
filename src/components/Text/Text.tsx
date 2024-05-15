@@ -7,14 +7,14 @@ import type {ColorTextBaseProps} from './colorText/colorText';
 import {text} from './text/text';
 import type {TextBaseProps} from './text/text';
 
-export interface TextProps
+export interface TextProps<C extends React.ElementType = 'span'>
     extends Omit<TextBaseProps, 'ellipsisLines'>,
         ColorTextBaseProps,
         QAProps {
     /**
      * Ability to override default html tag
      */
-    as?: keyof JSX.IntrinsicElements;
+    as?: C;
     style?: React.CSSProperties;
     className?: string;
     id?: string;
@@ -25,9 +25,8 @@ export interface TextProps
 
 type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
 
-type TextPropsWithoutRef<C extends React.ElementType> = {
-    as?: C;
-} & Omit<TextProps, 'as'>;
+type TextPropsWithoutRef<C extends React.ElementType> = TextProps<C> &
+    Omit<React.ComponentPropsWithoutRef<C>, keyof TextProps<C>>;
 
 /**
  * A component for working with typography.

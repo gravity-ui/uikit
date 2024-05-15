@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
 import _get from 'lodash/get';
+import _isEqual from 'lodash/isEqual';
 import _isString from 'lodash/isString';
 import _last from 'lodash/last';
 
@@ -111,7 +112,7 @@ export interface WithTableSettingsOptions {
     sortable?: boolean;
 }
 
-export interface WithTableSettingsProps {
+interface WithTableSettingsBaseProps {
     /**
      * @deprecated Use factory notation: "withTableSettings({width: <value>})(Table)"
      */
@@ -125,6 +126,25 @@ export interface WithTableSettingsProps {
      */
     renderControls?: RenderControls;
 }
+
+interface WithDefaultSettings {
+    /** Settings to which you can reset the current settings. */
+    defaultSettings: TableSettingsData;
+    /**
+     * Display a reset button that resets the current settings changes.
+     *
+     * If the `defaultSettings` prop is set then the settings reset to the `defaultSettings`.
+     */
+    showResetButton: boolean;
+}
+
+interface WithoutDefaultSettings {
+    defaultSettings?: never;
+    showResetButton?: boolean;
+}
+
+export type WithTableSettingsProps = WithTableSettingsBaseProps &
+    (WithDefaultSettings | WithoutDefaultSettings);
 
 const b = block('table');
 
@@ -157,8 +177,18 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             columns,
             settingsPopupWidth,
             renderControls,
+            defaultSettings,
+            showResetButton,
             ...restTableProps
         }: TableProps<I> & WithTableSettingsProps & E) {
+            const defaultActualItems = React.useMemo(() => {
+                if (!defaultSettings) {
+                    return undefined;
+                }
+
+                return getActualItems(columns, defaultSettings);
+            }, [columns, defaultSettings]);
+
             const enhancedColumns = React.useMemo(() => {
                 const actualItems = getActualItems(columns, settings || []);
 
@@ -182,11 +212,21 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                     </Button>
                                 )}
                                 renderControls={renderControls}
+                                defaultItems={defaultActualItems}
+                                showResetButton={showResetButton}
                             />
                         </div>
                     );
                 });
-            }, [columns, settings, updateSettings, settingsPopupWidth, renderControls]);
+            }, [
+                columns,
+                settings,
+                settingsPopupWidth,
+                updateSettings,
+                renderControls,
+                defaultActualItems,
+                showResetButton,
+            ]);
 
             return (
                 <React.Fragment>

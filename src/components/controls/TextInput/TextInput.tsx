@@ -55,8 +55,8 @@ export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
-// eslint-disable-next-line complexity
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
+    // eslint-disable-next-line complexity
     function TextInput(props, ref) {
         const {
             view = 'normal',
@@ -176,10 +176,12 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
         };
 
         const handleAdditionalContentClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-            const hasActiveElement = event.currentTarget.contains(document.activeElement);
+            const needActivateInput =
+                !event.currentTarget.contains(document.activeElement) &&
+                event.currentTarget.contains(event.target as HTMLElement);
             const hasSelection = Boolean(document.getSelection()?.toString());
 
-            if (!hasActiveElement && !hasSelection) {
+            if (needActivateInput && !hasSelection) {
                 innerControlRef.current?.focus();
             }
         };

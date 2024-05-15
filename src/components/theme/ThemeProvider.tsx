@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
+import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
 
 import {ThemeContext} from './ThemeContext';
@@ -26,6 +28,7 @@ export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     nativeScrollbar?: boolean;
     scoped?: boolean;
     rootClassName?: string;
+    layout?: Omit<PrivateLayoutProviderProps, 'children'>;
 }
 
 export function ThemeProvider({
@@ -37,6 +40,7 @@ export function ThemeProvider({
     scoped: scopedProp = false,
     rootClassName = '',
     children,
+    layout,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
@@ -76,8 +80,9 @@ export function ThemeProvider({
                 theme,
                 themeValue,
                 direction,
+                scoped,
             }) satisfies ThemeContextProps,
-        [theme, themeValue, direction],
+        [theme, themeValue, direction, scoped],
     );
 
     const themeSettingsContext = React.useMemo(
@@ -86,30 +91,28 @@ export function ThemeProvider({
     );
 
     return (
-        <ThemeContext.Provider value={contextValue}>
-            <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                {scoped ? (
-                    <div
-                        className={b(
-                            {
-                                theme: themeValue,
-                                'native-scrollbar': nativeScrollbar !== false,
-                            },
-                            rootClassName,
-                        )}
-                        dir={
-                            hasParentProvider && direction === parentDirection
-                                ? undefined
-                                : direction
-                        }
-                    >
-                        {children}
-                    </div>
-                ) : (
-                    children
-                )}
-            </ThemeSettingsContext.Provider>
-        </ThemeContext.Provider>
+        <PrivateLayoutProvider {...layout}>
+            <ThemeContext.Provider value={contextValue}>
+                <ThemeSettingsContext.Provider value={themeSettingsContext}>
+                    {scoped ? (
+                        <div
+                            className={b(
+                                {
+                                    theme: themeValue,
+                                    'native-scrollbar': nativeScrollbar !== false,
+                                },
+                                rootClassName,
+                            )}
+                            dir={direction}
+                        >
+                            {children}
+                        </div>
+                    ) : (
+                        children
+                    )}
+                </ThemeSettingsContext.Provider>
+            </ThemeContext.Provider>
+        </PrivateLayoutProvider>
     );
 }
 

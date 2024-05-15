@@ -9,9 +9,13 @@ A set of flexible, highly practical, and efficient React components for creating
 ## Resources
 
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/globe.svg" width="16px" height="16px" /> [Website](https://gravity-ui.com)
+
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/book-open.svg" width="16px" height="16px" /> [Documentation](https://gravity-ui.com/components/uikit/alert)
+
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma.svg" width="16px" height="16px" /> [Figma](https://www.figma.com/community/file/1271150067798118027/Gravity-UI-Design-System-(Beta))
+
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/storybook.svg" width="16px" height="16px" /> [Storybook](https://preview.gravity-ui.com/uikit/)
+
 ### <img src="https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/telegram.svg" width="16px" height="16px" /> [Community](https://t.me/gravity_ui)
 
 <!--/GITHUB_BLOCK-->

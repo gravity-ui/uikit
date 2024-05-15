@@ -12,7 +12,7 @@ A set of flexible, highly practical, and efficient React components for creating
 
 ### ![Documentation logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/book-open.svg) [Documentation](https://gravity-ui.com/components/uikit/alert)
 
-### ![Figma logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma.svg) [Figma](https://www.figma.com/community/file/1271150067798118027/Gravity-UI-Design-System-(Beta))
+### ![Figma logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma.svg) [Figma](<https://www.figma.com/community/file/1271150067798118027/Gravity-UI-Design-System-(Beta)>)
 
 ### ![Storybook logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/storybook.svg) [Storybook](https://preview.gravity-ui.com/uikit/)
 

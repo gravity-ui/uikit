@@ -1,6 +1,5 @@
 import React from 'react';
 
-import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
 import {Box} from '../Box/Box';
 import type {BoxProps} from '../Box/Box';
@@ -12,7 +11,7 @@ import './Flex.scss';
 
 const b = block('flex');
 
-export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps, BoxProps<T> {
+export interface FlexProps<T extends React.ElementType = 'div'> extends BoxProps<T> {
     /**
      * `flex-direction` property
      */
@@ -90,6 +89,11 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps,
     space?: Space | MediaPartial<Space>;
 }
 
+type FlexRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
+
+type FlexPropsWithTypedAttrs<T extends React.ElementType> = FlexProps<T> &
+    Omit<React.ComponentPropsWithoutRef<T>, keyof FlexProps<T>>;
+
 /**
  * Flexbox model utility component.
  *
@@ -124,11 +128,9 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends QAProps,
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#flex
  */
-export const Flex = React.forwardRef(function Flex<T extends React.ElementType = 'div'>(
-    props: FlexProps<T>,
-    ref: React.ComponentPropsWithRef<T>['ref'],
-) {
+export const Flex = function Flex<T extends React.ElementType = 'div'>(props: FlexProps<T>) {
     const {
+        as: propsAs,
         direction,
         grow,
         basis,
@@ -150,6 +152,8 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
         centerContent,
         ...restProps
     } = props;
+
+    const as: React.ElementType = propsAs || 'div';
 
     const {
         getClosestMediaProps,
@@ -174,6 +178,7 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
 
     return (
         <Box
+            as={as}
             className={b(
                 {
                     'center-content': centerContent,
@@ -198,7 +203,6 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
                 justifySelf: applyMediaProps(justifySelf),
                 ...style,
             }}
-            ref={ref}
             {...restProps}
         >
             {space
@@ -209,4 +213,6 @@ export const Flex = React.forwardRef(function Flex<T extends React.ElementType =
                 : children}
         </Box>
     );
-});
+} as (<C extends React.ElementType = 'div'>(
+    props: FlexPropsWithTypedAttrs<C> & {ref?: FlexRef<C>},
+) => React.ReactElement) & {displayName: string};

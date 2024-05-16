@@ -35,6 +35,11 @@ export interface BoxProps<T extends React.ElementType = 'div'>
     spacing?: SpacingProps;
 }
 
+type BoxRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
+
+type BoxPropsWithTypedAttrs<T extends React.ElementType> = BoxProps<T> &
+    Omit<React.ComponentPropsWithoutRef<T>, keyof BoxProps<T>>;
+
 /**
  * Basic block to build other components and for standalone usage as a smart block with build in support of most usable css properties and shortcut `spacing` properties.
  * ```tsx
@@ -63,7 +68,7 @@ export const Box = React.forwardRef(function Box<T extends React.ElementType = '
         overflow,
         ...props
     }: BoxProps<T>,
-    ref?: React.ComponentPropsWithRef<T>['ref'],
+    ref?: BoxRef<T>,
 ) {
     const Tag: React.ElementType = as || 'div';
 
@@ -88,4 +93,6 @@ export const Box = React.forwardRef(function Box<T extends React.ElementType = '
             {children}
         </Tag>
     );
-});
+}) as (<C extends React.ElementType = 'div'>(
+    props: BoxPropsWithTypedAttrs<C> & {ref?: BoxRef<C>},
+) => React.ReactElement) & {displayName: string};

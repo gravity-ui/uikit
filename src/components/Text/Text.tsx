@@ -15,18 +15,13 @@ export interface TextProps<C extends React.ElementType = 'span'>
      * Ability to override default html tag
      */
     as?: C;
-    style?: React.CSSProperties;
-    className?: string;
-    id?: string;
-    children?: React.ReactNode;
-    title?: string;
     ellipsisLines?: number;
 }
 
 type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
 
-type TextPropsWithoutRef<C extends React.ElementType> = TextProps<C> &
-    Omit<React.ComponentPropsWithoutRef<C>, keyof TextProps<C>>;
+type TextPropsWithTypedAttrs<T extends React.ElementType> = TextProps<T> &
+    Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>>;
 
 /**
  * A component for working with typography.
@@ -68,7 +63,7 @@ export const Text = React.forwardRef(function Text<C extends React.ElementType =
         style: outerStyle,
         qa,
         ...rest
-    }: TextPropsWithoutRef<C>,
+    }: TextPropsWithTypedAttrs<C>,
     ref?: TextRef<C>,
 ) {
     const Tag: React.ElementType = as || 'span';
@@ -104,6 +99,6 @@ export const Text = React.forwardRef(function Text<C extends React.ElementType =
 }) as (<C extends React.ElementType = 'span'>({
     ref,
     ...props
-}: TextPropsWithoutRef<C> & {ref?: TextRef<C>}) => React.ReactElement) & {displayName: string};
+}: TextPropsWithTypedAttrs<C> & {ref?: TextRef<C>}) => React.ReactElement) & {displayName: string};
 
 Text.displayName = 'Text';

@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text should return expected html if html attributes passed and changed default html tag and with typed ref 1`] = `
+<div>
+  <label
+    class="g-text g-text_variant_body-1"
+    for="some-id"
+  >
+    Hello World!
+  </label>
+</div>
+`;
+
+exports[`Text should return expected html if no props passed 1`] = `
+<div>
+  <span
+    class="g-text g-text_variant_body-1"
+  >
+    Hello World!
+  </span>
+</div>
+`;
+
+exports[`Text should return expected html if passed props what converted to classNames and styles 1`] = `
+<div>
+  <span
+    class="g-text g-text_variant_body-1 g-text_ellipsis g-text_ws_break-spaces g-text_wb_break-word g-text_ellipsis-lines"
+    style="width: 200px;"
+  >
+    Hello World!
+  </span>
+</div>
+`;
+
+exports[`Text should return expected html if qa attr passed and variant changed 1`] = `
+<div>
+  <span
+    class="g-text g-text_variant_caption-1"
+    data-qa="test"
+  >
+    Hello World!
+  </span>
+</div>
+`;
+
+exports[`Text should return expected html with another component substitution 1`] = `
+<div>
+  <button
+    class="g-button g-button_view_action g-button_size_m g-button_pin_round-round g-text g-text_variant_body-1"
+    type="button"
+  >
+    <span
+      class="g-button__text"
+    >
+      Hello World!
+    </span>
+  </button>
+</div>
+`;

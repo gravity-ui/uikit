@@ -8,15 +8,15 @@ A set of flexible, highly practical, and efficient React components for creating
 
 ## Resources
 
-### ![Globe logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/globe.svg) [Website](https://gravity-ui.com)
+### ![Globe Logo Light](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/globe_light.svg#gh-light-mode-only) ![Globe Logo Dark](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/globe_dark.svg#gh-dark-mode-only) [Website](https://gravity-ui.com)
 
-### ![Documentation logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/book-open.svg) [Documentation](https://gravity-ui.com/components/uikit/alert)
+### ![Documentation Logo Light](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/book-open_light.svg#gh-light-mode-only) ![Documentation Logo Dark](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/book-open_dark.svg#gh-dark-mode-only) [Documentation](https://gravity-ui.com/components/uikit/alert)
 
-### ![Figma logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma.svg) [Figma](<https://www.figma.com/community/file/1271150067798118027/Gravity-UI-Design-System-(Beta)>)
+### ![Figma Logo Light](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma_light.svg#gh-light-mode-only) ![Figma Logo Dark](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/figma_dark.svg#gh-dark-mode-only) [Figma](<https://www.figma.com/community/file/1271150067798118027/Gravity-UI-Design-System-(Beta)>)
 
-### ![Storybook logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/storybook.svg) [Storybook](https://preview.gravity-ui.com/uikit/)
+### ![Storybook Logo Light](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/storybook_light.svg#gh-light-mode-only) ![Storybook Logo Dark](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/storybook_dark.svg#gh-dark-mode-only) [Storybook](https://preview.gravity-ui.com/uikit/)
 
-### ![Community logo](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/telegram.svg) [Community](https://t.me/gravity_ui)
+### ![Community Logo Light](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/telegram_light.svg#gh-light-mode-only) ![Community Logo Dark](https://raw.githubusercontent.com/gravity-ui/uikit/main/docs/assets/telegram_dark.svg#gh-dark-mode-only) [Community](https://t.me/gravity_ui)
 
 <!--/GITHUB_BLOCK-->
 

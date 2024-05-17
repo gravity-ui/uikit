@@ -8,6 +8,7 @@ import {
     Globe,
     Heart,
 } from '@gravity-ui/icons';
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
@@ -41,7 +42,16 @@ export default {
 
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {args: {children: 'Button'}};
+export const Default: Story = {
+    args: {
+        children: 'Button',
+        onClick: action('onClick'),
+        onMouseEnter: action('onMouseEnter'),
+        onMouseLeave: action('onMouseLeave'),
+        onFocus: action('onFocus'),
+        onBlur: action('onBlur'),
+    },
+};
 
 export const View: Story = {
     render: (args) => <ButtonViewShowcase {...args} />,

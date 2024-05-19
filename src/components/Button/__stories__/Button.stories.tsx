@@ -12,6 +12,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {Icon as IconComponent} from '../../Icon/Icon';
+import type {ButtonLinkProps} from '../Button';
 import {Button} from '../Button';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
@@ -37,7 +38,7 @@ export default {
             },
         },
     },
-} as Meta;
+} as Meta<typeof Button>;
 
 type Story = StoryObj<typeof Button>;
 
@@ -158,7 +159,7 @@ export const Pin: Story = {
     },
 };
 
-export const Link: Story = {
+export const Link: StoryObj<ButtonLinkProps> = {
     args: {
         ...Default.args,
         children: ['Link Button', <IconComponent key="icon" data={ArrowUpRightFromSquare} />],
@@ -180,7 +181,7 @@ export const InsideText: Story = {
                 <Button {...args} /> dolor
                 <br />
                 sit{' '}
-                <Button {...args} extraProps={{'aria-label': 'Icon button inside text'}}>
+                <Button {...args} aria-label="Icon button inside text">
                     <IconComponent data={Globe} />
                 </Button>{' '}
                 amet

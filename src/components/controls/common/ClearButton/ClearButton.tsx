@@ -56,10 +56,8 @@ export const ClearButton = (props: Props) => {
             size={size}
             className={b(null, className)}
             onClick={onClick}
-            extraProps={{
-                onMouseDown: preventDefaultHandler,
-                'aria-label': i18n('label_clear-button'),
-            }}
+            onMouseDown={preventDefaultHandler}
+            aria-label={i18n('label_clear-button')}
         >
             <Icon data={Xmark} size={ICON_SIZE} />
         </Button>

@@ -98,11 +98,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                                         : false,
                                             }));
                                         }}
-                                        extraProps={{
-                                            'aria-label': expanded
-                                                ? closeButtonLabel
-                                                : expandButtonLabel,
-                                        }}
+                                        aria-label={expanded ? closeButtonLabel : expandButtonLabel}
                                     >
                                         <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
                                     </Button>

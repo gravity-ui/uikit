@@ -34,7 +34,7 @@ const EyeButton = (props: {
             view="flat"
             disabled={disabled}
             onClick={onClick}
-            extraProps={{'aria-label': opened ? showLabel : hideLabel}}
+            aria-label={opened ? showLabel : hideLabel}
         >
             <Icon data={opened ? Eye : EyeSlash} />
         </Button>

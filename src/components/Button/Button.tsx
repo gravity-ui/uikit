@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 import {isIcon} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
@@ -53,7 +53,7 @@ export type ButtonPin =
 
 export type ButtonWidth = 'auto' | 'max';
 
-export interface ButtonProps extends DOMProps, QAProps {
+interface ButtonBaseProps extends QAProps {
     /** Button appearance */
     view?: ButtonView;
     size?: ButtonSize;
@@ -62,60 +62,57 @@ export interface ButtonProps extends DOMProps, QAProps {
     disabled?: boolean;
     loading?: boolean;
     width?: ButtonWidth;
-    title?: string;
-    tabIndex?: number;
-    id?: string;
-    type?: 'button' | 'submit' | 'reset';
     component?: React.ElementType;
-    href?: string;
-    target?: string;
-    rel?: string;
+    /**
+     * @deprecated
+     */
     extraProps?:
         | React.ButtonHTMLAttributes<HTMLButtonElement>
         | React.AnchorHTMLAttributes<HTMLAnchorElement>;
-    onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onMouseEnter?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onFocus?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-    onBlur?: React.FocusEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     /** Button content. You can mix button text with `<Icon/>` component */
     children?: React.ReactNode;
 }
 
+type AnchorOnlyHTMLAttributes = Omit<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    keyof React.ButtonHTMLAttributes<HTMLButtonElement>
+>;
+
+export type ButtonButtonProps = ButtonBaseProps &
+    React.ButtonHTMLAttributes<HTMLButtonElement> & {
+        [K in keyof AnchorOnlyHTMLAttributes]: never;
+    } & {
+        type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+    };
+
+export type ButtonLinkProps = ButtonBaseProps &
+    React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+        href: string;
+    };
+
+export type ButtonProps = ButtonButtonProps | ButtonLinkProps;
+
 const b = block('button');
 
-const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function Button(
-    {
+const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function Button(props, ref) {
+    const {
         view = 'normal',
         size = 'm',
         pin = 'round-round',
         selected,
-        disabled = false,
+        disabled: disabledProp = false,
         loading = false,
         width,
-        title,
-        tabIndex,
-        type = 'button',
-        component,
-        href,
-        target,
-        rel,
-        extraProps,
-        onClick,
-        onMouseEnter,
-        onMouseLeave,
-        onFocus,
-        onBlur,
         children,
-        id,
-        style,
-        className,
         qa,
-    },
-    ref,
-) {
+        onClickCapture,
+        className,
+        component,
+        extraProps,
+        ...restProps
+    } = props;
     const handleClickCapture = React.useCallback(
-        (event: React.SyntheticEvent) => {
+        (event: React.MouseEvent) => {
             eventBroker.publish({
                 componentId: 'Button',
                 eventId: 'click',
@@ -125,28 +122,24 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
                     view,
                 },
             });
+
+            if (onClickCapture) {
+                onClickCapture(event as any);
+            }
         },
-        [view],
+        [view, onClickCapture],
     );
 
+    const disabled = disabledProp || loading;
     const commonProps = {
-        title,
-        tabIndex,
-        onClick,
         onClickCapture: handleClickCapture,
-        onMouseEnter,
-        onMouseLeave,
-        onFocus,
-        onBlur,
-        id,
-        style,
         className: b(
             {
                 view,
                 size,
                 pin,
                 selected,
-                disabled: disabled || loading,
+                disabled,
                 loading,
                 width,
             },
@@ -154,35 +147,56 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         ),
         'data-qa': qa,
     };
+    const content = prepareChildren(children);
 
-    if (typeof href === 'string' || component) {
-        const linkProps = {
-            href,
-            target,
-            rel: target === '_blank' && !rel ? 'noopener noreferrer' : rel,
-        };
+    if (component) {
         return React.createElement(
-            component || 'a',
+            component,
             {
-                ...extraProps,
                 ...commonProps,
-                ...(component ? {} : linkProps),
-                ref: ref as React.Ref<HTMLAnchorElement>,
-                'aria-disabled': disabled || loading,
+                ...restProps,
+                ...extraProps,
+                ref,
+                tabIndex: disabled ? undefined : 0,
+                role: 'button',
+                'aria-disabled': disabled,
+                'aria-pressed': selected,
             },
-            prepareChildren(children),
+            content,
+        );
+    } else if (restProps.href) {
+        const linkProps = restProps as ButtonLinkProps;
+
+        return (
+            <a
+                {...commonProps}
+                {...linkProps}
+                {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                rel={
+                    linkProps.target === '_blank' && !linkProps.rel
+                        ? 'noopener noreferrer'
+                        : linkProps.rel
+                }
+                aria-disabled={disabled}
+            >
+                {content}
+            </a>
         );
     } else {
+        const buttonProps = restProps as ButtonButtonProps;
+
         return (
             <button
-                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
                 {...commonProps}
+                {...buttonProps}
+                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
                 ref={ref as React.Ref<HTMLButtonElement>}
-                type={type}
-                disabled={disabled || loading}
+                type={buttonProps.type ?? 'button'}
+                disabled={disabled}
                 aria-pressed={selected}
             >
-                {prepareChildren(children)}
+                {content}
             </button>
         );
     }

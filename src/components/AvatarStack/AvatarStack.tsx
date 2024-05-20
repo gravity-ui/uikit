@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 import {isOfType} from '../utils/isOfType';
 
 import {AvatarStackItem} from './AvatarStackItem';
@@ -9,7 +9,7 @@ import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
 
-const b = blockNew('avatar-stack');
+const b = block('avatar-stack');
 
 const isMoreButton = isOfType(AvatarStackMoreButton);
 

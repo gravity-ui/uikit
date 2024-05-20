@@ -171,7 +171,7 @@ LANDING_BLOCK-->
 | :--------- | :----------------------------------------- | :-------------------------------------------------------: | :--------: |
 | view       | Link appearance                            |          `"normal" \| "primary" \| "secondary"`           | `"normal"` |
 | visitable  | Display `:visitable` CSS state             |                  `boolean \| undefined`                   |
-| href       | HTML `href` attribute                      |                   `string \| undefined`                   |
+| href       | HTML `href` attribute                      |                         `string`                          |
 | target     | HTML `target` attribute                    |                   `string \| undefined`                   |
 | rel        | HTML `rel` attribute                       |                   `string \| undefined`                   |
 | title      | HTML `title` attribute                     |                   `string \| undefined`                   |

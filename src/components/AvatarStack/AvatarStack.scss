@@ -6,7 +6,7 @@ $block: '.#{variables.$ns}avatar-stack';
 
 #{$block} {
     --_--more-button-size: #{avatarVariables.$default_size};
-    --_--g-avatar-stack-border-width: 1px;
+    --_--more-button-border-width: 1px;
 
     display: inline-flex;
     justify-content: flex-end;
@@ -16,15 +16,15 @@ $block: '.#{variables.$ns}avatar-stack';
     padding: 0;
 
     &_overlap-size_s {
-        --_--g-avatar-stack-overlap: var(--g-spacing-1);
+        --_--overlap: var(--g-spacing-1);
     }
 
     &_overlap-size_m {
-        --_--g-avatar-stack-overlap: var(--g-spacing-2);
+        --_--overlap: var(--g-spacing-2);
     }
 
     &_overlap-size_l {
-        --_--g-avatar-stack-overlap: var(--g-spacing-3);
+        --_--overlap: var(--g-spacing-3);
     }
 
     &__item {
@@ -33,16 +33,14 @@ $block: '.#{variables.$ns}avatar-stack';
         border-radius: 100%;
 
         &:not(:first-child) {
-            margin-inline-end: calc(
-                -1 * (var(--_--g-avatar-stack-overlap) + var(--_--g-avatar-stack-border-width))
-            );
+            margin-inline-end: calc(-1 * var(--_--overlap));
         }
     }
 
     &__more-button {
         @include mixins.button-reset;
 
-        border: solid var(--_--g-avatar-stack-border-width) var(--g-color-line-generic-solid);
+        border: solid var(--_--more-button-border-width) var(--g-color-line-generic-solid);
         border-radius: 100%;
 
         background-color: var(--g-color-base-generic);

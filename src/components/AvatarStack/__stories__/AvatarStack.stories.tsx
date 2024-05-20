@@ -15,7 +15,6 @@ function getChildren({
     count = faker.number.int({min: 1, max: 30}),
     avatarSize = 'm',
 }: Partial<{count: number; avatarSize: AvatarSize}>) {
-    console.log('getChildren', avatarSize);
     return faker.helpers.uniqueArray(
         () => <Avatar imgUrl={faker.image.avatar()} size={avatarSize} />,
         count,

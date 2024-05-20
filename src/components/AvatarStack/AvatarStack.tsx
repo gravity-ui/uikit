@@ -5,6 +5,7 @@ import {isOfType} from '../utils/isOfType';
 
 import {AvatarStackItem} from './AvatarStackItem';
 import {AvatarStackMoreButton} from './AvatarStackMoreButton';
+import i18n from './i18n';
 import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
@@ -53,7 +54,12 @@ const AvatarStackComponent = ({
     if (!moreButton.length && hasMoreButton) {
         const guessedSize = visibleItems[0]?.props.children.props.size;
         moreButton.push(
-            <AvatarStackMoreButton key="more-button" size={guessedSize} count={moreItems + 1} />,
+            <AvatarStackMoreButton
+                key="more-button"
+                size={guessedSize}
+                count={moreItems + 1}
+                aria-label={i18n('more')}
+            />,
         );
     }
 

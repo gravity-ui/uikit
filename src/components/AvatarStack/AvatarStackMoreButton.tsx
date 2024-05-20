@@ -8,7 +8,7 @@ const b = block('avatar-stack');
 type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 'aria-label'> & {
     size?: AvatarSize;
     count: number;
-    render?: (props: {button: React.ReactNode}) => React.ReactElement;
+    render?: (props: {button: React.ReactElement}) => React.ReactElement;
 };
 
 export const AvatarStackMoreButton = ({

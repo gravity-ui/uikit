@@ -98,7 +98,7 @@ export const Theme: Story = {
     },
 };
 
-const iconCases: Array<{caseTitle: string; propValue: AlertProps['icon']}> = [
+const iconCases: Array<{caseTitle: React.ReactNode; propValue: AlertProps['icon']}> = [
     {caseTitle: 'Without icon', propValue: null},
     {caseTitle: <IconComponent size={16} data={Gear} />, propValue: 'With icon'},
 ];

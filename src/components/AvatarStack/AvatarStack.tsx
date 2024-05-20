@@ -13,9 +13,15 @@ const b = block('avatar-stack');
 
 const isMoreButton = isOfType(AvatarStackMoreButton);
 
-const AvatarStackComponent = ({overlapSize = 's', children, className}: AvatarStackProps) => {
+const AvatarStackComponent = ({
+    max = 3,
+    overlapSize = 's',
+    children,
+    className,
+}: AvatarStackProps) => {
     const moreButton: React.ReactElement[] = [];
     const visibleItems: React.ReactElement[] = [];
+    let moreItems = 0;
 
     React.Children.forEach(children, (child) => {
         if (!React.isValidElement(child)) {
@@ -33,18 +39,24 @@ const AvatarStackComponent = ({overlapSize = 's', children, className}: AvatarSt
 
         if (isButton) {
             moreButton.push(item);
-        } else {
+        } else if (visibleItems.length <= max) {
             visibleItems.unshift(item);
+        } else {
+            moreItems += 1;
         }
     });
+
+    const hasMoreButton = moreItems > 0;
+    /** Avatars + more button, or just avatars, when avatars count is equal to `max` or less */
+    const normalOverflow = moreItems >= 1;
 
     return (
         // Safari remove role=list with some styles, applied to li items, so we need
         // to restore role manually
         // eslint-disable-next-line jsx-a11y/no-redundant-roles
         <ul className={b({'overlap-size': overlapSize}, className)} role={'list'}>
-            {moreButton}
-            {visibleItems}
+            {hasMoreButton ? moreButton : null}
+            {normalOverflow ? visibleItems.slice(0, max) : visibleItems}
         </ul>
     );
 };

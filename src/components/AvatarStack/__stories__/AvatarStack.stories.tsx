@@ -47,18 +47,14 @@ const Template: StoryFn<ComponentType> = (args) => {
     return (
         <AvatarStack {...args}>
             {children}
-            {React.Children.count(children) > 3 ? (
-                <AvatarStack.MoreButton
-                    size={avatarSize}
-                    aria-label={'Rest of the users'}
-                    count={React.Children.count(children) - 3}
-                    render={({button}) => (
-                        <Tooltip content={'Somehow display list of all other items'}>
-                            {button}
-                        </Tooltip>
-                    )}
-                />
-            ) : null}
+            <AvatarStack.MoreButton
+                size={avatarSize}
+                aria-label={'Rest of the users'}
+                count={React.Children.count(children) - 3}
+                render={({button}) => (
+                    <Tooltip content={'Somehow display list of all other items'}>{button}</Tooltip>
+                )}
+            />
         </AvatarStack>
     );
 };
@@ -72,5 +68,11 @@ WithOneItem.args = {
 
 export const WithMoreButton = Template.bind({});
 WithMoreButton.args = {
-    children: getChildren({count: 5}),
+    children: getChildren({count: 6}),
+};
+
+export const EdgeCase = Template.bind({});
+EdgeCase.args = {
+    children: getChildren({count: 4}),
+    max: 3,
 };

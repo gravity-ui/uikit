@@ -26,6 +26,7 @@ Component is not limit you to what components to render, basic usage is:
 
 | Name        | Description                                                                                                                                                           |     Type      | Default |
 | :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------: | :-----: |
+| max         | How much avatars should be visible before more button. If avatars count is only 1 short from `max`, than more button would be replaced with avatar.                   |   `number`    |    3    |
 | overlapSize | How much each item should overlap next one. `s` recommended for `UserAvatars` of sizes `xs`-`m`, `m` recomended for `l` size avatars and `l` overlap for `xl` avatars | `s`, `m`, `l` |   `s`   |
 | className   | Class name of root DOM node                                                                                                                                           |   `string`    |         |
 | children    | List of avatars, probably with some extra wrappers                                                                                                                    |  `Object[]`   |         |

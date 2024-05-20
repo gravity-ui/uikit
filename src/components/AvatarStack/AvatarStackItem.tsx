@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {blockNew} from '../utils/cn';
+import {block} from '../utils/cn';
 
-const b = blockNew('avatar-stack');
+const b = block('avatar-stack');
 
 type Props = React.PropsWithChildren<{}>;
 

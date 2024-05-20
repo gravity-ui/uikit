@@ -294,6 +294,10 @@ $block: '.#{variables.$ns}button';
         &_side_end {
             order: 1;
         }
+
+        &:only-child {
+            margin: 0;
+        }
     }
 
     &:has(#{$block}__icon:only-child) {

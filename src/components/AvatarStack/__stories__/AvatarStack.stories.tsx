@@ -29,28 +29,43 @@ export default {
     },
 } as Meta<ComponentType>;
 
-const Template: StoryFn<ComponentType> = (args) => {
+function getAvatarSizeForOverlap(args: React.ComponentProps<ComponentType>) {
     const overlapAvatarSizeMap: Record<AvatarStackOverlapSize, AvatarSize> = {
         s: 'xs',
         m: 'l',
         l: 'xl',
     };
 
-    const avatarSize = overlapAvatarSizeMap[args.overlapSize || 's'];
-    const children =
+    return overlapAvatarSizeMap[args.overlapSize || 's'];
+}
+
+function getTemplateChildren(args: React.ComponentProps<ComponentType>) {
+    const avatarSize = getAvatarSizeForOverlap(args);
+
+    return (
         React.Children.map(args.children, (child) =>
             React.isValidElement<AvatarProps>(child)
                 ? React.cloneElement(child, {size: avatarSize})
                 : null,
-        ) || getChildren({avatarSize});
+        ) || getChildren({avatarSize})
+    );
+}
+
+const Template: StoryFn<ComponentType> = (args) => {
+    return <AvatarStack {...args}>{getTemplateChildren(args)}</AvatarStack>;
+};
+
+const TemplateWithButtonOverride: StoryFn<ComponentType> = (args) => {
+    const avatarSize = getAvatarSizeForOverlap(args);
 
     return (
         <AvatarStack {...args}>
-            {children}
+            {getTemplateChildren(args)}
             <AvatarStack.MoreButton
+                key="more-button-override"
                 size={avatarSize}
                 aria-label={'Rest of the users'}
-                count={React.Children.count(children) - 3}
+                count={24}
                 render={({button}) => (
                     <Tooltip content={'Somehow display list of all other items'}>{button}</Tooltip>
                 )}
@@ -75,4 +90,9 @@ export const EdgeCase = Template.bind({});
 EdgeCase.args = {
     children: getChildren({count: 4}),
     max: 3,
+};
+
+export const WithButtonOverride = TemplateWithButtonOverride.bind({});
+WithButtonOverride.args = {
+    children: [...getChildren({count: 26})],
 };

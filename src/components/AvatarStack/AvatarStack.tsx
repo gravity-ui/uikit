@@ -50,6 +50,13 @@ const AvatarStackComponent = ({
     /** Avatars + more button, or just avatars, when avatars count is equal to `max` or less */
     const normalOverflow = moreItems >= 1;
 
+    if (!moreButton.length && hasMoreButton) {
+        const guessedSize = visibleItems[0]?.props.children.props.size;
+        moreButton.push(
+            <AvatarStackMoreButton key="more-button" size={guessedSize} count={moreItems + 1} />,
+        );
+    }
+
     return (
         // Safari remove role=list with some styles, applied to li items, so we need
         // to restore role manually

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
@@ -121,7 +122,7 @@ export const ActionType: Story = {
     args: {
         ...Default.args,
         type: 'action',
-        onClick: () => alert('Click!'),
+        onClick: () => action('onClick'),
     },
     name: 'Action Type',
 };
@@ -141,7 +142,7 @@ export const SelectionType: Story = {
     args: {
         ...Default.args,
         type: 'selection',
-        onClick: () => alert('Click!'),
+        onClick: () => action('onClick'),
     },
     name: 'Selection Type',
 };

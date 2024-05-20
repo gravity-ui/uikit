@@ -45,7 +45,10 @@ function getTemplateChildren(args: React.ComponentProps<ComponentType>) {
     return (
         React.Children.map(args.children, (child) =>
             React.isValidElement<AvatarProps>(child)
-                ? React.cloneElement(child, {size: avatarSize})
+                ? React.cloneElement(child, {
+                      size: avatarSize,
+                      borderColor: 'var(--g-color-line-generic-solid)',
+                  })
                 : null,
         ) || getChildren({avatarSize})
     );

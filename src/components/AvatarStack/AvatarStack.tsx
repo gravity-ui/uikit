@@ -39,6 +39,9 @@ const AvatarStackComponent = ({overlapSize = 's', children, className}: AvatarSt
     });
 
     return (
+        // Safari remove role=list with some styles, applied to li items, so we need
+        // to restore role manually
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         <ul className={b({'overlap-size': overlapSize}, className)} role={'list'}>
             {moreButton}
             {visibleItems}

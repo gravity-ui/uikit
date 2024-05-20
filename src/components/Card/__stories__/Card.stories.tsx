@@ -146,3 +146,23 @@ export const SelectionType: Story = {
     },
     name: 'Selection Type',
 };
+
+export const Custom: Story = {
+    args: {
+        ...Default.args,
+    },
+    render: (args) => (
+        <React.Fragment>
+            <style>
+                {`.g-root {
+                    --g-card-background-color: #9a2eff;
+                    --g-card-border-width: 5px;
+                    --g-card-border-color: #fff;
+                    --g-card-border-radius: 40px 20px;
+                    --g-card-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+                }`}
+            </style>
+            <Card {...args}>Custom styles</Card>
+        </React.Fragment>
+    ),
+};

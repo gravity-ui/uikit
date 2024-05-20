@@ -5,7 +5,7 @@ import type {Meta, StoryFn} from '@storybook/react';
 
 import type {AvatarProps, AvatarSize} from '../../Avatar';
 import {Avatar} from '../../Avatar';
-import {Popover} from '../../Popover';
+import {Tooltip} from '../../Tooltip';
 import {AvatarStack} from '../AvatarStack';
 import type {AvatarStackOverlapSize} from '../types';
 
@@ -53,16 +53,9 @@ const Template: StoryFn<ComponentType> = (args) => {
                     aria-label={'Rest of the users'}
                     count={React.Children.count(children) - 3}
                     render={({button}) => (
-                        <Popover
-                            placement={['bottom', 'bottom-end', 'bottom-start']}
-                            content={
-                                <React.Fragment>
-                                    Somehow display list of all other items
-                                </React.Fragment>
-                            }
-                        >
+                        <Tooltip content={'Somehow display list of all other items'}>
                             {button}
-                        </Popover>
+                        </Tooltip>
                     )}
                 />
             ) : null}

@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 $sizes: (
     'xs': 24px,
     's': 28px,
@@ -5,3 +7,5 @@ $sizes: (
     'l': 42px,
     'xl': 50px,
 );
+
+$default_size: map.get($sizes, 'm');

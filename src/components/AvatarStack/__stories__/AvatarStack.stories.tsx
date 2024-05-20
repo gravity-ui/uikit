@@ -3,8 +3,9 @@ import React from 'react';
 import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react';
 
+import type {AvatarProps, AvatarSize} from '../../Avatar';
+import {Avatar} from '../../Avatar';
 import {Popover} from '../../Popover';
-import {UserAvatar, UserAvatarProps, UserAvatarSize} from '../../UserAvatar';
 import {AvatarStack} from '../AvatarStack';
 import type {AvatarStackOverlapSize} from '../types';
 
@@ -13,10 +14,10 @@ type ComponentType = typeof AvatarStack;
 function getChildren({
     count = faker.number.int({min: 1, max: 30}),
     avatarSize = 'm',
-}: Partial<{count: number; avatarSize: UserAvatarSize}>) {
+}: Partial<{count: number; avatarSize: AvatarSize}>) {
     console.log('getChildren', avatarSize);
     return faker.helpers.uniqueArray(
-        () => <UserAvatar imgUrl={faker.image.avatar()} size={avatarSize} />,
+        () => <Avatar imgUrl={faker.image.avatar()} size={avatarSize} />,
         count,
     );
 }
@@ -30,7 +31,7 @@ export default {
 } as Meta<ComponentType>;
 
 const Template: StoryFn<ComponentType> = (args) => {
-    const overlapAvatarSizeMap: Record<AvatarStackOverlapSize, UserAvatarSize> = {
+    const overlapAvatarSizeMap: Record<AvatarStackOverlapSize, AvatarSize> = {
         s: 'xs',
         m: 'l',
         l: 'xl',
@@ -39,7 +40,7 @@ const Template: StoryFn<ComponentType> = (args) => {
     const avatarSize = overlapAvatarSizeMap[args.overlapSize || 's'];
     const children =
         React.Children.map(args.children, (child) =>
-            React.isValidElement<UserAvatarProps>(child)
+            React.isValidElement<AvatarProps>(child)
                 ? React.cloneElement(child, {size: avatarSize})
                 : null,
         ) || getChildren({avatarSize});

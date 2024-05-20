@@ -47,8 +47,8 @@ $block: '.#{variables.$ns}avatar-stack';
 
         background-color: var(--g-color-base-generic);
 
-        width: var(--_--avatar-size);
-        height: var(--_--avatar-size);
+        width: var(--_--more-button-size);
+        height: var(--_--more-button-size);
 
         &:focus-visible::before {
             outline: var(--g-color-line-focus) solid 2px;

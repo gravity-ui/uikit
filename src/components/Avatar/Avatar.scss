@@ -1,4 +1,5 @@
 @use '../variables';
+@use './variables' as avatarVariables;
 
 $block: '.#{variables.$ns}avatar';
 
@@ -64,24 +65,10 @@ $block: '.#{variables.$ns}avatar';
     }
 
     &_size {
-        &_xs {
-            --_--size: 24px;
-        }
-
-        &_s {
-            --_--size: 28px;
-        }
-
-        &_m {
-            --_--size: 32px;
-        }
-
-        &_l {
-            --_--size: 42px;
-        }
-
-        &_xl {
-            --_--size: 50px;
+        @each $size_name, $size_value in avatarVariables.$sizes {
+            &_#{$size_name} {
+                --_--size: $size_value;
+            }
         }
 
         &_xs,

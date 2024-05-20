@@ -1,10 +1,11 @@
 @use '../../../styles/mixins';
-@use '../UserAvatar/mixins' as avatarMixins;
+@use '../Avatar/variables' as avatarVariables;
 @use '../variables';
 
 $block: '.#{variables.$ns}avatar-stack';
 
 #{$block} {
+    --_--more-button-size: avatarVariables.$default_size;
     --_--g-avatar-stack-border-width: 1px;
 
     display: inline-flex;
@@ -47,8 +48,15 @@ $block: '.#{variables.$ns}avatar-stack';
 
         background-color: var(--g-color-base-generic);
 
+        width: var(--_--avatar-size);
+        height: var(--_--avatar-size);
+
         &_size {
-            @include avatarMixins.size;
+            @each $size_name, $size_value in avatarVariables.$sizes {
+                &_#{$size_name} {
+                    --_--more-button-size: $size_value;
+                }
+            }
 
             &_xs {
                 font-size: var(--g-text-caption-1-font-size);

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import type {UserAvatarSize} from '../UserAvatar';
-import {blockNew} from '../utils/cn';
+import type {AvatarSize} from '../Avatar';
+import {block} from '../utils/cn';
 
-const b = blockNew('avatar-stack');
+const b = block('avatar-stack');
 
 type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 'aria-label'> & {
-    size?: UserAvatarSize;
+    size?: AvatarSize;
     count: number;
 };
 

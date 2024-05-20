@@ -155,7 +155,7 @@ export const Custom: Story = {
         <React.Fragment>
             <style>
                 {`.g-root {
-                    --g-card-background-color: #9a2eff;
+                    --g-card-background-color: #f08080;
                     --g-card-border-width: 5px;
                     --g-card-border-color: #fff;
                     --g-card-border-radius: 40px 20px;

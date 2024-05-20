@@ -48,18 +48,23 @@ const Template: StoryFn<ComponentType> = (args) => {
         <AvatarStack {...args}>
             {children}
             {React.Children.count(children) > 3 ? (
-                <Popover
-                    placement={['bottom', 'bottom-end', 'bottom-start']}
-                    content={
-                        <React.Fragment>Somehow display list of all other items</React.Fragment>
-                    }
-                >
-                    <AvatarStack.MoreButton
-                        size={avatarSize}
-                        aria-label={'Rest of the users'}
-                        count={React.Children.count(children) - 3}
-                    />
-                </Popover>
+                <AvatarStack.MoreButton
+                    size={avatarSize}
+                    aria-label={'Rest of the users'}
+                    count={React.Children.count(children) - 3}
+                    render={({button}) => (
+                        <Popover
+                            placement={['bottom', 'bottom-end', 'bottom-start']}
+                            content={
+                                <React.Fragment>
+                                    Somehow display list of all other items
+                                </React.Fragment>
+                            }
+                        >
+                            {button}
+                        </Popover>
+                    )}
+                />
             ) : null}
         </AvatarStack>
     );

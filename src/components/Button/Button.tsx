@@ -154,13 +154,13 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
             component,
             {
                 ...commonProps,
-                ...restProps,
-                ...extraProps,
                 ref,
                 tabIndex: disabled ? undefined : 0,
                 role: 'button',
                 'aria-disabled': disabled,
                 'aria-pressed': selected,
+                ...restProps,
+                ...extraProps,
             },
             content,
         );
@@ -170,8 +170,6 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         return (
             <a
                 {...commonProps}
-                {...linkProps}
-                {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
                 ref={ref as React.Ref<HTMLAnchorElement>}
                 rel={
                     linkProps.target === '_blank' && !linkProps.rel
@@ -179,6 +177,8 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
                         : linkProps.rel
                 }
                 aria-disabled={disabled}
+                {...linkProps}
+                {...(extraProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
             >
                 {content}
             </a>
@@ -189,12 +189,12 @@ const ButtonWithHandlers = React.forwardRef<HTMLElement, ButtonProps>(function B
         return (
             <button
                 {...commonProps}
-                {...buttonProps}
-                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
                 ref={ref as React.Ref<HTMLButtonElement>}
                 type={buttonProps.type ?? 'button'}
                 disabled={disabled}
                 aria-pressed={selected}
+                {...buttonProps}
+                {...(extraProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
             >
                 {content}
             </button>

@@ -54,12 +54,13 @@ const AvatarStackComponent = ({
     if (!moreButton.length && hasMoreButton) {
         const guessedSize = visibleItems[0]?.props.children.props.size;
         moreButton.push(
-            <AvatarStackMoreButton
-                key="more-button"
-                size={guessedSize}
-                count={moreItems + 1}
-                aria-label={i18n('more')}
-            />,
+            <AvatarStackItem key="more-button">
+                <AvatarStackMoreButton
+                    size={guessedSize}
+                    count={moreItems + 1}
+                    aria-label={i18n('more')}
+                />
+            </AvatarStackItem>,
         );
     }
 

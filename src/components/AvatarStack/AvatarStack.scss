@@ -30,7 +30,6 @@ $block: '.#{variables.$ns}avatar-stack';
     &__item {
         display: flex;
         z-index: 0;
-        border: solid var(--_--g-avatar-stack-border-width) var(--g-color-line-generic-solid);
         border-radius: 100%;
 
         &:not(:first-child) {
@@ -43,6 +42,7 @@ $block: '.#{variables.$ns}avatar-stack';
     &__more-button {
         @include mixins.button-reset;
 
+        border: solid var(--_--g-avatar-stack-border-width) var(--g-color-line-generic-solid);
         border-radius: 100%;
 
         background-color: var(--g-color-base-generic);

@@ -1,9 +1,13 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import {Gear} from '@gravity-ui/icons';
+import {action} from '@storybook/addon-actions';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Button} from '../../Button';
-import {Col, Row} from '../../layout';
+import {Icon as IconComponent} from '../../Icon';
 import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
 
@@ -12,133 +16,227 @@ export default {
     component: Alert,
 } as Meta;
 
-const title = 'Where will you go, hero?';
-const message = 'Choose wisely: the end of the fairy tale depends on your decision';
-const right = 'To the right (lose the horse)';
-const center = 'Straight (find a wife)';
-const left = 'To the left (CC 235.2)';
+type Story = StoryObj<typeof Alert>;
 
-const stories: AlertProps[] = [
-    {
-        title,
-        message,
-        theme: 'danger',
-        view: 'filled',
-        onClose: () => alert('Close button pressed'),
-        actions: <Alert.Action>{right}</Alert.Action>,
+export const Default: Story = {
+    args: {
+        onClose: action('onClose'),
+        title: 'Where will you go, hero?',
+        message: 'Choose wisely: the end of the fairy tale depends on your decision',
     },
-    {
-        title: <div dangerouslySetInnerHTML={{__html: '<b>Some html title</b>'}} />,
-        message,
-        corners: 'square',
-        theme: 'danger',
-        view: 'outlined',
-        onClose: () => alert('Close button pressed'),
-    },
-    {
-        title,
-        message,
-        view: 'outlined',
-        onClose: () => alert('Close button pressed'),
-        actions: [{text: left}, {text: center}, {text: left}],
-    },
-    {
-        message,
-        theme: 'info',
-        view: 'filled',
-        actions: (
-            <Alert.Actions>
-                <Alert.Action>{center}</Alert.Action>
-            </Alert.Actions>
-        ),
-    },
-    {
-        title,
-        message,
-        theme: 'info',
-        view: 'outlined',
-    },
-    {
-        title,
-        message,
-        theme: 'success',
-        view: 'outlined',
-        actions: (
-            <Alert.Actions>
-                <Button view="action">{right}</Button>
-                <Button view="outlined">{center}</Button>
-                <Button view="flat">{left}</Button>
-            </Alert.Actions>
-        ),
-    },
-    {
-        title,
-        message,
-        theme: 'success',
-        view: 'filled',
+};
 
-        actions: [{text: right, handler: console.log}],
+const titleCases: Array<{caseTitle: string; propValue: AlertProps['title']}> = [
+    {
+        caseTitle: 'Regular title',
+        propValue: Default.args?.title,
     },
     {
-        title,
-        message,
-        theme: 'warning',
-        view: 'filled',
-        layout: 'horizontal',
-        corners: 'square',
-        onClose: () => {},
-        actions: (
-            <Alert.Actions>
-                <Alert.Action view="outlined">{left}</Alert.Action>
-            </Alert.Actions>
-        ),
-    },
-    {
-        title,
-        message,
-        theme: 'warning',
-        view: 'outlined',
-        layout: 'horizontal',
-        actions: <Alert.Action>{right}</Alert.Action>,
-    },
-    {
-        message,
-        theme: 'utility',
-        view: 'outlined',
-    },
-    {
-        title,
-        message,
-        theme: 'utility',
-        view: 'filled',
-    },
-    {
-        title,
-        message,
-        icon: null,
-        theme: 'utility',
-        view: 'filled',
-    },
-    {
-        message,
-        theme: 'normal',
-        view: 'outlined',
-    },
-    {
-        title,
-        message,
-        theme: 'normal',
-        view: 'filled',
+        caseTitle: 'Tag title',
+        propValue: <div dangerouslySetInnerHTML={{__html: '<b>Some html title</b>'}} />,
     },
 ];
 
-const DefaultTemplate: StoryFn<AlertProps> = () => (
-    <Row space="3">
-        {stories.map((props, i) => (
-            <Col s="12" l="6" xxl="4" key={i}>
-                <Alert {...props} />
-            </Col>
-        ))}
-    </Row>
-);
-export const Examples = DefaultTemplate.bind({});
+export const Title: Story = {
+    render: (args) => (
+        <Showcase>
+            {titleCases.map(({caseTitle, propValue}, index) => (
+                <ShowcaseItem key={index} title={caseTitle}>
+                    <Alert {...args} title={propValue} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const messageCases: Array<{caseTitle: string; propValue: AlertProps['message']}> = [
+    {
+        caseTitle: 'Regular message',
+        propValue: Default.args?.message,
+    },
+];
+
+export const Message: Story = {
+    render: (args) => (
+        <Showcase>
+            {messageCases.map(({caseTitle, propValue}, index) => (
+                <ShowcaseItem title={caseTitle} key={index}>
+                    <Alert {...args} message={propValue} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const themeCases: Array<AlertProps['theme']> = [
+    'normal',
+    'info',
+    'success',
+    'warning',
+    'danger',
+    'utility',
+];
+
+export const Theme: Story = {
+    render: (args) => (
+        <Showcase>
+            {themeCases.map((theme, index) => (
+                <ShowcaseItem title={theme} key={index}>
+                    <Alert {...args} theme={theme} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const iconCases: Array<{caseTitle: string; propValue: AlertProps['icon']}> = [
+    {caseTitle: 'Without icon', propValue: null},
+    {caseTitle: <IconComponent size={16} data={Gear} />, propValue: 'With icon'},
+];
+
+export const Icon: Story = {
+    render: (args) => (
+        <Showcase>
+            {iconCases.map(({caseTitle, propValue}, index) => (
+                <ShowcaseItem title={caseTitle} key={index}>
+                    <Alert {...args} icon={propValue} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const cornersCases: Array<AlertProps['corners']> = ['rounded', 'square'];
+
+export const Corners: Story = {
+    render: (args) => (
+        <Showcase>
+            {cornersCases.map((corners, index) => (
+                <ShowcaseItem title={corners} key={index}>
+                    <Alert {...args} corners={corners} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const viewCases: Array<AlertProps['view']> = ['filled', 'outlined'];
+
+export const View: Story = {
+    render: (args) => (
+        <Showcase>
+            {viewCases.map((view, index) => (
+                <ShowcaseItem title={view} key={index}>
+                    <Alert {...args} view={view} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const layoutCases: Array<AlertProps['layout']> = ['vertical', 'horizontal'];
+
+export const Layout: Story = {
+    render: (args) => (
+        <Showcase>
+            {layoutCases.map((layout, index) => (
+                <ShowcaseItem title={layout} key={index}>
+                    <Alert {...args} layout={layout} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const rightActionText = 'To the right (lose the horse)';
+const centerActionText = 'Straight (find a wife)';
+const leftActionText = 'To the left (CC 235.2)';
+
+const actionCases: Array<{
+    caseTitle: string;
+    propValue: AlertProps['actions'];
+}> = [
+    {
+        caseTitle: 'Full width action',
+        propValue: <Alert.Action>{rightActionText}</Alert.Action>,
+    },
+    {
+        caseTitle: 'One action via Alert.Action component',
+        propValue: (
+            <Alert.Actions>
+                <Alert.Action>{centerActionText}</Alert.Action>
+            </Alert.Actions>
+        ),
+    },
+    {
+        caseTitle: 'One action via array',
+        propValue: [{text: rightActionText, handler: action('actionHandler')}],
+    },
+    {
+        caseTitle: 'Tree actions via Alert.Action component',
+        propValue: (
+            <Alert.Actions>
+                <Button view="action">{rightActionText}</Button>
+                <Button view="outlined">{centerActionText}</Button>
+                <Button view="flat">{leftActionText}</Button>
+            </Alert.Actions>
+        ),
+    },
+    {
+        caseTitle: 'Tree actions via array',
+        propValue: [{text: leftActionText}, {text: centerActionText}, {text: rightActionText}],
+    },
+];
+
+export const Actions: Story = {
+    render: (args) => (
+        <Showcase>
+            {actionCases.map(({caseTitle, propValue}, index) => (
+                <ShowcaseItem title={caseTitle} key={index}>
+                    <Alert {...args} actions={propValue} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};
+
+const alignCases: Array<AlertProps['align']> = ['center', 'baseline'];
+
+export const Align: Story = {
+    render: (args) => (
+        <Showcase>
+            {alignCases.map((align, index) => (
+                <ShowcaseItem title={align} key={index}>
+                    <Alert {...args} align={align} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+    },
+};

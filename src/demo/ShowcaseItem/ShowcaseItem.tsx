@@ -5,7 +5,7 @@ import {cn} from '../../components/utils/cn';
 import './ShowcaseItem.scss';
 
 interface ShowcaseItemProps {
-    title: string;
+    title: React.ReactNode;
     children: React.ReactNode;
 }
 

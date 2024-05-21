@@ -4,19 +4,25 @@ import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import type {AvatarProps, AvatarSize} from '../../Avatar';
-import {Avatar} from '../../Avatar';
+import {AVATAR_SIZES, Avatar} from '../../Avatar';
 import {Tooltip} from '../../Tooltip';
 import {AvatarStack} from '../AvatarStack';
-import type {AvatarStackOverlapSize} from '../types';
 
-type ComponentType = typeof AvatarStack;
+type ComponentType = React.ComponentProps<typeof AvatarStack> & {avatarSize: AvatarSize};
 
 function getChildren({
     count = faker.number.int({min: 1, max: 30}),
     avatarSize = 'm',
 }: Partial<{count: number; avatarSize: AvatarSize}>) {
     return faker.helpers.uniqueArray(
-        () => <Avatar imgUrl={faker.image.avatar()} size={avatarSize} alt={'For tests'} />,
+        () => (
+            <Avatar
+                imgUrl={faker.image.avatar()}
+                size={avatarSize}
+                borderColor={'var(--g-color-line-generic-solid)'}
+                alt={'For tests'}
+            />
+        ),
         count,
     );
 }
@@ -26,21 +32,20 @@ export default {
     component: AvatarStack,
     args: {
         overlapSize: 's',
+        avatarSize: 'm',
+    },
+    argTypes: {
+        avatarSize: {
+            control: 'select',
+            options: Object.keys(AVATAR_SIZES),
+            name: 'Size of avatar',
+            description: 'Not part of component API',
+        },
     },
 } as Meta<ComponentType>;
 
-function getAvatarSizeForOverlap(args: React.ComponentProps<ComponentType>) {
-    const overlapAvatarSizeMap: Record<AvatarStackOverlapSize, AvatarSize> = {
-        s: 'xs',
-        m: 'l',
-        l: 'xl',
-    };
-
-    return overlapAvatarSizeMap[args.overlapSize || 's'];
-}
-
-function getTemplateChildren(args: React.ComponentProps<ComponentType>) {
-    const avatarSize = getAvatarSizeForOverlap(args);
+function getTemplateChildren(args: ComponentType) {
+    const {avatarSize} = args;
 
     return (
         React.Children.map(args.children, (child) =>
@@ -55,14 +60,15 @@ function getTemplateChildren(args: React.ComponentProps<ComponentType>) {
 }
 
 const Template: StoryFn<ComponentType> = (args) => {
-    return <AvatarStack {...args}>{getTemplateChildren(args)}</AvatarStack>;
+    const {avatarSize: _, ...props} = args;
+    return <AvatarStack {...props}>{getTemplateChildren(args)}</AvatarStack>;
 };
 
 const TemplateWithButtonOverride: StoryFn<ComponentType> = (args) => {
-    const avatarSize = getAvatarSizeForOverlap(args);
+    const {avatarSize, ...props} = args;
 
     return (
-        <AvatarStack {...args}>
+        <AvatarStack {...props}>
             {getTemplateChildren(args)}
             <AvatarStack.MoreButton
                 key="more-button-override"

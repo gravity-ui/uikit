@@ -16,7 +16,7 @@ function getChildren({
     avatarSize = 'm',
 }: Partial<{count: number; avatarSize: AvatarSize}>) {
     return faker.helpers.uniqueArray(
-        () => <Avatar imgUrl={faker.image.avatar()} size={avatarSize} alt={''} />,
+        () => <Avatar imgUrl={faker.image.avatar()} size={avatarSize} alt={'For tests'} />,
         count,
     );
 }

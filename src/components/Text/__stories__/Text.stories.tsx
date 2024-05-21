@@ -105,7 +105,7 @@ export const WordBreak: Story = {
 };
 
 const LabelWithControlledFocusStory = () => {
-    const ref = React.useRef<HTMLLabelElement>(null); // don't delete this ref - needed to check currect react html type inshurance
+    const ref = React.useRef<HTMLLabelElement>(null); // don't delete this ref - needed to check correct react html type inshurance
     const id = 'some-id';
 
     return (

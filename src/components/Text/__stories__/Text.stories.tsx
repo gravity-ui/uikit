@@ -2,6 +2,8 @@ import React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
+import {Button} from '../../Button';
+import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
 import {Text, colorText, text} from '../index';
 
@@ -100,4 +102,46 @@ export const WordBreak: Story = {
             'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam! Hic, atque, quia sunt consectetur eius corrupti, expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam! Debitis eos unde, blanditiis ipsam adipisci, soluta incidunt architecto quidem, repellat commodi tempore! Enim assumenda nam esse laudantium sequi quaerat maiores, voluptatum quibusdam temporibus nulla perspiciatis! Corrupti error aliquid iure asperiores voluptate. Nisi temporibus nesciunt quasi animi, accusamus officia debitis voluptatum ratione ullam delectus, adipisci, repellendus vitae in amet sit magni iste impedit? Exercitationem rerum impedit sed earum iusto modi et officia aspernatur quibusdam? Fugit.',
         wordBreak: 'break-all',
     },
+};
+
+const LabelWithControlledFocusStory = () => {
+    const ref = React.useRef<HTMLLabelElement>(null); // don't delete this ref - needed to check currect react html type inshurance
+    const id = 'some-id';
+
+    return (
+        <Flex gap="5">
+            <Text as="label" htmlFor={id} ref={ref}>
+                Click on label to control text input
+            </Text>
+            <TextInput id={id} />
+        </Flex>
+    );
+};
+
+export const LabelWithControlledFocus: Story = {
+    render: () => <LabelWithControlledFocusStory />,
+
+    args: {},
+};
+
+const WithCustomElementRenderStory = () => {
+    return (
+        <Flex direction={'column'} gap="5">
+            <Text as="code">
+                {
+                    '<Text as={Button} size={\'m\'} view="action" color="danger-heavy" variant="header-1">Hello World!</Text>'
+                }
+            </Text>
+
+            <Text as={Button} size={'m'} view="action" color="danger-heavy" variant="header-1">
+                Hello World!
+            </Text>
+        </Flex>
+    );
+};
+
+export const WithCustomElementRender: Story = {
+    render: () => <WithCustomElementRenderStory />,
+
+    args: {},
 };

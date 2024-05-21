@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type {AvatarSize} from '../Avatar';
+import {DEFAULT_AVATAR_SIZE} from '../Avatar';
 import {block} from '../utils/cn';
 
 const b = block('avatar-stack');
@@ -13,7 +14,7 @@ type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 
 
 export const AvatarStackMoreButton = ({
     className,
-    size = 'xs',
+    size = DEFAULT_AVATAR_SIZE,
     onClick,
     count,
     'aria-label': ariaLabel,

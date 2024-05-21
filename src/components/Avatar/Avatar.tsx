@@ -5,6 +5,7 @@ import {block} from '../utils/cn';
 import {AvatarIcon} from './AvatarIcon';
 import {AvatarImage} from './AvatarImage';
 import {AvatarText} from './AvatarText';
+import {DEFAULT_AVATAR_SIZE} from './constants';
 import type {AvatarProps} from './types/main';
 
 import './Avatar.scss';
@@ -13,7 +14,7 @@ const b = block('avatar');
 
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
     const {
-        size = 'm',
+        size = DEFAULT_AVATAR_SIZE,
         theme = 'normal',
         view = 'filled',
         backgroundColor,

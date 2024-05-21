@@ -4,7 +4,7 @@ import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import type {AvatarProps, AvatarSize} from '../../Avatar';
-import {AVATAR_SIZES, Avatar} from '../../Avatar';
+import {AVATAR_SIZES, Avatar, DEFAULT_AVATAR_SIZE} from '../../Avatar';
 import {Tooltip} from '../../Tooltip';
 import {AvatarStack} from '../AvatarStack';
 
@@ -12,7 +12,7 @@ type ComponentType = React.ComponentProps<typeof AvatarStack> & {avatarSize: Ava
 
 function getChildren({
     count = faker.number.int({min: 1, max: 30}),
-    avatarSize = 'm',
+    avatarSize = DEFAULT_AVATAR_SIZE,
 }: Partial<{count: number; avatarSize: AvatarSize}>) {
     return faker.helpers.uniqueArray(
         () => (
@@ -33,7 +33,7 @@ export default {
     component: AvatarStack,
     args: {
         overlapSize: 's',
-        avatarSize: 'm',
+        avatarSize: DEFAULT_AVATAR_SIZE,
     },
     argTypes: {
         avatarSize: {

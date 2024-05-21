@@ -82,12 +82,15 @@ $-pin-mixin-variables-ns: --_--g-pin-mixin-border-radius;
 }
 
 @mixin pin($block, $selectors, $radius, $append: true) {
-    &#{get-pin-selector($block, $selectors, $append)} {
-        border-radius: (
-            var(#{$-pin-mixin-variables-ns}-top-left) var(#{$-pin-mixin-variables-ns}-top-right)
-                var(#{$-pin-mixin-variables-ns}-bottom-right)
-                var(#{$-pin-mixin-variables-ns}-bottom-left)
-        );
+    @each $selector in $selectors {
+        &#{get-pin-selector($block, $selector, $append)} {
+            border-radius: (
+                var(#{$-pin-mixin-variables-ns}-top-left)
+                    var(#{$-pin-mixin-variables-ns}-top-right)
+                    var(#{$-pin-mixin-variables-ns}-bottom-right)
+                    var(#{$-pin-mixin-variables-ns}-bottom-left)
+            );
+        }
     }
 
     @each $selector in $selectors {

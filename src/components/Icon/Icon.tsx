@@ -36,26 +36,38 @@ const b = block('icon');
 
 export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>> &
     IconComposition = React.forwardRef<SVGSVGElement, IconProps>(
-    ({data, width, height, size, className, fill = 'currentColor', stroke = 'none', qa}, ref) => {
+    (
+        {
+            data,
+            width: widthProps,
+            height: heightProps,
+            size,
+            className,
+            fill = 'currentColor',
+            stroke = 'none',
+            qa,
+        },
+        ref,
+    ) => {
         // This component supports four different ways to load and use icons:
         // - svg-react-loader
         // - svg-sprite-loader
         // - @svgr/webpack
         // - string with raw svg
 
-        let w, h;
+        let width, height;
 
         if (size) {
-            w = size;
-            h = size;
+            width = size;
+            height = size;
         }
 
-        if (width) {
-            w = width;
+        if (widthProps) {
+            width = widthProps;
         }
 
-        if (height) {
-            h = height;
+        if (heightProps) {
+            height = heightProps;
         }
 
         // Parsing viewBox to get width and height in case they were not specified
@@ -78,22 +90,22 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
             }
         }
 
-        if (viewBox && (!w || !h)) {
+        if (viewBox && (!width || !height)) {
             const values = viewBox.split(/\s+|\s*,\s*/);
 
-            if (!w) {
-                w = values[2];
+            if (!width) {
+                width = values[2];
             }
-            if (!h) {
-                h = values[3];
+            if (!height) {
+                height = values[3];
             }
         }
 
         const props = {
             xmlns: 'http://www.w3.org/2000/svg',
             xmlnsXlink: 'http://www.w3.org/1999/xlink',
-            width: w,
-            height: h,
+            width,
+            height,
             className: b(null, className),
             fill,
             stroke,

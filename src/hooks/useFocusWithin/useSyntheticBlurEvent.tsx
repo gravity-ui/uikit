@@ -35,11 +35,11 @@ export function useSyntheticBlurEvent(onBlur?: React.FocusEventHandler) {
             ) {
                 stateRef.current.isFocused = true;
 
-                const handleBlur = (e: FocusEvent) => {
+                const handleBlur = (event: FocusEvent) => {
                     stateRef.current.isFocused = false;
 
                     if (target.disabled) {
-                        onBlur?.(new SyntheticFocusEvent('blur', e));
+                        onBlur?.(new SyntheticFocusEvent('blur', event));
                     }
 
                     if (stateRef.current.observer) {

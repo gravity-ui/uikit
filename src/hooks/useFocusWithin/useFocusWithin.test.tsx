@@ -14,8 +14,8 @@ describe('useFocusWithin', () => {
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (event) => events.push({type: event.type, target: event.target}),
+                onBlurWithin: (event) => events.push({type: event.type, target: event.target}),
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
@@ -46,8 +46,8 @@ describe('useFocusWithin', () => {
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (event) => events.push({type: event.type, target: event.target}),
+                onBlurWithin: (event) => events.push({type: event.type, target: event.target}),
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
@@ -75,8 +75,8 @@ describe('useFocusWithin', () => {
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (event) => events.push({type: event.type, target: event.target}),
+                onBlurWithin: (event) => events.push({type: event.type, target: event.target}),
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
@@ -110,8 +110,8 @@ describe('useFocusWithin', () => {
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (event) => events.push({type: event.type, target: event.target}),
+                onBlurWithin: (event) => events.push({type: event.type, target: event.target}),
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
@@ -150,8 +150,8 @@ describe('useFocusWithin', () => {
         const events: any[] = [];
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (event) => events.push({type: event.type, target: event.target}),
+                onBlurWithin: (event) => events.push({type: event.type, target: event.target}),
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 
@@ -225,8 +225,8 @@ describe('useFocusWithin', () => {
         const Component = () => {
             const {focusWithinProps} = useFocusWithin({
                 isDisabled: true,
-                onFocusWithin: (e) => events.push({type: e.type, target: e.target}),
-                onBlurWithin: (e) => events.push({type: e.type, target: e.target}),
+                onFocusWithin: (event) => events.push({type: event.type, target: event.target}),
+                onBlurWithin: (event) => events.push({type: event.type, target: event.target}),
                 onFocusWithinChange: (isFocused) => events.push({type: 'focuschange', isFocused}),
             });
 

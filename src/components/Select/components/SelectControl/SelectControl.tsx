@@ -100,11 +100,15 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const handleControlClick = React.useCallback(
-        (e?: React.MouseEvent<HTMLElement>) => {
+        (event?: React.MouseEvent<HTMLElement>) => {
             // Fix for Safari
             // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#clicking_and_focus
-            if (e && e.currentTarget !== document.activeElement && 'focus' in e.currentTarget) {
-                (e.currentTarget as HTMLButtonElement).focus();
+            if (
+                event &&
+                event.currentTarget !== document.activeElement &&
+                'focus' in event.currentTarget
+            ) {
+                (event.currentTarget as HTMLButtonElement).focus();
             }
 
             toggleOpen();

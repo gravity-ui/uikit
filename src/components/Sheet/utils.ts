@@ -1,8 +1,11 @@
 class Point {
+    // eslint-disable-next-line id-length
     x: number;
+    // eslint-disable-next-line id-length
     y: number;
     timeStamp: number;
 
+    // eslint-disable-next-line id-length
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;

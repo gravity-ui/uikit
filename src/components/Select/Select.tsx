@@ -194,27 +194,27 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     );
 
     const handleControlKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLElement>) => {
+        (event: React.KeyboardEvent<HTMLElement>) => {
             // prevent dialog closing in case of item selection by Enter/Spacebar keydown
-            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
-                e.preventDefault();
+            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(event.key) && open) {
+                event.preventDefault();
 
-                if (e.key === KeyCode.SPACEBAR) {
+                if (event.key === KeyCode.SPACEBAR) {
                     handleOptionClick(getActiveItem(listRef));
                 }
             }
-            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
-                e.preventDefault();
+            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(event.key) && !open) {
+                event.preventDefault();
                 toggleOpen();
             }
 
-            listRef?.current?.onKeyDown(e);
+            listRef?.current?.onKeyDown(event);
         },
         [handleOptionClick, open, toggleOpen],
     );
 
-    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
-        listRef?.current?.onKeyDown(e);
+    const handleFilterKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLElement>) => {
+        listRef?.current?.onKeyDown(event);
     }, []);
 
     const handleQuickSearchChange = React.useCallback((search: string) => {
@@ -257,8 +257,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const {focusWithinProps} = useFocusWithin({
         onFocusWithin: onFocus,
         onBlurWithin: React.useCallback(
-            (e: React.FocusEvent) => {
-                onBlur?.(e);
+            (event: React.FocusEvent) => {
+                onBlur?.(event);
                 handleClose();
             },
             [handleClose, onBlur],

@@ -17,10 +17,10 @@ type SliderTooltipProps = {
 };
 
 export const SliderTooltip = ({value, className, style, stateModifiers}: SliderTooltipProps) => {
-    const preventAction = React.useCallback((e: React.SyntheticEvent) => {
+    const preventAction = React.useCallback((event: React.SyntheticEvent) => {
         //make tooltip non-interactive
-        e.preventDefault();
-        e.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
     }, []);
     return (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions

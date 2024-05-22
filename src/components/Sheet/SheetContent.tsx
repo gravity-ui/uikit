@@ -256,16 +256,16 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         });
     };
 
-    private onSwipeAreaTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    private onSwipeAreaTouchStart = (element: React.TouchEvent<HTMLDivElement>) => {
         this.velocityTracker.clear();
 
         this.setState({
-            startY: e.nativeEvent.touches[0].clientY,
+            startY: element.nativeEvent.touches[0].clientY,
             swipeAreaTouched: true,
         });
     };
 
-    private onContentTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    private onContentTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
         if (!this.props.allowHideOnContentScroll || this.state.swipeAreaTouched) {
             return;
         }
@@ -273,18 +273,18 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.velocityTracker.clear();
 
         this.setState({
-            startY: e.nativeEvent.touches[0].clientY,
+            startY: event.nativeEvent.touches[0].clientY,
             startScrollTop: this.sheetScrollTop,
             contentTouched: true,
         });
     };
 
-    private onSwipeAriaTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        const delta = e.nativeEvent.touches[0].clientY - this.state.startY;
+    private onSwipeAriaTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+        const delta = event.nativeEvent.touches[0].clientY - this.state.startY;
 
         this.velocityTracker.addMovement({
-            x: e.nativeEvent.touches[0].clientX,
-            y: e.nativeEvent.touches[0].clientY,
+            x: event.nativeEvent.touches[0].clientX,
+            y: event.nativeEvent.touches[0].clientY,
         });
 
         this.setState({deltaY: delta});
@@ -296,7 +296,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.setStyles({status: 'showing', deltaHeight: delta});
     };
 
-    private onContentTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    private onContentTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
         if (!this.props.allowHideOnContentScroll) {
             return;
         }
@@ -311,11 +311,11 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             return;
         }
 
-        const delta = e.nativeEvent.touches[0].clientY - this.state.startY;
+        const delta = event.nativeEvent.touches[0].clientY - this.state.startY;
 
         this.velocityTracker.addMovement({
-            x: e.nativeEvent.touches[0].clientX,
-            y: e.nativeEvent.touches[0].clientY,
+            x: event.nativeEvent.touches[0].clientX,
+            y: event.nativeEvent.touches[0].clientY,
         });
 
         this.setState({deltaY: delta});
@@ -385,8 +385,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         }
     };
 
-    private onContentTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-        if (e.propertyName === 'height') {
+    private onContentTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+        if (event.propertyName === 'height') {
             if (this.sheetContentRef.current) {
                 this.sheetContentRef.current.style.transition = 'none';
             }

@@ -8,6 +8,7 @@
     ],
     "root": true,
     "rules": {
+        "id-length": ["error", { "min": 2, "properties": "never", "exceptions": ["b", "i", "_"] }],
         "react/jsx-fragments": [
             "error",
             "element"
@@ -41,14 +42,16 @@
             },
             "extends": ["plugin:testing-library/react"],
             "rules": {
-                "jsx-a11y/no-static-element-interactions": "off"
+                "jsx-a11y/no-static-element-interactions": "off",
+                "id-length": "off"
             },
             "excludedFiles": "**/__tests__/**/*.visual.test.*"
         },
         {
             "files": ["**/__stories__/**/*.[jt]s?(x)"],
             "rules": {
-                "no-console": "off"
+                "no-console": "off",
+                "id-length": "off"
             }
         },
         {

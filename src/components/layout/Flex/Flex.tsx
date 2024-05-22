@@ -42,7 +42,7 @@ export interface FlexProps<T extends React.ElementType = 'div'> extends BoxProps
     justifySelf?: AdaptiveProp<'justifySelf'>;
     /**
      * Shortcut for:
-     * 
+     *
      * ```css
      *  justify-content: center;
         align-items: center;
@@ -174,6 +174,7 @@ export const Flex = function Flex<T extends React.ElementType = 'div'>(props: Fl
     const rowGap = gapRowSpaceSize ? spaceBaseSize * Number(gapRowSpaceSize) : undefined;
 
     const spaceSize = applyMediaProps(space);
+    // eslint-disable-next-line id-length
     const s = !gap && !gapRow && spaceSize ? makeCssMod(spaceSize) : undefined;
 
     return (

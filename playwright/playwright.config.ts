@@ -4,8 +4,8 @@ import type {PlaywrightTestConfig} from '@playwright/experimental-ct-react';
 import {defineConfig, devices} from '@playwright/experimental-ct-react';
 import react from '@vitejs/plugin-react';
 
-function pathFromRoot(p: string) {
-    return resolve(__dirname, '../', p);
+function pathFromRoot(path: string) {
+    return resolve(__dirname, '../', path);
 }
 
 const reporter: PlaywrightTestConfig['reporter'] = [];

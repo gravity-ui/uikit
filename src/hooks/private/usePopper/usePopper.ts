@@ -89,8 +89,8 @@ export function usePopper({
 
         if (direction === 'rtl') {
             items = items.map(
-                (p) =>
-                    p.replace(/(top|bottom)-(start|end)/g, (match, position, value) => {
+                (placement) =>
+                    placement.replace(/(top|bottom)-(start|end)/g, (match, position, value) => {
                         if (value === 'start') {
                             return position + '-end';
                         }

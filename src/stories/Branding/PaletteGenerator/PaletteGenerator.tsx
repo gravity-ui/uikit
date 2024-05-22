@@ -137,7 +137,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                                 type="color"
                                 className={b('color-picker-input')}
                                 value={color}
-                                onChange={(e) => setColor(e.target.value)}
+                                onChange={(event) => setColor(event.target.value)}
                             />
                         </label>
                         <TextInput
@@ -157,7 +157,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                             type="color"
                             className={b('color-picker-input')}
                             value={lowContrastBase}
-                            onChange={(e) => setLowContrastBase(e.target.value)}
+                            onChange={(event) => setLowContrastBase(event.target.value)}
                         />
                     </label>
                 </div>
@@ -184,7 +184,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                             type="color"
                             className={b('color-picker-input')}
                             value={highContrastBase}
-                            onChange={(e) => setHighContrastBase(e.target.value)}
+                            onChange={(event) => setHighContrastBase(event.target.value)}
                         />
                     </label>
                 </div>

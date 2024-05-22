@@ -170,9 +170,9 @@ describe('useControlledState', function () {
                     />
                     <Child
                         value={value}
-                        onChange={(v: any) => {
-                            setValue(v);
-                            props.onChange(v);
+                        onChange={(value: any) => {
+                            setValue(value);
+                            props.onChange(value);
                         }}
                     />
                     {showChild && <AsyncChild />}
@@ -238,11 +238,11 @@ describe('useControlledState', function () {
     });
 
     it('should work with suspense when uncontrolled', async () => {
-        let resolve: any;
+        let resolveCallback: any;
         const AsyncChild = React.lazy(
             () =>
-                new Promise((r) => {
-                    resolve = r;
+                new Promise((resolve) => {
+                    resolveCallback = resolve;
                 }),
         );
         function Test(props: any) {
@@ -293,7 +293,7 @@ describe('useControlledState', function () {
 
         // Now resolve the suspended component.
         // Value should now update to the latest one.
-        resolve!({default: LoadedComponent});
+        resolveCallback!({default: LoadedComponent});
         await act(() => Promise.resolve());
         expect(value).toHaveTextContent('2');
 

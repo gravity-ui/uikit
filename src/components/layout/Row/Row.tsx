@@ -44,6 +44,7 @@ export interface RowProps extends QAProps {
 export const Row = ({children, style, className, space, spaceRow, qa}: RowProps) => {
     const {getClosestMediaProps} = useLayoutContext();
 
+    // eslint-disable-next-line id-length
     let s: string | undefined;
     let sr: string | undefined;
 

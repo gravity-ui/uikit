@@ -16,7 +16,9 @@ interface BoxProps extends FlexProps<'div'> {
 
 export function Box({
     children,
+    // eslint-disable-next-line id-length
     w = '100%',
+    // eslint-disable-next-line id-length
     h = '100%',
     minHeight,
     bgc = '#DDBEE1',

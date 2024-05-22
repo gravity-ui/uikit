@@ -12,7 +12,7 @@ export function parseKeyGroups(defs: PlatformDefs, value: string): string[][] {
         uniqBy(
             split(keys, KEYS_SEPARATOR)
                 .map<KeyDefs>(keyParser(defs))
-                .sort((a, b) => b.priority - a.priority), // high to low
+                .sort((keyA, keyB) => keyB.priority - keyA.priority), // high to low
             (key) => key.id,
         ).map(renderKey),
     );

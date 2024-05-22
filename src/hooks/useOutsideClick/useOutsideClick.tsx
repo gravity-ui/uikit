@@ -17,10 +17,10 @@ type UseOutsideClickType = <K extends HTMLElement>(props: UseOutsideClickProps<K
  */
 export const useOutsideClick: UseOutsideClickType = ({ref, handler}) => {
     React.useEffect(() => {
-        const callback = (e: MouseEvent | TouchEvent) => {
+        const callback = (event: MouseEvent | TouchEvent) => {
             const elem = ref?.current;
 
-            if (elem && !elem.contains(e.target as Node) && handler) {
+            if (elem && !elem.contains(event.target as Node) && handler) {
                 handler();
             }
         };

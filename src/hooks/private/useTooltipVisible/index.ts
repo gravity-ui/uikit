@@ -35,18 +35,18 @@ export const useTooltipVisible = (
             timeoutRef.current = window.setTimeout(hideTooltip, closeDelay);
         }
 
-        function handleFocusWithin(e: FocusEvent) {
-            if (!isFocusWithinRef.current && document.activeElement === e.target) {
+        function handleFocusWithin(event: FocusEvent) {
+            if (!isFocusWithinRef.current && document.activeElement === event.target) {
                 isFocusWithinRef.current = true;
                 clearTimeout(timeoutRef.current);
                 showTooltip();
             }
         }
 
-        function handleBlurWithin(e: FocusEvent) {
+        function handleBlurWithin(event: FocusEvent) {
             if (
                 isFocusWithinRef.current &&
-                !(e.currentTarget as Element).contains(e.relatedTarget as Element)
+                !(event.currentTarget as Element).contains(event.relatedTarget as Element)
             ) {
                 isFocusWithinRef.current = false;
                 clearTimeout(timeoutRef.current);
@@ -54,8 +54,8 @@ export const useTooltipVisible = (
             }
         }
 
-        function handleKeyDown(e: KeyboardEvent) {
-            if (e.key === KeyCode.ESCAPE) {
+        function handleKeyDown(event: KeyboardEvent) {
+            if (event.key === KeyCode.ESCAPE) {
                 clearTimeout(timeoutRef.current);
                 hideTooltip();
             }

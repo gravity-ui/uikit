@@ -87,7 +87,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                 let i = 0;
                 while (i < sortState.length) {
                     const state = sortState[i++];
-                    const column = columns.find((c) => c.id === state.column);
+                    const column = columns.find((column) => column.id === state.column);
                     const compareFunction = column?.meta?.sort;
 
                     if (!compareFunction) {
@@ -125,7 +125,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
                             let sortOrder: ColumnSortOrder | undefined;
 
                             if (sortState.length > 0) {
-                                const state = sortState.find((s) => s.column === column.id);
+                                const state = sortState.find((state) => state.column === column.id);
 
                                 if (state) {
                                     sortOrder = state.order;

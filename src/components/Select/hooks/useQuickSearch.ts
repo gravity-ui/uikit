@@ -27,10 +27,10 @@ export const useQuickSearch = (props: UseQuickSearchProps) => {
     );
 
     const handleSearch = React.useCallback(
-        (e: KeyboardEvent) => {
-            e.stopPropagation();
+        (event: KeyboardEvent) => {
+            event.stopPropagation();
 
-            const nextSearch = getNextQuickSearch(e.key, search);
+            const nextSearch = getNextQuickSearch(event.key, search);
 
             if (search !== nextSearch) {
                 handleTimer(nextSearch);

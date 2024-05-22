@@ -7,3 +7,7 @@ export const PaginationQa = {
     PaginationButtonPrevious: 'pagination-button-previous',
     PaginationButtonNext: 'pagination-button-next',
 };
+
+export const getPaginationPageQa = (pageNumber: number) => {
+    return `${PaginationQa.PaginationPage}-${pageNumber}`;
+};

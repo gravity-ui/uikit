@@ -20,7 +20,7 @@ global.ResizeObserver = class implements ResizeObserver {
 jest.mock(
     'react-virtualized-auto-sizer',
     () =>
-        //@ts-ignore
+        //@ts-expect-error
         ({children}) =>
             children({height: 400, width: 400}),
 );

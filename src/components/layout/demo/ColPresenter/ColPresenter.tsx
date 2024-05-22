@@ -4,7 +4,7 @@ import {Col} from '../../Col/Col';
 import type {ColProps} from '../../Col/Col';
 import {Box} from '../Box/Box';
 
-// @ts-ignore-error
+// @ts-expect-error
 const pickSizeProps = <T extends {}>({l, xl, s, m, xxl, xxxl, size}: T = {}): string => {
     // skip empty values
     return Object.entries({...{l, xl, s, m, xxl, xxxl, size}})

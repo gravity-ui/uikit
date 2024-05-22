@@ -14,7 +14,7 @@ $block: '.#{variables.$ns}overlay';
     opacity: 0;
 
     transition:
-        visibility 0.1s linear,
+        visibility 0.1s,
         opacity 0.1s linear;
 
     &_visible {
@@ -26,9 +26,9 @@ $block: '.#{variables.$ns}overlay';
         position: absolute;
         inset: 0;
 
-        opacity: 80%;
+        opacity: 0.8;
 
-        &_view {
+        &_style {
             &_base {
                 background-color: var(--g-color-base-background);
             }

@@ -4,17 +4,8 @@ $block: '.#{variables.$ns}overlay-showcase';
 
 #{$block} {
     &__content {
-        position: relative;
-
         width: fit-content;
         padding: var(--g-spacing-1);
-    }
-
-    &__dialog-content {
-        position: relative;
-
-        width: 480px;
-        height: 212px;
     }
 
     &__table table {

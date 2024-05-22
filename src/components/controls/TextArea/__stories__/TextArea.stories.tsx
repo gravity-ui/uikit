@@ -43,10 +43,17 @@ const fixConsoleErrors = {
 const DefaultTemplate: StoryFn<TextAreaProps> = (args) => (
     <TextArea {...fixConsoleErrors} {...args} />
 );
-export const Default = DefaultTemplate.bind({});
+
+export const Default = {
+    render: DefaultTemplate,
+};
 
 const ShowcaseTemplate: StoryFn = () => <TextAreaShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const Showcase = {
+    render: ShowcaseTemplate,
+};
 
 const CustomThemeTemplate: StoryFn = () => <TextAreaCustomShowcase />;
-export const CustomTheme = CustomThemeTemplate.bind({});
+export const CustomTheme = {
+    render: CustomThemeTemplate,
+};

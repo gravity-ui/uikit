@@ -4,7 +4,7 @@ import {test} from '~playwright/core';
 
 import {TextAreaStories} from './helpersPlaywright';
 
-test.describe('Card', () => {
+test.describe('TextArea', () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<TextAreaStories.Default />);
 

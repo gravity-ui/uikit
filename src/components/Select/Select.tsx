@@ -316,6 +316,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             className={selectBlock(mods, className)}
             {...focusWithinProps}
             style={inlineStyles}
+            id={selectId}
         >
             <SelectControl
                 toggleOpen={toggleOpen}

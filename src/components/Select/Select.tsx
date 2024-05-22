@@ -283,8 +283,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     };
 
     const uniqId = useUniqId();
-    const controlId = id ?? uniqId;
-    const selectId = `select-${controlId}`;
+    const selectId = id ?? uniqId;
     const popupId = `select-popup-${selectId}`;
 
     const _renderList = () => {
@@ -343,7 +342,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderControl={renderControl}
                 value={value}
                 popupId={popupId}
-                id={controlId}
                 selectId={selectId}
                 activeIndex={activeIndex}
                 hasCounter={multiple && hasCounter}

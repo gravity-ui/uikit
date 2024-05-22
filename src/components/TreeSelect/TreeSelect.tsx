@@ -64,8 +64,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const mobile = useMobile();
-    const uniqId = useUniqId();
-    const treeSelectId = id ?? uniqId;
 
     const controlWrapRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
@@ -175,6 +173,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
 
+    const uniqId = useUniqId();
+    const treeSelectId = id ?? uniqId;
+    const popupId = `tree-select-popup-${treeSelectId}`;
+
     const controlProps: TreeSelectRenderControlProps = {
         open,
         toggleOpen,
@@ -197,8 +199,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             ).join(', ')}
             view="normal"
             pin="round-round"
-            popupId={`tree-select-popup-${treeSelectId}`}
-            selectId={`tree-select-${treeSelectId}`}
+            popupId={popupId}
+            selectId={treeSelectId}
         />
     );
 
@@ -231,7 +233,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                 handleClose={handleClose}
                 disablePortal={popupDisablePortal}
                 mobile={mobile}
-                id={`tree-select-popup-${treeSelectId}`}
+                id={popupId}
             >
                 {slotBeforeListBody}
 

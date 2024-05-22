@@ -84,6 +84,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
             }
 
             return data.slice().sort((itemA, itemB) => {
+                // eslint-disable-next-line id-length
                 let i = 0;
                 while (i < sortState.length) {
                     const state = sortState[i++];

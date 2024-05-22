@@ -59,11 +59,11 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
     const palette = React.useMemo(() => {
         return Object.entries(colorsMap).reduce(
             (res, [key, {a, c}]) => {
-                const i = Number(key);
+                const parsedKey = Number(key);
                 const solidColor = chroma
                     .mix(color, c > 0 ? highContrastBase : lowContrastBase, 1 - a, 'rgb')
                     .css();
-                const alphaColor = i > 500 ? '' : chroma(color).alpha(a).css();
+                const alphaColor = parsedKey > 500 ? '' : chroma(color).alpha(a).css();
 
                 res[key] = [solidColor, alphaColor];
 
@@ -192,10 +192,10 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
             <div className={b('title')}>Palette</div>
             <div className={b('palette')}>
                 <div className={b('palette-grid')}>
-                    {Object.entries(palette).map(([i, colors]) => {
+                    {Object.entries(palette).map(([index, colors]) => {
                         return (
-                            <React.Fragment key={i}>
-                                <div className={b('palette-item-number')}>{i}</div>
+                            <React.Fragment key={index}>
+                                <div className={b('palette-item-number')}>{index}</div>
                                 <div
                                     className={b('palette-item-color')}
                                     style={{backgroundColor: lowContrastBase}}

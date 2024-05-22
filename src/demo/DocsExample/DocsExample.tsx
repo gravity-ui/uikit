@@ -25,8 +25,8 @@ export function DocsExample({
 }: DocsExampleProps) {
     return (
         <div style={{background}} className={b({distribute, gap, space, rounded})}>
-            {React.Children.map(children, (elem, i) => (
-                <div key={i} className={b('item')}>
+            {React.Children.map(children, (elem, index) => (
+                <div key={index} className={b('item')}>
                     {elem}
                 </div>
             ))}

@@ -18,8 +18,8 @@ export const AlertActions = ({items, children, className}: AlertActionsProps) =>
             wrap
             alignItems={layout === 'horizontal' ? 'center' : 'flex-start'}
         >
-            {items?.map(({handler, text}, i) => (
-                <AlertAction key={i} onClick={handler}>
+            {items?.map(({handler, text}, index) => (
+                <AlertAction key={index} onClick={handler}>
                     {text}
                 </AlertAction>
             )) || children}

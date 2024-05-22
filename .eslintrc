@@ -8,7 +8,7 @@
     ],
     "root": true,
     "rules": {
-        "id-length": ["error", { "min": 2, "properties": "never", "exceptions": ["b", "i", "_"] }],
+        "id-length": ["error", { "min": 2, "properties": "never", "exceptions": ["b", "_"] }],
         "react/jsx-fragments": [
             "error",
             "element"

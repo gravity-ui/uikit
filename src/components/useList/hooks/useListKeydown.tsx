@@ -40,7 +40,7 @@ export const useListKeydown = ({
         (event: KeyboardEvent, step: number, defaultItemIndex = 0) => {
             event.preventDefault();
 
-            const maybeIndex = visibleFlattenIds.findIndex((i) => i === activeItemId);
+            const maybeIndex = visibleFlattenIds.findIndex((id) => id === activeItemId);
 
             const nextIndex = findNextIndex({
                 list: visibleFlattenIds,

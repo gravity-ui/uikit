@@ -132,9 +132,10 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 const begin = Math.min(this.lastCheckedIndex, index);
                 const end = Math.max(this.lastCheckedIndex, index);
 
-                const dataIds = data.map((item, i) => Table.getRowId(this.props, item, i));
+                const dataIds = data.map((item, index) => Table.getRowId(this.props, item, index));
                 const diffIds = dataIds.filter(
-                    (_id, i) => begin <= i && i <= end && !this.isDisabled(data[i], i),
+                    (_id, index) =>
+                        begin <= index && index <= end && !this.isDisabled(data[index], index),
                 );
 
                 onSelectionChange(

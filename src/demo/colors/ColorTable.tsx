@@ -15,6 +15,7 @@ export interface ColorTableProps {
 const b = cn('color-table');
 
 const steps: number[] = [];
+// eslint-disable-next-line id-length
 for (let i = 50; i <= 1000; i += 50) {
     steps.push(i);
 }

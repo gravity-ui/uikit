@@ -121,8 +121,8 @@ export function BrandingConfigurator({theme}: BrandingConfiguratorProps) {
                     </Button>
                 </div>
                 <div className={b('colors')}>
-                    {paletteColors.map((color, i) => (
-                        <div key={i} className={b('color')} style={{backgroundColor: color}} />
+                    {paletteColors.map((color, index) => (
+                        <div key={index} className={b('color')} style={{backgroundColor: color}} />
                     ))}
                 </div>
             </div>

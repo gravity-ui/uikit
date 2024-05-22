@@ -43,6 +43,7 @@ export function getPropsCombinations<ComponentType extends React.ElementType>({
         };
     });
 
+    // eslint-disable-next-line id-length
     for (let i = 1; i < propNames.length; i++) {
         const newCombination = cache.reduce<PropSequences<React.ComponentProps<ComponentType>>>(
             (result, combination) => {

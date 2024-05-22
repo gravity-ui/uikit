@@ -238,8 +238,8 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
             ];
 
             const itemsWidths = items.map(
-                (elem, i) =>
-                    elem.scrollWidth + (i === items.length - 1 ? GAP_WIDTH : GAP_WIDTH * 2),
+                (elem, index) =>
+                    elem.scrollWidth + (index === items.length - 1 ? GAP_WIDTH : GAP_WIDTH * 2),
             );
             const dividersWidths = dividers.map((elem) => elem.offsetWidth);
             const buttonsWidth = itemsWidths.reduce((total, width, index, widths) => {

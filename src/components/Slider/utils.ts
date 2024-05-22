@@ -36,6 +36,7 @@ function calculateInfoPoints({count = 0, max, min}: {min: number; max: number; c
         const points = [];
         const step = Math.abs(max - min) / (count - 1);
 
+        // eslint-disable-next-line id-length
         for (let i = 0; i < count; i++) {
             points.push(Math.round((min + step * i) * 100) / 100);
         }
@@ -62,6 +63,7 @@ export function getMarksFromInfoPoints({
         if (step === 0) {
             marks[min] = min;
         } else {
+            // eslint-disable-next-line id-length
             for (let i = 0; i < infoPointsCount; i++) {
                 const point = Math.round((min + step * i) * 100) / 100;
                 marks[point] = point;
@@ -75,10 +77,10 @@ function createMarks(points: number[]): RcSliderProps['marks'] {
     const marks: RcSliderProps['marks'] = {};
 
     const lastIndex = points.length - 1;
-    points.forEach((point, i) => {
-        if (i === 0) {
+    points.forEach((point, index) => {
+        if (index === 0) {
             marks[point] = {label: point, style: CLEAR_MARK_STYLE};
-        } else if (i === lastIndex) {
+        } else if (index === lastIndex) {
             marks[point] = {label: point, style: CLEAR_MARK_STYLE};
         } else {
             marks[point] = point;

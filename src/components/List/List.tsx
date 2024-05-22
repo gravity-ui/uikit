@@ -81,6 +81,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         const dataLength = list.length;
         let currentIndex = (index + dataLength) % dataLength;
 
+        // eslint-disable-next-line id-length
         for (let i = 0; i < dataLength; i += 1) {
             if (list[currentIndex] && !list[currentIndex].disabled) {
                 return currentIndex;

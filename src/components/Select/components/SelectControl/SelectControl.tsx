@@ -71,6 +71,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         renderCounter,
         hasCounter,
         title,
+        id,
     } = props;
     const showOptionsText = Boolean(selectedOptionsContent);
     const showPlaceholder = Boolean(placeholder && !showOptionsText);
@@ -164,6 +165,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 popupId,
                 selectId,
                 activeIndex,
+                id,
             },
             {value},
         );
@@ -173,6 +175,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         <React.Fragment>
             <div className={selectControlBlock(controlMods)} role="group">
                 <button
+                    id={id}
                     ref={ref}
                     role="combobox"
                     aria-controls={popupId}

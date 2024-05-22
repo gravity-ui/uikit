@@ -21,6 +21,7 @@ export type SelectRenderControlProps = {
     open: boolean;
     popupId: string;
     selectId: string;
+    id?: string;
     activeIndex?: number;
 };
 export type SelectRenderControlOptions = {

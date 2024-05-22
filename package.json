@@ -89,7 +89,7 @@
         "lint:prettier:fix": "cross-env prettier --write '**/*.md'",
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
-        "prepublishOnly": "npm run build",
+        "prepublishOnly": "npm run build && npm pkg delete engines",
         "playwright:install": "playwright install --with-deps",
         "playwright": "playwright test --config=playwright/playwright.config.ts",
         "playwright:update": "npm run playwright -- -u",

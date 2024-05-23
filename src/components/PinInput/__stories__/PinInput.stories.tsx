@@ -81,7 +81,7 @@ export const Disabled: Story = {
 export const Placeholder: Story = {
     args: {
         ...Default.args,
-        placeholder: '§',
+        placeholder: '●',
     },
 };
 

@@ -14,12 +14,14 @@ import type {PopperPlacement} from '../../../../../hooks/private';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
+import {Text} from '../../../../Text';
 import {TreeSelect} from '../../../../TreeSelect/TreeSelect';
 import type {
     TreeSelectProps,
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
+import {TextInput} from '../../../../controls/TextInput';
 import {Flex} from '../../../../layout/Flex/Flex';
 import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView} from '../../../../useList';
@@ -33,6 +35,8 @@ import './TableColumnSetup.scss';
 
 const b = block('inner-table-column-setup');
 const controlsCn = b('controls');
+const filterInputCn = b('filter-input');
+const emptyPlaceholderCn = b('empty-placeholder');
 
 const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
     const result = [...list];
@@ -242,6 +246,17 @@ const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => 
     };
 };
 
+const defaultFilterItemsFn = (item: TableColumnSetupItem, value: string) => {
+    return typeof item.title === 'string'
+        ? item.title.toLowerCase().includes(value.toLowerCase())
+        : true;
+};
+
+const useEmptyRenderContainer = (placeholder?: string): TreeSelectRenderContainer<{}> => {
+    const emptyRenderContainer = () => <Text className={emptyPlaceholderCn}>{placeholder}</Text>;
+    return emptyRenderContainer;
+};
+
 export type RenderControls = (params: {
     DefaultApplyButton: React.ComponentType;
     /**
@@ -269,6 +284,11 @@ export interface TableColumnSetupProps {
 
     defaultItems?: TableColumnSetupItem[];
     showResetButton?: boolean | ((currentItems: TableColumnSetupItem[]) => boolean);
+
+    filterable?: boolean;
+    filterPlaceholder?: string;
+    filterEmptyPlaceholder?: string;
+    filterItems?: (item: TableColumnSetupItem, value: string) => boolean;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -283,9 +303,22 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         className,
         defaultItems = propsItems,
         showResetButton: propsShowResetButton,
+        filterable,
+        filterPlaceholder,
+        filterEmptyPlaceholder,
+        filterItems = defaultFilterItemsFn,
     } = props;
 
     const [open, setOpen] = React.useState(false);
+    const [filter, setFilter] = React.useState('');
+    const [filteredItems, setFilteredItems] = React.useState<TableColumnSetupItem[]>([]);
+
+    const [sortingEnabled, setSortingEnabled] = React.useState(sortable);
+    const [prevSortingEnabled, setPrevSortingEnabled] = React.useState(sortable);
+    if (sortable !== prevSortingEnabled) {
+        setPrevSortingEnabled(sortable);
+        setSortingEnabled(sortable);
+    }
 
     const [items, setItems] = React.useState(propsItems);
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
@@ -298,7 +331,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const onApply = () => {
         const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
         propsOnUpdate(newSettings);
-        setOpen(false);
+        onOpenChange(false);
     };
 
     const DefaultApplyButton = () => (
@@ -342,7 +375,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             ),
     });
 
-    const dndRenderItem = useDndRenderItem(sortable);
+    const dndRenderItem = useDndRenderItem(sortingEnabled);
 
     const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
         const onKeyDown = createOnKeyDownHandler(toggleOpen);
@@ -359,9 +392,11 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const onOpenChange = (open: boolean) => {
         setOpen(open);
-
         if (open === false) {
             setItems(propsItems);
+            setFilter('');
+            setFilteredItems([]);
+            setSortingEnabled(sortable);
         }
     };
 
@@ -376,6 +411,29 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const value = React.useMemo(() => prepareValue(items), [items]);
 
+    const emptyRenderContainer = useEmptyRenderContainer(filterEmptyPlaceholder);
+
+    const onFilterValueUpdate = (value: string) => {
+        setFilter(value);
+        setFilteredItems(items.filter((item) => filterItems(item, value)));
+        setSortingEnabled(!value.length);
+    };
+
+    const slotBeforeListBody = filterable ? (
+        <TextInput
+            size="m"
+            view="clear"
+            placeholder={filterPlaceholder}
+            value={filter}
+            className={filterInputCn}
+            onUpdate={onFilterValueUpdate}
+            hasClear
+        />
+    ) : null;
+
+    const renderContainer =
+        filter && !filteredItems.length ? emptyRenderContainer : dndRenderContainer;
+
     return (
         <TreeSelect
             className={b(null, className)}
@@ -384,12 +442,13 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             size="l"
             open={open}
             value={value}
-            items={items}
+            items={filter ? filteredItems : items}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}
             placement={popupPlacement}
-            renderContainer={dndRenderContainer}
+            slotBeforeListBody={slotBeforeListBody}
+            renderContainer={renderContainer}
             renderControl={renderControl}
             renderItem={dndRenderItem}
         />

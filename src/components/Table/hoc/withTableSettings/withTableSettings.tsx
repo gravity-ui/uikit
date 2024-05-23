@@ -110,6 +110,7 @@ export function getActualItems<I>(
 export interface WithTableSettingsOptions {
     width?: TreeSelectProps<any>['popupWidth'];
     sortable?: boolean;
+    filterable?: boolean;
 }
 
 interface WithTableSettingsBaseProps {
@@ -143,8 +144,15 @@ interface WithoutDefaultSettings {
     showResetButton?: boolean;
 }
 
+interface WithFilter {
+    filterPlaceholder?: string;
+    filterEmptyPlaceholder?: string;
+    filterItems?: (item: TableColumnSetupItem, value: string) => boolean;
+}
+
 export type WithTableSettingsProps = WithTableSettingsBaseProps &
-    (WithDefaultSettings | WithoutDefaultSettings);
+    (WithDefaultSettings | WithoutDefaultSettings) &
+    WithFilter;
 
 const b = block('table');
 
@@ -167,7 +175,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
       ) => React.ComponentType<TableProps<I> & WithTableSettingsProps & E>) {
     function tableWithSettingsFactory(
         TableComponent: React.ComponentType<TableProps<I> & E>,
-        {width, sortable}: WithTableSettingsOptions = {},
+        {width, sortable, filterable}: WithTableSettingsOptions = {},
     ) {
         const componentName = getComponentName(TableComponent);
 
@@ -179,6 +187,9 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             renderControls,
             defaultSettings,
             showResetButton,
+            filterPlaceholder,
+            filterEmptyPlaceholder,
+            filterItems,
             ...restTableProps
         }: TableProps<I> & WithTableSettingsProps & E) {
             const defaultActualItems = React.useMemo(() => {
@@ -191,7 +202,6 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
 
             const enhancedColumns = React.useMemo(() => {
                 const actualItems = getActualItems(columns, settings || []);
-
                 return enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
                     systemColumn.name = () => (
                         <div className={b('settings')}>
@@ -199,6 +209,10 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                 popupWidth={settingsPopupWidth || width}
                                 popupPlacement={POPUP_PLACEMENT}
                                 sortable={sortable}
+                                filterable={filterable}
+                                filterPlaceholder={filterPlaceholder}
+                                filterEmptyPlaceholder={filterEmptyPlaceholder}
+                                filterItems={filterItems}
                                 onUpdate={updateSettings}
                                 items={actualItems}
                                 renderSwitcher={({onClick}) => (

@@ -16,6 +16,7 @@ import {WithTableSettingsCustomActionsShowcase} from './WithTableSettingsCustomA
 import {
     TableWithAction,
     TableWithCopy,
+    TableWithFilterableSettings,
     TableWithSelection,
     TableWithSettings,
     TableWithSettingsFactory,
@@ -231,6 +232,24 @@ markColumnAsSelectedAlways(3);
 
 HOCWithTableSettings.args = {
     columns: columnsWithSettings,
+};
+
+const WithFilterableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+    const [settings, setSettings] = React.useState<TableSettingsData>(DEFAULT_SETTINGS);
+    return (
+        <TableWithFilterableSettings
+            {...args}
+            settings={settings}
+            updateSettings={setSettings}
+            filterPlaceholder="Filter list"
+            filterEmptyPlaceholder="No results"
+        />
+    );
+};
+
+export const HOCWithFilterableTableSettings = WithFilterableSettingsTemplate.bind({});
+HOCWithFilterableTableSettings.parameters = {
+    disableStrictMode: true,
 };
 
 export const HOCWithTableSettingsFactory = WithTableSettingsTemplate.bind({});

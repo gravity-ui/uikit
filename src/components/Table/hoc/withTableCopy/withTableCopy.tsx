@@ -104,7 +104,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
                 return (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => {
                     const buttonClassName = b('copy-button');
                     if (
-                        // @ts-ignore
+                        // @ts-expect-error
                         event.nativeEvent.target.matches(
                             `.${buttonClassName}, .${buttonClassName} *`,
                         )

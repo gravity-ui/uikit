@@ -120,7 +120,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             event: React.ChangeEvent<HTMLInputElement>,
         ) => {
             const {checked} = event.target;
-            // @ts-ignore shiftKey is defined for click events
+            // @ts-expect-error shiftKey is defined for click events
             const isShiftPressed = event.nativeEvent.shiftKey;
             const {data, selectedIds, onSelectionChange} = this.props;
 
@@ -191,7 +191,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 return (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => {
                     const checkboxClassName = b('selection-checkbox');
                     if (
-                        // @ts-ignore
+                        // @ts-expect-error
                         event.nativeEvent.target.matches(
                             `.${checkboxClassName}, .${checkboxClassName} *`,
                         )

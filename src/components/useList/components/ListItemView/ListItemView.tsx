@@ -201,7 +201,7 @@ export const ListItemView = React.forwardRef(function ListItemView<
             {endSlot}
         </Flex>
     );
-}) as <C extends React.ElementType = 'span'>({
+}) as <C extends React.ElementType = 'div'>({
     ref,
     ...props
 }: ListItemViewPropsWithTypedAttrs<C> & {ref?: ListItemViewRef<C>}) => React.ReactElement;

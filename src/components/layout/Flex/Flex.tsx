@@ -128,7 +128,10 @@ type FlexPropsWithTypedAttrs<T extends React.ElementType> = FlexProps<T> &
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#flex
  */
-export const Flex = function Flex<T extends React.ElementType = 'div'>(props: FlexProps<T>) {
+export const Flex = React.forwardRef(function Flex<T extends React.ElementType = 'div'>(
+    props: FlexProps<T>,
+    ref: FlexRef<T>,
+) {
     const {
         as: propsAs,
         direction,
@@ -187,6 +190,7 @@ export const Flex = function Flex<T extends React.ElementType = 'div'>(props: Fl
                 },
                 className,
             )}
+            ref={ref}
             style={{
                 flexDirection: applyMediaProps(direction),
                 flexGrow: grow === true ? 1 : grow,
@@ -213,6 +217,6 @@ export const Flex = function Flex<T extends React.ElementType = 'div'>(props: Fl
                 : children}
         </Box>
     );
-} as (<C extends React.ElementType = 'div'>(
+}) as (<C extends React.ElementType = 'div'>(
     props: FlexPropsWithTypedAttrs<C> & {ref?: FlexRef<C>},
 ) => React.ReactElement) & {displayName: string};

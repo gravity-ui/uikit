@@ -75,11 +75,11 @@ describe('Pagination component', () => {
         });
     });
 
-    test('Total property disable Next', () => {
+    test('Total property undefined', () => {
         render(<Pagination pageSize={20} onUpdate={noop} page={0} total={undefined} />);
 
         const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
 
-        expect(nextButton).toBeDisabled();
+        expect(nextButton).not.toBeDisabled();
     });
 });

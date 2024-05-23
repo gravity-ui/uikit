@@ -50,23 +50,10 @@ export const Theme: Story = {
     },
 };
 
-const iconCases: Array<{caseTitle: React.ReactNode; propValue: AlertProps['icon']}> = [
-    {caseTitle: 'Without icon', propValue: null},
-    {caseTitle: <IconComponent size={16} data={Gear} />, propValue: 'With icon'},
-];
-
-export const Icon: Story = {
-    render: (args) => (
-        <Showcase>
-            {iconCases.map(({caseTitle, propValue}, index) => (
-                <ShowcaseItem title={caseTitle} key={index}>
-                    <Alert {...args} icon={propValue} />
-                </ShowcaseItem>
-            ))}
-        </Showcase>
-    ),
+export const CustomIcon: Story = {
     args: {
         ...Default.args,
+        icon: <IconComponent size={16} data={Gear} />,
     },
 };
 

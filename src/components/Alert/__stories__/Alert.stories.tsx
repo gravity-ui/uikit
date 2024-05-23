@@ -52,28 +52,6 @@ export const Title: Story = {
     },
 };
 
-const messageCases: Array<{caseTitle: string; propValue: AlertProps['message']}> = [
-    {
-        caseTitle: 'Regular message',
-        propValue: Default.args?.message,
-    },
-];
-
-export const Message: Story = {
-    render: (args) => (
-        <Showcase>
-            {messageCases.map(({caseTitle, propValue}, index) => (
-                <ShowcaseItem title={caseTitle} key={index}>
-                    <Alert {...args} message={propValue} />
-                </ShowcaseItem>
-            ))}
-        </Showcase>
-    ),
-    args: {
-        ...Default.args,
-    },
-};
-
 const themeCases: Array<AlertProps['theme']> = [
     'normal',
     'info',

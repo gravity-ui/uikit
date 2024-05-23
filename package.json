@@ -4,8 +4,8 @@
     "description": "Gravity UI base styling and components",
     "license": "MIT",
     "engines": {
-      "node": "18",
-      "npm": "10 || 11",
+      "node": ">= 18",
+      "npm": ">= 9",
       "yarn": "Please use npm instead of yarn to install dependencies",
       "pnpm": "Please use npm instead of pnpm to install dependencies"
     },

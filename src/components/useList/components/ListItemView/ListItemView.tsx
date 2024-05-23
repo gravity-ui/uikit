@@ -15,11 +15,13 @@ import './ListItemView.scss';
 
 const b = block('list-item-view');
 
-export interface ListItemViewProps extends QAProps, ListItemCommonProps {
+export interface ListItemViewProps<T extends React.ElementType = 'div'>
+    extends QAProps,
+        ListItemCommonProps {
     /**
      * Ability to override default html tag
      */
-    as?: keyof JSX.IntrinsicElements;
+    as?: T;
     /**
      * @default `m`
      */
@@ -43,7 +45,7 @@ export interface ListItemViewProps extends QAProps, ListItemCommonProps {
     /**
      * Note: if passed and `disabled` option is `true` click will not be appear
      */
-    onClick?(): void;
+    onClick?: React.ComponentPropsWithoutRef<T>['onClick'];
     style?: React.CSSProperties;
     className?: string;
     role?: React.AriaRole;
@@ -58,6 +60,11 @@ export interface ListItemViewProps extends QAProps, ListItemCommonProps {
      */
     id: ListItemId;
 }
+
+type ListItemViewRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
+
+type ListItemViewPropsWithTypedAttrs<T extends React.ElementType> = ListItemViewProps<T> &
+    Omit<React.ComponentPropsWithoutRef<T>, keyof ListItemViewProps<T>>;
 
 interface SlotProps extends FlexProps {
     indentation?: number;
@@ -85,118 +92,116 @@ const renderSafeIndentation = (indentation?: number) => {
     return null;
 };
 
-export const ListItemView = React.forwardRef(
-    (
-        {
-            id,
-            as = 'div',
-            size = 'm',
-            active,
-            selected,
-            disabled,
-            activeOnHover: propsActiveOnHover,
-            className,
-            hasSelectionIcon = true,
-            indentation,
-            startSlot,
-            subtitle,
-            endSlot,
-            title,
-            height,
-            expanded,
-            dragging,
-            style,
-            role = 'option',
-            onClick: _onClick,
-            ...rest
-        }: ListItemViewProps,
-        ref?: any,
-    ) => {
-        const isGroup = typeof expanded === 'boolean';
-        const onClick = disabled ? undefined : _onClick;
-        const activeOnHover =
-            typeof propsActiveOnHover === 'boolean' ? propsActiveOnHover : Boolean(onClick);
+export const ListItemView = React.forwardRef(function ListItemView<
+    T extends React.ElementType = 'div',
+>(
+    {
+        id,
+        as: asProps,
+        size = 'm',
+        active,
+        selected,
+        disabled,
+        activeOnHover: propsActiveOnHover,
+        className,
+        hasSelectionIcon = true,
+        indentation,
+        startSlot,
+        subtitle,
+        endSlot,
+        title,
+        height,
+        expanded,
+        dragging,
+        style,
+        role = 'option',
+        onClick: _onClick,
+        ...rest
+    }: ListItemViewPropsWithTypedAttrs<T>,
+    ref?: ListItemViewRef<T>,
+) {
+    const as: React.ElementType = asProps || 'div';
+    const isGroup = typeof expanded === 'boolean';
+    const onClick = disabled ? undefined : _onClick;
+    const activeOnHover =
+        typeof propsActiveOnHover === 'boolean' ? propsActiveOnHover : Boolean(onClick);
 
-        return (
-            <Flex
-                {...{[LIST_ITEM_DATA_ATR]: id}}
-                role={role}
-                aria-selected={selected}
-                onClick={onClick}
-                className={b(
-                    {
-                        active: dragging || active,
-                        selected: selected && !hasSelectionIcon,
-                        activeOnHover,
-                        radius: size,
-                        dragging,
-                        clickable: Boolean(onClick),
-                    },
-                    spacing({px: 2}, className),
+    return (
+        <Flex
+            {...{[LIST_ITEM_DATA_ATR]: id}}
+            role={role}
+            aria-selected={selected}
+            onClick={onClick}
+            className={b(
+                {
+                    active: dragging || active,
+                    selected: selected && !hasSelectionIcon,
+                    activeOnHover,
+                    radius: size,
+                    dragging,
+                    clickable: Boolean(onClick),
+                },
+                spacing({px: 2}, className),
+            )}
+            style={{
+                minHeight: height ?? modToHeight[size][Number(Boolean(subtitle))],
+                ...style,
+            }}
+            as={as}
+            ref={ref}
+            alignItems="center"
+            gap="4"
+            justifyContent="space-between"
+            {...rest}
+        >
+            <Flex gap="2" alignItems="center" grow>
+                {hasSelectionIcon && (
+                    <ListItemViewSlot // reserve space
+                    >
+                        {selected ? (
+                            <Icon data={Check} size={16} className={colorText({color: 'info'})} />
+                        ) : null}
+                    </ListItemViewSlot>
                 )}
-                style={{
-                    minHeight: height ?? modToHeight[size][Number(Boolean(subtitle))],
-                    ...style,
-                }}
-                as={as}
-                ref={ref}
-                alignItems="center"
-                gap="4"
-                justifyContent="space-between"
-                {...rest}
-            >
-                <Flex gap="2" alignItems="center" grow>
-                    {hasSelectionIcon && (
-                        <ListItemViewSlot // reserve space
+
+                {renderSafeIndentation(indentation)}
+
+                {isGroup ? (
+                    <Icon
+                        className={b('icon', colorText({color: disabled ? 'hint' : undefined}))}
+                        data={expanded ? ChevronDown : ChevronUp}
+                        size={16}
+                    />
+                ) : null}
+
+                {startSlot}
+
+                <div className={b('main-content')}>
+                    {typeof title === 'string' ? (
+                        <Text
+                            ellipsis
+                            color={disabled ? 'hint' : undefined}
+                            variant={isGroup ? 'subheader-1' : undefined}
                         >
-                            {selected ? (
-                                <Icon
-                                    data={Check}
-                                    size={16}
-                                    className={colorText({color: 'info'})}
-                                />
-                            ) : null}
-                        </ListItemViewSlot>
+                            {title}
+                        </Text>
+                    ) : (
+                        title
                     )}
-
-                    {renderSafeIndentation(indentation)}
-
-                    {isGroup ? (
-                        <Icon
-                            className={b('icon', colorText({color: disabled ? 'hint' : undefined}))}
-                            data={expanded ? ChevronDown : ChevronUp}
-                            size={16}
-                        />
-                    ) : null}
-
-                    {startSlot}
-
-                    <div className={b('main-content')}>
-                        {typeof title === 'string' ? (
-                            <Text
-                                ellipsis
-                                color={disabled ? 'hint' : undefined}
-                                variant={isGroup ? 'subheader-1' : undefined}
-                            >
-                                {title}
-                            </Text>
-                        ) : (
-                            title
-                        )}
-                        {typeof subtitle === 'string' ? (
-                            <Text ellipsis color={disabled ? 'hint' : 'secondary'}>
-                                {subtitle}
-                            </Text>
-                        ) : (
-                            subtitle
-                        )}
-                    </div>
-                </Flex>
-
-                {endSlot}
+                    {typeof subtitle === 'string' ? (
+                        <Text ellipsis color={disabled ? 'hint' : 'secondary'}>
+                            {subtitle}
+                        </Text>
+                    ) : (
+                        subtitle
+                    )}
+                </div>
             </Flex>
-        );
-    },
-);
 
-ListItemView.displayName = 'ListItemView';
+            {endSlot}
+        </Flex>
+    );
+}) as <C extends React.ElementType = 'div'>({
+    ref,
+    ...props
+}: ListItemViewPropsWithTypedAttrs<C> & {ref?: ListItemViewRef<C>}) => React.ReactElement;

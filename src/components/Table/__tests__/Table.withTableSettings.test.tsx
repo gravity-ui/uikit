@@ -149,10 +149,8 @@ describe('withTableSettings', () => {
             );
             expect(osSettings).toBeDefined();
             expect(osxSettings).toBeDefined();
-            // @ts-ignore
-            expect(osSettings.isSelected).toBe(true);
-            // @ts-ignore
-            expect(osxSettings.isSelected).toBe(false);
+            expect(osSettings?.isSelected).toBe(true);
+            expect(osxSettings?.isSelected).toBe(false);
         });
 
         it('should return columns when no settings provided', () => {

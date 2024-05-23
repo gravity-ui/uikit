@@ -26,32 +26,6 @@ export const Default: Story = {
     },
 };
 
-const titleCases: Array<{caseTitle: string; propValue: AlertProps['title']}> = [
-    {
-        caseTitle: 'Regular title',
-        propValue: Default.args?.title,
-    },
-    {
-        caseTitle: 'Tag title',
-        propValue: <div dangerouslySetInnerHTML={{__html: '<b>Some html title</b>'}} />,
-    },
-];
-
-export const Title: Story = {
-    render: (args) => (
-        <Showcase>
-            {titleCases.map(({caseTitle, propValue}, index) => (
-                <ShowcaseItem key={index} title={caseTitle}>
-                    <Alert {...args} title={propValue} />
-                </ShowcaseItem>
-            ))}
-        </Showcase>
-    ),
-    args: {
-        ...Default.args,
-    },
-};
-
 const themeCases: Array<AlertProps['theme']> = [
     'normal',
     'info',

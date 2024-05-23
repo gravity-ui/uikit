@@ -24,6 +24,10 @@
         flex-wrap: wrap;
         gap: var(--g-spacing-6);
 
+        &_isVertical {
+            flex-direction: column;
+        }
+
         &:not(:only-child) {
             margin-block-start: var(--g-spacing-5);
         }

@@ -6,7 +6,6 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import {Button} from '../../Button';
 import {Icon as IconComponent} from '../../Icon';
 import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
@@ -121,26 +120,8 @@ const actionCases: Array<{
         propValue: <Alert.Action>{rightActionText}</Alert.Action>,
     },
     {
-        caseTitle: 'One action via Alert.Action component',
-        propValue: (
-            <Alert.Actions>
-                <Alert.Action>{centerActionText}</Alert.Action>
-            </Alert.Actions>
-        ),
-    },
-    {
-        caseTitle: 'One action via array',
+        caseTitle: 'One action',
         propValue: [{text: rightActionText, handler: action('actionHandler')}],
-    },
-    {
-        caseTitle: 'Tree actions via Alert.Action component',
-        propValue: (
-            <Alert.Actions>
-                <Button view="action">{rightActionText}</Button>
-                <Button view="outlined">{centerActionText}</Button>
-                <Button view="flat">{leftActionText}</Button>
-            </Alert.Actions>
-        ),
     },
     {
         caseTitle: 'Tree actions via array',

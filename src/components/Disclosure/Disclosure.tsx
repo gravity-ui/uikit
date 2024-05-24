@@ -42,7 +42,7 @@ export interface DisclosureProps extends QAProps {
 
 const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
 
-// @ts-ignore this ts-error is appears when forwarding ref. It complains that DisclosureComposition props is not provided initially
+// @ts-expect-error this ts-error is appears when forwarding ref. It complains that DisclosureComposition props is not provided initially
 export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureComposition =
     React.forwardRef<HTMLDivElement, DisclosureProps>(function Disclosure(props, ref) {
         const {

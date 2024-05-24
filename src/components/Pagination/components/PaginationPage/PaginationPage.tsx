@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {block} from '../../../utils/cn';
-import {PaginationQa} from '../../constants';
+import {getPaginationPageQa} from '../../constants';
 import type {PageItem, PaginationProps, PaginationSize} from '../../types';
 
 import './PaginationPage.scss';
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const PaginationPage = ({item, size, pageSize, className, onUpdate}: Props) => {
-    const qa = `${PaginationQa.PaginationPage}-${item.page}`;
+    const qa = getPaginationPageQa(item.page);
     if (item.simple) {
         return (
             <div data-qa={qa} className={b('simple', {size}, className)}>

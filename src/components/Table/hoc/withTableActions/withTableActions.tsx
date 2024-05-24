@@ -272,7 +272,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
 
                 return (item: I, index: number, event: React.MouseEvent<HTMLTableRowElement>) => {
                     if (
-                        // @ts-ignore
+                        // @ts-expect-error
                         event.nativeEvent.target.matches(
                             `.${actionsButtonCn}, .${actionsButtonCn} *`,
                         )

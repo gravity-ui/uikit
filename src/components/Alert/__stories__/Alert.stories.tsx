@@ -104,6 +104,7 @@ export const Layout: Story = {
     ),
     args: {
         ...Default.args,
+        actions: [{text: 'First action'}, {text: 'Second action'}],
     },
 };
 

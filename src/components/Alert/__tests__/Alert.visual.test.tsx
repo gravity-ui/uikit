@@ -11,26 +11,14 @@ test.describe('Alert', () => {
         await expectScreenshot();
     });
 
-    test('render story: <Title>', async ({mount, expectScreenshot}) => {
-        await mount(<AlertStories.Title />);
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Message>', async ({mount, expectScreenshot}) => {
-        await mount(<AlertStories.Message />);
-
-        await expectScreenshot();
-    });
-
     test('render story: <Theme>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.Theme />);
 
         await expectScreenshot();
     });
 
-    test('render story: <Icon>', async ({mount, expectScreenshot}) => {
-        await mount(<AlertStories.Icon />);
+    test('render story: <CustomIcon>', async ({mount, expectScreenshot}) => {
+        await mount(<AlertStories.CustomIcon />);
 
         await expectScreenshot();
     });

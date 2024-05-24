@@ -25,7 +25,7 @@ export const Default: Story = {
     },
 };
 
-const themeCases: Array<AlertProps['theme']> = [
+const themeCases: Array<NonNullable<AlertProps['theme']>> = [
     'normal',
     'info',
     'success',
@@ -56,7 +56,7 @@ export const CustomIcon: Story = {
     },
 };
 
-const cornersCases: Array<AlertProps['corners']> = ['rounded', 'square'];
+const cornersCases: Array<NonNullable<AlertProps['corners']>> = ['rounded', 'square'];
 
 export const Corners: Story = {
     render: (args) => (
@@ -73,7 +73,7 @@ export const Corners: Story = {
     },
 };
 
-const viewCases: Array<AlertProps['view']> = ['filled', 'outlined'];
+const viewCases: Array<NonNullable<AlertProps['view']>> = ['filled', 'outlined'];
 
 export const View: Story = {
     render: (args) => (
@@ -90,7 +90,7 @@ export const View: Story = {
     },
 };
 
-const layoutCases: Array<AlertProps['layout']> = ['vertical', 'horizontal'];
+const layoutCases: Array<NonNullable<AlertProps['layout']>> = ['vertical', 'horizontal'];
 
 export const Layout: Story = {
     render: (args) => (
@@ -145,7 +145,7 @@ export const Actions: Story = {
     },
 };
 
-const alignCases: Array<AlertProps['align']> = ['center', 'baseline'];
+const alignCases: Array<NonNullable<AlertProps['align']>> = ['center', 'baseline'];
 
 export const Align: Story = {
     render: (args) => (

@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.16.0](https://github.com/gravity-ui/uikit/compare/v6.15.0...v6.16.0) (2024-05-24)
+
+
+### Features
+
+* **Text, Flex, Box:** typed html attributes ([#1583](https://github.com/gravity-ui/uikit/issues/1583)) ([3345489](https://github.com/gravity-ui/uikit/commit/33454890d7c2bcc422aa77dba7072193c61ba8b7))
+
+
+### Bug Fixes
+
+* **Button:** do not shrink button when there is only one icon ([#1577](https://github.com/gravity-ui/uikit/issues/1577)) ([98fd95f](https://github.com/gravity-ui/uikit/commit/98fd95f8f1ef9c7148883f978bcae7ec41398f14))
+* **Flex,ListItemView:** return ref drilling by React.forwardRef ([#1612](https://github.com/gravity-ui/uikit/issues/1612)) ([9b8f4f8](https://github.com/gravity-ui/uikit/commit/9b8f4f897bfe1919f165029ea7865654f808367f))
+* **Link:** change href property type description ([#1574](https://github.com/gravity-ui/uikit/issues/1574)) ([#1593](https://github.com/gravity-ui/uikit/issues/1593)) ([0aec983](https://github.com/gravity-ui/uikit/commit/0aec98306d8534e7e48c1bf050b17dfa7e0ac500))
+* **Text:** fix custom html tag inheritance ([#1584](https://github.com/gravity-ui/uikit/issues/1584)) ([fcd2ff3](https://github.com/gravity-ui/uikit/commit/fcd2ff33a7875c84a76fdab757a474d42f900b3e))
+* **Tooltip:** use more reasonable animation delay ([#1586](https://github.com/gravity-ui/uikit/issues/1586)) ([fe14706](https://github.com/gravity-ui/uikit/commit/fe147066d128749650ca71ad6ccee3d831cc6ad6))
+
 ## [6.15.0](https://github.com/gravity-ui/uikit/compare/v6.14.1...v6.15.0) (2024-05-08)
 
 

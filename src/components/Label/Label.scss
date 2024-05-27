@@ -2,52 +2,36 @@
 @use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}label';
-$disabled: #{$block}_disabled;
-$transitionDuration: 0.15s;
-$transitionTimingFunction: ease-in-out;
-$hover-opacity: 0.7;
-
-@mixin sizeState($margin, $mainSize, $rAddon, $lAddon, $borderRadius) {
-    height: $mainSize;
-    border-radius: $borderRadius;
-    & #{$block}__text {
-        line-height: $mainSize;
-        margin: 0 $margin;
-    }
-
-    & #{$block}__addon {
-        --addon-size: calc(#{$mainSize} - var(--border-size) * 2);
-        width: var(--addon-size);
-        height: var(--addon-size);
-    }
-
-    &#{$block}_has-right-addon #{$block}__text {
-        margin-inline-end: $rAddon;
-    }
-
-    &#{$block}_has-left-addon #{$block}__text {
-        margin-inline-start: $lAddon;
-    }
-}
+$transition-duration: 0.15s;
+$transition-timing-function: ease-in-out;
 
 #{$block} {
+    --_--bg-color: none;
+    --_--bg-color-hover: none;
+    --_--text-color: none;
+    --_--border-size: 0px;
+
     display: inline-flex;
     align-items: center;
     position: relative;
+    height: var(--_--height);
+    border-radius: var(--_--border-radius);
+    color: var(--_--text-color);
+    background-color: var(--_--bg-color);
     transition-property: opacity, color, background-color;
-    transition-duration: $transitionDuration;
-    transition-timing-function: $transitionTimingFunction;
+    transition-duration: $transition-duration;
+    transition-timing-function: $transition-timing-function;
     box-sizing: border-box;
     /* make new stacking context to isolate z-indexes */
     isolation: isolate;
-
-    --border-size: 0px;
 
     &__text {
         @include mixins.text-body-1();
         display: flex;
         align-items: baseline;
+        margin: 0 var(--_--margin-inline);
         width: 100%;
+        line-height: var(--_--height);
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
@@ -61,7 +45,7 @@ $hover-opacity: 0.7;
 
     &__value {
         display: flex;
-        opacity: $hover-opacity;
+        opacity: 0.7;
         overflow: hidden;
     }
 
@@ -69,14 +53,10 @@ $hover-opacity: 0.7;
         margin: 0 4px;
     }
 
-    &__action-button {
+    &__main-button {
         @include mixins.button-reset();
         border-radius: inherit;
         z-index: 1;
-
-        &:focus-visible {
-            outline: 2px solid var(--g-color-line-focus);
-        }
 
         &:empty {
             position: absolute;
@@ -84,134 +64,156 @@ $hover-opacity: 0.7;
         }
     }
 
-    // & selector added to up priority over button styles
-    & &__addon {
+    &__addon {
+        --_--addon-size: calc(var(--_--height) - var(--_--border-size) * 2);
+
         display: flex;
         align-items: center;
         justify-content: center;
+        width: var(--_--addon-size);
+        height: var(--_--addon-size);
+        border-radius: var(--_--border-radius);
 
-        &_side_left,
-        &_side_right {
+        &_side_start,
+        &_side_end {
             position: absolute;
             inset-block-start: 0;
         }
 
-        &_side_left {
+        &_side_start {
             inset-inline-start: 2px;
+            border-start-end-radius: 0;
+            border-end-end-radius: 0;
         }
 
-        &_side_right {
+        &_side_end {
             inset-inline-end: 0;
-            z-index: 2;
+            border-start-start-radius: 0;
+            border-end-start-radius: 0;
         }
 
-        &_interactive {
-            --g-button-background-color: transparent;
-
+        &_type_button {
+            @include mixins.button-reset();
+            z-index: 2;
             cursor: pointer;
-            color: inherit;
-            transition: color, background-color;
-            transition-duration: $transitionDuration;
-            transition-timing-function: $transitionTimingFunction;
+            color: var(--_--text-color);
+            background-color: transparent;
+            transition:
+                color $transition-duration $transition-timing-function,
+                background-color $transition-duration $transition-timing-function,
+                variables.$button-shrink-transition;
+
+            &:active {
+                transform: variables.$button-shrink-transform;
+            }
         }
     }
 
     &_size {
         &_xs {
-            @include sizeState(8px, 20px, 22px, 24px, var(--g-border-radius-xs));
+            --_--height: 20px;
+            --_--border-radius: var(--g-border-radius-xs);
+            --_--margin-inline: 8px;
+            --_--margin-addon-start: 24px;
+            --_--margin-addon-end: 22px;
         }
 
         &_s {
-            @include sizeState(10px, 24px, 26px, 28px, var(--g-border-radius-s));
+            --_--height: 24px;
+            --_--border-radius: var(--g-border-radius-s);
+            --_--margin-inline: 10px;
+            --_--margin-addon-start: 28px;
+            --_--margin-addon-end: 26px;
         }
 
         &_m {
-            @include sizeState(12px, 28px, 32px, 32px, var(--g-border-radius-m));
+            --_--height: 28px;
+            --_--border-radius: var(--g-border-radius-m);
+            --_--margin-inline: 12px;
+            --_--margin-addon-start: 32px;
+            --_--margin-addon-end: 32px;
         }
     }
 
     &_disabled {
-        opacity: $hover-opacity;
+        opacity: 0.7;
         pointer-events: none;
     }
 
-    &_is-interactive {
+    &_interactive {
         cursor: pointer;
     }
 
-    --_-bg-color: none;
-    --_-bg-hover-color: none;
-    --_-text-color: none;
-
     &_theme {
         &_normal {
-            --_-bg-color: var(--g-color-base-misc-light);
-            --_-bg-hover-color: var(--g-color-base-misc-light-hover);
-            --_-text-color: var(--g-color-text-misc-heavy);
+            --_--bg-color: var(--g-color-base-misc-light);
+            --_--bg-color-hover: var(--g-color-base-misc-light-hover);
+            --_--text-color: var(--g-color-text-misc-heavy);
         }
 
         &_success {
-            --_-bg-color: var(--g-color-base-positive-light);
-            --_-bg-hover-color: var(--g-color-base-positive-light-hover);
-            --_-text-color: var(--g-color-text-positive-heavy);
+            --_--bg-color: var(--g-color-base-positive-light);
+            --_--bg-color-hover: var(--g-color-base-positive-light-hover);
+            --_--text-color: var(--g-color-text-positive-heavy);
         }
 
         &_info {
-            --_-bg-color: var(--g-color-base-info-light);
-            --_-bg-hover-color: var(--g-color-base-info-light-hover);
-            --_-text-color: var(--g-color-text-info-heavy);
+            --_--bg-color: var(--g-color-base-info-light);
+            --_--bg-color-hover: var(--g-color-base-info-light-hover);
+            --_--text-color: var(--g-color-text-info-heavy);
         }
 
         &_warning {
-            --_-bg-color: var(--g-color-base-warning-light);
-            --_-bg-hover-color: var(--g-color-base-warning-light-hover);
-            --_-text-color: var(--g-color-text-warning-heavy);
+            --_--bg-color: var(--g-color-base-warning-light);
+            --_--bg-color-hover: var(--g-color-base-warning-light-hover);
+            --_--text-color: var(--g-color-text-warning-heavy);
         }
 
         &_danger {
-            --_-bg-color: var(--g-color-base-danger-light);
-            --_-bg-hover-color: var(--g-color-base-danger-light-hover);
-            --_-text-color: var(--g-color-text-danger-heavy);
+            --_--bg-color: var(--g-color-base-danger-light);
+            --_--bg-color-hover: var(--g-color-base-danger-light-hover);
+            --_--text-color: var(--g-color-text-danger-heavy);
         }
 
         &_utility {
-            --_-bg-color: var(--g-color-base-utility-light);
-            --_-bg-hover-color: var(--g-color-base-utility-light-hover);
-            --_-text-color: var(--g-color-text-utility-heavy);
+            --_--bg-color: var(--g-color-base-utility-light);
+            --_--bg-color-hover: var(--g-color-base-utility-light-hover);
+            --_--text-color: var(--g-color-text-utility-heavy);
         }
 
         &_unknown {
-            --_-bg-color: var(--g-color-base-neutral-light);
-            --_-bg-hover-color: var(--g-color-base-neutral-light-hover);
-            --_-text-color: var(--g-color-text-complementary);
+            --_--bg-color: var(--g-color-base-neutral-light);
+            --_--bg-color-hover: var(--g-color-base-neutral-light-hover);
+            --_--text-color: var(--g-color-text-complementary);
         }
 
         &_clear {
-            --_-bg-color: transparent;
-            --_-bg-hover-color: var(--g-color-base-simple-hover-solid);
-            --_-text-color: var(--g-color-text-complementary);
+            --_--bg-color: transparent;
+            --_--bg-color-hover: var(--g-color-base-simple-hover-solid);
+            --_--text-color: var(--g-color-text-complementary);
 
-            --border-size: 1px;
-            border: var(--border-size) solid var(--g-color-line-generic);
+            --_--border-size: 1px;
+            border: var(--_--border-size) solid var(--g-color-line-generic);
         }
     }
 
-    color: var(--_-text-color);
-    background-color: var(--_-bg-color);
-
-    // hover on interactive label (excluding hover on addon)
-    &_is-interactive:hover:not(:has(#{$block}__addon_interactive:hover)) {
-        background-color: var(--_-bg-hover-color);
+    // Apply margins for addons
+    &:has(#{$block}__addon_side_start) &__text {
+        margin-inline-start: var(--_--margin-addon-start);
+    }
+    &:has(#{$block}__addon_side_end) &__text {
+        margin-inline-end: var(--_--margin-addon-end);
     }
 
-    // hover on action button
-    &:not(#{$disabled}) #{$block}__addon_interactive {
-        --g-button-background-color-hover: var(--_-bg-hover-color);
+    // hover styles
+    &_interactive:hover:not(:has(#{$block}__addon_type_button:hover)),
+    &__addon_type_button:hover {
+        background-color: var(--_--bg-color-hover);
+    }
 
-        &:hover,
-        &:focus,
-        &:active {
-            color: var(--_-text-color);
-        }
+    // focus styles
+    &__main-button:focus-visible,
+    &__addon_type_button:focus-visible {
+        outline: 2px solid var(--g-color-line-focus);
     }
 }

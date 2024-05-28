@@ -1,9 +1,10 @@
 @use '../variables';
+@use './variables' as avatar-variables;
 
 $block: '.#{variables.$ns}avatar';
 
 #{$block} {
-    --_--size: 32px;
+    --_--size: #{avatar-variables.$default-size};
     --_--background-color: var(--g-color-base-misc-light);
     --_--border-color: currentColor;
     --_--color: var(--g-color-text-misc);
@@ -64,24 +65,10 @@ $block: '.#{variables.$ns}avatar';
     }
 
     &_size {
-        &_xs {
-            --_--size: 24px;
-        }
-
-        &_s {
-            --_--size: 28px;
-        }
-
-        &_m {
-            --_--size: 32px;
-        }
-
-        &_l {
-            --_--size: 42px;
-        }
-
-        &_xl {
-            --_--size: 50px;
+        @each $size-name, $size-value in avatar-variables.$sizes {
+            &_#{$size-name} {
+                --_--size: #{$size-value};
+            }
         }
 
         &_xs,

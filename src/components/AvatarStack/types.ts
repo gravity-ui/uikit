@@ -16,9 +16,26 @@ export interface AvatarStackProps {
      * | `xl`         | `l`                 |
      */
     overlapSize?: AvatarStackOverlapSize;
+    /**
+     * Size for control displaying count of extra avatars
+     */
     size?: AvatarSize;
     className?: string;
-    /** Avatars and optionally `<AvatarStack.MoreButton/>` */
+    /**
+     * Children would be wrapped for "stacking"
+     * @example
+     * <AvatarStack>
+     *     <Avatar/>
+     *     <Tooltip content="Some info"><Avatar/></Tooltip>
+     * </AvatarStack>
+     */
     children?: React.ReactNode;
+    /**
+     * Custom render for control displaying extra data
+     * @example
+     * <AvatarStack renderMoreButton={({count}) => <Button>+{count}</Button>}>
+     *     <Avatar/>
+     * </AvatarStack>
+     */
     renderMoreButton?: (options: {count: number}) => React.ReactElement;
 }

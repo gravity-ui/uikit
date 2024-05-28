@@ -9,32 +9,21 @@ const b = block('avatar-stack');
 type Props = Pick<React.HTMLProps<HTMLButtonElement>, 'className' | 'onClick' | 'aria-label'> & {
     size?: AvatarSize;
     count: number;
-    render?: (props: {button: React.ReactElement}) => React.ReactElement;
 };
 
-export const AvatarStackMoreButton = ({
-    className,
-    size = DEFAULT_AVATAR_SIZE,
-    onClick,
-    count,
-    'aria-label': ariaLabel,
-    render,
-}: Props) => {
-    const button = (
-        <button
-            className={b('more-button', {size}, className)}
-            onClick={onClick}
-            aria-label={ariaLabel}
-        >
-            +{count}
-        </button>
-    );
-
-    if (render) {
-        return render({button});
-    }
-
-    return button;
-};
+export const AvatarStackMoreButton = React.forwardRef<HTMLButtonElement, Props>(
+    ({className, size = DEFAULT_AVATAR_SIZE, onClick, count, 'aria-label': ariaLabel}, ref) => {
+        return (
+            <button
+                ref={ref}
+                className={b('more-button', {size}, className)}
+                onClick={onClick}
+                aria-label={ariaLabel}
+            >
+                +{count}
+            </button>
+        );
+    },
+);
 
 AvatarStackMoreButton.displayName = 'AvatarStack.MoreButton';

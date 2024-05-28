@@ -69,17 +69,19 @@ const TemplateWithButtonOverride: StoryFn<ComponentType> = (args) => {
     const {avatarSize, ...props} = args;
 
     return (
-        <AvatarStack {...props}>
+        <AvatarStack
+            {...props}
+            renderMoreButton={({count}) => (
+                <Tooltip content={'Somehow display list of all other items'}>
+                    <AvatarStack.MoreButton
+                        size={avatarSize}
+                        aria-label={'Rest of the users'}
+                        count={count}
+                    />
+                </Tooltip>
+            )}
+        >
             {getTemplateChildren(args)}
-            <AvatarStack.MoreButton
-                key="more-button-override"
-                size={avatarSize}
-                aria-label={'Rest of the users'}
-                count={24}
-                render={({button}) => (
-                    <Tooltip content={'Somehow display list of all other items'}>{button}</Tooltip>
-                )}
-            />
         </AvatarStack>
     );
 };

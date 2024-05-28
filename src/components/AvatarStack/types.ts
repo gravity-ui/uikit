@@ -1,5 +1,7 @@
 import type React from 'react';
 
+import type {AvatarSize} from '../Avatar';
+
 export type AvatarStackOverlapSize = 's' | 'm' | 'l';
 
 export interface AvatarStackProps {
@@ -7,6 +9,7 @@ export interface AvatarStackProps {
     max?: number;
     /** How much each avatar should overlap next one */
     overlapSize?: AvatarStackOverlapSize;
+    size?: AvatarSize;
     className?: string;
     /** Avatars and optionally `<AvatarStack.MoreButton/>` */
     children?: React.ReactNode;

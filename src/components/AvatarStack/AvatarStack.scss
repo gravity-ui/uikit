@@ -1,11 +1,11 @@
 @use '../../../styles/mixins';
-@use '../Avatar/variables' as avatarVariables;
+@use '../Avatar/variables' as avatar-variables;
 @use '../variables';
 
 $block: '.#{variables.$ns}avatar-stack';
 
 #{$block} {
-    --_--more-button-size: #{$default-size};
+    --_--more-button-size: #{avatar-variables.$default-size};
     --_--more-button-border-width: 1px;
 
     display: inline-flex;
@@ -54,9 +54,9 @@ $block: '.#{variables.$ns}avatar-stack';
         }
 
         &_size {
-            @each $size_name, $size_value in avatarVariables.$sizes {
-                &_#{$size_name} {
-                    --_--more-button-size: #{$size_value};
+            @each $size-name, $size-value in avatar-variables.$sizes {
+                &_#{$size-name} {
+                    --_--more-button-size: #{$size-value};
                 }
             }
 

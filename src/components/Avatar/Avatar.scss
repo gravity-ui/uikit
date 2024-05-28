@@ -4,7 +4,7 @@
 $block: '.#{variables.$ns}avatar';
 
 #{$block} {
-    --_--size: #{$default-size};
+    --_--size: #{avatar-variables.$default-size};
     --_--background-color: var(--g-color-base-misc-light);
     --_--border-color: currentColor;
     --_--color: var(--g-color-text-misc);

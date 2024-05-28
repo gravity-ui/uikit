@@ -40,10 +40,7 @@ $block: '.#{variables.$ns}avatar-stack';
     &__more-button {
         @include mixins.button-reset;
 
-        border: solid var(--_--more-button-border-width) var(--g-color-line-generic-solid);
         border-radius: 100%;
-
-        background-color: var(--g-color-base-generic);
 
         width: var(--_--more-button-size);
         height: var(--_--more-button-size);
@@ -58,23 +55,6 @@ $block: '.#{variables.$ns}avatar-stack';
                 &_#{$size-name} {
                     --_--more-button-size: #{$size-value};
                 }
-            }
-
-            &_xs {
-                font-size: var(--g-text-caption-1-font-size);
-            }
-
-            &_s {
-                font-size: var(--g-text-caption-2-font-size);
-            }
-
-            &_m,
-            &_l {
-                font-size: var(--g-text-body-1-font-size);
-            }
-
-            &_xl {
-                font-size: var(--g-text-body-2-font-size);
             }
         }
     }

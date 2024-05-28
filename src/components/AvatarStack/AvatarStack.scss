@@ -5,7 +5,7 @@
 $block: '.#{variables.$ns}avatar-stack';
 
 #{$block} {
-    --_--more-button-size: #{avatarVariables.$default_size};
+    --_--more-button-size: #{$default-size};
     --_--more-button-border-width: 1px;
 
     display: inline-flex;

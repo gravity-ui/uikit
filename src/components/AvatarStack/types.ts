@@ -10,4 +10,5 @@ export interface AvatarStackProps {
     className?: string;
     /** Avatars and optionally `<AvatarStack.MoreButton/>` */
     children?: React.ReactNode;
+    renderMoreButton?: (options: {count: number}) => React.ReactElement;
 }

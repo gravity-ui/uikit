@@ -16,9 +16,9 @@ Component is not limit you to what components to render, basic usage is:
 
 ```tsx
 <AvatarStack>
-  <UserAvatar imgUrl={`https://i.pravatar.cc/150?u=login1`} />
-  <UserAvatar imgUrl={`https://i.pravatar.cc/150?u=login2`} />
-  <UserAvatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
+  <Avatar imgUrl={`https://i.pravatar.cc/150?u=login1`} />
+  <Avatar imgUrl={`https://i.pravatar.cc/150?u=login2`} />
+  <Avatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
 </AvatarStack>
 ```
 
@@ -36,12 +36,15 @@ Component is not limit you to what components to render, basic usage is:
 Component for overriding more button
 
 ```tsx
-<AvatarStack>
-  <UserAvatar imgUrl={`https://i.pravatar.cc/150?u=login1`} />
-  <UserAvatar imgUrl={`https://i.pravatar.cc/150?u=login2`} />
-  <UserAvatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
-  <AvatarStack.MoreButton
-    render={({button}) => <Tooltip content={'More users'}>{button}</Tooltip>}
-  />
+<AvatarStack
+  renderMore={({count}) => (
+    <Tooltip content={'More users'}>
+      <AvatarStack.MoreButton count={count} />
+    </Tooltip>
+  )}
+>
+  <Avatar imgUrl={`https://i.pravatar.cc/150?u=login1`} />
+  <Avatar imgUrl={`https://i.pravatar.cc/150?u=login2`} />
+  <Avatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
 </AvatarStack>
 ```

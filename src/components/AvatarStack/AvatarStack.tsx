@@ -14,6 +14,7 @@ const b = block('avatar-stack');
 const AvatarStackComponent = ({
     max = 3,
     overlapSize = 's',
+    size,
     children,
     className,
     renderMoreButton,
@@ -49,7 +50,7 @@ const AvatarStackComponent = ({
                     {renderMoreButton ? (
                         renderMoreButton({count: moreItems})
                     ) : (
-                        <Avatar text={`+${moreItems}`} />
+                        <Avatar text={`+${moreItems}`} size={size} />
                     )}
                 </AvatarStackItem>
             ) : null}

@@ -272,9 +272,7 @@ export const SelectShowcase = (props: SelectProps) => {
                                 ref={ref}
                                 view="action"
                                 onClick={onClick}
-                                extraProps={{
-                                    onKeyDown,
-                                }}
+                                onKeyDown={onKeyDown}
                                 className={b({'has-clear': props.hasClear})}
                             >
                                 <span className={b('text')}>User control</span>
@@ -306,10 +304,8 @@ export const SelectShowcase = (props: SelectProps) => {
                                 ref={ref}
                                 view="action"
                                 onClick={onClick}
-                                extraProps={{
-                                    onKeyDown,
-                                    'aria-label': 'Add',
-                                }}
+                                onKeyDown={onKeyDown}
+                                aria-label="Add"
                             >
                                 <Icon data={Plus} />
                             </Button>

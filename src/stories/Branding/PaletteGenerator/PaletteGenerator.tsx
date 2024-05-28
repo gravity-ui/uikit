@@ -167,9 +167,7 @@ export function PaletteGenerator({theme}: BrandingConfiguratorProps) {
                         view="outlined"
                         size="l"
                         onClick={handleSwapContrastClick}
-                        extraProps={{
-                            'aria-label': 'Switch colors',
-                        }}
+                        aria-label="Switch colors"
                     >
                         <Icon data={ArrowUpArrowDown} size={18} />
                     </Button>

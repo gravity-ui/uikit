@@ -163,9 +163,7 @@ export const Popover = React.forwardRef<PopoverInstanceProps, PopoverProps & QAP
                             size="s"
                             view="flat-secondary"
                             onClick={handleCloseClick}
-                            extraProps={{
-                                'aria-label': 'Close',
-                            }}
+                            aria-label="Close"
                         >
                             <Icon data={Xmark} size={16} />
                         </Button>

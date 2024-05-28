@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ActionTooltip} from '../ActionTooltip';
 import {Button} from '../Button';
-import type {ButtonProps, ButtonSize} from '../Button';
+import type {ButtonButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardProps, CopyToClipboardStatus} from '../CopyToClipboard/types';
@@ -14,7 +14,7 @@ export interface ClipboardButtonProps
         Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {}
 
 interface ClipboardButtonComponentProps
-    extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading' | 'children'> {
+    extends Omit<ButtonButtonProps, 'component' | 'loading' | 'children' | 'onCopy'> {
     status: CopyToClipboardStatus;
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;
@@ -42,7 +42,6 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         tooltipSuccessText = i18n('endCopy'),
         status,
         view = 'flat',
-        extraProps = {},
         ...rest
     } = props;
 
@@ -51,15 +50,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
             disabled={!hasTooltip}
             title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
         >
-            <Button
-                view={view}
-                size={size}
-                extraProps={{
-                    'aria-label': tooltipInitialText,
-                    ...extraProps,
-                }}
-                {...rest}
-            >
+            <Button view={view} size={size} aria-label={tooltipInitialText} {...rest}>
                 <Button.Icon>
                     <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
                 </Button.Icon>

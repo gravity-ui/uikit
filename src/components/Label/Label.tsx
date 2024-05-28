@@ -118,9 +118,9 @@ export const Label = React.forwardRef(function Label(
             actionButton = (
                 <Button
                     size={buttonSize}
-                    extraProps={{'aria-label': copyButtonLabel || undefined}}
                     onClick={hasOnClick ? onClick : undefined}
                     disabled={disabled}
+                    aria-label={copyButtonLabel}
                     {...commonActionButtonProps}
                 >
                     <Button.Icon>
@@ -133,8 +133,8 @@ export const Label = React.forwardRef(function Label(
                 <Button
                     onClick={onCloseClick}
                     size={buttonSize}
-                    extraProps={{'aria-label': closeButtonLabel || undefined}}
                     disabled={disabled}
+                    aria-label={closeButtonLabel}
                     {...commonActionButtonProps}
                 >
                     <Icon size={closeIconSize} data={Xmark} />

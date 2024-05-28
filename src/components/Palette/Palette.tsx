@@ -192,7 +192,7 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
                                     title={option.title}
                                     view={isSelected ? 'normal' : 'flat'}
                                     selected={isSelected}
-                                    extraProps={{value: option.value}}
+                                    value={option.value}
                                     size={size}
                                     onClick={() => handleSelection(option)}
                                 >

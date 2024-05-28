@@ -119,7 +119,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                         view="flat"
                         className={b('btn-close')}
                         onClick={onClose}
-                        extraProps={{'aria-label': i18n('label_close-button')}}
+                        aria-label={i18n('label_close-button')}
                     >
                         <Icon data={Xmark} />
                     </Button>

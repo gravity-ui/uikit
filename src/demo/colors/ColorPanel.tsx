@@ -70,9 +70,7 @@ export function ColorPanel(props: ColorPanelProps) {
                     }
                     className="color-panel__bg-switcher"
                     onClick={() => rotateBackground()}
-                    extraProps={{
-                        'aria-labelledby': tooltipId,
-                    }}
+                    aria-labelledby={tooltipId}
                 >
                     <Icon data={Bulb} />
                 </Button>

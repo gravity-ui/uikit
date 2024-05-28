@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import {render, screen} from '../../../../test-utils/utils';
 import {Button} from '../Button';
-import type {ButtonPin, ButtonProps, ButtonSize, ButtonView} from '../Button';
+import type {ButtonPin, ButtonSize, ButtonView} from '../Button';
 
 const qaId = 'button-component';
 
@@ -105,11 +105,11 @@ describe('Button', () => {
     test('should render custom component', () => {
         const text = 'Button with custom component';
 
-        const ButtonComponent = (props: ButtonProps) => {
+        const ButtonComponent = (props: React.HTMLAttributes<HTMLElement>) => {
             return (
-                <button {...props} style={{boxShadow: '2px 2px 2px 2px deepskyblue'}}>
+                <div {...props} style={{boxShadow: '2px 2px 2px 2px deepskyblue'}}>
                     {text}
-                </button>
+                </div>
             );
         };
 

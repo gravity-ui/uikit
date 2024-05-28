@@ -16,8 +16,8 @@ interface DialogFooterOwnProps {
     onClickButtonCancel?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     textButtonCancel?: string;
     textButtonApply?: string;
-    propsButtonCancel?: Partial<ButtonProps>;
-    propsButtonApply?: Partial<ButtonProps>;
+    propsButtonCancel?: ButtonProps;
+    propsButtonApply?: ButtonProps;
     loading?: boolean;
     children?: React.ReactNode;
     errorText?: string;

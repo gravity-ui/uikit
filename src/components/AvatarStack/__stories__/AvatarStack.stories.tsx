@@ -61,16 +61,21 @@ function getTemplateChildren(args: ComponentType) {
 }
 
 const Template: StoryFn<ComponentType> = (args) => {
-    const {avatarSize: _, ...props} = args;
-    return <AvatarStack {...props}>{getTemplateChildren(args)}</AvatarStack>;
+    const {avatarSize, size, ...props} = args;
+    return (
+        <AvatarStack {...props} size={size || avatarSize}>
+            {getTemplateChildren(args)}
+        </AvatarStack>
+    );
 };
 
 const TemplateWithButtonOverride: StoryFn<ComponentType> = (args) => {
-    const {avatarSize, ...props} = args;
+    const {avatarSize, size, ...props} = args;
 
     return (
         <AvatarStack
             {...props}
+            size={size || avatarSize}
             renderMoreButton={({count}) => (
                 <Tooltip content={'Somehow display list of all other items'}>
                     <AvatarStack.MoreButton

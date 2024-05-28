@@ -48,7 +48,7 @@ $block: '.#{variables.$ns}avatar-stack';
         width: var(--_--more-button-size);
         height: var(--_--more-button-size);
 
-        &:focus-visible::before {
+        &:focus-visible {
             outline: var(--g-color-line-focus) solid 2px;
             outline-offset: 0;
         }

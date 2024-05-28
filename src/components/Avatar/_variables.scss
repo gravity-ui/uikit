@@ -8,4 +8,4 @@ $sizes: (
     'xl': 50px,
 );
 
-$default_size: map.get($sizes, 'm');
+$default-size: map.get($sizes, 'm');

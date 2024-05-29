@@ -12,15 +12,102 @@ import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
+import {createCssProperties} from '../../../stories/utils/custom-css-properties';
 import {Icon as IconComponent} from '../../Icon/Icon';
 import {Button} from '../Button';
 
 import {ButtonViewShowcase} from './ButtonViewShowcase';
 
+const {cssPropertiesParameters, customStoryCSSPropertiesParameters} = createCssProperties({
+    'g-button-text-color': {
+        control: 'color',
+        description: 'Text color',
+        example: '#fff',
+    },
+    'g-button-text-color-hover': {
+        control: 'color',
+        description: 'Text color on hover',
+        example: '#fff',
+    },
+    'g-button-background-color': {
+        control: 'color',
+        description: 'Background color',
+        example: '#9a2eff',
+    },
+    'g-button-background-color-hover': {
+        control: 'color',
+        description: 'Background color on hover',
+        example: '#8526de',
+    },
+    'g-button-border-width': {
+        control: 'text',
+        example: '5px',
+        description: 'Border width',
+    },
+    'g-button-border-color': {
+        control: 'color',
+        description: 'Border color',
+    },
+    'g-button-border-radius': {
+        control: 'text',
+        example: '40px 20px',
+        description: 'Border radius',
+    },
+    'g-button-border-style': {
+        control: 'text',
+        example: 'dotted',
+        description: 'Border style',
+    },
+    'g-button-focus-outline-width': {
+        control: 'color',
+        description: 'Focus outline color',
+    },
+    'g-button-focus-outline-color': {
+        control: 'color',
+        description: 'Focus outline color',
+        example: '#9a2eff',
+    },
+    'g-button-focus-outline-style': {
+        control: 'text',
+        example: '',
+        description: 'Focus outline style',
+    },
+    'g-button-focus-outline-offset': {
+        control: 'text',
+        example: '4px',
+        description: 'Focus outline offset',
+    },
+    'g-button-height': {
+        control: 'text',
+        example: '60px',
+        description: 'Height, line-height',
+    },
+    'g-button-padding': {
+        control: 'text',
+        example: '36px',
+        description: 'Side paddings',
+    },
+    'g-button-font-size': {
+        control: 'text',
+        example: '20px',
+        description: 'Text font size',
+    },
+    'g-button-icon-size': {
+        control: 'text',
+        example: '',
+        description: 'Icon size',
+    },
+    'g-button-icon-offset': {
+        control: 'text',
+        example: '',
+        description: 'Icon offset',
+    },
+});
 export default {
     title: 'Components/Inputs/Button',
     component: Button,
     parameters: {
+        ...cssPropertiesParameters,
         a11y: {
             element: '#storybook-root',
             config: {
@@ -204,25 +291,7 @@ export const Custom: Story = {
     args: {
         children: 'Fancy Button',
     },
-    render: (args) => (
-        <React.Fragment>
-            <style>
-                {`.g-root {
-                    --g-button-text-color: #fff;
-                    --g-button-text-color-hover: #fff;
-                    --g-button-background-color: #9a2eff;
-                    --g-button-background-color-hover: #8526de;
-                    --g-button-border-width: 5px;
-                    --g-button-border-style: dotted;
-                    --g-button-height: 60px;
-                    --g-button-padding: 36px;
-                    --g-button-font-size: 20px;
-                    --g-button-border-radius: 40px 20px;
-                    --g-button-focus-outline-color: #9a2eff;
-                    --g-button-focus-outline-offset: 4px;
-                }`}
-            </style>
-            <Button {...args} />
-        </React.Fragment>
-    ),
+    parameters: {
+        ...customStoryCSSPropertiesParameters,
+    },
 };

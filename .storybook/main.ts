@@ -12,6 +12,7 @@ const config: StorybookConfig = {
         './theme-addon/register.tsx',
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
+        '@ljcl/storybook-addon-cssprops',
     ],
     typescript: {
         check: false, // `false` is default value, but `checked` field is required in types.

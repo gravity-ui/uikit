@@ -11,8 +11,8 @@ export const createCssProperties = (
         CssPropertyName,
         {
             control: 'color' | 'text';
-            description: string;
-            example: string;
+            description?: string;
+            example?: string;
         }
     >,
 ) => {

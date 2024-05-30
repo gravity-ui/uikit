@@ -75,29 +75,36 @@ export const Default: Story = {
     },
 };
 
-export const WithOneItem: Story = {
+export const SingleItem: Story = {
     ...Default,
     args: {
         children: getChildren({count: 1}),
     },
 };
 
-export const WithMoreButton: Story = {
+export const MoreButton: Story = {
     ...Default,
     args: {
         children: getChildren({count: 6}),
     },
 };
 
-export const EdgeCase: Story = {
+export const MoreButtonOmit: Story = {
     ...Default,
+    parameters: {
+        docs: {
+            description: {
+                component: 'In case when only one avatar is hidden, we omit rendering more button',
+            },
+        },
+    },
     args: {
         children: getChildren({count: 4}),
         max: 3,
     },
 };
 
-export const WithButtonOverride: Story = {
+export const CustomMoreButton: Story = {
     render(args) {
         const {avatarSize, size, ...props} = args;
 

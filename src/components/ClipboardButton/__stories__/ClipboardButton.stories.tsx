@@ -18,6 +18,10 @@ type Story = StoryObj<typeof ClipboardButton>;
 export const Default: Story = {
     args: {
         onCopy: action('onCopy'),
+        onMouseEnter: action('onMouseEnter'),
+        onMouseLeave: action('onMouseLeave'),
+        onFocus: action('onFocus'),
+        onBlur: action('onBlur'),
     },
 };
 
@@ -28,6 +32,13 @@ export const CustomTooltipText: Story = {
         tooltipSuccessText: 'Success text',
     },
     name: 'Custom tooltip text',
+};
+
+export const CustomTimeout: Story = {
+    args: {
+        timeout: 5000,
+    },
+    name: 'Custom timeout',
 };
 
 const viewCases: Array<ClipboardButtonProps['view']> = [

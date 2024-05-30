@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {faker} from '@faker-js/faker/locale/en';
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import type {AvatarProps, AvatarSize} from '../../Avatar';
 import {AVATAR_SIZES, Avatar, DEFAULT_AVATAR_SIZE} from '../../Avatar';
@@ -28,7 +28,7 @@ function getChildren({
     );
 }
 
-export default {
+const meta: Meta<ComponentType> = {
     title: 'Components/Data Display/AvatarStack',
     component: AvatarStack,
     args: {
@@ -43,7 +43,11 @@ export default {
             description: 'Not part of component API',
         },
     },
-} as Meta<ComponentType>;
+};
+
+export default meta;
+
+type Story = StoryObj<ComponentType>;
 
 function getTemplateChildren(args: ComponentType) {
     const {avatarSize} = args;
@@ -60,56 +64,62 @@ function getTemplateChildren(args: ComponentType) {
     );
 }
 
-const Template: StoryFn<ComponentType> = (args) => {
-    const {avatarSize, size, ...props} = args;
-    return (
-        <AvatarStack {...props} size={size || avatarSize}>
-            {getTemplateChildren(args)}
-        </AvatarStack>
-    );
+export const Default: Story = {
+    render(args) {
+        const {avatarSize, size, ...props} = args;
+        return (
+            <AvatarStack {...props} size={size || avatarSize}>
+                {getTemplateChildren(args)}
+            </AvatarStack>
+        );
+    },
 };
 
-const TemplateWithButtonOverride: StoryFn<ComponentType> = (args) => {
-    const {avatarSize, size, ...props} = args;
-
-    return (
-        <AvatarStack
-            {...props}
-            size={size || avatarSize}
-            renderMoreButton={({count}) => (
-                <Tooltip content={'Somehow display list of all other items'}>
-                    <AvatarStack.MoreButton
-                        size={avatarSize}
-                        aria-label={'Rest of the users'}
-                        count={count}
-                    />
-                </Tooltip>
-            )}
-        >
-            {getTemplateChildren(args)}
-        </AvatarStack>
-    );
+export const WithOneItem: Story = {
+    ...Default,
+    args: {
+        children: getChildren({count: 1}),
+    },
 };
 
-export const Default = Template.bind({});
-
-export const WithOneItem = Template.bind({});
-WithOneItem.args = {
-    children: getChildren({count: 1}),
+export const WithMoreButton: Story = {
+    ...Default,
+    args: {
+        children: getChildren({count: 6}),
+    },
 };
 
-export const WithMoreButton = Template.bind({});
-WithMoreButton.args = {
-    children: getChildren({count: 6}),
+export const EdgeCase: Story = {
+    ...Default,
+    args: {
+        children: getChildren({count: 4}),
+        max: 3,
+    },
 };
 
-export const EdgeCase = Template.bind({});
-EdgeCase.args = {
-    children: getChildren({count: 4}),
-    max: 3,
-};
+export const WithButtonOverride: Story = {
+    render(args) {
+        const {avatarSize, size, ...props} = args;
 
-export const WithButtonOverride = TemplateWithButtonOverride.bind({});
-WithButtonOverride.args = {
-    children: [...getChildren({count: 26})],
+        return (
+            <AvatarStack
+                {...props}
+                size={size || avatarSize}
+                renderMoreButton={({count}) => (
+                    <Tooltip content={'Somehow display list of all other items'}>
+                        <AvatarStack.MoreButton
+                            size={avatarSize}
+                            aria-label={'Rest of the users'}
+                            count={count}
+                        />
+                    </Tooltip>
+                )}
+            >
+                {getTemplateChildren(args)}
+            </AvatarStack>
+        );
+    },
+    args: {
+        children: [...getChildren({count: 26})],
+    },
 };

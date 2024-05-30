@@ -1,9 +1,11 @@
 import React from 'react';
 
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import type {ClipboardButtonProps} from '../ClipboardButton';
 import {ClipboardButton} from '../ClipboardButton';
 
 export default {
@@ -13,7 +15,58 @@ export default {
 
 type Story = StoryObj<typeof ClipboardButton>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: {
+        onCopy: action('onCopy'),
+    },
+};
+
+export const CustomTooltipText: Story = {
+    args: {
+        hasTooltip: true,
+        tooltipInitialText: 'Initial text',
+        tooltipSuccessText: 'Success text',
+    },
+    name: 'Custom tooltip text',
+};
+
+const viewCases: Array<ClipboardButtonProps['view']> = [
+    'normal',
+    'action',
+    'outlined',
+    'outlined-info',
+    'outlined-success',
+    'outlined-warning',
+    'outlined-danger',
+    'outlined-utility',
+    'outlined-action',
+    'raised',
+    'flat',
+    'flat-secondary',
+    'flat-info',
+    'flat-success',
+    'flat-warning',
+    'flat-danger',
+    'flat-utility',
+    'flat-action',
+    'normal-contrast',
+    'outlined-contrast',
+    'flat-contrast',
+];
+
+export const View: Story = {
+    render: (args) => (
+        <Showcase>
+            {viewCases.map((view) => {
+                return (
+                    <ShowcaseItem title={`View ${view}`} key={view}>
+                        <ClipboardButton {...args} view={view} />
+                    </ShowcaseItem>
+                );
+            })}
+        </Showcase>
+    ),
+};
 
 export const Size: Story = {
     render: (args) => (

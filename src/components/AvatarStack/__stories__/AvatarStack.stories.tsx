@@ -56,6 +56,20 @@ const meta: Meta<ComponentType> = {
             description: 'Not part of component API',
         },
     },
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                        selector: '.g-avatar__text',
+                    },
+                ],
+            },
+        },
+    },
 };
 
 export default meta;

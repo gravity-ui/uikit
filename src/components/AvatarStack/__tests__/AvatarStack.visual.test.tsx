@@ -23,10 +23,11 @@ test.describe('AvatarStack', () => {
         await expectScreenshot();
     });
 
-    test('custom more button', async ({mount, expectScreenshot}) => {
+    test('custom more button', async ({page, mount, expectScreenshot}) => {
         const component = await mount(<AvatarStackStories.CustomMoreButton randomAvatar={false} />);
 
         await component.getByRole('button', {name: 'Rest of the users'}).hover();
+        await page.getByText('Somehow display list of all other items').waitFor();
 
         await expectScreenshot();
     });

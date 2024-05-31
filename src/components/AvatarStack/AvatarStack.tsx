@@ -5,6 +5,7 @@ import {block} from '../utils/cn';
 
 import {AvatarStackItem} from './AvatarStackItem';
 import {AvatarStackMoreButton} from './AvatarStackMoreButton';
+import i18n from './i18n';
 import type {AvatarStackProps} from './types';
 
 import './AvatarStack.scss';
@@ -50,7 +51,11 @@ const AvatarStackComponent = ({
                     {renderMoreButton ? (
                         renderMoreButton({count: moreItems})
                     ) : (
-                        <Avatar text={`+${moreItems}`} size={size} />
+                        <Avatar
+                            text={`+${moreItems}`}
+                            aria-label={i18n('more', {count: moreItems})}
+                            size={size}
+                        />
                     )}
                 </AvatarStackItem>
             ) : null}

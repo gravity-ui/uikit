@@ -15,7 +15,7 @@ export const AvatarStackMoreButton = React.forwardRef<HTMLButtonElement, Props>(
     ({className, size = DEFAULT_AVATAR_SIZE, onClick, count, 'aria-label': ariaLabel}, ref) => {
         return (
             <button ref={ref} className={b('more-button', {size}, className)} onClick={onClick}>
-                <Avatar text={`+${count}`} size={size} alt={ariaLabel} />
+                <Avatar text={`+${count}`} size={size} aria-label={ariaLabel} />
             </button>
         );
     },

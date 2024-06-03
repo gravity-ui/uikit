@@ -1,4 +1,4 @@
-import type {Cases} from '../../../stories/tests-factory/test-combinator';
+import type {Cases} from '../../../stories/tests-factory/models';
 import type {ButtonProps} from '../Button';
 
 export const defaultProps: ButtonProps = {

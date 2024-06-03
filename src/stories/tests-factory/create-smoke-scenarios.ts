@@ -32,7 +32,7 @@ export const createSmokeScenarios = <Props extends {}>(
             const [caseName, caseProps] = propCase;
 
             scenarios.push([
-                `smoke-${propName}-${caseName}`,
+                `smoke-${propName as string}-${caseName}`,
                 scenarioDetails,
                 {
                     ...baseProps,

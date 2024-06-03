@@ -122,10 +122,10 @@ const style = {
     <Card style={style} view="raised" type="container" size="l">Raised</UIKit.Card>
 `}>
     <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="clear" type="container" size="l">Container</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="filled" type="container" size="l">Selection</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="raised" type="container" size="l">Selection</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="clear" type="container" size="l">Clear</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">Outlined</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="filled" type="container" size="l">Filled</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="raised" type="container" size="l">Raised</UIKit.Card>
     </div>
 
 </ExampleBlock>

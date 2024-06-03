@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {action} from '@storybook/addon-actions';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
@@ -121,7 +122,7 @@ export const ActionType: Story = {
     args: {
         ...Default.args,
         type: 'action',
-        onClick: () => alert('Click!'),
+        onClick: () => action('onClick'),
     },
     name: 'Action Type',
 };
@@ -141,7 +142,27 @@ export const SelectionType: Story = {
     args: {
         ...Default.args,
         type: 'selection',
-        onClick: () => alert('Click!'),
+        onClick: () => action('onClick'),
     },
     name: 'Selection Type',
+};
+
+export const Custom: Story = {
+    args: {
+        ...Default.args,
+    },
+    render: (args) => (
+        <React.Fragment>
+            <style>
+                {`.g-root {
+                    --g-card-background-color: #f08080;
+                    --g-card-border-width: 5px;
+                    --g-card-border-color: #fff;
+                    --g-card-border-radius: 40px 20px;
+                    --g-card-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+                }`}
+            </style>
+            <Card {...args}>Custom styles</Card>
+        </React.Fragment>
+    ),
 };

@@ -102,7 +102,7 @@ This parameter is used to specify the view or layout style of the `Card`. It all
 
 - `clear`: no style will be applied.
 - `outlined`: applies thin border to highlight card content.
-- `filed`: fills in the card content.
+- `filled`: fills in the card content.
 - `raised`: applies a shadow to slightly lift the container.
 
 <!--LANDING_BLOCK
@@ -116,16 +116,16 @@ const style = {
     justifyContent: 'center';
 }
 
-    <Card style={style} view="clear" type="container" size="l">Container</UIKit.Card>
-    <Card style={style} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
-    <Card style={style} view="filed" type="container" size="l">Selection</UIKit.Card>
-    <Card style={style} view="raised" type="container" size="l">Selection</UIKit.Card>
+    <Card style={style} view="clear" type="container" size="l">Clear</UIKit.Card>
+    <Card style={style} view="outlined" type="container" size="l">Outlined</UIKit.Card>
+    <Card style={style} view="filled" type="container" size="l">Filled</UIKit.Card>
+    <Card style={style} view="raised" type="container" size="l">Raised</UIKit.Card>
 `}>
     <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="clear" type="container" size="l">Container</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">action with onClick</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="filed" type="container" size="l">Selection</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="raised" type="container" size="l">Selection</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="clear" type="container" size="l">Clear</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">Outlined</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="filled" type="container" size="l">Filled</UIKit.Card>
+        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="raised" type="container" size="l">Raised</UIKit.Card>
     </div>
 
 </ExampleBlock>

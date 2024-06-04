@@ -10,32 +10,57 @@ jobs:
     name: Verify Files
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: npm
-    - name: Install Packages
-      run: npm ci
-    - name: Lint Files
-      run: npm run lint
-    - name: Typecheck
-      run: npm run typecheck
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install Packages
+        run: npm ci
+      - name: Lint Files
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
 
-  tests:
-    name: Tests
+  unit_tests:
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: npm
-    - name: Install Packages
-      run: npm ci
-    - name: Unit Tests
-      run: npm run test
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install Packages
+        run: npm ci
+      - name: Run Tests
+        run: npm run test
+
+  storybook_tests:
+    name: Storybook Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install Packages
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Build Storybook Static
+        run: npm run build-storybook
+      - name: Serve Storybook and Run Tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 7007 --silent" \
+            "npx wait-on $PR_PREVIEW_URL && npm run test-storybook"
+        env:
+          PR_PREVIEW_URL: http://127.0.0.1:7007

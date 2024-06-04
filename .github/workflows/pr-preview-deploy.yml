@@ -14,7 +14,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-    - uses: gravity-ui/preview-deploy-action@v1
+    - uses: gravity-ui/preview-deploy-action@v2
       with:
         project: uikit
         github-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}

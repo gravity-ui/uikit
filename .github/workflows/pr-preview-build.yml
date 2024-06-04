@@ -8,6 +8,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: gravity-ui/preview-build-action@v1
+    - uses: gravity-ui/preview-build-action@v2
       with:
         node-version: 18

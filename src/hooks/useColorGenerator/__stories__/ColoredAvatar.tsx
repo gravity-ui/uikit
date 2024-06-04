@@ -7,27 +7,27 @@ import {useColorGenerator} from '../useColorGenerator';
 
 type ColoredAvatarProps = AvatarProps & {
     withText: boolean;
-    mode: UseColorGeneratorProps['mode'];
-    token: UseColorGeneratorProps['token'];
+    intensity: UseColorGeneratorProps['intensity'];
+    seed: UseColorGeneratorProps['seed'];
 };
 
 export const ColoredAvatar = ({
-    mode,
+    intensity,
     theme,
-    token,
+    seed,
     withText,
     ...avatarProps
 }: ColoredAvatarProps) => {
     const {color, textColor} = useColorGenerator({
-        token,
-        mode,
+        seed,
+        intensity,
     });
 
     return (
         <Avatar
             {...avatarProps}
             theme={theme}
-            text={withText ? token : undefined}
+            text={withText ? seed : undefined}
             color={withText ? textColor : undefined}
             title={color}
             backgroundColor={color}

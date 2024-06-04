@@ -1,6 +1,4 @@
-import {randomIndex} from '../utils';
-
-import {randomString} from './utils/randomString';
+import {randomIndex, randomString} from './common';
 
 describe('randomIndex', () => {
     test('returns numbers within the range [0, max)', () => {

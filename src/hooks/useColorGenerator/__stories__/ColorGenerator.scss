@@ -7,6 +7,22 @@ $block: '.#{variables.$ns}color-generator';
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin-block-start: 20px;
+        padding: 12px 8px;
+    }
+
+    &__grid {
+        display: inline-grid;
+        grid-template-columns: repeat(2, auto);
+        place-items: center center;
+        margin-block-end: 20px;
+
+        &-cell {
+            padding: 12px 16px;
+
+            &_head_left {
+                white-space: nowrap;
+                justify-self: end;
+            }
+        }
     }
 }

@@ -1,26 +1,27 @@
-name: Playwright Tests
+name: PR Visual Tests
 
 on:
   pull_request:
 
 jobs:
-  test:
-    name: Test component
+  visual_tests:
+    name: Visual Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Install dependencies
+          cache: npm
+      - name: Install Packages
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
+      - name: Run Visual Tests
         run: npm run playwright
         env:
           CI: 'true'
-      - name: Upload Playwright playwright report to GitHub Actions Artifacts
+      - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v3
         with:

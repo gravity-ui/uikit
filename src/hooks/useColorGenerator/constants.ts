@@ -1,32 +1,32 @@
 import type {ColorOptions, ThemeColorSettings} from './types';
 
-const bright: ColorOptions = {
+const heavy: ColorOptions = {
     lightness: [45, 55],
     situration: [45, 55],
 };
 
 export const colorOptions: Record<string, ThemeColorSettings> = {
     dark: {
-        saturated: {
-            lightness: [40, 80],
-            situration: [15, 55],
-        },
-        unsaturated: {
+        light: {
             lightness: [25, 35],
             situration: [45, 55],
         },
-        bright,
-    },
-    light: {
-        saturated: {
+        medium: {
             lightness: [40, 80],
             situration: [15, 55],
         },
-        unsaturated: {
+        heavy,
+    },
+    light: {
+        light: {
             lightness: [80, 90],
             situration: [45, 55],
         },
-        bright,
+        medium: {
+            lightness: [40, 80],
+            situration: [15, 55],
+        },
+        heavy,
     },
 };
 

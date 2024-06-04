@@ -1,4 +1,4 @@
-import {getHue} from '../utils'; // Подставьте правильное имя файла
+import {getHue} from './utils';
 
 describe('getHue', () => {
     test('returns values within the range [0, 360)', () => {

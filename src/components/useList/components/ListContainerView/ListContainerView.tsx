@@ -31,7 +31,7 @@ export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerV
     ) {
         return (
             <Flex
-                data-qa={qa}
+                qa={qa}
                 as={as}
                 direction="column"
                 ref={ref}

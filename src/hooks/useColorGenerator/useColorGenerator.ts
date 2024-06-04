@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import {useThemeType} from '../../components/theme/useThemeType';
 
-import {ColorGenerator} from './color';
+import {getPersistentColor, getTextColor} from './color';
 import type {UseColorGeneratorProps} from './types';
 
 /**
@@ -32,10 +32,12 @@ import type {UseColorGeneratorProps} from './types';
 export function useColorGenerator(props: UseColorGeneratorProps) {
     const theme = useThemeType();
 
-    const options = new ColorGenerator({
+    const {color, hue, saturation, lightness} = getPersistentColor({
         ...props,
         theme,
     });
 
-    return options;
+    const textColor = getTextColor(hue, saturation, lightness);
+
+    return {color, textColor};
 }

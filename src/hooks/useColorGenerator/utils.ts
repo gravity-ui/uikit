@@ -17,35 +17,13 @@ export const normalizeHash = (hash: number, min: number, max: number) => {
     return normalizedHash;
 };
 
-export const hashFnv32a = (token: string, start: number) => {
+export const hashFnv32a = (seed: string, start: number) => {
     let hval = start;
 
-    for (let index = 0; index < token.length; index++) {
-        hval ^= token.charCodeAt(index);
+    for (let index = 0; index < seed.length; index++) {
+        hval ^= seed.charCodeAt(index);
         hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
     }
 
     return hval >>> 0;
-};
-
-export const getHash = (token: string) => {
-    let hash = 0;
-
-    for (let index = 0; index < token.length; index++) {
-        hash = token.charCodeAt(index) + ((hash << 5) - hash);
-    }
-
-    return hash;
-};
-
-export const randomIndex = (token: string, max: number) => {
-    if (max === 0) {
-        return 0;
-    }
-
-    const hash = getHash(token);
-
-    const number = Math.abs(hash) % max;
-
-    return number;
 };

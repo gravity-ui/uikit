@@ -4,20 +4,26 @@ export type ColorOptions = {
 };
 
 export type ThemeColorSettings = {
-    saturated: ColorOptions;
-    unsaturated: ColorOptions;
-    bright: ColorOptions;
+    light: ColorOptions;
+    medium: ColorOptions;
+    heavy: ColorOptions;
 };
 
+export type INTENSITY = 'light' | 'medium' | 'heavy';
+
 export type ColorProps = {
-    colorKeys?: string[];
-    mode?: 'saturated' | 'unsaturated' | 'bright';
-    token: string;
+    intensity?: INTENSITY;
+    seed: string;
     theme: string;
 };
 
 export type UseColorGeneratorProps = {
-    colorKeys?: string[];
-    mode?: 'saturated' | 'unsaturated' | 'bright';
-    token: string;
+    intensity?: INTENSITY;
+    seed: string;
+};
+
+export type HslColorProps = {
+    hash: number;
+    intensity: INTENSITY;
+    theme: string;
 };

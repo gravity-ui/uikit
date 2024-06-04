@@ -3,6 +3,12 @@
     "version": "6.16.0",
     "description": "Gravity UI base styling and components",
     "license": "MIT",
+    "engines": {
+      "node": ">= 18",
+      "npm": ">= 9",
+      "yarn": "Please use npm instead of yarn to install dependencies",
+      "pnpm": "Please use npm instead of pnpm to install dependencies"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/gravity-ui/uikit"
@@ -83,7 +89,7 @@
         "lint:prettier:fix": "cross-env prettier --write '**/*.md'",
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
-        "prepublishOnly": "npm run build",
+        "prepublishOnly": "npm run build && npm pkg delete engines",
         "playwright:install": "playwright install --with-deps",
         "playwright": "playwright test --config=playwright/playwright.config.ts",
         "playwright:update": "npm run playwright -- -u",

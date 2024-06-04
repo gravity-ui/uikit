@@ -228,8 +228,12 @@ $block: '.#{variables.$ns}button';
         &_normal-contrast {
             --_--text-color: var(--g-color-text-dark-primary);
             --_--background-color: var(--g-color-base-light);
-            --_--background-color-hover: var(--g-color-base-light-hover);
             --_--focus-outline-color: var(--g-color-line-light);
+
+            --_--background-color-hover: var(--g-color-base-light-hover);
+            &#{$block}_loading {
+                --_--background-color-hover: var(--g-color-base-simple-hover);
+            }
         }
 
         &_outlined-contrast {

@@ -16,6 +16,8 @@ export interface TextProps<C extends React.ElementType = 'span'>
      */
     as?: C;
     ellipsisLines?: number;
+    className?: string;
+    styles?: React.CSSProperties;
 }
 
 type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];

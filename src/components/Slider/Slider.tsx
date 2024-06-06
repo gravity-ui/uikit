@@ -2,6 +2,7 @@ import React from 'react';
 
 import debounce from 'lodash/debounce';
 
+import {useControlledState} from '../../hooks';
 import {useDirection} from '../theme';
 import {block} from '../utils/cn';
 
@@ -43,14 +44,40 @@ export const Slider = React.forwardRef(function Slider(
     }: SliderProps,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+    const previousBoundaries = React.useRef({min, max});
+
+    const innerState = prepareSliderInnerState({
+        availableValues,
+        defaultValue,
+        marksCount,
+        max,
+        min,
+        step,
+        value,
+    });
+
+    const [currentValue, setCurrentValue] = useControlledState(
+        innerState.value as RcSliderValueType,
+        innerState.defaultValue as RcSliderValueType,
+        onUpdate,
+    );
+
     const direction = useDirection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleUpdate = React.useCallback(
+    const debouncedUpdate = React.useCallback(
         debounce(
             (changedValue: RcSliderValueType) => onUpdate?.(changedValue as SliderValue),
             debounceDelay,
         ),
         [onUpdate, debounceDelay],
+    );
+
+    const handleUpdate = React.useCallback(
+        (changedValue: RcSliderValueType) => {
+            setCurrentValue(changedValue as SliderValue);
+            debouncedUpdate(changedValue);
+        },
+        [debouncedUpdate],
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,20 +91,23 @@ export const Slider = React.forwardRef(function Slider(
 
     React.useEffect(() => {
         return () => {
-            handleUpdate.cancel();
+            debouncedUpdate.cancel();
             handleUpdateComplete.cancel();
         };
-    }, [handleUpdate, handleUpdateComplete]);
+    }, [debouncedUpdate, handleUpdateComplete]);
 
-    const innerState = prepareSliderInnerState({
-        availableValues,
-        defaultValue,
-        marksCount,
-        max,
-        min,
-        step,
-        value,
-    });
+    React.useEffect(() => {
+        //TODO написать код изменения состояния только в том случае, если не первый рендер
+        //то есть при изменении минимального и максимального значения
+        if (previousBoundaries.current.min !== min || previousBoundaries.current.max !== max) {
+            //изменились значения, значит, проверяем, укладывается ли текущее значение
+            //слайдера в ограничения и если нет, то меняем его
+
+            //записываем новые значения
+            previousBoundaries.current = {min, max};
+        }
+    }, [min, max]);
+
     const stateModifiers: StateModifiers = {
         size,
         error: validationState === 'invalid' && !disabled,
@@ -91,8 +121,7 @@ export const Slider = React.forwardRef(function Slider(
             <div className={b('top', {size, hasTooltip})}></div>
             <BaseSlider
                 ref={apiRef}
-                value={innerState.value}
-                defaultValue={innerState.defaultValue}
+                value={currentValue}
                 min={innerState.min}
                 max={innerState.max}
                 step={innerState.step}

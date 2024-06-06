@@ -9,21 +9,26 @@ export type ThemeColorSettings = {
     heavy: ColorOptions;
 };
 
-export type INTENSITY = 'light' | 'medium' | 'heavy';
+export type Intensity = 'light' | 'medium' | 'heavy';
 
 export type ColorProps = {
-    intensity?: INTENSITY;
+    intensity?: Intensity;
     seed: string;
     theme: string;
 };
 
 export type UseColorGeneratorProps = {
-    intensity?: INTENSITY;
+    intensity?: Intensity;
     seed: string;
+};
+
+export type UseColorGeneratorResult = {
+    color: string;
+    textColor: string;
 };
 
 export type HslColorProps = {
     hash: number;
-    intensity: INTENSITY;
+    intensity: Intensity;
     theme: string;
 };

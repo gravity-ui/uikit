@@ -1,6 +1,6 @@
 @use '../../../components/variables.scss';
 
-$block: '.#{variables.$ns}color-generator';
+$block: '.#{variables.$ns}color-generator-stories';
 
 #{$block} {
     &__color-items {

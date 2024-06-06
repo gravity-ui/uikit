@@ -7,9 +7,9 @@ import {randomString} from '../../../components/utils/common';
 
 import {ColoredAvatar} from './ColoredAvatar';
 
-import './ColorGenerator.scss';
+import './useColorGenerator.stories.scss';
 
-const b = block('color-generator');
+const b = block('color-generator-stories');
 
 const meta: Meta = {
     title: 'Hooks/useColorGenerator',
@@ -24,7 +24,7 @@ export default meta;
 
 type Story = StoryObj<typeof ColoredAvatar>;
 
-const views = ['-', 'light', 'medium', 'heavy'] as const;
+const views = ['light', 'medium', 'heavy'] as const;
 const states = ['view', 'colors'] as const;
 
 const Template = (args: React.ComponentProps<typeof ColoredAvatar>) => {
@@ -35,22 +35,10 @@ const Template = (args: React.ComponentProps<typeof ColoredAvatar>) => {
         for (const state of states) {
             const key = `${view}_${state}`;
 
-            if (view === '-' && state === 'view') {
-                items.push(
-                    <div key={key} className={b('grid-cell', {head: 'left'})}>
-                        <strong>view\state</strong>
-                    </div>,
-                );
-            } else if (state === 'view') {
+            if (state === 'view') {
                 items.push(
                     <div key={key} className={b('grid-cell', {head: 'left'})}>
                         <strong>{view}</strong>
-                    </div>,
-                );
-            } else if (view === '-') {
-                items.push(
-                    <div key={key} className={b('grid-cell', {head: 'top'})}>
-                        <strong>{state}</strong>
                     </div>,
                 );
             } else {
@@ -77,7 +65,7 @@ const Template = (args: React.ComponentProps<typeof ColoredAvatar>) => {
     );
 };
 
-export const View: Story = {
+export const Default: Story = {
     render: (args) => {
         return <Template {...args} />;
     },

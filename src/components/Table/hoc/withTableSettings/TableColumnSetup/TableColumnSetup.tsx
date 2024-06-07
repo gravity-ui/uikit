@@ -248,7 +248,7 @@ const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => 
 
 const defaultFilterSettingsFn = (item: TableColumnSetupItem, value: string) => {
     return typeof item.title === 'string'
-        ? item.title.toLowerCase().includes(value.toLowerCase())
+        ? item.title.toLowerCase().includes(value.trim().toLowerCase())
         : true;
 };
 

@@ -346,7 +346,7 @@ describe('withTableSettings', () => {
                     columns={columns}
                     data={data}
                     settings={settings}
-                    filterPlaceholder={placeholder}
+                    settingsFilterPlaceholder={placeholder}
                     updateSettings={updateSettings}
                 />,
             );

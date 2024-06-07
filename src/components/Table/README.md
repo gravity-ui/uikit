@@ -252,15 +252,15 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 
 ### Properties
 
-| Name                   | Description                                                  |                           Type                           |
-| :--------------------- | :----------------------------------------------------------- | :------------------------------------------------------: |
-| settingsPopupWidth     | TableColumnSetup pop-up width                                |                      `number` `fit`                      |
-| settings               | Current settings                                             |                   `TableSettingsData`                    |
-| updateSettings         | Settings update handle                                       |       `(data: TableSettingsData) => Promise<void>`       |
-| renderControls         | Allows to render custom actions                              |                     `RenderControls`                     |
-| filterPlaceholder      | Text that appears in the control when no search value is set |                         `string`                         |
-| filterEmptyPlaceholder | Text that appears when no one item is found                  |                         `string`                         |
-| filterItems            | Function for filtering items                                 | `(item: TableColumnSetupItem, value: string) => boolean` |
+| Name                       | Description                                                  |                           Type                           |
+| :------------------------- | :----------------------------------------------------------- | :------------------------------------------------------: |
+| settingsPopupWidth         | TableColumnSetup pop-up width                                |                      `number` `fit`                      |
+| settings                   | Current settings                                             |                   `TableSettingsData`                    |
+| updateSettings             | Settings update handle                                       |       `(data: TableSettingsData) => Promise<void>`       |
+| renderControls             | Allows to render custom actions                              |                     `RenderControls`                     |
+| settingsFilterPlaceholder  | Text that appears in the control when no search value is set |                         `string`                         |
+| settingsFilterEmptyMessage | Text that appears when no one item is found                  |                         `string`                         |
+| filterSettings             | Function for filtering items                                 | `(item: TableColumnSetupItem, value: string) => boolean` |
 
 ### TableSettingsData
 

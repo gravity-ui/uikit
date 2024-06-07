@@ -241,8 +241,8 @@ const WithFilterableSettingsTemplate: StoryFn<TableProps<DataItem>> = (args) => 
             {...args}
             settings={settings}
             updateSettings={setSettings}
-            filterPlaceholder="Filter list"
-            filterEmptyPlaceholder="No results"
+            settingsFilterPlaceholder="Filter list"
+            settingsFilterEmptyMessage="No results"
         />
     );
 };

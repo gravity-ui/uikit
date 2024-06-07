@@ -246,7 +246,7 @@ const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => 
     };
 };
 
-const defaultFilterItemsFn = (item: TableColumnSetupItem, value: string) => {
+const defaultFilterSettingsFn = (item: TableColumnSetupItem, value: string) => {
     return typeof item.title === 'string'
         ? item.title.toLowerCase().includes(value.toLowerCase())
         : true;
@@ -287,8 +287,8 @@ export interface TableColumnSetupProps {
 
     filterable?: boolean;
     filterPlaceholder?: string;
-    filterEmptyPlaceholder?: string;
-    filterItems?: (item: TableColumnSetupItem, value: string) => boolean;
+    filterEmptyMessage?: string;
+    filterSettings?: (item: TableColumnSetupItem, value: string) => boolean;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -305,8 +305,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         showResetButton: propsShowResetButton,
         filterable,
         filterPlaceholder,
-        filterEmptyPlaceholder,
-        filterItems = defaultFilterItemsFn,
+        filterEmptyMessage,
+        filterSettings = defaultFilterSettingsFn,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -411,11 +411,11 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const value = React.useMemo(() => prepareValue(items), [items]);
 
-    const emptyRenderContainer = useEmptyRenderContainer(filterEmptyPlaceholder);
+    const emptyRenderContainer = useEmptyRenderContainer(filterEmptyMessage);
 
     const onFilterValueUpdate = (value: string) => {
         setFilter(value);
-        setFilteredItems(items.filter((item) => filterItems(item, value)));
+        setFilteredItems(items.filter((item) => filterSettings(item, value)));
         setSortingEnabled(!value.length);
     };
 

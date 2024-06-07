@@ -145,9 +145,9 @@ interface WithoutDefaultSettings {
 }
 
 interface WithFilter {
-    filterPlaceholder?: string;
-    filterEmptyPlaceholder?: string;
-    filterItems?: (item: TableColumnSetupItem, value: string) => boolean;
+    settingsFilterPlaceholder?: string;
+    settingsFilterEmptyMessage?: string;
+    filterSettings?: (item: TableColumnSetupItem, value: string) => boolean;
 }
 
 export type WithTableSettingsProps = WithTableSettingsBaseProps &
@@ -187,9 +187,9 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             renderControls,
             defaultSettings,
             showResetButton,
-            filterPlaceholder,
-            filterEmptyPlaceholder,
-            filterItems,
+            settingsFilterPlaceholder,
+            settingsFilterEmptyMessage,
+            filterSettings,
             ...restTableProps
         }: TableProps<I> & WithTableSettingsProps & E) {
             const defaultActualItems = React.useMemo(() => {
@@ -210,9 +210,9 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                 popupPlacement={POPUP_PLACEMENT}
                                 sortable={sortable}
                                 filterable={filterable}
-                                filterPlaceholder={filterPlaceholder}
-                                filterEmptyPlaceholder={filterEmptyPlaceholder}
-                                filterItems={filterItems}
+                                filterPlaceholder={settingsFilterPlaceholder}
+                                filterEmptyMessage={settingsFilterEmptyMessage}
+                                filterSettings={filterSettings}
                                 onUpdate={updateSettings}
                                 items={actualItems}
                                 renderSwitcher={({onClick}) => (

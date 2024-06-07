@@ -147,7 +147,7 @@ interface WithoutDefaultSettings {
 interface WithFilter {
     settingsFilterPlaceholder?: string;
     settingsFilterEmptyMessage?: string;
-    filterSettings?: (item: TableColumnSetupItem, value: string) => boolean;
+    filterSettings?: (value: string, item: TableColumnSetupItem) => boolean;
 }
 
 export type WithTableSettingsProps = WithTableSettingsBaseProps &

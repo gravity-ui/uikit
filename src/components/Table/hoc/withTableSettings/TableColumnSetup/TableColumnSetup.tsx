@@ -24,7 +24,7 @@ import type {
 import {TextInput} from '../../../../controls/TextInput';
 import {Flex} from '../../../../layout/Flex/Flex';
 import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
-import {ListContainerView, ListItemView} from '../../../../useList';
+import {ListContainerView, ListItemView, useListFilter} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnConfig} from '../../../Table';
 import type {TableSetting} from '../withTableSettings';
@@ -246,7 +246,7 @@ const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => 
     };
 };
 
-const defaultFilterSettingsFn = (item: TableColumnSetupItem, value: string) => {
+const defaultFilterSettingsFn = (value: string, item: TableColumnSetupItem) => {
     return typeof item.title === 'string'
         ? item.title.toLowerCase().includes(value.trim().toLowerCase())
         : true;
@@ -288,7 +288,7 @@ export interface TableColumnSetupProps {
     filterable?: boolean;
     filterPlaceholder?: string;
     filterEmptyMessage?: string;
-    filterSettings?: (item: TableColumnSetupItem, value: string) => boolean;
+    filterSettings?: (value: string, item: TableColumnSetupItem) => boolean;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -310,9 +310,6 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     } = props;
 
     const [open, setOpen] = React.useState(false);
-    const [filter, setFilter] = React.useState('');
-    const [filteredItems, setFilteredItems] = React.useState<TableColumnSetupItem[]>([]);
-
     const [sortingEnabled, setSortingEnabled] = React.useState(sortable);
     const [prevSortingEnabled, setPrevSortingEnabled] = React.useState(sortable);
     if (sortable !== prevSortingEnabled) {
@@ -327,6 +324,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
         setItems(propsItems);
     }
+
+    const filterState = useListFilter({items, filterItem: filterSettings});
 
     const onApply = () => {
         const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
@@ -394,9 +393,8 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setOpen(open);
         if (open === false) {
             setItems(propsItems);
-            setFilter('');
-            setFilteredItems([]);
             setSortingEnabled(sortable);
+            filterState.reset();
         }
     };
 
@@ -414,8 +412,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     const emptyRenderContainer = useEmptyRenderContainer(filterEmptyMessage);
 
     const onFilterValueUpdate = (value: string) => {
-        setFilter(value);
-        setFilteredItems(items.filter((item) => filterSettings(item, value)));
+        filterState.onFilterUpdate(value);
         setSortingEnabled(!value.length);
     };
 
@@ -424,7 +421,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             size="m"
             view="clear"
             placeholder={filterPlaceholder}
-            value={filter}
+            value={filterState.filter}
             className={filterInputCn}
             onUpdate={onFilterValueUpdate}
             hasClear
@@ -432,7 +429,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     ) : null;
 
     const renderContainer =
-        filter && !filteredItems.length ? emptyRenderContainer : dndRenderContainer;
+        filterState.filter && !filterState.items.length ? emptyRenderContainer : dndRenderContainer;
 
     return (
         <TreeSelect
@@ -442,7 +439,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             size="l"
             open={open}
             value={value}
-            items={filter ? filteredItems : items}
+            items={filterState.filter ? filterState.items : items}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}

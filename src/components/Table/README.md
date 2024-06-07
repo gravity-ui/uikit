@@ -260,7 +260,7 @@ const MyTable1 = withTableSettings({sortable: false})(Table);
 | renderControls             | Allows to render custom actions                              |                     `RenderControls`                     |
 | settingsFilterPlaceholder  | Text that appears in the control when no search value is set |                         `string`                         |
 | settingsFilterEmptyMessage | Text that appears when no one item is found                  |                         `string`                         |
-| filterSettings             | Function for filtering items                                 | `(item: TableColumnSetupItem, value: string) => boolean` |
+| filterSettings             | Function for filtering items                                 | `(value: string, item: TableColumnSetupItem) => boolean` |
 
 ### TableSettingsData
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Button} from '../../Button';
 import {Table} from '../Table';
 import type {TableColumnConfig, TableProps} from '../Table';
@@ -363,7 +363,7 @@ describe('withTableSettings', () => {
             const filteredOption = screen.getByRole('option', {name: 'name'});
             expect(filteredOption).toBeInTheDocument();
             expect(filteredOption.hasAttribute('draggable')).toBeFalsy();
-            expect(screen.getAllByRole('option')).toHaveLength(1);
+            await waitFor(() => expect(screen.getAllByRole('option')).toHaveLength(1));
 
             fireEvent.change(textInput, {target: {value: ''}});
             expect(screen.getByRole('button', {name: 'id'}).hasAttribute('draggable')).toBeTruthy();

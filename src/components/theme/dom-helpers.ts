@@ -66,3 +66,16 @@ export function updateBodyDirection(direction: Direction) {
         bodyEl.setAttribute('dir', direction);
     }
 }
+
+export const supportsMatchMedia =
+    typeof window !== 'undefined' && typeof window.matchMedia === 'function';
+
+export const getDarkMediaMatch = () => window.matchMedia('(prefers-color-scheme: dark)');
+
+export function getSystemTheme() {
+    if (supportsMatchMedia) {
+        return getDarkMediaMatch().matches ? 'dark' : 'light';
+    } else {
+        return 'light';
+    }
+}

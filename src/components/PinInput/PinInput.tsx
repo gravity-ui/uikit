@@ -41,6 +41,14 @@ const b = block('pin-input');
 const NUMERIC_REGEXP = /[0-9]+/;
 const ALPHANUMERIC_REGEXP = /[0-9a-z]+/i;
 
+const validate = (type: PinInputType, newValue: string) => {
+    if (type === 'numeric') {
+        return NUMERIC_REGEXP.test(newValue);
+    } else {
+        return ALPHANUMERIC_REGEXP.test(newValue);
+    }
+};
+
 export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, ref) => {
     const {
         value,
@@ -117,14 +125,6 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         }
     };
 
-    const validate = (newValue: string) => {
-        if (type === 'numeric') {
-            return NUMERIC_REGEXP.test(newValue);
-        } else {
-            return ALPHANUMERIC_REGEXP.test(newValue);
-        }
-    };
-
     const setValuesAtIndex = (index: number, nextValue: string) => {
         // Normalize array size to length prop
         const newValues = Array.from({length}, (__, i) => values[i] ?? '');
@@ -159,7 +159,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
             }
         }
 
-        if (!validate(nextValue)) {
+        if (!validate(type, nextValue)) {
             return;
         }
 

@@ -88,7 +88,7 @@ function createMarks(points: number[]): RcSliderProps['marks'] {
     return marks;
 }
 
-export function getInnerState({
+export function prepareSliderInnerState({
     max = 100,
     min = 0,
     availableValues,

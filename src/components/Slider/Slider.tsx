@@ -57,8 +57,8 @@ export const Slider = React.forwardRef(function Slider(
     });
 
     const [currentValue, setCurrentValue] = useControlledState(
-        innerState.value as RcSliderValueType,
-        innerState.defaultValue as RcSliderValueType,
+        innerState.value as SliderValue,
+        innerState.defaultValue as SliderValue,
         onUpdate,
     );
 
@@ -97,14 +97,13 @@ export const Slider = React.forwardRef(function Slider(
     }, [debouncedUpdate, handleUpdateComplete]);
 
     React.useEffect(() => {
-        //TODO написать код изменения состояния только в том случае, если не первый рендер
-        //то есть при изменении минимального и максимального значения
         if (previousBoundaries.current.min !== min || previousBoundaries.current.max !== max) {
-            //изменились значения, значит, проверяем, укладывается ли текущее значение
-            //слайдера в ограничения и если нет, то меняем его
-
-            //записываем новые значения
             previousBoundaries.current = {min, max};
+            setCurrentValue(
+                (innerState.value === undefined
+                    ? innerState.defaultValue
+                    : innerState.value) as SliderValue,
+            );
         }
     }, [min, max]);
 

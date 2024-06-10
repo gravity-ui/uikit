@@ -39,6 +39,11 @@
             "require": "./build/cjs/unstable.js",
             "import": "./build/esm/unstable.js"
         },
+        "./server": {
+            "types": "./build/esm/server.d.ts",
+            "require": "./build/cjs/server.js",
+            "import": "./build/esm/server.js"
+        },
         "./styles/*": "./styles/*"
     },
     "main": "./build/cjs/index.js",
@@ -60,6 +65,9 @@
             ],
             "unstable": [
                 "./build/esm/unstable.d.ts"
+            ],
+            "server": [
+                "./build/esm/server.d.ts"
             ]
         }
     },

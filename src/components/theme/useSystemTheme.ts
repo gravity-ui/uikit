@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {getDarkMediaMatch, supportsMatchMedia} from './getDarkMediaMatch';
-import {getSystemTheme} from './getSystemTheme';
+import {getDarkMediaMatch, getSystemTheme, supportsMatchMedia} from './dom-helpers';
 import type {ThemeType} from './types';
 
 function addListener(

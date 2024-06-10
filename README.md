@@ -65,7 +65,7 @@ root.render(
 It is possible to generate initial root CSS-classes during SSR to avoid theme flashing:
 
 ```js
-import {getRootClassName} from '@gravity-ui/uikit';
+import {getRootClassName} from '@gravity-ui/uikit/server';
 
 const theme = 'dark';
 const rootClassName = getRootClassName({theme});

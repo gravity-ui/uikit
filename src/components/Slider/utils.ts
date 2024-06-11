@@ -88,6 +88,10 @@ function createMarks(points: number[]): RcSliderProps['marks'] {
     return marks;
 }
 
+/**
+ * Calculates the basic properties of the Slider component depending on the passed parameters
+ * @returns {SliderInnerState} Properties to pass to the Slider
+ */
 export function prepareSliderInnerState({
     max = 100,
     min = 0,

@@ -88,7 +88,11 @@ function createMarks(points: number[]): RcSliderProps['marks'] {
     return marks;
 }
 
-export function getInnerState({
+/**
+ * Calculates the basic properties of the Slider component depending on the passed parameters
+ * @returns {SliderInnerState} Properties to pass to the Slider
+ */
+export function prepareSliderInnerState({
     max = 100,
     min = 0,
     availableValues,
@@ -134,24 +138,26 @@ export function getInnerState({
         state.marks = createMarks(calculateInfoPoints({count: marksCount, max, min}));
     }
 
-    if (value && Array.isArray(value)) {
-        state.range = true;
-        state.value = prepareArrayValue({min: state.min, max: state.max, value});
-    } else if (defaultValue && Array.isArray(defaultValue)) {
-        state.range = true;
-        state.defaultValue = prepareArrayValue({
-            min: state.min,
-            max: state.max,
-            value: defaultValue,
-        });
-    } else if (value) {
-        state.value = prepareSingleValue({min: state.min, max: state.max, value});
+    if (value === undefined) {
+        const isArray = Array.isArray(defaultValue);
+        state.range = isArray;
+        state.defaultValue = isArray
+            ? prepareArrayValue({
+                  min: state.min,
+                  max: state.max,
+                  value: defaultValue,
+              })
+            : prepareSingleValue({
+                  min: state.min,
+                  max: state.max,
+                  value: defaultValue,
+              });
     } else {
-        state.defaultValue = prepareSingleValue({
-            min: state.min,
-            max: state.max,
-            value: defaultValue,
-        });
+        const isArray = Array.isArray(value);
+        state.range = isArray;
+        state.value = isArray
+            ? prepareArrayValue({min: state.min, max: state.max, value})
+            : prepareSingleValue({min: state.min, max: state.max, value});
     }
 
     return state;

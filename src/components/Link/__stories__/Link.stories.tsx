@@ -1,10 +1,9 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
 import {Link} from '../Link';
-import type {LinkProps} from '../Link';
-import {LinkShowcase} from '../__stories__/LinkShowcase';
 
 export default {
     title: 'Components/Navigation/Link',
@@ -22,10 +21,35 @@ export default {
             },
         },
     },
-} as Meta;
+} as Meta<typeof Link>;
 
-const DefaultTemplate: StoryFn<LinkProps> = (args) => <Link {...args}>Link</Link>;
-export const Default = DefaultTemplate.bind({});
+type Story = StoryObj<typeof Link>;
 
-const ShowcaseTemplate: StoryFn = () => <LinkShowcase />;
-export const Showcase = ShowcaseTemplate.bind({});
+export const Default: Story = {args: {href: '#', children: 'Link'}};
+
+export const View: Story = {
+    args: {
+        ...Default.args,
+    },
+    render: (args) => (
+        <Showcase>
+            <Link {...args} view="normal">
+                Normal
+            </Link>
+            <Link {...args} view="primary">
+                Primary
+            </Link>
+            <Link {...args} view="secondary">
+                Secondary
+            </Link>
+        </Showcase>
+    ),
+};
+
+export const Visitable = {
+    args: {
+        ...Default.args,
+        visitable: true,
+        href: '.',
+    },
+};

@@ -28,4 +28,9 @@
             margin-block-start: var(--g-spacing-5);
         }
     }
+
+    &_direction_column &__content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

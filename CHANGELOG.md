@@ -1,5 +1,22 @@
 # Changelog
 
+## [6.17.0](https://github.com/gravity-ui/uikit/compare/v6.16.0...v6.17.0) (2024-06-11)
+
+
+### Features
+
+* add PinInput component ([#1557](https://github.com/gravity-ui/uikit/issues/1557)) ([7d26272](https://github.com/gravity-ui/uikit/commit/7d26272ed67e7f94f002f501a9ff703f4210a925))
+
+
+### Bug Fixes
+
+* **Button:** normal-contrast loading view ([#1630](https://github.com/gravity-ui/uikit/issues/1630)) ([bfa2dbf](https://github.com/gravity-ui/uikit/commit/bfa2dbfa85c2c01e0fcd8c5f07d6e93fa31660ff))
+* **Slider:** export function for preparing initial value ([#1637](https://github.com/gravity-ui/uikit/issues/1637)) ([434949e](https://github.com/gravity-ui/uikit/commit/434949e4f608cde2330cca02cbd0ab99244fd0fb))
+* **Text:** return missing props to TextProps type ([#1631](https://github.com/gravity-ui/uikit/issues/1631)) ([6a70f17](https://github.com/gravity-ui/uikit/commit/6a70f17c04f4af52e49ea5bcbe9c1f886d9c3969))
+* **theme:** bring back root classname helper and fix docs ([#1633](https://github.com/gravity-ui/uikit/issues/1633)) ([ba08c66](https://github.com/gravity-ui/uikit/commit/ba08c66d83dac2d8ff9d44c27f2739f192d68e92))
+* **Toc:** unify item line height ([#1635](https://github.com/gravity-ui/uikit/issues/1635)) ([4612a77](https://github.com/gravity-ui/uikit/commit/4612a7713ee04590a8e4073d831a42ba2e03d9fe))
+* **useList:** add qa property to container ([#1625](https://github.com/gravity-ui/uikit/issues/1625)) ([05c1fc2](https://github.com/gravity-ui/uikit/commit/05c1fc2df61226cc070c007388c1aeb5e5744799))
+
 ## [6.16.0](https://github.com/gravity-ui/uikit/compare/v6.15.0...v6.16.0) (2024-05-24)
 
 

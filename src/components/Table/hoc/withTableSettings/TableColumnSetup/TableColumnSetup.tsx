@@ -325,7 +325,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setItems(propsItems);
     }
 
-    const filterState = useListFilter({items, filterItem: filterSettings});
+    const filterState = useListFilter({items, filterItem: filterSettings, debounceTimeout: 0});
 
     const onApply = () => {
         const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));

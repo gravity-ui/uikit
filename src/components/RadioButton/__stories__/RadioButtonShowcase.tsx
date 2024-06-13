@@ -56,24 +56,24 @@ export function RadioButtonShowcase() {
             </ShowcaseItem>
             <ShowcaseItem title="width">
                 <div style={{width: 140, border: '2px dashed gray'}}>
-                    <p>
+                    <div style={{marginBlock: '1em'}}>
                         <RadioButton>
                             <RadioButton.Option value="1" content="none" />
                             <RadioButton.Option value="2" content="none********" />
                         </RadioButton>
-                    </p>
-                    <p>
+                    </div>
+                    <div style={{marginBlock: '1em'}}>
                         <RadioButton width="auto">
                             <RadioButton.Option value="1" content="auto" />
                             <RadioButton.Option value="2" content="auto********" />
                         </RadioButton>
-                    </p>
-                    <p>
+                    </div>
+                    <div style={{marginBlock: '1em'}}>
                         <RadioButton width="max">
                             <RadioButton.Option value="1" content="max" />
                             <RadioButton.Option value="2" content="max" />
                         </RadioButton>
-                    </p>
+                    </div>
                 </div>
             </ShowcaseItem>
         </Showcase>

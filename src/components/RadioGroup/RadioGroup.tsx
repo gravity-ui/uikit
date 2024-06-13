@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {useRadioGroup} from '../../hooks/private';

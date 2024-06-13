@@ -8,12 +8,9 @@ import './SelectCounter.scss';
 
 const b = block('select-counter');
 
-export const SelectCounter = React.forwardRef(function SelectCouner(
-    {count, size, disabled}: SelectCounterProps,
-    ref: React.ForwardedRef<HTMLDivElement>,
-) {
+export function SelectCounter({count, size, disabled}: SelectCounterProps) {
     return (
-        <div className={b({size})} ref={ref}>
+        <div className={b({size})}>
             <Text
                 variant={size === 'xl' ? 'body-2' : 'body-1'}
                 color={disabled ? 'hint' : 'primary'}
@@ -23,4 +20,4 @@ export const SelectCounter = React.forwardRef(function SelectCouner(
             </Text>
         </div>
     );
-});
+}

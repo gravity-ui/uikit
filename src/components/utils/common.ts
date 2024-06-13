@@ -9,4 +9,5 @@ export function getUniqId() {
     return `${NAMESPACE}uniq-${nextUniqueId++}`;
 }
 
+export const isSvg = isOfType('svg');
 export const isIcon = isOfType(Icon);

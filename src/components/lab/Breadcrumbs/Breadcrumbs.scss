@@ -1,0 +1,110 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}breadcrumbs2';
+
+#{$block} {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    &__item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        height: 24px;
+        white-space: nowrap;
+        color: var(--g-color-text-primary);
+
+        &:last-child {
+            font-weight: var(--g-text-accent-font-weight);
+            overflow: hidden;
+
+            #{$block}__link {
+                @include mixins.overflow-ellipsis();
+            }
+        }
+
+        &_calculating:last-child {
+            overflow: visible;
+        }
+    }
+
+    &__link {
+        cursor: default;
+        position: relative;
+        text-decoration: none;
+        outline: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+
+        height: 24px;
+        line-height: 24px;
+        vertical-align: middle;
+        border-radius: var(--g-focus-border-radius);
+
+        color: inherit;
+
+        &_is-disabled {
+            color: var(--g-color-text-hint);
+        }
+
+        &:not([aria-disabled]) {
+            cursor: pointer;
+
+            &:hover {
+                color: var(--g-color-text-link-hover);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--g-color-line-focus);
+        }
+    }
+
+    &__divider {
+        display: flex;
+        align-items: center;
+        color: var(--g-color-text-secondary);
+        padding: 0 var(--g-spacing-2);
+    }
+
+    &__more-button {
+        --g-button-border-radius: var(--g-focus-border-radius);
+        --g-button-focus-outline-offset: -2px;
+    }
+
+    &__menu {
+        margin-inline: calc(-1 * var(--g-spacing-2));
+    }
+
+    &__item:first-child &__menu {
+        margin-inline-start: 0;
+    }
+
+    &__popup_staircase {
+        $menu: '.#{variables.$ns}menu';
+        $staircaseLength: 10;
+        #{$menu} {
+            #{$menu}__list-item {
+                #{$menu}__item[class] {
+                    padding-inline-start: 8px * $staircaseLength;
+                }
+            }
+
+            @for $i from 0 through $staircaseLength {
+                #{$menu}__list-item:nth-child(#{$i}) {
+                    #{$menu}__item[class] {
+                        padding-inline-start: 8px * $i;
+                    }
+                }
+            }
+        }
+    }
+}

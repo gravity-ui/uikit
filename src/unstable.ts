@@ -24,3 +24,12 @@ export {
     TreeList as unstable_TreeList,
     type TreeListProps as unstable_TreeListProps,
 } from './components/TreeList';
+
+export {
+    Breadcrumbs as unstable_Breadcrumbs,
+    BreadcrumbsItem as unstable_BreadcrumbsItem,
+} from './components/lab/Breadcrumbs';
+export type {
+    BreadcrumbsProps as unstable_BreadcrumbsProps,
+    BreadcrumbsItemProps as unstable_BreadcrumbsItemProps,
+} from './components/lab/Breadcrumbs';

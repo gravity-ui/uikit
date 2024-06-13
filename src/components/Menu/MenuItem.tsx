@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {useActionHandlers} from '../../hooks';
@@ -72,7 +74,7 @@ export const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(function Me
         tabIndex: disabled ? -1 : 0,
         className: b(
             'item',
-            {disabled, active, selected, theme, interactive: Boolean(onClick)},
+            {disabled, active, selected, theme, interactive: Boolean(onClick) || Boolean(href)},
             className,
         ),
         'data-qa': qa,

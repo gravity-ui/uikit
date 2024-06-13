@@ -27,10 +27,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref)
         qa,
     } = props;
 
-    const style = React.useMemo(
-        () => ({backgroundColor, color: borderColor, ...styleProp}),
-        [backgroundColor, borderColor, styleProp],
-    );
+    const style = {backgroundColor, color: borderColor, ...styleProp};
 
     const renderContent = () => {
         if ('imgUrl' in props && props.imgUrl) {

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {useRadioGroup} from '../../hooks/private';
@@ -84,10 +86,9 @@ export const RadioButton = React.forwardRef(function RadioButton<T extends strin
         [],
     );
 
-    const handlePlateTransitionEnd: React.TransitionEventHandler<HTMLDivElement> =
-        React.useCallback((event) => {
-            event.currentTarget.hidden = true;
-        }, []);
+    const handlePlateTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = (event) => {
+        event.currentTarget.hidden = true;
+    };
 
     const {containerProps, optionsProps} = useRadioGroup({...props, options});
 

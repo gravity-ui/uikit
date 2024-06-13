@@ -1,12 +1,14 @@
+'use client';
+
 import React from 'react';
 
 import type {DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
-import {isIcon} from '../utils/common';
+import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
 import {isOfType} from '../utils/isOfType';
 
-import {ButtonIcon} from './ButtonIcon';
+import {ButtonIcon, getIconSide} from './ButtonIcon';
 
 import './Button.scss';
 
@@ -193,16 +195,22 @@ ButtonWithHandlers.displayName = 'Button';
 export const Button = Object.assign(ButtonWithHandlers, {Icon: ButtonIcon});
 
 const isButtonIconComponent = isOfType(ButtonIcon);
+const isSpan = isOfType<{className?: string}>('span');
+const buttonIconClassRe = RegExp(`^${b('icon')}($|\\s+\\w)`);
 
+// eslint-disable-next-line complexity
 function prepareChildren(children: React.ReactNode) {
     const items = React.Children.toArray(children);
 
     if (items.length === 1) {
         const onlyItem = items[0];
+        const isButtonIconElement =
+            isButtonIconComponent(onlyItem) ||
+            (isSpan(onlyItem) && buttonIconClassRe.test(onlyItem.props.className || ''));
 
-        if (isButtonIconComponent(onlyItem)) {
+        if (isButtonIconElement) {
             return onlyItem;
-        } else if (isIcon(onlyItem)) {
+        } else if (isIcon(onlyItem) || isSvg(onlyItem)) {
             return <Button.Icon key="icon">{onlyItem}</Button.Icon>;
         } else {
             return (
@@ -216,10 +224,12 @@ function prepareChildren(children: React.ReactNode) {
         const content = [];
 
         for (const item of items) {
-            const isIconElement = isIcon(item);
+            const isIconElement = isIcon(item) || isSvg(item);
             const isButtonIconElement = isButtonIconComponent(item);
+            const isRenderedButtonIconElement =
+                isSpan(item) && buttonIconClassRe.test(item.props.className || '');
 
-            if (isIconElement || isButtonIconElement) {
+            if (isIconElement || isButtonIconElement || isRenderedButtonIconElement) {
                 if (!startIcon && content.length === 0) {
                     const key = 'icon-start';
                     const side = 'start';
@@ -229,9 +239,13 @@ function prepareChildren(children: React.ReactNode) {
                                 {item}
                             </Button.Icon>
                         );
-                    } else {
+                    } else if (isButtonIconElement) {
                         startIcon = React.cloneElement(item, {
                             side,
+                        });
+                    } else {
+                        startIcon = React.cloneElement(item, {
+                            className: b('icon', {side: getIconSide(side)}, item.props.className),
                         });
                     }
                 } else if (!endIcon && content.length !== 0) {
@@ -243,9 +257,13 @@ function prepareChildren(children: React.ReactNode) {
                                 {item}
                             </Button.Icon>
                         );
-                    } else {
+                    } else if (isButtonIconElement) {
                         endIcon = React.cloneElement(item, {
                             side,
+                        });
+                    } else {
+                        endIcon = React.cloneElement(item, {
+                            className: b('icon', {side: getIconSide(side)}, item.props.className),
                         });
                     }
                 }

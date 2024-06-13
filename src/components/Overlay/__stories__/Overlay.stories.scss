@@ -1,6 +1,6 @@
 @use '../../variables';
 
-$block: '.#{variables.$ns}overlay-showcase';
+$block: '.#{variables.$ns}overlay-stories';
 
 #{$block} {
     &__content {

@@ -38,9 +38,9 @@ You can use `base` or `float` background colors.
 
 ## Properties
 
-| Name       | Type               | Required | Default | Description                         |
-| :--------- | :----------------- | :------: | :------ | :---------------------------------- |
-| className  | `String`           |          |         | CSS class name of the root element  |
-| visible    | `Boolean`          |          | `false` | Overlay visibility state            |
-| background | `"base"` `"float"` |          | `base`  | Overlay background style            |
-| children   | `React.ReactNode`  |          |         | Content, usually a Loader component |
+| Name       | Description                         |        Type        | Default |
+| :--------- | :---------------------------------- | :----------------: | :-----: |
+| className  | CSS class name of the root element  |      `String`      |         |
+| visible    | Overlay visibility state            |     `Boolean`      | `false` |
+| background | Overlay background style            | `"base"` `"float"` | `base`  |
+| children   | Content, usually a Loader component | `React.ReactNode`  |         |

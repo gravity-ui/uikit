@@ -3,12 +3,13 @@ import React from 'react';
 import {ArrowsRotateRight} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react';
 
+import {Showcase} from '../../../demo/Showcase';
+import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Button} from '../../Button';
-import {Dialog as DialogComponent} from '../../Dialog';
 import {Icon} from '../../Icon';
 import {Loader} from '../../Loader';
 import {Table as TableComponent} from '../../Table';
-import {Box, Flex} from '../../layout';
+import {Box} from '../../layout';
 import {block} from '../../utils/cn';
 import {Overlay} from '../Overlay';
 import type {OverlayProps} from '../Overlay';
@@ -16,9 +17,9 @@ import type {OverlayProps} from '../Overlay';
 import {columns, data} from './data';
 import type {DataItem} from './data';
 
-import './OverlayShowcase.scss';
+import './Overlay.stories.scss';
 
-const b = block('overlay-showcase');
+const b = block('overlay-stories');
 
 type Story = StoryObj<typeof Overlay>;
 
@@ -33,7 +34,7 @@ export const Default: Story = {
     },
     render: (args) => {
         return (
-            <div className={b()}>
+            <Showcase>
                 <Box position="relative" className={b('content')}>
                     <div>Example of overlay</div>
                     <div>with loader</div>
@@ -58,7 +59,7 @@ export const Default: Story = {
                     <div>without children</div>
                     <Overlay {...args} />
                 </Box>
-            </div>
+            </Showcase>
         );
     },
 };
@@ -69,66 +70,27 @@ export const Background: Story = {
     },
     render: (args) => {
         return (
-            <div className={b()}>
-                <Box position="relative" className={b('content')}>
-                    <div>I am an example</div>
-                    <div>content</div>
-                    <Overlay {...args} background="base" />
-                </Box>
-                <span style={{margin: '16px'}} />
-                <Box position="relative" className={b('content')}>
-                    <div>I am an example</div>
-                    <div>content</div>
-                    <Overlay {...args} background="float" />
-                </Box>
-            </div>
-        );
-    },
-};
-
-export const DialogTemplate: Story = {
-    args: {
-        visible: true,
-    },
-    render: (args) => {
-        const dialogTitleId = 'app-dialog-title';
-        return (
-            <DialogComponent
-                open
-                onClose={() => {}}
-                onEnterKeyDown={() => {
-                    alert('onEnterKeyDown');
-                }}
-                aria-labelledby={dialogTitleId}
-            >
-                <DialogComponent.Header caption="Caption" id={dialogTitleId} />
-                <DialogComponent.Body>
-                    <Box position="relative" width={480} height={212}>
-                        <Flex direction="column" gap={2}>
-                            Some text to show in dialog body
-                            <Button>Some interaction</Button>
-                        </Flex>
-                        <Overlay {...args}>
-                            <Flex direction="column" centerContent>
-                                <Loader size="m" />
-                                <Box style={{textAlign: 'center'}} spacing={{mt: 3}}>
-                                    Loading text about process with long description to show
-                                    <br /> max content-width
-                                </Box>
-                            </Flex>
-                        </Overlay>
+            <Showcase>
+                <ShowcaseItem title="base">
+                    <Box position="relative" className={b('content')}>
+                        <div>I am an example</div>
+                        <div>content</div>
+                        <Overlay {...args} background="base" />
                     </Box>
-                </DialogComponent.Body>
-                <DialogComponent.Footer
-                    onClickButtonApply={() => alert('onApply')}
-                    textButtonApply="Apply"
-                />
-            </DialogComponent>
+                </ShowcaseItem>
+                <ShowcaseItem title="float">
+                    <Box position="relative" className={b('content')}>
+                        <div>I am an example</div>
+                        <div>content</div>
+                        <Overlay {...args} background="float" />
+                    </Box>
+                </ShowcaseItem>
+            </Showcase>
         );
     },
 };
 
-const TableShowcase = (args: OverlayProps) => {
+const TableView = (args: OverlayProps) => {
     const [loading, setLoading] = React.useState(false);
     const [loadedData, setData] = React.useState<DataItem[]>([]);
 
@@ -162,5 +124,5 @@ const TableShowcase = (args: OverlayProps) => {
 
 export const Table: Story = {
     args: {},
-    render: TableShowcase,
+    render: TableView,
 };

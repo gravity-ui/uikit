@@ -81,7 +81,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
             {...linkProps}
             className={
                 props.itemType === 'menu'
-                    ? undefined
+                    ? b('menu')
                     : b('link', {
                           'is-current': props.current,
                           'is-disabled': isDisabled && !props.current,

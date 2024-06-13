@@ -78,10 +78,13 @@ $block: '.#{variables.$ns}breadcrumbs2';
     &__more-button {
         --g-button-border-radius: var(--g-focus-border-radius);
         --g-button-focus-outline-offset: -2px;
+    }
+
+    &__menu {
         margin-inline: calc(-1 * var(--g-spacing-2));
     }
 
-    &__item:first-child &__more-button {
+    &__item:first-child &__menu {
         margin-inline-start: 0;
     }
 

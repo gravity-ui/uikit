@@ -8,4 +8,15 @@ $block: '.#{variables.$ns}inner-table-column-setup';
     &__controls {
         margin: var(--g-spacing-1) var(--g-spacing-1) 0;
     }
+
+    &__filter-input {
+        box-sizing: border-box;
+        padding: 0 var(--g-spacing-2) var(--g-spacing-1);
+
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__empty-placeholder {
+        padding: var(--g-spacing-2);
+    }
 }

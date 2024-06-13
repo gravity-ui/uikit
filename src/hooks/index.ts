@@ -9,6 +9,7 @@ export * from './useIntersection';
 export * from './useListNavigation';
 export * from './useOutsideClick';
 export * from './usePortalContainer';
+export * from './useResizeObserver';
 export * from './useSelect';
 export * from './useTimeout';
 export * from './useViewportSize';

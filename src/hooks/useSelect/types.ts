@@ -20,6 +20,7 @@ export type UseSelectResult<T> = {
     activeIndex: number | undefined;
     handleSelection: (option: UseSelectOption<T>) => void;
     handleClearValue: () => void;
+    setValue: (value: string[]) => void;
     toggleOpen: (val?: boolean | undefined) => void;
     setActiveIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
 };

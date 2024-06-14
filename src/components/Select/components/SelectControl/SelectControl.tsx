@@ -31,7 +31,6 @@ type ControlProps = {
     size: NonNullable<SelectProps['size']>;
     pin: NonNullable<SelectProps['pin']>;
     selectedOptionsContent: React.ReactNode;
-    name?: string;
     className?: string;
     qa?: string;
     label?: string;
@@ -58,7 +57,6 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         selectedOptionsContent,
         className,
         qa,
-        name,
         label,
         placeholder,
         isErrorVisible,
@@ -186,7 +184,6 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                             ? undefined
                             : `${selectId}-list-item-${activeIndex}`
                     }
-                    name={name}
                     disabled={disabled}
                     onClick={handleControlClick}
                     onKeyDown={onKeyDown}

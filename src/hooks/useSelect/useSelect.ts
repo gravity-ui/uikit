@@ -66,6 +66,7 @@ export const useSelect = <T extends unknown>({
     return {
         value,
         activeIndex,
+        setValue,
         handleSelection,
         handleClearValue,
         toggleOpen,

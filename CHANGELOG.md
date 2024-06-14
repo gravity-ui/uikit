@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.18.0](https://github.com/gravity-ui/uikit/compare/v6.17.0...v6.18.0) (2024-06-14)
+
+
+### Features
+
+* **Breadcrumbs:** new component ([#1497](https://github.com/gravity-ui/uikit/issues/1497)) ([5cdc675](https://github.com/gravity-ui/uikit/commit/5cdc6753d4461b8e531870bcd9f4724dc6782d80))
+* **Select:** support form ([#1644](https://github.com/gravity-ui/uikit/issues/1644)) ([1ad73b6](https://github.com/gravity-ui/uikit/commit/1ad73b69679a55001d50e97db1d40484d3e04c8c))
+* support RSC ([#1582](https://github.com/gravity-ui/uikit/issues/1582)) ([770d787](https://github.com/gravity-ui/uikit/commit/770d787ef5952de5ccc45595065fa50b1f1d48f9))
+* **Table:** add filter to colum settings ([#1627](https://github.com/gravity-ui/uikit/issues/1627)) ([6eca546](https://github.com/gravity-ui/uikit/commit/6eca54635f8fbbcf6960ff6bb96563273b458700))
+
+
+### Bug Fixes
+
+* **Button:** remove useless pointer-events style for icon content ([#1641](https://github.com/gravity-ui/uikit/issues/1641)) ([47b9850](https://github.com/gravity-ui/uikit/commit/47b985030df97f46fc16d283e75a4f8b395ff4db))
+* **PinInput:** add use client ([#1646](https://github.com/gravity-ui/uikit/issues/1646)) ([d0bdede](https://github.com/gravity-ui/uikit/commit/d0bdede7c79e5102db41b73b0350056c49c67ace))
+
 ## [6.17.0](https://github.com/gravity-ui/uikit/compare/v6.16.0...v6.17.0) (2024-06-11)
 
 

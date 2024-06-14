@@ -79,7 +79,7 @@ export type PopoverBehaviorProps = {
      * DelayedClosing - with 300ms delay only for closing
      * Won't be applied if `delayOpening` or `delayClosing` are passed
      */
-    behavior?: PopoverBehavior;
+    behavior?: `${PopoverBehavior}`;
     /**
      * Custom delay for opening if openOnHover
      */

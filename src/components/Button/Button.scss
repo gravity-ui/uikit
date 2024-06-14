@@ -276,7 +276,6 @@ $block: '.#{variables.$ns}button';
             );
         width: var(--g-button-height, var(--_--height));
         height: var(--g-button-height, var(--_--height));
-        pointer-events: none;
 
         &::after {
             content: '\00a0';

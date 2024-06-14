@@ -2,7 +2,7 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {act, render, screen} from '../../../../test-utils/utils';
 import {ClipboardButton} from '../ClipboardButton';
 
 describe('ClipboardButton', () => {
@@ -28,7 +28,7 @@ describe('ClipboardButton', () => {
 
         render(<ClipboardButton text="Text to copy" onCopy={onCopy} />);
         const button = screen.getByRole('button');
-        button.focus();
+        act(() => button.focus());
         await user.keyboard(key);
 
         expect(onCopy).toHaveBeenCalledWith('Text to copy', true);

@@ -10,7 +10,14 @@ import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import type {CnMods} from '../utils/cn';
 
-import {EmptyOptions, SelectControl, SelectFilter, SelectList, SelectPopup} from './components';
+import {
+    EmptyOptions,
+    HiddenSelect,
+    SelectControl,
+    SelectFilter,
+    SelectList,
+    SelectPopup,
+} from './components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
@@ -63,6 +70,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         getOptionGroupHeight,
         filterOption,
         name,
+        form,
         className,
         controlClassName,
         popupClassName,
@@ -130,6 +138,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         open,
         activeIndex,
         toggleOpen,
+        setValue,
         handleSelection,
         handleClearValue,
         setActiveIndex,
@@ -326,7 +335,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 ref={handleControlRef}
                 className={controlClassName}
                 qa={qa}
-                name={name}
                 view={view}
                 size={size}
                 pin={pin}
@@ -347,7 +355,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 renderCounter={renderCounter}
                 title={title}
             />
-
             <SelectPopup
                 ref={controlWrapRef}
                 className={popupClassName}
@@ -363,10 +370,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
             </SelectPopup>
-
             <OuterAdditionalContent
                 errorMessage={isErrorMsgVisible ? errorMessage : null}
                 errorMessageId={errorMessageId}
+            />
+            <HiddenSelect
+                name={name}
+                value={value}
+                disabled={disabled}
+                form={form}
+                onReset={setValue}
             />
         </div>
     );

@@ -1,5 +1,3 @@
-/* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
-
 import React from 'react';
 
 import {render, screen} from '../../../../test-utils/utils';
@@ -35,89 +33,96 @@ describe('getXpath', () => {
     describe('no option', () => {
         it('should get xpath', () => {
             const onClick = jest.fn();
-            render(<div onClick={onClick}>{clickText}</div>);
+            render(<button onClick={onClick}>{clickText}</button>);
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
-            expect(xpath).toBe(rootBuilder.append().xpath);
-            expect(hash).toMatchInlineSnapshot(`"ae152984744905d6e135619e32e8a06e"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"06047633dfa8f1dc342f0043e3fd2d8a"`);
         });
 
         it('should get xpath with class name', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="target">
+                <button onClick={onClick} className="target">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
-            expect(xpath).toBe(rootBuilder.append({className: 'target'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"af0aa4559887e5d354f9e3da443f4ec7"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button', className: 'target'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"ca58c57979157ea240d888250952f894"`);
         });
 
         it('should get xpath with multiply class names', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="target target_important or-maybe__not_important">
+                <button
+                    onClick={onClick}
+                    className="target target_important or-maybe__not_important"
+                >
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
             expect(xpath).toBe(
-                rootBuilder.append({className: 'target target_important or-maybe__not_important'})
-                    .xpath,
+                rootBuilder.append({
+                    tag: 'button',
+                    className: 'target target_important or-maybe__not_important',
+                }).xpath,
             );
-            expect(hash).toMatchInlineSnapshot(`"71133dcb198e2a619bd0f83f4b5f37a8"`);
+            expect(hash).toMatchInlineSnapshot(`"1a6031f4c97b0e7ce630f7fa4bc7ea3d"`);
         });
 
         it('should get xpath with id', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} id="target">
+                <button onClick={onClick} id="target">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
-            expect(xpath).toBe(rootBuilder.append({id: 'target'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"ab5d7778edde59b97b55ea2ff0fe2b28"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button', id: 'target'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"5f6de171df35b0fa2ff1c810f18ee6b8"`);
         });
 
         it('should get xpath with only id', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="class-name" id="id">
+                <button onClick={onClick} className="class-name" id="id">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
-            expect(xpath).toBe(rootBuilder.append({id: 'id'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"aad885cd5dfa17a63e475c43e23b572d"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button', id: 'id'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"6d76706cf7f6317ad1af0a2a7279e9eb"`);
         });
 
         it('should get xpath from deep tag', () => {
             const onClick = jest.fn();
             render(
                 <main className="main">
-                    <div onClick={onClick} id="target">
+                    <button onClick={onClick} id="target">
                         {clickText}
-                    </div>
+                    </button>
                 </main>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
             expect(xpath).toBe(
-                rootBuilder.append({tag: 'main', className: 'main'}).append({id: 'target'}).xpath,
+                rootBuilder
+                    .append({tag: 'main', className: 'main'})
+                    .append({tag: 'button', id: 'target'}).xpath,
             );
-            expect(hash).toMatchInlineSnapshot(`"52eca834366d0e6e0f1e707a540f5475"`);
+            expect(hash).toMatchInlineSnapshot(`"512d33531a6560e158d173dcab2c527c"`);
         });
 
         it('should ignore same level nodes', () => {
@@ -126,7 +131,7 @@ describe('getXpath', () => {
                 <main>
                     <span>Hello</span>
                     <div>world</div>
-                    <div onClick={onClick}>{clickText}</div>
+                    <button onClick={onClick}>{clickText}</button>
                     <div>!</div>
                     <span>(css is awesome)</span>
                 </main>,
@@ -134,26 +139,26 @@ describe('getXpath', () => {
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
-            expect(xpath).toBe(rootBuilder.append({tag: 'main'}).append().xpath);
-            expect(hash).toMatchInlineSnapshot(`"65f32734376f55e3648401f011cc75c5"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'main'}).append({tag: 'button'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"c24ba97aaa529fc229f26220075a3633"`);
         });
 
         it('should ignore subnodes', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick}>
+                <button onClick={onClick}>
                     {clickText}
                     <span>Hello</span>
                     <div>world</div>
                     <div>!</div>
                     (css is awesome)
-                </div>,
+                </button>,
             );
             screen.getByText(new RegExp(`^${clickText}`)).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0]);
-            expect(xpath).toBe(rootBuilder.append().xpath);
-            expect(hash).toMatchInlineSnapshot(`"ae152984744905d6e135619e32e8a06e"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"06047633dfa8f1dc342f0043e3fd2d8a"`);
         });
     });
 
@@ -161,29 +166,29 @@ describe('getXpath', () => {
         it('should ignore id', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} id="id">
+                <button onClick={onClick} id="id">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0], {withoutId: true});
-            expect(xpath).toBe(rootBuilder.append().xpath);
-            expect(hash).toMatchInlineSnapshot(`"ae152984744905d6e135619e32e8a06e"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"06047633dfa8f1dc342f0043e3fd2d8a"`);
         });
 
         it('should ignore id 2', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="class-name" id="id">
+                <button onClick={onClick} className="class-name" id="id">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0], {withoutId: true});
-            expect(xpath).toBe(rootBuilder.append({className: 'class-name'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"bfdf511bca38e29bdc45c5fc556ce9a7"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button', className: 'class-name'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"11bf62fa086f7200f06948db45ef1713"`);
         });
 
         it('should transform class names', () => {
@@ -191,9 +196,9 @@ describe('getXpath', () => {
             render(
                 <div>
                     <div className="container">
-                        <div onClick={onClick} className="target target-2">
+                        <button onClick={onClick} className="target target-2">
                             {clickText}
-                        </div>
+                        </button>
                     </div>
                 </div>,
             );
@@ -209,33 +214,34 @@ describe('getXpath', () => {
                 rootBuilder
                     .append()
                     .append({className: 'container__converted'})
-                    .append({className: 'target__converted target-2__converted'}).xpath,
+                    .append({tag: 'button', className: 'target__converted target-2__converted'})
+                    .xpath,
             );
-            expect(hash).toMatchInlineSnapshot(`"9f0dc952032536615fd5217d02f47f09"`);
+            expect(hash).toMatchInlineSnapshot(`"ee66d41ab46d9c19534e94b18f63d481"`);
         });
 
         it('should ignore class name convert if id exist', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="class__name" id="id">
+                <button onClick={onClick} className="class__name" id="id">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
             const {xpath, hash} = getXpath(onClick.mock.calls[0][0], {
                 classConverter: ({block}) => ({block}),
             });
-            expect(xpath).toBe(rootBuilder.append({id: 'id'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"aad885cd5dfa17a63e475c43e23b572d"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button', id: 'id'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"6d76706cf7f6317ad1af0a2a7279e9eb"`);
         });
 
         it('should not ignore class name convert if withoutId', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="class__name" id="id">
+                <button onClick={onClick} className="class__name" id="id">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
@@ -243,20 +249,20 @@ describe('getXpath', () => {
                 classConverter: ({block}) => ({block}),
                 withoutId: true,
             });
-            expect(xpath).toBe(rootBuilder.append({className: 'class'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"5296eda04d18e2ab7e41f1a2e293a4bf"`);
+            expect(xpath).toBe(rootBuilder.append({tag: 'button', className: 'class'}).xpath);
+            expect(hash).toMatchInlineSnapshot(`"c1569cbf5d014325012a5a6f5f779aff"`);
         });
 
         it('should remove mods correctly', () => {
             const onClick = jest.fn();
             render(
-                <div
+                <button
                     onClick={onClick}
                     className="class class__name class__name_mod target_status_important"
                     id="id"
                 >
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
@@ -264,20 +270,22 @@ describe('getXpath', () => {
                 classConverter: withoutClassMods(),
                 withoutId: true,
             });
-            expect(xpath).toBe(rootBuilder.append({className: 'class class__name'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"d7c4a0991ef83687ec9be6a2e342d6e5"`);
+            expect(xpath).toBe(
+                rootBuilder.append({tag: 'button', className: 'class class__name'}).xpath,
+            );
+            expect(hash).toMatchInlineSnapshot(`"41dc268299e67f35d60fc33fd2bb6727"`);
         });
 
         it('should remove mods correctly 2', () => {
             const onClick = jest.fn();
             render(
-                <div
+                <button
                     onClick={onClick}
                     className="class class__name class__name_mod target_status_important"
                     id="id"
                 >
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
@@ -289,17 +297,18 @@ describe('getXpath', () => {
                 withoutId: true,
             });
             expect(xpath).toBe(
-                rootBuilder.append({className: 'class_no-mod class__name_no-mod'}).xpath,
+                rootBuilder.append({tag: 'button', className: 'class_no-mod class__name_no-mod'})
+                    .xpath,
             );
-            expect(hash).toMatchInlineSnapshot(`"e1cc78e4024420bc11aed6dbc612e97c"`);
+            expect(hash).toMatchInlineSnapshot(`"9791ba0c06b49ee90186fdfcea5fb54a"`);
         });
 
         it('should get tags', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className="class">
+                <button onClick={onClick} className="class">
                     {clickText}
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
@@ -309,20 +318,22 @@ describe('getXpath', () => {
                     element: tag,
                 }),
             });
-            expect(xpath).toBe(rootBuilder.append({className: 'class__div'}).xpath);
-            expect(hash).toMatchInlineSnapshot(`"bf5138ce0f335973b588b4c3029e1335"`);
+            expect(xpath).toBe(
+                rootBuilder.append({tag: 'button', className: 'class__button'}).xpath,
+            );
+            expect(hash).toMatchInlineSnapshot(`"1c1b1d37c96f75942c84242769825c6e"`);
         });
 
         it('should remove id if it was converted to undefined', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} id={'remove-too'}>
+                <button onClick={onClick} id={'remove-too'}>
                     <div id={'keep-this'} className={'class-2'}>
                         <div id="remove" className={'target class-3'}>
                             {clickText}
                         </div>
                     </div>
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
@@ -330,22 +341,24 @@ describe('getXpath', () => {
                 idConverter: (id) => (id.startsWith('remove') ? undefined : id),
             });
             expect(xpath).toBe(
-                rootBuilder.append().append({id: 'keep-this'}).append({className: 'target class-3'})
-                    .xpath,
+                rootBuilder
+                    .append({tag: 'button'})
+                    .append({id: 'keep-this'})
+                    .append({className: 'target class-3'}).xpath,
             );
-            expect(hash).toMatchInlineSnapshot(`"21df5cf9017ae106f30a9a6608a9cb4a"`);
+            expect(hash).toMatchInlineSnapshot(`"b186a4c63c0e5923dc8d2c9ce9f916d6"`);
         });
 
         it('should convert some ids', () => {
             const onClick = jest.fn();
             render(
-                <div onClick={onClick} className={'class-1'} id={'convert-too'}>
+                <button onClick={onClick} className={'class-1'} id={'convert-too'}>
                     <div id={'keep-this'} className={'class-2'}>
                         <div id="convert" className={'target class-3'}>
                             {clickText}
                         </div>
                     </div>
-                </div>,
+                </button>,
             );
             screen.getByText(clickText).click();
 
@@ -353,10 +366,12 @@ describe('getXpath', () => {
                 idConverter: (id) => id.replace('convert', 'keep'),
             });
             expect(xpath).toBe(
-                rootBuilder.append({id: 'keep-too'}).append({id: 'keep-this'}).append({id: 'keep'})
-                    .xpath,
+                rootBuilder
+                    .append({tag: 'button', id: 'keep-too'})
+                    .append({id: 'keep-this'})
+                    .append({id: 'keep'}).xpath,
             );
-            expect(hash).toMatchInlineSnapshot(`"2ac575742aa22271a17b4e1efb375330"`);
+            expect(hash).toMatchInlineSnapshot(`"b841a18958a6436f4a94eabb27a9647c"`);
         });
     });
 });

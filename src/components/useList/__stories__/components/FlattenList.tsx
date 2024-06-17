@@ -8,9 +8,9 @@ import {ListContainerView} from '../../components/ListContainerView/ListContaine
 import {ListItemView} from '../../components/ListItemView/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
+import {useListItemClick} from '../../hooks/useListItemClick';
 import {useListKeydown} from '../../hooks/useListKeydown';
-import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSize} from '../../types';
+import type {ListItemSize} from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
 import {getItemRenderState} from '../../utils/getItemRenderState';
 import {createRandomizedData} from '../utils/makeData';
@@ -31,37 +31,14 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
     const filterState = useListFilter({items});
 
-    const listState = useListState();
+    const list = useList({items: filterState.items});
 
-    const list = useList({
-        items: filterState.items,
-        ...listState,
-    });
-
-    const onItemClick = React.useCallback(
-        (id: ListItemId) => {
-            if (id in list.groupsState) {
-                listState.setExpanded((state) => ({
-                    ...state,
-                    [id]: id in state ? !state[id] : false,
-                }));
-            } else {
-                listState.setSelected((state) => ({
-                    // can select only one item
-                    [id]: !state[id],
-                }));
-            }
-
-            listState.setActiveItemId(id);
-        },
-        [list, listState],
-    );
+    const onItemClick = useListItemClick({list});
 
     useListKeydown({
         containerRef,
         onItemClick,
-        ...list,
-        ...listState,
+        list,
     });
 
     return (
@@ -75,11 +52,18 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
             <ListContainerView ref={containerRef}>
                 <VirtualizedListContainer
-                    items={list.visibleFlattenIds}
+                    items={list.structure.visibleFlattenIds}
                     itemSize={(index) =>
                         computeItemSize(
                             size,
-                            Boolean(get(list.itemsById[list.visibleFlattenIds[index]], 'subtitle')),
+                            Boolean(
+                                get(
+                                    list.structure.itemsById[
+                                        list.structure.visibleFlattenIds[index]
+                                    ],
+                                    'subtitle',
+                                ),
+                            ),
                         )
                     }
                 >
@@ -89,8 +73,7 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
                             size,
                             onItemClick,
                             mapItemDataToProps: (x) => x,
-                            ...list,
-                            ...listState,
+                            list,
                         });
                         return <ListItemView {...props} hasSelectionIcon={false} />;
                     }}

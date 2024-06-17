@@ -1,50 +1,87 @@
 /* eslint-disable valid-jsdoc */
-import type {
-    InitialListParsedState,
-    ListItemId,
-    ListItemType,
-    ListParsedState,
-    ListState,
-} from '../types';
+import React from 'react';
+
+import type {InitialListParsedState, UseList} from '../types';
 
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
+import type {UseListParsedStateProps} from './useListParsedState';
+import {useListState} from './useListState';
+import type {UseListStateProps} from './useListState';
 
-export interface UseListProps<T> extends Partial<ListState> {
-    items: ListItemType<T>[];
-    /**
-     * Control expanded items state from external source
-     */
-    getItemId?(item: T): ListItemId;
+interface UseListProps<T> extends UseListParsedStateProps<T>, UseListStateProps {
+    mixState?: Partial<InitialListParsedState>;
 }
 
-export type UseListResult<T> = ListParsedState<T> & {initialState: InitialListParsedState};
-
 /**
- * Take array of items as a argument and returns parsed representation of this data structure to work with
+ * Take array of items as a argument with params described what type of list initial data represents.
  */
-export const useList = <T>({items, expandedById, getItemId}: UseListProps<T>): UseListResult<T> => {
+export const useList = <T>({
+    items,
+    getItemId,
+    groupsDefaultState = 'expanded',
+    rootNodesGroups = true,
+    initialValues,
+    mixState,
+}: UseListProps<T>): UseList<T> => {
     const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
         items,
         getItemId,
+        groupsDefaultState,
     });
 
-    const {visibleFlattenIds, idToFlattenIndex} = useFlattenListItems({
+    const initValues = React.useMemo(() => {
+        return {
+            expandedById: {...initialValues?.expandedById, ...initialState.expandedById},
+            selectedById: {...initialValues?.selectedById, ...initialState.selectedById},
+            disabledById: {...initialValues?.disabledById, ...initialState.disabledById},
+        };
+    }, [
+        initialState.disabledById,
+        initialState.expandedById,
+        initialState.selectedById,
+        initialValues?.disabledById,
+        initialValues?.expandedById,
+        initialValues?.selectedById,
+    ]);
+
+    const innerState = useListState({
+        initialValues: initValues,
+        rootNodesGroups,
+    });
+
+    const {visibleFlattenIds, idToFlattenIndex, itemsSchema} = useFlattenListItems({
         items,
         /**
          * By default controlled from list items declaration state
          */
-        expandedById: expandedById || initialState.expandedById,
+        expandedById: innerState.expandedById,
         getItemId,
     });
 
+    const realState = React.useMemo(() => {
+        if (mixState) {
+            return {
+                ...innerState,
+                expandedById: {...innerState.expandedById, ...mixState?.expandedById},
+                selectedById: {...innerState.selectedById, ...mixState?.selectedById},
+                disabledById: {...innerState.disabledById, ...mixState?.disabledById},
+            };
+        }
+
+        return innerState;
+    }, [mixState, innerState]);
+
     return {
-        items,
-        visibleFlattenIds,
-        idToFlattenIndex,
-        itemsById,
-        groupsState,
-        itemsState,
-        initialState,
+        state: realState,
+        structure: {
+            itemsSchema,
+            items,
+            visibleFlattenIds,
+            idToFlattenIndex,
+            itemsById,
+            groupsState,
+            itemsState,
+        },
     };
 };

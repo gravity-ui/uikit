@@ -8,7 +8,7 @@ import {ListWithDnd as ListWithDndExample} from './components/ListWithDnd';
 import type {ListWithDndProps} from './components/ListWithDnd';
 
 export default {
-    title: 'Unstable/useList/ListWithDnd',
+    title: 'Lab/useList/ListWithDnd',
     component: ListWithDndExample,
     parameters: {
         // Strict mode ruins sortable list due to this react-beautiful-dnd issue

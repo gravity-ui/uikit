@@ -5,8 +5,8 @@ import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icon
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView, getListParsedState, useListState} from '../../../useList';
-import type {ListItemCommonProps} from '../../../useList';
+import {ListItemView} from '../../../useList';
+import type {ListItemCommonProps, ListItemId, UseList} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -39,51 +39,54 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
         [itemsCount],
     );
 
-    const [value, setValue] = React.useState<string[]>([]);
+    const onItemClick = (id: ListItemId, list: UseList<{a: string}>) => {
+        if (list.state.disabledById[id]) return;
 
-    const {expandedById, setExpanded} = useListState({
-        initialValues: {
-            expandedById: getListParsedState(items).initialState.expandedById,
-        },
-    });
+        list.state.setSelected((prevState) => ({
+            ...(props.multiple ? prevState : {}),
+            [id]: !prevState[id],
+        }));
+
+        list.state.setActiveItemId(id);
+    };
 
     return (
         <Flex>
             <TreeSelect
                 {...props}
                 size="l"
+                items={items}
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
-                expandedById={expandedById}
-                value={value}
                 renderItem={({
                     data,
                     props: {
                         expanded, // don't use default ListItemView expand icon
                         ...state
                     },
-                    context: {groupState},
+                    context: {childrenIds},
+                    list,
                 }) => {
+                    // groups items are selectable too
+                    state.hasSelectionIcon = Boolean(props.multiple);
+
                     return (
                         <ListItemView
                             {...state}
                             {...mapCustomDataStructureToKnownProps(data)}
+                            onClick={() => onItemClick(state.id, list)}
                             startSlot={
-                                <Icon size={16} data={groupState ? Database : PlugConnection} />
+                                <Icon size={16} data={childrenIds ? Database : PlugConnection} />
                             }
                             endSlot={
-                                groupState ? (
+                                childrenIds ? (
                                     <Button
                                         size="m"
                                         className={spacing({mr: 1})}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setExpanded((prevExpandedState) => ({
+                                            list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                // by default all groups expanded
-                                                [state.id]:
-                                                    state.id in prevExpandedState
-                                                        ? !prevExpandedState[state.id]
-                                                        : false,
+                                                [state.id]: !prevExpandedState[state.id],
                                             }));
                                         }}
                                     >
@@ -94,8 +97,6 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                         />
                     );
                 }}
-                items={items}
-                onUpdate={setValue}
             />
         </Flex>
     );

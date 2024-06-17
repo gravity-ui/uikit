@@ -31,14 +31,20 @@ type ListParsedStateResult<T> = ParsedState<T> & {
     initialState: InitialListParsedState;
 };
 
-export function getListParsedState<T>(
-    items: ListItemType<T>[],
+export interface GetListParsedStateProps<T> {
+    items: ListItemType<T>[];
+    groupsDefaultState?: 'closed' | 'expanded';
     /**
      * For example T is entity type with id what represents db id
      * So now you can use it id as a list item id in internal state
      */
-    getItemId?: (item: T) => ListItemId,
-): ListParsedStateResult<T> {
+    getItemId?: (item: T) => ListItemId;
+}
+export function getListParsedState<T>({
+    items,
+    groupsDefaultState = 'expanded',
+    getItemId,
+}: GetListParsedStateProps<T>): ListParsedStateResult<T> {
     const result: ListParsedStateResult<T> = {
         itemsById: {},
         groupsState: {},
@@ -114,8 +120,12 @@ export function getListParsedState<T>(
                 childrenIds: [],
             };
 
-            if (typeof item.expanded !== 'undefined') {
-                result.initialState.expandedById[id] = item.expanded;
+            if (result.initialState.expandedById) {
+                if (typeof item.expanded === 'undefined') {
+                    result.initialState.expandedById[id] = groupsDefaultState === 'expanded';
+                } else {
+                    result.initialState.expandedById[id] = item.expanded;
+                }
             }
 
             item.children.forEach((treeItem, index) => {

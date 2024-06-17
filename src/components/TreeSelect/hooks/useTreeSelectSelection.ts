@@ -4,25 +4,52 @@ import type {UseOpenProps} from '../../../hooks/useSelect/types';
 import {useOpenState} from '../../../hooks/useSelect/useOpenState';
 import type {ListItemId} from '../../useList/types';
 
-type UseValueProps = {
-    value?: ListItemId[];
-    defaultValue?: ListItemId[];
+type UseValueProps<T extends string | string[]> = {
+    value?: T;
+    defaultValue?: T;
 };
 
-export const useValue = ({defaultValue, value: valueProps}: UseValueProps) => {
-    const [innerValue, setInnerValue] = React.useState(defaultValue || []);
+export const useValue = <T extends ListItemId | ListItemId[]>({
+    defaultValue,
+    value: valueProps,
+}: UseValueProps<T>) => {
+    const [innerValue, setInnerValue] = React.useState<string[]>(
+        Array.isArray(defaultValue) ? defaultValue : [],
+    );
 
-    const value = valueProps || innerValue;
+    const value: string[] = React.useMemo(() => {
+        if (valueProps) {
+            if (Array.isArray(valueProps)) {
+                return valueProps;
+            }
+
+            if (typeof valueProps === 'string') {
+                return [valueProps];
+            }
+
+            return [];
+        }
+
+        return innerValue;
+    }, [valueProps, innerValue]);
+
     const uncontrolled = !valueProps;
 
-    const selected = React.useMemo(
-        () =>
-            value.reduce<Record<ListItemId, boolean>>((acc, value) => {
-                acc[value] = true;
+    const selected: Record<string, boolean> = React.useMemo(() => {
+        if (Array.isArray(value)) {
+            return value.reduce<Record<ListItemId, boolean>>((acc, val) => {
+                acc[val] = true;
+
                 return acc;
-            }, {}),
-        [value],
-    );
+            }, {});
+        }
+
+        if (typeof value === 'string') {
+            return {[value]: true};
+        }
+
+        return {};
+    }, [value]);
 
     return {
         selected,

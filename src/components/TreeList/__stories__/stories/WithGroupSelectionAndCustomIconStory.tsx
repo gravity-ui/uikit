@@ -5,11 +5,11 @@ import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icon
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView, useListState} from '../../../useList';
-import type {ListItemCommonProps} from '../../../useList';
+import {ListItemView, useList} from '../../../useList';
+import type {ListItemCommonProps, ListItemId} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
-import type {TreeListOnItemClick, TreeListProps} from '../../types';
+import type {TreeListProps} from '../../types';
 
 const expandButtonLabel = 'Expand';
 const closeButtonLabel = 'Close';
@@ -24,7 +24,7 @@ interface CustomDataStructure {
 export interface WithGroupSelectionAndCustomIconStoryProps
     extends Omit<
         TreeListProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'multiple' | 'cantainerRef' | 'size' | 'mapItemDataToProps'
+        'value' | 'onUpdate' | 'items' | 'cantainerRef' | 'size' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
 }
@@ -42,55 +42,52 @@ export const WithGroupSelectionAndCustomIconStory = ({
         [itemsCount],
     );
 
-    const listState = useListState();
+    const list = useList({items});
 
-    const handleItemClick: TreeListOnItemClick<CustomDataStructure> = ({id, disabled}) => {
-        if (disabled) return;
+    const onItemClick = ({id}: {id: ListItemId}) => {
+        if (list.state.disabledById[id]) return;
 
-        listState.setSelected((prevState) => ({
+        list.state.setSelected((prevState) => ({
+            ...(props.multiple ? prevState : {}),
             [id]: !prevState[id],
         }));
 
-        listState.setActiveItemId(id);
+        list.state.setActiveItemId(id);
     };
 
     return (
         <Flex direction="column" gap="3">
             <TreeList
                 {...props}
+                list={list}
                 size="l"
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
-                {...listState}
-                onItemClick={handleItemClick}
+                onItemClick={onItemClick}
                 renderItem={({
                     data,
                     props: {
                         expanded, // don't use default ListItemView expand icon
                         ...state
                     },
-                    context: {groupState},
+                    context: {childrenIds},
                 }) => {
                     return (
                         <ListItemView
                             {...state}
                             {...mapCustomDataStructureToKnownProps(data)}
                             startSlot={
-                                <Icon size={16} data={groupState ? Database : PlugConnection} />
+                                <Icon size={16} data={childrenIds ? Database : PlugConnection} />
                             }
                             endSlot={
-                                groupState ? (
+                                childrenIds ? (
                                     <Button
                                         size="m"
                                         className={spacing({mr: 1})}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            listState.setExpanded((prevExpandedState) => ({
+                                            list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                // by default all groups expanded
-                                                [state.id]:
-                                                    state.id in prevExpandedState
-                                                        ? !prevExpandedState[state.id]
-                                                        : false,
+                                                [state.id]: !prevExpandedState[state.id],
                                             }));
                                         }}
                                         extraProps={{
@@ -106,7 +103,6 @@ export const WithGroupSelectionAndCustomIconStory = ({
                         />
                     );
                 }}
-                items={items}
             />
         </Flex>
     );

@@ -6,26 +6,16 @@ import type {TreeListRenderContainerProps} from '../../types';
 
 export const TreeListContainer = <T,>({
     qa,
-    items,
     id,
     containerRef,
-    expandedById,
     renderItem,
     className,
-    idToFlattenIndex,
-    getItemId,
+    list,
 }: TreeListRenderContainerProps<T>) => {
     return (
         <ListContainerView ref={containerRef} className={className} id={id} qa={qa}>
-            {items.map((itemSchema, index) => (
-                <ListItemRecursiveRenderer
-                    key={index}
-                    idToFlattenIndex={idToFlattenIndex}
-                    itemSchema={itemSchema}
-                    index={index}
-                    expandedById={expandedById}
-                    getItemId={getItemId}
-                >
+            {list.structure.itemsSchema.map((itemSchema, index) => (
+                <ListItemRecursiveRenderer key={index} itemSchema={itemSchema}>
                     {renderItem}
                 </ListItemRecursiveRenderer>
             ))}

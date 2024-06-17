@@ -3,58 +3,50 @@ import React from 'react';
 
 import type {ListState} from '../types';
 
-interface UseListStateProps {
+export interface UseListStateProps {
     /**
      * Initial state values
      */
     initialValues?: Partial<ListState>;
-    /**
-     * Ability to pass link to another state value
-     *
-     * ```tsx
-     * const listState = useListState()
-     *
-     * // inside your component
-     * const innerListState = useListState({
-     *  controlledValues: listState
-     * })
-     * ```
-     */
-    controlledValues?: Partial<ListState>;
+    rootNodesGroups?: boolean;
 }
 
-function useControlledState<T>(value: T, defaultValue: T) {
-    const [state, setState] = React.useState(value || defaultValue);
+export const useListState = ({initialValues, rootNodesGroups}: UseListStateProps): ListState => {
+    const initialValuesRef = React.useRef(initialValues);
+    const needToUpdateInitValues = initialValuesRef.current !== initialValues;
+    initialValuesRef.current = initialValues;
 
-    return [value || state, setState] as const;
-}
+    const [disabledById, setDisabled] = React.useState(() => initialValues?.disabledById ?? {});
+    const [selectedById, setSelected] = React.useState(() => initialValues?.selectedById ?? {});
+    const [expandedById, setExpanded] = React.useState(() => initialValues?.expandedById ?? {});
+    const [activeItemId, setActiveItemId] = React.useState(() => initialValues?.activeItemId);
 
-export const useListState = ({initialValues, controlledValues}: UseListStateProps = {}) => {
-    const [disabledById, setDisabled] = useControlledState(
-        controlledValues?.disabledById!,
-        initialValues?.disabledById || {},
-    );
-    const [selectedById, setSelected] = useControlledState(
-        controlledValues?.selectedById!,
-        initialValues?.selectedById || {},
-    );
-    const [expandedById, setExpanded] = useControlledState(
-        controlledValues?.expandedById!,
-        initialValues?.expandedById || {},
-    );
-    const [activeItemId, setActiveItemId] = useControlledState(
-        controlledValues?.activeItemId,
-        initialValues?.activeItemId,
-    );
+    if (needToUpdateInitValues) {
+        if (initialValues?.disabledById) {
+            setDisabled((prevValues) => ({...initialValues.disabledById, ...prevValues}));
+        }
+        if (initialValues?.selectedById) {
+            setSelected((prevValues) => ({...initialValues.selectedById, ...prevValues}));
+        }
+        if (initialValues?.expandedById) {
+            setExpanded((prevValues) => ({...initialValues.expandedById, ...prevValues}));
+        }
+        setActiveItemId((prevValue) => prevValue ?? initialValues?.activeItemId);
+    }
 
-    return {
+    const result: ListState = {
         disabledById,
-        setDisabled,
         selectedById,
-        setSelected,
-        expandedById,
-        setExpanded,
         activeItemId,
+        setDisabled,
+        setSelected,
         setActiveItemId,
     };
+
+    if (rootNodesGroups) {
+        result.expandedById = expandedById;
+        result.setExpanded = setExpanded;
+    }
+
+    return result;
 };

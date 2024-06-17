@@ -19,7 +19,7 @@ import {WithItemLinksAndActionsExample} from './components/WithItemLinksAndActio
 import type {WithItemLinksAndActionsExampleProps} from './components/WithItemLinksAndActionsExample';
 
 export default {
-    title: 'Unstable/TreeSelect',
+    title: 'Lab/TreeSelect',
     component: TreeSelect,
     parameters: {
         a11y: {
@@ -50,11 +50,11 @@ const DefaultTemplate: StoryFn<
         <Flex>
             <TreeSelect
                 {...props}
-                mapItemDataToProps={(x) => x}
                 items={items}
-                onUpdate={(...args) =>
-                    console.log('Uncontrolled `TreeSelect onUpdate args: `', ...args)
-                }
+                mapItemDataToProps={(x) => x}
+                withItemClick={(id) => {
+                    console.log('clicked on item with id: ', id);
+                }}
             />
         </Flex>
     );
@@ -72,9 +72,7 @@ const WithGroupSelectionControlledStateAndCustomIconTemplate: StoryFn<
 
 export const WithGroupSelectionControlledStateAndCustomIcon =
     WithGroupSelectionControlledStateAndCustomIconTemplate.bind({});
-WithGroupSelectionControlledStateAndCustomIcon.args = {
-    groupsBehavior: 'selectable',
-};
+WithGroupSelectionControlledStateAndCustomIcon.args = {};
 
 const InfinityScrollTemplate: StoryFn<InfinityScrollExampleProps> = (props) => {
     return <InfinityScrollExample {...props} />;
@@ -82,7 +80,7 @@ const InfinityScrollTemplate: StoryFn<InfinityScrollExampleProps> = (props) => {
 export const InfinityScroll = InfinityScrollTemplate.bind({});
 InfinityScroll.args = {
     size: 'm',
-    multiple: true,
+    groupsDefaultState: 'closed',
 };
 
 const WithFiltrationAndControlsTemplate: StoryFn<WithFiltrationAndControlsExampleProps> = (

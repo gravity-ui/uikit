@@ -3,6 +3,10 @@
 $block: '.#{variables.$ns}tree-select';
 
 #{$block} {
+    display: flex;
+    flex-direction: column;
+    gap: var(--g-spacing-5);
+
     max-width: 100%;
 
     &_width_max {

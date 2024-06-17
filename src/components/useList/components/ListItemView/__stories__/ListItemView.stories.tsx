@@ -6,12 +6,12 @@ import {Avatar} from '../../../../Avatar';
 import {DropdownMenu} from '../../../../DropdownMenu';
 import {Text} from '../../../../Text';
 import {Flex, sp} from '../../../../layout';
-import {useListState} from '../../../hooks/useListState';
+import type {ListItemId} from '../../../../useList/types';
 import {ListItemView as ListItemViewComponent} from '../ListItemView';
 import type {ListItemViewProps} from '../ListItemView';
 
 export default {
-    title: 'Unstable/useList/ListItemView',
+    title: 'Lab/useList/ListItemView',
     component: ListItemViewComponent,
     parameters: {
         a11y: {
@@ -198,7 +198,8 @@ const stories: ListItemViewProps[] = [
 ];
 
 const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => {
-    const listState = useListState();
+    const [expandedById, setExpandedById] = React.useState<Record<ListItemId, boolean>>({});
+    const [selectedById, setSelectedById] = React.useState<Record<ListItemId, boolean>>({});
 
     return (
         <Flex direction="column" role="listbox" aria-label="Sample list">
@@ -206,8 +207,8 @@ const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => {
                 <ListItemViewComponent
                     key={i}
                     {...props}
-                    expanded={listState.expandedById[props.id] ?? props.expanded}
-                    selected={listState.selectedById[props.id]}
+                    expanded={expandedById[props.id] ?? props.expanded}
+                    selected={selectedById[props.id]}
                     onClick={handleClick(props)}
                 />
             ))}
@@ -219,12 +220,12 @@ const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => {
 
         return () => {
             if (isGroup) {
-                listState.setExpanded((prevState) => ({
+                setExpandedById((prevState) => ({
                     ...prevState,
                     [id]: typeof prevState[id] === 'undefined' ? !expanded : !prevState[id],
                 }));
             } else {
-                listState.setSelected((prevState) => ({
+                setSelectedById((prevState) => ({
                     ...prevState,
                     [id]: !prevState[id],
                 }));

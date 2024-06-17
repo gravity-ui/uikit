@@ -6,7 +6,8 @@ import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
-import {ListItemView, useListState} from '../../../useList';
+import {ListItemView, useList} from '../../../useList';
+import type {ListItemId} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
@@ -20,35 +21,38 @@ function identity<T>(value: T): T {
 }
 
 export interface WithItemLinksAndActionsStoryProps
-    extends Omit<
-        TreeListProps<{title: string}>,
-        'items' | 'size' | 'multiple' | 'mapItemDataToProps'
-    > {}
+    extends Omit<TreeListProps<{title: string}>, 'items' | 'size' | 'mapItemDataToProps'> {}
 
 export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStoryProps) => {
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
-    const listState = useListState();
+    const list = useList({items});
+
+    const onItemClick = ({id}: {id: ListItemId}) => {
+        if (list.state.disabledById[id]) return;
+
+        list.state.setSelected((prevState) => ({
+            ...(props.multiple ? prevState : {}),
+            [id]: !prevState[id],
+        }));
+
+        list.state.setActiveItemId(id);
+    };
 
     return (
         <TreeList
             {...props}
-            {...listState}
+            list={list}
             mapItemDataToProps={identity}
+            onItemClick={onItemClick}
             size="l"
-            items={items}
-            onItemClick={({id, selected, disabled, context: {groupState}}) => {
-                if (!groupState && !disabled) {
-                    listState.setSelected({[id]: !selected});
-                }
-            }}
             renderItem={({
                 data,
                 props: {
                     expanded, // don't use build in expand icon ListItemView behavior
                     ...state
                 },
-                context: {groupState},
+                context: {childrenIds},
             }) => {
                 return (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -81,7 +85,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                 />
                             }
                             startSlot={
-                                groupState ? (
+                                childrenIds ? (
                                     <Button
                                         size="m"
                                         view="flat"
@@ -89,13 +93,9 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                             e.stopPropagation();
                                             e.preventDefault();
 
-                                            listState.setExpanded((prevExpandedState) => ({
+                                            list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                // by default all groups expanded
-                                                [state.id]:
-                                                    state.id in prevExpandedState
-                                                        ? !prevExpandedState[state.id]
-                                                        : false,
+                                                [state.id]: !prevExpandedState[state.id],
                                             }));
                                         }}
                                         extraProps={{

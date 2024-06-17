@@ -1,15 +1,16 @@
 /* eslint-disable camelcase */
 export {
     useList as unstable_useList,
-    useListState as unstable_useListState,
     useListFilter as unstable_useListFilter,
     useListKeydown as unstable_useListKeydown,
+    useListItemClick as unstable_useListItemClick,
     ListItemView as unstable_ListItemView,
     type ListItemViewProps as unstable_ListItemViewProps,
     ListContainerView as unstable_ListContainerView,
     type ListContainerViewProps as unstable_ListContainerViewProps,
     type ListItemType as unstable_ListItemType,
     type ListItemId as unstable_ListItemId,
+    type UseList as unstable_UseList,
     getItemRenderState as unstable_getItemRenderState,
     scrollToListItem as unstable_scrollToListItem,
     getListItemQa as unstable_getListItemQa,

@@ -16,6 +16,7 @@ export interface ListContainerViewProps extends QAProps {
     id?: string;
     role?: React.AriaRole;
     className?: string;
+    style?: React.CSSProperties;
     /**
      * Removes `overflow: auto` from container and set fixed container size (`--g-list-height` = `300px`)
      */
@@ -26,7 +27,7 @@ export interface ListContainerViewProps extends QAProps {
 
 export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerViewProps>(
     function ListContainerView(
-        {as = 'div', role = 'listbox', children, id, className, fixedHeight, extraProps, qa},
+        {as = 'div', role = 'listbox', children, id, className, fixedHeight, extraProps, qa, style},
         ref,
     ) {
         return (
@@ -39,6 +40,7 @@ export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerV
                 tabIndex={-1}
                 id={id}
                 role={role}
+                style={style}
                 className={b({'fixed-height': fixedHeight}, className)}
                 {...extraProps}
             >

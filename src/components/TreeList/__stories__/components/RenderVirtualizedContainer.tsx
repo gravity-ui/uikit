@@ -9,7 +9,7 @@ export const RenderVirtualizedContainer = <T,>({
     id,
     qa,
     containerRef,
-    visibleFlattenIds,
+    list,
     renderItem,
     size,
     className,
@@ -24,7 +24,7 @@ export const RenderVirtualizedContainer = <T,>({
             extraProps={{style: {padding: 0}}}
         >
             <VirtualizedListContainer
-                items={visibleFlattenIds}
+                items={list.structure.visibleFlattenIds}
                 itemSize={(_index) => computeItemSize(size)}
             >
                 {renderItem}

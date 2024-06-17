@@ -3,11 +3,11 @@ import React from 'react';
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView, useListState} from '../../../useList';
+import {ListItemView, useList} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
 import {TreeList} from '../../TreeList';
-import type {TreeListOnItemClick, TreeListProps} from '../../types';
+import type {TreeListProps} from '../../types';
 import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
 function identity<T>(value: T): T {
@@ -22,33 +22,9 @@ export interface InfinityScrollStoryProps
     itemsCount?: number;
 }
 
-export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScrollStoryProps) => {
-    const listState = useListState();
+const multiple = true;
 
-    const handleItemClick: TreeListOnItemClick<{title: string}> = ({
-        id,
-        disabled,
-        expanded,
-        selected,
-        context: {groupState},
-    }) => {
-        if (disabled) return;
-
-        listState.setActiveItemId(id);
-
-        if (groupState) {
-            listState.setExpanded((prevState) => ({
-                ...prevState,
-                [id]: !expanded,
-            }));
-        } else {
-            listState.setSelected((prevState) => ({
-                ...prevState,
-                [id]: !selected,
-            }));
-        }
-    };
-
+export const InfinityScrollStory = ({itemsCount = 3, ...storyProps}: InfinityScrollStoryProps) => {
     const {
         data: items = [],
         onFetchMore,
@@ -56,26 +32,21 @@ export const InfinityScrollStory = ({itemsCount = 5, ...storyProps}: InfinityScr
         isLoading,
     } = useInfinityFetch<{title: string}>(itemsCount, true);
 
+    const list = useList({items});
+
     return (
         <Flex direction="column">
-            <TreeList
-                size="l"
+            <TreeList<{title: string}>
                 {...storyProps}
-                {...listState}
+                size="l"
+                list={list}
                 mapItemDataToProps={identity}
-                items={items}
-                multiple
-                onItemClick={handleItemClick}
-                renderItem={({data, props, context: {isLastItem, groupState}}) => {
+                multiple={multiple}
+                renderItem={({props, context: {isLastItem, childrenIds}}) => {
                     const node = (
                         <ListItemView
                             {...props}
-                            {...data}
-                            endSlot={
-                                groupState ? (
-                                    <Label>{groupState.childrenIds.length}</Label>
-                                ) : undefined
-                            }
+                            endSlot={childrenIds ? <Label>{childrenIds.length}</Label> : undefined}
                         />
                     );
 

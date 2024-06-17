@@ -11,7 +11,7 @@ import type {
 } from 'react-beautiful-dnd';
 
 import {Icon} from '../../../Icon';
-import {ListContainerView, ListItemView, useListState} from '../../../useList';
+import {ListContainerView, ListItemView, useList} from '../../../useList';
 import type {ListItemViewProps} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {reorderArray} from '../../../useList/__stories__/utils/reorderArray';
@@ -46,7 +46,12 @@ export interface WithDndListStoryProps
 export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
     const [items, setItems] = React.useState(randomItems);
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const listState = useListState();
+
+    const list = useList({
+        items,
+        // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
+        getItemId: ({id}) => id,
+    });
 
     React.useLayoutEffect(() => {
         containerRef?.current?.focus();
@@ -54,7 +59,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
 
     const renderContainer: TreeListRenderContainer<CustomDataType> = ({
         renderItem,
-        visibleFlattenIds,
+        list,
         containerRef,
         id,
     }) => {
@@ -64,7 +69,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                     reorderArray(currentItems, source.index, destination.index),
                 );
 
-                listState.setActiveItemId(`${destination.index}`);
+                list.state.setActiveItemId(`${destination.index}`);
             }
         };
 
@@ -78,7 +83,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                         rubric: DraggableRubric,
                     ) => {
                         return renderItem(
-                            visibleFlattenIds[rubric.source.index],
+                            list.structure.visibleFlattenIds[rubric.source.index],
                             rubric.source.index,
                             {
                                 provided,
@@ -93,7 +98,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
                                 {...droppableProvided.droppableProps}
                                 ref={droppableProvided.innerRef}
                             >
-                                {visibleFlattenIds.map((listItemId, index) =>
+                                {list.structure.visibleFlattenIds.map((listItemId, index) =>
                                     renderItem(listItemId, index),
                                 )}
                                 {droppableProvided.placeholder}
@@ -142,22 +147,10 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
 
     return (
         <TreeList
-            containerRef={containerRef}
             {...storyProps}
-            items={items}
-            {...listState}
+            list={list}
+            containerRef={containerRef}
             mapItemDataToProps={({someRandomKey}) => ({title: someRandomKey})}
-            // you can omit this prop here. If prop `id` passed, TreeSelect would take it by default
-            getItemId={({id}) => id}
-            onItemClick={({id, disabled, context: {groupState}}) => {
-                if (!groupState && !disabled) {
-                    listState.setSelected((prevState) => ({
-                        [id]: !prevState[id],
-                    }));
-
-                    listState.setActiveItemId(id);
-                }
-            }}
             renderContainer={renderContainer}
             renderItem={renderItem}
         />

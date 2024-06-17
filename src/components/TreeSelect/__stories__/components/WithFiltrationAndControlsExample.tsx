@@ -17,7 +17,7 @@ function identity<T>(value: T): T {
 export interface WithFiltrationAndControlsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'defaultValue' | 'multiple'
     > {
     itemsCount?: number;
 }
@@ -29,7 +29,7 @@ export const WithFiltrationAndControlsExample = ({
     const {items, renderContainer} = React.useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
         const containerRenderer: TreeSelectRenderContainer<{title: string}> = (props) => {
-            if (props.items.length === 0 && baseItems.length > 0) {
+            if (props.list.structure.items.length === 0 && baseItems.length > 0) {
                 return (
                     <Flex centerContent className={spacing({p: 2})} height="300px">
                         <Text variant="subheader-1">Nothing found</Text>

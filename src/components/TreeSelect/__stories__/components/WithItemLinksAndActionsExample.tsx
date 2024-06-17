@@ -6,8 +6,8 @@ import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
-import type {ListItemId} from '../../../useList';
 import {ListItemView} from '../../../useList';
+import type {ListItemId, UseList} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -22,37 +22,39 @@ export interface WithItemLinksAndActionsExampleProps
     > {}
 
 export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
-    const [value, setValue] = React.useState<string[]>([]);
-    const [expandedById, setExpanded] = React.useState<Record<ListItemId, boolean>>({});
+
+    const onItemClick = (id: ListItemId, list: UseList<{title: string}>) => {
+        if (list.state.disabledById[id]) return;
+
+        list.state.setSelected((prevState) => ({
+            ...(props.multiple ? prevState : {}),
+            [id]: !prevState[id],
+        }));
+
+        list.state.setActiveItemId(id);
+
+        setOpen(false);
+    };
 
     return (
         <Flex>
             <TreeSelect
                 {...props}
+                items={items}
                 mapItemDataToProps={identity}
                 open={open}
                 onOpenChange={setOpen}
                 size="l"
-                value={value}
-                items={items}
-                onItemClick={({id, context: {groupState}, disabled}) => {
-                    if (!groupState && !disabled) {
-                        setValue([id]);
-                    }
-
-                    // navigation logic here to support keyboard
-                    setOpen((x) => !x);
-                }}
-                expandedById={expandedById}
                 renderItem={({
                     data,
                     props: {
                         expanded, // don't use build in expand icon ListItemView behavior
                         ...state
                     },
-                    context: {groupState},
+                    context: {childrenIds},
+                    list,
                 }) => {
                     return (
                         // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -63,6 +65,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                             <ListItemView
                                 {...data}
                                 {...state}
+                                onClick={() => onItemClick(state.id, list)}
                                 endSlot={
                                     <DropdownMenu
                                         onSwitcherClick={(e) => {
@@ -83,7 +86,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                                     />
                                 }
                                 startSlot={
-                                    groupState ? (
+                                    childrenIds ? (
                                         <Button
                                             size="m"
                                             view="flat"
@@ -91,13 +94,9 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                                                 e.stopPropagation();
                                                 e.preventDefault();
 
-                                                setExpanded((prevExpandedState) => ({
+                                                list.state.setExpanded?.((prevExpandedState) => ({
                                                     ...prevExpandedState,
-                                                    // by default all groups expanded
-                                                    [state.id]:
-                                                        state.id in prevExpandedState
-                                                            ? !prevExpandedState[state.id]
-                                                            : false,
+                                                    [state.id]: !prevExpandedState[state.id],
                                                 }));
                                             }}
                                         >

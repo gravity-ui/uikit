@@ -7,6 +7,7 @@ describe('getListParsedState', () => {
         const data: ListItemType<any>[] = [
             {
                 data: {title: 'item-0'},
+                expanded: true,
                 disabled: true,
                 willNotBeIncluded: '123',
             },
@@ -33,7 +34,7 @@ describe('getListParsedState', () => {
             },
         ];
 
-        expect(getListParsedState(data)).toEqual({
+        expect(getListParsedState({items: data})).toEqual({
             initialState: {
                 selectedById: {
                     2: true,
@@ -42,7 +43,10 @@ describe('getListParsedState', () => {
                     0: true,
                 },
                 expandedById: {
+                    '1': true,
                     '1-1': false,
+                    '1-1-0': true,
+                    '2': true,
                 },
             },
             itemsById: {
@@ -90,7 +94,7 @@ describe('getListParsedState', () => {
             },
         ];
 
-        expect(getListParsedState(data)).toEqual({
+        expect(getListParsedState({items: data})).toEqual({
             initialState: {
                 selectedById: {
                     1: true,
@@ -136,19 +140,27 @@ describe('getListParsedState', () => {
                     },
                     {
                         data: {title: 'child-1-2', id: 'id-4'},
-                        expanded: false,
+                        expanded: true,
                         children: [{data: {title: 'child-1-2-1', id: 'id-5'}, children: []}],
                     },
                 ],
             },
         ];
 
-        expect(getListParsedState(data, ({id}) => id)).toEqual({
+        expect(
+            getListParsedState({
+                items: data,
+                groupsDefaultState: 'closed',
+                getItemId: ({id}) => id,
+            }),
+        ).toEqual({
             initialState: {
                 selectedById: {},
                 disabledById: {},
                 expandedById: {
-                    'id-4': false,
+                    'id-2': false,
+                    'id-4': true,
+                    'id-5': false,
                 },
             },
             itemsById: {

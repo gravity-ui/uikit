@@ -11,9 +11,14 @@ import {DialogShowcase} from './DialogShowcase';
 export default {
     title: 'Components/Overlays/Dialog',
     component: Dialog,
+    argTypes: {
+        showError: {
+            type: 'boolean',
+        },
+    },
 } as Meta<DialogProps>;
 
-const DefaultTemplate: StoryFn<DialogProps> = (args) => {
+const DefaultTemplate: StoryFn<DialogProps & {showError: boolean}> = ({showError, ...args}) => {
     const dialogTitleId = 'app-confirmation-dialog-title';
     const [open, setOpen] = React.useState(false);
     return (
@@ -37,6 +42,8 @@ const DefaultTemplate: StoryFn<DialogProps> = (args) => {
                     onClickButtonApply={() => alert('onApply')}
                     textButtonApply="Apply"
                     textButtonCancel="Cancel"
+                    showError={showError}
+                    errorText="Error text"
                 />
             </Dialog>
         </React.Fragment>

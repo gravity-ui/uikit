@@ -114,4 +114,12 @@ $block: '.#{variables.$ns}user-label';
             outline: 2px solid var(--g-color-line-focus);
         }
     }
+
+    &_size {
+        @each $size-name, $size-value in variables.$sizes {
+            &_#{$size-name} {
+                height: #{$size-value};
+            }
+        }
+    }
 }

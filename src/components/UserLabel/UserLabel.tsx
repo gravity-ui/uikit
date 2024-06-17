@@ -13,7 +13,7 @@ import type {UserLabelProps} from './types';
 import './UserLabel.scss';
 
 const COMMON_AVATAR_PROPS: Partial<AvatarProps> = {
-    size: 's',
+    size: 'm',
 };
 
 const b = block('user-label');
@@ -30,6 +30,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
             className,
             style,
             qa,
+            size = COMMON_AVATAR_PROPS.size,
         },
         ref,
     ) => {
@@ -55,7 +56,12 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
         switch (type) {
             case 'email':
                 avatarView = (
-                    <Avatar icon={Envelope} {...(avatarProps || {})} {...COMMON_AVATAR_PROPS} />
+                    <Avatar
+                        icon={Envelope}
+                        {...(avatarProps || {})}
+                        {...COMMON_AVATAR_PROPS}
+                        size={size}
+                    />
                 );
                 break;
             case 'empty':
@@ -66,7 +72,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                 if (React.isValidElement(avatar)) {
                     avatarView = avatar;
                 } else if (avatarProps) {
-                    avatarView = <Avatar {...avatarProps} {...COMMON_AVATAR_PROPS} />;
+                    avatarView = <Avatar {...avatarProps} {...COMMON_AVATAR_PROPS} size={size} />;
                 }
                 break;
         }
@@ -79,6 +85,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                         empty: !avatarView,
                         clickable,
                         closeable,
+                        size,
                     },
                     className,
                 )}

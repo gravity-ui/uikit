@@ -42,4 +42,8 @@ $block: '.#{variables.$ns}link';
             color: var(--g-color-text-link-visited-hover);
         }
     }
+
+    &_underline {
+        text-decoration: underline;
+    }
 }

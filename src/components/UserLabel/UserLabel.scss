@@ -1,5 +1,6 @@
 @use '../../../styles/mixins';
 @use '../variables';
+@use './variables' as userLabel-variables;
 
 $block: '.#{variables.$ns}user-label';
 
@@ -116,7 +117,7 @@ $block: '.#{variables.$ns}user-label';
     }
 
     &_size {
-        @each $size-name, $size-value in variables.$sizes {
+        @each $size-name, $size-value in userLabel-variables.$sizes {
             &_#{$size-name} {
                 height: #{$size-value};
             }

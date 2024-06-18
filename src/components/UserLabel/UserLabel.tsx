@@ -3,7 +3,6 @@ import React from 'react';
 import {Envelope, Xmark} from '@gravity-ui/icons';
 
 import {Avatar} from '../Avatar';
-import type {AvatarProps} from '../Avatar';
 import {Icon} from '../Icon';
 import {block} from '../utils/cn';
 
@@ -11,10 +10,6 @@ import i18n from './i18n';
 import type {UserLabelProps} from './types';
 
 import './UserLabel.scss';
-
-const COMMON_AVATAR_PROPS: Partial<AvatarProps> = {
-    size: 'm',
-};
 
 const b = block('user-label');
 
@@ -30,7 +25,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
             className,
             style,
             qa,
-            size = COMMON_AVATAR_PROPS.size,
+            size = 'm',
         },
         ref,
     ) => {
@@ -55,14 +50,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
 
         switch (type) {
             case 'email':
-                avatarView = (
-                    <Avatar
-                        icon={Envelope}
-                        {...(avatarProps || {})}
-                        {...COMMON_AVATAR_PROPS}
-                        size={size}
-                    />
-                );
+                avatarView = <Avatar icon={Envelope} {...(avatarProps || {})} size={size} />;
                 break;
             case 'empty':
                 avatarView = null;
@@ -72,7 +60,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
                 if (React.isValidElement(avatar)) {
                     avatarView = avatar;
                 } else if (avatarProps) {
-                    avatarView = <Avatar {...avatarProps} {...COMMON_AVATAR_PROPS} size={size} />;
+                    avatarView = <Avatar {...avatarProps} size={size} />;
                 }
                 break;
         }

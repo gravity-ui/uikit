@@ -181,9 +181,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     aria-haspopup="listbox"
                     aria-expanded={open}
                     aria-activedescendant={
-                        activeIndex === undefined
-                            ? undefined
-                            : `${selectId}-list-item-${activeIndex}`
+                        activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`
                     }
                     disabled={disabled}
                     onClick={handleControlClick}

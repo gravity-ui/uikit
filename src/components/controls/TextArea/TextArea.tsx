@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
+import {useFormResetHandler} from '../../../hooks/private';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -71,9 +72,10 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
 
         const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
         const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
+        const fieldRef = useFormResetHandler({initialValue: inputValue, onReset: setInputValue});
+        const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
         const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
         const state = getInputControlState(validationState);
-        const handleRef = useForkRef(props.controlRef, innerControlRef);
         const innerId = useUniqId();
 
         const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);

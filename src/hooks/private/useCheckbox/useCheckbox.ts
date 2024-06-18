@@ -3,6 +3,7 @@ import React from 'react';
 import {useControlledState, useForkRef} from '../..';
 import type {ControlProps} from '../../../components/types';
 import {eventBroker} from '../../../components/utils/event-broker';
+import {useFormResetHandler} from '../useFormResetHandler';
 
 export type UseCheckboxProps = ControlProps;
 
@@ -36,7 +37,9 @@ export function useCheckbox({
     const inputChecked = indeterminate ? false : checked;
     const inputAriaChecked = indeterminate ? 'mixed' : isChecked;
 
-    const handleRef = useForkRef(controlRef, innerControlRef);
+    const fieldRef = useFormResetHandler({initialValue: isChecked, onReset: setCheckedState});
+
+    const handleRef = useForkRef(controlRef, innerControlRef, fieldRef);
 
     React.useLayoutEffect(() => {
         if (innerControlRef.current) {

@@ -191,4 +191,97 @@ describe('Checkbox', () => {
         checkbox.blur();
         expect(handleOnBlur).toHaveBeenCalledTimes(1);
     });
+
+    describe('form', () => {
+        test('should submit no value by default', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <Checkbox name="checkbox-field" value="value" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([]);
+        });
+
+        test('should submit default value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <Checkbox name="checkbox-field" value="value" defaultChecked />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['checkbox-field', 'value']]);
+        });
+
+        test('should submit controlled value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <Checkbox name="checkbox-field" value="value" checked />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['checkbox-field', 'value']]);
+        });
+
+        test('supports form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState(true);
+                return (
+                    <form data-qa="form">
+                        <Checkbox
+                            name="checkbox-field"
+                            value="value"
+                            checked={value}
+                            onUpdate={setValue}
+                        />
+                        <input type="reset" data-qa="reset" />
+                    </form>
+                );
+            }
+
+            render(<Test />);
+            const form = screen.getByTestId('form');
+            expect(form).toHaveFormValues({'checkbox-field': true});
+
+            await userEvent.tab();
+            await userEvent.keyboard('{Enter}');
+
+            expect(form).toHaveFormValues({});
+
+            const button = screen.getByTestId('reset');
+            await userEvent.click(button);
+            expect(form).toHaveFormValues({'checkbox-field': true});
+        });
+    });
 });

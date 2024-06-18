@@ -1,7 +1,7 @@
-import React from 'react';
-
-import {useUniqId} from '../..';
+import {useControlledState, useUniqId} from '../..';
 import type {ControlGroupOption, ControlGroupProps} from '../../../components/types';
+import {filterDOMProps} from '../../../components/utils/filterDOMProps';
+import {useFormResetHandler} from '../useFormResetHandler';
 
 interface OptionsProps<ValueType extends string = string>
     extends Omit<
@@ -39,35 +39,33 @@ export function useRadioGroup<ValueType extends string = string>(
     } = props;
 
     const controlId = useUniqId();
-    const [valueState, setValueState] = React.useState(
-        defaultValue ?? options[0]?.value?.toString(),
-    );
-    const isControlled = typeof value !== 'undefined';
-    const currentValue = isControlled ? value : valueState;
-
-    const handleChange = React.useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            if (!isControlled) {
-                setValueState(event.target.value);
-            }
-            if (onChange) {
-                onChange(event);
-            }
-            if (onUpdate) {
-                onUpdate(event.target.value as ValueType);
-            }
-        },
-        [isControlled, onUpdate, onChange],
+    const [currentValue, setValueState] = useControlledState<string | null, ValueType>(
+        value,
+        // FIXME: Do not set defaultValue to first option value
+        defaultValue ?? options[0]?.value ?? null,
+        onUpdate,
     );
 
-    const containerProps = {
-        role: 'radiogroup',
-        'aria-disabled': disabled,
-        'aria-label': props['aria-label'],
-        'aria-labelledby': props['aria-labelledby'],
+    const fieldRef = useFormResetHandler({
+        initialValue: currentValue as ValueType,
+        onReset: setValueState,
+    });
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValueState(event.target.value as ValueType);
+
+        if (onChange) {
+            onChange(event);
+        }
     };
 
-    const optionsProps = options.map((option) => ({
+    const containerProps = {
+        ...filterDOMProps(props, {labelable: true}),
+        role: 'radiogroup',
+        'aria-disabled': disabled,
+    };
+
+    const optionsProps: OptionsProps<ValueType>[] = options.map((option) => ({
         name: name || controlId,
         value: option.value,
         content: option.content,
@@ -75,8 +73,10 @@ export function useRadioGroup<ValueType extends string = string>(
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,
         onChange: handleChange,
+        // FIXME: onFocus and onBlur should be on the container via useFocusWithin hook
         onFocus: onFocus,
         onBlur: onBlur,
+        ref: fieldRef,
     }));
 
     return {containerProps, optionsProps};

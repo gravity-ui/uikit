@@ -152,8 +152,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         onClose,
         onOpenChange: handleOpenChange,
     });
-    const uniqId = useUniqId();
-    const selectId = id ?? uniqId;
+
     const propsOptions = props.options || getOptionsFromChildren(props.children);
     const options = useSelectOptions({
         options: propsOptions,
@@ -294,6 +293,10 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         return null;
     };
 
+    const uniqId = useUniqId();
+    const selectId = id ?? uniqId;
+    const popupId = `select-popup-${selectId}`;
+
     const _renderList = () => {
         if (filteredOptions.length || props.loading) {
             return (
@@ -312,7 +315,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     getOptionGroupHeight={getOptionGroupHeight}
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
-                    selectId={`select-${selectId}`}
+                    selectId={selectId}
                     onChangeActive={setActiveIndex}
                 />
             );
@@ -348,8 +351,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 onKeyDown={handleControlKeyDown}
                 renderControl={renderControl}
                 value={value}
-                popupId={`select-popup-${selectId}`}
-                selectId={`select-${selectId}`}
+                popupId={popupId}
+                selectId={selectId}
                 activeIndex={activeIndex}
                 hasCounter={multiple && hasCounter}
                 renderCounter={renderCounter}
@@ -365,7 +368,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disablePortal={disablePortal}
                 virtualized={virtualized}
                 mobile={mobile}
-                id={`select-popup-${selectId}`}
+                id={popupId}
                 placement={popupPlacement}
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}

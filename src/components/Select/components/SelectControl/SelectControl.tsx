@@ -173,6 +173,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         <React.Fragment>
             <div className={selectControlBlock(controlMods)} role="group">
                 <button
+                    id={selectId}
                     ref={ref}
                     role="combobox"
                     aria-controls={popupId}

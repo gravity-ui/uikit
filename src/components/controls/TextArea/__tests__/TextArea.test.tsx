@@ -152,4 +152,94 @@ describe('TextArea', () => {
             expect(input.getAttribute('autocomplete')).toBe('off');
         });
     });
+
+    describe('form', () => {
+        test('should submit empty value by default', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <TextArea name="text-field" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['text-field', '']]);
+        });
+
+        test('should submit default value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <TextArea name="text-field" defaultValue="default value" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['text-field', 'default value']]);
+        });
+
+        test('should submit controlled value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <TextArea name="text-field" value="value" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['text-field', 'value']]);
+        });
+
+        test('supports form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState('value');
+                return (
+                    <form>
+                        <TextArea name="text-field" value={value} onUpdate={setValue} />
+                        <input type="reset" data-qa="reset" />
+                    </form>
+                );
+            }
+
+            render(<Test />);
+            // eslint-disable-next-line testing-library/no-node-access
+            const inputs = document.querySelectorAll('[name=text-field]');
+            expect(inputs.length).toBe(1);
+            expect(inputs[0]).toHaveValue('value');
+
+            await userEvent.tab();
+            await userEvent.keyboard('text');
+
+            expect(inputs[0]).toHaveValue('text');
+
+            const button = screen.getByTestId('reset');
+            await userEvent.click(button);
+            expect(inputs[0]).toHaveValue('value');
+        });
+    });
 });

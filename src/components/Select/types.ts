@@ -3,7 +3,7 @@ import type React from 'react';
 import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
-import type {ControlGroupOption, ControlGroupProps, QAProps} from '../types';
+import type {ControlGroupOption, QAProps} from '../types';
 
 import type {Option, OptionGroup} from './tech-components';
 
@@ -58,7 +58,6 @@ export type SelectRenderCounter = (
 ) => React.ReactElement;
 
 export type SelectProps<T = any> = QAProps &
-    Pick<ControlGroupProps, 'name' | 'disabled'> &
     UseOpenProps & {
         onUpdate?: (value: string[]) => void;
         onFilterChange?: (filter: string) => void;
@@ -122,7 +121,9 @@ export type SelectProps<T = any> = QAProps &
         /**Shows selected options count if multiple selection is avalable */
         hasCounter?: boolean;
         title?: string;
+        name?: string;
         form?: string;
+        disabled?: boolean;
     };
 
 export type SelectOption<T = any> = QAProps &

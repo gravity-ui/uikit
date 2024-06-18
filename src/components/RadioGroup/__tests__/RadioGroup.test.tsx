@@ -196,4 +196,97 @@ describe('RadioGroup', () => {
             expect(component).toHaveClass(`g-radio-group_direction_${direction}`);
         },
     );
+
+    describe('form', () => {
+        test('should submit first value by default', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <RadioGroup name="radio-field" options={options} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['radio-field', 'Value 1']]);
+        });
+
+        test('should submit default value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <RadioGroup name="radio-field" options={options} defaultValue="Value 2" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['radio-field', 'Value 2']]);
+        });
+
+        test('should submit controlled value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <RadioGroup name="radio-field" options={options} value="Value 2" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['radio-field', 'Value 2']]);
+        });
+
+        test('should support form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState('Value 2');
+                return (
+                    <form data-qa="form">
+                        <RadioGroup
+                            name="radio-field"
+                            options={options}
+                            value={value}
+                            onUpdate={setValue}
+                        />
+                        <input type="reset" data-qa="reset" />
+                    </form>
+                );
+            }
+
+            render(<Test />);
+            const form = screen.getByTestId('form');
+            expect(form).toHaveFormValues({'radio-field': 'Value 2'});
+
+            await userEvent.tab();
+            await userEvent.keyboard('{ArrowLeft}');
+
+            expect(form).toHaveFormValues({'radio-field': 'Value 3'});
+
+            const button = screen.getByTestId('reset');
+            await userEvent.click(button);
+            expect(form).toHaveFormValues({'radio-field': 'Value 2'});
+        });
+    });
 });

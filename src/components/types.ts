@@ -50,9 +50,9 @@ export interface ControlGroupOption<ValueType extends string = string> {
     title?: string;
 }
 
-export interface ControlGroupProps<ValueType extends string = string> {
+export interface ControlGroupProps<ValueType extends string = string> extends AriaLabelingProps {
     name?: string;
-    value?: ValueType;
+    value?: ValueType | null;
     defaultValue?: ValueType;
     onUpdate?: (value: ValueType) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -60,8 +60,6 @@ export interface ControlGroupProps<ValueType extends string = string> {
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     options?: ControlGroupOption<ValueType>[];
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
 }
 
 export type Key = string | number;

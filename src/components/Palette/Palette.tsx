@@ -6,8 +6,9 @@ import {useSelect} from '../../hooks';
 import {useForkRef} from '../../hooks/useForkRef/useForkRef';
 import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
-import type {ControlGroupProps, DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
 
 import {usePaletteGrid} from './hooks';
 import {getPaletteRows} from './utils';
@@ -32,7 +33,7 @@ export type PaletteOption = Pick<ButtonProps, 'disabled' | 'title'> & {
 };
 
 export interface PaletteProps
-    extends Pick<ControlGroupProps, 'aria-label' | 'aria-labelledby'>,
+    extends AriaLabelingProps,
         Pick<ButtonProps, 'disabled' | 'size'>,
         DOMProps,
         QAProps {
@@ -165,9 +166,8 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(function P
 
     return (
         <div
+            {...filterDOMProps(props, {labelable: true})}
             {...gridProps}
-            aria-label={props['aria-label']}
-            aria-labelledby={props['aria-labelledby']}
             ref={handleRef}
             className={b({size}, className)}
             style={style}

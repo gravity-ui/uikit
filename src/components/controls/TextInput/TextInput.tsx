@@ -5,7 +5,7 @@ import React from 'react';
 import {TriangleExclamation} from '@gravity-ui/icons';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
-import {useElementSize} from '../../../hooks/private';
+import {useElementSize, useFormResetHandler} from '../../../hooks/private';
 import {Icon} from '../../Icon';
 import {Popover} from '../../Popover';
 import {block} from '../../utils/cn';
@@ -99,7 +99,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
 
         const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
         const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
-        const handleRef = useForkRef(props.controlRef, innerControlRef);
+        const fieldRef = useFormResetHandler({initialValue: inputValue, onReset: setInputValue});
+        const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
         const labelRef = React.useRef<HTMLLabelElement>(null);
         const startContentRef = React.useRef<HTMLDivElement>(null);
         const state = getInputControlState(validationState);

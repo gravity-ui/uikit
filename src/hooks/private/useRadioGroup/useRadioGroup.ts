@@ -73,7 +73,7 @@ export function useRadioGroup<ValueType extends string = string>(
         checked: currentValue === String(option.value),
         disabled: disabled || option.disabled,
         onChange: handleChange,
-        // FIXME: onFocus and onBlur should be on the container
+        // FIXME: onFocus and onBlur should be on the container via useFocusWithin hook
         onFocus: onFocus,
         onBlur: onBlur,
         ref: fieldRef,

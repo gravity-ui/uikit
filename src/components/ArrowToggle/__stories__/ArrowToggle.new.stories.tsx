@@ -7,7 +7,7 @@ import type {ArrowToggleProps} from '../ArrowToggle';
 
 const directions = ['top', 'left', 'bottom', 'right'] as Array<ArrowToggleProps['direction']>;
 
-export default {
+const meta: Meta<typeof ArrowToggle> = {
     title: 'Components/Utils/ArrowToggle',
     id: 'components/utils/ArrowToggle',
     args: {
@@ -20,10 +20,12 @@ export default {
             control: {type: 'select'},
         },
         size: {
-            control: {type: 'input'},
+            control: {type: 'number'},
         },
     },
-} as Meta;
+};
+
+export default meta;
 
 export const Playground: StoryFn = (args: ArrowToggleProps) => {
     return <ArrowToggle size={args.size} direction={args.direction} />;

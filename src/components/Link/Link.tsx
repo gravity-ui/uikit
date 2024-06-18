@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import type {DOMProps, QAProps} from '../types';
@@ -11,6 +13,7 @@ export type LinkView = 'normal' | 'primary' | 'secondary';
 export interface LinkProps extends DOMProps, QAProps {
     view?: LinkView;
     visitable?: boolean;
+    underline?: boolean;
     title?: string;
     href: string;
     target?: string;
@@ -29,6 +32,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
     {
         view = 'normal',
         visitable,
+        underline,
         href,
         target,
         rel,
@@ -61,7 +65,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         onBlur,
         id,
         style,
-        className: b({view, visitable}, className),
+        className: b({view, visitable, underline}, className),
         'data-qa': qa,
     };
 

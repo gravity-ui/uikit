@@ -30,7 +30,7 @@ $block: '.#{variables.$ns}button';
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     transition:
-        transform 0.1s ease-out,
+        variables.$button-shrink-transition,
         color 0.15s linear;
     transform: scale(1);
     display: inline-flex;
@@ -77,7 +77,7 @@ $block: '.#{variables.$ns}button';
 
     &:active {
         transition: none;
-        transform: scale(0.96);
+        transform: variables.$button-shrink-transform;
     }
 
     &:active::after {
@@ -230,6 +230,10 @@ $block: '.#{variables.$ns}button';
             --_--background-color: var(--g-color-base-light);
             --_--background-color-hover: var(--g-color-base-light-hover);
             --_--focus-outline-color: var(--g-color-line-light);
+
+            &#{$block}_loading {
+                --_--background-color-hover: var(--g-color-base-simple-hover);
+            }
         }
 
         &_outlined-contrast {
@@ -272,7 +276,6 @@ $block: '.#{variables.$ns}button';
             );
         width: var(--g-button-height, var(--_--height));
         height: var(--g-button-height, var(--_--height));
-        pointer-events: none;
 
         &::after {
             content: '\00a0';

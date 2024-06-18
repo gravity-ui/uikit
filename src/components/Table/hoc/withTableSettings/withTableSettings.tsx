@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {Gear} from '@gravity-ui/icons';
@@ -110,6 +112,7 @@ export function getActualItems<I>(
 export interface WithTableSettingsOptions {
     width?: TreeSelectProps<any>['popupWidth'];
     sortable?: boolean;
+    filterable?: boolean;
 }
 
 interface WithTableSettingsBaseProps {
@@ -143,8 +146,15 @@ interface WithoutDefaultSettings {
     showResetButton?: boolean;
 }
 
+interface WithFilter {
+    settingsFilterPlaceholder?: string;
+    settingsFilterEmptyMessage?: string;
+    filterSettings?: (value: string, item: TableColumnSetupItem) => boolean;
+}
+
 export type WithTableSettingsProps = WithTableSettingsBaseProps &
-    (WithDefaultSettings | WithoutDefaultSettings);
+    (WithDefaultSettings | WithoutDefaultSettings) &
+    WithFilter;
 
 const b = block('table');
 
@@ -167,7 +177,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
       ) => React.ComponentType<TableProps<I> & WithTableSettingsProps & E>) {
     function tableWithSettingsFactory(
         TableComponent: React.ComponentType<TableProps<I> & E>,
-        {width, sortable}: WithTableSettingsOptions = {},
+        {width, sortable, filterable}: WithTableSettingsOptions = {},
     ) {
         const componentName = getComponentName(TableComponent);
 
@@ -179,6 +189,9 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
             renderControls,
             defaultSettings,
             showResetButton,
+            settingsFilterPlaceholder,
+            settingsFilterEmptyMessage,
+            filterSettings,
             ...restTableProps
         }: TableProps<I> & WithTableSettingsProps & E) {
             const defaultActualItems = React.useMemo(() => {
@@ -191,7 +204,6 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
 
             const enhancedColumns = React.useMemo(() => {
                 const actualItems = getActualItems(columns, settings || []);
-
                 return enhanceSystemColumn(filterColumns(columns, actualItems), (systemColumn) => {
                     systemColumn.name = () => (
                         <div className={b('settings')}>
@@ -199,6 +211,10 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
                                 popupWidth={settingsPopupWidth || width}
                                 popupPlacement={POPUP_PLACEMENT}
                                 sortable={sortable}
+                                filterable={filterable}
+                                filterPlaceholder={settingsFilterPlaceholder}
+                                filterEmptyMessage={settingsFilterEmptyMessage}
+                                filterSettings={filterSettings}
                                 onUpdate={updateSettings}
                                 items={actualItems}
                                 renderSwitcher={({onClick}) => (

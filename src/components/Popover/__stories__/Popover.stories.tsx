@@ -12,7 +12,7 @@ import {WithCustomAnchor as WithCustomAnchorExample} from './examples/WithCustom
 
 import './PopoverDemo.scss';
 
-export default {
+const meta: Meta<typeof Popover> = {
     title: 'Components/Overlays/Popover',
     component: Popover,
     args: {
@@ -64,19 +64,19 @@ export default {
         },
         size: {control: 'select', options: ['s', 'l']},
         anchorRef: {},
-        children: {control: 'string'},
-        title: {control: 'string '},
-        content: {control: 'string'},
+        children: {control: 'text'},
+        title: {control: 'text'},
+        content: {control: 'text'},
         htmlContent: {control: 'object'},
-        contentClassName: {control: 'string '},
-        links: {control: 'array'},
+        contentClassName: {control: 'text'},
+        links: {control: 'object'},
         forceLinksAppearance: {control: 'boolean'},
         tooltipActionButton: {control: 'object'},
         tooltipCancelButton: {control: 'object'},
-        tooltipOffset: {control: 'array'},
-        tooltipClassName: {control: 'string '},
-        tooltipContentClassName: {control: 'string '},
-        className: {control: 'string '},
+        tooltipOffset: {control: 'object'},
+        tooltipClassName: {control: 'text'},
+        tooltipContentClassName: {control: 'text'},
+        className: {control: 'text'},
         onClick: {action: 'onClick'},
         onOpenChange: {action: 'onOpenChange'},
         onCloseClick: {action: 'onCloseClick'},
@@ -87,9 +87,11 @@ export default {
         delayOpening: {control: 'number', min: 0},
         delayClosing: {control: 'number', min: 0},
         disablePortal: {control: 'boolean'},
-        tooltipId: {control: 'string'},
+        tooltipId: {control: 'text'},
     },
-} as Meta;
+};
+
+export default meta;
 
 const PlaygroundTemplate: StoryFn<PopoverProps> = (args) => (
     <Base {...args}>{args.openOnHover ? 'Move the cursor' : 'Click'} here to show the popover</Base>

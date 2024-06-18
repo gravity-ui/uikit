@@ -47,9 +47,15 @@ export const Interactive: StoryFn<ArrowToggleProps> = (args) => {
     const direction = directions[directionIndex % directions.length];
 
     return (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-        <span onClick={() => setDirectionIndex(directionIndex + 1)} style={{cursor: 'pointer'}}>
-            <ArrowToggle {...args} size={32} direction={direction} /> <h3>{direction}</h3>
-        </span>
+        <div>
+            <button
+                onClick={() => setDirectionIndex(directionIndex + 1)}
+                style={{cursor: 'pointer'}}
+                aria-label="Arrow"
+            >
+                <ArrowToggle {...args} size={32} direction={direction} />
+            </button>
+            <h3>{direction}</h3>
+        </div>
     );
 };

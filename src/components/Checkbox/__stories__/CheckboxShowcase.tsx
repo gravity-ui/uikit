@@ -8,50 +8,50 @@ export function CheckboxShowcase() {
     return (
         <Showcase>
             <ShowcaseItem title="Size">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox size="m" checked={false} content="size m" />
                     <span style={{margin: '8px'}} />
                     <Checkbox size="m" checked={true} content="size m" />
                     <span style={{margin: '8px'}} />
                     <Checkbox size="m" indeterminate={true} content="size m" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox size="l" checked={false} content="size l" />
                     <span style={{margin: '8px'}} />
                     <Checkbox size="l" checked={true} content="size l" />
                     <span style={{margin: '8px'}} />
                     <Checkbox size="l" indeterminate={true} content="size l" />
-                </p>
+                </div>
             </ShowcaseItem>
             <ShowcaseItem title="Disabled">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox checked={false} disabled content="unchecked" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox indeterminate={true} disabled content="indeterminate" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox checked={true} disabled content="checked" />
-                </p>
+                </div>
             </ShowcaseItem>
             <ShowcaseItem title="Uncontrolled">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox defaultChecked={false} content="unchecked" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox defaultChecked={true} content="checked" />
-                </p>
+                </div>
             </ShowcaseItem>
             <ShowcaseItem title="Controlled">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox checked={false} content="unchecked" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox indeterminate={true} content="indeterminate" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Checkbox checked={true} content="checked" />
-                </p>
+                </div>
             </ShowcaseItem>
         </Showcase>
     );

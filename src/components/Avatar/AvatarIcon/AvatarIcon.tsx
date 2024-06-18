@@ -14,7 +14,7 @@ const avatarSizeToIconSize: Record<AvatarSize, number> = {
 };
 
 export const AvatarIcon = ({icon, color, size, className}: AvatarIconProps) => {
-    const style = React.useMemo(() => ({color}), [color]);
+    const style = {color};
 
     return (
         <div style={style} className={className}>

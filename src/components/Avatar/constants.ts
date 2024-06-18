@@ -7,3 +7,5 @@ export const AVATAR_SIZES: Record<AvatarSize, number> = {
     l: 42,
     xl: 50,
 };
+
+export const DEFAULT_AVATAR_SIZE: AvatarSize = 'm';

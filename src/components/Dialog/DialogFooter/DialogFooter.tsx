@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {Button} from '../../Button';
@@ -132,6 +134,7 @@ export class DialogFooter extends React.Component<DialogFooterInnerProps> {
                         anchorRef={this.errorTooltipRef}
                         placement={['bottom', 'top']}
                         disableLayer
+                        disablePortal
                         hasArrow
                     >
                         <div className={b('error')}>{errorText}</div>

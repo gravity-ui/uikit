@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import debounce from 'lodash/debounce';
@@ -8,7 +10,7 @@ import {block} from '../utils/cn';
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {SliderTooltip} from './SliderTooltip/SliderTooltip';
 import type {RcSliderValueType, SliderProps, SliderValue, StateModifiers} from './types';
-import {getInnerState} from './utils';
+import {prepareSliderInnerState} from './utils';
 
 import './Slider.scss';
 
@@ -69,7 +71,7 @@ export const Slider = React.forwardRef(function Slider(
         };
     }, [handleUpdate, handleUpdateComplete]);
 
-    const innerState = getInnerState({
+    const innerState = prepareSliderInnerState({
         availableValues,
         defaultValue,
         marksCount,

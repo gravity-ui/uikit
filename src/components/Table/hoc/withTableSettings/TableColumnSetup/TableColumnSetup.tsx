@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {Gear, Grip, Lock} from '@gravity-ui/icons';
@@ -14,15 +16,17 @@ import type {PopperPlacement} from '../../../../../hooks/private';
 import {createOnKeyDownHandler} from '../../../../../hooks/useActionHandlers/useActionHandlers';
 import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
+import {Text} from '../../../../Text';
 import {TreeSelect} from '../../../../TreeSelect/TreeSelect';
 import type {
     TreeSelectProps,
     TreeSelectRenderContainer,
     TreeSelectRenderItem,
 } from '../../../../TreeSelect/types';
+import {TextInput} from '../../../../controls/TextInput';
 import {Flex} from '../../../../layout/Flex/Flex';
 import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
-import {ListContainerView, ListItemView} from '../../../../useList';
+import {ListContainerView, ListItemView, useListFilter} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnConfig} from '../../../Table';
 import type {TableSetting} from '../withTableSettings';
@@ -33,6 +37,8 @@ import './TableColumnSetup.scss';
 
 const b = block('inner-table-column-setup');
 const controlsCn = b('controls');
+const filterInputCn = b('filter-input');
+const emptyPlaceholderCn = b('empty-placeholder');
 
 const reorderArray = <T extends unknown>(list: T[], startIndex: number, endIndex: number): T[] => {
     const result = [...list];
@@ -242,6 +248,17 @@ const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => 
     };
 };
 
+const defaultFilterSettingsFn = (value: string, item: TableColumnSetupItem) => {
+    return typeof item.title === 'string'
+        ? item.title.toLowerCase().includes(value.trim().toLowerCase())
+        : true;
+};
+
+const useEmptyRenderContainer = (placeholder?: string): TreeSelectRenderContainer<{}> => {
+    const emptyRenderContainer = () => <Text className={emptyPlaceholderCn}>{placeholder}</Text>;
+    return emptyRenderContainer;
+};
+
 export type RenderControls = (params: {
     DefaultApplyButton: React.ComponentType;
     /**
@@ -269,6 +286,11 @@ export interface TableColumnSetupProps {
 
     defaultItems?: TableColumnSetupItem[];
     showResetButton?: boolean | ((currentItems: TableColumnSetupItem[]) => boolean);
+
+    filterable?: boolean;
+    filterPlaceholder?: string;
+    filterEmptyMessage?: string;
+    filterSettings?: (value: string, item: TableColumnSetupItem) => boolean;
 }
 
 export const TableColumnSetup = (props: TableColumnSetupProps) => {
@@ -283,9 +305,19 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         className,
         defaultItems = propsItems,
         showResetButton: propsShowResetButton,
+        filterable,
+        filterPlaceholder,
+        filterEmptyMessage,
+        filterSettings = defaultFilterSettingsFn,
     } = props;
 
     const [open, setOpen] = React.useState(false);
+    const [sortingEnabled, setSortingEnabled] = React.useState(sortable);
+    const [prevSortingEnabled, setPrevSortingEnabled] = React.useState(sortable);
+    if (sortable !== prevSortingEnabled) {
+        setPrevSortingEnabled(sortable);
+        setSortingEnabled(sortable);
+    }
 
     const [items, setItems] = React.useState(propsItems);
     const [prevPropsItems, setPrevPropsItems] = React.useState(propsItems);
@@ -295,10 +327,12 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
         setItems(propsItems);
     }
 
+    const filterState = useListFilter({items, filterItem: filterSettings, debounceTimeout: 0});
+
     const onApply = () => {
         const newSettings = items.map<TableSetting>(({id, isSelected}) => ({id, isSelected}));
         propsOnUpdate(newSettings);
-        setOpen(false);
+        onOpenChange(false);
     };
 
     const DefaultApplyButton = () => (
@@ -342,7 +376,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             ),
     });
 
-    const dndRenderItem = useDndRenderItem(sortable);
+    const dndRenderItem = useDndRenderItem(sortingEnabled);
 
     const renderControl: TreeSelectProps<unknown>['renderControl'] = ({toggleOpen}) => {
         const onKeyDown = createOnKeyDownHandler(toggleOpen);
@@ -359,9 +393,10 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const onOpenChange = (open: boolean) => {
         setOpen(open);
-
         if (open === false) {
             setItems(propsItems);
+            setSortingEnabled(sortable);
+            filterState.reset();
         }
     };
 
@@ -376,6 +411,28 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
 
     const value = React.useMemo(() => prepareValue(items), [items]);
 
+    const emptyRenderContainer = useEmptyRenderContainer(filterEmptyMessage);
+
+    const onFilterValueUpdate = (value: string) => {
+        filterState.onFilterUpdate(value);
+        setSortingEnabled(!value.length);
+    };
+
+    const slotBeforeListBody = filterable ? (
+        <TextInput
+            size="m"
+            view="clear"
+            placeholder={filterPlaceholder}
+            value={filterState.filter}
+            className={filterInputCn}
+            onUpdate={onFilterValueUpdate}
+            hasClear
+        />
+    ) : null;
+
+    const renderContainer =
+        filterState.filter && !filterState.items.length ? emptyRenderContainer : dndRenderContainer;
+
     return (
         <TreeSelect
             className={b(null, className)}
@@ -384,12 +441,13 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
             size="l"
             open={open}
             value={value}
-            items={items}
+            items={filterState.filter ? filterState.items : items}
             onUpdate={onUpdate}
             popupWidth={popupWidth}
             onOpenChange={onOpenChange}
             placement={popupPlacement}
-            renderContainer={dndRenderContainer}
+            slotBeforeListBody={slotBeforeListBody}
+            renderContainer={renderContainer}
             renderControl={renderControl}
             renderItem={dndRenderItem}
         />

@@ -97,5 +97,9 @@ export const TableWithAction = withTableActions<DataItem>(Table);
 export const TableWithCopy = withTableCopy<DataItem>(Table);
 export const TableWithSelection = withTableSelection<DataItem>(Table);
 export const TableWithSettings = withTableSettings<DataItem>(Table);
+export const TableWithFilterableSettings = withTableSettings<DataItem>({
+    filterable: true,
+    width: 200,
+})(Table);
 export const TableWithSettingsFactory = withTableSettings<DataItem>({sortable: false})(Table);
 export const TableWithSorting = withTableSorting<DataItem>(Table);

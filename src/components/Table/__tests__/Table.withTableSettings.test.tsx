@@ -2,7 +2,7 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {render, screen} from '../../../../test-utils/utils';
+import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Button} from '../../Button';
 import {Table} from '../Table';
 import type {TableColumnConfig, TableProps} from '../Table';
@@ -329,6 +329,50 @@ describe('withTableSettings', () => {
             const customControl = screen.getByText(customControlText);
 
             expect(customControl).toBeVisible();
+        });
+    });
+
+    describe('filterableSettings', () => {
+        const TableWithSettings = withTableSettings<SomeItem>({sortable: true, filterable: true})(
+            Table,
+        );
+        const settings = columns.map<TableSetting>((column) => ({id: column.id, isSelected: true}));
+        const updateSettings = jest.fn();
+        const placeholder = 'Filter list';
+
+        it('should filter columns', async () => {
+            render(
+                <TableWithSettings
+                    columns={columns}
+                    data={data}
+                    settings={settings}
+                    settingsFilterPlaceholder={placeholder}
+                    updateSettings={updateSettings}
+                />,
+            );
+
+            await userEvent.click(screen.getByRole('button', {name: 'Table settings'}));
+            const textInput = screen.getByRole('textbox') as HTMLInputElement;
+            expect(textInput).toBeVisible();
+            expect(textInput.placeholder).toBe(placeholder);
+
+            const column = screen.getByRole('button', {name: 'description'});
+            expect(column.hasAttribute('draggable')).toBeTruthy();
+
+            fireEvent.change(textInput, {target: {value: 'na'}});
+            const filteredOption = screen.getByRole('option', {name: 'name'});
+            expect(filteredOption).toBeInTheDocument();
+            expect(filteredOption.hasAttribute('draggable')).toBeFalsy();
+            await waitFor(() => expect(screen.getAllByRole('option')).toHaveLength(1));
+
+            fireEvent.change(textInput, {target: {value: ''}});
+            expect(screen.getByRole('button', {name: 'id'}).hasAttribute('draggable')).toBeTruthy();
+            expect(
+                screen.getByRole('button', {name: 'name'}).hasAttribute('draggable'),
+            ).toBeTruthy();
+            expect(
+                screen.getByRole('button', {name: 'description'}).hasAttribute('draggable'),
+            ).toBeTruthy();
         });
     });
 });

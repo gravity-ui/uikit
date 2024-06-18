@@ -1,9 +1,9 @@
+'use client';
+
 import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
 
-import {Button} from '../Button';
-import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardStatus} from '../CopyToClipboard';
@@ -15,24 +15,16 @@ import './Label.scss';
 
 const b = block('label');
 
-type SizeMapType = {copyIconSize: number; closeIconSize: number; buttonSize: ButtonSize};
+type SizeMapType = {copyIconSize: number; closeIconSize: number};
 
 const sizeMap: Record<string, SizeMapType> = {
-    xs: {copyIconSize: 12, closeIconSize: 12, buttonSize: 'xs'},
-    s: {copyIconSize: 14, closeIconSize: 14, buttonSize: 's'},
-    m: {copyIconSize: 16, closeIconSize: 16, buttonSize: 'm'},
-};
-
-const commonActionButtonProps: ButtonProps = {
-    pin: 'brick-round',
-    className: b('addon', {
-        side: 'right',
-        interactive: true,
-    }),
+    xs: {copyIconSize: 12, closeIconSize: 12},
+    s: {copyIconSize: 14, closeIconSize: 14},
+    m: {copyIconSize: 16, closeIconSize: 16},
 };
 
 export interface LabelProps extends QAProps {
-    /** Label icon (at left) */
+    /** Label icon (at start) */
     icon?: React.ReactNode;
     /** Disabled state */
     disabled?: boolean;
@@ -94,10 +86,12 @@ export const Label = React.forwardRef(function Label(
     const hasOnClick = typeof onClick === 'function';
     const hasCopy = Boolean(typeCopy && copyText);
     const isInteractive = (hasOnClick || hasCopy || interactive) && !disabled;
-    const {copyIconSize, closeIconSize, buttonSize} = sizeMap[size];
+    const {copyIconSize, closeIconSize} = sizeMap[size];
 
-    const leftIcon = icon && (
-        <div className={b('addon', {side: hasContent ? 'left' : undefined})}>{icon}</div>
+    const startIcon = icon && (
+        <div className={b('addon', {side: hasContent ? 'start' : undefined, type: 'icon'})}>
+            {icon}
+        </div>
     );
     const content = hasContent && (
         <div className={b('text')}>
@@ -116,29 +110,33 @@ export const Label = React.forwardRef(function Label(
 
         if (typeCopy) {
             actionButton = (
-                <Button
-                    size={buttonSize}
-                    extraProps={{'aria-label': copyButtonLabel || undefined}}
+                <button
+                    type="button"
+                    aria-label={copyButtonLabel || undefined}
                     onClick={hasOnClick ? onClick : undefined}
                     disabled={disabled}
-                    {...commonActionButtonProps}
+                    className={b('addon', {
+                        side: 'end',
+                        type: 'button',
+                    })}
                 >
-                    <Button.Icon>
-                        <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
-                    </Button.Icon>
-                </Button>
+                    <ClipboardIcon status={status || 'pending'} size={copyIconSize} />
+                </button>
             );
         } else if (typeClose) {
             actionButton = (
-                <Button
+                <button
+                    type="button"
                     onClick={onCloseClick}
-                    size={buttonSize}
-                    extraProps={{'aria-label': closeButtonLabel || undefined}}
+                    aria-label={closeButtonLabel || undefined}
                     disabled={disabled}
-                    {...commonActionButtonProps}
+                    className={b('addon', {
+                        side: 'end',
+                        type: 'button',
+                    })}
                 >
                     <Icon size={closeIconSize} data={Xmark} />
-                </Button>
+                </button>
             );
         }
 
@@ -149,23 +147,20 @@ export const Label = React.forwardRef(function Label(
                     {
                         theme,
                         size,
-                        type,
-                        'is-interactive': isInteractive,
-                        'has-right-addon': Boolean(actionButton),
-                        'has-left-addon': Boolean(leftIcon),
+                        interactive: isInteractive,
                         disabled,
                     },
                     className,
                 )}
                 data-qa={qa}
             >
-                {leftIcon}
+                {startIcon}
                 {hasOnClick ? (
                     <button
                         disabled={disabled}
                         type="button"
                         onClick={onClick}
-                        className={b('action-button')}
+                        className={b('main-button')}
                     >
                         {content}
                     </button>

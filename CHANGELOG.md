@@ -1,5 +1,54 @@
 # Changelog
 
+## [6.18.0](https://github.com/gravity-ui/uikit/compare/v6.17.0...v6.18.0) (2024-06-14)
+
+
+### Features
+
+* **Breadcrumbs:** new component ([#1497](https://github.com/gravity-ui/uikit/issues/1497)) ([5cdc675](https://github.com/gravity-ui/uikit/commit/5cdc6753d4461b8e531870bcd9f4724dc6782d80))
+* **Select:** support form ([#1644](https://github.com/gravity-ui/uikit/issues/1644)) ([1ad73b6](https://github.com/gravity-ui/uikit/commit/1ad73b69679a55001d50e97db1d40484d3e04c8c))
+* support RSC ([#1582](https://github.com/gravity-ui/uikit/issues/1582)) ([770d787](https://github.com/gravity-ui/uikit/commit/770d787ef5952de5ccc45595065fa50b1f1d48f9))
+* **Table:** add filter to colum settings ([#1627](https://github.com/gravity-ui/uikit/issues/1627)) ([6eca546](https://github.com/gravity-ui/uikit/commit/6eca54635f8fbbcf6960ff6bb96563273b458700))
+
+
+### Bug Fixes
+
+* **Button:** remove useless pointer-events style for icon content ([#1641](https://github.com/gravity-ui/uikit/issues/1641)) ([47b9850](https://github.com/gravity-ui/uikit/commit/47b985030df97f46fc16d283e75a4f8b395ff4db))
+* **PinInput:** add use client ([#1646](https://github.com/gravity-ui/uikit/issues/1646)) ([d0bdede](https://github.com/gravity-ui/uikit/commit/d0bdede7c79e5102db41b73b0350056c49c67ace))
+
+## [6.17.0](https://github.com/gravity-ui/uikit/compare/v6.16.0...v6.17.0) (2024-06-11)
+
+
+### Features
+
+* add PinInput component ([#1557](https://github.com/gravity-ui/uikit/issues/1557)) ([7d26272](https://github.com/gravity-ui/uikit/commit/7d26272ed67e7f94f002f501a9ff703f4210a925))
+
+
+### Bug Fixes
+
+* **Button:** normal-contrast loading view ([#1630](https://github.com/gravity-ui/uikit/issues/1630)) ([bfa2dbf](https://github.com/gravity-ui/uikit/commit/bfa2dbfa85c2c01e0fcd8c5f07d6e93fa31660ff))
+* **Slider:** export function for preparing initial value ([#1637](https://github.com/gravity-ui/uikit/issues/1637)) ([434949e](https://github.com/gravity-ui/uikit/commit/434949e4f608cde2330cca02cbd0ab99244fd0fb))
+* **Text:** return missing props to TextProps type ([#1631](https://github.com/gravity-ui/uikit/issues/1631)) ([6a70f17](https://github.com/gravity-ui/uikit/commit/6a70f17c04f4af52e49ea5bcbe9c1f886d9c3969))
+* **theme:** bring back root classname helper and fix docs ([#1633](https://github.com/gravity-ui/uikit/issues/1633)) ([ba08c66](https://github.com/gravity-ui/uikit/commit/ba08c66d83dac2d8ff9d44c27f2739f192d68e92))
+* **Toc:** unify item line height ([#1635](https://github.com/gravity-ui/uikit/issues/1635)) ([4612a77](https://github.com/gravity-ui/uikit/commit/4612a7713ee04590a8e4073d831a42ba2e03d9fe))
+* **useList:** add qa property to container ([#1625](https://github.com/gravity-ui/uikit/issues/1625)) ([05c1fc2](https://github.com/gravity-ui/uikit/commit/05c1fc2df61226cc070c007388c1aeb5e5744799))
+
+## [6.16.0](https://github.com/gravity-ui/uikit/compare/v6.15.0...v6.16.0) (2024-05-24)
+
+
+### Features
+
+* **Text, Flex, Box:** typed html attributes ([#1583](https://github.com/gravity-ui/uikit/issues/1583)) ([3345489](https://github.com/gravity-ui/uikit/commit/33454890d7c2bcc422aa77dba7072193c61ba8b7))
+
+
+### Bug Fixes
+
+* **Button:** do not shrink button when there is only one icon ([#1577](https://github.com/gravity-ui/uikit/issues/1577)) ([98fd95f](https://github.com/gravity-ui/uikit/commit/98fd95f8f1ef9c7148883f978bcae7ec41398f14))
+* **Flex,ListItemView:** return ref drilling by React.forwardRef ([#1612](https://github.com/gravity-ui/uikit/issues/1612)) ([9b8f4f8](https://github.com/gravity-ui/uikit/commit/9b8f4f897bfe1919f165029ea7865654f808367f))
+* **Link:** change href property type description ([#1574](https://github.com/gravity-ui/uikit/issues/1574)) ([#1593](https://github.com/gravity-ui/uikit/issues/1593)) ([0aec983](https://github.com/gravity-ui/uikit/commit/0aec98306d8534e7e48c1bf050b17dfa7e0ac500))
+* **Text:** fix custom html tag inheritance ([#1584](https://github.com/gravity-ui/uikit/issues/1584)) ([fcd2ff3](https://github.com/gravity-ui/uikit/commit/fcd2ff33a7875c84a76fdab757a474d42f900b3e))
+* **Tooltip:** use more reasonable animation delay ([#1586](https://github.com/gravity-ui/uikit/issues/1586)) ([fe14706](https://github.com/gravity-ui/uikit/commit/fe147066d128749650ca71ad6ccee3d831cc6ad6))
+
 ## [6.15.0](https://github.com/gravity-ui/uikit/compare/v6.14.1...v6.15.0) (2024-05-08)
 
 

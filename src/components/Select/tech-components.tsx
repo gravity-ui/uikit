@@ -1,3 +1,5 @@
+'use client';
+
 import type {SelectOption, SelectOptionGroup} from './types';
 
 export const Option = <T extends any>(

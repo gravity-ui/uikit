@@ -11,7 +11,7 @@ export type UseOpenProps = {
     onOpenChange?: (open: boolean) => void;
     delayOpening?: number;
     delayClosing?: number;
-    behavior: PopoverBehavior;
+    behavior: `${PopoverBehavior}`;
     shouldBeOpen: React.MutableRefObject<boolean>;
 };
 

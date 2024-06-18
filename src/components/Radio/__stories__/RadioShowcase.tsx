@@ -8,19 +8,19 @@ export function RadioShowcase() {
     return (
         <Showcase>
             <ShowcaseItem title="Size">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Radio size="m" content="size m" value="value 1" />
                     <span style={{margin: '8px'}} />
                     <Radio size="m" content="size m" value="value 2" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Radio size="l" content="size l" value="value 1" />
                     <span style={{margin: '8px'}} />
                     <Radio size="l" content="size l" value="value 2" />
-                </p>
+                </div>
             </ShowcaseItem>
             <ShowcaseItem title="Disabled">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Radio
                         size="m"
                         content="Unchecked"
@@ -28,8 +28,8 @@ export function RadioShowcase() {
                         value="value 1"
                         disabled
                     />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Radio
                         size="m"
                         content="Checked"
@@ -37,24 +37,24 @@ export function RadioShowcase() {
                         value="value 2"
                         disabled
                     />
-                </p>
+                </div>
             </ShowcaseItem>
             <ShowcaseItem title="Uncontrolled">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Radio size="m" content="checked" defaultChecked={true} value="value 1" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Radio size="m" content="unchecked" value="value 2" />
-                </p>
+                </div>
             </ShowcaseItem>
 
             <ShowcaseItem title="Controlled">
-                <p>
+                <div style={{marginBlock: '1em'}}>
                     <Radio size="m" content="checked" checked={true} value="value 1" />
-                </p>
-                <p>
+                </div>
+                <div style={{marginBlock: '1em'}}>
                     <Radio size="m" content="unchecked" checked={false} value="value 2" />
-                </p>
+                </div>
             </ShowcaseItem>
         </Showcase>
     );

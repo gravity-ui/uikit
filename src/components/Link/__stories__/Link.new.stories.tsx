@@ -40,6 +40,9 @@ export default {
         id: {
             control: {type: 'text'},
         },
+        underline: {
+            control: {type: 'boolean'},
+        },
     },
     parameters: {
         order: -100,

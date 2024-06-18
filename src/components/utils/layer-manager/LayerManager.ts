@@ -1,3 +1,5 @@
+'use client';
+
 import type {VirtualElement} from '@popperjs/core';
 
 import {KeyCode} from '../../../constants';

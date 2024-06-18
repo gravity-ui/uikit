@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 

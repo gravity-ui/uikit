@@ -94,6 +94,7 @@ type TableActionConfig = TableAction | TableActionGroup;
 | target   | Same as the `target` attribute of the `<a>` tag.                   |               `string`               |            |
 | rel      | Same as the `rel` attribute of the `<a>` tag.                      |               `string`               |            |
 | theme    | Theme                                                              |        `"normal"` `"danger"`         | `"normal"` |
+| icon     | Icon to display next to the text                                   |          `React.ReactNode`           |            |
 
 #### TableActionGroup
 

@@ -60,7 +60,6 @@ export type SelectRenderCounter = (
 export type SelectProps<T = any> = QAProps &
     UseOpenProps & {
         onUpdate?: (value: string[]) => void;
-        onFilterChange?: (filter: string) => void;
         renderControl?: SelectRenderControl;
         renderFilter?: (props: {
             onChange: (filter: string) => void;
@@ -106,6 +105,8 @@ export type SelectProps<T = any> = QAProps &
         validationState?: 'invalid';
         multiple?: boolean;
         filterable?: boolean;
+        filter?: string;
+        onFilterChange?: (filter: string) => void;
         disablePortal?: boolean;
         hasClear?: boolean;
         onFocus?: (e: React.FocusEvent) => void;

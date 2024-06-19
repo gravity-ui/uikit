@@ -21,6 +21,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
     (
         {
             handleClose,
+            onAfterClose,
             width,
             open,
             placement = DEFAULT_PLACEMENT,
@@ -57,6 +58,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 restoreFocusRef={controlRef}
                 modifiers={getModifiers({width, disablePortal, virtualized})}
                 id={id}
+                onTransitionExited={onAfterClose}
             >
                 {children}
             </Popup>

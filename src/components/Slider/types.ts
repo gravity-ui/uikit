@@ -53,10 +53,6 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Describes the validation state */
     validationState?: 'invalid';
 
-    /** Specifies the delay (in milliseconds) before the processing function is called
-     * @deprecated use external debouncing.
-     */
-    debounceDelay?: number;
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
     /** Fires when the control lost focus. Provides focus event as a callback's argument */
@@ -72,15 +68,21 @@ export type SliderProps<ValueType = number | [number, number]> = {
     tabIndex?: ValueType;
     /** Ref to Slider's component props of focus and blur */
     apiRef?: React.RefObject<BaseSliderRefType>;
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-} & Pick<DOMProps, 'className'> &
+    'aria-label'?: string | [string, string];
+    'aria-labelledby'?: string | [string, string];
+    id?: string;
+    /** Name attribute of the hidden input element. */
+    name?: string;
+    form?: string;
+} & DOMProps &
     QAProps;
 
 export type SliderInnerState = {
     max: number;
     min: number;
-} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'> &
+    value?: number | [number, number];
+    defaultValue?: number | [number, number];
+} & Pick<RcSliderProps, 'step' | 'range' | 'marks'> &
     Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {

@@ -139,14 +139,13 @@ describe('Select base actions', () => {
             expect(onOpenChange).toHaveBeenCalledWith(false);
             expect(onOpenChange).toHaveBeenCalledTimes(2);
         });
-        test('should call onOpenChange whith controlled open', async () => {
+        test('should not call onOpenChange with controlled open', async () => {
             const onOpenChange = jest.fn();
             setup({open: true, onOpenChange});
 
             await toggleSelectPopup();
 
-            expect(onOpenChange).toHaveBeenCalledWith(false);
-            expect(onOpenChange).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledTimes(0);
         });
     });
 

@@ -30,10 +30,11 @@ export const useSelect = <T extends unknown>({
                 const nextValue = [option.value];
                 setValue(nextValue);
             }
-
-            toggleOpen(false);
+            if (typeof open === 'undefined') {
+                toggleOpen(false);
+            }
         },
-        [value, setValue, toggleOpen],
+        [value, open, setValue, toggleOpen],
     );
 
     const handleMultipleSelection = React.useCallback(

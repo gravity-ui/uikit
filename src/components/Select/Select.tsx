@@ -178,6 +178,15 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const isErrorIconVisible =
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
+    const toggleOpenIfNeeded = React.useCallback(
+        (nextOpen?: boolean) => {
+            if (typeof propsOpen === 'undefined') {
+                toggleOpen(nextOpen);
+            }
+        },
+        [propsOpen, toggleOpen],
+    );
+
     const handleOptionClick = React.useCallback(
         (option?: FlattenOption) => {
             if (!option || option?.disabled || 'label' in option) {
@@ -215,12 +224,12 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             }
             if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
                 e.preventDefault();
-                toggleOpen();
+                toggleOpenIfNeeded();
             }
 
             listRef?.current?.onKeyDown(e);
         },
-        [handleOptionClick, open, toggleOpen],
+        [open, handleOptionClick, toggleOpenIfNeeded],
     );
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
@@ -262,7 +271,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         inlineStyles.width = width;
     }
 
-    const handleClose = React.useCallback(() => toggleOpen(false), [toggleOpen]);
+    const handleClose = React.useCallback(() => toggleOpenIfNeeded(false), [toggleOpenIfNeeded]);
     const {onFocus, onBlur} = props;
     const {focusWithinProps} = useFocusWithin({
         onFocusWithin: onFocus,
@@ -332,7 +341,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             style={inlineStyles}
         >
             <SelectControl
-                toggleOpen={toggleOpen}
+                toggleOpen={toggleOpenIfNeeded}
                 hasClear={hasClear}
                 clearValue={handleClearValue}
                 ref={handleControlRef}

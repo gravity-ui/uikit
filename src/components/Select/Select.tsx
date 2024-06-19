@@ -315,7 +315,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     getOptionGroupHeight={getOptionGroupHeight}
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
-                    selectId={selectId}
+                    id={popupId}
                     onChangeActive={setActiveIndex}
                 />
             );
@@ -368,7 +368,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 disablePortal={disablePortal}
                 virtualized={virtualized}
                 mobile={mobile}
-                id={popupId}
                 placement={popupPlacement}
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}

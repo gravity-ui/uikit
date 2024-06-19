@@ -28,7 +28,7 @@ type SelectListProps = {
     virtualized?: boolean;
     loading?: boolean;
     onLoadMore?: () => void;
-    selectId: string;
+    id: string;
     onChangeActive: (index?: number) => void;
 };
 
@@ -49,7 +49,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
         mobile,
         loading,
         onLoadMore,
-        selectId,
+        id,
         onChangeActive,
     } = props;
     const items = React.useMemo(
@@ -145,7 +145,7 @@ export const SelectList = React.forwardRef<List<FlattenOption>, SelectListProps>
             renderItem={renderItem}
             onItemClick={onOptionClick}
             selectedItemIndex={selectedIndexes}
-            id={`${selectId}-list`}
+            id={id}
             role="listbox"
             onChangeActive={onChangeActive}
         />

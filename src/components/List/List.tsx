@@ -133,6 +133,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     render() {
         const {
+            id,
             emptyPlaceholder,
             virtualized,
             className,
@@ -158,6 +159,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
                     >
                         {this.renderFilter()}
                         <div
+                            id={id}
                             className={b('items', {virtualized}, itemsClassName)}
                             style={this.getItemsStyle()}
                             onMouseLeave={this.onMouseLeave}

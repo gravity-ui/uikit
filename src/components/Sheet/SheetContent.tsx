@@ -303,6 +303,11 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             return;
         }
 
+        if (!this.state.startY) {
+            this.onContentTouchStart(e);
+            return;
+        }
+
         const {startScrollTop, swipeAreaTouched} = this.state;
 
         if (

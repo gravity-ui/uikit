@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
+import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
 import type {List} from '../List';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {errorPropsMapper} from '../controls/utils';
@@ -21,7 +21,6 @@ import {
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
 import {useQuickSearch} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
-import {initialState, reducer} from './store';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
@@ -93,6 +92,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple = false,
         disabled = false,
         filterable = false,
+        filter: propsFilter,
         disablePortal,
         hasClear = false,
         onClose,
@@ -102,7 +102,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         title,
     } = props;
     const mobile = useMobile();
-    const [{filter}, dispatch] = React.useReducer(reducer, initialState);
+    const [filter, setFilter] = useControlledState(propsFilter, '', onFilterChange);
     // to avoid problem with incorrect popper offset calculation
     // for example: https://github.com/radix-ui/primitives/issues/1567
     const controlWrapRef = React.useRef<HTMLDivElement>(null);
@@ -110,28 +110,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const filterRef = React.useRef<SelectFilterRef>(null);
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
-
-    const handleFilterChange = React.useCallback(
-        (nextFilter: string) => {
-            onFilterChange?.(nextFilter);
-            dispatch({type: 'SET_FILTER', payload: {filter: nextFilter}});
-        },
-        [onFilterChange],
-    );
-
-    const handleOpenChange = React.useCallback(
-        (open: boolean) => {
-            onOpenChange?.(open);
-
-            if (!open && filterable) {
-                // FIXME: rework after https://github.com/gravity-ui/uikit/issues/1354
-                setTimeout(() => {
-                    handleFilterChange('');
-                }, 100);
-            }
-        },
-        [filterable, onOpenChange, handleFilterChange],
-    );
 
     const {
         value,
@@ -150,8 +128,17 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         multiple,
         open: propsOpen,
         onClose,
-        onOpenChange: handleOpenChange,
+        onOpenChange,
     });
+
+    React.useEffect(() => {
+        if (!open && filterable && mobile) {
+            // FIXME: add handlers to Sheet like in https://github.com/gravity-ui/uikit/issues/1354
+            setTimeout(() => {
+                setFilter('');
+            }, 300);
+        }
+    }, [open, filterable, setFilter, mobile]);
 
     const propsOptions = props.options || getOptionsFromChildren(props.children);
     const options = useSelectOptions({
@@ -283,7 +270,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     size={size}
                     value={filter}
                     placeholder={filterPlaceholder}
-                    onChange={handleFilterChange}
+                    onChange={setFilter}
                     onKeyDown={handleFilterKeyDown}
                     renderFilter={renderFilter}
                 />
@@ -369,6 +356,13 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
+                onAfterClose={
+                    filterable
+                        ? () => {
+                              setFilter('');
+                          }
+                        : undefined
+                }
             >
                 {renderPopup({renderFilter: _renderFilter, renderList: _renderList})}
             </SelectPopup>

@@ -2,14 +2,15 @@ import React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {cleanup} from '../../../../test-utils/utils';
+import {render, screen} from '../../../../test-utils/utils';
 import {TextInput} from '../../controls';
+import {MobileProvider} from '../../mobile';
+import {Select} from '../Select';
 import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
 
-import {TEST_QA, generateOptions, generateOptionsGroups, setup} from './utils';
+import {TEST_QA, generateOptions, generateOptionsGroups, setup, timeout} from './utils';
 
 afterEach(() => {
-    cleanup();
     jest.clearAllMocks();
 });
 
@@ -126,5 +127,69 @@ describe('Select filter', () => {
         expect(queryAllByRole('option').length).toBe(8);
         await user.keyboard('definitely not option');
         expect(queryAllByRole('option').length).toBe(0);
+    });
+
+    test('should not clear filter onClose if open is true', async () => {
+        const onClose = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <Select
+                    open
+                    filterable
+                    onFilterChange={onFilterChange}
+                    onClose={onClose}
+                    qa="select"
+                    filterPlaceholder="filter"
+                >
+                    <Select.Option value="one">One</Select.Option>
+                    <Select.Option value="two">Two</Select.Option>
+                    <Select.Option value="three">Three</Select.Option>
+                </Select>
+            </MobileProvider>,
+        );
+
+        await userEvent.click(screen.getByPlaceholderText('filter'));
+        await userEvent.keyboard('test');
+
+        expect(onFilterChange).toHaveBeenCalledTimes(4);
+        onFilterChange.mockClear();
+
+        await userEvent.click(document.body);
+        await timeout(400);
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onFilterChange).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not clear filter onClose', async () => {
+        const onClose = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <Select
+                    defaultOpen={true}
+                    filterable
+                    onFilterChange={onFilterChange}
+                    onClose={onClose}
+                    qa="select"
+                    filterPlaceholder="filter"
+                >
+                    <Select.Option value="one">One</Select.Option>
+                    <Select.Option value="two">Two</Select.Option>
+                    <Select.Option value="three">Three</Select.Option>
+                </Select>
+            </MobileProvider>,
+        );
+
+        await userEvent.click(screen.getByPlaceholderText('filter'));
+        await userEvent.keyboard('test');
+
+        expect(onFilterChange).toHaveBeenCalledTimes(4);
+        onFilterChange.mockClear();
+
+        await userEvent.click(document.body);
+        await timeout(400);
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onFilterChange).toHaveBeenCalledTimes(1);
     });
 });

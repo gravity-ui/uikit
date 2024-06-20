@@ -185,7 +185,12 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                                 {title}
                             </div>
                         )}
-                        <div ref={this.sheetInnerContentRef}>{content}</div>
+                        <div
+                            className={sheetBlock('inner-content')}
+                            ref={this.sheetInnerContentRef}
+                        >
+                            {content}
+                        </div>
                     </div>
                 </div>
             </React.Fragment>

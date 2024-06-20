@@ -19,23 +19,25 @@ export default {
 export const WithMenuShowcase: StoryFn<SheetProps> = (args: SheetProps) => {
     const [visible, setVisible] = React.useState(false);
 
+    const generateMenuItems = () => {
+        return Array.from({length: 50}, (_, index) => {
+            return <Menu.Item key={index}>menu item 2.{index}</Menu.Item>;
+        });
+    };
+
     return (
         <div className={b()}>
             <Button className={b('show-btn')} onClick={() => setVisible(true)}>
                 Show modal
             </Button>
             <Sheet {...args} visible={visible} onClose={() => setVisible(false)}>
-                <Menu>
+                <Menu className={b('menu')}>
                     <Menu.Group>
                         <Menu.Item>menu item 1.1</Menu.Item>
                         <Menu.Item>menu item 1.2</Menu.Item>
                         <Menu.Item>menu item 1.3</Menu.Item>
                     </Menu.Group>
-                    <Menu.Group>
-                        <Menu.Item>menu item 2.1</Menu.Item>
-                        <Menu.Item>menu item 2.2</Menu.Item>
-                        <Menu.Item>menu item 2.3</Menu.Item>
-                    </Menu.Group>
+                    <Menu.Group>{generateMenuItems()}</Menu.Group>
                 </Menu>
             </Sheet>
         </div>

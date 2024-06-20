@@ -8,10 +8,10 @@ import {unstable_getListItemClickHandler as getListItemClickHandler} from '@grav
 
 #### props:
 
-| Name     | Description                            |   Type    | Default |
-| :------- | :------------------------------------- | :-------: | :-----: |
-| list     | result of `useList` hook               | `UseList` |         |
-| multiple | One or multiple elements selected list | `boolean` |         |
+| Name     | Description                            |      Type       | Default |
+| :------- | :------------------------------------- | :-------------: | :-----: |
+| list     | result of `useList` hook               | `UseListResult` |         |
+| multiple | One or multiple elements selected list |    `boolean`    |         |
 
 #### Result:
 

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import type {ListItemId, UseList} from '../../types';
+import type {ListItemId, UseListResult} from '../../types';
 import {ListContainerView} from '../ListContainerView';
 import type {ListContainerViewProps} from '../ListContainerView/ListContainerView';
 import {ListItemRecursiveRenderer} from '../ListRecursiveRenderer/ListRecursiveRenderer';
 
 export type ListContainerProps<T> = Omit<ListContainerViewProps, 'children'> & {
-    list: UseList<T>;
+    list: UseListResult<T>;
     containerRef?: React.RefObject<HTMLDivElement>;
     renderItem(
         id: ListItemId,

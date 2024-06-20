@@ -31,7 +31,7 @@ return <ListItemView {...props} />;
 | Name               | Description                                                                        |                              Type                              | Default |
 | :----------------- | :--------------------------------------------------------------------------------- | :------------------------------------------------------------: | :-----: |
 | id                 | `id` of list item                                                                  |                          `ListItemId`                          |         |
-| list               | result of `useList` hook                                                           |                           `UseList`                            |         |
+| list               | result of `useList` hook                                                           |                        `UseListResult`                         |         |
 | multiple           | One or multiple elements selected list                                             |                           `boolean`                            |         |
 | onItemClick        | Optional on click handler                                                          | `(payload :{id: ListItemId}, e: React.SyntheticEvent) => void` |         |
 | size               | The size of the element. This also affects the rounding radius of the list element |                      `s \| m \| l \| xl`                       |   `m`   |

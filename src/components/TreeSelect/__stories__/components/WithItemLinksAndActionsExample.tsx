@@ -7,7 +7,7 @@ import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
 import {ListItemView} from '../../../useList';
-import type {ListItemId, UseList} from '../../../useList';
+import type {ListItemId, UseListResult} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -25,7 +25,7 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
     const [open, setOpen] = React.useState(true);
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
-    const onItemClick = (id: ListItemId, list: UseList<{title: string}>) => {
+    const onItemClick = (id: ListItemId, list: UseListResult<{title: string}>) => {
         if (list.state.disabledById[id]) return;
 
         list.state.setSelected((prevState) => ({

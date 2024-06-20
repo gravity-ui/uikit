@@ -8,7 +8,7 @@ import type {
     ListItemListContextProps,
     ListItemSize,
     RenderItemProps,
-    UseList,
+    UseListResult,
 } from '../useList';
 
 export type TreeListRenderItem<T, P extends {} = {}> = (props: {
@@ -17,7 +17,7 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     props: RenderItemProps;
     // internal list context props
     context: ListItemListContextProps;
-    list: UseList<T>;
+    list: UseListResult<T>;
     index: number;
     renderContainerProps?: P;
 }) => React.JSX.Element;
@@ -30,7 +30,7 @@ export type TreeListRenderContainer<T> = (props: TreeListContainerProps<T>) => R
 
 export type TreeListMapItemDataToProps<T> = (item: T) => ListItemCommonProps;
 
-export type TreeListOnItemClickPayload<T> = {id: ListItemId; list: UseList<T>};
+export type TreeListOnItemClickPayload<T> = {id: ListItemId; list: UseListResult<T>};
 
 export type TreeListOnItemClick<T> = (
     payload: TreeListOnItemClickPayload<T>,
@@ -42,7 +42,7 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
      * Control outside list container dom element. For example for keyboard
      */
     containerRef?: React.RefObject<HTMLDivElement>;
-    list: UseList<T>;
+    list: UseListResult<T>;
     id?: string | undefined;
     className?: string;
     multiple?: boolean;

@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
-import type {InitialListParsedState, UseList} from '../types';
+import type {InitialListParsedState, UseListResult} from '../types';
 
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
@@ -23,7 +23,7 @@ export const useList = <T>({
     withExpandedState = true,
     initialState: initialValues,
     controlledState,
-}: UseListProps<T>): UseList<T> => {
+}: UseListProps<T>): UseListResult<T> => {
     const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
         items,
         getItemId,

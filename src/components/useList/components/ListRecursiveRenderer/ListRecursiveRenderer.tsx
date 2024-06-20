@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {block} from '../../../utils/cn';
-import type {ListItemId, ListItemType, UseList} from '../../types';
+import type {ListItemId, ListItemType, UseListResult} from '../../types';
 import {isTreeItemGuard} from '../../utils/isTreeItemGuard';
 
 import './ListRecursiveRenderer.scss';
@@ -10,7 +10,7 @@ const b = block('list-recursive-renderer');
 
 export interface ListItemRecursiveRendererProps<T> {
     id: ListItemId;
-    list: UseList<T>;
+    list: UseListResult<T>;
     itemSchema: ListItemType<T>;
     children(id: ListItemId, index: number): React.JSX.Element;
     className?: string;

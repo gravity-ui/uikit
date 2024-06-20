@@ -12,7 +12,7 @@ export {
     type ListContainerViewProps as unstable_ListContainerViewProps,
     type ListItemType as unstable_ListItemType,
     type ListItemId as unstable_ListItemId,
-    type UseList as unstable_UseList,
+    type UseListResult as unstable_UseListResult,
     getItemRenderState as unstable_getItemRenderState,
     scrollToListItem as unstable_scrollToListItem,
     getListItemQa as unstable_getListItemQa,

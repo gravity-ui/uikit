@@ -1,8 +1,8 @@
-import type {ListOnItemClick, UseList} from '../types';
+import type {ListOnItemClick, UseListResult} from '../types';
 
 interface GetListItemClickHandlerProps<T> {
     multiple?: boolean;
-    list: UseList<T>;
+    list: UseListResult<T>;
 }
 
 export const getListItemClickHandler = <T = unknown>({

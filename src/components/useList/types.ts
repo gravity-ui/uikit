@@ -123,7 +123,7 @@ type ListStructure<T> = ParsedState<T> &
         items: ListItemType<T>[];
     };
 
-export type UseList<T> = {
+export type UseListResult<T> = {
     state: ListState;
     structure: ListStructure<T>;
 };

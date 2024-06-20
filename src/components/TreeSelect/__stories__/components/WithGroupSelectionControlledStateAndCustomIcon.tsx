@@ -6,7 +6,7 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView} from '../../../useList';
-import type {ListItemCommonProps, ListItemId, UseList} from '../../../useList';
+import type {ListItemCommonProps, ListItemId, UseListResult} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -39,7 +39,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
         [itemsCount],
     );
 
-    const onItemClick = (id: ListItemId, list: UseList<{a: string}>) => {
+    const onItemClick = (id: ListItemId, list: UseListResult<{a: string}>) => {
         if (list.state.disabledById[id]) return;
 
         list.state.setSelected((prevState) => ({

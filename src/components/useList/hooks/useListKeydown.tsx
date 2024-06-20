@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {KeyCode} from '../../../constants';
-import type {ListOnItemClick, UseList} from '../types';
+import type {ListOnItemClick, UseListResult} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
 
@@ -9,7 +9,7 @@ interface UseListKeydownProps<T = unknown> {
     onItemClick?: ListOnItemClick;
     containerRef?: React.RefObject<HTMLDivElement>;
     enabled?: boolean;
-    list: UseList<T>;
+    list: UseListResult<T>;
 }
 
 // Use this hook if you need keyboard support for tree structure lists

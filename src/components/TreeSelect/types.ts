@@ -9,11 +9,11 @@ import type {
     TreeListRenderContainer,
     TreeListRenderItem,
 } from '../TreeList/types';
-import type {ListItemId, ListItemSize, UseList} from '../useList';
+import type {ListItemId, ListItemSize, UseListResult} from '../useList';
 import type {UseListParsedStateProps} from '../useList/hooks/useListParsedState';
 
 export type TreeSelectRenderControlProps<T> = {
-    list: UseList<T>;
+    list: UseListResult<T>;
     open: boolean;
     toggleOpen(): void;
     clearValue(): void;
@@ -61,7 +61,7 @@ export interface TreeSelectProps<T, P extends {} = {}>
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
-    onUpdate?(value: ListItemId[], list: UseList<T>): void;
+    onUpdate?(value: ListItemId[], list: UseListResult<T>): void;
     /**
      * Ability to override custom toggler button
      */

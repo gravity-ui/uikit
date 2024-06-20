@@ -7,7 +7,7 @@ import type {
     ListItemSize,
     ListOnItemClick,
     RenderItemProps,
-    UseList,
+    UseListResult,
 } from '../types';
 
 import {getListItemQa} from './getListItemQa';
@@ -21,7 +21,7 @@ type ItemRendererProps<T> = QAProps & {
     id: ListItemId;
     mapItemDataToProps(data: T): ListItemCommonProps;
     onItemClick?: ListOnItemClick;
-    list: UseList<T>;
+    list: UseListResult<T>;
 };
 
 /**

@@ -13,7 +13,7 @@ The main hook to use what provide you normalized representation of list items (`
 | initialState         | Initial state values                                                       |   `Partial<ListState>`    |            |
 | controlledState      | Way to override state by some controlled values.                           |   `Partial<ListState>`    |            |
 
-#### Result (UseList):
+#### Result (UseListResult):
 
 | Name      | Description                                                                          |      Type       |
 | :-------- | :----------------------------------------------------------------------------------- | :-------------: |

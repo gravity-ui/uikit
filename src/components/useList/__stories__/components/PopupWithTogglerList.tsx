@@ -3,9 +3,8 @@ import React from 'react';
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {ListItemView} from '../../components/ListItemView/ListItemView';
-import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
+import {ListContainer} from '../../components/ListContainer';
+import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListItemClick} from '../../hooks/useListItemClick';
 import {useListKeydown} from '../../hooks/useListKeydown';
@@ -76,28 +75,21 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                 restoreFocus
                 restoreFocusRef={controlRef}
             >
-                <ListContainerView ref={containerRef}>
-                    {list.structure.itemsSchema.map((itemSchema, index) => (
-                        <ListItemRecursiveRenderer itemSchema={itemSchema} key={index}>
-                            {(id) => {
-                                const {props, context} = getItemRenderState({
-                                    id,
-                                    size,
-                                    onItemClick,
-                                    mapItemDataToProps: (x) => x,
-                                    list,
-                                });
+                <ListContainer
+                    containerRef={containerRef}
+                    list={list}
+                    renderItem={(id) => {
+                        const {props, context} = getItemRenderState({
+                            id,
+                            size,
+                            onItemClick,
+                            mapItemDataToProps: (x) => x,
+                            list,
+                        });
 
-                                return (
-                                    <ListItemView
-                                        {...props}
-                                        hasSelectionIcon={!context.childrenIds}
-                                    />
-                                );
-                            }}
-                        </ListItemRecursiveRenderer>
-                    ))}
-                </ListContainerView>
+                        return <ListItemView {...props} hasSelectionIcon={!context.childrenIds} />;
+                    }}
+                />
             </Popup>
         </Flex>
     );

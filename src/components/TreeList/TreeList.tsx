@@ -3,16 +3,16 @@
 import React from 'react';
 
 import {useUniqId} from '../../hooks';
-import {ListItemView, getItemRenderState, useListItemClick, useListKeydown} from '../useList';
-import type {ListItemId} from '../useList';
+import {
+    ListContainer,
+    ListItemView,
+    getItemRenderState,
+    useListItemClick,
+    useListKeydown,
+} from '../useList';
 import {block} from '../utils/cn';
 
-import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
-import type {
-    TreeListOnItemClickPayload,
-    TreeListProps,
-    TreeListRenderContainerProps,
-} from './types';
+import type {TreeListContainerProps, TreeListOnItemClick, TreeListProps} from './types';
 
 const b = block('tree-list');
 
@@ -23,7 +23,7 @@ export const TreeList = <T,>({
     className,
     list,
     renderItem: propsRenderItem,
-    renderContainer = TreeListContainer,
+    renderContainer = ListContainer,
     onItemClick: propsOnItemClick,
     multiple,
     containerRef: propsContainerRef,
@@ -44,13 +44,13 @@ export const TreeList = <T,>({
 
         const onClick = propsOnItemClick ?? defaultOnItemClick;
 
-        return ({id}: {id: ListItemId}) => {
-            const payload: TreeListOnItemClickPayload<T> = {id, list};
-
+        const handler: TreeListOnItemClick<T> = (payload) => {
             onClick(payload);
             withItemClick?.(payload);
         };
-    }, [defaultOnItemClick, list, propsOnItemClick, withItemClick]);
+
+        return handler;
+    }, [defaultOnItemClick, propsOnItemClick, withItemClick]);
 
     useListKeydown({
         containerRef,
@@ -58,7 +58,7 @@ export const TreeList = <T,>({
         list,
     });
 
-    const renderItem: TreeListRenderContainerProps<T>['renderItem'] = (
+    const renderItem: TreeListContainerProps<T>['renderItem'] = (
         itemId,
         index,
         renderContainerProps,

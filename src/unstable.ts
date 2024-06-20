@@ -7,6 +7,8 @@ export {
     ListItemView as unstable_ListItemView,
     type ListItemViewProps as unstable_ListItemViewProps,
     ListContainerView as unstable_ListContainerView,
+    type ListContainerProps as unstable_ListContainerProps,
+    ListContainer as unstable_ListContainer,
     type ListContainerViewProps as unstable_ListContainerViewProps,
     type ListItemType as unstable_ListItemType,
     type ListItemId as unstable_ListItemId,

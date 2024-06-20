@@ -7,14 +7,15 @@ import {Flex, spacing} from '../../../layout';
 import {useList, useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
-import type {TreeListProps, TreeListRenderContainerProps} from '../../types';
+import type {TreeListContainerProps, TreeListProps} from '../../types';
 import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
+interface Entity {
+    title: string;
+}
+
 export interface WithFiltrationAndControlsStoryProps
-    extends Omit<
-        TreeListProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
-    > {
+    extends Omit<TreeListProps<Entity>, 'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'> {
     itemsCount?: number;
 }
 
@@ -24,7 +25,7 @@ export const WithFiltrationAndControlsStory = ({
 }: WithFiltrationAndControlsStoryProps) => {
     const {items, renderContainer} = React.useMemo(() => {
         const baseItems = createRandomizedData({num: itemsCount});
-        const containerRenderer = (props: TreeListRenderContainerProps<{title: string}>) => {
+        const containerRenderer = (props: TreeListContainerProps<Entity>) => {
             if (props.list.structure.items.length === 0 && baseItems.length > 0) {
                 return (
                     <Flex centerContent className={spacing({p: 2})} height="300px">

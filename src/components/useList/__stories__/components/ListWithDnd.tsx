@@ -11,8 +11,8 @@ import type {
 import {Icon} from '../../../Icon';
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {ListItemView} from '../../components/ListItemView/ListItemView';
+import {ListContainerView} from '../../components/ListContainerView';
+import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListItemClick} from '../../hooks/useListItemClick';

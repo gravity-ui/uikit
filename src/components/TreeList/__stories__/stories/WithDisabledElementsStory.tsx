@@ -12,14 +12,15 @@ export interface WithDisabledElementsStoryProps
 
 const items: ListItemType<{text: string}>[] = [
     {
-        text: 'one',
+        text: 'default disabled',
         disabled: true,
     },
     {
         text: 'two',
     },
     {
-        text: 'free',
+        text: 'default selected',
+        selected: true,
     },
     {
         text: 'four',

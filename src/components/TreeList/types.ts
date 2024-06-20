@@ -2,6 +2,7 @@ import type React from 'react';
 
 import type {QAProps} from '../types';
 import type {
+    ListContainerProps,
     ListItemCommonProps,
     ListItemId,
     ListItemListContextProps,
@@ -21,34 +22,17 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     renderContainerProps?: P;
 }) => React.JSX.Element;
 
-export type TreeListRenderContainerProps<T> = QAProps & {
-    id: string;
-    list: UseList<T>;
-    /**
-     * May be needed for items size if it's virtualized container for example
-     */
+export type TreeListContainerProps<T> = ListContainerProps<T> & {
     size: ListItemSize;
-    containerRef?: React.RefObject<HTMLDivElement>;
-    className?: string;
-    renderItem(
-        id: ListItemId,
-        index: number,
-        /**
-         * Ability to transfer props from an overridden container render
-         */
-        renderContainerProps?: Object,
-    ): React.JSX.Element;
 };
 
-export type TreeListRenderContainer<T> = (
-    props: TreeListRenderContainerProps<T>,
-) => React.JSX.Element;
+export type TreeListRenderContainer<T> = (props: TreeListContainerProps<T>) => React.JSX.Element;
 
 export type TreeListMapItemDataToProps<T> = (item: T) => ListItemCommonProps;
 
 export type TreeListOnItemClickPayload<T> = {id: ListItemId; list: UseList<T>};
 
-type TreeListOnItemClick<T> = (payload: TreeListOnItemClickPayload<T>) => void;
+export type TreeListOnItemClick<T> = (payload: TreeListOnItemClickPayload<T>) => void;
 
 export interface TreeListProps<T, P extends {} = {}> extends QAProps {
     /**

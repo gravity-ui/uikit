@@ -4,9 +4,8 @@ import {Button} from '../../../Button';
 import {Loader} from '../../../Loader';
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {ListItemView} from '../../components/ListItemView/ListItemView';
-import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
+import {ListContainer} from '../../components/ListContainer';
+import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListItemClick} from '../../hooks/useListItemClick';
@@ -64,39 +63,37 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                             ref={filterState.filterRef}
                         />
 
-                        <ListContainerView ref={containerRef}>
-                            {list.structure.itemsSchema.map((itemSchema, index) => (
-                                <ListItemRecursiveRenderer itemSchema={itemSchema} key={index}>
-                                    {(id) => {
-                                        const {props, context} = getItemRenderState({
-                                            id,
-                                            size,
-                                            onItemClick,
-                                            multiple: true,
-                                            mapItemDataToProps: (x) => x,
-                                            list,
-                                        });
-                                        const node = <ListItemView {...props} />;
+                        <ListContainer
+                            containerRef={containerRef}
+                            list={list}
+                            renderItem={(id) => {
+                                const {props, context} = getItemRenderState({
+                                    id,
+                                    size,
+                                    onItemClick,
+                                    multiple: true,
+                                    mapItemDataToProps: (x) => x,
+                                    list,
+                                });
+                                const node = <ListItemView {...props} />;
 
-                                        if (context.isLastItem) {
-                                            return (
-                                                <IntersectionContainer
-                                                    onIntersect={
-                                                        canFetchMore && !filterState.filter
-                                                            ? onFetchMore
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {node}
-                                                </IntersectionContainer>
-                                            );
-                                        }
+                                if (context.isLastItem) {
+                                    return (
+                                        <IntersectionContainer
+                                            onIntersect={
+                                                canFetchMore && !filterState.filter
+                                                    ? onFetchMore
+                                                    : undefined
+                                            }
+                                        >
+                                            {node}
+                                        </IntersectionContainer>
+                                    );
+                                }
 
-                                        return node;
-                                    }}
-                                </ListItemRecursiveRenderer>
-                            ))}
-                        </ListContainerView>
+                                return node;
+                            }}
+                        />
                     </React.Fragment>
                 )}
 

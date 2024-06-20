@@ -2,9 +2,8 @@ import React from 'react';
 
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {ListItemView} from '../../components/ListItemView/ListItemView';
-import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
+import {ListContainer} from '../../components/ListContainer';
+import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListItemClick} from '../../hooks/useListItemClick';
@@ -49,26 +48,23 @@ export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: Recur
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
             />
-            <ListContainerView ref={containerRef} extraProps={{'aria-label': ariaLabel}}>
-                {list.structure.itemsSchema.map((itemSchema, index) => (
-                    <ListItemRecursiveRenderer itemSchema={itemSchema} key={index}>
-                        {(id) => {
-                            const {props, context} = getItemRenderState({
-                                id,
-                                size,
-                                onItemClick,
-                                multiple: true,
-                                mapItemDataToProps: (x) => x,
-                                list,
-                            });
+            <ListContainer
+                list={list}
+                containerRef={containerRef}
+                extraProps={{'aria-label': ariaLabel}}
+                renderItem={(id) => {
+                    const {props, context} = getItemRenderState({
+                        id,
+                        size,
+                        onItemClick,
+                        multiple: true,
+                        mapItemDataToProps: (x) => x,
+                        list,
+                    });
 
-                            return (
-                                <ListItemView {...props} hasSelectionIcon={!context.childrenIds} />
-                            );
-                        }}
-                    </ListItemRecursiveRenderer>
-                ))}
-            </ListContainerView>
+                    return <ListItemView {...props} hasSelectionIcon={!context.childrenIds} />;
+                }}
+            />
         </Flex>
     );
 };

@@ -50,7 +50,7 @@ export const useList = <T>({
         rootNodesGroups,
     });
 
-    const {visibleFlattenIds, idToFlattenIndex, itemsSchema} = useFlattenListItems({
+    const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({
         items,
         /**
          * By default controlled from list items declaration state
@@ -75,7 +75,7 @@ export const useList = <T>({
     return {
         state: realState,
         structure: {
-            itemsSchema,
+            rootIds,
             items,
             visibleFlattenIds,
             idToFlattenIndex,

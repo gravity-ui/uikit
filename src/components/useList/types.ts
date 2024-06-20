@@ -109,9 +109,13 @@ export type ItemSchema = {
 };
 
 export type ParsedFlattenState = {
+    /**
+     * Original list ordered ids without flatten elements.
+     * Use it to get internal item id
+     */
+    rootIds: ListItemId[];
     visibleFlattenIds: ListItemId[];
     idToFlattenIndex: Record<ListItemId, number>;
-    itemsSchema: ItemSchema[];
 };
 
 type ListStructure<T> = ParsedState<T> &

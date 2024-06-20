@@ -15,6 +15,8 @@ export function flattenItems<T>({
     getItemId,
     expandedById = {},
 }: FlattenItemsProps<T>): ParsedFlattenState {
+    const rootIds: ListItemId[] = [];
+
     const getNestedIds = (
         order: string[],
         item: ListItemType<T>,
@@ -23,6 +25,11 @@ export function flattenItems<T>({
     ) => {
         const groupedId = getGroupItemId(index, parentId);
         const id = getListItemId({groupedId, item, getItemId});
+
+        // only top level array
+        if (!parentId) {
+            rootIds.push(id);
+        }
 
         order.push(id);
 
@@ -52,36 +59,9 @@ export function flattenItems<T>({
         idToFlattenIndex[index] = item;
     }
 
-    const getItemSchema = ({
-        item,
-        parentId,
-        index,
-    }: {
-        item: ListItemType<T>;
-        parentId?: string;
-        index: number;
-    }) => {
-        const groupedId = getGroupItemId(index, parentId);
-        const id = getListItemId({groupedId, item, getItemId});
-
-        const schema: ParsedFlattenState['itemsSchema'][0] = {id, index: idToFlattenIndex[id]};
-
-        if (isTreeItemGuard(item) && item.children && !(id in expandedById && !expandedById[id])) {
-            schema.children = item.children.map((item, index) =>
-                getItemSchema({item, parentId: id, index}),
-            );
-        }
-
-        return schema;
-    };
-
-    const itemsSchema: ParsedFlattenState['itemsSchema'] = items.map((item, index) =>
-        getItemSchema({item, index}),
-    );
-
     return {
+        rootIds,
         visibleFlattenIds,
         idToFlattenIndex,
-        itemsSchema,
     };
 }

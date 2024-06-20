@@ -4,9 +4,9 @@ import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {
+    TreeListContainerProps,
     TreeListProps,
     TreeListRenderContainer,
-    TreeListRenderContainerProps,
     TreeListRenderItem,
 } from '../TreeList/types';
 import type {ListItemId, ListItemSize, UseList} from '../useList';
@@ -27,7 +27,7 @@ export type TreeSelectRenderControlProps<T> = {
 };
 
 export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P>;
-export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
+export type TreeSelectRenderContainerProps<T> = TreeListContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
 interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {

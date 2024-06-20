@@ -36,36 +36,7 @@ describe('flattenItems', () => {
         const result: ParsedFlattenState = {
             visibleFlattenIds: ['0', '1', '1-0', '1-1', '1-1-0', '1-2', '2'],
             idToFlattenIndex: {0: 0, 1: 1, '1-0': 2, '1-1': 3, '1-1-0': 4, '1-2': 5, 2: 6},
-            itemsSchema: [
-                {
-                    id: '0',
-                    index: 0,
-                },
-                {
-                    id: '1',
-                    index: 1,
-                    children: [
-                        {
-                            id: '1-0',
-                            index: 2,
-                        },
-                        {
-                            id: '1-1',
-                            index: 3,
-                            children: [{id: '1-1-0', index: 4, children: []}],
-                        },
-                        {
-                            id: '1-2',
-                            index: 5,
-                        },
-                    ],
-                },
-                {
-                    id: '2',
-                    index: 6,
-                    children: [],
-                },
-            ],
+            rootIds: ['0', '1', '2'],
         };
 
         expect(flattenItems({items: data})).toEqual(result);
@@ -75,21 +46,7 @@ describe('flattenItems', () => {
         const result: ParsedFlattenState = {
             visibleFlattenIds: ['0', '1', '2'],
             idToFlattenIndex: {0: 0, 1: 1, 2: 2},
-            itemsSchema: [
-                {
-                    id: '0',
-                    index: 0,
-                },
-                {
-                    id: '1',
-                    index: 1,
-                },
-                {
-                    id: '2',
-                    index: 2,
-                    children: [],
-                },
-            ],
+            rootIds: ['0', '1', '2'],
         };
 
         expect(
@@ -105,35 +62,7 @@ describe('flattenItems', () => {
         const result: ParsedFlattenState = {
             visibleFlattenIds: ['0', '1', '1-0', '1-1', '1-2', '2'],
             idToFlattenIndex: {0: 0, 1: 1, '1-0': 2, '1-1': 3, '1-2': 4, 2: 5},
-            itemsSchema: [
-                {
-                    id: '0',
-                    index: 0,
-                },
-                {
-                    id: '1',
-                    index: 1,
-                    children: [
-                        {
-                            id: '1-0',
-                            index: 2,
-                        },
-                        {
-                            id: '1-1',
-                            index: 3,
-                        },
-                        {
-                            id: '1-2',
-                            index: 4,
-                        },
-                    ],
-                },
-                {
-                    id: '2',
-                    index: 5,
-                    children: [],
-                },
-            ],
+            rootIds: ['0', '1', '2'],
         };
 
         expect(
@@ -154,21 +83,7 @@ describe('flattenItems', () => {
                 'item-1': 1,
                 'item-2': 2,
             },
-            itemsSchema: [
-                {
-                    id: 'item-0',
-                    index: 0,
-                },
-                {
-                    id: 'item-1',
-                    index: 1,
-                },
-                {
-                    id: 'item-2',
-                    index: 2,
-                    children: [],
-                },
-            ],
+            rootIds: ['item-0', 'item-1', 'item-2'],
         };
 
         expect(

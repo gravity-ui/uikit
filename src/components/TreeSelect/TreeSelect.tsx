@@ -47,7 +47,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         defaultValue,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
-        disableDefaultClickHandler,
+        disableDefaultItemClickBehavior,
         onClose,
         onOpenChange,
         onUpdate,
@@ -103,7 +103,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         });
 
     const handleItemClick = React.useMemo(() => {
-        if (disableDefaultClickHandler && !onItemClick) {
+        if (disableDefaultItemClickBehavior && !onItemClick) {
             return undefined;
         }
 
@@ -112,7 +112,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
             if (list.state.disabledById[id]) return;
 
-            if (!disableDefaultClickHandler) {
+            if (!disableDefaultItemClickBehavior) {
                 // always activate selected item
                 list.state.setActiveItemId(id);
 
@@ -136,7 +136,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         return handler;
     }, [
         multiple,
-        disableDefaultClickHandler,
+        disableDefaultItemClickBehavior,
         onItemClick,
         handleMultipleSelection,
         handleSingleSelection,

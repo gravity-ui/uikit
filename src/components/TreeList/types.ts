@@ -59,6 +59,6 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
     /**
      * Disable default `onItemClick` handler logic
      */
-    disableDefaultClickHandler?: boolean;
+    disableDefaultItemClickBehavior?: boolean;
     mapItemDataToProps: TreeListMapItemDataToProps<T>;
 }

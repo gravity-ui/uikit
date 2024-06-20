@@ -35,7 +35,7 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
                     list={listWithGroups}
                     onItemClick={null}
                     mapItemDataToProps={identity}
-                    disableDefaultClickHandler
+                    disableDefaultItemClickBehavior
                 />
             </Flex>
             <Flex direction={'column'} gap="3">
@@ -48,7 +48,7 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
                     list={listWithNoGroups}
                     onItemClick={null}
                     mapItemDataToProps={identity}
-                    disableDefaultClickHandler
+                    disableDefaultItemClickBehavior
                 />
             </Flex>
         </Flex>

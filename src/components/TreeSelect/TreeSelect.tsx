@@ -80,7 +80,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     });
 
     const list = useList({
-        mixState: {
+        controlledState: {
             selectedById: selected,
         },
         items,

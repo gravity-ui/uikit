@@ -10,7 +10,7 @@ import {useListState} from './useListState';
 import type {UseListStateProps} from './useListState';
 
 interface UseListProps<T> extends UseListParsedStateProps<T>, UseListStateProps {
-    mixState?: Partial<InitialListParsedState>;
+    controlledState?: Partial<InitialListParsedState>;
 }
 
 /**
@@ -22,7 +22,7 @@ export const useList = <T>({
     defaultExpandedState = 'expanded',
     withExpandedState = true,
     initialState: initialValues,
-    mixState,
+    controlledState,
 }: UseListProps<T>): UseList<T> => {
     const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
         items,
@@ -60,17 +60,15 @@ export const useList = <T>({
     });
 
     const realState = React.useMemo(() => {
-        if (mixState) {
+        if (controlledState) {
             return {
                 ...innerState,
-                expandedById: {...innerState.expandedById, ...mixState?.expandedById},
-                selectedById: {...innerState.selectedById, ...mixState?.selectedById},
-                disabledById: {...innerState.disabledById, ...mixState?.disabledById},
+                ...controlledState,
             };
         }
 
         return innerState;
-    }, [mixState, innerState]);
+    }, [controlledState, innerState]);
 
     return {
         state: realState,

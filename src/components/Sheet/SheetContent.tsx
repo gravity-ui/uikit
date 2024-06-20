@@ -16,6 +16,7 @@ const ACCELERATION_Y_MAX = 0.08;
 const ACCELERATION_Y_MIN = -0.02;
 // 90% from viewport
 const MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT = 0.9;
+const WINDOW_RESIZE_TIMEOUT = 25;
 
 let hashHistory: string[] = [];
 
@@ -74,6 +75,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetTitleRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
+    resizeWindowTimer: NodeJS.Timeout | null = null;
 
     state: SheetContentState = {
         startScrollTop: 0,
@@ -90,7 +92,9 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     componentDidMount() {
         this.addListeners();
         this.show();
-        const initialHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
+
+        const initialHeight = this.getResultHeight(this.sheetFullHeight);
+
         this.setInitialStyles(initialHeight);
         this.setState({
             prevSheetHeight: initialHeight,
@@ -222,6 +226,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         return this.sheetContentRef.current?.scrollTop || 0;
     }
 
+    private get sheetFullHeight() {
+        return this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
+    }
+
     private setInitialStyles(initialHeight: number) {
         if (this.sheetContentRef.current && this.sheetInnerContentRef.current) {
             this.sheetContentRef.current.style.height = `${initialHeight}px`;
@@ -247,6 +255,16 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.veilRef.current.style.opacity = String(opacity);
 
         this.sheetRef.current.style.transform = translate;
+    };
+
+    private getResultHeight = (sheetHeight: number) => {
+        const availableViewportHeight =
+            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT - this.sheetTopHeight;
+
+        const resultHeight =
+            sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
+
+        return resultHeight;
     };
 
     private show = () => {
@@ -408,9 +426,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private onResizeWindow = () => {
         this.setState({inWindowResizeScope: true});
 
-        this.onResize();
+        if (this.resizeWindowTimer) {
+            clearTimeout(this.resizeWindowTimer);
+        }
 
-        setTimeout(() => this.setState({inWindowResizeScope: false}), 0);
+        this.resizeWindowTimer = setTimeout(() => {
+            this.onResize();
+        }, WINDOW_RESIZE_TIMEOUT);
     };
 
     private onResize = () => {
@@ -418,17 +440,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             return;
         }
 
-        const sheetHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
+        const sheetHeight = this.sheetFullHeight;
 
         if (sheetHeight === this.state.prevSheetHeight && !this.state.inWindowResizeScope) {
             return;
         }
 
-        const availableViewportHeight =
-            window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT;
-
-        const resultHeight =
-            sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
+        const resultHeight = this.getResultHeight(sheetHeight);
 
         this.sheetContentRef.current.style.transition =
             this.state.prevSheetHeight > sheetHeight
@@ -437,7 +455,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         this.sheetContentRef.current.style.height = `${resultHeight - this.sheetTopHeight}px`;
         this.sheetRef.current.style.transform = `translate3d(0, -${resultHeight}px, 0)`;
-        this.setState({prevSheetHeight: sheetHeight});
+        this.setState({prevSheetHeight: sheetHeight, inWindowResizeScope: false});
     };
 
     private addListeners() {

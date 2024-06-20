@@ -75,7 +75,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     sheetTitleRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
-    resizeWindowTimer: NodeJS.Timeout | null = null;
+    resizeWindowTimer: number | null = null;
 
     state: SheetContentState = {
         startScrollTop: 0,
@@ -190,12 +190,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                                 {title}
                             </div>
                         )}
-                        <div
-                            className={sheetBlock('inner-content')}
-                            ref={this.sheetInnerContentRef}
-                        >
-                            {content}
-                        </div>
+                        <div ref={this.sheetInnerContentRef}>{content}</div>
                     </div>
                 </div>
             </React.Fragment>
@@ -427,10 +422,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.setState({inWindowResizeScope: true});
 
         if (this.resizeWindowTimer) {
-            clearTimeout(this.resizeWindowTimer);
+            window.clearTimeout(this.resizeWindowTimer);
         }
 
-        this.resizeWindowTimer = setTimeout(() => {
+        this.resizeWindowTimer = window.setTimeout(() => {
             this.onResize();
         }, WINDOW_RESIZE_TIMEOUT);
     };

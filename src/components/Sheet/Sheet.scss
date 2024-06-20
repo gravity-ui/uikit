@@ -86,10 +86,6 @@ $block: '.#{variables.$ns}sheet';
         }
     }
 
-    &__inner-content {
-        overflow: auto;
-    }
-
     &__sheet-content-title {
         padding-block-end: 8px;
         font-size: var(--g-text-body-2-font-size);

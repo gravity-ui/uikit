@@ -8,11 +8,11 @@ import {ListContainerView} from '../../components/ListContainerView';
 import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
-import {useListItemClick} from '../../hooks/useListItemClick';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import type {ListItemSize} from '../../types';
 import {computeItemSize} from '../../utils/computeItemSize';
 import {getItemRenderState} from '../../utils/getItemRenderState';
+import {getListItemClickHandler} from '../../utils/getListItemClickHandler';
 import {createRandomizedData} from '../utils/makeData';
 
 import {VirtualizedListContainer} from './VirtualizedListContainer';
@@ -33,7 +33,7 @@ export const FlattenList = ({itemsCount, size}: FlattenListProps) => {
 
     const list = useList({items: filterState.items});
 
-    const onItemClick = useListItemClick({list});
+    const onItemClick = getListItemClickHandler({list});
 
     useListKeydown({
         containerRef,

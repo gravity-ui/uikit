@@ -11,7 +11,7 @@ import {
 } from '@gravity-ui/uikit/unstable';
 
 const list = useList({items: [...]});
-const onItemClick = useListItemClick({list});
+const onItemClick = getListItemClickHandler({list});
 
 const {data, props, context} = getItemRenderState({
     qa: 'some-qa-id',

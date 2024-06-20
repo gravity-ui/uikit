@@ -1,9 +1,9 @@
-### useListItemClick
+### getListItemClickHandler
 
 Basic click logic implemented for you
 
 ```tsx
-import {unstable_useListItemClick as useListItemClick} from '@gravity-ui/uikit/unstable';
+import {unstable_getListItemClickHandler as getListItemClickHandler} from '@gravity-ui/uikit/unstable';
 ```
 
 #### props:
@@ -24,7 +24,7 @@ const filterState = useListFilter({items: [...]});
 
 const list = useList({items: filterState.items});
 
-const onItemClick = useListItemClick({list});
+const onItemClick = getListItemClickHandler({list});
 
 useListKeydown({
   containerRef,

@@ -15,10 +15,10 @@ import {ListContainerView} from '../../components/ListContainerView';
 import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
-import {useListItemClick} from '../../hooks/useListItemClick';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import type {ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
+import {getListItemClickHandler} from '../../utils/getListItemClickHandler';
 import {createRandomizedData} from '../utils/makeData';
 import {reorderArray} from '../utils/reorderArray';
 
@@ -42,7 +42,7 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
         items: filterState.items,
     });
 
-    const onItemClick = useListItemClick({list});
+    const onItemClick = getListItemClickHandler({list});
 
     useListKeydown({
         containerRef,

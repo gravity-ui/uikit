@@ -3,7 +3,7 @@ import {Meta, Markdown} from '@storybook/addon-docs';
 import UseListHook from './docs/use-list.md?raw';
 import UseListKeydownHook from './docs/use-list-keydown.md?raw';
 import UseListFilterHook from './docs/use-list-filter.md?raw';
-import UseListItemClickHook from './docs/use-list-item-click.md?raw';
+import GetListItemClickHandler from './docs/get-list-item-click-handler.md?raw';
 import ListItemView from './docs/list-item-view.md?raw';
 import ListContainerView from './docs/list-container-view.md?raw';
 import ListRecursiveRenderer from './docs/list-recursive-renderer.md?raw';
@@ -28,7 +28,6 @@ The basic idea is that hooks take all the complex logic on themselves, and all y
 -   [useList](#uselist);
 -   [useListKeydown](#uselistkeydown)
 -   [useListFilter](#uselistfilter);
--   [useListItemClick](#uselistitemclick);
 
 ### Components (View only):
 
@@ -38,6 +37,7 @@ The basic idea is that hooks take all the complex logic on themselves, and all y
 
 ### Utilities:
 
+-   [getListItemClickHandler](#getlistItemclickhandler);
 -   [computeItemSize](#computeitemsize);
 -   [scrollToListItem](#scrolltolistitem);
 -   [getItemRenderState](#getitemrenderstate);
@@ -66,7 +66,7 @@ function List() {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     const list = useList({items});
-    const onItemClick = useListItemClick({list, multiple: true});
+    const onItemClick = getListItemClickHandler({list, multiple: true});
     useListKeydown({onItemClick, containerRef, list});
 
     return (
@@ -136,8 +136,6 @@ function List() {
 
 <Markdown>{UseListFilterHook}</Markdown>
 
-<Markdown>{UseListItemClickHook}</Markdown>
-
 ## Components:
 
 <Markdown>{ListItemView}</Markdown>
@@ -147,6 +145,8 @@ function List() {
 <Markdown>{ListRecursiveRenderer}</Markdown>
 
 ## Utilities
+
+<Markdown>{GetListItemClickHandler}</Markdown>
 
 <Markdown>{computeItemSize}</Markdown>
 

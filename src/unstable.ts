@@ -3,7 +3,7 @@ export {
     useList as unstable_useList,
     useListFilter as unstable_useListFilter,
     useListKeydown as unstable_useListKeydown,
-    useListItemClick as unstable_useListItemClick,
+    getListItemClickHandler as unstable_getListItemClickHandler,
     ListItemView as unstable_ListItemView,
     type ListItemViewProps as unstable_ListItemViewProps,
     ListContainerView as unstable_ListContainerView,

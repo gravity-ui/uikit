@@ -17,12 +17,12 @@ Keyboard support
 import {
     unstable_useList as useList,
     unstable_useListKeydown as useListKeydown,
-    unstable_useListItemClick as useListItemClick,
+    unstable_getListItemClickHandler as getListItemClickHandler,
 } from '@gravity-ui/uikit/unstable';
 
 const containerRef = React.useRef<HTMLDivElement>(null);
 const list = useList(...)
-const handleItemClick = useListItemClick({list});
+const handleItemClick = getListItemClickHandler({list});
 
 useListKeydown({
     onItemClick,

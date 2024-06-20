@@ -8,10 +8,10 @@ import {ListContainer} from '../../components/ListContainer';
 import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
-import {useListItemClick} from '../../hooks/useListItemClick';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import type {ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
+import {getListItemClickHandler} from '../../utils/getListItemClickHandler';
 import {useInfinityFetch} from '../utils/useInfinityFetch';
 
 import {IntersectionContainer} from './IntersectionContainer/IntersectionContainer';
@@ -26,7 +26,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
     const filterState = useListFilter({items: data});
     const list = useList({items: filterState.items});
 
-    const onItemClick = useListItemClick({list, multiple: true});
+    const onItemClick = getListItemClickHandler({list, multiple: true});
 
     useListKeydown({
         containerRef,

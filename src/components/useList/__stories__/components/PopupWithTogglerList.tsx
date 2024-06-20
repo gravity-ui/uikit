@@ -6,10 +6,10 @@ import {Flex} from '../../../layout';
 import {ListContainer} from '../../components/ListContainer';
 import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
-import {useListItemClick} from '../../hooks/useListItemClick';
 import {useListKeydown} from '../../hooks/useListKeydown';
 import type {ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
+import {getListItemClickHandler} from '../../utils/getListItemClickHandler';
 import {scrollToListItem} from '../../utils/scrollToListItem';
 import {createRandomizedData} from '../utils/makeData';
 
@@ -32,7 +32,7 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
 
     const list = useList({items});
 
-    const onItemClick = useListItemClick({list});
+    const onItemClick = getListItemClickHandler({list});
 
     const [selectedId] = React.useMemo(
         () => Object.keys(list.state.selectedById),

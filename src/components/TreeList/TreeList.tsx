@@ -7,7 +7,7 @@ import {
     ListContainer,
     ListItemView,
     getItemRenderState,
-    useListItemClick,
+    getListItemClickHandler,
     useListKeydown,
 } from '../useList';
 import type {ListItemId} from '../useList';
@@ -36,7 +36,7 @@ export const TreeList = <T,>({
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
     const containerRef = propsContainerRef ?? containerRefLocal;
 
-    const defaultOnItemClick = useListItemClick({list, multiple});
+    const defaultOnItemClick = getListItemClickHandler({list, multiple});
 
     const onItemClick = React.useMemo(() => {
         if (propsOnItemClick === null) {

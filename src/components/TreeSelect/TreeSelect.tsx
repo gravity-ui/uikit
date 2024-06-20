@@ -13,7 +13,7 @@ import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
 
 import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
-import type {MultipleValue, TreeSelectProps, TreeSelectRenderControlProps} from './types';
+import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
 
 import './TreeSelect.scss';
 
@@ -23,10 +23,7 @@ const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
     return <ListItemView {...renderState.props} {...renderState.renderContainerProps} />;
 };
 
-export const TreeSelect = React.forwardRef(function TreeSelect<
-    T,
-    M extends boolean | undefined = undefined,
->(
+export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     {
         id,
         qa,
@@ -62,7 +59,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
         getItemId,
         onItemClick,
         onItemAction,
-    }: TreeSelectProps<T, M>,
+    }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const mobile = useMobile();
@@ -97,7 +94,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
             value,
             setInnerValue,
             onUpdate: (ids) => {
-                onUpdate?.((multiple ? ids : ids[0]) as MultipleValue<M>, list);
+                onUpdate?.(ids, list);
             },
             defaultOpen,
             open: propsOpen,
@@ -233,6 +230,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
             </SelectPopup>
         </div>
     );
-}) as <T, M extends boolean | undefined = undefined, P extends {} = {}>(
-    props: TreeSelectProps<T, M, P> & {ref?: React.Ref<HTMLDivElement>},
+}) as <T, P extends {} = {}>(
+    props: TreeSelectProps<T, P> & {ref?: React.Ref<HTMLDivElement>},
 ) => React.ReactElement;

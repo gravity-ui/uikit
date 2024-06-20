@@ -35,21 +35,16 @@ interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
     multiple?: boolean;
 }
 
-export type MultipleValue<M extends boolean | undefined> = M extends true
-    ? ListItemId[]
-    : ListItemId | undefined;
-
-export interface TreeSelectProps<T, M extends boolean | undefined = false, P extends {} = {}>
+export interface TreeSelectProps<T, P extends {} = {}>
     extends Omit<TreeListProps<T, P>, 'list' | 'renderContainer' | 'multiple'>,
         UseOpenProps,
         TreeSelectBehavioralProps<T> {
-    multiple?: M;
     /**
      * Control's title attribute value
      */
     title?: string;
-    value?: MultipleValue<M>;
-    defaultValue?: MultipleValue<M> | undefined;
+    value?: ListItemId[];
+    defaultValue?: ListItemId[] | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];
     placement?: PopperPlacement;
@@ -66,7 +61,7 @@ export interface TreeSelectProps<T, M extends boolean | undefined = false, P ext
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
-    onUpdate?(value: MultipleValue<M>, list: UseList<T>): void;
+    onUpdate?(value: ListItemId[], list: UseList<T>): void;
     /**
      * Ability to override custom toggler button
      */

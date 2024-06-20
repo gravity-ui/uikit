@@ -36,14 +36,12 @@ export const TreeList = <T,>({
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
     const containerRef = propsContainerRef ?? containerRefLocal;
 
-    const defaultOnItemClick = getListItemClickHandler({list, multiple});
-
     const onItemClick = React.useMemo(() => {
         if (propsOnItemClick === null) {
             return undefined;
         }
 
-        const onClick = propsOnItemClick ?? defaultOnItemClick;
+        const onClick = propsOnItemClick ?? getListItemClickHandler({list, multiple});
 
         return ({id}: {id: ListItemId}) => {
             const payload = {id, list};
@@ -51,7 +49,7 @@ export const TreeList = <T,>({
             onClick(payload);
             withItemClick?.(payload);
         };
-    }, [defaultOnItemClick, list, propsOnItemClick, withItemClick]);
+    }, [list, multiple, propsOnItemClick, withItemClick]);
 
     useListKeydown({
         containerRef,

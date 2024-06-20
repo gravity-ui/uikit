@@ -51,7 +51,7 @@ export const WithDisabledElementsStory = ({...storyProps}: WithDisabledElementsS
                 list={list}
                 containerRef={containerRef}
                 mapItemDataToProps={({text}) => ({title: text})}
-                withItemClick={({id}) => {
+                onItemAction={({id}) => {
                     alert(
                         `Clicked by item with id :"${id}" and data: ${JSON.stringify(list.structure.itemsById[id])}`,
                     );

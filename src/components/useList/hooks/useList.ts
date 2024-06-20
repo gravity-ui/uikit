@@ -21,7 +21,7 @@ export const useList = <T>({
     getItemId,
     defaultExpandedState = 'expanded',
     withExpandedState = true,
-    initialValues,
+    initialState: initialValues,
     mixState,
 }: UseListProps<T>): UseList<T> => {
     const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
@@ -46,7 +46,7 @@ export const useList = <T>({
     ]);
 
     const innerState = useListState({
-        initialValues: initValues,
+        initialState: initValues,
         withExpandedState,
     });
 

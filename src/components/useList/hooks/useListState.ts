@@ -7,31 +7,31 @@ export interface UseListStateProps {
     /**
      * Initial state values
      */
-    initialValues?: Partial<ListState>;
+    initialState?: Partial<ListState>;
     withExpandedState?: boolean;
 }
 
-export const useListState = ({initialValues, withExpandedState}: UseListStateProps): ListState => {
-    const initialValuesRef = React.useRef(initialValues);
-    const needToUpdateInitValues = initialValuesRef.current !== initialValues;
-    initialValuesRef.current = initialValues;
+export const useListState = ({initialState, withExpandedState}: UseListStateProps): ListState => {
+    const initialStateRef = React.useRef(initialState);
+    const needToUpdateInitValues = initialStateRef.current !== initialState;
+    initialStateRef.current = initialState;
 
-    const [disabledById, setDisabled] = React.useState(() => initialValues?.disabledById ?? {});
-    const [selectedById, setSelected] = React.useState(() => initialValues?.selectedById ?? {});
-    const [expandedById, setExpanded] = React.useState(() => initialValues?.expandedById ?? {});
-    const [activeItemId, setActiveItemId] = React.useState(() => initialValues?.activeItemId);
+    const [disabledById, setDisabled] = React.useState(() => initialState?.disabledById ?? {});
+    const [selectedById, setSelected] = React.useState(() => initialState?.selectedById ?? {});
+    const [expandedById, setExpanded] = React.useState(() => initialState?.expandedById ?? {});
+    const [activeItemId, setActiveItemId] = React.useState(() => initialState?.activeItemId);
 
     if (needToUpdateInitValues) {
-        if (initialValues?.disabledById) {
-            setDisabled((prevValues) => ({...initialValues.disabledById, ...prevValues}));
+        if (initialState?.disabledById) {
+            setDisabled((prevValues) => ({...initialState.disabledById, ...prevValues}));
         }
-        if (initialValues?.selectedById) {
-            setSelected((prevValues) => ({...initialValues.selectedById, ...prevValues}));
+        if (initialState?.selectedById) {
+            setSelected((prevValues) => ({...initialState.selectedById, ...prevValues}));
         }
-        if (initialValues?.expandedById) {
-            setExpanded((prevValues) => ({...initialValues.expandedById, ...prevValues}));
+        if (initialState?.expandedById) {
+            setExpanded((prevValues) => ({...initialState.expandedById, ...prevValues}));
         }
-        setActiveItemId((prevValue) => prevValue ?? initialValues?.activeItemId);
+        setActiveItemId((prevValue) => prevValue ?? initialState?.activeItemId);
     }
 
     const result: ListState = {

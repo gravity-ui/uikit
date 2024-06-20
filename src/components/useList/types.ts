@@ -56,7 +56,7 @@ export type ListItemListContextProps = ItemState &
 export type RenderItemProps = {
     size: ListItemSize;
     id: ListItemId;
-    onClick: (() => void) | undefined;
+    onClick: ((e: React.SyntheticEvent) => void) | undefined;
     selected: boolean | undefined;
     disabled: boolean;
     expanded: boolean | undefined;
@@ -127,3 +127,8 @@ export type UseList<T> = {
     state: ListState;
     structure: ListStructure<T>;
 };
+
+export type ListOnItemClick<El = Element, Ev = Event> = (
+    payload: {id: ListItemId},
+    e?: React.SyntheticEvent<El, Ev>,
+) => void;

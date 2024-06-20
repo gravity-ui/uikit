@@ -10,7 +10,7 @@ import {
     getListItemClickHandler,
     useListKeydown,
 } from '../useList';
-import type {ListItemId} from '../useList';
+import type {ListOnItemClick} from '../useList';
 import {block} from '../utils/cn';
 
 import type {TreeListContainerProps, TreeListProps} from './types';
@@ -23,12 +23,12 @@ export const TreeList = <T,>({
     size = 'm',
     className,
     list,
+    multiple,
+    containerRef: propsContainerRef,
     renderItem: propsRenderItem,
     renderContainer = ListContainer,
     onItemClick: propsOnItemClick,
-    multiple,
-    containerRef: propsContainerRef,
-    withItemClick,
+    onItemAction,
     mapItemDataToProps,
 }: TreeListProps<T>) => {
     const uniqId = useUniqId();
@@ -43,13 +43,15 @@ export const TreeList = <T,>({
 
         const onClick = propsOnItemClick ?? getListItemClickHandler({list, multiple});
 
-        return ({id}: {id: ListItemId}) => {
-            const payload = {id, list};
+        const handler: ListOnItemClick = (arg, e) => {
+            const payload = {id: arg.id, list};
 
-            onClick(payload);
-            withItemClick?.(payload);
+            onClick(payload, e);
+            onItemAction?.(payload);
         };
-    }, [list, multiple, propsOnItemClick, withItemClick]);
+
+        return handler;
+    }, [list, multiple, propsOnItemClick, onItemAction]);
 
     useListKeydown({
         containerRef,

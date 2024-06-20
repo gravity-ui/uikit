@@ -1,4 +1,4 @@
-import type {ListItemId, UseList} from '../types';
+import type {ListOnItemClick, UseList} from '../types';
 
 interface GetListItemClickHandlerProps<T> {
     multiple?: boolean;
@@ -9,7 +9,7 @@ export const getListItemClickHandler = <T = unknown>({
     list,
     multiple,
 }: GetListItemClickHandlerProps<T>) => {
-    const onItemClick = ({id}: {id: ListItemId}) => {
+    const onItemClick: ListOnItemClick = ({id}) => {
         if (list.state.disabledById[id]) return;
 
         // always activate selected item

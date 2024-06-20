@@ -10,7 +10,7 @@ The main hook to use what provide you normalized representation of list items (`
 | getItemId            | Allows you to generate an id for a list item depending on the list data    | `(itemData: T) => string` |            |
 | defaultExpandedState | Default state for nodes with children items if `withExpandedState` is true |   `expanded`, `closed`    | `expanded` |
 | withExpandedState    | Is nodes with children's needed to be controlled                           |         `boolean`         |   `true`   |
-| initialValues        | Initial state values                                                       |   `Partial<ListState>`    |            |
+| initialState         | Initial state values                                                       |   `Partial<ListState>`    |            |
 | mixState             | Way to override state by some controlled values.                           |   `Partial<ListState>`    |            |
 
 #### Result (UseList):

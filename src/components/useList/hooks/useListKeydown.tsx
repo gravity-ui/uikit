@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {KeyCode} from '../../../constants';
-import type {ListItemId, UseList} from '../types';
+import type {ListOnItemClick, UseList} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
 
 interface UseListKeydownProps<T = unknown> {
-    onItemClick?(payload: {id: ListItemId}): void;
+    onItemClick?: ListOnItemClick;
     containerRef?: React.RefObject<HTMLDivElement>;
     enabled?: boolean;
     list: UseList<T>;

@@ -4,12 +4,12 @@ Keyboard support
 
 #### Props:
 
-| Name         | Description                                                                                   |                        Type                        | Default |
-| :----------- | :-------------------------------------------------------------------------------------------- | :------------------------------------------------: | :-----: |
-| list         | result of `useList` hook                                                                      |                     `UseList`                      |         |
-| onItemClick  | callback will be called when pressing the `Enter`, `Space` keys;                              |       `(payload: {id: ListItemId}) => void`        |         |
-| containerRef | a reference to the DOM element of the List container inside which to search for its elements; | `React.RefObject<HTMLDivElement \| HTMLUlElement>` |         |
-| enabled      | on/off keyboard support. Use it if you need to change the behavior in runtime;                |                     `boolean`                      |         |
+| Name         | Description                                                                                   |                              Type                              | Default |
+| :----------- | :-------------------------------------------------------------------------------------------- | :------------------------------------------------------------: | :-----: |
+| list         | result of `useList` hook                                                                      |                           `UseList`                            |         |
+| onItemClick  | callback will be called when pressing the `Enter`, `Space` keys;                              | `(payload: {id: ListItemId}, e: React.SyntheticEvent) => void` |         |
+| containerRef | a reference to the DOM element of the List container inside which to search for its elements; |       `React.RefObject<HTMLDivElement \| HTMLUlElement>`       |         |
+| enabled      | on/off keyboard support. Use it if you need to change the behavior in runtime;                |                           `boolean`                            |         |
 
 #### Usage example:
 

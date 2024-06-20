@@ -28,14 +28,14 @@ return <ListItemView {...props} />;
 
 #### Props:
 
-| Name               | Description                                                                        |                Type                | Default |
-| :----------------- | :--------------------------------------------------------------------------------- | :--------------------------------: | :-----: |
-| id                 | `id` of list item                                                                  |            `ListItemId`            |         |
-| list               | result of `useList` hook                                                           |             `UseList`              |         |
-| multiple           | One or multiple elements selected list                                             |             `boolean`              |         |
-| onItemClick        | Optional on click handler                                                          |     `(id: ListItemId) => void`     |         |
-| size               | The size of the element. This also affects the rounding radius of the list element |        `s \| m \| l \| xl`         |   `m`   |
-| mapItemDataToProps | Map list item data (`T`) to `ListItemView` props                                   | `(data: T) => ListItemCommonProps` |         |
+| Name               | Description                                                                        |                              Type                              | Default |
+| :----------------- | :--------------------------------------------------------------------------------- | :------------------------------------------------------------: | :-----: |
+| id                 | `id` of list item                                                                  |                          `ListItemId`                          |         |
+| list               | result of `useList` hook                                                           |                           `UseList`                            |         |
+| multiple           | One or multiple elements selected list                                             |                           `boolean`                            |         |
+| onItemClick        | Optional on click handler                                                          | `(payload :{id: ListItemId}, e: React.SyntheticEvent) => void` |         |
+| size               | The size of the element. This also affects the rounding radius of the list element |                      `s \| m \| l \| xl`                       |   `m`   |
+| mapItemDataToProps | Map list item data (`T`) to `ListItemView` props                                   |               `(data: T) => ListItemCommonProps`               |         |
 
 ##### ListItemCommonProps
 

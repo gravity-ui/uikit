@@ -61,7 +61,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
         onBlur,
         getItemId,
         onItemClick,
-        withItemClick,
+        onItemAction,
     }: TreeSelectProps<T, M>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -223,7 +223,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
                     id={`list-${treeSelectId}`}
                     containerRef={containerRef}
                     onItemClick={typeof onItemClick === 'undefined' ? handleItemClick : onItemClick}
-                    withItemClick={withItemClick}
+                    onItemAction={onItemAction}
                     renderContainer={renderContainer}
                     mapItemDataToProps={mapItemDataToProps}
                     renderItem={renderItem ?? defaultItemRenderer}

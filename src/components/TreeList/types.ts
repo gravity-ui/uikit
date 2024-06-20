@@ -32,7 +32,12 @@ export type TreeListMapItemDataToProps<T> = (item: T) => ListItemCommonProps;
 
 export type TreeListOnItemClickPayload<T> = {id: ListItemId; list: UseList<T>};
 
-export type TreeListOnItemClick<T> = (payload: TreeListOnItemClickPayload<T>) => void;
+export type TreeListOnItemClick<T> = (
+    payload: TreeListOnItemClickPayload<T>,
+    e?: React.SyntheticEvent,
+) => void;
+
+export type TreeListOnItemAction<T> = (payload: TreeListOnItemClickPayload<T>) => void;
 
 export interface TreeListProps<T, P extends {} = {}> extends QAProps {
     /**
@@ -57,6 +62,6 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
      * Don't override default click behavior and add additional logic.
      * Work's if `onItemClick` not `null`
      */
-    withItemClick?: TreeListOnItemClick<T>;
+    onItemAction?: TreeListOnItemAction<T>;
     mapItemDataToProps: TreeListMapItemDataToProps<T>;
 }

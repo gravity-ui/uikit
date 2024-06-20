@@ -5,6 +5,7 @@ import type {
     ListItemId,
     ListItemListContextProps,
     ListItemSize,
+    ListOnItemClick,
     RenderItemProps,
     UseList,
 } from '../types';
@@ -19,7 +20,7 @@ type ItemRendererProps<T> = QAProps & {
     multiple?: boolean;
     id: ListItemId;
     mapItemDataToProps(data: T): ListItemCommonProps;
-    onItemClick?(payload: {id: ListItemId}): void;
+    onItemClick?: ListOnItemClick;
     list: UseList<T>;
 };
 
@@ -58,7 +59,7 @@ export const getItemRenderState = <T,>({
         disabled: Boolean(list.state.disabledById?.[id]),
         selected: Boolean(list.state.selectedById[id]),
         hasSelectionIcon: Boolean(multiple) && !context.childrenIds, // hide multiple selection view at group nodes
-        onClick: onItemClick ? () => onItemClick({id}) : undefined,
+        onClick: onItemClick ? (e: React.SyntheticEvent) => onItemClick({id}, e) : undefined,
         ...mapItemDataToProps(list.structure.itemsById[id]),
     };
 

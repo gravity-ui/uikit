@@ -90,9 +90,10 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     componentDidMount() {
         this.addListeners();
         this.show();
-        this.setInitialStyles();
+        const initialHeight = this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
+        this.setInitialStyles(initialHeight);
         this.setState({
-            prevSheetHeight: this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight,
+            prevSheetHeight: initialHeight,
         });
     }
 
@@ -221,9 +222,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         return this.sheetContentRef.current?.scrollTop || 0;
     }
 
-    private setInitialStyles() {
+    private setInitialStyles(initialHeight: number) {
         if (this.sheetContentRef.current && this.sheetInnerContentRef.current) {
-            const initialHeight = this.sheetHeight - this.sheetTopHeight;
             this.sheetContentRef.current.style.height = `${initialHeight}px`;
         }
     }

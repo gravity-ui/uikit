@@ -52,7 +52,7 @@ const DefaultTemplate: StoryFn<
                 {...props}
                 items={items}
                 mapItemDataToProps={(x) => x}
-                onItemAction={(id) => {
+                onItemClick={(id) => {
                     console.log('clicked on item with id: ', id);
                 }}
             />

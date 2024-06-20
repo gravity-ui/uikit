@@ -6,7 +6,7 @@ import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
 import {TreeList} from '../TreeList';
-import type {TreeListOnItemClickPayload, TreeListRenderItem} from '../TreeList/types';
+import type {TreeListOnItemClick, TreeListRenderItem} from '../TreeList/types';
 import {useMobile} from '../mobile';
 import {ListItemView, useList} from '../useList';
 import {block} from '../utils/cn';
@@ -47,6 +47,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         defaultValue,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
+        disableDefaultClickHandler,
         onClose,
         onOpenChange,
         onUpdate,
@@ -58,7 +59,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onBlur,
         getItemId,
         onItemClick,
-        onItemAction,
     }: TreeSelectProps<T>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -102,30 +102,45 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             onOpenChange,
         });
 
-    const handleItemClick = React.useCallback(
-        (payload: TreeListOnItemClickPayload<T>) => {
+    const handleItemClick = React.useMemo(() => {
+        if (disableDefaultClickHandler && !onItemClick) {
+            return undefined;
+        }
+
+        const handler: TreeListOnItemClick<T> = (payload, e) => {
             const {list, id} = payload;
 
             if (list.state.disabledById[id]) return;
 
-            // always activate selected item
-            list.state.setActiveItemId(id);
+            if (!disableDefaultClickHandler) {
+                // always activate selected item
+                list.state.setActiveItemId(id);
 
-            const isGroup = list.state.expandedById && id in list.state.expandedById;
+                const isGroup = list.state.expandedById && id in list.state.expandedById;
 
-            if (isGroup && list.state.setExpanded) {
-                list.state.setExpanded((prvState) => ({
-                    ...prvState,
-                    [id]: !prvState[id],
-                }));
-            } else if (multiple) {
-                handleMultipleSelection(id);
-            } else {
-                handleSingleSelection(id);
+                if (isGroup && list.state.setExpanded) {
+                    list.state.setExpanded((prvState) => ({
+                        ...prvState,
+                        [id]: !prvState[id],
+                    }));
+                } else if (multiple) {
+                    handleMultipleSelection(id);
+                } else {
+                    handleSingleSelection(id);
+                }
             }
-        },
-        [multiple, handleMultipleSelection, handleSingleSelection],
-    );
+
+            onItemClick?.(payload, e);
+        };
+
+        return handler;
+    }, [
+        multiple,
+        disableDefaultClickHandler,
+        onItemClick,
+        handleMultipleSelection,
+        handleSingleSelection,
+    ]);
 
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
@@ -219,8 +234,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     multiple={multiple}
                     id={`list-${treeSelectId}`}
                     containerRef={containerRef}
-                    onItemClick={typeof onItemClick === 'undefined' ? handleItemClick : onItemClick}
-                    onItemAction={onItemAction}
+                    onItemClick={handleItemClick}
                     renderContainer={renderContainer}
                     mapItemDataToProps={mapItemDataToProps}
                     renderItem={renderItem ?? defaultItemRenderer}

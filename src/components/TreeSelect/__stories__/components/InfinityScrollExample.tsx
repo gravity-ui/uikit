@@ -75,7 +75,7 @@ export const InfinityScrollExample = ({
                 value={value}
                 mapItemDataToProps={identity}
                 items={items}
-                onItemAction={handleGroupItemClick}
+                onItemClick={handleGroupItemClick}
                 renderItem={({data, props, context: {isLastItem, childrenIds}}) => {
                     const node = (
                         <ListItemView

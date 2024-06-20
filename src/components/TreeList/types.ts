@@ -37,8 +37,6 @@ export type TreeListOnItemClick<T> = (
     e?: React.SyntheticEvent,
 ) => void;
 
-export type TreeListOnItemAction<T> = (payload: TreeListOnItemClickPayload<T>) => void;
-
 export interface TreeListProps<T, P extends {} = {}> extends QAProps {
     /**
      * Control outside list container dom element. For example for keyboard
@@ -59,9 +57,8 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
      */
     onItemClick?: null | TreeListOnItemClick<T>;
     /**
-     * Don't override default click behavior and add additional logic.
-     * Work's if `onItemClick` not `null`
+     * Disable default `onItemClick` handler logic
      */
-    onItemAction?: TreeListOnItemAction<T>;
+    disableDefaultClickHandler?: boolean;
     mapItemDataToProps: TreeListMapItemDataToProps<T>;
 }

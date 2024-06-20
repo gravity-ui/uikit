@@ -28,7 +28,7 @@ export const TreeList = <T,>({
     renderItem: propsRenderItem,
     renderContainer = ListContainer,
     onItemClick: propsOnItemClick,
-    onItemAction,
+    disableDefaultClickHandler,
     mapItemDataToProps,
 }: TreeListProps<T>) => {
     const uniqId = useUniqId();
@@ -37,21 +37,24 @@ export const TreeList = <T,>({
     const containerRef = propsContainerRef ?? containerRefLocal;
 
     const onItemClick = React.useMemo(() => {
-        if (propsOnItemClick === null) {
+        if (disableDefaultClickHandler && !propsOnItemClick) {
             return undefined;
         }
-
-        const onClick = propsOnItemClick ?? getListItemClickHandler({list, multiple});
 
         const handler: ListOnItemClick = (arg, e) => {
             const payload = {id: arg.id, list};
 
-            onClick(payload, e);
-            onItemAction?.(payload);
+            if (!disableDefaultClickHandler) {
+                const baseOnClick = getListItemClickHandler({list, multiple});
+
+                baseOnClick(payload, e);
+            }
+
+            propsOnItemClick?.(payload, e);
         };
 
         return handler;
-    }, [list, multiple, propsOnItemClick, onItemAction]);
+    }, [disableDefaultClickHandler, propsOnItemClick, list, multiple]);
 
     useListKeydown({
         containerRef,

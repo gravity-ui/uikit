@@ -12,17 +12,16 @@ import './BaseSlider.scss';
 
 const b = block('base-slider');
 
-type BaseSliderProps = {stateModifiers: StateModifiers} & Omit<
-    SliderProps<number | [number, number]>,
+type BaseSliderProps<T = number | number[]> = {stateModifiers: StateModifiers} & Omit<
+    SliderProps<T>,
     'classNames' | 'prefixCls' | 'className' | 'pushable' | 'keyboard'
 >;
 
 export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function BaseSlider(
-    {stateModifiers, ...otherProps}: BaseSliderProps,
-    ref: React.ForwardedRef<SliderRef>,
+    {stateModifiers, ...otherProps},
+    ref,
 ) {
     return (
-        // @ts-expect-error Slider value type is (number | number[]) but we use (number | [number, number])
         <Slider
             {...otherProps}
             ref={ref}
@@ -37,4 +36,4 @@ export const BaseSlider = React.forwardRef<SliderRef, BaseSliderProps>(function 
             keyboard={true}
         />
     );
-});
+}) as <T>(p: BaseSliderProps<T> & {ref?: React.Ref<SliderRef>}) => React.ReactElement;

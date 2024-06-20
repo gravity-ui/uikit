@@ -8,10 +8,10 @@ export interface UseListStateProps {
      * Initial state values
      */
     initialValues?: Partial<ListState>;
-    rootNodesGroups?: boolean;
+    withExpandedState?: boolean;
 }
 
-export const useListState = ({initialValues, rootNodesGroups}: UseListStateProps): ListState => {
+export const useListState = ({initialValues, withExpandedState}: UseListStateProps): ListState => {
     const initialValuesRef = React.useRef(initialValues);
     const needToUpdateInitValues = initialValuesRef.current !== initialValues;
     initialValuesRef.current = initialValues;
@@ -43,7 +43,7 @@ export const useListState = ({initialValues, rootNodesGroups}: UseListStateProps
         setActiveItemId,
     };
 
-    if (rootNodesGroups) {
+    if (withExpandedState) {
         result.expandedById = expandedById;
         result.setExpanded = setExpanded;
     }

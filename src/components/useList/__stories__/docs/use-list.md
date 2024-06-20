@@ -4,14 +4,14 @@ The main hook to use what provide you normalized representation of list items (`
 
 #### Props:
 
-| Name               | Description                                                             |           Type            |  Default   |
-| :----------------- | :---------------------------------------------------------------------- | :-----------------------: | :--------: |
-| items              | a flat or tree-like data structure, with`List` declaration              |    `ListItemType<T>[]`    |            |
-| getItemId          | Allows you to generate an id for a list item depending on the list data | `(itemData: T) => string` |            |
-| groupsDefaultState | Default group open state                                                |   `expanded`, `closed`    | `expanded` |
-| rootNodesGroups    | Is nodes with children's groups                                         |         `boolean`         |   `true`   |
-| initialValues      | Initial state values                                                    |   `Partial<ListState>`    |            |
-| mixState           | Way to override state by some controlled values.                        |   `Partial<ListState>`    |            |
+| Name                 | Description                                                                |           Type            |  Default   |
+| :------------------- | :------------------------------------------------------------------------- | :-----------------------: | :--------: |
+| items                | a flat or tree-like data structure, with`List` declaration                 |    `ListItemType<T>[]`    |            |
+| getItemId            | Allows you to generate an id for a list item depending on the list data    | `(itemData: T) => string` |            |
+| defaultExpandedState | Default state for nodes with children items if `withExpandedState` is true |   `expanded`, `closed`    | `expanded` |
+| withExpandedState    | Is nodes with children's needed to be controlled                           |         `boolean`         |   `true`   |
+| initialValues        | Initial state values                                                       |   `Partial<ListState>`    |            |
+| mixState             | Way to override state by some controlled values.                           |   `Partial<ListState>`    |            |
 
 #### Result (UseList):
 
@@ -22,17 +22,17 @@ The main hook to use what provide you normalized representation of list items (`
 
 #### ListState:
 
-| Name            | Description                                                                                                              |                                                       Type                                                        |
-| :-------------- | :----------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------: |
-| selectedById    | Key-value selected elements state                                                                                        |                                           `Record<ListItemId, boolean>`                                           |
-| disabledById    | Key-value disabled elements state                                                                                        |                                           `Record<ListItemId, boolean>`                                           |
-| expandedById    | Key-value expanded elements state. Available is only `rootNodesGroups` option of `useList` hook is `true`                |                                           `Record<ListItemId, boolean>`                                           |
-| activeItemId    | Active item id                                                                                                           |                                             `ListItemId`, `undefined`                                             |
-| setSelected     | Method to handle selected state list items state                                                                         | `(payload: Record<ListItemId, boolean>) => void` , `(fn: (payload: Record<ListItemId, boolean>) => void) => void` |
-| setDisabled     | Method to handle disable state list items state                                                                          | `(payload: Record<ListItemId, boolean>) => void` , `(fn: (payload: Record<ListItemId, boolean>) => void) => void` |
-| setExpanded     | Method to handle expanded state list items state. Available is only `rootNodesGroups` option of `useList` hook is `true` | `(payload: Record<ListItemId, boolean>) => void` , `(fn: (payload: Record<ListItemId, boolean>) => void) => void` |
-| setExpanded     | Normalized representation of list and some helpful data structures to work with list                                     |                                                  `ListStructure`                                                  |
-| setActiveItemId | Method to handle current active list item state                                                                          |                                  `(listItemId: ListItemId or undefined) => void`                                  |
+| Name            | Description                                                                                                                |                                                       Type                                                        |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------: |
+| selectedById    | Key-value selected elements state                                                                                          |                                           `Record<ListItemId, boolean>`                                           |
+| disabledById    | Key-value disabled elements state                                                                                          |                                           `Record<ListItemId, boolean>`                                           |
+| expandedById    | Key-value expanded elements state. Available is only `withExpandedState` option of `useList` hook is `true`                |                                           `Record<ListItemId, boolean>`                                           |
+| activeItemId    | Active item id                                                                                                             |                                             `ListItemId`, `undefined`                                             |
+| setSelected     | Method to handle selected state list items state                                                                           | `(payload: Record<ListItemId, boolean>) => void` , `(fn: (payload: Record<ListItemId, boolean>) => void) => void` |
+| setDisabled     | Method to handle disable state list items state                                                                            | `(payload: Record<ListItemId, boolean>) => void` , `(fn: (payload: Record<ListItemId, boolean>) => void) => void` |
+| setExpanded     | Method to handle expanded state list items state. Available is only `withExpandedState` option of `useList` hook is `true` | `(payload: Record<ListItemId, boolean>) => void` , `(fn: (payload: Record<ListItemId, boolean>) => void) => void` |
+| setExpanded     | Normalized representation of list and some helpful data structures to work with list                                       |                                                  `ListStructure`                                                  |
+| setActiveItemId | Method to handle current active list item state                                                                            |                                  `(listItemId: ListItemId or undefined) => void`                                  |
 
 #### ListStructure:
 

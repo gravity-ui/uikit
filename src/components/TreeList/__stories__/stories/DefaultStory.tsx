@@ -23,7 +23,7 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
 
     const listWithNoGroups = useList({
         items,
-        rootNodesGroups: false,
+        withExpandedState: false,
     });
 
     return (
@@ -38,7 +38,9 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
                 />
             </Flex>
             <Flex direction={'column'} gap="3">
-                <Text color="secondary">List with `rootNodesGroups` false option in listState</Text>
+                <Text color="secondary">
+                    List with `withExpandedState` false option in list state
+                </Text>
 
                 <TreeList
                     {...props}

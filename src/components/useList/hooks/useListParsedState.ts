@@ -13,13 +13,13 @@ export interface UseListParsedStateProps<T> extends GetListParsedStateProps<T> {
 export function useListParsedState<T>({
     items,
     getItemId: propsGetItemId,
-    groupsDefaultState,
+    defaultExpandedState,
 }: UseListParsedStateProps<T>) {
     const getItemId = React.useRef(propsGetItemId).current;
 
     const result = React.useMemo(() => {
-        return getListParsedState<T>({items, getItemId, groupsDefaultState});
-    }, [getItemId, groupsDefaultState, items]);
+        return getListParsedState<T>({items, getItemId, defaultExpandedState});
+    }, [getItemId, defaultExpandedState, items]);
 
     return result;
 }

@@ -150,7 +150,7 @@ describe('getListParsedState', () => {
         expect(
             getListParsedState({
                 items: data,
-                groupsDefaultState: 'closed',
+                defaultExpandedState: 'closed',
                 getItemId: ({id}) => id,
             }),
         ).toEqual({

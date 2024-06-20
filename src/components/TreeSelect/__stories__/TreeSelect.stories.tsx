@@ -80,7 +80,7 @@ const InfinityScrollTemplate: StoryFn<InfinityScrollExampleProps> = (props) => {
 export const InfinityScroll = InfinityScrollTemplate.bind({});
 InfinityScroll.args = {
     size: 'm',
-    groupsDefaultState: 'closed',
+    defaultExpandedState: 'closed',
 };
 
 const WithFiltrationAndControlsTemplate: StoryFn<WithFiltrationAndControlsExampleProps> = (

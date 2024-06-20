@@ -33,7 +33,7 @@ type ListParsedStateResult<T> = ParsedState<T> & {
 
 export interface GetListParsedStateProps<T> {
     items: ListItemType<T>[];
-    groupsDefaultState?: 'closed' | 'expanded';
+    defaultExpandedState?: 'closed' | 'expanded';
     /**
      * For example T is entity type with id what represents db id
      * So now you can use it id as a list item id in internal state
@@ -42,7 +42,7 @@ export interface GetListParsedStateProps<T> {
 }
 export function getListParsedState<T>({
     items,
-    groupsDefaultState = 'expanded',
+    defaultExpandedState = 'expanded',
     getItemId,
 }: GetListParsedStateProps<T>): ListParsedStateResult<T> {
     const result: ListParsedStateResult<T> = {
@@ -122,7 +122,7 @@ export function getListParsedState<T>({
 
             if (result.initialState.expandedById) {
                 if (typeof item.expanded === 'undefined') {
-                    result.initialState.expandedById[id] = groupsDefaultState === 'expanded';
+                    result.initialState.expandedById[id] = defaultExpandedState === 'expanded';
                 } else {
                     result.initialState.expandedById[id] = item.expanded;
                 }

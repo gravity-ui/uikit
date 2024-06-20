@@ -48,8 +48,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
         items,
         value: propsValue,
         defaultValue,
-        rootNodesGroups = true,
-        groupsDefaultState = 'expanded',
+        withExpandedState = true,
+        defaultExpandedState = 'expanded',
         onClose,
         onOpenChange,
         onUpdate,
@@ -88,8 +88,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<
         },
         items,
         getItemId,
-        groupsDefaultState,
-        rootNodesGroups,
+        defaultExpandedState,
+        withExpandedState,
     });
 
     const {open, toggleOpen, handleClearValue, handleMultipleSelection, handleSingleSelection} =

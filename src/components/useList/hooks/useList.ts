@@ -19,15 +19,15 @@ interface UseListProps<T> extends UseListParsedStateProps<T>, UseListStateProps 
 export const useList = <T>({
     items,
     getItemId,
-    groupsDefaultState = 'expanded',
-    rootNodesGroups = true,
+    defaultExpandedState = 'expanded',
+    withExpandedState = true,
     initialValues,
     mixState,
 }: UseListProps<T>): UseList<T> => {
     const {itemsById, groupsState, itemsState, initialState} = useListParsedState({
         items,
         getItemId,
-        groupsDefaultState,
+        defaultExpandedState,
     });
 
     const initValues = React.useMemo(() => {
@@ -47,7 +47,7 @@ export const useList = <T>({
 
     const innerState = useListState({
         initialValues: initValues,
-        rootNodesGroups,
+        withExpandedState,
     });
 
     const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({

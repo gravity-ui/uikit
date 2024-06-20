@@ -31,7 +31,7 @@ export type TreeSelectRenderContainerProps<T> = TreeListContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
 interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
-    rootNodesGroups?: boolean;
+    withExpandedState?: boolean;
     multiple?: boolean;
 }
 

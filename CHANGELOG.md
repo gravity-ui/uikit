@@ -1,5 +1,24 @@
 # Changelog
 
+## [6.19.0](https://github.com/gravity-ui/uikit/compare/v6.18.0...v6.19.0) (2024-06-20)
+
+
+### Features
+
+* **link_underline:** add link underline ([#1648](https://github.com/gravity-ui/uikit/issues/1648)) ([496ca55](https://github.com/gravity-ui/uikit/commit/496ca55d10d9c37202fa87f7c1d9210ff45c5f81))
+* **Select:** add filter prop ([#1669](https://github.com/gravity-ui/uikit/issues/1669)) ([98750c6](https://github.com/gravity-ui/uikit/commit/98750c64674abdea031da2fb08761e38bb640505))
+* support form reset for inputs ([#1660](https://github.com/gravity-ui/uikit/issues/1660)) ([38fe431](https://github.com/gravity-ui/uikit/commit/38fe43155e7f55d9190ac2bcd405612dec598d5e))
+
+
+### Bug Fixes
+
+* **Dialog:** render error popup inside the dialog ([#1657](https://github.com/gravity-ui/uikit/issues/1657)) ([edf6473](https://github.com/gravity-ui/uikit/commit/edf647324b84ed75757f14b997976838ad9529a0))
+* **select:** connect combobox to listbox ([#1665](https://github.com/gravity-ui/uikit/issues/1665)) ([c61fe11](https://github.com/gravity-ui/uikit/commit/c61fe114c404f1a55db0b8eba02b0a2c48b5e0cb))
+* **Select:** fix double scroll in sheet on mobile ([#1672](https://github.com/gravity-ui/uikit/issues/1672)) ([164a1f2](https://github.com/gravity-ui/uikit/commit/164a1f2a0935b771102eaa425435bf3b3d2fd456))
+* **Select:** id property ([#1604](https://github.com/gravity-ui/uikit/issues/1604)) ([db15851](https://github.com/gravity-ui/uikit/commit/db1585165abf8a8992b10315b538c8f8be87cb25))
+* **Sheet:** fix resizing depending on the size of the window ([#1671](https://github.com/gravity-ui/uikit/issues/1671)) ([9352c99](https://github.com/gravity-ui/uikit/commit/9352c997d5ce3f0e7087f80bbf41e58a95cb5aab))
+* **Sheet:** start touch event detection ([#1668](https://github.com/gravity-ui/uikit/issues/1668)) ([b655fec](https://github.com/gravity-ui/uikit/commit/b655fec69628bf53e01dfec63cb8463131e746e8))
+
 ## [6.18.0](https://github.com/gravity-ui/uikit/compare/v6.17.0...v6.18.0) (2024-06-14)
 
 

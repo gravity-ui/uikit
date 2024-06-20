@@ -3,12 +3,18 @@ import React from 'react';
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
+import type {TreeListOnItemClick} from '../../../TreeList/types';
 import {Flex, sp, spacing} from '../../../layout';
 import {ListItemView} from '../../../useList';
+import type {ListItemId} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
+
+interface Entity {
+    title: string;
+}
 
 function identity<T>(value: T): T {
     return value;
@@ -16,7 +22,7 @@ function identity<T>(value: T): T {
 
 export interface InfinityScrollExampleProps
     extends Omit<
-        TreeSelectProps<{title: string}>,
+        TreeSelectProps<Entity>,
         'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'multiple' | 'defaultValue'
     > {
     itemsCount?: number;
@@ -32,7 +38,35 @@ export const InfinityScrollExample = ({
         onFetchMore,
         canFetchMore,
         isLoading,
-    } = useInfinityFetch<{title: string}>(itemsCount, true);
+    } = useInfinityFetch<Entity>(itemsCount, true);
+
+    const handleGroupItemClick: TreeListOnItemClick<Entity> = ({id, list}) => {
+        // click on group item
+        if (list.state.expandedById && list.state.setExpanded && id in list.state.expandedById) {
+            const treeGroupNextValue = !list.state.expandedById[id];
+            const groupItemToToggleIds: ListItemId[] = [id];
+            const stack = [...list.structure.groupsState[id].childrenIds];
+
+            while (stack.length > 0) {
+                const candidateId = stack.pop();
+
+                if (candidateId && candidateId in list.structure.groupsState) {
+                    groupItemToToggleIds.push(candidateId);
+
+                    stack.push(...list.structure.groupsState[candidateId].childrenIds);
+                }
+            }
+
+            list.state.setExpanded((prevValues) => ({
+                ...prevValues,
+                ...groupItemToToggleIds.reduce<Record<ListItemId, boolean>>((acc, id) => {
+                    acc[id] = treeGroupNextValue;
+
+                    return acc;
+                }, {}),
+            }));
+        }
+    };
 
     return (
         <Flex>
@@ -41,6 +75,7 @@ export const InfinityScrollExample = ({
                 value={value}
                 mapItemDataToProps={identity}
                 items={items}
+                withItemClick={handleGroupItemClick}
                 renderItem={({data, props, context: {isLastItem, childrenIds}}) => {
                     const node = (
                         <ListItemView

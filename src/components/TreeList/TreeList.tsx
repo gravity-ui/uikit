@@ -10,9 +10,10 @@ import {
     useListItemClick,
     useListKeydown,
 } from '../useList';
+import type {ListItemId} from '../useList';
 import {block} from '../utils/cn';
 
-import type {TreeListContainerProps, TreeListOnItemClick, TreeListProps} from './types';
+import type {TreeListContainerProps, TreeListProps} from './types';
 
 const b = block('tree-list');
 
@@ -44,13 +45,13 @@ export const TreeList = <T,>({
 
         const onClick = propsOnItemClick ?? defaultOnItemClick;
 
-        const handler: TreeListOnItemClick<T> = (payload) => {
+        return ({id}: {id: ListItemId}) => {
+            const payload = {id, list};
+
             onClick(payload);
             withItemClick?.(payload);
         };
-
-        return handler;
-    }, [defaultOnItemClick, propsOnItemClick, withItemClick]);
+    }, [defaultOnItemClick, list, propsOnItemClick, withItemClick]);
 
     useListKeydown({
         containerRef,

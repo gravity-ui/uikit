@@ -10,13 +10,17 @@ import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
 import {RenderVirtualizedContainer} from '../components/RenderVirtualizedContainer';
 
+interface Entity {
+    title: string;
+}
+
 function identity<T>(value: T): T {
     return value;
 }
 
 export interface InfinityScrollStoryProps
     extends Omit<
-        TreeListProps<{title: string}>,
+        TreeListProps<Entity>,
         'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToProps'
     > {
     itemsCount?: number;
@@ -30,7 +34,7 @@ export const InfinityScrollStory = ({itemsCount = 3, ...storyProps}: InfinityScr
         onFetchMore,
         canFetchMore,
         isLoading,
-    } = useInfinityFetch<{title: string}>(itemsCount, true);
+    } = useInfinityFetch<Entity>(itemsCount, true);
 
     const list = useList({items});
 

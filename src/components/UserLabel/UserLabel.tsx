@@ -25,7 +25,7 @@ export const UserLabel = React.forwardRef<HTMLDivElement, UserLabelProps>(
             className,
             style,
             qa,
-            size = 'm',
+            size = 's',
         },
         ref,
     ) => {

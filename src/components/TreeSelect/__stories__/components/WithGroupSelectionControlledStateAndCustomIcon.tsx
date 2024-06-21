@@ -34,7 +34,8 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     itemsCount = 5,
     ...props
 }: WithGroupSelectionControlledStateAndCustomIconExampleProps) => {
-    const [value, setValue] = React.useState<string[]>([]);
+    // const [value, setValue] = React.useState<string[]>([]);
+    const [open, setOpen] = React.useState(true);
 
     const items = React.useMemo(
         () => createRandomizedData({num: itemsCount, getData: (a) => ({a})}),
@@ -44,9 +45,11 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     const onItemClick = ({id, list}: {id: ListItemId; list: UseListResult<{a: string}>}) => {
         if (list.state.disabledById[id]) return;
 
-        setValue([id]);
+        list.state.setSelected({[id]: true});
 
         list.state.setActiveItemId(id);
+
+        setOpen(false);
     };
 
     return (
@@ -54,11 +57,12 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
             <TreeSelect
                 {...props}
                 size="l"
-                value={value}
+                open={open}
+                onOpenChange={setOpen}
+                // value={value}
                 items={items}
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
                 onItemClick={onItemClick}
-                disableDefaultItemClickBehavior
                 renderItem={({
                     data,
                     props: {

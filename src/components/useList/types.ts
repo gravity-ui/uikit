@@ -84,7 +84,7 @@ export type ParsedState<T> = {
 
 type SetStateAction<S> = S | ((prevState: S) => S);
 
-type ListStateHandler<S> = (arg: SetStateAction<S>) => void;
+export type ListStateHandler<S> = (arg: SetStateAction<S>) => void;
 
 export type ListState = {
     disabledById: Record<ListItemId, boolean>;

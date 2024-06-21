@@ -3,16 +3,18 @@
 import React from 'react';
 
 import {useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {SelectControl} from '../Select/components';
 import {SelectPopup} from '../Select/components/SelectPopup/SelectPopup';
 import {TreeList} from '../TreeList';
-import type {TreeListOnItemClick, TreeListRenderItem} from '../TreeList/types';
+import type {TreeListRenderItem} from '../TreeList/types';
 import {useMobile} from '../mobile';
-import {ListItemView, useList} from '../useList';
+import {ListItemView, getListItemClickHandler, useList} from '../useList';
+import type {ListOnItemClick} from '../useList';
 import {block} from '../utils/cn';
 import type {CnMods} from '../utils/cn';
 
-import {useTreeSelectSelection, useValue} from './hooks/useTreeSelectSelection';
+import {useControlledValue} from './hooks/useControlledValue';
 import type {TreeSelectProps, TreeSelectRenderControlProps} from './types';
 
 import './TreeSelect.scss';
@@ -47,7 +49,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         defaultValue,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
-        disableDefaultItemClickBehavior,
         onClose,
         onOpenChange,
         onUpdate,
@@ -74,14 +75,23 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
 
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const {value, setInnerValue, selected} = useValue({
+    const {toggleOpen, open} = useOpenState({
+        defaultOpen,
+        onClose,
+        onOpenChange,
+        open: propsOpen,
+    });
+
+    const {value, selectedById, setSelected} = useControlledValue({
         value: propsValue,
         defaultValue,
+        onUpdate,
     });
 
     const list = useList({
         controlledState: {
-            selectedById: selected,
+            selectedById,
+            setSelected,
         },
         items,
         getItemId,
@@ -89,58 +99,31 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         withExpandedState,
     });
 
-    const {open, toggleOpen, handleClearValue, handleMultipleSelection, handleSingleSelection} =
-        useTreeSelectSelection({
-            value,
-            setInnerValue,
-            onUpdate: (ids) => {
-                onUpdate?.(ids, list);
-            },
-            defaultOpen,
-            open: propsOpen,
-            onClose,
-            onOpenChange,
-        });
-
     const handleItemClick = React.useMemo(() => {
-        if (disableDefaultItemClickBehavior && !onItemClick) {
+        if (onItemClick === null) {
             return undefined;
         }
 
-        const handler: TreeListOnItemClick<T> = (payload, e) => {
-            const {list, id} = payload;
+        const handler: ListOnItemClick = (arg, e) => {
+            const payload = {id: arg.id, list};
 
-            if (list.state.disabledById[id]) return;
+            if (onItemClick) {
+                onItemClick?.(payload, e);
+            } else {
+                const baseOnClick = getListItemClickHandler({list, multiple});
 
-            if (!disableDefaultItemClickBehavior) {
-                // always activate selected item
-                list.state.setActiveItemId(id);
+                baseOnClick(payload, e);
 
-                const isGroup = list.state.expandedById && id in list.state.expandedById;
+                const isGroup = list.state.expandedById && arg.id in list.state.expandedById;
 
-                if (isGroup && list.state.setExpanded) {
-                    list.state.setExpanded((prvState) => ({
-                        ...prvState,
-                        [id]: !prvState[id],
-                    }));
-                } else if (multiple) {
-                    handleMultipleSelection(id);
-                } else {
-                    handleSingleSelection(id);
+                if (!multiple && !isGroup) {
+                    toggleOpen(false);
                 }
             }
-
-            onItemClick?.(payload, e);
         };
 
         return handler;
-    }, [
-        multiple,
-        disableDefaultItemClickBehavior,
-        onItemClick,
-        handleMultipleSelection,
-        handleSingleSelection,
-    ]);
+    }, [onItemClick, list, multiple, toggleOpen]);
 
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
@@ -170,7 +153,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         list,
         open,
         toggleOpen,
-        clearValue: handleClearValue,
+        clearValue: () => list.state.setSelected({}),
         ref: handleControlRef,
         size,
         value,
@@ -235,7 +218,6 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     id={`list-${treeSelectId}`}
                     containerRef={containerRef}
                     onItemClick={handleItemClick}
-                    disableDefaultItemClickBehavior
                     renderContainer={renderContainer}
                     mapItemDataToProps={mapItemDataToProps}
                     renderItem={renderItem ?? defaultItemRenderer}

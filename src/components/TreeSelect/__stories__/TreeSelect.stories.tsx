@@ -3,6 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Flex} from '../../layout';
+import {getListItemClickHandler} from '../../useList';
 import {createRandomizedData} from '../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../TreeSelect';
 import type {TreeSelectProps} from '../types';
@@ -52,7 +53,8 @@ const DefaultTemplate: StoryFn<
                 {...props}
                 items={items}
                 mapItemDataToProps={(x) => x}
-                onItemClick={(id) => {
+                onItemClick={({id, list}) => {
+                    getListItemClickHandler({list})({id});
                     console.log('clicked on item with id: ', id);
                 }}
             />

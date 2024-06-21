@@ -5,7 +5,7 @@ import {Loader} from '../../../Loader';
 import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import type {TreeListOnItemClick} from '../../../TreeList/types';
 import {Flex, sp, spacing} from '../../../layout';
-import {ListItemView} from '../../../useList';
+import {ListItemView, getListItemClickHandler} from '../../../useList';
 import type {ListItemId} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
@@ -41,6 +41,8 @@ export const InfinityScrollExample = ({
     } = useInfinityFetch<Entity>(itemsCount, true);
 
     const handleGroupItemClick: TreeListOnItemClick<Entity> = ({id, list}) => {
+        getListItemClickHandler({list})({id});
+
         // click on group item
         if (list.state.expandedById && list.state.setExpanded && id in list.state.expandedById) {
             const treeGroupNextValue = !list.state.expandedById[id];

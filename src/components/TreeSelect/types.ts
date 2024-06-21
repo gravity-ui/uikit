@@ -61,7 +61,7 @@ export interface TreeSelectProps<T, P extends {} = {}>
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
-    onUpdate?(value: ListItemId[], list: UseListResult<T>): void;
+    onUpdate?(value: ListItemId[]): void;
     /**
      * Ability to override custom toggler button
      */

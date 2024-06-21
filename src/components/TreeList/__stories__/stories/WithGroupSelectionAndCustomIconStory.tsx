@@ -63,18 +63,20 @@ export const WithGroupSelectionAndCustomIconStory = ({
                 size="l"
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
                 onItemClick={onItemClick}
-                disableDefaultItemClickBehavior
                 renderItem={({
                     data,
                     props: {
                         expanded, // don't use default ListItemView expand icon
-                        ...state
+                        ...preparedProps
                     },
                     context: {childrenIds},
                 }) => {
+                    // has no group
+                    preparedProps.hasSelectionIcon = Boolean(props.multiple);
+
                     return (
                         <ListItemView
-                            {...state}
+                            {...preparedProps}
                             {...mapCustomDataStructureToKnownProps(data)}
                             startSlot={
                                 <Icon size={16} data={childrenIds ? Database : PlugConnection} />
@@ -88,7 +90,8 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                             e.stopPropagation();
                                             list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                [state.id]: !prevExpandedState[state.id],
+                                                [preparedProps.id]:
+                                                    !prevExpandedState[preparedProps.id],
                                             }));
                                         }}
                                         extraProps={{

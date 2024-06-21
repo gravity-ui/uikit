@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
-import type {InitialListParsedState, UseListResult} from '../types';
+import type {ListState, UseListResult} from '../types';
 
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
@@ -10,7 +10,7 @@ import {useListState} from './useListState';
 import type {UseListStateProps} from './useListState';
 
 interface UseListProps<T> extends UseListParsedStateProps<T>, UseListStateProps {
-    controlledState?: Partial<InitialListParsedState>;
+    controlledState?: Partial<ListState>;
 }
 
 /**

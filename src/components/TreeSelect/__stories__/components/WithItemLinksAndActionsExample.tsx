@@ -44,7 +44,6 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                 items={items}
                 mapItemDataToProps={identity}
                 open={open}
-                disableDefaultItemClickBehavior
                 onOpenChange={setOpen}
                 size="l"
                 renderItem={({

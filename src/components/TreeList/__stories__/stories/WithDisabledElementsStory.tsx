@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {Flex} from '../../../layout';
-import {useList} from '../../../useList';
+import {getListItemClickHandler, useList} from '../../../useList';
 import type {ListItemType} from '../../../useList';
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
@@ -52,6 +52,7 @@ export const WithDisabledElementsStory = ({...storyProps}: WithDisabledElementsS
                 containerRef={containerRef}
                 mapItemDataToProps={({text}) => ({title: text})}
                 onItemClick={({id}) => {
+                    getListItemClickHandler({list})({id});
                     alert(
                         `Clicked by item with id :"${id}" and data: ${JSON.stringify(list.structure.itemsById[id])}`,
                     );

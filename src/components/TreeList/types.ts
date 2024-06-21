@@ -53,13 +53,8 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
     renderItem?: TreeListRenderItem<T, P>;
     renderContainer?: TreeListRenderContainer<T>;
     /**
-     * On click will be always appears default onClick logic.
-     * If you don't need this behavior use `disableDefaultItemClickBehavior` prop
+     * `null` - disable default click handler
      */
     onItemClick?: null | TreeListOnItemClick<T>;
-    /**
-     * Disable default `onItemClick` handler logic
-     */
-    disableDefaultItemClickBehavior?: boolean;
     mapItemDataToProps: TreeListMapItemDataToProps<T>;
 }

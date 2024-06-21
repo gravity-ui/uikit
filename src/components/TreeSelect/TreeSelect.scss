@@ -3,9 +3,7 @@
 $block: '.#{variables.$ns}tree-select';
 
 #{$block} {
-    display: flex;
-    flex-direction: column;
-    gap: var(--g-spacing-5);
+    display: inline-block;
 
     max-width: 100%;
 

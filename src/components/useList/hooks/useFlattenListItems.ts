@@ -21,7 +21,7 @@ export function useFlattenListItems<T>({
     getItemId,
 }: UseFlattenListItemsProps<T>) {
     const order = React.useMemo(() => {
-        return flattenItems(items, expandedById, getItemId);
+        return flattenItems({items, expandedById, getItemId});
     }, [items, expandedById, getItemId]);
 
     return order;

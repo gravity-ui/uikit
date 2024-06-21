@@ -3,14 +3,13 @@ import React from 'react';
 import {Button} from '../../../Button';
 import {Popup} from '../../../Popup';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {ListItemView} from '../../components/ListItemView/ListItemView';
-import {ListItemRecursiveRenderer} from '../../components/ListRecursiveRenderer/ListRecursiveRenderer';
+import {ListContainer} from '../../components/ListContainer';
+import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListKeydown} from '../../hooks/useListKeydown';
-import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSize} from '../../types';
+import type {ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
+import {getListItemClickHandler} from '../../utils/getListItemClickHandler';
 import {scrollToListItem} from '../../utils/scrollToListItem';
 import {createRandomizedData} from '../utils/makeData';
 
@@ -31,23 +30,20 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
         [itemsCount],
     );
 
-    const listState = useListState();
+    const list = useList({items});
 
-    const list = useList({
-        items,
-        ...listState,
-    });
+    const onItemClick = getListItemClickHandler({list});
 
     const [selectedId] = React.useMemo(
-        () => Object.keys(listState.selectedById),
-        [listState.selectedById],
+        () => Object.keys(list.state.selectedById),
+        [list.state.selectedById],
     );
 
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
         if (open) {
             containerRef.current?.focus();
-            listState.setActiveItemId(selectedId ?? list.visibleFlattenIds[0]);
+            list.state.setActiveItemId(selectedId ?? list.structure.visibleFlattenIds[0]);
 
             if (selectedId) {
                 scrollToListItem(selectedId, containerRef.current);
@@ -57,34 +53,16 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
-    const onItemClick = (id: ListItemId) => {
-        if (id in list.groupsState) {
-            listState.setExpanded((state) => ({
-                ...state,
-                [id]: id in state ? !state[id] : false,
-            }));
-            listState.setActiveItemId(id);
-        } else {
-            // only one item active
-            listState.setSelected((state) => ({
-                [id]: !state[id],
-            }));
-            setOpen(false);
-            listState.setActiveItemId(undefined);
-        }
-    };
-
     useListKeydown({
         containerRef,
         onItemClick,
-        ...list,
-        ...listState,
+        list,
     });
 
     return (
         <Flex direction="column" gap="5" width={COMPONENT_WIDTH} ref={controlWrapRef}>
             <Button ref={controlRef} onClick={() => setOpen((x) => !x)} width="max">
-                {selectedId ? list.itemsById[selectedId]?.title : 'Select person'}
+                {selectedId ? list.structure.itemsById[selectedId]?.title : 'Select person'}
             </Button>
             <Popup
                 style={{width: COMPONENT_WIDTH, height: '80vh', overflow: 'auto', borderRadius: 6}}
@@ -97,35 +75,21 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                 restoreFocus
                 restoreFocusRef={controlRef}
             >
-                <ListContainerView ref={containerRef}>
-                    {items.map((item, index) => (
-                        <ListItemRecursiveRenderer
-                            itemSchema={item}
-                            key={index}
-                            index={index}
-                            expandedById={listState.expandedById}
-                            idToFlattenIndex={list.idToFlattenIndex}
-                        >
-                            {(id) => {
-                                const {props, context} = getItemRenderState({
-                                    id,
-                                    size,
-                                    onItemClick,
-                                    mapItemDataToProps: (x) => x,
-                                    ...list,
-                                    ...listState,
-                                });
+                <ListContainer
+                    containerRef={containerRef}
+                    list={list}
+                    renderItem={(id) => {
+                        const {props, context} = getItemRenderState({
+                            id,
+                            size,
+                            onItemClick,
+                            mapItemDataToProps: (x) => x,
+                            list,
+                        });
 
-                                return (
-                                    <ListItemView
-                                        {...props}
-                                        hasSelectionIcon={!context.groupState}
-                                    />
-                                );
-                            }}
-                        </ListItemRecursiveRenderer>
-                    ))}
-                </ListContainerView>
+                        return <ListItemView {...props} hasSelectionIcon={!context.childrenIds} />;
+                    }}
+                />
             </Popup>
         </Flex>
     );

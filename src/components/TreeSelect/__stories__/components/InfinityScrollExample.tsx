@@ -3,12 +3,18 @@ import React from 'react';
 import {Label} from '../../../Label';
 import {Loader} from '../../../Loader';
 import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
-import {Flex, spacing} from '../../../layout';
-import {ListItemView} from '../../../useList';
+import type {TreeListOnItemClick} from '../../../TreeList/types';
+import {Flex, sp, spacing} from '../../../layout';
+import {ListItemView, getListItemClickHandler} from '../../../useList';
+import type {ListItemId} from '../../../useList';
 import {IntersectionContainer} from '../../../useList/__stories__/components/IntersectionContainer/IntersectionContainer';
 import {useInfinityFetch} from '../../../useList/__stories__/utils/useInfinityFetch';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
+
+interface Entity {
+    title: string;
+}
 
 function identity<T>(value: T): T {
     return value;
@@ -16,8 +22,8 @@ function identity<T>(value: T): T {
 
 export interface InfinityScrollExampleProps
     extends Omit<
-        TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
+        TreeSelectProps<Entity>,
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'multiple' | 'defaultValue'
     > {
     itemsCount?: number;
 }
@@ -32,26 +38,53 @@ export const InfinityScrollExample = ({
         onFetchMore,
         canFetchMore,
         isLoading,
-    } = useInfinityFetch<{title: string}>(itemsCount, true);
+    } = useInfinityFetch<Entity>(itemsCount, true);
+
+    const handleGroupItemClick: TreeListOnItemClick<Entity> = ({id, list}) => {
+        getListItemClickHandler({list})({id});
+
+        // click on group item
+        if (list.state.expandedById && list.state.setExpanded && id in list.state.expandedById) {
+            const treeGroupNextValue = !list.state.expandedById[id];
+            const groupItemToToggleIds: ListItemId[] = [id];
+            const stack = [...list.structure.groupsState[id].childrenIds];
+
+            while (stack.length > 0) {
+                const candidateId = stack.pop();
+
+                if (candidateId && candidateId in list.structure.groupsState) {
+                    groupItemToToggleIds.push(candidateId);
+
+                    stack.push(...list.structure.groupsState[candidateId].childrenIds);
+                }
+            }
+
+            list.state.setExpanded((prevValues) => ({
+                ...prevValues,
+                ...groupItemToToggleIds.reduce<Record<ListItemId, boolean>>((acc, id) => {
+                    acc[id] = treeGroupNextValue;
+
+                    return acc;
+                }, {}),
+            }));
+        }
+    };
 
     return (
         <Flex>
-            <TreeSelect<{title: string}>
+            <TreeSelect
                 {...storyProps}
+                value={value}
                 mapItemDataToProps={identity}
                 items={items}
-                value={value}
-                renderItem={({data, props, context: {isLastItem, groupState}}) => {
+                onItemClick={handleGroupItemClick}
+                renderItem={({data, props, context: {isLastItem, childrenIds}}) => {
                     const node = (
                         <ListItemView
                             {...props}
                             {...data}
-                            style={{marginInline: 4}}
-                            endSlot={
-                                groupState ? (
-                                    <Label>{groupState.childrenIds.length}</Label>
-                                ) : undefined
-                            }
+                            className={sp({mx: 1})}
+                            endSlot={childrenIds ? <Label>{childrenIds.length}</Label> : undefined}
                         />
                     );
 

@@ -3,12 +3,17 @@
 import React from 'react';
 
 import {useUniqId} from '../../hooks';
-import {ListItemView, getItemRenderState, useList, useListKeydown} from '../useList';
-import type {ListItemId} from '../useList';
+import {
+    ListContainer,
+    ListItemView,
+    getItemRenderState,
+    getListItemClickHandler,
+    useListKeydown,
+} from '../useList';
+import type {ListOnItemClick} from '../useList';
 import {block} from '../utils/cn';
 
-import {TreeListContainer} from './components/TreeListContainer/TreeListContainer';
-import type {TreeListProps, TreeListRenderContainerProps} from './types';
+import type {TreeListContainerProps, TreeListProps} from './types';
 
 const b = block('tree-list');
 
@@ -16,20 +21,13 @@ export const TreeList = <T,>({
     qa,
     id,
     size = 'm',
-    items,
     className,
-    expandedById: propsExpandedById,
-    disabledById: propsDisabledById,
-    selectedById: propsSelectedById,
-    activeItemId,
-    defaultGroupsExpanded = true,
-    getItemId,
-    renderItem: propsRenderItem,
-    renderContainer = TreeListContainer,
-    onItemClick,
+    list,
     multiple,
-    setActiveItemId,
     containerRef: propsContainerRef,
+    renderItem: propsRenderItem,
+    renderContainer = ListContainer,
+    onItemClick: propsOnItemClick,
     mapItemDataToProps,
 }: TreeListProps<T>) => {
     const uniqId = useUniqId();
@@ -37,73 +35,33 @@ export const TreeList = <T,>({
     const containerRefLocal = React.useRef<HTMLDivElement>(null);
     const containerRef = propsContainerRef ?? containerRefLocal;
 
-    const listParsedState = useList({
-        items,
-        getItemId,
-        // used not all of all properties but it may be needed in future
-        expandedById: propsExpandedById,
-        disabledById: propsDisabledById,
-        selectedById: propsSelectedById,
-        activeItemId,
-    });
-
-    const expandedById = propsExpandedById || listParsedState.initialState.expandedById;
-    const disabledById = propsDisabledById || listParsedState.initialState.disabledById;
-    const selectedById = propsSelectedById || listParsedState.initialState.selectedById;
-
-    const handleItemClick = React.useMemo(() => {
-        if (onItemClick) {
-            return (listItemId: ListItemId) => {
-                onItemClick?.({
-                    id: listItemId,
-                    index: listParsedState.idToFlattenIndex[listItemId],
-                    data: listParsedState.itemsById[listItemId],
-                    expanded:
-                        // eslint-disable-next-line no-nested-ternary
-                        expandedById && listItemId in expandedById
-                            ? expandedById[listItemId]
-                            : listItemId in listParsedState.initialState.expandedById
-                              ? listParsedState.initialState.expandedById[listItemId]
-                              : defaultGroupsExpanded,
-                    disabled: disabledById
-                        ? Boolean(disabledById[listItemId])
-                        : Boolean(listParsedState.initialState.disabledById[listItemId]),
-                    selected: selectedById
-                        ? Boolean(selectedById[listItemId])
-                        : Boolean(listParsedState.initialState.selectedById[listItemId]),
-
-                    context: {
-                        isLastItem:
-                            listParsedState.visibleFlattenIds[
-                                listParsedState.visibleFlattenIds.length - 1
-                            ] === listItemId,
-                        groupState: listParsedState.groupsState[listItemId],
-                        itemState: listParsedState.itemsState[listItemId],
-                    },
-                });
-            };
+    const onItemClick = React.useMemo(() => {
+        if (propsOnItemClick === null) {
+            return undefined;
         }
 
-        return undefined;
-    }, [
-        defaultGroupsExpanded,
-        disabledById,
-        expandedById,
-        selectedById,
-        listParsedState,
-        onItemClick,
-    ]);
+        const handler: ListOnItemClick = (arg, e) => {
+            const payload = {id: arg.id, list};
+
+            if (propsOnItemClick) {
+                propsOnItemClick?.(payload, e);
+            } else {
+                const baseOnClick = getListItemClickHandler({list, multiple});
+
+                baseOnClick(payload, e);
+            }
+        };
+
+        return handler;
+    }, [propsOnItemClick, list, multiple]);
 
     useListKeydown({
         containerRef,
-        onItemClick: handleItemClick,
-        ...listParsedState,
-        activeItemId,
-        disabledById,
-        setActiveItemId,
+        onItemClick,
+        list,
     });
 
-    const renderItem: TreeListRenderContainerProps<T>['renderItem'] = (
+    const renderItem: TreeListContainerProps<T>['renderItem'] = (
         itemId,
         index,
         renderContainerProps,
@@ -114,13 +72,8 @@ export const TreeList = <T,>({
             size,
             multiple,
             mapItemDataToProps,
-            onItemClick: handleItemClick,
-            ...listParsedState,
-            expandedById,
-            disabledById,
-            activeItemId,
-            selectedById,
-            defaultExpanded: defaultGroupsExpanded,
+            onItemClick,
+            list,
         });
 
         if (propsRenderItem) {
@@ -130,6 +83,7 @@ export const TreeList = <T,>({
                 context: renderState.context,
                 index,
                 renderContainerProps,
+                list,
             });
         }
 
@@ -143,12 +97,7 @@ export const TreeList = <T,>({
         size,
         containerRef,
         className: b(null, className),
-        ...listParsedState,
-        expandedById,
-        disabledById,
-        activeItemId,
-        selectedById,
+        list,
         renderItem,
-        getItemId,
     });
 };

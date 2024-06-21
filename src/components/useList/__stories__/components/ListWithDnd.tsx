@@ -11,14 +11,14 @@ import type {
 import {Icon} from '../../../Icon';
 import {TextInput} from '../../../controls';
 import {Flex} from '../../../layout';
-import {ListContainerView} from '../../components/ListContainerView/ListContainerView';
-import {ListItemView} from '../../components/ListItemView/ListItemView';
+import {ListContainerView} from '../../components/ListContainerView';
+import {ListItemView} from '../../components/ListItemView';
 import {useList} from '../../hooks/useList';
 import {useListFilter} from '../../hooks/useListFilter';
 import {useListKeydown} from '../../hooks/useListKeydown';
-import {useListState} from '../../hooks/useListState';
-import type {ListItemId, ListItemSize} from '../../types';
+import type {ListItemSize} from '../../types';
 import {getItemRenderState} from '../../utils/getItemRenderState';
+import {getListItemClickHandler} from '../../utils/getListItemClickHandler';
 import {createRandomizedData} from '../utils/makeData';
 import {reorderArray} from '../utils/reorderArray';
 
@@ -37,38 +37,17 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
 
     const filterState = useListFilter({items});
 
-    const listState = useListState();
-
     const list = useList({
         getItemId: ({title}) => title,
         items: filterState.items,
-        ...listState,
     });
 
-    const onItemClick = React.useCallback(
-        (id: ListItemId) => {
-            if (id in list.groupsState) {
-                listState.setExpanded((state) => ({
-                    ...state,
-                    [id]: id in state ? !state[id] : false,
-                }));
-            } else {
-                // just toggle item by id
-                listState.setSelected((state) => ({
-                    [id]: !state[id],
-                }));
-            }
-
-            listState.setActiveItemId(id);
-        },
-        [list.groupsState, listState],
-    );
+    const onItemClick = getListItemClickHandler({list});
 
     useListKeydown({
         containerRef,
         onItemClick,
-        ...list,
-        ...listState,
+        list,
     });
 
     return (
@@ -93,14 +72,13 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
                                 ref={containerRef}
                                 extraProps={{'aria-label': ariaLabel}}
                             >
-                                {list.visibleFlattenIds.map((id, index) => {
+                                {list.structure.visibleFlattenIds.map((id, index) => {
                                     const {props} = getItemRenderState({
                                         id,
                                         size,
                                         onItemClick,
                                         mapItemDataToProps: (x) => x,
-                                        ...list,
-                                        ...listState,
+                                        list,
                                     });
 
                                     return (

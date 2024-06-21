@@ -8,7 +8,7 @@ import {PopupWithTogglerList} from './components/PopupWithTogglerList';
 import type {PopupWithTogglerListProps} from './components/PopupWithTogglerList';
 
 export default {
-    title: 'Unstable/useList/PopupWithToggler',
+    title: 'Lab/useList/PopupWithToggler',
     component: PopupWithTogglerList,
 } as Meta;
 

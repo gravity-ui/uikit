@@ -1,57 +1,58 @@
 import React from 'react';
 
 import {KeyCode} from '../../../constants';
-import type {ListItemId, ListState} from '../types';
+import type {ListOnItemClick, UseListResult} from '../types';
 import {findNextIndex} from '../utils/findNextIndex';
 import {scrollToListItem} from '../utils/scrollToListItem';
 
-interface UseListKeydownProps extends Partial<Pick<ListState, 'disabledById' | 'activeItemId'>> {
-    visibleFlattenIds: ListItemId[];
-    onItemClick?(itemId: ListItemId): void;
+interface UseListKeydownProps<T = unknown> {
+    onItemClick?: ListOnItemClick;
     containerRef?: React.RefObject<HTMLDivElement>;
-    setActiveItemId?(id: ListItemId): void;
     enabled?: boolean;
+    list: UseListResult<T>;
 }
 
 // Use this hook if you need keyboard support for tree structure lists
-export const useListKeydown = ({
-    visibleFlattenIds,
-    onItemClick,
-    containerRef,
-    disabledById = {},
-    activeItemId,
-    setActiveItemId,
-    enabled,
-}: UseListKeydownProps) => {
+export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseListKeydownProps) => {
     const activateItem = React.useCallback(
         (index?: number, scrollTo = true) => {
-            if (typeof index === 'number' && visibleFlattenIds[index]) {
+            if (typeof index === 'number' && list.structure.visibleFlattenIds[index]) {
                 if (scrollTo) {
-                    scrollToListItem(visibleFlattenIds[index], containerRef?.current);
+                    scrollToListItem(
+                        list.structure.visibleFlattenIds[index],
+                        containerRef?.current,
+                    );
                 }
 
-                setActiveItemId?.(visibleFlattenIds[index]);
+                list.state.setActiveItemId?.(list.structure.visibleFlattenIds[index]);
             }
         },
-        [containerRef, visibleFlattenIds, setActiveItemId],
+        [list.structure.visibleFlattenIds, list.state, containerRef],
     );
 
     const handleKeyMove = React.useCallback(
         (event: KeyboardEvent, step: number, defaultItemIndex = 0) => {
             event.preventDefault();
 
-            const maybeIndex = visibleFlattenIds.findIndex((i) => i === activeItemId);
+            const maybeIndex = list.structure.visibleFlattenIds.findIndex(
+                (i) => i === list.state.activeItemId,
+            );
 
             const nextIndex = findNextIndex({
-                list: visibleFlattenIds,
+                list: list.structure.visibleFlattenIds,
                 index: (maybeIndex > -1 ? maybeIndex : defaultItemIndex) + step,
                 step: Math.sign(step),
-                disabledItems: disabledById,
+                disabledItems: list.state.disabledById,
             });
 
             activateItem(nextIndex);
         },
-        [activateItem, activeItemId, disabledById, visibleFlattenIds],
+        [
+            activateItem,
+            list.state.activeItemId,
+            list.state.disabledById,
+            list.structure.visibleFlattenIds,
+        ],
     );
 
     React.useLayoutEffect(() => {
@@ -73,10 +74,13 @@ export const useListKeydown = ({
                 }
                 case KeyCode.SPACEBAR:
                 case KeyCode.ENTER: {
-                    if (activeItemId && !disabledById[activeItemId]) {
+                    if (
+                        list.state.activeItemId &&
+                        !list.state.disabledById[list.state.activeItemId]
+                    ) {
                         event.preventDefault();
 
-                        onItemClick?.(activeItemId);
+                        onItemClick?.({id: list.state.activeItemId});
                     }
                     break;
                 }
@@ -90,5 +94,12 @@ export const useListKeydown = ({
         return () => {
             anchor.removeEventListener('keydown', handleKeyDown);
         };
-    }, [activeItemId, containerRef, disabledById, enabled, handleKeyMove, onItemClick]);
+    }, [
+        containerRef,
+        enabled,
+        handleKeyMove,
+        list.state.activeItemId,
+        list.state.disabledById,
+        onItemClick,
+    ]);
 };

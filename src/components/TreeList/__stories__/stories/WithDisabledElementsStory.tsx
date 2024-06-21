@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {Flex} from '../../../layout';
-import {useListState} from '../../../useList';
+import {getListItemClickHandler, useList} from '../../../useList';
 import type {ListItemType} from '../../../useList';
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
@@ -12,14 +12,15 @@ export interface WithDisabledElementsStoryProps
 
 const items: ListItemType<{text: string}>[] = [
     {
-        text: 'one',
+        text: 'default disabled',
         disabled: true,
     },
     {
         text: 'two',
     },
     {
-        text: 'free',
+        text: 'default selected',
+        selected: true,
     },
     {
         text: 'four',
@@ -29,8 +30,8 @@ const items: ListItemType<{text: string}>[] = [
     },
 ];
 
-export const WithDisabledElementsStory = ({...props}: WithDisabledElementsStoryProps) => {
-    const {disabledById: _disabledById, setDisabled: _setDisabled, ...listState} = useListState();
+export const WithDisabledElementsStory = ({...storyProps}: WithDisabledElementsStoryProps) => {
+    const list = useList({items});
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
@@ -46,14 +47,15 @@ export const WithDisabledElementsStory = ({...props}: WithDisabledElementsStoryP
                 to control from keyboard
             </Flex>
             <TreeList
-                {...props}
+                {...storyProps}
+                list={list}
                 containerRef={containerRef}
-                items={items}
-                {...listState}
                 mapItemDataToProps={({text}) => ({title: text})}
-                onItemClick={({data, id, selected}) => {
-                    listState.setSelected({[id]: !selected});
-                    alert(`Clicked by item with id :"${id}" and data: ${JSON.stringify(data)}`);
+                onItemClick={({id}) => {
+                    getListItemClickHandler({list})({id});
+                    alert(
+                        `Clicked by item with id :"${id}" and data: ${JSON.stringify(list.structure.itemsById[id])}`,
+                    );
                 }}
             />
         </Flex>

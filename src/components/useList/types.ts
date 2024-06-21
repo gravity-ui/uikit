@@ -48,19 +48,15 @@ export type ListItemCommonProps = {
     endSlot?: React.ReactNode;
 };
 
-export type RenderItemContext = {
-    itemState: ItemState;
-    /**
-     * Exists if item is group
-     */
-    groupState?: GroupParsedState;
-    isLastItem: boolean;
-};
+export type ListItemListContextProps = ItemState &
+    Partial<GroupParsedState> & {
+        isLastItem: boolean;
+    };
 
 export type RenderItemProps = {
     size: ListItemSize;
     id: ListItemId;
-    onClick: (() => void) | undefined;
+    onClick: ((e: React.SyntheticEvent) => void) | undefined;
     selected: boolean | undefined;
     disabled: boolean;
     expanded: boolean | undefined;
@@ -86,10 +82,18 @@ export type ParsedState<T> = {
     groupsState: Record<ListItemId, GroupParsedState>;
 };
 
+type SetStateAction<S> = S | ((prevState: S) => S);
+
+export type ListStateHandler<S> = (arg: SetStateAction<S>) => void;
+
 export type ListState = {
     disabledById: Record<ListItemId, boolean>;
     selectedById: Record<ListItemId, boolean>;
-    expandedById: Record<ListItemId, boolean>;
+    expandedById?: Record<ListItemId, boolean>;
+    setExpanded?: ListStateHandler<Record<ListItemId, boolean>>;
+    setSelected: ListStateHandler<Record<ListItemId, boolean>>;
+    setDisabled: ListStateHandler<Record<ListItemId, boolean>>;
+    setActiveItemId: ListStateHandler<ListItemId | undefined>;
     activeItemId?: ListItemId;
 };
 
@@ -98,12 +102,33 @@ export type InitialListParsedState = Pick<
     'disabledById' | 'expandedById' | 'selectedById'
 >;
 
+export type ItemSchema = {
+    id: ListItemId;
+    index: number;
+    children?: ItemSchema[];
+};
+
 export type ParsedFlattenState = {
+    /**
+     * Original list ordered ids without flatten elements.
+     * Use it to get internal item id
+     */
+    rootIds: ListItemId[];
     visibleFlattenIds: ListItemId[];
     idToFlattenIndex: Record<ListItemId, number>;
 };
 
-export type ListParsedState<T> = ParsedState<T> &
+type ListStructure<T> = ParsedState<T> &
     ParsedFlattenState & {
         items: ListItemType<T>[];
     };
+
+export type UseListResult<T> = {
+    state: ListState;
+    structure: ListStructure<T>;
+};
+
+export type ListOnItemClick<El = Element, Ev = Event> = (
+    payload: {id: ListItemId},
+    e?: React.SyntheticEvent<El, Ev>,
+) => void;

@@ -8,7 +8,7 @@ import {RecursiveList} from './components/RecursiveList';
 import type {RecursiveListProps} from './components/RecursiveList';
 
 export default {
-    title: 'Unstable/useList/RecursiveRenderer',
+    title: 'Lab/useList/RecursiveRenderer',
     component: RecursiveList,
     parameters: {
         a11y: {

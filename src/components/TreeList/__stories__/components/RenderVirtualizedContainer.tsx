@@ -2,18 +2,18 @@ import React from 'react';
 
 import {ListContainerView, computeItemSize} from '../../../useList';
 import {VirtualizedListContainer} from '../../../useList/__stories__/components/VirtualizedListContainer';
-import type {TreeListRenderContainerProps} from '../../types';
+import type {TreeListContainerProps} from '../../types';
 
 // custom container renderer example
 export const RenderVirtualizedContainer = <T,>({
     id,
     qa,
     containerRef,
-    visibleFlattenIds,
+    list,
     renderItem,
     size,
     className,
-}: TreeListRenderContainerProps<T>) => {
+}: TreeListContainerProps<T>) => {
     return (
         <ListContainerView
             qa={qa}
@@ -24,7 +24,7 @@ export const RenderVirtualizedContainer = <T,>({
             extraProps={{style: {padding: 0}}}
         >
             <VirtualizedListContainer
-                items={visibleFlattenIds}
+                items={list.structure.visibleFlattenIds}
                 itemSize={(_index) => computeItemSize(size)}
             >
                 {renderItem}

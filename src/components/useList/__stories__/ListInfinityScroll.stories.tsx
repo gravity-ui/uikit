@@ -6,7 +6,7 @@ import {InfinityScrollList as InfinityScrollListExample} from './components/Infi
 import type {InfinityScrollListProps} from './components/InfinityScrollList';
 
 export default {
-    title: 'Unstable/useList/InfinityScrollList',
+    title: 'Lab/useList/InfinityScrollList',
     component: InfinityScrollListExample,
     parameters: {
         a11y: {

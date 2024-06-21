@@ -1,24 +1,19 @@
 import type React from 'react';
 
 import type {PopperPlacement} from '../../hooks/private';
+import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {SelectPopupProps} from '../Select/components/SelectPopup/types';
 import type {
-    TreeListMapItemDataToProps,
-    TreeListOnItemClick,
+    TreeListContainerProps,
+    TreeListProps,
     TreeListRenderContainer,
-    TreeListRenderContainerProps,
+    TreeListRenderItem,
 } from '../TreeList/types';
-import type {QAProps} from '../types';
-import type {
-    ListItemId,
-    ListItemSize,
-    ListItemType,
-    ListState,
-    RenderItemContext,
-    RenderItemProps,
-} from '../useList';
+import type {ListItemId, ListItemSize, UseListResult} from '../useList';
+import type {UseListParsedStateProps} from '../useList/hooks/useListParsedState';
 
-export type TreeSelectRenderControlProps = {
+export type TreeSelectRenderControlProps<T> = {
+    list: UseListResult<T>;
     open: boolean;
     toggleOpen(): void;
     clearValue(): void;
@@ -28,88 +23,50 @@ export type TreeSelectRenderControlProps = {
     id: string;
     activeItemId?: ListItemId;
     title?: string;
+    hasClear?: boolean;
 };
 
-export type TreeSelectRenderItem<T, P extends {} = {}> = (props: {
-    data: T;
-    // required item props to render
-    props: RenderItemProps;
-    // internal list context props
-    context: RenderItemContext;
-    index: number;
-    renderContainerProps?: P;
-}) => React.JSX.Element;
-
-export type TreeSelectRenderContainerProps<T> = TreeListRenderContainerProps<T>;
+export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P>;
+export type TreeSelectRenderContainerProps<T> = TreeListContainerProps<T>;
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
+interface TreeSelectBehavioralProps<T> extends UseListParsedStateProps<T> {
+    withExpandedState?: boolean;
+    multiple?: boolean;
+}
+
 export interface TreeSelectProps<T, P extends {} = {}>
-    extends QAProps,
-        Partial<Omit<ListState, 'selectedById'>> {
+    extends Omit<TreeListProps<T, P>, 'list' | 'renderContainer' | 'multiple'>,
+        UseOpenProps,
+        TreeSelectBehavioralProps<T> {
+    /**
+     * Control's title attribute value
+     */
+    title?: string;
     value?: ListItemId[];
-    defaultOpen?: boolean;
-    defaultValue?: ListItemId[];
-    open?: boolean;
-    id?: string | undefined;
+    defaultValue?: ListItemId[] | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];
     placement?: PopperPlacement;
     width?: 'auto' | 'max' | number;
-    className?: string;
-    containerRef?: React.RefObject<HTMLDivElement>;
     containerClassName?: string;
     popupDisablePortal?: boolean;
-    multiple?: boolean;
-    /**
-     * The ability to set the default behavior for group elements
-     *
-     * - `expandable`. Click on group item will be produce internal `expanded` state toggle
-     * - `selectable`. Click on group item will be produce internal `selected` state toggle
-     *
-     * @default - 'expandable
-     */
-    groupsBehavior?: 'expandable' | 'selectable';
-    /**
-     * List popup has fixes size - 6px. This prop is used to control only list item size view.
-     * To override popup border radius use `popupClassName` class
-     */
-    size: ListItemSize;
     /**
      * Use slots if you don't need access to internal TreeListState.
      * In other situations use `renderContainer` method
      */
     slotBeforeListBody?: React.ReactNode;
-    defaultGroupsExpanded?: boolean;
     /**
      * Use slots if you don't need access to internal TreeListState.
      * In other situations use `renderContainer` method
      */
     slotAfterListBody?: React.ReactNode;
-    items: ListItemType<T>[];
+    onUpdate?(value: ListItemId[]): void;
     /**
-     * Define custom id depended on item data value to use in controlled state component variant
+     * Ability to override custom toggler button
      */
-    getItemId?(item: T): ListItemId;
-    /**
-     * Ability to override custom toggler btn
-     */
-    renderControl?(props: TreeSelectRenderControlProps): React.JSX.Element;
-    /**
-     * Override list item content by you custom node.
-     */
-    renderItem?: TreeSelectRenderItem<T, P>;
-    onClose?(): void;
-    onUpdate?(value: ListItemId[], selectedItems: T[]): void;
-    onOpenChange?(open: boolean): void;
+    renderControl?(props: TreeSelectRenderControlProps<T>): React.JSX.Element;
     renderContainer?: TreeSelectRenderContainer<T>;
-    onItemClick?: TreeListOnItemClick<T, () => void>;
-    /**
-     * Map item data to view props
-     */
-    mapItemDataToProps: TreeListMapItemDataToProps<T>;
-    setActiveItemId?(listItemId?: ListItemId): void;
-    /**
-     * Control's title attribute value
-     */
-    title?: string;
+    onFocus?: (e: React.FocusEvent) => void;
+    onBlur?: (e: React.FocusEvent) => void;
 }

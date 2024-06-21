@@ -11,7 +11,7 @@ import {WithGroupSelectionAndCustomIconStory} from './stories/WithGroupSelection
 import {WithItemLinksAndActionsStory} from './stories/WithItemLinksAndActionsStory';
 
 export default {
-    title: 'Unstable/TreeList',
+    title: 'Lab/TreeList',
     component: TreeList,
 } as Meta;
 

@@ -1,25 +1,25 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
-import type {ListItemId, ListItemType} from '../types';
 import {getListParsedState} from '../utils/getListParsedState';
+import type {GetListParsedStateProps} from '../utils/getListParsedState';
 
-interface UseListParsedStateProps<T> {
-    items: ListItemType<T>[];
-    /**
-     * List item id dependant of data
-     */
-    getItemId?(item: T): ListItemId;
-}
+export interface UseListParsedStateProps<T> extends GetListParsedStateProps<T> {}
 
 /**
  * From the tree structure of list items we get meta information and
  * flatten list in right order without taking elements that hidden in expanded groups
  */
-export function useListParsedState<T>({items, getItemId}: UseListParsedStateProps<T>) {
+export function useListParsedState<T>({
+    items,
+    getItemId: propsGetItemId,
+    defaultExpandedState,
+}: UseListParsedStateProps<T>) {
+    const getItemId = React.useRef(propsGetItemId).current;
+
     const result = React.useMemo(() => {
-        return getListParsedState<T>(items, getItemId);
-    }, [getItemId, items]);
+        return getListParsedState<T>({items, getItemId, defaultExpandedState});
+    }, [getItemId, defaultExpandedState, items]);
 
     return result;
 }

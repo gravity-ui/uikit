@@ -4,11 +4,19 @@ import {getListItemId} from './getListItemId';
 import {getGroupItemId} from './groupItemId';
 import {isTreeItemGuard} from './isTreeItemGuard';
 
-export function flattenItems<T>(
-    items: ListItemType<T>[],
-    expandedById: Record<ListItemId, boolean> = {},
-    getItemId?: (item: T) => ListItemId,
-): ParsedFlattenState {
+interface FlattenItemsProps<T> {
+    items: ListItemType<T>[];
+    expandedById?: Record<ListItemId, boolean>;
+    getItemId?: (item: T) => ListItemId;
+}
+
+export function flattenItems<T>({
+    items,
+    getItemId,
+    expandedById = {},
+}: FlattenItemsProps<T>): ParsedFlattenState {
+    const rootIds: ListItemId[] = [];
+
     const getNestedIds = (
         order: string[],
         item: ListItemType<T>,
@@ -17,6 +25,11 @@ export function flattenItems<T>(
     ) => {
         const groupedId = getGroupItemId(index, parentId);
         const id = getListItemId({groupedId, item, getItemId});
+
+        // only top level array
+        if (!parentId) {
+            rootIds.push(id);
+        }
 
         order.push(id);
 
@@ -47,6 +60,7 @@ export function flattenItems<T>(
     }
 
     return {
+        rootIds,
         visibleFlattenIds,
         idToFlattenIndex,
     };

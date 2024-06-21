@@ -113,8 +113,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 
     const dndRenderContainer: TreeSelectRenderContainer<TableColumnSetupItem> = ({
         renderItem,
-        visibleFlattenIds,
-        itemsById,
+        list,
         containerRef,
         id,
         className,
@@ -126,15 +125,15 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
             };
 
             return renderItem(
-                visibleFlattenIds[rubric.source.index],
+                list.structure.visibleFlattenIds[rubric.source.index],
                 rubric.source.index,
                 renderContainerProps,
             );
         };
 
         const {stickyStartItemIdList, sortableItemIdList, stickyEndItemIdList} = prepareStickyState(
-            itemsById,
-            visibleFlattenIds,
+            list.structure.itemsById,
+            list.structure.visibleFlattenIds,
         );
 
         const stickyStartItemList = stickyStartItemIdList.map((visibleFlattenId, idx) => {

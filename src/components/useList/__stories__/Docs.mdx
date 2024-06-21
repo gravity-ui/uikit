@@ -1,0 +1,159 @@
+import {Meta, Markdown} from '@storybook/addon-docs';
+
+import UseListHook from './docs/use-list.md?raw';
+import UseListKeydownHook from './docs/use-list-keydown.md?raw';
+import UseListFilterHook from './docs/use-list-filter.md?raw';
+import GetListItemClickHandler from './docs/get-list-item-click-handler.md?raw';
+import ListItemView from './docs/list-item-view.md?raw';
+import ListContainerView from './docs/list-container-view.md?raw';
+import ListRecursiveRenderer from './docs/list-recursive-renderer.md?raw';
+import computeItemSize from './docs/compute-item-size.md?raw';
+import scrollToListItem from './docs/scroll-to-list-item.md?raw';
+import getItemRenderState from './docs/get-item-render-state.md?raw';
+import getListParsedState from './docs/get-list-parsed-state.md?raw';
+import getListItemQa from './docs/get-list-item-qa.md?raw';
+
+<Meta title="Lab/useList" />
+
+# UseList hooks and components
+
+A set of hooks for creating stateless `List` components;
+
+The basic idea is that hooks take all the complex logic on themselves, and all you have to do is implement the "dumb" components of the view;
+
+`Storybook` provides complex examples how to use this components from this documentation.
+
+### Hooks:
+
+-   [useList](#uselist);
+-   [useListKeydown](#uselistkeydown)
+-   [useListFilter](#uselistfilter);
+
+### Components (View only):
+
+-   [ListItemView](#listitemview);
+-   [ListContainerView](#listcontainerview);
+-   [ListRecursiveRenderer](#listrecursiverenderer);
+
+### Utilities:
+
+-   [getListItemClickHandler](#getlistItemclickhandler);
+-   [computeItemSize](#computeitemsize);
+-   [scrollToListItem](#scrolltolistitem);
+-   [getItemRenderState](#getitemrenderstate);
+-   [getListParsedState](#getlistparsedstate);
+-   [getListItemQa](#getlistitemqa);
+
+## Quick code snippets for beginners:
+
+### flatten items:
+
+```tsx
+import {
+    type unstable_ListItemId as ListItemId,
+    type unstable_ListItemType as ListItemType,
+    unstable_ListContainerView as ListContainerView,
+    unstable_ListItemView as ListItemView,
+    unstable_getItemRenderState as getItemRenderState,
+    unstable_useList as useList,
+    unstable_useListKeydown as useListKeydown,
+    unstable_useListState as useListState,
+} from '@gravity-ui/uikit/unstable';
+
+const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
+
+function List() {
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    const list = useList({items});
+    const onItemClick = getListItemClickHandler({list, multiple: true});
+    useListKeydown({onItemClick, containerRef, list});
+
+    return (
+        <ListContainerView ref={containerRef}>
+            {list.structure.items.map((_, i) => {
+                const {props} = getItemRenderState({
+                    id: String(i),
+                    mapItemDataToProps: (title) => ({title}),
+                    onItemClick,
+                    list,
+                });
+
+                return <ListItemView key={i} {...props} />;
+            })}
+        </ListContainerView>
+    );
+}
+```
+
+### tree item structure:
+
+```tsx
+import {
+    unstable_ListItemRecursiveRenderer as ListItemRecursiveRenderer,
+    unstable_ListContainerView as ListContainerView,
+    unstable_ListItemView as ListItemView,
+    unstable_useList as useList,
+    unstable_useListItemsClick as useListItemsClick,
+    unstable_getItemRenderState as getItemRenderState,
+} from '@gravity-ui/uikit/unstable';
+
+const items: ListItemType<string>[] = [
+    {data: 'one'},
+    {data: 'two', children: [{data: 'tree', children: [{data: 'four'}, {data: 'five'}]}]},
+];
+
+function List() {
+    const list = useList({items});
+    const onItemClick = useListItemsClick({items});
+
+    return (
+        <ListContainerView ref={containerRef}>
+            {list.structure.itemsSchema.map((itemSchema, index) => (
+                <ListItemRecursiveRenderer itemSchema={itemSchema} key={index}>
+                    {(id) => {
+                        const {props} = getItemRenderState({
+                            id: String(i),
+                            mapItemDataToProps: (title) => ({title}),
+                            onItemClick,
+                            list,
+                        });
+
+                        return <ListItemView {...props} />;
+                    }}
+                </ListItemRecursiveRenderer>
+            ))}
+        </ListContainerView>
+    );
+}
+```
+
+## Hooks:
+
+<Markdown>{UseListHook}</Markdown>
+
+<Markdown>{UseListKeydownHook}</Markdown>
+
+<Markdown>{UseListFilterHook}</Markdown>
+
+## Components:
+
+<Markdown>{ListItemView}</Markdown>
+
+<Markdown>{ListContainerView}</Markdown>
+
+<Markdown>{ListRecursiveRenderer}</Markdown>
+
+## Utilities
+
+<Markdown>{GetListItemClickHandler}</Markdown>
+
+<Markdown>{computeItemSize}</Markdown>
+
+<Markdown>{scrollToListItem}</Markdown>
+
+<Markdown>{getItemRenderState}</Markdown>
+
+<Markdown>{getListParsedState}</Markdown>
+
+<Markdown>{getListItemQa}</Markdown>

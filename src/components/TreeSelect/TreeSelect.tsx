@@ -235,6 +235,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     id={`list-${treeSelectId}`}
                     containerRef={containerRef}
                     onItemClick={handleItemClick}
+                    disableDefaultItemClickBehavior
                     renderContainer={renderContainer}
                     mapItemDataToProps={mapItemDataToProps}
                     renderItem={renderItem ?? defaultItemRenderer}

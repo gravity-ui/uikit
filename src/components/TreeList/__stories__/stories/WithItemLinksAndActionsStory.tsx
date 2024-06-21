@@ -45,6 +45,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
             list={list}
             mapItemDataToProps={identity}
             onItemClick={onItemClick}
+            disableDefaultItemClickBehavior
             size="l"
             renderItem={({
                 data,

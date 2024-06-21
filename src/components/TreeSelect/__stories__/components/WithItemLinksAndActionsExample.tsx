@@ -22,16 +22,14 @@ export interface WithItemLinksAndActionsExampleProps
     > {}
 
 export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
+    const [value, setValue] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(true);
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
 
     const onItemClick = (id: ListItemId, list: UseListResult<{title: string}>) => {
         if (list.state.disabledById[id]) return;
 
-        list.state.setSelected((prevState) => ({
-            ...(props.multiple ? prevState : {}),
-            [id]: !prevState[id],
-        }));
+        setValue([id]);
 
         list.state.setActiveItemId(id);
 
@@ -42,9 +40,11 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
         <Flex>
             <TreeSelect
                 {...props}
+                value={value}
                 items={items}
                 mapItemDataToProps={identity}
                 open={open}
+                disableDefaultItemClickBehavior
                 onOpenChange={setOpen}
                 size="l"
                 renderItem={({

@@ -63,6 +63,7 @@ export const WithGroupSelectionAndCustomIconStory = ({
                 size="l"
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
                 onItemClick={onItemClick}
+                disableDefaultItemClickBehavior
                 renderItem={({
                     data,
                     props: {

@@ -34,18 +34,17 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     itemsCount = 5,
     ...props
 }: WithGroupSelectionControlledStateAndCustomIconExampleProps) => {
+    const [value, setValue] = React.useState<string[]>([]);
+
     const items = React.useMemo(
         () => createRandomizedData({num: itemsCount, getData: (a) => ({a})}),
         [itemsCount],
     );
 
-    const onItemClick = (id: ListItemId, list: UseListResult<{a: string}>) => {
+    const onItemClick = ({id, list}: {id: ListItemId; list: UseListResult<{a: string}>}) => {
         if (list.state.disabledById[id]) return;
 
-        list.state.setSelected((prevState) => ({
-            ...(props.multiple ? prevState : {}),
-            [id]: !prevState[id],
-        }));
+        setValue([id]);
 
         list.state.setActiveItemId(id);
     };
@@ -55,25 +54,27 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
             <TreeSelect
                 {...props}
                 size="l"
+                value={value}
                 items={items}
                 mapItemDataToProps={mapCustomDataStructureToKnownProps}
+                onItemClick={onItemClick}
+                disableDefaultItemClickBehavior
                 renderItem={({
                     data,
                     props: {
                         expanded, // don't use default ListItemView expand icon
-                        ...state
+                        ...renderProps
                     },
                     context: {childrenIds},
                     list,
                 }) => {
                     // groups items are selectable too
-                    state.hasSelectionIcon = Boolean(props.multiple);
+                    renderProps.hasSelectionIcon = Boolean(props.multiple);
 
                     return (
                         <ListItemView
-                            {...state}
+                            {...renderProps}
                             {...mapCustomDataStructureToKnownProps(data)}
-                            onClick={() => onItemClick(state.id, list)}
                             startSlot={
                                 <Icon size={16} data={childrenIds ? Database : PlugConnection} />
                             }
@@ -86,7 +87,8 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                             e.stopPropagation();
                                             list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                [state.id]: !prevExpandedState[state.id],
+                                                [renderProps.id]:
+                                                    !prevExpandedState[renderProps.id],
                                             }));
                                         }}
                                     >

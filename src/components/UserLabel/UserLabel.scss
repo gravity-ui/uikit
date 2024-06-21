@@ -121,6 +121,9 @@ $block: '.#{variables.$ns}user-label';
             &_#{$size-name} {
                 height: #{$size-value};
             }
+            &_xl::after {
+                border-radius: 150px;
+            }
         }
     }
 }

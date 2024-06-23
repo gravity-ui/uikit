@@ -97,7 +97,7 @@ LANDING_BLOCK-->
 | className    | Custom CSS class for root element           |                                  `string`                                   |              |
 | style        | HTML style attribute                        |                            `React.CSSProperties`                            |              |
 | qa           | HTML `data-qa` attribute, used in tests     |                                  `string`                                   |              |
-| size         | Avatar size                                 |                       `'xs'` `'s'` `'m'` `'l'` `'xl'`                       |    `'m'`     |
+| size         | Avatar size                                 |                       `'xs'` `'s'` `'m'` `'l'` `'xl'`                       |    `'s'`     |
 
 ## CSS API
 

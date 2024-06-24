@@ -1,7 +1,7 @@
 import type React from 'react';
 
 import type {DistributiveOmit} from '../../types/utils';
-import type {AvatarProps} from '../Avatar';
+import type {AvatarProps, AvatarSize} from '../Avatar';
 import type {DOMProps, QAProps} from '../types';
 
 export type UserLabelType = 'person' | 'email' | 'empty';
@@ -17,4 +17,5 @@ export interface UserLabelProps extends DOMProps, QAProps {
     view?: UserLabelView;
     onClick?: React.MouseEventHandler<HTMLElement>;
     onCloseClick?: React.MouseEventHandler<HTMLButtonElement>;
+    size?: AvatarSize;
 }

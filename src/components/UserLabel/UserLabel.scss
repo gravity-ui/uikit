@@ -1,5 +1,6 @@
 @use '../../../styles/mixins';
 @use '../variables';
+@use '../Avatar/variables' as avatar-variables;
 
 $block: '.#{variables.$ns}user-label';
 
@@ -112,6 +113,17 @@ $block: '.#{variables.$ns}user-label';
 
         #{$block}__close:focus-visible & {
             outline: 2px solid var(--g-color-line-focus);
+        }
+    }
+
+    &_size {
+        @each $size-name, $size-value in avatar-variables.$sizes {
+            &_#{$size-name} {
+                height: #{$size-value};
+            }
+            &_xl::after {
+                border-radius: 150px;
+            }
         }
     }
 }

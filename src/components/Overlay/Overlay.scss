@@ -11,6 +11,8 @@ $block: '.#{variables.$ns}overlay';
     justify-content: center;
     align-items: center;
 
+    isolation: isolate;
+
     opacity: 0;
 
     transition:
@@ -19,11 +21,13 @@ $block: '.#{variables.$ns}overlay';
 
     &_visible {
         visibility: visible;
+
         opacity: 1;
     }
 
     &__background {
         position: absolute;
+        z-index: 0;
         inset: 0;
 
         opacity: 0.8;
@@ -40,6 +44,6 @@ $block: '.#{variables.$ns}overlay';
     }
 
     &__children {
-        z-index: 0;
+        z-index: 1;
     }
 }

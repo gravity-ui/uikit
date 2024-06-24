@@ -13,12 +13,14 @@ i.e. parent element must have `position` set to `relative`.
 For example, it can be used to preserve the desired layout while loading data.
 
 ```jsx
+import {Box, Overlay, Loader} from '@gravity-ui/uikit';
+
 <Box position="relative">
   <div>Some content to hide under overlay</div>
   <Overlay visible={loading}>
     <Loader />
   </Overlay>
-</Box>
+</Box>;
 ```
 
 ## Appearance
@@ -40,7 +42,7 @@ You can use `base` or `float` background colors.
 
 | Name       | Description                         |        Type        | Default |
 | :--------- | :---------------------------------- | :----------------: | :-----: |
-| className  | CSS class name of the root element  |      `String`      |         |
-| visible    | Overlay visibility state            |     `Boolean`      | `false` |
+| className  | CSS class name of the root element  |      `string`      |         |
+| visible    | Overlay visibility state            |     `boolean`      | `false` |
 | background | Overlay background style            | `"base"` `"float"` | `base`  |
 | children   | Content, usually a Loader component | `React.ReactNode`  |         |

@@ -157,10 +157,16 @@ LANDING_BLOCK-->
 
 If you want the browser to suggest "one time codes" from the outer context (e.g. SMS) set the `otp` prop.
 
+## API
+
+- `focus(): void` - Set focus to the current active input.
+- `blur(): void` - Remove focus from the current active input.
+
 ## Properties
 
 | Name             | Description                                                                                                                                          |             Type             |   Default   |
 | :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------: | :---------: |
+| apiRef           | Ref to the [API](#api)                                                                                                                               |      `React.RefObject`       |             |
 | aria-describedby | HTML `aria-describedby` attribute                                                                                                                    |           `string`           |             |
 | aria-label       | HTML `aria-label` attribute                                                                                                                          |           `string`           |             |
 | aria-labelledby  | HTML `aria-labelledby` attribute                                                                                                                     |           `string`           |             |

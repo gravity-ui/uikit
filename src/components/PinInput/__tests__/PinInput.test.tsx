@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {PinInput} from '../PinInput';
+import type {PinInputApi} from '../PinInput';
 
 describe('PinInput', () => {
     let inputs: HTMLElement[];
@@ -158,8 +159,6 @@ describe('PinInput', () => {
         expect(inputs[0]).toHaveValue('x');
     });
 
-    xtest('replace current input value on change', () => {});
-
     test('typing via keyboard', async () => {
         const user = userEvent.setup();
         const onUpdate = jest.fn();
@@ -270,5 +269,35 @@ describe('PinInput', () => {
         expect(inputs[0]).toHaveFocus();
         await user.keyboard('{ArrowUp}');
         expect(inputs[0]).toHaveFocus();
+    });
+
+    describe('API', () => {
+        test('focus', async () => {
+            const user = userEvent.setup();
+            const apiRef: React.RefObject<PinInputApi> = {current: null};
+            renderComponent(<PinInput apiRef={apiRef} defaultValue={['0', '1', '2', '3']} />);
+
+            await user.click(inputs[1]);
+            expect(inputs[1]).toHaveFocus();
+            await user.tab();
+            expect(inputs[1]).not.toHaveFocus();
+            act(() => {
+                apiRef.current?.focus();
+            });
+            expect(inputs[1]).toHaveFocus();
+        });
+
+        test('blur', async () => {
+            const user = userEvent.setup();
+            const apiRef: React.RefObject<PinInputApi> = {current: null};
+            renderComponent(<PinInput apiRef={apiRef} defaultValue={['0', '1', '2', '3']} />);
+
+            await user.click(inputs[1]);
+            expect(inputs[1]).toHaveFocus();
+            act(() => {
+                apiRef.current?.blur();
+            });
+            expect(inputs[1]).not.toHaveFocus();
+        });
     });
 });

@@ -75,8 +75,15 @@ export function ListShowcase() {
     const firstListRef = React.useRef<List<string>>(null);
     const [activeItemIndex, setActiveItemIndex] = React.useState<number>();
     const [selectedItemIndex, setSelectedItemIndex] = React.useState<number>();
-    const [sortableListItems, setSortableListItems] = React.useState(ITEMS);
-    const [virtualizedListItems, setVirtualizedListItems] = React.useState(getRandomItems(1000));
+    const [sortableListItems, setSortableListItems] = React.useState<string[]>(ITEMS);
+    const [virtualizedListItems, setVirtualizedListItems] = React.useState<
+        {
+            title: string;
+            key: string;
+            value: string;
+            meta: string;
+        }[]
+    >(getRandomItems(1000));
 
     return (
         <div className={b()}>
@@ -118,7 +125,7 @@ export function ListShowcase() {
                                         List.moveListElement(items.slice(), oldIndex, newIndex),
                                     );
                                 }}
-                                onItemClick={(value: string) => console.log(value)}
+                                onItemClick={(value) => console.log(value)}
                             />
                         </div>
                     </div>
@@ -144,7 +151,7 @@ export function ListShowcase() {
                                         List.moveListElement(items.slice(), oldIndex, newIndex),
                                     );
                                 }}
-                                onItemClick={(value: string) => console.log(value)}
+                                onItemClick={(value) => console.log(value)}
                             />
                         </div>
                     </div>
@@ -161,12 +168,7 @@ export function ListShowcase() {
                                     );
                                 }}
                                 selectedItemIndex={selectedItemIndex}
-                                onItemClick={(value: {
-                                    title: string;
-                                    key: string;
-                                    value: string;
-                                    meta: string;
-                                }) => console.log(value)}
+                                onItemClick={(value) => console.log(value)}
                                 renderItem={(item, _isActive, index) => {
                                     return (
                                         <div className={b('select')}>
@@ -194,11 +196,7 @@ export function ListShowcase() {
                             <List
                                 items={GROUP_ITEMS}
                                 itemsHeight={200}
-                                onItemClick={(value: {
-                                    title: string;
-                                    group?: boolean;
-                                    disabled?: boolean;
-                                }) => console.log(value)}
+                                onItemClick={(value) => console.log(value)}
                                 renderItem={(item) => {
                                     if (item.group) {
                                         return (

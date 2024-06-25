@@ -75,8 +75,15 @@ export function ListShowcase() {
     const firstListRef = React.useRef<List<string>>(null);
     const [activeItemIndex, setActiveItemIndex] = React.useState<number>();
     const [selectedItemIndex, setSelectedItemIndex] = React.useState<number>();
-    const [sortableListItems, setSortableListItems] = React.useState(ITEMS);
-    const [virtualizedListItems, setVirtualizedListItems] = React.useState(getRandomItems(1000));
+    const [sortableListItems, setSortableListItems] = React.useState<string[]>(ITEMS);
+    const [virtualizedListItems, setVirtualizedListItems] = React.useState<
+        {
+            title: string;
+            key: string;
+            value: string;
+            meta: string;
+        }[]
+    >(getRandomItems(1000));
 
     return (
         <div className={b()}>

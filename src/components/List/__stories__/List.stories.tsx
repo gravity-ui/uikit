@@ -77,6 +77,10 @@ export const RenderItem = RenderItemTemplate.bind({});
 RenderItem.args = {
     items,
     renderItem: (item) => `🔥🔥🔥 ${item} 🔥🔥🔥`,
+    virtualized: false,
+    onItemClick: (item: string, index: number) => {
+        alert(`Click on item ${item} with index ${index}`);
+    },
 };
 
 const TemplateWithState: StoryFn<ComponentType> = (args) => <ListWithLoader {...args} />;

@@ -248,7 +248,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             }
             case 'Enter': {
                 if (typeof activeItem === 'number' && this.props.onItemClick) {
-                    this.props.onItemClick(this.state.items[activeItem], activeItem, true);
+                    this.props.onItemClick(this.state.items[activeItem], activeItem, true, event);
                 }
                 break;
             }

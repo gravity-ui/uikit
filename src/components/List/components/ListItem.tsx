@@ -108,7 +108,12 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         return <div className={b('item-content')}>{renderItem(item, active, itemIndex)}</div>;
     }
 
-    private onClick = () => this.props.onClick?.(this.props.item, this.props.itemIndex);
+    private onClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+        if (!this.props.onClick) {
+            return;
+        }
+        this.props.onClick(this.props.item, this.props.itemIndex, false, event);
+    };
 
     private onClickCapture: React.MouseEventHandler<HTMLDivElement> = (event) => {
         ListItem.publishEvent({

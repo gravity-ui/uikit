@@ -25,6 +25,7 @@ export * from './List';
 export * from './Loader';
 export * from './Menu';
 export * from './Modal';
+export * from './Overlay';
 export * from './Pagination';
 export * from './Palette';
 export * from './UserLabel';

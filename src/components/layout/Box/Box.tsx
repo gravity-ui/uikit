@@ -15,7 +15,13 @@ export interface BoxProps<T extends React.ElementType = 'div'>
         React.PropsWithChildren<
             Pick<
                 React.CSSProperties,
-                'width' | 'height' | 'maxHeight' | 'maxWidth' | 'minHeight' | 'minWidth'
+                | 'width'
+                | 'height'
+                | 'maxHeight'
+                | 'maxWidth'
+                | 'minHeight'
+                | 'minWidth'
+                | 'position'
             >
         > {
     as?: T;
@@ -63,6 +69,7 @@ export const Box = React.forwardRef(function Box<T extends React.ElementType = '
         minHeight,
         maxHeight,
         maxWidth,
+        position,
         style: outerStyle,
         spacing,
         overflow,
@@ -79,6 +86,7 @@ export const Box = React.forwardRef(function Box<T extends React.ElementType = '
         minHeight,
         maxHeight,
         maxWidth,
+        position,
         ...outerStyle,
     };
 

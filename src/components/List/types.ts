@@ -11,25 +11,12 @@ export type ListSortParams = {oldIndex: number; newIndex: number};
 
 export type ListItemData<T> = T & {disabled?: boolean};
 
-export type SimpleItemClick<T> = (
+type ItemClickHandler<T> = (
     item: ListItemData<T>,
     index: number,
     fromKeyboard?: boolean,
+    event?: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLElement>,
 ) => void;
-
-export type ItemClickWithEvent<T> = ({
-    item,
-    index,
-    fromKeyboard,
-    event,
-}: {
-    item: ListItemData<T>;
-    index: number;
-    fromKeyboard?: boolean;
-    event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLElement>;
-}) => void;
-
-type ItemClickHandler<T> = SimpleItemClick<T> | ItemClickWithEvent<T>;
 
 export type ListProps<T = unknown> = QAProps & {
     items: ListItemData<T>[];

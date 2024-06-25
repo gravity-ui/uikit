@@ -9,7 +9,7 @@ import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
 import {eventBroker} from '../../utils/event-broker';
 import {ListQa} from '../constants';
-import type {ItemClickWithEvent, ListItemProps, SimpleItemClick} from '../types';
+import type {ListItemProps} from '../types';
 
 const b = block('list');
 
@@ -112,15 +112,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
         if (!this.props.onClick) {
             return;
         }
-        if (this.props.onClick.length === 1) {
-            (this.props.onClick as ItemClickWithEvent<T>)({
-                item: this.props.item,
-                index: this.props.itemIndex,
-                event,
-            });
-            return;
-        }
-        (this.props.onClick as SimpleItemClick<T>)(this.props.item, this.props.itemIndex);
+        this.props.onClick(this.props.item, this.props.itemIndex, false, event);
     };
 
     private onClickCapture: React.MouseEventHandler<HTMLDivElement> = (event) => {

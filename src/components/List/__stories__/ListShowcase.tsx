@@ -118,7 +118,7 @@ export function ListShowcase() {
                                         List.moveListElement(items.slice(), oldIndex, newIndex),
                                     );
                                 }}
-                                onItemClick={(value) => console.log(value)}
+                                onItemClick={(value: string) => console.log(value)}
                             />
                         </div>
                     </div>
@@ -144,7 +144,7 @@ export function ListShowcase() {
                                         List.moveListElement(items.slice(), oldIndex, newIndex),
                                     );
                                 }}
-                                onItemClick={(value) => console.log(value)}
+                                onItemClick={(value: string) => console.log(value)}
                             />
                         </div>
                     </div>
@@ -161,7 +161,12 @@ export function ListShowcase() {
                                     );
                                 }}
                                 selectedItemIndex={selectedItemIndex}
-                                onItemClick={(value) => console.log(value)}
+                                onItemClick={(value: {
+                                    title: string;
+                                    key: string;
+                                    value: string;
+                                    meta: string;
+                                }) => console.log(value)}
                                 renderItem={(item, _isActive, index) => {
                                     return (
                                         <div className={b('select')}>
@@ -189,7 +194,11 @@ export function ListShowcase() {
                             <List
                                 items={GROUP_ITEMS}
                                 itemsHeight={200}
-                                onItemClick={(value) => console.log(value)}
+                                onItemClick={(value: {
+                                    title: string;
+                                    group?: boolean;
+                                    disabled?: boolean;
+                                }) => console.log(value)}
                                 renderItem={(item) => {
                                     if (item.group) {
                                         return (

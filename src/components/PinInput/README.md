@@ -160,7 +160,6 @@ If you want the browser to suggest "one time codes" from the outer context (e.g.
 ## API
 
 - `focus(): void` - Set focus to the current active input.
-- `blur(): void` - Remove focus from the current active input.
 
 ## Properties
 

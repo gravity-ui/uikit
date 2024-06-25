@@ -286,18 +286,5 @@ describe('PinInput', () => {
             });
             expect(inputs[1]).toHaveFocus();
         });
-
-        test('blur', async () => {
-            const user = userEvent.setup();
-            const apiRef: React.RefObject<PinInputApi> = {current: null};
-            renderComponent(<PinInput apiRef={apiRef} defaultValue={['0', '1', '2', '3']} />);
-
-            await user.click(inputs[1]);
-            expect(inputs[1]).toHaveFocus();
-            act(() => {
-                apiRef.current?.blur();
-            });
-            expect(inputs[1]).not.toHaveFocus();
-        });
     });
 });

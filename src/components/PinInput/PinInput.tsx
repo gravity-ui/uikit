@@ -18,7 +18,6 @@ export type PinInputType = 'numeric' | 'alphanumeric';
 
 export interface PinInputApi {
     focus: () => void;
-    blur: () => void;
 }
 
 export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps {
@@ -239,14 +238,6 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         () => ({
             focus: () => {
                 refs.current[activeIndex]?.focus();
-            },
-            blur: () => {
-                if (
-                    document.activeElement &&
-                    document.activeElement === refs.current[activeIndex]
-                ) {
-                    refs.current[activeIndex]?.blur();
-                }
             },
         }),
         [activeIndex],

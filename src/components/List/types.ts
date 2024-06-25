@@ -11,6 +11,26 @@ export type ListSortParams = {oldIndex: number; newIndex: number};
 
 export type ListItemData<T> = T & {disabled?: boolean};
 
+export type SimpleItemClick<T> = (
+    item: ListItemData<T>,
+    index: number,
+    fromKeyboard?: boolean,
+) => void;
+
+export type ItemClickWithEvent<T> = ({
+    item,
+    index,
+    fromKeyboard,
+    event,
+}: {
+    item: ListItemData<T>;
+    index: number;
+    fromKeyboard?: boolean;
+    event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.KeyboardEvent<HTMLElement>;
+}) => void;
+
+type ItemClickHandler<T> = SimpleItemClick<T> | ItemClickWithEvent<T>;
+
 export type ListProps<T = unknown> = QAProps & {
     items: ListItemData<T>[];
     className?: string;
@@ -36,7 +56,7 @@ export type ListProps<T = unknown> = QAProps & {
         itemIndex: number,
     ) => React.ReactNode;
     filterItem?: (filter: string) => (item: ListItemData<T>) => boolean;
-    onItemClick?: (item: ListItemData<T>, index: number, fromKeyboard?: boolean) => void;
+    onItemClick?: ItemClickHandler<T>;
     onFilterUpdate?: (filter: string) => void;
     onFilterEnd?: ({items}: {items: ListItemData<T>[]}) => void;
     onSortEnd?: (params: ListSortParams) => void;

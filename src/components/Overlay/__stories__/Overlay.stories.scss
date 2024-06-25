@@ -1,0 +1,22 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}overlay-stories';
+
+#{$block} {
+    &__content {
+        width: fit-content;
+        padding: var(--g-spacing-1);
+    }
+
+    &__table table {
+        min-width: 763px;
+    }
+
+    &__button {
+        margin-block-start: var(--g-spacing-1);
+
+        & + & {
+            margin-inline-start: var(--g-spacing-1);
+        }
+    }
+}

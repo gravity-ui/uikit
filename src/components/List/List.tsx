@@ -26,13 +26,7 @@ import {getUniqId} from '../utils/common';
 import {ListLoadingIndicator} from './ListLoadingIndicator';
 import {ListItem, SimpleContainer, defaultRenderItem} from './components';
 import {listNavigationIgnoredKeys} from './constants';
-import type {
-    ItemClickWithEvent,
-    ListItemData,
-    ListItemProps,
-    ListProps,
-    SimpleItemClick,
-} from './types';
+import type {ListItemData, ListItemProps, ListProps} from './types';
 
 import './List.scss';
 
@@ -254,20 +248,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             }
             case 'Enter': {
                 if (typeof activeItem === 'number' && this.props.onItemClick) {
-                    if (this.props.onItemClick.length === 1) {
-                        (this.props.onItemClick as ItemClickWithEvent<T>)({
-                            item: this.state.items[activeItem],
-                            index: activeItem,
-                            event,
-                            fromKeyboard: true,
-                        });
-                    } else {
-                        (this.props.onItemClick as SimpleItemClick<T>)(
-                            this.state.items[activeItem],
-                            activeItem,
-                            true,
-                        );
-                    }
+                    this.props.onItemClick(this.state.items[activeItem], activeItem, true, event);
                 }
                 break;
             }

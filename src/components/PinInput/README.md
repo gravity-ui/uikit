@@ -163,10 +163,10 @@ If you want the browser to suggest "one time codes" from the outer context (e.g.
 
 ## CSS API
 
-| Name                       | Description             |
-| :------------------------- | :---------------------- |
-| `--g-pin-input-item-width` | Set width of each input |
-| `--g-pin-input-item-gap`   | Set gap between inputs  |
+| Name                       | Description                                            |
+| :------------------------- | :----------------------------------------------------- |
+| `--g-pin-input-item-width` | Set width of each input, unless `responsive` is `true` |
+| `--g-pin-input-item-gap`   | Set gap between inputs                                 |
 
 ## Properties
 

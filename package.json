@@ -6,7 +6,7 @@
         "gravity-ui",
         "uikit",
         "design-system",
-        "react-components",
+        "react-component",
         "web"
     ],
     "license": "MIT",

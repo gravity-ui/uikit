@@ -2,6 +2,13 @@
     "name": "@gravity-ui/uikit",
     "version": "6.19.0",
     "description": "Gravity UI base styling and components",
+    "keywords": [
+        "gravity-ui",
+        "uikit",
+        "design-system",
+        "react-components",
+        "web"
+    ],
     "license": "MIT",
     "engines": {
         "node": ">= 18",

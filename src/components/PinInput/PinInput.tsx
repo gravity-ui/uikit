@@ -8,7 +8,7 @@ import type {TextInputProps, TextInputSize} from '../controls';
 import {TextInput} from '../controls';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {useDirection} from '../theme';
-import type {DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
 import './PinInput.scss';
@@ -16,7 +16,11 @@ import './PinInput.scss';
 export type PinInputSize = TextInputSize;
 export type PinInputType = 'numeric' | 'alphanumeric';
 
-export interface PinInputProps extends DOMProps, QAProps {
+export interface PinInputApi {
+    focus: () => void;
+}
+
+export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps {
     value?: string[];
     defaultValue?: string[];
     onUpdate?: (value: string[]) => void;
@@ -34,9 +38,7 @@ export interface PinInputProps extends DOMProps, QAProps {
     note?: TextInputProps['note'];
     validationState?: TextInputProps['validationState'];
     errorMessage?: TextInputProps['errorMessage'];
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-    'aria-describedby'?: string;
+    apiRef?: React.RefObject<PinInputApi>;
 }
 
 const b = block('pin-input');
@@ -70,6 +72,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         note,
         validationState,
         errorMessage,
+        apiRef,
         className,
         style,
         qa,
@@ -215,6 +218,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
 
     const handleFocus = (index: number) => {
         setFocusedIndex(index);
+        setActiveIndex(index);
     };
 
     const handleBlur = () => {
@@ -228,6 +232,16 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         // We only care about autofocus on initial render
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    React.useImperativeHandle(
+        apiRef,
+        () => ({
+            focus: () => {
+                refs.current[activeIndex]?.focus();
+            },
+        }),
+        [activeIndex],
+    );
 
     return (
         <div ref={ref} className={b({size}, className)} style={style} data-qa={qa}>
@@ -253,6 +267,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
                                 'aria-label': props['aria-label'],
                                 'aria-labelledby': props['aria-labelledby'],
                                 'aria-describedby': ariaDescribedBy,
+                                'aria-details': props['aria-details'],
                                 'aria-invalid': validationState === 'invalid' ? true : undefined,
                             }}
                             controlRef={handleRef.bind(null, i)}

@@ -114,3 +114,22 @@ export const WithNote: Story = {
         note: 'Additional info',
     },
 };
+
+export const Responsive: Story = {
+    render: (args) => (
+        <div
+            style={{
+                resize: 'horizontal',
+                width: 200,
+                overflow: 'scroll',
+                paddingBottom: 16,
+            }}
+        >
+            <PinInput {...args} />
+        </div>
+    ),
+    args: {
+        ...Default.args,
+        responsive: true,
+    },
+};

@@ -6,13 +6,13 @@ $block: '.#{variables.$ns}pin-input';
     display: inline-block;
 
     &__items {
-        display: inline-flex;
-        gap: var(--_--gap);
+        display: flex;
+        gap: var(--g-pin-input-item-gap, var(--_--gap));
     }
 
     &__item {
         flex: 0 0 auto;
-        width: var(--_--item-width);
+        width: var(--g-pin-input-item-width, var(--_--item-width));
     }
 
     &__control {
@@ -41,6 +41,15 @@ $block: '.#{variables.$ns}pin-input';
         &_xl {
             --_--item-width: 42px;
             --_--gap: 12px;
+        }
+    }
+
+    &_responsive {
+        display: block;
+
+        #{$block}__item {
+            width: auto;
+            flex: 1 1 auto;
         }
     }
 }

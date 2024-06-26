@@ -35,6 +35,7 @@ export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps {
     autoFocus?: boolean;
     otp?: boolean;
     mask?: boolean;
+    responsive?: boolean;
     note?: TextInputProps['note'];
     validationState?: TextInputProps['validationState'];
     errorMessage?: TextInputProps['errorMessage'];
@@ -69,6 +70,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         autoFocus,
         otp,
         mask,
+        responsive,
         note,
         validationState,
         errorMessage,
@@ -244,7 +246,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
     );
 
     return (
-        <div ref={ref} className={b({size}, className)} style={style} data-qa={qa}>
+        <div ref={ref} className={b({size, responsive}, className)} style={style} data-qa={qa}>
             <div className={b('items')}>
                 {Array.from({length}).map((__, i) => (
                     <div key={i} className={b('item')}>

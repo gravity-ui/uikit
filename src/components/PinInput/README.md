@@ -161,6 +161,13 @@ If you want the browser to suggest "one time codes" from the outer context (e.g.
 
 - `focus(): void` - Set focus to the current active input.
 
+## CSS API
+
+| Name                       | Description             |
+| :------------------------- | :---------------------- |
+| `--g-pin-input-item-width` | Set width of each input |
+| `--g-pin-input-item-gap`   | Set gap between inputs  |
+
 ## Properties
 
 | Name             | Description                                                                                                                                          |             Type             |   Default   |
@@ -184,6 +191,7 @@ If you want the browser to suggest "one time codes" from the outer context (e.g.
 | otp              | When set to `true` adds `autocomplete="one-time-code"` to inputs                                                                                     |          `boolean`           |             |
 | placeholder      | Placeholder for inputs                                                                                                                               |           `string`           |             |
 | qa               | HTML `data-qa` attribute, for test purposes                                                                                                          |           `string`           |             |
+| responsive       | Parent's width distributed evenly between inputs                                                                                                     |          `boolean`           |             |
 | size             | Size of input fields                                                                                                                                 |   `"s"` `"m"` `"l"` `"xl"`   |    `"m"`    |
 | style            | HTML `style` attribute                                                                                                                               |    `React.CSSProperties`     |             |
 | type             | What type of input value is allowed                                                                                                                  | `"numeric"` `"alphanumeric"` | `"numeric"` |

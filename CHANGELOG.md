@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.20.0](https://github.com/gravity-ui/uikit/compare/v6.19.0...v6.20.0) (2024-06-26)
+
+
+### Features
+
+* **List:** add event in item click handler arguments ([#1675](https://github.com/gravity-ui/uikit/issues/1675)) ([b2a19a6](https://github.com/gravity-ui/uikit/commit/b2a19a65d4867173ac4becc31edb4e2d4d4225e7))
+* **Overlay:** implement component ([#1474](https://github.com/gravity-ui/uikit/issues/1474)) ([ef47354](https://github.com/gravity-ui/uikit/commit/ef4735495f14c86e5f6172d4fc4ba80b603b8de6))
+* **PinInput:** `responsive` prop and CSS API ([#1679](https://github.com/gravity-ui/uikit/issues/1679)) ([24484d2](https://github.com/gravity-ui/uikit/commit/24484d2c968c408fc65ff1489eed6ab8b7569293))
+* **PinInput:** implement component API ([#1674](https://github.com/gravity-ui/uikit/issues/1674)) ([72cf90f](https://github.com/gravity-ui/uikit/commit/72cf90f3178297ba6a30cc9f785f7c286b2d49f3))
+* **useList:** redesigned api ([#1661](https://github.com/gravity-ui/uikit/issues/1661)) ([ea320f7](https://github.com/gravity-ui/uikit/commit/ea320f7c17ca240cfb1f96297a634d465924b240))
+* **UserLabel:** add `size` property ([#1658](https://github.com/gravity-ui/uikit/issues/1658)) ([39cd8ad](https://github.com/gravity-ui/uikit/commit/39cd8ada02a66e43ff4c9a1afa6d4b384c8000b6))
+
 ## [6.19.0](https://github.com/gravity-ui/uikit/compare/v6.18.0...v6.19.0) (2024-06-20)
 
 

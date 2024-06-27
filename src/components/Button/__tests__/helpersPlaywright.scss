@@ -1,0 +1,17 @@
+.button-view-showcase-container {
+    width: 200px;
+
+    .showcase__content {
+        flex-direction: column;
+    }
+
+    &__shrinked-container {
+        display: flex;
+        width: 20px;
+        border: 1px solid var(--g-color-line-generic);
+
+        &_max {
+            width: 100%;
+        }
+    }
+}

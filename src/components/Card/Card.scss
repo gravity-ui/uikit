@@ -157,11 +157,11 @@ $block: '.#{variables.$ns}card';
 
     &_size {
         &_m {
-            --_--border-radius: var(--g-border-radius-l);
+            --_--border-radius: var(--g-border-radius-card-m);
         }
 
         &_l {
-            --_--border-radius: var(--g-border-radius-xxl);
+            --_--border-radius: var(--g-border-radius-card-l);
         }
     }
 }

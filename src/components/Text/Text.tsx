@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {QAProps} from '../types';
+import type {DOMProps, QAProps} from '../types';
 
 import {colorText} from './colorText/colorText';
 import type {ColorTextBaseProps} from './colorText/colorText';
@@ -10,14 +10,13 @@ import type {TextBaseProps} from './text/text';
 export interface TextProps<C extends React.ElementType = 'span'>
     extends Omit<TextBaseProps, 'ellipsisLines'>,
         ColorTextBaseProps,
-        QAProps {
+        QAProps,
+        DOMProps {
     /**
      * Ability to override default html tag
      */
     as?: C;
     ellipsisLines?: number;
-    className?: string;
-    styles?: React.CSSProperties;
 }
 
 type TextRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];

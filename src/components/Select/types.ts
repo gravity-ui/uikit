@@ -128,7 +128,7 @@ export type SelectProps<T = any> = QAProps &
     };
 
 export type SelectOption<T = any> = QAProps &
-    ControlGroupOption & {
+    ControlGroupOption<T> & {
         text?: string;
         data?: T;
     };

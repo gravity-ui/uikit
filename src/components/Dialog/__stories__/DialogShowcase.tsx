@@ -67,6 +67,7 @@ function OtherDialog() {
                 hasCloseButton
                 keepMounted
                 onEnterKeyDown={handleApply}
+                qa="darthVader"
                 onTransitionEntered={() => {
                     selectRef?.current?.focus();
                     setTimeout(() => setOpenSelect(true), 0);

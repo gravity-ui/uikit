@@ -17,7 +17,7 @@ import './Dialog.scss';
 
 const b = block('dialog');
 
-interface DialogOwnProps {
+interface DialogOwnProps extends QAProps {
     open: boolean;
     children: React.ReactNode;
     onEscapeKeyDown?: ModalProps['onEscapeKeyDown'];
@@ -52,7 +52,7 @@ interface DialogDefaultProps {
 }
 
 export type DialogProps = DialogOwnProps & Partial<DialogDefaultProps>;
-type DialogInnerProps = DialogOwnProps & DialogDefaultProps & QAProps;
+type DialogInnerProps = DialogOwnProps & DialogDefaultProps;
 
 export class Dialog extends React.Component<DialogInnerProps> {
     static defaultProps: DialogDefaultProps = {

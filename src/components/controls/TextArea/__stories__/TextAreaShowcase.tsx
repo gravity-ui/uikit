@@ -39,6 +39,11 @@ export function TextAreaShowcase() {
                         maxRows={4}
                         hasClear
                     />
+                    <TextArea
+                        {...textAreaProps}
+                        placeholder="333px height from className"
+                        className={b('custom-height')}
+                    />
                 </div>
 
                 <div className={b('state-examples')}>

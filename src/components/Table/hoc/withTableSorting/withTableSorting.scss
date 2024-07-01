@@ -5,7 +5,7 @@ $block: '.#{variables.$ns}table';
 #{$block} {
     &__sort {
         display: inline-flex;
-        align-items: baseline;
+        align-items: center;
         gap: var(--g-spacing-1);
         // `top` to avoid redundant height to appear
         vertical-align: top;
@@ -14,6 +14,7 @@ $block: '.#{variables.$ns}table';
         border-radius: var(--g-border-radius-xs);
 
         &-indicator {
+            display: flex;
             flex-shrink: 0;
             color: var(--g-color-text-hint);
         }

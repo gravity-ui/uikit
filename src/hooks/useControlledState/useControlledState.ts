@@ -1,19 +1,19 @@
 import React from 'react';
 
-export function useControlledState<T, C = T>(
+export function useControlledState<T, C = T, Args extends any[] = []>(
     value: Exclude<T, undefined>,
     defaultValue: Exclude<T, undefined> | undefined,
-    onChange?: (v: C, ...args: any[]) => void,
-): [T, (value: C) => void];
-export function useControlledState<T, C = T>(
+    onChange?: (v: C, ...args: Args) => void,
+): [T, (value: C, ...args: Args) => void];
+export function useControlledState<T, C = T, Args extends any[] = []>(
     value: Exclude<T, undefined> | undefined,
     defaultValue: Exclude<T, undefined>,
-    onChange?: (v: C, ...args: any[]) => void,
-): [T, (value: C) => void];
-export function useControlledState<T, C extends T = T>(
+    onChange?: (v: C, ...args: Args) => void,
+): [T, (value: C, ...args: Args) => void];
+export function useControlledState<T, C extends T = T, Args extends any[] = []>(
     value: T,
     defaultValue: T,
-    onUpdate?: (value: C, ...args: any[]) => void,
+    onUpdate?: (value: C, ...args: Args) => void,
 ) {
     const [innerValue, setInnerValue] = React.useState(value ?? defaultValue);
 
@@ -37,7 +37,7 @@ export function useControlledState<T, C extends T = T>(
         // that we call `onUpdate` inside the callback function and onUpdate
         // in a controlling component frequently calls setState itself,
         // therefore we call `setState` while we're rendering a different component.
-        (newValue: C, ...args: any[]) => {
+        (newValue: C, ...args: Args) => {
             if (!Object.is(currentValue, newValue)) {
                 onUpdate?.(newValue, ...args);
             }

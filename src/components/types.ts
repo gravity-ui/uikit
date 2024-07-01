@@ -90,3 +90,10 @@ export interface AriaLabelingProps {
      */
     'aria-details'?: string;
 }
+
+export interface FocusEvents<Target = Element> {
+    /** Handler that is called when the element receives focus. */
+    onFocus?(e: React.FocusEvent<Target>): void;
+    /** Handler that is called when the element loses focus. */
+    onBlur?(e: React.FocusEvent<Target>): void;
+}

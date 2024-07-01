@@ -1,0 +1,27 @@
+name: PR Title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+
+jobs:
+  verify_title:
+    name: Verify Title
+    runs-on: ubuntu-latest
+    if: ${{github.event.action != 'edited' || github.event.changes.title}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install Packages
+        run: npm ci
+      - name: Run Commitlint
+        run: echo "${{github.event.pull_request.title}}" | npx commitlint

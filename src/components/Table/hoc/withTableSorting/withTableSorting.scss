@@ -5,7 +5,7 @@ $block: '.#{variables.$ns}table';
 #{$block} {
     &__sort {
         display: inline-flex;
-        align-items: baseline;
+        align-items: center;
         gap: var(--g-spacing-1);
         // `top` to avoid redundant height to appear
         vertical-align: top;

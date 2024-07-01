@@ -3,6 +3,8 @@
 $block: '.#{variables.$ns}sort-indicator';
 
 #{$block} {
+    display: flex;
+
     &__icon {
         vertical-align: -2px;
     }

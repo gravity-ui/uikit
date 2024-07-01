@@ -1,4 +1,4 @@
-name: PR Conventional Changelog
+name: PR Title
 
 on:
   pull_request:

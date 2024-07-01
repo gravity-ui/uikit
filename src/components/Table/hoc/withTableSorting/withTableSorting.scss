@@ -14,6 +14,7 @@ $block: '.#{variables.$ns}table';
         border-radius: var(--g-border-radius-xs);
 
         &-indicator {
+            display: flex;
             flex-shrink: 0;
             color: var(--g-color-text-hint);
         }

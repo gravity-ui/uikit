@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.20.1](https://github.com/gravity-ui/uikit/compare/v6.20.0...v6.20.1) (2024-07-01)
+
+
+### Bug Fixes
+
+* **Dialog:** move QA props to DialogOwnProps ([#1691](https://github.com/gravity-ui/uikit/issues/1691)) ([fc33ba7](https://github.com/gravity-ui/uikit/commit/fc33ba716559db6bfe532b64684f439e930daa89))
+* **Text:** style property  ([#1681](https://github.com/gravity-ui/uikit/issues/1681)) ([89048e4](https://github.com/gravity-ui/uikit/commit/89048e45e6f2d3512c5a70ed75ece530885e72da))
+
 ## [6.20.0](https://github.com/gravity-ui/uikit/compare/v6.19.0...v6.20.0) (2024-06-26)
 
 

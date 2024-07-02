@@ -1,9 +1,0 @@
-@use '../../../../variables';
-
-$block: '.#{variables.$ns}sort-indicator';
-
-#{$block} {
-    &__icon {
-        vertical-align: -2px;
-    }
-}

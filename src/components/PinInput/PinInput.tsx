@@ -3,13 +3,17 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useControlledState, useUniqId} from '../../hooks';
+import {useControlledState, useFocusWithin, useUniqId} from '../../hooks';
+import {useFormResetHandler} from '../../hooks/private';
 import type {TextInputProps, TextInputSize} from '../controls';
 import {TextInput} from '../controls';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {useDirection} from '../theme';
-import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, FocusEvents, QAProps} from '../types';
 import {block} from '../utils/cn';
+import {filterDOMProps} from '../utils/filterDOMProps';
+
+import i18n from './i18n';
 
 import './PinInput.scss';
 
@@ -20,7 +24,7 @@ export interface PinInputApi {
     focus: () => void;
 }
 
-export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps, FocusEvents {
     value?: string[];
     defaultValue?: string[];
     onUpdate?: (value: string[]) => void;
@@ -30,6 +34,7 @@ export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps {
     type?: PinInputType;
     id?: string;
     name?: string;
+    form?: string;
     placeholder?: string;
     disabled?: boolean;
     autoFocus?: boolean;
@@ -60,11 +65,14 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         defaultValue,
         onUpdate,
         onUpdateComplete,
+        onFocus,
+        onBlur,
         length = 4,
         size = 'm',
         type = 'numeric',
-        id,
+        id: idProp,
         name,
+        form,
         placeholder,
         disabled,
         autoFocus,
@@ -78,6 +86,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         className,
         style,
         qa,
+        ...otherProps
     } = props;
     const refs = React.useRef<Record<number, HTMLInputElement | null>>({});
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -245,41 +254,84 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>((props, 
         [activeIndex],
     );
 
+    const formInputRef = useFormResetHandler({initialValue: values, onReset: setValues});
+
+    const {focusWithinProps} = useFocusWithin({
+        onFocusWithin: onFocus,
+        onBlurWithin: onBlur,
+    });
+
+    let id = useUniqId();
+    if (idProp) {
+        id = idProp;
+    }
+
     return (
-        <div ref={ref} className={b({size, responsive}, className)} style={style} data-qa={qa}>
+        <div
+            ref={ref}
+            {...filterDOMProps(otherProps, {labelable: true})}
+            {...focusWithinProps}
+            className={b({size, responsive}, className)}
+            style={style}
+            data-qa={qa}
+            role="group"
+            id={id}
+            aria-describedby={ariaDescribedBy}
+        >
             <div className={b('items')}>
-                {Array.from({length}).map((__, i) => (
-                    <div key={i} className={b('item')}>
-                        <TextInput
-                            // Only pick first symbol while keeping input always controlled
-                            value={values[i]?.[0] ?? ''}
-                            tabIndex={activeIndex === i ? 0 : -1}
-                            type={mask ? 'password' : 'text'}
-                            size={size}
-                            id={id ? `${id}-${i}` : undefined}
-                            name={name}
-                            disabled={disabled}
-                            placeholder={focusedIndex === i ? undefined : placeholder}
-                            autoComplete={otp ? 'one-time-code' : 'off'}
-                            validationState={validationState}
-                            controlProps={{
-                                inputMode: type === 'numeric' ? 'numeric' : 'text',
-                                pattern: type === 'numeric' ? '[0-9]*' : '[0-9a-zA-Z]*',
-                                className: b('control'),
-                                'aria-label': props['aria-label'],
-                                'aria-labelledby': props['aria-labelledby'],
-                                'aria-describedby': ariaDescribedBy,
-                                'aria-details': props['aria-details'],
-                                'aria-invalid': validationState === 'invalid' ? true : undefined,
-                            }}
-                            controlRef={handleRef.bind(null, i)}
-                            onChange={handleInputChange.bind(null, i)}
-                            onKeyDown={handleInputKeyDown.bind(null, i)}
-                            onFocus={handleFocus.bind(null, i)}
-                            onBlur={handleBlur}
-                        />
-                    </div>
-                ))}
+                {Array.from({length}).map((__, i) => {
+                    const inputId = `${id}-${i}`;
+                    const ariaLabelledBy =
+                        props['aria-labelledby'] || props['aria-label']
+                            ? [inputId, props['aria-labelledby'] || id].join(' ')
+                            : undefined;
+                    return (
+                        <div key={i} className={b('item')}>
+                            <TextInput
+                                // Only pick first symbol while keeping input always controlled
+                                value={values[i]?.[0] ?? ''}
+                                tabIndex={activeIndex === i ? 0 : -1}
+                                type={mask ? 'password' : 'text'}
+                                size={size}
+                                id={inputId}
+                                disabled={disabled}
+                                placeholder={focusedIndex === i ? undefined : placeholder}
+                                autoComplete={otp ? 'one-time-code' : 'off'}
+                                validationState={validationState}
+                                controlProps={{
+                                    inputMode: type === 'numeric' ? 'numeric' : 'text',
+                                    pattern: type === 'numeric' ? '[0-9]*' : '[0-9a-zA-Z]*',
+                                    className: b('control'),
+                                    autoCapitalize: 'none',
+                                    'aria-label': i18n('label_one-of', {
+                                        number: i + 1,
+                                        count: length,
+                                    }),
+                                    'aria-labelledby': ariaLabelledBy,
+                                    'aria-describedby': ariaDescribedBy,
+                                    'aria-details': props['aria-details'],
+                                    'aria-invalid':
+                                        validationState === 'invalid' ? true : undefined,
+                                }}
+                                controlRef={handleRef.bind(null, i)}
+                                onChange={handleInputChange.bind(null, i)}
+                                onKeyDown={handleInputKeyDown.bind(null, i)}
+                                onFocus={handleFocus.bind(null, i)}
+                                onBlur={handleBlur}
+                            />
+                        </div>
+                    );
+                })}
+                {name ? (
+                    <input
+                        ref={formInputRef}
+                        type="hidden"
+                        name={name}
+                        form={form}
+                        value={values.join('')}
+                        disabled={disabled}
+                    />
+                ) : null}
             </div>
             <OuterAdditionalContent
                 note={note}

@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.21.0](https://github.com/gravity-ui/uikit/compare/v6.20.1...v6.21.0) (2024-07-02)
+
+
+### Features
+
+* **useControlledState:** support update callback with additional params ([#1688](https://github.com/gravity-ui/uikit/issues/1688)) ([8bff882](https://github.com/gravity-ui/uikit/commit/8bff8821b4e8bb20e1bedb01c07a3ba8f22dfe16))
+* **useResizeObserver:** support box option ([#1687](https://github.com/gravity-ui/uikit/issues/1687)) ([a178dff](https://github.com/gravity-ui/uikit/commit/a178dffefb2d1cfa481417a2dea6297034ae22a0))
+
 ## [6.20.1](https://github.com/gravity-ui/uikit/compare/v6.20.0...v6.20.1) (2024-07-01)
 
 

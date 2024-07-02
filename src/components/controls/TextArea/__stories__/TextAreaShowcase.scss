@@ -29,6 +29,10 @@
         padding: 20px;
     }
 
+    &__custom-height {
+        height: 333px;
+    }
+
     &__title {
         grid-area: title;
         margin: 0;

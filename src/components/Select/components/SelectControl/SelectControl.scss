@@ -209,14 +209,16 @@ $blockButton: '.#{variables.$ns}select-control__button';
         transform: scale(0.96);
     }
 
+    &__content-container {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
     &__label {
         @include mixins.text-accent;
         @include mixins.overflow-ellipsis();
 
-        flex-shrink: 0;
-        max-width: 50%;
         margin-inline-end: 4px;
-        white-space: nowrap;
     }
 
     &__placeholder,

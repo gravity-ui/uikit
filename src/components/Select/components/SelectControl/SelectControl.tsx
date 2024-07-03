@@ -201,15 +201,17 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     tabIndex={0}
                     {...triggerProps}
                 >
-                    {label && <span className={selectControlBlock('label')}>{label}</span>}
-                    {showPlaceholder && (
-                        <span className={selectControlBlock('placeholder')}>{placeholder}</span>
-                    )}
-                    {showOptionsText && (
-                        <span className={selectControlBlock('option-text')}>
-                            {selectedOptionsContent}
-                        </span>
-                    )}
+                    <div className={selectControlBlock('content-container')}>
+                        {label && <span className={selectControlBlock('label')}>{label}</span>}
+                        {showPlaceholder && (
+                            <span className={selectControlBlock('placeholder')}>{placeholder}</span>
+                        )}
+                        {showOptionsText && (
+                            <span className={selectControlBlock('option-text')}>
+                                {selectedOptionsContent}
+                            </span>
+                        )}
+                    </div>
                 </button>
                 {renderCounterComponent()}
                 {renderClearIcon({})}

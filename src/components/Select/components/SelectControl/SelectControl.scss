@@ -116,8 +116,10 @@ $blockButton: '.#{variables.$ns}select-control__button';
         @include mixins.button-reset();
         @include mixins.pin($blockButton, ('::before', '::after'), var(--_--border-radius));
 
-        display: inline-flex;
+        display: inline-grid;
+        grid-template-columns: auto auto;
         align-items: center;
+        justify-content: flex-start;
         overflow: hidden;
         width: 100%;
         height: 100%;
@@ -207,11 +209,6 @@ $blockButton: '.#{variables.$ns}select-control__button';
 
     &:not(&_disabled):not(&_no-active):active {
         transform: scale(0.96);
-    }
-
-    &__content-container {
-        display: grid;
-        grid-template-columns: auto auto;
     }
 
     &__label {

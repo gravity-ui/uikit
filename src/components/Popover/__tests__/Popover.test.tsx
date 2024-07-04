@@ -241,7 +241,7 @@ test('Renders with html content', () => {
 test('Renders with links', () => {
     const linkWithHrefConfig = {
         text: 'Link with a href',
-        href: 'https://yandex.ru',
+        href: 'https://gravity-ui.com',
     };
 
     render(

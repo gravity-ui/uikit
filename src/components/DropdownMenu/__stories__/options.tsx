@@ -195,7 +195,7 @@ export const optionsAssorted: DropdownMenuItem<unknown>[] = [
         action: () => console.log('==> link action called'),
         text: 'I am a link item',
         title: '(I open in new folder)',
-        href: 'https://cloud.yandex.com',
+        href: 'https://gravity-ui.com',
         target: '_blank',
         rel: 'noopener noreferrer',
     },

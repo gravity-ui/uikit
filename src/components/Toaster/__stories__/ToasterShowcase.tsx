@@ -207,7 +207,7 @@ export const ToasterDemo = ({
                             lineHeight: '24px',
                         }}
                     >
-                        Keep track of alerts in Yandex Cloud mobile app
+                        Keep track of alerts
                     </div>
                     <div style={{color: 'rgba(0, 0, 0, 0.7)'}}>
                         Try to view alerts in mobile app.

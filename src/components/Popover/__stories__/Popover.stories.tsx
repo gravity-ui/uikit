@@ -150,7 +150,7 @@ FullFeatured.args = {
     links: [
         {
             text: 'Link with a href',
-            href: 'https://yandex.ru',
+            href: 'https://gravity-ui.com',
         },
     ],
     className: 'demo-icon-tooltip',

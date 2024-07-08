@@ -9,7 +9,7 @@ import type {TextInputProps, TextInputSize} from '../controls';
 import {TextInput} from '../controls';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {useDirection} from '../theme';
-import type {AriaLabelingProps, DOMProps, FocusEvents, QAProps} from '../types';
+import type {AriaLabelingProps, DOMProps, FocusEventHandlers, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -24,7 +24,7 @@ export interface PinInputApi {
     focus: () => void;
 }
 
-export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps, FocusEvents {
+export interface PinInputProps extends DOMProps, AriaLabelingProps, QAProps, FocusEventHandlers {
     value?: string[];
     defaultValue?: string[];
     onUpdate?: (value: string[]) => void;

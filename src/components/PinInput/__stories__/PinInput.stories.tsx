@@ -5,7 +5,8 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
-import type {PinInputProps} from '../PinInput';
+import {Flex} from '../../layout';
+import type {PinInputApi, PinInputProps} from '../PinInput';
 import {PinInput} from '../PinInput';
 
 export default {
@@ -19,6 +20,8 @@ export const Default: Story = {
     args: {
         onUpdate: action('onUpdate'),
         onUpdateComplete: action('onUpdateComplete'),
+        onFocus: action('onFocus'),
+        onBlur: action('onBlur'),
         'aria-label': 'PIN code',
     },
 };
@@ -133,3 +136,36 @@ export const Responsive: Story = {
         responsive: true,
     },
 };
+
+export const WithLabel = {
+    render: function WithLabel(args) {
+        const id = args.id ?? 'pin-input';
+        const labelId = React.useId();
+        const refApi = React.useRef<PinInputApi>(null);
+        /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
+        return (
+            <Flex direction="row" gap={2} alignItems="center">
+                <label
+                    id={labelId}
+                    htmlFor={id}
+                    onClick={() => {
+                        refApi.current?.focus();
+                    }}
+                >
+                    PIN code
+                </label>
+                <PinInput
+                    apiRef={refApi}
+                    {...args}
+                    aria-labelledby={labelId}
+                    id={id}
+                    name="pin-field"
+                />
+            </Flex>
+        );
+        /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
+    },
+    args: {
+        ...Default.args,
+    },
+} satisfies Story;

@@ -98,6 +98,7 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
                                                     dragging={snapshot.isDragging}
                                                     ref={provided.innerRef}
                                                     endSlot={<Icon data={Grip} size={16} />}
+                                                    role="option"
                                                 />
                                             )}
                                         </Draggable>

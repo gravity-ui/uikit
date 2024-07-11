@@ -3,6 +3,7 @@ import React from 'react';
 import {render, screen} from '../../../../test-utils/utils';
 import {block} from '../../utils/cn';
 import {Divider} from '../Divider';
+import type {DividerAlign} from '../Divider';
 
 const b = block('custom-divider');
 const qa = 'divider';
@@ -36,4 +37,25 @@ describe('Divider', () => {
         expect(element).toHaveAttribute('role', 'separator');
         expect(element).toHaveClass('g-divider_orientation_vertical');
     });
+    test('Should render children content', () => {
+        const childrenText = 'Children content';
+
+        render(
+            <Divider qa={qa}>
+                <span>{childrenText}</span>
+            </Divider>,
+        );
+        const content = screen.getByText(childrenText);
+
+        expect(content).toBeVisible();
+    });
+    test.each(new Array<DividerAlign>('start', 'center', 'end'))(
+        'Should render children content with given align "%s"',
+        (align) => {
+            render(<Divider align={align} qa={qa} />);
+            const button = screen.getByTestId(qa);
+
+            expect(button).toHaveClass(`g-divider_align_${align}`);
+        },
+    );
 });

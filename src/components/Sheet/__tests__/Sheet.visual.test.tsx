@@ -8,7 +8,7 @@ import {DEFAULT_SHEET_QA} from '../__stories__/constants';
 
 import {SheetStories} from './helpersPlaywright';
 
-test.describe('Button', () => {
+test.describe('Sheet', () => {
     test('render story: <Default>', async ({page, mount, expectScreenshot}) => {
         await mount(<SheetStories.Default />);
 

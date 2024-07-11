@@ -12,4 +12,36 @@ $block: '.#{variables.$ns}divider';
             border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
     }
+
+    &:not(:empty) {
+        border: none;
+        display: flex;
+        align-items: center;
+
+        &::before,
+        &::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: var(--g-divider-color, var(--g-color-line-generic));
+        }
+
+        &::before {
+            margin-inline-end: 8px;
+        }
+
+        &::after {
+            margin-inline-start: 8px;
+        }
+    }
+
+    &_align {
+        &_start::before {
+            display: none;
+        }
+
+        &_end::after {
+            display: none;
+        }
+    }
 }

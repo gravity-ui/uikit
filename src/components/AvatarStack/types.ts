@@ -33,9 +33,9 @@ export interface AvatarStackProps {
     /**
      * Custom render for control displaying extra data
      * @example
-     * <AvatarStack renderMoreButton={({count}) => <Button>+{count}</Button>}>
+     * <AvatarStack renderMore={({count}) => <Button>+{count}</Button>}>
      *     <Avatar/>
      * </AvatarStack>
      */
-    renderMoreButton?: (options: {count: number}) => React.ReactElement;
+    renderMore?: (options: {count: number}) => React.ReactElement;
 }

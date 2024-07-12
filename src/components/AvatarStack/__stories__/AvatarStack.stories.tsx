@@ -122,7 +122,7 @@ export const CustomMoreButton: Story = {
             <AvatarStack
                 {...props}
                 size={size || avatarSize}
-                renderMoreButton={({count}) => (
+                renderMore={({count}) => (
                     <Tooltip content={'Somehow display list of all other items'}>
                         <AvatarStack.MoreButton
                             size={avatarSize}

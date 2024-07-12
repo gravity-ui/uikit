@@ -18,7 +18,7 @@ const AvatarStackComponent = ({
     size,
     children,
     className,
-    renderMoreButton,
+    renderMore,
 }: AvatarStackProps) => {
     const visibleItems: React.ReactElement[] = [];
     let moreItems = 0;
@@ -48,8 +48,8 @@ const AvatarStackComponent = ({
         <ul className={b({'overlap-size': overlapSize}, className)} role={'list'}>
             {hasMoreButton ? (
                 <AvatarStackItem key="more-button">
-                    {renderMoreButton ? (
-                        renderMoreButton({count: moreItems})
+                    {renderMore ? (
+                        renderMore({count: moreItems})
                     ) : (
                         <Avatar
                             text={`+${moreItems}`}

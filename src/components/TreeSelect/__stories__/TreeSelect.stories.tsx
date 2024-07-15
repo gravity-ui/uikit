@@ -51,6 +51,7 @@ const DefaultTemplate: StoryFn<
         <Flex>
             <TreeSelect
                 {...props}
+                placeholder="-"
                 items={items}
                 mapItemDataToProps={(x) => x}
                 onItemClick={({id, list}) => {

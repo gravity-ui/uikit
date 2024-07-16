@@ -10,6 +10,8 @@ import type {TreeSelectProps} from '../types';
 
 import {InfinityScrollExample} from './components/InfinityScrollExample';
 import type {InfinityScrollExampleProps} from './components/InfinityScrollExample';
+import {WithDisabledElementsExample} from './components/WithDisabledElementsExample';
+import type {WithDisabledElementsExampleProps} from './components/WithDisabledElementsExample';
 import {WithDndListExample} from './components/WithDndListExample';
 import type {WithDndListExampleProps} from './components/WithDndListExample';
 import {WithFiltrationAndControlsExample} from './components/WithFiltrationAndControlsExample';
@@ -51,6 +53,7 @@ const DefaultTemplate: StoryFn<
         <Flex>
             <TreeSelect
                 {...props}
+                placeholder="-"
                 items={items}
                 mapItemDataToProps={(x) => x}
                 onItemClick={({id, list}) => {
@@ -113,4 +116,13 @@ WithDndList.parameters = {
     // Strict mode ruins sortable list due to this react-beautiful-dnd issue
     // https://github.com/atlassian/react-beautiful-dnd/issues/2350
     disableStrictMode: true,
+};
+
+const WithDisabledElementsTemplate: StoryFn<WithDisabledElementsExampleProps> = (props) => {
+    return <WithDisabledElementsExample {...props} />;
+};
+export const WithDisabledElements = WithDisabledElementsTemplate.bind({});
+
+WithDisabledElements.args = {
+    size: 'l',
 };

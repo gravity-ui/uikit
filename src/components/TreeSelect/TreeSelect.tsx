@@ -47,6 +47,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         items,
         value: propsValue,
         defaultValue,
+        placeholder,
         disabled = false,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
@@ -154,6 +155,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     const controlProps: TreeSelectRenderControlProps<T> = {
         list,
         open,
+        placeholder,
         toggleOpen,
         clearValue: () => list.state.setSelected({}),
         ref: handleControlRef,

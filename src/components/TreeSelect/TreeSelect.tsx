@@ -129,7 +129,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
         if (open) {
-            containerRef.current?.focus();
+            // for some reason popup position on page may be wrong calculated. `preventScroll` prevent page gap in that cases
+            containerRef.current?.focus({preventScroll: true});
         }
 
         return () => list.state.setActiveItemId(undefined); // reset active item on popup close

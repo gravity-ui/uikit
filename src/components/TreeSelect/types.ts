@@ -15,7 +15,8 @@ import type {UseListParsedStateProps} from '../useList/hooks/useListParsedState'
 export type TreeSelectRenderControlProps<T> = {
     list: UseListResult<T>;
     open: boolean;
-    disabled: boolean;
+    disabled?: boolean;
+    placeholder?: string;
     toggleOpen(): void;
     clearValue(): void;
     ref: React.Ref<HTMLButtonElement>;
@@ -46,6 +47,7 @@ export interface TreeSelectProps<T, P extends {} = {}>
     title?: string;
     value?: ListItemId[];
     disabled?: boolean;
+    placeholder?: string;
     defaultValue?: ListItemId[] | undefined;
     popupClassName?: string;
     popupWidth?: SelectPopupProps['width'];

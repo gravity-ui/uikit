@@ -1,5 +1,28 @@
 # Changelog
 
+## [6.21.0](https://github.com/gravity-ui/uikit/compare/v6.20.1...v6.21.0) (2024-07-16)
+
+
+### Features
+
+* **PinInput:** form support ([#1686](https://github.com/gravity-ui/uikit/issues/1686)) ([b82262e](https://github.com/gravity-ui/uikit/commit/b82262e6ac3ac656f0d87a6275a081f9990aeb6a))
+* **Select:** new label and value resize behaviour ([#1694](https://github.com/gravity-ui/uikit/issues/1694)) ([891fa88](https://github.com/gravity-ui/uikit/commit/891fa886ce5b2d9c8753abbfe49f833ff35619a6))
+* **TreeList:** add ListTreeItemType interface export and id argument to renderItem prop ([#1707](https://github.com/gravity-ui/uikit/issues/1707)) ([de544b8](https://github.com/gravity-ui/uikit/commit/de544b871f722fe63f677e17f4272767bebf973e))
+* **TreeSelect:** add placeholder prop ([#1705](https://github.com/gravity-ui/uikit/issues/1705)) ([88696a3](https://github.com/gravity-ui/uikit/commit/88696a3f529c44dc9bd17024c926a77fea67acaa))
+* **useControlledState:** support update callback with additional params ([#1688](https://github.com/gravity-ui/uikit/issues/1688)) ([8bff882](https://github.com/gravity-ui/uikit/commit/8bff8821b4e8bb20e1bedb01c07a3ba8f22dfe16))
+* **useResizeObserver:** support box option ([#1687](https://github.com/gravity-ui/uikit/issues/1687)) ([a178dff](https://github.com/gravity-ui/uikit/commit/a178dffefb2d1cfa481417a2dea6297034ae22a0))
+
+
+### Bug Fixes
+
+* **Avatar:** update text font weight ([#1684](https://github.com/gravity-ui/uikit/issues/1684)) ([0ae513a](https://github.com/gravity-ui/uikit/commit/0ae513a2e2a595f2cc7f5d0b2fe532a6f7f46b03))
+* **ListItemView:** div -&gt; li default list item html tag ([#1698](https://github.com/gravity-ui/uikit/issues/1698)) ([07a16c9](https://github.com/gravity-ui/uikit/commit/07a16c959198bedfa45dbb14b5ad804bd11a6d82))
+* **Sheet:** fix incorrect content height calculation ([#1700](https://github.com/gravity-ui/uikit/issues/1700)) ([7e4dd23](https://github.com/gravity-ui/uikit/commit/7e4dd2374cb83f72168e0b2fc416fa76dd6fbe6e))
+* **TextArea:** fix content width & height styles ([#1690](https://github.com/gravity-ui/uikit/issues/1690)) ([94979cf](https://github.com/gravity-ui/uikit/commit/94979cf8c43194dd347481929dc1e217ac2bd84b))
+* **TreeSelect:** add disabled prop ([#1697](https://github.com/gravity-ui/uikit/issues/1697)) ([f9650da](https://github.com/gravity-ui/uikit/commit/f9650dab0b999e5efa03e2e8f513e62074083f67))
+* **TreeSelect:** fix page gap on component focus in some cases ([#1708](https://github.com/gravity-ui/uikit/issues/1708)) ([cd4eb93](https://github.com/gravity-ui/uikit/commit/cd4eb93375ad7a6cfc6e4c87a92e3a20679b3047))
+* **useList:** fix disabled elements activate logic ([#1706](https://github.com/gravity-ui/uikit/issues/1706)) ([f12d49f](https://github.com/gravity-ui/uikit/commit/f12d49f125c189ff6ceaba86b5000920a811586d))
+
 ## [6.20.1](https://github.com/gravity-ui/uikit/compare/v6.20.0...v6.20.1) (2024-07-01)
 
 

@@ -199,7 +199,6 @@ To add an icon to the `Button`, you should use the [`Icon`](../Icon) component, 
     <Icon data={Gear} size={18} />
 </Button>
 <Button view="outlined" size="l">
-    No text:
     <Icon data={Gear} size={18} />
 </Button>
 `}

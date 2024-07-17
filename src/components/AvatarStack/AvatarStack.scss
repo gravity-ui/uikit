@@ -1,0 +1,61 @@
+@use '../../../styles/mixins';
+@use '../Avatar/variables' as avatar-variables;
+@use '../variables';
+
+$block: '.#{variables.$ns}avatar-stack';
+
+#{$block} {
+    --_--more-button-size: #{avatar-variables.$default-size};
+    --_--more-button-border-width: 1px;
+
+    display: inline-flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+
+    margin: 0;
+    padding: 0;
+
+    &_overlap-size_s {
+        --_--overlap: var(--g-spacing-1);
+    }
+
+    &_overlap-size_m {
+        --_--overlap: var(--g-spacing-2);
+    }
+
+    &_overlap-size_l {
+        --_--overlap: var(--g-spacing-3);
+    }
+
+    &__item {
+        display: flex;
+        z-index: 0;
+        border-radius: 100%;
+
+        &:not(:first-child) {
+            margin-inline-end: calc(-1 * var(--_--overlap));
+        }
+    }
+
+    &__more-button {
+        @include mixins.button-reset;
+
+        border-radius: 100%;
+
+        width: var(--_--more-button-size);
+        height: var(--_--more-button-size);
+
+        &:focus-visible {
+            outline: var(--g-color-line-focus) solid 2px;
+            outline-offset: 0;
+        }
+
+        &_size {
+            @each $size-name, $size-value in avatar-variables.$sizes {
+                &_#{$size-name} {
+                    --_--more-button-size: #{$size-value};
+                }
+            }
+        }
+    }
+}

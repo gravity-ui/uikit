@@ -32,3 +32,34 @@
         padding: 11px 12px;
     }
 }
+
+@mixin input-control-min-height($size) {
+    --_--input-control-border-width: var(
+        --g-text-input-border-width,
+        var(--g-text-area-border-width, #{control-variables.$border-width})
+    );
+    @if $size == 's' {
+        @include mixins.text-body-short;
+
+        min-height: calc(#{variables.$s-height} - var(--_--input-control-border-width) * 2);
+        padding: 3px 8px;
+    }
+    @if $size == 'm' {
+        @include mixins.text-body-short;
+
+        min-height: calc(#{variables.$m-height} - var(--_--input-control-border-width) * 2);
+        padding: 5px 8px;
+    }
+    @if $size == 'l' {
+        @include mixins.text-body-short;
+
+        min-height: calc(#{variables.$l-height} - var(--_--input-control-border-width) * 2);
+        padding: 9px 12px;
+    }
+    @if $size == 'xl' {
+        @include mixins.text-body-2;
+
+        min-height: calc(#{variables.$xl-height} - var(--_--input-control-border-width) * 2);
+        padding: 11px 12px;
+    }
+}

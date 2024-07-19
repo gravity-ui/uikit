@@ -164,12 +164,17 @@ export const Custom: Story = {
 const alignCases: Array<NonNullable<DividerProps['align']>> = ['start', 'center', 'end'];
 
 export const WithContent: Story = {
-    argTypes: {
-        orientation: disabledControl,
+    args: {
+        orientation: 'horizontal',
     },
     render: (args) => (
         <Showcase>
-            <Flex direction="column" width={400} gap={5}>
+            <Flex
+                direction={args.orientation === 'horizontal' ? 'column' : 'row'}
+                height={args.orientation === 'vertical' ? 200 : undefined}
+                width={400}
+                gap={5}
+            >
                 {alignCases.map((align, index) => (
                     <Divider {...args} align={align} key={index}>
                         {align}

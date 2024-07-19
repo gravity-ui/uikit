@@ -3,15 +3,8 @@
 $block: '.#{variables.$ns}divider';
 
 #{$block} {
-    &_orientation {
-        &_vertical {
-            border-inline-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
-        }
-
-        &_horizontal {
-            border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
-        }
-    }
+    --_--content-gap: 8px;
+    --_--size: 1px;
 
     &:not(:empty) {
         border: none;
@@ -21,17 +14,50 @@ $block: '.#{variables.$ns}divider';
         &::before,
         &::after {
             content: '';
-            height: 1px;
-            flex-grow: 1;
-            background: var(--g-divider-color, var(--g-color-line-generic));
+        }
+    }
+
+    &::before,
+    &::after {
+        flex-grow: 1;
+        background: var(--g-divider-color, var(--g-color-line-generic));
+    }
+
+    &_orientation {
+        &_vertical {
+            flex-direction: column;
+
+            &::before,
+            &::after {
+                width: var(--_--size);
+            }
+
+            &::before {
+                margin-block-end: var(--_--content-gap);
+            }
+
+            &::after {
+                margin-block-start: var(--_--content-gap);
+            }
+
+            border-inline-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
 
-        &::before {
-            margin-inline-end: 8px;
-        }
+        &_horizontal {
+            &::before,
+            &::after {
+                height: var(--_--size);
+            }
 
-        &::after {
-            margin-inline-start: 8px;
+            &::before {
+                margin-inline-end: var(--_--content-gap);
+            }
+
+            &::after {
+                margin-inline-start: var(--_--content-gap);
+            }
+
+            border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
     }
 

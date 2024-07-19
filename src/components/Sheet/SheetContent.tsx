@@ -93,7 +93,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.addListeners();
         this.show();
 
-        const initialHeight = this.getResultHeight(this.sheetFullHeight);
+        const initialHeight = this.getAvailableContentHeight(this.sheetContentHeight);
 
         this.setInitialStyles(initialHeight);
         this.setState({
@@ -221,8 +221,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         return this.sheetContentRef.current?.scrollTop || 0;
     }
 
-    private get sheetFullHeight() {
-        return this.sheetTitleHeight + this.innerContentHeight + this.sheetTopHeight;
+    private get sheetContentHeight() {
+        return this.sheetTitleHeight + this.innerContentHeight;
     }
 
     private setInitialStyles(initialHeight: number) {
@@ -252,14 +252,14 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         this.sheetRef.current.style.transform = translate;
     };
 
-    private getResultHeight = (sheetHeight: number) => {
+    private getAvailableContentHeight = (sheetHeight: number) => {
         const availableViewportHeight =
             window.innerHeight * MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT - this.sheetTopHeight;
 
-        const resultHeight =
+        const availableContentHeight =
             sheetHeight >= availableViewportHeight ? availableViewportHeight : sheetHeight;
 
-        return resultHeight;
+        return availableContentHeight;
     };
 
     private show = () => {
@@ -435,22 +435,22 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
             return;
         }
 
-        const sheetHeight = this.sheetFullHeight;
+        const sheetContentHeight = this.sheetContentHeight;
 
-        if (sheetHeight === this.state.prevSheetHeight && !this.state.inWindowResizeScope) {
+        if (sheetContentHeight === this.state.prevSheetHeight && !this.state.inWindowResizeScope) {
             return;
         }
 
-        const resultHeight = this.getResultHeight(sheetHeight);
+        const availableContentHeight = this.getAvailableContentHeight(sheetContentHeight);
 
         this.sheetContentRef.current.style.transition =
-            this.state.prevSheetHeight > sheetHeight
+            this.state.prevSheetHeight > sheetContentHeight
                 ? `height 0s ease ${TRANSITION_DURATION}`
                 : 'none';
 
-        this.sheetContentRef.current.style.height = `${resultHeight - this.sheetTopHeight}px`;
-        this.sheetRef.current.style.transform = `translate3d(0, -${resultHeight}px, 0)`;
-        this.setState({prevSheetHeight: sheetHeight, inWindowResizeScope: false});
+        this.sheetContentRef.current.style.height = `${availableContentHeight}px`;
+        this.sheetRef.current.style.transform = `translate3d(0, -${availableContentHeight + this.sheetTopHeight}px, 0)`;
+        this.setState({prevSheetHeight: sheetContentHeight, inWindowResizeScope: false});
     };
 
     private addListeners() {

@@ -28,6 +28,7 @@ const DraggableListItem = ({
             {...provided?.draggableProps}
             ref={provided?.innerRef}
             {...props}
+            role="option"
         />
     );
 };

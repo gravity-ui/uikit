@@ -6,6 +6,7 @@ import {Button, Checkbox, TextInput} from '../../../';
 import {cn} from '../../../utils/cn';
 import {Sheet} from '../../Sheet';
 import type {SheetProps} from '../../Sheet';
+import {DEFAULT_SHEET_QA} from '../constants';
 
 import './DefaultShowcase.scss';
 
@@ -71,6 +72,7 @@ export const Default: StoryFn<SheetProps> = ({
                 visible={visible}
                 onClose={() => setVisible(false)}
                 title={withTitle ? 'Sheet title' : undefined}
+                qa={DEFAULT_SHEET_QA}
             >
                 <div className={b('content-item')}>
                     <TextInput />

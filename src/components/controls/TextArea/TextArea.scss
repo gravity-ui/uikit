@@ -22,7 +22,10 @@ $block: '.#{variables.$ns}text-area';
     &__content {
         box-sizing: border-box;
         display: flex;
-        width: 100%;
+
+        width: inherit;
+        height: inherit;
+
         background-color: var(--g-text-area-background-color, var(--_--background-color));
         border-width: var(--g-text-area-border-width, var(--_--border-width));
         border-style: solid;

@@ -78,6 +78,7 @@ export const TreeList = <T,>({
 
         if (propsRenderItem) {
             return propsRenderItem({
+                id: itemId,
                 data: renderState.data,
                 props: renderState.props,
                 context: renderState.context,

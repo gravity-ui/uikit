@@ -12,6 +12,7 @@ import type {
 } from '../useList';
 
 export type TreeListRenderItem<T, P extends {} = {}> = (props: {
+    id: ListItemId;
     data: T;
     // required item props to render
     props: RenderItemProps;

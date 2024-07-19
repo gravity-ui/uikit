@@ -11,6 +11,7 @@ export {
     ListContainer as unstable_ListContainer,
     type ListContainerViewProps as unstable_ListContainerViewProps,
     type ListItemType as unstable_ListItemType,
+    type ListTreeItemType as unstable_ListTreeItemType,
     type ListItemId as unstable_ListItemId,
     type UseListResult as unstable_UseListResult,
     getItemRenderState as unstable_getItemRenderState,

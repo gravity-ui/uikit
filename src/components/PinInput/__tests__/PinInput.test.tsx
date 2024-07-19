@@ -287,4 +287,93 @@ describe('PinInput', () => {
             expect(inputs[1]).toHaveFocus();
         });
     });
+
+    describe('Form', () => {
+        test('should submit empty value by default', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <PinInput name="pin-field" />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['pin-field', '']]);
+        });
+
+        test('should submit default value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <PinInput name="pin-field" defaultValue={['1', '2', '3']} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['pin-field', '123']]);
+        });
+
+        test('should submit controlled value', async () => {
+            let value;
+            const onSubmit = jest.fn((e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                value = [...formData.entries()];
+            });
+            render(
+                <form data-qa="form" onSubmit={onSubmit}>
+                    <PinInput name="pin-field" value={['1', '2', '3']} />
+                    <button type="submit" data-qa="submit">
+                        submit
+                    </button>
+                </form>,
+            );
+            await userEvent.click(screen.getByTestId('submit'));
+            expect(onSubmit).toHaveBeenCalledTimes(1);
+            expect(value).toEqual([['pin-field', '123']]);
+        });
+        test('supports form reset', async () => {
+            function Test() {
+                const [value, setValue] = React.useState(['1', '2', '3']);
+                return (
+                    <form>
+                        <PinInput name="pin-field" value={value} onUpdate={setValue} />
+                        <input type="reset" data-qa="reset" />
+                    </form>
+                );
+            }
+
+            render(<Test />);
+            // eslint-disable-next-line testing-library/no-node-access
+            const inputs = document.querySelectorAll('[name=pin-field]');
+            expect(inputs.length).toBe(1);
+            expect(inputs[0]).toHaveValue('123');
+
+            await userEvent.tab();
+            await userEvent.keyboard('4587');
+
+            expect(inputs[0]).toHaveValue('4587');
+
+            const button = screen.getByTestId('reset');
+            await userEvent.click(button);
+            expect(inputs[0]).toHaveValue('123');
+        });
+    });
 });

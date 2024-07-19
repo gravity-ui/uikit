@@ -15,7 +15,7 @@ import './ListItemView.scss';
 
 const b = block('list-item-view');
 
-export interface ListItemViewProps<T extends React.ElementType = 'div'>
+export interface ListItemViewProps<T extends React.ElementType = 'li'>
     extends QAProps,
         ListItemCommonProps {
     /**
@@ -93,7 +93,7 @@ const renderSafeIndentation = (indentation?: number) => {
 };
 
 export const ListItemView = React.forwardRef(function ListItemView<
-    T extends React.ElementType = 'div',
+    T extends React.ElementType = 'li',
 >(
     {
         id,
@@ -120,7 +120,7 @@ export const ListItemView = React.forwardRef(function ListItemView<
     }: ListItemViewPropsWithTypedAttrs<T>,
     ref?: ListItemViewRef<T>,
 ) {
-    const as: React.ElementType = asProps || 'div';
+    const as: React.ElementType = asProps || 'li';
     const isGroup = typeof expanded === 'boolean';
     const onClick = disabled ? undefined : _onClick;
     const activeOnHover =
@@ -201,7 +201,7 @@ export const ListItemView = React.forwardRef(function ListItemView<
             {endSlot}
         </Flex>
     );
-}) as <C extends React.ElementType = 'div'>({
+}) as <C extends React.ElementType = 'li'>({
     ref,
     ...props
 }: ListItemViewPropsWithTypedAttrs<C> & {ref?: ListItemViewRef<C>}) => React.ReactElement;

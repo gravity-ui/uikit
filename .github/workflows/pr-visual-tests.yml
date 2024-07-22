@@ -7,6 +7,8 @@ jobs:
   visual_tests:
     name: Visual Tests
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.42.1-jammy
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,8 +17,6 @@ jobs:
           cache: npm
       - name: Install Packages
         run: npm ci
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
       - name: Run Visual Tests
         run: npm run playwright
         env:

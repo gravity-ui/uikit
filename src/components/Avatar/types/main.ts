@@ -24,7 +24,4 @@ interface AvatarBaseProps extends DOMProps, QAProps, AvatarAriaProps {
 }
 
 export type AvatarProps = AvatarBaseProps &
-    DistributiveOmit<
-        AvatarImageProps | AvatarIconProps | AvatarTextProps | AvatarAriaProps,
-        keyof AvatarCommonProps
-    >;
+    DistributiveOmit<AvatarImageProps | AvatarIconProps | AvatarTextProps, keyof AvatarCommonProps>;

@@ -32,9 +32,9 @@ export const useList = <T>({
 
     const initValues = React.useMemo(() => {
         return {
-            expandedById: {...initialValues?.expandedById, ...initialState.expandedById},
-            selectedById: {...initialValues?.selectedById, ...initialState.selectedById},
-            disabledById: {...initialValues?.disabledById, ...initialState.disabledById},
+            expandedById: {...initialState.expandedById, ...initialValues?.expandedById},
+            selectedById: {...initialState.selectedById, ...initialValues?.selectedById},
+            disabledById: {...initialState.disabledById, ...initialValues?.disabledById},
         };
     }, [
         initialState.disabledById,

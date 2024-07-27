@@ -282,3 +282,13 @@ it('should support RouterProvider', async () => {
     await userEvent.click(items[1]);
     expect(navigate).toHaveBeenCalledWith('/foo', {foo: 'foo'});
 });
+
+it('breadcrumbs item should access by data-qa attribute', () => {
+    render(
+        <Breadcrumbs>
+            <Breadcrumbs.Item qa="folder-1">Folder 1</Breadcrumbs.Item>
+        </Breadcrumbs>,
+    );
+    const item = screen.getByTestId('folder-1');
+    expect(item).toBeTruthy();
+});

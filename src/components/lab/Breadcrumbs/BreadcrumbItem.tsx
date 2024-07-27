@@ -79,6 +79,7 @@ export function BreadcrumbItem(props: BreadcrumbProps) {
         <Element
             {...domProps}
             {...linkProps}
+            data-qa={props.qa}
             className={
                 props.itemType === 'menu'
                     ? b('menu')

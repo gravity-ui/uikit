@@ -16,7 +16,7 @@ import {b, shouldClientNavigate} from './utils';
 
 import './Breadcrumbs.scss';
 
-export interface BreadcrumbsItemProps {
+export interface BreadcrumbsItemProps extends QAProps {
     children: React.ReactNode;
     title?: string;
     href?: Href;

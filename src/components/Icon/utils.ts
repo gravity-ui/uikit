@@ -15,7 +15,7 @@ export function isSvgrData(data: SVGIconData): data is SVGIconSvgrData {
 }
 
 export function isComponentSvgData(data: SVGIconData): data is SVGIconComponentData {
-    return typeof data === 'object' && 'defaultProps' in data;
+    return (typeof data === 'object' || typeof data === 'function') && 'defaultProps' in data;
 }
 
 export function isStringSvgData(data: SVGIconData): data is SVGIconStringData {

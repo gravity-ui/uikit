@@ -33,33 +33,33 @@ export interface TextBaseProps {
      * Storybook: https://preview.gravity-ui.com/uikit/?path=/story/typography--variants
      * **Note:**: below are the default variants that can be overridden in the project
      *
-     * - body:
+     * - body (font-family: var(--g-text-body-font-family); font-weight: 400):
      *      - 1: font-size: 13px; line-height: 18px; (**Default variant**)
      *      - 2: font-size: 15px; line-height: 20px;
      *      - 3: font-size: 17px; line-height: 24px;
      *      - short: font-size: 13px; line-height: 16px;
-     * - caption:
+     * - caption (font-family: var(--g-text-caption-font-family); font-weight: 400):
      *      - 1: font-size: 9px; line-height: 12px;
      *      - 2: font-size: 11px; line-height: 16px;
-     * - header:
-     *      - 1: font-size: 20px; line-height: 24px; font-weight: 600;
-     *      - 2: font-size: 24px; line-height: 28px; font-weight: 600;
-     * - subheader:
-     *      - 1: font-size: 13px; line-height: 18px; font-weight: 600;
-     *      - 2: font-size: 15px; line-height: 20px; font-weight: 600;
-     *      - 2: font-size: 17px; line-height: 24px; font-weight: 600;
-     * - display:
-     *      - 1: font-size: 28px; line-height: 36px; font-weight: 600;
-     *      - 2: font-size: 32px; line-height: 40px; font-weight: 600;
-     *      - 3: font-size: 40px; line-height: 48px; font-weight: 600;
-     *      - 4: font-size: 48px; line-height: 52px; font-weight: 600;
-     * - code:
-     *      - 1: font-size: 12px; line-height: 18px; font-weight: 400; font-family: var(--g-font-family-monospace);
-     *      - 2: font-size: 14px; line-height: 20px; font-weight: 400; font-family: var(--g-font-family-monospace);
-     *      - 3: font-size: 16px; line-height: 14px; font-weight: 400; font-family: var(--g-font-family-monospace);
-     *      - inline=1: font-size: 12px; line-height: 14px; font-weight: 400; font-family: var(--g-font-family-monospace);
-     *      - inline-2: font-size: 14px; line-height: 16px; font-weight: 400; font-family: var(--g-font-family-monospace);
-     *      - inline-3: font-size: 16px; line-height: 20px; font-weight: 400; font-family: var(--g-font-family-monospace);
+     * - header (font-family: var(--g-text-header-font-family); font-weight: 600):
+     *      - 1: font-size: 20px; line-height: 24px;
+     *      - 2: font-size: 24px; line-height: 28px;
+     * - subheader (font-family: var(--g-text-subheader-font-family); font-weight: 600):
+     *      - 1: font-size: 13px; line-height: 18px;
+     *      - 2: font-size: 15px; line-height: 20px;
+     *      - 2: font-size: 17px; line-height: 24px;
+     * - display (font-family: var(--g-text-display-font-family); font-weight: 600):
+     *      - 1: font-size: 28px; line-height: 36px;
+     *      - 2: font-size: 32px; line-height: 40px;
+     *      - 3: font-size: 40px; line-height: 48px;
+     *      - 4: font-size: 48px; line-height: 52px;
+     * - code (font-family: var(--g-text-code-font-family); font-weight: 400):
+     *      - 1: font-size: 12px; line-height: 18px;
+     *      - 2: font-size: 14px; line-height: 20px;
+     *      - 3: font-size: 16px; line-height: 14px;
+     *      - inline=1: font-size: 12px; line-height: 14px;
+     *      - inline-2: font-size: 14px; line-height: 16px;
+     *      - inline-3: font-size: 16px; line-height: 20px;
      */
     variant?: (typeof TEXT_VARIANTS)[number] | 'inherit';
 

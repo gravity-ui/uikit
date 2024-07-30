@@ -6,7 +6,7 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView} from '../../../useList';
-import type {ListItemCommonProps, ListItemId, UseListResult} from '../../../useList';
+import type {ListItemId, ListItemViewContentType, UseListResult} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps} from '../../types';
@@ -21,18 +21,20 @@ interface CustomDataStructure {
 export interface WithGroupSelectionControlledStateAndCustomIconExampleProps
     extends Omit<
         TreeSelectProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'size'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'size'
     > {
     itemsCount?: number;
 }
 
-const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): ListItemCommonProps => ({
+const mapCustomDataStructureToKnownProps = (
+    props: CustomDataStructure,
+): ListItemViewContentType => ({
     title: props.a,
 });
 
 export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     itemsCount = 5,
-    ...props
+    ...storyProps
 }: WithGroupSelectionControlledStateAndCustomIconExampleProps) => {
     // const [value, setValue] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(true);
@@ -55,35 +57,30 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
     return (
         <Flex>
             <TreeSelect
-                {...props}
+                {...storyProps}
                 size="l"
                 open={open}
                 onOpenChange={setOpen}
-                // value={value}
                 items={items}
-                mapItemDataToProps={mapCustomDataStructureToKnownProps}
+                mapItemDataToContentProps={mapCustomDataStructureToKnownProps}
                 onItemClick={onItemClick}
-                renderItem={({
-                    data,
-                    props: {
-                        expanded, // don't use default ListItemView expand icon
-                        ...renderProps
-                    },
-                    context: {childrenIds},
-                    list,
-                }) => {
+                renderItem={({id, props, context: {childrenIds}, list}) => {
                     // groups items are selectable too
-                    renderProps.hasSelectionIcon = Boolean(props.multiple);
+                    props.selectionViewType = storyProps.multiple ? 'multiple' : 'single';
 
                     return (
                         <ListItemView
-                            {...renderProps}
-                            {...mapCustomDataStructureToKnownProps(data)}
-                            startSlot={
-                                <Icon size={16} data={childrenIds ? Database : PlugConnection} />
-                            }
-                            endSlot={
-                                childrenIds ? (
+                            {...props}
+                            content={{
+                                ...props.content,
+                                isGroup: false,
+                                startSlot: (
+                                    <Icon
+                                        size={16}
+                                        data={childrenIds ? Database : PlugConnection}
+                                    />
+                                ),
+                                endSlot: childrenIds ? (
                                     <Button
                                         size="m"
                                         className={spacing({mr: 1})}
@@ -91,15 +88,17 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                             e.stopPropagation();
                                             list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                [renderProps.id]:
-                                                    !prevExpandedState[renderProps.id],
+                                                [id]: !prevExpandedState[id],
                                             }));
                                         }}
                                     >
-                                        <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
+                                        <Icon
+                                            data={props.content.expanded ? ChevronDown : ChevronUp}
+                                            size={16}
+                                        />
                                     </Button>
-                                ) : undefined
-                            }
+                                ) : undefined,
+                            }}
                         />
                     );
                 }}

@@ -10,7 +10,7 @@ interface Entity {
 }
 
 export interface WithDisabledElementsExampleProps
-    extends Omit<TreeSelectProps<Entity>, 'items' | 'mapItemDataToProps'> {}
+    extends Omit<TreeSelectProps<Entity>, 'items' | 'mapItemDataToContentProps'> {}
 
 const items: ListItemType<Entity>[] = [
     {
@@ -42,7 +42,7 @@ export const WithDisabledElementsExample = ({...props}: WithDisabledElementsExam
             items={items}
             getItemId={({id}) => id}
             containerRef={containerRef}
-            mapItemDataToProps={({text}) => ({title: text})}
+            mapItemDataToContentProps={({text}) => ({title: text})}
         />
     );
 };

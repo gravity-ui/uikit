@@ -42,7 +42,7 @@ export default {
 const DefaultTemplate: StoryFn<
     Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
     > & {
         itemsCount?: number;
     }
@@ -55,7 +55,7 @@ const DefaultTemplate: StoryFn<
                 {...props}
                 placeholder="-"
                 items={items}
-                mapItemDataToProps={(x) => x}
+                mapItemDataToContentProps={(x) => x}
                 onItemClick={({id, list}) => {
                     getListItemClickHandler({list})({id});
                     console.log('clicked on item with id: ', id);

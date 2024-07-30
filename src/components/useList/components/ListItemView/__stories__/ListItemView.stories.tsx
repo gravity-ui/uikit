@@ -9,6 +9,7 @@ import {Flex, sp} from '../../../../layout';
 import type {ListItemId} from '../../../../useList/types';
 import {ListItemView as ListItemViewComponent} from '../ListItemView';
 import type {ListItemViewProps} from '../ListItemView';
+import {isListItemContentPropsGuard} from '../ListItemViewContent';
 
 export default {
     title: 'Lab/useList/ListItemView',
@@ -72,128 +73,164 @@ const EndSlot = ({selfStart}: {selfStart?: boolean}) => (
 const stories: ListItemViewProps[] = [
     {
         id: '1',
-        title,
-        activeOnHover: false,
-        subtitle,
+        content: {
+            title,
+            subtitle,
+            startSlot: <StartSlot />,
+        },
         disabled: true,
-        startSlot: <StartSlot />,
+        activeOnHover: false,
     },
     {
         id: '2',
-        title,
-        subtitle: 'activeOnHover - false',
+        content: {
+            title,
+            subtitle: 'activeOnHover - false',
+            endSlot: <EndSlot />,
+        },
+        selected: true,
         activeOnHover: false,
-        endSlot: <EndSlot />,
     },
     {
         id: '3',
-        title,
+        selectionViewType: 'single',
+        content: {
+            title,
+            subtitle,
+            startSlot: <StartSlot />,
+        },
+        selected: true,
         size: 'l',
-        subtitle,
-        hasSelectionIcon: false,
-        startSlot: <StartSlot />,
     },
     {
         id: '4',
-        title,
+        content: {
+            title,
+            startSlot: <StartSlot />,
+        },
         disabled: true,
         size: 'xl',
         height: 60,
-        startSlot: <StartSlot />,
     },
     {
         id: '5',
         size: 'l',
-        startSlot: <StartSlot />,
-        title,
+        content: {
+            startSlot: <StartSlot />,
+            title,
+        },
     },
     {
         id: '6',
-        title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis, voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia qui deserunt autem quas necessitatibus nam possimus aperiam.',
-        size: 'l',
-        subtitle: 'indentation 1',
-        startSlot: <StartSlot />,
-        indentation: 1,
+        content: {
+            title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis, voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia qui deserunt autem quas necessitatibus nam possimus aperiam.',
+            subtitle: 'indentation 1',
+            startSlot: <StartSlot />,
+            indentation: 1,
+            endSlot: <EndSlot />,
+        },
         selected: true,
-        endSlot: <EndSlot />,
+        size: 'l',
     },
     {
         id: '7',
-        expanded: true,
         size: 'xl',
-        title: 'Group 1',
-        endSlot: <EndSlot />,
+        content: {
+            isGroup: true,
+            expanded: true,
+            title: 'Group 1',
+            endSlot: <EndSlot />,
+        },
     },
     {
         id: '8',
-        hasSelectionIcon: false,
-        expanded: true,
+        selectionViewType: 'single',
+        content: {
+            title: 'Group 1',
+            expanded: true,
+            isGroup: true,
+        },
         disabled: true,
         size: 'xl',
-        title: 'Group 1',
     },
     {
         id: '9',
-        hasSelectionIcon: false,
-        title: (
-            <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
-                voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia
-                qui deserunt autem quas necessitatibus nam possimus aperiam.
-            </Text>
-        ),
+        selectionViewType: 'single',
+        content: {
+            subtitle: (
+                <Text color="secondary">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
+                    voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi
+                    officia qui deserunt autem quas necessitatibus nam possimus aperiam.
+                </Text>
+            ),
+            startSlot: <StartSlot selfStart />,
+            title: (
+                <Text>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
+                    voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi
+                    officia qui deserunt autem quas necessitatibus nam possimus aperiam.
+                </Text>
+            ),
+            endSlot: <EndSlot selfStart />,
+        },
         size: 'l',
-        subtitle: (
-            <Text color="secondary">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
-                voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia
-                qui deserunt autem quas necessitatibus nam possimus aperiam.
-            </Text>
-        ),
-        startSlot: <StartSlot selfStart />,
         selected: true,
         className: sp({p: 2}),
-        endSlot: <EndSlot selfStart />,
     },
     {
         id: '10',
-        title: (
-            <Text ellipsisLines={2}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
-                voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia
-                qui deserunt autem quas necessitatibus nam possimus aperiam.
-            </Text>
-        ),
-        size: 'l',
-        subtitle: (
-            <Text color="danger" ellipsis>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
-                voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia
-                qui deserunt autem quas necessitatibus nam possimus aperiam.
-            </Text>
-        ),
-        startSlot: <StartSlot selfStart />,
+        content: {
+            title: (
+                <Text ellipsisLines={2}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
+                    voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi
+                    officia qui deserunt autem quas necessitatibus nam possimus aperiam.
+                </Text>
+            ),
+            subtitle: (
+                <Text color="danger" ellipsis>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
+                    voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi
+                    officia qui deserunt autem quas necessitatibus nam possimus aperiam.
+                </Text>
+            ),
+            startSlot: <StartSlot selfStart />,
+            indentation: 1,
+            endSlot: <EndSlot selfStart />,
+        },
         selected: true,
-        indentation: 1,
+        size: 'l',
         className: sp({p: 2}),
-        endSlot: <EndSlot selfStart />,
     },
     {
         id: '11',
-        title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis, voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia qui deserunt autem quas necessitatibus nam possimus aperiam.',
         size: 'l',
-        subtitle: (
-            <Text ellipsisLines={2} color="secondary">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
-                voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia
-                qui deserunt autem quas necessitatibus nam possimus aperiam.
-            </Text>
+        content: {
+            title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis, voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia qui deserunt autem quas necessitatibus nam possimus aperiam.',
+            subtitle: (
+                <Text ellipsisLines={2} color="secondary">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
+                    voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi
+                    officia qui deserunt autem quas necessitatibus nam possimus aperiam.
+                </Text>
+            ),
+            expanded: true,
+            isGroup: true,
+            startSlot: <StartSlot />,
+            indentation: 1,
+            endSlot: <EndSlot />,
+        },
+    },
+    {
+        id: '12',
+        size: 'l',
+        content: (
+            <Flex gap="2" alignItems="center">
+                <StartSlot />
+                <Text>Override list item context with react node</Text>
+            </Flex>
         ),
-        expanded: true,
-        startSlot: <StartSlot />,
-        indentation: 1,
-        selected: true,
-        endSlot: <EndSlot />,
     },
 ];
 
@@ -202,35 +239,55 @@ const ListItemViewTemplate: StoryFn<ListItemViewProps> = () => {
     const [selectedById, setSelectedById] = React.useState<Record<ListItemId, boolean>>({});
 
     return (
-        <Flex direction="column" role="listbox" aria-label="Sample list">
-            {stories.map((props, i) => (
-                <ListItemViewComponent
-                    key={i}
-                    {...props}
-                    expanded={expandedById[props.id] ?? props.expanded}
-                    selected={selectedById[props.id]}
-                    onClick={handleClick(props)}
-                />
-            ))}
+        <Flex direction="column" role="listbox" aria-label="Sample list" width={400}>
+            {stories.map((props, i) => {
+                let expanded: boolean | undefined;
+
+                if (isListItemContentPropsGuard(props.content) && props.content.isGroup) {
+                    expanded =
+                        props.id in expandedById ? expandedById[props.id] : props.content.expanded;
+                }
+
+                return (
+                    <ListItemViewComponent
+                        key={i}
+                        {...props}
+                        content={
+                            isListItemContentPropsGuard(props.content)
+                                ? {
+                                      ...props.content,
+                                      expanded,
+                                  }
+                                : props.content
+                        }
+                        selected={selectedById[props.id]}
+                        onClick={handleClick(props)}
+                    />
+                );
+            })}
         </Flex>
     );
 
-    function handleClick({id, expanded}: ListItemViewProps) {
-        const isGroup = typeof expanded === 'boolean';
+    function handleClick({id, content}: ListItemViewProps) {
+        if (isListItemContentPropsGuard(content)) {
+            const isGroup = content.isGroup;
 
-        return () => {
-            if (isGroup) {
-                setExpandedById((prevState) => ({
-                    ...prevState,
-                    [id]: typeof prevState[id] === 'undefined' ? !expanded : !prevState[id],
-                }));
-            } else {
-                setSelectedById((prevState) => ({
-                    ...prevState,
-                    [id]: !prevState[id],
-                }));
-            }
-        };
+            return () => {
+                if (isGroup) {
+                    setExpandedById((prevState) => ({
+                        ...prevState,
+                        [id]: id in prevState ? !prevState[id] : !content.expanded,
+                    }));
+                } else {
+                    setSelectedById((prevState) => ({
+                        ...prevState,
+                        [id]: !prevState[id],
+                    }));
+                }
+            };
+        }
+
+        return undefined;
     }
 };
 export const ListItemView = ListItemViewTemplate.bind({});

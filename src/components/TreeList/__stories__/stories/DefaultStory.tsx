@@ -12,7 +12,7 @@ function identity<T>(value: T): T {
 }
 
 export interface DefaultStoryProps
-    extends Omit<TreeListProps<{title: string}>, 'items' | 'mapItemDataToProps'> {
+    extends Omit<TreeListProps<{title: string}>, 'items' | 'mapItemDataToContentProps'> {
     itemsCount?: number;
 }
 
@@ -34,7 +34,7 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
                     {...props}
                     list={listWithGroups}
                     onItemClick={null}
-                    mapItemDataToProps={identity}
+                    mapItemDataToContentProps={identity}
                 />
             </Flex>
             <Flex direction={'column'} gap="3">
@@ -46,7 +46,7 @@ export const DefaultStory = ({itemsCount = 5, ...props}: DefaultStoryProps) => {
                     {...props}
                     list={listWithNoGroups}
                     onItemClick={null}
-                    mapItemDataToProps={identity}
+                    mapItemDataToContentProps={identity}
                 />
             </Flex>
         </Flex>

@@ -18,10 +18,16 @@ function identity<T>(value: T): T {
 export interface WithItemLinksAndActionsExampleProps
     extends Omit<
         TreeSelectProps<{title: string}>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'size' | 'open' | 'onOpenChange'
+        | 'value'
+        | 'onUpdate'
+        | 'items'
+        | 'mapItemDataToContentProps'
+        | 'size'
+        | 'open'
+        | 'onOpenChange'
     > {}
 
-export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExampleProps) => {
+export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActionsExampleProps) => {
     const [value, setValue] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(true);
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
@@ -39,22 +45,14 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
     return (
         <Flex>
             <TreeSelect
-                {...props}
+                {...storyProps}
                 value={value}
                 items={items}
-                mapItemDataToProps={identity}
+                mapItemDataToContentProps={identity}
                 open={open}
                 onOpenChange={setOpen}
                 size="l"
-                renderItem={({
-                    data,
-                    props: {
-                        expanded, // don't use build in expand icon ListItemView behavior
-                        ...state
-                    },
-                    context: {childrenIds},
-                    list,
-                }) => {
+                renderItem={({id, props, context: {childrenIds}, list}) => {
                     return (
                         // eslint-disable-next-line jsx-a11y/anchor-is-valid
                         <a
@@ -62,30 +60,30 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                             style={{textDecoration: 'none', color: 'inherit', width: '100%'}}
                         >
                             <ListItemView
-                                {...data}
-                                {...state}
-                                onClick={() => onItemClick(state.id, list)}
-                                endSlot={
-                                    <DropdownMenu
-                                        onSwitcherClick={(e) => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                        }}
-                                        items={[
-                                            {
-                                                action: (e) => {
-                                                    e.stopPropagation();
-                                                    console.log(
-                                                        `Clicked by action with id: ${state.id}`,
-                                                    );
+                                {...props}
+                                content={{
+                                    ...props.content,
+                                    isGroup: false,
+                                    endSlot: (
+                                        <DropdownMenu
+                                            onSwitcherClick={(e) => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                            }}
+                                            items={[
+                                                {
+                                                    action: (e) => {
+                                                        e.stopPropagation();
+                                                        console.log(
+                                                            `Clicked by action with id: ${id}`,
+                                                        );
+                                                    },
+                                                    text: 'action 1',
                                                 },
-                                                text: 'action 1',
-                                            },
-                                        ]}
-                                    />
-                                }
-                                startSlot={
-                                    childrenIds ? (
+                                            ]}
+                                        />
+                                    ),
+                                    startSlot: childrenIds ? (
                                         <Button
                                             size="m"
                                             view="flat"
@@ -95,12 +93,14 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
 
                                                 list.state.setExpanded?.((prevExpandedState) => ({
                                                     ...prevExpandedState,
-                                                    [state.id]: !prevExpandedState[state.id],
+                                                    [id]: !prevExpandedState[id],
                                                 }));
                                             }}
                                         >
                                             <Icon
-                                                data={expanded ? ChevronDown : ChevronUp}
+                                                data={
+                                                    props.content.expanded ? ChevronDown : ChevronUp
+                                                }
                                                 size={16}
                                             />
                                         </Button>
@@ -108,12 +108,17 @@ export const WithItemLinksAndActionsExample = (props: WithItemLinksAndActionsExa
                                         <Flex
                                             width={28}
                                             justifyContent="center"
-                                            spacing={state.indentation > 0 ? {ml: 1} : undefined}
+                                            spacing={
+                                                (props.content.indentation ?? 0) > 0
+                                                    ? {ml: 1}
+                                                    : undefined
+                                            }
                                         >
                                             <Icon data={FolderOpen} size={16} />
                                         </Flex>
-                                    )
-                                }
+                                    ),
+                                }}
+                                onClick={() => onItemClick(id, list)}
                             />
                         </a>
                     );

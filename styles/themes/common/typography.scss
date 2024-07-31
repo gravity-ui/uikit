@@ -81,8 +81,8 @@
     --g-text-code-inline-3-font-size: 16px;
     --g-text-code-inline-3-line-height: 20px;
 
-    font-family: var(--g-font-family-sans);
+    font-family: var(--g-text-body-font-family);
+    font-weight: var(--g-text-body-font-weight);
     font-size: var(--g-text-body-1-font-size);
     line-height: var(--g-text-body-1-line-height);
-    font-weight: var(--g-text-body-font-weight);
 }

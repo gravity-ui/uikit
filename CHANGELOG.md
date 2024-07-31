@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.22.0](https://github.com/gravity-ui/uikit/compare/v6.21.0...v6.22.0) (2024-07-27)
+
+
+### Features
+
+* **AvatarStack:** add component ([#924](https://github.com/gravity-ui/uikit/issues/924)) ([862f4fb](https://github.com/gravity-ui/uikit/commit/862f4fbbaca8d431f0562965b3cad56e21b7130c))
+
+
+### Bug Fixes
+
+* **Breadcrums:** support react &lt;18 types ([#1722](https://github.com/gravity-ui/uikit/issues/1722)) ([5229e99](https://github.com/gravity-ui/uikit/commit/5229e99731ceef030bd19871d39352081fb4ed69))
+* **useList:** fix useList hook for support initialization state ([#1719](https://github.com/gravity-ui/uikit/issues/1719)) ([2b04b18](https://github.com/gravity-ui/uikit/commit/2b04b18e1f1634a358e245b79aa8da65d33a9e95))
+
 ## [6.21.0](https://github.com/gravity-ui/uikit/compare/v6.20.1...v6.21.0) (2024-07-16)
 
 

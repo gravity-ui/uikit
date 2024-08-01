@@ -81,11 +81,6 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
                                         list,
                                     });
 
-                                    console.log(
-                                        '🚀 ~ {list.structure.visibleFlattenIds.map ~ props:',
-                                        props,
-                                    );
-
                                     return (
                                         <Draggable
                                             draggableId={String(index)}

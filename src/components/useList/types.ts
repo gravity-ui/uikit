@@ -1,5 +1,3 @@
-import type {QAProps} from '../types';
-
 export type ListItemId = string;
 
 export type ListItemSize = 's' | 'm' | 'l' | 'xl';
@@ -41,30 +39,23 @@ export type ItemState = {
     indentation: number;
 };
 
-export type ListItemCommonProps = {
+export type ListItemViewContentType = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
     startSlot?: React.ReactNode;
     endSlot?: React.ReactNode;
+    /**
+     * Build in indentation component to render nested views structure
+     */
+    indentation?: number;
+    isGroup?: boolean;
+    expanded?: boolean;
 };
 
 export type ListItemListContextProps = ItemState &
     Partial<GroupParsedState> & {
         isLastItem: boolean;
     };
-
-export type RenderItemProps = {
-    size: ListItemSize;
-    id: ListItemId;
-    onClick: ((e: React.SyntheticEvent) => void) | undefined;
-    selected: boolean | undefined;
-    disabled: boolean;
-    expanded: boolean | undefined;
-    active: boolean;
-    indentation: number;
-    hasSelectionIcon?: boolean;
-} & ListItemCommonProps &
-    QAProps;
 
 export type ParsedState<T> = {
     /**

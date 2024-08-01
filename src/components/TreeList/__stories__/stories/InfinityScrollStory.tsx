@@ -21,7 +21,7 @@ function identity<T>(value: T): T {
 export interface InfinityScrollStoryProps
     extends Omit<
         TreeListProps<Entity>,
-        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToProps'
+        'value' | 'onUpdate' | 'items' | 'multiple' | 'size' | 'mapItemDataToContentProps'
     > {
     itemsCount?: number;
 }
@@ -44,13 +44,18 @@ export const InfinityScrollStory = ({itemsCount = 3, ...storyProps}: InfinityScr
                 {...storyProps}
                 size="l"
                 list={list}
-                mapItemDataToProps={identity}
+                mapItemDataToContentProps={identity}
                 multiple={multiple}
                 renderItem={({props, context: {isLastItem, childrenIds}}) => {
                     const node = (
                         <ListItemView
                             {...props}
-                            endSlot={childrenIds ? <Label>{childrenIds.length}</Label> : undefined}
+                            content={{
+                                ...props.content,
+                                endSlot: childrenIds ? (
+                                    <Label>{childrenIds.length}</Label>
+                                ) : undefined,
+                            }}
                         />
                     );
 

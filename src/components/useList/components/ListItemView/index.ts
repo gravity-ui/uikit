@@ -1,2 +1,3 @@
 export {ListItemView} from './ListItemView';
-export type {ListItemViewProps} from './ListItemView';
+export {isListItemContentPropsGuard} from './ListItemViewContent';
+export type {ListItemViewProps, ListItemViewCommonProps} from './ListItemView';

@@ -23,7 +23,7 @@ function identity<T>(value: T): T {
 export interface InfinityScrollExampleProps
     extends Omit<
         TreeSelectProps<Entity>,
-        'value' | 'onUpdate' | 'items' | 'mapItemDataToProps' | 'multiple' | 'defaultValue'
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps' | 'multiple' | 'defaultValue'
     > {
     itemsCount?: number;
 }
@@ -75,16 +75,20 @@ export const InfinityScrollExample = ({
             <TreeSelect
                 {...storyProps}
                 value={value}
-                mapItemDataToProps={identity}
+                mapItemDataToContentProps={identity}
                 items={items}
                 onItemClick={handleGroupItemClick}
-                renderItem={({data, props, context: {isLastItem, childrenIds}}) => {
+                renderItem={({props, context: {isLastItem, childrenIds}}) => {
                     const node = (
                         <ListItemView
                             {...props}
-                            {...data}
+                            content={{
+                                ...props.content,
+                                endSlot: childrenIds ? (
+                                    <Label>{childrenIds.length}</Label>
+                                ) : undefined,
+                            }}
                             className={sp({mx: 1})}
-                            endSlot={childrenIds ? <Label>{childrenIds.length}</Label> : undefined}
                         />
                     );
 

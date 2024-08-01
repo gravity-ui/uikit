@@ -17,7 +17,7 @@ The default container for all custom lists. Contains all html attributes and sty
 const containerRef = React.useRef<HTMLDivElement>(null);
 
 <ListContainerView ref={containerRef} fixedHeight>
-  <ListItemView title="123" id="1" />
-  <ListItemView title="456" id="2" />
+  <ListItemView content={{title: '123'}} id="1" />
+  <ListItemView content={{title: '456'}} id="2" />
 </ListContainerView>;
 ```

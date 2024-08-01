@@ -21,7 +21,7 @@ function identity<T>(value: T): T {
 }
 
 export interface WithItemLinksAndActionsStoryProps
-    extends Omit<TreeListProps<{title: string}>, 'items' | 'size' | 'mapItemDataToProps'> {}
+    extends Omit<TreeListProps<{title: string}>, 'items' | 'size' | 'mapItemDataToContentProps'> {}
 
 export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStoryProps) => {
     const items = React.useMemo(() => createRandomizedData({num: 10, depth: 1}), []);
@@ -43,49 +43,41 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
         <TreeList
             {...props}
             list={list}
-            mapItemDataToProps={identity}
+            mapItemDataToContentProps={identity}
             onItemClick={onItemClick}
             size="l"
-            renderItem={({
-                data,
-                props: {
-                    expanded, // don't use build in expand icon ListItemView behavior
-                    ...state
-                },
-                context: {childrenIds},
-            }) => {
+            renderItem={({id, props: itemProps, context: {childrenIds}}) => {
                 return (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a href="#" style={{textDecoration: 'none', color: 'inherit', width: '100%'}}>
                         <ListItemView
-                            {...data}
-                            {...state}
-                            endSlot={
-                                <DropdownMenu
-                                    onSwitcherClick={(e) => {
-                                        e.stopPropagation();
-                                        e.preventDefault();
-                                    }}
-                                    items={[
-                                        {
-                                            action: (e) => {
-                                                e.stopPropagation();
-                                                console.log(
-                                                    `Clicked by action with id: ${state.id}`,
-                                                );
+                            {...itemProps}
+                            content={{
+                                ...itemProps.content,
+                                isGroup: false,
+                                endSlot: (
+                                    <DropdownMenu
+                                        onSwitcherClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                        }}
+                                        items={[
+                                            {
+                                                action: (e) => {
+                                                    e.stopPropagation();
+                                                    console.log(`Clicked by action with id: ${id}`);
+                                                },
+                                                text: 'action 1',
                                             },
-                                            text: 'action 1',
-                                        },
-                                    ]}
-                                    defaultSwitcherProps={{
-                                        extraProps: {
-                                            'aria-label': moreOptionsButton,
-                                        },
-                                    }}
-                                />
-                            }
-                            startSlot={
-                                childrenIds ? (
+                                        ]}
+                                        defaultSwitcherProps={{
+                                            extraProps: {
+                                                'aria-label': moreOptionsButton,
+                                            },
+                                        }}
+                                    />
+                                ),
+                                startSlot: childrenIds ? (
                                     <Button
                                         size="m"
                                         view="flat"
@@ -95,27 +87,36 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
 
                                             list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                [state.id]: !prevExpandedState[state.id],
+                                                [id]: !prevExpandedState[id],
                                             }));
                                         }}
                                         extraProps={{
-                                            'aria-label': expanded
+                                            'aria-label': itemProps.content.expanded
                                                 ? closeButtonLabel
                                                 : expandButtonLabel,
                                         }}
                                     >
-                                        <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
+                                        <Icon
+                                            data={
+                                                itemProps.content.expanded ? ChevronDown : ChevronUp
+                                            }
+                                            size={16}
+                                        />
                                     </Button>
                                 ) : (
                                     <Flex
                                         width={28}
                                         justifyContent="center"
-                                        spacing={state.indentation > 0 ? {ml: 1} : undefined}
+                                        spacing={
+                                            (itemProps.content.indentation || 0) > 0
+                                                ? {ml: 1}
+                                                : undefined
+                                        }
                                     >
                                         <Icon data={FolderOpen} size={16} />
                                     </Flex>
-                                )
-                            }
+                                ),
+                            }}
                         />
                     </a>
                 );

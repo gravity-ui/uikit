@@ -173,8 +173,10 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map(
-                    (itemId) => mapItemDataToContentProps(list.structure.itemsById[itemId]).title,
+                value.map((itemId) =>
+                    itemId in list.structure.itemsById
+                        ? mapItemDataToContentProps(list.structure.itemsById[itemId]).title
+                        : '',
                 ),
             ).join(', ')}
             view="normal"

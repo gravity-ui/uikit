@@ -8,7 +8,7 @@ import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
 
 export interface WithDisabledElementsStoryProps
-    extends Omit<TreeListProps<{text: string}>, 'items' | 'mapItemDataToProps'> {}
+    extends Omit<TreeListProps<{text: string}>, 'items' | 'mapItemDataToContentProps'> {}
 
 const items: ListItemType<{text: string}>[] = [
     {
@@ -50,7 +50,7 @@ export const WithDisabledElementsStory = ({...storyProps}: WithDisabledElementsS
                 {...storyProps}
                 list={list}
                 containerRef={containerRef}
-                mapItemDataToProps={({text}) => ({title: text})}
+                mapItemDataToContentProps={({text}) => ({title: text})}
                 onItemClick={({id}) => {
                     getListItemClickHandler({list})({id});
                     alert(

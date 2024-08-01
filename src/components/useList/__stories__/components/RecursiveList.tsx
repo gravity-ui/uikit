@@ -58,11 +58,16 @@ export const RecursiveList = ({size, itemsCount, 'aria-label': ariaLabel}: Recur
                         size,
                         onItemClick,
                         multiple: true,
-                        mapItemDataToProps: (x) => x,
+                        mapItemDataToContentProps: (x) => x,
                         list,
                     });
 
-                    return <ListItemView {...props} hasSelectionIcon={!context.childrenIds} />;
+                    return (
+                        <ListItemView
+                            {...props}
+                            selectionViewType={context.childrenIds ? 'single' : 'multiple'}
+                        />
+                    );
                 }}
             />
         </Flex>

@@ -49,7 +49,7 @@ function List() {
           {(id) => {
             const {props} = getItemRenderState({
               id: String(i),
-              mapItemDataToProps: (title) => ({title}),
+              mapItemDataToContentProps: (title) => ({title}),
               onItemClick,
               list,
             });

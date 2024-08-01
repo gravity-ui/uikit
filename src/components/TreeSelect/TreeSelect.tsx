@@ -57,7 +57,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         renderControl,
         renderItem = defaultItemRenderer as TreeListRenderItem<T>,
         renderContainer,
-        mapItemDataToProps,
+        mapItemDataToContentProps,
         onFocus,
         onBlur,
         getItemId,
@@ -173,7 +173,9 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map((itemId) => mapItemDataToProps(list.structure.itemsById[itemId]).title),
+                value.map(
+                    (itemId) => mapItemDataToContentProps(list.structure.itemsById[itemId]).title,
+                ),
             ).join(', ')}
             view="normal"
             pin="round-round"
@@ -224,7 +226,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     containerRef={containerRef}
                     onItemClick={handleItemClick}
                     renderContainer={renderContainer}
-                    mapItemDataToProps={mapItemDataToProps}
+                    mapItemDataToContentProps={mapItemDataToContentProps}
                     renderItem={renderItem ?? defaultItemRenderer}
                 />
 

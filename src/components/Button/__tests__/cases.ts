@@ -1,11 +1,11 @@
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {CasesWithName} from '../../../stories/tests-factory/models';
 import type {ButtonProps} from '../Button';
 
 export const defaultProps: ButtonProps = {
     children: 'Text',
 };
 
-export const sizeCases: Cases<ButtonProps['size']> = [
+export const sizeCases: CasesWithName<ButtonProps['size']> = [
     ['xs', 'xs'],
     ['s', 's'],
     ['m', 'm'],
@@ -13,13 +13,13 @@ export const sizeCases: Cases<ButtonProps['size']> = [
     ['xl', 'xl'],
 ];
 
-export const selectedCases: Cases<ButtonProps['selected']> = [['selected', true]];
+export const selectedCases: CasesWithName<ButtonProps['selected']> = [['selected', true]];
 
-export const disabledCases: Cases<ButtonProps['disabled']> = [['disabled', true]];
+export const disabledCases: CasesWithName<ButtonProps['disabled']> = [['disabled', true]];
 
-export const loadingCases: Cases<ButtonProps['loading']> = [['loading', true]];
+export const loadingCases: CasesWithName<ButtonProps['loading']> = [['loading', true]];
 
-export const viewsCases: Cases<ButtonProps['view']> = [
+export const viewsCases: CasesWithName<ButtonProps['view']> = [
     ['normal', 'normal'],
     ['action', 'action'],
     ['outlined', 'outlined'],
@@ -43,7 +43,7 @@ export const viewsCases: Cases<ButtonProps['view']> = [
     ['flat-contrast', 'flat-contrast'],
 ];
 
-export const pinsCases: Cases<ButtonProps['pin']> = [
+export const pinsCases: CasesWithName<ButtonProps['pin']> = [
     ['round-round', 'round-round'],
     ['brick-brick', 'brick-brick'],
     ['clear-clear', 'clear-clear'],

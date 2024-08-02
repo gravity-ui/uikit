@@ -3,7 +3,7 @@
 
     --g-spacing-0: calc(var(--g-spacing-base) * 0);
     --g-spacing-half: calc(var(--g-spacing-base) * 0.5);
-    --g-spacing-1: var(--g-spacing-base);
+    --g-spacing-1: var(--g-spacing-base * 1);
     --g-spacing-2: calc(var(--g-spacing-base) * 2);
     --g-spacing-3: calc(var(--g-spacing-base) * 3);
     --g-spacing-4: calc(var(--g-spacing-base) * 4);
@@ -13,4 +13,23 @@
     --g-spacing-8: calc(var(--g-spacing-base) * 8);
     --g-spacing-9: calc(var(--g-spacing-base) * 9);
     --g-spacing-10: calc(var(--g-spacing-base) * 10);
+    --g-spacing-11: calc(var(--g-spacing-base) * 11);
+    --g-spacing-12: calc(var(--g-spacing-base) * 12);
+    --g-spacing-14: calc(var(--g-spacing-base) * 14);
+    --g-spacing-16: calc(var(--g-spacing-base) * 16);
+    --g-spacing-20: calc(var(--g-spacing-base) * 20);
+    --g-spacing-24: calc(var(--g-spacing-base) * 24);
+    --g-spacing-28: calc(var(--g-spacing-base) * 28);
+    --g-spacing-32: calc(var(--g-spacing-base) * 32);
+    --g-spacing-36: calc(var(--g-spacing-base) * 36);
+    --g-spacing-40: calc(var(--g-spacing-base) * 40);
+    --g-spacing-44: calc(var(--g-spacing-base) * 44);
+    --g-spacing-48: calc(var(--g-spacing-base) * 48);
+    --g-spacing-52: calc(var(--g-spacing-base) * 52);
+    --g-spacing-56: calc(var(--g-spacing-base) * 56);
+    --g-spacing-60: calc(var(--g-spacing-base) * 60);
+    --g-spacing-64: calc(var(--g-spacing-base) * 64);
+    --g-spacing-72: calc(var(--g-spacing-base) * 72);
+    --g-spacing-80: calc(var(--g-spacing-base) * 80);
+    --g-spacing-96: calc(var(--g-spacing-base) * 96);
 }

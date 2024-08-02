@@ -1,0 +1,148 @@
+@use '../../../styles/mixins.scss';
+@use '../variables';
+
+$block: '.#{variables.$ns}definition-list';
+
+#{$block} {
+    &__list {
+        margin: 0;
+    }
+
+    &__group-title {
+        margin-block-end: var(--g-spacing-3);
+
+        &:not(:first-of-type) {
+            margin-block-start: var(--g-spacing-5);
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: baseline;
+        gap: var(--g-spacing-1);
+
+        & + & {
+            margin-block-start: var(--g-spacing-4);
+        }
+    }
+
+    &__item_grouped {
+        & + & {
+            margin-block-start: var(--g-spacing-3);
+        }
+    }
+
+    &_margin {
+        &:not(:first-of-type) {
+            margin-block-start: var(--g-spacing-5);
+        }
+    }
+
+    &__term-container {
+        flex: 0 0 auto;
+        width: 300px;
+        max-width: 300px;
+        display: flex;
+        align-items: baseline;
+
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__term-wrapper {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        flex: 0 1 auto;
+        color: var(--g-color-text-secondary);
+
+        position: relative;
+    }
+
+    &__term-container_multiline &__term-wrapper {
+        white-space: unset;
+    }
+
+    &__term-container_multiline &__item-note-tooltip {
+        position: absolute;
+    }
+
+    &__dots {
+        box-sizing: border-box;
+        flex: 1 0 auto;
+        min-width: 40px;
+        margin: 0 2px;
+        border-block-end: 1px dotted var(--g-color-line-generic-active);
+    }
+
+    &__dots_with-note {
+        margin-inline-start: 15px;
+        min-width: 25px;
+    }
+
+    &__definition {
+        flex: 0 1 auto;
+        margin: 0;
+    }
+
+    &_responsive {
+        #{$block}__term-container {
+            flex: 1 0 auto;
+        }
+    }
+
+    &__copy-container {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding-inline-end: var(--g-spacing-7);
+
+        margin-inline-end: calc(-1 * var(--g-spacing-7));
+
+        &:hover {
+            #{$block}__copy-button {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__copy-container_icon-inside {
+        padding-inline-end: unset;
+        margin-inline-end: unset;
+
+        #{$block}__copy-button {
+            inset-block-start: 0;
+        }
+    }
+
+    &__copy-button {
+        position: absolute;
+        display: inline-block;
+        inset-inline-end: 0;
+        margin-inline-start: 10px;
+        opacity: 0;
+        &:focus-visible {
+            opacity: 1;
+        }
+    }
+}
+
+#{$block}_vertical {
+    #{$block}__term-container {
+        flex: 1 0 auto;
+    }
+    #{$block}__item {
+        flex-direction: column;
+        gap: var(--g-spacing-half);
+    }
+    #{$block}__item + #{$block}__item {
+        margin-block-start: var(--g-spacing-3);
+    }
+    #{$block}__group-title:not(:first-of-type) {
+        margin-block-start: var(--g-spacing-8);
+    }
+    #{$block}_margin:not(:first-of-type) {
+        margin-block-start: var(--g-spacing-8);
+    }
+}

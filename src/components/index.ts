@@ -13,6 +13,8 @@ export * from './Card';
 export * from './ClipboardButton';
 export * from './ClipboardIcon';
 export * from './CopyToClipboard';
+export * from './DefinitionList';
+export * from './HelpMark';
 export * from './Dialog';
 export * from './Disclosure';
 export * from './Divider';

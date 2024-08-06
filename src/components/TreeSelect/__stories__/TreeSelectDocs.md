@@ -1,6 +1,6 @@
 # TreeList
 
-Rewritten component [Select]() without feature-specific logic using TreeList inside.
+Rewritten component [Select](https://preview.gravity-ui.com/uikit/?path=/docs/components-inputs-select--docs) without feature-specific logic using TreeList inside.
 
 `Storybook` provides complex examples how to use this components from this documentation.
 
@@ -16,7 +16,6 @@ import {unstable_TreeSelect as TreeSelect} from '@gravity-ui/uikit/unstable';
 import {
   type unstable_ListItemType as ListItemType,
   unstable_TreeSelect as TreeSelect,
-  unstable_useList as useList,
 } from '@gravity-ui/uikit/unstable';
 
 const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
@@ -32,7 +31,6 @@ import {
   type unstable_ListItemType as ListItemType,
   type unstable_ListItemView as ListItemView,
   unstable_TreeList as TreeList,
-  unstable_useList as useList,
 } from '@gravity-ui/uikit/unstable';
 
 interface Entity {

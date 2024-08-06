@@ -3,12 +3,6 @@
 
 $block: '.#{variables.$ns}user';
 
-@mixin user-text-small() {
-    font-size: var(--g-text-code-inline-1-font-size);
-    line-height: var(--g-text-code-inline-1-line-height);
-    font-weight: var(--g-text-body-font-weight);
-}
-
 #{$block} {
     display: flex;
     align-items: center;
@@ -44,12 +38,10 @@ $block: '.#{variables.$ns}user';
     &_size {
         &_xs,
         &_2xs {
+            @include mixins.text-body-shorter();
+
             #{$block}__avatar + #{$block}__info {
                 margin-inline-start: 6px;
-            }
-
-            #{$block}__info {
-                @include user-text-small();
             }
         }
     }

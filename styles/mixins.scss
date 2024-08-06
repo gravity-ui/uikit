@@ -184,6 +184,13 @@
     line-height: var(--g-text-body-short-line-height);
 }
 
+@mixin text-body-shorter() {
+    font-family: var(--g-text-body-font-family);
+    font-weight: var(--g-text-body-font-weight);
+    font-size: var(--g-text-body-shorter-font-size);
+    line-height: var(--g-text-body-shorter-line-height);
+}
+
 @mixin text-caption-1() {
     font-family: var(--g-text-caption-font-family);
     font-weight: var(--g-text-caption-font-weight);

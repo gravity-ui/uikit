@@ -38,7 +38,7 @@ interface Entity {
   title: string;
 }
 
-const items: ListItemType<>[] = [
+const items: ListItemType<Entity>[] = [
   {title: 'one', id: '1'},
   {title: 'two', id: '2'},
   {title: 'free', id: '3'},

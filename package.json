@@ -130,6 +130,7 @@
         "react-transition-group": "^4.4.5",
         "react-virtualized-auto-sizer": "^1.0.21",
         "react-window": "^1.8.10",
+        "resize-observer-polyfill": "^1.5.1",
         "tabbable": "^6.2.0",
         "tslib": "^2.6.2"
     },

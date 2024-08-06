@@ -13,11 +13,12 @@ import i18n from './i18n';
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
-        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {}
+        Omit<ClipboardButtonComponentProps, 'status' | 'timeout' | 'onClick'> {}
 
 interface ClipboardButtonComponentProps
     extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading' | 'children'> {
     status: CopyToClipboardStatus;
+    timeout: number;
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;
     /** Text shown before copy */
@@ -45,14 +46,29 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         status,
         view = 'flat',
         extraProps = {},
+        timeout,
         ...rest
     } = props;
 
+    const [tooltipTitle, setTooltipTitle] = React.useState(tooltipInitialText);
+    const [tooltipCloseDelay, setTooltipCloseDelay] = React.useState<number | undefined>(undefined);
+
+    React.useEffect(() => {
+        if (status === 'success') {
+            setTooltipTitle(tooltipSuccessText);
+            setTooltipCloseDelay(timeout);
+        }
+    }, [status, timeout, tooltipSuccessText]);
+
+    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = () => {
+        if (status !== 'success') {
+            setTooltipTitle(tooltipInitialText);
+            setTooltipCloseDelay(undefined);
+        }
+    };
+
     return (
-        <ActionTooltip
-            disabled={!hasTooltip}
-            title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
-        >
+        <ActionTooltip disabled={!hasTooltip} title={tooltipTitle} closeDelay={tooltipCloseDelay}>
             <Button
                 view={view}
                 size={size}
@@ -61,6 +77,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
                     ...extraProps,
                 }}
                 {...rest}
+                onMouseEnter={handleMouseEnter}
             >
                 <Button.Icon>
                     <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
@@ -74,7 +91,9 @@ export function ClipboardButton(props: ClipboardButtonProps) {
     const {text, timeout = DEFAULT_TIMEOUT, onCopy, options, ...buttonProps} = props;
     return (
         <CopyToClipboard text={text} timeout={timeout} onCopy={onCopy} options={options}>
-            {(status) => <ClipboardButtonComponent {...buttonProps} status={status} />}
+            {(status) => (
+                <ClipboardButtonComponent {...buttonProps} status={status} timeout={timeout} />
+            )}
         </CopyToClipboard>
     );
 }

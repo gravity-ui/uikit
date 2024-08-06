@@ -20,7 +20,7 @@ import {
 
 const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
 
-<TreeSelect items={list} mapItemDataToContentProps={(item) => ({title: item})} />;
+<TreeSelect items={items} mapItemDataToContentProps={(item) => ({title: item})} />;
 ```
 
 ### With full list item view override:
@@ -30,7 +30,7 @@ import {Text} from '@gravity-ui/uikit';
 import {
   type unstable_ListItemType as ListItemType,
   type unstable_ListItemView as ListItemView,
-  unstable_TreeList as TreeList,
+  unstable_TreeSelect as TreeSelect,
 } from '@gravity-ui/uikit/unstable';
 
 interface Entity {
@@ -48,8 +48,8 @@ const items: ListItemType<>[] = [
 
 const Component = () => {
   return (
-    <TreeList
-      list={list}
+    <TreeSelect
+      items={items}
       getItemId={({id}) => id}
       mapItemDataToContentProps={({title}) => ({title})}
       renderItem={({data: {title}, props}) => (

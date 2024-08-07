@@ -48,10 +48,13 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
             );
 
             await expect(root.getByTestId('trigger')).toBeVisible();
+
+            await expectScreenshot({});
+
             await root.getByTestId('trigger').hover();
             await expect(page.locator("[role='tooltip']")).toBeVisible({timeout: 1000});
 
-            await expectScreenshot({});
+            await expectScreenshot({nameSuffix: 'hovered'});
         });
     });
 

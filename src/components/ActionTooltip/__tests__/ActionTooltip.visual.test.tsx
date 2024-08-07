@@ -42,10 +42,13 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
             );
 
             await expect(root.locator("[data-qa='trigger']")).toBeVisible();
+
+            await expectScreenshot({screenshotPostfix: 'before-hover-trigger'});
+
             await root.locator("[data-qa='trigger']").hover();
             await expect(page.locator("[role='tooltip']")).toBeVisible({timeout: 1000});
 
-            await expectScreenshot({});
+            await expectScreenshot({screenshotPostfix: 'after-hover-trigger'});
         });
     });
 

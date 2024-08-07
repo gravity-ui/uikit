@@ -32,6 +32,7 @@ export interface DefinitionListProps extends QAProps {
     contentMaxWidth?: number | 'auto';
     className?: string;
     itemClassName?: string;
+    groupLabelClassName?: string;
 }
 
 export interface DefinitionListGranularProps extends Omit<DefinitionListProps, 'items'> {

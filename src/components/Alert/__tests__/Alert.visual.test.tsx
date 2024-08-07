@@ -2,9 +2,23 @@ import React from 'react';
 
 import {test} from '~playwright/core';
 
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {Alert} from '../Alert';
+
+import {
+    actionCases,
+    alignCases,
+    cornersCases,
+    defaultProps,
+    layoutCases,
+    messageCases,
+    themeCases,
+    titleCases,
+    viewCases,
+} from './cases';
 import {AlertStories} from './helpersPlaywright';
 
-test.describe('Alert', () => {
+test.describe('Alert', {tag: '@Alert'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<AlertStories.Default />);
 
@@ -51,5 +65,24 @@ test.describe('Alert', () => {
         await mount(<AlertStories.Align />);
 
         await expectScreenshot();
+    });
+
+    const smokeScenarios = createSmokeScenarios(defaultProps, {
+        theme: themeCases,
+        view: viewCases,
+        layout: layoutCases,
+        title: titleCases,
+        message: messageCases,
+        corners: cornersCases,
+        align: alignCases,
+        actions: actionCases,
+    });
+
+    smokeScenarios.forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
+            await mount(<Alert {...props} />);
+
+            await expectScreenshot();
+        });
     });
 });

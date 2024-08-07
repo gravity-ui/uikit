@@ -82,6 +82,18 @@ describe('components: DefinitionList', () => {
         const component = screen.getByText('Test group');
         expect(component).toBeVisible();
     });
+    it('should render group label class name', () => {
+        const items = [
+            {
+                label: 'Test group',
+                items: [{name: 'test1', content: 'value1'}],
+            },
+        ];
+        getComponent({items, groupLabelClassName: 'test'});
+
+        const component = screen.getByText('Test group').parentElement;
+        expect(component).toHaveClass('test');
+    });
     it('should render grouped items', () => {
         const items = [
             {

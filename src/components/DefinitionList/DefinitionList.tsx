@@ -96,6 +96,7 @@ function DefinitionListGrouped({
     items,
     className,
     itemClassName,
+    groupLabelClassName,
     ...rest
 }: DefinitionListGroupedProps) {
     const normalizedItems = React.useMemo(() => {
@@ -103,17 +104,17 @@ function DefinitionListGrouped({
     }, [items]);
 
     return (
-        <div className={b({vertical: rest.direction === 'vertical'}, className)}>
+        <div className={b({vertical: rest.direction === 'vertical'})}>
             {normalizedItems.map((item) => {
                 const {key, label} = item;
 
                 return (
                     <React.Fragment key={key}>
-                        {label && <GroupLabel label={label} />}
+                        {label && <GroupLabel label={label} className={groupLabelClassName} />}
                         {item.items && (
                             <DefinitionListGranular
                                 {...rest}
-                                className={b({margin: !label})}
+                                className={b({margin: !label}, className)}
                                 items={item.items}
                                 itemClassName={b('item', {grouped: Boolean(label)}, itemClassName)}
                             />

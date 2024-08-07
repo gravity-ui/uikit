@@ -34,6 +34,7 @@ export interface ExpectScreenshotFixture {
 }
 
 interface CaptureScreenshotParams extends PageScreenshotOptions {
+    screenshotPostfix?: string;
     screenshotName?: string;
     component?: Locator;
 }

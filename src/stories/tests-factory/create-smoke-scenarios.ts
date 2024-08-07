@@ -11,9 +11,9 @@ function checkIsCasesWithName<T>(cases: CasesWithName<T> | Cases<T>): cases is C
 
 export const createSmokeScenarios = <Props extends {}>(
     baseProps: Props,
-    propsCases: {
-        [K in Partial<keyof Props>]: CasesWithName<Props[K]> | Cases<Props[K]>;
-    },
+    propsCases: Partial<{
+        [K in keyof Props]: CasesWithName<Props[K]> | Cases<Props[K]>;
+    }>,
     options?: Options,
 ) => {
     const scenarioDetails: ScenarioDetails = {

@@ -24,7 +24,7 @@ const b = block('overlay-stories');
 type Story = StoryObj<typeof Overlay>;
 
 export default {
-    title: 'Components/Utils/Overlay',
+    title: 'Components/Feedback/Overlay',
     component: Overlay,
 } as Meta;
 

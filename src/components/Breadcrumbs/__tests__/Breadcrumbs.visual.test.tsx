@@ -69,10 +69,14 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
                 </div>,
             );
 
-            await expectScreenshot({screenshotPostfix: 'before click more items'});
+            await expectScreenshot({screenshotPostfix: 'init'});
 
             // wait show more items trigger & calculate widths
             await page.waitForTimeout(2000);
+
+            await root.locator(`[data-qa='${BreadcrumbsQa.ITEM}']`).locator('nth=1').hover();
+
+            await expectScreenshot({screenshotPostfix: 'hover on secondary item'});
 
             await expect(
                 root.locator(`[data-qa='${BreadcrumbsQa.MORE_ITEMS_TRIGGER}']`),
@@ -85,6 +89,20 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
             });
 
             await expectScreenshot({screenshotPostfix: 'after click more items'});
+
+            page.locator(`[data-qa='${BreadcrumbsQa.MORE_ITEMS_MENU}']`)
+                .locator('li')
+                .locator('nth=1')
+                .hover();
+
+            await expectScreenshot({screenshotPostfix: 'after hover on more item'});
+
+            page.locator(`[data-qa='${BreadcrumbsQa.MORE_ITEMS_MENU}']`)
+                .locator('li')
+                .locator('nth=1')
+                .click();
+
+            await expectScreenshot({screenshotPostfix: 'after click on more item'});
         });
     });
 
@@ -124,6 +142,10 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
 
             // wait show more items trigger & calculate widths
             await page.waitForTimeout(2000);
+
+            await root.locator(`[data-qa='${BreadcrumbsQa.ITEM}']`).locator('nth=0').hover();
+
+            await expectScreenshot({screenshotPostfix: 'hover on first item'});
 
             await expect(
                 root.locator(`[data-qa='${BreadcrumbsQa.MORE_ITEMS_TRIGGER}']`),

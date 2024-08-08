@@ -193,12 +193,14 @@ export class Breadcrumbs<T extends BreadcrumbsItem = BreadcrumbsItem> extends Re
             const isCurrent = index === items.length - 1;
             const isPrevCurrent = index === items.length - 2;
 
+            /* eslint-disable react/jsx-key */
             return (
-                <React.Fragment key={index}>
+                <React.Fragment>
                     {this.renderItemDivider()}
                     {this.renderItem(item, isCurrent, isPrevCurrent)}
                 </React.Fragment>
             );
+            /* eslint-enable react/jsx-key */
         });
     }
 

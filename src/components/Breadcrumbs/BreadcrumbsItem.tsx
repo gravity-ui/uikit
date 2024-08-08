@@ -7,6 +7,7 @@ import {block} from '../utils/cn';
 
 import type {BreadcrumbsItem as IBreadcrumbsItem} from './Breadcrumbs';
 import {BreadcrumbsButton} from './BreadcrumbsButton';
+import {BreadcrumbsQa} from './constants';
 import type {
     RenderBreadcrumbsItem,
     RenderBreadcrumbsItemContent,
@@ -57,7 +58,12 @@ function Item<T extends IBreadcrumbsItem = IBreadcrumbsItem>({
         }
 
         return (
-            <BreadcrumbsButton key={item.text} title={itemTitle} onClick={item.action}>
+            <BreadcrumbsButton
+                key={item.text}
+                title={itemTitle}
+                onClick={item.action}
+                qa={BreadcrumbsQa.ITEM}
+            >
                 {children}
             </BreadcrumbsButton>
         );

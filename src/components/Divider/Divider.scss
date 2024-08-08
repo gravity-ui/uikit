@@ -3,13 +3,71 @@
 $block: '.#{variables.$ns}divider';
 
 #{$block} {
+    --_--content-gap: 8px;
+    --_--size: 1px;
+
+    &:not(:empty) {
+        border: none;
+        display: flex;
+        align-items: center;
+
+        &::before,
+        &::after {
+            content: '';
+        }
+    }
+
+    &::before,
+    &::after {
+        flex-grow: 1;
+        background: var(--g-divider-color, var(--g-color-line-generic));
+    }
+
     &_orientation {
         &_vertical {
+            flex-direction: column;
+
+            &::before,
+            &::after {
+                width: var(--_--size);
+            }
+
+            &::before {
+                margin-block-end: var(--_--content-gap);
+            }
+
+            &::after {
+                margin-block-start: var(--_--content-gap);
+            }
+
             border-inline-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
         }
 
         &_horizontal {
+            &::before,
+            &::after {
+                height: var(--_--size);
+            }
+
+            &::before {
+                margin-inline-end: var(--_--content-gap);
+            }
+
+            &::after {
+                margin-inline-start: var(--_--content-gap);
+            }
+
             border-block-start: 1px solid var(--g-divider-color, var(--g-color-line-generic));
+        }
+    }
+
+    &_align {
+        &_start::before {
+            display: none;
+        }
+
+        &_end::after {
+            display: none;
         }
     }
 }

@@ -36,7 +36,10 @@ $block: '.#{variables.$ns}user';
     }
 
     &_size {
-        &_xs {
+        &_xs,
+        &_2xs {
+            @include mixins.text-body-shorter();
+
             #{$block}__avatar + #{$block}__info {
                 margin-inline-start: 6px;
             }

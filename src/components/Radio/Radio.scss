@@ -126,11 +126,8 @@ $discMarginLSize: 6px;
         }
 
         &#{$block}_checked {
-            #{$block}__indicator {
-                &::before {
-                    background-color: var(--g-color-base-brand);
-                    opacity: 0.5;
-                }
+            #{$block}__disc::before {
+                background-color: var(--g-color-text-hint);
             }
         }
     }

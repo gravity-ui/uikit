@@ -4,6 +4,7 @@ $block: '.#{variables.$ns}radio-button';
 
 #{$block} {
     --_--border-width: 1px;
+    --_--transition-time: 0.15s;
 
     box-sizing: border-box;
     display: inline-flex;
@@ -21,7 +22,7 @@ $block: '.#{variables.$ns}radio-button';
 
         cursor: pointer;
         transform: scale(1);
-        transition: color 0.15s linear;
+        transition: color var(--_--transition-time) linear;
 
         &::before {
             position: absolute;
@@ -39,6 +40,10 @@ $block: '.#{variables.$ns}radio-button';
             inset: 0;
             border: var(--_--border-width) solid var(--g-color-line-generic);
             border-radius: 0;
+
+            transition:
+                background-color var(--_--transition-time) linear,
+                border-color var(--_--transition-time) linear;
         }
 
         &:not(:first-child):not(&_checked)::after {

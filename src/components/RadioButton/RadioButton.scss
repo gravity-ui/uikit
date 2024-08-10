@@ -4,15 +4,12 @@ $block: '.#{variables.$ns}radio-button';
 
 #{$block} {
     --_--border-width: 1px;
-    --_--negative-border-width: calc(-1 * var(--_--border-width));
 
     box-sizing: border-box;
     display: inline-flex;
     flex-direction: row;
     font-family: var(--g-text-body-font-family);
     font-weight: var(--g-text-body-font-weight);
-    border: var(--_--border-width) solid var(--g-color-line-generic);
-    border-radius: var(--_--border-radius);
     position: relative;
 
     &__option {
@@ -21,9 +18,6 @@ $block: '.#{variables.$ns}radio-button';
         user-select: none;
         font-size: var(--g-text-body-1-font-size);
         text-align: center;
-
-        margin: var(--_--negative-border-width) var(--_--negative-border-width)
-            var(--_--negative-border-width) 0;
 
         cursor: pointer;
         transform: scale(1);
@@ -43,12 +37,19 @@ $block: '.#{variables.$ns}radio-button';
             position: absolute;
             z-index: -2;
             inset: 0;
-            border: var(--_--border-width) solid transparent;
+            border: var(--_--border-width) solid var(--g-color-line-generic);
             border-radius: 0;
         }
 
+        &:not(:first-child):not(&_checked)::after {
+            border-inline-start-width: 0;
+        }
+
+        &:not(:last-child):not(&_checked):after {
+            border-inline-end-width: 0;
+        }
+
         &:first-child {
-            margin-inline-start: var(--_--negative-border-width);
             border-start-start-radius: var(--_--border-radius);
             border-end-start-radius: var(--_--border-radius);
 

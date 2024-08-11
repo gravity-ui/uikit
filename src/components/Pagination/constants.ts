@@ -11,3 +11,7 @@ export const PaginationQa = {
 export const getPaginationPageQa = (pageNumber: number) => {
     return `${PaginationQa.PaginationPage}-${pageNumber}`;
 };
+
+export const getPaginationPageSizeOptionQa = (pageSizeOption: number) => {
+    return `${PaginationQa.PaginationPageSizerOption}-${pageSizeOption}`;
+};

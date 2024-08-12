@@ -52,6 +52,8 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
+    /** Indicates that the user cannot change control's value */
+    readOnly?: boolean;
 };
 export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
@@ -68,7 +70,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             value,
             defaultValue,
             label,
-            disabled = false,
+            disabled: originalDisabled,
+            readOnly: originalReadOnly,
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
@@ -89,6 +92,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             onUpdate,
             onChange,
         } = props;
+        const disabled = originalDisabled ?? originalControlProps?.disabled;
+        const readOnly = originalReadOnly ?? originalControlProps?.readOnly;
 
         const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
             error,
@@ -110,7 +115,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
         const isErrorIconVisible =
             validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
-        const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
+        const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
         const isStartContentVisible = Boolean(startContent);
         const isEndContentVisible = Boolean(endContent);
         const isAutoCompleteOff =
@@ -197,6 +202,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                     {
                         view,
                         size,
+                        readonly: readOnly,
                         disabled,
                         state,
                         pin: view === 'clear' ? undefined : pin,

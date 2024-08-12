@@ -19,15 +19,20 @@ export type SliderProps<ValueType = number | [number, number]> = {
     min?: number;
     /** Max value of the component */
     max?: number;
-    /** Specifies the array of available values for the slider */
+    /** Marks on the slider. It can be either the number of marks on the slider or a list of them */
+    marks?: number | number[];
+    /** Formatter for marks text */
+    markFormat?: (markValue: number) => React.ReactNode;
+    /** @deprecated use `marks` and `step` === null instead. Specifies the array of available values for the slider */
     availableValues?: number[];
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */
-    step?: number;
-    /** Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set. */
+    step?: number | null;
+    /** @deprecated use `marks` instead. Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set. */
     marksCount?: number;
     /** Show tooltip with current value of component or not */
-    hasTooltip?: boolean;
-
+    hasTooltip?: 'off' | 'on' | 'auto';
+    /** Format of the slider's value in the tooltip */
+    tooltipFormat?: (value: number) => React.ReactNode;
     /** Indicates that the user cannot interact with the control */
     disabled?: boolean;
     /** Text of an error to show */

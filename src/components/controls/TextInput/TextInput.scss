@@ -147,7 +147,7 @@ $block: '.#{variables.$ns}text-input';
     &_size {
         &_s {
             #{$block}__control {
-                @include control-mixins.input-control(s);
+                @include control-mixins.input-control-min-height(s);
             }
 
             #{$block}__label {
@@ -178,7 +178,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_m {
             #{$block}__control {
-                @include control-mixins.input-control(m);
+                @include control-mixins.input-control-min-height(m);
             }
 
             #{$block}__label {
@@ -209,7 +209,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_l {
             #{$block}__control {
-                @include control-mixins.input-control(l);
+                @include control-mixins.input-control-min-height(l);
             }
 
             #{$block}__label {
@@ -240,7 +240,7 @@ $block: '.#{variables.$ns}text-input';
 
         &_xl {
             #{$block}__control {
-                @include control-mixins.input-control(xl);
+                @include control-mixins.input-control-min-height(xl);
             }
 
             #{$block}__label {

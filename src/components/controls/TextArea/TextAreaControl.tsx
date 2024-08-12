@@ -15,6 +15,16 @@ type Props = Omit<TextAreaProps, 'autoComplete' | 'onChange' | 'controlProps'> &
 
 const b = block('text-area');
 
+const getRowsNumber = (textArea: HTMLTextAreaElement) => {
+    const lineHeight = parseInt(getComputedStyle(textArea, null).lineHeight, 10);
+
+    return Math.floor(textArea.scrollHeight / lineHeight);
+};
+
+// by default this number is 2, but in our component is 1
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#rows
+const DEFAULT_TEXT_AREA_ROWS_NUMBER = 1;
+
 export function TextAreaControl(props: Props) {
     const {
         name,
@@ -43,15 +53,16 @@ export function TextAreaControl(props: Props) {
 
     const innerValue = value || innerControlRef?.current?.value;
 
-    const realRows = React.useMemo(() => {
-        if (rows) return rows;
+    React.useEffect(() => {
+        if (rows || !innerControlRef.current) return;
 
-        let currentRowsNumber = (innerValue?.match(/\n/g) || []).length + 1;
+        innerControlRef.current.setAttribute('rows', DEFAULT_TEXT_AREA_ROWS_NUMBER.toString());
+        let currentRowsNumber = getRowsNumber(innerControlRef.current);
 
         if (minRows !== undefined && currentRowsNumber < minRows) currentRowsNumber = minRows;
         if (maxRows !== undefined && currentRowsNumber > maxRows) currentRowsNumber = maxRows;
 
-        return currentRowsNumber;
+        innerControlRef.current.setAttribute('rows', currentRowsNumber.toString());
     }, [rows, minRows, maxRows, innerValue]);
 
     return (
@@ -67,8 +78,8 @@ export function TextAreaControl(props: Props) {
             tabIndex={tabIndex}
             placeholder={placeholder}
             value={value}
+            rows={rows || DEFAULT_TEXT_AREA_ROWS_NUMBER}
             defaultValue={defaultValue}
-            rows={realRows}
             autoFocus={autoFocus}
             autoComplete={autoComplete}
             onChange={onChange}

@@ -12,13 +12,12 @@ import './SliderTooltip.scss';
 const b = block('slider-tooltip');
 
 type SliderTooltipProps = {
-    value: number;
     className?: string;
     style?: React.CSSProperties;
     stateModifiers: Omit<StateModifiers, 'hasTooltip'>;
-};
+} & React.PropsWithChildren;
 
-export const SliderTooltip = ({value, className, style, stateModifiers}: SliderTooltipProps) => {
+export const SliderTooltip = ({className, style, stateModifiers, children}: SliderTooltipProps) => {
     const preventAction = React.useCallback((e: React.SyntheticEvent) => {
         //make tooltip non-interactive
         e.preventDefault();
@@ -34,7 +33,7 @@ export const SliderTooltip = ({value, className, style, stateModifiers}: SliderT
             onTouchStart={preventAction}
         >
             <div className={b('card', stateModifiers)}>
-                {value}
+                {children}
                 {stateModifiers.disabled && (
                     //use this element to prevent crossing effect
                     <SliderTooltipPin className={b('pin', {background: true})} />

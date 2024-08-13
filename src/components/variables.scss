@@ -10,16 +10,3 @@ $button-shrink-transition: transform 0.1s ease-out;
 $button-shrink-transform: scale(0.96);
 
 $modal-default-margin: 20px;
-
-// Sizes
-$tinyOffset: 5px;
-$inlineOffset: 12px;
-$regularOffset: 16px;
-$normalOffset: 20px;
-$mediumOffset: 30px;
-$bigOffset: 40px;
-$doubleInlineOffset: $inlineOffset * 2;
-$doubleRegularOffset: $regularOffset * 2;
-$smallOffset: calc(#{$normalOffset} * 0.5);
-$microOffset: calc(#{$regularOffset} * 0.5);
-$nanoOffset: calc(#{$microOffset} * 0.5);

@@ -17,6 +17,10 @@ $containerSmallColSize: 320px;
 $containerMediumColSize: 320px;
 $containerLargeColSize: 430px;
 
+$normalOffset: var(--g-spacing-5);
+$mediumOffset: var(--g-spacing-7);
+$bigOffset: var(--g-spacing-10);
+
 $block: '.#{$ns}placeholder-container';
 
 @mixin container-row-sizes($bodyWidth, $imageSize, $contentHeight, $contentOffset) {
@@ -78,7 +82,7 @@ $block: '.#{$ns}placeholder-container';
         padding: $normalOffset;
 
         #{$block}__description {
-            margin-block-start: $nanoOffset;
+            margin-block-start: var(--g-spacing-1);
         }
     }
 
@@ -86,14 +90,14 @@ $block: '.#{$ns}placeholder-container';
         padding: $mediumOffset;
 
         #{$block}__description {
-            margin-block-start: $microOffset;
+            margin-block-start: var(--g-spacing-2);
         }
     }
 
     &_size_promo,
     &_size_l {
         #{$block}__description {
-            margin-block-start: $smallOffset;
+            margin-block-start: var(--g-spacing-3);
         }
     }
 

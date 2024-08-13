@@ -45,6 +45,7 @@ export function TextAreaControl(props: Props) {
         maxRows,
         autoFocus,
         disabled,
+        readOnly,
         onChange,
         onFocus,
         onBlur,
@@ -112,6 +113,7 @@ export function TextAreaControl(props: Props) {
             onKeyUp={onKeyUp}
             onKeyPress={onKeyPress}
             disabled={disabled ?? controlProps.disabled}
+            readOnly={readOnly ?? controlProps.readOnly}
         />
     );
 }

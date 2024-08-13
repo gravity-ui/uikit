@@ -172,6 +172,11 @@ $block: '.#{variables.$ns}text-area';
         $append: false
     );
 
+    &_readonly {
+        --_--background-color: var(--g-color-base-generic-accent-disabled);
+        --_--border-color: transparent;
+    }
+
     &_disabled {
         --_--text-color: var(--g-color-text-hint);
         --_--background-color: var(--g-color-base-generic-accent-disabled);

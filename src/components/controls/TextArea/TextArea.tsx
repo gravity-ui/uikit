@@ -32,6 +32,8 @@ export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     maxRows?: number;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
+    /** Indicates that the user cannot change control's value */
+    readOnly?: boolean;
 };
 export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;
@@ -47,7 +49,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             name,
             value,
             defaultValue,
-            disabled = false,
+            disabled: originalDisabled,
+            readOnly: originalReadOnly,
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
@@ -63,6 +66,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             onUpdate,
             onChange,
         } = props;
+        const disabled = originalDisabled ?? controlProps?.disabled;
+        const readOnly = originalReadOnly ?? controlProps?.readOnly;
 
         const {errorMessage, validationState} = errorPropsMapper({
             error,
@@ -79,7 +84,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
         const innerId = useUniqId();
 
         const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
-        const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
+        const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
         const id = originalId || innerId;
 
         const errorMessageId = useUniqId();
@@ -150,6 +155,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                     {
                         view,
                         size,
+                        readonly: readOnly,
                         disabled,
                         state,
                         pin: view === 'clear' ? undefined : pin,

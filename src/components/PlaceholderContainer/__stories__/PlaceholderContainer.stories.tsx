@@ -7,7 +7,7 @@ import {PlaceholderContainer} from '../PlaceholderContainer';
 import {PlaceholderContainerShowcase} from './PlaceholderContainerShowcase';
 
 export default {
-    title: 'Components/PlaceholderContainer',
+    title: 'Components/Data Display/PlaceholderContainer',
     component: PlaceholderContainer,
     parameters: {
         a11y: {

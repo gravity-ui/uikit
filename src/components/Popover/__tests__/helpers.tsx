@@ -58,7 +58,6 @@ export const TestPopoverWithButtons = (props: PopoverProps) => {
                 height: '500px',
             }}
         >
-            d{' '}
             <Popover
                 {...props}
                 tooltipActionButton={{

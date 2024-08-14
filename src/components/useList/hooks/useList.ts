@@ -50,15 +50,6 @@ export const useList = <T>({
         withExpandedState,
     });
 
-    const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({
-        items,
-        /**
-         * By default controlled from list items declaration state
-         */
-        expandedById: innerState.expandedById,
-        getItemId,
-    });
-
     const realState = React.useMemo(() => {
         if (controlledState) {
             return {
@@ -69,6 +60,15 @@ export const useList = <T>({
 
         return innerState;
     }, [controlledState, innerState]);
+
+    const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({
+        items,
+        /**
+         * By default controlled from list items declaration state
+         */
+        expandedById: realState.expandedById,
+        getItemId,
+    });
 
     return {
         state: realState,

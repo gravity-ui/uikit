@@ -3,11 +3,11 @@ import type React from 'react';
 import type {QAProps} from '../types';
 import type {
     ListContainerProps,
-    ListItemCommonProps,
     ListItemId,
     ListItemListContextProps,
     ListItemSize,
-    RenderItemProps,
+    ListItemViewCommonProps,
+    ListItemViewContentType,
     UseListResult,
 } from '../useList';
 
@@ -15,7 +15,7 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     id: ListItemId;
     data: T;
     // required item props to render
-    props: RenderItemProps;
+    props: ListItemViewCommonProps;
     // internal list context props
     context: ListItemListContextProps;
     list: UseListResult<T>;
@@ -29,7 +29,7 @@ export type TreeListContainerProps<T> = ListContainerProps<T> & {
 
 export type TreeListRenderContainer<T> = (props: TreeListContainerProps<T>) => React.JSX.Element;
 
-export type TreeListMapItemDataToProps<T> = (item: T) => ListItemCommonProps;
+export type TreeListMapItemDataToContentProps<T> = (item: T) => ListItemViewContentType;
 
 export type TreeListOnItemClickPayload<T> = {id: ListItemId; list: UseListResult<T>};
 
@@ -57,5 +57,8 @@ export interface TreeListProps<T, P extends {} = {}> extends QAProps {
      * `null` - disable default click handler
      */
     onItemClick?: null | TreeListOnItemClick<T>;
-    mapItemDataToProps: TreeListMapItemDataToProps<T>;
+    /**
+     * List item `data` to ListItemView `content` props
+     */
+    mapItemDataToContentProps: TreeListMapItemDataToContentProps<T>;
 }

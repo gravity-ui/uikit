@@ -30,7 +30,7 @@ export interface BreadcrumbsItemProps {
     routerOptions?: RouterOptions;
 }
 
-function Item(_props: BreadcrumbsItemProps): React.ReactNode {
+function Item(_props: BreadcrumbsItemProps): React.ReactElement | null {
     return null;
 }
 

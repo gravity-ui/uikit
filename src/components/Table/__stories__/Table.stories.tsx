@@ -164,7 +164,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                         <TreeSelect
                             items={items}
                             size="s"
-                            mapItemDataToProps={(title) => ({title})}
+                            mapItemDataToContentProps={(title) => ({title})}
                             title="Actions select example"
                         />
                     );

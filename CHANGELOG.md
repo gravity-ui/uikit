@@ -1,5 +1,40 @@
 # Changelog
 
+## [6.23.1](https://github.com/gravity-ui/uikit/compare/v6.23.0...v6.23.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* **useList:** fixed expanded controlled state behaviour ([#1749](https://github.com/gravity-ui/uikit/issues/1749)) ([82db00e](https://github.com/gravity-ui/uikit/commit/82db00ef28785237285c1002b38236668530f879))
+
+## [6.23.0](https://github.com/gravity-ui/uikit/compare/v6.22.0...v6.23.0) (2024-08-06)
+
+
+### Features
+
+* **ListItemView:** ability to pass custom react node as a content prop ([#1726](https://github.com/gravity-ui/uikit/issues/1726)) ([5d5417a](https://github.com/gravity-ui/uikit/commit/5d5417a35357c85a552ee766f6761c5db5e48974))
+* **useList:** added migration guide to set of useList components ([#1728](https://github.com/gravity-ui/uikit/issues/1728)) ([69283f1](https://github.com/gravity-ui/uikit/commit/69283f1f681ab79023544ce0fb21e7253e3281d4))
+
+
+### Bug Fixes
+
+* **Icon:** correctly parse function with default props ([#1713](https://github.com/gravity-ui/uikit/issues/1713)) ([b7eef14](https://github.com/gravity-ui/uikit/commit/b7eef14e0d08ccb81561f111ec544ba9ef6d36f8))
+* **TreeSelect:** fix crashes while has selected elements and has no items ([#1727](https://github.com/gravity-ui/uikit/issues/1727)) ([0e22bde](https://github.com/gravity-ui/uikit/commit/0e22bdeed87b8841d8190758df0a6e4cf0bebd15))
+* **typography:** use correct variables across the project ([#1712](https://github.com/gravity-ui/uikit/issues/1712)) ([4a9a6d1](https://github.com/gravity-ui/uikit/commit/4a9a6d1896e0e4fc773ac66815fc5fa1418176c1))
+
+## [6.22.0](https://github.com/gravity-ui/uikit/compare/v6.21.0...v6.22.0) (2024-07-27)
+
+
+### Features
+
+* **AvatarStack:** add component ([#924](https://github.com/gravity-ui/uikit/issues/924)) ([862f4fb](https://github.com/gravity-ui/uikit/commit/862f4fbbaca8d431f0562965b3cad56e21b7130c))
+
+
+### Bug Fixes
+
+* **Breadcrums:** support react &lt;18 types ([#1722](https://github.com/gravity-ui/uikit/issues/1722)) ([5229e99](https://github.com/gravity-ui/uikit/commit/5229e99731ceef030bd19871d39352081fb4ed69))
+* **useList:** fix useList hook for support initialization state ([#1719](https://github.com/gravity-ui/uikit/issues/1719)) ([2b04b18](https://github.com/gravity-ui/uikit/commit/2b04b18e1f1634a358e245b79aa8da65d33a9e95))
+
 ## [6.21.0](https://github.com/gravity-ui/uikit/compare/v6.20.1...v6.21.0) (2024-07-16)
 
 

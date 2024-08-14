@@ -25,7 +25,7 @@ import type {
 } from '../../../../TreeSelect/types';
 import {TextInput} from '../../../../controls/TextInput';
 import {Flex} from '../../../../layout/Flex/Flex';
-import type {ListItemCommonProps, ListItemViewProps} from '../../../../useList';
+import type {ListItemViewContentType, ListItemViewProps} from '../../../../useList';
 import {ListContainerView, ListItemView, useListFilter} from '../../../../useList';
 import {block} from '../../../../utils/cn';
 import type {TableColumnConfig} from '../../../Table';
@@ -190,16 +190,18 @@ const useDndRenderItem = (sortable: boolean | undefined) => {
     }) => {
         const isDragDisabled = sortable === false || renderContainerProps?.isDragDisabled === true;
         const endSlot = isDragDisabled ? undefined : <Icon data={Grip} size={16} />;
-        const hasSelectionIcon = !item.isRequired;
         const startSlot = item.isRequired ? <Icon data={Lock} /> : undefined;
         const selected = item.isRequired ? false : props.selected;
 
         const commonProps: ListItemViewProps = {
             ...props,
             selected,
-            startSlot,
-            hasSelectionIcon,
-            endSlot,
+            selectionViewType: item.isRequired ? 'single' : 'multiple',
+            content: {
+                ...props.content,
+                startSlot,
+                endSlot,
+            },
         };
 
         if (isDragDisabled) {
@@ -241,7 +243,7 @@ export type TableColumnSetupItem = TableSetting & {
     sticky?: TableColumnConfig<unknown>['sticky'];
 };
 
-const mapItemDataToProps = (item: TableColumnSetupItem): ListItemCommonProps => {
+const mapItemDataToContentProps = (item: TableColumnSetupItem): ListItemViewContentType => {
     return {
         title: item.title,
     };
@@ -435,7 +437,7 @@ export const TableColumnSetup = (props: TableColumnSetupProps) => {
     return (
         <TreeSelect
             className={b(null, className)}
-            mapItemDataToProps={mapItemDataToProps}
+            mapItemDataToContentProps={mapItemDataToContentProps}
             multiple
             size="l"
             open={open}

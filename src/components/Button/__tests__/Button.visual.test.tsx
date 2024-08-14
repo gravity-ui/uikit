@@ -2,9 +2,21 @@ import React from 'react';
 
 import {test} from '~playwright/core';
 
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {Button} from '../Button';
+
+import {
+    defaultProps,
+    disabledCases,
+    loadingCases,
+    pinsCases,
+    selectedCases,
+    sizeCases,
+    viewsCases,
+} from './cases';
 import {ButtonStories, CustomIconSizeButton} from './helpersPlaywright';
 
-test.describe('Button', () => {
+test.describe('Button', {tag: '@Button'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<ButtonStories.Default />);
 
@@ -75,5 +87,22 @@ test.describe('Button', () => {
         await mount(<CustomIconSizeButton />);
 
         await expectScreenshot();
+    });
+
+    const smokeScenarios = createSmokeScenarios(defaultProps, {
+        size: sizeCases,
+        selected: selectedCases,
+        disabled: disabledCases,
+        loading: loadingCases,
+        view: viewsCases,
+        pin: pinsCases,
+    });
+
+    smokeScenarios.forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
+            await mount(<Button {...props} />);
+
+            await expectScreenshot();
+        });
     });
 });

@@ -1,12 +1,12 @@
 /* eslint-disable valid-jsdoc */
 import type {QAProps} from '../../types';
+import type {ListItemViewCommonProps} from '../components/ListItemView';
 import type {
-    ListItemCommonProps,
     ListItemId,
     ListItemListContextProps,
     ListItemSize,
+    ListItemViewContentType,
     ListOnItemClick,
-    RenderItemProps,
     UseListResult,
 } from '../types';
 
@@ -19,7 +19,7 @@ type ItemRendererProps<T> = QAProps & {
      */
     multiple?: boolean;
     id: ListItemId;
-    mapItemDataToProps(data: T): ListItemCommonProps;
+    mapItemDataToContentProps(data: T): ListItemViewContentType;
     onItemClick?: ListOnItemClick;
     list: UseListResult<T>;
 };
@@ -31,7 +31,7 @@ export const getItemRenderState = <T,>({
     qa,
     list,
     onItemClick,
-    mapItemDataToProps,
+    mapItemDataToContentProps,
     size = 'm',
     multiple = false,
     id,
@@ -43,24 +43,20 @@ export const getItemRenderState = <T,>({
             id === list.structure.visibleFlattenIds[list.structure.visibleFlattenIds.length - 1],
     };
 
-    let expanded; // `undefined` value means than tree list will look as nested list without groups
-
-    // isGroup
-    if (list.state.expandedById && id in list.state.expandedById) {
-        expanded = list.state.expandedById[id];
-    }
-
-    const props: RenderItemProps = {
+    const props: ListItemViewCommonProps = {
         id,
         size,
-        expanded,
-        active: id === list.state.activeItemId,
-        indentation: context.indentation,
-        disabled: Boolean(list.state.disabledById?.[id]),
         selected: Boolean(list.state.selectedById[id]),
-        hasSelectionIcon: Boolean(multiple) && !context.childrenIds, // hide multiple selection view at group nodes
+        disabled: Boolean(list.state.disabledById?.[id]),
+        active: id === list.state.activeItemId,
         onClick: onItemClick ? (e: React.SyntheticEvent) => onItemClick({id}, e) : undefined,
-        ...mapItemDataToProps(list.structure.itemsById[id]),
+        selectionViewType: Boolean(multiple) && !context.childrenIds ? 'multiple' : 'single', // no multiple selection at group nodes
+        content: {
+            expanded: list.state.expandedById?.[id],
+            indentation: context.indentation,
+            isGroup: list.state.expandedById && id in list.state.expandedById,
+            ...mapItemDataToContentProps(list.structure.itemsById[id]),
+        },
     };
 
     if (qa) {

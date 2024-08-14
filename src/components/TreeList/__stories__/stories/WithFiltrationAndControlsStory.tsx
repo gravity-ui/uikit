@@ -15,7 +15,10 @@ interface Entity {
 }
 
 export interface WithFiltrationAndControlsStoryProps
-    extends Omit<TreeListProps<Entity>, 'value' | 'onUpdate' | 'items' | 'mapItemDataToProps'> {
+    extends Omit<
+        TreeListProps<Entity>,
+        'value' | 'onUpdate' | 'items' | 'mapItemDataToContentProps'
+    > {
     itemsCount?: number;
 }
 
@@ -59,7 +62,7 @@ export const WithFiltrationAndControlsStory = ({
             <TreeList
                 {...treeSelectProps}
                 list={list}
-                mapItemDataToProps={(x) => x}
+                mapItemDataToContentProps={(x) => x}
                 renderContainer={renderContainer}
             />
             <Flex gap="2" className={spacing({px: 2, py: 1})}>

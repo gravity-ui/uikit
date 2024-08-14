@@ -25,7 +25,7 @@ const items: ListItemType<string>[] = ['one', 'two', 'free', 'four', 'five'];
 
 const list = useList({items});
 
-<TreeList list={list} mapItemDataToProps={(item) => ({title: item})} />;
+<TreeList list={list} mapItemDataToContentProps={(item) => ({title: item})} />;
 ```
 
 ### Example with state:
@@ -56,7 +56,7 @@ const Component = () => {
     <TreeList
       list={list}
       onItemClick={handleItemClick}
-      mapItemDataToProps={({title}) => ({title})}
+      mapItemDataToContentProps={({title}) => ({title})}
     />
   );
 };
@@ -64,18 +64,18 @@ const Component = () => {
 
 ## Props:
 
-| Name               | Description                                                                                                                                                                                                                    |                                             Type                                             | Default |
-| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------: | :-----: |
-| list               | result of [list](/docs/lab-uselist--docs#uselist) hook.                                                                                                                                                                        |                                       `UseListResult`                                        |         |
-| containerRef       | a reference to the DOM element of the List container inside which to search for its elements;                                                                                                                                  |                      `React.RefObject<HTMLDivElement \| HTMLUlElement>`                      |         |
-| qa                 | Selector for tests                                                                                                                                                                                                             |                                           `string`                                           |         |
-| size               | The size of the element. This also affects the rounding radius of the list element                                                                                                                                             |                                     `s \| m \| l \| xl`                                      |   `m`   |
-| mapItemDataToProps | Map list item data (`T`) to `ListItemView` props                                                                                                                                                                               |                              `(data: T) => ListItemCommonProps`                              |         |
-| multiple           | One or multiple elements selected list                                                                                                                                                                                         |                                          `boolean`                                           | `false` |
-| id                 | id attribute                                                                                                                                                                                                                   |                                           `string`                                           |         |
-| renderItem         | Redefine the rendering of a list item. For example, add dividers between list items or wrap an item in a link component. As a view component to display a list item, use [ListItemView](/docs/lab-uselist--docs#listitemview); |                   `(props: TreeListRenderItem<T, P>) => React.JSX.Element`                   |         |
-| renderContainer    | Render custom list container.                                                                                                                                                                                                  |                  `(props: TreeListRenderContainer<T>) => React.JSX.Element`                  |         |
-| onItemClick        | Override default on click behavior. Pass `null` to disable on click handler                                                                                                                                                    | `(props: {id: ListItemId; list: UseListResult<T>}, e: React.SyntheticEvent) => void \| null` |         |
+| Name                      | Description                                                                                                                                                                                                                    |                                             Type                                             | Default |
+| :------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------: | :-----: |
+| list                      | result of [list](/docs/lab-uselist--docs#uselist) hook.                                                                                                                                                                        |                                       `UseListResult`                                        |         |
+| containerRef              | a reference to the DOM element of the List container inside which to search for its elements;                                                                                                                                  |                      `React.RefObject<HTMLDivElement \| HTMLUlElement>`                      |         |
+| qa                        | Selector for tests                                                                                                                                                                                                             |                                           `string`                                           |         |
+| size                      | The size of the element. This also affects the rounding radius of the list element                                                                                                                                             |                                     `s \| m \| l \| xl`                                      |   `m`   |
+| mapItemDataToContentProps | Map list item data (`T`) to `ListItemView` `content` prop                                                                                                                                                                      |                           `(data: T) => ListItemViewContentProps`                            |         |
+| multiple                  | One or multiple elements selected list                                                                                                                                                                                         |                                          `boolean`                                           | `false` |
+| id                        | id attribute                                                                                                                                                                                                                   |                                           `string`                                           |         |
+| renderItem                | Redefine the rendering of a list item. For example, add dividers between list items or wrap an item in a link component. As a view component to display a list item, use [ListItemView](/docs/lab-uselist--docs#listitemview); |                   `(props: TreeListRenderItem<T, P>) => React.JSX.Element`                   |         |
+| renderContainer           | Render custom list container.                                                                                                                                                                                                  |                  `(props: TreeListRenderContainer<T>) => React.JSX.Element`                  |         |
+| onItemClick               | Override default on click behavior. Pass `null` to disable on click handler                                                                                                                                                    | `(props: {id: ListItemId; list: UseListResult<T>}, e: React.SyntheticEvent) => void \| null` |         |
 
 ### TreeListRenderItem props:
 

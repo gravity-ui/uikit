@@ -10,7 +10,6 @@ $block: '.#{variables.$ns}hotkey';
     &,
     kbd {
         @include mixins.text-body-1();
-        font-family: var(--g-font-family-sans);
     }
 
     &_view {

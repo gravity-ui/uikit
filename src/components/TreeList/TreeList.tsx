@@ -28,7 +28,7 @@ export const TreeList = <T,>({
     renderItem: propsRenderItem,
     renderContainer = ListContainer,
     onItemClick: propsOnItemClick,
-    mapItemDataToProps,
+    mapItemDataToContentProps,
 }: TreeListProps<T>) => {
     const uniqId = useUniqId();
     const treeListId = id ?? uniqId;
@@ -71,7 +71,7 @@ export const TreeList = <T,>({
             id: itemId,
             size,
             multiple,
-            mapItemDataToProps,
+            mapItemDataToContentProps,
             onItemClick,
             list,
         });

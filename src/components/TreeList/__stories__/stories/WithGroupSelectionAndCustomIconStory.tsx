@@ -6,7 +6,7 @@ import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
 import {ListItemView, useList} from '../../../useList';
-import type {ListItemCommonProps, ListItemId} from '../../../useList';
+import type {ListItemId, ListItemViewContentType} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
 import type {TreeListProps} from '../../types';
@@ -24,12 +24,14 @@ interface CustomDataStructure {
 export interface WithGroupSelectionAndCustomIconStoryProps
     extends Omit<
         TreeListProps<CustomDataStructure>,
-        'value' | 'onUpdate' | 'items' | 'cantainerRef' | 'size' | 'mapItemDataToProps'
+        'value' | 'onUpdate' | 'items' | 'cantainerRef' | 'size' | 'mapItemDataToContentProps'
     > {
     itemsCount?: number;
 }
 
-const mapCustomDataStructureToKnownProps = (props: CustomDataStructure): ListItemCommonProps => ({
+const mapCustomDataStructureToKnownProps = (
+    props: CustomDataStructure,
+): ListItemViewContentType => ({
     title: props.a,
 });
 
@@ -61,28 +63,26 @@ export const WithGroupSelectionAndCustomIconStory = ({
                 {...props}
                 list={list}
                 size="l"
-                mapItemDataToProps={mapCustomDataStructureToKnownProps}
+                mapItemDataToContentProps={mapCustomDataStructureToKnownProps}
                 onItemClick={onItemClick}
-                renderItem={({
-                    data,
-                    props: {
-                        expanded, // don't use default ListItemView expand icon
-                        ...preparedProps
-                    },
-                    context: {childrenIds},
-                }) => {
+                renderItem={({id, props: itemProps, context: {childrenIds}}) => {
                     // has no group
-                    preparedProps.hasSelectionIcon = Boolean(props.multiple);
+                    itemProps.selectionViewType = props.multiple ? 'multiple' : 'single';
 
                     return (
                         <ListItemView
-                            {...preparedProps}
-                            {...mapCustomDataStructureToKnownProps(data)}
-                            startSlot={
-                                <Icon size={16} data={childrenIds ? Database : PlugConnection} />
-                            }
-                            endSlot={
-                                childrenIds ? (
+                            {...itemProps}
+                            content={{
+                                ...itemProps.content,
+                                isGroup: false,
+                                startSlot: (
+                                    <Icon
+                                        size={16}
+                                        data={childrenIds ? Database : PlugConnection}
+                                    />
+                                ),
+
+                                endSlot: childrenIds ? (
                                     <Button
                                         size="m"
                                         className={spacing({mr: 1})}
@@ -90,20 +90,24 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                             e.stopPropagation();
                                             list.state.setExpanded?.((prevExpandedState) => ({
                                                 ...prevExpandedState,
-                                                [preparedProps.id]:
-                                                    !prevExpandedState[preparedProps.id],
+                                                [id]: !prevExpandedState[id],
                                             }));
                                         }}
                                         extraProps={{
-                                            'aria-label': expanded
+                                            'aria-label': itemProps.content.expanded
                                                 ? closeButtonLabel
                                                 : expandButtonLabel,
                                         }}
                                     >
-                                        <Icon data={expanded ? ChevronDown : ChevronUp} size={16} />
+                                        <Icon
+                                            data={
+                                                itemProps.content.expanded ? ChevronDown : ChevronUp
+                                            }
+                                            size={16}
+                                        />
                                     </Button>
-                                ) : undefined
-                            }
+                                ) : undefined,
+                            }}
                         />
                     );
                 }}

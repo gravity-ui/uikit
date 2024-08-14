@@ -34,15 +34,18 @@ export const useListKeydown = ({containerRef, onItemClick, enabled, list}: UseLi
         (event: KeyboardEvent, step: number, defaultItemIndex = 0) => {
             event.preventDefault();
 
-            const maybeIndex = list.structure.visibleFlattenIds.findIndex(
-                (i) => i === list.state.activeItemId,
-            );
+            const maybeIndex =
+                typeof list.state.activeItemId === 'string'
+                    ? list.structure.visibleFlattenIds.findIndex(
+                          (i) => i === list.state.activeItemId,
+                      )
+                    : -1;
 
             const nextIndex = findNextIndex({
                 list: list.structure.visibleFlattenIds,
                 index: (maybeIndex > -1 ? maybeIndex : defaultItemIndex) + step,
                 step: Math.sign(step),
-                disabledItems: list.state.disabledById,
+                disabledItemsById: list.state.disabledById,
             });
 
             activateItem(nextIndex);

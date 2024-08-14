@@ -72,7 +72,7 @@ export const InfinityScrollList = ({size}: InfinityScrollListProps) => {
                                     size,
                                     onItemClick,
                                     multiple: true,
-                                    mapItemDataToProps: (x) => x,
+                                    mapItemDataToContentProps: (x) => x,
                                     list,
                                 });
                                 const node = <ListItemView {...props} />;

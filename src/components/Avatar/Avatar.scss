@@ -10,6 +10,7 @@ $block: '.#{variables.$ns}avatar';
     --_--color: var(--g-color-text-misc);
     --_--font-size: var(--g-text-body-1-font-size);
     --_--line-height: var(--g-text-body-1-line-height);
+    --_--font-weight: var(--g-text-body-font-weight);
 
     overflow: hidden;
     display: inline-flex;
@@ -39,7 +40,7 @@ $block: '.#{variables.$ns}avatar';
         color: var(--g-avatar-color, var(--_--color));
         font-size: var(--g-avatar-font-size, var(--_--font-size));
         line-height: var(--g-avatar-line-height, var(--_--line-height));
-        font-weight: 500;
+        font-weight: var(--_--font-weight);
     }
 
     &_with-border,
@@ -75,17 +76,20 @@ $block: '.#{variables.$ns}avatar';
         &_s {
             --_--font-size: var(--g-text-caption-1-font-size);
             --_--line-height: var(--g-text-caption-1-line-height);
+            --_--font-weight: var(--g-text-caption-font-weight);
         }
 
         &_m,
         &_l {
-            --_--font-size: var(--g-text-body-1-font-size);
-            --_--line-height: var(--g-text-body-1-line-height);
+            --_--font-size: var(--g-text-subheader-1-font-size);
+            --_--line-height: var(--g-text-subheader-1-line-height);
+            --_--font-weight: var(--g-text-subheader-font-weight);
         }
 
         &_xl {
-            --_--font-size: var(--g-text-body-2-font-size);
-            --_--line-height: var(--g-text-body-2-line-height);
+            --_--font-size: var(--g-text-subheader-2-font-size);
+            --_--line-height: var(--g-text-subheader-2-line-height);
+            --_--font-weight: var(--g-text-subheader-font-weight);
         }
     }
 

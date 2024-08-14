@@ -139,7 +139,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
         {
             text: 'with href',
             theme: 'normal',
-            href: 'https://cloud.yandex.com',
+            href: 'https://gravity-ui.com',
             target: '_blank',
             rel: 'noopener noreferrer',
             handler: () => {},
@@ -164,7 +164,7 @@ const WithTableActionsTemplate: StoryFn<TableProps<DataItem>> = (args) => {
                         <TreeSelect
                             items={items}
                             size="s"
-                            mapItemDataToProps={(title) => ({title})}
+                            mapItemDataToContentProps={(title) => ({title})}
                             title="Actions select example"
                         />
                     );

@@ -74,7 +74,7 @@ function List() {
             {list.structure.items.map((_, i) => {
                 const {props} = getItemRenderState({
                     id: String(i),
-                    mapItemDataToProps: (title) => ({title}),
+                    mapItemDataToContentProps: (title) => ({title}),
                     onItemClick,
                     list,
                 });
@@ -114,7 +114,7 @@ function List() {
                     {(id) => {
                         const {props} = getItemRenderState({
                             id: String(i),
-                            mapItemDataToProps: (title) => ({title}),
+                            mapItemDataToContentProps: (title) => ({title}),
                             onItemClick,
                             list,
                         });

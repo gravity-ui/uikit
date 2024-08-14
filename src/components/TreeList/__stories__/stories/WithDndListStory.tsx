@@ -28,6 +28,7 @@ const DraggableListItem = ({
             {...provided?.draggableProps}
             ref={provided?.innerRef}
             {...props}
+            role="option"
         />
     );
 };
@@ -41,7 +42,7 @@ const randomItems: CustomDataType[] = createRandomizedData({
 }).map(({data}, idx) => ({someRandomKey: data, id: String(idx)}));
 
 export interface WithDndListStoryProps
-    extends Omit<TreeListProps<CustomDataType>, 'items' | 'mapItemDataToProps'> {}
+    extends Omit<TreeListProps<CustomDataType>, 'items' | 'mapItemDataToContentProps'> {}
 
 export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
     const [items, setItems] = React.useState(randomItems);
@@ -116,10 +117,13 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
         index,
         renderContainerProps,
     }) => {
-        const commonProps = {
+        const commonProps: ListItemViewProps = {
             ...props,
-            title: data.someRandomKey,
-            endSlot: <Icon data={Grip} size={16} />,
+            content: {
+                ...props.content,
+                title: data.someRandomKey,
+                endSlot: <Icon data={Grip} size={16} />,
+            },
         };
 
         // here passed props from `renderContainer` method.
@@ -150,7 +154,7 @@ export const WithDndListStory = (storyProps: WithDndListStoryProps) => {
             {...storyProps}
             list={list}
             containerRef={containerRef}
-            mapItemDataToProps={({someRandomKey}) => ({title: someRandomKey})}
+            mapItemDataToContentProps={({someRandomKey}) => ({title: someRandomKey})}
             renderContainer={renderContainer}
             renderItem={renderItem}
         />

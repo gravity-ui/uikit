@@ -83,11 +83,16 @@ export const PopupWithTogglerList = ({size, itemsCount}: PopupWithTogglerListPro
                             id,
                             size,
                             onItemClick,
-                            mapItemDataToProps: (x) => x,
+                            mapItemDataToContentProps: (x) => x,
                             list,
                         });
 
-                        return <ListItemView {...props} hasSelectionIcon={!context.childrenIds} />;
+                        return (
+                            <ListItemView
+                                {...props}
+                                selectionViewType={context.childrenIds ? 'single' : 'multiple'}
+                            />
+                        );
                     }}
                 />
             </Popup>

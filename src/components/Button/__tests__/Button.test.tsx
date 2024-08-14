@@ -147,7 +147,7 @@ describe('Button', () => {
     });
 
     test('should render <a /> tag', () => {
-        const href = 'https://yandex.ru';
+        const href = 'https://gravity-ui.com';
         const target = '_blank';
 
         render(<Button href={href} target={target} />);

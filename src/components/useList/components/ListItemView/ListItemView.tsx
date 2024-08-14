@@ -1,64 +1,53 @@
 import React from 'react';
 
-import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
-
-import {Icon} from '../../../Icon';
-import {Text, colorText} from '../../../Text';
-import {Flex, spacing} from '../../../layout';
-import type {FlexProps} from '../../../layout';
+import {spacing} from '../../../layout';
 import type {QAProps} from '../../../types';
-import {block} from '../../../utils/cn';
 import {LIST_ITEM_DATA_ATR, modToHeight} from '../../constants';
-import type {ListItemCommonProps, ListItemId, ListItemSize} from '../../types';
+import type {ListItemId, ListItemSize, ListItemViewContentType} from '../../types';
 
-import './ListItemView.scss';
+import {ListItemViewContent, isListItemContentPropsGuard} from './ListItemViewContent';
+import {b} from './styles';
 
-const b = block('list-item-view');
-
-export interface ListItemViewProps<T extends React.ElementType = 'div'>
-    extends QAProps,
-        ListItemCommonProps {
-    /**
-     * Ability to override default html tag
-     */
-    as?: T;
+export interface ListItemViewCommonProps<T extends React.ElementType = 'li'> extends QAProps {
     /**
      * @default `m`
      */
     size?: ListItemSize;
-    height?: number;
-    selected?: boolean;
-    active?: boolean;
-    disabled?: boolean;
-    /**
-     * By default hovered elements has active styles. You can disable this behavior
-     */
-    activeOnHover?: boolean;
-    /**
-     * Build in indentation component to render nested views structure
-     */
-    indentation?: number;
-    /**
-     * Show selected icon if selected and reserve space for this icon
-     */
-    hasSelectionIcon?: boolean;
-    /**
-     * Note: if passed and `disabled` option is `true` click will not be appear
-     */
-    onClick?: React.ComponentPropsWithoutRef<T>['onClick'];
-    style?: React.CSSProperties;
-    className?: string;
-    role?: React.AriaRole;
-    expanded?: boolean;
-    /**
-     * Add active styles and change selection behavior during dnd is performing
-     */
-    dragging?: boolean;
     /**
      * `[${LIST_ITEM_DATA_ATR}="${id}"]` data attribute to find element.
      * For example for scroll to
      */
     id: ListItemId;
+    /**
+     * Note: if passed and `disabled` option is `true` click will not be appear
+     */
+    onClick?: React.ComponentPropsWithoutRef<T>['onClick'];
+    selected?: boolean;
+    disabled?: boolean;
+    active?: boolean;
+    selectionViewType?: 'single' | 'multiple';
+    content: ListItemViewContentType;
+}
+
+export interface ListItemViewProps<T extends React.ElementType = 'li'>
+    extends Omit<ListItemViewCommonProps, 'content'> {
+    /**
+     * Ability to override default html tag
+     */
+    as?: T;
+    height?: number;
+    /**
+     * By default hovered elements has active styles. You can disable this behavior
+     */
+    activeOnHover?: boolean;
+    style?: React.CSSProperties;
+    className?: string;
+    role?: React.AriaRole;
+    /**
+     * Add active styles and change selection behavior during dnd is performing
+     */
+    dragging?: boolean;
+    content: ListItemViewContentType | React.ReactNode;
 }
 
 type ListItemViewRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
@@ -66,34 +55,8 @@ type ListItemViewRef<C extends React.ElementType> = React.ComponentPropsWithRef<
 type ListItemViewPropsWithTypedAttrs<T extends React.ElementType> = ListItemViewProps<T> &
     Omit<React.ComponentPropsWithoutRef<T>, keyof ListItemViewProps<T>>;
 
-interface SlotProps extends FlexProps {
-    indentation?: number;
-}
-
-export const ListItemViewSlot = ({
-    children,
-    indentation: indent = 1,
-    className,
-    ...props
-}: SlotProps) => {
-    return (
-        <Flex width={indent * 16} className={b('slot', className)} {...props}>
-            {children}
-        </Flex>
-    );
-};
-
-const renderSafeIndentation = (indentation?: number) => {
-    if (indentation && indentation >= 1) {
-        return (
-            <ListItemViewSlot indentation={Math.floor(indentation) as SlotProps['indentation']} />
-        );
-    }
-    return null;
-};
-
 export const ListItemView = React.forwardRef(function ListItemView<
-    T extends React.ElementType = 'div',
+    T extends React.ElementType = 'li',
 >(
     {
         id,
@@ -102,32 +65,35 @@ export const ListItemView = React.forwardRef(function ListItemView<
         active,
         selected,
         disabled,
+        selectionViewType = 'multiple',
         activeOnHover: propsActiveOnHover,
         className,
-        hasSelectionIcon = true,
-        indentation,
-        startSlot,
-        subtitle,
-        endSlot,
-        title,
         height,
-        expanded,
         dragging,
-        style,
+        style: propsStyle,
+        content,
         role = 'option',
         onClick: _onClick,
         ...rest
-    }: ListItemViewPropsWithTypedAttrs<T>,
+    }: ListItemViewProps<T>,
     ref?: ListItemViewRef<T>,
 ) {
-    const as: React.ElementType = asProps || 'div';
-    const isGroup = typeof expanded === 'boolean';
+    const Tag: React.ElementType = asProps || 'li';
     const onClick = disabled ? undefined : _onClick;
     const activeOnHover =
         typeof propsActiveOnHover === 'boolean' ? propsActiveOnHover : Boolean(onClick);
+    const style = {
+        minHeight: `var(--g-list-item-height, ${
+            height ??
+            modToHeight[size][
+                Number(Boolean(isListItemContentPropsGuard(content) ? content?.subtitle : false))
+            ]
+        }px)`,
+        ...propsStyle,
+    };
 
     return (
-        <Flex
+        <Tag
             {...{[LIST_ITEM_DATA_ATR]: id}}
             role={role}
             aria-selected={selected}
@@ -135,73 +101,32 @@ export const ListItemView = React.forwardRef(function ListItemView<
             className={b(
                 {
                     active: dragging || active,
-                    selected: selected && !hasSelectionIcon,
+                    selected: selected && selectionViewType === 'single',
                     activeOnHover,
                     radius: size,
+                    size,
                     dragging,
                     clickable: Boolean(onClick),
                 },
                 spacing({px: 2}, className),
             )}
-            style={{
-                minHeight: height ?? modToHeight[size][Number(Boolean(subtitle))],
-                ...style,
-            }}
-            as={as}
+            style={style}
             ref={ref}
-            alignItems="center"
-            gap="4"
-            justifyContent="space-between"
             {...rest}
         >
-            <Flex gap="2" alignItems="center" grow>
-                {hasSelectionIcon && (
-                    <ListItemViewSlot // reserve space
-                    >
-                        {selected ? (
-                            <Icon data={Check} size={16} className={colorText({color: 'info'})} />
-                        ) : null}
-                    </ListItemViewSlot>
-                )}
-
-                {renderSafeIndentation(indentation)}
-
-                {isGroup ? (
-                    <Icon
-                        className={b('icon', colorText({color: disabled ? 'hint' : undefined}))}
-                        data={expanded ? ChevronDown : ChevronUp}
-                        size={16}
-                    />
-                ) : null}
-
-                {startSlot}
-
-                <div className={b('main-content')}>
-                    {typeof title === 'string' ? (
-                        <Text
-                            ellipsis
-                            color={disabled ? 'hint' : undefined}
-                            variant={isGroup ? 'subheader-1' : undefined}
-                        >
-                            {title}
-                        </Text>
-                    ) : (
-                        title
-                    )}
-                    {typeof subtitle === 'string' ? (
-                        <Text ellipsis color={disabled ? 'hint' : 'secondary'}>
-                            {subtitle}
-                        </Text>
-                    ) : (
-                        subtitle
-                    )}
-                </div>
-            </Flex>
-
-            {endSlot}
-        </Flex>
+            {isListItemContentPropsGuard(content) ? (
+                <ListItemViewContent
+                    {...content}
+                    hasSelectionIcon={selectionViewType === 'multiple'}
+                    selected={selected}
+                    disabled={disabled}
+                />
+            ) : (
+                content
+            )}
+        </Tag>
     );
-}) as <C extends React.ElementType = 'div'>({
+}) as <C extends React.ElementType = 'li'>({
     ref,
     ...props
 }: ListItemViewPropsWithTypedAttrs<C> & {ref?: ListItemViewRef<C>}) => React.ReactElement;

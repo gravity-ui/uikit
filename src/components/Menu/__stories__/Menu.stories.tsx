@@ -117,14 +117,11 @@ export const ItemTheme: StoryFn<MenuProps> = (args) => (
 
 export const ItemLink: StoryFn<MenuProps> = (args) => (
     <Menu {...args}>
-        <Menu.Item href="https://yandex.ru" target="_blank">
-            yandex.ru
+        <Menu.Item href="https://gravity-ui.com" target="_blank">
+            gravity-ui.com
         </Menu.Item>
-        <Menu.Item href="https://ya.ru" target="_blank">
-            ya.ru
-        </Menu.Item>
-        <Menu.Item href="https://ya.ru" target="_blank" disabled>
-            disabled ya.ru
+        <Menu.Item href="https://gravity-ui.com" target="_blank" disabled>
+            disabled gravity-ui.com
         </Menu.Item>
     </Menu>
 );

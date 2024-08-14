@@ -1,6 +1,6 @@
 {
     "name": "@gravity-ui/uikit",
-    "version": "6.20.1",
+    "version": "6.23.1",
     "description": "Gravity UI base styling and components",
     "keywords": [
         "component",
@@ -108,7 +108,7 @@
         "lint": "run-p lint:*",
         "typecheck": "tsc --noEmit",
         "prepublishOnly": "npm run build && npm pkg delete engines",
-        "playwright:install": "playwright install --with-deps",
+        "playwright:install": "playwright install chromium webkit --with-deps",
         "playwright": "playwright test --config=playwright/playwright.config.ts",
         "playwright:update": "npm run playwright -- -u",
         "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",

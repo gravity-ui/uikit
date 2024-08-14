@@ -77,7 +77,7 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
                                         id,
                                         size,
                                         onItemClick,
-                                        mapItemDataToProps: (x) => x,
+                                        mapItemDataToContentProps: (x) => x,
                                         list,
                                     });
 
@@ -93,11 +93,15 @@ export const ListWithDnd = ({size, itemsCount, 'aria-label': ariaLabel}: ListWit
                                             ) => (
                                                 <ListItemView
                                                     {...props}
+                                                    content={{
+                                                        ...props.content,
+                                                        endSlot: <Icon data={Grip} size={16} />,
+                                                    }}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                     dragging={snapshot.isDragging}
                                                     ref={provided.innerRef}
-                                                    endSlot={<Icon data={Grip} size={16} />}
+                                                    role="option"
                                                 />
                                             )}
                                         </Draggable>

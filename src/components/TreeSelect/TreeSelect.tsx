@@ -47,6 +47,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         items,
         value: propsValue,
         defaultValue,
+        placeholder,
+        disabled = false,
         withExpandedState = true,
         defaultExpandedState = 'expanded',
         onClose,
@@ -55,7 +57,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         renderControl,
         renderItem = defaultItemRenderer as TreeListRenderItem<T>,
         renderContainer,
-        mapItemDataToProps,
+        mapItemDataToContentProps,
         onFocus,
         onBlur,
         getItemId,
@@ -128,7 +130,8 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     // restoring focus when popup opens
     React.useLayoutEffect(() => {
         if (open) {
-            containerRef.current?.focus();
+            // for some reason popup position on page may be wrong calculated. `preventScroll` prevent page gap in that cases
+            containerRef.current?.focus({preventScroll: true});
         }
 
         return () => list.state.setActiveItemId(undefined); // reset active item on popup close
@@ -152,11 +155,13 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
     const controlProps: TreeSelectRenderControlProps<T> = {
         list,
         open,
+        placeholder,
         toggleOpen,
         clearValue: () => list.state.setSelected({}),
         ref: handleControlRef,
         size,
         value,
+        disabled,
         id: treeSelectId,
         activeItemId: list.state.activeItemId,
         title,
@@ -168,7 +173,11 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         <SelectControl
             {...controlProps}
             selectedOptionsContent={React.Children.toArray(
-                value.map((itemId) => mapItemDataToProps(list.structure.itemsById[itemId]).title),
+                value.map((itemId) =>
+                    itemId in list.structure.itemsById
+                        ? mapItemDataToContentProps(list.structure.itemsById[itemId]).title
+                        : '',
+                ),
             ).join(', ')}
             view="normal"
             pin="round-round"
@@ -219,7 +228,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
                     containerRef={containerRef}
                     onItemClick={handleItemClick}
                     renderContainer={renderContainer}
-                    mapItemDataToProps={mapItemDataToProps}
+                    mapItemDataToContentProps={mapItemDataToContentProps}
                     renderItem={renderItem ?? defaultItemRenderer}
                 />
 

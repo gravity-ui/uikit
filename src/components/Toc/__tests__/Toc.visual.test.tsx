@@ -15,13 +15,13 @@ test.describe('Toc', {tag: '@Toc'}, () => {
                 screenshotPostfix: 'initial',
             });
 
-            await root.locator(`ul li:nth-child(3)`).hover();
+            await root.getByText('Disk controls').hover();
 
             await expectScreenshot({
                 screenshotPostfix: 'after hover',
             });
 
-            await root.locator(`ul li:nth-child(3)`).click();
+            await root.getByText('Disk controls').click();
 
             await expectScreenshot({
                 screenshotPostfix: 'after click',

@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.23.1](https://github.com/gravity-ui/uikit/compare/v6.23.0...v6.23.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* **useList:** fixed expanded controlled state behaviour ([#1749](https://github.com/gravity-ui/uikit/issues/1749)) ([82db00e](https://github.com/gravity-ui/uikit/commit/82db00ef28785237285c1002b38236668530f879))
+
 ## [6.23.0](https://github.com/gravity-ui/uikit/compare/v6.22.0...v6.23.0) (2024-08-06)
 
 

@@ -74,7 +74,7 @@ export function useListFilter<T>({
 
     const debouncedFn = React.useCallback(
         debounce((value) => setItems(filterItemsFn(value, externalItems)), debounceTimeout),
-        [setItems, filterItemsFn, debounceTimeout],
+        [setItems, filterItemsFn, externalItems, debounceTimeout],
     );
 
     const {onFilterUpdate, reset} = React.useMemo(() => {

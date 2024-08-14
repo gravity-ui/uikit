@@ -47,7 +47,7 @@ export function useListFilter<T>({
     const filterRef = React.useRef<HTMLInputElement>(null);
     const [filter, setFilter] = React.useState(initialFilterValue);
     const [prevItems, setPrevItems] = React.useState(externalItems);
-    const [items, setItems] = React.useState(externalItems);
+    const [filteredItems, setFilteredItems] = React.useState(externalItems);
 
     const filterItemsFn = React.useCallback(
         (nextFilterValue: string, items: ListItemType<T>[]) => {
@@ -68,13 +68,13 @@ export function useListFilter<T>({
     );
 
     if (externalItems !== prevItems) {
-        setItems(filterItemsFn(filter, externalItems));
+        setFilteredItems(filterItemsFn(filter, externalItems));
         setPrevItems(externalItems);
     }
 
     const debouncedFn = React.useCallback(
-        debounce((value) => setItems(filterItemsFn(value, externalItems)), debounceTimeout),
-        [setItems, filterItemsFn, externalItems, debounceTimeout],
+        debounce((value) => setFilteredItems(filterItemsFn(value, externalItems)), debounceTimeout),
+        [setFilteredItems, filterItemsFn, externalItems, debounceTimeout],
     );
 
     const {onFilterUpdate, reset} = React.useMemo(() => {
@@ -96,7 +96,7 @@ export function useListFilter<T>({
         filterRef,
         filter,
         reset,
-        items,
+        items: filteredItems,
         onFilterUpdate,
     };
 }

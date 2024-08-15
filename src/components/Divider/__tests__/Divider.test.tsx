@@ -53,9 +53,9 @@ describe('Divider', () => {
         'Should render children content with given align "%s"',
         (align) => {
             render(<Divider align={align} qa={qa} />);
-            const button = screen.getByTestId(qa);
+            const element = screen.getByTestId(qa);
 
-            expect(button).toHaveClass(`g-divider_align_${align}`);
+            expect(element).toHaveClass(`g-divider_align_${align}`);
         },
     );
 });

@@ -36,6 +36,9 @@ export const createSmokeScenarios = <Props extends {}>(
     const propNames = Object.keys(propsCases) as Array<keyof Props>;
     propNames.forEach((propName) => {
         const propCases = propsCases[propName];
+        if (!propCases) {
+            return;
+        }
 
         if (checkIsCasesWithName(propCases)) {
             propCases.forEach((propCase) => {

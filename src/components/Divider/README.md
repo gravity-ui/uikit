@@ -226,6 +226,7 @@ import {Divider, Flex, Container} from '@gravity-ui/uikit';
 | :---------- | :-------------------------------------- | :---------------------- | :----------- |
 | className   | HTML `class` attribute                  | `string`                | -            |
 | orientation | Sets the direction of divider           | `horizontal - vertical` | `horizontal` |
+| children    | Custom content inside divider           | `React.ReactNode`       |              |
 | align       | Custom content position                 | `start - center - end`  | `start`      |
 | style       | HTML `style` attribute                  | `React.CSSProperties`   |              |
 | qa          | HTML `data-qa` attribute, used in tests | `string`                |              |

@@ -155,7 +155,6 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                     {
                         view,
                         size,
-                        readonly: readOnly,
                         disabled,
                         state,
                         pin: view === 'clear' ? undefined : pin,

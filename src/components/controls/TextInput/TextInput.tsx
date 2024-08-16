@@ -202,7 +202,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                     {
                         view,
                         size,
-                        readonly: readOnly,
                         disabled,
                         state,
                         pin: view === 'clear' ? undefined : pin,

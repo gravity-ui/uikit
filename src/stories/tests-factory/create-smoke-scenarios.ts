@@ -1,6 +1,7 @@
-import type {Cases, CasesWithName, Scenario, ScenarioDetails} from './models';
+import type {Cases, CasesWithName, Scenario, ScenarioDetails, ScenarioName} from './models';
 
 interface Options {
+    scenarioName?: string;
     additionalTags?: Array<string>;
 }
 
@@ -20,9 +21,11 @@ export const createSmokeScenarios = <Props extends {}>(
         tag: ['@smoke', ...(options?.additionalTags || [])],
     };
 
+    const scenarioName: ScenarioName = `smoke scenario${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
+
     const scenarios: Array<Scenario<Props>> = [
         [
-            'smoke',
+            scenarioName,
             scenarioDetails,
             {
                 ...baseProps,
@@ -39,7 +42,7 @@ export const createSmokeScenarios = <Props extends {}>(
                 const [caseName, caseProps] = propCase;
 
                 scenarios.push([
-                    `smoke-${propName as string}-${caseName}`,
+                    `${scenarioName} props: [${propName as string}: ${caseName}]`,
                     scenarioDetails,
                     {
                         ...baseProps,
@@ -57,7 +60,7 @@ export const createSmokeScenarios = <Props extends {}>(
                 }
 
                 scenarios.push([
-                    `smoke-${propName as string}-${(propCase as any)?.toString()}`,
+                    `${scenarioName} props: [${propName as string}: ${(propCase as any)?.toString()}]`,
                     scenarioDetails,
                     {
                         ...baseProps,

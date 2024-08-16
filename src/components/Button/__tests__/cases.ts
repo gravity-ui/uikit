@@ -1,10 +1,6 @@
 import type {CasesWithName} from '../../../stories/tests-factory/models';
 import type {ButtonProps} from '../Button';
 
-export const defaultProps: ButtonProps = {
-    children: 'Text',
-};
-
 export const sizeCases: CasesWithName<ButtonProps['size']> = [
     ['xs', 'xs'],
     ['s', 's'],

@@ -14,6 +14,10 @@ export type PaginationProps = {
      */
     pageSize: number;
     /**
+     * Size of the pagination items.
+     */
+    size?: PaginationSize;
+    /**
      * Called when the page number or pageSize is changed.
      */
     onUpdate: (page: number, pageSize: number) => void;

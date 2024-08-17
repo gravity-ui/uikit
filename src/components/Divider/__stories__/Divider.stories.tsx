@@ -127,7 +127,6 @@ export const Custom: Story = {
     args: {
         orientation: 'vertical',
         className: 'custom-divider',
-        style: {borderWidth: '2px'},
     },
     argTypes: {
         align: disabledControl,
@@ -137,6 +136,7 @@ export const Custom: Story = {
             <style>
                 {`.g-root {
                   --g-divider-color: #027bf3;
+                  --g-divider-size: 2px;
                 }`}
             </style>
             <Card theme="normal" type="container">

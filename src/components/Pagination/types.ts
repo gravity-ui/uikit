@@ -2,7 +2,7 @@ import type {QAProps} from '../types';
 
 export type ActionName = 'previous' | 'next' | 'first';
 
-export type PaginationSize = 'm' | 'l';
+export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 
 export type PaginationProps = {
     /**

@@ -6,8 +6,8 @@ $block: '.#{variables.$ns}user';
 @mixin user-text() {
     @include mixins.text-body-short();
 
-    font-size: var(--g-user-font-size);
-    line-height: var(--g-user-line-height);
+    font-size: var(--g-user-font-size, var(--g-text-body-short-font-size));
+    line-height: var(--g-user-line-height, var(--g-text-body-short-line-height));
 }
 
 @mixin user-text-small() {

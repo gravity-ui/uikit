@@ -70,6 +70,7 @@ const List = () => {
 | dragging         | manage view of dragging element. Required for draggable list implementation                                                                                |       `boolean`       |         |
 | indentation      | Affects the visual indentation of the element content                                                                                                      |       `number `       |         |
 | hasSelectionIcon | Show selected icon if selected and reserve space for this icon                                                                                             |      `boolean `       |         |
-| endSlot          | Custom slot before `title`                                                                                                                                 |   `React.ReactNode`   |         |
-| expanded         | Adds a visual representation of a group element if the value is different from `undefined`                                                                 | `string \| undefined` |         |
+| isGroup          | Applies group styles view to list element                                                                                                                  |       `boolean`       |         |
+| expanded         | Control group item view state expended/closed                                                                                                              | `string \| undefined` |         |
 | startSlot        | Custom slot before `title`                                                                                                                                 |   `React.ReactNode`   |         |
+| endSlot          | Custom slot after `title`                                                                                                                                  |   `React.ReactNode`   |         |

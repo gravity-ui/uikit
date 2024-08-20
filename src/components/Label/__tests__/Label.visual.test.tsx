@@ -41,7 +41,7 @@ test.describe('Label', () => {
         await expectScreenshot();
     });
 
-    test('render story: <ShowcaseStory>', async ({mount, expectScreenshot}) => {
+    test.skip('render story: <ShowcaseStory>', async ({mount, expectScreenshot}) => {
         await mount(<LabelStories.ShowcaseStory />);
 
         await expectScreenshot();

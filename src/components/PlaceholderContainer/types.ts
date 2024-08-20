@@ -1,13 +1,12 @@
 import type React from 'react';
 
-import type {Action} from './PlaceholderContainerAction';
-import type {Align, Direction} from './constants';
+import type {PlaceholderContainerActionProps} from './PlaceholderContainerAction';
 
 type Size = 's' | 'm' | 'l' | 'promo';
 
 type PlaceholderContainerImageNodeProps = NonNullable<React.ReactNode>;
 
-export type PlaceholderContainerImageSettingsProps = {
+export type PlaceholderContainerImageProps = {
     url: string;
     alt?: string;
 };
@@ -16,16 +15,16 @@ interface PlaceholderContainerGeneralProps {
     title?: string;
     description?: React.ReactNode;
     renderContent?: () => React.ReactNode;
-    action?: Action | Action[];
+    action?: PlaceholderContainerActionProps | PlaceholderContainerActionProps[];
     renderAction?: () => React.ReactNode;
     className?: string;
-    image: PlaceholderContainerImageNodeProps | PlaceholderContainerImageSettingsProps;
+    image: PlaceholderContainerImageNodeProps | PlaceholderContainerImageProps;
 }
 
 export interface PlaceholderContainerDefaultProps {
     size: Size;
-    direction: (typeof Direction)[keyof typeof Direction];
-    align: (typeof Align)[keyof typeof Align];
+    direction: 'row' | 'column';
+    align: 'left' | 'center';
 }
 
 export type PlaceholderContainerInnerProps = PlaceholderContainerGeneralProps &

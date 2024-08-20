@@ -3,10 +3,10 @@ import React from 'react';
 import {block} from '../utils/cn';
 
 import {PlaceholderContainerAction} from './PlaceholderContainerAction';
-import {Align, Direction, componentClassName} from './constants';
+import {componentClassName} from './constants';
 import type {
     PlaceholderContainerDefaultProps,
-    PlaceholderContainerImageSettingsProps,
+    PlaceholderContainerImageProps,
     PlaceholderContainerInnerProps,
     PlaceholderContainerState,
 } from './types';
@@ -19,13 +19,10 @@ export class PlaceholderContainer extends React.Component<
     PlaceholderContainerInnerProps,
     PlaceholderContainerState
 > {
-    static Direction = Direction;
-    static Align = Align;
-
     static defaultProps: PlaceholderContainerDefaultProps = {
         size: 'l',
-        direction: Direction.Row,
-        align: Align.Center,
+        direction: 'row',
+        align: 'center',
     };
 
     render() {
@@ -44,7 +41,7 @@ export class PlaceholderContainer extends React.Component<
 
     private renderImage(): NonNullable<React.ReactNode> {
         if (typeof this.props.image === 'object' && 'url' in this.props.image) {
-            const image: PlaceholderContainerImageSettingsProps = this.props.image;
+            const image: PlaceholderContainerImageProps = this.props.image;
             return <img src={image.url} alt={image.alt || ''} />;
         }
 
@@ -109,7 +106,7 @@ export class PlaceholderContainer extends React.Component<
             return (
                 <div className={b('actions')}>
                     {action.map((actionItem) => (
-                        <PlaceholderContainerAction key={actionItem.text} action={actionItem} />
+                        <PlaceholderContainerAction key={actionItem.text} {...actionItem} />
                     ))}
                 </div>
             );
@@ -117,7 +114,7 @@ export class PlaceholderContainer extends React.Component<
 
         return (
             <div className={b('actions')}>
-                <PlaceholderContainerAction action={action} />
+                <PlaceholderContainerAction {...action} />
             </div>
         );
     }

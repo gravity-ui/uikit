@@ -10,7 +10,7 @@ import './PlaceholderContainer.scss';
 
 const b = block(componentClassName);
 
-export interface Action {
+export type PlaceholderContainerActionProps = {
     text: string;
     loading?: boolean;
     disabled?: boolean;
@@ -18,14 +18,10 @@ export interface Action {
     size?: ButtonSize;
     handler?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     href?: string;
-}
+};
 
-interface PlaceholderContainerActionProps {
-    action: Action;
-}
-
-export const PlaceholderContainerAction = ({action}: PlaceholderContainerActionProps) => {
-    const {text, handler, loading, disabled, view = 'normal', size = 'm', href} = action;
+export const PlaceholderContainerAction = (props: PlaceholderContainerActionProps) => {
+    const {text, handler, loading, disabled, view = 'normal', size = 'm', href} = props;
 
     return (
         <div className={b('action')}>

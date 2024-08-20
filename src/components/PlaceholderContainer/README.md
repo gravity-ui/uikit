@@ -253,15 +253,15 @@ To control alignment of content inside parent container use `align` property. Th
 
 ## Properties
 
-| Name          | Description                                                                         |                                         Type                                          |  Default   |
-| :------------ | :---------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------: | :--------: | --- |
-| className     | Optional HTML `class` attribute                                                     |                                       `string`                                        |            |
-| direction     | Used to set the direction of content layout, possible values: `"row"` or `"column"` |                                       `string`                                        |  `"row"`   |
-| size          | Size of component, possible values: `"s"`, `"m"`, `"l"` or `"promo"`                |                                       `string`                                        |   `"l"`    |
-| align         | Used to set content horizontal align, possible values: `"center"` or `"left"`       |                                       `string`                                        | `"center"` |
-| title         | Content title text                                                                  |                                       `string`                                        |            |
-| description   | Content description text                                                            |                                       `string`                                        |            |
-| image         | Used to set image by src url or passing react node                                  | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageSettingsProps` |            |
-| renderContent | Used to render node instead of content (title, description and actions)             |                                       `string`                                        |            |
-| action        | Used to render button control node or array of button controls                      |                                      `Action \                                        | Action[]`  |     |
-| renderAction  | Used to render node instead of default action                                       |                                       `string`                                        |            |
+| Name          | Description                                                                         |                                     Type                                      |  Default   |
+| :------------ | :---------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
+| className     | Optional HTML `class` attribute                                                     |                                   `string`                                    |            |
+| direction     | Used to set the direction of content layout, possible values: `"row"` or `"column"` |                                   `string`                                    |  `"row"`   |
+| size          | Size of component, possible values: `"s"`, `"m"`, `"l"` or `"promo"`                |                                   `string`                                    |   `"l"`    |
+| align         | Used to set content horizontal align, possible values: `"center"` or `"left"`       |                                   `string`                                    | `"center"` |
+| title         | Content title text                                                                  |                                   `string`                                    |            |
+| description   | Content description text                                                            |                                   `string`                                    |            |
+| image         | Used to set image by src url or passing react node                                  | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
+| renderContent | Used to render node instead of content (title, description and actions)             |                                   `string`                                    |            |
+| action        | Used to render button control node or array of button controls                      | `PlaceholderContainerActionProps`<br/> `\| PlaceholderContainerActionProps[]` |            |
+| renderAction  | Used to render node instead of default action                                       |                                   `string`                                    |            |

@@ -1,0 +1,26 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}list-item-expand-icon';
+
+#{$block} {
+    flex-shrink: 0;
+
+    transition: transform 0.1s ease;
+
+    &_disableTransition {
+        transition: none;
+    }
+
+    &_position_start {
+        transform: rotate(-90deg);
+    }
+
+    &_position_end {
+        transform: rotate(180deg);
+        transition: transform 0.2s ease;
+    }
+
+    &_expanded {
+        transform: rotate(0deg);
+    }
+}

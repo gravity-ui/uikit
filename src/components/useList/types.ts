@@ -39,6 +39,15 @@ export type ItemState = {
     indentation: number;
 };
 
+type ExpandIconPositionType = 'start' | 'end';
+
+export interface ListItemExpandIconRenderProps {
+    position: ExpandIconPositionType;
+    expanded: boolean | undefined;
+    disableTransition: boolean | undefined;
+    disabled: boolean | undefined;
+}
+
 export type ListItemViewContentType = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
@@ -49,7 +58,18 @@ export type ListItemViewContentType = {
      */
     indentation?: number;
     isGroup?: boolean;
+    /**
+     * Required prop if `isGroup` - `true`
+     */
     expanded?: boolean;
+    /**
+     * @default - 'start'
+     */
+    expandIconPosition?: ExpandIconPositionType;
+    /**
+     * Will be applied if `isGroup` props is `true`
+     */
+    renderExpandIcon?(props: ListItemExpandIconRenderProps): React.ReactNode;
 };
 
 export type ListItemListContextProps = ItemState &

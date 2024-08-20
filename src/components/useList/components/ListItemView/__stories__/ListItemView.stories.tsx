@@ -3,10 +3,12 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Avatar} from '../../../../Avatar';
+import {Button} from '../../../../Button';
 import {DropdownMenu} from '../../../../DropdownMenu';
 import {Text} from '../../../../Text';
 import {Flex, sp} from '../../../../layout';
 import type {ListItemId} from '../../../../useList/types';
+import {ListItemExpandIcon} from '../../ListItemExpandIcon';
 import {ListItemView as ListItemViewComponent} from '../ListItemView';
 import type {ListItemViewProps} from '../ListItemView';
 import {isListItemContentPropsGuard} from '../ListItemViewContent';
@@ -207,7 +209,7 @@ const stories: ListItemViewProps[] = [
         id: '11',
         size: 'l',
         content: {
-            title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis, voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia qui deserunt autem quas necessitatibus nam possimus aperiam.',
+            title: 'With disable expand icon transition. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis, voluptates nobis doloribus veritatis quo odit sequi eligendi aliquam quasi officia qui deserunt autem quas necessitatibus nam possimus aperiam.',
             subtitle: (
                 <Text ellipsisLines={2} color="secondary">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quos officiis,
@@ -216,6 +218,7 @@ const stories: ListItemViewProps[] = [
                 </Text>
             ),
             expanded: true,
+            renderExpandIcon: (props) => <ListItemExpandIcon {...props} disableTransition />,
             isGroup: true,
             startSlot: <StartSlot />,
             indentation: 1,
@@ -231,6 +234,33 @@ const stories: ListItemViewProps[] = [
                 <Text>Override list item context with react node</Text>
             </Flex>
         ),
+    },
+    {
+        id: '13',
+        size: 'l',
+        content: {
+            title,
+            startSlot: <StartSlot />,
+            indentation: 1,
+            isGroup: true,
+            expanded: false,
+            expandIconPosition: 'end',
+        },
+    },
+    {
+        id: '14',
+        size: 'l',
+        content: {
+            title: 'Custom icon end',
+            isGroup: true,
+            expanded: false,
+            expandIconPosition: 'end',
+            renderExpandIcon: (props) => (
+                <Button view="flat">
+                    <ListItemExpandIcon {...props} />
+                </Button>
+            ),
+        },
     },
 ];
 

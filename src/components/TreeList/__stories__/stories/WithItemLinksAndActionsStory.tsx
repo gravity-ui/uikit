@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {ChevronDown, ChevronUp, FolderOpen} from '@gravity-ui/icons';
+import {FolderOpen} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
 import {DropdownMenu} from '../../../DropdownMenu';
 import {Icon} from '../../../Icon';
 import {Flex} from '../../../layout';
-import {ListItemView, useList} from '../../../useList';
+import {ListItemExpandIcon, ListItemView, useList} from '../../../useList';
 import type {ListItemId} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
@@ -96,12 +96,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                                 : expandButtonLabel,
                                         }}
                                     >
-                                        <Icon
-                                            data={
-                                                itemProps.content.expanded ? ChevronDown : ChevronUp
-                                            }
-                                            size={16}
-                                        />
+                                        <ListItemExpandIcon expanded={itemProps.content.expanded} />
                                     </Button>
                                 ) : (
                                     <Flex

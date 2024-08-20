@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icons';
+import {Database, PlugConnection} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView} from '../../../useList';
+import {ListItemExpandIcon, ListItemView} from '../../../useList';
 import type {ListItemId, ListItemViewContentType, UseListResult} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
@@ -92,9 +92,9 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                             }));
                                         }}
                                     >
-                                        <Icon
-                                            data={props.content.expanded ? ChevronDown : ChevronUp}
-                                            size={16}
+                                        <ListItemExpandIcon
+                                            expanded={props.content.expanded}
+                                            position="end"
                                         />
                                     </Button>
                                 ) : undefined,

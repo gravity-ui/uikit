@@ -6,8 +6,7 @@ import {Button} from '../../Button';
 import {DropdownMenu} from '../../DropdownMenu';
 import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
-import type {Action} from '../PlaceholderContainerAction';
-import type {PlaceholderContainerProps} from '../index';
+import type {PlaceholderContainerActionProps, PlaceholderContainerProps} from '../index';
 import {PlaceholderContainer} from '../index';
 
 import './PlaceholderContainerShowcase.scss';
@@ -69,16 +68,16 @@ const ActionComponentTest = () => {
     );
 };
 
-const actionMainProps: Action = {
+const actionMainProps: PlaceholderContainerActionProps = {
     text: 'Main button',
     view: 'normal',
-    handler: () => alert('Click by main button'),
+    onClick: () => alert('Click by main button'),
 };
 
-const actionAdditionalBtnProps: Action = {
+const actionAdditionalBtnProps: PlaceholderContainerActionProps = {
     text: 'Additional button',
     view: 'flat-secondary',
-    handler: () => alert('Click by additional button'),
+    onClick: () => alert('Click by additional button'),
 };
 
 const baseProps = {

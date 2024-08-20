@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import type {PlaceholderContainerActionProps} from './PlaceholderContainerAction';
+import type {ButtonProps} from '../Button';
 
 type Size = 's' | 'm' | 'l' | 'promo';
 
@@ -11,7 +11,17 @@ export type PlaceholderContainerImageProps = {
     alt?: string;
 };
 
-interface PlaceholderContainerGeneralProps {
+export type PlaceholderContainerActionProps = Pick<
+    ButtonProps,
+    'disabled' | 'loading' | 'view' | 'size' | 'href' | 'onClick'
+> & {
+    text: string;
+};
+
+export interface PlaceholderContainerProps {
+    size: Size;
+    direction: 'row' | 'column';
+    align: 'left' | 'center';
     title?: string;
     description?: React.ReactNode;
     renderContent?: () => React.ReactNode;
@@ -20,18 +30,3 @@ interface PlaceholderContainerGeneralProps {
     className?: string;
     image: PlaceholderContainerImageNodeProps | PlaceholderContainerImageProps;
 }
-
-export interface PlaceholderContainerDefaultProps {
-    size: Size;
-    direction: 'row' | 'column';
-    align: 'left' | 'center';
-}
-
-export type PlaceholderContainerInnerProps = PlaceholderContainerGeneralProps &
-    PlaceholderContainerDefaultProps;
-
-export interface PlaceholderContainerProps
-    extends PlaceholderContainerGeneralProps,
-        Partial<PlaceholderContainerDefaultProps> {}
-
-export interface PlaceholderContainerState {}

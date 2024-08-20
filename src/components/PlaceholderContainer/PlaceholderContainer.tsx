@@ -1,95 +1,69 @@
 import React from 'react';
 
+import {Button} from '../Button';
 import {block} from '../utils/cn';
 
-import {PlaceholderContainerAction} from './PlaceholderContainerAction';
 import {componentClassName} from './constants';
-import type {
-    PlaceholderContainerDefaultProps,
-    PlaceholderContainerImageProps,
-    PlaceholderContainerInnerProps,
-    PlaceholderContainerState,
-} from './types';
+import type {PlaceholderContainerActionProps, PlaceholderContainerProps} from './types';
 
 import './PlaceholderContainer.scss';
 
 const b = block(componentClassName);
 
-export class PlaceholderContainer extends React.Component<
-    PlaceholderContainerInnerProps,
-    PlaceholderContainerState
-> {
-    static defaultProps: PlaceholderContainerDefaultProps = {
-        size: 'l',
-        direction: 'row',
-        align: 'center',
-    };
+const PlaceholderContainerAction = (props: PlaceholderContainerActionProps) => {
+    return (
+        <div className={b('action')}>
+            <Button
+                className={b('action-btn')}
+                view={props.view || 'normal'}
+                size={props.size || 'm'}
+                loading={Boolean(props.loading)}
+                disabled={Boolean(props.disabled)}
+                href={props.href || ''}
+                {...(props.onClick ? {onClick: props.onClick} : {})}
+            >
+                {props.text}
+            </Button>
+        </div>
+    );
+};
 
-    render() {
-        const {direction, align, size} = this.props;
-        const className: string = this.props.className || b();
-
-        return (
-            <div className={b({direction, align, size}, [className])}>
-                <div className={b('body')}>
-                    <div className={b('image', {size})}>{this.renderImage()}</div>
-                    {this.renderContent()}
-                </div>
-            </div>
-        );
-    }
-
-    private renderImage(): NonNullable<React.ReactNode> {
-        if (typeof this.props.image === 'object' && 'url' in this.props.image) {
-            const image: PlaceholderContainerImageProps = this.props.image;
-            return <img src={image.url} alt={image.alt || ''} />;
-        }
-
-        return this.props.image;
-    }
-
-    private renderContent() {
-        const {size} = this.props;
-        const content = this.props.renderContent ? (
-            this.props.renderContent()
-        ) : (
-            <React.Fragment>
-                {this.renderTitle()}
-                {this.renderDescription()}
-            </React.Fragment>
-        );
-
-        return (
-            <div className={b('content', {size})}>
-                {content}
-                {this.renderAction()}
-            </div>
-        );
-    }
-
-    private renderTitle() {
-        const {title} = this.props;
-
+export const PlaceholderContainer = ({
+    direction = 'row',
+    align = 'center',
+    size = 'l',
+    className = b(),
+    title,
+    description,
+    image,
+    renderContent,
+    action,
+    renderAction,
+}: PlaceholderContainerProps) => {
+    const renderTitle = () => {
         if (!title) {
             return null;
         }
 
         return <div className={b('title')}>{title}</div>;
-    }
-
-    private renderDescription() {
-        const {description} = this.props;
-
+    };
+    const renderDescription = () => {
         if (!description) {
             return null;
         }
 
         return <div className={b('description')}>{description}</div>;
-    }
+    };
 
-    private renderAction() {
-        const {action, renderAction} = this.props;
+    const renderImage = (): NonNullable<React.ReactNode> => {
+        if (typeof image === 'object' && 'url' in image) {
+            return <img src={image.url} alt={image.alt || ''} />;
+        }
 
+        return image;
+    };
+
+    const renderActionFn = () => {
         if (renderAction) {
             return renderAction();
         }
@@ -117,5 +91,32 @@ export class PlaceholderContainer extends React.Component<
                 <PlaceholderContainerAction {...action} />
             </div>
         );
-    }
-}
+    };
+
+    const renderContentFn = () => {
+        const content = renderContent ? (
+            renderContent()
+        ) : (
+            <React.Fragment>
+                {renderTitle()}
+                {renderDescription()}
+            </React.Fragment>
+        );
+
+        return (
+            <div className={b('content', {size})}>
+                {content}
+                {renderActionFn()}
+            </div>
+        );
+    };
+
+    return (
+        <div className={b({direction, align, size}, [className])}>
+            <div className={b('body')}>
+                <div className={b('image', {size})}>{renderImage()}</div>
+                {renderContentFn()}
+            </div>
+        </div>
+    );
+};

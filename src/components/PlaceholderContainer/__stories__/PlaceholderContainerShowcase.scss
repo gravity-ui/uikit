@@ -3,34 +3,6 @@
 $block: '.#{$ns}placeholder-container-showcase';
 
 #{$block} {
-    display: grid;
-
-    &__placeholder-examples {
-        grid-area: auto;
-        display: grid;
-        grid-template: 'title' auto;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    &__section + &__section {
-        border-block-start: 1px solid var(--g-color-text-hint);
-    }
-
-    &__examples-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-
-        &__sub-title {
-            grid-area: subtitle;
-        }
-    }
-
-    &__title {
-        grid-area: title;
-        margin: 0;
-    }
-
     &__custom-action {
         margin-block-start: 20px;
     }

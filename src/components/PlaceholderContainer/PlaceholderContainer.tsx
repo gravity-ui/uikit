@@ -63,7 +63,7 @@ export const PlaceholderContainer = ({
     };
 
     const renderAction = () => {
-        if (!actions || (!React.isValidElement(actions) && !actions.length)) {
+        if (!actions || !React.isValidElement(actions) || !Array.isArray(actions)) {
             return null;
         }
 
@@ -73,7 +73,7 @@ export const PlaceholderContainer = ({
 
         return (
             <div className={b('actions')}>
-                {actions.map((actionItem) => (
+                {(actions as PlaceholderContainerActionProps[]).map((actionItem) => (
                     <PlaceholderContainerAction key={actionItem.text} {...actionItem} />
                 ))}
             </div>

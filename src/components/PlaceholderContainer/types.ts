@@ -24,7 +24,7 @@ export interface PlaceholderContainerProps {
     align: 'left' | 'center';
     title?: string;
     description?: React.ReactNode;
-    renderContent?: () => React.ReactNode;
+    content?: React.ReactNode;
     actions?: PlaceholderContainerActionProps[] | React.ReactNode;
     className?: string;
     image: PlaceholderContainerImageNodeProps | PlaceholderContainerImageProps;

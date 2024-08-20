@@ -27,7 +27,7 @@ The component can render button control or array of buttons. To display it use `
   direction="column"
   size="s"
   align="center"
-  image={() => (
+  image={
     <svg width="230" height="230" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
       <g>
         <rect fill="#DDDDDD" height="100%" transform="matrix(1 0 0 1 0 0)" width="100%" />
@@ -45,7 +45,7 @@ The component can render button control or array of buttons. To display it use `
         </text>
       </g>
     </svg>
-  )}
+  }
   actions={[
     {
       text: 'Main button',
@@ -69,7 +69,7 @@ It is also possible to render custom controls:
   direction="row"
   size="s"
   align="center"
-  image={() => (
+  image={
     <svg width="230" height="230" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
       <g>
         <rect fill="#DDDDDD" height="100%" transform="matrix(1 0 0 1 0 0)" width="100%" />
@@ -87,7 +87,7 @@ It is also possible to render custom controls:
         </text>
       </g>
     </svg>
-  )}
+  }
   actions={
     <DropdownMenu
       defaultSwitcherProps={{view: 'flat-secondary'}}
@@ -122,7 +122,7 @@ The property `image` allows to set up image `url` and `alt` settings or react no
   direction="row"
   size="s"
   align="center"
-  image={() => (
+  image={
     <svg width="230" height="230" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
       <g>
         <rect fill="#DDDDDD" height="100%" transform="matrix(1 0 0 1 0 0)" width="100%" />
@@ -140,7 +140,7 @@ The property `image` allows to set up image `url` and `alt` settings or react no
         </text>
       </g>
     </svg>
-  )}
+  }
 />
 ```
 
@@ -162,7 +162,7 @@ with url and alt settings
 
 <!--/GITHUB_BLOCK-->
 
-The content of component contains from title and description blocks that can be set by the same properties names. To render custom content use `renderContent` property.
+The content of component contains from title and description blocks that can be set by the same properties names. To render custom content use `content` property.
 
 ```tsx
 <PlaceholderContainer
@@ -171,7 +171,7 @@ The content of component contains from title and description blocks that can be 
   direction="row"
   size="s"
   align="center"
-  image={() => (
+  image={
     <svg width="230" height="230" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
       <g>
         <rect fill="#DDDDDD" height="100%" transform="matrix(1 0 0 1 0 0)" width="100%" />
@@ -189,8 +189,8 @@ The content of component contains from title and description blocks that can be 
         </text>
       </g>
     </svg>
-  )}
-  renderContent={() => (
+  }
+  content={
     <div>
       <h3>There is any custom title here</h3>
       <p>
@@ -198,7 +198,7 @@ The content of component contains from title and description blocks that can be 
         size for displaying very long texts.
       </p>
     </div>
-  )}
+  }
 />
 ```
 
@@ -208,14 +208,14 @@ To control alignment of content inside parent container use `align` property. Th
 
 ## Properties
 
-| Name          | Description                                                                         |                                     Type                                      |  Default   |
-| :------------ | :---------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
-| className     | Optional HTML `class` attribute                                                     |                                   `string`                                    |            |
-| direction     | Used to set the direction of content layout, possible values: `"row"` or `"column"` |                                   `string`                                    |  `"row"`   |
-| size          | Size of component, possible values: `"s"`, `"m"`, `"l"` or `"promo"`                |                                   `string`                                    |   `"l"`    |
-| align         | Used to set content horizontal align, possible values: `"center"` or `"left"`       |                                   `string`                                    | `"center"` |
-| title         | Content title text                                                                  |                                   `string`                                    |            |
-| description   | Content description text                                                            |                                   `string`                                    |            |
-| image         | Used to set image by src url or passing react node                                  | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
-| renderContent | Used to render node instead of content (title, description and actions)             |                                   `string`                                    |            |
-| actions       | Used to render array of button controls or custom node                              |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |
+| Name        | Description                                                                         |                                     Type                                      |  Default   |
+| :---------- | :---------------------------------------------------------------------------------- | :---------------------------------------------------------------------------: | :--------: |
+| className   | Optional HTML `class` attribute                                                     |                                   `string`                                    |            |
+| direction   | Used to set the direction of content layout, possible values: `"row"` or `"column"` |                                   `string`                                    |  `"row"`   |
+| size        | Size of component, possible values: `"s"`, `"m"`, `"l"` or `"promo"`                |                                   `string`                                    |   `"l"`    |
+| align       | Used to set content horizontal align, possible values: `"center"` or `"left"`       |                                   `string`                                    | `"center"` |
+| title       | Content title text                                                                  |                                   `string`                                    |            |
+| description | Content description text                                                            |                                   `string`                                    |            |
+| image       | Used to set image by src url or passing react node                                  | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
+| content     | Used to render node instead of content (title, description and actions)             |                               `React.ReactNode`                               |            |
+| actions     | Used to render array of button controls or custom node                              |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |

@@ -36,7 +36,7 @@ export const PlaceholderContainer = ({
     title,
     description,
     image,
-    renderContent,
+    content,
     actions,
 }: PlaceholderContainerProps) => {
     const renderTitle = () => {
@@ -80,10 +80,8 @@ export const PlaceholderContainer = ({
         );
     };
 
-    const renderContentFn = () => {
-        const content = renderContent ? (
-            renderContent()
-        ) : (
+    const renderContent = () => {
+        const contentNode = content || (
             <React.Fragment>
                 {renderTitle()}
                 {renderDescription()}
@@ -92,7 +90,7 @@ export const PlaceholderContainer = ({
 
         return (
             <div className={b('content', {size})}>
-                {content}
+                {contentNode}
                 {renderAction()}
             </div>
         );
@@ -102,7 +100,7 @@ export const PlaceholderContainer = ({
         <div className={b({direction, align, size}, [className])}>
             <div className={b('body')}>
                 <div className={b('image', {size})}>{renderImage()}</div>
-                {renderContentFn()}
+                {renderContent()}
             </div>
         </div>
     );

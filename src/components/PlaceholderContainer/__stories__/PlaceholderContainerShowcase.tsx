@@ -35,17 +35,15 @@ const ImageComponentTest = () => {
     );
 };
 
-const ContentComponentTest = () => {
-    return (
-        <div>
-            <h3>There is any custom title here</h3>
-            <p>
-                You can add <strong>here</strong> any long text with custom content and use custom
-                content size for displaying very long texts.
-            </p>
-        </div>
-    );
-};
+const contentComponentTest = (
+    <div>
+        <h3>There is any custom title here</h3>
+        <p>
+            You can add <strong>here</strong> any long text with custom content and use custom
+            content size for displaying very long texts.
+        </p>
+    </div>
+);
 
 const actionComponentTest = (
     <div className={b('custom-action')}>
@@ -96,7 +94,7 @@ const actionsProps = {
 
 const placeholderContainerCustomRenderedProps: PlaceholderContainerProps = {
     ...placeholderContainerProps,
-    renderContent: () => <ContentComponentTest />,
+    content: contentComponentTest,
 };
 
 const placeholderContainerCustomActionProps: PlaceholderContainerProps = {

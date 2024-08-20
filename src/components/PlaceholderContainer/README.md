@@ -16,7 +16,7 @@ To control the size of the `PlaceholderContainer` use the `size` property. The d
 
 ## Action controls
 
-The component can render button control or array of buttons. To display it use `action` property.
+The component can render button control or array of buttons. To display it use `actions` property.
 
 <!--GITHUB_BLOCK-->
 
@@ -46,56 +46,11 @@ The component can render button control or array of buttons. To display it use `
       </g>
     </svg>
   )}
-  action={{
-    text: 'Main button',
-    view: 'normal',
-    handler: () => console.log('Click by main button'),
-  }}
-/>
-```
-
-<!--/GITHUB_BLOCK-->
-
-with array of buttons
-
-<!--GITHUB_BLOCK-->
-
-```tsx
-<PlaceholderContainer
-  title="Sample with array of actions"
-  description="Some description for PlaceholderContainer component demo"
-  direction="column"
-  size="s"
-  align="center"
-  image={() => (
-    <svg width="230" height="230" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <rect fill="#DDDDDD" height="100%" transform="matrix(1 0 0 1 0 0)" width="100%" />
-        <text
-          fill="#999999"
-          fontFamily="Sans-serif"
-          fontSize="16"
-          strokeWidth="0"
-          textAnchor="middle"
-          transform="matrix(1.88041 0 0 1.88041 -48.1289 -81.7475)"
-          x="86.49"
-          y="114"
-        >
-          1:1
-        </text>
-      </g>
-    </svg>
-  )}
-  action={[
+  actions={[
     {
       text: 'Main button',
       view: 'normal',
-      handler: () => console.log('Click by main button'),
-    },
-    {
-      text: 'Additional button',
-      view: 'flat-secondary',
-      handler: () => console.log('Click by additional button'),
+      onClick: () => console.log('Click by main button'),
     },
   ]}
 />
@@ -103,7 +58,7 @@ with array of buttons
 
 <!--/GITHUB_BLOCK-->
 
-To render custom controls use `renderAction` property.
+It is also possible to render custom controls:
 
 <!--GITHUB_BLOCK-->
 
@@ -133,7 +88,7 @@ To render custom controls use `renderAction` property.
       </g>
     </svg>
   )}
-  renderAction={() => (
+  actions={
     <DropdownMenu
       defaultSwitcherProps={{view: 'flat-secondary'}}
       items={[
@@ -148,7 +103,7 @@ To render custom controls use `renderAction` property.
         </Button>
       }
     />
-  )}
+  }
 />
 ```
 
@@ -263,5 +218,4 @@ To control alignment of content inside parent container use `align` property. Th
 | description   | Content description text                                                            |                                   `string`                                    |            |
 | image         | Used to set image by src url or passing react node                                  | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
 | renderContent | Used to render node instead of content (title, description and actions)             |                                   `string`                                    |            |
-| action        | Used to render button control node or array of button controls                      | `PlaceholderContainerActionProps`<br/> `\| PlaceholderContainerActionProps[]` |            |
-| renderAction  | Used to render node instead of default action                                       |                                   `string`                                    |            |
+| actions       | Used to render array of button controls or custom node                              |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |

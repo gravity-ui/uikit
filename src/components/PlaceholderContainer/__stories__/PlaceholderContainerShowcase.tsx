@@ -47,26 +47,24 @@ const ContentComponentTest = () => {
     );
 };
 
-const ActionComponentTest = () => {
-    return (
-        <div className={b('custom-action')}>
-            <DropdownMenu
-                defaultSwitcherProps={{view: 'flat-secondary'}}
-                items={[
-                    {text: 'text 1', action: () => {}},
-                    {text: 'text 2', action: () => {}},
-                ]}
-                onSwitcherClick={(e) => e?.stopPropagation()}
-                switcher={
-                    <Button>
-                        Text
-                        <Icon data={ChevronDown} size={16} />
-                    </Button>
-                }
-            />
-        </div>
-    );
-};
+const actionComponentTest = (
+    <div className={b('custom-action')}>
+        <DropdownMenu
+            defaultSwitcherProps={{view: 'flat-secondary'}}
+            items={[
+                {text: 'text 1', action: () => {}},
+                {text: 'text 2', action: () => {}},
+            ]}
+            onSwitcherClick={(e) => e?.stopPropagation()}
+            switcher={
+                <Button>
+                    Text
+                    <Icon data={ChevronDown} size={16} />
+                </Button>
+            }
+        />
+    </div>
+);
 
 const actionMainProps: PlaceholderContainerActionProps = {
     text: 'Main button',
@@ -88,14 +86,12 @@ const baseProps = {
 
 const placeholderContainerProps: PlaceholderContainerProps = {
     ...baseProps,
-    action: {
-        ...actionMainProps,
-    },
+    actions: [actionMainProps],
     align: 'center',
 };
 
 const actionsProps = {
-    action: [actionMainProps, actionAdditionalBtnProps],
+    actions: [actionMainProps, actionAdditionalBtnProps],
 };
 
 const placeholderContainerCustomRenderedProps: PlaceholderContainerProps = {
@@ -105,7 +101,7 @@ const placeholderContainerCustomRenderedProps: PlaceholderContainerProps = {
 
 const placeholderContainerCustomActionProps: PlaceholderContainerProps = {
     ...placeholderContainerProps,
-    renderAction: () => <ActionComponentTest />,
+    actions: actionComponentTest,
 };
 
 const descriptionProps = {

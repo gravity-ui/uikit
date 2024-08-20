@@ -25,8 +25,7 @@ export interface PlaceholderContainerProps {
     title?: string;
     description?: React.ReactNode;
     renderContent?: () => React.ReactNode;
-    action?: PlaceholderContainerActionProps | PlaceholderContainerActionProps[];
-    renderAction?: () => React.ReactNode;
+    actions?: PlaceholderContainerActionProps[] | React.ReactNode;
     className?: string;
     image: PlaceholderContainerImageNodeProps | PlaceholderContainerImageProps;
 }

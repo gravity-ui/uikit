@@ -37,8 +37,7 @@ export const PlaceholderContainer = ({
     description,
     image,
     renderContent,
-    action,
-    renderAction,
+    actions,
 }: PlaceholderContainerProps) => {
     const renderTitle = () => {
         if (!title) {
@@ -63,32 +62,20 @@ export const PlaceholderContainer = ({
         return image;
     };
 
-    const renderActionFn = () => {
-        if (renderAction) {
-            return renderAction();
-        }
-
-        if (!action) {
+    const renderAction = () => {
+        if (!actions || (!React.isValidElement(actions) && !actions.length)) {
             return null;
         }
 
-        if (Array.isArray(action)) {
-            if (!action.length) {
-                return null;
-            }
-
-            return (
-                <div className={b('actions')}>
-                    {action.map((actionItem) => (
-                        <PlaceholderContainerAction key={actionItem.text} {...actionItem} />
-                    ))}
-                </div>
-            );
+        if (React.isValidElement(actions)) {
+            return <React.Fragment>{actions}</React.Fragment>;
         }
 
         return (
             <div className={b('actions')}>
-                <PlaceholderContainerAction {...action} />
+                {actions.map((actionItem) => (
+                    <PlaceholderContainerAction key={actionItem.text} {...actionItem} />
+                ))}
             </div>
         );
     };
@@ -106,7 +93,7 @@ export const PlaceholderContainer = ({
         return (
             <div className={b('content', {size})}>
                 {content}
-                {renderActionFn()}
+                {renderAction()}
             </div>
         );
     };

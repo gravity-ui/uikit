@@ -36,7 +36,7 @@ $block: '.#{variables.$ns}radio-button';
         &::after {
             content: '';
             position: absolute;
-            z-index: -2;
+            z-index: -1;
             inset: 0;
             border: var(--_--border-width) solid var(--g-color-line-generic);
             border-radius: 0;
@@ -108,7 +108,10 @@ $block: '.#{variables.$ns}radio-button';
         }
 
         &-text {
-            display: inline-block;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
             white-space: nowrap;
             color: var(--g-color-text-complementary);
             overflow: hidden;
@@ -122,7 +125,6 @@ $block: '.#{variables.$ns}radio-button';
 
         &_checked {
             cursor: default;
-            pointer-events: none;
             border-color: var(--g-color-line-brand);
 
             #{$block}__option-text {

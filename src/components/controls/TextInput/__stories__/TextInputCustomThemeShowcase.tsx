@@ -45,6 +45,12 @@ export const CustomThemeShowcase = () => {
                     errorPlacement="inside"
                 />
                 <TextInput {...textInputProps} placeholder="disabled" disabled />
+                <TextInput
+                    {...textInputProps}
+                    placeholder="disabled"
+                    value="readonlyValue"
+                    readOnly
+                />
                 <TextInput {...textInputProps} placeholder="clear" hasClear />
                 <TextInput
                     {...textInputProps}
@@ -82,6 +88,12 @@ export const CustomThemeShowcase = () => {
                     errorPlacement="inside"
                 />
                 <TextInput {...textInputProps} placeholder="disabled" disabled />
+                <TextInput
+                    {...textInputProps}
+                    placeholder="disabled"
+                    value="readonlyValue"
+                    readOnly
+                />
                 <TextInput {...textInputProps} placeholder="clear" hasClear />
                 <TextInput
                     {...textInputProps}

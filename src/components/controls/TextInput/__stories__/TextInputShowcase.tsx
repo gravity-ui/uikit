@@ -84,6 +84,12 @@ export function TextInputShowcase() {
                         />
                     </div>
                     <TextInput {...textInputProps} placeholder="disabled" disabled />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="readonly"
+                        value="readonlyValue"
+                        readOnly
+                    />
                     <TextInput {...textInputProps} placeholder="clear" hasClear />
                     <TextInput
                         {...textInputProps}
@@ -128,6 +134,13 @@ export function TextInputShowcase() {
                         />
                     </div>
                     <TextInput {...textInputProps} placeholder="disabled" label={LABEL} disabled />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="readonly"
+                        value="readonlyValue"
+                        label={LABEL}
+                        readOnly
+                    />
                     <TextInput {...textInputProps} placeholder="clear" label={LABEL} hasClear />
                     <TextInput
                         {...textInputProps}
@@ -233,6 +246,17 @@ export function TextInputShowcase() {
                             <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
                         }
                         disabled
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="readonly"
+                        type={additionalContentExmpleInputType}
+                        value="readonlyValue"
+                        leftContent={<Icon data={Key} />}
+                        rightContent={
+                            <EyeButton opened={hideValue} onClick={handleEyeButtonClick} />
+                        }
+                        readOnly
                     />
                     <TextInput
                         {...textInputProps}

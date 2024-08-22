@@ -32,8 +32,6 @@ export type TextAreaProps = BaseInputControlProps<HTMLTextAreaElement> & {
     maxRows?: number;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
-    /** Indicates that the user cannot change control's value */
-    readOnly?: boolean;
 };
 export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;

@@ -117,7 +117,7 @@ test.describe('Button', {tag: '@Button'}, () => {
             await root.getByTestId(qa).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover',
+                nameSuffix: 'hovered',
             });
         });
     });

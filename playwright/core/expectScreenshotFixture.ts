@@ -9,8 +9,7 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
 ) => {
     const expectScreenshot: ExpectScreenshotFixture = async ({
         component,
-        screenshotName,
-        screenshotPostfix,
+        nameSuffix,
         ...pageScreenshotOptions
     } = {}) => {
         const captureScreenshot = async (theme: string) => {
@@ -27,15 +26,14 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         };
 
         const nameScreenshot =
-            testInfo.titlePath.slice(1).join(' ') +
-            (screenshotPostfix ? ` ${screenshotPostfix}` : '');
+            testInfo.titlePath.slice(1).join(' ') + (nameSuffix ? ` ${nameSuffix}` : '');
 
         expect(await captureScreenshot('dark')).toMatchSnapshot({
-            name: `${screenshotName || nameScreenshot} dark.png`,
+            name: `${nameScreenshot} dark.png`,
         });
 
         expect(await captureScreenshot('light')).toMatchSnapshot({
-            name: `${screenshotName || nameScreenshot} light.png`,
+            name: `${nameScreenshot} light.png`,
         });
     };
 

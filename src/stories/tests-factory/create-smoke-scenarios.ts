@@ -21,11 +21,11 @@ export const createSmokeScenarios = <Props extends {}>(
         tag: ['@smoke', ...(options?.additionalTags || [])],
     };
 
-    const scenarioName: ScenarioName = `smoke scenario${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
+    const scenarioName: ScenarioName = `smoke ${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
 
     const scenarios: Array<Scenario<Props>> = [
         [
-            scenarioName,
+            `${scenarioName} [default]`,
             scenarioDetails,
             {
                 ...baseProps,
@@ -45,7 +45,7 @@ export const createSmokeScenarios = <Props extends {}>(
                 const [caseName, caseProps] = propCase;
 
                 scenarios.push([
-                    `${scenarioName} props: [${propName as string}: ${caseName}]`,
+                    `${scenarioName} [${propName as string}: ${caseName}]`,
                     scenarioDetails,
                     {
                         ...baseProps,
@@ -63,7 +63,7 @@ export const createSmokeScenarios = <Props extends {}>(
                 }
 
                 scenarios.push([
-                    `${scenarioName} props: [${propName as string}: ${(propCase as any)?.toString()}]`,
+                    `${scenarioName} [${propName as string}: ${(propCase as any)?.toString()}]`,
                     scenarioDetails,
                     {
                         ...baseProps,

@@ -14,7 +14,7 @@ test('regular', () => {
 
     expect(smokeScenarios).toEqual([
         [
-            'smoke scenario',
+            'smoke [default]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -22,7 +22,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke scenario props: [theme: theme-2]',
+            'smoke [theme: theme-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -30,7 +30,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke scenario props: [theme: theme-3]',
+            'smoke [theme: theme-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -38,7 +38,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke scenario props: [label: label-2]',
+            'smoke [label: label-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-2',
@@ -46,7 +46,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke scenario props: [label: label-3]',
+            'smoke [label: label-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-3',
@@ -76,7 +76,7 @@ test('with scenario name', () => {
 
     expect(smokeScenarios).toEqual([
         [
-            'smoke scenario',
+            'smoke [default]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -84,7 +84,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke scenario props: [theme: name-theme-2]',
+            'smoke [theme: name-theme-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -92,7 +92,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke scenario props: [theme: name-theme-3]',
+            'smoke [theme: name-theme-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -100,7 +100,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke scenario props: [label: name-label-2]',
+            'smoke [label: name-label-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-2',
@@ -108,7 +108,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke scenario props: [label: name-label-3]',
+            'smoke [label: name-label-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-3',
@@ -132,11 +132,7 @@ test('with additionalTags option', () => {
     );
 
     expect(smokeScenarios).toEqual([
-        ['smoke scenario', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-1'}],
-        [
-            'smoke scenario props: [theme: name-theme-2]',
-            {tag: ['@smoke', '@custom-tag-1']},
-            {theme: 'theme-2'},
-        ],
+        ['smoke [default]', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-1'}],
+        ['smoke [theme: name-theme-2]', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-2'}],
     ]);
 });

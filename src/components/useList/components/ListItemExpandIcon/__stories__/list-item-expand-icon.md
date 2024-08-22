@@ -14,22 +14,9 @@ import {
 #### Base example:
 
 ```jsx
-<Flex gap="5">
-  <Flex direction="column" gap="2">
-    <Text>Position: start</Text>
-    <Flex gap="2">
-      <ListItemExpandIcon expanded={true} />
-      <ListItemExpandIcon expanded={false} />
-    </Flex>
-  </Flex>
-  <Flex direction="column" gap="2">
-    <Text>Position: start</Text>
-    <Flex gap="2">
-      <ListItemExpandIcon expanded={true} position="end" />
-      <ListItemExpandIcon expanded={false} position="end" />
-    </Flex>
-  </Flex>
-</Flex>
+const DefaultExample = (props: ListItemExpandIconProps) => {
+    return <ListItemExpandIcon {...props} />;
+};
 ```
 
 <ListItemExpandIconDefault />
@@ -37,34 +24,24 @@ import {
 #### Render icon inside Button component:
 
 ```jsx
-
 const InsideButtonExample = (props: ListItemExpandIconProps) => {
     const [expanded, setExpanded] = React.useState(false);
-    const [position, setPosition] = React.useState<'start' | 'end'>('start');
 
     return (
-        <Flex direction="column" gap="3">
-            <Flex gap="3" alignItems="center">
-                <Text>Icon position: </Text>
-                <RadioButton
-                    size="m"
-                    value={position}
-                    onUpdate={setPosition}
-                    options={[
-                        {value: 'start', content: 'Start'},
-                        {value: 'end', content: 'End'},
-                    ]}
-                />
-            </Flex>
-
-            <Text>Click on button to change state:</Text>
-
-            <Button onClick={() => setExpanded((x) => !x)}>
-                <ListItemExpandIcon expanded={expanded} position={position} />
-            </Button>
-        </Flex>
+        <Button onClick={() => setExpanded((x) => !x)}>
+            <ListItemExpandIcon {...props} expanded={expanded} />
+        </Button>
     );
 };
 ```
 
 <ListItemExpandIconInsideButton />
+
+#### Props
+
+| Name              | Description                                     |                         Type                         | Default |
+| :---------------- | :---------------------------------------------- | :--------------------------------------------------: | :-----: |
+| expanded          | icon state                                      |                      `boolean`                       |         |
+| disableTransition | disable animation while `expanded` state change |                      `boolean`                       |         |
+| disabled          | disabled view type                              |                      `boolean`                       |         |
+| usageRole         | The type of behavior of the component           | `state`, `action`, `state-inverse`, `action-inverse` |         |

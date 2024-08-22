@@ -256,7 +256,7 @@ const stories: ListItemViewProps[] = [
             expanded: false,
             expandIconPosition: 'end',
             renderExpandIcon: (props) => (
-                <Button view="flat">
+                <Button view="flat" extraProps={{'aria-label': 'toggle-button'}}>
                     <ListItemExpandIcon {...props} />
                 </Button>
             ),

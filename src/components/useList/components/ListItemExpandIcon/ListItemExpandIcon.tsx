@@ -11,18 +11,18 @@ import './ListItemExpandIcon.scss';
 
 const b = block('list-item-expand-icon');
 
-export interface ListItemExpandIconProps extends Partial<ListItemExpandIconRenderProps> {}
+export interface ListItemExpandIconProps extends ListItemExpandIconRenderProps {}
 
 export const ListItemExpandIcon = ({
     expanded,
     disableTransition,
-    position = 'start',
+    usageRole: usage = 'action',
     disabled,
 }: ListItemExpandIconProps) => {
     return (
         <Icon
             className={b(
-                {expanded, disableTransition, position},
+                {expanded, disableTransition, usage},
                 colorText({color: disabled ? 'hint' : undefined}),
             )}
             data={ChevronDown}

@@ -39,13 +39,17 @@ export type ItemState = {
     indentation: number;
 };
 
-type ExpandIconPositionType = 'start' | 'end';
-
 export interface ListItemExpandIconRenderProps {
-    position: ExpandIconPositionType;
-    expanded: boolean | undefined;
-    disableTransition: boolean | undefined;
-    disabled: boolean | undefined;
+    /**
+     * The type of behavior of the component
+     *
+     * - action - to indicate user actions. For example, for an icon inside a button;
+     * - state - to indicate the current state of the element;
+     */
+    usageRole: 'state' | 'action' | 'state-inverse' | 'action-inverse';
+    expanded?: boolean;
+    disableTransition?: boolean;
+    disabled?: boolean;
 }
 
 export type ListItemViewContentType = {
@@ -65,7 +69,7 @@ export type ListItemViewContentType = {
     /**
      * @default - 'start'
      */
-    expandIconPosition?: ExpandIconPositionType;
+    expandIconPosition?: 'start' | 'end';
     /**
      * Will be applied if `isGroup` props is `true`
      */

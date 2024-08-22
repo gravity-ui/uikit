@@ -11,16 +11,36 @@ $block: '.#{variables.$ns}list-item-expand-icon';
         transition: none;
     }
 
-    &_position_start {
+    &_usage_state {
         transform: rotate(-90deg);
+
+        &#{$block}_expanded {
+            transform: rotate(0deg);
+        }
+    }
+    &_usage_state-inverse {
+        transform: rotate(90deg);
+
+        &#{$block}_expanded {
+            transform: rotate(0deg);
+        }
     }
 
-    &_position_end {
-        transform: rotate(180deg);
-        transition: transform 0.2s ease;
-    }
-
-    &_expanded {
+    &_usage_action {
         transform: rotate(0deg);
+        transition: transform 0.2s ease;
+
+        &#{$block}_expanded {
+            transform: rotate(180deg);
+        }
+    }
+
+    &_usage_action-inverse {
+        transform: rotate(0deg);
+        transition: transform 0.2s ease;
+
+        &#{$block}_expanded {
+            transform: rotate(-180deg);
+        }
     }
 }

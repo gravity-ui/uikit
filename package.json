@@ -131,7 +131,8 @@
         "react-virtualized-auto-sizer": "^1.0.21",
         "react-window": "^1.8.10",
         "tabbable": "^6.2.0",
-        "tslib": "^2.6.2"
+        "tslib": "^2.6.2",
+        "ua-parser-js": "^1.0.38"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.23.9",
@@ -171,6 +172,7 @@
         "@types/react-transition-group": "^4.4.10",
         "@types/react-virtualized-auto-sizer": "^1.0.4",
         "@types/react-window": "^1.8.8",
+        "@types/ua-parser-js": "^0.7.39",
         "@vitejs/plugin-react": "^4.2.1",
         "axe-playwright": "^2.0.1",
         "chroma-js": "^2.4.2",

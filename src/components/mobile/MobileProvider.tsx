@@ -2,6 +2,10 @@
 
 import React from 'react';
 
+import UAParser from 'ua-parser-js';
+
+import {useViewportSize} from '../../hooks';
+
 import {MobileContext} from './MobileContext';
 import type {History, Location, MobileContextProps} from './MobileContext';
 import {Platform, rootMobileClassName} from './constants';
@@ -24,12 +28,14 @@ export interface MobileProviderProps {
 }
 
 export function MobileProvider({
-    mobile = false,
+    mobile: controlledMobile = false,
     platform = Platform.BROWSER,
     useHistory = useHistoryMock,
     useLocation = useLocationMock,
     children,
 }: MobileProviderProps) {
+    const {width} = useViewportSize();
+
     const useHistoryFunction: MobileContextProps['useHistory'] = React.useCallback(
         function useHistoryFunction() {
             const {goBack, back, ...props} = useHistory();
@@ -49,6 +55,14 @@ export function MobileProvider({
         [useHistory],
     );
 
+    const mobile = React.useMemo(() => {
+        if (controlledMobile === undefined) {
+            return isDeviceTypeMobile();
+        }
+
+        return controlledMobile;
+    }, [controlledMobile, width]);
+
     React.useEffect(() => {
         document.body.classList.toggle(rootMobileClassName, mobile);
     }, [rootMobileClassName, mobile]);
@@ -63,4 +77,8 @@ export function MobileProvider({
     }, [mobile, platform, useLocation, useHistoryFunction]);
 
     return <MobileContext.Provider value={contextValue}>{children}</MobileContext.Provider>;
+}
+
+function isDeviceTypeMobile(): boolean {
+    return new UAParser().getDevice().type === 'mobile';
 }

@@ -78,7 +78,7 @@ $block: '.#{variables.$ns}radio-button';
             }
         }
 
-        &:not(&_checked):hover {
+        &:not(&_checked):not(&_disabled):hover {
             &::after {
                 background-color: var(--g-color-base-simple-hover);
             }
@@ -144,7 +144,6 @@ $block: '.#{variables.$ns}radio-button';
 
         &_disabled {
             cursor: default;
-            pointer-events: none;
 
             &::after {
                 background-color: var(--g-color-base-generic);

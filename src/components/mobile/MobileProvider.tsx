@@ -4,7 +4,7 @@ import React from 'react';
 
 import UAParser from 'ua-parser-js';
 
-import {useViewportSize} from '../../hooks';
+import {useControlledState, useViewportSize} from '../../hooks';
 
 import {MobileContext} from './MobileContext';
 import type {History, Location, MobileContextProps} from './MobileContext';
@@ -55,12 +55,12 @@ export function MobileProvider({
         [useHistory],
     );
 
-    const mobile = React.useMemo(() => {
-        if (controlledMobile === undefined) {
-            return isDeviceTypeMobile();
-        }
+    const [mobile, setMobile] = useControlledState(controlledMobile, isDeviceTypeMobile());
 
-        return controlledMobile;
+    React.useEffect(() => {
+        if (controlledMobile === undefined) {
+            setMobile(isDeviceTypeMobile());
+        }
     }, [controlledMobile, width]);
 
     React.useEffect(() => {

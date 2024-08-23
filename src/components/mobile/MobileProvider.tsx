@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import {useViewportSize} from '../../hooks';
-
 import {MobileContext} from './MobileContext';
 import type {History, Location, MobileContextProps} from './MobileContext';
 import {Platform, rootMobileClassName} from './constants';
@@ -32,8 +30,6 @@ export function MobileProvider({
     useLocation = useLocationMock,
     children,
 }: MobileProviderProps) {
-    const {width} = useViewportSize();
-
     const useHistoryFunction: MobileContextProps['useHistory'] = React.useCallback(
         function useHistoryFunction() {
             const {goBack, back, ...props} = useHistory();
@@ -57,7 +53,7 @@ export function MobileProvider({
         document.body.classList.toggle(rootMobileClassName, mobile);
     }, [rootMobileClassName, mobile]);
 
-    const touch = React.useMemo(() => isTouchScreen(), [width]);
+    const touch = React.useMemo(() => isTouchScreen(), []);
 
     const contextValue: MobileContextProps = React.useMemo(() => {
         return {

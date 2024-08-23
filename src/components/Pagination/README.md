@@ -30,6 +30,7 @@ const pagination = <Pagination page={1} pageSize={100} total={1000} onUpdate={ha
 | className       | HTML `class` attribute                                                                                   |  `string`  |         |
 | compact         | Hides the title for the `First`, `Previous`, and `Next` buttons. Always set to `true` in mobile version. | `boolean`  | `true`  |
 | onUpdate        | Called when the page number or `pageSize` is changed                                                     | `Function` |         |
+| size            | Size of the pagination items. By default, 'l' in mobile version, 'm' in desktop version                  |  `string`  |         |
 | page            | Current page number                                                                                      |  `number`  |         |
 | pageSize        | Number of data items per page                                                                            |  `number`  |         |
 | pageSizeOptions | Allows you to specify the `sizeChanger` options                                                          | `number[]` |         |

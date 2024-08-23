@@ -266,12 +266,13 @@ export const SelectShowcase = (props: SelectProps) => {
                 selectProps={{
                     ...props,
                     className: b('user-control'),
-                    renderControl: ({onClick, onKeyDown, ref, renderClear}) => {
+                    renderControl: ({onClick, onKeyDown, ref, renderClear, disabled}) => {
                         return (
                             <Button
                                 ref={ref}
                                 view="action"
                                 onClick={onClick}
+                                disabled={disabled}
                                 extraProps={{
                                     onKeyDown,
                                 }}
@@ -300,12 +301,13 @@ export const SelectShowcase = (props: SelectProps) => {
                     ...props,
                     className: b('user-control-placement'),
                     popupPlacement: ['bottom'],
-                    renderControl: ({onClick, onKeyDown, ref}) => {
+                    renderControl: ({onClick, onKeyDown, ref, disabled}) => {
                         return (
                             <Button
                                 ref={ref}
                                 view="action"
                                 onClick={onClick}
+                                disabled={disabled}
                                 extraProps={{
                                     onKeyDown,
                                     'aria-label': 'Add',

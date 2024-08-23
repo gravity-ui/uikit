@@ -129,6 +129,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         open: propsOpen,
         onClose,
         onOpenChange,
+        disabled,
     });
 
     React.useEffect(() => {

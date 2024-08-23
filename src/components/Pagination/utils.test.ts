@@ -1,4 +1,4 @@
-import {getNumerationList} from './utils';
+import {getNumerationList, getSize} from './utils';
 
 describe('Pagination utils', () => {
     describe('[desktop]: getNumerationList', () => {
@@ -340,6 +340,24 @@ describe('Pagination utils', () => {
                 'pageOf',
                 10,
             ]);
+        });
+    });
+
+    describe('[desktop]: getSize', () => {
+        it('without size  prop', () => {
+            expect(getSize({mobile: false})).toEqual('m');
+        });
+        it('size prop is accounted', () => {
+            expect(getSize({mobile: false, propSize: 'l'})).toEqual('l');
+        });
+    });
+
+    describe('[mobile]: getSize', () => {
+        it('without size  prop', () => {
+            expect(getSize({mobile: true})).toEqual('l');
+        });
+        it('size prop is accounted', () => {
+            expect(getSize({mobile: false, propSize: 'm'})).toEqual('m');
         });
     });
 });

@@ -1,6 +1,7 @@
-import type {Cases, CasesWithName, Scenario, ScenarioDetails} from './models';
+import type {Cases, CasesWithName, Scenario, ScenarioDetails, ScenarioName} from './models';
 
 interface Options {
+    scenarioName?: string;
     additionalTags?: Array<string>;
 }
 
@@ -11,18 +12,20 @@ function checkIsCasesWithName<T>(cases: CasesWithName<T> | Cases<T>): cases is C
 
 export const createSmokeScenarios = <Props extends {}>(
     baseProps: Props,
-    propsCases: {
-        [K in Partial<keyof Props>]: CasesWithName<Props[K]> | Cases<Props[K]>;
-    },
+    propsCases: Partial<{
+        [K in keyof Props]: CasesWithName<Props[K]> | Cases<Props[K]>;
+    }>,
     options?: Options,
 ) => {
     const scenarioDetails: ScenarioDetails = {
         tag: ['@smoke', ...(options?.additionalTags || [])],
     };
 
+    const scenarioName: ScenarioName = `smoke${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
+
     const scenarios: Array<Scenario<Props>> = [
         [
-            'smoke',
+            `${scenarioName} [default]`,
             scenarioDetails,
             {
                 ...baseProps,
@@ -33,13 +36,16 @@ export const createSmokeScenarios = <Props extends {}>(
     const propNames = Object.keys(propsCases) as Array<keyof Props>;
     propNames.forEach((propName) => {
         const propCases = propsCases[propName];
+        if (!propCases) {
+            return;
+        }
 
         if (checkIsCasesWithName(propCases)) {
             propCases.forEach((propCase) => {
                 const [caseName, caseProps] = propCase;
 
                 scenarios.push([
-                    `smoke-${propName as string}-${caseName}`,
+                    `${scenarioName} [${propName as string}: ${caseName}]`,
                     scenarioDetails,
                     {
                         ...baseProps,
@@ -57,7 +63,7 @@ export const createSmokeScenarios = <Props extends {}>(
                 }
 
                 scenarios.push([
-                    `smoke-${propName as string}-${(propCase as any)?.toString()}`,
+                    `${scenarioName} [${propName as string}: ${(propCase as any)?.toString()}]`,
                     scenarioDetails,
                     {
                         ...baseProps,

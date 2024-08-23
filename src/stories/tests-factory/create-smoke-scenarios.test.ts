@@ -1,7 +1,7 @@
 import {createSmokeScenarios} from './create-smoke-scenarios';
 
 test('regular', () => {
-    const smokeScenarious = createSmokeScenarios(
+    const smokeScenarios = createSmokeScenarios(
         {
             theme: 'theme-1',
             label: 'label-1',
@@ -12,9 +12,9 @@ test('regular', () => {
         },
     );
 
-    expect(smokeScenarious).toEqual([
+    expect(smokeScenarios).toEqual([
         [
-            'smoke',
+            'smoke [default]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -22,7 +22,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke-theme-theme-2',
+            'smoke [theme: theme-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -30,7 +30,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke-theme-theme-3',
+            'smoke [theme: theme-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -38,7 +38,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke-label-label-2',
+            'smoke [label: label-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-2',
@@ -46,7 +46,7 @@ test('regular', () => {
             },
         ],
         [
-            'smoke-label-label-3',
+            'smoke [label: label-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-3',
@@ -57,7 +57,7 @@ test('regular', () => {
 });
 
 test('with scenario name', () => {
-    const smokeScenarious = createSmokeScenarios(
+    const smokeScenarios = createSmokeScenarios(
         {
             theme: 'theme-1',
             label: 'label-1',
@@ -74,9 +74,9 @@ test('with scenario name', () => {
         },
     );
 
-    expect(smokeScenarious).toEqual([
+    expect(smokeScenarios).toEqual([
         [
-            'smoke',
+            'smoke [default]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -84,7 +84,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke-theme-name-theme-2',
+            'smoke [theme: name-theme-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -92,7 +92,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke-theme-name-theme-3',
+            'smoke [theme: name-theme-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-1',
@@ -100,7 +100,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke-label-name-label-2',
+            'smoke [label: name-label-2]',
             {tag: ['@smoke']},
             {
                 label: 'label-2',
@@ -108,7 +108,7 @@ test('with scenario name', () => {
             },
         ],
         [
-            'smoke-label-name-label-3',
+            'smoke [label: name-label-3]',
             {tag: ['@smoke']},
             {
                 label: 'label-3',
@@ -119,7 +119,7 @@ test('with scenario name', () => {
 });
 
 test('with additionalTags option', () => {
-    const smokeScenarious = createSmokeScenarios(
+    const smokeScenarios = createSmokeScenarios(
         {
             theme: 'theme-1',
         },
@@ -131,8 +131,8 @@ test('with additionalTags option', () => {
         },
     );
 
-    expect(smokeScenarious).toEqual([
-        ['smoke', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-1'}],
-        ['smoke-theme-name-theme-2', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-2'}],
+    expect(smokeScenarios).toEqual([
+        ['smoke [default]', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-1'}],
+        ['smoke [theme: name-theme-2]', {tag: ['@smoke', '@custom-tag-1']}, {theme: 'theme-2'}],
     ]);
 });

@@ -1,5 +1,7 @@
 import uniq from 'lodash/uniq';
 
+import type {PaginationSize} from './types';
+
 export function getNumerationList({
     page,
     numberOfPages,
@@ -54,6 +56,20 @@ export function getNumberOfPages(pageSize: number, total = 0) {
 
 export function getResultTotal(total: number | undefined) {
     return total === undefined || total > 0 ? total : 1;
+}
+
+export function getSize({
+    propSize,
+    mobile,
+}: {
+    propSize?: PaginationSize;
+    mobile: boolean;
+}): PaginationSize {
+    if (propSize) {
+        return propSize;
+    }
+
+    return mobile ? 'l' : 'm';
 }
 
 export function getResultPage({

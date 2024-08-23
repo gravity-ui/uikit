@@ -4,7 +4,7 @@ import React from 'react';
 
 import UAParser from 'ua-parser-js';
 
-import {useControlledState, useViewportSize} from '../../hooks';
+import {useControlledState} from '../../hooks';
 
 import {MobileContext} from './MobileContext';
 import type {History, Location, MobileContextProps} from './MobileContext';
@@ -34,8 +34,6 @@ export function MobileProvider({
     useLocation = useLocationMock,
     children,
 }: MobileProviderProps) {
-    const {width} = useViewportSize();
-
     const useHistoryFunction: MobileContextProps['useHistory'] = React.useCallback(
         function useHistoryFunction() {
             const {goBack, back, ...props} = useHistory();
@@ -61,7 +59,7 @@ export function MobileProvider({
         if (controlledMobile === undefined) {
             setMobile(isDeviceTypeMobile());
         }
-    }, [controlledMobile, width]);
+    }, [controlledMobile]);
 
     React.useEffect(() => {
         document.body.classList.toggle(rootMobileClassName, mobile);

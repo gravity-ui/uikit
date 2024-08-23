@@ -15,7 +15,7 @@ import {
 } from './components';
 import {usePagination} from './hooks/usePagination';
 import type {PaginationProps} from './types';
-import {getResultPage, getResultTotal} from './utils';
+import {getResultPage, getResultTotal, getSize} from './utils';
 
 import './Pagination.scss';
 
@@ -25,6 +25,7 @@ export const Pagination = ({
     page,
     pageSize,
     total,
+    size: propSize,
     onUpdate,
     compact: propCompact = true,
     pageSizeOptions,
@@ -35,7 +36,7 @@ export const Pagination = ({
 }: PaginationProps) => {
     const mobile = useMobile();
 
-    const size = mobile ? 'l' : 'm';
+    const size = getSize({propSize, mobile});
     const compact = mobile ? true : propCompact;
 
     const resultTotal = getResultTotal(total);

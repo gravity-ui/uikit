@@ -164,6 +164,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 popupId,
                 selectId,
                 activeIndex,
+                disabled,
             },
             {value},
         );

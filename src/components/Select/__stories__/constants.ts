@@ -144,12 +144,13 @@ export const EXAMPLE_USER_CONTROL = `const [value, setValue] = React.useState<st
 
 <Select
     value={value}
-    renderControl={({onClick, onKeyDown, ref, renderClear}) => {
+    renderControl={({onClick, onKeyDown, ref, renderClear, disabled}) => {
         return (
             <Button
                 ref={ref}
                 view="action"
                 onClick={onClick}
+                disabled={disabled}
                 extraProps={{
                     onKeyDown,
                 }}
@@ -175,12 +176,13 @@ export const EXAMPLE_USER_CONTROL_WITH_PLACEMENT = `const [value, setValue] = Re
 <Select
     value={value}
     popupPlacement={['bottom']}
-    renderControl={({onClick, onKeyDown, ref}) => {
+    renderControl={({onClick, onKeyDown, ref, disabled}) => {
         return (
             <Button
                 ref={ref}
                 view="action"
                 onClick={onClick}
+                disabled={disabled}
                 extraProps={{
                     onKeyDown,
                 }}

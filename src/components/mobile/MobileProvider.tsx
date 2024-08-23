@@ -53,13 +53,9 @@ export function MobileProvider({
         [useHistory],
     );
 
-    const [mobile, setMobile] = useControlledState(controlledMobile, isDeviceTypeMobile());
+    const calculatedMobile = React.useMemo(() => new UAParser().getDevice().type === 'mobile', []);
 
-    React.useEffect(() => {
-        if (controlledMobile === undefined) {
-            setMobile(isDeviceTypeMobile());
-        }
-    }, [controlledMobile]);
+    const [mobile] = useControlledState(controlledMobile, calculatedMobile);
 
     React.useEffect(() => {
         document.body.classList.toggle(rootMobileClassName, mobile);
@@ -75,8 +71,4 @@ export function MobileProvider({
     }, [mobile, platform, useLocation, useHistoryFunction]);
 
     return <MobileContext.Provider value={contextValue}>{children}</MobileContext.Provider>;
-}
-
-function isDeviceTypeMobile(): boolean {
-    return new UAParser().getDevice().type === 'mobile';
 }

@@ -24,7 +24,7 @@ test.describe('Menu', {tag: '@Menu'}, () => {
             await root.locator('ul li').locator('nth=0').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on item',
+                nameSuffix: 'after hover on item',
             });
         });
     });
@@ -33,8 +33,14 @@ test.describe('Menu', {tag: '@Menu'}, () => {
         label: 'Group title',
     };
 
-    createSmokeScenarios(defaultMenuGroupProps, {}).forEach(([title, details, props]) => {
-        test(`menu group ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultMenuGroupProps,
+        {},
+        {
+            scenarioName: 'menu group',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestMenuGroup {...props} />);
 
             await expectScreenshot();
@@ -42,7 +48,7 @@ test.describe('Menu', {tag: '@Menu'}, () => {
             await root.locator('ul li').locator('nth=0').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on item',
+                nameSuffix: 'after hover on item',
             });
         });
     });
@@ -54,13 +60,19 @@ test.describe('Menu', {tag: '@Menu'}, () => {
         children: 'Menu item content',
     };
 
-    createSmokeScenarios(defaultMenuItemProps, {
-        disabled: disabledCases,
-        active: activeCases,
-        selected: selectedCases,
-        theme: themeCases,
-    }).forEach(([title, details, props]) => {
-        test(`menu item ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultMenuItemProps,
+        {
+            disabled: disabledCases,
+            active: activeCases,
+            selected: selectedCases,
+            theme: themeCases,
+        },
+        {
+            scenarioName: 'menu item',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestMenuItem {...props} />);
 
             await expectScreenshot();
@@ -69,19 +81,25 @@ test.describe('Menu', {tag: '@Menu'}, () => {
                 await root.getByTestId(menuItemQa).hover();
 
                 await expectScreenshot({
-                    screenshotPostfix: 'after hover on item',
+                    nameSuffix: 'after hover on item',
                 });
             }
         });
     });
 
-    createSmokeScenarios(defaultMenuItemProps, {
-        disabled: disabledCases,
-        active: activeCases,
-        selected: selectedCases,
-        theme: themeCases,
-    }).forEach(([title, details, props]) => {
-        test(`menu item with icons ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultMenuItemProps,
+        {
+            disabled: disabledCases,
+            active: activeCases,
+            selected: selectedCases,
+            theme: themeCases,
+        },
+        {
+            scenarioName: 'menu item with icons',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestMenuItemWithIcons {...props} />);
 
             await expectScreenshot();
@@ -90,7 +108,7 @@ test.describe('Menu', {tag: '@Menu'}, () => {
                 await root.getByTestId(menuItemQa).hover();
 
                 await expectScreenshot({
-                    screenshotPostfix: 'after hover on item',
+                    nameSuffix: 'after hover on item',
                 });
             }
         });

@@ -3,6 +3,7 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {PinInputProps} from '../PinInput';
 
 import {maskCases, placeholderCases, sizeCases, validationStateCases} from './cases';
 import {
@@ -12,18 +13,21 @@ import {
 } from './helpersPlaywright';
 
 test.describe('PinInput', {tag: '@PinInput'}, () => {
-    createSmokeScenarios(
+    createSmokeScenarios<PinInputProps>(
         {
             type: 'numeric',
-        } as const,
+        },
         {
             placeholder: placeholderCases,
             mask: maskCases,
             size: sizeCases,
             validationState: validationStateCases,
         },
+        {
+            scenarioName: 'numeric',
+        },
     ).forEach(([title, details, props]) => {
-        test(`numeric ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await mount(<TestPinInput {...props} />);
 
             await expectScreenshot({});
@@ -34,7 +38,7 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             await page.waitForTimeout(1000);
 
             await expectScreenshot({
-                screenshotPostfix: 'after type one symbol',
+                nameSuffix: 'after type one symbol',
             });
 
             await page.keyboard.type('2');
@@ -53,23 +57,26 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             await page.waitForTimeout(1000);
 
             await expectScreenshot({
-                screenshotPostfix: 'after type code',
+                nameSuffix: 'after type code',
             });
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<PinInputProps>(
         {
             type: 'alphanumeric',
-        } as const,
+        },
         {
             placeholder: placeholderCases,
             mask: maskCases,
             size: sizeCases,
             validationState: validationStateCases,
         },
+        {
+            scenarioName: 'alphanumeric',
+        },
     ).forEach(([title, details, props]) => {
-        test(`alphanumeric ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await mount(<TestPinInput {...props} />);
 
             await expectScreenshot({});
@@ -80,7 +87,7 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             await page.waitForTimeout(1000);
 
             await expectScreenshot({
-                screenshotPostfix: 'after type one symbol',
+                nameSuffix: 'after type one symbol',
             });
 
             await page.keyboard.type('a');
@@ -99,25 +106,28 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             await page.waitForTimeout(1000);
 
             await expectScreenshot({
-                screenshotPostfix: 'after type code',
+                nameSuffix: 'after type code',
             });
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<PinInputProps>(
         {
             disabled: true,
         },
         {},
+        {
+            scenarioName: 'disabled',
+        },
     ).forEach(([title, details, props]) => {
-        test(`disabled ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestPinInput {...props} />);
 
             await expectScreenshot({});
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<PinInputProps>(
         {
             type: 'numeric',
         } as const,
@@ -127,8 +137,11 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             size: sizeCases,
             validationState: validationStateCases,
         },
+        {
+            scenarioName: 'with note',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with note ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await mount(<TestPinInputWithNote {...props} />);
 
             await expectScreenshot({});
@@ -139,12 +152,12 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             await page.waitForTimeout(1000);
 
             await expectScreenshot({
-                screenshotPostfix: 'after type one symbol',
+                nameSuffix: 'after type one symbol',
             });
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<PinInputProps>(
         {
             type: 'numeric',
         } as const,
@@ -153,8 +166,11 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             mask: maskCases,
             size: sizeCases,
         },
+        {
+            scenarioName: 'with error message',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with error message ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await mount(<TestPinInputWithErrorMessage {...props} />);
 
             await expectScreenshot({});
@@ -165,7 +181,7 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
             await page.waitForTimeout(1000);
 
             await expectScreenshot({
-                screenshotPostfix: 'after type one symbol',
+                nameSuffix: 'after type one symbol',
             });
         });
     });

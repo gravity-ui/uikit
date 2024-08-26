@@ -2,9 +2,12 @@ import React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react';
 
+import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
+import {useTheme} from '../../theme';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
+import {ToasterSingletonNew} from '../ToasterSingletonNew';
 
 import {ToasterDemo} from './ToasterShowcase';
 
@@ -92,4 +95,35 @@ type Story = StoryObj<typeof Toast & typeof ToasterDemo>;
 export const Default: Story = {
     args: {},
     render: (props) => <ToasterDemo {...props} />,
+};
+
+const toasterSingletonNew1 = new ToasterSingletonNew();
+
+const ToastContent = () => {
+    const theme = useTheme();
+    return `Current theme: ${theme}`;
+};
+
+let index = 0;
+
+const someFnOutsideReact = () => {
+    const toasterSingletonNew2 = new ToasterSingletonNew();
+    toasterSingletonNew2.add({
+        name: `id-${index++}`,
+        theme: 'info',
+        title: 'Hey, toaster!',
+        content: <ToastContent />,
+    });
+};
+
+export const NewSingleton: Story = {
+    args: {},
+    render: () => {
+        return (
+            <React.Fragment>
+                <Button onClick={someFnOutsideReact}>Add toast</Button>
+                {toasterSingletonNew1.render()}
+            </React.Fragment>
+        );
+    },
 };

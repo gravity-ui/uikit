@@ -67,7 +67,7 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
     );
 
     disabledStateSmokeScenarios.forEach(([title, details, props]) => {
-        test(`disabled-${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div
                     style={{

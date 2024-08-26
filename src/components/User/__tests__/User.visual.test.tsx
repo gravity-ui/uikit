@@ -3,6 +3,7 @@ import {expect} from '@playwright/experimental-ct-react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {UserProps} from '../types';
 
 import {avatarCases, descriptionCases, nameCases, sizeCases} from './cases';
 import {TestUser} from './helpers';
@@ -15,7 +16,7 @@ test.describe('User', {tag: '@User'}, () => {
         await expect(component).toHaveScreenshot();
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<Partial<UserProps>>(
         {},
         {
             avatar: avatarCases,

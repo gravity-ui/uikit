@@ -1,0 +1,68 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}form-row';
+
+#{$block} {
+    --gc-form-row-label-width: 172px;
+    --gc-form-row-field-height: 28px;
+
+    display: flex;
+    margin-block-end: 20px;
+
+    &_direction_row {
+        align-items: flex-start;
+    }
+
+    &_direction_column {
+        flex-direction: column;
+    }
+
+    &__left {
+        display: flex;
+        flex-flow: row;
+        box-sizing: border-box;
+
+        #{$block}_direction_row & {
+            min-height: var(--gc-form-row-field-height);
+            flex-shrink: 0;
+            width: var(--gc-form-row-label-width);
+            padding-inline-end: var(--g-spacing-2);
+        }
+
+        #{$block}_direction_column & {
+            margin-block-end: var(--g-spacing-2);
+        }
+    }
+
+    &__field-name {
+        align-self: center;
+    }
+
+    &__field-name-text {
+        word-break: break-word;
+    }
+
+    &__required-mark {
+        line-height: 0;
+        vertical-align: baseline;
+        color: var(--g-color-text-danger);
+        font-size: inherit;
+    }
+
+    &__help-popover {
+        display: inline-flex;
+        vertical-align: middle;
+        align-items: center;
+    }
+
+    &__right {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    &__field-description {
+        margin: 10px 0 0;
+        color: var(--g-color-text-secondary);
+        word-break: break-word;
+    }
+}

@@ -1,8 +1,6 @@
 import type {Cases} from '../../../stories/tests-factory/models';
 import type {AvatarProps} from '../types/main';
 
-export const defaultProps: AvatarProps = {};
-
 export const sizeCases: Cases<AvatarProps['size']> = ['xs', 's', 'm', 'l', 'xl'];
 export const themeCases: Cases<AvatarProps['theme']> = ['normal', 'brand'];
 export const viewCases: Cases<AvatarProps['view']> = ['filled', 'outlined'];

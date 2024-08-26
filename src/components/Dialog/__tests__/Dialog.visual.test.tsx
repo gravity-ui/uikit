@@ -68,8 +68,11 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             footerTextButtonCancel: footerTextButtonCancelCases,
             footerTextButtonApply: footerTextButtonApplyCases,
         },
+        {
+            scenarioName: 'selection',
+        },
     ).forEach(([title, details, props]) => {
-        test(`selection ${title}`, details, async ({page, mount, expectScreenshot}) => {
+        test(title, details, async ({page, mount, expectScreenshot}) => {
             await page.setViewportSize({width: 1000, height: 600});
 
             const {
@@ -108,7 +111,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
             );
 
             await expectScreenshot({
-                component: page.locator('body'),
+                component: page,
             });
         });
     });

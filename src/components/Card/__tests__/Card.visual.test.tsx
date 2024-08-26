@@ -70,8 +70,11 @@ test.describe('Card', {tag: '@Card'}, () => {
             selected: selectedCases,
             view: selectionViewCases,
         },
+        {
+            scenarioName: 'selection',
+        },
     ).forEach(([title, details, props]) => {
-        test(`selection ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(
                 <Card {...props}>
                     <div data-qa="content" style={{padding: '10px'}}>
@@ -80,11 +83,11 @@ test.describe('Card', {tag: '@Card'}, () => {
                 </Card>,
             );
 
-            await expectScreenshot({screenshotPostfix: 'before hover'});
+            await expectScreenshot({});
 
-            await root.locator("[data-qa='content']").hover();
+            await root.getByTestId('content').hover();
 
-            await expectScreenshot({screenshotPostfix: 'after hover'});
+            await expectScreenshot({nameSuffix: 'hovered'});
         });
     });
 
@@ -98,8 +101,11 @@ test.describe('Card', {tag: '@Card'}, () => {
             size: sizeCases,
             disabled: disabledCases,
         },
+        {
+            scenarioName: 'action',
+        },
     ).forEach(([title, details, props]) => {
-        test(`action ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(
                 <Card {...props}>
                     <div data-qa="content" style={{padding: '10px'}}>
@@ -108,11 +114,11 @@ test.describe('Card', {tag: '@Card'}, () => {
                 </Card>,
             );
 
-            await expectScreenshot({screenshotPostfix: 'before hover'});
+            await expectScreenshot({});
 
-            await root.locator("[data-qa='content']").hover();
+            await root.getByTestId('content').hover();
 
-            await expectScreenshot({screenshotPostfix: 'after hover'});
+            await expectScreenshot({nameSuffix: 'after hover'});
         });
     });
 
@@ -127,8 +133,11 @@ test.describe('Card', {tag: '@Card'}, () => {
             view: containerViewCases,
             theme: themeCases,
         },
+        {
+            scenarioName: 'container',
+        },
     ).forEach(([title, details, props]) => {
-        test(`container ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <Card {...props}>
                     <div style={{padding: '10px'}}>Some text</div>

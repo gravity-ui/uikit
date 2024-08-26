@@ -3,6 +3,7 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {UserLabelProps} from '../types';
 
 import {
     childrenCases,
@@ -15,7 +16,7 @@ import {
 import {TestUserLabel, TestUserLabelWithEmail, TestUserLabelWithPerson} from './helpers';
 
 test.describe('UserLabel', {tag: '@UserLabel'}, () => {
-    createSmokeScenarios(
+    createSmokeScenarios<Partial<UserLabelProps>>(
         {},
         {
             size: sizeCases,
@@ -33,7 +34,7 @@ test.describe('UserLabel', {tag: '@UserLabel'}, () => {
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<Partial<UserLabelProps>>(
         {},
         {
             size: sizeCases,
@@ -42,15 +43,18 @@ test.describe('UserLabel', {tag: '@UserLabel'}, () => {
             onClick: onClickCases,
             onCloseClick: onCloseClickCases,
         },
+        {
+            scenarioName: 'person',
+        },
     ).forEach(([title, details, props]) => {
-        test(`person ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestUserLabelWithPerson {...props} />);
 
             await expectScreenshot();
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<Partial<UserLabelProps>>(
         {},
         {
             size: sizeCases,
@@ -59,8 +63,11 @@ test.describe('UserLabel', {tag: '@UserLabel'}, () => {
             onClick: onClickCases,
             onCloseClick: onCloseClickCases,
         },
+        {
+            scenarioName: 'email',
+        },
     ).forEach(([title, details, props]) => {
-        test(`email ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestUserLabelWithEmail {...props} />);
 
             await expectScreenshot();

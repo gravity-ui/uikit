@@ -54,8 +54,11 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             marksCount: marksCountCases,
             step: stepCases,
         },
+        {
+            scenarioName: 'with error',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with error ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: 300, height: 200}}>
                     <Slider {...props} />
@@ -72,16 +75,22 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         max: 100,
     };
 
-    createSmokeScenarios(defaultRangeProps, {
-        size: sizeCases,
-        disabled: disabledCases,
-        validationState: validationStateCases,
-        hasTooltip: hasTooltipCases,
-        marksCount: marksCountCases,
-        step: stepCases,
-        availableValues: availableValuesCases,
-    }).forEach(([title, details, props]) => {
-        test(`range ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultRangeProps,
+        {
+            size: sizeCases,
+            disabled: disabledCases,
+            validationState: validationStateCases,
+            hasTooltip: hasTooltipCases,
+            marksCount: marksCountCases,
+            step: stepCases,
+            availableValues: availableValuesCases,
+        },
+        {
+            scenarioName: 'range',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: 300, height: 50}}>
                     <Slider {...props} />
@@ -102,8 +111,11 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             marksCount: marksCountCases,
             step: stepCases,
         },
+        {
+            scenarioName: 'range with error',
+        },
     ).forEach(([title, details, props]) => {
-        test(`range with error ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: 300, height: 200}}>
                     <Slider {...props} />

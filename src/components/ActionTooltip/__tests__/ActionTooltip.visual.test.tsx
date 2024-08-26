@@ -6,10 +6,16 @@ import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {ActionTooltip} from '../ActionTooltip';
+import type {ActionTooltipProps} from '../ActionTooltip';
 
-import {defaultProps, descriptionCases, hotkeyCases, placementCases} from './cases';
+import {descriptionCases, hotkeyCases, placementCases} from './cases';
 
 test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
+    const defaultProps: ActionTooltipProps = {
+        title: 'Title',
+        children: <div>trigger</div>,
+    };
+
     const smokeScenarios = createSmokeScenarios(defaultProps, {
         placement: placementCases,
         hotkey: hotkeyCases,
@@ -41,8 +47,8 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
                 </div>,
             );
 
-            await expect(root.locator("[data-qa='trigger']")).toBeVisible();
-            await root.locator("[data-qa='trigger']").hover();
+            await expect(root.getByTestId('trigger')).toBeVisible();
+            await root.getByTestId('trigger').hover();
             await expect(page.locator("[role='tooltip']")).toBeVisible({timeout: 1000});
 
             await expectScreenshot({});
@@ -55,6 +61,9 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
             disabled: true,
         },
         {},
+        {
+            scenarioName: 'disabled',
+        },
     );
 
     disabledStateSmokeScenarios.forEach(([title, details, props]) => {
@@ -82,8 +91,8 @@ test.describe('ActionTooltip', {tag: '@ActionTooltip'}, () => {
                 </div>,
             );
 
-            await expect(root.locator("[data-qa='trigger']")).toBeVisible();
-            await root.locator("[data-qa='trigger']").hover();
+            await expect(root.getByTestId('trigger')).toBeVisible();
+            await root.getByTestId('trigger').hover();
 
             // wait for check the tooltip will definitely not show up
             await page.waitForTimeout(3000);

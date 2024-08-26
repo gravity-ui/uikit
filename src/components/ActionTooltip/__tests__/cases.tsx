@@ -1,12 +1,5 @@
-import React from 'react';
-
 import type {Cases} from '../../../stories/tests-factory/models';
 import type {ActionTooltipProps} from '../ActionTooltip';
-
-export const defaultProps: ActionTooltipProps = {
-    title: 'Title',
-    children: <div>trigger</div>,
-};
 
 export const placementCases: Cases<ActionTooltipProps['placement']> = [
     'auto',

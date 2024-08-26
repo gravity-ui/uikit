@@ -15,6 +15,7 @@ import {
     verticalAlignCases,
     wordWrapCases,
 } from './cases';
+import type {TestTableColumnConfig} from './cases';
 import {
     TableStories,
     TestEmptyTable,
@@ -28,6 +29,7 @@ import {
     TestTableWithSortableSettings,
     TestTableWithSorting,
 } from './helpersPlaywright';
+import type {TestTableProps} from './helpersPlaywright';
 
 test.describe('Table', {tag: '@Table'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
@@ -42,7 +44,7 @@ test.describe('Table', {tag: '@Table'}, () => {
         await expectScreenshot();
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<TestTableColumnConfig>(
         {},
         {
             align: columnAlignCases,
@@ -50,15 +52,18 @@ test.describe('Table', {tag: '@Table'}, () => {
             width: columnWidthCases,
             placeholder: placeholderCases,
         },
+        {
+            scenarioName: 'with column config',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with column config ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestTableWithCustomColumnConfig columnConfig={props} />);
 
             await expectScreenshot();
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<TestTableProps>(
         {},
         {
             edgePadding: edgePaddingCases,
@@ -66,8 +71,11 @@ test.describe('Table', {tag: '@Table'}, () => {
             wordWrap: wordWrapCases,
             getRowDescriptor: rowDescriptorCases,
         },
+        {
+            scenarioName: 'regular',
+        },
     ).forEach(([title, details, props]) => {
-        test(`regular ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '500px'}}>
                     <TestTable {...props} />
@@ -78,27 +86,33 @@ test.describe('Table', {tag: '@Table'}, () => {
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<TestTableProps>(
         {},
         {
             emptyMessage: emptyMessageCases,
         },
+        {
+            scenarioName: 'empty state',
+        },
     ).forEach(([title, details, props]) => {
-        test(`empty state ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestEmptyTable {...props} />);
 
             await expectScreenshot();
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<TestTableProps>(
         {},
         {
             verticalAlign: verticalAlignCases,
             wordWrap: wordWrapCases,
         },
+        {
+            scenarioName: 'with copy',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with copy ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div style={{width: '500px'}}>
                     <TestTableWithCopy {...props} />
@@ -108,7 +122,7 @@ test.describe('Table', {tag: '@Table'}, () => {
             await root.locator('.g-table__copy').locator('nth=0').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on first cell',
+                nameSuffix: 'after hover on first cell',
             });
 
             await root.locator('.g-table__copy button').locator('nth=0').hover();
@@ -116,33 +130,37 @@ test.describe('Table', {tag: '@Table'}, () => {
 
             await expectScreenshot({
                 component: page.locator('body'),
-                screenshotPostfix: 'after hover on first cell copy button',
+                nameSuffix: 'after hover on first cell copy button',
             });
 
             await root.locator('.g-table__copy button').locator('nth=0').click();
             await expectScreenshot({
                 component: page.locator('body'),
-                screenshotPostfix: 'after click on first cell copy button',
+                nameSuffix: 'after click on first cell copy button',
             });
         });
     });
 
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
-        test(`with actions ${title}`, details, async ({mount, page, expectScreenshot}) => {
+    createSmokeScenarios<TestTableProps>(
+        {},
+        {},
+        {
+            scenarioName: 'with actions',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div style={{width: '500px'}}>
                     <TestTableWithActions {...props} />
                 </div>,
             );
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator('button').locator('nth=0').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on action',
+                nameSuffix: 'after hover on action',
             });
 
             await root.locator('button').locator('nth=0').click();
@@ -150,71 +168,83 @@ test.describe('Table', {tag: '@Table'}, () => {
 
             await expectScreenshot({
                 component: page.locator('body'),
-                screenshotPostfix: 'after click on action',
+                nameSuffix: 'after click on action',
             });
         });
     });
 
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
-        test(`with selection ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios<TestTableProps>(
+        {},
+        {},
+        {
+            scenarioName: 'with selection',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(
                 <div style={{width: '500px'}}>
                     <TestTableWithSelection {...props} />
                 </div>,
             );
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator('input[type="checkbox"]').locator('nth=0').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on checkbox',
+                nameSuffix: 'hover on checkbox',
             });
 
             await root.locator('input[type="checkbox"]').locator('nth=0').click();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click on checkbox',
+                nameSuffix: 'after click on checkbox',
             });
         });
     });
 
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
-        test(`with sorting ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios<TestTableProps>(
+        {},
+        {},
+        {
+            scenarioName: 'with sorting',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestTableWithSorting {...props} />);
 
+            await expectScreenshot({});
+
+            await root.locator('.g-table__sort-indicator').locator('nth=0').click();
+
             await expectScreenshot({
-                screenshotPostfix: 'init',
+                nameSuffix: 'asc sort',
             });
 
             await root.locator('.g-table__sort-indicator').locator('nth=0').click();
 
             await expectScreenshot({
-                screenshotPostfix: 'asc sort',
-            });
-
-            await root.locator('.g-table__sort-indicator').locator('nth=0').click();
-
-            await expectScreenshot({
-                screenshotPostfix: 'desc sort',
+                nameSuffix: 'desc sort',
             });
         });
     });
 
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
-        test(`with settings ${title}`, details, async ({mount, page, expectScreenshot}) => {
+    createSmokeScenarios<TestTableProps>(
+        {},
+        {},
+        {
+            scenarioName: 'with settings',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             const root = await mount(<TestTableWithSettings {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator('button').locator('nth=0').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on setting button',
+                nameSuffix: 'after hover on setting button',
             });
 
             await root.locator('button').locator('nth=0').click();
@@ -222,82 +252,82 @@ test.describe('Table', {tag: '@Table'}, () => {
 
             await expectScreenshot({
                 component: page.locator('body'),
-                screenshotPostfix: 'after click on setting button',
+                nameSuffix: 'after click on setting button',
             });
         });
     });
 
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
-        test(
-            `with sortable settings ${title}`,
-            details,
-            async ({mount, page, expectScreenshot}) => {
-                const root = await mount(<TestTableWithSortableSettings {...props} />);
+    createSmokeScenarios<TestTableProps>(
+        {},
+        {},
+        {
+            scenarioName: 'with sortable settings',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
+            const root = await mount(<TestTableWithSortableSettings {...props} />);
 
-                await expectScreenshot({
-                    screenshotPostfix: 'init',
-                });
+            await expectScreenshot({});
 
-                await root.locator('button').locator('nth=0').hover();
+            await root.locator('button').locator('nth=0').hover();
 
-                await expectScreenshot({
-                    screenshotPostfix: 'after hover on setting button',
-                });
+            await expectScreenshot({
+                nameSuffix: 'after hover on setting button',
+            });
 
-                await root.locator('button').locator('nth=0').click();
-                await expect(page.locator('.g-popup')).toBeVisible();
+            await root.locator('button').locator('nth=0').click();
+            await expect(page.locator('.g-popup')).toBeVisible();
 
-                await expectScreenshot({
-                    component: page.locator('body'),
-                    screenshotPostfix: 'after click on setting button',
-                });
-            },
-        );
+            await expectScreenshot({
+                component: page.locator('body'),
+                nameSuffix: 'after click on setting button',
+            });
+        });
     });
 
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
-        test(
-            `with filterable settings ${title}`,
-            details,
-            async ({mount, page, expectScreenshot}) => {
-                const root = await mount(
-                    <div style={{width: '600px', height: '600px'}}>
-                        <TestTableWithFilterableSettings {...props} />
-                    </div>,
-                );
+    createSmokeScenarios<TestTableProps>(
+        {},
+        {},
+        {
+            scenarioName: 'with filterable settings',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
+            const root = await mount(
+                <div style={{width: '600px', height: '600px'}}>
+                    <TestTableWithFilterableSettings {...props} />
+                </div>,
+            );
 
-                await expectScreenshot({
-                    screenshotPostfix: 'init',
-                });
+            await expectScreenshot({});
 
-                await root.locator('button').locator('nth=0').hover();
+            await root.locator('button').locator('nth=0').hover();
 
-                await expectScreenshot({
-                    screenshotPostfix: 'after hover on setting button',
-                });
+            await expectScreenshot({
+                nameSuffix: 'after hover on setting button',
+            });
 
-                await root.locator('button').locator('nth=0').click();
-                await expect(page.locator('.g-popup')).toBeVisible();
+            await root.locator('button').locator('nth=0').click();
+            await expect(page.locator('.g-popup')).toBeVisible();
 
-                await expectScreenshot({
-                    component: page.locator('body'),
-                    screenshotPostfix: 'after click on setting button',
-                });
+            await expectScreenshot({
+                component: page.locator('body'),
+                nameSuffix: 'after click on setting button',
+            });
 
-                await page.locator(`.g-popup`).locator(`input`).focus();
+            await page.locator(`.g-popup`).locator(`input`).focus();
 
-                await expectScreenshot({
-                    component: page.locator('body'),
-                    screenshotPostfix: 'focus on input',
-                });
+            await expectScreenshot({
+                component: page.locator('body'),
+                nameSuffix: 'focus on input',
+            });
 
-                await page.keyboard.type('Name');
+            await page.keyboard.type('Name');
 
-                await expectScreenshot({
-                    component: page.locator('body'),
-                    screenshotPostfix: 'after type text',
-                });
-            },
-        );
+            await expectScreenshot({
+                component: page.locator('body'),
+                nameSuffix: 'after type text',
+            });
+        });
     });
 });

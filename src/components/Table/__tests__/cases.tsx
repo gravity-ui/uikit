@@ -3,6 +3,8 @@ import type {DescriptorType, TableColumnConfig, TableProps} from '../Table';
 
 import type {DataItem} from './utils';
 
+export type TestTableColumnConfig = Partial<TableColumnConfig<DataItem>>;
+
 export const columnAlignCases: Cases<TableColumnConfig<DataItem>['align']> = [
     'start',
     'end',

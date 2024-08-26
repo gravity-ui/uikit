@@ -23,6 +23,8 @@ import {columns, data} from './utils';
 
 export const TableStories = composeStories(DefaultTableStories);
 
+export type TestTableProps = Partial<TableProps<DataItem>>;
+
 export const TestTableWithCustomColumnConfig = (props: {
     columnConfig: Partial<TableColumnConfig<DataItem>>;
 }) => {

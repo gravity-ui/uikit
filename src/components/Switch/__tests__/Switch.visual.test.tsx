@@ -19,20 +19,18 @@ test.describe('Switch', {tag: '@Switch'}, () => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<Switch {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator('label').focus();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover',
+                nameSuffix: 'after hover',
             });
 
             await root.locator('label').click();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click',
+                nameSuffix: 'after click',
             });
         });
     });
@@ -45,24 +43,25 @@ test.describe('Switch', {tag: '@Switch'}, () => {
         {
             size: sizeCases,
         },
+        {
+            scenarioName: 'indeterminate',
+        },
     ).forEach(([title, details, props]) => {
-        test(`indeterminate ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<Switch {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             root.locator('label').focus();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover',
+                nameSuffix: 'after hover',
             });
 
             root.locator('label').click();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click',
+                nameSuffix: 'after click',
             });
         });
     });
@@ -75,13 +74,14 @@ test.describe('Switch', {tag: '@Switch'}, () => {
         {
             size: sizeCases,
         },
+        {
+            scenarioName: 'default checked',
+        },
     ).forEach(([title, details, props]) => {
-        test(`default checked ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<Switch {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
         });
     });
 });

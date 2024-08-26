@@ -4,10 +4,10 @@ import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Card} from '../Card';
+import type {CardProps} from '../Card';
 
 import {
     containerViewCases,
-    defaultProps,
     disabledCases,
     selectedCases,
     selectionViewCases,
@@ -58,6 +58,10 @@ test.describe('Card', {tag: '@Card'}, () => {
 
         await expectScreenshot();
     });
+
+    const defaultProps: CardProps = {
+        children: null,
+    };
 
     createSmokeScenarios(
         {

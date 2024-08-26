@@ -15,7 +15,7 @@ test.describe('Link', {tag: '@Link'}, () => {
         children: 'Link',
     };
 
-    createSmokeScenarios(defaultProps, {
+    createSmokeScenarios<LinkProps>(defaultProps, {
         underline: underlineCases,
         visitable: visitableCases,
         view: viewCases,

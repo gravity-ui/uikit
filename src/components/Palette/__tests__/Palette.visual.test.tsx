@@ -22,11 +22,11 @@ test.describe('Palette', {tag: '@Palette'}, () => {
 
             await root.locator('button').locator('nth=0').focus();
 
-            await expectScreenshot({screenshotPostfix: 'after focus'});
+            await expectScreenshot({nameSuffix: 'after focus'});
 
             await root.locator('button').locator('nth=0').click();
 
-            await expectScreenshot({screenshotPostfix: 'after click'});
+            await expectScreenshot({nameSuffix: 'after click'});
         });
     });
 
@@ -36,8 +36,11 @@ test.describe('Palette', {tag: '@Palette'}, () => {
             disabled: true,
         },
         {},
+        {
+            scenarioName: 'disabled',
+        },
     ).forEach(([title, details, props]) => {
-        test(`disabled ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestPalette {...props} />);
 
             await expectScreenshot();

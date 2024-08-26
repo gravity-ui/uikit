@@ -33,8 +33,11 @@ test.describe('Progress', {tag: '@Progress'}, () => {
             size: sizeCases,
             loading: loadingCases,
         },
+        {
+            scenarioName: 'with color stops',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with color stops ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '200px', height: '50px'}}>
                     <Progress
@@ -60,8 +63,11 @@ test.describe('Progress', {tag: '@Progress'}, () => {
             size: sizeCases,
             loading: loadingCases,
         },
+        {
+            scenarioName: 'with stack',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with stack ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '200px', height: '50px'}}>
                     <Progress

@@ -3,6 +3,7 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {PersonaWrapProps} from '../PersonaWrap';
 import {
     clickableCases,
     closableCases,
@@ -14,7 +15,7 @@ import {
 import {TestPersonaWrap} from './helpersPlaywright';
 
 test.describe('PersonaWrap', {tag: '@PersonaWrap'}, () => {
-    createSmokeScenarios(
+    createSmokeScenarios<Partial<PersonaWrapProps>>(
         {},
         {
             theme: themeCases,

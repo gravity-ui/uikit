@@ -3,28 +3,27 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {TocProps} from '../Toc';
 
 import {TestToc} from './helpers';
 
 test.describe('Toc', {tag: '@Toc'}, () => {
-    createSmokeScenarios({}, {}).forEach(([title, details, props]) => {
+    createSmokeScenarios<Partial<TocProps>>({}, {}).forEach(([title, details, props]) => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestToc {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'initial',
-            });
+            await expectScreenshot({});
 
             await root.getByText('Disk controls').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover',
+                nameSuffix: 'hovered',
             });
 
             await root.getByText('Disk controls').click();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click',
+                nameSuffix: 'after click',
             });
         });
     });

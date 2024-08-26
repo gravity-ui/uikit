@@ -81,9 +81,7 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
                 </div>,
             );
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             if (props.disabled) {
                 return;
@@ -92,7 +90,7 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
             await root.locator(`button`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover trigger',
+                nameSuffix: 'after hover trigger',
             });
 
             await root.locator(`button`).click();
@@ -100,13 +98,13 @@ test.describe('DropdownMenu', {tag: '@DropdownMenu'}, () => {
             await expect(page.locator(`ul`)).toBeVisible();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click trigger',
+                nameSuffix: 'after click trigger',
             });
 
             await page.locator(`ul li:nth-child(6)`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click item',
+                nameSuffix: 'after click item',
             });
         });
     });

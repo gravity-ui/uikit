@@ -3,6 +3,7 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../../Button';
+import {Flex} from '../../../layout/Flex/Flex';
 import {cn} from '../../../utils/cn';
 import type {PasswordInputProps} from '../PasswordInput';
 import {PasswordInput} from '../PasswordInput';
@@ -49,12 +50,12 @@ const WithGenerateRandomValueTemplate: StoryFn<PasswordInputProps> = (args) => {
     }, []);
 
     return (
-        <div className={b()}>
+        <Flex>
             <PasswordInput {...args} onUpdate={setValue} value={value} />
             <Button onClick={generateRandomValue} className={b('button-generate-random-value')}>
                 Generate random value
             </Button>
-        </div>
+        </Flex>
     );
 };
 

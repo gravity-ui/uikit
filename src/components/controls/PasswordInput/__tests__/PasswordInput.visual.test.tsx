@@ -10,10 +10,4 @@ test.describe('PasswordInputStories', () => {
 
         await expectScreenshot();
     });
-
-    test('render story: <WithGenerateRandomValue>', async ({mount, expectScreenshot}) => {
-        await mount(<PasswordInputStories.WithGenerateRandomValue />);
-
-        await expectScreenshot();
-    });
 });

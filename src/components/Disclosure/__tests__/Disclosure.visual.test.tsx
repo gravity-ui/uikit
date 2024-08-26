@@ -25,9 +25,7 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<Disclosure {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'before click',
-            });
+            await expectScreenshot({});
 
             await root.locator(`button[data-qa='${DisclosureQa.SUMMARY}']`).click();
 
@@ -36,7 +34,7 @@ test.describe('Disclosure', {tag: '@Disclosure'}, () => {
             }
 
             await expectScreenshot({
-                screenshotPostfix: 'after click',
+                nameSuffix: 'after click',
             });
         });
     });

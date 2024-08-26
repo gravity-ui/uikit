@@ -4,11 +4,6 @@ import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
 import {Alert} from '../Alert';
 import type {AlertProps} from '../types';
 
-export const defaultProps: AlertProps = {
-    title: 'Title',
-    message: 'Message',
-};
-
 export const themeCases: Array<NonNullable<AlertProps['theme']>> = [
     'normal',
     'info',

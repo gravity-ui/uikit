@@ -4,12 +4,12 @@ import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {Alert} from '../Alert';
+import type {AlertProps} from '../types';
 
 import {
     actionCases,
     alignCases,
     cornersCases,
-    defaultProps,
     layoutCases,
     messageCases,
     themeCases,
@@ -66,6 +66,11 @@ test.describe('Alert', {tag: '@Alert'}, () => {
 
         await expectScreenshot();
     });
+
+    const defaultProps: AlertProps = {
+        title: 'Title',
+        message: 'Message',
+    };
 
     const smokeScenarios = createSmokeScenarios(defaultProps, {
         theme: themeCases,

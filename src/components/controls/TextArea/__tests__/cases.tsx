@@ -1,16 +1,9 @@
 import React from 'react';
 
-import type {CasesWithName} from '../../../../stories/tests-factory/models';
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '../../../../stories/tests-factory/models';
 import type {TextAreaProps} from '../TextArea';
 
-export const defaultProps: TextAreaProps = {
-    placeholder: 'Placeholder',
-};
-
 /* eslint-disable react/jsx-key */
-
-export const disabledCases: Array<TextAreaProps['disabled']> = [true];
 
 export const defaultValueCases: Array<TextAreaProps['defaultValue']> = ['Default value'];
 

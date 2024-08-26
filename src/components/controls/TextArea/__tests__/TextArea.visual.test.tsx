@@ -3,10 +3,10 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import type {TextAreaProps} from '../TextArea';
 import {TextArea} from '../TextArea';
 
 import {
-    defaultProps,
     defaultValueCases,
     errorPlacementCases,
     hasClearCases,
@@ -20,6 +20,10 @@ import {
 } from './cases';
 
 test.describe('TextArea', {tag: '@TextArea'}, () => {
+    const defaultProps: TextAreaProps = {
+        placeholder: 'Placeholder',
+    };
+
     const propCases = {
         defaultValue: defaultValueCases,
         pin: pinCases,
@@ -41,26 +45,24 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TextArea {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'initial',
-            });
+            await expectScreenshot({});
 
             await root.locator('textarea').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover',
+                nameSuffix: 'hovered',
             });
 
             await root.locator('textarea').fill('Text');
 
             await expectScreenshot({
-                screenshotPostfix: 'filled',
+                nameSuffix: 'filled',
             });
 
             await root.locator('textarea').blur();
 
             await expectScreenshot({
-                screenshotPostfix: 'blur',
+                nameSuffix: 'after blur',
             });
         });
     });
@@ -71,8 +73,11 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             disabled: true,
         },
         propCases,
+        {
+            scenarioName: 'disabled',
+        },
     ).forEach(([title, details, props]) => {
-        test(`disabled ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TextArea {...props} />);
 
             await expectScreenshot();
@@ -89,30 +94,31 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
             ...propCases,
             errorPlacement: errorPlacementCases,
         },
+        {
+            scenarioName: 'with error',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with error ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TextArea {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'initial',
-            });
+            await expectScreenshot({});
 
             await root.locator('textarea').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover',
+                nameSuffix: 'hovered',
             });
 
             await root.locator('textarea').fill('Text');
 
             await expectScreenshot({
-                screenshotPostfix: 'filled',
+                nameSuffix: 'filled',
             });
 
             await root.locator('textarea').blur();
 
             await expectScreenshot({
-                screenshotPostfix: 'blur',
+                nameSuffix: 'after blur',
             });
         });
     });

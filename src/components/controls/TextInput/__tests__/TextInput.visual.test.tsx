@@ -3,10 +3,10 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import type {TextInputProps} from '../TextInput';
 import {TextInput} from '../TextInput';
 
 import {
-    defaultProps,
     defaultValueCases,
     endContentCases,
     errorPlacementCases,
@@ -20,6 +20,10 @@ import {
 } from './cases';
 
 test.describe('TextInput', {tag: '@TextInput'}, () => {
+    const defaultProps: TextInputProps = {
+        placeholder: 'Placeholder',
+    };
+
     const propCases = {
         defaultValue: defaultValueCases,
         pin: pinCases,
@@ -32,35 +36,28 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
         label: labelCases,
     } as const;
 
-    createSmokeScenarios(
-        {
-            ...defaultProps,
-        },
-        propCases,
-    ).forEach(([title, details, props]) => {
+    createSmokeScenarios(defaultProps, propCases).forEach(([title, details, props]) => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TextInput {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'initial',
-            });
+            await expectScreenshot({});
 
             await root.locator('input').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover',
+                nameSuffix: 'hovered',
             });
 
             await root.locator('input').fill('Text');
 
             await expectScreenshot({
-                screenshotPostfix: 'filled',
+                nameSuffix: 'filled',
             });
 
             await root.locator('input').blur();
 
             await expectScreenshot({
-                screenshotPostfix: 'blur',
+                nameSuffix: 'after blur',
             });
         });
     });
@@ -71,8 +68,11 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
             disabled: true,
         },
         propCases,
+        {
+            scenarioName: 'disabled',
+        },
     ).forEach(([title, details, props]) => {
-        test(`disabled ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TextInput {...props} />);
 
             await expectScreenshot();
@@ -89,30 +89,31 @@ test.describe('TextInput', {tag: '@TextInput'}, () => {
             ...propCases,
             errorPlacement: errorPlacementCases,
         },
+        {
+            scenarioName: 'with error',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with error ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TextInput {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'initial',
-            });
+            await expectScreenshot({});
 
             await root.locator('input').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover',
+                nameSuffix: 'hovered',
             });
 
             await root.locator('input').fill('Text');
 
             await expectScreenshot({
-                screenshotPostfix: 'filled',
+                nameSuffix: 'filled',
             });
 
             await root.locator('input').blur();
 
             await expectScreenshot({
-                screenshotPostfix: 'blur',
+                nameSuffix: 'after blur',
             });
         });
     });

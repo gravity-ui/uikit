@@ -4,10 +4,6 @@ import type {CasesWithName} from '../../../../stories/tests-factory/models';
 import type {Cases} from '../../../stories/tests-factory/models';
 import type {TextInputProps} from '../TextInput';
 
-export const defaultProps: TextInputProps = {
-    placeholder: 'Placeholder',
-};
-
 /* eslint-disable react/jsx-key */
 
 export const disabledCases: Array<TextInputProps['disabled']> = [true];

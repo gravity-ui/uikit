@@ -1,9 +1,6 @@
-import React from 'react';
-
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases} from '../../../stories/tests-factory/models';
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 import {FirstDisplayedItemsCount, LastDisplayedItemsCount} from '../Breadcrumbs';
-import type {RenderBreadcrumbsItemProps} from '../types';
 
 export interface TestBreadcrumbsItem {
     text: string;
@@ -12,13 +9,7 @@ export interface TestBreadcrumbsItem {
     action: () => void;
 }
 
-type Props = BreadcrumbsProps<TestBreadcrumbsItem>;
-
-export const defaultProps: Props = {
-    items: [],
-    lastDisplayedItemsCount: LastDisplayedItemsCount.One,
-    firstDisplayedItemsCount: FirstDisplayedItemsCount.Zero,
-};
+export type Props = BreadcrumbsProps<TestBreadcrumbsItem>;
 
 export const lastDisplayedItemsCountCases: Cases<Props['lastDisplayedItemsCount']> = [
     LastDisplayedItemsCount.One,
@@ -48,47 +39,4 @@ export const popupPlacementCases: Cases<Props['popupPlacement']> = [
     'right-end',
     'left-start',
     'left-end',
-];
-
-export const renderRootContentCases: CasesWithName<Props['renderRootContent']> = [
-    [
-        'custom-root-content',
-        (item, isCurrent) => {
-            return (
-                <div style={isCurrent ? undefined : {border: '1px dotted tomato'}}>
-                    ${item.text} [Custom]
-                </div>
-            );
-        },
-    ],
-];
-
-export const renderItemContentCases: CasesWithName<Props['renderItemContent']> = [
-    [
-        'custom-item-content',
-        (item, isCurrent) => {
-            return (
-                <div style={isCurrent ? undefined : {border: '1px dotted tomato'}}>
-                    ${item.text} [Custom]
-                </div>
-            );
-        },
-    ],
-];
-
-export const renderItemDividerCases: CasesWithName<Props['renderItemDivider']> = [
-    [
-        'custom-item-divider',
-        () => {
-            return <div style={{border: '1px dotted tomato'}}>[Divider]</div>;
-        },
-    ],
-];
-
-const Container = ({children, isCurrent}: RenderBreadcrumbsItemProps) => {
-    return <div style={isCurrent ? undefined : {border: '1px dotted tomato'}}>{children}</div>;
-};
-
-export const renderItemCases: CasesWithName<Props['renderItem']> = [
-    ['custom-item-render', Container],
 ];

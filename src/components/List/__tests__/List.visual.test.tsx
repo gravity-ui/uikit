@@ -30,7 +30,7 @@ test.describe('List', {tag: '@List'}, () => {
             root.getByText('one').hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on first item',
+                nameSuffix: 'after hover on first item',
             });
         });
     });
@@ -44,18 +44,27 @@ test.describe('List', {tag: '@List'}, () => {
             size: sizeCases,
             emptyPlaceholder: emptyPlaceholderCases,
         },
+        {
+            scenarioName: 'empty',
+        },
     ).forEach(([title, details, props]) => {
-        test(`empty ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestList {...props} />);
 
             await expectScreenshot();
         });
     });
 
-    createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-    }).forEach(([title, details, props]) => {
-        test(`custom render item ${title}`, details, async ({mount, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultProps,
+        {
+            size: sizeCases,
+        },
+        {
+            scenarioName: 'custom render item',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestListWithCustomRender {...props} />);
 
             await expectScreenshot();
@@ -71,8 +80,11 @@ test.describe('List', {tag: '@List'}, () => {
             size: sizeCases,
             sortHandleAlign: sortHandleAlignCases,
         },
+        {
+            scenarioName: 'with sort',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with sort ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestList {...props} />);
 
             await expectScreenshot();
@@ -87,8 +99,11 @@ test.describe('List', {tag: '@List'}, () => {
             size: sizeCases,
             filterPlaceholder: filterPlaceholderCases,
         },
+        {
+            scenarioName: 'filterable',
+        },
     ).forEach(([title, details, props]) => {
-        test(`filterable ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await mount(<TestFilterableList {...props} />);
 
             await expectScreenshot();
@@ -96,7 +111,7 @@ test.describe('List', {tag: '@List'}, () => {
             await page.keyboard.type('on');
 
             await expectScreenshot({
-                screenshotPostfix: 'after apply filter',
+                nameSuffix: 'after apply filter',
             });
         });
     });
@@ -108,8 +123,11 @@ test.describe('List', {tag: '@List'}, () => {
             virtualized: true,
         },
         {},
+        {
+            scenarioName: 'virtualized',
+        },
     ).forEach(([title, details, props]) => {
-        test(`virtualized ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<TestList {...props} />);
 
             await expectScreenshot();

@@ -8,6 +8,7 @@ import {Skeleton} from '../Skeleton';
 
 test.describe('Skeleton', {tag: '@Skeleton'}, () => {
     const defaultProps: SkeletonProps = {
+        className: '',
         style: {
             width: '30px',
             height: '30px',

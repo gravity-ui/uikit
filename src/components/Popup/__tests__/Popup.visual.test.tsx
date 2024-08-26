@@ -23,16 +23,14 @@ test.describe('Popup', {tag: '@Popup'}, () => {
         test(title, details, async ({mount, page, expectScreenshot}) => {
             const root = await mount(<VisualTestPopup {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator(`button[data-qa="${VisualTestQA.trigger}"]`).click();
 
-            await expect(page.locator(`[data-qa="${VisualTestQA.popupContent}"]`)).toBeVisible();
+            await expect(page.getByTestId(VisualTestQA.popupContent)).toBeVisible();
 
             await expectScreenshot({
-                screenshotPostfix: 'opened state',
+                nameSuffix: 'opened',
             });
         });
     });

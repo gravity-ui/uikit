@@ -5,7 +5,7 @@ import {expect} from '@playwright/experimental-ct-react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {PopoverProps} from '../Popover';
+import type {PopoverProps} from '../types';
 
 import {
     hasArrowCases,
@@ -45,36 +45,40 @@ test.describe('Popover', {tag: '@Popover'}, () => {
             await expect(page.locator(`[data-qa="${PopoverQA.popoverContent}"]`)).toBeVisible();
 
             await expectScreenshot({
-                screenshotPostfix: 'opened state',
+                nameSuffix: 'opened',
             });
         });
     });
 
-    createSmokeScenarios(defaultProps, propsCases).forEach(([title, details, props]) => {
-        test(`with links ${title}`, details, async ({mount, page, expectScreenshot}) => {
-            const root = await mount(<TestPopoverWithLinks {...props} />);
+    createSmokeScenarios(defaultProps, propsCases, {scenarioName: 'with links'}).forEach(
+        ([title, details, props]) => {
+            test(title, details, async ({mount, page, expectScreenshot}) => {
+                const root = await mount(<TestPopoverWithLinks {...props} />);
 
-            await root.locator(`button[data-qa="${PopoverQA.trigger}"]`).click();
+                await root.locator(`button[data-qa="${PopoverQA.trigger}"]`).click();
 
-            await expect(page.locator(`[data-qa="${PopoverQA.popoverContent}"]`)).toBeVisible();
+                await expect(page.locator(`[data-qa="${PopoverQA.popoverContent}"]`)).toBeVisible();
 
-            await expectScreenshot({
-                screenshotPostfix: 'opened state',
+                await expectScreenshot({
+                    nameSuffix: 'opened',
+                });
             });
-        });
-    });
+        },
+    );
 
-    createSmokeScenarios(defaultProps, propsCases).forEach(([title, details, props]) => {
-        test(`with buttons ${title}`, details, async ({mount, page, expectScreenshot}) => {
-            const root = await mount(<TestPopoverWithButtons {...props} />);
+    createSmokeScenarios(defaultProps, propsCases, {scenarioName: 'with buttons'}).forEach(
+        ([title, details, props]) => {
+            test(title, details, async ({mount, page, expectScreenshot}) => {
+                const root = await mount(<TestPopoverWithButtons {...props} />);
 
-            await root.locator(`button[data-qa="${PopoverQA.trigger}"]`).click();
+                await root.locator(`button[data-qa="${PopoverQA.trigger}"]`).click();
 
-            await expect(page.locator(`[data-qa="${PopoverQA.popoverContent}"]`)).toBeVisible();
+                await expect(page.locator(`[data-qa="${PopoverQA.popoverContent}"]`)).toBeVisible();
 
-            await expectScreenshot({
-                screenshotPostfix: 'opened state',
+                await expectScreenshot({
+                    nameSuffix: 'opened',
+                });
             });
-        });
-    });
+        },
+    );
 });

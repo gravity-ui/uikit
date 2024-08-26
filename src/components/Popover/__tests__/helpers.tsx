@@ -31,12 +31,12 @@ export const TestPopoverWithLinks = (props: PopoverProps) => {
                 {...props}
                 links={[
                     {
-                        title: 'link 1',
+                        text: 'link 1',
                         href: '#',
                         onClick: () => {},
                     },
                     {
-                        title: 'link 2',
+                        text: 'link 2',
                         href: '#',
                         onClick: () => {},
                     },

@@ -1,5 +1,5 @@
 import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
-import type {PopoverProps} from '../Popover';
+import type {PopoverProps} from '../types';
 
 export const titleCases: Cases<PopoverProps['title']> = ['Title'];
 export const hasArrowCases: Cases<PopoverProps['hasArrow']> = [true];
@@ -21,7 +21,9 @@ export const placementCases: Cases<PopoverProps['placement']> = [
     'left-start',
     'left-end',
 ];
-export const offsetCases: CasesWithName<PopoverProps['offset']> = [['4-12', [4, 12]]];
+export const offsetCases: CasesWithName<PopoverProps['offset']> = [
+    ['top:4 left: 12', {top: 4, left: 12}],
+];
 export const strategyCases: Cases<PopoverProps['strategy']> = ['absolute', 'fixed'];
 export const themeCases: Cases<PopoverProps['theme']> = ['info', 'special', 'announcement'];
 export const sizeCases: Cases<PopoverProps['size']> = ['s', 'l'];

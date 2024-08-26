@@ -41,8 +41,11 @@ test.describe('RadioButton', {tag: '@RadioButton'}, () => {
             disabled: true,
         },
         {},
+        {
+            scenarioName: 'disabled',
+        },
     ).forEach(([title, details, props]) => {
-        test(`disabled ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<RadioButton {...props} />);
 
             await expectScreenshot();

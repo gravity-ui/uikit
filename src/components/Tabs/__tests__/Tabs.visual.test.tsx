@@ -19,14 +19,12 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestTabs {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
-            root.locator(`[data-qa="2"]`).focus();
+            root.getByTestId('2').focus();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on tab',
+                nameSuffix: 'after hover on tab',
             });
         });
     });
@@ -38,18 +36,19 @@ test.describe('Tabs', {tag: '@Tabs'}, () => {
             direction: directionCases,
             allowNotSelected: allowNotSelectedCases,
         },
+        {
+            scenarioName: 'with custom tab',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with custom tab ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<TestTabsWithCustomTabs {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
-            root.locator(`[data-qa="2"]`).focus();
+            root.getByTestId('2').focus();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on tab',
+                nameSuffix: 'after hover on tab',
             });
         });
     });

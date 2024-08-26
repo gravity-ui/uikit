@@ -4,46 +4,45 @@ import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import {PaginationQa, getPaginationPageQa, getPaginationPageSizeOptionQa} from '../constants';
+import type {PaginationProps} from '../types';
 
 import {PaginationStateWrap} from './helpers';
 
 test.describe('Pagination', {tag: '@Pagination'}, () => {
-    const defaultProps = {
+    const defaultProps: Omit<PaginationProps, 'onUpdate'> = {
         page: 1,
         pageSize: 100,
         total: 950,
-    } as const;
+    };
 
     createSmokeScenarios(defaultProps, {}).forEach(([title, details, props]) => {
         test(`regular ${title}`, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<PaginationStateWrap {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on page 2 button',
+                nameSuffix: 'hover on page 2 button',
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'click on page 2 button',
+                nameSuffix: 'click on page 2 button',
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on page 10 button',
+                nameSuffix: 'hover on page 10 button',
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'click on page 10 button',
+                nameSuffix: 'click on page 10 button',
             });
         });
     });
@@ -58,32 +57,30 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
         test(`not compact ${title}`, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<PaginationStateWrap {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on page 2 button',
+                nameSuffix: 'hover on page 2 button',
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(2)}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'click on page 2 button',
+                nameSuffix: 'click on page 2 button',
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on page 10 button',
+                nameSuffix: 'hover on page 10 button',
             });
 
             await root.locator(`button[data-qa="${getPaginationPageQa(10)}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'click on page 10 button',
+                nameSuffix: 'click on page 10 button',
             });
         });
     });
@@ -98,20 +95,18 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
         test(`without pages ${title}`, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<PaginationStateWrap {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator(`button[data-qa="${PaginationQa.PaginationButtonNext}"]`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'hover on next page button',
+                nameSuffix: 'hover on next page button',
             });
 
             await root.locator(`button[data-qa="${PaginationQa.PaginationButtonNext}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'click on next page button',
+                nameSuffix: 'click on next page button',
             });
         });
     });
@@ -126,9 +121,7 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
         test(`with page input ${title}`, details, async ({mount, page, expectScreenshot}) => {
             const root = await mount(<PaginationStateWrap {...props} />);
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root
                 .locator(`span[data-qa="${PaginationQa.PaginationInput}"]`)
@@ -136,19 +129,19 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
                 .focus();
 
             await expectScreenshot({
-                screenshotPostfix: 'focus on input',
+                nameSuffix: 'focus on input',
             });
 
             await page.keyboard.type('10');
 
             await expectScreenshot({
-                screenshotPostfix: 'after type page number',
+                nameSuffix: 'after type page number',
             });
 
             await page.keyboard.press('Enter');
 
             await expectScreenshot({
-                screenshotPostfix: 'after type enter',
+                nameSuffix: 'after type enter',
             });
         });
     });
@@ -169,26 +162,24 @@ test.describe('Pagination', {tag: '@Pagination'}, () => {
                 </div>,
             );
 
-            await expectScreenshot({
-                screenshotPostfix: 'init',
-            });
+            await expectScreenshot({});
 
             await root.locator(`button[data-qa="${PaginationQa.PaginationPageSizer}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'after click on page size select',
+                nameSuffix: 'after click on page size select',
             });
 
             await page.locator(`[data-qa="${getPaginationPageSizeOptionQa(50)}"]`).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover option',
+                nameSuffix: 'after hover option',
             });
 
             await page.locator(`[data-qa="${getPaginationPageSizeOptionQa(50)}"]`).click();
 
             await expectScreenshot({
-                screenshotPostfix: 'after select option',
+                nameSuffix: 'after select option',
             });
         });
     });

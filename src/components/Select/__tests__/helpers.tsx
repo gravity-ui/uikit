@@ -10,7 +10,7 @@ export const TestSelectWithFilter = (props: Partial<SelectProps<string>>) => {
     const [value, setValue] = React.useState<string[]>([]);
     const [filter, setFilter] = React.useState('');
     const filterable = true;
-    const options = useSelectOptions({
+    const options = useSelectOptions<string>({
         options: [
             {
                 label: 'Group 1',

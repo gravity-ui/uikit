@@ -3,9 +3,9 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {SelectProps} from '../Select';
 import {Select} from '../Select';
 import {SelectQa} from '../constants';
+import type {SelectProps} from '../types';
 
 import {
     errorPlacementCases,
@@ -88,21 +88,21 @@ test.describe('Select', {tag: '@Select'}, () => {
             await root.getByTestId(SelectTestQA.trigger).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on trigger',
+                nameSuffix: 'after hover on trigger',
             });
 
             await root.getByTestId(SelectTestQA.trigger).click();
 
             await expectScreenshot({
                 component: page,
-                screenshotPostfix: 'after click on trigger',
+                nameSuffix: 'after click on trigger',
             });
 
             await page.getByTestId(getSelectOptionTestQA('val2')).hover();
 
             await expectScreenshot({
                 component: page,
-                screenshotPostfix: 'after hover on item',
+                nameSuffix: 'after hover on item',
             });
         });
     });
@@ -113,8 +113,11 @@ test.describe('Select', {tag: '@Select'}, () => {
             hasClear: true,
         },
         {},
+        {
+            scenarioName: 'clear button',
+        },
     ).forEach(([title, details, props]) => {
-        test(`clear button ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(
                 <Select {...props}>
                     <Select.Option
@@ -130,13 +133,13 @@ test.describe('Select', {tag: '@Select'}, () => {
             await root.getByTestId(SelectTestQA.trigger).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on trigger',
+                nameSuffix: 'after hover on trigger',
             });
 
             await root.getByTestId(SelectQa.CLEAR).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on clear button',
+                nameSuffix: 'after hover on clear button',
             });
         });
     });
@@ -148,18 +151,27 @@ test.describe('Select', {tag: '@Select'}, () => {
         {
             placeholder: placeholderLabelCases,
         },
+        {
+            scenarioName: 'empty state',
+        },
     ).forEach(([title, details, props]) => {
-        test(`empty state ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<Select {...props} />);
 
             await expectScreenshot();
         });
     });
 
-    createSmokeScenarios(defaultProps, {
-        popupPlacement: popupPlacementCases,
-    }).forEach(([title, details, props]) => {
-        test(`popup placement ${title}`, details, async ({mount, page, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultProps,
+        {
+            popupPlacement: popupPlacementCases,
+        },
+        {
+            scenarioName: 'popup placement',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             const root = await mount(
@@ -196,8 +208,11 @@ test.describe('Select', {tag: '@Select'}, () => {
         {
             errorPlacement: errorPlacementCases,
         },
+        {
+            scenarioName: 'error state',
+        },
     ).forEach(([title, details, props]) => {
-        test(`error state ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             await mount(
@@ -229,8 +244,11 @@ test.describe('Select', {tag: '@Select'}, () => {
             hasCounter: hasCounterCases,
             validationState: validationStateCases,
         },
+        {
+            scenarioName: 'multiple',
+        },
     ).forEach(([title, details, props]) => {
-        test(`multiple ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             const root = await mount(
@@ -279,29 +297,35 @@ test.describe('Select', {tag: '@Select'}, () => {
             await root.getByTestId(SelectTestQA.trigger).hover();
 
             await expectScreenshot({
-                screenshotPostfix: 'after hover on trigger',
+                nameSuffix: 'after hover on trigger',
             });
 
             await root.getByTestId(SelectTestQA.trigger).click();
 
             await expectScreenshot({
                 component: page,
-                screenshotPostfix: 'after click on trigger',
+                nameSuffix: 'after click on trigger',
             });
 
             await page.getByTestId(getSelectOptionTestQA('val2')).hover();
 
             await expectScreenshot({
                 component: page,
-                screenshotPostfix: 'after hover on item',
+                nameSuffix: 'after hover on item',
             });
         });
     });
 
-    createSmokeScenarios(defaultProps, {
-        filterPlaceholder: filterPlaceholderCases,
-    }).forEach(([title, details, props]) => {
-        test(`with filter ${title}`, details, async ({mount, page, expectScreenshot}) => {
+    createSmokeScenarios(
+        defaultProps,
+        {
+            filterPlaceholder: filterPlaceholderCases,
+        },
+        {
+            scenarioName: 'with filter',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             const root = await mount(<TestSelectWithFilter {...props} />);
@@ -318,7 +342,7 @@ test.describe('Select', {tag: '@Select'}, () => {
 
             await expectScreenshot({
                 component: page,
-                screenshotPostfix: 'after type filter value',
+                nameSuffix: 'after type filter value',
             });
         });
     });

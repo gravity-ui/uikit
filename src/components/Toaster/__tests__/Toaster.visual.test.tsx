@@ -3,13 +3,14 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {ToastProps} from '../types';
 
 import {actionsCases, isClosableCases, themeCases, titleCases} from './cases';
 import {ToasterQA} from './constants';
 import {TestToaster, TestToasterWithIcons} from './helpers';
 
 test.describe('Toaster', {tag: '@Toaster'}, () => {
-    createSmokeScenarios(
+    createSmokeScenarios<ToastProps>(
         {
             name: 'toast',
             content: <div>toast content</div>,
@@ -31,13 +32,11 @@ test.describe('Toaster', {tag: '@Toaster'}, () => {
             // wait show toast & end animations
             await page.waitForTimeout(2000);
 
-            await expectScreenshot({
-                screenshotPostfix: 'toast',
-            });
+            await expectScreenshot({});
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<ToastProps>(
         {
             name: 'toast',
             content: <div>toast content</div>,
@@ -48,8 +47,11 @@ test.describe('Toaster', {tag: '@Toaster'}, () => {
             actions: actionsCases,
             isClosable: isClosableCases,
         },
+        {
+            scenarioName: 'with icons',
+        },
     ).forEach(([title, details, props]) => {
-        test(`with icons ${title}`, details, async ({mount, page, expectScreenshot}) => {
+        test(title, details, async ({mount, page, expectScreenshot}) => {
             await page.setViewportSize({width: 500, height: 500});
 
             const root = await mount(<TestToasterWithIcons toastProps={props} />);
@@ -59,9 +61,7 @@ test.describe('Toaster', {tag: '@Toaster'}, () => {
             // wait show toast & end animations
             await page.waitForTimeout(2000);
 
-            await expectScreenshot({
-                screenshotPostfix: 'toast',
-            });
+            await expectScreenshot({});
         });
     });
 });

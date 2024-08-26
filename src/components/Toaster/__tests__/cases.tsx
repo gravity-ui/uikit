@@ -11,7 +11,7 @@ export const themeCases: Cases<ToastProps['theme']> = [
     'utility',
 ];
 export const isClosableCases: Cases<ToastProps['isClosable']> = [true];
-export const actionsCases: CasesWithName<ToastProps['isClosable']> = [
+export const actionsCases: CasesWithName<ToastProps['actions']> = [
     [
         'one action',
         [

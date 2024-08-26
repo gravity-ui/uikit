@@ -17,25 +17,25 @@ test.describe('Radio', {tag: '@Radio'}, () => {
         qa,
     };
 
-    createSmokeScenarios(defaultProps, {
+    createSmokeScenarios<RadioProps>(defaultProps, {
         size: sizeCases,
     }).forEach(([title, details, props]) => {
         test(title, details, async ({mount, expectScreenshot}) => {
             const root = await mount(<Radio {...props} />);
 
-            await expectScreenshot({screenshotPostfix: 'init'});
+            await expectScreenshot({});
 
             root.getByTestId(qa).focus();
 
-            await expectScreenshot({screenshotPostfix: 'after focus'});
+            await expectScreenshot({nameSuffix: 'after focus'});
 
             root.getByTestId(qa).click();
 
-            await expectScreenshot({screenshotPostfix: 'after click'});
+            await expectScreenshot({nameSuffix: 'after click'});
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<RadioProps>(
         {
             ...defaultProps,
             disabled: true,
@@ -43,15 +43,18 @@ test.describe('Radio', {tag: '@Radio'}, () => {
         {
             size: sizeCases,
         },
+        {
+            scenarioName: 'disabled',
+        },
     ).forEach(([title, details, props]) => {
-        test(`disabled ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<Radio {...props} />);
 
             await expectScreenshot();
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<RadioProps>(
         {
             ...defaultProps,
             defaultChecked: true,
@@ -59,8 +62,11 @@ test.describe('Radio', {tag: '@Radio'}, () => {
         {
             size: sizeCases,
         },
+        {
+            scenarioName: 'default checked',
+        },
     ).forEach(([title, details, props]) => {
-        test(`default checked ${title}`, details, async ({mount, expectScreenshot}) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
             await mount(<Radio {...props} />);
 
             await expectScreenshot();

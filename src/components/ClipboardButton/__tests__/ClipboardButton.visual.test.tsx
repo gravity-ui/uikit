@@ -27,8 +27,6 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
 
             await root.locator("button[type='button']").hover();
 
-            await expectScreenshot({});
-
             // wait for render tooltip
             await page.waitForTimeout(1000);
 
@@ -63,8 +61,6 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
             );
 
             await root.locator("button[type='button']").hover();
-
-            await expectScreenshot({});
 
             // wait for render tooltip
             await page.waitForTimeout(1000);

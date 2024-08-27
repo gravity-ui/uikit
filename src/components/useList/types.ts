@@ -90,7 +90,7 @@ export type ListState = {
 
 export type InitialListParsedState = Pick<
     ListState,
-    'disabledById' | 'expandedById' | 'selectedById'
+    'disabledById' | 'expandedById' | 'selectedById' | 'activeItemId'
 >;
 
 export type ItemSchema = {

@@ -30,7 +30,7 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
             await expectScreenshot({});
 
             // wait for render tooltip
-            await page.waitForTimeout(2000);
+            await page.waitForTimeout(1000);
 
             await expectScreenshot({nameSuffix: 'after hover'});
 
@@ -67,7 +67,7 @@ test.describe('ClipboardButton', {tag: '@ClipboardButton'}, () => {
             await expectScreenshot({});
 
             // wait for render tooltip
-            await page.waitForTimeout(2000);
+            await page.waitForTimeout(1000);
 
             await expectScreenshot({nameSuffix: 'after hover'});
 

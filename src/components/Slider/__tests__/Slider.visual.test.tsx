@@ -3,8 +3,8 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import type {SliderProps} from '../Slider';
 import {Slider} from '../Slider';
+import type {SliderProps} from '../types';
 
 import {
     availableValuesCases,
@@ -17,10 +17,11 @@ import {
 } from './cases';
 
 test.describe('Slider', {tag: '@Slider'}, () => {
-    const defaultProps: SliderProps<number> = {
+    const defaultProps: SliderProps = {
         value: 40,
         min: 0,
         max: 100,
+        onUpdate: () => {},
     };
 
     createSmokeScenarios(defaultProps, {
@@ -43,7 +44,7 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         });
     });
 
-    createSmokeScenarios(
+    createSmokeScenarios<SliderProps>(
         {
             ...defaultProps,
             validationState: 'invalid',
@@ -69,13 +70,14 @@ test.describe('Slider', {tag: '@Slider'}, () => {
         });
     });
 
-    const defaultRangeProps: SliderProps<[number, number]> = {
+    const defaultRangeProps: SliderProps = {
         value: [20, 40],
         min: 0,
         max: 100,
+        onUpdate: () => {},
     };
 
-    createSmokeScenarios(
+    createSmokeScenarios<SliderProps>(
         defaultRangeProps,
         {
             size: sizeCases,
@@ -100,7 +102,8 @@ test.describe('Slider', {tag: '@Slider'}, () => {
             await expectScreenshot();
         });
     });
-    createSmokeScenarios(
+
+    createSmokeScenarios<SliderProps>(
         {
             ...defaultRangeProps,
             validationState: 'invalid',

@@ -29,7 +29,7 @@ test.describe('Radio', {tag: '@Radio'}, () => {
 
             await expectScreenshot({nameSuffix: 'after focus'});
 
-            root.getByTestId(qa).click();
+            await root.getByTestId(qa).click();
 
             await expectScreenshot({nameSuffix: 'after click'});
         });

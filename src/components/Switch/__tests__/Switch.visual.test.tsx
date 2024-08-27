@@ -52,13 +52,13 @@ test.describe('Switch', {tag: '@Switch'}, () => {
 
             await expectScreenshot({});
 
-            root.locator('label').focus();
+            await root.locator('label').focus();
 
             await expectScreenshot({
                 nameSuffix: 'after hover',
             });
 
-            root.locator('label').click();
+            await root.locator('label').click();
 
             await expectScreenshot({
                 nameSuffix: 'after click',

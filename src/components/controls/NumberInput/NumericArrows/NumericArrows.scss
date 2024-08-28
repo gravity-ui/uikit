@@ -1,0 +1,48 @@
+@use '../../../../../styles/mixins';
+@use '../../../variables';
+@use '../../mixins.scss' as control-mixins;
+@use '../../variables.scss' as control-variables;
+
+$block: '.#{variables.$ns}numeric-arrows';
+
+#{$block} {
+    --_--numeric-arrows-border-color: var(
+        --numeric-arrows-border-color,
+        var(--g-text-input-border-color, transparent)
+    );
+
+    --_--border-width: var(--g-text-input-border-width, 1px);
+    border-style: solid;
+
+    height: fit-content;
+
+    &,
+    &__separator {
+        border-width: var(--_--border-width);
+        border-color: var(--_--numeric-arrows-border-color);
+    }
+
+    &_size {
+        &_s {
+            --g-button-height: 11px;
+        }
+
+        &_m {
+            --g-button-height: 13px;
+        }
+
+        &_l {
+            --g-button-height: 17px;
+        }
+
+        &_xl {
+            --g-button-height: 21px;
+        }
+    }
+
+    &__separator {
+        width: 100%;
+        height: 0px;
+        border-block-start-style: solid;
+    }
+}

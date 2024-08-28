@@ -1,0 +1,27 @@
+@use '../../../../styles/mixins';
+@use '../../variables';
+@use '../mixins.scss' as control-mixins;
+@use '../variables.scss' as control-variables;
+
+$block: '.#{variables.$ns}number-input';
+
+#{$block} {
+    &_view_normal {
+        --numeric-arrows-border-color: var(--g-color-line-generic);
+        --_--border-color-hover: var(--g-color-line-generic-hover);
+        --_--border-color-active: var(--g-color-line-generic-active);
+
+        &#{$block}_state_error {
+            --numeric-arrows-border-color: var(--g-color-line-danger);
+        }
+    }
+
+    &_view_clear {
+        --numeric-arrows-border-color: transparrent;
+    }
+
+    &__numeric-arrows {
+        border-style: none;
+        border-inline-start-style: solid;
+    }
+}

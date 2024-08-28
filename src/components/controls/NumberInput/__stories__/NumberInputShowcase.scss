@@ -1,0 +1,68 @@
+.number-input-showcase {
+    &__number-input-examples {
+        grid-area: number-input;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes states' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__number-input-label-examples {
+        grid-area: number-input-label;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes states' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__number-input-error-examples {
+        grid-area: text-area;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'sizes additional-content' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__number-input-custom-css {
+        grid-area: text-area;
+        display: grid;
+        grid-template:
+            'title title' auto
+            'states themed' auto / 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__title {
+        grid-area: title;
+        margin: 0;
+    }
+
+    &__section-header {
+        text-align: center;
+        margin: 0 0 10px;
+    }
+
+    &__size-examples {
+        grid-area: sizes;
+    }
+
+    &__state-examples {
+        grid-area: states;
+    }
+
+    &__row {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__input:not(:last-child) {
+        margin-block-end: 20px;
+    }
+}

@@ -57,8 +57,9 @@ const ExampleItem = (props: {
     selectProps: SelectProps;
     code?: string[];
     children?: SelectProps['children'];
+    id?: string;
 }) => {
-    const {title, selectProps, children, code = []} = props;
+    const {title, selectProps, children, code = [], id} = props;
     const multiple = props.selectProps.multiple;
     const [mode, setMode] = React.useState(Mode.VIEW);
     const [value, setValue] = React.useState<string[]>([]);
@@ -72,7 +73,7 @@ const ExampleItem = (props: {
     return (
         <div className={b('example-item')}>
             <h3>
-                {title}
+                <label htmlFor={id}>{title}</label>
                 {Boolean(code.length) && (
                     <RadioButton
                         className={b('example-item-radio')}
@@ -86,7 +87,13 @@ const ExampleItem = (props: {
                 )}
             </h3>
             {mode === Mode.VIEW ? (
-                <Select {...selectProps} value={value} onUpdate={setValue} title="Sample select">
+                <Select
+                    {...selectProps}
+                    id={id}
+                    value={value}
+                    onUpdate={setValue}
+                    title="Sample select"
+                >
                     {children}
                 </Select>
             ) : (
@@ -152,12 +159,16 @@ export const SelectShowcase = (props: SelectProps) => {
         return undefined;
     };
 
+    const idLocal = React.useId();
+    const id = props.id || idLocal;
+
     return (
         <div className={b()}>
             <ExampleItem
                 title="Simple select"
                 code={[EXAMPLE_JSON_OPTIONS, EXAMPLE_CHILDREN_OPTIONS]}
                 selectProps={props}
+                id={`${id}-1`}
             >
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />
@@ -168,6 +179,7 @@ export const SelectShowcase = (props: SelectProps) => {
                 title="Select with groups"
                 code={[EXAMPLE_GROUP_JSON_OPTIONS, EXAMPLE_GROUP_CHILDREN_OPTIONS]}
                 selectProps={props}
+                id={`${id}-2`}
             >
                 <Select.OptionGroup label="Group 1">
                     <Select.Option value="val1" content="Value1" />
@@ -186,6 +198,7 @@ export const SelectShowcase = (props: SelectProps) => {
                 title="Select with disabled options"
                 code={[EXAMPLE_DISABLED_OPTIONS]}
                 selectProps={props}
+                id={`${id}-3`}
             >
                 <Select.Option value="val1" content="Value1" disabled />
                 <Select.Option value="val2" content="Value2" />
@@ -214,6 +227,7 @@ export const SelectShowcase = (props: SelectProps) => {
                     getOptionHeight: () => 22,
                     getOptionGroupHeight: () => 32,
                 }}
+                id={`${id}-4`}
             >
                 <Select.Option value="val1" content="Value1" data={{color: 'green'}} />
                 <Select.Option value="val2" content="Value2" data={{color: 'red'}} />
@@ -254,6 +268,7 @@ export const SelectShowcase = (props: SelectProps) => {
                     },
                     getOptionHeight: () => 22,
                 }}
+                id={`${id}-5`}
             >
                 <Select.Option value="val1" content="Value1" data={{color: 'green'}} />
                 <Select.Option value="val2" content="Value2" data={{color: 'red'}} />
@@ -288,6 +303,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         );
                     },
                 }}
+                id={`${id}-6`}
             >
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />
@@ -318,6 +334,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         );
                     },
                 }}
+                id={`${id}-7`}
             >
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />
@@ -330,7 +347,9 @@ export const SelectShowcase = (props: SelectProps) => {
                 selectProps={{
                     ...props,
                     options: generateItems(1000),
+                    popupWidth: props.multiple ? 120 : undefined,
                 }}
+                id={`${id}-8`}
             />
             <ExampleItem
                 title="Select with custom renderer & tooltip at disabled item"
@@ -349,6 +368,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         );
                     },
                 }}
+                id={`${id}-9`}
             >
                 <Select.Option value="1" content="1" />
                 <Select.Option value="2" content="2" text="Hover here" disabled />
@@ -361,6 +381,7 @@ export const SelectShowcase = (props: SelectProps) => {
                     renderFilter,
                     filterOption: getFilterOption(),
                 }}
+                id={`${id}-10`}
             >
                 <Select.Option value="val1" content="Value 1" />
                 <Select.Option value="val2" content="val" />
@@ -385,6 +406,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         );
                     },
                 }}
+                id={`${id}-11`}
             >
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />
@@ -403,6 +425,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         errorMessage: 'A validation error has occurred',
                         validationState: 'invalid',
                     }}
+                    id={`${id}-12`}
                 >
                     <Select.Option value="val1" content="Value1" />
                     <Select.Option value="val2" content="Value2" />
@@ -418,6 +441,7 @@ export const SelectShowcase = (props: SelectProps) => {
                         errorMessage: 'A validation error has occurred',
                         validationState: 'invalid',
                     }}
+                    id={`${id}-13`}
                 >
                     <Select.Option value="val1" content="Value1" />
                     <Select.Option value="val2" content="Value2" />

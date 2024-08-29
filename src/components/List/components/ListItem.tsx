@@ -77,7 +77,6 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
-                onMouseLeave={this.onMouseLeave}
                 ref={this.setRef}
                 id={`${this.props.listId}-item-${this.props.itemIndex}`}
             >
@@ -124,6 +123,4 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
 
     private onMouseEnter = () =>
         !this.props.item.disabled && this.props.onActivate(this.props.itemIndex);
-
-    private onMouseLeave = () => this.props.onActivate(undefined);
 }

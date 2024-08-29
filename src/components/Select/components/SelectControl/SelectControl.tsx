@@ -190,6 +190,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     type="button"
                     data-qa={qa}
                     title={title}
+                    tabIndex={0}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (

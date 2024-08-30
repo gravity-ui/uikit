@@ -95,6 +95,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
 
     state: ListState<T> = {
         items: this.props.items,
+        activeItem: this.props.activeItemIndex,
         filter: '',
     };
 
@@ -105,6 +106,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         T & {value: string}
     >;
     uniqId = getUniqId();
+
+    componentDidMount(): void {
+        this.activateItem(this.props.activeItemIndex, true);
+    }
 
     componentDidUpdate(prevProps: ListProps<T>, prevState: ListState<T>) {
         if (!isEqual(this.props.items, prevProps.items)) {
@@ -193,11 +198,11 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     }
 
     activateItem(index?: number, scrollTo = true) {
-        if (typeof index === 'number' && scrollTo) {
-            this.scrollToIndex(index);
-        }
-
-        this.setState({activeItem: index});
+        this.setState({activeItem: index}, () => {
+            if (typeof index === 'number' && scrollTo) {
+                this.scrollToIndex(index);
+            }
+        });
     }
 
     onKeyDown: React.KeyboardEventHandler<HTMLElement> = (event) => {

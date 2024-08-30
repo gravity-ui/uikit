@@ -1,8 +1,7 @@
 import React from 'react';
 
 import {KeyCode} from '../../constants';
-import {List} from '../List';
-import type {ListItemData} from '../List';
+import type {List, ListItemData} from '../List';
 
 import {
     FLATTEN_KEY,
@@ -236,11 +235,6 @@ export const getActiveItem = (listRef: React.RefObject<List<FlattenOption>>) => 
     const activeItemIndex = listRef?.current?.getActiveItem();
 
     return typeof activeItemIndex === 'number' ? items[activeItemIndex] : undefined;
-};
-
-export const activateFirstClickableItem = (listRef: React.RefObject<List<FlattenOption>>) => {
-    const items = getListItems(listRef);
-    listRef?.current?.activateItem(List.findNextIndex(items, 0, 1), false);
 };
 
 const isOptionMatchedByFilter = (option: SelectOption, filter: string) => {

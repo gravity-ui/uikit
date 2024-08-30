@@ -19,13 +19,12 @@ import {
     SelectPopup,
 } from './components';
 import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
-import {useQuickSearch} from './hooks';
+import {useActiveItemIndex, useQuickSearch} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import {
-    activateFirstClickableItem,
     findItemIndexByQuickSearch,
     getActiveItem,
     getListItems,
@@ -111,16 +110,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const {
-        value,
-        open,
-        activeIndex,
-        toggleOpen,
-        setValue,
-        handleSelection,
-        handleClearValue,
-        setActiveIndex,
-    } = useSelect({
+    const {value, open, toggleOpen, setValue, handleSelection, handleClearValue} = useSelect({
         onUpdate,
         value: propsValue,
         defaultValue,
@@ -233,8 +223,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     React.useEffect(() => {
         if (open) {
-            activateFirstClickableItem(listRef);
-
             if (filterable) {
                 filterRef.current?.focus();
             }
@@ -263,6 +251,16 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         ),
     });
 
+    const uniqId = useUniqId();
+    const selectId = id ?? uniqId;
+    const popupId = `select-popup-${selectId}`;
+
+    const [activeIndex, setActiveIndex] = useActiveItemIndex({
+        options: filteredOptions,
+        open,
+        value,
+    });
+
     const _renderFilter = () => {
         if (filterable) {
             return (
@@ -274,16 +272,14 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     onChange={setFilter}
                     onKeyDown={handleFilterKeyDown}
                     renderFilter={renderFilter}
+                    popupId={popupId}
+                    activeIndex={activeIndex}
                 />
             );
         }
 
         return null;
     };
-
-    const uniqId = useUniqId();
-    const selectId = id ?? uniqId;
-    const popupId = `select-popup-${selectId}`;
 
     const _renderList = () => {
         if (filteredOptions.length || props.loading) {
@@ -304,6 +300,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
                     id={popupId}
+                    activeIndex={activeIndex}
                     onChangeActive={setActiveIndex}
                 />
             );

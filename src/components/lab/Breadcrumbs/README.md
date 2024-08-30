@@ -16,22 +16,22 @@ import {unstable_Breadcrumbs as Breadcrumbs} from '@gravity-ui/uikit/unstable';
 
 <ExampleBlock
     code={`
-<Breadcrumbs>
+<Breadcrumbs.Root>
     <Breadcrumbs.Item>Region</Breadcrumbs.Item>
     <Breadcrumbs.Item>Country</Breadcrumbs.Item>
     <Breadcrumbs.Item>City</Breadcrumbs.Item>
     <Breadcrumbs.Item>District</Breadcrumbs.Item>
     <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 `}
 >
-    <UIKit.Breadcrumbs>
+    <UIKit.Breadcrumbs.Root>
         <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    </UIKit.Breadcrumbs.Root>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -39,13 +39,13 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Breadcrumbs>
+<Breadcrumbs.Root>
   <Breadcrumbs.Item>Region</Breadcrumbs.Item>
   <Breadcrumbs.Item>Country</Breadcrumbs.Item>
   <Breadcrumbs.Item>City</Breadcrumbs.Item>
   <Breadcrumbs.Item>District</Breadcrumbs.Item>
   <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 ```
 
 <!-- Storybook example -->
@@ -62,22 +62,22 @@ Use the `onAction` prop as a callback to handle click events on items.
 
 <ExampleBlock
     code={`
-<Breadcrumbs onAction={(id) => alert(id)}>
+<Breadcrumbs.Root onAction={(id) => alert(id)}>
     <Breadcrumbs.Item key={1}>Region</Breadcrumbs.Item>
     <Breadcrumbs.Item key={2}>Country</Breadcrumbs.Item>
     <Breadcrumbs.Item key={3}>City</Breadcrumbs.Item>
     <Breadcrumbs.Item key={4}>District</Breadcrumbs.Item>
     <Breadcrumbs.Item key={5}>Street</Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 `}
 >
-    <UIKit.Breadcrumbs onAction={(id) => alert(id)}>
+    <UIKit.Breadcrumbs.Root onAction={(id) => alert(id)}>
         <UIKit.Breadcrumbs.Item key={1}>Region</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key={2}>Country</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key={3}>City</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key={4}>District</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key={5}>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    </UIKit.Breadcrumbs.Root>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -94,9 +94,9 @@ const items = [
     {id: 5, label: 'Street'},
 ]
 <div>
-    <Breadcrumbs onAction={setCurrentId}>
+    <Breadcrumbs.Root onAction={setCurrentId}>
         {items.map((i) => <Breadcrumbs.Item key={i.id}>{i.label}</Breadcrumbs.Item>)}
-    </Breadcrumbs>
+    </Breadcrumbs.Root>
     <p>You clicked item ID: {currentId}</p>
 </div>
 ```
@@ -115,18 +115,18 @@ In Breadcrumbs, clicking an item normally triggers `onAction`. But you can also 
 
 <ExampleBlock
     code={`
-<Breadcrumbs>
+<Breadcrumbs.Root>
     <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
     <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
     <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 `}
 >
-    <UIKit.Breadcrumbs>
+    <UIKit.Breadcrumbs.Root>
         <UIKit.Breadcrumbs.Item href="/">Home</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item href="/components">Components</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    </UIKit.Breadcrumbs.Root>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -134,11 +134,11 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Breadcrumbs>
+<Breadcrumbs.Root>
   <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
   <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
   <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 ```
 
 <!-- Storybook example -->
@@ -156,24 +156,24 @@ To help users understand the overall structure, some applications always show th
 <ExampleBlock
     code={`
 <Box overflow="hidden" width={200}>
-    <Breadcrumbs showRoot>
+    <Breadcrumbs.Root showRoot>
         <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
         <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
         <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
         <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
         <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
-    </Breadcrumbs>
+    </Breadcrumbs.Root>
 </Box>
 `}
 >
 <UIKit.Box overflow="hidden" width={200}>
-    <UIKit.Breadcrumbs>
+    <UIKit.Breadcrumbs.Root>
         <UIKit.Breadcrumbs.Item key="home">Home</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key="trendy">Trendy</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key="2020 assets">March 2020 Assets</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key="winter">Winter</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item key="holiday">Holiday</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    </UIKit.Breadcrumbs.Root>
 </UIKit.Box>
 </ExampleBlock>
 
@@ -183,13 +183,13 @@ LANDING_BLOCK-->
 
 ```jsx
 <Box overflow="hidden" width={200}>
-  <Breadcrumbs showRoot>
+  <Breadcrumbs.Root showRoot>
     <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
     <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
     <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
     <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
     <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
-  </Breadcrumbs>
+  </Breadcrumbs.Root>
 </Box>
 ```
 
@@ -205,22 +205,22 @@ LANDING_BLOCK-->
 
 <ExampleBlock
     code={`
-<Breadcrumbs separator=">">
+<Breadcrumbs.Root separator=">">
     <Breadcrumbs.Item>Region</Breadcrumbs.Item>
     <Breadcrumbs.Item>Country</Breadcrumbs.Item>
     <Breadcrumbs.Item>City</Breadcrumbs.Item>
     <Breadcrumbs.Item>District</Breadcrumbs.Item>
     <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 `}
 >
-    <UIKit.Breadcrumbs separator=">">
+    <UIKit.Breadcrumbs.Root separator=">">
         <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
         <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    </UIKit.Breadcrumbs.Root>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -228,15 +228,15 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Breadcrumbs separator="›">
+<Breadcrumbs.Root separator="›">
   {breadcrumbs}
-</Breadcrumbs>
-<Breadcrumbs separator="—">
+</Breadcrumbs.Root>
+<Breadcrumbs.Root separator="—">
   {breadcrumbs}
-</Breadcrumbs>
-<Breadcrumbs separator={<ChevronRight />}>
+</Breadcrumbs.Root>
+<Breadcrumbs.Root separator={<ChevronRight />}>
   {breadcrumbs}
-</Breadcrumbs>
+</Breadcrumbs.Root>
 ```
 
 <!-- Storybook example -->
@@ -251,7 +251,7 @@ LANDING_BLOCK-->
 
 <ExampleBlock
     code={`
-<Breadcrumbs>
+<Breadcrumbs.Root>
   <Breadcrumbs.Item>
     <Flex alignItems="center" gap={1}>
       <House /> uikit
@@ -270,10 +270,10 @@ LANDING_BLOCK-->
       </Text>
     </Flex>
   </Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 `}
 >
-    <UIKit.Breadcrumbs>
+    <UIKit.Breadcrumbs.Root>
         <UIKit.Breadcrumbs.Item>
             <UIKit.Flex alignItems="center" gap={1}>
                 <UIKit.Icon data={() => (
@@ -298,7 +298,7 @@ LANDING_BLOCK-->
                 </UIKit.Text>
             </UIKit.Flex>
         </UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
+    </UIKit.Breadcrumbs.Root>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -306,7 +306,7 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Breadcrumbs>
+<Breadcrumbs.Root>
   <Breadcrumbs.Item>
     <Flex alignItems="center" gap={1}>
       <House /> uikit
@@ -325,7 +325,7 @@ LANDING_BLOCK-->
       </Text>
     </Flex>
   </Breadcrumbs.Item>
-</Breadcrumbs>
+</Breadcrumbs.Root>
 ```
 
 <!-- Storybook example -->
@@ -345,7 +345,7 @@ function Header() {
 
   return (
     <header>
-      <Breadcrumbs navigate={navigate}>{/*...*/}</Breadcrumbs>
+      <Breadcrumbs.Root navigate={navigate}>{/*...*/}</Breadcrumbs.Root>
     </header>
   );
 }
@@ -362,7 +362,7 @@ function Header() {
 
   return (
     <header>
-      <Breadcrumbs navigate={history.push}>{/*...*/}</Breadcrumbs>
+      <Breadcrumbs.Root navigate={history.push}>{/*...*/}</Breadcrumbs.Root>
     </header>
   );
 }
@@ -379,7 +379,7 @@ function Header() {
 
   return (
     <header>
-      <Breadcrumbs navigate={navigate}>{/*...*/}</Breadcrumbs>
+      <Breadcrumbs.Root navigate={navigate}>{/*...*/}</Breadcrumbs.Root>
     </header>
   );
 }
@@ -400,7 +400,7 @@ function Header() {
 
   return (
     <header>
-      <Breadcrumbs navigate={router.push}>{/*...*/}</Breadcrumbs>
+      <Breadcrumbs.Root navigate={router.push}>{/*...*/}</Breadcrumbs.Root>
     </header>
   );
 }
@@ -417,7 +417,7 @@ function Header() {
 
   return (
     <header>
-      <Breadcrumbs navigate={router.push}>{/*...*/}</Breadcrumbs>
+      <Breadcrumbs.Root navigate={router.push}>{/*...*/}</Breadcrumbs.Root>
     </header>
   );
 }
@@ -432,20 +432,20 @@ When breadcrumbs are used as a main navigation element for a page, they can be p
 <ExampleBlock
     code={`
 <nav aria-label="Breadcrumbs">
-  <Breadcrumbs>
+  <Breadcrumbs.Root>
       <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
       <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
       <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-  </Breadcrumbs>
+  </Breadcrumbs.Root>
 </nav>
 `}
 >
     <nav aria-label="Breadcrumbs">
-        <UIKit.Breadcrumbs>
+        <UIKit.Breadcrumbs.Root>
             <UIKit.Breadcrumbs.Item href="/">Home</UIKit.Breadcrumbs.Item>
             <UIKit.Breadcrumbs.Item href="/components">Components</UIKit.Breadcrumbs.Item>
             <UIKit.Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</UIKit.Breadcrumbs.Item>
-        </UIKit.Breadcrumbs>
+        </UIKit.Breadcrumbs.Root>
     </nav>
 </ExampleBlock>
 
@@ -455,11 +455,11 @@ LANDING_BLOCK-->
 
 ```jsx
 <nav aria-label="Breadcrumbs">
-  <Breadcrumbs>
+  <Breadcrumbs.Root>
     <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
     <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
     <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-  </Breadcrumbs>
+  </Breadcrumbs.Root>
 </nav>
 ```
 

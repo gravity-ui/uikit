@@ -31,9 +31,10 @@ export {
 
 export {
     Breadcrumbs as unstable_Breadcrumbs,
+    BreadcrumbsRoot as unstable_BreadcrumbsRoot,
     BreadcrumbsItem as unstable_BreadcrumbsItem,
 } from './components/lab/Breadcrumbs';
 export type {
-    BreadcrumbsProps as unstable_BreadcrumbsProps,
+    BreadcrumbsRootProps as unstable_BreadcrumbsRootProps,
     BreadcrumbsItemProps as unstable_BreadcrumbsItemProps,
 } from './components/lab/Breadcrumbs';

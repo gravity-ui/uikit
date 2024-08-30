@@ -6,7 +6,7 @@ import {useForkRef, useResizeObserver} from '../../../hooks';
 import {Button} from '../../Button';
 import {DropdownMenu} from '../../DropdownMenu';
 import type {PopupPlacement} from '../../Popup';
-import type {AriaLabelingProps, DOMProps, Href, Key, QAProps, RouterOptions} from '../../types';
+import type {AriaLabelingProps, DOMProps, Href, Key, RouterOptions} from '../../types';
 import {filterDOMProps} from '../../utils/filterDOMProps';
 
 import {BreadcrumbItem} from './BreadcrumbItem';
@@ -34,7 +34,7 @@ function Item(_props: BreadcrumbsItemProps): React.ReactElement | null {
     return null;
 }
 
-export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
+export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps {
     id?: string;
     showRoot?: boolean;
     separator?: React.ReactNode;
@@ -49,7 +49,7 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
 
 export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     props: BreadcrumbsProps,
-    ref: React.Ref<HTMLOListElement>,
+    ref: React.Ref<HTMLElement>,
 ) {
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
@@ -251,22 +251,14 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         <ol
             ref={containerRef}
             {...filterDOMProps(props, {labelable: true})}
-            data-qa={props.qa}
             className={b(null, props.className)}
             style={props.style}
         >
             {breadcrumbItems}
         </ol>
     );
-}) as unknown as BreadcrumbsComponent;
+});
 
-type BreadcrumbsComponent = React.FunctionComponent<
-    BreadcrumbsProps & {ref?: React.Ref<HTMLElement>}
-> & {
-    Item: typeof Item;
-};
-
-Breadcrumbs.Item = Item;
 Breadcrumbs.displayName = 'Breadcrumbs';
 
 export {Item as BreadcrumbsItem};

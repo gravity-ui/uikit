@@ -58,6 +58,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             <div
                 role={role}
                 aria-selected={selected}
+                aria-disabled={item.disabled}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
                     'item',

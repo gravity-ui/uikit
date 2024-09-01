@@ -4,9 +4,22 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {Avatar} from '../Avatar';
+import type {AvatarProps} from '../types/main';
+
+import {
+    backgroundColorCases,
+    borderColorCases,
+    sizeCases,
+    themeCases,
+    titleCases,
+    viewCases,
+} from './cases';
+import {TestAvatarWithIcon, TestAvatarWithImage} from './helpersPlaywright';
 import {AvatarStories} from './stories';
 
-test.describe('Avatar', () => {
+test.describe('Avatar', {tag: '@Avatar'}, () => {
     test('render story: <Image>', async ({mount}) => {
         const component = await mount(<AvatarStories.Image />);
 
@@ -49,5 +62,68 @@ test.describe('Avatar', () => {
         const component = await mount(<AvatarStories.AvatarShowcase />);
 
         await expect(component).toHaveScreenshot();
+    });
+
+    const defaultProps: AvatarProps = {};
+
+    const commonCases = {
+        size: sizeCases,
+        theme: themeCases,
+        view: viewCases,
+        backgroundColor: backgroundColorCases,
+        borderColor: borderColorCases,
+        title: titleCases,
+    } as const;
+
+    createSmokeScenarios(
+        defaultProps,
+        {
+            ...commonCases,
+        },
+        {
+            scenarioName: 'image specific',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
+            await mount(<TestAvatarWithImage {...props} />);
+
+            await expectScreenshot();
+        });
+    });
+
+    createSmokeScenarios(
+        defaultProps,
+        {
+            ...commonCases,
+        },
+        {
+            scenarioName: 'icon specific',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
+            await mount(<TestAvatarWithIcon {...props} />);
+
+            await expectScreenshot();
+        });
+    });
+
+    createSmokeScenarios(
+        {
+            ...defaultProps,
+            text: 'Text',
+            color: 'black',
+        },
+        {
+            ...commonCases,
+        },
+        {
+            scenarioName: 'text specific',
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
+            await mount(<Avatar {...props} />);
+
+            await expectScreenshot();
+        });
     });
 });

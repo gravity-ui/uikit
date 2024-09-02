@@ -138,6 +138,18 @@ const descriptionProps = {
         "Comparing to 'L' size promo size has full width of the content block, a larger title size and alignment",
 };
 
+export const Default: Story = {
+    render: () => (
+        <Showcase>
+            <PlaceholderContainer
+                title="Default title"
+                image={<ImageComponentTest />}
+                description="Default description"
+            />
+        </Showcase>
+    ),
+};
+
 export const Size: Story = {
     render: () => (
         <React.Fragment>

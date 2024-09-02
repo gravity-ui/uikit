@@ -7,7 +7,7 @@ type Size = 's' | 'm' | 'l' | 'promo';
 type PlaceholderContainerImageNodeProps = NonNullable<React.ReactNode>;
 
 export type PlaceholderContainerImageProps = {
-    url: string;
+    src: string;
     alt?: string;
 };
 

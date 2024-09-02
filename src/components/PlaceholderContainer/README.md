@@ -111,7 +111,7 @@ It is also possible to render custom controls:
 
 ## Image and content
 
-The property `image` allows to set up image `url` and `alt` settings or react node.
+The property `image` allows to set up image `src` and `alt` settings or react node.
 
 <!--GITHUB_BLOCK-->
 
@@ -144,17 +144,17 @@ The property `image` allows to set up image `url` and `alt` settings or react no
 />
 ```
 
-with url and alt settings
+with src and alt settings
 
 ```tsx
 <PlaceholderContainer
-  title="Sample with image (set by url and alt properties)"
+  title="Sample with image (set by src and alt properties)"
   description="Some description for PlaceholderContainer component demo"
   direction="row"
   size="s"
   align="center"
   image={{
-    url: 'https://gravity-ui.com/static/images/design/Resources/img-gravitylib.png',
+    src: 'https://gravity-ui.com/static/images/design/Resources/img-gravitylib.png',
     alt: 'logo',
   }}
 />
@@ -216,6 +216,6 @@ To control alignment of content inside parent container use `align` property. Th
 | align       | Used to set content horizontal align, possible values: `"center"` or `"left"`       |                                   `string`                                    | `"center"` |
 | title       | Content title text                                                                  |                                   `string`                                    |            |
 | description | Content description text                                                            |                                   `string`                                    |            |
-| image       | Used to set image by src url or passing react node                                  | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
+| image       | Used to set image by src or passing react node                                      | `PlaceholderContainerImageNodeProps`<br/> `\| PlaceholderContainerImageProps` |            |
 | content     | Used to render node instead of content (title, description and actions)             |                               `React.ReactNode`                               |            |
 | actions     | Used to render array of button controls or custom node                              |     `PlaceholderContainerActionProps[]`<br/> `\|        React.ReactNode `     |            |

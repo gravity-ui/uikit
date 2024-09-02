@@ -55,8 +55,8 @@ export const PlaceholderContainer = ({
     };
 
     const renderImage = (): NonNullable<React.ReactNode> => {
-        if (typeof image === 'object' && 'url' in image) {
-            return <img src={image.url} alt={image.alt || ''} />;
+        if (typeof image === 'object' && 'src' in image) {
+            return <img src={image.src} alt={image.alt || ''} />;
         }
 
         return image;

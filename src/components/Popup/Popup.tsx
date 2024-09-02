@@ -64,6 +64,8 @@ export interface PopupProps extends DOMProps, LayerExtendableProps, PopperProps,
     'aria-label'?: React.AriaAttributes['aria-label'];
     /** `aria-labelledby` attribute, prefer this attribute if you have visible caption */
     'aria-labelledby'?: React.AriaAttributes['aria-labelledby'];
+    /** `aria-modal` attribute, default value is equal to focusTrap */
+    'aria-modal'?: React.AriaAttributes['aria-modal'];
     /** `aria-role` attribute */
     role?: React.AriaRole;
     /** HTML `id` attribute */
@@ -111,10 +113,11 @@ export function Popup({
     restoreFocusRef,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    role,
+    role: roleProp,
     id,
     focusTrap = false,
     autoFocus = false,
+    'aria-modal': ariaModal = focusTrap,
 }: PopupProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -152,6 +155,11 @@ export function Popup({
         restoreFocusRef,
     });
 
+    let role = roleProp;
+    if ((ariaModal === true || ariaModal === 'true') && !role) {
+        role = 'dialog';
+    }
+
     return (
         <CSSTransition
             nodeRef={containerRef}
@@ -186,8 +194,9 @@ export function Popup({
                     role={role}
                     aria-label={ariaLabel}
                     aria-labelledby={ariaLabelledBy}
+                    aria-modal={ariaModal && open ? ariaModal : undefined}
                 >
-                    <FocusTrap enabled={focusTrap && open} disableAutoFocus={!autoFocus}>
+                    <FocusTrap enabled={focusTrap && open} autoFocus={autoFocus}>
                         {/* FIXME The onClick event handler is deprecated and should be removed */}
                         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
                         <div

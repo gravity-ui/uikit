@@ -53,29 +53,14 @@ export function MobileProvider({
         document.body.classList.toggle(rootMobileClassName, mobile);
     }, [rootMobileClassName, mobile]);
 
-    const touch = React.useMemo(() => isTouchScreen(), []);
-
     const contextValue: MobileContextProps = React.useMemo(() => {
         return {
             mobile,
-            touch,
             platform,
             useLocation,
             useHistory: useHistoryFunction,
         };
-    }, [mobile, touch, platform, useLocation, useHistoryFunction]);
+    }, [mobile, platform, useLocation, useHistoryFunction]);
 
     return <MobileContext.Provider value={contextValue}>{children}</MobileContext.Provider>;
-}
-
-function isTouchScreen(): boolean {
-    if (window.PointerEvent) {
-        return navigator?.maxTouchPoints > 0;
-    }
-
-    if (window.matchMedia && window.matchMedia('(any-pointer:coarse)').matches) {
-        return true;
-    }
-
-    return Boolean(window.TouchEvent || 'ontouchstart' in window);
 }

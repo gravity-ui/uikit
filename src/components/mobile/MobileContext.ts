@@ -16,7 +16,6 @@ export interface Location {
 
 export interface MobileContextProps {
     mobile: boolean;
-    touch: boolean;
     platform: Platform;
     useHistory: () => History;
     useLocation: () => Location;
@@ -24,7 +23,6 @@ export interface MobileContextProps {
 
 const initialValue: MobileContextProps = {
     mobile: false,
-    touch: false,
     platform: Platform.BROWSER,
     useHistory: () => ({action: '', replace() {}, push() {}, goBack() {}}),
     useLocation: () => ({pathname: '', search: '', hash: ''}),

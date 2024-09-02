@@ -12,6 +12,7 @@ export type UseSelectProps = {
     defaultValue?: string[];
     multiple?: boolean;
     onUpdate?: (value: string[]) => void;
+    disabled?: boolean;
 } & UseOpenProps;
 
 export type UseSelectResult<T> = {

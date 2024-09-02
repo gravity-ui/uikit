@@ -4,7 +4,7 @@ import React from 'react';
 
 import {Select} from '../../../Select';
 import type {SelectOption} from '../../../Select';
-import {PaginationQa} from '../../constants';
+import {PaginationQa, getPaginationPageSizeOptionQa} from '../../constants';
 import i18n from '../../i18n';
 import type {PaginationProps, PaginationSize} from '../../types';
 import {getNumberOfPages} from '../../utils';
@@ -32,7 +32,7 @@ export const PaginationPageSizer = ({
         (pageSizeOption): SelectOption => ({
             value: String(pageSizeOption),
             content: pageSizeOption,
-            qa: `${PaginationQa.PaginationPageSizerOption}-${pageSizeOption}`,
+            qa: getPaginationPageSizeOptionQa(pageSizeOption),
         }),
     );
 

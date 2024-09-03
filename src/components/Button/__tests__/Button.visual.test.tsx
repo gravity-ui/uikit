@@ -3,10 +3,10 @@ import React from 'react';
 import {test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
 
 import {
-    defaultProps,
     disabledCases,
     loadingCases,
     pinsCases,
@@ -89,20 +89,36 @@ test.describe('Button', {tag: '@Button'}, () => {
         await expectScreenshot();
     });
 
-    const smokeScenarios = createSmokeScenarios(defaultProps, {
-        size: sizeCases,
-        selected: selectedCases,
-        disabled: disabledCases,
-        loading: loadingCases,
-        view: viewsCases,
-        pin: pinsCases,
-    });
+    const qa = 'test-button';
 
-    smokeScenarios.forEach(([title, details, props]) => {
+    createSmokeScenarios<ButtonProps>(
+        {
+            children: 'Text',
+            qa,
+        },
+        {
+            size: sizeCases,
+            selected: selectedCases,
+            disabled: disabledCases,
+            loading: loadingCases,
+            view: viewsCases,
+            pin: pinsCases,
+        },
+    ).forEach(([title, details, props]) => {
         test(title, details, async ({mount, expectScreenshot}) => {
-            await mount(<Button {...props} />);
+            const root = await mount(<Button {...props} />);
 
             await expectScreenshot();
+
+            if (props.disabled || props.loading) {
+                return;
+            }
+
+            await root.getByTestId(qa).hover();
+
+            await expectScreenshot({
+                nameSuffix: 'hovered',
+            });
         });
     });
 });

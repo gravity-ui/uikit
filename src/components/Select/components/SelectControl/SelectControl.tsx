@@ -104,7 +104,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
             // Fix for Safari
             // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#clicking_and_focus
             if (e && e.currentTarget !== document.activeElement && 'focus' in e.currentTarget) {
-                (e.currentTarget as HTMLButtonElement).focus();
+                e.currentTarget.focus();
             }
 
             toggleOpen();
@@ -164,6 +164,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                 popupId,
                 selectId,
                 activeIndex,
+                disabled,
             },
             {value},
         );
@@ -176,7 +177,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     id={selectId}
                     ref={ref}
                     role="combobox"
-                    aria-controls={popupId}
+                    aria-controls={open ? popupId : undefined}
                     className={selectControlButtonBlock(buttonMods, className)}
                     aria-haspopup="listbox"
                     aria-expanded={open}
@@ -189,6 +190,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     type="button"
                     data-qa={qa}
                     title={title}
+                    tabIndex={0}
                 >
                     {label && <span className={selectControlBlock('label')}>{label}</span>}
                     {showPlaceholder && (

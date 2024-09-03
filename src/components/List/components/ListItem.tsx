@@ -58,6 +58,7 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
             <div
                 role={role}
                 aria-selected={selected}
+                aria-disabled={item.disabled}
                 data-qa={active ? ListQa.ACTIVE_ITEM : undefined}
                 className={b(
                     'item',
@@ -77,7 +78,6 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
                 onClick={item.disabled ? undefined : this.onClick}
                 onClickCapture={item.disabled ? undefined : this.onClickCapture}
                 onMouseEnter={this.onMouseEnter}
-                onMouseLeave={this.onMouseLeave}
                 ref={this.setRef}
                 id={`${this.props.listId}-item-${this.props.itemIndex}`}
             >
@@ -124,6 +124,4 @@ export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
 
     private onMouseEnter = () =>
         !this.props.item.disabled && this.props.onActivate(this.props.itemIndex);
-
-    private onMouseLeave = () => this.props.onActivate(undefined);
 }

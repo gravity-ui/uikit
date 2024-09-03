@@ -9,11 +9,19 @@ $block: '.#{variables.$ns}pagination-ellipsis';
     align-items: flex-end;
     color: var(--g-color-text-secondary);
 
+    &_size_s {
+        padding-block-end: 3px;
+    }
+
     &_size_m {
         padding-block-end: 5px;
     }
 
     &_size_l {
         padding-block-end: 9px;
+    }
+
+    &_size_xl {
+        padding-block-end: 11px;
     }
 }

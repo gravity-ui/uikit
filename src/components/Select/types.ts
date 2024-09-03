@@ -22,6 +22,7 @@ export type SelectRenderControlProps = {
     popupId: string;
     selectId: string;
     activeIndex?: number;
+    disabled?: boolean;
 };
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];

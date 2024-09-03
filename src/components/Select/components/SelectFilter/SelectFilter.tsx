@@ -19,6 +19,8 @@ type SelectFilterProps = {
     size: NonNullable<SelectProps['size']>;
     value: string;
     placeholder?: string;
+    popupId: string;
+    activeIndex?: number;
 };
 
 const style = {
@@ -26,7 +28,8 @@ const style = {
 };
 
 export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>((props, ref) => {
-    const {onChange, onKeyDown, renderFilter, size, value, placeholder} = props;
+    const {onChange, onKeyDown, renderFilter, size, value, placeholder, popupId, activeIndex} =
+        props;
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useImperativeHandle(
@@ -43,7 +46,13 @@ export const SelectFilter = React.forwardRef<SelectFilterRef, SelectFilterProps>
         <div className={b()} style={style}>
             <TextInput
                 controlRef={inputRef}
-                controlProps={{className: b('input'), size: 1}}
+                controlProps={{
+                    className: b('input'),
+                    size: 1,
+                    'aria-controls': popupId,
+                    'aria-activedescendant':
+                        activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
+                }}
                 size={size}
                 value={value}
                 placeholder={placeholder}

@@ -244,7 +244,7 @@ const stories: ListItemViewProps[] = [
             indentation: 1,
             isGroup: true,
             expanded: false,
-            expandIconPosition: 'end',
+            expandIconPlacement: 'end',
         },
     },
     {
@@ -254,10 +254,12 @@ const stories: ListItemViewProps[] = [
             title: 'Custom icon end',
             isGroup: true,
             expanded: false,
-            expandIconPosition: 'end',
+            expandIconPlacement: 'end',
             renderExpandIcon: (props) => (
                 <Button view="flat" extraProps={{'aria-label': 'toggle-button'}}>
-                    <ListItemExpandIcon {...props} />
+                    <Button.Icon>
+                        <ListItemExpandIcon {...props} />
+                    </Button.Icon>
                 </Button>
             ),
         },

@@ -97,10 +97,12 @@ export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActio
                                                 }));
                                             }}
                                         >
-                                            <ListItemExpandIcon
-                                                expanded={props.content.expanded}
-                                                usageRole="state"
-                                            />
+                                            <Button.Icon>
+                                                <ListItemExpandIcon
+                                                    expanded={props.content.expanded}
+                                                    kind="state"
+                                                />
+                                            </Button.Icon>
                                         </Button>
                                     ) : (
                                         <Flex

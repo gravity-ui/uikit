@@ -5,42 +5,7 @@ $block: '.#{variables.$ns}list-item-expand-icon';
 #{$block} {
     flex-shrink: 0;
 
-    transition: transform 0.1s ease;
-
     &_disableTransition {
         transition: none;
-    }
-
-    &_usage_state {
-        transform: rotate(-90deg);
-
-        &#{$block}_expanded {
-            transform: rotate(0deg);
-        }
-    }
-    &_usage_state-inverse {
-        transform: rotate(90deg);
-
-        &#{$block}_expanded {
-            transform: rotate(0deg);
-        }
-    }
-
-    &_usage_action {
-        transform: rotate(0deg);
-        transition: transform 0.2s ease;
-
-        &#{$block}_expanded {
-            transform: rotate(180deg);
-        }
-    }
-
-    &_usage_action-inverse {
-        transform: rotate(0deg);
-        transition: transform 0.2s ease;
-
-        &#{$block}_expanded {
-            transform: rotate(-180deg);
-        }
     }
 }

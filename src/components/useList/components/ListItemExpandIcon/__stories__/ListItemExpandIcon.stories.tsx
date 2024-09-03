@@ -28,7 +28,9 @@ const InsideButtonExample = (props: ListItemExpandIconProps) => {
 
     return (
         <Button extraProps={{'aria-label': 'toggle-button'}} onClick={() => setExpanded((x) => !x)}>
-            <ListItemExpandIcon {...props} expanded={expanded} />
+            <Button.Icon>
+                <ListItemExpandIcon {...props} expanded={expanded} />
+            </Button.Icon>
         </Button>
     );
 };

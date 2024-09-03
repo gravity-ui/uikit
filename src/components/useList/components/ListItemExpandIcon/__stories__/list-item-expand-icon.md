@@ -29,7 +29,9 @@ const InsideButtonExample = (props: ListItemExpandIconProps) => {
 
     return (
         <Button onClick={() => setExpanded((x) => !x)}>
-            <ListItemExpandIcon {...props} expanded={expanded} />
+            <Button.Icon>
+                <ListItemExpandIcon {...props} expanded={expanded} />
+            </Button.Icon>
         </Button>
     );
 };
@@ -39,9 +41,9 @@ const InsideButtonExample = (props: ListItemExpandIconProps) => {
 
 #### Props
 
-| Name              | Description                                     |                         Type                         | Default |
-| :---------------- | :---------------------------------------------- | :--------------------------------------------------: | :-----: |
-| expanded          | icon state                                      |                      `boolean`                       |         |
-| disableTransition | disable animation while `expanded` state change |                      `boolean`                       |         |
-| disabled          | disabled view type                              |                      `boolean`                       |         |
-| usageRole         | The type of behavior of the component           | `state`, `action`, `state-inverse`, `action-inverse` |         |
+| Name              | Description                                     |               Type                | Default |
+| :---------------- | :---------------------------------------------- | :-------------------------------: | :-----: |
+| expanded          | icon state                                      |             `boolean`             |         |
+| disableTransition | disable animation while `expanded` state change |             `boolean`             |         |
+| disabled          | disabled view type                              |             `boolean`             |         |
+| kind              | The type of behavior of the component           | `state`, `state-inverse`,`action` |         |

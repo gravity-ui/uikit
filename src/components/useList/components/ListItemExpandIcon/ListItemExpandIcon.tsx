@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {ChevronDown} from '@gravity-ui/icons';
-
-import {Icon} from '../../../Icon';
+import type {ArrowToggleProps} from '../../../ArrowToggle';
+import {ArrowToggle} from '../../../ArrowToggle';
 import {colorText} from '../../../Text';
 import {block} from '../../../utils/cn';
 import type {ListItemExpandIconRenderProps} from '../../types';
@@ -16,20 +15,35 @@ export interface ListItemExpandIconProps extends ListItemExpandIconRenderProps {
 export const ListItemExpandIcon = ({
     expanded,
     disableTransition,
-    usageRole: usage = 'action',
+    kind = 'action',
     disabled,
 }: ListItemExpandIconProps) => {
     return (
-        <Icon
-            className={b(
-                {expanded, disableTransition, usage},
-                colorText({color: disabled ? 'hint' : undefined}),
-            )}
-            data={ChevronDown}
+        <ArrowToggle
+            direction={getIconDirection({kind, expanded})}
+            className={b({disableTransition}, colorText({color: disabled ? 'hint' : undefined}))}
             size={16}
         />
     );
 };
 
-// For correct rendering inside `Button` component
-ListItemExpandIcon.displayName = 'Icon';
+function getIconDirection({
+    kind,
+    expanded,
+}: Pick<ListItemExpandIconRenderProps, 'expanded' | 'kind'>): ArrowToggleProps['direction'] {
+    if (expanded && kind === 'action') {
+        return 'top';
+    } else if (expanded && kind === 'state') {
+        return 'bottom';
+    } else if (expanded && kind === 'state-inverse') {
+        return 'bottom';
+    } else if (kind === 'action') {
+        return 'bottom';
+    } else if (kind === 'state') {
+        return 'right';
+    } else if (kind === 'state-inverse') {
+        return 'left';
+    }
+
+    return 'bottom';
+}

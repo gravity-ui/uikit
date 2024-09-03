@@ -96,10 +96,12 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                                 : expandButtonLabel,
                                         }}
                                     >
-                                        <ListItemExpandIcon
-                                            expanded={itemProps.content.expanded}
-                                            usageRole="action-inverse"
-                                        />
+                                        <Button.Icon>
+                                            <ListItemExpandIcon
+                                                expanded={itemProps.content.expanded}
+                                                kind="action"
+                                            />
+                                        </Button.Icon>
                                     </Button>
                                 ) : (
                                     <Flex

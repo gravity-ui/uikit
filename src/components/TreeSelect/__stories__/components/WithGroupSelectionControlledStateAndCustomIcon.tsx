@@ -92,10 +92,12 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                             }));
                                         }}
                                     >
-                                        <ListItemExpandIcon
-                                            expanded={props.content.expanded}
-                                            usageRole="action"
-                                        />
+                                        <Button.Icon>
+                                            <ListItemExpandIcon
+                                                expanded={props.content.expanded}
+                                                kind="action"
+                                            />
+                                        </Button.Icon>
                                     </Button>
                                 ) : undefined,
                             }}

@@ -46,9 +46,10 @@ export interface ListItemExpandIconRenderProps {
      * - action - to indicate user actions. For example, for an icon inside a button;
      * - state - to indicate the current state of the element;
      */
-    usageRole: 'state' | 'action' | 'state-inverse' | 'action-inverse';
-    expanded?: boolean;
+    kind: 'state' | 'state-inverse' | 'action';
+
     disableTransition?: boolean;
+    expanded?: boolean;
     disabled?: boolean;
 }
 
@@ -69,7 +70,7 @@ export type ListItemViewContentType = {
     /**
      * @default - 'start'
      */
-    expandIconPosition?: 'start' | 'end';
+    expandIconPlacement?: 'start' | 'end';
     /**
      * Will be applied if `isGroup` props is `true`
      */

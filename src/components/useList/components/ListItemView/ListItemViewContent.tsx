@@ -58,12 +58,12 @@ export const ListItemViewContent = ({
     expanded,
     selected,
     title,
-    expandIconPosition = 'start',
+    expandIconPlacement = 'start',
     renderExpandIcon: RenderExpandIcon = ListItemExpandIcon,
 }: ListItemViewContentProps) => {
     const expandIconNode = isGroup ? (
         <RenderExpandIcon
-            usageRole={expandIconPosition === 'start' ? 'state' : 'action'}
+            kind={expandIconPlacement === 'start' ? 'state' : 'action'}
             expanded={expanded}
             disabled={disabled}
         />
@@ -83,7 +83,7 @@ export const ListItemViewContent = ({
 
                 {renderSafeIndentation(indentation)}
 
-                {expandIconPosition === 'start' && expandIconNode}
+                {expandIconPlacement === 'start' && expandIconNode}
 
                 {startSlot}
 
@@ -110,7 +110,7 @@ export const ListItemViewContent = ({
             </Flex>
 
             <Flex gap="2">
-                {expandIconPosition === 'end' && expandIconNode}
+                {expandIconPlacement === 'end' && expandIconNode}
                 {endSlot}
             </Flex>
         </Flex>

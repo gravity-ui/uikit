@@ -97,10 +97,12 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                                 : expandButtonLabel,
                                         }}
                                     >
-                                        <ListItemExpandIcon
-                                            expanded={itemProps.content.expanded}
-                                            usageRole="action"
-                                        />
+                                        <Button.Icon>
+                                            <ListItemExpandIcon
+                                                expanded={itemProps.content.expanded}
+                                                kind="action"
+                                            />
+                                        </Button.Icon>
                                     </Button>
                                 ) : undefined,
                             }}

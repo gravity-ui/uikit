@@ -1,5 +1,5 @@
 export function isTouchDevice(): boolean {
-    if (!window) {
+    if (typeof window === 'undefined') {
         return false;
     }
 

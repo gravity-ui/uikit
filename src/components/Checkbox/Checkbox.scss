@@ -141,11 +141,8 @@ $block: '.#{variables.$ns}checkbox';
 
         &#{$block}_checked,
         &#{$block}_indeterminate {
-            #{$block}__indicator {
-                &::before {
-                    background-color: var(--g-color-base-brand);
-                    opacity: 0.5;
-                }
+            #{$block}__icon {
+                color: var(--g-color-text-hint);
             }
         }
     }

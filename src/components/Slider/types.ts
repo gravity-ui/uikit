@@ -8,7 +8,7 @@ export type SliderValue = number | [number, number];
 
 export type RcSliderValueType = number | number[];
 
-export type SliderProps<ValueType = number | [number, number]> = {
+export interface SliderProps<ValueType = number | [number, number]> extends DOMProps, QAProps {
     /** The value of the control */
     value?: ValueType;
     /** The control's default value, used when the component is not controlled */
@@ -35,8 +35,6 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Describes the validation state */
     validationState?: 'invalid';
 
-    /** Specifies the delay (in milliseconds) before the processing function is called */
-    debounceDelay?: number;
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
     /** Fires when the control lost focus. Provides focus event as a callback's argument */
@@ -51,16 +49,21 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** The control's tabIndex attribute */
     tabIndex?: ValueType;
     /** Ref to Slider's component props of focus and blur */
-    apiRef?: React.RefObject<BaseSliderRefType>;
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-} & Pick<DOMProps, 'className'> &
-    QAProps;
+    apiRef?: React.Ref<BaseSliderRefType>;
+    'aria-label'?: string | [string, string];
+    'aria-labelledby'?: string | [string, string];
+    id?: string;
+    /** Name attribute of the hidden input element. */
+    name?: string;
+    form?: string;
+}
 
 export type SliderInnerState = {
     max: number;
     min: number;
-} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'>;
+    value?: number | [number, number];
+    defaultValue?: number | [number, number];
+} & Pick<RcSliderProps, 'step' | 'range' | 'marks'>;
 
 export type StateModifiers = {
     size: SliderSize;

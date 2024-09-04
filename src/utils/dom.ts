@@ -3,13 +3,13 @@ export function isTouchDevice(): boolean {
         return false;
     }
 
-    if (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) {
-        return true;
+    if ('PointerEvent' in window && 'maxTouchPoints' in navigator) {
+        return navigator.maxTouchPoints > 0;
     }
 
     if (window.matchMedia && window.matchMedia('(any-pointer:coarse)').matches) {
         return true;
     }
 
-    return Boolean(window.TouchEvent || 'ontouchstart' in window);
+    return 'ontouchstart' in window;
 }

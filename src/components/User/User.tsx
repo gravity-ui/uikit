@@ -3,7 +3,7 @@ import React from 'react';
 import {Avatar} from '../Avatar';
 import {block} from '../utils/cn';
 
-import {DEFAULT_USER_SIZE, NO_DESCRIPTION_SIZES} from './constants';
+import {COMPACT_SIZES, DEFAULT_SIZE} from './constants';
 import type {UserProps} from './types';
 
 import './User.scss';
@@ -21,7 +21,7 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
             avatar,
             name,
             description,
-            size = DEFAULT_USER_SIZE,
+            size = DEFAULT_SIZE,
             'aria-label': ariaLabel,
             'aria-labelledby': ariaLabelledby,
             className,
@@ -30,7 +30,7 @@ export const User = React.forwardRef<HTMLDivElement, UserProps>(
         },
         ref,
     ) => {
-        const showDescription = Boolean(description && !NO_DESCRIPTION_SIZES.includes(size));
+        const showDescription = Boolean(description && !COMPACT_SIZES.includes(size));
 
         return (
             <div

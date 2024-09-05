@@ -70,9 +70,7 @@ LANDING_BLOCK-->
 
 ## CSS API
 
-| Name                         | Description                                                |
-| :--------------------------- | :--------------------------------------------------------- |
-| `--g-user-font-size`         | Name and description font size for `size='s'` and larger   |
-| `--g-user-line-height`       | Name and description line height for `size='s'` and larger |
-| `--g-user-small-font-size`   | Name font size for `size='xs'` and smaller                 |
-| `--g-user-small-line-height` | Name line height for `size='xs'` and smaller               |
+| Name                   | Description                      |
+| :--------------------- | :------------------------------- |
+| `--g-user-font-size`   | Name and description font size   |
+| `--g-user-line-height` | Name and description line height |

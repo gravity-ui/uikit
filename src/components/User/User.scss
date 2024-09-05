@@ -11,8 +11,8 @@ $block: '.#{variables.$ns}user';
 }
 
 @mixin user-text-small() {
-    font-size: var(--g-user-small-font-size, var(--g-text-code-inline-1-font-size));
-    line-height: var(--g-user-small-line-height, var(--g-text-code-inline-1-line-height));
+    font-size: var(--g-user-font-size, var(--g-text-code-inline-1-font-size));
+    line-height: var(--g-user-line-height, var(--g-text-code-inline-1-line-height));
     font-weight: var(--g-text-body-font-weight);
 }
 

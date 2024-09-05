@@ -35,4 +35,17 @@ describe('ClipboardButton', () => {
 
         document.execCommand = documentExecCommand;
     });
+
+    test('show given children', () => {
+        const childrenText = 'Copy';
+
+        render(
+            <ClipboardButton text="">
+                <span>{childrenText}</span>
+            </ClipboardButton>,
+        );
+        const text = screen.getByText(childrenText);
+
+        expect(text).toBeVisible();
+    });
 });

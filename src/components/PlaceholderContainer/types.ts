@@ -19,9 +19,9 @@ export type PlaceholderContainerActionProps = Pick<
 };
 
 export interface PlaceholderContainerProps {
-    size: Size;
-    direction: 'row' | 'column';
-    align: 'left' | 'center';
+    size?: Size;
+    direction?: 'row' | 'column';
+    align?: 'left' | 'center';
     title?: string;
     description?: React.ReactNode;
     content?: React.ReactNode;

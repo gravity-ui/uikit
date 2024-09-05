@@ -63,7 +63,7 @@ export const PlaceholderContainer = ({
     };
 
     const renderAction = () => {
-        if (!actions || !React.isValidElement(actions) || !Array.isArray(actions)) {
+        if (!actions || !(React.isValidElement(actions) || Array.isArray(actions))) {
             return null;
         }
 

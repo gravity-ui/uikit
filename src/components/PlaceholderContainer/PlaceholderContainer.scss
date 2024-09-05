@@ -33,6 +33,7 @@ $block: '.#{$ns}placeholder-container';
 
         & > * {
             max-width: $imageSize;
+            display: block;
         }
     }
 

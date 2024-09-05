@@ -1,16 +1,15 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
-import type {Meta, /*StoryFn,*/ StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import {Showcase} from '../../../demo/Showcase';
-import {ShowcaseItem} from '../../../demo/ShowcaseItem';
 import {Button} from '../../Button';
 import {DropdownMenu} from '../../DropdownMenu';
 import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
 import {PlaceholderContainer} from '../PlaceholderContainer';
-import type {PlaceholderContainerActionProps, PlaceholderContainerProps} from '../types';
+import type {PlaceholderContainerActionProps} from '../types';
 
 import './PlaceholderContainerShowcase.scss';
 
@@ -58,18 +57,6 @@ const ImageComponentTest = () => {
     );
 };
 
-const contentComponentTest = (
-    <div>
-        <h1>Custom title</h1>
-        <h2>with custom subtitle</h2>
-        <h3>and etc</h3>
-        <p>
-            You can add <strong>here</strong> any long text with custom content and use custom
-            content size for displaying very long texts.
-        </p>
-    </div>
-);
-
 const actionComponentTest = (
     <div className={b('custom-action')}>
         <DropdownMenu
@@ -101,178 +88,96 @@ const actionAdditionalBtnProps: PlaceholderContainerActionProps = {
     onClick: () => alert('Click by additional button'),
 };
 
-const baseProps = {
-    title: 'Container with one button & image component',
-    image: <ImageComponentTest />,
-    className: 'placeholder-container',
-};
-
-const placeholderContainerProps: Omit<PlaceholderContainerProps, 'size' | 'direction'> = {
-    ...baseProps,
-    actions: [actionMainProps],
-    align: 'center',
-};
-
-const actionsProps = {
-    actions: [actionMainProps, actionAdditionalBtnProps],
-};
-
-const placeholderContainerCustomRenderedProps: Omit<
-    PlaceholderContainerProps,
-    'size' | 'direction'
-> = {
-    ...placeholderContainerProps,
-    content: contentComponentTest,
-};
-
-const placeholderContainerCustomActionProps: Omit<PlaceholderContainerProps, 'size' | 'direction'> =
-    {
-        ...placeholderContainerProps,
-        actions: actionComponentTest,
-    };
-
-const descriptionProps = {
-    description:
-        'Some long descriptionProps text that can contain of long long very long text etc. It can be repeated like this. Some long descriptionProps text that can contain of long long very long text etc.',
-    promoDescription:
-        "Comparing to 'L' size promo size has full width of the content block, a larger title size and alignment",
-};
-
 export const Default: Story = {
-    render: () => (
-        <Showcase>
-            <PlaceholderContainer
-                title="Default title"
-                image={<ImageComponentTest />}
-                description="Default description"
-            />
-        </Showcase>
-    ),
+    args: {
+        title: 'Some title',
+        image: <ImageComponentTest />,
+        description:
+            'Some long descriptionProps text that can contain of long long very long text etc. It can be repeated like this. Some long descriptionProps text that can contain of long long very long text etc.',
+    },
 };
 
-export const Size: Story = {
-    render: () => (
-        <React.Fragment>
-            <Showcase title="Size row">
-                <ShowcaseItem title="Size s">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="row"
-                        size="s"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="Size m">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="row"
-                        size="m"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="Size l">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="row"
-                        size="l"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="Size promo">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.promoDescription}
-                        direction="row"
-                        size="promo"
-                    />
-                </ShowcaseItem>
-            </Showcase>
-            <Showcase title="Size column">
-                <ShowcaseItem title="Size s">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="column"
-                        size="s"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="Size m">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="column"
-                        size="m"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="Size l">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="column"
-                        size="l"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="Size promo">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.promoDescription}
-                        direction="column"
-                        size="promo"
-                    />
-                </ShowcaseItem>
-            </Showcase>
-        </React.Fragment>
-    ),
-};
-
-export const Actions: Story = {
-    render: () => (
-        <React.Fragment>
-            <Showcase title="Actions">
-                <ShowcaseItem title="single control">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        description={descriptionProps.description}
-                        direction="row"
-                        size="m"
-                        title="Size m"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="multi controls">
-                    <PlaceholderContainer
-                        {...placeholderContainerProps}
-                        {...actionsProps}
-                        description={descriptionProps.description}
-                        direction="row"
-                        size="m"
-                        title="Size m"
-                    />
-                </ShowcaseItem>
-                <ShowcaseItem title="custom control">
-                    <PlaceholderContainer
-                        {...placeholderContainerCustomActionProps}
-                        description={descriptionProps.description}
-                        direction="row"
-                        size="m"
-                        title="Size m"
-                    />
-                </ShowcaseItem>
-            </Showcase>
-        </React.Fragment>
-    ),
-};
-
-export const Content: Story = {
-    render: () => (
+export const Direction: Story = {
+    render: (args) => (
         <React.Fragment>
             <Showcase>
+                <PlaceholderContainer {...args} direction="row" title={`${args.title}: row`} />
+            </Showcase>
+            <Showcase>
                 <PlaceholderContainer
-                    {...placeholderContainerCustomRenderedProps}
-                    direction="row"
-                    size="s"
-                    title="Size s"
+                    {...args}
+                    direction="column"
+                    title={`${args.title}: column`}
                 />
             </Showcase>
         </React.Fragment>
     ),
+    args: {
+        ...Default.args,
+        title: 'Direction',
+    },
+};
+
+export const Align: Story = {
+    render: (args) => (
+        <React.Fragment>
+            <Showcase className={b('full-width')}>
+                <PlaceholderContainer {...args} align="center" title={`${args.title}: center`} />
+            </Showcase>
+            <Showcase className={b('full-width')}>
+                <PlaceholderContainer {...args} align="left" title={`${args.title}: left`} />
+            </Showcase>
+        </React.Fragment>
+    ),
+    args: {
+        ...Default.args,
+        title: 'Align of component inside flex parent',
+    },
+};
+
+export const Size: Story = {
+    render: (args) => (
+        <React.Fragment>
+            <Showcase className={b('container')}>
+                <PlaceholderContainer {...args} size="s" title="Size S" />
+            </Showcase>
+            <Showcase className={b('container')}>
+                <PlaceholderContainer {...args} size="m" title="Size M" />
+            </Showcase>
+            <Showcase className={b('container')}>
+                <PlaceholderContainer {...args} size="l" title="Size L" />
+            </Showcase>
+            <Showcase className={b('container')}>
+                <PlaceholderContainer {...args} size="promo" title="Size promo" />
+            </Showcase>
+        </React.Fragment>
+    ),
+    args: {
+        ...Default.args,
+        description: 'Description text',
+    },
+};
+
+export const Actions: Story = {
+    render: (args) => (
+        <React.Fragment>
+            <Showcase>
+                <PlaceholderContainer
+                    {...args}
+                    title="Array of actions"
+                    actions={[actionMainProps, actionAdditionalBtnProps]}
+                />
+            </Showcase>
+            <Showcase>
+                <PlaceholderContainer
+                    {...args}
+                    title="Custom actions component"
+                    actions={actionComponentTest}
+                />
+            </Showcase>
+        </React.Fragment>
+    ),
+    args: {
+        ...Default.args,
+    },
 };

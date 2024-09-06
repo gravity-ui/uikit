@@ -41,9 +41,8 @@ const InsideButtonExample = (props: ListItemExpandIconProps) => {
 
 #### Props
 
-| Name              | Description                                     |               Type                | Default |
-| :---------------- | :---------------------------------------------- | :-------------------------------: | :-----: |
-| expanded          | icon state                                      |             `boolean`             |         |
-| disableTransition | disable animation while `expanded` state change |             `boolean`             |         |
-| disabled          | disabled view type                              |             `boolean`             |         |
-| kind              | The type of behavior of the component           | `state`, `state-inverse`,`action` |         |
+| Name     | Description                   |               Type                | Default |
+| :------- | :---------------------------- | :-------------------------------: | :-----: |
+| expanded | icon state                    |             `boolean`             |         |
+| disabled | disabled view type            |             `boolean`             |         |
+| behavior | The behavior of the component | `state`, `state-inverse`,`action` |         |

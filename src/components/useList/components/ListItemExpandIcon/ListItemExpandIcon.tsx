@@ -14,34 +14,33 @@ export interface ListItemExpandIconProps extends ListItemExpandIconRenderProps {
 
 export const ListItemExpandIcon = ({
     expanded,
-    disableTransition,
-    kind = 'action',
+    behavior = 'action',
     disabled,
 }: ListItemExpandIconProps) => {
     return (
         <ArrowToggle
-            direction={getIconDirection({kind, expanded})}
-            className={b({disableTransition}, colorText({color: disabled ? 'hint' : undefined}))}
+            direction={getIconDirection({behavior, expanded})}
+            className={b(null, colorText({color: disabled ? 'hint' : undefined}))}
             size={16}
         />
     );
 };
 
 function getIconDirection({
-    kind,
+    behavior,
     expanded,
-}: Pick<ListItemExpandIconRenderProps, 'expanded' | 'kind'>): ArrowToggleProps['direction'] {
-    if (expanded && kind === 'action') {
+}: Pick<ListItemExpandIconRenderProps, 'expanded' | 'behavior'>): ArrowToggleProps['direction'] {
+    if (expanded && behavior === 'action') {
         return 'top';
-    } else if (expanded && kind === 'state') {
+    } else if (expanded && behavior === 'state') {
         return 'bottom';
-    } else if (expanded && kind === 'state-inverse') {
+    } else if (expanded && behavior === 'state-inverse') {
         return 'bottom';
-    } else if (kind === 'action') {
+    } else if (behavior === 'action') {
         return 'bottom';
-    } else if (kind === 'state') {
+    } else if (behavior === 'state') {
         return 'right';
-    } else if (kind === 'state-inverse') {
+    } else if (behavior === 'state-inverse') {
         return 'left';
     }
 

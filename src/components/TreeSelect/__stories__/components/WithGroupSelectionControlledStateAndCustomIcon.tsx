@@ -95,7 +95,7 @@ export const WithGroupSelectionControlledStateAndCustomIconExample = ({
                                         <Button.Icon>
                                             <ListItemExpandIcon
                                                 expanded={props.content.expanded}
-                                                kind="action"
+                                                behavior="action"
                                             />
                                         </Button.Icon>
                                     </Button>

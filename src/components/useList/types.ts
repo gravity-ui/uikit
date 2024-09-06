@@ -41,14 +41,12 @@ export type ItemState = {
 
 export interface ListItemExpandIconRenderProps {
     /**
-     * The type of behavior of the component
+     * The behavior of the component:
      *
      * - action - to indicate user actions. For example, for an icon inside a button;
      * - state - to indicate the current state of the element;
      */
-    kind: 'state' | 'state-inverse' | 'action';
-
-    disableTransition?: boolean;
+    behavior: 'state' | 'state-inverse' | 'action';
     expanded?: boolean;
     disabled?: boolean;
 }

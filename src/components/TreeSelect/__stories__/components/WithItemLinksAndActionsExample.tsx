@@ -100,7 +100,7 @@ export const WithItemLinksAndActionsExample = (storyProps: WithItemLinksAndActio
                                             <Button.Icon>
                                                 <ListItemExpandIcon
                                                     expanded={props.content.expanded}
-                                                    kind="state"
+                                                    behavior="state"
                                                 />
                                             </Button.Icon>
                                         </Button>

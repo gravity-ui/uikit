@@ -99,7 +99,7 @@ export const WithItemLinksAndActionsStory = (props: WithItemLinksAndActionsStory
                                         <Button.Icon>
                                             <ListItemExpandIcon
                                                 expanded={itemProps.content.expanded}
-                                                kind="action"
+                                                behavior="action"
                                             />
                                         </Button.Icon>
                                     </Button>

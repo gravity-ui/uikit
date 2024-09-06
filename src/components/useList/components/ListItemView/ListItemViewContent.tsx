@@ -63,7 +63,7 @@ export const ListItemViewContent = ({
 }: ListItemViewContentProps) => {
     const expandIconNode = isGroup ? (
         <RenderExpandIcon
-            kind={expandIconPlacement === 'start' ? 'state' : 'action'}
+            behavior={expandIconPlacement === 'start' ? 'state' : 'action'}
             expanded={expanded}
             disabled={disabled}
         />

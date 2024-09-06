@@ -218,7 +218,6 @@ const stories: ListItemViewProps[] = [
                 </Text>
             ),
             expanded: true,
-            renderExpandIcon: (props) => <ListItemExpandIcon {...props} disableTransition />,
             isGroup: true,
             startSlot: <StartSlot />,
             indentation: 1,

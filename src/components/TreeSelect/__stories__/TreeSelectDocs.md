@@ -4,13 +4,15 @@ Rewritten component [Select](https://preview.gravity-ui.com/uikit/?path=/docs/co
 
 `Storybook` provides complex examples how to use this components from this documentation.
 
-### Import:
+## Import:
 
 ```tsx
 import {unstable_TreeSelect as TreeSelect} from '@gravity-ui/uikit/unstable';
 ```
 
-### Basic example:
+## Example
+
+### Basic:
 
 ```tsx
 import {
@@ -59,3 +61,42 @@ const Component = () => {
   );
 };
 ```
+
+## Props:
+
+### getItemById:
+
+Take a look at this example:
+
+```tsx
+<TreeSelect
+  value={['two']}
+  items={['one', 'two', 'free']}
+  mapItemDataToContentProps={(title) => ({title})}
+/>
+```
+
+In this case we will see select with `empty` value.
+
+Why this happens?
+
+Internal list representation make own `id` for every item. By default it bases on index of base and nested arrays.
+Result `id` will be computed by formula: `{root-array-item-index}-{child-array-index-if-exists}-{...}`.
+In example to select second item you need to set as a value item index:
+
+```sh
+value={['1']}
+```
+
+To fix our example we need to use `getItemById` prop and explicitly tell `TreeSelect` to use items values as uniq ids:
+
+```diff
+<TreeSelect
+  value={['two']}
++ getItemById={(value: id) => id}
+  items={['one', 'two', 'free']}
+  mapItemDataToContentProps={(title) => ({title})}
+/>
+```
+
+Now we will se selected element with value `two`

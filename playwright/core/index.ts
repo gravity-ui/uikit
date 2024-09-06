@@ -8,3 +8,5 @@ export const test = base.extend<Fixtures>({
     mount: mountFixture,
     expectScreenshot: expectScreenshotFixture,
 });
+
+export {expect} from '@playwright/experimental-ct-react';

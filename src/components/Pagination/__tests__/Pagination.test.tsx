@@ -3,8 +3,11 @@ import React from 'react';
 import {noop} from 'lodash';
 
 import {render, screen} from '../../../../test-utils/utils';
+import {MobileProvider} from '../../mobile';
 import {Pagination} from '../Pagination';
 import {PaginationQa, getPaginationPageQa} from '../constants';
+import type {PaginationSize} from '../types';
+import {getSize} from '../utils';
 
 describe('Pagination component', () => {
     test('Single page', () => {
@@ -82,4 +85,46 @@ describe('Pagination component', () => {
 
         expect(nextButton).not.toBeDisabled();
     });
+
+    test.each(new Array<PaginationSize | undefined>('m', 'l', undefined))(
+        '[desktop]: render with given "%s" size',
+        (size) => {
+            render(<Pagination pageSize={20} onUpdate={noop} page={0} total={20} size={size} />);
+
+            const expectedSize = getSize({mobile: false, propSize: size});
+            const expectedClass = `g-button_size_${expectedSize}`;
+
+            const firstButton = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(firstButton).toHaveClass(expectedClass);
+
+            const prevButton = screen.getByTestId(PaginationQa.PaginationButtonPrevious);
+            expect(prevButton).toHaveClass(expectedClass);
+
+            const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
+            expect(nextButton).toHaveClass(expectedClass);
+        },
+    );
+
+    test.each(new Array<PaginationSize | undefined>('m', 'l', undefined))(
+        '[mobile]: render with given "%s" size',
+        (size) => {
+            render(
+                <MobileProvider mobile>
+                    <Pagination pageSize={20} onUpdate={noop} page={0} total={20} size={size} />,
+                </MobileProvider>,
+            );
+
+            const expectedSize = getSize({mobile: true, propSize: size});
+            const expectedClass = `g-button_size_${expectedSize}`;
+
+            const firstButton = screen.getByTestId(PaginationQa.PaginationButtonFirst);
+            expect(firstButton).toHaveClass(expectedClass);
+
+            const prevButton = screen.getByTestId(PaginationQa.PaginationButtonPrevious);
+            expect(prevButton).toHaveClass(expectedClass);
+
+            const nextButton = screen.getByTestId(PaginationQa.PaginationButtonNext);
+            expect(nextButton).toHaveClass(expectedClass);
+        },
+    );
 });

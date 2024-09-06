@@ -2,7 +2,7 @@ import type {QAProps} from '../types';
 
 export type ActionName = 'previous' | 'next' | 'first';
 
-export type PaginationSize = 'm' | 'l';
+export type PaginationSize = 's' | 'm' | 'l' | 'xl';
 
 export type PaginationProps = {
     /**
@@ -13,6 +13,10 @@ export type PaginationProps = {
      * Number of data items per page.
      */
     pageSize: number;
+    /**
+     * Size of the pagination items.
+     */
+    size?: PaginationSize;
     /**
      * Called when the page number or pageSize is changed.
      */

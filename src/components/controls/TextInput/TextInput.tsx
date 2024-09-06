@@ -68,19 +68,20 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             value,
             defaultValue,
             label,
-            disabled = false,
+            disabled: disabledProp,
+            readOnly: readOnlyProp,
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
             errorPlacement: errorPlacementProp = 'outside',
             validationState: validationStateProp,
             autoComplete,
-            id: originalId,
+            id: idProp,
             tabIndex,
             style,
             className,
             qa,
-            controlProps: originalControlProps,
+            controlProps: controlPropsProp,
             leftContent,
             rightContent,
             startContent = leftContent,
@@ -89,6 +90,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             onUpdate,
             onChange,
         } = props;
+        const disabled = disabledProp ?? controlPropsProp?.disabled;
+        const readOnly = readOnlyProp ?? controlPropsProp?.readOnly;
 
         const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
             error,
@@ -110,14 +113,14 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
         const isErrorIconVisible =
             validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
-        const isClearControlVisible = Boolean(hasClear && !disabled && inputValue);
+        const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
         const isStartContentVisible = Boolean(startContent);
         const isEndContentVisible = Boolean(endContent);
         const isAutoCompleteOff =
-            isLabelVisible && !originalId && !name && typeof autoComplete === 'undefined';
+            isLabelVisible && !idProp && !name && typeof autoComplete === 'undefined';
 
         const innerId = useUniqId();
-        const id = isLabelVisible ? originalId || innerId : originalId;
+        const id = isLabelVisible ? idProp || innerId : idProp;
 
         const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
         const startContentSize = useElementSize(
@@ -128,7 +131,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
         const errorMessageId = useUniqId();
         const noteId = useUniqId();
         const ariaDescribedBy = [
-            originalControlProps?.['aria-describedby'],
+            controlPropsProp?.['aria-describedby'],
             note ? noteId : undefined,
             isErrorMsgVisible ? errorMessageId : undefined,
         ]
@@ -136,9 +139,9 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             .join(' ');
 
         const controlProps: TextInputProps['controlProps'] = {
-            ...originalControlProps,
+            ...controlPropsProp,
             style: {
-                ...originalControlProps?.style,
+                ...controlPropsProp?.style,
                 ...(isLabelVisible && labelSize.width
                     ? {paddingInlineStart: `${labelSize.width}px`}
                     : {}),

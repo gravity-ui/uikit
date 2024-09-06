@@ -14,8 +14,9 @@ export const useSelect = <T extends unknown>({
     defaultValue = [],
     multiple,
     onUpdate,
+    disabled,
 }: UseSelectProps): UseSelectResult<T> => {
-    const [value, setValue] = useControlledState(valueProps, defaultValue, onUpdate);
+    const [value, setValueInner] = useControlledState(valueProps, defaultValue, onUpdate);
     const [activeIndex, setActiveIndex] = React.useState<number>();
     const {toggleOpen, ...openState} = useOpenState({
         defaultOpen,
@@ -23,6 +24,15 @@ export const useSelect = <T extends unknown>({
         onOpenChange,
         open,
     });
+
+    const setValue = React.useCallback(
+        (v: string[]) => {
+            if (!disabled) {
+                setValueInner(v);
+            }
+        },
+        [setValueInner, disabled],
+    );
 
     const handleSingleSelection = React.useCallback(
         (option: UseSelectOption<T>) => {

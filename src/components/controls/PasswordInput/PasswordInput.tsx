@@ -4,6 +4,7 @@ import React from 'react';
 
 import {Eye, EyeSlash} from '@gravity-ui/icons';
 
+import {useControlledState} from '../../../hooks';
 import {ActionTooltip} from '../../ActionTooltip';
 import {Button} from '../../Button';
 import {ClipboardButton} from '../../ClipboardButton';
@@ -33,7 +34,6 @@ export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
 export const PasswordInput = (props: PasswordInputProps) => {
     const {
         autoComplete,
-        value,
         showCopyButton,
         rightContent,
         endContent,
@@ -44,65 +44,53 @@ export const PasswordInput = (props: PasswordInputProps) => {
         controlProps,
     } = props;
 
+    const [inputValue, setInputValue] = useControlledState(
+        props.value,
+        props.defaultValue ?? '',
+        props.onUpdate,
+    );
+
     const [hideValue, setHideValue] = React.useState(true);
 
-    const additionalEndContent = React.useMemo(() => {
-        if (!showRevealButton && !showCopyButton) {
-            return <React.Fragment>{endContent || rightContent}</React.Fragment>;
-        }
+    const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
 
-        const onClick = () => {
-            setHideValue((hideValue) => !hideValue);
-        };
+    const onClick = () => {
+        setHideValue((hideValue) => !hideValue);
+    };
 
-        const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
-
-        return (
-            <React.Fragment>
-                {endContent || rightContent}
-                {value && showCopyButton ? (
-                    <ClipboardButton
+    const additionalEndContent = (
+        <React.Fragment>
+            {endContent || rightContent}
+            {inputValue && showCopyButton ? (
+                <ClipboardButton
+                    view="flat-secondary"
+                    text={inputValue}
+                    hasTooltip={hasCopyTooltip}
+                    size={actionButtonSize}
+                    className={b('copy-button')}
+                />
+            ) : null}
+            {showRevealButton ? (
+                <ActionTooltip
+                    disabled={!hasRevealTooltip}
+                    title={hideValue ? i18n('label_show-password') : i18n('label_hide-password')}
+                >
+                    <Button
                         view="flat-secondary"
-                        text={value}
-                        hasTooltip={hasCopyTooltip}
+                        onClick={onClick}
                         size={actionButtonSize}
-                        className={b('copy-button')}
-                    />
-                ) : null}
-                {showRevealButton ? (
-                    <ActionTooltip
-                        disabled={!hasRevealTooltip}
-                        title={
-                            hideValue ? i18n('label_show-password') : i18n('label_hide-password')
-                        }
+                        extraProps={{
+                            'aria-label': hideValue
+                                ? i18n('label_show-password')
+                                : i18n('label_hide-password'),
+                        }}
                     >
-                        <Button
-                            view="flat-secondary"
-                            onClick={onClick}
-                            size={actionButtonSize}
-                            extraProps={{
-                                'aria-label': hideValue
-                                    ? i18n('label_show-password')
-                                    : i18n('label_hide-password'),
-                            }}
-                        >
-                            <Icon data={hideValue ? Eye : EyeSlash} size={iconSize} />
-                        </Button>
-                    </ActionTooltip>
-                ) : null}
-            </React.Fragment>
-        );
-    }, [
-        showRevealButton,
-        showCopyButton,
-        endContent,
-        rightContent,
-        value,
-        hasRevealTooltip,
-        hasCopyTooltip,
-        hideValue,
-        size,
-    ]);
+                        <Icon data={hideValue ? Eye : EyeSlash} size={iconSize} />
+                    </Button>
+                </ActionTooltip>
+            ) : null}
+        </React.Fragment>
+    );
 
     return (
         <TextInput
@@ -114,6 +102,8 @@ export const PasswordInput = (props: PasswordInputProps) => {
                 ...controlProps,
                 className: b('input-control', controlProps?.className),
             }}
+            value={inputValue}
+            onUpdate={setInputValue}
         />
     );
 };

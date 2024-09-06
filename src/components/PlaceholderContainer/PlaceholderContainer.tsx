@@ -32,7 +32,7 @@ export const PlaceholderContainer = ({
     direction = 'row',
     align = 'center',
     size = 'l',
-    className = b(),
+    className,
     title,
     description,
     image,
@@ -97,7 +97,7 @@ export const PlaceholderContainer = ({
     };
 
     return (
-        <div className={b({direction, align, size}, [className])}>
+        <div className={b({direction, align, size}, className || '')}>
             <div className={b('body')}>
                 <div className={b('image', {size})}>{renderImage()}</div>
                 {renderContent()}

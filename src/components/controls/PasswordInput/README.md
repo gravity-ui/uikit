@@ -38,8 +38,6 @@ LANDING_BLOCK-->
 
 `TextInput` [properties](https://github.com/gravity-ui/uikit/blob/main/src/components/controls/TextInput/README.md#properties), with some exceptions and additions:
 
-- `value` is required property;
-- `onUpdate` is required property;
 - `type` is omitted;
 
 | Name             | Description                                                                  |   Type    | Default |

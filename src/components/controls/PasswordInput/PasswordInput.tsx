@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {Eye, EyeSlash} from '@gravity-ui/icons';
@@ -17,17 +19,16 @@ import './PasswordInput.scss';
 
 const b = block('password-input');
 
-export type PasswordInputProps = Required<Pick<TextInputProps, 'onUpdate' | 'value'>> &
-    Omit<TextInputProps, 'type'> & {
-        /** Show copy button */
-        showCopyButton?: boolean;
-        /** Show reveal button */
-        showRevealButton?: boolean;
-        /** Disable the tooltip for the copy button. The tooltip will not be displayed */
-        hasCopyTooltip?: boolean;
-        /** Disable the tooltip for the reveal button. The tooltip will not be displayed */
-        hasRevealTooltip?: boolean;
-    };
+export type PasswordInputProps = Omit<TextInputProps, 'type'> & {
+    /** Show copy button */
+    showCopyButton?: boolean;
+    /** Show reveal button */
+    showRevealButton?: boolean;
+    /** Disable the tooltip for the copy button. The tooltip will not be displayed */
+    hasCopyTooltip?: boolean;
+    /** Disable the tooltip for the reveal button. The tooltip will not be displayed */
+    hasRevealTooltip?: boolean;
+};
 
 export const PasswordInput = (props: PasswordInputProps) => {
     const {
@@ -57,7 +58,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
         const {actionButtonSize, iconSize} = getActionButtonSizeAndIconSize(size);
 
         return (
-            <div className={b('additional-end-content')}>
+            <React.Fragment>
                 {endContent || rightContent}
                 {value && showCopyButton ? (
                     <ClipboardButton
@@ -89,7 +90,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
                         </Button>
                     </ActionTooltip>
                 ) : null}
-            </div>
+            </React.Fragment>
         );
     }, [
         showRevealButton,

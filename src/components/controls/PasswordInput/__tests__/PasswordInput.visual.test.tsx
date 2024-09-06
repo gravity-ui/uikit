@@ -4,7 +4,7 @@ import {test} from '~playwright/core';
 
 import {PasswordInputStories} from './helpersPlaywright';
 
-test.describe('PasswordInputStories', () => {
+test.describe('PasswordInput', () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<PasswordInputStories.Default />);
 

@@ -3,14 +3,9 @@ import React from 'react';
 import type {Meta, StoryFn} from '@storybook/react';
 
 import {Button} from '../../../Button';
-import {Flex} from '../../../layout/Flex/Flex';
-import {cn} from '../../../utils/cn';
+import {Flex, spacing} from '../../../layout';
 import type {PasswordInputProps} from '../PasswordInput';
 import {PasswordInput} from '../PasswordInput';
-
-import './PasswordInputStories.scss';
-
-const b = cn('password-input-stories');
 
 export default {
     title: 'Components/Inputs/PasswordInput',
@@ -52,9 +47,9 @@ const WithGenerateRandomValueTemplate: StoryFn<PasswordInputProps> = (args) => {
     return (
         <Flex>
             <PasswordInput {...args} onUpdate={setValue} value={value} />
-            <Button onClick={generateRandomValue} className={b('button-generate-random-value')}>
-                Generate random value
-            </Button>
+            <Flex className={spacing({ml: 2})}>
+                <Button onClick={generateRandomValue}>Generate random value</Button>
+            </Flex>
         </Flex>
     );
 };

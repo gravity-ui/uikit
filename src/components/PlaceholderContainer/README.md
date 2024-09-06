@@ -12,7 +12,7 @@ The component has `row` and `column` directions of the content layout. To contro
 
 ## Size
 
-To control the size of the `PlaceholderContainer` use the `size` property. The default size is `l`. Possible values: `s`, `m`, `l`, `promo`. The `promo` value sets full width of the content block and a larger title size.
+To control the size of the `PlaceholderContainer` use the `size` property. The default size is `l`. Possible values: `s`, `m`, `l`, `promo`. The `promo` value sets full width of the content block without minimal content height and a larger title size.
 
 ## Action controls
 

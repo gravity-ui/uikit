@@ -28,6 +28,9 @@ function prepareArrayValue({
     ].sort((v1, v2) => v1 - v2) as [number, number];
 }
 
+/**
+ * @deprecated Will be removed on the next major. calculateMarksArray used in new API
+ */
 function calculateInfoPoints({count = 0, max, min}: {min: number; max: number; count?: number}) {
     if (max === min) {
         return [min];
@@ -44,44 +47,49 @@ function calculateInfoPoints({count = 0, max, min}: {min: number; max: number; c
     return [min, max];
 }
 
-export function getMarksFromInfoPoints({
-    infoPointsCount,
-    max,
+function calculateMarksArray({count = 0, max, min}: {min: number; max: number; count?: number}) {
+    if (!count) {
+        return [];
+    }
+    if (max === min) {
+        return [min];
+    }
+
+    if (count === 1) {
+        const step = Math.abs(max - min) / 2;
+        return [Math.round((min + step) * 100) / 100];
+    }
+    if (count > 2) {
+        const points = [];
+        const step = Math.abs(max - min) / (count - 1);
+
+        for (let i = 0; i < count; i++) {
+            points.push(Math.round((min + step * i) * 100) / 100);
+        }
+        return points;
+    }
+    return [min, max];
+}
+
+function createMarks({
+    points,
+    markFormat,
     min,
+    max,
 }: {
-    infoPointsCount: number;
+    points: number[];
+    markFormat?: SliderProps['markFormat'];
     min: number;
     max: number;
 }): RcSliderProps['marks'] {
-    const marks: RcSliderProps['marks'] = {
-        [min]: {label: min, style: {left: 0, transform: 'translateX(0)'}},
-        [max]: {label: max, style: {transform: 'translateX(-100%)'}},
-    };
-    if (infoPointsCount > 2) {
-        const step = Math.abs(max - min) / (infoPointsCount - 1);
-        if (step === 0) {
-            marks[min] = min;
-        } else {
-            for (let i = 0; i < infoPointsCount; i++) {
-                const point = Math.round((min + step * i) * 100) / 100;
-                marks[point] = point;
-            }
-        }
-    }
-    return marks;
-}
-
-function createMarks(points: number[]): RcSliderProps['marks'] {
     const marks: RcSliderProps['marks'] = {};
 
-    const lastIndex = points.length - 1;
-    points.forEach((point, i) => {
-        if (i === 0) {
-            marks[point] = {label: point, style: CLEAR_MARK_STYLE};
-        } else if (i === lastIndex) {
-            marks[point] = {label: point, style: CLEAR_MARK_STYLE};
+    points.forEach((point) => {
+        const pointContent = markFormat ? markFormat(point) : point;
+        if (point === min || point === max) {
+            marks[point] = {label: pointContent, style: CLEAR_MARK_STYLE};
         } else {
-            marks[point] = point;
+            marks[point] = pointContent;
         }
     });
 
@@ -100,31 +108,63 @@ export function prepareSliderInnerState({
     marksCount,
     step,
     value,
+    markFormat,
+    marks,
+    hasTooltip,
+    tooltipDisplay,
 }: {
     max: number;
     min: number;
-    availableValues: SliderProps['availableValues'];
-    defaultValue: SliderProps['defaultValue'];
-    marksCount: SliderProps['marksCount'];
-    step: SliderProps['step'];
-    value: SliderProps['value'];
-}): SliderInnerState {
+} & Pick<
+    SliderProps,
+    | 'availableValues'
+    | 'defaultValue'
+    | 'marksCount'
+    | 'step'
+    | 'value'
+    | 'markFormat'
+    | 'marks'
+    | 'hasTooltip'
+    | 'tooltipDisplay'
+>): SliderInnerState {
     const state: SliderInnerState = {
         value,
         defaultValue,
         range: false,
         max,
         min,
-        marks: undefined,
         step,
+        tooltipDisplay,
     };
+
+    if (!state.tooltipDisplay) {
+        state.tooltipDisplay = hasTooltip ? 'on' : 'off';
+    }
 
     if (max < min) {
         state.max = min;
         state.min = max;
     }
-
-    if (availableValues && availableValues.length > 0) {
+    // marks === undefined than we use old api
+    if (marks !== undefined) {
+        if (Array.isArray(marks)) {
+            state.marks = marks.reduce<RcSliderProps['marks']>((acc, mark) => {
+                acc = {[mark]: markFormat ? markFormat(mark) : mark};
+                return acc;
+            }, {});
+        } else {
+            state.marks =
+                marks === 0
+                    ? createMarks({
+                          points: calculateMarksArray({count: marks, max, min}),
+                          markFormat,
+                          min,
+                          max,
+                      })
+                    : {};
+        }
+    } else if (availableValues && availableValues.length > 0) {
+        //will be removed on the next major version
         //can select only available values
         state.step = null;
 
@@ -133,9 +173,19 @@ export function prepareSliderInnerState({
         );
         state.min = sortedAvailableValues[0];
         state.max = sortedAvailableValues[sortedAvailableValues.length - 1];
-        state.marks = createMarks(sortedAvailableValues);
+        state.marks = createMarks({
+            points: sortedAvailableValues,
+            markFormat,
+            min: state.min,
+            max: state.max,
+        });
     } else {
-        state.marks = createMarks(calculateInfoPoints({count: marksCount, max, min}));
+        state.marks = createMarks({
+            points: calculateInfoPoints({count: marksCount, max, min}),
+            markFormat,
+            min,
+            max,
+        });
     }
 
     if (value === undefined) {

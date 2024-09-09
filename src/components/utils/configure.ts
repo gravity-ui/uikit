@@ -1,10 +1,14 @@
+import type {KeysetData} from '@gravity-ui/i18n';
+
+import {i18n} from '../../i18n';
+
 export enum Lang {
     Ru = 'ru',
     En = 'en',
 }
 
 interface Config {
-    lang: `${Lang}`;
+    lang: Lang | string;
 }
 
 type Subscriber = (config: Config) => void;
@@ -20,6 +24,10 @@ export const configure = (newConfig: Partial<Config>) => {
     subs.forEach((sub) => {
         sub(config);
     });
+};
+
+export const registerCustomKeysets = (language: string, data: KeysetData) => {
+    i18n.registerKeysets(language, data);
 };
 
 export const subscribeConfigure = (sub: Subscriber) => {

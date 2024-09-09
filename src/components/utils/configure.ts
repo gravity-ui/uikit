@@ -26,10 +26,6 @@ export const configure = (newConfig: Partial<Config>) => {
     });
 };
 
-export const registerCustomKeysets = (language: string, data: KeysetData) => {
-    i18n.registerKeysets(language, data);
-};
-
 export const subscribeConfigure = (sub: Subscriber) => {
     subs.push(sub);
 
@@ -39,3 +35,7 @@ export const subscribeConfigure = (sub: Subscriber) => {
 };
 
 export const getConfig = () => config;
+
+export const registerCustomKeysets = (language: string, data: KeysetData) => {
+    i18n.registerKeysets(language, data);
+};

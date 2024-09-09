@@ -26,7 +26,11 @@ export const Slider = React.forwardRef(function Slider(
         step = 1,
         marksCount = 2,
         availableValues,
-        hasTooltip = false,
+        hasTooltip,
+        markFormat,
+        marks,
+        tooltipDisplay,
+        tooltipFormat = markFormat,
         errorMessage,
         validationState,
         disabled = false,
@@ -79,12 +83,16 @@ export const Slider = React.forwardRef(function Slider(
         min,
         step,
         value,
+        markFormat,
+        marks,
+        hasTooltip,
+        tooltipDisplay,
     });
     const stateModifiers: StateModifiers = {
         size,
         error: validationState === 'invalid' && !disabled,
         disabled,
-        hasTooltip: Boolean(hasTooltip),
+        hasTooltip: Boolean(innerState.tooltipDisplay !== 'off'),
         rtl: direction === 'rtl',
     };
 
@@ -114,18 +122,22 @@ export const Slider = React.forwardRef(function Slider(
                     hasTooltip
                         ? (originHandle, handleProps) => {
                               const styleProp = stateModifiers.rtl ? 'right' : 'left';
+                              const tooltipContent = tooltipFormat
+                                  ? tooltipFormat(handleProps.value)
+                                  : handleProps.value;
                               return (
                                   <React.Fragment>
                                       {originHandle}
                                       <SliderTooltip
-                                          value={handleProps.value}
                                           className={b('tooltip')}
                                           style={{
                                               insetInlineStart:
                                                   originHandle.props.style?.[styleProp],
                                           }}
                                           stateModifiers={stateModifiers}
-                                      />
+                                      >
+                                          {tooltipContent}
+                                      </SliderTooltip>
                                   </React.Fragment>
                               );
                           }

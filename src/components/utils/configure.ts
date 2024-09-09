@@ -1,6 +1,7 @@
 import type {KeysetData} from '@gravity-ui/i18n';
 
 import {i18n} from '../../i18n';
+import type {AutocompleteSafeString} from '../../utils/autocomplete-safe-string';
 
 export enum Lang {
     Ru = 'ru',
@@ -8,7 +9,7 @@ export enum Lang {
 }
 
 interface Config {
-    lang: Lang | string;
+    lang: `${Lang}` | AutocompleteSafeString;
 }
 
 type Subscriber = (config: Config) => void;

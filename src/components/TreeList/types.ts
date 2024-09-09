@@ -23,7 +23,7 @@ export type TreeListRenderItem<T, P extends {} = {}> = (props: {
     renderContainerProps?: P;
 }) => React.JSX.Element;
 
-export type TreeListContainerProps<T> = ListContainerProps<T> & {
+export type TreeListContainerProps<T, P extends {} = {}> = ListContainerProps<T, P> & {
     size: ListItemSize;
 };
 

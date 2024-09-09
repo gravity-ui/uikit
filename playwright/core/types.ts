@@ -2,6 +2,7 @@ import type {JsonObject} from '@playwright/experimental-ct-core/types/component'
 import type {MountOptions, MountResult} from '@playwright/experimental-ct-react';
 import type {
     Locator,
+    Page,
     PageScreenshotOptions,
     PlaywrightTestArgs,
     PlaywrightTestOptions,
@@ -35,5 +36,5 @@ export interface ExpectScreenshotFixture {
 
 interface CaptureScreenshotParams extends PageScreenshotOptions {
     nameSuffix?: string;
-    component?: Locator;
+    component?: Locator | Page;
 }

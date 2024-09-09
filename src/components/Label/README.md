@@ -268,4 +268,5 @@ LANDING_BLOCK-->
 | theme            | Label theme                                   |            `string`            | `"normal"`  |
 | type             | Label type                                    | `"default"` `"copy"` `"close"` | `"default"` |
 | value            | Label value (displayed as "children : value") |            `string`            |             |
+| title            | HTML `title` attribute                        |            `string`            |             |
 | qa               | HTML `data-qa` attribute, used in tests       |            `string`            |             |

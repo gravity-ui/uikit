@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.25.0](https://github.com/gravity-ui/uikit/compare/v6.24.0...v6.25.0) (2024-09-09)
+
+
+### Features
+
+* **ClipboardButton:** add children and iconPosition ([#1837](https://github.com/gravity-ui/uikit/issues/1837)) ([4c3d070](https://github.com/gravity-ui/uikit/commit/4c3d070a74cee72a5017ac6df37b3f8cf22b2122))
+* **Label:** add title attribute ([#1843](https://github.com/gravity-ui/uikit/issues/1843)) ([c8e1ebb](https://github.com/gravity-ui/uikit/commit/c8e1ebb291f5c6d43395b9c18f34960b2dd7248f))
+* **PlaceholderContainer:** add component and showcases ([#1741](https://github.com/gravity-ui/uikit/issues/1741)) ([1632acc](https://github.com/gravity-ui/uikit/commit/1632acc82b8d29ee431b0b9b12863dc2571b5231))
+
+
+### Bug Fixes
+
+* **TreeList:** provide types for renderContainerProps ([#1842](https://github.com/gravity-ui/uikit/issues/1842)) ([90ca9cc](https://github.com/gravity-ui/uikit/commit/90ca9cc820270cca0042eaea3b7c94bbeefbf717))
+
 ## [6.24.0](https://github.com/gravity-ui/uikit/compare/v6.23.1...v6.24.0) (2024-09-02)
 
 

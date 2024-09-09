@@ -22,17 +22,19 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Marks on the slider. It can be either the number of marks on the slider or a list of them */
     marks?: number | number[];
     /** Formatter for marks text */
-    markFormat?: (markValue: number) => React.ReactNode;
+    markFormat?: (markValue: number) => string;
     /** @deprecated use `marks` and `step` === null instead. Specifies the array of available values for the slider */
     availableValues?: number[];
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */
     step?: number | null;
     /** @deprecated use `marks` instead. Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set. */
     marksCount?: number;
-    /** Show tooltip with current value of component or not */
-    hasTooltip?: 'off' | 'on' | 'auto';
-    /** Format of the slider's value in the tooltip */
-    tooltipFormat?: (value: number) => React.ReactNode;
+    /**  @deprecated use `tooltipDisplay` instead. Show tooltip with current value of component or not */
+    hasTooltip?: boolean;
+    /** Specifies the tooltip behaviour */
+    tooltipDisplay?: 'off' | 'on' | 'auto';
+    /** Format of the slider's value in the tooltip. Uses `markFormat` if not specified */
+    tooltipFormat?: (value: number) => string;
     /** Indicates that the user cannot interact with the control */
     disabled?: boolean;
     /** Text of an error to show */
@@ -40,7 +42,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Describes the validation state */
     validationState?: 'invalid';
 
-    /** Specifies the delay (in milliseconds) before the processing function is called */
+    /** @deprecated use external debouncing. Specifies the delay (in milliseconds) before the processing function is called */
     debounceDelay?: number;
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;
@@ -65,7 +67,8 @@ export type SliderProps<ValueType = number | [number, number]> = {
 export type SliderInnerState = {
     max: number;
     min: number;
-} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'>;
+} & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'> &
+    Pick<SliderProps, 'tooltipDisplay'>;
 
 export type StateModifiers = {
     size: SliderSize;

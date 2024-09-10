@@ -5,7 +5,9 @@ import type {KeysetData} from '@gravity-ui/i18n';
 import {render, screen} from '../../../test-utils/utils';
 import {Dialog} from '../Dialog';
 import {Pagination} from '../Pagination';
-import {Lang, configure, registerCustomKeysets} from '../utils/configure';
+
+import {Lang, configure} from './configure';
+import {registerCustomKeysets} from './registerCustomKeysets';
 
 test('should render components with custom keysets', () => {
     registerCustomKeysets(

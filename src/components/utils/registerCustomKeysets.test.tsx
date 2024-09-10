@@ -102,26 +102,50 @@ test('should override bundled keysets', () => {
     expect(screen.getByRole('button', {name: '[Overriden] Previous'})).toBeInTheDocument();
 });
 
-test('should throw an error if keyset for a component is not provided', () => {
+test('should throw an error if a component keyset is not provided', () => {
     const keysetData = createTestCustomKeyset({});
+    delete keysetData.Table;
 
-    registerCustomKeysets('it', keysetData);
-
-    // Remove Alert keyset
-    delete keysetData.Alert;
     expect(() => registerCustomKeysets('rs', keysetData)).toThrow();
 });
 
-test('should throw an error if key for a component is not provided', () => {
+test('should throw an error if a component key is not provided', () => {
     const keysetData = createTestCustomKeyset({});
-
-    registerCustomKeysets('it', keysetData);
-
-    // Remove a key from Alert component
     Object.assign(keysetData, {
-        Alert: {},
+        Table: {
+            label_empty: 'empty',
+            // The values are omitted on purpose
+            // 'label-actions': pluggedValue,
+            // 'label-row-select': pluggedValue,
+        },
     });
+
     expect(() => registerCustomKeysets('rs', keysetData)).toThrow();
+});
+
+test('should throw an error if extra components are provided', () => {
+    const keysetData = createTestCustomKeyset({
+        NonexistentComponent1: {
+            label_cancel: 'cancel',
+            label_submit: 'submit',
+        },
+        NonexistentComponent2: {
+            label_load: 'load',
+            label_preload: 'preload',
+        },
+    });
+    expect(() => registerCustomKeysets('it', keysetData)).toThrow();
+});
+
+test('should throw an error if extra keys are provided', () => {
+    const keysetData = createTestCustomKeyset({
+        Alert: {
+            label_close: 'cancel',
+            nonexistent_key: 'nonexistent',
+            nonexistent_key2: 'nonexistent2',
+        },
+    });
+    expect(() => registerCustomKeysets('it', keysetData)).toThrow();
 });
 
 function TestComponents(): React.ReactElement {

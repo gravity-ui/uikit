@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.25.1](https://github.com/gravity-ui/uikit/compare/v6.25.0...v6.25.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **List:** deactivate on mouse leave ([#1847](https://github.com/gravity-ui/uikit/issues/1847)) ([cc14563](https://github.com/gravity-ui/uikit/commit/cc14563904e355d3b90ddc3f3a29bbe937ae3970))
+* **useFocusWithin:** ignore blur event when window loses focus ([#1836](https://github.com/gravity-ui/uikit/issues/1836)) ([216e700](https://github.com/gravity-ui/uikit/commit/216e7003068c818eca078ff3ae2692439d86f930))
+
 ## [6.25.0](https://github.com/gravity-ui/uikit/compare/v6.24.0...v6.25.0) (2024-09-09)
 
 

@@ -170,6 +170,10 @@ $block: '.#{variables.$ns}text-input';
                 padding-inline-end: 1px;
             }
 
+            &#{$block}_has-unstable-end-content #{$block}__additional-content_placement_end {
+                padding-inline: 1px 0;
+            }
+
             --_--error-icon-padding-block: 5px;
             --_--error-icon-padding-inline: 0 5px;
 
@@ -324,6 +328,10 @@ $block: '.#{variables.$ns}text-input';
         #{$block}__control {
             padding-inline-end: 2px;
         }
+    }
+
+    &_has-unstable-end-content {
+        --_--error-icon-padding-inline: 0;
     }
 
     &_state {

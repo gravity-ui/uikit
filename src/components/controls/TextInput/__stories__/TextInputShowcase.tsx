@@ -174,7 +174,7 @@ export function TextInputShowcase(args: TextInputProps) {
                 <div className={'size-examples'}>
                     <h3 className={b('section-header')}>Sizes:</h3>
 
-                    <div className={b('row')}>
+                    <div className={b('row', {type: 'checkbox'})}>
                         <Checkbox
                             content="Use unstable_endContent"
                             onUpdate={setUseUnstableEndContent}

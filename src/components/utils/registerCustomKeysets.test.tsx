@@ -161,7 +161,8 @@ function TestComponents(): React.ReactElement {
 }
 
 // Custom keyset registration needs keysets for every component, or validation will fail.
-// We don't want to provide every keyset in every test, otherwise tests will be too verbose, that's where this function comes in.
+// We don't want to provide every keyset in every test, otherwise tests will be too verbose.
+// So we copy all the keysets from English, and then override the ones we'll test on.
 function createTestCustomKeyset(dataToOverride: KeysetData): KeysetData {
     const fullTestKeyset = JSON.parse(JSON.stringify(i18n.data.en));
     return Object.assign(fullTestKeyset, dataToOverride);

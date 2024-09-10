@@ -3,6 +3,7 @@ import React from 'react';
 import type {KeysetData} from '@gravity-ui/i18n';
 
 import {render, screen} from '../../../test-utils/utils';
+import {i18n} from '../../i18n';
 import {Dialog} from '../Dialog';
 import {Pagination} from '../Pagination';
 
@@ -102,7 +103,7 @@ test('should override bundled keysets', () => {
     expect(screen.getByRole('button', {name: '[Overriden] Previous'})).toBeInTheDocument();
 });
 
-test('should throw an error if a component keyset is not provided', () => {
+test('should throw an error if a component is not provided', () => {
     const keysetData = createTestCustomKeyset({});
     delete keysetData.Table;
 
@@ -162,65 +163,6 @@ function TestComponents(): React.ReactElement {
 // Custom keyset registration needs keysets for every component, or validation will fail.
 // We don't want to provide every keyset in every test, otherwise tests will be too verbose, that's where this function comes in.
 function createTestCustomKeyset(dataToOverride: KeysetData): KeysetData {
-    const pluggedValue = '[PLUG]';
-    const fullTestKeyset = {
-        Alert: {
-            label_close: pluggedValue,
-        },
-        AvatarStack: {
-            more: [pluggedValue, pluggedValue, pluggedValue],
-        },
-        Breadcrumbs: {
-            label_more: pluggedValue,
-        },
-        ClipboardButton: {
-            startCopy: pluggedValue,
-            endCopy: pluggedValue,
-        },
-        Dialog: {
-            close: pluggedValue,
-        },
-        Pagination: {
-            button_previous: pluggedValue,
-            button_next: pluggedValue,
-            button_first: pluggedValue,
-            label_select_size: pluggedValue,
-            'label_input-placeholder': pluggedValue,
-            'label_page-of': pluggedValue,
-        },
-        PinInput: {
-            'label_one-of': pluggedValue,
-        },
-        Select: {
-            label_clear: pluggedValue,
-            'label_show-error-info': pluggedValue,
-        },
-        Table: {
-            label_empty: pluggedValue,
-            'label-actions': pluggedValue,
-            'label-row-select': pluggedValue,
-        },
-        TableColumnSetup: {
-            button_switcher: pluggedValue,
-        },
-        TableColumnSetupInner: {
-            button_apply: pluggedValue,
-            button_reset: pluggedValue,
-            button_switcher: pluggedValue,
-        },
-        Toaster: {
-            'label_close-button': pluggedValue,
-        },
-        withTableSettings: {
-            label_settings: pluggedValue,
-        },
-        'g-clear-button': {
-            'label_clear-button': pluggedValue,
-        },
-        'g-user-label': {
-            'label_remove-button': pluggedValue,
-        },
-    };
-
+    const fullTestKeyset = JSON.parse(JSON.stringify(i18n.data.en));
     return Object.assign(fullTestKeyset, dataToOverride);
 }

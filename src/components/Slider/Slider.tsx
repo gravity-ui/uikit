@@ -92,13 +92,15 @@ export const Slider = React.forwardRef(function Slider(
         size,
         error: validationState === 'invalid' && !disabled,
         disabled,
-        hasTooltip: Boolean(innerState.tooltipDisplay !== 'off'),
+        tooltipDisplay,
         rtl: direction === 'rtl',
     };
 
     return (
         <div className={b(null, className)} ref={ref}>
-            <div className={b('top', {size, hasTooltip})}></div>
+            <div
+                className={b('top', {size, hasTooltip: innerState.tooltipDisplay !== 'off'})}
+            ></div>
             <BaseSlider
                 ref={apiRef}
                 value={innerState.value}

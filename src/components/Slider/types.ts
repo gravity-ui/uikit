@@ -1,4 +1,5 @@
 import type {SliderProps as RcSliderProps, SliderRef as RcSliderRef} from 'rc-slider';
+import type {HandleProps} from 'rc-slider/lib/Handles/Handle';
 
 import type {DOMProps, QAProps} from '../types';
 
@@ -7,6 +8,8 @@ export type SliderSize = 's' | 'm' | 'l' | 'xl';
 export type SliderValue = number | [number, number];
 
 export type RcSliderValueType = number | number[];
+
+export type TooltipFormatType = 'off' | 'on' | 'auto';
 
 export type SliderProps<ValueType = number | [number, number]> = {
     /** The value of the control */
@@ -32,7 +35,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /**  @deprecated use `tooltipDisplay` instead. Show tooltip with current value of component or not */
     hasTooltip?: boolean;
     /** Specifies the tooltip behaviour */
-    tooltipDisplay?: 'off' | 'on' | 'auto';
+    tooltipDisplay?: TooltipFormatType;
     /** Format of the slider's value in the tooltip. Uses `markFormat` if not specified */
     tooltipFormat?: (value: number) => string;
     /** Indicates that the user cannot interact with the control */
@@ -68,14 +71,27 @@ export type SliderInnerState = {
     max: number;
     min: number;
 } & Pick<RcSliderProps, 'value' | 'defaultValue' | 'step' | 'range' | 'marks'> &
-    Pick<SliderProps, 'tooltipDisplay'>;
+    Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {
     size: SliderSize;
     error: boolean;
     disabled: boolean;
-    hasTooltip: boolean;
     rtl: boolean;
-};
+} & Pick<SliderProps, 'tooltipDisplay'>;
 
 export type BaseSliderRefType = RcSliderRef;
+
+interface RenderProps {
+    index: number;
+    prefixCls: string;
+    value: number;
+    dragging: boolean;
+}
+
+export type HandleWithTooltipProps = {
+    originHandle: React.ReactElement<HandleProps>;
+    originHandleProps: RenderProps;
+    stateModifiers: StateModifiers;
+} & Pick<SliderProps, 'tooltipFormat'> &
+    Pick<DOMProps, 'className'>;

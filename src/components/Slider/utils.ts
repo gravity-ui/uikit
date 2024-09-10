@@ -112,6 +112,7 @@ export function prepareSliderInnerState({
     marks,
     hasTooltip,
     tooltipDisplay,
+    tooltipFormat,
 }: {
     max: number;
     min: number;
@@ -126,6 +127,7 @@ export function prepareSliderInnerState({
     | 'marks'
     | 'hasTooltip'
     | 'tooltipDisplay'
+    | 'tooltipFormat'
 >): SliderInnerState {
     const state: SliderInnerState = {
         value,
@@ -136,6 +138,8 @@ export function prepareSliderInnerState({
         step,
         tooltipDisplay,
     };
+
+    state.tooltipFormat = tooltipFormat ? tooltipFormat : markFormat;
 
     if (!state.tooltipDisplay) {
         state.tooltipDisplay = hasTooltip ? 'on' : 'off';

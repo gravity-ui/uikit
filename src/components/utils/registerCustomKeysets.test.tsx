@@ -102,6 +102,28 @@ test('should override bundled keysets', () => {
     expect(screen.getByRole('button', {name: '[Overriden] Previous'})).toBeInTheDocument();
 });
 
+test('should throw an error if keyset for a component is not provided', () => {
+    const keysetData = createTestCustomKeyset({});
+
+    registerCustomKeysets('it', keysetData);
+
+    // Remove Alert keyset
+    delete keysetData.Alert;
+    expect(() => registerCustomKeysets('rs', keysetData)).toThrow();
+});
+
+test('should throw an error if key for a component is not provided', () => {
+    const keysetData = createTestCustomKeyset({});
+
+    registerCustomKeysets('it', keysetData);
+
+    // Remove a key from Alert component
+    Object.assign(keysetData, {
+        Alert: {},
+    });
+    expect(() => registerCustomKeysets('rs', keysetData)).toThrow();
+});
+
 function TestComponents(): React.ReactElement {
     return (
         <React.Fragment>
@@ -133,6 +155,14 @@ function createTestCustomKeyset(dataToOverride: KeysetData): KeysetData {
         },
         Dialog: {
             close: pluggedValue,
+        },
+        Pagination: {
+            button_previous: pluggedValue,
+            button_next: pluggedValue,
+            button_first: pluggedValue,
+            label_select_size: pluggedValue,
+            'label_input-placeholder': pluggedValue,
+            'label_page-of': pluggedValue,
         },
         PinInput: {
             'label_one-of': pluggedValue,

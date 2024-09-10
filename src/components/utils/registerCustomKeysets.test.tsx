@@ -123,7 +123,7 @@ test('should throw an error if a component key is not provided', () => {
     expect(() => registerCustomKeysets('rs', keysetData)).toThrow();
 });
 
-test('should throw an error if extra components are provided', () => {
+test('should throw an error if excess components are provided', () => {
     const keysetData = createTestCustomKeyset({
         NonexistentComponent1: {
             label_cancel: 'cancel',
@@ -137,7 +137,7 @@ test('should throw an error if extra components are provided', () => {
     expect(() => registerCustomKeysets('it', keysetData)).toThrow();
 });
 
-test('should throw an error if extra component keys are provided', () => {
+test('should throw an error if excess component keys are provided', () => {
     const keysetData = createTestCustomKeyset({
         Alert: {
             label_close: 'cancel',

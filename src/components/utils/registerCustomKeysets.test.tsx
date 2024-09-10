@@ -54,7 +54,7 @@ test('should render components with custom keysets', () => {
     expect(screen.getByRole('button', {name: 'Precedente'})).toBeInTheDocument();
 });
 
-test('should render components with bundled keysets after custom keysets registration', () => {
+test('should render components with bundled keysets after a custom keysets registration', () => {
     registerCustomKeysets(
         'rs',
         createTestCustomKeyset({
@@ -137,7 +137,7 @@ test('should throw an error if extra components are provided', () => {
     expect(() => registerCustomKeysets('it', keysetData)).toThrow();
 });
 
-test('should throw an error if extra keys are provided', () => {
+test('should throw an error if extra component keys are provided', () => {
     const keysetData = createTestCustomKeyset({
         Alert: {
             label_close: 'cancel',
@@ -159,8 +159,8 @@ function TestComponents(): React.ReactElement {
     );
 }
 
-// Custom keyset registration needs keysets for every component, or the validation will fail.
-// We don't want to provide it everywhere, otherwise the tests will be too verbose, that's where this function comes in.
+// Custom keyset registration needs keysets for every component, or validation will fail.
+// We don't want to provide every keyset in every test, otherwise tests will be too verbose, that's where this function comes in.
 function createTestCustomKeyset(dataToOverride: KeysetData): KeysetData {
     const pluggedValue = '[PLUG]';
     const fullTestKeyset = {

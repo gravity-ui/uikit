@@ -79,8 +79,84 @@ export function LabelShowcase(args: LabelProps) {
             },
             {children: 'Key', value: 'Value', type: 'close', closeButtonLabel: 'Close'},
             {icon: icons('TickIcon', props.size)},
+            {
+                children: 'Multiline ',
+                type: 'default',
+                multiline: true,
+            },
+            {
+                children: 'Multiline',
+                icon: icons('TickIcon', props.size),
+                type: 'default',
+                multiline: true,
+            },
+            {
+                children: 'Multiline',
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
+            {
+                children: 'Multiline',
+                icon: icons('TickIcon', props.size),
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label short',
+                type: 'default',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label short',
+                icon: icons('TickIcon', props.size),
+                type: 'default',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label short',
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label short',
+                icon: icons('TickIcon', props.size),
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label very-very long',
+                type: 'default',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label very-very long',
+                icon: icons('TickIcon', props.size),
+                type: 'default',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label very-very long',
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
+            {
+                children: 'Multiline label very-very long',
+                icon: icons('TickIcon', props.size),
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
         ];
-        return cases.map((label, i) => getLabel({key: i, ...props, ...label}));
+        return cases.map((label, i) => (
+            <div style={{width: 'auto'}} key={i}>
+                {getLabel({key: i, ...props, ...label})}
+            </div>
+        ));
     };
 
     return (

@@ -157,3 +157,15 @@ export const ShowcaseStory: Story = {
     render: () => <LabelShowcase />,
     name: 'Showcase',
 };
+
+export const Multiline: Story = {
+    render: (args) => (
+        <div style={{width: 75}}>
+            <Label {...args} />
+        </div>
+    ),
+    args: {
+        children: 'Multiline label',
+        multiline: true,
+    },
+};

@@ -26,7 +26,7 @@ $transition-timing-function: ease-in-out;
 
     &__text {
         @include mixins.text-body-1();
-        display: flex;
+        display: inline-flex;
         align-items: baseline;
         margin: 0 var(--_--margin-inline);
         width: 100%;
@@ -64,12 +64,13 @@ $transition-timing-function: ease-in-out;
     }
 
     &__addon {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
         width: var(--_--height);
-        height: var(--_--height);
+        height: 100%;
         border-radius: var(--_--border-radius);
+        box-sizing: border-box;
 
         &_side_start,
         &_side_end {
@@ -115,6 +116,11 @@ $transition-timing-function: ease-in-out;
             --_--margin-addon-end: 22px;
         }
 
+        &_xs.g-label_multiline {
+            --_--addon-padding-on-multiline: 5px;
+            --_--label-padding-on-multiline: 2px;
+        }
+
         &_s {
             --_--height: 24px;
             --_--border-radius: var(--g-border-radius-s);
@@ -123,12 +129,22 @@ $transition-timing-function: ease-in-out;
             --_--margin-addon-end: 26px;
         }
 
+        &_s.g-label_multiline {
+            --_--addon-padding-on-multiline: 5px;
+            --_--label-padding-on-multiline: 3px;
+        }
+
         &_m {
             --_--height: 28px;
             --_--border-radius: var(--g-border-radius-m);
             --_--margin-inline: 12px;
             --_--margin-addon-start: 32px;
             --_--margin-addon-end: 32px;
+        }
+
+        &_m.g-label_multiline {
+            --_--addon-padding-on-multiline: 6px;
+            --_--label-padding-on-multiline: 5px;
         }
     }
 
@@ -211,5 +227,32 @@ $transition-timing-function: ease-in-out;
     &__main-button:focus-visible,
     &__addon_type_button:focus-visible {
         outline: 2px solid var(--g-color-line-focus);
+    }
+
+    &_multiline {
+        height: min-content;
+        padding-block: var(--_--label-padding-on-multiline);
+
+        #{$block}__text {
+            white-space: normal;
+            overflow: inherit;
+            text-align: start;
+            line-height: 18px;
+        }
+
+        #{$block}__addon_side_end,
+        #{$block}__addon_side_start {
+            padding: var(--_--addon-padding-on-multiline);
+            width: auto;
+            align-items: start;
+        }
+
+        #{$block}__addon_side_start {
+            inset-inline-start: 2px;
+        }
+
+        #{$block}__addon_side_end {
+            inset-inline-end: 0;
+        }
     }
 }

@@ -121,6 +121,12 @@ $block: '.#{variables.$ns}card';
                 }
             }
 
+            &#{$block}_selected:hover {
+                &::before {
+                    opacity: 0.7;
+                }
+            }
+
             &:focus-visible::after {
                 content: '';
                 outline: 2px solid var(--g-color-line-focus);

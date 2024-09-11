@@ -1,3 +1,4 @@
+import {BASE_SMOKE_SCENARIO_DETAILS} from './constants';
 import type {Cases, CasesWithName, Scenario, ScenarioDetails, ScenarioName} from './models';
 
 interface Options {
@@ -18,7 +19,8 @@ export const createSmokeScenarios = <Props extends {}>(
     options?: Options,
 ) => {
     const scenarioDetails: ScenarioDetails = {
-        tag: ['@smoke', ...(options?.additionalTags || [])],
+        ...BASE_SMOKE_SCENARIO_DETAILS,
+        tag: [...BASE_SMOKE_SCENARIO_DETAILS.tag, ...(options?.additionalTags || [])],
     };
 
     const scenarioName: ScenarioName = `smoke${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;

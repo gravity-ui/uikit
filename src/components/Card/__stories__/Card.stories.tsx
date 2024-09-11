@@ -166,22 +166,3 @@ export const Custom: Story = {
         </React.Fragment>
     ),
 };
-
-export const InteractiveSelectionType: Story = {
-    render: function InteractiveSelectionTypeRenderFunction(args) {
-        const [selected, setSelected] = React.useState(false);
-        return (
-            <Showcase>
-                <Card {...args} selected={selected} onClick={() => setSelected((v) => !v)}>
-                    Clickable
-                </Card>
-            </Showcase>
-        );
-    },
-    args: {
-        ...Default.args,
-        type: 'selection',
-        onClick: () => action('onClick'),
-    },
-    name: 'Selection Type',
-};

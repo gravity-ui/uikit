@@ -86,10 +86,16 @@
     &__row {
         display: flex;
         gap: 10px;
+
+        &_type_checkbox {
+            height: 30px;
+            align-items: center;
+        }
     }
 
     &__input:not(:last-child),
-    &__text-area:not(:last-child) {
+    &__text-area:not(:last-child),
+    &__row_type_checkbox:not(:last-child) {
         margin-block-end: 20px;
     }
 }

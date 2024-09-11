@@ -13,7 +13,7 @@ import {registerCustomKeysets} from './registerCustomKeysets';
 test('should render components with custom keysets', () => {
     registerCustomKeysets(
         'rs',
-        createTestCustomKeyset({
+        createTestKeyset({
             Dialog: {
                 close: 'Затвори дијалог',
             },
@@ -29,7 +29,7 @@ test('should render components with custom keysets', () => {
     );
     registerCustomKeysets(
         'it',
-        createTestCustomKeyset({
+        createTestKeyset({
             Dialog: {
                 close: 'Chiudere il dialogo',
             },
@@ -58,7 +58,7 @@ test('should render components with custom keysets', () => {
 test('should render components with bundled keysets after a custom keysets registration', () => {
     registerCustomKeysets(
         'rs',
-        createTestCustomKeyset({
+        createTestKeyset({
             Dialog: {
                 close: 'Затвори дијалог',
             },
@@ -82,7 +82,7 @@ test('should render components with bundled keysets after a custom keysets regis
 test('should override bundled keysets', () => {
     registerCustomKeysets(
         Lang.En,
-        createTestCustomKeyset({
+        createTestKeyset({
             Dialog: {
                 close: '[Overriden] Close dialog',
             },
@@ -104,14 +104,14 @@ test('should override bundled keysets', () => {
 });
 
 test('should throw an error if a component is not provided', () => {
-    const keysetData = createTestCustomKeyset({});
+    const keysetData = createTestKeyset({});
     delete keysetData.Table;
 
     expect(() => registerCustomKeysets('rs', keysetData)).toThrow();
 });
 
 test('should throw an error if a component key is not provided', () => {
-    const keysetData = createTestCustomKeyset({});
+    const keysetData = createTestKeyset({});
     Object.assign(keysetData, {
         Table: {
             label_empty: 'empty',
@@ -125,7 +125,7 @@ test('should throw an error if a component key is not provided', () => {
 });
 
 test('should throw an error if excess components are provided', () => {
-    const keysetData = createTestCustomKeyset({
+    const keysetData = createTestKeyset({
         NonexistentComponent1: {
             label_cancel: 'cancel',
             label_submit: 'submit',
@@ -139,7 +139,7 @@ test('should throw an error if excess components are provided', () => {
 });
 
 test('should throw an error if excess component keys are provided', () => {
-    const keysetData = createTestCustomKeyset({
+    const keysetData = createTestKeyset({
         Alert: {
             label_close: 'cancel',
             nonexistent_key: 'nonexistent',
@@ -163,7 +163,7 @@ function TestComponents(): React.ReactElement {
 // Custom keyset registration needs keysets for every component, or validation will fail.
 // We don't want to provide every keyset in every test, otherwise tests will be too verbose.
 // So we copy all the keysets from English, and then override the ones we'll test on.
-function createTestCustomKeyset(dataToOverride: KeysetData): KeysetData {
-    const fullTestKeyset = JSON.parse(JSON.stringify(i18n.data.en));
-    return Object.assign(fullTestKeyset, dataToOverride);
+function createTestKeyset(dataToOverride: KeysetData): KeysetData {
+    const keysetPrototype = JSON.parse(JSON.stringify(i18n.data.en));
+    return Object.assign(keysetPrototype, dataToOverride);
 }

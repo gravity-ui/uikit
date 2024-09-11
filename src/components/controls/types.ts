@@ -65,6 +65,8 @@ export type BaseInputControlProps<T = Element> = DOMProps &
         pin?: InputControlPin;
         /** Text that appears in the control when it has no value set */
         placeholder?: string;
+        /** Indicates that the user cannot change control's value */
+        readOnly?: boolean;
         /** The control's size. `'m'` by default */
         size?: InputControlSize;
         /** The control's `tabindex` attribute */

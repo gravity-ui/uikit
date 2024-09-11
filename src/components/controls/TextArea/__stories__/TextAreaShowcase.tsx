@@ -62,6 +62,13 @@ export function TextAreaShowcase() {
                         />
                     </div>
                     <TextArea {...textAreaProps} placeholder="disabled" disabled rows={2} />
+                    <TextArea
+                        {...textAreaProps}
+                        placeholder="readonly"
+                        value="readonly value"
+                        readOnly
+                        rows={2}
+                    />
                     <TextArea {...textAreaProps} placeholder="rows = 4 & clear" hasClear rows={4} />
                     <TextArea
                         {...textAreaProps}
@@ -113,6 +120,13 @@ value`.trim()}
                 <TextArea {...textAreaProps} />
                 <TextArea {...textAreaProps} value={undefined} defaultValue="has clear" hasClear />
                 <TextArea {...textAreaProps} disabled />
+                <TextArea
+                    {...textAreaProps}
+                    placeholder="readonly"
+                    value="readonly value"
+                    readOnly
+                    rows={2}
+                />
                 <TextArea {...textAreaProps} error="Error message" />
             </div>
             <div className={b('custom-theme')}>
@@ -127,6 +141,13 @@ value`.trim()}
                 <TextArea {...textAreaProps} />
                 <TextArea {...textAreaProps} value={undefined} defaultValue="has clear" hasClear />
                 <TextArea {...textAreaProps} disabled />
+                <TextArea
+                    {...textAreaProps}
+                    placeholder="readonly"
+                    value="readonly value"
+                    readOnly
+                    rows={2}
+                />
                 <TextArea {...textAreaProps} error="Error message" />
             </div>
         </div>

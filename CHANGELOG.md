@@ -1,5 +1,53 @@
 # Changelog
 
+## [6.25.1](https://github.com/gravity-ui/uikit/compare/v6.25.0...v6.25.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **List:** deactivate on mouse leave ([#1847](https://github.com/gravity-ui/uikit/issues/1847)) ([cc14563](https://github.com/gravity-ui/uikit/commit/cc14563904e355d3b90ddc3f3a29bbe937ae3970))
+* **useFocusWithin:** ignore blur event when window loses focus ([#1836](https://github.com/gravity-ui/uikit/issues/1836)) ([216e700](https://github.com/gravity-ui/uikit/commit/216e7003068c818eca078ff3ae2692439d86f930))
+
+## [6.25.0](https://github.com/gravity-ui/uikit/compare/v6.24.0...v6.25.0) (2024-09-09)
+
+
+### Features
+
+* **ClipboardButton:** add children and iconPosition ([#1837](https://github.com/gravity-ui/uikit/issues/1837)) ([4c3d070](https://github.com/gravity-ui/uikit/commit/4c3d070a74cee72a5017ac6df37b3f8cf22b2122))
+* **Label:** add title attribute ([#1843](https://github.com/gravity-ui/uikit/issues/1843)) ([c8e1ebb](https://github.com/gravity-ui/uikit/commit/c8e1ebb291f5c6d43395b9c18f34960b2dd7248f))
+* **PlaceholderContainer:** add component and showcases ([#1741](https://github.com/gravity-ui/uikit/issues/1741)) ([1632acc](https://github.com/gravity-ui/uikit/commit/1632acc82b8d29ee431b0b9b12863dc2571b5231))
+
+
+### Bug Fixes
+
+* **TreeList:** provide types for renderContainerProps ([#1842](https://github.com/gravity-ui/uikit/issues/1842)) ([90ca9cc](https://github.com/gravity-ui/uikit/commit/90ca9cc820270cca0042eaea3b7c94bbeefbf717))
+
+## [6.24.0](https://github.com/gravity-ui/uikit/compare/v6.23.1...v6.24.0) (2024-09-02)
+
+
+### Features
+
+* **Divider:** render content inside ([#1701](https://github.com/gravity-ui/uikit/issues/1701)) ([4d28d89](https://github.com/gravity-ui/uikit/commit/4d28d89082ee800c49864aeb46588d5ef4d9710a))
+* **Pagination:** add size prop ([#1759](https://github.com/gravity-ui/uikit/issues/1759)) ([12e5597](https://github.com/gravity-ui/uikit/commit/12e559762a25d8c515d0f0b524c40af9914b941a))
+* **Popup:** add aria-modal prop ([#1827](https://github.com/gravity-ui/uikit/issues/1827)) ([7d8dff0](https://github.com/gravity-ui/uikit/commit/7d8dff0251533f74ccf76c2d6be585a66681cff3))
+* **TextInput, TextArea:** add `readOnly` property ([#1747](https://github.com/gravity-ui/uikit/issues/1747)) ([1c95f75](https://github.com/gravity-ui/uikit/commit/1c95f75c12288c0b866b816045eef901bb5ad34b))
+
+
+### Bug Fixes
+
+* **Select:** close popup when click on select button (Safari) ([#1828](https://github.com/gravity-ui/uikit/issues/1828)) ([3f5adc5](https://github.com/gravity-ui/uikit/commit/3f5adc5b5584f9417f29b51e0170d86fc75a12b0))
+* **Select:** correctly set active item in listbox ([#1829](https://github.com/gravity-ui/uikit/issues/1829)) ([ee2d040](https://github.com/gravity-ui/uikit/commit/ee2d040c5c0653f1854e6a74f4d9277394dc3c3f))
+* **Select:** pass disabled prop to renderControl, don't change state if disabled ([#1766](https://github.com/gravity-ui/uikit/issues/1766)) ([24bbb05](https://github.com/gravity-ui/uikit/commit/24bbb052faef9ce4ead5e1c4eb2f6f53bfa011a5))
+* **useListFilter:** fixed bug with initial items array change ([#1751](https://github.com/gravity-ui/uikit/issues/1751)) ([b9d2671](https://github.com/gravity-ui/uikit/commit/b9d2671f61ffa342d0d29c09d67f88e2870c6dc1))
+* **useList:** support activeItemId in initialState prop ([#1824](https://github.com/gravity-ui/uikit/issues/1824)) ([aa308d8](https://github.com/gravity-ui/uikit/commit/aa308d8eb2a2c381cfd1f635b20e265f2963baad))
+
+## [6.23.1](https://github.com/gravity-ui/uikit/compare/v6.23.0...v6.23.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* **useList:** fixed expanded controlled state behaviour ([#1749](https://github.com/gravity-ui/uikit/issues/1749)) ([82db00e](https://github.com/gravity-ui/uikit/commit/82db00ef28785237285c1002b38236668530f879))
+
 ## [6.23.0](https://github.com/gravity-ui/uikit/compare/v6.22.0...v6.23.0) (2024-08-06)
 
 

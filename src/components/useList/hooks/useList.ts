@@ -1,7 +1,7 @@
 /* eslint-disable valid-jsdoc */
 import React from 'react';
 
-import type {ListState, UseListResult} from '../types';
+import type {InitialListParsedState, ListState, UseListResult} from '../types';
 
 import {useFlattenListItems} from './useFlattenListItems';
 import {useListParsedState} from './useListParsedState';
@@ -9,7 +9,10 @@ import type {UseListParsedStateProps} from './useListParsedState';
 import {useListState} from './useListState';
 import type {UseListStateProps} from './useListState';
 
-interface UseListProps<T> extends UseListParsedStateProps<T>, UseListStateProps {
+interface UseListProps<T>
+    extends UseListParsedStateProps<T>,
+        Omit<UseListStateProps, 'initialState'> {
+    initialState?: Partial<InitialListParsedState>;
     controlledState?: Partial<ListState>;
 }
 
@@ -30,16 +33,18 @@ export const useList = <T>({
         defaultExpandedState,
     });
 
-    const initValues = React.useMemo(() => {
+    const initValues: InitialListParsedState = React.useMemo(() => {
         return {
             expandedById: {...initialState.expandedById, ...initialValues?.expandedById},
             selectedById: {...initialState.selectedById, ...initialValues?.selectedById},
             disabledById: {...initialState.disabledById, ...initialValues?.disabledById},
+            activeItemId: initialValues?.activeItemId,
         };
     }, [
         initialState.disabledById,
         initialState.expandedById,
         initialState.selectedById,
+        initialValues?.activeItemId,
         initialValues?.disabledById,
         initialValues?.expandedById,
         initialValues?.selectedById,
@@ -48,15 +53,6 @@ export const useList = <T>({
     const innerState = useListState({
         initialState: initValues,
         withExpandedState,
-    });
-
-    const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({
-        items,
-        /**
-         * By default controlled from list items declaration state
-         */
-        expandedById: innerState.expandedById,
-        getItemId,
     });
 
     const realState = React.useMemo(() => {
@@ -69,6 +65,15 @@ export const useList = <T>({
 
         return innerState;
     }, [controlledState, innerState]);
+
+    const {visibleFlattenIds, idToFlattenIndex, rootIds} = useFlattenListItems({
+        items,
+        /**
+         * By default controlled from list items declaration state
+         */
+        expandedById: realState.expandedById,
+        getItemId,
+    });
 
     return {
         state: realState,

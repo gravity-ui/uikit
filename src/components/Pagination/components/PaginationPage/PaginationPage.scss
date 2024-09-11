@@ -9,12 +9,20 @@ $block: '.#{variables.$ns}pagination-page';
         display: flex;
         align-items: center;
 
+        &_size_s {
+            padding: 0 8px;
+        }
+
         &_size_m {
             padding: 0 13px;
         }
 
         &_size_l {
             padding: 0 18px;
+        }
+
+        &_size_xl {
+            padding: 0 21px;
         }
     }
 }

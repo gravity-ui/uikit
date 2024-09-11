@@ -2,9 +2,21 @@ import React from 'react';
 
 import {test} from '~playwright/core';
 
+import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import type {ButtonProps} from '../Button';
+import {Button} from '../Button';
+
+import {
+    disabledCases,
+    loadingCases,
+    pinsCases,
+    selectedCases,
+    sizeCases,
+    viewsCases,
+} from './cases';
 import {ButtonStories, CustomIconSizeButton} from './helpersPlaywright';
 
-test.describe('Button', () => {
+test.describe('Button', {tag: '@Button'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<ButtonStories.Default />);
 
@@ -75,5 +87,38 @@ test.describe('Button', () => {
         await mount(<CustomIconSizeButton />);
 
         await expectScreenshot();
+    });
+
+    const qa = 'test-button';
+
+    createSmokeScenarios<ButtonProps>(
+        {
+            children: 'Text',
+            qa,
+        },
+        {
+            size: sizeCases,
+            selected: selectedCases,
+            disabled: disabledCases,
+            loading: loadingCases,
+            view: viewsCases,
+            pin: pinsCases,
+        },
+    ).forEach(([title, details, props]) => {
+        test(title, details, async ({mount, expectScreenshot}) => {
+            const root = await mount(<Button {...props} />);
+
+            await expectScreenshot();
+
+            if (props.disabled || props.loading) {
+                return;
+            }
+
+            await root.getByTestId(qa).hover();
+
+            await expectScreenshot({
+                nameSuffix: 'hovered',
+            });
+        });
     });
 });

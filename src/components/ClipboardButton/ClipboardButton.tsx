@@ -16,7 +16,7 @@ export interface ClipboardButtonProps
         Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {}
 
 interface ClipboardButtonComponentProps
-    extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading' | 'children'> {
+    extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading'> {
     status: CopyToClipboardStatus;
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;
@@ -24,6 +24,8 @@ interface ClipboardButtonComponentProps
     tooltipInitialText?: string;
     /** Text shown after copy */
     tooltipSuccessText?: string;
+    /** Position of clipboard icon */
+    iconPosition?: 'start' | 'end';
 }
 
 const DEFAULT_TIMEOUT = 1000;
@@ -45,8 +47,16 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         status,
         view = 'flat',
         extraProps = {},
+        children,
+        iconPosition = 'start',
         ...rest
     } = props;
+
+    const buttonIcon = (
+        <Button.Icon>
+            <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
+        </Button.Icon>
+    );
 
     return (
         <ActionTooltip
@@ -62,9 +72,9 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
                 }}
                 {...rest}
             >
-                <Button.Icon>
-                    <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
-                </Button.Icon>
+                {iconPosition === 'start' ? buttonIcon : null}
+                {children}
+                {iconPosition === 'end' ? buttonIcon : null}
             </Button>
         </ActionTooltip>
     );

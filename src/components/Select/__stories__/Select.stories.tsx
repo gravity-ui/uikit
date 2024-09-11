@@ -3,14 +3,13 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {Select} from '..';
-import type {SelectProps} from '..';
 import {Button} from '../../Button';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
 import {SelectShowcase} from './SelectShowcase';
 import {UseSelectOptionsShowcase} from './UseSelectOptionsShowcase';
 
-const meta: Meta = {
+const meta: Meta<typeof Select> = {
     title: 'Components/Inputs/Select',
     component: Select,
     parameters: {
@@ -31,7 +30,7 @@ const meta: Meta = {
 
 export default meta;
 
-type Story = StoryObj<SelectProps>;
+type Story = StoryObj<typeof Select>;
 
 export const Default = {
     render: (args) => (
@@ -45,7 +44,7 @@ export const Default = {
 } satisfies Story;
 
 export const Showcase = {
-    render: (args: SelectProps) => <SelectShowcase {...args} />,
+    render: (args) => <SelectShowcase {...args} />,
     args: {
         view: 'normal',
         size: 'm',

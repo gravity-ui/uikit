@@ -8,7 +8,7 @@ import {useDirection} from '../theme';
 import {block} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
-import {SliderTooltip} from './SliderTooltip/SliderTooltip';
+import {HandleWithTooltip} from './HandleWithTooltip/HandleWithTooltip';
 import type {RcSliderValueType, SliderProps, SliderValue, StateModifiers} from './types';
 import {prepareSliderInnerState} from './utils';
 
@@ -87,6 +87,7 @@ export const Slider = React.forwardRef(function Slider(
         marks,
         hasTooltip,
         tooltipDisplay,
+        tooltipFormat,
     });
     const stateModifiers: StateModifiers = {
         size,
@@ -98,9 +99,9 @@ export const Slider = React.forwardRef(function Slider(
 
     return (
         <div className={b(null, className)} ref={ref}>
-            <div
-                className={b('top', {size, hasTooltip: innerState.tooltipDisplay !== 'off'})}
-            ></div>
+            <div className={b('top', {size, tooltipDisplay})}>
+                {/* use this block to reserve place for tooltip */}
+            </div>
             <BaseSlider
                 ref={apiRef}
                 value={innerState.value}
@@ -121,29 +122,17 @@ export const Slider = React.forwardRef(function Slider(
                 tabIndex={tabIndex}
                 data-qa={qa}
                 handleRender={
-                    hasTooltip
-                        ? (originHandle, handleProps) => {
-                              const styleProp = stateModifiers.rtl ? 'right' : 'left';
-                              const tooltipContent = tooltipFormat
-                                  ? tooltipFormat(handleProps.value)
-                                  : handleProps.value;
-                              return (
-                                  <React.Fragment>
-                                      {originHandle}
-                                      <SliderTooltip
-                                          className={b('tooltip')}
-                                          style={{
-                                              insetInlineStart:
-                                                  originHandle.props.style?.[styleProp],
-                                          }}
-                                          stateModifiers={stateModifiers}
-                                      >
-                                          {tooltipContent}
-                                      </SliderTooltip>
-                                  </React.Fragment>
-                              );
-                          }
-                        : undefined
+                    innerState.tooltipDisplay === 'off'
+                        ? undefined
+                        : (originHandle, originHandleProps) => (
+                              <HandleWithTooltip
+                                  originHandle={originHandle}
+                                  originHandleProps={originHandleProps}
+                                  stateModifiers={stateModifiers}
+                                  className={b('tooltip')}
+                                  tooltipFormat={innerState.tooltipFormat}
+                              />
+                          )
                 }
                 reverse={stateModifiers.rtl}
                 ariaLabelForHandle={ariaLabelForHandle}

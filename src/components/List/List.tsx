@@ -539,6 +539,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
         if (!this.blurTimer) {
             return;
         }
+        this.blurTimer = null;
         if (this.props.deactivateOnLeave) {
             this.setState({activeItem: undefined});
         }
@@ -609,7 +610,7 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
     };
 
     private onMouseLeave = () => {
-        this.deactivate();
+        this.handleBlur();
     };
 
     private onSortStart = () => {

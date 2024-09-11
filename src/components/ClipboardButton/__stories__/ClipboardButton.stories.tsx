@@ -36,3 +36,20 @@ export const Size: Story = {
         </Showcase>
     ),
 };
+
+export const WithCustomIconPosition: Story = {
+    render: (args) => (
+        <Showcase>
+            <ShowcaseItem title="start">
+                <ClipboardButton {...args} size="xs" iconPosition="start">
+                    Copy
+                </ClipboardButton>
+            </ShowcaseItem>
+            <ShowcaseItem title="end">
+                <ClipboardButton {...args} size="xs" iconPosition="end">
+                    Copy
+                </ClipboardButton>
+            </ShowcaseItem>
+        </Showcase>
+    ),
+};

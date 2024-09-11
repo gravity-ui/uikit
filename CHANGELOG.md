@@ -1,5 +1,27 @@
 # Changelog
 
+## [6.25.1](https://github.com/gravity-ui/uikit/compare/v6.25.0...v6.25.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **List:** deactivate on mouse leave ([#1847](https://github.com/gravity-ui/uikit/issues/1847)) ([cc14563](https://github.com/gravity-ui/uikit/commit/cc14563904e355d3b90ddc3f3a29bbe937ae3970))
+* **useFocusWithin:** ignore blur event when window loses focus ([#1836](https://github.com/gravity-ui/uikit/issues/1836)) ([216e700](https://github.com/gravity-ui/uikit/commit/216e7003068c818eca078ff3ae2692439d86f930))
+
+## [6.25.0](https://github.com/gravity-ui/uikit/compare/v6.24.0...v6.25.0) (2024-09-09)
+
+
+### Features
+
+* **ClipboardButton:** add children and iconPosition ([#1837](https://github.com/gravity-ui/uikit/issues/1837)) ([4c3d070](https://github.com/gravity-ui/uikit/commit/4c3d070a74cee72a5017ac6df37b3f8cf22b2122))
+* **Label:** add title attribute ([#1843](https://github.com/gravity-ui/uikit/issues/1843)) ([c8e1ebb](https://github.com/gravity-ui/uikit/commit/c8e1ebb291f5c6d43395b9c18f34960b2dd7248f))
+* **PlaceholderContainer:** add component and showcases ([#1741](https://github.com/gravity-ui/uikit/issues/1741)) ([1632acc](https://github.com/gravity-ui/uikit/commit/1632acc82b8d29ee431b0b9b12863dc2571b5231))
+
+
+### Bug Fixes
+
+* **TreeList:** provide types for renderContainerProps ([#1842](https://github.com/gravity-ui/uikit/issues/1842)) ([90ca9cc](https://github.com/gravity-ui/uikit/commit/90ca9cc820270cca0042eaea3b7c94bbeefbf717))
+
 ## [6.24.0](https://github.com/gravity-ui/uikit/compare/v6.23.1...v6.24.0) (2024-09-02)
 
 

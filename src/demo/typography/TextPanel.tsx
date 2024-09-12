@@ -1,5 +1,4 @@
-import ReactCopyToClipboard from 'react-copy-to-clipboard';
-
+import {CopyToClipboard} from '../../components';
 import {cn} from '../../components/utils/cn';
 
 import './TextPanel.scss';
@@ -30,24 +29,28 @@ export function TextPanel(props: TextPanelProps) {
                     <div className={b('card-texts')}>
                         <div className={b('card-headline')}>
                             <div className={b('card-title')}>{item.title}</div>
-                            <ReactCopyToClipboard text={copyText}>
-                                <div className={b('card-var')}>{varName}</div>
-                            </ReactCopyToClipboard>
+                            <CopyToClipboard text={copyText} nativeCopy>
+                                {() => <div className={b('card-var')}>{varName}</div>}
+                            </CopyToClipboard>
                         </div>
                         {item.description && (
                             <div className={b('card-description')}>{item.description}</div>
                         )}
                         {props.variant && (
-                            <ReactCopyToClipboard text={copyText}>
-                                <div
-                                    className={b('card-sample', {variant: varName})}
-                                    style={
-                                        props.variant ? undefined : {fontFamily: `var(${varName})`}
-                                    }
-                                >
-                                    {SAMPLE_TEXT}
-                                </div>
-                            </ReactCopyToClipboard>
+                            <CopyToClipboard text={copyText} nativeCopy>
+                                {() => (
+                                    <div
+                                        className={b('card-sample', {variant: varName})}
+                                        style={
+                                            props.variant
+                                                ? undefined
+                                                : {fontFamily: `var(${varName})`}
+                                        }
+                                    >
+                                        {SAMPLE_TEXT}
+                                    </div>
+                                )}
+                            </CopyToClipboard>
                         )}
                     </div>
                 </div>

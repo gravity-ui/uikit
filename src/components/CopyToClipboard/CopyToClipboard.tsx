@@ -4,18 +4,23 @@ import React from 'react';
 
 import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
+import {copyText} from '../../utils/copyText';
+
 import type {CopyToClipboardProps, CopyToClipboardStatus} from './types';
 
 const INITIAL_STATUS: CopyToClipboardStatus = 'pending';
 
 export function CopyToClipboard(props: CopyToClipboardProps) {
-    const {children, text, options, timeout, onCopy} = props;
+    const {children, text, options, timeout, nativeCopy, onCopy} = props;
 
     const [status, setStatus] = React.useState<CopyToClipboardStatus>(INITIAL_STATUS);
 
     const timerIdRef = React.useRef<number>();
 
-    const content = React.useMemo(() => children(status), [children, status]);
+    const content = React.useMemo<React.ReactElement<React.HTMLAttributes<HTMLElement>>>(
+        () => children(status),
+        [children, status],
+    );
 
     const handleCopy = React.useCallback<Required<ReactCopyToClipboard.Props>['onCopy']>(
         (copyText, result) => {
@@ -27,10 +32,30 @@ export function CopyToClipboard(props: CopyToClipboardProps) {
         [onCopy, timeout],
     );
 
+    const onClickWithCopy: React.MouseEventHandler<HTMLElement> = React.useCallback(
+        (event) => {
+            copyText(text).then(
+                () => handleCopy(text, true),
+                () => handleCopy(text, false),
+            );
+
+            if (typeof content.props?.onClick === 'function') {
+                content.props.onClick(event);
+            }
+        },
+        [content.props, handleCopy, text],
+    );
+
     React.useEffect(() => () => window.clearTimeout(timerIdRef.current), []);
 
     if (!React.isValidElement(content)) {
         throw new Error('Content must be a valid react element');
+    }
+
+    if (nativeCopy) {
+        return React.cloneElement(content, {
+            onClick: onClickWithCopy,
+        });
     }
 
     return (

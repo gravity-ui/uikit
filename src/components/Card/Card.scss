@@ -110,7 +110,7 @@ $block: '.#{variables.$ns}card';
             &:hover {
                 --_--border-color: transparent;
 
-                &::before {
+                &:not(#{$block}_selected)::before {
                     content: '';
                     border: 2px solid var(--g-color-line-brand);
                     opacity: 0.5;

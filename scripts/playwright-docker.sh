@@ -7,8 +7,19 @@ IMAGE_TAG="v1.42.1-jammy" # This version have to be synchronized with playwright
 
 NODE_MODULES_CACHE_DIR="$HOME/.cache/uikit-playwright-docker-node-modules"
 
+# Determine if docker or podman is installed
+if command -v podman &> /dev/null; then
+    CONTAINER_RUNTIME="podman"
+elif command -v docker &> /dev/null; then
+    CONTAINER_RUNTIME="docker"
+else
+    echo "Neither podman nor docker is installed."
+    exit 1
+fi
+
+
 run_command() {
-    docker run --rm --network host -it -w /work \
+    $CONTAINER_RUNTIME  run --rm --network host -it -w /work \
         -v $(pwd):/work \
         -v "$NODE_MODULES_CACHE_DIR:/work/node_modules" \
         "$IMAGE_NAME:$IMAGE_TAG" \

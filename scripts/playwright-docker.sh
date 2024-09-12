@@ -12,7 +12,7 @@ command_exists() {
 }
 
 run_command() {
-    $CONTAINER_RUNTIME run --rm --network host -it -w /work \
+    $CONTAINER_TOOL run --rm --network host -it -w /work \
         -v $(pwd):/work \
         -v "$NODE_MODULES_CACHE_DIR:/work/node_modules" \
         "$IMAGE_NAME:$IMAGE_TAG" \

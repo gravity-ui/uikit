@@ -11,7 +11,10 @@ export type CopyToClipboardContent = (status: CopyToClipboardStatus) => React.Re
 export interface CopyToClipboardProps {
     text: string;
     timeout?: number;
+    /** Child element should have `onClick` handler to work properly */
     children: CopyToClipboardContent;
     onCopy?: OnCopyHandler;
     options?: ReactCopyToClipboard.Options;
+    /** Use native copy instead of `copy-to-clipboard` */
+    nativeCopy?: boolean;
 }

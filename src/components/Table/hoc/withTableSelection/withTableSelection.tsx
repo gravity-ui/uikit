@@ -60,23 +60,40 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
         private renderHeadCell = () => {
             const {data, selectedIds} = this.props;
             let disabled = true;
-            let checked = data.every((item, index) => {
+            let indeterminate = false;
+            let checked = true;
+            data.forEach((item, index) => {
                 if (this.isDisabled(item, index)) {
-                    return true;
+                    return;
                 } else {
                     disabled = false;
                 }
 
                 const id = Table.getRowId(this.props, item, index);
+                const itemChecked = selectedIds.includes(id);
 
-                return selectedIds.includes(id);
+                if (itemChecked) {
+                    indeterminate = true;
+                } else {
+                    checked = false;
+                }
             });
+
+            if (checked) {
+                indeterminate = false;
+            }
 
             if (disabled) {
                 checked = false;
+                indeterminate = false;
             }
 
-            return this.renderCheckBox({disabled, checked, handler: this.handleAllCheckBoxUpdate});
+            return this.renderCheckBox({
+                disabled,
+                checked,
+                handler: this.handleAllCheckBoxUpdate,
+                indeterminate,
+            });
         };
 
         private renderBodyCell = (item: I, index: number) => {
@@ -95,15 +112,18 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
             disabled,
             checked,
             handler,
+            indeterminate,
         }: {
             checked: boolean;
             disabled: boolean;
             handler: React.ChangeEventHandler<HTMLInputElement>;
+            indeterminate?: boolean; //only for header cell checkbox
         }) {
             return (
                 <Checkbox
                     size="l"
                     checked={checked}
+                    indeterminate={indeterminate}
                     disabled={disabled}
                     onChange={handler}
                     className={b('selection-checkbox', {

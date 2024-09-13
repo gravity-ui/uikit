@@ -46,7 +46,7 @@ const DefaultTemplate: StoryFn<TextInputProps> = (args) => (
 );
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: StoryFn = () => <TextInputShowcase />;
+const ShowcaseTemplate: StoryFn = (args: TextInputProps) => <TextInputShowcase {...args} />;
 export const Showcase = ShowcaseTemplate.bind({});
 
 const CustomThemeTemplate: StoryFn = () => <CustomThemeShowcase />;

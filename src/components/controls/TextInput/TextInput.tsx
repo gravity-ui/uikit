@@ -50,6 +50,10 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     startContent?: React.ReactNode;
     /** User`s node rendered after input node and clear button */
     endContent?: React.ReactNode;
+    /** User`s node rendered after input node, clear button and error icon.
+     * This prop will replace current `endContent` prop in next major
+     */
+    unstable_endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
 };
@@ -86,6 +90,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             rightContent,
             startContent = leftContent,
             endContent = rightContent,
+            unstable_endContent: unstableEndContent,
             note,
             onUpdate,
             onChange,
@@ -115,7 +120,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
         const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
         const isStartContentVisible = Boolean(startContent);
-        const isEndContentVisible = Boolean(endContent);
+        const isUnstableEndContentVisible = Boolean(unstableEndContent);
+        const isEndContentVisible = Boolean(endContent) && !isUnstableEndContentVisible;
         const isAutoCompleteOff =
             isLabelVisible && !idProp && !name && typeof autoComplete === 'undefined';
 
@@ -205,7 +211,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                         pin: view === 'clear' ? undefined : pin,
                         'has-clear': isClearControlVisible,
                         'has-start-content': isStartContentVisible,
-                        'has-end-content': isClearControlVisible || isEndContentVisible,
+                        'has-end-content':
+                            isClearControlVisible ||
+                            isEndContentVisible ||
+                            isUnstableEndContentVisible,
+                        'has-unstable-end-content': isUnstableEndContentVisible,
                     },
                     className,
                 )}
@@ -260,6 +270,11 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
                                 />
                             </span>
                         </Popover>
+                    )}
+                    {isUnstableEndContentVisible && (
+                        <AdditionalContent placement="end" onClick={handleAdditionalContentClick}>
+                            {unstableEndContent}
+                        </AdditionalContent>
                     )}
                 </span>
                 <OuterAdditionalContent

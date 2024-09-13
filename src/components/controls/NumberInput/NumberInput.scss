@@ -6,6 +6,24 @@
 $block: '.#{variables.$ns}number-input';
 
 #{$block} {
+    &_size {
+        &_s {
+            --_--textinput-end-padding: 1px;
+        }
+
+        &_m {
+            --_--textinput-end-padding: 1px;
+        }
+
+        &_l {
+            --_--textinput-end-padding: 3px;
+        }
+
+        &_xl {
+            --_--textinput-end-padding: 3px;
+        }
+    }
+
     &_view_normal {
         --numeric-arrows-border-color: var(--g-color-line-generic);
         --_--border-color-hover: var(--g-color-line-generic-hover);
@@ -23,5 +41,7 @@ $block: '.#{variables.$ns}number-input';
     &__numeric-arrows {
         border-style: none;
         border-inline-start-style: solid;
+
+        margin-inline: var(--_--textinput-end-padding) calc(0px - var(--_--textinput-end-padding));
     }
 }

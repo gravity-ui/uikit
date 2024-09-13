@@ -89,6 +89,28 @@
         "build",
         "styles"
     ],
+    "size-limit": [
+        {
+          "name": "> total cjs js",
+            "path": "build/cjs/**/*.js",
+            "running": false
+        },
+        {
+          "name": "> total cjs css",
+            "path": "build/cjs/**/*.css",
+            "running": false
+        },
+        {
+          "name": "> total esm js",
+          "path": "build/esm/**/*.js",
+            "running": false
+        },
+        {
+          "name": "> total esm css",
+            "path": "build/esm/**/*.css",
+            "running": false
+        }
+    ],
     "scripts": {
         "prepare": "husky",
         "test": "jest",
@@ -106,6 +128,7 @@
         "lint:prettier": "cross-env prettier --check '**/*.md'",
         "lint:prettier:fix": "cross-env prettier --write '**/*.md'",
         "lint": "run-p lint:*",
+        "size": "size-limit",
         "typecheck": "tsc --noEmit",
         "prepublishOnly": "npm run build && npm pkg delete engines",
         "playwright:install": "playwright install chromium webkit --with-deps",
@@ -146,6 +169,7 @@
         "@gravity-ui/tsconfig": "^1.0.0",
         "@playwright/experimental-ct-react": "^1.42.1",
         "@playwright/test": "^1.42.1",
+        "@size-limit/preset-app": "^11.1.4",
         "@storybook/addon-a11y": "^8.1.9",
         "@storybook/addon-essentials": "^8.1.9",
         "@storybook/addon-storysource": "^8.1.9",
@@ -196,6 +220,7 @@
         "rimraf": "^5.0.5",
         "sass": "^1.70.0",
         "sass-loader": "^14.0.0",
+        "size-limit": "^11.1.4",
         "storybook": "^8.1.9",
         "stylelint": "^15.11.0",
         "stylelint-use-logical": "^2.1.0",

@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.26.0](https://github.com/gravity-ui/uikit/compare/v6.25.1...v6.26.0) (2024-09-12)
+
+
+### Features
+
+* **Card:** enable onClick event handler on selected card ([#1840](https://github.com/gravity-ui/uikit/issues/1840)) ([a1678b6](https://github.com/gravity-ui/uikit/commit/a1678b6341fff0b02415485f9b0171aef2260f5b))
+* **Select:** pass aria attributes to render functions ([#1841](https://github.com/gravity-ui/uikit/issues/1841)) ([9801d33](https://github.com/gravity-ui/uikit/commit/9801d334b9cb6c8bdc30d982020f447a1185f744))
+* **TextInput:** add unstable_endContent prop ([#1845](https://github.com/gravity-ui/uikit/issues/1845)) ([a38b73b](https://github.com/gravity-ui/uikit/commit/a38b73bece9de57ed1668a952c673bf2d49528e3))
+
+
+### Bug Fixes
+
+* **Select:** correctly scroll to active element ([#1853](https://github.com/gravity-ui/uikit/issues/1853)) ([d6c512a](https://github.com/gravity-ui/uikit/commit/d6c512a0da3cb665697fe0e273d1033433ce876e))
+
 ## [6.25.1](https://github.com/gravity-ui/uikit/compare/v6.25.0...v6.25.1) (2024-09-10)
 
 

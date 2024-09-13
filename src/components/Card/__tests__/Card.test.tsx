@@ -207,6 +207,21 @@ describe('Card', () => {
         expect(handleOnClick).toHaveBeenCalledTimes(1);
     });
 
+    test('call onClick if type="selection" & selected', async () => {
+        const user = userEvent.setup();
+        const handleOnClick = jest.fn();
+        render(
+            <Card type="selection" selected onClick={handleOnClick} qa={qaId}>
+                {cardText}
+            </Card>,
+        );
+
+        const card = screen.getByText(cardText);
+
+        await user.click(card);
+        expect(handleOnClick).toHaveBeenCalledTimes(1);
+    });
+
     test('ignore onClick if type!="container"', async () => {
         const user = userEvent.setup();
         const handleOnClick = jest.fn();

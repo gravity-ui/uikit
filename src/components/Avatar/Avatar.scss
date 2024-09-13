@@ -72,6 +72,12 @@ $block: '.#{variables.$ns}avatar';
             }
         }
 
+        &_2xs {
+            --_--font-size: var(--g-text-caption-1-font-size);
+            --_--line-height: var(--g-text-caption-1-line-height);
+            --_--font-weight: var(--g-text-caption-font-weight);
+        }
+
         &_xs,
         &_s {
             --_--font-size: var(--g-text-caption-1-font-size);

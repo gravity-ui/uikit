@@ -41,9 +41,10 @@ const EyeButton = (props: {
     );
 };
 
-export function TextInputShowcase() {
+export function TextInputShowcase(args: TextInputProps) {
     const [value, setValue] = React.useState('');
     const [isErrorMessageVisible, setErrorMessageVisibility] = React.useState(false);
+    const [isUseUnstableEndContent, setUseUnstableEndContent] = React.useState(false);
     const [hideValue, setHideValue] = React.useState(false);
     const additionalContentExmpleInputType = hideValue ? 'password' : undefined;
 
@@ -51,6 +52,7 @@ export function TextInputShowcase() {
         className: b('input'),
         onUpdate: setValue,
         value,
+        ...args,
     };
 
     const handleEyeButtonClick = () => setHideValue(!hideValue);
@@ -172,24 +174,44 @@ export function TextInputShowcase() {
                 <div className={'size-examples'}>
                     <h3 className={b('section-header')}>Sizes:</h3>
 
+                    <div className={b('row', {type: 'checkbox'})}>
+                        <Checkbox
+                            content="Use unstable_endContent"
+                            onUpdate={setUseUnstableEndContent}
+                            checked={isUseUnstableEndContent}
+                        />
+                    </div>
+
                     <TextInput
                         {...textInputProps}
                         size="s"
                         placeholder="s"
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton size="s" opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        {...{
+                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
+                                <EyeButton
+                                    size="s"
+                                    opened={hideValue}
+                                    onClick={handleEyeButtonClick}
+                                />
+                            ),
+                        }}
                     />
                     <TextInput
                         {...textInputProps}
                         placeholder="m"
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton size="m" opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        {...{
+                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
+                                <EyeButton
+                                    size="m"
+                                    opened={hideValue}
+                                    onClick={handleEyeButtonClick}
+                                />
+                            ),
+                        }}
                     />
                     <TextInput
                         {...textInputProps}
@@ -197,9 +219,15 @@ export function TextInputShowcase() {
                         placeholder="l"
                         type={additionalContentExmpleInputType}
                         leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton size="l" opened={hideValue} onClick={handleEyeButtonClick} />
-                        }
+                        {...{
+                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
+                                <EyeButton
+                                    size="l"
+                                    opened={hideValue}
+                                    onClick={handleEyeButtonClick}
+                                />
+                            ),
+                        }}
                     />
                     <TextInput
                         {...textInputProps}
@@ -208,13 +236,15 @@ export function TextInputShowcase() {
                         type={additionalContentExmpleInputType}
                         label={LABEL}
                         leftContent={<Icon data={Key} />}
-                        rightContent={
-                            <EyeButton
-                                size="xl"
-                                opened={hideValue}
-                                onClick={handleEyeButtonClick}
-                            />
-                        }
+                        {...{
+                            [isUseUnstableEndContent ? 'unstable_endContent' : 'rightContent']: (
+                                <EyeButton
+                                    size="xl"
+                                    opened={hideValue}
+                                    onClick={handleEyeButtonClick}
+                                />
+                            ),
+                        }}
                     />
                 </div>
 
@@ -237,6 +267,34 @@ export function TextInputShowcase() {
                             checked={isErrorMessageVisible}
                         />
                     </div>
+
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="inside error placement"
+                        type={additionalContentExmpleInputType}
+                        startContent={<Icon data={Key} />}
+                        endContent={
+                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
+                        }
+                        validationState="invalid"
+                        errorMessage="A validation error has occurred"
+                        errorPlacement="inside"
+                        hasClear
+                    />
+                    <TextInput
+                        {...textInputProps}
+                        placeholder="inside error placement with unstable_endContent"
+                        label={LABEL}
+                        type={additionalContentExmpleInputType}
+                        startContent={<Icon data={Key} />}
+                        unstable_endContent={
+                            <EyeButton opened={hideValue} disabled onClick={handleEyeButtonClick} />
+                        }
+                        validationState="invalid"
+                        errorMessage="A validation error has occurred"
+                        errorPlacement="inside"
+                        hasClear
+                    />
                     <TextInput
                         {...textInputProps}
                         placeholder="disabled"

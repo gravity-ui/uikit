@@ -1,11 +1,12 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryFn, StoryObj} from '@storybook/react';
 
 import {NumberInput} from '../NumberInput';
 import type {NumberInputProps} from '../NumberInput';
 
 import {NumberInputShowcase} from './NumberInputShowcase';
+import {NumberInputSizes} from './NumberInputSizes';
 
 export default {
     title: 'Components/Inputs/NumberInput',
@@ -48,5 +49,39 @@ const DefaultTemplate: StoryFn<NumberInputProps> = (args) => {
 };
 export const Default = DefaultTemplate.bind({});
 
-const ShowcaseTemplate: StoryFn = (args: NumberInputProps) => <NumberInputShowcase {...args} />;
+const ShowcaseTemplate: StoryFn<NumberInputProps> = (args: NumberInputProps) => (
+    <NumberInputShowcase {...args} />
+);
 export const Showcase = ShowcaseTemplate.bind({});
+
+export const Basic: StoryObj<typeof NumberInput> = {
+    args: {
+        ...fixConsoleErrors,
+    },
+    render: (args: NumberInputProps) => <NumberInputSizes {...args} />,
+};
+
+export const WithErrors: StoryObj<typeof NumberInput> = {
+    args: {
+        ...fixConsoleErrors,
+        validationState: 'invalid',
+        errorPlacement: 'inside',
+        errorMessage: 'A validation error has occurred',
+        hasClear: true,
+        label: 'Label:',
+    },
+    render: (args: NumberInputProps) => <NumberInputSizes {...args} />,
+};
+
+export const ViewClear: StoryObj<typeof NumberInput> = {
+    args: {
+        ...fixConsoleErrors,
+        view: 'clear',
+        validationState: 'invalid',
+        errorPlacement: 'inside',
+        errorMessage: 'A validation error has occurred',
+        hasClear: true,
+        label: 'Label:',
+    },
+    render: (args: NumberInputProps) => <NumberInputSizes {...args} />,
+};

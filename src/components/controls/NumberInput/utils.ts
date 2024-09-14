@@ -90,12 +90,22 @@ export function format(value: number): string {
     return String(value);
 }
 
-export function getPossibleNumberSubstring(value: string) {
+export function getPossibleNumberSubstring(
+    value: string,
+    allowDecimal: boolean,
+): string | undefined {
     const match = pastedInputParsingRegex.exec(prepareStringValue(value));
     if (!match) {
         return undefined;
     }
-    return [...match].slice(1).filter(Boolean).join('');
+
+    return [...match]
+        .slice(
+            1,
+            allowDecimal ? undefined : 3, // leave full number or only sign and integer part
+        )
+        .filter(Boolean)
+        .join('');
 }
 
 export function getParsedValue(value: string | undefined) {
@@ -105,4 +115,59 @@ export function getParsedValue(value: string | undefined) {
     const parsedValue = isNumberValue ? parsedValueOrNaN : 0;
 
     return {isNumberValue, parsedValue};
+}
+export function getInternalVariables({
+    min: externalMin,
+    max: externalMax,
+    step: externalStep,
+    shiftMultiplier: externalShiftMultiplier,
+    value: externalValue,
+    allowDecimal,
+}: {
+    min: number;
+    max: number;
+    step: number;
+    shiftMultiplier: number;
+    value: string | undefined;
+    allowDecimal: boolean;
+}) {
+    if (externalMin && externalMin < Number.MIN_SAFE_INTEGER) {
+        console.log('min value sould not be less than Number.MIN_SAFE_INTEGER');
+    }
+    if (externalMax && externalMax > Number.MAX_SAFE_INTEGER) {
+        console.log('min value sould not be greater than Number.MAX_SAFE_INTEGER');
+    }
+
+    if (externalMin && externalMax && externalMin > externalMax) {
+        console.warn('min value sould not be greater than max value');
+    }
+
+    const min = externalMin
+        ? Math.max(Math.min(externalMin, externalMax), Number.MIN_SAFE_INTEGER)
+        : Number.MIN_SAFE_INTEGER;
+    const max = externalMax
+        ? Math.min(Math.max(externalMin, externalMax), Number.MAX_SAFE_INTEGER)
+        : Number.MAX_SAFE_INTEGER;
+
+    const {isNumberValue, parsedValue} = getParsedValue(externalValue);
+    if (!isNumberValue) {
+        console.warn('Non-numeric value passed');
+    } else if (!allowDecimal && !Number.isInteger(parsedValue)) {
+        console.warn('Decimal value passed with allowDecimal=false');
+    }
+
+    if (!allowDecimal && !Number.isInteger(externalStep)) {
+        console.warn('Decimal step value passed with allowDecimal=false');
+    }
+
+    if (!allowDecimal && !Number.isInteger(externalShiftMultiplier)) {
+        console.warn('Decimal shiftMultiplier value passed with allowDecimal=false');
+    }
+
+    const step = allowDecimal ? externalStep : Math.ceil(externalStep);
+    const shiftMultiplier = allowDecimal
+        ? externalShiftMultiplier
+        : Math.ceil(externalShiftMultiplier);
+    const value = allowDecimal ? parsedValue : Math.floor(parsedValue);
+    return {min, max, step, shiftMultiplier, isNumberValue, value};
 }

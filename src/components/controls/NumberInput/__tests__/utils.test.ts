@@ -160,35 +160,69 @@ describe('NumberInput utils', () => {
         });
     });
     describe('getPossibleNumberSubstring', () => {
-        test('removes starting unit from negative integer number string', () => {
-            expect(getPossibleNumberSubstring('$$$123')).toBe('123');
+        describe('with allowDecimal', () => {
+            test('removes starting unit from negative integer number string', () => {
+                expect(getPossibleNumberSubstring('$$$123', true)).toBe('123');
+            });
+            test('removes trailing unit from negative integer number string', () => {
+                expect(getPossibleNumberSubstring('123k', true)).toBe('123');
+            });
+            test('removes units from negative integer number string', () => {
+                expect(getPossibleNumberSubstring('-$123k', true)).toBe('-123');
+            });
+            test('removes units from integer number string', () => {
+                expect(getPossibleNumberSubstring('$123k', true)).toBe('123');
+            });
+            test('removes units from negative number string with fraction', () => {
+                expect(getPossibleNumberSubstring('- $123 456,78k', true)).toBe('-123456.78');
+            });
+            test('removes units from number string with fraction without sign', () => {
+                expect(getPossibleNumberSubstring('$123.45k', true)).toBe('123.45');
+            });
+            test('returns undefined on invalid string', () => {
+                expect(getPossibleNumberSubstring('$123abc.45k', true)).toBe(undefined);
+            });
+            test('returns empty string on empty value', () => {
+                expect(getPossibleNumberSubstring('', true)).toBe('');
+            });
+            test('leaves unmodified sign only value', () => {
+                expect(getPossibleNumberSubstring('-', true)).toBe('-');
+            });
+            test('leaves unmodified uncompleted value', () => {
+                expect(getPossibleNumberSubstring('123.', true)).toBe('123.');
+            });
         });
-        test('removes trailing unit from negative integer number string', () => {
-            expect(getPossibleNumberSubstring('123k')).toBe('123');
-        });
-        test('removes units from negative integer number string', () => {
-            expect(getPossibleNumberSubstring('-$123k')).toBe('-123');
-        });
-        test('removes units from integer number string', () => {
-            expect(getPossibleNumberSubstring('$123k')).toBe('123');
-        });
-        test('removes units from negative number string with fraction', () => {
-            expect(getPossibleNumberSubstring('- $123 456,78k')).toBe('-123456.78');
-        });
-        test('removes units from number string with fraction without sign', () => {
-            expect(getPossibleNumberSubstring('$123.45k')).toBe('123.45');
-        });
-        test('returns undefined on invalid string', () => {
-            expect(getPossibleNumberSubstring('$123abc.45k')).toBe(undefined);
-        });
-        test('returns empty string on empty value', () => {
-            expect(getPossibleNumberSubstring('')).toBe('');
-        });
-        test('leaves unmodified sign only value', () => {
-            expect(getPossibleNumberSubstring('-')).toBe('-');
-        });
-        test('leaves unmodified uncompleted value', () => {
-            expect(getPossibleNumberSubstring('123.')).toBe('123.');
+        describe('without allowDecimal', () => {
+            test('removes starting unit from negative integer number string', () => {
+                expect(getPossibleNumberSubstring('$$$123', false)).toBe('123');
+            });
+            test('removes trailing unit from negative integer number string', () => {
+                expect(getPossibleNumberSubstring('123k', false)).toBe('123');
+            });
+            test('removes units from negative integer number string', () => {
+                expect(getPossibleNumberSubstring('-$123k', false)).toBe('-123');
+            });
+            test('removes units from integer number string', () => {
+                expect(getPossibleNumberSubstring('$123k', false)).toBe('123');
+            });
+            test('removes units from negative number string with fraction', () => {
+                expect(getPossibleNumberSubstring('- $123 456,78k', false)).toBe('-123456');
+            });
+            test('removes units from number string with fraction without sign', () => {
+                expect(getPossibleNumberSubstring('$123.45k', false)).toBe('123');
+            });
+            test('returns undefined on invalid string', () => {
+                expect(getPossibleNumberSubstring('$123abc.45k', false)).toBe(undefined);
+            });
+            test('returns empty string on empty value', () => {
+                expect(getPossibleNumberSubstring('', false)).toBe('');
+            });
+            test('leaves unmodified sign only value', () => {
+                expect(getPossibleNumberSubstring('-', false)).toBe('-');
+            });
+            test('leaves unmodified uncompleted value', () => {
+                expect(getPossibleNumberSubstring('123.', false)).toBe('123');
+            });
         });
     });
     describe('getParsedValue', () => {

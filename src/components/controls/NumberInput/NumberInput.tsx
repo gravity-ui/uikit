@@ -12,7 +12,7 @@ import type {BaseInputControlProps} from '../types';
 import {getInputControlState} from '../utils';
 
 import {NumericArrows} from './NumericArrows/NumericArrows';
-import {format, getParsedValue, getPossibleNumberSubstring} from './utils';
+import {format, getInternalVariables, getPossibleNumberSubstring} from './utils';
 
 import './NumberInput.scss';
 
@@ -23,32 +23,47 @@ export interface NumberInputProps extends Omit<BaseInputControlProps<HTMLInputEl
     controlProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'min' | 'max'>;
     /** Help text rendered to the left of the input node */
     label?: string;
-
+    /** Indicates that the user cannot change control's value */
     readOnly?: boolean;
-
     /** User`s node rendered before label and input node */
     startContent?: React.ReactNode;
     /** User`s node rendered after input node and clear button */
     endContent?: React.ReactNode;
     /** An optional element displayed under the lower right corner of the control and sharing the place with the error container */
     note?: React.ReactNode;
-
+    /**Describes the validation state */
     validationState?: 'invalid' | undefined;
 
+    /** Shows inncrement/decrement buttons at the end of control
+     * @default true
+     */
     hasControls?: boolean;
-
+    /** min allowed value. It is used for clamping entered value to allowed range
+     * @default Number.MAX_SAFE_INTEGER
+     */
     min?: number;
+    /** max allowed value. It is used for clamping entered value to allowed range
+     * @default Number.MIN_SAFE_INTEGER
+     */
     max?: number;
-
-    /** defaults to 1 */
+    /** Delta for incrementing/decrementing entered value with arrow keyboard buttons or component controls
+     * @default 1
+     */
     step?: number;
-    /** defaults to 10 */
+    /** Step multiplier when shift button is pressed
+     * @default 10
+     */
     shiftMultiplier?: number;
-
-    /** defaults to false */
+    /** Enables changing value by scrolling mousewheel on with cursor on the input
+     * @default  false
+     */
     allowMouseWheel?: boolean;
+    /** Enables ability to enter decimal numbers
+     * @default false
+     */
     allowDecimal?: boolean;
 }
+
 const voidFunction = (..._props: any[]) => {};
 
 export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(function NumberInput(
@@ -56,13 +71,14 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     ref,
 ) {
     const {
-        value,
+        value: externalValue,
         defaultValue,
         onChange,
         onUpdate,
         min: externalMin = Number.MIN_SAFE_INTEGER,
         max: externalMax = Number.MAX_SAFE_INTEGER,
-        shiftMultiplier = 10,
+        shiftMultiplier: externalShiftMultiplier = 10,
+        step: externalStep = 1,
         size,
         view,
         disabled,
@@ -72,42 +88,36 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         onBlur,
         onKeyDown,
         onKeyUp,
-        controlProps,
-        allowMouseWheel,
+        allowMouseWheel = false,
+        allowDecimal = false,
         className,
     } = {...defaultBaseTextInputProps, ...props};
 
-    if (externalMin && externalMin < Number.MIN_SAFE_INTEGER) {
-        console.log('min value sould not be less than Number.MIN_SAFE_INTEGER');
-    }
-    if (externalMax && externalMax > Number.MAX_SAFE_INTEGER) {
-        console.log('min value sould not be greater than Number.MAX_SAFE_INTEGER');
-    }
-
-    if (externalMin && externalMax && externalMin > externalMax) {
-        console.warn('min value sould not be greater than max value');
-    }
+    const {
+        min,
+        max,
+        step: baseStep,
+        isNumberValue,
+        value,
+        shiftMultiplier,
+    } = getInternalVariables({
+        min: externalMin,
+        max: externalMax,
+        step: externalStep,
+        shiftMultiplier: externalShiftMultiplier,
+        allowDecimal,
+        value: externalValue,
+    });
 
     const clamp = true;
-
-    const min = externalMin
-        ? Math.max(Math.min(externalMin, externalMax), Number.MIN_SAFE_INTEGER)
-        : Number.MIN_SAFE_INTEGER;
-    const max = externalMax
-        ? Math.min(Math.max(externalMin, externalMax), Number.MAX_SAFE_INTEGER)
-        : Number.MAX_SAFE_INTEGER;
-
-    const controlInitialStep = controlProps?.step ? Number(controlProps?.step) : 1;
-    const [step, setStep] = React.useState(controlInitialStep);
+    const [step, setStep] = React.useState(baseStep);
     const [active, setActive] = React.useState(false);
 
     const state = getInputControlState(validationState);
 
-    const {isNumberValue, parsedValue} = getParsedValue(value);
+    const canIncrementNumber = value + step <= max;
 
-    const canIncrementNumber = parsedValue + step <= max;
-
-    const canDecrementNumber = parsedValue - step >= min;
+    const canDecrementNumber = value - step >= min;
 
     const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
     const fieldRef = useFormResetHandler({
@@ -118,13 +128,13 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleIncrement = () => {
         if (canIncrementNumber) {
-            onUpdate?.(format(parsedValue + step));
+            onUpdate?.(format(value + step));
         }
     };
 
     const handleDecrement = () => {
         if (canDecrementNumber) {
-            onUpdate?.(format(parsedValue - step));
+            onUpdate?.(format(value - step));
         }
     };
 
@@ -139,7 +149,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === KeyCode.SHIFT) {
-            setStep(controlInitialStep * shiftMultiplier);
+            setStep(baseStep * shiftMultiplier);
         } else if (e.key === KeyCode.ARROW_DOWN) {
             handleDecrement();
         } else if (e.key === KeyCode.ARROW_UP) {
@@ -150,7 +160,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === KeyCode.SHIFT) {
-            setStep(controlInitialStep);
+            setStep(baseStep);
         }
         onKeyUp?.(e);
     };
@@ -163,9 +173,9 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
         setActive(false);
         if (clamp) {
-            if (parsedValue < min) {
+            if (value < min) {
                 onUpdate?.(format(min));
-            } else if (parsedValue > max) {
+            } else if (value > max) {
                 onUpdate?.(format(max));
             }
         }
@@ -173,15 +183,15 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     };
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        const preparedStringValue = getPossibleNumberSubstring(e.target.value);
-        if (preparedStringValue && preparedStringValue !== value) {
+        const preparedStringValue = getPossibleNumberSubstring(e.target.value, allowDecimal);
+        if (preparedStringValue && preparedStringValue !== externalValue) {
             onChange?.(e);
         }
     };
 
     const handleUpdate = (v: string) => {
-        const preparedStringValue = getPossibleNumberSubstring(v);
-        if (preparedStringValue !== value) {
+        const preparedStringValue = getPossibleNumberSubstring(v, allowDecimal);
+        if (preparedStringValue !== externalValue) {
             onUpdate?.(preparedStringValue ?? '');
         }
     };
@@ -196,11 +206,11 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 role: 'spinbutton',
                 'aria-valuemin': props.min,
                 'aria-valuemax': props.max,
-                'aria-valuenow': isNumberValue ? parsedValue : undefined,
-                'aria-valuetext': isNumberValue ? undefined : value,
+                'aria-valuenow': isNumberValue ? value : undefined,
+                'aria-valuetext': isNumberValue ? undefined : externalValue,
             }}
             controlRef={handleRef}
-            value={value}
+            value={String(value)}
             onChange={handleChange}
             onUpdate={handleUpdate}
             onKeyDown={handleKeyDown}

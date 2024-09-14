@@ -37,11 +37,19 @@ describe('NumberInput input', () => {
         it('calls onUpdate and onChange on input paste', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
-            render(<NumberInput onUpdate={handleUpdate} onChange={handleChange} />);
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} onChange={handleChange} />);
             fireEvent.change(getInput(), {target: {value: '- $123.45k'}});
 
             expect(handleUpdate).toHaveBeenCalledWith('-123.45');
             expect(handleChange).toHaveBeenCalled();
+        });
+
+        it('rounds crops decimal part of value without allowDecimal prop', async () => {
+            const handleUpdate = jest.fn();
+            const handleChange = jest.fn();
+            render(<NumberInput value="123.45" onUpdate={handleUpdate} onChange={handleChange} />);
+
+            expect(getInput()).toHaveValue('123');
         });
 
         it('does not call onUpdate and onChange with invalid chars', async () => {
@@ -57,7 +65,7 @@ describe('NumberInput input', () => {
         it('assumes comma as dot', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1,2" onUpdate={handleUpdate} />);
+            render(<NumberInput value="1,2" allowDecimal onUpdate={handleUpdate} />);
 
             await user.click(getUpButton());
             expect(handleUpdate).toHaveBeenCalledWith('2.2');
@@ -66,7 +74,7 @@ describe('NumberInput input', () => {
         it('calls onUpdate with incomplete number input (with - or trailing dot)', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
-            render(<NumberInput onUpdate={handleUpdate} onChange={handleChange} />);
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} onChange={handleChange} />);
             fireEvent.change(getInput(), {target: {value: '-'}});
             fireEvent.change(getInput(), {target: {value: '-1.'}});
 
@@ -248,16 +256,25 @@ describe('NumberInput input', () => {
         it('uses external step value in controls', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" controlProps={{step: '0.2'}} onUpdate={handleUpdate} />);
+            render(<NumberInput value="1" step={0.2} allowDecimal onUpdate={handleUpdate} />);
 
             await user.click(getUpButton());
             expect(handleUpdate).toHaveBeenCalledWith('1.2');
         });
 
+        it('ceils external step value without allowDecimal prop', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(<NumberInput value="1" step={1.2} onUpdate={handleUpdate} />);
+
+            await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenCalledWith('3');
+        });
+
         it('uses external step value for keyboard events', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" controlProps={{step: '0.2'}} onUpdate={handleUpdate} />);
+            render(<NumberInput value="1" step={0.2} allowDecimal onUpdate={handleUpdate} />);
             await user.click(getInput());
 
             await user.keyboard(`{${KeyCode.ARROW_UP}}`);
@@ -270,8 +287,9 @@ describe('NumberInput input', () => {
             render(
                 <NumberInput
                     value="1"
-                    controlProps={{step: '0.2'}}
+                    step={0.2}
                     shiftMultiplier={30}
+                    allowDecimal
                     onUpdate={handleUpdate}
                 />,
             );
@@ -283,21 +301,50 @@ describe('NumberInput input', () => {
             expect(handleUpdate).toHaveBeenCalledWith('7');
         });
 
-        it('uses shiftMultiplier with Shift button pressed in incrementation with keyboard arrow button', async () => {
+        it('uses shiftMultiplier with Shift button pressed in incrementation with rendered control button', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
             render(
                 <NumberInput
                     value="1"
-                    controlProps={{step: '0.2'}}
+                    step={0.2}
                     shiftMultiplier={30}
+                    allowDecimal
                     onUpdate={handleUpdate}
                 />,
             );
             await user.click(getInput());
 
-            await user.keyboard(`{${KeyCode.SHIFT}>}{${KeyCode.ARROW_UP}}{/${KeyCode.SHIFT}}`);
+            await user.keyboard(`{${KeyCode.SHIFT}>}`);
+            await user.click(getUpButton());
+            await user.keyboard(`{/${KeyCode.SHIFT}}`);
             expect(handleUpdate).toHaveBeenCalledWith('7');
+        });
+
+        it('ceils shiftMultiplier without allowDecimal prop', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(<NumberInput value="1" shiftMultiplier={7.5} onUpdate={handleUpdate} />);
+            await user.click(getInput());
+
+            await user.keyboard(`{${KeyCode.SHIFT}>}{${KeyCode.ARROW_UP}}{/${KeyCode.SHIFT}}`);
+            expect(handleUpdate).toHaveBeenCalledWith('9');
+        });
+
+        it('ceils step and shiftMultiplier before multiplication', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput value="1" step={0.2} shiftMultiplier={7.5} onUpdate={handleUpdate} />,
+            );
+            await user.click(getInput());
+
+            await user.click(getUpButton());
+            await user.keyboard(`{${KeyCode.SHIFT}>}`);
+            await user.click(getUpButton());
+            await user.keyboard(`{/${KeyCode.SHIFT}}`);
+            expect(handleUpdate).toHaveBeenNthCalledWith(1, '2');
+            expect(handleUpdate).toHaveBeenNthCalledWith(2, '9');
         });
 
         it('increments value with wheel', async () => {

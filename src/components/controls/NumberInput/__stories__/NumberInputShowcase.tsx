@@ -73,10 +73,12 @@ export function NumberInputShowcase(args: NumberInputProps) {
                     placeholder="with enabled wheel"
                     allowMouseWheel
                 />
+                <NumberInput {...numberInputProps} step={0.2} allowDecimal placeholder="step=0.2" />
                 <NumberInput
                     {...numberInputProps}
-                    controlProps={{step: 0.2}}
-                    placeholder="step=0.2"
+                    shiftMultiplier={30}
+                    allowDecimal
+                    placeholder="shiftMultiplier=30"
                 />
                 <NumberInput {...numberInputProps} placeholder="with min/max" {...minMax} />
                 <NumberInput
@@ -84,14 +86,14 @@ export function NumberInputShowcase(args: NumberInputProps) {
                     placeholder="with validators"
                     {...validationProps}
                 />
+                <NumberInput {...numberInputProps} allowDecimal placeholder="allow decimal" />
+            </Flex>
+            <Flex direction="column" gap={5}>
                 <NumberInput
                     {...numberInputProps}
-                    value={undefined}
                     placeholder="with note"
                     note={<Text color="secondary">Additional</Text>}
                 />
-            </Flex>
-            <Flex direction="column" gap={5}>
                 <NumberInput
                     {...numberInputProps}
                     placeholder="error with message"

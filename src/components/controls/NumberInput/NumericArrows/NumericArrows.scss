@@ -7,7 +7,7 @@ $block: '.#{variables.$ns}numeric-arrows';
 
 #{$block} {
     --_--numeric-arrows-border-color: var(
-        --numeric-arrows-border-color,
+        --_-g-number-input-numeric-arrows-border-color,
         var(--g-text-input-border-color, transparent)
     );
 

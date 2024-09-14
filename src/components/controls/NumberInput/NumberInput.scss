@@ -25,17 +25,17 @@ $block: '.#{variables.$ns}number-input';
     }
 
     &_view_normal {
-        --numeric-arrows-border-color: var(--g-color-line-generic);
+        --_-g-number-input-numeric-arrows-border-color: var(--g-color-line-generic);
         --_--border-color-hover: var(--g-color-line-generic-hover);
         --_--border-color-active: var(--g-color-line-generic-active);
 
         &#{$block}_state_error {
-            --numeric-arrows-border-color: var(--g-color-line-danger);
+            --_-g-number-input-numeric-arrows-border-color: var(--g-color-line-danger);
         }
     }
 
     &_view_clear {
-        --numeric-arrows-border-color: transparent;
+        --_-g-number-input-numeric-arrows-border-color: transparent;
     }
 
     &__numeric-arrows {

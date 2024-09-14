@@ -8,7 +8,7 @@
 import {NumberInput} from '@gravity-ui/uikit';
 ```
 
-NumberInput allow users to enter text into a UI.
+NumberInput allow users to enter numbers into a UI.
 
 ## Appearance
 
@@ -185,18 +185,18 @@ LANDING_BLOCK-->
 
 ## Additional content
 
-### Left content
+### Start content
 
 Allows you to add content to the left of the control. Located to the right of the label added via `label` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
-    code={`<NumberInput placeholder="Placeholder" label="Label" leftContent={<Label size="s">Left</Label>} />`}
+    code={`<NumberInput placeholder="Placeholder" label="Label" startContent={<Label size="s">Start</Label>} />`}
 >
     <UIKit.NumberInput
         placeholder="Search"
         label="Label"
-        leftContent={<UIKit.Label size="s">Left</UIKit.Label>}
+        startContent={<UIKit.Label size="s">Left</UIKit.Label>}
     />
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -204,23 +204,23 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<NumberInput leftContent={<Label>Left</Label>} />
+<NumberInput startContent={<Label>Left</Label>} />
 ```
 
 <!--/GITHUB_BLOCK-->
 
-### Right content
+### End content
 
 Allows you to add content to the right of the control. Located to the right of the clear button added via `hasClear` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
-    code={`<NumberInput placeholder="Placeholder" rightContent={<Label size="s">Right</Label>} hasClear/>`}
+    code={`<NumberInput placeholder="Placeholder" endContent={<Label size="s">Right</Label>} hasClear/>`}
 >
     <UIKit.NumberInput
         hasClear
         placeholder="Placeholder"
-        rightContent={<UIKit.Label size="s">Right</UIKit.Label>}
+        endContent={<UIKit.Label size="s">Right</UIKit.Label>}
     />
 </ExampleBlock>
 LANDING_BLOCK-->
@@ -228,58 +228,54 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<NumberInput rightContent={<Label>Right</Label>} />
+<NumberInput endContent={<Label>Right</Label>} />
 ```
 
 <!--/GITHUB_BLOCK-->
 
 ## Properties
 
-| Name            | Description                                                                                                             |                                 Type                                  |     Default     |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------: | :-------------: |
-| autoComplete    | The control's `autocomplete` attribute                                                                                  |                          `boolean` `string`                           |                 |
-| autoFocus       | The control's `autofocus` attribute                                                                                     |                               `boolean`                               |                 |
-| className       | The control's wrapper class name                                                                                        |                               `string`                                |                 |
-| controlProps    | The control's html attributes                                                                                           |             `React.InputHTMLAttributes<HTMLInputElement>`             |                 |
-| controlRef      | React ref provided to the control                                                                                       |                     `React.Ref<HTMLInputElement>`                     |                 |
-| defaultValue    | The control's default value, used when the component is not controlled                                                  |                               `string`                                |                 |
-| disabled        | Indicates that the user cannot interact with the control                                                                |                               `boolean`                               |     `false`     |
-| errorMessage    | Error text                                                                                                              |                               `string`                                |                 |
-| errorPlacement  | Error placement                                                                                                         |                          `outside` `inside`                           |    `outside`    |
-| hasClear        | Shows the icon for clearing control's value                                                                             |                               `boolean`                               |     `false`     |
-| id              | The control's `id` attribute                                                                                            |                               `string`                                |                 |
-| label           | Help text rendered to the left of the input node                                                                        |                               `string`                                |                 |
-| leftContent     | The user`s node rendered before label and input                                                                         |                           `React.ReactNode`                           |                 |
-| name            | The `name` attribute of the control. If unspecified, it will be autogenerated if not specified                          |                               `string`                                |                 |
-| note            | An optional element displayed under the bottom-right corner of the control that shares a space with the error container |                           `React.ReactNode`                           |                 |
-| onBlur          | Fires when the control lost focus. Provides focus event as a callback's argument                                        |                              `function`                               |                 |
-| onChange        | Fires when the input’s value is changed by the user. Provides change event as an callback's argument                    |                              `function`                               |                 |
-| onFocus         | Fires when the control gets focus. Provides focus event as a callback's argument                                        |                              `function`                               |                 |
-| onKeyDown       | Fires when a key is pressed. Provides keyboard event as a callback's argument                                           |                              `function`                               |                 |
-| onKeyUp         | Fires when a key is released. Provides keyboard event as a callback's argument                                          |                              `function`                               |                 |
-| onUpdate        | Fires when the input’s value is changed by the user. Provides new value as an callback's argument                       |                              `function`                               |                 |
-| pin             | The control's border view                                                                                               |                               `string`                                | `'round-round'` |
-| placeholder     | Text that appears in the control when it has no value set                                                               |                               `string`                                |                 |
-| qa              | Test ID attribute (`data-qa`)                                                                                           |                               `string`                                |                 |
-| rightContent    | User`s node rendered after the input node and clear button                                                              |                           `React.ReactNode`                           |                 |
-| size            | The size of the control                                                                                                 |                       `"s"` `"m"` `"l"` `"xl"`                        |      `"m"`      |
-| tabIndex        | The `tabindex` attribute of the control                                                                                 |                               `string`                                |                 |
-| type            | The type of the control                                                                                                 | `"email"` `"number"` `"password"` `"search"` `"tel"` `"text"` `"url"` |                 |
-| validationState | Validation state                                                                                                        |                              `"invalid"`                              |                 |
-| value           | The value of the control                                                                                                |                               `string`                                |                 |
-| view            | The view of the control                                                                                                 |                         `"normal"` `"clear"`                          |   `"normal"`    |
+| Name            | Description                                                                                                             |                     Type                      |      Default       |
+| :-------------- | :---------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------: | :----------------: |
+| allowDecimal    | Enables ability to enter decimal numbers                                                                                |                   `boolean`                   |      `false`       |
+| allowMouseWheel | Enables changing value by scrolling mousewheel on with cursor on the input                                              |                   `boolean`                   |      `false`       |
+| autoComplete    | The control's `autocomplete` attribute                                                                                  |              `boolean` `string`               |                    |
+| autoFocus       | The control's `autofocus` attribute                                                                                     |                   `boolean`                   |                    |
+| className       | The control's wrapper class name                                                                                        |                   `string`                    |                    |
+| controlProps    | The control's html attributes                                                                                           | `React.InputHTMLAttributes<HTMLInputElement>` |                    |
+| controlRef      | React ref provided to the control                                                                                       |         `React.Ref<HTMLInputElement>`         |                    |
+| defaultValue    | The control's default value, used when the component is not controlled                                                  |                   `string`                    |                    |
+| disabled        | Indicates that the user cannot interact with the control                                                                |                   `boolean`                   |      `false`       |
+| endContent      | User`s node rendered after the input node, clear button and inside error icon                                           |               `React.ReactNode`               |                    |
+| errorMessage    | Error text                                                                                                              |                   `string`                    |                    |
+| errorPlacement  | Error placement                                                                                                         |              `outside` `inside`               |     `outside`      |
+| hasClear        | Shows the icon for clearing control's value                                                                             |                   `boolean`                   |      `false`       |
+| hasControls     | Shows inncrement/decrement buttons at the end of control                                                                |                   `boolean`                   |       `true`       |
+| id              | The control's `id` attribute                                                                                            |                   `string`                    |                    |
+| label           | Help text rendered to the left of the input node                                                                        |                   `string`                    |                    |
+| max             | max allowed value. It is used for clamping entered value to allowed range                                               |                   `number`                    | `MAX_SAFE_INTEGER` |
+| min             | min allowed value. It is used for clamping entered value to allowed range                                               |                   `number`                    | `MIN_SAFE_INTEGER` |
+| name            | The `name` attribute of the control. If unspecified, it will be autogenerated if not specified                          |                   `string`                    |                    |
+| note            | An optional element displayed under the bottom-right corner of the control that shares a space with the error container |               `React.ReactNode`               |                    |
+| onBlur          | Fires when the control lost focus. Provides focus event as a callback's argument                                        |                  `function`                   |                    |
+| onChange        | Fires when the input’s value is changed by the user. Provides change event as an callback's argument                    |                  `function`                   |                    |
+| onFocus         | Fires when the control gets focus. Provides focus event as a callback's argument                                        |                  `function`                   |                    |
+| onKeyDown       | Fires when a key is pressed. Provides keyboard event as a callback's argument                                           |                  `function`                   |                    |
+| onKeyUp         | Fires when a key is released. Provides keyboard event as a callback's argument                                          |                  `function`                   |                    |
+| onUpdate        | Fires when the input’s value is changed by the user. Provides new value as an callback's argument                       |                  `function`                   |                    |
+| pin             | The control's border view                                                                                               |                   `string`                    |  `'round-round'`   |
+| placeholder     | Text that appears in the control when it has no value set                                                               |                   `string`                    |                    |
+| qa              | Test ID attribute (`data-qa`)                                                                                           |                   `string`                    |                    |
+| readonly        | Indicates that the user cannot change control's value                                                                   |                   `boolean`                   |      `false`       |
+| shiftMultiplier | Step multiplier when shift button is pressed                                                                            |                   `number`                    |        `10`        |
+| size            | The size of the control                                                                                                 |           `"s"` `"m"` `"l"` `"xl"`            |       `"m"`        |
+| step            | Delta for incrementing/decrementing entered value with arrow keyboard buttons or component controls                     |                   `number`                    |        `1`         |
+| startContent    | The user`s node rendered before label and input                                                                         |               `React.ReactNode`               |                    |
+| tabIndex        | The `tabindex` attribute of the control                                                                                 |                   `string`                    |                    |
+| validationState | Validation state                                                                                                        |                  `"invalid"`                  |                    |
+| value           | The value of the control                                                                                                |                   `string`                    |                    |
+| view            | The view of the control                                                                                                 |             `"normal"` `"clear"`              |     `"normal"`     |
 
 ## CSS API
 
-| Name                                 | Description                                         |
-| :----------------------------------- | :-------------------------------------------------- |
-| `--g-text-input-text-color`          | Text color                                          |
-| `--g-text-input-label-color`         | Label color                                         |
-| `--g-text-input-placeholder-color`   | Placeholder color                                   |
-| `--g-text-input-background-color`    | Background color                                    |
-| `--g-text-input-border-radius`       | Border radius                                       |
-| `--g-text-input-border-width`        | Border width                                        |
-| `--g-text-input-border-color`        | Border color                                        |
-| `--g-text-input-border-color-hover`  | Border color if hovered                             |
-| `--g-text-input-border-color-active` | Border color if active                              |
-| `--g-text-input-focus-outline-color` | Outline color if focused (by default not presented) |
+Component does not have its own css api, but it extends parent TextInput component api

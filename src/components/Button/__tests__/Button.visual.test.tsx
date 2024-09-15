@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {ButtonProps} from '../Button';
@@ -104,11 +104,13 @@ test.describe('Button', {tag: '@Button'}, () => {
             view: viewsCases,
             pin: pinsCases,
         },
-    ).forEach(([title, details, props]) => {
-        test(title, details, async ({mount, expectScreenshot}) => {
+    ).forEach(([title, props]) => {
+        smokeTest(title, async ({mount, expectScreenshot}) => {
             const root = await mount(<Button {...props} />);
 
-            await expectScreenshot();
+            await expectScreenshot({
+                themes: ['light'],
+            });
 
             if (props.disabled || props.loading) {
                 return;
@@ -117,6 +119,7 @@ test.describe('Button', {tag: '@Button'}, () => {
             await root.getByTestId(qa).hover();
 
             await expectScreenshot({
+                themes: ['light'],
                 nameSuffix: 'hovered',
             });
         });

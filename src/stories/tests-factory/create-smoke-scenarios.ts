@@ -1,9 +1,7 @@
-import {BASE_SMOKE_SCENARIO_DETAILS} from './constants';
-import type {Cases, CasesWithName, Scenario, ScenarioDetails, ScenarioName} from './models';
+import type {Cases, CasesWithName, Scenario, ScenarioName} from './models';
 
 interface Options {
     scenarioName?: string;
-    additionalTags?: Array<string>;
 }
 
 function checkIsCasesWithName<T>(cases: CasesWithName<T> | Cases<T>): cases is CasesWithName<T> {
@@ -18,17 +16,11 @@ export const createSmokeScenarios = <Props extends {}>(
     }>,
     options?: Options,
 ) => {
-    const scenarioDetails: ScenarioDetails = {
-        ...BASE_SMOKE_SCENARIO_DETAILS,
-        tag: [...BASE_SMOKE_SCENARIO_DETAILS.tag, ...(options?.additionalTags || [])],
-    };
-
     const scenarioName: ScenarioName = `${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
 
     const scenarios: Array<Scenario<Props>> = [
         [
             `${scenarioName} [default]`,
-            scenarioDetails,
             {
                 ...baseProps,
             },
@@ -48,7 +40,6 @@ export const createSmokeScenarios = <Props extends {}>(
 
                 scenarios.push([
                     `${scenarioName} [${propName as string}: ${caseName}]`,
-                    scenarioDetails,
                     {
                         ...baseProps,
                         [propName]: caseProps,
@@ -66,7 +57,6 @@ export const createSmokeScenarios = <Props extends {}>(
 
                 scenarios.push([
                     `${scenarioName} [${propName as string}: ${(propCase as any)?.toString()}]`,
-                    scenarioDetails,
                     {
                         ...baseProps,
                         [propName]: propCase,

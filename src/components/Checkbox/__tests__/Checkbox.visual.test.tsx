@@ -27,7 +27,7 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
 
         await mount(
             <div>
-                {smokeScenarios.map(([title, _, props]) => (
+                {smokeScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>
                         <div>

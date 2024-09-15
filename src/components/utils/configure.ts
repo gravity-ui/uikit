@@ -1,10 +1,12 @@
+import type {AutocompleteSafeString} from '../../utils/autocomplete-safe-string';
+
 export enum Lang {
     Ru = 'ru',
     En = 'en',
 }
 
 interface Config {
-    lang: `${Lang}`;
+    lang: `${Lang}` | AutocompleteSafeString;
 }
 
 type Subscriber = (config: Config) => void;

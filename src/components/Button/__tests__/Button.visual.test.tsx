@@ -91,30 +91,50 @@ test.describe('Button', {tag: '@Button'}, () => {
 
     const qa = 'test-button';
 
+    smokeTest('', async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<ButtonProps>(
+            {
+                children: 'Text',
+                qa,
+            },
+            {
+                size: sizeCases,
+                selected: selectedCases,
+                disabled: disabledCases,
+                loading: loadingCases,
+                view: viewsCases,
+                pin: pinsCases,
+            },
+        );
+
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div>
+                            <Button {...props} />
+                        </div>
+                    </div>
+                ))}
+            </div>,
+        );
+
+        await expectScreenshot({});
+    });
+
     createSmokeScenarios<ButtonProps>(
         {
             children: 'Text',
             qa,
         },
         {
-            size: sizeCases,
-            selected: selectedCases,
-            disabled: disabledCases,
-            loading: loadingCases,
             view: viewsCases,
             pin: pinsCases,
         },
     ).forEach(([title, props]) => {
         smokeTest(title, async ({mount, expectScreenshot}) => {
             const root = await mount(<Button {...props} />);
-
-            await expectScreenshot({
-                themes: ['light'],
-            });
-
-            if (props.disabled || props.loading) {
-                return;
-            }
 
             await root.getByTestId(qa).hover();
 

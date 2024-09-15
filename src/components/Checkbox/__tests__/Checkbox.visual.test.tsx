@@ -38,6 +38,6 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
             </div>,
         );
 
-        await expectScreenshot({themes: ['light']});
+        await expectScreenshot({});
     });
 });

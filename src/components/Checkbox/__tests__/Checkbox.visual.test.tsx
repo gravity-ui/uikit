@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {test} from '~playwright/core';
+import {smokeTest, test} from '~playwright/core';
 
-import {BASE_SMOKE_SCENARIO_DETAILS} from '../../../stories/tests-factory/constants';
 import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
 import type {CheckboxProps} from '../Checkbox';
 import {Checkbox} from '../Checkbox';
@@ -10,7 +9,7 @@ import {Checkbox} from '../Checkbox';
 import {checkedCases, disabledCases, indeterminateCases, sizeCases} from './cases';
 
 test.describe('Checkbox', {tag: '@Checkbox'}, () => {
-    test('smoke', BASE_SMOKE_SCENARIO_DETAILS, async ({mount, expectScreenshot}) => {
+    smokeTest('', async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<CheckboxProps>(
             {
                 name: '',
@@ -39,6 +38,6 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
             </div>,
         );
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 });

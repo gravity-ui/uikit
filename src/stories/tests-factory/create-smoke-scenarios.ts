@@ -23,7 +23,7 @@ export const createSmokeScenarios = <Props extends {}>(
         tag: [...BASE_SMOKE_SCENARIO_DETAILS.tag, ...(options?.additionalTags || [])],
     };
 
-    const scenarioName: ScenarioName = `smoke${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
+    const scenarioName: ScenarioName = `${options?.scenarioName ? ` ${options?.scenarioName}` : ''}`;
 
     const scenarios: Array<Scenario<Props>> = [
         [

@@ -117,7 +117,6 @@ export function NumberInputShowcase(args: NumberInputProps) {
                 <NumberInput
                     {...numberInputProps}
                     placeholder="with long label"
-                    value={undefined}
                     label={LONG_LABEL}
                 />
                 <NumberInput

@@ -22,6 +22,7 @@ const AvatarStackComponent = ({
 }: AvatarStackProps) => {
     const visibleItems: React.ReactElement[] = [];
     let moreItems = 0;
+    const normalizedMax = max < 1 ? 1 : max;
 
     React.Children.forEach(children, (child) => {
         if (!React.isValidElement(child)) {
@@ -30,7 +31,7 @@ const AvatarStackComponent = ({
 
         const item = <AvatarStackItem key={visibleItems.length}>{child}</AvatarStackItem>;
 
-        if (visibleItems.length <= max) {
+        if (visibleItems.length <= normalizedMax) {
             visibleItems.unshift(item);
         } else {
             moreItems += 1;
@@ -59,7 +60,7 @@ const AvatarStackComponent = ({
                     )}
                 </AvatarStackItem>
             ) : null}
-            {normalOverflow ? visibleItems.slice(0, max) : visibleItems}
+            {normalOverflow ? visibleItems.slice(0, normalizedMax) : visibleItems}
         </ul>
     );
 };

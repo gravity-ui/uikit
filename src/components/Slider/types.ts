@@ -82,16 +82,11 @@ export type StateModifiers = {
 
 export type BaseSliderRefType = RcSliderRef;
 
-interface RenderProps {
-    index: number;
-    prefixCls: string;
-    value: number;
-    dragging: boolean;
-}
+type RenderParams = Parameters<Exclude<HandleProps['render'], undefined>>;
 
 export type HandleWithTooltipProps = {
-    originHandle: React.ReactElement<HandleProps>;
-    originHandleProps: RenderProps;
+    originHandle: RenderParams[0];
+    originHandleProps: RenderParams[1];
     stateModifiers: StateModifiers;
 } & Pick<SliderProps, 'tooltipFormat'> &
     Pick<DOMProps, 'className'>;

@@ -7,13 +7,21 @@ export const HandleWithTooltip = ({
     originHandle,
     originHandleProps,
     stateModifiers,
-    className,
     tooltipFormat,
+    className,
 }: HandleWithTooltipProps) => {
-    const visibleOnHover = stateModifiers.tooltipDisplay === 'auto';
+    const autoVisible = stateModifiers.tooltipDisplay === 'auto';
+    const alwaysVisible = stateModifiers.tooltipDisplay === 'on';
     const [tooltipVisible, setTooltipVisible] = React.useState(false);
+    const [focused, setFocused] = React.useState(false);
+    const [hovered, setHovered] = React.useState(false);
 
-    if (stateModifiers.tooltipDisplay === 'on' && !tooltipVisible) {
+    if (alwaysVisible && !tooltipVisible) {
+        setTooltipVisible(true);
+    }
+
+    //to show tooltip on mobile devices on touch
+    if (autoVisible && !tooltipVisible && originHandleProps.dragging) {
         setTooltipVisible(true);
     }
 
@@ -22,20 +30,48 @@ export const HandleWithTooltip = ({
         ? tooltipFormat(originHandleProps.value)
         : originHandleProps.value;
 
-    const handleMouseEnter = React.useCallback(() => {
-        if (visibleOnHover) {
-            setTooltipVisible(true);
+    const handleTooltipVisibility = ({
+        currentHovered,
+        currentFocused,
+    }: {
+        currentHovered?: boolean;
+        currentFocused?: boolean;
+    }) => {
+        if (autoVisible) {
+            const handleHovered = currentHovered === undefined ? hovered : currentHovered;
+            const handleFocused = currentFocused === undefined ? focused : currentFocused;
+            setTooltipVisible(handleHovered || handleFocused);
         }
-    }, [visibleOnHover]);
-    const handleMouseLeave = React.useCallback(() => {
-        if (visibleOnHover) {
-            setTooltipVisible(true);
-        }
-    }, [visibleOnHover]);
+    };
+
+    const handle = alwaysVisible
+        ? originHandle
+        : React.cloneElement(originHandle, {
+              onMouseEnter: (event: React.MouseEvent<HTMLDivElement>) => {
+                  originHandle.props.onMouseEnter?.(event);
+                  setHovered(true);
+                  handleTooltipVisibility({currentHovered: true});
+              },
+              onMouseLeave: (event: React.MouseEvent<HTMLDivElement>) => {
+                  originHandle.props.onMouseLeave?.(event);
+                  setHovered(false);
+                  handleTooltipVisibility({currentHovered: false});
+              },
+              onFocus: (event: React.FocusEvent<HTMLDivElement>) => {
+                  originHandle.props.onFocus?.(event);
+                  setFocused(true);
+                  handleTooltipVisibility({currentFocused: true});
+              },
+              onBlur: (event: React.FocusEvent<HTMLDivElement>) => {
+                  originHandle.props.onBlur?.(event);
+                  setFocused(false);
+                  handleTooltipVisibility({currentFocused: false});
+              },
+          });
 
     return (
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            {originHandle}
+        <React.Fragment>
+            {handle}
             {tooltipVisible && (
                 <SliderTooltip
                     className={className}
@@ -47,6 +83,6 @@ export const HandleWithTooltip = ({
                     {tooltipContent}
                 </SliderTooltip>
             )}
-        </div>
+        </React.Fragment>
     );
 };

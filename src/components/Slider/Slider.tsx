@@ -9,7 +9,13 @@ import {block} from '../utils/cn';
 
 import {BaseSlider} from './BaseSlider/BaseSlider';
 import {HandleWithTooltip} from './HandleWithTooltip/HandleWithTooltip';
-import type {RcSliderValueType, SliderProps, SliderValue, StateModifiers} from './types';
+import type {
+    HandleWithTooltipProps,
+    RcSliderValueType,
+    SliderProps,
+    SliderValue,
+    StateModifiers,
+} from './types';
 import {prepareSliderInnerState} from './utils';
 
 import './Slider.scss';
@@ -89,13 +95,36 @@ export const Slider = React.forwardRef(function Slider(
         tooltipDisplay,
         tooltipFormat,
     });
-    const stateModifiers: StateModifiers = {
-        size,
-        error: validationState === 'invalid' && !disabled,
-        disabled,
-        tooltipDisplay,
-        rtl: direction === 'rtl',
-    };
+
+    const stateModifiers: StateModifiers = React.useMemo<StateModifiers>(
+        () => ({
+            size,
+            error: validationState === 'invalid' && !disabled,
+            disabled,
+            tooltipDisplay: innerState.tooltipDisplay,
+            rtl: direction === 'rtl',
+        }),
+        [direction, disabled, innerState.tooltipDisplay, size, validationState],
+    );
+
+    const handleRender = React.useMemo(
+        () =>
+            innerState.tooltipDisplay === 'off'
+                ? undefined
+                : (
+                      originHandle: HandleWithTooltipProps['originHandle'],
+                      originHandleProps: HandleWithTooltipProps['originHandleProps'],
+                  ) => (
+                      <HandleWithTooltip
+                          originHandle={originHandle}
+                          originHandleProps={originHandleProps}
+                          stateModifiers={stateModifiers}
+                          className={b('tooltip')}
+                          tooltipFormat={innerState.tooltipFormat}
+                      />
+                  ),
+        [innerState.tooltipDisplay, innerState.tooltipFormat, stateModifiers],
+    );
 
     return (
         <div className={b(null, className)} ref={ref}>
@@ -121,19 +150,7 @@ export const Slider = React.forwardRef(function Slider(
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
                 data-qa={qa}
-                handleRender={
-                    innerState.tooltipDisplay === 'off'
-                        ? undefined
-                        : (originHandle, originHandleProps) => (
-                              <HandleWithTooltip
-                                  originHandle={originHandle}
-                                  originHandleProps={originHandleProps}
-                                  stateModifiers={stateModifiers}
-                                  className={b('tooltip')}
-                                  tooltipFormat={innerState.tooltipFormat}
-                              />
-                          )
-                }
+                handleRender={handleRender}
                 reverse={stateModifiers.rtl}
                 ariaLabelForHandle={ariaLabelForHandle}
                 ariaLabelledByForHandle={ariaLabelledByForHandle}

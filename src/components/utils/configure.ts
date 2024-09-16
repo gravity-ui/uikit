@@ -1,10 +1,12 @@
+import type {StringWithSuggest} from '../../types/utils';
+
 export enum Lang {
     Ru = 'ru',
     En = 'en',
 }
 
 interface Config {
-    lang: `${Lang}`;
+    lang: StringWithSuggest<Lang>;
 }
 
 type Subscriber = (config: Config) => void;

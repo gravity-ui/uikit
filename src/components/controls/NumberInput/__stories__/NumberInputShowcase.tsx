@@ -73,7 +73,7 @@ export function NumberInputShowcase(args: NumberInputProps) {
                     placeholder="with enabled wheel"
                     allowMouseWheel
                 />
-                <NumberInput {...numberInputProps} step={0.2} allowDecimal placeholder="step=0.2" />
+                <NumberInput {...numberInputProps} step={2} placeholder="step=2" />
                 <NumberInput
                     {...numberInputProps}
                     shiftMultiplier={30}

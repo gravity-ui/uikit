@@ -44,12 +44,20 @@ describe('NumberInput input', () => {
             expect(handleChange).toHaveBeenCalled();
         });
 
-        it('rounds crops decimal part of value without allowDecimal prop', async () => {
+        it('passes uncomplete value to input as is', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
-            render(<NumberInput value="123.45" onUpdate={handleUpdate} onChange={handleChange} />);
+            render(<NumberInput value="123." onUpdate={handleUpdate} onChange={handleChange} />);
 
-            expect(getInput()).toHaveValue('123');
+            expect(getInput()).toHaveValue('123.');
+        });
+
+        it('shows empty input with non-numeric value', async () => {
+            const handleUpdate = jest.fn();
+            const handleChange = jest.fn();
+            render(<NumberInput value="" onUpdate={handleUpdate} onChange={handleChange} />);
+
+            expect(getInput()).toHaveValue('');
         });
 
         it('does not call onUpdate and onChange with invalid chars', async () => {

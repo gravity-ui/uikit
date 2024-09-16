@@ -210,7 +210,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 'aria-valuetext': isNumberValue ? undefined : externalValue,
             }}
             controlRef={handleRef}
-            value={String(value)}
+            value={externalValue}
             onChange={handleChange}
             onUpdate={handleUpdate}
             onKeyDown={handleKeyDown}

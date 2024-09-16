@@ -76,10 +76,7 @@ export function prepareStringValue(value: string): string {
     return value.replace(',', '.').replace(/\s/g, '');
 }
 
-export function parseUnsafe(value: string | undefined): number | undefined {
-    if (value === undefined) {
-        return undefined;
-    }
+export function parseUnsafe(value: string | undefined = ''): number {
     const preparedString = prepareStringValue(value);
     const possibleNumber = Number(preparedString);
 
@@ -111,7 +108,7 @@ export function getPossibleNumberSubstring(
 export function getParsedValue(value: string | undefined) {
     const parsedValueOrNaN = parseUnsafe(value);
 
-    const isNumberValue = parsedValueOrNaN !== undefined && !Number.isNaN(parsedValueOrNaN);
+    const isNumberValue = !Number.isNaN(parsedValueOrNaN);
     const parsedValue = isNumberValue ? parsedValueOrNaN : 0;
 
     return {isNumberValue, parsedValue};
@@ -121,7 +118,7 @@ export function getInternalVariables({
     max: externalMax,
     step: externalStep,
     shiftMultiplier: externalShiftMultiplier,
-    value: externalValue,
+    value: externalValue = '',
     allowDecimal,
 }: {
     min: number;

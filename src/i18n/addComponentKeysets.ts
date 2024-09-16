@@ -1,6 +1,6 @@
 import type {KeyData, KeysData} from '@gravity-ui/i18n';
 
-import {i18n} from '../../../i18n';
+import {i18n} from './i18n';
 
 /**
  * Add component's keysets data

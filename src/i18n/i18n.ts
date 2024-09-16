@@ -1,6 +1,6 @@
 import {I18N} from '@gravity-ui/i18n';
 
-import {getConfig, subscribeConfigure} from './components/utils/configure';
+import {getConfig, subscribeConfigure} from '../components/utils/configure';
 
 const configLang = getConfig().lang;
 

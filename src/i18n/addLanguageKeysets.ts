@@ -1,6 +1,6 @@
 import type {KeysetData} from '@gravity-ui/i18n';
 
-import {i18n} from '../../../i18n';
+import {i18n} from './i18n';
 
 /**
  * Add keysets data for a specific language

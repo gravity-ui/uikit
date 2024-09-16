@@ -40,9 +40,9 @@
             "import": "./build/esm/toaster-singleton-react-18.js"
         },
         "./i18n": {
-            "types": "./build/esm/components/utils/addComponentKeysets/index.d.ts",
-            "require": "./build/cjs/components/utils/addComponentKeysets/index.js",
-            "import": "./build/esm/components/utils/addComponentKeysets/index.js"
+            "types": "./build/esm/i18n/index.d.ts",
+            "require": "./build/cjs/i18n/index.js",
+            "import": "./build/esm/i18n/index.js"
         },
         "./unstable": {
             "types": "./build/esm/unstable.d.ts",

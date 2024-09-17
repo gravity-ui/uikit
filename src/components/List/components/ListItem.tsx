@@ -26,7 +26,7 @@ function getStyle(provided?: DraggableProvided, style?: React.CSSProperties) {
     };
 }
 
-export class ListItem<T = unknown> extends React.PureComponent<ListItemProps<T>> {
+export class ListItem<T = unknown> extends React.Component<ListItemProps<T>> {
     private static publishEvent = eventBroker.withEventPublisher('List');
 
     node: HTMLDivElement | null = null;

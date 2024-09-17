@@ -72,8 +72,8 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             value,
             defaultValue,
             label,
-            disabled: disabledProp,
-            readOnly: readOnlyProp,
+            disabled,
+            readOnly,
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
@@ -95,8 +95,6 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             onUpdate,
             onChange,
         } = props;
-        const disabled = disabledProp ?? controlPropsProp?.disabled;
-        const readOnly = readOnlyProp ?? controlPropsProp?.readOnly;
 
         const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
             error,

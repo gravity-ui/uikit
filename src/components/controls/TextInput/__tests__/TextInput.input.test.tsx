@@ -116,6 +116,19 @@ describe('TextInput input', () => {
 
                 expect(onChangeFn).toBeCalled();
             });
+
+            test('do not render clear button for disabled input', async () => {
+                render(<TextInput hasClear value="abc" disabled />);
+                const clear = screen.queryByRole('button', {name: 'Clear'});
+
+                expect(clear).not.toBeInTheDocument();
+            });
+            test('do not render clear button for readOnly input', async () => {
+                render(<TextInput hasClear value="abc" readOnly />);
+                const clear = screen.queryByRole('button', {name: 'Clear'});
+
+                expect(clear).not.toBeInTheDocument();
+            });
         });
 
         describe('error', () => {
@@ -374,6 +387,23 @@ describe('TextInput input', () => {
             const button = screen.getByTestId('reset');
             await userEvent.click(button);
             expect(inputs[0]).toHaveValue('value');
+        });
+    });
+
+    describe('control props', () => {
+        test('should set disabled only on underlying input', async () => {
+            render(<TextInput controlProps={{disabled: true}} value="abc" hasClear />);
+            const input = screen.getByRole('textbox');
+            expect(input.hasAttribute('disabled')).toBe(true);
+            const clearButton = screen.getByRole('button', {name: 'Clear'});
+            expect(clearButton).toBeInTheDocument();
+        });
+        test('should set readOnly only on underlying input', async () => {
+            render(<TextInput controlProps={{readOnly: true}} value="abc" hasClear />);
+            const input = screen.getByRole('textbox');
+            expect(input.hasAttribute('readonly')).toBe(true);
+            const clearButton = screen.getByRole('button', {name: 'Clear'});
+            expect(clearButton).toBeInTheDocument();
         });
     });
 });

@@ -70,9 +70,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     veilRef = React.createRef<HTMLDivElement>();
     sheetRef = React.createRef<HTMLDivElement>();
     sheetTopRef = React.createRef<HTMLDivElement>();
-    sheetContentRef = React.createRef<HTMLDivElement>();
-    sheetInnerContentRef = React.createRef<HTMLDivElement>();
-    sheetTitleRef = React.createRef<HTMLDivElement>();
+    sheetContentBoxRef = React.createRef<HTMLDivElement>();
+    sheetScrollContainerRef = React.createRef<HTMLDivElement>();
     velocityTracker = new VelocityTracker();
     observer: ResizeObserver | null = null;
     resizeWindowTimer: number | null = null;
@@ -175,22 +174,28 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
                     />
                     {/* TODO: extract to external component ContentArea */}
                     <div
-                        ref={this.sheetContentRef}
-                        className={sheetBlock('sheet-content', contentMod, contentClassName)}
+                        ref={this.sheetScrollContainerRef}
+                        className={sheetBlock('sheet-scroll-container', contentMod)}
                         onTouchStart={this.onContentTouchStart}
                         onTouchMove={this.onContentTouchMove}
                         onTouchEnd={this.onContentTouchEnd}
                         onTransitionEnd={this.onContentTransitionEnd}
                     >
-                        {title && (
-                            <div
-                                ref={this.sheetTitleRef}
-                                className={sheetBlock('sheet-content-title')}
-                            >
-                                {title}
+                        <div
+                            ref={this.sheetContentBoxRef}
+                            className={sheetBlock('sheet-content-box')}
+                        >
+                            <div className={sheetBlock('sheet-content-box-border-compensation')}>
+                                <div className={sheetBlock('sheet-content', contentClassName)}>
+                                    {title && (
+                                        <div className={sheetBlock('sheet-content-title')}>
+                                            {title}
+                                        </div>
+                                    )}
+                                    <div>{content}</div>
+                                </div>
                             </div>
-                        )}
-                        <div ref={this.sheetInnerContentRef}>{content}</div>
+                        </div>
                     </div>
                 </div>
             </React.Fragment>
@@ -209,25 +214,17 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
         return this.sheetRef.current?.getBoundingClientRect().height || 0;
     }
 
-    private get innerContentHeight() {
-        return this.sheetInnerContentRef.current?.getBoundingClientRect().height || 0;
-    }
-
-    private get sheetTitleHeight() {
-        return this.sheetTitleRef.current?.getBoundingClientRect().height || 0;
-    }
-
     private get sheetScrollTop() {
-        return this.sheetContentRef.current?.scrollTop || 0;
+        return this.sheetScrollContainerRef.current?.scrollTop || 0;
     }
 
     private get sheetContentHeight() {
-        return this.sheetTitleHeight + this.innerContentHeight;
+        return this.sheetContentBoxRef.current?.getBoundingClientRect().height || 0;
     }
 
     private setInitialStyles(initialHeight: number) {
-        if (this.sheetContentRef.current && this.sheetInnerContentRef.current) {
-            this.sheetContentRef.current.style.height = `${initialHeight}px`;
+        if (this.sheetScrollContainerRef.current && this.sheetContentBoxRef.current) {
+            this.sheetScrollContainerRef.current.style.height = `${initialHeight}px`;
         }
     }
 
@@ -412,8 +409,8 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
     private onContentTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
         if (e.propertyName === 'height') {
-            if (this.sheetContentRef.current) {
-                this.sheetContentRef.current.style.transition = 'none';
+            if (this.sheetScrollContainerRef.current) {
+                this.sheetScrollContainerRef.current.style.transition = 'none';
             }
         }
     };
@@ -431,7 +428,7 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     };
 
     private onResize = () => {
-        if (!this.sheetRef.current || !this.sheetContentRef.current) {
+        if (!this.sheetRef.current || !this.sheetScrollContainerRef.current) {
             return;
         }
 
@@ -443,12 +440,12 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
 
         const availableContentHeight = this.getAvailableContentHeight(sheetContentHeight);
 
-        this.sheetContentRef.current.style.transition =
+        this.sheetScrollContainerRef.current.style.transition =
             this.state.prevSheetHeight > sheetContentHeight
                 ? `height 0s ease ${TRANSITION_DURATION}`
                 : 'none';
 
-        this.sheetContentRef.current.style.height = `${availableContentHeight}px`;
+        this.sheetScrollContainerRef.current.style.height = `${availableContentHeight}px`;
         this.sheetRef.current.style.transform = `translate3d(0, -${availableContentHeight + this.sheetTopHeight}px, 0)`;
         this.setState({prevSheetHeight: sheetContentHeight, inWindowResizeScope: false});
     };
@@ -456,13 +453,13 @@ class SheetContent extends React.Component<SheetContentInnerProps, SheetContentS
     private addListeners() {
         window.addEventListener('resize', this.onResizeWindow);
 
-        if (this.sheetInnerContentRef.current) {
+        if (this.sheetContentBoxRef.current) {
             this.observer = new ResizeObserver(() => {
                 if (!this.state.inWindowResizeScope) {
                     this.onResize();
                 }
             });
-            this.observer.observe(this.sheetInnerContentRef.current);
+            this.observer.observe(this.sheetContentBoxRef.current);
         }
     }
 

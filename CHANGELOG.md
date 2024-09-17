@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.27.0](https://github.com/gravity-ui/uikit/compare/v6.26.0...v6.27.0) (2024-09-17)
+
+
+### Features
+
+* **Avatar:** add 2xs Avatar size ([#1721](https://github.com/gravity-ui/uikit/issues/1721)) ([1698d51](https://github.com/gravity-ui/uikit/commit/1698d51c51227a4c4ebb1b657a4f403036053dc4))
+* **i18n:** functionality for adding translations into other languages ([#1859](https://github.com/gravity-ui/uikit/issues/1859)) ([33ad008](https://github.com/gravity-ui/uikit/commit/33ad008285b761c2c9da727d2ef1f77222f7ef7c))
+* **withTableSelection:** add indeterminate state ([#1743](https://github.com/gravity-ui/uikit/issues/1743)) ([824164c](https://github.com/gravity-ui/uikit/commit/824164c0d40d9438f4af2728f974a2ad33cdf70c))
+
+
+### Bug Fixes
+
+* **List:** use Component instead of PureComponent in ListItem ([#1862](https://github.com/gravity-ui/uikit/issues/1862)) ([62072d6](https://github.com/gravity-ui/uikit/commit/62072d6ceb9e22f9c5a2b66f66881d47d1cacefc))
+* **Table:** not propagate click in table actions menu ([#1854](https://github.com/gravity-ui/uikit/issues/1854)) ([226fbf0](https://github.com/gravity-ui/uikit/commit/226fbf056e34979fe8f190f714d622d45d93d3d7))
+* **useElementSize:** set initial size of the element ([#1857](https://github.com/gravity-ui/uikit/issues/1857)) ([d442a6a](https://github.com/gravity-ui/uikit/commit/d442a6a76b29d2b403a03bf1dc64db1090d9e5cf))
+
 ## [6.26.0](https://github.com/gravity-ui/uikit/compare/v6.25.1...v6.26.0) (2024-09-12)
 
 

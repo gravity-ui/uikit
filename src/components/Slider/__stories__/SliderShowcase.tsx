@@ -128,13 +128,13 @@ export const SliderShowcase = () => {
             </div>
             <div className={blockCn}>
                 <ShowcaseBlock
-                    title="only marks values"
+                    title="select only marks values"
                     marks={[10, 20, 50, 55, 65, 80]}
                     defaultValue={20}
                     step={null}
                 />
                 <ShowcaseBlock
-                    title="Range only marks values"
+                    title="Range select only marks values"
                     marks={[10, 20, 50, 55, 65, 80]}
                     defaultValue={[20, 50]}
                     step={null}

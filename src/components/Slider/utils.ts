@@ -152,20 +152,17 @@ export function prepareSliderInnerState({
     // marks === undefined than we use old api
     if (marks !== undefined) {
         if (Array.isArray(marks)) {
-            state.marks = marks.reduce<RcSliderProps['marks']>((acc, mark) => {
-                acc = {[mark]: markFormat ? markFormat(mark) : mark};
-                return acc;
-            }, {});
+            state.marks = createMarks({points: marks, markFormat, min: state.min, max: state.max});
         } else {
             state.marks =
                 marks === 0
-                    ? createMarks({
+                    ? {}
+                    : createMarks({
                           points: calculateMarksArray({count: marks, max, min}),
                           markFormat,
                           min,
                           max,
-                      })
-                    : {};
+                      });
         }
     } else if (availableValues && availableValues.length > 0) {
         //will be removed on the next major version

@@ -26,13 +26,19 @@ export type SliderProps<ValueType = number | [number, number]> = {
     marks?: number | number[];
     /** Formatter for marks text */
     markFormat?: (markValue: number) => string;
-    /** @deprecated use `marks` and `step` === null instead. Specifies the array of available values for the slider */
+    /**  Specifies the array of available values for the slider. The `availableValues` property overrides `min`, `max`, `marksCount` and `step` properties if used in conjunction, as the slider directly uses the provided array values instead of a continuous range.
+     * @deprecated use `marks` and `step` === null instead.
+     */
     availableValues?: number[];
     /** Value to be added or subtracted on each step the slider makes. This prop will be ignored if available values is set.  */
     step?: number | null;
-    /** @deprecated use `marks` instead. Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set. */
+    /** Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if available values is set.
+     * @deprecated use `marks` instead.
+     */
     marksCount?: number;
-    /**  @deprecated use `tooltipDisplay` instead. Show tooltip with current value of component or not */
+    /**  Show tooltip with current value of component or not
+     * @deprecated use `tooltipDisplay` instead.
+     */
     hasTooltip?: boolean;
     /** Specifies the tooltip behaviour */
     tooltipDisplay?: TooltipFormatType;
@@ -45,7 +51,9 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Describes the validation state */
     validationState?: 'invalid';
 
-    /** @deprecated use external debouncing. Specifies the delay (in milliseconds) before the processing function is called */
+    /** Specifies the delay (in milliseconds) before the processing function is called
+     * @deprecated use external debouncing.
+     */
     debounceDelay?: number;
     /** Fires when the control gets focus. Provides focus event as a callback's argument */
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void;

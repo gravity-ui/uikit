@@ -1,4 +1,4 @@
-import {addComponentKeysets} from '../../../utils/addComponentKeysets';
+import {addComponentKeysets} from '../../../../i18n';
 
 import en from './en.json';
 import ru from './ru.json';

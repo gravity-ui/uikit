@@ -49,13 +49,16 @@ $block: '.#{variables.$ns}user';
     }
 
     &_size {
+        &_xs,
+        &_2xs {
+            #{$block}__avatar + #{$block}__info {
+                margin-inline-start: 6px;
+            }
+        }
+
         &_2xs {
             #{$block}__info {
                 @include user-text-small();
-            }
-
-            #{$block}__avatar + #{$block}__info {
-                margin-inline-start: 6px;
             }
         }
     }

@@ -1,5 +1,14 @@
 # Changelog
 
+## [6.27.1](https://github.com/gravity-ui/uikit/compare/v6.27.0...v6.27.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* **Sheet:** take into account margins and padding of content when calculating height ([#1865](https://github.com/gravity-ui/uikit/issues/1865)) ([a796f88](https://github.com/gravity-ui/uikit/commit/a796f88ab0f1fd799c17c3a7dccec07d3f17c2b1))
+* **TextInput:** use controlProps only for underlying input ([#1863](https://github.com/gravity-ui/uikit/issues/1863)) ([020b9b0](https://github.com/gravity-ui/uikit/commit/020b9b0265619e740c8de6fb729ce606a6f9b1b8))
+* **User:** make font-size 13px for xs size ([#1866](https://github.com/gravity-ui/uikit/issues/1866)) ([54bb231](https://github.com/gravity-ui/uikit/commit/54bb2315f5bc588252a570d5e3815450244789f1))
+
 ## [6.27.0](https://github.com/gravity-ui/uikit/compare/v6.26.0...v6.27.0) (2024-09-17)
 
 

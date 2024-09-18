@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.27.2](https://github.com/gravity-ui/uikit/compare/v6.27.1...v6.27.2) (2024-09-18)
+
+
+### Bug Fixes
+
+* **User:** fix offset for xs size ([#1867](https://github.com/gravity-ui/uikit/issues/1867)) ([a725abb](https://github.com/gravity-ui/uikit/commit/a725abb98999366f990ab7537fd6a0d01b45c220))
+
 ## [6.27.1](https://github.com/gravity-ui/uikit/compare/v6.27.0...v6.27.1) (2024-09-18)
 
 

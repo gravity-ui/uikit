@@ -49,7 +49,6 @@ $block: '.#{variables.$ns}user';
     }
 
     &_size {
-        &_xs,
         &_2xs {
             #{$block}__info {
                 @include user-text-small();

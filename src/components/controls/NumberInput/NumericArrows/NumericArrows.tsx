@@ -33,6 +33,7 @@ export const NumericArrows = React.forwardRef<HTMLDivElement, NumericArrowsProps
             view: 'flat-secondary',
             disabled,
             tabIndex: -1,
+            width: 'max',
         };
 
         return (

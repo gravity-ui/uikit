@@ -27,7 +27,7 @@ interface ClipboardButtonComponentProps
     tooltipSuccessText?: string;
     /** Position of clipboard icon */
     iconPosition?: 'start' | 'end';
-    /** Tooltip Position */
+    /** Tooltip placement */
     placement?: PopupPlacement;
 }
 

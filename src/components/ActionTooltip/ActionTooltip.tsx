@@ -26,7 +26,7 @@ export interface ActionTooltipProps extends QAProps, DOMProps, TooltipDelayProps
     description?: React.ReactNode;
 }
 
-const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
+const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top', 'auto'];
 const b = block('action-tooltip');
 
 export function ActionTooltip(props: ActionTooltipProps) {

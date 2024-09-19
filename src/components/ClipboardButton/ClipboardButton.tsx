@@ -8,6 +8,7 @@ import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardProps, CopyToClipboardStatus} from '../CopyToClipboard/types';
+import type {PopupPlacement} from '../Popup';
 
 import i18n from './i18n';
 
@@ -26,6 +27,8 @@ interface ClipboardButtonComponentProps
     tooltipSuccessText?: string;
     /** Position of clipboard icon */
     iconPosition?: 'start' | 'end';
+    /** Tooltip Position */
+    placement?: PopupPlacement;
 }
 
 const DEFAULT_TIMEOUT = 1000;
@@ -49,6 +52,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         extraProps = {},
         children,
         iconPosition = 'start',
+        placement,
         ...rest
     } = props;
 
@@ -62,6 +66,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         <ActionTooltip
             disabled={!hasTooltip}
             title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
+            placement={placement}
         >
             <Button
                 view={view}

@@ -60,14 +60,13 @@ describe('NumberInput input', () => {
             expect(getInput()).toHaveValue('');
         });
 
-        it('does not call onUpdate and onChange with invalid chars', async () => {
+        it('calls onUpdate and onChange only with valid chars', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
-            render(<NumberInput onUpdate={handleUpdate} onChange={handleChange} />);
-            fireEvent.change(getInput(), {target: {value: '123abc45'}});
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} onChange={handleChange} />);
+            fireEvent.change(getInput(), {target: {value: '123abc4.5'}});
 
-            expect(handleUpdate).not.toHaveBeenCalled();
-            expect(handleChange).not.toHaveBeenCalled();
+            expect(handleUpdate).toHaveBeenCalledWith('1234.5');
         });
 
         it('assumes comma as dot', async () => {

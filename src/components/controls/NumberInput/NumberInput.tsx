@@ -12,7 +12,12 @@ import type {BaseInputControlProps} from '../types';
 import {getInputControlState} from '../utils';
 
 import {NumericArrows} from './NumericArrows/NumericArrows';
-import {format, getInternalVariables, getPossibleNumberSubstring} from './utils';
+import {
+    format,
+    getInternalVariables,
+    getPossibleNumberSubstring,
+    updateCursorPosition,
+} from './utils';
 
 import './NumberInput.scss';
 
@@ -20,7 +25,7 @@ const b = block('number-input');
 
 export interface NumberInputProps extends Omit<BaseInputControlProps<HTMLInputElement>, 'error'> {
     /** The control's html attributes */
-    controlProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'min' | 'max'>;
+    controlProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'min' | 'max' | 'onChange'>;
     /** Help text rendered to the left of the input node */
     label?: string;
     /** Indicates that the user cannot change control's value */
@@ -71,7 +76,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     ref,
 ) {
     const {
-        value: externalValue,
+        value: externalValue = '',
         defaultValue,
         onChange,
         onUpdate,
@@ -119,7 +124,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const canDecrementNumber = value - step >= min;
 
-    const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
+    const innerControlRef = React.useRef<HTMLInputElement>(null);
     const fieldRef = useFormResetHandler({
         initialValue: defaultValue ?? '',
         onReset: onUpdate ?? voidFunction,
@@ -184,6 +189,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const preparedStringValue = getPossibleNumberSubstring(e.target.value, allowDecimal);
+        updateCursorPosition(innerControlRef, e.target.value, preparedStringValue);
         if (preparedStringValue && preparedStringValue !== externalValue) {
             onChange?.(e);
         }
@@ -191,9 +197,16 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleUpdate = (v: string) => {
         const preparedStringValue = getPossibleNumberSubstring(v, allowDecimal);
+        updateCursorPosition(innerControlRef, v, preparedStringValue);
         if (preparedStringValue !== externalValue) {
             onUpdate?.(preparedStringValue ?? '');
         }
+    };
+
+    const handleInput: React.FormEventHandler<HTMLInputElement> = (e) => {
+        console.log(e);
+        const preparedStringValue = getPossibleNumberSubstring(e.currentTarget.value, allowDecimal);
+        updateCursorPosition(innerControlRef, e.currentTarget.value, preparedStringValue);
     };
 
     return (
@@ -201,6 +214,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             {...props}
             className={b({size, view, state}, className)}
             controlProps={{
+                onInput: handleInput,
                 ...props.controlProps,
                 onWheel: allowMouseWheel && active ? handleWheel : undefined,
                 role: 'spinbutton',

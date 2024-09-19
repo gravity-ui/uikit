@@ -73,7 +73,10 @@ export function getNumericInputValidator({
 const pastedInputParsingRegex = /^([-+]?)(?:\D*)(\d*)(\.|,)?(\d*)(?:\D*)$/;
 
 export function prepareStringValue(value: string): string {
-    return value.replace(',', '.').replace(/\s/g, '');
+    return value
+        .replace(',', '.')
+        .replace(/\s/g, '')
+        .replace(/[^\d.+-]/g, '');
 }
 
 export function parseUnsafe(value: string | undefined = ''): number {
@@ -91,8 +94,9 @@ export function getPossibleNumberSubstring(
     value: string,
     allowDecimal: boolean,
 ): string | undefined {
-    const match = pastedInputParsingRegex.exec(prepareStringValue(value));
-    if (!match) {
+    const preparedString = prepareStringValue(value);
+    const match = pastedInputParsingRegex.exec(preparedString);
+    if (!match || (value.length > 0 && preparedString.length === 0)) {
         return undefined;
     }
 
@@ -167,4 +171,28 @@ export function getInternalVariables({
         : Math.ceil(externalShiftMultiplier);
     const value = allowDecimal ? parsedValue : Math.floor(parsedValue);
     return {min, max, step, shiftMultiplier, isNumberValue, value};
+}
+
+export function updateCursorPosition(
+    inputRef: React.RefObject<HTMLInputElement>,
+    eventRawValue: string | undefined = '',
+    computedEventValue: string | undefined = '',
+) {
+    const currentSelectionEndPosition = inputRef.current?.selectionEnd ?? eventRawValue.length;
+    if (eventRawValue !== computedEventValue) {
+        const startingPossiblyChangedPart = eventRawValue.slice(0, currentSelectionEndPosition);
+        const trailingUnchangedLength = eventRawValue.length - startingPossiblyChangedPart.length;
+
+        const newStartingPart = computedEventValue.slice(
+            0,
+            computedEventValue.length - trailingUnchangedLength,
+        );
+
+        inputRef.current?.setRangeText(
+            newStartingPart,
+            0,
+            startingPossiblyChangedPart.length,
+            'end',
+        );
+    }
 }

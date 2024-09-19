@@ -80,7 +80,8 @@ describe('NumberInput utils', () => {
                 expect(validator('0')).toBe(undefined);
                 expect(validator('123.0')).toBe(undefined);
                 expect(validator('-123.0')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
-                expect(validator('abc123def')).toBe('INCORRECT_NUMBER');
+                expect(validator('abc.def')).toBe('INCORRECT_NUMBER');
+                expect(validator('abc12.3def')).toBe('FRACTION_IS_NOT_ALLOWED');
                 expect(validator('')).toBe(undefined);
             });
             test('validates numbers positiveOnly=true withoutFraction=false', () => {
@@ -180,7 +181,10 @@ describe('NumberInput utils', () => {
                 expect(getPossibleNumberSubstring('$123.45k', true)).toBe('123.45');
             });
             test('returns undefined on invalid string', () => {
-                expect(getPossibleNumberSubstring('$123abc.45k', true)).toBe(undefined);
+                expect(getPossibleNumberSubstring('$abck', true)).toBe(undefined);
+            });
+            test('returns number from valid chars', () => {
+                expect(getPossibleNumberSubstring('$123abc4.5k', true)).toBe('1234.5');
             });
             test('returns empty string on empty value', () => {
                 expect(getPossibleNumberSubstring('', true)).toBe('');
@@ -211,8 +215,14 @@ describe('NumberInput utils', () => {
             test('removes units from number string with fraction without sign', () => {
                 expect(getPossibleNumberSubstring('$123.45k', false)).toBe('123');
             });
+            test('returns number from valid chars', () => {
+                expect(getPossibleNumberSubstring('$123abc.45k', false)).toBe('123');
+            });
             test('returns undefined on invalid string', () => {
-                expect(getPossibleNumberSubstring('$123abc.45k', false)).toBe(undefined);
+                expect(getPossibleNumberSubstring('$abck', false)).toBe(undefined);
+            });
+            test('returns number from valid chars', () => {
+                expect(getPossibleNumberSubstring('$123abc4.5k', false)).toBe('1234');
             });
             test('returns empty string on empty value', () => {
                 expect(getPossibleNumberSubstring('', false)).toBe('');
@@ -242,7 +252,10 @@ describe('NumberInput utils', () => {
             expect(getParsedValue('')).toEqual({parsedValue: 0, isNumberValue: true});
         });
         it('returns zero for NaN value', () => {
-            expect(getParsedValue('abc123def')).toEqual({parsedValue: 0, isNumberValue: false});
+            expect(getParsedValue('abc.def')).toEqual({parsedValue: 0, isNumberValue: false});
+        });
+        it('returns number from valid chars', () => {
+            expect(getParsedValue('1ab2.5cdef')).toEqual({parsedValue: 12.5, isNumberValue: true});
         });
     });
 });

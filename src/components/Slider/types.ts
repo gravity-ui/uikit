@@ -9,7 +9,9 @@ export type SliderValue = number | [number, number];
 
 export type RcSliderValueType = number | number[];
 
-export type TooltipFormatType = 'off' | 'on' | 'auto';
+export type TooltipDisplayType = 'off' | 'on' | 'auto';
+
+type FormatterType = (value: number) => string;
 
 export type SliderProps<ValueType = number | [number, number]> = {
     /** The value of the control */
@@ -25,7 +27,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     /** Marks on the slider. It can be either the number of marks on the slider or a list of them */
     marks?: number | number[];
     /** Formatter for marks text */
-    markFormat?: (markValue: number) => string;
+    markFormat?: FormatterType;
     /**  Specifies the array of available values for the slider. The `availableValues` property overrides `min`, `max`, `marksCount` and `step` properties if used in conjunction, as the slider directly uses the provided array values instead of a continuous range.
      * @deprecated use `marks` and `step` === null instead.
      */
@@ -41,9 +43,9 @@ export type SliderProps<ValueType = number | [number, number]> = {
      */
     hasTooltip?: boolean;
     /** Specifies the tooltip behaviour */
-    tooltipDisplay?: TooltipFormatType;
+    tooltipDisplay?: TooltipDisplayType;
     /** Format of the slider's value in the tooltip. Uses `markFormat` if not specified */
-    tooltipFormat?: (value: number) => string;
+    tooltipFormat?: FormatterType;
     /** Indicates that the user cannot interact with the control */
     disabled?: boolean;
     /** Text of an error to show */

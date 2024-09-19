@@ -1,4 +1,5 @@
 {
   "label_clear": "Очистить",
-  "label_show-error-info": "Показать попап с информацей об ошибке"
+  "label_show-error-info": "Показать попап с информацей об ошибке",
+  "label_filter": "Фильтр"
 }

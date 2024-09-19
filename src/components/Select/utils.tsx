@@ -276,3 +276,22 @@ export const getFilteredFlattenOptions = (args: {
         return acc;
     }, [] as FlattenOption[]);
 };
+
+export function scrollToItem(node: HTMLElement) {
+    const container = node.offsetParent;
+    if (container instanceof HTMLElement) {
+        const height = container.offsetHeight;
+        const scrollTop = container.scrollTop;
+
+        const top = node.offsetTop;
+        const bottom = top + node.offsetHeight;
+
+        if (bottom >= scrollTop + height) {
+            container.scrollTo({top: top - height + node.offsetHeight});
+        } else if (top <= scrollTop) {
+            container.scrollTo({top});
+        }
+    }
+
+    return true;
+}

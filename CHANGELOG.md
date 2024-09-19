@@ -1,5 +1,59 @@
 # Changelog
 
+## [6.27.2](https://github.com/gravity-ui/uikit/compare/v6.27.1...v6.27.2) (2024-09-18)
+
+
+### Bug Fixes
+
+* **User:** fix offset for xs size ([#1867](https://github.com/gravity-ui/uikit/issues/1867)) ([a725abb](https://github.com/gravity-ui/uikit/commit/a725abb98999366f990ab7537fd6a0d01b45c220))
+
+## [6.27.1](https://github.com/gravity-ui/uikit/compare/v6.27.0...v6.27.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* **Sheet:** take into account margins and padding of content when calculating height ([#1865](https://github.com/gravity-ui/uikit/issues/1865)) ([a796f88](https://github.com/gravity-ui/uikit/commit/a796f88ab0f1fd799c17c3a7dccec07d3f17c2b1))
+* **TextInput:** use controlProps only for underlying input ([#1863](https://github.com/gravity-ui/uikit/issues/1863)) ([020b9b0](https://github.com/gravity-ui/uikit/commit/020b9b0265619e740c8de6fb729ce606a6f9b1b8))
+* **User:** make font-size 13px for xs size ([#1866](https://github.com/gravity-ui/uikit/issues/1866)) ([54bb231](https://github.com/gravity-ui/uikit/commit/54bb2315f5bc588252a570d5e3815450244789f1))
+
+## [6.27.0](https://github.com/gravity-ui/uikit/compare/v6.26.0...v6.27.0) (2024-09-17)
+
+
+### Features
+
+* **Avatar:** add 2xs Avatar size ([#1721](https://github.com/gravity-ui/uikit/issues/1721)) ([1698d51](https://github.com/gravity-ui/uikit/commit/1698d51c51227a4c4ebb1b657a4f403036053dc4))
+* **i18n:** functionality for adding translations into other languages ([#1859](https://github.com/gravity-ui/uikit/issues/1859)) ([33ad008](https://github.com/gravity-ui/uikit/commit/33ad008285b761c2c9da727d2ef1f77222f7ef7c))
+* **withTableSelection:** add indeterminate state ([#1743](https://github.com/gravity-ui/uikit/issues/1743)) ([824164c](https://github.com/gravity-ui/uikit/commit/824164c0d40d9438f4af2728f974a2ad33cdf70c))
+
+
+### Bug Fixes
+
+* **List:** use Component instead of PureComponent in ListItem ([#1862](https://github.com/gravity-ui/uikit/issues/1862)) ([62072d6](https://github.com/gravity-ui/uikit/commit/62072d6ceb9e22f9c5a2b66f66881d47d1cacefc))
+* **Table:** not propagate click in table actions menu ([#1854](https://github.com/gravity-ui/uikit/issues/1854)) ([226fbf0](https://github.com/gravity-ui/uikit/commit/226fbf056e34979fe8f190f714d622d45d93d3d7))
+* **useElementSize:** set initial size of the element ([#1857](https://github.com/gravity-ui/uikit/issues/1857)) ([d442a6a](https://github.com/gravity-ui/uikit/commit/d442a6a76b29d2b403a03bf1dc64db1090d9e5cf))
+
+## [6.26.0](https://github.com/gravity-ui/uikit/compare/v6.25.1...v6.26.0) (2024-09-12)
+
+
+### Features
+
+* **Card:** enable onClick event handler on selected card ([#1840](https://github.com/gravity-ui/uikit/issues/1840)) ([a1678b6](https://github.com/gravity-ui/uikit/commit/a1678b6341fff0b02415485f9b0171aef2260f5b))
+* **Select:** pass aria attributes to render functions ([#1841](https://github.com/gravity-ui/uikit/issues/1841)) ([9801d33](https://github.com/gravity-ui/uikit/commit/9801d334b9cb6c8bdc30d982020f447a1185f744))
+* **TextInput:** add unstable_endContent prop ([#1845](https://github.com/gravity-ui/uikit/issues/1845)) ([a38b73b](https://github.com/gravity-ui/uikit/commit/a38b73bece9de57ed1668a952c673bf2d49528e3))
+
+
+### Bug Fixes
+
+* **Select:** correctly scroll to active element ([#1853](https://github.com/gravity-ui/uikit/issues/1853)) ([d6c512a](https://github.com/gravity-ui/uikit/commit/d6c512a0da3cb665697fe0e273d1033433ce876e))
+
+## [6.25.1](https://github.com/gravity-ui/uikit/compare/v6.25.0...v6.25.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **List:** deactivate on mouse leave ([#1847](https://github.com/gravity-ui/uikit/issues/1847)) ([cc14563](https://github.com/gravity-ui/uikit/commit/cc14563904e355d3b90ddc3f3a29bbe937ae3970))
+* **useFocusWithin:** ignore blur event when window loses focus ([#1836](https://github.com/gravity-ui/uikit/issues/1836)) ([216e700](https://github.com/gravity-ui/uikit/commit/216e7003068c818eca078ff3ae2692439d86f930))
+
 ## [6.25.0](https://github.com/gravity-ui/uikit/compare/v6.24.0...v6.25.0) (2024-09-09)
 
 

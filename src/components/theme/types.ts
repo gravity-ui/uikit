@@ -1,5 +1,6 @@
-// Use (string & {}) for better autocomplete https://stackoverflow.com/a/61048124
-export type RealTheme = 'light' | 'light-hc' | 'dark' | 'dark-hc' | (string & {});
+import type {StringWithSuggest} from '../../types/utils';
+
+export type RealTheme = StringWithSuggest<'light' | 'light-hc' | 'dark' | 'dark-hc'>;
 export type ThemeType = 'light' | 'dark';
 export type Theme = 'system' | RealTheme;
 export type Direction = 'ltr' | 'rtl';

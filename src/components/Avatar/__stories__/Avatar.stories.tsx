@@ -145,6 +145,14 @@ export const AvatarShowcase: Story = {
         return (
             <React.Fragment>
                 <Showcase title="Image">
+                    <ShowcaseItem title="2xs">
+                        <Avatar
+                            {...imageProps}
+                            size="2xs"
+                            alt="Sample image"
+                            aria-label="Avatar with 2XS size"
+                        />
+                    </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar
                             {...imageProps}
@@ -183,6 +191,15 @@ export const AvatarShowcase: Story = {
                             size="xl"
                             alt="Sample image"
                             aria-label="Avatar with XL size"
+                        />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="2xs">
+                        <Avatar
+                            {...imageProps}
+                            size="2xs"
+                            borderColor={BORDER_COLOR}
+                            alt="Sample image"
+                            aria-label="Avatar with 2XS size and border"
                         />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
@@ -232,6 +249,9 @@ export const AvatarShowcase: Story = {
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Icon">
+                    <ShowcaseItem title="2xs">
+                        <Avatar {...iconProps} size="2xs" aria-label="Sample icon" />
+                    </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar {...iconProps} size="xs" aria-label="Sample icon" />
                     </ShowcaseItem>
@@ -246,6 +266,14 @@ export const AvatarShowcase: Story = {
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
                         <Avatar {...iconProps} size="xl" aria-label="Sample icon" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="2xs">
+                        <Avatar
+                            {...iconProps}
+                            size="2xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="Sample icon"
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar
@@ -289,6 +317,9 @@ export const AvatarShowcase: Story = {
                     </ShowcaseItem>
                 </Showcase>
                 <Showcase title="Text">
+                    <ShowcaseItem title="2xs">
+                        <Avatar {...textProps} size="2xs" aria-label="CD" />
+                    </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar {...textProps} size="xs" aria-label="CD" />
                     </ShowcaseItem>
@@ -303,6 +334,14 @@ export const AvatarShowcase: Story = {
                     </ShowcaseItem>
                     <ShowcaseItem title="xl">
                         <Avatar {...textProps} size="xl" aria-label="CD" />
+                    </ShowcaseItem>
+                    <ShowcaseItem title="2xs">
+                        <Avatar
+                            {...textProps}
+                            size="2xs"
+                            borderColor={BORDER_COLOR}
+                            aria-label="CD"
+                        />
                     </ShowcaseItem>
                     <ShowcaseItem title="xs">
                         <Avatar

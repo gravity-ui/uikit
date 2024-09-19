@@ -7,6 +7,8 @@ export type AvatarStackOverlapSize = 's' | 'm' | 'l';
 export interface AvatarStackProps {
     /** Amount of avatars to be shown before more button. Default 3. */
     max?: number;
+    /** Total amount of avatars */
+    total?: number;
     /**
      * How much each avatar should overlap next one
      * | Avatar sizes | Recommended overlap |

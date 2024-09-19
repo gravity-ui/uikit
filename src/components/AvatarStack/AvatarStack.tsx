@@ -14,6 +14,7 @@ const b = block('avatar-stack');
 
 const AvatarStackComponent = ({
     max = 3,
+    total,
     overlapSize = 's',
     size,
     children,
@@ -37,6 +38,8 @@ const AvatarStackComponent = ({
             moreItems += 1;
         }
     });
+
+    moreItems = Math.max(moreItems, total ? total - normalizedMax : 0);
 
     const hasMoreButton = moreItems > 0;
     /** Avatars + more button, or just avatars, when avatars count is equal to `max` or less */

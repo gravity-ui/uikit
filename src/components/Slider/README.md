@@ -190,7 +190,7 @@ LANDING_BLOCK-->
 
 ### Marks
 
-The `marks` property is utilized in `Slider` component to specify visual markers along the slider that help to indicate various points between the minimum and maximum value. This property enhances the usability and visual interface of the slider, especially for denoting specific intervals. By default it is 2 (min and max values). You can use it in 2 different ways:
+The `marks` property is utilized in `Slider` component to specify visual markers along the slider that help to indicate various points between the minimum and maximum value. This property enhances the usability and visual interface of the slider, especially for denoting specific intervals. By default it is 2 (`min` and `max` values). You can use it in 2 different ways:
 
 - the number of visual markers along the slider
 <!--LANDING_BLOCK
@@ -255,24 +255,24 @@ LANDING_BLOCK-->
 
 You are able to change display format of marks values by using `marksFormat` property.
 
-### Define available values
+#### Define available values
 
-You can set `step` property to null to define a set of specific values that the slider can handle, as opposed to a continuous range. This is particularly useful when only certain discrete values are valid for selection. In that case properties `min`, `max` and `marks` allows specifying an array of numbers representing the exact values that users are allowed to select using the `Slider`.
+You can set `step` property to `null` to define a set of specific values that the slider can handle, as opposed to a continuous range. This is particularly useful when only certain discrete values are valid for selection. In that case properties `min`, `max` and `marks` allows specifying an array of numbers representing the exact values that users are allowed to select using the `Slider`.
 
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
-<Slider availableValues={[10, 20, 50, 55, 65, 80]} />
+<Slider marks={[10, 20, 50, 55, 65, 80]} step={null}/>
 `}
 >
-    <UIKitExamples.SliderExample availableValues={[10, 20, 50, 55, 65, 80]} />
+    <UIKitExamples.SliderExample marks={[10, 20, 50, 55, 65, 80]} step={null}/>
 </ExampleBlock>
 LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Slider availableValues={[10, 20, 50, 55, 65, 80]} />
+<Slider marks={[10, 20, 50, 55, 65, 80]} step={null} />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -303,26 +303,30 @@ You are able to change display format of tooltip value by using `tooltipFormat` 
 
 ## Properties
 
-| Name                             | Description                                                                                                                                                                         |                         Type                         | Default |
-| :------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------: | :-----: |
-| apiRef                           | Ref to Slider's component props of focus and blur                                                                                                                                   |                `RefObject<SliderRef>`                |         |
-| autoFocus                        | The control's `autofocus` attribute                                                                                                                                                 |                      `boolean`                       |         |
-| availableValues                  | (deprecated) use `marks` and `step` === null instead. Specifies the array of available values for the slider                                                                        |                      `number[]`                      |         |
-| className                        | The control's wrapper class name                                                                                                                                                    |                       `string`                       |         |
-| debounceDelay                    | Specifies the delay (in milliseconds) before the processing function is called                                                                                                      |                       `number`                       |   `0`   |
-| [defaultValue](#slider-variants) | The control's default value, used when the component is not controlled                                                                                                              |             `number` `[number, number]`              |   `0`   |
-| [disabled](#disabled)            | Indicates that the user cannot interact with the control                                                                                                                            |                      `boolean`                       | `false` |
-| [errorMessage](#error)           | Text of an error to show                                                                                                                                                            |                       `string`                       |         |
-| hasTooltip                       | (deprecated) use `tooltipDisplay` instead. Show tooltip with current value of component or not                                                                                      |                      `boolean`                       | `false` |
-| marksCount                       | (deprecated) use `marks` instead. Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if `availablevalues` is set. |                       `number`                       |   `2`   |
-| [max](#min-and-max-value)        | The maximum value of the component.                                                                                                                                                 |                       `number`                       |  `100`  |
-| [min](#min-and-max-value)        | The maximum value of the component.                                                                                                                                                 |                       `number`                       |   `0`   |
-| onBlur                           | Fires when the control lost focus. Provides focus event as a callback's argument                                                                                                    | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
-| onUpdate                         | Fires when the slider’s value is changed by the user. Provides change event as an callback's argument                                                                               |   `((value: number \| [number, number]) => void)`    |         |
-| onUpdateComplete                 | Fires when ontouchend or onmouseup is triggered. Provides change event as an callback's argument                                                                                    |   `((value: number \| [number, number]) => void)`    |         |
-| onFocus                          | Fires when the control gets focus. Provides focus event as a callback's argument                                                                                                    | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
-| [size](#size)                    | The size of the control                                                                                                                                                             |               `"s"` `"m"` `"l"` `"xl"`               |  `"m"`  |
-| [step](#step)                    | Value to be added or subtracted on each step the slider makes. This prop will be ignored if `availablevalues` is set.                                                               |                   `number \| null`                   |   `1`   |
-| tabIndex                         | The control's `tabIndex` attribute                                                                                                                                                  |             `number` `[number, number]`              |         |
-| [validationState](#error)        | Validation state                                                                                                                                                                    |                     `"invalid"`                      |         |
-| [value](#slider-variants)        | The value of the control                                                                                                                                                            |             `number` `[number, number]`              |         |
+| Name                                        | Description                                                                                                                                                                                     |                         Type                         | Default |
+| :------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------: | :-----: |
+| apiRef                                      | Ref to Slider's component props of focus and blur                                                                                                                                               |                `RefObject<SliderRef>`                |         |
+| autoFocus                                   | The control's `autofocus` attribute                                                                                                                                                             |                      `boolean`                       |         |
+| [availableValues](#define-available-values) | (deprecated) use `marks` and `step` === null instead. Specifies the array of available values for the slider                                                                                    |                      `number[]`                      |         |
+| className                                   | The control's wrapper class name                                                                                                                                                                |                       `string`                       |         |
+| debounceDelay                               | (deprecated) use external debouncing. Specifies the delay (in milliseconds) before the processing function is called                                                                            |                       `number`                       |   `0`   |
+| [defaultValue](#slider-variants)            | The control's default value, used when the component is not controlled                                                                                                                          |             `number` `[number, number]`              |   `0`   |
+| [disabled](#disabled)                       | Indicates that the user cannot interact with the control                                                                                                                                        |                      `boolean`                       | `false` |
+| [errorMessage](#error)                      | Text of an error to show                                                                                                                                                                        |                       `string`                       |         |
+| [hasTooltip](#tooltip)                      | (deprecated) use `tooltipDisplay` instead. Show tooltip with current value of component or not                                                                                                  |                      `boolean`                       | `false` |
+| [marks](#marks)                             | Text marks under the slider. Could be set to the amount of the slider's marks, or could be set to the array of values which should have marks. `0` or empty array value hides all marks.        |                 `number` `number[]`                  |   `2`   |
+| [marksCount](#marks)                        | (deprecated) use `marks` instead. Amount of text marks under the slider. Split whole range on equal parts. Could be set >=2. This prop will be ignored if `availablevalues`(deprecated) is set. |                       `number`                       |   `2`   |
+| marksFormat                                 | Formatter for the mark's displayed value                                                                                                                                                        |             `(value: number) => string`              |         |
+| [max](#min-and-max-value)                   | The maximum value of the component.                                                                                                                                                             |                       `number`                       |  `100`  |
+| [min](#min-and-max-value)                   | The maximum value of the component.                                                                                                                                                             |                       `number`                       |   `0`   |
+| onBlur                                      | Fires when the control lost focus. Provides focus event as a callback's argument                                                                                                                | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
+| onUpdate                                    | Fires when the slider’s value is changed by the user. Provides change event as an callback's argument                                                                                           |   `((value: number \| [number, number]) => void)`    |         |
+| onUpdateComplete                            | Fires when ontouchend or onmouseup is triggered. Provides change event as an callback's argument                                                                                                |   `((value: number \| [number, number]) => void)`    |         |
+| onFocus                                     | Fires when the control gets focus. Provides focus event as a callback's argument                                                                                                                | `((e: FocusEvent<HTMLDivElement, Element>) => void)` |         |
+| [size](#size)                               | The size of the control                                                                                                                                                                         |               `"s"` `"m"` `"l"` `"xl"`               |  `"m"`  |
+| [step](#step)                               | Value to be added or subtracted on each step the slider makes. Can be set to `null` to make `marks` as steps. This prop will be ignored if `availablevalues`(deprecated) is set.                |                   `number` `null`                    |   `1`   |
+| tabIndex                                    | The control's `tabIndex` attribute                                                                                                                                                              |             `number` `[number, number]`              |         |
+| [tooltipDisplay](#tooltip)                  | The tooltip's display behaviour                                                                                                                                                                 |                  `off` `on` `auto`                   |  `off`  |
+| tooltipFormat                               | Formatter for the tooltip's displayed value. Uses `marksFormat` if not set                                                                                                                      |             `(value: number) => string`              |         |
+| [validationState](#error)                   | Validation state                                                                                                                                                                                |                     `"invalid"`                      |         |
+| [value](#slider-variants)                   | The value of the control                                                                                                                                                                        |             `number` `[number, number]`              |         |

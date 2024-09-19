@@ -84,6 +84,7 @@ export type SliderInnerState = {
     Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {
+    noMarks: boolean;
     size: SliderSize;
     error: boolean;
     disabled: boolean;

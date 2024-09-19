@@ -103,8 +103,9 @@ export const Slider = React.forwardRef(function Slider(
             disabled,
             tooltipDisplay: innerState.tooltipDisplay,
             rtl: direction === 'rtl',
+            noMarks: Array.isArray(marks) ? marks.length === 0 : marks === 0,
         }),
-        [direction, disabled, innerState.tooltipDisplay, size, validationState],
+        [direction, disabled, innerState.tooltipDisplay, size, validationState, marks],
     );
 
     const handleRender = React.useMemo(

@@ -1,10 +1,13 @@
+import type {StringWithSuggest} from '../../types/utils';
+
 export enum Lang {
     Ru = 'ru',
     En = 'en',
 }
 
 interface Config {
-    lang: `${Lang}`;
+    lang: StringWithSuggest<Lang>;
+    fallbackLang: StringWithSuggest<Lang>;
 }
 
 type Subscriber = (config: Config) => void;
@@ -13,6 +16,7 @@ let subs: Subscriber[] = [];
 
 const config: Config = {
     lang: Lang.En,
+    fallbackLang: Lang.En,
 };
 
 export const configure = (newConfig: Partial<Config>) => {

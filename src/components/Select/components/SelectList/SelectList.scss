@@ -19,6 +19,7 @@ $xl-right-padding: '12px';
 
     &:not(#{$block}_virtualized) {
         overflow: auto;
+        position: relative;
     }
 
     &_mobile {

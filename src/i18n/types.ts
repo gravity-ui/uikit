@@ -1,3 +1,4 @@
+import type {default as ActionsPanelKeyset} from '../components/ActionsPanel/i18n';
 import type {default as AlertKeyset} from '../components/Alert/i18n';
 import type {default as AvatarStackKeyset} from '../components/AvatarStack/i18n';
 import type {default as BreadcrumbsKeyset} from '../components/Breadcrumbs/i18n';
@@ -16,7 +17,8 @@ import type {default as ClearButtonKeyset} from '../components/controls/common/C
 import type {default as LabBreadcrumbsKeyset} from '../components/lab/Breadcrumbs/i18n';
 import type {DeepPartial} from '../types/utils';
 
-export type Keysets = typeof AlertKeyset.keysetData &
+export type Keysets = typeof ActionsPanelKeyset &
+    typeof AlertKeyset.keysetData &
     typeof AvatarStackKeyset.keysetData &
     typeof BreadcrumbsKeyset.keysetData &
     typeof ClipboardButtonKeyset.keysetData &

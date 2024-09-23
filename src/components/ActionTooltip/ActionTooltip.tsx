@@ -24,6 +24,7 @@ export interface ActionTooltipProps extends QAProps, DOMProps, TooltipDelayProps
     title: string;
     hotkey?: HotkeyProps['value'];
     description?: React.ReactNode;
+    forceOpen?: boolean;
 }
 
 const DEFAULT_PLACEMENT: PopupPlacement = ['bottom', 'top'];
@@ -43,6 +44,7 @@ export function ActionTooltip(props: ActionTooltipProps) {
         qa,
         id,
         disablePortal,
+        forceOpen,
         ...delayProps
     } = props;
 
@@ -57,7 +59,7 @@ export function ActionTooltip(props: ActionTooltipProps) {
                 role="tooltip"
                 className={b(null, className)}
                 style={style}
-                open={tooltipVisible && !disabled}
+                open={(typeof forceOpen === 'boolean' ? forceOpen : tooltipVisible) && !disabled}
                 placement={placement}
                 anchorRef={{current: anchorElement}}
                 disableEscapeKeyDown

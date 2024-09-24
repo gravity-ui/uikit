@@ -92,34 +92,30 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 export function ClipboardButton(props: ClipboardButtonProps) {
     const {text, timeout = DEFAULT_TIMEOUT, onCopy, options, ...buttonProps} = props;
 
-    const timeoutRef = React.useRef<number | null>(null);
+    const timeoutRef = React.useRef<number>();
     const [showTooltip, setShowTooltip] = React.useState<boolean | undefined>(undefined);
 
-    const handleCopy: OnCopyHandler = (...args) => {
-        onCopy?.(...args);
-        setShowTooltip(true);
+    const handleCopy: OnCopyHandler = React.useCallback(
+        (...args) => {
+            onCopy?.(...args);
+            setShowTooltip(true);
 
-        if (timeoutRef.current) {
             window.clearTimeout(timeoutRef.current);
-        }
 
-        timeoutRef.current = window.setTimeout(() => {
-            setShowTooltip(false);
-        }, DEFAULT_TIMEOUT - 50);
-    };
+            timeoutRef.current = window.setTimeout(() => {
+                setShowTooltip(false);
+            }, DEFAULT_TIMEOUT - 100);
+        },
+        [onCopy],
+    );
 
-    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(() => {
         if (!showTooltip) {
             setShowTooltip(undefined);
         }
-    };
+    }, [showTooltip]);
 
-    React.useEffect(() => {
-        if (timeoutRef.current) {
-            window.clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-        }
-    }, []);
+    React.useEffect(() => window.clearTimeout(timeoutRef.current), []);
 
     return (
         <CopyToClipboard text={text} timeout={timeout} onCopy={handleCopy} options={options}>

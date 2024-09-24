@@ -4,7 +4,7 @@ $block: '.#{variables.$ns}clipboard-button';
 
 #{$block} {
     &__icon {
-        // prevent button icon from firing onMouseEnter through main button's handler
+        // prevent button icon from firing onMouseEnter through parent button's handler
         pointer-events: none;
     }
 }

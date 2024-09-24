@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.28.0](https://github.com/gravity-ui/uikit/compare/v6.27.2...v6.28.0) (2024-09-24)
+
+
+### Features
+
+* **AvatarStack:** add `total` prop ([#1869](https://github.com/gravity-ui/uikit/issues/1869)) ([29c9084](https://github.com/gravity-ui/uikit/commit/29c9084d1b86df3e0762de9cbeace3cd48a7293d))
+
+
+### Bug Fixes
+
+* **Button:** selected styles override disabled styles in button ([#1856](https://github.com/gravity-ui/uikit/issues/1856)) ([052889d](https://github.com/gravity-ui/uikit/commit/052889d793128716042f54509d3c22ecf3faa845))
+
 ## [6.27.2](https://github.com/gravity-ui/uikit/compare/v6.27.1...v6.27.2) (2024-09-18)
 
 

@@ -12,8 +12,11 @@ import type {
     CopyToClipboardStatus,
     OnCopyHandler,
 } from '../CopyToClipboard/types';
+import {block} from '../utils/cn';
 
 import i18n from './i18n';
+
+const b = block('button');
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
@@ -60,7 +63,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     } = props;
 
     const buttonIcon = (
-        <Button.Icon>
+        <Button.Icon className={b('icon')}>
             <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
         </Button.Icon>
     );
@@ -109,11 +112,14 @@ export function ClipboardButton(props: ClipboardButtonProps) {
         [onCopy],
     );
 
-    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(() => {
-        if (!showTooltip) {
-            setShowTooltip(undefined);
-        }
-    }, [showTooltip]);
+    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(
+        (event) => {
+            if (!showTooltip && event.relatedTarget !== window) {
+                setShowTooltip(undefined);
+            }
+        },
+        [showTooltip],
+    );
 
     React.useEffect(() => window.clearTimeout(timeoutRef.current), []);
 

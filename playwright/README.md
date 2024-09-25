@@ -118,6 +118,7 @@
 - `npm run playwright:install` - install playwright browsers and dependencies
 - `npm run playwright` - run tests
 - `npm run playwright:update` - update screenshots
+- `npm run playwright:clear-cache` - clear cache vite
 - `npm run playwright:docker` - run tests using docker
 - `npm run playwright:docker:update` - update screenshots using docker
-- `npm run playwright:docker:clear-cache` - clear node_modules cache for docker container
+- `npm run playwright:docker:clear-cache` - clear node_modules cache for docker container and clear cache vite

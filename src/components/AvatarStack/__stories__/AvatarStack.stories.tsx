@@ -100,6 +100,14 @@ export const MoreButton: Story = {
     render: getTemplate({count: 6}),
 };
 
+export const Total: Story = {
+    render: getTemplate({count: 6}),
+    args: {
+        max: 3,
+        total: 12,
+    },
+};
+
 export const MoreButtonOmit: Story = {
     render: getTemplate({count: 4}),
     parameters: {

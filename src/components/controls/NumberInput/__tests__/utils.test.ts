@@ -1,4 +1,9 @@
-import {getNumericInputValidator, getParsedValue, getPossibleNumberSubstring} from '../utils';
+import {
+    clampToNearestStepValue,
+    getNumericInputValidator,
+    getParsedValue,
+    getPossibleNumberSubstring,
+} from '../utils';
 
 describe('NumberInput utils', () => {
     describe('getNumericInputValidator', () => {
@@ -72,17 +77,15 @@ describe('NumberInput utils', () => {
                     withoutFraction: true,
                 });
 
-                expect(validator('123')).toBe(undefined);
-                expect(validator('+123')).toBe(undefined);
-                expect(validator('-123')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
-                expect(validator('123.45')).toBe('FRACTION_IS_NOT_ALLOWED');
-                expect(validator('-123.45')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
-                expect(validator('0')).toBe(undefined);
-                expect(validator('123.0')).toBe(undefined);
-                expect(validator('-123.0')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
-                expect(validator('abc.def')).toBe('INCORRECT_NUMBER');
-                expect(validator('abc12.3def')).toBe('FRACTION_IS_NOT_ALLOWED');
-                expect(validator('')).toBe(undefined);
+                expect(validator(123)).toBe(undefined);
+                expect(validator(-123)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
+                expect(validator(123.45)).toBe('FRACTION_IS_NOT_ALLOWED');
+                expect(validator(-123.45)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
+                expect(validator(0)).toBe(undefined);
+                expect(validator(123.0)).toBe(undefined);
+                expect(validator(-123.0)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
+                expect(validator(Number('abc.def'))).toBe('INCORRECT_NUMBER');
+                expect(validator(undefined)).toBe(undefined);
             });
             test('validates numbers positiveOnly=true withoutFraction=false', () => {
                 const {validator} = getNumericInputValidator({
@@ -90,14 +93,13 @@ describe('NumberInput utils', () => {
                     withoutFraction: false,
                 });
 
-                expect(validator('123')).toBe(undefined);
-                expect(validator('+123')).toBe(undefined);
-                expect(validator('-123')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
-                expect(validator('123.45')).toBe(undefined);
-                expect(validator('-123.45')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
-                expect(validator('0')).toBe(undefined);
-                expect(validator('123.0')).toBe(undefined);
-                expect(validator('-123.0')).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
+                expect(validator(123)).toBe(undefined);
+                expect(validator(-123)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
+                expect(validator(123.45)).toBe(undefined);
+                expect(validator(-123.45)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
+                expect(validator(0)).toBe(undefined);
+                expect(validator(123.0)).toBe(undefined);
+                expect(validator(-123.0)).toBe('NEGATIVE_VALUE_IS_NOT_ALLOWED');
             });
             test('validates numbers positiveOnly=false withoutFraction=true', () => {
                 const {validator} = getNumericInputValidator({
@@ -105,14 +107,13 @@ describe('NumberInput utils', () => {
                     withoutFraction: true,
                 });
 
-                expect(validator('123')).toBe(undefined);
-                expect(validator('+123')).toBe(undefined);
-                expect(validator('-123')).toBe(undefined);
-                expect(validator('123.45')).toBe('FRACTION_IS_NOT_ALLOWED');
-                expect(validator('-123.45')).toBe('FRACTION_IS_NOT_ALLOWED');
-                expect(validator('0')).toBe(undefined);
-                expect(validator('123.0')).toBe(undefined);
-                expect(validator('-123.0')).toBe(undefined);
+                expect(validator(123)).toBe(undefined);
+                expect(validator(-123)).toBe(undefined);
+                expect(validator(123.45)).toBe('FRACTION_IS_NOT_ALLOWED');
+                expect(validator(-123.45)).toBe('FRACTION_IS_NOT_ALLOWED');
+                expect(validator(0)).toBe(undefined);
+                expect(validator(123.0)).toBe(undefined);
+                expect(validator(-123.0)).toBe(undefined);
             });
             test('validates numbers positiveOnly=false withoutFraction=false', () => {
                 const {validator} = getNumericInputValidator({
@@ -120,14 +121,13 @@ describe('NumberInput utils', () => {
                     withoutFraction: false,
                 });
 
-                expect(validator('123')).toBe(undefined);
-                expect(validator('+123')).toBe(undefined);
-                expect(validator('-123')).toBe(undefined);
-                expect(validator('123.45')).toBe(undefined);
-                expect(validator('-123.45')).toBe(undefined);
-                expect(validator('0')).toBe(undefined);
-                expect(validator('123.0')).toBe(undefined);
-                expect(validator('-123.0')).toBe(undefined);
+                expect(validator(123)).toBe(undefined);
+                expect(validator(-123)).toBe(undefined);
+                expect(validator(123.45)).toBe(undefined);
+                expect(validator(-123.45)).toBe(undefined);
+                expect(validator(0)).toBe(undefined);
+                expect(validator(123.0)).toBe(undefined);
+                expect(validator(-123.0)).toBe(undefined);
             });
             test('validates with custom min/max', () => {
                 const {validator} = getNumericInputValidator({
@@ -136,12 +136,12 @@ describe('NumberInput utils', () => {
                     min: -100,
                     max: 100,
                 });
-                expect(validator('100')).toBe(undefined);
-                expect(validator('-100')).toBe(undefined);
-                expect(validator('101')).toBe('NUMBER_GREATER_THAN_MAX_ALLOWED');
-                expect(validator('-101')).toBe('NUMBER_LESS_THAN_MIN_ALLOWED');
-                expect(validator('10')).toBe(undefined);
-                expect(validator('-10')).toBe(undefined);
+                expect(validator(100)).toBe(undefined);
+                expect(validator(-100)).toBe(undefined);
+                expect(validator(101)).toBe('NUMBER_GREATER_THAN_MAX_ALLOWED');
+                expect(validator(-101)).toBe('NUMBER_LESS_THAN_MIN_ALLOWED');
+                expect(validator(10)).toBe(undefined);
+                expect(validator(-10)).toBe(undefined);
             });
             test('validates with default min/max', () => {
                 const {validator} = getNumericInputValidator({
@@ -149,14 +149,14 @@ describe('NumberInput utils', () => {
                     withoutFraction: false,
                 });
 
-                expect(validator('100')).toBe(undefined);
-                expect(validator('-100')).toBe(undefined);
-                expect(validator(String(Number.MIN_SAFE_INTEGER))).toBe(undefined);
-                expect(validator(String(Number.MAX_SAFE_INTEGER))).toBe(undefined);
-                expect(validator('100000000000000000')).toBe('NUMBER_GREATER_THAN_MAX_ALLOWED');
-                expect(validator('-100000000000000000')).toBe('NUMBER_LESS_THAN_MIN_ALLOWED');
-                expect(validator('10')).toBe(undefined);
-                expect(validator('-10')).toBe(undefined);
+                expect(validator(100)).toBe(undefined);
+                expect(validator(-100)).toBe(undefined);
+                expect(validator(Number.MIN_SAFE_INTEGER)).toBe(undefined);
+                expect(validator(Number.MAX_SAFE_INTEGER)).toBe(undefined);
+                expect(validator(100000000000000000)).toBe('NUMBER_GREATER_THAN_MAX_ALLOWED');
+                expect(validator(-100000000000000000)).toBe('NUMBER_LESS_THAN_MIN_ALLOWED');
+                expect(validator(10)).toBe(undefined);
+                expect(validator(-10)).toBe(undefined);
             });
         });
     });
@@ -237,25 +237,74 @@ describe('NumberInput utils', () => {
     });
     describe('getParsedValue', () => {
         it('returns value itself', () => {
-            expect(getParsedValue('-123.45')).toEqual({parsedValue: -123.45, isNumberValue: true});
+            expect(getParsedValue('-123.45')).toEqual({value: -123.45, valid: true});
         });
-        it('returns zero on sign-only value', () => {
-            expect(getParsedValue('-')).toEqual({parsedValue: 0, isNumberValue: false});
+        it('returns undefined on sign-only value', () => {
+            expect(getParsedValue('-')).toEqual({value: undefined, valid: false});
         });
         it('returns integer value for uncompleted double value', () => {
-            expect(getParsedValue('123.')).toEqual({parsedValue: 123, isNumberValue: true});
+            expect(getParsedValue('123.')).toEqual({value: 123, valid: true});
         });
         it('returns zero on empty string', () => {
-            expect(getParsedValue('')).toEqual({parsedValue: 0, isNumberValue: true});
+            expect(getParsedValue('')).toEqual({value: 0, valid: true});
         });
         it('returns zero on undefined value', () => {
-            expect(getParsedValue('')).toEqual({parsedValue: 0, isNumberValue: true});
+            expect(getParsedValue('')).toEqual({value: 0, valid: true});
         });
-        it('returns zero for NaN value', () => {
-            expect(getParsedValue('abc.def')).toEqual({parsedValue: 0, isNumberValue: false});
+        it('returns undefined for NaN value', () => {
+            expect(getParsedValue('1ab2.5cdef')).toEqual({value: undefined, valid: false});
         });
-        it('returns number from valid chars', () => {
-            expect(getParsedValue('1ab2.5cdef')).toEqual({parsedValue: 12.5, isNumberValue: true});
+    });
+    describe('clampToNearestStepValue', () => {
+        it('clamps value to bigger divisible to step with min value', () => {
+            expect(clampToNearestStepValue({value: 10, step: 5, min: -3, max: undefined})).toBe(12);
+        });
+        it('clamps value to smaller divisible to step with min value', () => {
+            expect(clampToNearestStepValue({value: 10, step: 5, min: -2, max: undefined})).toBe(8);
+        });
+        it('clamps to min if value smaller', () => {
+            expect(clampToNearestStepValue({value: -10, step: 5, min: -2, max: undefined})).toBe(
+                -2,
+            );
+        });
+        it('clamps to max possible number if value greater than max', () => {
+            expect(clampToNearestStepValue({value: 105, step: 5, min: -2, max: 100})).toBe(98);
+        });
+        it('clamps to max if it is suitable', () => {
+            expect(clampToNearestStepValue({value: 97, step: 5, min: -2, max: 98})).toBe(98);
+        });
+        it('leave value if it suitable', () => {
+            expect(clampToNearestStepValue({value: 8, step: 5, min: -2, max: undefined})).toBe(8);
+        });
+        it('clamps to MAX_SAFE_INTEGER with big numbers if max is not defined', () => {
+            expect(
+                clampToNearestStepValue({
+                    value: Number.MAX_SAFE_INTEGER + 2,
+                    step: 1,
+                    min: -1,
+                    max: undefined,
+                }),
+            ).toBe(Number.MAX_SAFE_INTEGER);
+        });
+        it('clamps to MIN_SAFE_INTEGER with big numbers if min is not defined', () => {
+            expect(
+                clampToNearestStepValue({
+                    value: Number.MIN_SAFE_INTEGER - 2,
+                    step: 1,
+                    min: undefined,
+                    max: undefined,
+                }),
+            ).toBe(Number.MIN_SAFE_INTEGER);
+        });
+        it('uses zero as reference point if min is not defined', () => {
+            expect(
+                clampToNearestStepValue({
+                    value: 11,
+                    step: 4,
+                    min: undefined,
+                    max: undefined,
+                }),
+            ).toBe(12);
         });
     });
 });

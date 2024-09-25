@@ -44,7 +44,7 @@ const fixConsoleErrors = {
 };
 
 const DefaultTemplate: StoryFn<NumberInputProps> = (args) => {
-    const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? '');
+    const [value, setValue] = React.useState(args.value ?? args.defaultValue ?? undefined);
     return <NumberInput {...fixConsoleErrors} {...args} value={value} onUpdate={setValue} />;
 };
 export const Default = DefaultTemplate.bind({});

@@ -20,7 +20,7 @@ const LABEL = 'Label:';
 const LONG_LABEL = 'Very very long label is limited by 50% width of the input control size';
 
 export function NumberInputShowcase(args: NumberInputProps) {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = React.useState<number | undefined>(undefined);
 
     const minMax = {
         min: -10000,
@@ -48,7 +48,7 @@ export function NumberInputShowcase(args: NumberInputProps) {
 
     const handleCeilButtonClick = () => {
         if (value) {
-            setValue(String(Math.ceil(Number(value))));
+            setValue(Math.ceil(value));
         }
     };
 
@@ -56,13 +56,8 @@ export function NumberInputShowcase(args: NumberInputProps) {
         <div className={b()}>
             <Flex direction="column" gap={5}>
                 <NumberInput {...numberInputProps} placeholder="disabled" disabled />
-                <NumberInput {...numberInputProps} placeholder="has clear" value="123" hasClear />
-                <NumberInput
-                    {...numberInputProps}
-                    placeholder="default value"
-                    value={undefined}
-                    defaultValue="123"
-                />
+                <NumberInput {...numberInputProps} placeholder="has clear" value={123} hasClear />
+                <NumberInput {...numberInputProps} placeholder="default value" defaultValue={123} />
                 <NumberInput
                     {...numberInputProps}
                     placeholder="without controls"

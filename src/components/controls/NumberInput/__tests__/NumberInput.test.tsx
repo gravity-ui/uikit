@@ -30,7 +30,7 @@ describe('NumberInput input', () => {
             render(<NumberInput onUpdate={handleUpdate} onChange={handleChange} />);
             fireEvent.change(getInput(), {target: {value: '1'}});
 
-            expect(handleUpdate).toHaveBeenCalledWith('1');
+            expect(handleUpdate).toHaveBeenCalledWith(1);
             expect(handleChange).toHaveBeenCalled();
         });
 
@@ -40,22 +40,16 @@ describe('NumberInput input', () => {
             render(<NumberInput allowDecimal onUpdate={handleUpdate} onChange={handleChange} />);
             fireEvent.change(getInput(), {target: {value: '- $123.45k'}});
 
-            expect(handleUpdate).toHaveBeenCalledWith('-123.45');
+            expect(handleUpdate).toHaveBeenCalledWith(-123.45);
             expect(handleChange).toHaveBeenCalled();
         });
 
-        it('passes uncomplete value to input as is', async () => {
+        it('shows empty input with undefined value', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
-            render(<NumberInput value="123." onUpdate={handleUpdate} onChange={handleChange} />);
-
-            expect(getInput()).toHaveValue('123.');
-        });
-
-        it('shows empty input with non-numeric value', async () => {
-            const handleUpdate = jest.fn();
-            const handleChange = jest.fn();
-            render(<NumberInput value="" onUpdate={handleUpdate} onChange={handleChange} />);
+            render(
+                <NumberInput value={undefined} onUpdate={handleUpdate} onChange={handleChange} />,
+            );
 
             expect(getInput()).toHaveValue('');
         });
@@ -66,105 +60,123 @@ describe('NumberInput input', () => {
             render(<NumberInput allowDecimal onUpdate={handleUpdate} onChange={handleChange} />);
             fireEvent.change(getInput(), {target: {value: '123abc4.5'}});
 
-            expect(handleUpdate).toHaveBeenCalledWith('1234.5');
+            expect(handleUpdate).toHaveBeenCalledWith(1234.5);
         });
 
         it('assumes comma as dot', async () => {
-            const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1,2" allowDecimal onUpdate={handleUpdate} />);
+            render(<NumberInput allowDecimal onUpdate={handleUpdate} />);
 
-            await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenCalledWith('2.2');
+            fireEvent.change(getInput(), {target: {value: '1,2'}});
+
+            expect(handleUpdate).toHaveBeenCalledWith(1.2);
         });
 
-        it('calls onUpdate with incomplete number input (with - or trailing dot)', async () => {
+        it('does not call onUpdate with incomplete number input (with minus sign only or trailing dot)', async () => {
             const handleUpdate = jest.fn();
             const handleChange = jest.fn();
             render(<NumberInput allowDecimal onUpdate={handleUpdate} onChange={handleChange} />);
             fireEvent.change(getInput(), {target: {value: '-'}});
             fireEvent.change(getInput(), {target: {value: '-1.'}});
 
-            expect(handleUpdate).toHaveBeenNthCalledWith(1, '-');
-            expect(handleUpdate).toHaveBeenNthCalledWith(2, '-1.');
-            expect(handleChange).toHaveBeenCalledTimes(2);
+            expect(handleUpdate).toHaveBeenCalledTimes(1);
+            expect(handleUpdate).toHaveBeenCalledWith(-1);
         });
 
         it('calls onFocus on increment/decrement button click', async () => {
             const user = userEvent.setup();
             const handleFocus = jest.fn();
-            render(<NumberInput value="1" onFocus={handleFocus} />);
+            render(<NumberInput value={1} onFocus={handleFocus} />);
 
             await user.click(getUpButton());
             expect(handleFocus).toHaveBeenCalledTimes(1);
+        });
+
+        it('ignores trailing dot', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput onUpdate={handleUpdate} />);
+            fireEvent.change(getInput(), {target: {value: '1.'}});
+
+            expect(handleUpdate).toHaveBeenCalledWith(1);
         });
     });
 
     describe('min/max', () => {
         it('clamps to custom min value on blur', () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput min={-1} max={1000} value="-100000000" onUpdate={handleUpdate} />);
+            render(<NumberInput min={-1} max={1000} value={-100000000} onUpdate={handleUpdate} />);
             const input = getInput();
             act(() => {
                 input.focus();
                 input.blur();
             });
 
-            expect(handleUpdate).toHaveBeenLastCalledWith('-1');
+            expect(handleUpdate).toHaveBeenLastCalledWith(-1);
         });
         it('clamps to custom max value on blur', () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput min={-1} max={1000} value="100000000" onUpdate={handleUpdate} />);
+            render(<NumberInput min={-1} max={1000} value={100000000} onUpdate={handleUpdate} />);
             const input = getInput();
             act(() => {
                 input.focus();
                 input.blur();
             });
 
-            expect(handleUpdate).toHaveBeenLastCalledWith('1000');
+            expect(handleUpdate).toHaveBeenLastCalledWith(1000);
         });
         it('clamps to default min value on blur', async () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput value="-10000000000000000000000" onUpdate={handleUpdate} />);
+            render(<NumberInput value={-10000000000000000000000} onUpdate={handleUpdate} />);
             const input = getInput();
             act(() => {
                 input.focus();
                 input.blur();
             });
 
-            expect(handleUpdate).toHaveBeenLastCalledWith(String(Number.MIN_SAFE_INTEGER));
+            expect(handleUpdate).toHaveBeenLastCalledWith(Number.MIN_SAFE_INTEGER);
         });
         it('clamps to default max value on blur', async () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput value="10000000000000000000000" onUpdate={handleUpdate} />);
+            render(<NumberInput value={10000000000000000000000} onUpdate={handleUpdate} />);
             const input = getInput();
             act(() => {
                 input.focus();
                 input.blur();
             });
 
-            expect(handleUpdate).toHaveBeenLastCalledWith(String(Number.MAX_SAFE_INTEGER));
+            expect(handleUpdate).toHaveBeenLastCalledWith(Number.MAX_SAFE_INTEGER);
+        });
+        it('clamps to divisible value on blur', async () => {
+            const handleUpdate = jest.fn();
+            render(<NumberInput min={-2} value={7} step={4} onUpdate={handleUpdate} />);
+            const input = getInput();
+            act(() => {
+                input.focus();
+                input.blur();
+            });
+
+            expect(handleUpdate).toHaveBeenLastCalledWith(6);
         });
         it('swaps min/max if max < min', async () => {
             const handleUpdate = jest.fn();
-            render(<NumberInput min={1000} max={-1} value="100000000" onUpdate={handleUpdate} />);
+            render(<NumberInput min={1000} max={-1} value={100000000} onUpdate={handleUpdate} />);
             const input = getInput();
             act(() => {
                 input.focus();
                 input.blur();
             });
 
-            expect(handleUpdate).toHaveBeenLastCalledWith('1000');
+            expect(handleUpdate).toHaveBeenLastCalledWith(1000);
         });
     });
     describe('render controls', () => {
         it('render clear button', () => {
-            render(<NumberInput value="123" hasClear />);
+            render(<NumberInput value={123} hasClear />);
             expect(getClearButton()).toBeInTheDocument();
         });
 
         it('do not render clear button without hasClear prop', () => {
-            render(<NumberInput value="123" />);
+            render(<NumberInput value={123} />);
             expect(getClearButton()).not.toBeInTheDocument();
         });
 
@@ -207,85 +219,89 @@ describe('NumberInput input', () => {
         it('increments value on arrowUp button click', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" onUpdate={handleUpdate} />);
+            render(<NumberInput value={1} onUpdate={handleUpdate} />);
 
             await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenCalledWith('2');
+            expect(handleUpdate).toHaveBeenCalledWith(2);
         });
 
-        it('decrements value on arrowUp button click', async () => {
+        it('decrements value on arrowDown button click', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="2" onUpdate={handleUpdate} />);
+            render(<NumberInput value={2} onUpdate={handleUpdate} />);
 
             await user.click(getDownButton());
-            expect(handleUpdate).toHaveBeenCalledWith('1');
+            expect(handleUpdate).toHaveBeenCalledWith(1);
+        });
+
+        it('clamps value to divisible on incrementation', async () => {
+            const user = userEvent.setup();
+            const handleUpdate = jest.fn();
+            render(<NumberInput min={-2} step={5} value={2} onUpdate={handleUpdate} />);
+
+            await user.click(getUpButton());
+            expect(handleUpdate).toHaveBeenCalledWith(8);
         });
 
         it('treats empty value as zero', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="" onUpdate={handleUpdate} />);
+            render(<NumberInput value={undefined} onUpdate={handleUpdate} />);
 
             await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenCalledWith('1');
-        });
-
-        it('ignores trailing dot', async () => {
-            const user = userEvent.setup();
-            const handleUpdate = jest.fn();
-            render(<NumberInput value="1." onUpdate={handleUpdate} />);
-
-            await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenLastCalledWith('2');
+            expect(handleUpdate).toHaveBeenCalledWith(1);
         });
 
         it('increments values by keyboard arrowUp', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" onUpdate={handleUpdate} />);
+            render(<NumberInput value={1} onUpdate={handleUpdate} />);
             await user.click(getInput());
 
             await user.keyboard(`{${KeyCode.ARROW_UP}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('2');
+            expect(handleUpdate).toHaveBeenCalledWith(2);
         });
 
         it('decrements values by keyboard arrowDown', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="2" onUpdate={handleUpdate} />);
+            render(<NumberInput value={2} onUpdate={handleUpdate} />);
             await user.click(getInput());
 
             await user.keyboard(`{${KeyCode.ARROW_DOWN}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('1');
+            expect(handleUpdate).toHaveBeenCalledWith(1);
         });
 
         it('uses external step value in controls', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" step={0.2} allowDecimal onUpdate={handleUpdate} />);
+            render(
+                <NumberInput min={1} value={1} step={0.2} allowDecimal onUpdate={handleUpdate} />,
+            );
 
             await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenCalledWith('1.2');
+            expect(handleUpdate).toHaveBeenCalledWith(1.2);
         });
 
-        it('ceils external step value without allowDecimal prop', async () => {
+        it('rounds down external step value without allowDecimal prop', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" step={1.2} onUpdate={handleUpdate} />);
+            render(<NumberInput min={1} value={1} step={2.2} onUpdate={handleUpdate} />);
 
             await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenCalledWith('3');
+            expect(handleUpdate).toHaveBeenCalledWith(3);
         });
 
         it('uses external step value for keyboard events', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" step={0.2} allowDecimal onUpdate={handleUpdate} />);
+            render(
+                <NumberInput min={1} value={1} step={0.2} allowDecimal onUpdate={handleUpdate} />,
+            );
             await user.click(getInput());
 
             await user.keyboard(`{${KeyCode.ARROW_UP}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('1.2');
+            expect(handleUpdate).toHaveBeenCalledWith(1.2);
         });
 
         it('uses shiftMultiplier with Shift button pressed in incrementation with rendered control button', async () => {
@@ -293,7 +309,7 @@ describe('NumberInput input', () => {
             const handleUpdate = jest.fn();
             render(
                 <NumberInput
-                    value="1"
+                    value={1}
                     step={0.2}
                     shiftMultiplier={30}
                     allowDecimal
@@ -305,7 +321,7 @@ describe('NumberInput input', () => {
             await user.keyboard(`{${KeyCode.SHIFT}>}`);
             await user.click(getUpButton());
             await user.keyboard(`{/${KeyCode.SHIFT}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('7');
+            expect(handleUpdate).toHaveBeenCalledWith(7);
         });
 
         it('uses shiftMultiplier with Shift button pressed in incrementation with rendered control button', async () => {
@@ -313,7 +329,7 @@ describe('NumberInput input', () => {
             const handleUpdate = jest.fn();
             render(
                 <NumberInput
-                    value="1"
+                    value={1}
                     step={0.2}
                     shiftMultiplier={30}
                     allowDecimal
@@ -325,24 +341,30 @@ describe('NumberInput input', () => {
             await user.keyboard(`{${KeyCode.SHIFT}>}`);
             await user.click(getUpButton());
             await user.keyboard(`{/${KeyCode.SHIFT}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('7');
+            expect(handleUpdate).toHaveBeenCalledWith(7);
         });
 
-        it('ceils shiftMultiplier without allowDecimal prop', async () => {
+        it('rounds down shiftMultiplier without allowDecimal prop', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" shiftMultiplier={7.5} onUpdate={handleUpdate} />);
+            render(<NumberInput value={1} shiftMultiplier={7.5} onUpdate={handleUpdate} />);
             await user.click(getInput());
 
             await user.keyboard(`{${KeyCode.SHIFT}>}{${KeyCode.ARROW_UP}}{/${KeyCode.SHIFT}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('9');
+            expect(handleUpdate).toHaveBeenCalledWith(8);
         });
 
-        it('ceils step and shiftMultiplier before multiplication', async () => {
+        it('rounds down step and shiftMultiplier before multiplication', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
             render(
-                <NumberInput value="1" step={0.2} shiftMultiplier={7.5} onUpdate={handleUpdate} />,
+                <NumberInput
+                    min={1}
+                    value={1}
+                    step={2.2}
+                    shiftMultiplier={7.5}
+                    onUpdate={handleUpdate}
+                />,
             );
             await user.click(getInput());
 
@@ -350,38 +372,38 @@ describe('NumberInput input', () => {
             await user.keyboard(`{${KeyCode.SHIFT}>}`);
             await user.click(getUpButton());
             await user.keyboard(`{/${KeyCode.SHIFT}}`);
-            expect(handleUpdate).toHaveBeenNthCalledWith(1, '2');
-            expect(handleUpdate).toHaveBeenNthCalledWith(2, '9');
+            expect(handleUpdate).toHaveBeenNthCalledWith(1, 3);
+            expect(handleUpdate).toHaveBeenNthCalledWith(2, 15);
         });
 
         it('increments value with wheel', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" onUpdate={handleUpdate} allowMouseWheel />);
+            render(<NumberInput value={1} onUpdate={handleUpdate} allowMouseWheel />);
 
             const input = getInput();
             await user.click(input);
 
             fireEvent.wheel(input, {deltaY: 4});
-            expect(handleUpdate).toHaveBeenCalledWith('2');
+            expect(handleUpdate).toHaveBeenCalledWith(2);
         });
 
         it('decrements value with wheel', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="2" onUpdate={handleUpdate} allowMouseWheel />);
+            render(<NumberInput value={2} onUpdate={handleUpdate} allowMouseWheel />);
 
             const input = getInput();
             await user.click(input);
 
             fireEvent.wheel(input, {deltaY: -4});
-            expect(handleUpdate).toHaveBeenCalledWith('1');
+            expect(handleUpdate).toHaveBeenCalledWith(1);
         });
 
         it('uses shiftMultiplier as step value with wheel', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
-            render(<NumberInput value="1" onUpdate={handleUpdate} allowMouseWheel />);
+            render(<NumberInput value={1} onUpdate={handleUpdate} allowMouseWheel />);
 
             const input = getInput();
             await user.click(input);
@@ -389,7 +411,7 @@ describe('NumberInput input', () => {
             await user.keyboard(`{${KeyCode.SHIFT}>}`);
             fireEvent.wheel(input, {deltaY: 4});
             await user.keyboard(`{/${KeyCode.SHIFT}}`);
-            expect(handleUpdate).toHaveBeenCalledWith('11');
+            expect(handleUpdate).toHaveBeenCalledWith(11);
         });
     });
 });

@@ -15,7 +15,7 @@ type ErrorCode =
     | 'NUMBER_LESS_THAN_MIN_ALLOWED' // we were able to cast value to number, but it is less than min allowed
     | 'NUMBER_GREATER_THAN_MAX_ALLOWED'; // we were able to cast value to number, but it is greater than max allowed
 
-type ValidatorFunction = (value: string) => undefined | ErrorCode; // undefined if value is correct
+type ValidatorFunction = (value: number | undefined) => undefined | ErrorCode; // undefined if value is correct
 
 interface GetNumericInputValidatorReturnValue {
     pattern: string; // pattern to be used as HTML attribute
@@ -30,34 +30,28 @@ export function getNumericInputValidator({
 }: GetNumericInputValidatorParams): GetNumericInputValidatorReturnValue {
     const pattern = `^([${positiveOnly ? '' : '-'}+]?\\d+${withoutFraction ? '' : '(?:(?:\\.|,)?\\d+)?'})$`;
 
-    function validator(value: string): undefined | ErrorCode {
-        if (value === '') {
+    function validator(value: number | undefined): undefined | ErrorCode {
+        if (value === undefined) {
             return undefined;
         }
 
-        const parsedValue = parseUnsafe(value);
-
-        if (parsedValue === undefined) {
-            return undefined;
-        }
-
-        if (Number.isNaN(parsedValue)) {
+        if (Number.isNaN(value)) {
             return 'INCORRECT_NUMBER';
         }
 
-        if (positiveOnly && parsedValue < 0) {
+        if (positiveOnly && value < 0) {
             return 'NEGATIVE_VALUE_IS_NOT_ALLOWED';
         }
 
-        if (withoutFraction && !Number.isInteger(parsedValue)) {
+        if (withoutFraction && !Number.isInteger(value)) {
             return 'FRACTION_IS_NOT_ALLOWED';
         }
 
-        if (parsedValue < min) {
+        if (value < min) {
             return 'NUMBER_LESS_THAN_MIN_ALLOWED';
         }
 
-        if (parsedValue > max) {
+        if (value > max) {
             return 'NUMBER_GREATER_THAN_MAX_ALLOWED';
         }
 
@@ -79,17 +73,6 @@ export function prepareStringValue(value: string): string {
         .replace(/[^\d.+-]/g, '');
 }
 
-export function parseUnsafe(value: string | undefined = ''): number {
-    const preparedString = prepareStringValue(value);
-    const possibleNumber = Number(preparedString);
-
-    return possibleNumber;
-}
-
-export function format(value: number): string {
-    return String(value);
-}
-
 export function getPossibleNumberSubstring(
     value: string,
     allowDecimal: boolean,
@@ -100,77 +83,158 @@ export function getPossibleNumberSubstring(
         return undefined;
     }
 
-    return [...match]
+    const possibleNumberString = [...match]
         .slice(
             1,
             allowDecimal ? undefined : 3, // leave full number or only sign and integer part
         )
         .filter(Boolean)
         .join('');
+
+    return possibleNumberString;
 }
 
 export function getParsedValue(value: string | undefined) {
-    const parsedValueOrNaN = parseUnsafe(value);
+    if (value === undefined) {
+        return {valid: true, value: undefined};
+    }
+    const parsedValueOrNaN = Number(value);
 
-    const isNumberValue = !Number.isNaN(parsedValueOrNaN);
-    const parsedValue = isNumberValue ? parsedValueOrNaN : 0;
+    const isValidValue = !Number.isNaN(parsedValueOrNaN);
+    const parsedValue = isValidValue ? parsedValueOrNaN : undefined;
 
-    return {isNumberValue, parsedValue};
+    return {valid: isValidValue, value: parsedValue};
 }
-export function getInternalVariables({
-    min: externalMin,
-    max: externalMax,
-    step: externalStep,
-    shiftMultiplier: externalShiftMultiplier,
-    value: externalValue = '',
-    allowDecimal,
-}: {
-    min: number;
-    max: number;
+
+function roundIfNecessary(value: number, allowDecimal: boolean) {
+    return allowDecimal ? value : Math.floor(value);
+}
+
+interface VariablesProps {
+    min: number | undefined;
+    max: number | undefined;
     step: number;
     shiftMultiplier: number;
-    value: string | undefined;
+    value: number | undefined;
+    defaultValue: number | undefined;
     allowDecimal: boolean;
+}
+export function getInternalVariables(props: VariablesProps): {
+    min: number | undefined;
+    max: number | undefined;
+    step: number;
+    shiftMultiplier: number;
+    value: number;
+    defaultValue: number;
+} {
+    warnAboutInvalidProps(props);
+
+    const {
+        min: externalMin,
+        max: externalMax,
+        step: externalStep,
+        shiftMultiplier: externalShiftMultiplier,
+        value: externalValue = 0,
+        allowDecimal,
+        defaultValue: externalDefaultValue = 0,
+    } = props;
+
+    const {min: rangedMin, max: rangedMax} =
+        externalMin && externalMax && externalMin > externalMax
+            ? {
+                  min: externalMax,
+                  max: externalMin,
+              }
+            : {min: externalMin, max: externalMax};
+
+    const min = rangedMin && rangedMin >= Number.MIN_SAFE_INTEGER ? rangedMin : undefined;
+    const max = rangedMax && rangedMax <= Number.MAX_SAFE_INTEGER ? rangedMax : undefined;
+
+    const step = roundIfNecessary(Math.abs(externalStep), allowDecimal) || 1;
+    const shiftMultiplier = roundIfNecessary(externalShiftMultiplier, allowDecimal) || 10;
+    const value = roundIfNecessary(externalValue, allowDecimal);
+    const defaultValue = roundIfNecessary(externalDefaultValue, allowDecimal);
+
+    return {min, max, step, shiftMultiplier, value, defaultValue};
+}
+
+export function clampToNearestStepValue({
+    value,
+    step,
+    min: originalMin,
+    max = Number.MAX_SAFE_INTEGER,
+}: {
+    value: number;
+    step: number;
+    min: number | undefined;
+    max: number | undefined;
 }) {
-    if (externalMin && externalMin < Number.MIN_SAFE_INTEGER) {
-        console.log('min value sould not be less than Number.MIN_SAFE_INTEGER');
+    const base = originalMin || 0;
+    const min = originalMin ?? Number.MIN_SAFE_INTEGER;
+    const clampedValue = Math.max(min, Math.min(max, value));
+    const stepDeviation = (clampedValue - base) % step;
+    const amountOfStepsDiff = Math.floor((clampedValue - base) / step);
+    if (stepDeviation !== 0) {
+        const smallerPossibleValue = base + amountOfStepsDiff * step;
+        const greaterPossibleValue = base + (amountOfStepsDiff + 1) * step;
+
+        if (
+            (greaterPossibleValue > max ||
+                greaterPossibleValue - clampedValue > clampedValue - smallerPossibleValue) &&
+            smallerPossibleValue >= min
+        ) {
+            return smallerPossibleValue;
+        }
+        if (greaterPossibleValue <= max) {
+            return greaterPossibleValue;
+        }
     }
-    if (externalMax && externalMax > Number.MAX_SAFE_INTEGER) {
-        console.log('min value sould not be greater than Number.MAX_SAFE_INTEGER');
+    return clampedValue;
+}
+
+export function warnAboutInvalidProps({
+    min,
+    max,
+    step,
+    shiftMultiplier,
+    value,
+    defaultValue,
+    allowDecimal,
+}: VariablesProps) {
+    if (min && min < Number.MIN_SAFE_INTEGER) {
+        console.warn('min value sould not be less than Number.MIN_SAFE_INTEGER');
+    }
+    if (max && max > Number.MAX_SAFE_INTEGER) {
+        console.warn('min value sould not be greater than Number.MAX_SAFE_INTEGER');
     }
 
-    if (externalMin && externalMax && externalMin > externalMax) {
+    if (min && max && min > max) {
         console.warn('min value sould not be greater than max value');
     }
 
-    const min = externalMin
-        ? Math.max(Math.min(externalMin, externalMax), Number.MIN_SAFE_INTEGER)
-        : Number.MIN_SAFE_INTEGER;
-    const max = externalMax
-        ? Math.min(Math.max(externalMin, externalMax), Number.MAX_SAFE_INTEGER)
-        : Number.MAX_SAFE_INTEGER;
-
-    const {isNumberValue, parsedValue} = getParsedValue(externalValue);
-    if (!isNumberValue) {
-        console.warn('Non-numeric value passed');
-    } else if (!allowDecimal && !Number.isInteger(parsedValue)) {
-        console.warn('Decimal value passed with allowDecimal=false');
+    if (!allowDecimal && value && !Number.isInteger(value)) {
+        console.warn(value, 'Decimal value passed with allowDecimal=false');
     }
 
-    if (!allowDecimal && !Number.isInteger(externalStep)) {
+    if (!allowDecimal && defaultValue && !Number.isInteger(defaultValue)) {
+        console.warn('Decimal defaultValue passed with allowDecimal=false');
+    }
+
+    if (step <= 0) {
+        console.warn('Invalid step value passed');
+    }
+
+    if (!allowDecimal && !Number.isInteger(step)) {
         console.warn('Decimal step value passed with allowDecimal=false');
     }
 
-    if (!allowDecimal && !Number.isInteger(externalShiftMultiplier)) {
-        console.warn('Decimal shiftMultiplier value passed with allowDecimal=false');
+    if (step && max && min && max - min < step) {
+        console.warn('step value is greater than allowed range');
     }
 
-    const step = allowDecimal ? externalStep : Math.ceil(externalStep);
-    const shiftMultiplier = allowDecimal
-        ? externalShiftMultiplier
-        : Math.ceil(externalShiftMultiplier);
-    const value = allowDecimal ? parsedValue : Math.floor(parsedValue);
-    return {min, max, step, shiftMultiplier, isNumberValue, value};
+    if (!allowDecimal && !Number.isInteger(shiftMultiplier)) {
+        console.warn('Decimal shiftMultiplier value passed with allowDecimal=false');
+    }
 }
 
 export function updateCursorPosition(

@@ -13,8 +13,9 @@ import {getInputControlState} from '../utils';
 
 import {NumericArrows} from './NumericArrows/NumericArrows';
 import {
-    format,
+    clampToNearestStepValue,
     getInternalVariables,
+    getParsedValue,
     getPossibleNumberSubstring,
     updateCursorPosition,
 } from './utils';
@@ -23,7 +24,11 @@ import './NumberInput.scss';
 
 const b = block('number-input');
 
-export interface NumberInputProps extends Omit<BaseInputControlProps<HTMLInputElement>, 'error'> {
+export interface NumberInputProps
+    extends Omit<
+        BaseInputControlProps<HTMLInputElement>,
+        'error' | 'value' | 'defaultValue' | 'onUpdate'
+    > {
     /** The control's html attributes */
     controlProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'min' | 'max' | 'onChange'>;
     /** Help text rendered to the left of the input node */
@@ -67,21 +72,56 @@ export interface NumberInputProps extends Omit<BaseInputControlProps<HTMLInputEl
      * @default false
      */
     allowDecimal?: boolean;
+    /** The control's value */
+    value?: number;
+    /** The control's default value. Use when the component is not controlled */
+    defaultValue?: number;
+    /** Fires when the input’s value is changed by the user. Provides new value as an callback's argument */
+    onUpdate?: (value: number | undefined) => void;
 }
 
 const voidFunction = (..._props: any[]) => {};
+
+// Useful when in input string '-1.' is typed and value={-1} prop passed.
+// In this case we leave input string without replacing it by '-1'.
+// Means that where is no need for replacing current input value with external value
+function areStringRepresentationOfNumbersEqual(v1: string, v2: string) {
+    if (v1 === v2) {
+        return true;
+    }
+
+    const {valid: v1Valid, value: v1Value} = getParsedValue(v1);
+    const {valid: v2Valid, value: v2Value} = getParsedValue(v2);
+
+    if (v1Valid && v2Valid) {
+        return v1Value === v2Value;
+    }
+
+    const v1OnlyNumbers = v1.replace(/\D/g, '');
+    const v2OnlyNumbers = v2.replace(/\D/g, '');
+
+    if (v1OnlyNumbers.length === v2OnlyNumbers.length && v1OnlyNumbers.length === 0) {
+        // exmpl, when just '-' typed and '' (equivalent for undefined) value passed
+        return true;
+    }
+    return false;
+}
+
+function getStringValue(value: number | undefined) {
+    return value ? String(value) : '';
+}
 
 export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(function NumberInput(
     {endContent, ...props},
     ref,
 ) {
     const {
-        value: externalValue = '',
-        defaultValue,
+        value: externalValue,
+        defaultValue: externalDefaultValue,
         onChange,
         onUpdate,
-        min: externalMin = Number.MIN_SAFE_INTEGER,
-        max: externalMax = Number.MAX_SAFE_INTEGER,
+        min: externalMin,
+        max: externalMax,
         shiftMultiplier: externalShiftMultiplier = 10,
         step: externalStep = 1,
         size,
@@ -102,8 +142,8 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         min,
         max,
         step: baseStep,
-        isNumberValue,
         value,
+        defaultValue,
         shiftMultiplier,
     } = getInternalVariables({
         min: externalMin,
@@ -112,7 +152,22 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         shiftMultiplier: externalShiftMultiplier,
         allowDecimal,
         value: externalValue,
+        defaultValue: externalDefaultValue,
     });
+
+    const [inputValue, setInputValue] = React.useState(
+        getStringValue(value) ?? getStringValue(defaultValue),
+    );
+
+    React.useEffect(() => {
+        const stringPropsValue = getStringValue(value);
+        setInputValue((currentInputValue) => {
+            if (!areStringRepresentationOfNumbersEqual(currentInputValue, stringPropsValue)) {
+                return stringPropsValue;
+            }
+            return currentInputValue;
+        });
+    }, [value]);
 
     const clamp = true;
     const [step, setStep] = React.useState(baseStep);
@@ -120,26 +175,28 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const state = getInputControlState(validationState);
 
-    const canIncrementNumber = value + step <= max;
+    const canIncrementNumber =
+        clampToNearestStepValue({value: value + step, step, min, max}) > value;
 
-    const canDecrementNumber = value - step >= min;
+    const canDecrementNumber =
+        clampToNearestStepValue({value: value - step, step, min, max}) < value;
 
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const fieldRef = useFormResetHandler({
-        initialValue: defaultValue ?? '',
+        initialValue: defaultValue,
         onReset: onUpdate ?? voidFunction,
     });
     const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
 
     const handleIncrement = () => {
         if (canIncrementNumber) {
-            onUpdate?.(format(value + step));
+            onUpdate?.(clampToNearestStepValue({value: value + step, step: baseStep, min, max}));
         }
     };
 
     const handleDecrement = () => {
         if (canDecrementNumber) {
-            onUpdate?.(format(value - step));
+            onUpdate?.(clampToNearestStepValue({value: value - step, step: baseStep, min, max}));
         }
     };
 
@@ -178,10 +235,14 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
         setActive(false);
         if (clamp) {
-            if (value < min) {
-                onUpdate?.(format(min));
-            } else if (value > max) {
-                onUpdate?.(format(max));
+            const clampedValue = clampToNearestStepValue({
+                value,
+                step: baseStep,
+                min,
+                max,
+            });
+            if (value !== clampedValue) {
+                onUpdate?.(clampedValue);
             }
         }
         onBlur?.(e);
@@ -190,21 +251,23 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const preparedStringValue = getPossibleNumberSubstring(e.target.value, allowDecimal);
         updateCursorPosition(innerControlRef, e.target.value, preparedStringValue);
-        if (preparedStringValue && preparedStringValue !== externalValue) {
+        const {valid, value: parsedNumberValue} = getParsedValue(preparedStringValue);
+        if (valid && parsedNumberValue !== value) {
             onChange?.(e);
         }
     };
 
     const handleUpdate = (v: string) => {
+        setInputValue(v);
         const preparedStringValue = getPossibleNumberSubstring(v, allowDecimal);
         updateCursorPosition(innerControlRef, v, preparedStringValue);
-        if (preparedStringValue !== externalValue) {
-            onUpdate?.(preparedStringValue ?? '');
+        const {valid, value: parsedNumberValue} = getParsedValue(preparedStringValue);
+        if (valid && parsedNumberValue !== value) {
+            onUpdate?.(parsedNumberValue);
         }
     };
 
     const handleInput: React.FormEventHandler<HTMLInputElement> = (e) => {
-        console.log(e);
         const preparedStringValue = getPossibleNumberSubstring(e.currentTarget.value, allowDecimal);
         updateCursorPosition(innerControlRef, e.currentTarget.value, preparedStringValue);
     };
@@ -220,11 +283,11 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 role: 'spinbutton',
                 'aria-valuemin': props.min,
                 'aria-valuemax': props.max,
-                'aria-valuenow': isNumberValue ? value : undefined,
-                'aria-valuetext': isNumberValue ? undefined : externalValue,
+                'aria-valuenow': value,
             }}
             controlRef={handleRef}
-            value={externalValue}
+            value={inputValue}
+            defaultValue={getStringValue(defaultValue)}
             onChange={handleChange}
             onUpdate={handleUpdate}
             onKeyDown={handleKeyDown}
@@ -239,7 +302,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                         <NumericArrows
                             className={b('numeric-arrows')}
                             size={size}
-                            disabled={disabled || !isNumberValue}
+                            disabled={disabled}
                             onUpClick={() => {
                                 innerControlRef.current?.focus();
                                 handleIncrement();

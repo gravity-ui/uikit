@@ -101,9 +101,9 @@ export const Slider = React.forwardRef(function Slider(
             size,
             error: validationState === 'invalid' && !disabled,
             disabled,
-            tooltipDisplay: innerState.tooltipDisplay,
+            'tooltip-display': innerState.tooltipDisplay,
             rtl: direction === 'rtl',
-            noMarks: Array.isArray(marks) ? marks.length === 0 : marks === 0,
+            'no-marks': Array.isArray(marks) ? marks.length === 0 : marks === 0,
         }),
         [direction, disabled, innerState.tooltipDisplay, size, validationState, marks],
     );
@@ -129,7 +129,7 @@ export const Slider = React.forwardRef(function Slider(
 
     return (
         <div className={b(null, className)} ref={ref}>
-            <div className={b('top', {size, tooltipDisplay})}>
+            <div className={b('top', {size, 'tooltip-display': tooltipDisplay})}>
                 {/* use this block to reserve place for tooltip */}
             </div>
             <BaseSlider

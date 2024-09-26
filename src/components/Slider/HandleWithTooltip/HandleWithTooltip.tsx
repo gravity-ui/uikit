@@ -10,8 +10,8 @@ export const HandleWithTooltip = ({
     tooltipFormat,
     className,
 }: HandleWithTooltipProps) => {
-    const autoVisible = stateModifiers.tooltipDisplay === 'auto';
-    const alwaysVisible = stateModifiers.tooltipDisplay === 'on';
+    const autoVisible = stateModifiers['tooltip-display'] === 'auto';
+    const alwaysVisible = stateModifiers['tooltip-display'] === 'on';
     const [tooltipVisible, setTooltipVisible] = React.useState(false);
     const [focused, setFocused] = React.useState(false);
     const [hovered, setHovered] = React.useState(false);

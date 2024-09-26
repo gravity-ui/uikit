@@ -84,12 +84,13 @@ export type SliderInnerState = {
     Pick<SliderProps, 'tooltipDisplay' | 'tooltipFormat'>;
 
 export type StateModifiers = {
-    noMarks: boolean;
+    'no-marks': boolean;
     size: SliderSize;
     error: boolean;
     disabled: boolean;
     rtl: boolean;
-} & Pick<SliderProps, 'tooltipDisplay'>;
+    'tooltip-display': SliderProps['tooltipDisplay'];
+};
 
 export type BaseSliderRefType = RcSliderRef;
 

@@ -8,8 +8,13 @@ import type {ButtonProps, ButtonSize} from '../Button';
 import {ClipboardIcon} from '../ClipboardIcon';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardProps, CopyToClipboardStatus} from '../CopyToClipboard/types';
+import {block} from '../utils/cn';
 
 import i18n from './i18n';
+
+import './ClipboardButton.scss';
+
+const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
@@ -55,7 +60,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     } = props;
 
     const buttonIcon = (
-        <Button.Icon>
+        <Button.Icon className={b('icon')}>
             <ClipboardIcon size={ButtonSizeToIconSize[size]} status={status} />
         </Button.Icon>
     );

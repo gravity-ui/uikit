@@ -5,10 +5,10 @@ import {ArrowShapeUpToLine, CircleDollar} from '@gravity-ui/icons';
 import {Button} from '../../../Button';
 import {Checkbox} from '../../../Checkbox';
 import {Icon} from '../../../Icon';
+import {mapTextInputSizeToButtonSize} from '../../../controls/common';
+import type {InputControlSize} from '../../../controls/types';
 import {Flex} from '../../../layout';
 import {cn} from '../../../utils/cn';
-import {mapTextInputSizeToButtonSize} from '../../common';
-import type {InputControlSize} from '../../types';
 import {NumberInput} from '../NumberInput';
 import type {NumberInputProps} from '../NumberInput';
 

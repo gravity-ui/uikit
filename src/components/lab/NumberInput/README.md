@@ -5,7 +5,7 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {NumberInput} from '@gravity-ui/uikit';
+import {unstable_NumberInput as NumberInput} from '@gravity-ui/uikit/unstable';
 ```
 
 NumberInput allow users to enter numbers into a UI.

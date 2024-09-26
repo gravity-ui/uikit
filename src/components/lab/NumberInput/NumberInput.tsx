@@ -5,11 +5,11 @@ import React from 'react';
 import {KeyCode} from '../../../constants';
 import {useForkRef} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';
+import {TextInput} from '../../controls/TextInput';
+import {defaultBaseTextInputProps} from '../../controls/TextInput/TextInput';
+import type {BaseInputControlProps} from '../../controls/types';
+import {getInputControlState} from '../../controls/utils';
 import {block} from '../../utils/cn';
-import {TextInput} from '../TextInput';
-import {defaultBaseTextInputProps} from '../TextInput/TextInput';
-import type {BaseInputControlProps} from '../types';
-import {getInputControlState} from '../utils';
 
 import {NumericArrows} from './NumericArrows/NumericArrows';
 import {

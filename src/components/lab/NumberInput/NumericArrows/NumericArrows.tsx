@@ -5,9 +5,9 @@ import {ChevronDown, ChevronUp} from '@gravity-ui/icons';
 import {Button} from '../../../Button';
 import type {ButtonProps} from '../../../Button';
 import {Icon} from '../../../Icon';
+import type {InputControlSize} from '../../../controls/types';
 import {Flex} from '../../../layout';
 import {block} from '../../../utils/cn';
-import type {InputControlSize} from '../../types';
 import i18n from '../i18n';
 import {CONTROL_BUTTONS_QA, DECREMENT_BUTTON_QA, INCREMENT_BUTTON_QA} from '../utils';
 

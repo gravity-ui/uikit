@@ -2,7 +2,7 @@ export const INCREMENT_BUTTON_QA = 'increment-button-qa';
 export const DECREMENT_BUTTON_QA = 'decrement-button-qa';
 export const CONTROL_BUTTONS_QA = 'control-buttons-qa';
 
-interface GetNumericInputValidatorParams {
+export interface GetNumericInputValidatorParams {
     positiveOnly: boolean;
     withoutFraction: boolean;
     min?: number;

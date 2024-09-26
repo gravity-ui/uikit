@@ -1,7 +1,7 @@
 @use '../../../../../styles/mixins';
 @use '../../../variables';
-@use '../../mixins.scss' as control-mixins;
-@use '../../variables.scss' as control-variables;
+@use '../../../controls/mixins.scss' as control-mixins;
+@use '../../../controls/variables.scss' as control-variables;
 
 $block: '.#{variables.$ns}numeric-arrows';
 

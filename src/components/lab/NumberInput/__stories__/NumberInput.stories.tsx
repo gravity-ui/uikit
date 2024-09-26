@@ -9,7 +9,7 @@ import {NumberInputShowcase} from './NumberInputShowcase';
 import {NumberInputSizes} from './NumberInputSizes';
 
 export default {
-    title: 'Components/Inputs/NumberInput',
+    title: 'Lab/NumberInput',
     component: NumberInput,
     parameters: {
         a11y: {

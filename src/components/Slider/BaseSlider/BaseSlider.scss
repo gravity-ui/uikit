@@ -251,6 +251,10 @@ $rail-xl-size: 6px;
         }
     }
 
+    &_no-marks {
+        margin-block-end: 0;
+    }
+
     &__rail {
         position: absolute;
         border-radius: 4px;

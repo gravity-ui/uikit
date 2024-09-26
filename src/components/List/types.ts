@@ -53,6 +53,7 @@ export type ListProps<T = unknown> = QAProps & {
     onLoadMore?: () => void;
     onChangeActive?: (index?: number) => void;
     id?: string;
+    onScrollToItem?: (node: HTMLElement) => boolean;
 };
 
 export type ListItemProps<T> = {
@@ -64,6 +65,7 @@ export type ListItemProps<T> = {
     sortable?: boolean;
     sortHandleAlign?: ListSortHandleAlign;
     style?: React.CSSProperties;
+    height?: number;
     onActivate: (index?: number) => void;
     renderItem?: ListProps<T>['renderItem'];
     onClick?: ListProps<T>['onItemClick'];

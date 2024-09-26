@@ -3,7 +3,7 @@ import type React from 'react';
 import type {PopperPlacement} from '../../hooks/private';
 import type {UseOpenProps} from '../../hooks/useSelect/types';
 import type {InputControlPin, InputControlSize, InputControlView} from '../controls';
-import type {ControlGroupOption, QAProps} from '../types';
+import type {AriaLabelingProps, ControlGroupOption, QAProps} from '../types';
 
 import type {Option, OptionGroup} from './tech-components';
 
@@ -11,19 +11,41 @@ export type SelectRenderClearArgs = {
     renderIcon?: () => React.ReactNode;
 };
 
+export type SelectRenderTriggerProps = AriaLabelingProps &
+    Pick<
+        React.ButtonHTMLAttributes<HTMLElement>,
+        | 'id'
+        | 'type'
+        | 'role'
+        | 'aria-controls'
+        | 'aria-haspopup'
+        | 'aria-expanded'
+        | 'aria-activedescendant'
+        | 'onClick'
+        | 'onKeyDown'
+        | 'disabled'
+    >;
+
 export type SelectRenderControlProps = {
     onClear: () => void;
+    /** @deprecated use triggerProps instead */
     onClick: (e: React.MouseEvent<HTMLElement>) => void;
+    /** @deprecated use triggerProps instead */
     onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
-    renderClear?: (args: SelectRenderClearArgs) => React.ReactNode;
-    renderCounter?: () => React.ReactNode;
+    renderClear: (args: SelectRenderClearArgs) => React.ReactNode;
+    renderCounter: () => React.ReactNode;
     ref: React.Ref<HTMLElement>;
     open: boolean;
+    /** @deprecated use triggerProps instead */
     popupId: string;
+    /** @deprecated use triggerProps instead */
     selectId: string;
+    /** @deprecated use triggerProps instead */
     activeIndex?: number;
     disabled?: boolean;
+    triggerProps: SelectRenderTriggerProps;
 };
+
 export type SelectRenderControlOptions = {
     value: SelectProps['value'];
 };
@@ -51,6 +73,28 @@ export type SelectRenderPopup = (popupItems: {
     renderList: () => React.JSX.Element;
 }) => React.ReactElement;
 
+export type SelectFilterInputProps = {value: string} & Pick<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    | 'placeholder'
+    | 'onKeyDown'
+    | 'onChange'
+    | 'size'
+    | 'aria-label'
+    | 'aria-controls'
+    | 'aria-activedescendant'
+>;
+export type SelectRenderFilter = (props: {
+    /** @deprecated use inputProps instead */
+    onChange: (filter: string) => void;
+    /** @deprecated use inputProps instead */
+    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
+    /** @deprecated use inputProps instead */
+    value: string;
+    ref: React.Ref<HTMLInputElement>;
+    style: React.CSSProperties;
+    inputProps: SelectFilterInputProps;
+}) => React.ReactElement;
+
 export type SelectSize = InputControlSize;
 
 export type SelectRenderCounter = (
@@ -62,13 +106,7 @@ export type SelectProps<T = any> = QAProps &
     UseOpenProps & {
         onUpdate?: (value: string[]) => void;
         renderControl?: SelectRenderControl;
-        renderFilter?: (props: {
-            onChange: (filter: string) => void;
-            onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-            value: string;
-            ref: React.Ref<HTMLInputElement>;
-            style: React.CSSProperties;
-        }) => React.ReactElement;
+        renderFilter?: SelectRenderFilter;
         renderOption?: SelectRenderOption<T>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
         renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;

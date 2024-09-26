@@ -25,7 +25,7 @@ const defaultItemRenderer: TreeListRenderItem<unknown> = (renderState) => {
     return <ListItemView {...renderState.props} {...renderState.renderContainerProps} />;
 };
 
-export const TreeSelect = React.forwardRef(function TreeSelect<T>(
+export const TreeSelect = React.forwardRef(function TreeSelect<T, P extends {} = {}>(
     {
         id,
         qa,
@@ -55,14 +55,14 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
         onOpenChange,
         onUpdate,
         renderControl,
-        renderItem = defaultItemRenderer as TreeListRenderItem<T>,
+        renderItem = defaultItemRenderer as TreeListRenderItem<T, P>,
         renderContainer,
         mapItemDataToContentProps,
         onFocus,
         onBlur,
         getItemId,
         onItemClick,
-    }: TreeSelectProps<T>,
+    }: TreeSelectProps<T, P>,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const mobile = useMobile();
@@ -218,7 +218,7 @@ export const TreeSelect = React.forwardRef(function TreeSelect<T>(
             >
                 {slotBeforeListBody}
 
-                <TreeList<T>
+                <TreeList<T, P>
                     list={list}
                     size={size}
                     className={b('list', containerClassName)}

@@ -70,10 +70,8 @@ $block: '.#{variables.$ns}sheet';
         background-color: var(--g-color-line-generic);
     }
 
-    &__sheet-content {
+    &__sheet-scroll-container {
         box-sizing: border-box;
-        width: 100%;
-        padding: var(--g-sheet-content-padding, 0 10px);
         max-height: calc(90% - #{$top-height});
         overflow: hidden auto;
         overscroll-behavior-y: contain;
@@ -84,6 +82,22 @@ $block: '.#{variables.$ns}sheet';
         &_without-scroll {
             overflow: hidden;
         }
+    }
+
+    &__sheet-content-box {
+        // prevents margin escape from container
+        border: 1px solid transparent;
+    }
+
+    &__sheet-content-box-border-compensation {
+        // compensate for border of content box
+        margin: -1px;
+    }
+
+    &__sheet-content {
+        box-sizing: border-box;
+        width: 100%;
+        padding: var(--g-sheet-content-padding, 0 10px);
     }
 
     &__sheet-content-title {

@@ -185,9 +185,10 @@ function useFocusEvents({
     const onBlurHandler = React.useCallback(
         (event: React.FocusEvent) => {
             if (
-                event.relatedTarget === null ||
-                event.relatedTarget === document.body ||
-                event.relatedTarget === (document as EventTarget)
+                document.activeElement !== event.target &&
+                (event.relatedTarget === null ||
+                    event.relatedTarget === document.body ||
+                    event.relatedTarget === (document as EventTarget))
             ) {
                 onBlur(event);
                 targetRef.current = null;

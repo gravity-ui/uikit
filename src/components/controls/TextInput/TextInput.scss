@@ -326,6 +326,10 @@ $block: '.#{variables.$ns}text-input';
         }
     }
 
+    &_has-unstable-end-content {
+        --_--error-icon-padding-inline: 0;
+    }
+
     &_state {
         &_error {
             &#{$block}_view_normal {

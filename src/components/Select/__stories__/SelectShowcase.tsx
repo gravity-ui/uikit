@@ -120,14 +120,18 @@ export const SelectShowcase = (props: SelectProps) => {
     const [matchCase, setMatchCase] = React.useState(false);
     const [matchWholeWord, setMatchWholeWord] = React.useState(false);
 
-    const renderFilter: SelectProps['renderFilter'] = ({value, ref, onChange, onKeyDown}) => {
+    const renderFilter: SelectProps['renderFilter'] = ({
+        ref,
+        style,
+        inputProps: {value, onChange, onKeyDown, ...controlProps},
+    }) => {
         return (
-            <div style={{display: 'flex', flexDirection: 'column', rowGap: 4}}>
+            <div style={{...style, display: 'flex', flexDirection: 'column', rowGap: 4}}>
                 <TextInput
                     controlRef={ref}
-                    controlProps={{size: 1}}
+                    controlProps={controlProps}
                     value={value}
-                    onUpdate={onChange}
+                    onChange={onChange}
                     onKeyDown={onKeyDown}
                 />
                 <div style={{display: 'flex', columnGap: 2}}>
@@ -281,20 +285,26 @@ export const SelectShowcase = (props: SelectProps) => {
                 selectProps={{
                     ...props,
                     className: b('user-control'),
-                    renderControl: ({onClick, onKeyDown, ref, renderClear, disabled}) => {
+                    renderControl: ({
+                        ref,
+                        renderClear,
+                        triggerProps: {onClick, disabled, id, ...extraProps},
+                    }) => {
                         return (
                             <Button
+                                id={id}
                                 ref={ref}
                                 view="action"
                                 onClick={onClick}
                                 disabled={disabled}
                                 extraProps={{
-                                    onKeyDown,
+                                    ...extraProps,
+                                    'aria-label': extraProps['aria-label'] || 'User control',
                                 }}
                                 className={b({'has-clear': props.hasClear})}
                             >
                                 <span className={b('text')}>User control</span>
-                                {renderClear?.({
+                                {renderClear({
                                     renderIcon: () => (
                                         <Icon data={TrashBin} className={b('user-clear-icon')} />
                                     ),
@@ -317,16 +327,20 @@ export const SelectShowcase = (props: SelectProps) => {
                     ...props,
                     className: b('user-control-placement'),
                     popupPlacement: ['bottom'],
-                    renderControl: ({onClick, onKeyDown, ref, disabled}) => {
+                    renderControl: ({
+                        ref,
+                        triggerProps: {onClick, disabled, id, ...extraProps},
+                    }) => {
                         return (
                             <Button
+                                id={id}
                                 ref={ref}
                                 view="action"
                                 onClick={onClick}
                                 disabled={disabled}
                                 extraProps={{
-                                    onKeyDown,
-                                    'aria-label': 'Add',
+                                    ...extraProps,
+                                    'aria-label': extraProps['aria-label'] || 'Add',
                                 }}
                             >
                                 <Icon data={Plus} />

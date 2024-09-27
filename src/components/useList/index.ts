@@ -3,6 +3,7 @@ export * from './hooks/useList';
 export * from './hooks/useListKeydown';
 export * from './types';
 export * from './components/ListItemView';
+export * from './components/ListItemExpandIcon';
 export * from './components/ListRecursiveRenderer';
 export * from './components/ListContainerView';
 export * from './components/ListContainer';

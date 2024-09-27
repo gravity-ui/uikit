@@ -2,10 +2,9 @@ import React from 'react';
 
 import {Button} from '../../../Button';
 import {Text} from '../../../Text';
-import {RenderVirtualizedContainer} from '../../../TreeList/__stories__/components/RenderVirtualizedContainer';
 import {TextInput} from '../../../controls';
 import {Flex, spacing} from '../../../layout';
-import {ListItemView, useListFilter} from '../../../useList';
+import {ListContainer, ListItemView, useListFilter} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeSelect} from '../../TreeSelect';
 import type {TreeSelectProps, TreeSelectRenderContainer} from '../../types';
@@ -37,7 +36,7 @@ export const WithFiltrationAndControlsExample = ({
                 );
             }
 
-            return <RenderVirtualizedContainer {...props} />;
+            return <ListContainer {...props} />;
         };
 
         return {items: baseItems, renderContainer: containerRenderer};

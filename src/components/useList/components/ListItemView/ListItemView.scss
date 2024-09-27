@@ -56,10 +56,6 @@ $block: '.#{variables.$ns}list-item-view';
         border-radius: var(--g-list-item-border-radius, 8px);
     }
 
-    &__icon {
-        flex-shrink: 0;
-    }
-
     &__slot {
         flex-shrink: 0;
     }

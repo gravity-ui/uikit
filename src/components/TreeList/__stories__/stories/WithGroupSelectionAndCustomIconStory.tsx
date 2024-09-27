@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {ChevronDown, ChevronUp, Database, PlugConnection} from '@gravity-ui/icons';
+import {Database, PlugConnection} from '@gravity-ui/icons';
 
 import {Button} from '../../../Button';
 import {Icon} from '../../../Icon';
-import {Flex, spacing} from '../../../layout';
-import {ListItemView, useList} from '../../../useList';
+import {Flex} from '../../../layout';
+import {ListItemExpandIcon, ListItemView, useList} from '../../../useList';
 import type {ListItemId, ListItemViewContentType} from '../../../useList';
 import {createRandomizedData} from '../../../useList/__stories__/utils/makeData';
 import {TreeList} from '../../TreeList';
@@ -84,8 +84,6 @@ export const WithGroupSelectionAndCustomIconStory = ({
 
                                 endSlot: childrenIds ? (
                                     <Button
-                                        size="m"
-                                        className={spacing({mr: 1})}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             list.state.setExpanded?.((prevExpandedState) => ({
@@ -99,12 +97,12 @@ export const WithGroupSelectionAndCustomIconStory = ({
                                                 : expandButtonLabel,
                                         }}
                                     >
-                                        <Icon
-                                            data={
-                                                itemProps.content.expanded ? ChevronDown : ChevronUp
-                                            }
-                                            size={16}
-                                        />
+                                        <Button.Icon>
+                                            <ListItemExpandIcon
+                                                expanded={itemProps.content.expanded}
+                                                behavior="action"
+                                            />
+                                        </Button.Icon>
                                     </Button>
                                 ) : undefined,
                             }}

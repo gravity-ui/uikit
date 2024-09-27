@@ -1,12 +1,13 @@
 import React from 'react';
 
-import {Check, ChevronDown, ChevronUp} from '@gravity-ui/icons';
+import {Check} from '@gravity-ui/icons';
 
 import {Icon} from '../../../Icon';
 import {Text, colorText} from '../../../Text';
 import {Flex} from '../../../layout';
 import type {FlexProps} from '../../../layout';
 import type {ListItemViewContentType} from '../../types';
+import {ListItemExpandIcon} from '../ListItemExpandIcon/ListItemExpandIcon';
 
 import {b} from './styles';
 
@@ -57,7 +58,17 @@ export const ListItemViewContent = ({
     expanded,
     selected,
     title,
+    expandIconPlacement = 'start',
+    renderExpandIcon: RenderExpandIcon = ListItemExpandIcon,
 }: ListItemViewContentProps) => {
+    const expandIconNode = isGroup ? (
+        <RenderExpandIcon
+            behavior={expandIconPlacement === 'start' ? 'state' : 'action'}
+            expanded={expanded}
+            disabled={disabled}
+        />
+    ) : null;
+
     return (
         <Flex alignItems="center" justifyContent="space-between" gap="4" className={b('content')}>
             <Flex gap="2" alignItems="center" grow>
@@ -72,13 +83,7 @@ export const ListItemViewContent = ({
 
                 {renderSafeIndentation(indentation)}
 
-                {isGroup ? (
-                    <Icon
-                        className={b('icon', colorText({color: disabled ? 'hint' : undefined}))}
-                        data={expanded ? ChevronDown : ChevronUp}
-                        size={16}
-                    />
-                ) : null}
+                {expandIconPlacement === 'start' && expandIconNode}
 
                 {startSlot}
 
@@ -104,7 +109,10 @@ export const ListItemViewContent = ({
                 </div>
             </Flex>
 
-            {endSlot}
+            <Flex gap="2">
+                {expandIconPlacement === 'end' && expandIconNode}
+                {endSlot}
+            </Flex>
         </Flex>
     );
 };

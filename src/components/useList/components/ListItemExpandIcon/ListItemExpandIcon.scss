@@ -1,0 +1,7 @@
+@use '../../../variables';
+
+$block: '.#{variables.$ns}list-item-expand-icon';
+
+#{$block} {
+    flex-shrink: 0;
+}

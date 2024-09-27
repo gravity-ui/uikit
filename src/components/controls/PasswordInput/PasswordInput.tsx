@@ -96,7 +96,7 @@ export const PasswordInput = (props: PasswordInputProps) => {
         <TextInput
             {...props}
             type={hideValue ? 'password' : 'text'}
-            endContent={additionalEndContent}
+            unstable_endContent={additionalEndContent}
             autoComplete={autoComplete ? autoComplete : 'new-password'}
             controlProps={{
                 ...controlProps,

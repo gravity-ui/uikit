@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.29.0](https://github.com/gravity-ui/uikit/compare/v6.28.0...v6.29.0) (2024-09-27)
+
+
+### Features
+
+* **Slider:** redesign API to get more control on marks ([#1744](https://github.com/gravity-ui/uikit/issues/1744)) ([2b5c26e](https://github.com/gravity-ui/uikit/commit/2b5c26e6144cc74bd2467ae6f5fe9e6dd3a14197))
+* **Table:** add dynamic href support for row actions in withTableActions ([#1874](https://github.com/gravity-ui/uikit/issues/1874)) ([17b9a66](https://github.com/gravity-ui/uikit/commit/17b9a663fea91515b1fa646ddb2003f4e70016a5))
+
+
+### Bug Fixes
+
+* **Select:** fix tick icon color ([#1878](https://github.com/gravity-ui/uikit/issues/1878)) ([fc82360](https://github.com/gravity-ui/uikit/commit/fc82360a74ae02ce1b22e1861befb8a891679f15))
+
 ## [6.28.0](https://github.com/gravity-ui/uikit/compare/v6.27.2...v6.28.0) (2024-09-24)
 
 

@@ -1,9 +1,0 @@
-.number-input-showcase {
-    grid-area: number-input;
-    display: grid;
-    grid-template:
-        'title title' auto
-        'col col' auto / 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
-}

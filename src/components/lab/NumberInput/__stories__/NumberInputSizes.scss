@@ -1,9 +1,0 @@
-.number-input-sizes {
-    grid-area: number-input;
-    display: grid;
-    grid-template:
-        'title title' auto
-        'sizes controls' auto / 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
-}

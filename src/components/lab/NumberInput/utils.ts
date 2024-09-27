@@ -119,7 +119,7 @@ interface VariablesProps {
     defaultValue: number | undefined;
     allowDecimal: boolean;
 }
-export function getInternalVariables(props: VariablesProps): {
+export function getInternalState(props: VariablesProps): {
     min: number | undefined;
     max: number | undefined;
     step: number;
@@ -171,9 +171,19 @@ export function clampToNearestStepValue({
 }) {
     const base = originalMin || 0;
     const min = originalMin ?? Number.MIN_SAFE_INTEGER;
-    const clampedValue = Math.max(min, Math.min(max, value));
-    const stepDeviation = (clampedValue - base) % step;
+    let clampedValue = value;
+    if (clampedValue > max) {
+        clampedValue = max;
+    } else if (clampedValue < min) {
+        clampedValue = min;
+    }
+    if (!Number.isInteger(value) || !Number.isInteger(step)) {
+        // calculations with decimal values can bring inaccuracy with lots of zeros
+        return clampedValue;
+    }
     const amountOfStepsDiff = Math.floor((clampedValue - base) / step);
+    const stepDeviation = clampedValue - base - step * amountOfStepsDiff;
+
     if (stepDeviation !== 0) {
         const smallerPossibleValue = base + amountOfStepsDiff * step;
         const greaterPossibleValue = base + (amountOfStepsDiff + 1) * step;

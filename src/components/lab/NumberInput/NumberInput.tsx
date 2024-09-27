@@ -14,7 +14,7 @@ import {block} from '../../utils/cn';
 import {NumericArrows} from './NumericArrows/NumericArrows';
 import {
     clampToNearestStepValue,
-    getInternalVariables,
+    getInternalState,
     getParsedValue,
     getPossibleNumberSubstring,
     updateCursorPosition,
@@ -118,7 +118,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const {
         value: externalValue,
         defaultValue: externalDefaultValue,
-        onChange,
+        onChange: handleChange,
         onUpdate,
         min: externalMin,
         max: externalMax,
@@ -145,7 +145,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         value,
         defaultValue,
         shiftMultiplier,
-    } = getInternalVariables({
+    } = getInternalState({
         min: externalMin,
         max: externalMax,
         step: externalStep,
@@ -234,6 +234,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
         setActive(false);
+        setStep(baseStep);
         if (clamp) {
             const clampedValue = clampToNearestStepValue({
                 value,
@@ -246,15 +247,6 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             }
         }
         onBlur?.(e);
-    };
-
-    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        const preparedStringValue = getPossibleNumberSubstring(e.target.value, allowDecimal);
-        updateCursorPosition(innerControlRef, e.target.value, preparedStringValue);
-        const {valid, value: parsedNumberValue} = getParsedValue(preparedStringValue);
-        if (valid && parsedNumberValue !== value) {
-            onChange?.(e);
-        }
     };
 
     const handleUpdate = (v: string) => {

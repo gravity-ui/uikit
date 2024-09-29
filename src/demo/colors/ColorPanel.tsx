@@ -1,9 +1,8 @@
 import React from 'react';
 
 import {Bulb} from '@gravity-ui/icons';
-import ReactCopyToClipboard from 'react-copy-to-clipboard';
 
-import {ActionTooltip, Button, Icon} from '../../components';
+import {ActionTooltip, Button, CopyToClipboard, Icon} from '../../components';
 import {useUniqId} from '../../hooks';
 
 import './ColorPanel.scss';
@@ -39,18 +38,20 @@ export function ColorPanel(props: ColorPanelProps) {
             const copyText = `var(${varName})`;
             return (
                 <div className="color-panel__card" key={color.name}>
-                    <ReactCopyToClipboard text={copyText}>
-                        <div
-                            className={`color-panel__card-box ${boxBorders}`}
-                            style={{background: `var(${varName})`}}
-                        />
-                    </ReactCopyToClipboard>
+                    <CopyToClipboard text={copyText} nativeCopy>
+                        {() => (
+                            <div
+                                className={`color-panel__card-box ${boxBorders}`}
+                                style={{background: `var(${varName})`}}
+                            />
+                        )}
+                    </CopyToClipboard>
                     <div className="color-panel__card-texts">
                         <div className="color-panel__card-headline">
                             <div className="color-panel__card-title">{color.title}</div>
-                            <ReactCopyToClipboard text={copyText}>
-                                <div className="color-panel__card-var">{varName}</div>
-                            </ReactCopyToClipboard>
+                            <CopyToClipboard text={copyText} nativeCopy>
+                                {() => <div className="color-panel__card-var">{varName}</div>}
+                            </CopyToClipboard>
                         </div>
                         <div className="color-panel__card-description">{color.description}</div>
                     </div>

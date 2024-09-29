@@ -35,6 +35,7 @@ LANDING_BLOCK-->
 | Name               | Description                                                              |                       Type                        |   Default   |
 | :----------------- | :----------------------------------------------------------------------- | :-----------------------------------------------: | :---------: |
 | hasTooltip         | Disable tooltip. Tooltip won't be shown                                  |                     `boolean`                     |   `true`    |
+| nativeCopy         | Use native clipboard methods instead of `copy-to-clipboard` lib          |                    `Function`                     |             |
 | onCopy             | Callback after copy `(text: string, result: boolean) => void`            |                    `Function`                     |             |
 | options            | Copy to clipboard options                                                | [CopyToClipboardOptions](#copytoclipboardoptions) |             |
 | text               | Text to copy                                                             |                     `string`                      |             |

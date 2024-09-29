@@ -81,9 +81,15 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 };
 
 export function ClipboardButton(props: ClipboardButtonProps) {
-    const {text, timeout = DEFAULT_TIMEOUT, onCopy, options, ...buttonProps} = props;
+    const {text, timeout = DEFAULT_TIMEOUT, onCopy, options, nativeCopy, ...buttonProps} = props;
     return (
-        <CopyToClipboard text={text} timeout={timeout} onCopy={onCopy} options={options}>
+        <CopyToClipboard
+            text={text}
+            timeout={timeout}
+            onCopy={onCopy}
+            options={options}
+            nativeCopy={nativeCopy}
+        >
             {(status) => <ClipboardButtonComponent {...buttonProps} status={status} />}
         </CopyToClipboard>
     );

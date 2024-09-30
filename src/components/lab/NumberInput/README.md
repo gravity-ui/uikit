@@ -160,7 +160,7 @@ LANDING_BLOCK-->
 
 Allows you to set the label to the left of control.
 
-- label occupies the leftmost position relative to the control. That is, the elements added via `leftContent` property will be located to the right.
+- label is located to the right of the elements added via `startContent` property.
 - label can take up no more than half the width of the entire NumberInput's space.
 
 <!--LANDING_BLOCK
@@ -187,7 +187,7 @@ LANDING_BLOCK-->
 
 ### Start content
 
-Allows you to add content to the left of the control. Located to the right of the label added via `label` property.
+Allows you to add content to the left of the control. Located to the left of the label added via `label` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -211,7 +211,7 @@ LANDING_BLOCK-->
 
 ### End content
 
-Allows you to add content to the right of the control. Located to the right of the clear button added via `hasClear` property.
+Allows you to add content to the right of the control. Located to the right of the clear button added via `hasClear` property and inside-placed error icon.
 
 <!--LANDING_BLOCK
 <ExampleBlock
@@ -229,6 +229,141 @@ LANDING_BLOCK-->
 
 ```tsx
 <NumberInput endContent={<Label>Right</Label>} />
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Controls
+
+Visibility of incrementing/decrementing arrow-controls in the rightmost position in the component can be managed by `hasControls` property.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+    <NumberInput hasControls/>
+    <NumberInput hasControls={false}/>
+    `}
+>
+    <UIKit.NumberInput hasControls/>
+    <UIKit.NumberInput hasControls={false}/>
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<NumberInput hasControls />
+<NumberInput hasControls={false} />
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Behaviour
+
+### Min/max values
+
+Allow you to set minimum and maximum values, which can be entered to the input. Values which are not fit into defined range would be clamped on blur to the nearest allowed value.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`<NumberInput min={-100} max={100}/>`}
+>
+    <UIKit.NumberInput
+        min={-100}
+        max={100}
+    />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<NumberInput min={-100} max={100} />
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Step
+
+Allows you to set the amount on which value in the input is incremented or decremented with arrow buttons in component controls or on keyboard.
+
+It also adds restrictions on allowed values and enabled clamping entered number on blur to allowed values by the following rules:
+
+- if step and min value are defined with integer values, then allowed values are defined as `min + (step * n)`, where `n` is an integer number;
+- if step is an integer number and min value is not defined, then allowed values are defined as a divisible by step;
+- if step or min values are decimal, then clamping is not applicable
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`<NumberInput min={-10} step={4}/>`}
+>
+    <UIKit.NumberInput
+        min={-10}
+        step={4}
+    />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<NumberInput min={-10} step={4} />
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Step multiplier
+
+Allows you to set the value by which the step value is multiplied when the Shift button on the keyboard is pressed by defining `shiftMultiplier` property.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+    <NumberInput shiftMultiplier={50}/>
+    <NumberInput shiftMultiplier={8} step={4}/>
+    `}
+>
+    <UIKit.NumberInput
+        shiftMultiplier={50}
+    />
+    <UIKit.NumberInput
+        shiftMultiplier={8}
+        step={4}
+    />
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<NumberInput shiftMultiplier={50} />
+<NumberInput shiftMultiplier={8} step={4} />
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Decimal values restriction
+
+Allows you to switch ability to enter only integer or also decimal values by `allowDecimal` property.
+With `allowDecimal={false}` property a dot entered to the input would be ignored and pasted decimal values would be rounded down.
+
+<!--LANDING_BLOCK
+<ExampleBlock
+    code={`
+    <NumberInput allowDecimal/>
+    <NumberInput allowDecimal={false}/>
+    `}
+>
+    <UIKit.NumberInput allowDecimal/>
+    <UIKit.NumberInput allowDecimal={false}/>
+</ExampleBlock>
+LANDING_BLOCK-->
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<NumberInput allowDecimal />
+<NumberInput allowDecimal={false} />
 ```
 
 <!--/GITHUB_BLOCK-->

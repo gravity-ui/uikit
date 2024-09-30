@@ -244,7 +244,7 @@ LANDING_BLOCK-->
 | className       | The control's wrapper class name                                                                                        |                   `string`                    |                    |
 | controlProps    | The control's html attributes                                                                                           | `React.InputHTMLAttributes<HTMLInputElement>` |                    |
 | controlRef      | React ref provided to the control                                                                                       |         `React.Ref<HTMLInputElement>`         |                    |
-| defaultValue    | The control's default value, used when the component is not controlled                                                  |                   `string`                    |                    |
+| defaultValue    | The control's default value, used when the component is not controlled                                                  |             `number` `undefined`              |                    |
 | disabled        | Indicates that the user cannot interact with the control                                                                |                   `boolean`                   |      `false`       |
 | endContent      | User`s node rendered after the input node, clear button and inside error icon                                           |               `React.ReactNode`               |                    |
 | errorMessage    | Error text                                                                                                              |                   `string`                    |                    |
@@ -273,7 +273,7 @@ LANDING_BLOCK-->
 | startContent    | The user`s node rendered before label and input                                                                         |               `React.ReactNode`               |                    |
 | tabIndex        | The `tabindex` attribute of the control                                                                                 |                   `string`                    |                    |
 | validationState | Validation state                                                                                                        |                  `"invalid"`                  |                    |
-| value           | The value of the control                                                                                                |                   `string`                    |                    |
+| value           | The value of the control                                                                                                |             `number` `undefined`              |                    |
 | view            | The view of the control                                                                                                 |             `"normal"` `"clear"`              |     `"normal"`     |
 
 ## CSS API

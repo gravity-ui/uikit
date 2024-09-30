@@ -1,13 +1,111 @@
 import React from 'react';
 
-import {ChevronDown, PencilToSquare} from '@gravity-ui/icons';
+import {ChevronDown, Files, PencilToSquare, TrashBin} from '@gravity-ui/icons';
 
 import type {ActionsPanelProps} from '../../ActionsPanel';
 import {Icon} from '../../Icon';
+import {Flex} from '../../layout';
 
 export const actions: ActionsPanelProps['actions'] = [
     {
-        id: 'id1',
+        id: 'action_1',
+        button: {
+            props: {
+                children: 'Action 1',
+                onClick: () => console.log('click button action 1'),
+            },
+        },
+        dropdown: {
+            item: {
+                action: () => console.log('click dropdown action 1'),
+                text: 'Action 1',
+            },
+        },
+    },
+    {
+        id: 'action_2',
+        button: {
+            props: {
+                children: 'Action 2',
+                onClick: () => console.log('click button action 2'),
+            },
+        },
+        dropdown: {
+            item: {
+                action: () => console.log('click dropdown action 2'),
+                text: 'Action 2',
+            },
+        },
+    },
+];
+
+export const actionsWithIcons: ActionsPanelProps['actions'] = [
+    {
+        id: 'edit',
+        button: {
+            props: {
+                children: [<Icon key="icon" data={PencilToSquare} />, 'Edit'],
+                onClick: () => console.log('Edit'),
+            },
+        },
+        dropdown: {
+            item: {
+                action: () => console.log('Edit'),
+                text: (
+                    <Flex alignItems="center" gap={1}>
+                        <Icon data={PencilToSquare} />
+                        Edit
+                    </Flex>
+                ),
+            },
+        },
+    },
+    {
+        id: 'copy',
+        button: {
+            props: {
+                children: [<Icon key="icon" data={Files} />, 'Copy'],
+                onClick: () => console.log('Copy'),
+            },
+        },
+        dropdown: {
+            item: {
+                action: () => console.log('Copy'),
+                text: (
+                    <Flex alignItems="center" gap={1}>
+                        <Icon data={Files} />
+                        Copy
+                    </Flex>
+                ),
+            },
+        },
+    },
+    {
+        id: 'delete',
+        collapsed: true,
+        button: {
+            props: {
+                children: [<Icon key="icon" data={TrashBin} />, 'Delete'],
+                onClick: () => console.log('Delete'),
+            },
+        },
+        dropdown: {
+            item: {
+                action: () => console.log('Delete'),
+                text: (
+                    <Flex alignItems="center" gap={1}>
+                        <Icon data={TrashBin} />
+                        Delete
+                    </Flex>
+                ),
+            },
+        },
+    },
+];
+
+export const actionsWithNote: ActionsPanelProps['actions'] = [
+    {
+        id: 'action_1',
         button: {
             props: {
                 children: 'Action 1',
@@ -23,7 +121,7 @@ export const actions: ActionsPanelProps['actions'] = [
         },
     },
     {
-        id: 'id2',
+        id: 'action_2',
         button: {
             props: {
                 children: 'Action 2',
@@ -38,7 +136,7 @@ export const actions: ActionsPanelProps['actions'] = [
         },
     },
     {
-        id: 'id3',
+        id: 'action_3',
         button: {
             props: {
                 children: 'Action 3',
@@ -53,7 +151,7 @@ export const actions: ActionsPanelProps['actions'] = [
         },
     },
     {
-        id: 'id4',
+        id: 'action_4',
         button: {
             props: {
                 children: 'Action 4',
@@ -64,90 +162,6 @@ export const actions: ActionsPanelProps['actions'] = [
             item: {
                 action: () => console.log('click dropdown action 4'),
                 text: 'Action 4',
-            },
-        },
-    },
-    {
-        id: 'id5',
-        button: {
-            props: {
-                children: 'Action 5',
-                onClick: () => console.log('click button action 5'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 5'),
-                text: 'Action 5',
-            },
-        },
-    },
-    {
-        id: 'id6',
-        button: {
-            props: {
-                children: 'Action 6',
-                onClick: () => console.log('click button action 6'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 6'),
-                text: 'Action 6',
-            },
-        },
-    },
-];
-
-export const actionsWithIcons: ActionsPanelProps['actions'] = [
-    {
-        id: 'id1',
-        button: {
-            props: {
-                children: [<Icon key="icon" data={PencilToSquare} />, 'Action 1'],
-                onClick: () => console.log('click button action 1'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
-            },
-        },
-    },
-    {
-        id: 'id2',
-        button: {
-            props: {
-                children: [<Icon key="icon" data={PencilToSquare} />, 'Action 2'],
-                onClick: () => console.log('click button action 2'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 2'),
-                text: 'Action 2',
-            },
-        },
-    },
-    {
-        id: 'id3',
-        collapsed: true,
-        button: {
-            props: {
-                children: [<Icon key="icon" data={PencilToSquare} />, 'Action 3'],
-                onClick: () => console.log('click button action 3'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 3'),
-                text: (
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        <Icon key="icon" data={PencilToSquare} />
-                        <span style={{paddingLeft: '8px'}}>Action 3</span>
-                    </div>
-                ),
             },
         },
     },
@@ -155,7 +169,8 @@ export const actionsWithIcons: ActionsPanelProps['actions'] = [
 
 export const actionsGroups: ActionsPanelProps['actions'] = [
     {
-        id: 'id1',
+        id: 'action_1',
+        collapsed: true,
         button: {
             props: {
                 children: 'Action 1',
@@ -167,10 +182,11 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 action: () => console.log('click dropdown action 1'),
                 text: 'Action 1',
             },
+            group: '1',
         },
     },
     {
-        id: 'id2',
+        id: 'action_2',
         collapsed: true,
         button: {
             props: {
@@ -183,11 +199,11 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 action: () => console.log('click dropdown action 2'),
                 text: 'Action 2',
             },
-            group: '1',
+            group: '2',
         },
     },
     {
-        id: 'id3',
+        id: 'action_3',
         collapsed: true,
         button: {
             props: {
@@ -200,77 +216,14 @@ export const actionsGroups: ActionsPanelProps['actions'] = [
                 action: () => console.log('click dropdown action 3'),
                 text: 'Action 3',
             },
-        },
-    },
-    {
-        id: 'id4',
-        collapsed: true,
-        button: {
-            props: {
-                children: 'Action 4',
-                onClick: () => console.log('click button action 4'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 4'),
-                text: 'Action 4',
-            },
             group: '1',
-        },
-    },
-    {
-        id: 'id5',
-        button: {
-            props: {
-                children: 'Action 5',
-                onClick: () => console.log('click button action 5'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 5'),
-                text: 'Action 5',
-            },
-        },
-    },
-    {
-        id: 'id6',
-        collapsed: true,
-        button: {
-            props: {
-                children: 'Action 6',
-                onClick: () => console.log('click button action 6'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 6'),
-                text: 'Action 6',
-            },
-            group: '6',
         },
     },
 ];
 
 export const actionsSubmenu: ActionsPanelProps['actions'] = [
     {
-        id: 'id1',
-        button: {
-            props: {
-                children: 'Action 1',
-                onClick: () => console.log('click button action 1'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 1'),
-                text: 'Action 1',
-            },
-        },
-    },
-    {
-        id: 'id2',
+        id: 'button-with-sub-menu',
         button: {
             props: {
                 children: ['Sub-menu', <Icon key="icon" data={ChevronDown} />],
@@ -283,11 +236,11 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
                 text: 'Sub-menu',
                 items: [
                     {
-                        action: () => console.log('==> action "Edit" called'),
+                        action: () => console.log('Edit'),
                         text: 'Edit',
                     },
                     {
-                        action: () => console.log('==> action "Delete" called'),
+                        action: () => console.log('Delete'),
                         text: 'Delete',
                         theme: 'danger',
                     },
@@ -296,43 +249,12 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
         },
     },
     {
-        id: 'id3',
-        button: {
-            props: {
-                children: 'Action 3',
-                onClick: () => console.log('click button action 3'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 3'),
-                text: 'Action 3',
-            },
-        },
-    },
-    {
-        id: 'id4',
+        id: 'nested-menu',
         collapsed: true,
         button: {
             props: {
-                children: 'Action 4',
-                onClick: () => console.log('click button action 4'),
-            },
-        },
-        dropdown: {
-            item: {
-                action: () => console.log('click dropdown action 4'),
-                text: 'Action 4',
-            },
-        },
-    },
-    {
-        id: 'id5',
-        collapsed: true,
-        button: {
-            props: {
-                children: 'Action 5',
-                onClick: () => console.log('click button action 5'),
+                children: 'Nested',
+                onClick: () => console.log('click button nested'),
             },
         },
         dropdown: {
@@ -343,28 +265,28 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
                         text: 'Select',
                         items: [
                             {
-                                action: () => console.log('==> action "Select one" called'),
+                                action: () => console.log('Select One'),
                                 text: 'One',
                             },
                             {
-                                action: () => console.log('==> action "Select all" called'),
+                                action: () => console.log('Select All'),
                                 text: 'All',
                             },
                         ],
                     },
                     {
-                        action: () => console.log('==> action "Copy" called'),
+                        action: () => console.log('Copy'),
                         text: 'Copy',
                     },
                     {
                         text: 'Move to',
                         items: [
                             {
-                                action: () => console.log('==> action "Move to Folder 1" called'),
+                                action: () => console.log('Move to folder 1'),
                                 text: 'Folder 1',
                             },
                             {
-                                action: () => console.log('==> action "Move to Folder 2" called'),
+                                action: () => console.log('Move to folder 2'),
                                 text: 'Folder 2',
                             },
                         ],

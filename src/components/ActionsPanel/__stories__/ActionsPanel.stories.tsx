@@ -1,59 +1,44 @@
 import React from 'react';
 
-import type {Meta, StoryFn} from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
-import type {ActionsPanelProps} from '../../ActionsPanel';
 import {ActionsPanel} from '../../ActionsPanel';
 
-import {actions, actionsGroups, actionsSubmenu, actionsWithIcons} from './actions';
+import {actions, actionsGroups, actionsSubmenu, actionsWithIcons, actionsWithNote} from './actions';
 
-export default {
+const meta: Meta<typeof ActionsPanel> = {
     title: 'Components/Data Display/ActionsPanel',
     component: ActionsPanel,
-    parameters: {
-        a11y: {
-            element: '#storybook-root',
-            config: {
-                rules: [
-                    {
-                        id: 'color-contrast',
-                        enabled: false,
-                    },
-                ],
-            },
-        },
-    },
-} as Meta;
-
-const WithIconsTemplate: StoryFn<ActionsPanelProps> = (args) => {
-    return (
-        <ActionsPanel
-            {...args}
-            actions={actionsWithIcons}
-            onClose={() => console.log('onClose called')}
-        />
-    );
 };
-export const WithIcons = WithIconsTemplate.bind({});
 
-const WithNoteTemplate: StoryFn<ActionsPanelProps> = (args) => {
-    return (
+export default meta;
+
+type Story = StoryObj<typeof ActionsPanel>;
+
+export const Default = {
+    render: (args) => <ActionsPanel {...args} actions={actions} />,
+} satisfies Story;
+
+export const WithIcons = {
+    render: (args) => <ActionsPanel {...args} actions={actionsWithIcons} />,
+} satisfies Story;
+
+export const WithNote = {
+    render: (args) => (
         <ActionsPanel
             {...args}
-            actions={actions}
-            onClose={() => console.log('onClose called')}
+            actions={actionsWithNote}
+            onClose={() => console.log('click close handle')}
             renderNote={() => '10 items'}
+            maxRowActions={2}
         />
-    );
-};
-export const WithNote = WithNoteTemplate.bind({});
+    ),
+} satisfies Story;
 
-const GroupsTemplate: StoryFn<ActionsPanelProps> = (args) => {
-    return <ActionsPanel {...args} actions={actionsGroups} />;
-};
-export const Groups = GroupsTemplate.bind({});
+export const Groups = {
+    render: (args) => <ActionsPanel {...args} actions={actionsGroups} />,
+} satisfies Story;
 
-const SubmenuTemplate: StoryFn<ActionsPanelProps> = (args) => {
-    return <ActionsPanel {...args} actions={actionsSubmenu} />;
-};
-export const Submenu = SubmenuTemplate.bind({});
+export const Submenu = {
+    render: (args) => <ActionsPanel {...args} actions={actionsSubmenu} />,
+} satisfies Story;

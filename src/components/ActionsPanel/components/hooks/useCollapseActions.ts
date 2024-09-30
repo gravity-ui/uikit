@@ -13,6 +13,10 @@ export const useCollapseActions = (actions: ActionItem[], maxRowActions?: number
         typeof maxRowActions === 'undefined' ? DEFAULT_MAX_BUTTON_ACTIONS : maxRowActions,
     );
 
+    const allActionsCollapsed = React.useMemo(() => {
+        return actions.every((action) => action.collapsed);
+    }, [actions]);
+
     const updateObserveKey = React.useMemo(
         () => actions.map(({id}) => id).join('/') + maxActions,
         [actions, maxActions],
@@ -37,14 +41,16 @@ export const useCollapseActions = (actions: ActionItem[], maxRowActions?: number
 
     const dropdownItems = useDropdownActions({buttonActions, restActions, visibilityMap});
 
+    const isDefaultOffset = allActionsCollapsed || maxActions === 0;
+
     const showDropdown =
-        (Object.keys(visibilityMap).length > 0 || maxActions === 0) && dropdownItems.length > 0;
+        (Object.keys(visibilityMap).length > 0 || isDefaultOffset) && dropdownItems.length > 0;
 
     return {
         buttonActions,
         dropdownItems,
         parentRef,
-        offset: maxActions === 0 ? 0 : offset,
+        offset: isDefaultOffset ? 0 : offset,
         visibilityMap,
         showDropdown,
     };

@@ -16,15 +16,18 @@ import {block} from '../utils/cn';
 
 import i18n from './i18n';
 
-const b = block('button');
+import './ClipboardButton.scss';
+
+const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
-        Omit<ClipboardButtonComponentProps, 'status' | 'onClick'> {}
+        Omit<ClipboardButtonComponentProps, 'status' | 'timeout' | 'onClick'> {}
 
 interface ClipboardButtonComponentProps
     extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading'> {
     status: CopyToClipboardStatus;
+    timeout: number;
     showTooltip?: boolean;
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;
@@ -36,7 +39,8 @@ interface ClipboardButtonComponentProps
     iconPosition?: 'start' | 'end';
 }
 
-const DEFAULT_TIMEOUT = 1000;
+const DEFAULT_TIMEOUT = 1200;
+const TOOLTIP_ANIMATION = 200;
 
 const ButtonSizeToIconSize: Record<ButtonSize, number> = {
     xs: 12,
@@ -57,8 +61,10 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         extraProps = {},
         children,
         iconPosition = 'start',
+        timeout,
         showTooltip,
         onMouseEnter,
+        onBlur,
         ...rest
     } = props;
 
@@ -70,9 +76,9 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 
     return (
         <ActionTooltip
-            disabled={!hasTooltip}
             title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
-            forceOpen={showTooltip}
+            disabled={!hasTooltip || showTooltip === false}
+            closeDelay={showTooltip === true ? timeout : undefined}
         >
             <Button
                 view={view}
@@ -82,6 +88,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
                     ...extraProps,
                 }}
                 onMouseEnter={onMouseEnter}
+                onBlur={onBlur}
                 {...rest}
             >
                 {iconPosition === 'start' ? buttonIcon : null}
@@ -93,7 +100,15 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
 };
 
 export function ClipboardButton(props: ClipboardButtonProps) {
-    const {text, timeout = DEFAULT_TIMEOUT, onCopy, options, ...buttonProps} = props;
+    const {
+        text,
+        timeout = DEFAULT_TIMEOUT,
+        onCopy,
+        options,
+        onMouseEnter,
+        onFocus,
+        ...buttonProps
+    } = props;
 
     const timerIdRef = React.useRef<number>();
     const [showTooltip, setShowTooltip] = React.useState<boolean | undefined>(undefined);
@@ -107,16 +122,32 @@ export function ClipboardButton(props: ClipboardButtonProps) {
 
             timerIdRef.current = window.setTimeout(() => {
                 setShowTooltip(false);
-            }, DEFAULT_TIMEOUT - 100);
+            }, timeout - TOOLTIP_ANIMATION);
         },
-        [onCopy],
+        [onCopy, timeout],
     );
 
-    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(() => {
+    const resetTooltip = React.useCallback(() => {
         if (!showTooltip) {
             setShowTooltip(undefined);
         }
     }, [showTooltip]);
+
+    const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(
+        (event) => {
+            onMouseEnter?.(event);
+            resetTooltip();
+        },
+        [onMouseEnter, resetTooltip],
+    );
+
+    const handleFocus: React.FocusEventHandler<HTMLButtonElement> = React.useCallback(
+        (event) => {
+            onFocus?.(event);
+            resetTooltip();
+        },
+        [onFocus, resetTooltip],
+    );
 
     React.useEffect(() => window.clearTimeout(timerIdRef.current), []);
 
@@ -126,8 +157,10 @@ export function ClipboardButton(props: ClipboardButtonProps) {
                 <ClipboardButtonComponent
                     {...buttonProps}
                     status={status}
+                    timeout={timeout}
                     showTooltip={showTooltip}
                     onMouseEnter={handleMouseEnter}
+                    onFocus={handleFocus}
                 />
             )}
         </CopyToClipboard>

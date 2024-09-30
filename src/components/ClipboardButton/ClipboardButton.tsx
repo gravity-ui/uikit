@@ -64,7 +64,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         timeout,
         showTooltip,
         onMouseEnter,
-        onBlur,
+        onFocus,
         ...rest
     } = props;
 
@@ -88,7 +88,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
                     ...extraProps,
                 }}
                 onMouseEnter={onMouseEnter}
-                onBlur={onBlur}
+                onFocus={onFocus}
                 {...rest}
             >
                 {iconPosition === 'start' ? buttonIcon : null}

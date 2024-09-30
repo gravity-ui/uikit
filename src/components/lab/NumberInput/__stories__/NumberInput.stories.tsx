@@ -209,7 +209,7 @@ export const WithValidators: Story = {
             errorMessage: validator(value),
             controlProps: {pattern},
         };
-        console.log(value);
+
         return (
             <Flex gap={4}>
                 <Flex direction="column" gap={4}>

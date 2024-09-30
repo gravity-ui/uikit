@@ -168,6 +168,22 @@ describe('NumberInput input', () => {
 
             expect(handleUpdate).toHaveBeenLastCalledWith(1000);
         });
+
+        it('does not treats empty value as zero when clearing input', async () => {
+            const handleUpdate = jest.fn();
+            render(
+                <NumberInput
+                    min={-10.25}
+                    max={1000}
+                    value={0.75}
+                    allowDecimal
+                    onUpdate={handleUpdate}
+                />,
+            );
+
+            fireEvent.change(getInput(), {target: {value: ''}});
+            expect(handleUpdate).toHaveBeenLastCalledWith(undefined);
+        });
     });
     describe('render controls', () => {
         it('render clear button', () => {
@@ -243,7 +259,7 @@ describe('NumberInput input', () => {
             expect(handleUpdate).toHaveBeenCalledWith(8);
         });
 
-        it('treats empty value as zero', async () => {
+        it('treats empty value as zero when incrementing/decrementing', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
             render(<NumberInput value={undefined} onUpdate={handleUpdate} />);

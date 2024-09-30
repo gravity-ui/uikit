@@ -246,10 +246,7 @@ describe('NumberInput utils', () => {
             expect(getParsedValue('123.')).toEqual({value: 123, valid: true});
         });
         it('returns zero on empty string', () => {
-            expect(getParsedValue('')).toEqual({value: 0, valid: true});
-        });
-        it('returns zero on undefined value', () => {
-            expect(getParsedValue('')).toEqual({value: 0, valid: true});
+            expect(getParsedValue('')).toEqual({value: undefined, valid: true});
         });
         it('returns undefined for NaN value', () => {
             expect(getParsedValue('1ab2.5cdef')).toEqual({value: undefined, valid: false});
@@ -305,6 +302,11 @@ describe('NumberInput utils', () => {
                     max: undefined,
                 }),
             ).toBe(12);
+        });
+        it('does not clamp decimal value', () => {
+            expect(
+                clampToNearestStepValue({value: 1.25, step: 8.25, min: -1, max: undefined}),
+            ).toBe(1.25);
         });
     });
 });

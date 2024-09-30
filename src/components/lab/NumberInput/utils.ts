@@ -22,13 +22,17 @@ interface GetNumericInputValidatorReturnValue {
     validator: ValidatorFunction;
 }
 
+export function getInputPattern(withoutFraction: boolean, positiveOnly = false) {
+    return `^([${positiveOnly ? '' : '\\-'}\\+]?\\d+${withoutFraction ? '' : '(?:(?:.|,)?\\d+)?'})+$`;
+}
+
 export function getNumericInputValidator({
     positiveOnly,
     withoutFraction,
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
 }: GetNumericInputValidatorParams): GetNumericInputValidatorReturnValue {
-    const pattern = `^([${positiveOnly ? '' : '-'}+]?\\d+${withoutFraction ? '' : '(?:(?:\\.|,)?\\d+)?'})$`;
+    const pattern = getInputPattern(withoutFraction, positiveOnly);
 
     function validator(value: number | undefined): undefined | ErrorCode {
         if (value === undefined) {
@@ -95,7 +99,7 @@ export function getPossibleNumberSubstring(
 }
 
 export function getParsedValue(value: string | undefined) {
-    if (value === undefined) {
+    if (value === undefined || value === '') {
         return {valid: true, value: undefined};
     }
     const parsedValueOrNaN = Number(value);
@@ -124,17 +128,15 @@ export function getInternalState(props: VariablesProps): {
     max: number | undefined;
     step: number;
     shiftMultiplier: number;
-    value: number;
+    value: number | undefined;
     defaultValue: number;
 } {
-    warnAboutInvalidProps(props);
-
     const {
         min: externalMin,
         max: externalMax,
         step: externalStep,
         shiftMultiplier: externalShiftMultiplier,
-        value: externalValue = 0,
+        value: externalValue,
         allowDecimal,
         defaultValue: externalDefaultValue = 0,
     } = props;
@@ -152,7 +154,7 @@ export function getInternalState(props: VariablesProps): {
 
     const step = roundIfNecessary(Math.abs(externalStep), allowDecimal) || 1;
     const shiftMultiplier = roundIfNecessary(externalShiftMultiplier, allowDecimal) || 10;
-    const value = roundIfNecessary(externalValue, allowDecimal);
+    const value = externalValue ? roundIfNecessary(externalValue, allowDecimal) : externalValue;
     const defaultValue = roundIfNecessary(externalDefaultValue, allowDecimal);
 
     return {min, max, step, shiftMultiplier, value, defaultValue};
@@ -200,51 +202,6 @@ export function clampToNearestStepValue({
         }
     }
     return clampedValue;
-}
-
-export function warnAboutInvalidProps({
-    min,
-    max,
-    step,
-    shiftMultiplier,
-    value,
-    defaultValue,
-    allowDecimal,
-}: VariablesProps) {
-    if (min && min < Number.MIN_SAFE_INTEGER) {
-        console.warn('min value sould not be less than Number.MIN_SAFE_INTEGER');
-    }
-    if (max && max > Number.MAX_SAFE_INTEGER) {
-        console.warn('min value sould not be greater than Number.MAX_SAFE_INTEGER');
-    }
-
-    if (min && max && min > max) {
-        console.warn('min value sould not be greater than max value');
-    }
-
-    if (!allowDecimal && value && !Number.isInteger(value)) {
-        console.warn(value, 'Decimal value passed with allowDecimal=false');
-    }
-
-    if (!allowDecimal && defaultValue && !Number.isInteger(defaultValue)) {
-        console.warn('Decimal defaultValue passed with allowDecimal=false');
-    }
-
-    if (step <= 0) {
-        console.warn('Invalid step value passed');
-    }
-
-    if (!allowDecimal && !Number.isInteger(step)) {
-        console.warn('Decimal step value passed with allowDecimal=false');
-    }
-
-    if (step && max && min && max - min < step) {
-        console.warn('step value is greater than allowed range');
-    }
-
-    if (!allowDecimal && !Number.isInteger(shiftMultiplier)) {
-        console.warn('Decimal shiftMultiplier value passed with allowDecimal=false');
-    }
 }
 
 export function updateCursorPosition(

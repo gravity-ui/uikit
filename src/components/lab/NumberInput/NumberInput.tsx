@@ -14,6 +14,7 @@ import {block} from '../../utils/cn';
 import {NumericArrows} from './NumericArrows/NumericArrows';
 import {
     clampToNearestStepValue,
+    getInputPattern,
     getInternalState,
     getParsedValue,
     getPossibleNumberSubstring,
@@ -108,7 +109,7 @@ function areStringRepresentationOfNumbersEqual(v1: string, v2: string) {
 }
 
 function getStringValue(value: number | undefined) {
-    return value ? String(value) : '';
+    return value === undefined ? '' : String(value);
 }
 
 export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(function NumberInput(
@@ -172,14 +173,15 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const clamp = true;
     const [step, setStep] = React.useState(baseStep);
     const [active, setActive] = React.useState(false);
+    const safeValue = value ?? 0;
 
     const state = getInputControlState(validationState);
 
     const canIncrementNumber =
-        clampToNearestStepValue({value: value + step, step, min, max}) > value;
+        clampToNearestStepValue({value: safeValue + step, step, min, max}) > safeValue;
 
     const canDecrementNumber =
-        clampToNearestStepValue({value: value - step, step, min, max}) < value;
+        clampToNearestStepValue({value: safeValue - step, step, min, max}) < safeValue;
 
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const fieldRef = useFormResetHandler({
@@ -190,13 +192,17 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleIncrement = () => {
         if (canIncrementNumber) {
-            onUpdate?.(clampToNearestStepValue({value: value + step, step: baseStep, min, max}));
+            onUpdate?.(
+                clampToNearestStepValue({value: safeValue + step, step: baseStep, min, max}),
+            );
         }
     };
 
     const handleDecrement = () => {
         if (canDecrementNumber) {
-            onUpdate?.(clampToNearestStepValue({value: value - step, step: baseStep, min, max}));
+            onUpdate?.(
+                clampToNearestStepValue({value: safeValue - step, step: baseStep, min, max}),
+            );
         }
     };
 
@@ -235,7 +241,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
         setActive(false);
         setStep(baseStep);
-        if (clamp) {
+        if (clamp && value) {
             const clampedValue = clampToNearestStepValue({
                 value,
                 step: baseStep,
@@ -273,13 +279,15 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                 ...props.controlProps,
                 onWheel: allowMouseWheel && active ? handleWheel : undefined,
                 role: 'spinbutton',
+                inputMode: 'numeric',
+                pattern: props.controlProps?.pattern ?? getInputPattern(allowDecimal, false),
                 'aria-valuemin': props.min,
                 'aria-valuemax': props.max,
                 'aria-valuenow': value,
             }}
             controlRef={handleRef}
             value={inputValue}
-            defaultValue={getStringValue(defaultValue)}
+            defaultValue={defaultValue === undefined ? undefined : String(defaultValue)}
             onChange={handleChange}
             onUpdate={handleUpdate}
             onKeyDown={handleKeyDown}

@@ -22,13 +22,12 @@ const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
     extends Omit<CopyToClipboardProps, 'children'>,
-        Omit<ClipboardButtonComponentProps, 'status' | 'timeout' | 'onClick'> {}
+        Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay' | 'onClick'> {}
 
 interface ClipboardButtonComponentProps
     extends Omit<ButtonProps, 'href' | 'component' | 'target' | 'rel' | 'loading'> {
     status: CopyToClipboardStatus;
-    timeout: number;
-    showTooltip?: boolean;
+    closeDelay: number | undefined;
     /** Disable tooltip. Tooltip won't be shown */
     hasTooltip?: boolean;
     /** Text shown before copy */
@@ -61,8 +60,7 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
         extraProps = {},
         children,
         iconPosition = 'start',
-        timeout,
-        showTooltip,
+        closeDelay,
         onMouseEnter,
         onFocus,
         ...rest
@@ -77,8 +75,8 @@ const ClipboardButtonComponent = (props: ClipboardButtonComponentProps) => {
     return (
         <ActionTooltip
             title={status === 'success' ? tooltipSuccessText : tooltipInitialText}
-            disabled={!hasTooltip || showTooltip === false}
-            closeDelay={showTooltip === true ? timeout : undefined}
+            disabled={!hasTooltip}
+            closeDelay={closeDelay}
         >
             <Button
                 view={view}
@@ -105,33 +103,39 @@ export function ClipboardButton(props: ClipboardButtonProps) {
         timeout = DEFAULT_TIMEOUT,
         onCopy,
         options,
+        hasTooltip = true,
         onMouseEnter,
         onFocus,
         ...buttonProps
     } = props;
 
     const timerIdRef = React.useRef<number>();
-    const [showTooltip, setShowTooltip] = React.useState<boolean | undefined>(undefined);
+    const [tooltipCloseDelay, setTooltipCloseDelay] = React.useState<number | undefined>(undefined);
+    const [tooltipDisabled, setTooltipDisabled] = React.useState<boolean>(false);
+
+    React.useEffect(() => window.clearTimeout(timerIdRef.current), []);
 
     const handleCopy: OnCopyHandler = React.useCallback(
         (...args) => {
             onCopy?.(...args);
-            setShowTooltip(true);
+            setTooltipDisabled(false);
+            setTooltipCloseDelay(timeout);
 
             window.clearTimeout(timerIdRef.current);
 
             timerIdRef.current = window.setTimeout(() => {
-                setShowTooltip(false);
+                setTooltipDisabled(true);
             }, timeout - TOOLTIP_ANIMATION);
         },
         [onCopy, timeout],
     );
 
     const resetTooltip = React.useCallback(() => {
-        if (!showTooltip) {
-            setShowTooltip(undefined);
+        if (tooltipDisabled) {
+            setTooltipDisabled(false);
+            setTooltipCloseDelay(undefined);
         }
-    }, [showTooltip]);
+    }, [tooltipDisabled]);
 
     const handleMouseEnter: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(
         (event) => {
@@ -149,16 +153,14 @@ export function ClipboardButton(props: ClipboardButtonProps) {
         [onFocus, resetTooltip],
     );
 
-    React.useEffect(() => window.clearTimeout(timerIdRef.current), []);
-
     return (
         <CopyToClipboard text={text} timeout={timeout} onCopy={handleCopy} options={options}>
             {(status) => (
                 <ClipboardButtonComponent
                     {...buttonProps}
+                    closeDelay={tooltipCloseDelay}
+                    hasTooltip={hasTooltip && !tooltipDisabled}
                     status={status}
-                    timeout={timeout}
-                    showTooltip={showTooltip}
                     onMouseEnter={handleMouseEnter}
                     onFocus={handleFocus}
                 />

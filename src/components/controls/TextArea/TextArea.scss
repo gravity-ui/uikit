@@ -95,7 +95,7 @@ $block: '.#{variables.$ns}text-area';
     &_size {
         &_s {
             #{$block}__control {
-                @include control-mixins.input-control(s);
+                @include control-mixins.input-control-min-height(s);
             }
 
             &#{$block}_has-clear #{$block}__control {
@@ -107,7 +107,7 @@ $block: '.#{variables.$ns}text-area';
 
         &_m {
             #{$block}__control {
-                @include control-mixins.input-control(m);
+                @include control-mixins.input-control-min-height(m);
             }
 
             &#{$block}_has-clear #{$block}__control {
@@ -119,7 +119,7 @@ $block: '.#{variables.$ns}text-area';
 
         &_l {
             #{$block}__control {
-                @include control-mixins.input-control(l);
+                @include control-mixins.input-control-min-height(l);
             }
 
             &#{$block}_has-clear #{$block}__control {
@@ -131,7 +131,7 @@ $block: '.#{variables.$ns}text-area';
 
         &_xl {
             #{$block}__control {
-                @include control-mixins.input-control(xl);
+                @include control-mixins.input-control-min-height(xl);
             }
 
             &#{$block}_has-clear #{$block}__control {

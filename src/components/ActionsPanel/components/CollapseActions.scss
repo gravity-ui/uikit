@@ -12,7 +12,7 @@ $block: '.#{variables.$ns}actions-panel-collapse';
     display: flex;
     align-items: center;
     height: 100%;
-    margin-inline-end: 8px;
+    padding-inline-end: 8px;
 
     &__container {
         display: flex;
@@ -38,5 +38,10 @@ $block: '.#{variables.$ns}actions-panel-collapse';
 
     &__menu-wrapper {
         position: absolute;
+        width: $minSize;
+        height: $minSize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

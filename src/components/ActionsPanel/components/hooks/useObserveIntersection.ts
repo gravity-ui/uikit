@@ -1,11 +1,14 @@
 import React from 'react';
 
+import {useDirection} from '../../../theme';
+
 import type {VisibilityMap} from './types';
 
 export const OBSERVER_TARGET_ATTR = 'data-observer-id';
-const GAP = 8;
+const GAP = 4;
 
 export const useObserveIntersection = (updateObserveKey: string) => {
+    const direction = useDirection();
     const parentRef = React.useRef<HTMLDivElement>(null);
     const [visibilityMap, setVisibilityMap] = React.useState<VisibilityMap>({});
     const [offset, setOffset] = React.useState(0);
@@ -35,10 +38,14 @@ export const useObserveIntersection = (updateObserveKey: string) => {
 
         if (parentRect && firstInvisible) {
             const rect = firstInvisible.target.getBoundingClientRect();
-            newOffest = rect.left - parentRect.left;
+            newOffest =
+                direction === 'ltr' ? rect.left - parentRect.left : parentRect.right - rect.right;
         } else if (parentRect && lastVisibleEntry) {
             const rect = lastVisibleEntry.target.getBoundingClientRect();
-            newOffest = rect.right - parentRect.left + GAP;
+            newOffest =
+                direction === 'ltr'
+                    ? rect.right - parentRect.left + GAP
+                    : parentRect.right - rect.left + GAP;
         }
 
         setVisibilityMap((prev) => ({

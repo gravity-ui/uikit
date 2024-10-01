@@ -39,18 +39,17 @@ export const ActionsPanel = ({
             )}
             <CollapseActions actions={actions} maxRowActions={maxRowActions} />
             {typeof onClose === 'function' && (
-                <div className={b('button-close-wrapper')}>
-                    <Button
-                        view="flat-contrast"
-                        size="m"
-                        onClick={onClose}
-                        extraProps={{
-                            'aria-label': i18n('label_close'),
-                        }}
-                    >
-                        <Icon key="icon" data={Xmark} />
-                    </Button>
-                </div>
+                <Button
+                    view="flat-contrast"
+                    size="m"
+                    onClick={onClose}
+                    className={b('button-close')}
+                    extraProps={{
+                        'aria-label': i18n('label_close'),
+                    }}
+                >
+                    <Icon key="icon" data={Xmark} />
+                </Button>
             )}
         </div>
     );

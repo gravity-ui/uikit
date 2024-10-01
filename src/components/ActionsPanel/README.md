@@ -363,14 +363,14 @@ const actions: ActionsPanelProps['actions'] = [
 
 | Name          | Description                                               |          Type           | Default |
 | :------------ | :-------------------------------------------------------- | :---------------------: | :-----: |
-| actions       | Array of actions `ActionItem[]`                           |     `ActionItem[]`      |         |
+| actions       | Array of actions                                          |  `ActionsPanelItem[]`   |         |
 | onClose       | Optional close button click handler                       |      `() => void`       |         |
 | renderNote    | Optional render-prop for displaying the content of a note | `() => React.ReactNode` |         |
 | className     | Optional HTML `class` attribute                           |        `string`         |         |
 | noteClassName | Optional HTML `class` attribute                           |        `string`         |         |
 | maxRowActions | Maximum number of actions in a row                        |        `number`         |   `4`   |
 
-## ActionItem:
+## ActionsPanelItem:
 
 | Name      | Description                                   |                    Type                    | Default |
 | :-------- | :-------------------------------------------- | :----------------------------------------: | :-----: |

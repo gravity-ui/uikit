@@ -7,7 +7,7 @@ import {DropdownMenu} from '../../DropdownMenu';
 import {Icon} from '../../Icon';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
-import type {ActionItem} from '../types';
+import type {ActionsPanelItem} from '../types';
 
 import {OBSERVER_TARGET_ATTR, useCollapseActions} from './hooks';
 
@@ -16,7 +16,7 @@ import './CollapseActions.scss';
 const b = block('actions-panel-collapse');
 
 type Props = {
-    actions: ActionItem[];
+    actions: ActionsPanelItem[];
     maxRowActions?: number;
 };
 

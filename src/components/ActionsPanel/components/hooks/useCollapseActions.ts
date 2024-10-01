@@ -1,13 +1,13 @@
 import React from 'react';
 
-import type {ActionItem} from '../../types';
+import type {ActionsPanelItem} from '../../types';
 
 import {useDropdownActions} from './useDropdownActions';
 import {useObserveIntersection} from './useObserveIntersection';
 
 const DEFAULT_MAX_BUTTON_ACTIONS = 4;
 
-export const useCollapseActions = (actions: ActionItem[], maxRowActions?: number) => {
+export const useCollapseActions = (actions: ActionsPanelItem[], maxRowActions?: number) => {
     const maxActions = Math.max(
         0,
         typeof maxRowActions === 'undefined' ? DEFAULT_MAX_BUTTON_ACTIONS : maxRowActions,
@@ -23,8 +23,8 @@ export const useCollapseActions = (actions: ActionItem[], maxRowActions?: number
     );
 
     const [buttonActions, restActions] = React.useMemo(() => {
-        const buttonItems: ActionItem[] = [];
-        const restItems: ActionItem[] = [];
+        const buttonItems: ActionsPanelItem[] = [];
+        const restItems: ActionsPanelItem[] = [];
 
         actions.forEach((action) => {
             if (buttonItems.length < maxActions && !action.collapsed) {

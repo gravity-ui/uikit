@@ -1,13 +1,13 @@
 import groupBy from 'lodash/groupBy';
 
 import type {DropdownMenuItem} from '../../../DropdownMenu';
-import type {ActionItem} from '../../types';
+import type {ActionsPanelItem} from '../../types';
 
 import type {VisibilityMap} from './types';
 
 type UseDropdownActionsArg = {
-    buttonActions: ActionItem[];
-    restActions: ActionItem[];
+    buttonActions: ActionsPanelItem[];
+    restActions: ActionsPanelItem[];
     visibilityMap: VisibilityMap;
 };
 

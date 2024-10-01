@@ -2,7 +2,7 @@ import type {ButtonProps} from '../Button';
 import type {DropdownMenuItem} from '../DropdownMenu';
 import type {QAProps} from '../types';
 
-export interface ActionItem {
+export interface ActionsPanelItem {
     /** Uniq action id */
     id: string;
     /** If true, then always inside the dropdown */
@@ -19,8 +19,8 @@ export interface ActionItem {
 }
 
 export interface ActionsPanelProps extends QAProps {
-    /** Array of actions ActionItem[] */
-    actions: ActionItem[];
+    /** Array of actions ActionsPanelItem[] */
+    actions: ActionsPanelItem[];
     /** ClassName of element */
     className?: string;
     /** Close button click handler */

@@ -5,6 +5,9 @@ import {useVirtualizer} from '@tanstack/react-virtual';
 
 import {useForkRef} from '../../../hooks';
 import type {Key} from '../../types';
+import type {Loadable} from '../Collection/Collection';
+
+import {useLoadMore} from './useLoadMore';
 
 type Item = {index: number; key: Key};
 
@@ -16,15 +19,7 @@ export interface VirtualizerRef {
     scrollRect: Rect | null;
 }
 
-export function Virtualizer({
-    listRef,
-    containerRef,
-    size,
-    getItemSize,
-    getItemKey,
-    disableVirtualization,
-    renderRow,
-}: {
+interface VirtualizerProps extends Loadable {
     listRef?: React.Ref<VirtualizerRef>;
     containerRef?: React.Ref<HTMLElement>;
     size: number;
@@ -36,7 +31,19 @@ export function Virtualizer({
         parentKey: Key | undefined,
         renderChildren: ({size, height}: {size: number; height: number}) => React.ReactNode,
     ) => React.ReactNode;
-}) {
+}
+
+export function Virtualizer({
+    listRef,
+    containerRef,
+    size,
+    getItemSize,
+    getItemKey,
+    disableVirtualization,
+    renderRow,
+    loading,
+    onLoadMore,
+}: VirtualizerProps) {
     const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const ref = useForkRef(containerRef, scrollContainerRef);
 
@@ -65,6 +72,8 @@ export function Virtualizer({
     );
 
     const visibleItems = virtualizer.getVirtualItems();
+
+    useLoadMore(scrollContainerRef, {onLoadMore, loading});
 
     return (
         <div

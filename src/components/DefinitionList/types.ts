@@ -4,12 +4,7 @@ import type {HelpMarkProps} from '../HelpMark';
 import type {QAProps} from '../types';
 export type DefinitionListItemNote = string | HelpMarkProps;
 
-export interface DefinitionListGroup {
-    label: React.ReactNode;
-    items?: DefinitionListSingleItem[];
-}
-
-export interface DefinitionListSingleItem {
+export interface DefinitionListItem {
     name: React.ReactNode;
     content?: React.ReactNode;
     contentTitle?: string;
@@ -19,25 +14,15 @@ export interface DefinitionListSingleItem {
     multilineName?: boolean;
 }
 
-export type DefinitionListItem = DefinitionListSingleItem | DefinitionListGroup;
-
 export type DefinitionListDirection = 'vertical' | 'horizontal';
 
 export interface DefinitionListProps extends QAProps {
     items: DefinitionListItem[];
-    copyPosition?: 'inside' | 'outside';
     responsive?: boolean;
     direction?: DefinitionListDirection;
     nameMaxWidth?: number;
-    contentMaxWidth?: number | 'auto';
+    contentMaxWidth?: number;
     className?: string;
     itemClassName?: string;
     groupLabelClassName?: string;
-}
-
-export interface DefinitionListGranularProps extends Omit<DefinitionListProps, 'items'> {
-    items: DefinitionListSingleItem[];
-}
-export interface DefinitionListGroupedProps extends Omit<DefinitionListProps, 'items'> {
-    items: DefinitionListGroup[];
 }

@@ -4,17 +4,10 @@
 $block: '.#{variables.$ns}definition-list';
 
 #{$block} {
+    --_--item-block-start: var(--g-spacing-4);
+    --_--term-width: 300px;
     &__list {
         margin: 0;
-    }
-
-    &__group-title {
-        margin-block-end: var(--g-spacing-3);
-
-        //decreace specifity to allow groupLabelClassName work properly
-        :where(&:not(:first-of-type)) {
-            margin-block-start: var(--g-spacing-5);
-        }
     }
 
     &__item {
@@ -23,26 +16,17 @@ $block: '.#{variables.$ns}definition-list';
         gap: var(--g-spacing-1);
 
         :where(& + &) {
-            margin-block-start: var(--g-spacing-4);
-        }
-    }
-
-    &__item_grouped {
-        :where(& + &) {
-            margin-block-start: var(--g-spacing-3);
-        }
-    }
-
-    &_margin {
-        :where(&:not(:first-of-type)) {
-            margin-block-start: var(--g-spacing-5);
+            margin-block-start: var(
+                --g-definition-list-item-block-start,
+                var(--_--item-block-start)
+            );
         }
     }
 
     &__term-container {
         flex: 0 0 auto;
-        width: 300px;
-        max-width: 300px;
+        width: var(--_--term-width);
+        max-width: var(--_--term-width);
         display: flex;
         align-items: baseline;
 
@@ -89,7 +73,8 @@ $block: '.#{variables.$ns}definition-list';
 
     &_responsive {
         #{$block}__term-container {
-            flex: 1 0 auto;
+            --_--term-width: auto;
+            flex: 1 0 50%;
         }
     }
 
@@ -108,15 +93,6 @@ $block: '.#{variables.$ns}definition-list';
         }
     }
 
-    &__copy-container_icon-inside {
-        padding-inline-end: unset;
-        margin-inline-end: unset;
-
-        #{$block}__copy-button {
-            inset-block-start: 0;
-        }
-    }
-
     &__copy-button {
         position: absolute;
         display: inline-block;
@@ -130,6 +106,9 @@ $block: '.#{variables.$ns}definition-list';
 }
 
 #{$block}_vertical {
+    --_--item-block-start: var(--g-spacing-3);
+    --_--term-width: auto;
+
     #{$block}__term-container {
         flex: 1 0 auto;
     }
@@ -137,17 +116,4 @@ $block: '.#{variables.$ns}definition-list';
         flex-direction: column;
         gap: var(--g-spacing-half);
     }
-    :where(#{$block}__item + #{$block}__item) {
-        margin-block-start: var(--g-spacing-3);
-    }
-    :where(#{$block}__group-title:not(:first-of-type)) {
-        margin-block-start: var(--g-spacing-8);
-    }
-    :where(#{$block}_margin:not(:first-of-type)) {
-        margin-block-start: var(--g-spacing-8);
-    }
-}
-
-.unique {
-    margin: unset;
 }

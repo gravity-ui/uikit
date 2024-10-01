@@ -6,9 +6,9 @@ import {Label} from '../../Label';
 import {Link} from '../../Link';
 import {User} from '../../User';
 import {DefinitionList} from '../DefinitionList';
-import type {DefinitionListProps, DefinitionListSingleItem} from '../types';
+import type {DefinitionListItem, DefinitionListProps} from '../types';
 
-const items: DefinitionListSingleItem[] = [
+const items: DefinitionListItem[] = [
     {name: <Link href="https://cloud.yandex.ru/docs">String value</Link>, content: 'value'},
     {
         name: (
@@ -140,7 +140,6 @@ export default {
     args: {
         items,
         responsive: false,
-        contentMaxWidth: 480,
     },
     parameters: {
         a11y: {
@@ -163,58 +162,12 @@ export default {
 
 const DefaultTemplate: StoryFn<DefinitionListProps> = (args) => <DefinitionList {...args} />;
 export const Default = DefaultTemplate.bind({});
+Default.args = {contentMaxWidth: 480};
 
-const TemplateWithIconInside: StoryFn<DefinitionListProps> = (args) => {
-    return (
-        <DefinitionList {...args} items={items.filter((e) => e.copyText)} copyPosition="inside" />
-    );
-};
-export const ListWithIconInside = TemplateWithIconInside.bind({});
-
-const groupedItems = [
-    {
-        label: 'Group 1',
-        items: [{name: 'Link', content: 'value'}],
-    },
-    {
-        label: 'Group 2',
-        items: [
-            {name: 'Number value', content: 2},
-            {name: 'Node value', content: <strong>value</strong>},
-            {name: 'Link', content: 'value'},
-        ],
-    },
-    {name: 'Simple value', content: 2},
-    {name: 'Something else', content: <strong>value</strong>},
-    {name: 'Foo bar', content: 'value'},
-    {
-        label: 'Group 3',
-        items: [
-            {
-                name: 'String long value with copy',
-                content:
-                    'The HTML <dl> element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs)',
-                copyText:
-                    'The HTML <dl> element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs)',
-            },
-            {
-                name: 'String long looooooooooooooong looooooooooooooong looooooooooooooong looooooooooooooong value',
-                multilineName: true,
-                note: 'This is multiline value',
-                content:
-                    'https://example.com/long-long/like/beyond/the/farthest/lands/long/path/to/handle?and=some&list=of&query=parameters&that=is&overcomplicated=maybe&with=some&token=inside&not=really&readable=but&sometimes=useful',
-                copyText:
-                    'https://example.com/long-long/like/beyond/the/farthest/lands/long/path/to/handle?and=some&list=of&query=parameters&that=is&overcomplicated=maybe&with=some&token=inside&not=really&readable=but&sometimes=useful',
-            },
-        ],
-    },
-];
-
-export const GroupedItems = DefaultTemplate.bind({});
-GroupedItems.args = {
-    items: groupedItems,
-    responsive: false,
-    contentMaxWidth: 480,
+const TemplateResponsive: StoryFn<DefinitionListProps> = (args) => <DefinitionList {...args} />;
+export const ResponsiveList = TemplateResponsive.bind({});
+ResponsiveList.args = {
+    responsive: true,
 };
 
 const TemplateVertical: StoryFn<DefinitionListProps> = (args) => {
@@ -222,8 +175,5 @@ const TemplateVertical: StoryFn<DefinitionListProps> = (args) => {
 };
 export const VerticalList = TemplateVertical.bind({});
 VerticalList.args = {
-    items: groupedItems,
     direction: 'vertical',
-    contentMaxWidth: 'auto',
-    copyPosition: 'inside',
 };

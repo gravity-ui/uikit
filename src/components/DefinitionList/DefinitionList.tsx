@@ -1,28 +1,21 @@
 import React from 'react';
 
 import {Definition} from './components/Definition';
-import {GroupLabel} from './components/GroupLabel';
 import {Term} from './components/Term';
-import type {
-    DefinitionListGranularProps,
-    DefinitionListGroupedProps,
-    DefinitionListProps,
-} from './types';
-import {b, getAllItemsAsGroups, getTitle, isUnbreakableOver, onlySingleItems} from './utils';
+import type {DefinitionListProps} from './types';
+import {b, getTitle, isUnbreakableOver} from './utils';
 
 import './DefinitionList.scss';
 
-function DefinitionListGranular({
+export function DefinitionList({
     items,
     responsive,
     direction = 'horizontal',
     nameMaxWidth,
-    contentMaxWidth = 'auto',
+    contentMaxWidth,
     className,
-    itemClassName,
-    copyPosition = 'outside',
     qa,
-}: DefinitionListGranularProps) {
+}: DefinitionListProps) {
     const keyStyle = nameMaxWidth ? {maxWidth: nameMaxWidth, width: nameMaxWidth} : {};
 
     const valueStyle =
@@ -53,7 +46,7 @@ function DefinitionListGranular({
                     } = item;
 
                     return (
-                        <div key={key} className={b('item', itemClassName)}>
+                        <div key={key} className={b('item')}>
                             <dt
                                 className={b('term-container', {multiline: multilineName})}
                                 style={keyStyle}
@@ -78,11 +71,7 @@ function DefinitionListGranular({
                                             : undefined,
                                 }}
                             >
-                                <Definition
-                                    copyPosition={copyPosition}
-                                    copyText={copyText}
-                                    content={content}
-                                />
+                                <Definition copyText={copyText} content={content} />
                             </dd>
                         </div>
                     );
@@ -90,48 +79,4 @@ function DefinitionListGranular({
             </dl>
         </div>
     );
-}
-
-function DefinitionListGrouped({
-    items,
-    className,
-    itemClassName,
-    groupLabelClassName,
-    ...rest
-}: DefinitionListGroupedProps) {
-    const normalizedItems = React.useMemo(() => {
-        return items.map((value, index) => ({...value, key: index}));
-    }, [items]);
-
-    return (
-        <div className={b({vertical: rest.direction === 'vertical'})}>
-            {normalizedItems.map((item) => {
-                const {key, label} = item;
-
-                return (
-                    <React.Fragment key={key}>
-                        {label && <GroupLabel label={label} className={groupLabelClassName} />}
-                        {item.items && (
-                            <DefinitionListGranular
-                                {...rest}
-                                className={b({margin: !label}, className)}
-                                items={item.items}
-                                itemClassName={b('item', {grouped: Boolean(label)}, itemClassName)}
-                            />
-                        )}
-                    </React.Fragment>
-                );
-            })}
-        </div>
-    );
-}
-
-export function DefinitionList({items, ...rest}: DefinitionListProps) {
-    if (onlySingleItems(items)) {
-        return <DefinitionListGranular {...rest} items={items} />;
-    }
-
-    const preparedItems = getAllItemsAsGroups(items);
-
-    return <DefinitionListGrouped {...rest} items={preparedItems} />;
 }

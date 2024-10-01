@@ -111,13 +111,13 @@ export function ClipboardButton(props: ClipboardButtonProps) {
 
     const timerIdRef = React.useRef<number>();
     const [tooltipCloseDelay, setTooltipCloseDelay] = React.useState<number | undefined>(undefined);
-    const [tooltipDisabled, setTooltipDisabled] = React.useState<boolean>(false);
+    const [tooltipDisabled, setTooltipDisabled] = React.useState(false);
 
     React.useEffect(() => window.clearTimeout(timerIdRef.current), []);
 
     const handleCopy: OnCopyHandler = React.useCallback(
-        (...args) => {
-            onCopy?.(...args);
+        (text, result) => {
+            onCopy?.(text, result);
             setTooltipDisabled(false);
             setTooltipCloseDelay(timeout);
 

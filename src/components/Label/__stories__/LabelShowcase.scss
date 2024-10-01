@@ -4,6 +4,7 @@
     .grid {
         display: grid;
         gap: 30px;
+        width: min-content;
     }
 
     .header {

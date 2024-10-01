@@ -22,17 +22,21 @@ const icons = (id: 'TickIcon' | 'GearIcon' | '-', size: 'xs' | 's' | 'm' = 'xs')
     }[id];
 };
 
-export function LabelShowcase(args: LabelProps) {
-    const themes = [
-        'normal',
-        'info',
-        'success',
-        'warning',
-        'danger',
-        'utility',
-        'unknown',
-        'clear',
-    ] as const;
+type LabelShowcaseProps = LabelProps & {multiline?: boolean};
+
+export function LabelShowcase({multiline, ...args}: LabelShowcaseProps) {
+    const themes = multiline
+        ? (['normal'] as const)
+        : ([
+              'normal',
+              'info',
+              'success',
+              'warning',
+              'danger',
+              'utility',
+              'unknown',
+              'clear',
+          ] as const);
     const sizes = ['xs', 's', 'm'] as const;
 
     const getLabel = ({...props}: WithKey<LabelProps>) => <Label {...props} />;
@@ -79,6 +83,8 @@ export function LabelShowcase(args: LabelProps) {
             },
             {children: 'Key', value: 'Value', type: 'close', closeButtonLabel: 'Close'},
             {icon: icons('TickIcon', props.size)},
+        ];
+        const multilineCases: LabelProps[] = [
             {
                 children: 'Multiline ',
                 type: 'default',
@@ -151,8 +157,16 @@ export function LabelShowcase(args: LabelProps) {
                 closeButtonLabel: 'Close',
                 multiline: true,
             },
+            {
+                children: 'Multiline key-value label: key',
+                value: 'Multiline key-value label: value',
+                icon: icons('TickIcon', props.size),
+                type: 'close',
+                closeButtonLabel: 'Close',
+                multiline: true,
+            },
         ];
-        return cases.map((label, i) => (
+        return (multiline ? multilineCases : cases).map((label, i) => (
             <div style={{width: 'auto'}} key={i}>
                 {getLabel({key: i, ...props, ...label})}
             </div>

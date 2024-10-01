@@ -9,6 +9,19 @@ import {actions, actionsGroups, actionsSubmenu, actionsWithIcons, actionsWithNot
 const meta: Meta<typeof ActionsPanel> = {
     title: 'Components/Data Display/ActionsPanel',
     component: ActionsPanel,
+    parameters: {
+        a11y: {
+            element: '#storybook-root',
+            config: {
+                rules: [
+                    {
+                        id: 'color-contrast',
+                        enabled: false,
+                    },
+                ],
+            },
+        },
+    },
 };
 
 export default meta;

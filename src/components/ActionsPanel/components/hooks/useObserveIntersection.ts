@@ -71,7 +71,7 @@ export const useObserveIntersection = (updateObserveKey: string) => {
         });
 
         return () => observer.disconnect();
-    }, [updateObserveKey]);
+    }, [updateObserveKey + direction]);
 
     return {parentRef, visibilityMap, offset};
 };

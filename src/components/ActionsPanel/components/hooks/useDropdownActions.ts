@@ -1,3 +1,5 @@
+'use client';
+
 import groupBy from 'lodash/groupBy';
 
 import type {DropdownMenuItem} from '../../../DropdownMenu';

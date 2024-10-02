@@ -243,6 +243,17 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         } else if (e.key === KeyCode.ARROW_UP) {
             e.preventDefault();
             handleIncrement(e);
+        } else if (e.key === KeyCode.HOME && min) {
+            onUpdate?.(min);
+        } else if (e.key === KeyCode.END && max) {
+            onUpdate?.(
+                clampToNearestStepValue({
+                    value: max,
+                    step: baseStep,
+                    min,
+                    max,
+                }),
+            );
         }
         onKeyDown?.(e);
     };

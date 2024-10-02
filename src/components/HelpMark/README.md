@@ -18,60 +18,34 @@ Component with rendered raw html (use `content` for plain text) and close on mou
 
 <ExampleBlock
     code={`
-      <HelpMark
-        autoclosable
-        delayClosing={500}
-        offset={{
-          top: 2,
-        }}
-        links={[
-          {
-            text: 'Lorem ipsum href',
-            url: 'https://example.com',
-          },
-          {
-            text: 'Lorem ipsum onClick',
-            onClick: () => alert('Lorem ipsum onClick'),
-          },
-        ]}
-        to={['right', 'bottom']}
-        title="Simple tooltip"
-        htmlContent={
-          '<b>Lorem ipsum</b> dolor sit <a href="https://example.com" target="_blank">amet</a>, at scelerisque suspendisse'
-        }
-        tooltipButton={{
-          text: 'Actions',
-          onClick: () => console.log('just action happened'),
-        }}
-      />
+<HelpMark
+    delayClosing={500}
+    placement={['right', 'bottom']}
+    buttonProps={{
+        onClick: () => console.log('just action happened'),
+    }}
+>
+    <b>Lorem ipsum</b> dolor sit{' '}
+    <a href="https://example.com" target="_blank" rel="noreferrer">
+        amet
+    </a>
+    , at scelerisque suspendisse
+</HelpMark>
 `}
 >
-    <UIKit.HelpMark
-      autoclosable
-      delayClosing={500}
-      offset={{
-        top: 2,
-      }}
-      links={[
-        {
-          text: 'Lorem ipsum href',
-          url: 'https://example.com',
-        },
-        {
-          text: 'Lorem ipsum onClick',
-          onClick: () => alert('Lorem ipsum onClick'),
-        },
-      ]}
-      to={['right', 'bottom']}
-      title="Simple tooltip"
-      htmlContent={
-        '<b>Lorem ipsum</b> dolor sit <a href="https://example.com" target="_blank">amet</a>, at scelerisque suspendisse'
-      }
-      tooltipButton={{
-        text: 'Actions',
+<UIKit.HelpMark
+    delayClosing={500}
+    placement={['right', 'bottom']}
+    buttonProps={{
         onClick: () => console.log('just action happened'),
-      }}
-    />
+    }}
+>
+    <b>Lorem ipsum</b> dolor sit{' '}
+    <a href="https://example.com" target="_blank" rel="noreferrer">
+        amet
+    </a>
+    , at scelerisque suspendisse
+</UIKit.HelpMark>
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -80,31 +54,18 @@ LANDING_BLOCK-->
 
 ```tsx
 <HelpMark
-  autoclosable
   delayClosing={500}
-  offset={{
-    top: 2,
-  }}
-  links={[
-    {
-      text: 'Lorem ipsum href',
-      url: 'https://example.com',
-    },
-    {
-      text: 'Lorem ipsum onClick',
-      onClick: () => alert('Lorem ipsum onClick'),
-    },
-  ]}
-  to={['right', 'bottom']}
-  title="Simple tooltip"
-  htmlContent={
-    '<b>Lorem ipsum</b> dolor sit <a href="https://example.com" target="_blank">amet</a>, at scelerisque suspendisse'
-  }
-  tooltipButton={{
-    text: 'Actions',
+  placement={['right', 'bottom']}
+  buttonProps={{
     onClick: () => console.log('just action happened'),
   }}
-/>
+>
+  <b>Lorem ipsum</b> dolor sit{' '}
+  <a href="https://example.com" target="_blank" rel="noreferrer">
+    amet
+  </a>
+  , at scelerisque suspendisse
+</HelpMark>
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -133,18 +94,11 @@ LANDING_BLOCK-->
 
 ## Properties
 
-| Property      | Type                                            | Required | Default             | Description                                                                                                                                      |
-| :------------ | :---------------------------------------------- | :------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------- |
-| theme         | `info` `special`                                |          | `info`              | Appearance                                                                                                                                       |
-| className     | `String`                                        |          |                     | Control class name                                                                                                                               |
-| placement     | `Array`                                         |          | [`right`, `bottom`] | Allowed popover positions                                                                                                                        |
-| autoclosable  | `Boolean`                                       |          | `true`              | Close popover when pointer is outside of control                                                                                                 |
-| delayClosing  | `Number`                                        |          | `300`               | Timeout before closing popover (see `autoclosable`)                                                                                              |
-| title         | `String`                                        |          |                     | Popover title                                                                                                                                    |
-| content       | `ReactNode`                                     |          |                     | Popover content                                                                                                                                  |
-| htmlContent   | `String`                                        |          |                     | Render HTML via `dangerouslySetInnerHTML`                                                                                                        |
-| links         | `Array`                                         |          | []                  | Links below content, could be <br/> `{ text: 'Link 1', href: 'https://example.com'}` or <br/> `{ text: 'Link 2', onClick: () => onLinkClick() }` |
-| tooltipButton | `Object`                                        |          |                     | Render button with this value <br/> `{ text: 'Button', onClick: () => onClick() }`                                                               |
-| offset        | `Object`                                        |          | `{ left: 4 }`       | Control popup toggle position offset <br/> `{ top: 0, left: 0 }`                                                                                 |
-| buttonProps   | `React.ButtonHTMLAttributes<HTMLButtonElement>` |          |                     | Set attributes to the underlying button element                                                                                                  |
-| buttonRef     | `React.RefObject<HTMLButtonElement>`            |          |                     | Ref to the underlying button element                                                                                                             |
+| Property     | Type                                            | Required | Default             | Description                                     |
+| :----------- | :---------------------------------------------- | :------- | :------------------ | :---------------------------------------------- |
+| className    | `String`                                        |          |                     | Control class name                              |
+| placement    | `Array`                                         |          | [`right`, `bottom`] | Allowed popover positions                       |
+| delayClosing | `Number`                                        |          | `300`               | Timeout before closing popover                  |
+| children     | `ReactNode`                                     |          |                     | Popover content                                 |
+| buttonProps  | `React.ButtonHTMLAttributes<HTMLButtonElement>` |          |                     | Set attributes to the underlying button element |
+| buttonRef    | `React.RefObject<HTMLButtonElement>`            |          |                     | Ref to the underlying button element            |

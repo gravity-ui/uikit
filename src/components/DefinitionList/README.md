@@ -12,32 +12,20 @@ The component to display definition list with term and definition separated by d
 
 <ExampleBlock
     code={`
-<DefinitionList
-  items={[
-    {
-      name: 'Node value with copy',
-      content: <strong>value with copy</strong>,
-      copyText: 'value',
-    },
-    {name: 'Empty value with copy', copyText: 'nothing to copy'},
-  ]}
-  nameMaxWidth={100}
-  contentMaxWidth={100}
-/>
+<DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
+    <DefinitionList.Item name="Node value with copy" copyText="value">
+        <strong>value with copy</strong>
+    </DefinitionList.Item>
+    <DefinitionList.Item name="Empty value with copy" copyText="nothing to copy" />
+</DefinitionList>
 `}
 >
-    <UIKit.DefinitionList
-      items={[
-        {
-          name: 'Node value with copy',
-          content: <strong>value with copy</strong>,
-          copyText: 'value',
-        },
-        {name: 'Empty value with copy', copyText: 'nothing to copy'},
-      ]}
-  nameMaxWidth={100}
-  contentMaxWidth={100}
-    />
+<UIKit.DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
+    <UIKit.DefinitionList.Item name="Node value with copy" copyText="value">
+        <strong>value with copy</strong>
+    </UIKit.DefinitionList.Item>
+    <UIKit.DefinitionList.Item name="Empty value with copy" copyText="nothing to copy" />
+</UIKit.DefinitionList>;
 </ExampleBlock>
 
 LANDING_BLOCK-->
@@ -45,49 +33,40 @@ LANDING_BLOCK-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<DefinitionList
-  items={[
-    {
-      name: 'Node value with copy',
-      content: <strong>value with copy</strong>,
-      copyText: 'value',
-    },
-    {name: 'Empty value with copy', copyText: 'nothing to copy'},
-  ]}
-  nameMaxWidth="100"
-  contentMaxWidth="100"
-/>
+<DefinitionList nameMaxWidth={100} contentMaxWidth={100}>
+  <DefinitionList.Item name="Node value with copy" copyText="value">
+    <strong>value with copy</strong>
+  </DefinitionList.Item>
+  <DefinitionList.Item name="Empty value with copy" copyText="nothing to copy" />
+</DefinitionList>
 ```
 
 <!--/GITHUB_BLOCK-->
 
 ## Properties
 
-| Property        | Type                           | Required | Default      | Description                                                                                         |
-| :-------------- | :----------------------------- | :------: | :----------- | :-------------------------------------------------------------------------------------------------- |
-| [items](#items) | `DefinitionListItem[]`         |   yes    |              | Items of the list                                                                                   |
-| responsive      | `boolean`                      |          |              | If set to `true` list will take 100% width of its parent                                            |
-| direction       | `'horizontal'` \| `'vertical'` |          | 'horizontal' | If set to `vertical` content will be located under name and list will take 100% width of its parent |
-| nameMaxWidth    | `number`                       |          |              | Maximum width of term                                                                               |
-| contentMaxWidth | `number`                       |          |              | Maximum width of definition                                                                         |
-| className       | `string`                       |          |              | Class name for the definition list                                                                  |
+| Property           | Type                           | Required | Default      | Description                                                                                         |
+| :----------------- | :----------------------------- | :------: | :----------- | :-------------------------------------------------------------------------------------------------- |
+| [children](#items) | `React.ReactNode`              |   yes    |              | Items of the list                                                                                   |
+| responsive         | `boolean`                      |          |              | If set to `true` list will take 100% width of its parent                                            |
+| direction          | `'horizontal'` \| `'vertical'` |          | 'horizontal' | If set to `vertical` content will be located under name and list will take 100% width of its parent |
+| nameMaxWidth       | `number`                       |          |              | Maximum width of term                                                                               |
+| contentMaxWidth    | `number`                       |          |              | Maximum width of definition                                                                         |
+| className          | `string`                       |          |              | Class name for the definition list                                                                  |
 
 ### Items
 
-Configuration for list items
+DefinitionList children should be components of type `DefinitionList.Item` with following properties:
 
-| Property      | Type                      | Required | Default | Description                                                    |
-| ------------- | ------------------------- | -------- | ------- | -------------------------------------------------------------- |
-| name          | `ReactNode`               | true     |         | Term                                                           |
-| multilineName | `boolean`                 |          |         | If set, term will be multiline                                 |
-| content       | `ReactNode`               |          |         | Definition                                                     |
-| contentTitle  | `string`                  |          |         | Title for definition. If not set, `content` value will be used |
-| nameTitle     | `string`                  |          |         | Title for term. If not set, `name` value will be used          |
-| copyText      | `string`                  |          |         | If set, it will be shown icon for copy this text               |
-| note          | `string \| HelpMarkProps` |          |         | If set, HelpMark will be shown next to term                    |
+| Property | Type                      | Required | Default | Description                                      |
+| -------- | ------------------------- | -------- | ------- | ------------------------------------------------ |
+| name     | `ReactNode`               | true     |         | Term                                             |
+| children | `ReactNode`               |          |         | Definition                                       |
+| copyText | `string`                  |          |         | If set, it will be shown icon for copy this text |
+| note     | `string \| HelpMarkProps` |          |         | If set, HelpMark will be shown next to term      |
 
 ## CSS API
 
-| Name                                   | Description                         |
-| :------------------------------------- | :---------------------------------- |
-| `--g-definition-list-item-block-start` | Space between definition list items |
+| Name                           | Description                         |
+| :----------------------------- | :---------------------------------- |
+| `--g-definition-list-item-gap` | Space between definition list items |

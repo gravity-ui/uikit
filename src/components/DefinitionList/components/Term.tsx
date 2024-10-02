@@ -18,12 +18,13 @@ function NoteElement({note}: NoteElementsProps) {
         return (
             <HelpMark
                 className={popoverClassName}
-                content={note}
                 placement={['bottom', 'top']}
                 buttonProps={{
                     'aria-label': i18n('label_note'),
                 }}
-            />
+            >
+                {note}
+            </HelpMark>
         );
     }
 
@@ -45,28 +46,24 @@ function NoteElement({note}: NoteElementsProps) {
     return null;
 }
 
-interface TermProps
-    extends Pick<DefinitionListItem, 'note' | 'name' | 'nameTitle' | 'multilineName'> {
+interface TermProps extends Pick<DefinitionListItem, 'note' | 'name'> {
     direction?: DefinitionListDirection;
 }
 
-export function Term({note, name, nameTitle, multilineName, direction}: TermProps) {
-    const noteElement = (
+export function Term({note, name, direction}: TermProps) {
+    const noteElement = note ? (
         <React.Fragment>
             &nbsp;
             <NoteElement note={note} />
         </React.Fragment>
-    );
+    ) : null;
     return (
         <React.Fragment>
             <div className={b('term-wrapper')}>
-                <span title={getTitle(nameTitle, name)}>{name}</span>
-                {multilineName && noteElement}
+                <span title={getTitle(name)}>{name}</span>
+                {noteElement}
             </div>
-            {!multilineName && noteElement}
-            {direction === 'horizontal' && (
-                <div className={b('dots', {'with-note': Boolean(note)})} />
-            )}
+            {direction === 'horizontal' && <div className={b('dots')} />}
         </React.Fragment>
     );
 }

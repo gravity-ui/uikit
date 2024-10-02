@@ -6,10 +6,14 @@ import {Label} from '../../Label';
 import {Link} from '../../Link';
 import {User} from '../../User';
 import {DefinitionList} from '../DefinitionList';
-import type {DefinitionListItem, DefinitionListProps} from '../types';
+import type {DefinitionListItem as DefinitionListItemProps, DefinitionListProps} from '../types';
 
-const items: DefinitionListItem[] = [
-    {name: <Link href="https://cloud.yandex.ru/docs">String value</Link>, content: 'value'},
+const items: DefinitionListItemProps[] = [
+    {
+        name: <Link href="https://cloud.yandex.ru/docs">String value</Link>,
+        children: 'value',
+        note: 'link',
+    },
     {
         name: (
             <User
@@ -23,32 +27,30 @@ const items: DefinitionListItem[] = [
                 }}
             />
         ),
-        content: 'value',
-        note: 'This is avatar',
+        children: 'value',
     },
-    {name: 'Number value', content: 2},
-    {name: 'Node value', content: <strong>value</strong>},
+    {name: 'Number value', children: 2, note: 'This is value'},
+    {name: 'Node value', children: <strong>value</strong>},
     {name: 'Empty value'},
-    {name: 'String value with copy', content: 'value', copyText: 'value'},
-    {name: 'Number value with copy', content: 2, copyText: 'two'},
-    {name: 'Node value with copy', content: <strong>value</strong>, copyText: 'value'},
+    {name: 'String value with copy', children: 'value', copyText: 'value'},
+    {name: 'Number value with copy', children: 2, copyText: 'two'},
+    {name: 'Node value with copy', children: <strong>value</strong>, copyText: 'value'},
     {name: 'Empty value with copy', copyText: 'nothing to copy'},
-    {name: 'String value with custom title', content: 'value', contentTitle: "value's title"},
-    {name: 'Number value with custom title', content: 2, contentTitle: "value's title"},
+    {name: 'String value with custom title', children: 'value'},
+    {name: 'Number value with custom title', children: 2},
     {
         name: 'Node value with custom title',
-        content: <strong>value</strong>,
-        contentTitle: "value's title",
+        children: <strong>value</strong>,
     },
-    {name: 'Empty value with custom title', contentTitle: "value's title"},
+    {name: 'Empty value with custom title'},
     {
         name: 'String long value',
-        content:
+        children:
             'The HTML <dl> element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs)',
     },
     {
         name: 'String long value with copy',
-        content:
+        children:
             'The HTML <dl> element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs)',
         copyText:
             'The HTML <dl> element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs)',
@@ -56,11 +58,11 @@ const items: DefinitionListItem[] = [
     {
         name: 'Number long value',
         // eslint-disable-next-line no-loss-of-precision
-        content: 12345678901234567890123456789012345678901234567890123456789012345678901234567890,
+        children: 12345678901234567890123456789012345678901234567890123456789012345678901234567890,
     },
     {
         name: 'Node long value',
-        content: (
+        children: (
             <span>
                 The{' '}
                 <strong>
@@ -88,35 +90,34 @@ const items: DefinitionListItem[] = [
     },
     {
         name: 'String long value without whitespace',
-        content:
+        children:
             'https://example.com/long-long/like/beyond/the/farthest/lands/long/path/to/handle?and=some&list=of&query=parameters&that=is&overcomplicated=maybe&with=some&token=inside&not=really&readable=but&sometimes=useful',
     },
     {
         name: 'String long looooooooooooooong looooooooooooooong looooooooooooooong looooooooooooooong value without multiline and with copy icon',
-        multilineName: true,
         note: 'This is multiline value',
-        content:
+        children:
             'https://example.com/long-long/like/beyond/the/farthest/lands/long/path/to/handle?and=some&list=of&query=parameters&that=is&overcomplicated=maybe&with=some&token=inside&not=really&readable=but&sometimes=useful',
         copyText:
             'https://example.com/long-long/like/beyond/the/farthest/lands/long/path/to/handle?and=some&list=of&query=parameters&that=is&overcomplicated=maybe&with=some&token=inside&not=really&readable=but&sometimes=useful',
     },
     {
         name: 'String value with tooltip',
-        content: 'value',
+        children: 'value',
         note: 'This is simple string value',
     },
     {
         name: 'String value with very very very looooooooooooooong key',
-        content: 'value',
+        children: 'value',
     },
     {
         name: 'String value with very very very looooooooooooooong key and tooltip',
-        content: 'value',
+        children: 'value',
         note: 'This is simple string value',
     },
     {
         name: 'Avatar with tooltip',
-        content: (
+        children: (
             <User
                 name="Charles Darwin"
                 size="xl"
@@ -130,16 +131,21 @@ const items: DefinitionListItem[] = [
     },
     {
         name: 'Label',
-        content: <Label>label</Label>,
+        children: <Label>label</Label>,
     },
 ];
+const definitionListItems = items.map(({children, ...rest}, index) => (
+    <DefinitionList.Item key={index} {...rest}>
+        {children}
+    </DefinitionList.Item>
+));
 
 export default {
     title: 'Components/Data Display/DefinitionList',
     component: DefinitionList,
     args: {
-        items,
         responsive: false,
+        children: definitionListItems,
     },
     parameters: {
         a11y: {

@@ -2,22 +2,27 @@ import React from 'react';
 
 import {render, screen} from '../../../../test-utils/utils';
 import {DefinitionList} from '../DefinitionList';
+import type {DefinitionListItem, DefinitionListProps} from '../types';
 import {b} from '../utils';
 
 const qaAttribute = 'definition-list';
 
-const getComponent = (props = {}) =>
-    render(
-        <DefinitionList
-            qa={qaAttribute}
-            items={[
-                {name: 'test1', content: 'value1'},
-                {name: 'test2', content: 2},
-                {name: 'test3', content: <div>node value</div>},
-            ]}
-            {...props}
-        />,
+const defaultItems: DefinitionListItem[] = [
+    {name: 'test1', children: 'value1'},
+    {name: 'test2', children: 2},
+    {name: 'test3', children: <div>node value</div>},
+];
+
+const getComponent = (props?: Partial<DefinitionListProps> & {items?: DefinitionListItem[]}) => {
+    const {items = defaultItems} = props ?? {};
+    return render(
+        <DefinitionList qa={qaAttribute} {...props}>
+            {items.map((item, index) => (
+                <DefinitionList.Item {...item} key={index} />
+            ))}
+        </DefinitionList>,
     ).container;
+};
 
 describe('components: DefinitionList', () => {
     it('should render', () => {
@@ -30,26 +35,13 @@ describe('components: DefinitionList', () => {
         const component = screen.getByTestId(qaAttribute);
         expect(component).toHaveClass('testClassName');
     });
-
-    it('should render passed content title', () => {
-        const items = [{name: 'test1', content: 'value1', contentTitle: 'contentTitle1'}];
-        getComponent({items});
-        const component = screen.getByText('value1');
-        expect(component).toHaveAttribute('title', 'contentTitle1');
-    });
-    it('should render passed name title', () => {
-        const items = [{name: 'test1', nameTitle: 'nameTitle1'}];
-        getComponent({items});
-        const component = screen.getByText('test1');
-        expect(component).toHaveAttribute('title', 'nameTitle1');
-    });
     it('should not render clipboard button by default', () => {
         getComponent();
         const copyButton = screen.queryByRole('button');
         expect(copyButton).toBeNull();
     });
     it('should render clipboard button', () => {
-        const items = [{name: 'test1', content: 'value1', copyText: 'value1'}];
+        const items = [{name: 'test1', children: 'value1', copyText: 'value1'}];
         getComponent({items});
 
         const copyButton = screen.getByRole('button');
@@ -57,18 +49,11 @@ describe('components: DefinitionList', () => {
         expect(copyButton).toHaveClass(b('copy-button'));
     });
     it('should render in responsive mode', () => {
-        const items = [{name: 'test1', content: 'value1', copyText: 'value1'}];
+        const items = [{name: 'test1', children: 'value1', copyText: 'value1'}];
         getComponent({items, responsive: true});
 
         const component = screen.getByTestId(qaAttribute);
         expect(component).toHaveClass(b({responsive: true}));
-    });
-    it('should render with multiline term', () => {
-        const items = [{name: 'test1', content: 'value1', copyText: 'value1', multilineName: true}];
-        getComponent({items});
-
-        const component = screen.getByRole('term');
-        expect(component).toHaveClass(b('term-container', {multiline: true}));
     });
     it('should render vertical view', () => {
         getComponent({direction: 'vertical'});

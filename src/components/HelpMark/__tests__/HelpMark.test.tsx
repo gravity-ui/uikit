@@ -18,7 +18,7 @@ describe('HelpMark', () => {
     test('render popup when hover help icon', async () => {
         const title = 'HelpMark title';
 
-        render(<HelpMark qa={qaId} title={title} />);
+        render(<HelpMark qa={qaId}>{title}</HelpMark>);
 
         const icon = screen.getByTestId(qaId);
         expect(icon).toBeVisible();

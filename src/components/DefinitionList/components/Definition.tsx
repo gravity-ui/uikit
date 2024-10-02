@@ -4,10 +4,10 @@ import {ClipboardButton} from '../../ClipboardButton';
 import type {DefinitionListItem} from '../types';
 import {b} from '../utils';
 
-interface DefinitionProps extends Pick<DefinitionListItem, 'copyText' | 'content'> {}
+interface DefinitionProps extends Pick<DefinitionListItem, 'copyText' | 'children'> {}
 
-export function Definition({copyText, content}: DefinitionProps) {
-    const definitionContent = content ?? '—';
+export function Definition({copyText, children}: DefinitionProps) {
+    const definitionContent = children ?? '—';
 
     return copyText ? (
         <div className={b('copy-container')}>

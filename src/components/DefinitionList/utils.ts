@@ -12,11 +12,7 @@ export function isUnbreakableOver(limit: number) {
     };
 }
 
-export function getTitle(title?: string, content?: React.ReactNode) {
-    if (title) {
-        return title;
-    }
-
+export function getTitle(content?: React.ReactNode) {
     if (typeof content === 'string' || typeof content === 'number') {
         return String(content);
     }

@@ -113,7 +113,7 @@ export const Controls: Story = {
     render: (args) => (
         <Showcase>
             <StoryWithState placeholder="with controls" {...args} />
-            <StoryWithState placeholder="without controls" hasControls={false} {...args} />
+            <StoryWithState placeholder="without controls" hiddenControls={true} {...args} />
             <StoryWithState placeholder="has clear" value={123} hasClear {...args} />
         </Showcase>
     ),

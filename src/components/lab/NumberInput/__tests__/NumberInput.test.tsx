@@ -201,8 +201,8 @@ describe('NumberInput input', () => {
             expect(getControls()).toBeInTheDocument();
         });
 
-        it('do not render increment/decrement control buttons with  prop set to "false"', () => {
-            render(<NumberInput hasControls={false} />);
+        it('do not render increment/decrement control buttons with hiddenControls prop set to "true"', () => {
+            render(<NumberInput hiddenControls={true} />);
             expect(getControls()).not.toBeInTheDocument();
         });
 

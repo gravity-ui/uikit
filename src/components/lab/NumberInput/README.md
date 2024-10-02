@@ -235,25 +235,25 @@ LANDING_BLOCK-->
 
 ### Controls
 
-Visibility of incrementing/decrementing arrow-controls in the rightmost position in the component can be managed by `hasControls` property.
+Visibility of incrementing/decrementing arrow-controls in the rightmost position in the component can be managed by `hiddenControls` property.
 
 <!--LANDING_BLOCK
 <ExampleBlock
     code={`
-    <NumberInput hasControls/>
-    <NumberInput hasControls={false}/>
+    <NumberInput/>
+    <NumberInput hiddenControls/>
     `}
 >
-    <UIKit.NumberInput hasControls/>
-    <UIKit.NumberInput hasControls={false}/>
+    <UIKit.NumberInput/>
+    <UIKit.NumberInput hiddenControls/>
 </ExampleBlock>
 LANDING_BLOCK-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<NumberInput hasControls />
-<NumberInput hasControls={false} />
+<NumberInput />
+<NumberInput hiddenControls />
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -385,7 +385,7 @@ LANDING_BLOCK-->
 | errorMessage    | Error text                                                                                                              |                   `string`                    |                    |
 | errorPlacement  | Error placement                                                                                                         |              `outside` `inside`               |     `outside`      |
 | hasClear        | Shows the icon for clearing control's value                                                                             |                   `boolean`                   |      `false`       |
-| hasControls     | Shows inncrement/decrement buttons at the end of control                                                                |                   `boolean`                   |       `true`       |
+| hiddenControls  | Hides increment/decrement buttons at the end of control                                                                 |                   `boolean`                   |                    |
 | id              | The control's `id` attribute                                                                                            |                   `string`                    |                    |
 | label           | Help text rendered to the left of the input node                                                                        |                   `string`                    |                    |
 | max             | max allowed value. It is used for clamping entered value to allowed range                                               |                   `number`                    | `MAX_SAFE_INTEGER` |

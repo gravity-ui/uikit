@@ -45,10 +45,9 @@ export interface NumberInputProps
     /**Describes the validation state */
     validationState?: 'invalid' | undefined;
 
-    /** Shows inncrement/decrement buttons at the end of control
-     * @default true
+    /** Hides increment/decrement buttons at the end of control
      */
-    hasControls?: boolean;
+    hiddenControls?: boolean;
     /** min allowed value. It is used for clamping entered value to allowed range
      * @default Number.MAX_SAFE_INTEGER
      */
@@ -128,7 +127,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         size,
         view,
         disabled,
-        hasControls = true,
+        hiddenControls,
         validationState,
         onFocus,
         onBlur,
@@ -208,6 +207,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
 
     const handleWheel: React.WheelEventHandler<HTMLInputElement> = (e) => {
         const delta = e.shiftKey ? e.deltaX : e.deltaY;
+        e.preventDefault();
         if (delta > 0) {
             handleIncrement();
         } else if (delta < 0) {
@@ -219,8 +219,10 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         if (e.key === KeyCode.SHIFT) {
             setStep(baseStep * shiftMultiplier);
         } else if (e.key === KeyCode.ARROW_DOWN) {
+            e.preventDefault();
             handleDecrement();
         } else if (e.key === KeyCode.ARROW_UP) {
+            e.preventDefault();
             handleIncrement();
         }
         onKeyDown?.(e);
@@ -298,7 +300,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
             unstable_endContent={
                 <React.Fragment>
                     {endContent}
-                    {hasControls ? (
+                    {hiddenControls ? null : (
                         <NumericArrows
                             className={b('numeric-arrows')}
                             size={size}
@@ -312,7 +314,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
                                 handleDecrement();
                             }}
                         />
-                    ) : null}
+                    )}
                 </React.Fragment>
             }
         />

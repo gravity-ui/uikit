@@ -320,7 +320,7 @@ describe('NumberInput input', () => {
             expect(handleUpdate).toHaveBeenCalledWith(1.2);
         });
 
-        it.skip('uses shiftMultiplier with Shift button pressed in incrementation with rendered control button', async () => {
+        it('uses shiftMultiplier with Shift button pressed in incrementation with rendered control button', async () => {
             const user = userEvent.setup();
             const handleUpdate = jest.fn();
             render(
@@ -404,9 +404,7 @@ describe('NumberInput input', () => {
             const input = getInput();
             await user.click(input);
 
-            await user.keyboard(`{${KeyCode.SHIFT}>}`);
-            fireEvent.wheel(input, {deltaY: 4});
-            await user.keyboard(`{/${KeyCode.SHIFT}}`);
+            fireEvent.wheel(input, {deltaX: 4, shiftKey: true});
             expect(handleUpdate).toHaveBeenCalledWith(11);
         });
     });

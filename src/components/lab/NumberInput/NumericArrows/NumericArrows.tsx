@@ -21,8 +21,8 @@ interface NumericArrowsProps extends React.HTMLAttributes<'div'> {
     disabled?: boolean;
     min?: number;
     max?: number;
-    onUpClick: VoidFunction;
-    onDownClick: VoidFunction;
+    onUpClick: React.MouseEventHandler<HTMLButtonElement>;
+    onDownClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export function NumericArrows({

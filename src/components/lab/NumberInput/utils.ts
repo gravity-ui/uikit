@@ -165,11 +165,13 @@ export function clampToNearestStepValue({
     step,
     min: originalMin,
     max = Number.MAX_SAFE_INTEGER,
+    direction,
 }: {
     value: number;
     step: number;
     min: number | undefined;
     max: number | undefined;
+    direction?: 'up' | 'down';
 }) {
     const base = originalMin || 0;
     const min = originalMin ?? Number.MIN_SAFE_INTEGER;
@@ -190,9 +192,12 @@ export function clampToNearestStepValue({
         const smallerPossibleValue = base + amountOfStepsDiff * step;
         const greaterPossibleValue = base + (amountOfStepsDiff + 1) * step;
 
+        const smallerValueIsPreferrable = direction
+            ? direction === 'up'
+            : greaterPossibleValue - clampedValue > clampedValue - smallerPossibleValue;
+
         if (
-            (greaterPossibleValue > max ||
-                greaterPossibleValue - clampedValue > clampedValue - smallerPossibleValue) &&
+            (greaterPossibleValue > max || smallerValueIsPreferrable) &&
             smallerPossibleValue >= min
         ) {
             return smallerPossibleValue;

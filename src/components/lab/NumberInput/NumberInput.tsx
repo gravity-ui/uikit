@@ -177,10 +177,12 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const state = getInputControlState(validationState);
 
     const canIncrementNumber =
-        clampToNearestStepValue({value: safeValue + step, step, min, max}) > safeValue;
+        clampToNearestStepValue({value: safeValue + step, step, min, max, direction: 'up'}) >
+        safeValue;
 
     const canDecrementNumber =
-        clampToNearestStepValue({value: safeValue - step, step, min, max}) < safeValue;
+        clampToNearestStepValue({value: safeValue - step, step, min, max, direction: 'down'}) <
+        safeValue;
 
     const innerControlRef = React.useRef<HTMLInputElement>(null);
     const fieldRef = useFormResetHandler({
@@ -192,7 +194,13 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const handleIncrement = () => {
         if (canIncrementNumber) {
             onUpdate?.(
-                clampToNearestStepValue({value: safeValue + step, step: baseStep, min, max}),
+                clampToNearestStepValue({
+                    value: safeValue + step,
+                    step: baseStep,
+                    min,
+                    max,
+                    direction: 'up',
+                }),
             );
         }
     };
@@ -200,7 +208,13 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
     const handleDecrement = () => {
         if (canDecrementNumber) {
             onUpdate?.(
-                clampToNearestStepValue({value: safeValue - step, step: baseStep, min, max}),
+                clampToNearestStepValue({
+                    value: safeValue - step,
+                    step: baseStep,
+                    min,
+                    max,
+                    direction: 'down',
+                }),
             );
         }
     };

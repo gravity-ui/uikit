@@ -253,22 +253,61 @@ describe('NumberInput utils', () => {
         });
     });
     describe('clampToNearestStepValue', () => {
-        it('clamps value to bigger divisible to step with min value', () => {
+        const allDirections = [undefined, 'up', 'down'] as const;
+
+        it('clamps value to bigger divisible on step with min value without direction', () => {
             expect(clampToNearestStepValue({value: 10, step: 5, min: -3, max: undefined})).toBe(12);
         });
-        it('clamps value to smaller divisible to step with min value', () => {
+        it('clamps value to smaller divisible on step with min value without direction', () => {
             expect(clampToNearestStepValue({value: 10, step: 5, min: -2, max: undefined})).toBe(8);
         });
-        it('clamps to min if value smaller', () => {
-            expect(clampToNearestStepValue({value: -10, step: 5, min: -2, max: undefined})).toBe(
-                -2,
-            );
+        it('clamps value to bigger divisible on step with min value and direction=down', () => {
+            expect(
+                clampToNearestStepValue({
+                    value: 10,
+                    step: 5,
+                    min: -3,
+                    max: undefined,
+                    direction: 'down',
+                }),
+            ).toBe(12);
         });
-        it('clamps to max possible number if value greater than max', () => {
-            expect(clampToNearestStepValue({value: 105, step: 5, min: -2, max: 100})).toBe(98);
+        it('clamps value to smaller divisible on step with min value and direction=down', () => {
+            expect(
+                clampToNearestStepValue({
+                    value: 10,
+                    step: 5,
+                    min: -3,
+                    max: undefined,
+                    direction: 'up',
+                }),
+            ).toBe(7);
         });
+        allDirections.forEach((direction) =>
+            it(`clamps to min if value smaller with direction=${direction}`, () => {
+                expect(
+                    clampToNearestStepValue({
+                        value: -10,
+                        step: 5,
+                        min: -2,
+                        max: undefined,
+                        direction,
+                    }),
+                ).toBe(-2);
+            }),
+        );
+        allDirections.forEach((direction) =>
+            it(`clamps to max possible number if value greater than max with direction=${direction}`, () => {
+                expect(
+                    clampToNearestStepValue({value: 105, step: 5, min: -2, max: 100, direction}),
+                ).toBe(98);
+            }),
+        );
         it('clamps to max if it is suitable', () => {
             expect(clampToNearestStepValue({value: 97, step: 5, min: -2, max: 98})).toBe(98);
+        });
+        it('clamps to min if it is suitable', () => {
+            expect(clampToNearestStepValue({value: 97, step: 5, min: 96, max: 1000})).toBe(96);
         });
         it('leave value if it suitable', () => {
             expect(clampToNearestStepValue({value: 8, step: 5, min: -2, max: undefined})).toBe(8);

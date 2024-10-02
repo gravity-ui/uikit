@@ -256,7 +256,7 @@ describe('NumberInput input', () => {
             render(<NumberInput min={-2} step={5} value={2} onUpdate={handleUpdate} />);
 
             await user.click(getUpButton());
-            expect(handleUpdate).toHaveBeenCalledWith(8);
+            expect(handleUpdate).toHaveBeenCalledWith(3);
         });
 
         it('treats empty value as zero when incrementing/decrementing', async () => {

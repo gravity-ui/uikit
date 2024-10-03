@@ -11,17 +11,36 @@ const b = block('avatar-stack');
 export const AvatarStackMoreButton = React.forwardRef<
     HTMLButtonElement,
     AvatarStackMoreButtonProps
->(({className, size = DEFAULT_AVATAR_SIZE, onClick, count, 'aria-label': ariaLabel}, ref) => {
-    return (
-        <button
-            ref={ref}
-            type="button"
-            className={b('more-button', {size}, className)}
-            onClick={onClick}
-        >
-            <AvatarStackMore size={size} count={count} aria-label={ariaLabel} />
-        </button>
-    );
-});
+>(
+    (
+        {
+            className,
+            badgeClassName,
+            size = DEFAULT_AVATAR_SIZE,
+            onClick,
+            count,
+            'aria-label': ariaLabel,
+            borderColor,
+        },
+        ref,
+    ) => {
+        return (
+            <button
+                ref={ref}
+                type="button"
+                className={b('more-button', {size}, className)}
+                onClick={onClick}
+            >
+                <AvatarStackMore
+                    className={badgeClassName}
+                    size={size}
+                    count={count}
+                    aria-label={ariaLabel}
+                    borderColor={borderColor}
+                />
+            </button>
+        );
+    },
+);
 
 AvatarStackMoreButton.displayName = 'AvatarStack.MoreButton';

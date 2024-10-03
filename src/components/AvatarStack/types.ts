@@ -42,18 +42,16 @@ export interface AvatarStackProps {
     renderMore?: (options: {count: number}) => React.ReactElement;
 }
 
-export interface AvatarStackMoreProps {
-    className?: string;
+export type AvatarStackMoreProps = Pick<
+    React.HTMLProps<HTMLDivElement>,
+    'className' | 'aria-label'
+> & {
     count: number;
-    'aria-label'?: string;
     size?: AvatarSize;
     borderColor?: string;
-}
-
-export type AvatarStackMoreButtonProps = Pick<
-    React.HTMLProps<HTMLButtonElement>,
-    'className' | 'onClick' | 'aria-label'
-> & {
-    size?: AvatarSize;
-    count: number;
 };
+
+export type AvatarStackMoreButtonProps = Pick<React.HTMLProps<HTMLButtonElement>, 'onClick'> &
+    AvatarStackMoreProps & {
+        badgeClassName?: string;
+    };

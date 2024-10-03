@@ -92,12 +92,56 @@ describe('NumberInput input', () => {
             expect(handleFocus).toHaveBeenCalledTimes(1);
         });
 
-        it('ignores trailing dot', async () => {
+        it('ignores trailing dot when pasting uncomplete value', async () => {
             const handleUpdate = jest.fn();
             render(<NumberInput onUpdate={handleUpdate} />);
             fireEvent.change(getInput(), {target: {value: '1.'}});
 
             expect(handleUpdate).toHaveBeenCalledWith(1);
+        });
+
+        it('sets min value on HOME button pressed when min defined', async () => {
+            const handleUpdate = jest.fn();
+            const user = userEvent.setup();
+            render(<NumberInput onUpdate={handleUpdate} min={5} value={100} />);
+
+            await user.click(getInput());
+            await user.keyboard(`{${KeyCode.HOME}}`);
+
+            expect(handleUpdate).toHaveBeenCalledWith(5);
+        });
+
+        it('ignores HOME button press when min is not defined', async () => {
+            const handleUpdate = jest.fn();
+            const user = userEvent.setup();
+            render(<NumberInput onUpdate={handleUpdate} value={100} />);
+
+            await user.click(getInput());
+            await user.keyboard(`{${KeyCode.HOME}}`);
+
+            expect(handleUpdate).not.toHaveBeenCalled();
+        });
+
+        it('sets max value on END button pressed when max defined', async () => {
+            const handleUpdate = jest.fn();
+            const user = userEvent.setup();
+            render(<NumberInput onUpdate={handleUpdate} max={123} value={100} />);
+
+            await user.click(getInput());
+            await user.keyboard(`{${KeyCode.END}}`);
+
+            expect(handleUpdate).toHaveBeenCalledWith(123);
+        });
+
+        it('ignores END button press when max is not defined', async () => {
+            const handleUpdate = jest.fn();
+            const user = userEvent.setup();
+            render(<NumberInput onUpdate={handleUpdate} value={100} />);
+
+            await user.click(getInput());
+            await user.keyboard(`{${KeyCode.END}}`);
+
+            expect(handleUpdate).not.toHaveBeenCalled();
         });
     });
 
@@ -185,6 +229,7 @@ describe('NumberInput input', () => {
             expect(handleUpdate).toHaveBeenLastCalledWith(undefined);
         });
     });
+
     describe('render controls', () => {
         it('render clear button', () => {
             render(<NumberInput value={123} hasClear />);

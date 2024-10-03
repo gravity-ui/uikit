@@ -37,8 +37,6 @@ export default {
                 ],
             },
         },
-
-        controls: {expanded: true},
     },
 } as Meta;
 

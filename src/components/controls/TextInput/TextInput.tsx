@@ -61,23 +61,13 @@ export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
-export const defaultBaseTextInputProps = {
-    view: 'normal',
-    size: 'm',
-    pin: 'round-round',
-    disabled: false,
-    hasClear: false,
-    errorPlacement: 'outside',
-} as const satisfies Partial<BaseInputControlProps<HTMLInputElement>>;
-
 export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
     // eslint-disable-next-line complexity
     function TextInput(props, ref) {
-        const propsWithDefaults = {...defaultBaseTextInputProps, ...props};
         const {
-            view,
-            size,
-            pin,
+            view = 'normal',
+            size = 'm',
+            pin = 'round-round',
             name,
             value,
             defaultValue,
@@ -87,7 +77,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             hasClear = false,
             error,
             errorMessage: errorMessageProp,
-            errorPlacement: errorPlacementProp,
+            errorPlacement: errorPlacementProp = 'outside',
             validationState: validationStateProp,
             autoComplete,
             id: idProp,
@@ -104,7 +94,7 @@ export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
             note,
             onUpdate,
             onChange,
-        } = propsWithDefaults;
+        } = props;
 
         const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
             error,

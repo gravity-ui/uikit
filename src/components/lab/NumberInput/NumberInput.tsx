@@ -6,7 +6,6 @@ import {KeyCode} from '../../../constants';
 import {useForkRef} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';
 import {TextInput} from '../../controls/TextInput';
-import {defaultBaseTextInputProps} from '../../controls/TextInput/TextInput';
 import type {BaseInputControlProps} from '../../controls/types';
 import {getInputControlState} from '../../controls/utils';
 import {block} from '../../utils/cn';
@@ -124,8 +123,8 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         max: externalMax,
         shiftMultiplier: externalShiftMultiplier = 10,
         step: externalStep = 1,
-        size,
-        view,
+        size = 'm',
+        view = 'normal',
         disabled,
         hiddenControls,
         validationState,
@@ -135,7 +134,7 @@ export const NumberInput = React.forwardRef<HTMLSpanElement, NumberInputProps>(f
         allowMouseWheel = false,
         allowDecimal = false,
         className,
-    } = {...defaultBaseTextInputProps, ...props};
+    } = props;
 
     const {
         min,

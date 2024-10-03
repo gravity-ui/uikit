@@ -51,3 +51,5 @@ Component for overriding more button
   <Avatar imgUrl={`https://i.pravatar.cc/150?u=login3`} />
 </AvatarStack>
 ```
+
+Alternatively, `<AvatarStack.More/>` could be used. This component doesn't have `<button/>` wrap, and could be used for integration with some different wrap, like router links component.

@@ -65,4 +65,7 @@ const AvatarStackComponent = ({
 
 AvatarStackComponent.displayName = 'AvatarStack';
 
-export const AvatarStack = Object.assign(AvatarStackComponent, {MoreButton: AvatarStackMoreButton});
+export const AvatarStack = Object.assign(AvatarStackComponent, {
+    More: AvatarStackMore,
+    MoreButton: AvatarStackMoreButton,
+});

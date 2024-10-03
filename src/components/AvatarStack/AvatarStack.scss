@@ -37,23 +37,62 @@ $block: '.#{variables.$ns}avatar-stack';
         }
     }
 
-    &__more-button {
-        @include mixins.button-reset;
-
+    &__more-button,
+    &__more {
         border-radius: 100%;
 
         width: var(--_--more-button-size);
         height: var(--_--more-button-size);
 
+        &_size {
+            @each $size-name, $size-value in avatar-variables.$sizes {
+                &_#{$size-name} {
+                    --_--more-button-size: #{$size-value};
+                }
+            }
+        }
+    }
+
+    &__more-button {
+        @include mixins.button-reset;
+
         &:focus-visible {
             outline: var(--g-color-line-focus) solid 2px;
             outline-offset: 0;
+        }
+    }
+
+    &__more {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+
+        background-color: var(--g-color-base-generic);
+
+        &_has-border {
+            border-width: var(--_--more-button-border-width);
+            border-style: solid;
         }
 
         &_size {
             @each $size-name, $size-value in avatar-variables.$sizes {
                 &_#{$size-name} {
-                    --_--more-button-size: #{$size-value};
+                    @if $size-name == '2xs' or $size-name == 'xs' {
+                        font-size: var(--g-text-caption-1-font-size);
+                    }
+
+                    @if $size-name == 's' {
+                        font-size: var(--g-text-caption-2-font-size);
+                    }
+
+                    @if $size-name == 'm' or $size-name == 'l' {
+                        font-size: var(--g-text-body-1-font-size);
+                    }
+
+                    @if $size-name == 'xl' {
+                        font-size: var(--g-text-body-2-font-size);
+                    }
                 }
             }
         }
